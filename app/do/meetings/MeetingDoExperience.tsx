@@ -3,12 +3,14 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { Mic, Square, ArrowUpRight, Download, FileText, Check, Headphones, Monitor } from 'lucide-react';
+import { DoShareButton } from '@/components/do/DoShareButton';
 import { DoMark } from '@/components/do/DoMark';
 import { DoProductFrame } from '@/components/do/DoProductFrame';
 import type { DoPreparedDraft } from '@/apps/do/shared/preparation';
 import { parseMeetingSmartNotes } from '@/apps/do/shared/meeting-smart-notes';
 import { MeetingFollowThrough } from './MeetingFollowThrough';
 import styles from '@/components/do/do-product-focus.module.css';
+import room from './meeting-room.module.css';
 
 export type MeetingExperienceProps = {
   preview: boolean; captureMode: 'microphone' | 'meeting';
@@ -25,14 +27,20 @@ export type MeetingExperienceProps = {
   cancel: () => void; refreshConnection: () => void;
 };
 
-function saveText(text: string) {
+function saveText(text: string, filename = 'meeting-notes.txt') {
   const url = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }));
-  const a = document.createElement('a'); a.href = url; a.download = 'meeting-notes.txt';
+  const a = document.createElement('a'); a.href = url; a.download = filename;
   document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 /** Presentation only: all recording, consent and provider work belongs to MeetingDo. */
 export function MeetingDoExperience(p: MeetingExperienceProps) {
+  const [canCaptureTab, setCanCaptureTab] = useState(false);
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setCanCaptureTab(Boolean(navigator.mediaDevices?.getDisplayMedia)));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+  const [scratchpad, setScratchpad] = useState('');
   const [paste, setPaste] = useState(false);
   const [pastedText, setPastedText] = useState('');
   const [tab, setTab] = useState<'notes' | 'transcript' | 'details'>('notes');
@@ -68,18 +76,18 @@ export function MeetingDoExperience(p: MeetingExperienceProps) {
     <section className={styles.hero}>
       <p className={styles.kicker}>MEETING DO</p>
       <h1>{active ? 'Stay in the conversation.' : ready ? 'The conversation, assembled.' : 'Be in the conversation.'}</h1>
-      <p>{ready ? 'Your notes are ready to read, edit and take forward.' : 'Record here. Prepare useful notes. Decide what happens next.'}</p>
+      <p>{ready ? 'Your notes are ready to read, edit and take forward.' : 'A quiet place to listen, take notes and get the next steps ready.'}</p>
     </section>
     {!ready && !hasNotes && !active && <>
       {auth}
       {p.signedIn === null && <p className={styles.notice}>Checking your connection. You can record locally while this loads. <button type="button" className={styles.textButton} onClick={p.refreshConnection}>Check connection again</button></p>}
       {p.transcriptionReady === false && <p className={styles.notice}>Transcription is unavailable here. You can keep a recording or paste an existing transcript.</p>}
     </>}
-    {!ready && !hasNotes && <section className={styles.recorder} aria-label="Meeting recorder" data-recording={p.recording || undefined}>
+    {!ready && !hasNotes && <div className={room.workspace}><section className={styles.recorder} aria-label="Meeting recorder" data-recording={p.recording || undefined}>
       <div className={styles.recorderTop}>
         <div className={styles.sourceSwitch} role="group" aria-label="Recording source">
           <button type="button" aria-pressed={p.captureMode === 'microphone'} disabled={active || p.busy} onClick={() => p.setCaptureMode('microphone')}><Mic size={15} />In person</button>
-          <button type="button" aria-pressed={p.captureMode === 'meeting'} disabled={active || p.busy} onClick={() => p.setCaptureMode('meeting')}><Monitor size={15} />Online meeting</button>
+          <button type="button" aria-pressed={p.captureMode === 'meeting'} disabled={!canCaptureTab || active || p.busy} onClick={() => p.setCaptureMode('meeting')}><Monitor size={15} />Online meeting</button>
         </div>
         <span className={styles.localLabel}>{p.recording ? 'RECORDING ON THIS DEVICE' : 'YOU CHOOSE WHEN TO SHARE'}</span>
       </div>
@@ -93,6 +101,7 @@ export function MeetingDoExperience(p: MeetingExperienceProps) {
       {p.recording ? <button className={styles.primary} type="button" onClick={p.stop}><Square size={17} fill="currentColor" />Stop recording</button>
         : !p.hasAudio ? <button className={styles.primary} type="button" disabled={!p.permission || active || p.busy} onClick={() => { setElapsed(0); p.start(); }}><Mic size={18} />{p.starting ? 'Waiting for permission…' : 'Start recording'}</button> : null}
       <p className={styles.limit}>10-minute limit · keep this page open · download before leaving</p>
+      {!canCaptureTab && <p className={styles.help}>On your phone, record an in-person conversation or bring notes from your meeting app. Keep DO open while recording.</p>}
       {p.captureMode === 'meeting' && <p className={styles.help}>Choose the meeting tab and enable Share tab audio. System-audio support depends on your browser. No video is kept.</p>}
       {p.hasAudio && p.audioUrl && <div className={styles.playback}>
         <audio controls src={p.audioUrl} aria-label="Your meeting recording" />
@@ -104,7 +113,19 @@ export function MeetingDoExperience(p: MeetingExperienceProps) {
         <button className={styles.primary} disabled={!p.shareAudio || p.busy || active || p.signedIn !== true || p.transcriptionReady !== true} onClick={() => p.process('transcribe')}>Create transcript <ArrowUpRight size={18} /></button>
         <details className={styles.secondaryDetails}><summary>Record again</summary><p>This replaces the local recording. Download the current one first.</p><label className={styles.consent}><input type="checkbox" checked={replace} onChange={e => setReplace(e.target.checked)} />I have kept what I need and have permission to record again.</label><button type="button" className={styles.textButton} disabled={!replace || p.busy || active} onClick={() => { setReplace(false); p.start(); }}>Replace recording</button></details>
       </div>}
-    </section>}
+    </section>
+      <aside className={room.notepad} aria-label="Your meeting notepad">
+        <div className={room.notepadHead}><span className={styles.kicker}>BEFORE · DURING</span><span className={room.local}>On this page</span></div>
+        <h2>Your notepad.</h2>
+        <p>What would make this conversation useful?</p>
+        <label className={styles.field}>My notes<textarea value={scratchpad} maxLength={12000} rows={12} onChange={event => setScratchpad(event.target.value)} placeholder={'The outcome I want…\n\nQuestions to resolve…\n\nDecisions and promises…'} /></label>
+        <div className={room.notepadActions}>
+          <button type="button" className={styles.textButton} disabled={!scratchpad.trim()} onClick={() => saveText(scratchpad, 'my-meeting-notes.txt')}><Download size={15} />Keep my notes</button>
+          <button type="button" className={styles.textButton} disabled={!scratchpad.trim() || active || p.busy} onClick={() => p.editNotes(scratchpad)}>Use these notes <ArrowUpRight size={15} /></button>
+        </div>
+        <p className={room.help}>Download to keep your notes. “Use these notes” opens them for review before any preparation.</p>
+      </aside>
+    </div>}
     {!ready && !hasNotes && !active && <div className={styles.pasteChoice}>
       <button type="button" className={styles.textButton} aria-expanded={paste} disabled={p.busy} onClick={() => setPaste(!paste)}><FileText size={16} />I already have a transcript</button>
       {paste && <div><label className={styles.field}>Paste your transcript<textarea rows={6} maxLength={12000} disabled={p.busy} value={pastedText} onChange={e => setPastedText(e.target.value)} placeholder="Paste the conversation or your own meeting notes…" /></label><button className={styles.primary} disabled={!pastedText.trim() || p.busy} onClick={() => { p.editNotes(pastedText); setPaste(false); }}>Use this transcript <ArrowUpRight size={16} /></button></div>}
@@ -119,14 +140,14 @@ export function MeetingDoExperience(p: MeetingExperienceProps) {
     </section>}
     {p.busy && <div className={styles.preparing} role="status"><div className={styles.assemblingLines} aria-hidden="true"><i /><i /><i /></div><div><strong>{p.activity === 'transcribe' ? 'Turning the recording into words.' : 'Preparing your meeting notes.'}</strong><p>You can stop this request. Your source stays here.</p></div><button className={styles.textButton} onClick={p.cancel}>Stop</button></div>}
     {ready && <section ref={resultRef} tabIndex={-1} className={styles.document} aria-label="Prepared meeting notes">
-      <div className={styles.documentHead}><span className={styles.kicker}>{p.preview ? 'SAMPLE LAYOUT' : p.reviewed ? 'REVIEW RECORDED ON THIS PAGE' : 'DRAFT · YOUR REVIEW'}</span><button className={styles.textButton} onClick={() => saveText(p.draft)}><Download size={15} />Download notes</button></div>
+      <div className={styles.documentHead}><span className={styles.kicker}>{p.preview ? 'SAMPLE LAYOUT' : p.reviewed ? 'REVIEW RECORDED ON THIS PAGE' : 'DRAFT · YOUR REVIEW'}</span><DoShareButton label="Share notes" disabled={!p.reviewed || p.preview} content={{ title: 'Meeting notes · DO', text: p.draft, filename: 'meeting-notes.txt' }} /><button className={styles.textButton} onClick={() => saveText(p.draft)}><Download size={15} />Download notes</button></div>
       <div className={styles.tabs} role="group" aria-label="Meeting content">
         {(['notes', 'transcript', 'details'] as const).map(value => <button key={value} aria-pressed={tab === value} onClick={() => setTab(value)}>{value === 'details' ? 'Source & receipt' : value === 'notes' ? 'Notes' : 'Transcript'}</button>)}
       </div>
       {tab === 'notes' && <>
         {editing ? <label className={styles.field}>Edit notes<textarea rows={16} value={p.draft} onChange={e => p.editDraft(e.target.value)} /></label> : <div className={styles.noteContent}>{sections.map(section => <article key={section.heading}><h3>{section.heading === 'Action items' ? 'Agreed next steps' : section.heading}</h3><p>{section.body}</p></article>)}</div>}
         <button className={styles.textButton} onClick={() => setEditing(!editing)}>{editing ? 'Finish editing' : 'Edit notes'}</button>
-        <div className={styles.reviewAction}><label className={styles.consent}><input type="checkbox" checked={p.reviewed} onChange={e => p.setReviewed(e.target.checked)} /><span>I checked the notes, including owners and dates.</span></label><button className={styles.primary} disabled={!p.reviewed || p.preview || !p.draft.trim()} onClick={() => setFollowup(true)}>Prepare the follow-up <ArrowUpRight size={18} /></button><p>Review an email, keep agreed tasks and prepare your next meeting. A queued email keeps the version you submitted, even if you later edit these notes.</p></div>
+        <div className={styles.reviewAction}><label className={styles.consent}><input type="checkbox" checked={p.reviewed} onChange={e => p.setReviewed(e.target.checked)} /><span>I checked the notes, including owners and dates. They are ready to share.</span></label><button className={styles.primary} disabled={!p.reviewed || p.preview || !p.draft.trim()} onClick={() => setFollowup(true)}>Prepare the follow-up <ArrowUpRight size={18} /></button><p>Review an email, keep agreed tasks and prepare your next meeting. A queued email keeps the version you submitted, even if you later edit these notes.</p></div>
       </>}
       {tab === 'transcript' && <><p className={styles.help}>Changing the source clears the prepared notes and requires a new preparation.</p><label className={styles.field}>Original transcript<textarea rows={14} value={p.notes} readOnly /></label><button className={styles.textButton} onClick={() => p.editNotes(p.notes)}>Edit transcript and prepare again</button></>}
       {tab === 'details' && <div className={styles.sourceReceipt}>

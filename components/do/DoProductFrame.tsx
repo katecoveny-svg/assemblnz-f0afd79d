@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSyncExternalStore, type ReactNode } from 'react';
+import { DoShareButton } from './DoShareButton';
 import { DoPresence } from './DoPresence';
 import { DoInstallPwaCta } from './DoInstallPwaCta';
 import styles from './do-product-focus.module.css';
@@ -26,7 +27,7 @@ export function DoProductFrame({ product, children, board = 'portable-widget' }:
       <Link href="/do" {...linkProps} className={styles.brand} aria-label="DO home">
         <DoPresence size="small" /><span>DO <small>/ {product}</small></span>
       </Link>
-      <details className={styles.menu}>
+      <div className={styles.headerActions}><DoShareButton /><details className={styles.menu}>
         <summary aria-label="More DO tools">More <span aria-hidden="true">＋</span></summary>
         <div className={styles.menuPanel}>
           <p className={styles.kicker}>YOUR WORKSPACE</p>
@@ -42,7 +43,7 @@ export function DoProductFrame({ product, children, board = 'portable-widget' }:
           <Link href="/do/install" {...linkProps}>Install DO</Link>
           {!embedded && <DoInstallPwaCta compact />}
         </div>
-      </details>
+      </details></div>
     </header>
     {children}
     <footer className={styles.footer}><Link href="/" {...linkProps}>by assembl</Link><span>your context. your call.</span></footer>

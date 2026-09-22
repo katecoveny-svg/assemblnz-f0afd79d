@@ -1,4 +1,5 @@
 'use client';
+import { DoShareButton } from '@/components/do/DoShareButton';
 import { DoMark } from './DoAppearance';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -72,11 +73,10 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
     return () => cancelAnimationFrame(frame);
   }, [offeredContext]);
 
-  // An embed can offer context for review. It cannot trigger generation or read the result.
+  // A parent embed or same-window extension handoff can offer context for review only.
   useEffect(() => {
-    if (!embedded) return;
     const receive = (event: MessageEvent) => {
-      if (event.source !== window.parent) return;
+      if (embedded ? event.source !== window.parent : event.source !== window || event.origin !== location.origin) return;
       if (event.data?.type === 'assembl-do:hello') { window.parent.postMessage({ type: 'assembl-do:ready' }, '*'); return; }
       if (event.data?.type !== 'assembl-do:context') return;
       if (typeof event.data.text !== 'string') return;
@@ -85,6 +85,9 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
       setSourceTitle(typeof event.data.title === 'string' ? event.data.title.slice(0, 160) : 'Shared context');
       setSourceUrl(typeof event.data.url === 'string' ? cleanSourceUrl(event.data.url) : '');
       setConsent(false); setNotice('Context added. Review the text, then choose whether to prepare it.');
+      if (typeof event.data.contextId === 'string' && event.data.contextId.length <= 80) {
+        window.parent.postMessage({ type: 'assembl-do:context-received', contextId: event.data.contextId }, event.origin === 'null' ? '*' : event.origin);
+      }
     };
     window.addEventListener('message', receive);
     window.parent.postMessage({ type: 'assembl-do:ready' }, '*');
@@ -159,7 +162,7 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
       <h3>{draft.title}</h3><label htmlFor="do-result">Your editable draft</label><textarea id="do-result" value={draft.text} maxLength={20_000} rows={12} onChange={event => { setDraft(editDoDraft(draft, event.target.value)); setNotice(''); }} />
       <div className="do-review-row"><label htmlFor="do-reviewer">Reviewed by<input id="do-reviewer" disabled={draft.status === 'reviewed'} value={reviewer} maxLength={100} onChange={event => setReviewer(event.target.value)} placeholder="Your name or responsible team" /></label><button type="button" className="do-primary" disabled={!reviewer.trim() || !draft.text.trim() || draft.status === 'reviewed'} onClick={() => void review()}><Check size={17} />{draft.status === 'reviewed' ? 'Review recorded' : 'Mark as reviewed'}</button></div>
       <p className="do-review-note">Review confirms this draft is ready for your next step. You remain responsible for sending, submitting or acting on it.</p>
-      <div className="do-export-actions"><button type="button" onClick={async () => { try { await navigator.clipboard.writeText(draft.text); setNotice('Draft copied.'); } catch { setError('Copy is unavailable here. Download the draft instead.'); } }}><Copy size={16} />Copy text</button><button type="button" onClick={() => downloadText(`do-${draft.id.slice(0, 8)}.md`, draftAsMarkdown(draft), 'text/markdown;charset=utf-8')}><Download size={16} />Draft + receipt</button><button type="button" onClick={() => downloadText(`do-${draft.id.slice(0, 8)}.json`, JSON.stringify(draft, null, 2), 'application/json')}><Download size={16} />Receipt JSON</button>{!embedded && <button type="button" onClick={save}>Save in this browser</button>}</div>
+      <div className="do-export-actions"><DoShareButton label="Share draft" disabled={draft.status !== 'reviewed'} content={{ title: draft.title, text: draft.text, filename: 'do-draft.txt' }} /><button type="button" onClick={async () => { try { await navigator.clipboard.writeText(draft.text); setNotice('Draft copied.'); } catch { setError('Copy is unavailable here. Download the draft instead.'); } }}><Copy size={16} />Copy text</button><button type="button" onClick={() => downloadText(`do-${draft.id.slice(0, 8)}.md`, draftAsMarkdown(draft), 'text/markdown;charset=utf-8')}><Download size={16} />Draft + receipt</button><button type="button" onClick={() => downloadText(`do-${draft.id.slice(0, 8)}.json`, JSON.stringify(draft, null, 2), 'application/json')}><Download size={16} />Receipt JSON</button>{!embedded && <button type="button" onClick={save}>Save in this browser</button>}</div>
       <details className="do-evidence"><summary>What DO used and what happened</summary><dl><div><dt>Source</dt><dd>{draft.evidence.sourceTitle} · {draft.evidence.sourceCharacters.toLocaleString()} characters</dd></div><div><dt>Method</dt><dd>{draft.evidence.model || 'Exact text matching; no model'}</dd></div><div><dt>Prepared</dt><dd>{new Date(draft.createdAt).toLocaleString()}</dd></div><div><dt>Boundary</dt><dd>{draft.evidence.boundary}</dd></div><div><dt>Source fingerprint</dt><dd className="do-hash">{draft.evidence.sourceHash}</dd></div></dl><p>The receipt records the original source and output fingerprints. Editing a reviewed draft clears its review.</p></details>
     </section>}
     {!embedded && saved.length > 0 && <section className="do-saved"><div className="do-section-head"><h3>Kept on this device</h3><span>Up to eight drafts · this browser only</span></div>{saved.map(entry => <div className="do-saved-row" key={entry.draft.id}><button onClick={() => openSaved(entry)}><strong>{entry.draft.title}</strong><small>{entry.draft.status === 'reviewed' ? 'Reviewed draft' : 'Draft'} · {new Date(entry.draft.createdAt).toLocaleDateString()}</small></button><button aria-label={`Remove ${entry.draft.title} from this browser`} onClick={() => { try { setSaved(removeLocalDraft(localStorage, entry.draft.id)); setNotice('Saved copy removed from this browser.'); } catch { setError('The saved copy could not be removed.'); } }}><Trash2 size={17} /></button></div>)}</section>}

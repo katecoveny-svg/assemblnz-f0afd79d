@@ -296,3 +296,14 @@
   .visualCard,.door:hover .visualCard,.door:focus-within .visualCard{transform:none}
   .visualCard img,.door:hover .visualCard img,.door:focus-within .visualCard img{transform:none}
 }
+
+/* Useful controls stay defined; page sections flow through light and space. */
+.brief{background:radial-gradient(ellipse at 82% 45%,#d6a5bd2e,transparent 61%),linear-gradient(#f5f1f2,#fffdfb)}
+.steps{border:0;gap:8px}.steps button{border:0;border-radius:20px;padding-left:16px;padding-right:16px}.steps button[aria-pressed=true]{padding-left:20px;background:linear-gradient(100deg,#916a7021,#fffdfb66)}
+.stageGrid{opacity:.3}.output{border-radius:27px}.outputPreview{border-radius:18px}
+.gallery{background:radial-gradient(ellipse at 14% 52%,#d6a5bd30,transparent 61%),#fffdfb}.galleryFrame{border:0;border-radius:40px;background:linear-gradient(135deg,#f5f1f2,#fffdfb);gap:18px;overflow:visible;box-shadow:none}
+.galleryMedia{border-radius:40px;box-shadow:0 26px 70px -36px #240b2159}.galleryMedia img{transition:scale .9s cubic-bezier(.2,.8,.2,1)}.galleryCaption{border-radius:36px;background:linear-gradient(150deg,#fffdfb99,#eadce357)}
+.galleryCaption>a,.galleryCaption>button{border:0}.galleryControls button{font-size:12px}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){.galleryMedia:hover img{scale:1.025}}
+@media(max-width:760px){.galleryFrame{display:grid;gap:15px;border-radius:30px}.galleryMedia{border-radius:30px}.galleryCaption{border-radius:28px;padding:27px}.steps button{padding-left:12px;padding-right:12px}.steps button[aria-pressed=true]{padding-left:16px}}
+@media(prefers-reduced-motion:reduce){.galleryMedia img{transition:none}}

@@ -5,7 +5,7 @@ import { DO_DISTRIBUTION_ORIGIN, doEmbedExample, doWidgetScript } from '@/apps/d
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-const VERSION = '1.6.0';
+const VERSION = '1.7.0';
 const EXTENSION_ROOT = path.join(process.cwd(), 'apps/do/extension');
 const MACOS_ROOT = path.join(process.cwd(), 'apps/do/macos');
 /** Keep in sync with scripts/package-do-downloads.mjs. */

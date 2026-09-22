@@ -11,21 +11,14 @@ const DO_PUBLIC_PATH = '/do';
 
 export function DoUtilityDock() {
   const pathname = usePathname();
-  if (
-    pathname === DO_PUBLIC_PATH ||
-    pathname === '/do/widget' ||
-    pathname === '/do/meetings' ||
-    pathname === '/do/object'
-  ) {
-    return null;
-  }
+  const focused = [DO_PUBLIC_PATH, '/do/widget', '/do/meetings', '/do/object'].includes(pathname);
   return (
     <>
       <GlowDoWidget />
-      <nav className="do-utility-dock" aria-label="DO workspace shortcuts">
+      {!focused && <nav className="do-utility-dock" aria-label="DO workspace shortcuts">
         <Link href="/do">DO home</Link>
         <Link href="/">assembl</Link>
-      </nav>
+      </nav>}
     </>
   );
 }

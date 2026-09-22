@@ -79,3 +79,9 @@ Every substantial feature should state one of:
 - **one-off by design**, with reason
 
 When a feature creates reusable mechanics, update this registry before closing the task.
+
+### Portable DO context companion (September 2026 refinement)
+
+**Extends** the existing `apps/do/shared/distribution.ts` widget and existing `DoTextWorkspace`/`DoVision` review flows. `page-context-script.ts` is the single bounded DOM text reader used by the website embed and generated Chrome `floating.js`; regenerate with `node --import tsx scripts/generate-do-companion.ts` before packaging downloads. Position preferences alone persist. Pointing requires an explicit mode and click, then an editable context review. The receiver acknowledges receipt, clears prior provider consent and never starts preparation from a message. Cross-window pixels use the existing user-selected snapshot flow. Keep extension permissions unchanged and retain the full-window/copy fallback on sites that block frames. This is not the separately hosted Pursuit app's source or a background desktop agent.
+
+**Extends** portable export with `apps/do/shared/sharing.ts` and `DoShareButton`: a fixed public invitation URL is a separate request type from explicit reviewed text. Native sharing uses a supported text file or text payload; cancellation never falls through to copying. This is user-directed sharing through the OS, not a server send or public note publication. Phone home-screen installation reuses the existing DO PWA identity.

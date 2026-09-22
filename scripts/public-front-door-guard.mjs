@@ -23,7 +23,10 @@ const checks = [
   ['app/do/DoHome.tsx', /Work from the place/],
   ['app/do/DoHome.tsx', /small agent that sits where you already work/],
   ['app/do/DoHome.tsx', /atelier-poster\.png/],
-  ['components/site/assembl-the-work/GlowDoWidget.tsx', /COMPANION_POSITION_KEY/],
+  // Movability now belongs to the shared website/extension companion. Retain its legacy position migration.
+  ['components/site/assembl-the-work/GlowDoWidget.tsx', /src="\/api\/do\/widget"/],
+  ['apps/do/shared/distribution.ts', /COMPANION_POSITION_KEY/],
+  ['apps/do/shared/distribution.ts', /draggable\(launch,launch\)/],
   ['components/do/DoMark.tsx', /do-identity-dot/],
 ];
 for (const [path, pattern] of checks) {

@@ -10,6 +10,8 @@ import { DoPresence } from '@/components/do/DoPresence';
 import { PRODUCT_DESTINATIONS } from '@/lib/product-destinations';
 import { POSITIONING } from './copy';
 import styles from './product-scenes.module.css';
+import { FluidField } from '../craft/FluidField';
+import '../craft/fluid-type.css';
 
 const products = [
   { id:'pursuit', name:'Pursuit', verb:'find the work.', body:POSITIONING.pursuit, href:PRODUCT_DESTINATIONS.pursuit.overview, cta:'Explore Pursuit', workspace:PRODUCT_DESTINATIONS.pursuit.workspace, workspaceLabel:'Open client hubs', detail:'Signals. Sources. The next conversation.' },
@@ -51,9 +53,10 @@ function ProductScene({ product, index }: { product: typeof products[number]; in
   const wordY = useTransform(scrollYProgress, [0,1], [26,-26]);
   const external = product.workspace.startsWith('https://');
   return <article className={styles.scene} data-product={product.id} id={product.id} ref={root} aria-labelledby={product.id + '-scene-title'}>
+    <FluidField />
     <div className={styles.sceneHeading}>
       <span className={styles.index}>0{index + 1} /</span>
-      <motion.h3 id={product.id + '-scene-title'} style={{ y:reduced ? 0 : wordY }}>{product.name}<span>.</span></motion.h3>
+      <motion.h3 className="fluid-text" id={product.id + '-scene-title'} style={{ y:reduced ? 0 : wordY }}>{product.name}<span>.</span></motion.h3>
       <p>{product.verb}</p>
     </div>
     <div className={styles.sceneBody}>
@@ -78,7 +81,7 @@ function ProductScene({ product, index }: { product: typeof products[number]; in
 export function ProductScenes() {
   return <section className={styles.products} id="products" aria-labelledby="products-title">
     <header className={styles.intro}>
-      <div><p className={styles.eyebrow}>THREE WAYS IN.</p><h2 id="products-title">One way<br /><span>forward.</span></h2></div>
+      <div><p className={styles.eyebrow}>THREE WAYS IN.</p><h2 id="products-title">One way<br /><span className="fluid-text">forward.</span></h2></div>
       <div className={styles.introAside}><p>Use one. Connect two.<br />Run the whole loop.</p><a href="#pursuit">Explore the system<ArrowDown size={21} /></a><small>Client hubs and Creative Studio open your existing private workspaces. Sign-in required.</small></div>
     </header>
     {products.map((product,index) => <ProductScene key={product.id} product={product} index={index} />)}

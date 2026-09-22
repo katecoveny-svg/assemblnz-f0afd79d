@@ -20,3 +20,10 @@
 .immersive-studio .atw-footer nav a{min-height:44px;display:inline-flex;align-items:center}
 @media(max-width:760px){.immersive-studio .product-hero{min-height:710px;background-position:58% center}.immersive-studio .atw-nav{padding:24px 6%;grid-template-columns:1fr;gap:14px}.immersive-studio .atw-nav nav{grid-row:2;grid-column:1;gap:28px}.immersive-studio .atw-wordmark{font-size:29px}.immersive-studio .product-hero-copy{padding:45px 6% 70px}.immersive-studio .product-hero-copy h1{font-size:clamp(48px,13.6vw,70px);max-width:11ch}.immersive-studio .product-hero-copy>p:not(.atw-kicker){font-size:15px;max-width:33ch}.immersive-studio .product-hero-copy>div{gap:16px;flex-wrap:wrap}.immersive-studio .product-hero-copy .atw-pill,.immersive-studio .product-hero-copy .atw-text-link{font-size:12px;min-height:48px}.studio-workspace-note{font-size:9px;align-items:flex-start}.studio-workspace-note svg{flex-shrink:0;margin-top:2px}.immersive-studio .product-work,.immersive-studio .product-offer{padding:65px 6%}.immersive-studio .product-work h2,.immersive-studio .product-offer h2{font-size:43px}}
 @media(prefers-reduced-motion:reduce){.immersive-studio .product-hero-copy .atw-pill{transition:none;transform:none!important}}
+
+.immersive-studio{background:radial-gradient(ellipse at 80% 42%,#d6a5bd26,transparent 55%),#fffdfb}
+.immersive-studio .product-hero{margin:12px;border-radius:clamp(30px,4vw,52px);overflow:hidden;box-shadow:0 28px 65px -40px #240b2166}
+.immersive-studio .product-work,.immersive-studio .product-offer{position:relative;isolation:isolate;background:transparent}
+.immersive-studio .product-work li{border:0;padding:24px 0}.immersive-studio .product-work ol{display:grid;gap:14px}
+.immersive-studio .product-offer{margin:20px 3%;border-radius:42px;background:#f5f1f2;overflow:hidden}.immersive-studio .atw-footer{background:transparent;border:0}
+@media(max-width:760px){.immersive-studio .product-hero{margin:8px;border-radius:30px}.immersive-studio .product-hero-copy{padding-left:7%;padding-right:7%}.immersive-studio .product-offer{margin:12px 3%;border-radius:32px;padding:48px 7%}}

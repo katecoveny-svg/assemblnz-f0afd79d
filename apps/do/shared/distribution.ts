@@ -1,97 +1,76 @@
-/** Portable launcher. Host context is opt-in; neither dragging nor opening starts a task. */
+import { COMPANION_POSITION_KEY } from './companion-position';
+import { PAGE_CONTEXT_READER } from './page-context-script';
+
+/** Portable companion shared by the website and extension. Only positions persist. */
 export function doWidgetScript(origin: string): string {
   const url = new URL(origin);
   if (!['https:', 'http:'].includes(url.protocol) || url.origin !== origin) throw new Error('Expected an HTTP(S) origin');
-  return `(() => {
-  'use strict';
-  if (window.assemblDo) return;
-  const origin = ${JSON.stringify(origin)};
-  const host = document.createElement('div');
-  const shadow = host.attachShadow({mode: 'open'});
-  const style = document.createElement('style');
-  style.textContent = ":host{all:initial}button,a{font:13px 'Instrument Sans',ui-sans-serif,system-ui,sans-serif}button{cursor:pointer}.launch{position:fixed;right:18px;bottom:12px;z-index:2147483000;width:100px;height:84px;border:0;padding:0;background:transparent;touch-action:none;cursor:grab}.spark{display:grid;place-items:center;width:66px;height:66px;margin:auto;border-radius:22px;color:#FFFDFB;background:radial-gradient(ellipse at 25% 15%,#916A70,#654A4E 42%,#240B21 72%);box-shadow:inset 1px 1px 2px #fffdfb80,0 5px 22px #240b2130}.spark svg{width:42px;height:42px}.panel{position:fixed;right:20px;bottom:102px;width:min(470px,calc(100vw - 24px));height:min(740px,calc(100dvh - 120px));z-index:2147483001;background:#FFFDFB;color:#240B21;border:1px solid #916A70;border-radius:13px;box-shadow:0 12px 60px #240b2130;overflow:hidden;box-sizing:border-box}.bar{height:54px;display:flex;align-items:center;gap:8px;padding:0 8px;background:#F5F1F2;box-sizing:border-box;border-bottom:1px solid #916A70}.grab{touch-action:none;cursor:grab;flex:1;text-align:left;border:0;background:transparent;color:#240B21;min-height:44px;font-weight:600;min-width:70px}.popout{color:#240B21;font-size:11px;display:flex;align-items:center;min-height:44px;text-decoration:underline}.close{height:38px;min-width:38px;border:1px solid #916A70;background:#FFFDFB;border-radius:50%;color:#240B21;font-size:22px}.panel iframe{display:block;width:100%;height:calc(100% - 54px);border:0}button:focus-visible,a:focus-visible{outline:3px solid #916A70;outline-offset:-3px}[hidden]{display:none!important}";
-  const launch = document.createElement('button');
-  launch.className = 'launch'; launch.type = 'button';
-  const badge = document.createElement('span'); badge.className = 'spark'; badge.setAttribute('aria-hidden','true');
-  badge.innerHTML = '<svg viewBox="0 0 64 64"><path d="M16 12H29C44 12 52 20 52 32S44 52 29 52H16Z" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round"/><circle cx="30" cy="32" r="6" fill="currentColor"/></svg>';
-  launch.append(badge); launch.setAttribute('aria-label','Open DO writing and task widget'); launch.setAttribute('aria-expanded','false');
-  launch.title = 'Drag to move. Alt + arrow keys also move DO. Moving shares nothing.';
-  const panel = document.createElement('section'); panel.className = 'panel'; panel.hidden = true; panel.setAttribute('aria-label','DO preparation');
-  const bar = document.createElement('div'); bar.className = 'bar';
-  const grab = document.createElement('button'); grab.type = 'button'; grab.className = 'grab'; grab.textContent = '⠿ DO workspace';
-  grab.setAttribute('aria-label','Move DO workspace'); grab.title = 'Drag this handle, or focus it and use arrow keys.';
-  const popout = document.createElement('a'); popout.className = 'popout'; popout.href = origin + '/do/widget'; popout.target = '_blank'; popout.rel = 'noopener noreferrer';
-  popout.textContent = 'Voice / full window ↗'; popout.title = 'Open the signed-in workspace. Context is not copied automatically.';
-  const close = document.createElement('button'); close.className='close'; close.type='button'; close.textContent='×'; close.setAttribute('aria-label','Close DO widget');
-  const frame = document.createElement('iframe'); frame.title = 'DO by assembl — prepare and review'; frame.referrerPolicy='no-referrer';
-  frame.setAttribute('allow','clipboard-write');
-  frame.setAttribute('sandbox','allow-scripts allow-forms allow-same-origin allow-downloads allow-popups allow-popups-to-escape-sandbox');
-  let loaded=false; let context=null;
-  function offerContext() {
-    if (loaded && context) {
-      frame.contentWindow.postMessage({type:'assembl-do:context',text:String(context.text || '').slice(0,12000),title:String(context.title || '').slice(0,160),url:String(context.url || '').slice(0,2000)},origin);
-      context=null;
-    }
-  }
-  function place(element,x,y) {
-    const r=element.getBoundingClientRect();
-    element.style.right='auto'; element.style.bottom='auto';
-    element.style.left=Math.max(8,Math.min(Math.max(8,innerWidth-r.width-8),x))+'px';
-    element.style.top=Math.max(8,Math.min(Math.max(8,innerHeight-r.height-8),y))+'px';
-  }
-  function open(value) {
-    context=value && typeof value==='object' ? value : null;
-    panel.hidden=false; launch.setAttribute('aria-expanded','true');
-    const r=panel.getBoundingClientRect(); place(panel,r.left,r.top);
-    if (!frame.src) frame.src=origin+'/do/widget'; else offerContext();
-    close.focus();
-  }
-  function hide() { panel.hidden=true; launch.setAttribute('aria-expanded','false'); launch.focus(); }
-  window.addEventListener('message',event=>{
-    if(event.source===frame.contentWindow && event.origin===origin && event.data?.type==='assembl-do:ready'){loaded=true;offerContext();}
-  });
-  frame.addEventListener('load',()=>{loaded=false;frame.contentWindow.postMessage({type:'assembl-do:hello'},origin);});
-  function draggable(handle,element) {
-    let start=null; let moved=false;
-    const update=e=>{
-      if(!start || e.pointerId!==start.pointerId)return;
-      const dx=e.clientX-start.x,dy=e.clientY-start.y;
-      if(Math.hypot(dx,dy)>5)moved=true;
-      if(moved)place(element,start.left+dx,start.top+dy);
-    };
-    handle.addEventListener('pointerdown',e=>{
-      if(e.button!==0 || !e.isPrimary)return;
-      const r=element.getBoundingClientRect();start={x:e.clientX,y:e.clientY,left:r.left,top:r.top,pointerId:e.pointerId};moved=false;
-      handle.setPointerCapture(e.pointerId);
-    });
-    handle.addEventListener('pointermove',update);
-    handle.addEventListener('pointerup',e=>{
-      if(!start || e.pointerId!==start.pointerId)return;
-      update(e); start=null;
-      if(handle.hasPointerCapture(e.pointerId))handle.releasePointerCapture(e.pointerId);
-    });
-    handle.addEventListener('pointercancel',()=>{start=null;moved=true;});
-    handle.addEventListener('lostpointercapture',()=>{start=null;});
-    handle.addEventListener('keydown',e=>{
-      if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key) || (handle===launch && !e.altKey))return;
-      e.preventDefault(); const r=element.getBoundingClientRect();
-      place(element,r.left+(e.key==='ArrowRight'?24:e.key==='ArrowLeft'?-24:0),r.top+(e.key==='ArrowDown'?24:e.key==='ArrowUp'?-24:0));
-    });
-    return ()=>{const result=moved;moved=false;return result;};
-  }
-  const dragged=draggable(launch,launch); draggable(grab,panel);
-  launch.addEventListener('click',e=>{if(e.detail!==0 && dragged())return;panel.hidden?open(null):hide();});
-  close.addEventListener('click',hide);
-  shadow.addEventListener('keydown',e=>{if(e.key==='Escape')hide();});
-  window.addEventListener('resize',()=>{
-    for(const element of [launch,panel]){if(element.hidden)continue;const r=element.getBoundingClientRect();place(element,r.left,r.top);}
-  });
-  bar.append(grab,popout,close); panel.append(bar,frame); shadow.append(style,launch,panel); document.body.append(host);
-  window.assemblDo=Object.freeze({open,close:hide});
-})();`;
+  return COMPANION_CLIENT.replace('__ORIGIN__', JSON.stringify(origin)).replace('__READER__', () => PAGE_CONTEXT_READER).replace('__LEGACY_POSITION_KEY__', JSON.stringify(COMPANION_POSITION_KEY));
 }
 
+const COMPANION_CLIENT = String.raw`(() => {
+  'use strict';
+  const origin = __ORIGIN__;
+  if (window.assemblDo || (location.origin === origin && location.pathname === '/do/widget' && window.self !== window.top)) return;
+  const reader = __READER__;
+  const host = document.createElement('div'); host.setAttribute('data-do-companion','');
+  const shadow = host.attachShadow({mode:'open'});
+  const style = document.createElement('style'); style.textContent = "\n:host{all:initial}*{box-sizing:border-box}button,a,input,textarea{font:13px/1.45 'Instrument Sans',ui-sans-serif,system-ui,sans-serif}button{cursor:pointer}button:disabled{opacity:.5;cursor:default}[hidden]{display:none!important}\n.launch{position:fixed;right:20px;bottom:18px;z-index:2147483000;width:76px;height:92px;border:0;padding:0;background:transparent;touch-action:none;cursor:grab;color:#240b21}\n.spark{display:grid;place-items:center;width:62px;height:62px;margin:auto;border-radius:23px;color:#fffdfb;background:radial-gradient(ellipse at 15% 5%,#916a70,#654a4e 30%,#240b21 77%);box-shadow:inset 1px 2px 2px #fffdfb80,3px 5px 0 #654a4e,0 0 27px #d6a5bd99,0 12px 24px #240b2133;transform:rotate(-7deg);transition:transform .3s}.spark svg{width:44px;height:44px;filter:drop-shadow(0 0 6px #d6a5bd)}.launch-label{display:block;width:fit-content;margin:9px auto 0;padding:3px 9px;border-radius:20px;color:#fffdfb;background:#240b21;font-size:11px}.launch:hover .spark{transform:rotate(-2deg)}\n.panel{position:fixed;right:20px;bottom:120px;width:min(480px,calc(100vw - 24px));height:min(760px,calc(100dvh - 32px));z-index:2147483001;display:flex;flex-direction:column;background:#fffdfb;color:#240b21;border:1px solid #916a704d;border-radius:28px;box-shadow:0 0 35px #d6a5bd40,0 22px 70px #240b2140;overflow:auto}\n.bar{display:flex;align-items:center;gap:6px;padding:6px 10px;background:linear-gradient(130deg,#f5f1f2,#eadde4);flex-shrink:0}.grab{touch-action:none;cursor:grab;flex:1;text-align:left;border:0;background:transparent;color:#240b21;min-height:44px;font-weight:600;min-width:60px}.popout{color:#654a4e;font-size:12px;display:flex;align-items:center;min-height:44px;padding:0 6px;text-decoration:underline;text-underline-offset:3px}.close{height:38px;min-width:38px;border:0;background:#fffdfbb3;border-radius:50%;color:#240b21;font-size:22px}\n.tools{display:flex;flex-wrap:wrap;gap:6px;padding:10px 12px 6px;background:#fffdfb;flex-shrink:0}.tools button,.tools a{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:8px 11px;border:1px solid #916a703d;border-radius:22px;background:#f5f1f2;color:#240b21;text-decoration:none;font-size:12px}.status{font:11px/1.5 'Instrument Sans',ui-sans-serif,system-ui,sans-serif;color:#654a4e;margin:0;padding:5px 16px 10px;flex-shrink:0}.panel iframe{display:block;width:100%;flex:1;min-height:120px;border:0;background:#fffdfb}.review{padding:8px 16px 14px;max-height:45%;overflow:auto;background:linear-gradient(#fffdfb,#f5f1f2);flex-shrink:0}.review label{display:block;font:500 13px/1.5 'Instrument Sans',system-ui,sans-serif}.review textarea{display:block;width:100%;min-height:90px;max-height:160px;padding:12px;margin:8px 0;border:1px solid #916a7066;border-radius:14px;color:#240b21;background:#fffdfb;resize:vertical;font-size:14px}.review small{display:block;font:11px/1.5 'Instrument Sans',system-ui,sans-serif;overflow-wrap:anywhere;color:#654a4e}.review-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.review-actions button{min-height:40px;padding:9px 15px;border-radius:24px;border:1px solid #916a704d;background:#fffdfb;color:#240b21}.review-actions .use{background:#240b21;color:#fffdfb}\n.picker-bar{position:fixed;left:50%;top:12px;transform:translateX(-50%);width:min(520px,calc(100vw - 24px));z-index:2147483004;display:flex;align-items:center;gap:12px;padding:12px 14px 12px 20px;background:#240b21;color:#fffdfb;border:1px solid #916a70;border-radius:24px;box-shadow:0 12px 45px #240b2138;font:13px/1.5 'Instrument Sans',system-ui,sans-serif}.picker-bar span{flex:1}.picker-bar button{min-height:40px;padding:8px 14px;background:#fffdfb;color:#240b21;border:0;border-radius:20px}.outline{position:fixed;z-index:2147483002;border:2px solid #916a70;border-radius:14px;background:#d6a5bd1a;box-shadow:0 0 0 4px #d6a5bd33;pointer-events:none}.picker-preview{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:2147483003;width:min(520px,calc(100vw - 24px));padding:14px 18px;max-height:120px;overflow:hidden;background:#fffdfbf5;color:#240b21;border-radius:21px;box-shadow:0 10px 40px #240b2133;font:13px/1.5 'Instrument Sans',system-ui,sans-serif;pointer-events:none;white-space:pre-wrap}\nbutton:focus-visible,a:focus-visible,textarea:focus-visible{outline:3px solid #916a70;outline-offset:-3px}@media(max-width:480px){.panel{width:calc(100vw - 16px);height:min(720px,calc(100dvh - 16px));border-radius:23px}.launch{width:64px;height:80px;right:12px;bottom:12px}.spark{width:53px;height:53px;border-radius:20px}.spark svg{width:38px;height:38px}.tools{gap:5px;padding:8px}.tools button,.tools a{font-size:11px;padding:8px 9px}.popout{font-size:11px}.bar{padding:5px 8px}.review{max-height:45%}.picker-bar{font-size:12px;padding:10px 12px}.status{font-size:11px}}\n@media(prefers-reduced-motion:reduce){.spark{transition:none}.launch:hover .spark{transform:none}}\n";
+  const make = (tag,className,text) => { const node=document.createElement(tag);if(className)node.className=className;if(text)node.textContent=text;return node; };
+  const button = (className,text) => {const node=make('button',className,text);node.type='button';return node;};
+  const launch=button('launch',''); const badge=make('span','spark','');badge.setAttribute('aria-hidden','true');
+  badge.innerHTML='<svg viewBox="0 0 64 64"><path d="M16 12H29C44 12 52 20 52 32S44 52 29 52H16Z" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round"/><circle cx="30" cy="32" r="6" fill="currentColor"/></svg>';
+  launch.append(badge,make('span','launch-label','DO'));launch.setAttribute('aria-label','Open DO. Drag to move or use Alt and arrow keys.');launch.setAttribute('aria-expanded','false');
+  const panel=make('section','panel','');panel.hidden=true;panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','false');panel.setAttribute('aria-label','Movable DO workspace');
+  const bar=make('div','bar','');const grab=button('grab','⠿ DO workspace');grab.setAttribute('aria-label','Move DO workspace. Drag or use arrow keys.');
+  const popout=make('a','popout','Full window ↗');popout.href=origin+'/do/widget';popout.target='_blank';popout.rel='noopener noreferrer';popout.title='Open DO in its own window. The existing draft stays here.';
+  const close=button('close','×');close.setAttribute('aria-label','Minimise DO workspace');bar.append(grab,popout,close);
+  const tools=make('div','tools','');const point=button('','Point at an area');const selected=button('','Use selected text');
+  const screen=make('a','','Share a screen ↗');screen.href=origin+'/do/widget?tool=look';screen.target='_blank';screen.rel='noopener noreferrer';screen.title='Choose a tab, window or screen, then review one snapshot before analysis.';tools.append(point,selected,screen);
+  const status=make('p','status','Drag DO anywhere. Choose an area or selection to bring into your task.');status.setAttribute('role','status');
+  const review=make('div','review','');review.hidden=true;
+  const label=make('label','','Context for DO');const text=make('textarea','','');text.maxLength=12000;text.rows=4;label.append(text);
+  const provenance=make('small','','');const actions=make('div','review-actions','');const use=button('use','Use in DO');const discard=button('','Discard');const copy=button('','Copy context');actions.append(use,copy,discard);review.append(label,provenance,actions);
+  const frame=make('iframe','','');frame.title='DO — prepare and review';frame.referrerPolicy='no-referrer';frame.setAttribute('allow','clipboard-write; web-share');frame.setAttribute('sandbox','allow-scripts allow-forms allow-same-origin allow-downloads allow-popups allow-popups-to-escape-sandbox');
+  const pickerBar=make('div','picker-bar','');pickerBar.hidden=true;const pickerText=make('span','','Point or tap an area to choose it. Escape cancels.');const cancel=button('','Cancel');pickerBar.append(pickerText,cancel);
+  const outline=make('div','outline','');outline.hidden=true;const preview=make('div','picker-preview','');preview.hidden=true;preview.setAttribute('aria-hidden','true');
+  let loaded=false, pending=null, captured=null, picking=false, candidate=null, readingFrame=0, lastPoint=null, targetText=null, awaitingId=null;
+  const positionKey='assembl:do:portable-position:v2';
+  function position(element,x,y) {const r=element.getBoundingClientRect();element.style.right='auto';element.style.bottom='auto';element.style.left=Math.max(8,Math.min(innerWidth-r.width-8,x))+'px';element.style.top=Math.max(8,Math.min(innerHeight-r.height-8,y))+'px';}
+  function remember(){try{const a=launch.getBoundingClientRect(),b=panel.getBoundingClientRect();const old=JSON.parse(localStorage.getItem(positionKey)||'{}');localStorage.setItem(positionKey,JSON.stringify({launch:{x:a.left,y:a.top},panel:panel.hidden?old.panel:{x:b.left,y:b.top}}));}catch{}}
+  function restore(element,key){try{let saved=JSON.parse(localStorage.getItem(positionKey)||'null')?.[key];if(!saved&&key==='launch'){const old=JSON.parse(localStorage.getItem(__LEGACY_POSITION_KEY__)||'null');if(old)saved={x:old.left,y:old.top};}if(saved&&Number.isFinite(saved.x)&&Number.isFinite(saved.y))position(element,saved.x,saved.y);}catch{}}
+  function normalise(value){if(!value||typeof value.text!=='string'||!value.text.trim())return null;let url='';try{const u=new URL(value.url);if(['https:','http:'].includes(u.protocol)&&!u.username&&!u.password)url=u.origin+u.pathname;}catch{}return{text:value.text.trim().slice(0,12000),title:String(value.title||'Reviewed page area').slice(0,160),url:url.slice(0,2000)};}
+  function offer(){if(loaded&&pending){awaitingId=crypto.randomUUID();frame.contentWindow.postMessage({type:'assembl-do:context',...pending,contextId:awaitingId},origin);pending=null;status.textContent='Context offered to DO. Waiting for the editor to confirm it arrived.';}}
+  function reviewContext(value){pending=null;awaitingId=null;captured=normalise(value);if(!captured){status.textContent='No readable text found. Try another area, select text, or share a screen.';return;}text.value=captured.text;provenance.textContent=captured.title+(captured.url?' · '+captured.url:'');review.hidden=false;status.textContent='Captured on this page only. Edit or discard it before adding it to DO.';}
+  function open(value){panel.hidden=false;restore(panel,'panel');const r=panel.getBoundingClientRect();position(panel,r.left,r.top);launch.setAttribute('aria-expanded','true');if(!frame.src)frame.src=origin+'/do/widget';if(value)reviewContext(value);close.focus();}
+  function finishPick(){picking=false;candidate=null;targetText=null;lastPoint=null;cancelAnimationFrame(readingFrame);readingFrame=0;pickerBar.hidden=true;outline.hidden=true;preview.hidden=true;document.removeEventListener('pointermove',onPoint,true);document.removeEventListener('pointerdown',onPickDown,true);document.removeEventListener('click',onPick,true);document.removeEventListener('keydown',onPickKey,true);document.removeEventListener('focusin',onFocus,true);window.removeEventListener('scroll',clearTarget,true);window.removeEventListener('resize',clearTarget);}
+  function hide(){finishPick();remember();panel.hidden=true;launch.setAttribute('aria-expanded','false');launch.focus();}
+  function clearTarget(){candidate=null;targetText=null;lastPoint=null;cancelAnimationFrame(readingFrame);readingFrame=0;outline.hidden=true;preview.hidden=true;}
+  function highlight(element){const area=reader.candidate(element);if(area===candidate)return;candidate=area;targetText=area?reader.read(area):null;if(!area||!targetText){outline.hidden=true;preview.hidden=true;return;}const r=area.getBoundingClientRect();outline.style.left=Math.max(0,r.left)+'px';outline.style.top=Math.max(0,r.top)+'px';outline.style.width=Math.min(innerWidth,r.right)-Math.max(0,r.left)+'px';outline.style.height=Math.min(innerHeight,r.bottom)-Math.max(0,r.top)+'px';outline.hidden=false;preview.textContent=targetText.text.slice(0,360);preview.hidden=false;}
+  function onPoint(event){if(!picking)return;lastPoint={x:event.clientX,y:event.clientY};if(readingFrame)return;readingFrame=requestAnimationFrame(()=>{readingFrame=0;if(picking&&lastPoint)highlight(document.elementFromPoint(lastPoint.x,lastPoint.y));});}
+  function onFocus(event){if(picking&&event.target!==host)highlight(event.target);}
+  function onPickDown(event){if(picking&&event.target!==host){event.preventDefault();event.stopImmediatePropagation();}}
+  function choose(){const value=candidate?reader.read(candidate):null;if(!value){pickerText.textContent='No readable text here. Try another area, or cancel and share a screen for images.';return;}finishPick();open(value);text.focus();}
+  function onPick(event){if(!picking||event.target===host)return;event.preventDefault();event.stopImmediatePropagation();highlight(document.elementFromPoint(event.clientX,event.clientY));choose();}
+  function onPickKey(event){if(!picking)return;if(event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();finishPick();open();point.focus();}else if((event.key==='Enter'||event.key===' ')&&event.target!==host){event.preventDefault();event.stopImmediatePropagation();highlight(event.target);choose();}}
+  function startPick(){finishPick();pickerText.textContent='Point or tap an area to choose it. Escape cancels.';picking=true;panel.hidden=true;pickerBar.hidden=false;document.addEventListener('pointermove',onPoint,true);document.addEventListener('pointerdown',onPickDown,true);document.addEventListener('click',onPick,true);document.addEventListener('keydown',onPickKey,true);document.addEventListener('focusin',onFocus,true);window.addEventListener('scroll',clearTarget,true);window.addEventListener('resize',clearTarget);cancel.focus();}
+  point.addEventListener('click',startPick);cancel.addEventListener('click',()=>{finishPick();open();point.focus();});
+  selected.addEventListener('click',()=>{const value=reader.selection();if(value)reviewContext(value);else status.textContent='Select ordinary page text first. Forms and marked private areas are excluded.';});
+  discard.addEventListener('click',()=>{pending=null;awaitingId=null;captured=null;text.value='';review.hidden=true;status.textContent='Captured context discarded.';});
+  use.addEventListener('click',()=>{if(!captured||!text.value.trim()){status.textContent='Add some context, or discard this capture.';return;}pending=normalise({...captured,text:text.value});status.textContent='Waiting for the DO editor. If this site blocks it, Copy context and paste it in Full window.';offer();});
+  copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(text.value);status.textContent='Context copied. You can paste it into Full window.';}catch{status.textContent='Copy is unavailable. Select the context above and copy it manually.';text.focus();text.select();}});
+  window.addEventListener('message',event=>{if(event.source!==frame.contentWindow||event.origin!==origin)return;if(event.data?.type==='assembl-do:ready'){loaded=true;offer();}else if(event.data?.type==='assembl-do:context-received'&&awaitingId&&event.data.contextId===awaitingId){awaitingId=null;status.textContent='Context added to the editor. Review it and approve provider use before preparing work.';}});
+  frame.addEventListener('load',()=>{loaded=false;frame.contentWindow.postMessage({type:'assembl-do:hello'},origin);});
+  function draggable(handle,element){let start=null,moved=false;const update=event=>{if(!start||event.pointerId!==start.id)return;const dx=event.clientX-start.x,dy=event.clientY-start.y;if(Math.hypot(dx,dy)>5)moved=true;if(moved)position(element,start.left+dx,start.top+dy);};handle.addEventListener('pointerdown',event=>{if(event.button!==0||!event.isPrimary)return;const r=element.getBoundingClientRect();start={x:event.clientX,y:event.clientY,left:r.left,top:r.top,id:event.pointerId};moved=false;handle.setPointerCapture(event.pointerId);});handle.addEventListener('pointermove',update);handle.addEventListener('pointerup',event=>{if(!start||event.pointerId!==start.id)return;update(event);start=null;if(handle.hasPointerCapture(event.pointerId))handle.releasePointerCapture(event.pointerId);if(moved)remember();});handle.addEventListener('pointercancel',()=>{start=null;moved=true;});handle.addEventListener('lostpointercapture',()=>{start=null;});handle.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key)||(handle===launch&&!event.altKey))return;event.preventDefault();const r=element.getBoundingClientRect();position(element,r.left+(event.key==='ArrowRight'?24:event.key==='ArrowLeft'?-24:0),r.top+(event.key==='ArrowDown'?24:event.key==='ArrowUp'?-24:0));remember();});return()=>{const value=moved;moved=false;return value;};}
+  const dragged=draggable(launch,launch);draggable(grab,panel);
+  launch.addEventListener('click',event=>{if(event.detail!==0&&dragged())return;if(picking){finishPick();open();return;}panel.hidden?open():hide();});close.addEventListener('click',hide);
+  shadow.addEventListener('keydown',event=>{if(event.key==='Escape'&&!picking)hide();});
+  window.addEventListener('resize',()=>{for(const element of [launch,panel]){if(element.hidden)continue;const r=element.getBoundingClientRect();position(element,r.left,r.top);}});
+  panel.append(bar,tools,status,review,frame);shadow.append(style,launch,panel,pickerBar,outline,preview);document.body.append(host);restore(launch,'launch');
+  window.assemblDo=Object.freeze({open,close:hide,pick:startPick});
+})();`;
+
 export function doEmbedExample(origin: string): string {
-  return `<!doctype html><html lang="en-NZ"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DO widget example</title><style>body{font:18px/1.6 'Instrument Sans',system-ui,sans-serif;background:#FFFDFB;color:#240B21;max-width:660px;padding:8vh 7vw;margin:auto}h1{font-size:42px;font-weight:450;line-height:1.1}code{font-size:13px;background:#F5F1F2;padding:12px;display:block;overflow:auto}</style></head><body><h1>A little DO, on your website.</h1><p>Move the launcher or drag the workspace by its handle. Review drafts here; open the full window for voice and meeting recording.</p><p>Moving shares nothing. The widget does not read this page automatically, and context is not automatically copied to a new window.</p><code>&lt;script src="${origin}/api/do/widget" defer&gt;&lt;/script&gt;</code><script src="${origin}/api/do/widget" defer></script></body></html>`;
+  return `<!doctype html><html lang="en-NZ"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DO widget example</title><style>body{font:18px/1.6 'Instrument Sans',system-ui,sans-serif;background:#FFFDFB;color:#240B21;max-width:700px;padding:8vh 7vw;margin:auto}h1{font-size:42px;font-weight:500;line-height:1.1}article{padding:24px;border-radius:28px;background:#F5F1F2;margin:28px 0}code{font-size:13px;overflow-wrap:anywhere}</style></head><body><h1>DO, wherever the work is.</h1><p>Drag the glowing DO or its workspace handle. Choose <strong>Point at an area</strong>, hover over a paragraph, then click to capture it. Review the text before adding it to DO.</p><article><h2>A harmless practice brief</h2><p>Prepare a short reply confirming that the draft proposal is ready for review on Thursday. Ask which time suits the team. No meeting has been booked.</p></article><p>For images or another window, choose Share a screen. You choose what to share and review a snapshot before any analysis. Moving DO never starts capture.</p><code>&lt;script src="${origin}/api/do/widget" defer&gt;&lt;/script&gt;</code><script src="${origin}/api/do/widget" defer></script></body></html>`;
 }
 export const DO_DISTRIBUTION_ORIGIN = 'https://www.assembl.co.nz';

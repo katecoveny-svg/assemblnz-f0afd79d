@@ -1,0 +1,10 @@
+.field{display:block;position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;contain:paint;--wash-a:#916a7038;--wash-b:#d6a5bd4d;--wash-c:#654a4e1f}
+.field[data-tone=plum]{--wash-a:#916a7073;--wash-b:#d6a5bd38;--wash-c:#654a4e99}
+.field>span{position:absolute;inset:-20% -10%;border-radius:50%;background:radial-gradient(ellipse at 23% 38%,var(--wash-a),transparent 56%);transform:rotate(-18deg)}
+.field>span:nth-child(2){background:radial-gradient(ellipse at 76% 63%,var(--wash-b),transparent 53%);transform:rotate(14deg)}
+.field>span:nth-child(3){inset:10% -15% -40%;background:radial-gradient(ellipse at 48% 74%,var(--wash-c),transparent 60%)}
+@supports(animation-timeline:view()){@media(prefers-reduced-motion:no-preference){.field{view-timeline-name:--fluid-field}.field>span{animation:light-drift linear both;animation-timeline:--fluid-field;animation-range:entry 0% exit 100%}.field>span:nth-child(2){animation-name:light-counter}}}
+@keyframes light-drift{from{translate:-4% 6%;scale:1}to{translate:6% -8%;scale:1.14}}
+@keyframes light-counter{from{translate:5% -5%;scale:1.12}to{translate:-5% 6%;scale:1}}
+@media(prefers-reduced-motion:reduce){.field>span{animation:none;translate:none}}
+@media(forced-colors:active){.field{display:none}}

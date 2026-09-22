@@ -19,7 +19,7 @@ export function DoDownloadCtas({
       <a
         className={styles.primary}
         href="/api/do/download?format=extension"
-        download="assembl-do-extension-1.5.2.zip"
+        download="assembl-do-extension-1.7.0.zip"
       >
         <Download size={16} aria-hidden />
         Download Chrome DO
