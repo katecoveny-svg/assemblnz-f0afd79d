@@ -1,11 +1,14 @@
 "use client";
 
-import NextImage from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { BrandImageMaker } from "./BrandImageMaker";
+import { ASSEMBL_CREATIVE_ASSETS, ASSEMBL_CREATIVE_BRAND, ASSEMBL_CREATIVE_PROFILE, ASSEMBL_CREATIVE_STARTERS, assemblImageBrief } from "@/lib/creative/assembl-brand";
+import { canvasFontFamily } from "@/lib/creative/canvas-font";
+import { PRODUCT_DESTINATIONS } from "@/lib/product-destinations";
+import styles from "./assembl-studio.module.css";
 
-type StudioTab = "brand" | "image" | "design" | "captions";
+type StudioTab = "brand" | "image";
 type FilterMode = "original" | "plum" | "night";
 type AspectId = "1:1" | "4:5" | "9:16" | "16:9";
 
@@ -23,67 +26,7 @@ interface GenerationReceipt {
   trust?: string;
 }
 
-const TABS: Array<{
-  id: StudioTab;
-  label: string;
-  note: string;
-}> = [
-  {
-    id: "design",
-    label: "full creative studio",
-    note: "shaders, liquid chrome, materials, motion and exports",
-  },
-  {
-    id: "brand",
-    label: "brand image maker",
-    note: "add your colours, logo and message, then download or share",
-  },
-  {
-    id: "image",
-    label: "image maker",
-    note: "generate, upload or start from an assembl asset",
-  },
-  {
-    id: "captions",
-    label: "write captions",
-    note: "six platform versions in the assembl voice",
-  },
-];
-
-const BRAND_ASSETS: BrandAsset[] = [
-  {
-    id: "plum-field",
-    label: "plum field",
-    note: "fluid material · landscape",
-    src: "/images/site/assembl-shader-8471.png",
-    promptCue:
-      "fluid plum material, soft depth, warm mineral highlights and generous negative space",
-  },
-  {
-    id: "evidence-vessel",
-    label: "evidence vessel",
-    note: "sculptural object · 16:9",
-    src: "/images/site/hero-evidence-vessel.png",
-    promptCue:
-      "a single sculptural vessel, assembled physical detail, grounded shadow and editorial restraint",
-  },
-  {
-    id: "macro-material",
-    label: "macro material",
-    note: "surface detail · 4:3",
-    src: "/images/site/vessel-macro-proof-detail.png",
-    promptCue:
-      "macro material study, tactile layers, graphite detail and precise studio lighting",
-  },
-  {
-    id: "aotearoa-light",
-    label: "Aotearoa light",
-    note: "coastal atmosphere · 16:9",
-    src: "/images/site/landscape-coast-aotearoa.png",
-    promptCue:
-      "Aotearoa coastal light, real landscape atmosphere, restrained colour and no tourism clichés",
-  },
-];
+const BRAND_ASSETS: readonly BrandAsset[] = ASSEMBL_CREATIVE_ASSETS;
 
 const ASPECTS: Array<{
   id: AspectId;
@@ -98,28 +41,7 @@ const ASPECTS: Array<{
   { id: "16:9", label: "landscape", note: "1920 × 1080", width: 1920, height: 1080 },
 ];
 
-const STARTERS = [
-  {
-    label: "active journey",
-    brief:
-      "An editorial flat-lay showing a customer journey being assembled during a genuine wait. Real paper, graphite annotations and one clear prepared handoff.",
-  },
-  {
-    label: "sculptural object",
-    brief:
-      "A single sculptural object assembling from plum paper, graphite linework and restrained rose-gold material. Physical, precise and beautifully lit.",
-  },
-  {
-    label: "Aotearoa landscape",
-    brief:
-      "A wide atmospheric Aotearoa landscape at first light, with a subtle sense of separate parts resolving into one useful path.",
-  },
-  {
-    label: "human handoff",
-    brief:
-      "Two sets of hands reviewing a clear prepared brief at a real worktable. Warm New Zealand light, calm competence and no staged technology clichés.",
-  },
-];
+const STARTERS = ASSEMBL_CREATIVE_STARTERS;
 
 const FILTERS: Array<{ id: FilterMode; label: string; note: string }> = [
   { id: "original", label: "original", note: "no grade" },
@@ -128,8 +50,8 @@ const FILTERS: Array<{ id: FilterMode; label: string; note: string }> = [
 ];
 
 const RAMPS: Record<Exclude<FilterMode, "original">, string[]> = {
-  plum: ["#160713", "#654A4E", "#E9BCA9", "#FFFDFB"],
-  night: ["#050104", "#240B21", "#654A4E", "#F5F1F2"],
+  plum: ["#240B21", "#654A4E", "#916A70", "#FFFDFB"],
+  night: ["#240B21", "#654A4E", "#916A70", "#F5F1F2"],
 };
 
 function hexToRgb(hex: string) {
@@ -182,7 +104,7 @@ function drawWordmark(
   const size = Math.max(22, Math.round(width * 0.034));
   const margin = Math.max(28, Math.round(width * 0.04));
   context.save();
-  context.font = `500 ${size}px "Instrument Sans", Arial, sans-serif`;
+  context.font = `500 ${size}px ${canvasFontFamily()}`;
   context.textBaseline = "alphabetic";
   context.textAlign = "left";
   const word = "assembl";
@@ -192,7 +114,7 @@ function drawWordmark(
   const y = height - margin;
   context.fillStyle = night ? "#FFFDFB" : "#240B21";
   context.fillText(word, x, y);
-  context.fillStyle = "#E9BCA9";
+  context.fillStyle = "#916A70";
   context.fillText("·", x + wordWidth, y);
   context.restore();
 }
@@ -324,232 +246,44 @@ async function prepareReferenceDataUrl(src: string) {
   return canvas.toDataURL("image/jpeg", 0.86);
 }
 
-function generationBrief(
-  brief: string,
-  aspect: AspectId,
-  reference: BrandAsset | null,
-) {
-  return [
-    brief.trim(),
-    "",
-    "assembl visual direction:",
-    "Create an original, premium editorial image for an Aotearoa New Zealand audience.",
-    "Use deep plum #240B21, chalk #F5F1F2, paper #FFFDFB, graphite #2E2C2C and restrained rose gold #E9BCA9.",
-    "Prefer real materials, physical depth, one clear subject, useful negative space and natural Aotearoa light.",
-    "No green cast, generic gradients, sparkle, chatbot imagery, floating technology or embedded text.",
-    "Do not add a logo. The studio applies the assembl wordmark after generation.",
-    `Compose for ${aspect} without placing important detail at the edges.`,
-    reference ? `Reference direction: ${reference.promptCue}.` : "",
-  ]
-    .filter(Boolean)
-    .join("\n");
-}
-
 export function CreativeStudioShell({ initialTool }: { initialTool?: string }) {
-  const initialTab: StudioTab = initialTool === "brand-maker" ? "brand" : "design";
-  const [activeTab, setActiveTab] = useState<StudioTab>(initialTab);
-  const [visited, setVisited] = useState<Set<StudioTab>>(
-    () => new Set<StudioTab>([initialTab]),
-  );
-  const toolsRef = useRef<HTMLElement | null>(null);
-
+  const [activeTab, setActiveTab] = useState<StudioTab>(initialTool === "image" ? "image" : "brand");
+  const [designImage, setDesignImage] = useState<{ src: string; label: string } | undefined>();
   const chooseTab = (tab: StudioTab) => {
     setActiveTab(tab);
-    setVisited((current) => new Set(current).add(tab));
     const url = new URL(window.location.href);
-    if (tab === "brand") url.searchParams.set("tool", "brand-maker");
-    else url.searchParams.delete("tool");
+    url.searchParams.set("tool", tab === "brand" ? "brand-maker" : "image");
     window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
   };
-
-  const openTool = (tab: StudioTab) => {
-    chooseTab(tab);
-    window.requestAnimationFrame(() => {
-      toolsRef.current?.scrollIntoView({
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "auto"
-          : "smooth",
-        block: "start",
-      });
-    });
-  };
-
   return (
-    <div className="min-h-[100svh] bg-[#120510] text-[#F5F1F2]">
-      <header className="flex min-h-14 items-center justify-between gap-5 border-b border-white/10 bg-[#240B21] px-4 py-3 md:min-h-16 md:px-7 min-[1920px]:min-h-24 min-[1920px]:px-16">
-        <Link
-          href="/"
-          aria-label="assembl home"
-          className="rounded-sm text-[22px] font-medium tracking-[-0.055em] text-[#FFFDFB] outline-none focus-visible:ring-2 focus-visible:ring-[#E9BCA9] focus-visible:ring-offset-4 focus-visible:ring-offset-[#240B21] min-[1920px]:text-[36px]"
-        >
-          assembl<span className="text-[#E9BCA9]">·</span>
-        </Link>
-        <div className="min-w-0 text-center">
-          <p className="font-mono text-[12px] font-medium uppercase tracking-[0.16em] text-[#FFFDFB] md:text-[12px] min-[1920px]:text-[13px]">
-            Creative studio
-          </p>
-          <p className="mt-1 hidden font-mono text-[12px] uppercase tracking-[0.12em] text-[#B6ACB3] sm:block md:text-[12px] min-[1920px]:mt-2 min-[1920px]:text-[12px]">
-            Generate securely · edit in your browser · download to your device
-          </p>
-        </div>
-        <Link
-          href="/"
-          className="rounded-sm font-mono text-[12px] font-medium uppercase tracking-[0.12em] text-[#F5F1F2] outline-none hover:text-[#E9BCA9] focus-visible:ring-2 focus-visible:ring-[#E9BCA9] focus-visible:ring-offset-4 focus-visible:ring-offset-[#240B21] md:text-[12px] min-[1920px]:text-[12px]"
-        >
-          Back to site <span aria-hidden="true">↙</span>
-        </Link>
+    <main className={styles.page}>
+      <header className={styles.header}>
+        <Link href="/" className={styles.wordmark} aria-label="assembl home">assembl</Link>
+        <nav aria-label="Primary"><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio" aria-current="page">Studio</Link></nav>
       </header>
-
-      <section className="relative overflow-hidden border-b border-white/10 bg-[#120510]">
-        <div className="mx-auto grid min-h-[520px] max-w-[1480px] md:grid-cols-[1.04fr_0.96fr] min-[1920px]:min-h-[760px] min-[1920px]:max-w-[2200px]">
-          <div className="relative z-10 flex flex-col justify-center px-5 py-14 md:px-10 lg:px-16 min-[1920px]:px-24 min-[1920px]:py-24">
-            <p className="font-mono text-[12px] font-medium uppercase tracking-[0.16em] text-[#E9BCA9] min-[1920px]:text-[12px]">
-              Shader · brand · image · motion · caption
-            </p>
-            <h1 className="mt-5 max-w-[880px] font-sans text-[clamp(52px,7.2vw,112px)] font-medium leading-[0.82] tracking-[-0.075em] text-[#FFFDFB] min-[1920px]:mt-8 min-[1920px]:max-w-[1180px] min-[1920px]:text-[clamp(100px,6vw,168px)]">
-              make something worth sharing.
-            </h1>
-            <p className="mt-7 max-w-[690px] text-[15px] leading-6 text-[#C8BDC4] md:text-[17px] min-[1920px]:mt-10 min-[1920px]:max-w-[880px] min-[1920px]:text-[22px] min-[1920px]:leading-8">
-              Open the complete assembl generator library: shader fields,
-              liquid chrome, word sculpture, materials, client worlds, stills,
-              loops and web embeds. Or add your own brand, create a correctly
-              sized social image and share it from your device. Every result
-              stays a draft until you choose what happens next.
-            </p>
-            <div className="mt-8 grid max-w-[900px] grid-cols-2 gap-2 min-[1920px]:mt-12 min-[1920px]:max-w-[1320px] min-[1920px]:gap-4">
-              {TABS.map((tab, index) => (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => openTool(tab.id)}
-                  className={`group min-h-14 border px-4 py-3 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#FFFDFB] focus-visible:ring-offset-4 focus-visible:ring-offset-[#120510] min-[1920px]:min-h-20 min-[1920px]:px-6 min-[1920px]:py-5 ${
-                    index === 0
-                      ? "border-[#E9BCA9] bg-[#E9BCA9] text-[#240B21] hover:bg-[#FFFDFB]"
-                      : "border-white/25 bg-[#240B21]/70 text-[#FFFDFB] hover:border-[#E9BCA9]"
-                  }`}
-                >
-                  <span className="block text-[14px] font-medium tracking-[-0.02em] min-[1920px]:text-[20px]">
-                    {tab.label}
-                  </span>
-                  <span
-                    className={`mt-1 block font-mono text-[12px] uppercase leading-3 tracking-[0.08em] min-[1920px]:mt-2 min-[1920px]:text-[12px] ${
-                      index === 0 ? "text-[#654A4E]" : "text-[#B6ACB3]"
-                    }`}
-                  >
-                    {tab.note}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <figure className="relative min-h-[420px] overflow-hidden border-t border-white/10 md:min-h-0 md:border-l md:border-t-0">
-            <NextImage
-              src="/images/site/assembl-shader-8471.png"
-              alt="A flowing assembl plum material prepared for a social image"
-              fill
-              priority
-              sizes="(min-width: 768px) 48vw, 100vw"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-[linear-gradient(110deg,rgba(18,5,16,0.08),rgba(18,5,16,0.02)_55%,rgba(18,5,16,0.32))]" />
-            <div className="absolute inset-x-5 bottom-5 grid grid-cols-3 gap-2 md:inset-x-8 md:bottom-8 min-[1920px]:inset-x-12 min-[1920px]:bottom-12 min-[1920px]:gap-4">
-              {["LinkedIn · 1200×627", "Portrait · 1080×1350", "Story · 1080×1920"].map(
-                (format) => (
-                  <span
-                    key={format}
-                    className="border border-white/35 bg-[#120510]/80 px-3 py-3 text-center font-mono text-[12px] uppercase tracking-[0.08em] text-[#FFFDFB] backdrop-blur-md min-[1920px]:px-5 min-[1920px]:py-5 min-[1920px]:text-[12px]"
-                  >
-                    {format}
-                  </span>
-                ),
-              )}
-            </div>
-            <figcaption className="absolute right-5 top-5 bg-[#FFFDFB] px-4 py-2 font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-[#240B21] md:right-8 md:top-8 min-[1920px]:right-12 min-[1920px]:top-12 min-[1920px]:px-6 min-[1920px]:py-3 min-[1920px]:text-[12px]">
-              assembl brand field · ready to shape
-            </figcaption>
-          </figure>
-        </div>
+      <section className={styles.intro} aria-labelledby="studio-title">
+        <div><p className={styles.eyebrow}>Studio / make with assembl</p><h1 id="studio-title">Make it look<br />like assembl.</h1><p>The same world as the homepage. Shape a post, prepare an image and download something you can use.</p></div>
+        <aside className={styles.brand} aria-label="Current assembl brand">
+          <div className={styles.palette}>{Object.entries(ASSEMBL_CREATIVE_BRAND.palette).map(([name, colour]) => <span key={name} style={{ background: colour }} title={`${name} ${colour}`} />)}</div>
+          <strong>One shared visual direction.</strong><p>Plum. Rose. Paper. Instrument Sans. Sculptural spaces and useful things coming together.</p>
+          <a href={PRODUCT_DESTINATIONS.studio.workspace} target="_blank" rel="noopener noreferrer">Open private Creative Studio ↗</a>
+        </aside>
       </section>
-
-      <nav
-        id="studio-tools"
-        ref={toolsRef}
-        aria-label="Creative studio tools"
-        className="sticky top-0 z-30 scroll-mt-0 border-b border-white/10 bg-[#120510]/95 px-3 py-3 backdrop-blur md:px-7 min-[1920px]:px-12 min-[1920px]:py-5"
-      >
-        <div className="mx-auto grid max-w-[1480px] grid-cols-2 gap-2 sm:grid-cols-4 min-[1920px]:max-w-[2200px] min-[1920px]:gap-4">
-          {TABS.map((tab) => {
-            const active = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => chooseTab(tab.id)}
-                aria-pressed={active}
-                className={`min-w-0 border px-3 py-3 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#E9BCA9] focus-visible:ring-offset-2 focus-visible:ring-offset-[#120510] md:px-5 min-[1920px]:px-8 min-[1920px]:py-5 ${
-                  active
-                    ? "border-[#E9BCA9] bg-[#E9BCA9] text-[#240B21]"
-                    : "border-white/15 bg-[#240B21] text-[#F5F1F2] hover:border-[#E9BCA9]/70"
-                }`}
-              >
-                <span className="block text-[12px] font-medium leading-tight tracking-[-0.01em] md:text-[15px] min-[1920px]:text-[21px]">
-                  {tab.label}
-                </span>
-                <span
-                  className={`mt-1 hidden font-mono text-[12px] uppercase tracking-[0.08em] md:block md:text-[12px] min-[1920px]:mt-2 min-[1920px]:text-[12px] ${
-                    active ? "text-[#654A4E]" : "text-[#B6ACB3]"
-                  }`}
-                >
-                  {tab.note}
-                </span>
-              </button>
-            );
-          })}
-        </div>
+      <nav className={styles.tools} aria-label="Creative studio tools" id="studio-tools">
+        <button type="button" aria-pressed={activeTab === "brand"} onClick={() => chooseTab("brand")}>01 / Design a post</button>
+        <button type="button" aria-pressed={activeTab === "image"} onClick={() => chooseTab("image")}>02 / Prepare an image</button>
+        <p>Edit and export here. Review before sharing.</p>
       </nav>
-
-      <section hidden={activeTab !== "image"}>
-        <AssemblImageMaker />
-      </section>
-
-      {visited.has("brand") && (
-        <section hidden={activeTab !== "brand"} className="bg-[#120510]">
-          <BrandImageMaker />
-        </section>
-      )}
-
-      {visited.has("design") && (
-        <section hidden={activeTab !== "design"} className="bg-[#120510]">
-          <iframe
-            src="/tools/assembl-creative-studio.html?v=4"
-            title="assembl full creative generator studio"
-            className="h-[calc(100svh-88px)] min-h-[820px] w-full border-0 bg-[#120510]"
-            sandbox="allow-scripts allow-downloads"
-            referrerPolicy="no-referrer"
-          />
-        </section>
-      )}
-
-      {visited.has("captions") && (
-        <section hidden={activeTab !== "captions"} className="bg-[#120510]">
-          <iframe
-            src="/tools/assembl-caption-studio.html?v=2"
-            title="assembl caption studio"
-            className="h-[calc(100svh-120px)] min-h-[760px] w-full border-0 bg-[#120510]"
-            sandbox="allow-scripts allow-downloads"
-            referrerPolicy="no-referrer"
-          />
-        </section>
-      )}
-    </div>
+      <section hidden={activeTab !== "brand"} aria-label="Design a post"><BrandImageMaker assembl imageSeed={designImage} /></section>
+      <section hidden={activeTab !== "image"} aria-label="Prepare an image"><AssemblImageMaker onUseImage={(src, label) => { setDesignImage({ src, label }); chooseTab("brand"); }} /></section>
+    </main>
   );
 }
 
-function AssemblImageMaker() {
-  const [brief, setBrief] = useState(STARTERS[0].brief);
+function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: string) => void }) {
+  const [brief, setBrief] = useState<string>(STARTERS[0].brief);
   const [aspectId, setAspectId] = useState<AspectId>("4:5");
-  const [filter, setFilter] = useState<FilterMode>("plum");
+  const [filter, setFilter] = useState<FilterMode>("original");
   const [intensity, setIntensity] = useState(76);
   const [wordmark, setWordmark] = useState(true);
   const [selectedAssetId, setSelectedAssetId] = useState(BRAND_ASSETS[0].id);
@@ -577,8 +311,8 @@ function AssemblImageMaker() {
     if (!canvas || !imageSrc) return undefined;
     let active = true;
 
-    loadImage(imageSrc)
-      .then((image) => {
+    Promise.all([loadImage(imageSrc), document.fonts.ready])
+      .then(([image]) => {
         if (!active) return;
         const previewWidth = aspect.width >= aspect.height ? 960 : 720;
         const previewHeight = Math.round(
@@ -670,7 +404,9 @@ function AssemblImageMaker() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          brief: generationBrief(brief, aspectId, selectedAsset),
+          brief: brief.trim(),
+          brandProfile: ASSEMBL_CREATIVE_PROFILE,
+          brandAssetId: selectedAsset?.id,
           aspectRatio: aspectId,
           count: 1,
           agent: "prism",
@@ -753,28 +489,14 @@ function AssemblImageMaker() {
 
   return (
     <div className="mx-auto max-w-[1480px] px-4 py-8 md:px-7 md:py-12 min-[1920px]:max-w-[2200px] min-[1920px]:px-12 min-[1920px]:py-20">
-      <div className="mb-8 grid gap-5 border-b border-white/10 pb-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-end min-[1920px]:mb-12 min-[1920px]:gap-12 min-[1920px]:pb-12">
-        <div>
-          <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#E9BCA9] min-[1920px]:text-[12px]">
-            Image maker · draft then review
-          </p>
-          <h2 className="mt-4 max-w-[900px] font-sans text-[clamp(36px,6vw,82px)] font-medium leading-[0.94] tracking-[-0.055em] text-[#FFFDFB] min-[1920px]:mt-7 min-[1920px]:max-w-[1180px] min-[1920px]:text-[clamp(88px,5.2vw,144px)]">
-            create the image. grade it plum.
-          </h2>
-        </div>
-        <p className="max-w-[660px] text-[14px] leading-6 text-[#B6ACB3] md:text-[16px] min-[1920px]:max-w-[880px] min-[1920px]:text-[21px] min-[1920px]:leading-8">
-          Begin with an assembl asset, upload a photograph or describe a new
-          image. The plum filter, social crop and wordmark are applied here
-          before you download. Nothing publishes automatically.
-        </p>
-      </div>
+      <p className="mb-6 max-w-[720px] text-base leading-7 text-[#F5F1F2]">Choose a current Assembl reference, upload your own, or generate a draft. Use the result in your post, or export the image. Nothing publishes automatically.</p>
 
       <div className="grid gap-7 xl:grid-cols-[0.82fr_1.18fr] min-[1920px]:gap-10">
         <div className="space-y-6 min-[1920px]:space-y-10">
           <section className="border border-white/10 bg-[#240B21] p-4 md:p-6">
             <div className="mb-4">
               <div>
-                <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#E9BCA9]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#F5F1F2]">
                   01 · Starting point
                 </p>
                 <h2 className="mt-2 font-sans text-[24px] font-medium tracking-[-0.03em] text-[#FFFDFB]">
@@ -783,7 +505,7 @@ function AssemblImageMaker() {
               </div>
             </div>
             <div className="mb-4 grid gap-2 sm:grid-cols-2">
-              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#E9BCA9] bg-[#E9BCA9] px-4 py-3 text-center font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-[#240B21] outline-none hover:bg-[#F1CCBD] focus-within:ring-2 focus-within:ring-[#FFFDFB] focus-within:ring-offset-2 focus-within:ring-offset-[#240B21]">
+              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#916A70] bg-[#F5F1F2] px-4 py-3 text-center font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-within:ring-2 focus-within:ring-[#FFFDFB] focus-within:ring-offset-2 focus-within:ring-offset-[#240B21]">
                 {uploading ? "opening photo…" : "choose a photo"}
                 <input
                   type="file"
@@ -798,7 +520,7 @@ function AssemblImageMaker() {
                   }}
                 />
               </label>
-              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#E9BCA9]/55 px-4 py-3 text-center font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-[#F5F1F2] outline-none hover:border-[#E9BCA9] focus-within:ring-2 focus-within:ring-[#E9BCA9] focus-within:ring-offset-2 focus-within:ring-offset-[#240B21]">
+              <label className="flex min-h-12 cursor-pointer items-center justify-center border border-[#916A70]/55 px-4 py-3 text-center font-mono text-[12px] font-medium uppercase tracking-[0.1em] text-[#F5F1F2] outline-none hover:border-[#916A70] focus-within:ring-2 focus-within:ring-[#916A70] focus-within:ring-offset-2 focus-within:ring-offset-[#240B21]">
                 take a photo
                 <input
                   type="file"
@@ -827,10 +549,10 @@ function AssemblImageMaker() {
                     key={asset.id}
                     onClick={() => chooseAsset(asset)}
                     aria-pressed={selected}
-                    className={`group overflow-hidden border text-left outline-none focus-visible:ring-2 focus-visible:ring-[#E9BCA9] ${
+                    className={`group overflow-hidden border text-left outline-none focus-visible:ring-2 focus-visible:ring-[#916A70] ${
                       selected
-                        ? "border-[#E9BCA9]"
-                        : "border-white/10 hover:border-[#E9BCA9]/55"
+                        ? "border-[#916A70]"
+                        : "border-white/10 hover:border-[#916A70]/55"
                     }`}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -839,7 +561,7 @@ function AssemblImageMaker() {
                       alt=""
                       className="aspect-[4/3] w-full object-cover"
                     />
-                    <span className="block bg-[#120510] p-3">
+                    <span className="block bg-[#240B21] p-3">
                       <span className="block text-[12px] font-medium text-[#FFFDFB]">
                         {asset.label}
                       </span>
@@ -854,7 +576,7 @@ function AssemblImageMaker() {
           </section>
 
           <section className="border border-white/10 bg-[#240B21] p-4 md:p-6">
-            <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#E9BCA9]">
+            <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#F5F1F2]">
               02 · Image brief
             </p>
             <label className="mt-4 block">
@@ -865,7 +587,7 @@ function AssemblImageMaker() {
                 value={brief}
                 onChange={(event) => setBrief(event.target.value)}
                 rows={5}
-                className="w-full resize-y border border-white/15 bg-[#120510] px-4 py-3 text-[14px] leading-6 text-[#FFFDFB] outline-none placeholder:text-[#8A7B85] focus:border-[#E9BCA9] focus:ring-2 focus:ring-[#E9BCA9]/20"
+                className="w-full resize-y border border-white/15 bg-[#240B21] px-4 py-3 text-[14px] leading-6 text-[#FFFDFB] outline-none placeholder:text-[#8A7B85] focus:border-[#916A70] focus:ring-2 focus:ring-[#916A70]/20"
               />
             </label>
             <div className="mt-3 flex flex-wrap gap-2">
@@ -874,7 +596,7 @@ function AssemblImageMaker() {
                   type="button"
                   key={starter.label}
                   onClick={() => setBrief(starter.brief)}
-                  className="border border-white/15 px-3 py-2 font-mono text-[12px] uppercase tracking-[0.08em] text-[#B6ACB3] outline-none hover:border-[#E9BCA9] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#E9BCA9]"
+                  className="border border-white/15 px-3 py-2 font-mono text-[12px] uppercase tracking-[0.08em] text-[#B6ACB3] outline-none hover:border-[#916A70] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#916A70]"
                 >
                   {starter.label}
                 </button>
@@ -892,10 +614,10 @@ function AssemblImageMaker() {
                     type="button"
                     onClick={() => setAspectId(item.id)}
                     aria-pressed={aspectId === item.id}
-                    className={`border px-3 py-2 text-left outline-none focus-visible:ring-2 focus-visible:ring-[#E9BCA9] ${
+                    className={`border px-3 py-2 text-left outline-none focus-visible:ring-2 focus-visible:ring-[#916A70] ${
                       aspectId === item.id
-                        ? "border-[#E9BCA9] bg-[#E9BCA9] text-[#240B21]"
-                        : "border-white/15 bg-[#120510] text-[#F5F1F2]"
+                        ? "border-[#916A70] bg-[#F5F1F2] text-[#240B21]"
+                        : "border-white/15 bg-[#240B21] text-[#F5F1F2]"
                     }`}
                   >
                     <span className="block text-[12px] font-medium">
@@ -913,7 +635,7 @@ function AssemblImageMaker() {
               type="button"
               onClick={() => void generate()}
               disabled={busy}
-              className="mt-5 min-h-12 w-full border border-[#E9BCA9] bg-[#E9BCA9] px-5 py-3 font-mono text-[12px] font-medium uppercase tracking-[0.12em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#FFFDFB] focus-visible:ring-offset-2 focus-visible:ring-offset-[#240B21] disabled:cursor-wait disabled:opacity-60"
+              className="mt-5 min-h-12 w-full border border-[#916A70] bg-[#F5F1F2] px-5 py-3 font-mono text-[12px] font-medium uppercase tracking-[0.12em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#FFFDFB] focus-visible:ring-offset-2 focus-visible:ring-offset-[#240B21] disabled:cursor-wait disabled:opacity-60"
             >
               {busy ? "preparing one draft…" : "generate on-brand image"}
             </button>
@@ -926,10 +648,10 @@ function AssemblImageMaker() {
         </div>
 
         <div className="xl:sticky xl:top-[112px] xl:self-start">
-          <section className="border border-[#E9BCA9]/25 bg-[#240B21] p-4 md:p-6">
+          <section className="border border-[#916A70]/25 bg-[#240B21] p-4 md:p-6">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#E9BCA9]">
+                <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-[#F5F1F2]">
                   03 · Plum treatment
                 </p>
                 <h2 className="mt-2 font-sans text-[24px] font-medium tracking-[-0.03em] text-[#FFFDFB]">
@@ -958,10 +680,10 @@ function AssemblImageMaker() {
                   type="button"
                   onClick={() => setFilter(item.id)}
                   aria-pressed={filter === item.id}
-                  className={`border px-3 py-3 text-left outline-none focus-visible:ring-2 focus-visible:ring-[#E9BCA9] ${
+                  className={`border px-3 py-3 text-left outline-none focus-visible:ring-2 focus-visible:ring-[#916A70] ${
                     filter === item.id
-                      ? "border-[#E9BCA9] bg-[#E9BCA9] text-[#240B21]"
-                      : "border-white/15 bg-[#120510] text-[#F5F1F2]"
+                      ? "border-[#916A70] bg-[#F5F1F2] text-[#240B21]"
+                      : "border-white/15 bg-[#240B21] text-[#F5F1F2]"
                   }`}
                 >
                   <span className="block text-[12px] font-medium">
@@ -986,7 +708,7 @@ function AssemblImageMaker() {
                   value={intensity}
                   onChange={(event) => setIntensity(Number(event.target.value))}
                   disabled={filter === "original"}
-                  className="h-2 w-full cursor-pointer accent-[#E9BCA9] disabled:opacity-35"
+                  className="h-2 w-full cursor-pointer accent-[#916A70] disabled:opacity-35"
                 />
               </label>
               <label className="flex min-h-10 items-center gap-2 border border-white/15 px-3 font-mono text-[12px] uppercase tracking-[0.08em] text-[#B6ACB3]">
@@ -994,17 +716,32 @@ function AssemblImageMaker() {
                   type="checkbox"
                   checked={wordmark}
                   onChange={(event) => setWordmark(event.target.checked)}
-                  className="accent-[#E9BCA9]"
+                  className="accent-[#916A70]"
                 />
                 add wordmark
               </label>
             </div>
 
             <div className="mt-5 flex flex-wrap gap-3">
+              <button type="button" className={styles.toolButton} onClick={async () => {
+                try {
+                  await document.fonts.ready;
+                  const canvas = document.createElement("canvas");
+                  renderArtwork(canvas, await loadImage(imageSrc), aspect.width, aspect.height, filter, intensity, false);
+                  onUseImage(canvas.toDataURL("image/png"), sourceLabel);
+                } catch (e) { setError((e as Error).message); }
+              }}>Use image in my post</button>
+              <button type="button" className={styles.toolButton} onClick={() => {
+                const blob = new Blob([assemblImageBrief(brief, aspectId, selectedAsset?.promptCue)], { type: "text/plain;charset=utf-8" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a"); a.href = url; a.download = "assembl-image-brief.txt"; a.click();
+                window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+                setNotice("Image brief downloaded with the current assembl art direction.");
+              }}>Download image brief</button>
               <button
                 type="button"
                 onClick={() => void download()}
-                className="min-h-11 flex-1 border border-[#E9BCA9] bg-[#E9BCA9] px-4 py-3 font-mono text-[12px] font-medium uppercase tracking-[0.11em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#FFFDFB]"
+                className="min-h-11 flex-1 border border-[#916A70] bg-[#F5F1F2] px-4 py-3 font-mono text-[12px] font-medium uppercase tracking-[0.11em] text-[#240B21] outline-none hover:bg-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#FFFDFB]"
               >
                 download full-size PNG
               </button>
@@ -1017,7 +754,7 @@ function AssemblImageMaker() {
                     "Reference cleared. The current preview remains available to filter and download.",
                   );
                 }}
-                className="border border-white/15 px-4 py-3 font-mono text-[12px] uppercase tracking-[0.09em] text-[#B6ACB3] outline-none hover:border-[#E9BCA9] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#E9BCA9]"
+                className="border border-white/15 px-4 py-3 font-mono text-[12px] uppercase tracking-[0.09em] text-[#B6ACB3] outline-none hover:border-[#916A70] hover:text-[#FFFDFB] focus-visible:ring-2 focus-visible:ring-[#916A70]"
               >
                 clear reference
               </button>
@@ -1031,7 +768,7 @@ function AssemblImageMaker() {
             </p>
             {error && (
               <p
-                className="mt-3 border border-[#E9BCA9]/45 bg-[#120510] px-3 py-3 text-[12px] leading-5 text-[#FFFDFB]"
+                className="mt-3 border border-[#916A70]/45 bg-[#240B21] px-3 py-3 text-[12px] leading-5 text-[#FFFDFB]"
                 role="alert"
               >
                 {error}

@@ -35,6 +35,12 @@ Do not extract something merely because it might be reused. Prefer extraction af
 
 ## Candidates to inventory
 
+### Assembl creative brand profile (review implementation, 22 Sep)
+
+- **Extends:** existing `CreativeStudioShell`, `BrandImageMaker` and `/api/creative/image`; mounted at `/creative-studio/assembl`.
+- **Shares:** `lib/creative/assembl-brand.ts` across reference selection, prompt export and server-side image direction. Explicit Assembl profile only; client briefs retain their own direction. Canvas exports use the active next/font family.
+- **Proof:** API brand/rate-limit tests, destination and middleware tests. Visual export and provider quality review still required. Separate hosted private Studio source is outside this repository; see `docs/PURSUIT-STUDIO-BRAND-ALIGNMENT.md`.
+
 ### Website-led Pursuit outreach (review implementation)
 
 - **Extends:** public Pursuit research, source provenance, bounded provider calls and existing trial reservation/storage. Optional `website_outreach` workflow; legacy research remains supported.

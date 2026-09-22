@@ -1,21 +1,13 @@
-/**
- * Public site link allowlist — Kate nav lock 2026-09-17; DO shelf off same day.
- *
- * ALLOWED primary destinations only:
- *   1. Home (/) — WorldScene fly-through
- *   2. Studio (/creative-studio) — real Studio door
- *   3. Pursuit (/pursuit) — public story; working hub remains external ChatGPT
- *   4. Public /do explanation page (no Meeting/Household shelf)
- *
- * FORBIDDEN as public CTAs: in-repo Pursuit maker/playground, partner Mode A/B,
- * Personal/Inbox/Bills/Writing shelves, purple DO branding, private household install,
- * Meeting DO / Household DO as the public product face.
+/** Public navigation: current main-site product doors and existing private workspaces.
+ * The 21 September public DO entry supersedes the earlier hidden-tool shelf rule
+ * (docs/context/CURRENT.md): Bills and Meeting DO are allowed. Private workbench,
+ * household and partner makers remain outside public promotion.
  */
 
-import { PURSUIT_SITE_ORIGIN } from '@/lib/product-destinations';
+import { PRODUCT_DESTINATIONS } from '@/lib/product-destinations';
 
 /** Working Pursuit hub — external ChatGPT only. Landing story is /pursuit. */
-export const PUBLIC_PURSUIT_HUB = PURSUIT_SITE_ORIGIN;
+export const PUBLIC_PURSUIT_HUB = PRODUCT_DESTINATIONS.pursuit.workspace;
 
 export const PUBLIC_NAV_ALLOWLIST = [
   { id: 'home', label: 'assembl', href: '/', external: false },
@@ -38,14 +30,12 @@ export const FORBIDDEN_PUBLIC_DESTINATIONS = [
   '/studio/do-maker',
   '/do/maker/partner',
   '/do/family',
-  '/do/bills',
   '/do/builder',
   '/do/office',
   '/do/tasks',
   '/do/connections',
   '/do/sponsored',
   '/do/browser',
-  '/do/meetings',
   '/do/household',
 ] as const;
 

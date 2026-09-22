@@ -15,6 +15,7 @@ import {
   isLab,
   isStandaloneHealth,
   isStudio,
+  isCreativeStudio,
 } from "@/components/site/site-header";
 
 /**
@@ -30,9 +31,8 @@ const COLUMNS: {
     label: "product",
     links: [
       {
-        href: "https://assembl-pursuit.katecoveny.chatgpt.site",
+        href: "/pursuit",
         label: "Pursuit",
-        external: true,
       },
       { href: "/do", label: "DO" },
       { href: "/creative-studio", label: "Studio" },
@@ -92,6 +92,7 @@ export function SiteFooter() {
     isAssemblBills(pathname) ||
     isStandaloneHealth(pathname) ||
     isStudio(pathname) ||
+    isCreativeStudio(pathname) ||
     isLab(pathname) ||
     pathname === "/"
   ) {

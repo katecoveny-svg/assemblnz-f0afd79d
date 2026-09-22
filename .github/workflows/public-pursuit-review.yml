@@ -3,6 +3,12 @@ on:
   pull_request:
     paths:
       - 'lib/pursuit/**'
+      - 'lib/product-destinations*'
+      - 'lib/creative/assembl-brand.ts'
+      - 'lib/creative/canvas-font.ts'
+      - 'components/creative-studio/**'
+      - 'app/creative-studio/assembl/**'
+      - 'app/api/creative/image/**'
       - 'app/api/pursuit/research/**'
       - 'app/api/knowledge/**'
       - 'components/site/pursuit/**'
@@ -37,7 +43,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @assembl/canvas build
       - run: pnpm typecheck
-      - run: pnpm test lib/pursuit/outreach.test.ts lib/pursuit/public-format.test.ts lib/pursuit/public-response.test.ts lib/pursuit/public-contract.test.ts lib/pursuit/pitch-export.test.ts components/site/assembl-the-work/hero-resilience.test.ts
+      - run: pnpm test app/api/creative/image/route.test.ts lib/product-destinations.test.ts lib/public-nav-allowlist.test.ts lib/auth/public-entry.test.ts components/site/public-company-pages.test.ts lib/pursuit/outreach.test.ts lib/pursuit/public-format.test.ts lib/pursuit/public-response.test.ts lib/pursuit/public-contract.test.ts lib/pursuit/pitch-export.test.ts components/site/assembl-the-work/hero-resilience.test.ts
       - run: pnpm exec eslint components/site/pursuit/WebsiteOutreach.tsx lib/pursuit/outreach.ts lib/pursuit/outreach-prompt.ts lib/pursuit/outreach.test.ts components/site/pursuit/LivePursuitCanvas.tsx components/site/pursuit/PursuitLanding.tsx lib/pursuit/pitch-export.ts lib/pursuit/public-format.ts lib/pursuit/public-response.ts lib/pursuit/public-research.ts lib/pursuit/public-store.ts app/api/knowledge app/api/pursuit/research
       - run: pnpm build
       - run: pip install playwright==1.55.0 && playwright install --with-deps chromium

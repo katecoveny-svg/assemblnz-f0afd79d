@@ -4,6 +4,7 @@
  * Pursuit and Creative Studio share the original Sites app. Keep workspace
  * launches as top-level navigations so that its sign-in, owner identity,
  * saved records and reviewed client links remain on the same origin.
+ * Never use the Sites root as a product CTA: it serves an older company home.
  *
  * Sites project appgprj_6aa356a9700081919f7959cc70c9f6d8 was confirmed
  * active at this origin on 15 September 2026. Workspace access remains
@@ -15,11 +16,11 @@ export const PURSUIT_SITE_ORIGIN =
 export const PRODUCT_DESTINATIONS = {
   pursuit: {
     label: 'Pursuit',
-    /** Public overview story page. Working hub remains PURSUIT_SITE_ORIGIN (Kate lock 2026-09-17). */
+    /** Public Pursuit entry stays with the current Assembl site. */
     overview: '/pursuit',
-    example: PURSUIT_SITE_ORIGIN,
+    example: '/pursuit#website-outreach',
     workspace: `${PURSUIT_SITE_ORIGIN}/studios`,
-    hub: PURSUIT_SITE_ORIGIN,
+    hub: `${PURSUIT_SITE_ORIGIN}/studios`,
     external: false as const,
   },
   do: {
@@ -30,6 +31,7 @@ export const PRODUCT_DESTINATIONS = {
   studio: {
     label: 'Creative Studio',
     overview: '/creative-studio',
+    maker: '/creative-studio/assembl',
     workspace: `${PURSUIT_SITE_ORIGIN}/agency`,
   },
   /**
