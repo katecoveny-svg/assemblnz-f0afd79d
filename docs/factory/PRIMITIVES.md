@@ -35,6 +35,13 @@ Do not extract something merely because it might be reused. Prefer extraction af
 
 ## Candidates to inventory
 
+### Website-led Pursuit outreach (review implementation)
+
+- **Extends:** public Pursuit research, source provenance, bounded provider calls and existing trial reservation/storage. Optional `website_outreach` workflow; legacy research remains supported.
+- **Creates:** `lib/pursuit/outreach.ts` for typed account research, source-link validation, exact-draft review identity and evidence-bearing text exports.
+- **Used by:** `/pursuit#website-outreach`. Evidence: `lib/pursuit/outreach.test.ts` and public Pursuit browser CI. See `docs/PURSUIT-WEBSITE-OUTREACH.md`.
+- **Limit:** drafts and downloads only; no verified personal contacts, sending, scheduling or CRM mutations. Live quality and visual proof must be verified before ship-ready status.
+
 ### Household flexibility simulation (review implementation)
 
 - **Creates:** `lib/flex/adapter.ts` — a provider-neutral read/prepare/execute/override boundary with a simulated-only implementation, exact-plan approval, expiry, replay protection and revocation.
