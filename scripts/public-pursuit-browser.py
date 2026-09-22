@@ -49,6 +49,8 @@ async def main():
       await page.route('**/api/pursuit/research',outreach_mock)
       await page.goto('http://127.0.0.1:3000/pursuit',wait_until='domcontentloaded')
       await page.screenshot(path=str(OUT/f'pursuit-hero-{width}.png'),timeout=60000)
+      await page.locator('#pursuit-canvas').scroll_into_view_if_needed()
+      await page.screenshot(path=str(OUT/f'pursuit-sources-{width}.png'),timeout=60000)
       await page.get_by_role('button',name='03 Proposal',exact=False).click()
       await expect(page.get_by_role('heading',name='An evidence brief. A proposal to review.')).to_be_visible()
       outreach=page.locator('#website-outreach')

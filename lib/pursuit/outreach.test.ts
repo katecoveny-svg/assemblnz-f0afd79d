@@ -28,11 +28,19 @@ describe('website-led outreach boundaries', () => {
     for (const url of ['http://seller.com', 'https://127.0.0.1', 'https://[::1]', 'https://user:pw@seller.com', 'https://service.local', 'https://service.internal', 'javascript:alert(1)']) expect(publicWebsite(url)).toBeNull();
     expect(publicWebsite('seller.co.nz')).toBe('https://seller.co.nz/');
   });
-  it('requires every company, signal and contact link to have a returned source', () => {
+  it('requires published signal evidence and omits undiscovered optional contact links', () => {
     expect(parseOutreach(campaign, urls, input.company).prospects).toHaveLength(1);
     expect(() => parseOutreach(campaign, urls.slice(0, 2), input.company)).toThrow('untraced_outreach_source');
     const changed = structuredClone(campaign); changed.prospects[0].contactUrl = 'https://buyer.example.com/contact';
-    expect(() => parseOutreach(changed, urls, input.company)).toThrow('untraced_outreach_source');
+    expect(parseOutreach(changed, urls, input.company).prospects[0].contactUrl).toBeNull();
+  });
+  it('links business identities to actual returned pages on their own domain', () => {
+    const observed = ['https://www.seller.example.com/about', 'https://buyer.example.com/news'];
+    const result = parseOutreach(campaign, observed, input.company);
+    expect(result.seller.website).toBe(observed[0]);
+    expect(result.prospects[0].website).toBe(observed[1]);
+    expect(result.prospects[0].signal.url).toBe(campaign.prospects[0].signal.url);
+    expect(() => parseOutreach(campaign, ['https://unrelated.example.com/', observed[1]], input.company)).toThrow('untraced_outreach_source');
   });
   it('rejects substituted sellers and duplicate prospect domains', () => {
     expect(() => parseOutreach(campaign, urls, 'https://different.example.com')).toThrow('seller_website_mismatch');

@@ -66,9 +66,9 @@ export async function formatPublicOutreach(value: unknown, sources: EvidenceSour
  const text = raw.content.filter(record).filter(block=>block.type==='text').map(block=>String(block.text??'')).join('\n');
  const parsed = readPublicDraftJson(text,'outreach');
  if (!record(parsed)) throw new Error('research_invalid_json');
+ const existingUrls = new Set(urlsIn(value).map(publicWebsite));
+ if (urlsIn(parsed).some(url=>!existingUrls.has(publicWebsite(url)))) throw new Error('untraced_source');
  const draft = parseGroundedDraft(parsed.draft,sources);
  const campaign = parseOutreach(parsed.campaign,sources.map(source=>source.url),sellerWebsite);
- const existingUrls = new Set(urlsIn(value).map(publicWebsite));
- if (urlsIn({draft,campaign}).some(url=>!existingUrls.has(publicWebsite(url)))) throw new Error('untraced_source');
  return { draft, campaign, inputTokens:record(raw.usage)?Number(raw.usage.input_tokens)||0:0, outputTokens:record(raw.usage)?Number(raw.usage.output_tokens)||0:0 };
 }
