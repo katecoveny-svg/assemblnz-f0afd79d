@@ -2,7 +2,7 @@
  * Server-tool replies may include a search preamble before their JSON answer.
  * Schema validation and evidence-source validation still happen afterwards.
  */
-export function readPublicDraftJson(text:string):unknown{
+export function readPublicDraftJson(text:string,shape:'draft'|'outreach'='draft'):unknown{
  if(text.length>50000)throw new Error('research_output_too_large');
  const found:unknown[]=[];let start=-1,depth=0,inString=false,escaped=false;
  for(let i=0;i<text.length;i++){
@@ -10,7 +10,7 @@ export function readPublicDraftJson(text:string):unknown{
   if(start<0){if(ch==='{'){start=i;depth=1;inString=false;escaped=false;}continue;}
   if(inString){if(escaped)escaped=false;else if(ch==='\\')escaped=true;else if(ch==='"')inString=false;continue;}
   if(ch==='"'){inString=true;continue;}if(ch==='{')depth++;if(ch==='}')depth--;
-  if(depth===0){const part=text.slice(start,i+1);start=-1;try{const value=JSON.parse(part);if(value&&typeof value==='object'&&!Array.isArray(value)&&'company' in value&&'title' in value&&'evidence' in value)found.push(value);}catch{/* Ignore non-JSON commentary, not a malformed draft. */}}
+  if(depth===0){const part=text.slice(start,i+1);start=-1;try{const value=JSON.parse(part);if(value&&typeof value==='object'&&!Array.isArray(value)&&(shape==='outreach'?'draft' in value&&'campaign' in value:'company' in value&&'title' in value&&'evidence' in value))found.push(value);}catch{/* Ignore non-JSON commentary, not a malformed draft. */}}
  }
  if(found.length!==1)throw new Error(found.length>1?'research_ambiguous_json':'research_invalid_json');
  return found[0];

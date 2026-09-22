@@ -8,12 +8,12 @@ import { PURSUIT_AGENT_BRIEF } from '@/lib/pursuit/agent-brief';
 export const metadata: Metadata = {
   title: { absolute: 'Pursuit · find it. · assembl' },
   description:
-    'Assembl brings New Zealand live intelligence and signals into a demonstrator / client Pursuit. Radar stays behind the scenes. The canvas shows rearrange → brand.',
+    'Turn your website into source-backed prospect research and reviewed outreach drafts. Pursuit connects published signals to a specific commercial approach.',
   alternates: { canonical: '/pursuit' },
   openGraph: {
     title: 'Pursuit · find it. · assembl',
     description:
-      'NZ signals become a client Pursuit demonstrator. Open the working hub when you are ready.',
+      'Your website, relevant prospects, published evidence and an outreach draft worth reviewing.',
     url: `${SITE_URL}/pursuit`,
   },
 };
