@@ -8,12 +8,12 @@ import { PURSUIT_AGENT_BRIEF } from '@/lib/pursuit/agent-brief';
 export const metadata: Metadata = {
   title: { absolute: 'Pursuit · find it. · assembl' },
   description:
-    'Turn your website into source-backed prospect research and reviewed outreach drafts. Pursuit connects published signals to a specific commercial approach.',
+    'Find businesses that could use what you do. Pursuit researches the public evidence and drafts an introduction for you to review.',
   alternates: { canonical: '/pursuit' },
   openGraph: {
     title: 'Pursuit · find it. · assembl',
     description:
-      'Your website, relevant prospects, published evidence and an outreach draft worth reviewing.',
+      'Add your website, review relevant businesses and edit a first message with its sources.',
     url: `${SITE_URL}/pursuit`,
   },
 };

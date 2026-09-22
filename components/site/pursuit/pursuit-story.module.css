@@ -7,12 +7,12 @@
 .sheet { position:absolute; z-index:1; bottom:26px; left:7%; right:7%; padding:25px 28px 30px; background:#fffdfbf5; border:1px solid #fffdfb; border-radius:6px 24px 24px 24px; box-shadow:0 16px 36px #240b2133; transform:rotate(-2deg); min-height:260px; }
 .sheetTop { display:flex; justify-content:space-between; gap:12px; padding-bottom:17px; margin-bottom:19px; border-bottom:1px solid #916a7033; font:12px/1.4 var(--font-mono),monospace; color:#654a4e; }
 .sheetTop>span:first-child { display:flex; align-items:center; gap:10px; }
-.sheet h2 { font-size:clamp(28px,2.8vw,39px); line-height:1.08; letter-spacing:-.045em; margin:0 0 16px; }
-.sheet p { font-size:15px; line-height:1.55; margin:0; max-width:42ch; }
+.story .sheet h2 { font-size:clamp(28px,2.8vw,39px); line-height:1.08; letter-spacing:-.045em; margin:0 0 16px; }
+.story .sheet p { font-size:15px; line-height:1.55; margin:0; max-width:42ch; }
 .steps { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:18px; }
-.steps button { display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:52px; padding:12px 14px; border-radius:16px; border:1px solid #916a7044; background:#fffdfb; color:#654a4e; font:inherit; font-size:14px; cursor:pointer; }
+.story .steps button { display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:52px; padding:12px 14px; border-radius:16px; border:1px solid #916a7044; background:#fffdfb; color:#654a4e; font:inherit; font-size:14px; cursor:pointer; }
 .steps button>span { font:11px var(--font-mono),monospace; }
 .steps button[aria-pressed=true] { background:#240b21; color:#fffdfb; border-color:#240b21; }
 .steps button:focus-visible { outline:3px solid #916a70; outline-offset:3px; }
-.note { min-height:42px; padding:0 8px; margin:14px 0 0; color:#654a4e; font-size:13px; line-height:1.5; }
-@media(max-width:600px) { .scene { min-height:480px; border-radius:24px; } .sheet { left:6%; right:6%; padding:22px; min-height:262px; } .marker { top:107px; font-size:13px; padding:13px 17px; } .steps { gap:5px; } .steps button { font-size:12px; padding:12px 9px; gap:5px; } .steps button svg { display:none; } .caption { font-size:10px; } }
+.story .note { min-height:42px; padding:0 8px; margin:14px 0 0; color:#654a4e; font-size:13px; line-height:1.5; }
+@media(max-width:600px) { .scene { min-height:480px; border-radius:24px; } .sheet { left:6%; right:6%; padding:22px; min-height:262px; } .marker { top:107px; font-size:13px; padding:13px 17px; } .steps { gap:5px; } .story .steps button { font-size:12px; padding:12px 9px; gap:5px; } .steps button svg { display:none; } .caption { font-size:10px; } }
