@@ -22,8 +22,6 @@ const CORE_PATHS = [
   '/pattern-studio',
   '/ad-studio',
   // Existing public guides and supporting product surfaces.
-  '/living-site',
-  '/install',
   '/about',
   '/pricing',
   '/ai-use',

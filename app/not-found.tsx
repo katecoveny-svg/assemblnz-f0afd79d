@@ -37,10 +37,10 @@ export default function NotFound() {
           <ArrowRight className="ml-2 h-4 w-4" aria-hidden />
         </Link>
         <Link
-          href="/living-site"
+          href="/do"
           className="btn-ghost inline-flex h-12 items-center px-7 text-sm md:text-base"
         >
-          See a living site
+          Open DO
         </Link>
       </div>
     </main>

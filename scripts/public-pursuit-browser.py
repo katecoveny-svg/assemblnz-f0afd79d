@@ -35,6 +35,47 @@ async def main():
       assert not errors,errors
       assert await page.evaluate('document.documentElement.scrollWidth <= innerWidth+1')
       report.append({'width':width,'UI':'passed with mocked research','providerCall':False,'errors':errors})
+      # New website-to-outreach flow: explicit fixture, no live provider claim.
+      outreach_fixture=json.loads(json.dumps(fixture))
+      outreach_fixture['campaign']={'seller':{'name':'Fixture seller','website':'https://seller.example.com/','offer':'A fictional business service used only for this UI test.'},'market':'Fictional businesses for UI testing','prospects':[{'company':'Fixture prospect','website':'https://buyer.example.com/','buyerRole':'Operations manager','signal':{'claim':'A fictional public service announcement for UI verification.','url':'https://buyer.example.com/news','publishedAt':None},'fit':'The published service may fit the proposed offer.','hypothesis':'Could a small walkthrough help the team?','proof':'Propose a focused service walkthrough.','contactUrl':None,'unknowns':['Buyer and contact permission are not established.'],'subject':'A proposed walkthrough','opening':'Your service announcement prompted a question. Would a short walkthrough help?','followUp':'Possible later follow-up: would an outline be useful?'}],'gaps':['Test fixture only; no contact is verified.']}
+      outreach_fixture['trace']['sources']=[{'url':u,'title':'UI fixture','retrievedAt':'2026-09-22'} for u in ['https://seller.example.com/','https://buyer.example.com/','https://buyer.example.com/news']]
+      await page.unroute('**/api/pursuit/research')
+      async def outreach_mock(route):
+        if route.request.method=='GET':await route.fulfill(json={'ready':True,'typesafeReady':False})
+        else:
+          body=route.request.post_data_json
+          assert body['workflow']=='website_outreach' and body['consent']==True
+          await route.fulfill(json=outreach_fixture)
+      await page.route('**/api/pursuit/research',outreach_mock)
+      await page.goto('http://127.0.0.1:3000/pursuit',wait_until='domcontentloaded')
+      outreach=page.locator('#website-outreach')
+      await outreach.scroll_into_view_if_needed()
+      await outreach.get_by_label('Your business website',exact=True).fill('https://seller.example.com/')
+      await outreach.get_by_label('Who would you like to work with? (optional)',exact=True).fill('Find businesses for a fictional service pilot.')
+      await expect(outreach.get_by_role('button',name='Find my next openings')).to_be_disabled()
+      await outreach.get_by_label('Research these public details',exact=False).check()
+      await outreach.get_by_role('button',name='Find my next openings').click()
+      await expect(outreach.get_by_role('heading',name='Fixture seller',exact=True)).to_be_visible()
+      export_button=outreach.get_by_role('button',name='Download reviewed outreach')
+      await expect(export_button).to_be_disabled()
+      review=outreach.get_by_label('I have reviewed these exact drafts',exact=False)
+      await review.check()
+      await expect(export_button).to_be_enabled()
+      await outreach.get_by_label('Opening message',exact=True).fill('Edited message for the UI verification fixture only.')
+      await expect(export_button).to_be_disabled()
+      await review.check()
+      async with page.expect_download() as outreach_down:
+        await export_button.click()
+      artifact=await outreach_down.value
+      await artifact.save_as(OUT/f'outreach-fixture-{width}.txt')
+      assert 'NOT SENT' in (OUT/f'outreach-fixture-{width}.txt').read_text()
+      await outreach.scroll_into_view_if_needed()
+      await page.screenshot(path=str(OUT/f'outreach-{width}.png'),timeout=60000)
+      assert await page.evaluate('document.documentElement.scrollWidth <= innerWidth+1')
+      await outreach.get_by_label('Your business website',exact=True).fill('different.example.com')
+      await expect(outreach.get_by_role('heading',name='Fixture seller',exact=True)).to_have_count(0)
+      assert not errors,errors
+      report.append({'width':width,'websiteOutreach':'review, edit invalidation, export and changed-brief reset passed','providerCall':False})
       await ctx.close()
     request=await p.request.new_context(base_url='http://127.0.0.1:3000')
     r=await request.get('/api/knowledge/search?q=pursuit');data=await r.json();assert r.status==200 and data['records'] and data['privateKnowledge']==False

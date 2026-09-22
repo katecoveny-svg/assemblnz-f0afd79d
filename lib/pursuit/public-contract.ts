@@ -1,11 +1,13 @@
 import { z } from 'zod';
+import { publicWebsite, type OutreachCampaign } from './outreach';
 export const TrialInput = z.object({
   requestId:z.string().uuid(),
   company:z.string().trim().min(2).max(120),
   goal:z.string().trim().min(12).max(700),
   consent:z.literal(true),
   useTypeSafe:z.boolean().default(false),
-}).strict();
+  workflow:z.literal('website_outreach').optional(),
+}).strict().refine(input => !input.workflow || Boolean(publicWebsite(input.company)), {message:'Use a public HTTPS business website.',path:['company']});
 export type TrialInput = z.infer<typeof TrialInput>;
 export const Draft = z.object({
   company:z.string().min(2).max(120), title:z.string().min(4).max(100),
@@ -23,6 +25,7 @@ export type PublicResearchResult = {
   mode:'live';draft:PursuitDraft;
   trace:{id:string;at:string;model:string;providerCalls:number;webSearches:number;knowledgeIds:string[];sources:EvidenceSource[];inputTokens:number;outputTokens:number;typesafe:{status:'not_requested'|'unavailable'|'completed';model?:string;action?:string;confidence?:number};persisted:true};
   warning:string;
+  campaign?:OutreachCampaign;
 };
 export function safeSourceUrl(value:string):string|null {
   try{const u=new URL(value);if(u.protocol!=='https:'||u.username||u.password||!u.hostname.includes('.')||/^\d+[.:]/.test(u.hostname)||u.hostname.endsWith('.local')||u.hostname==='localhost')return null;u.hash='';return u.toString();}catch{return null;}

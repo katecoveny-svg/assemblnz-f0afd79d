@@ -72,6 +72,12 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // Retired public Business Genome / Living Site demos (22 Sep 2026).
+      // Exact company/demo routes only; customer and admin workspaces stay intact.
+      { source: "/genome", destination: "/do", permanent: true },
+      { source: "/living-site/:path*", destination: "/do", permanent: true },
+      { source: "/install", destination: "/do/install", permanent: true },
+      { source: "/os", destination: "/do", permanent: true },
       // Soft-retire the short-lived misnamed board route.
       { source: '/do/linda', destination: '/do/tasks', permanent: false },
       { source: '/do/linda/:path*', destination: '/do/tasks', permanent: false },

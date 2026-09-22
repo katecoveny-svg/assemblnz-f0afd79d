@@ -494,7 +494,7 @@ export function OneMinuteBusiness() {
                 <div><dt>evidence</dt><dd>{result.evidence}</dd></div>
                 <div><dt>human boundary</dt><dd>{result.boundary}</dd></div>
               </dl>
-              <Link href="/genome">open the live Genome demo <ArrowRight aria-hidden /></Link>
+              <Link href="/do">Open DO <ArrowRight aria-hidden /></Link>
             </section>
           </div>
 
@@ -537,7 +537,7 @@ export function OneMinuteBusiness() {
 
           <footer className={styles.resultFooter}>
             <div><span>Describe → Discover → Form → Do → Share</span><strong>This is how a living business starts.</strong></div>
-            <Link href="/genome">try the live assembl dashboard <ArrowRight aria-hidden /></Link>
+            <Link href="/do">Open DO <ArrowRight aria-hidden /></Link>
           </footer>
         </div>
       ) : null}

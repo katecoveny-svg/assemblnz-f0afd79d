@@ -70,7 +70,7 @@ export default function ConceptStudioPage() {
           </p>
           <div className={styles.actions}>
             <a href="#promote" className={styles.primary}>Start with the shareable tools</a>
-            <Link href="/genome" className={styles.secondary}>Open the Business Genome</Link>
+            <Link href="/do" className={styles.secondary}>Open DO</Link>
           </div>
         </div>
         <aside className={styles.heroAside} aria-label="Concept Studio status guide">

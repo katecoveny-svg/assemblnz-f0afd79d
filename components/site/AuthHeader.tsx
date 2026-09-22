@@ -22,8 +22,8 @@ export function AuthHeader() {
           <Link href="/pricing">Pricing</Link>
           <Link href="/about">About</Link>
         </nav>
-        <Link href="/genome" className={styles.cta}>
-          Try the demo
+        <Link href="/do" className={styles.cta}>
+          Open DO
         </Link>
       </div>
     </header>

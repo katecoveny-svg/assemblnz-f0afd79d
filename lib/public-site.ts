@@ -28,17 +28,6 @@ export { PUBLIC_PURSUIT_HUB };
 
 export const CONCEPT_DEMOS: readonly ConceptDemo[] = [
   {
-    slug: 'business-genome',
-    title: 'Business Genome',
-    label: 'shared source of truth',
-    summary: 'Change one fact about the business and watch connected surfaces update — then run a specialist against the result.',
-    tryCopy: 'Use a fictional Auckland business and produce a sourced, branded draft you can share.',
-    boundary: 'Fictional sandbox. Drafts wait for a named human reviewer and nothing is sent.',
-    href: '/genome',
-    status: 'live',
-    featured: true,
-  },
-  {
     slug: 'one-minute-agent',
     title: 'One Minute Agent',
     label: 'personal share tool',
@@ -93,16 +82,6 @@ export const CONCEPT_DEMOS: readonly ConceptDemo[] = [
     status: 'preview',
   },
   {
-    slug: 'living-site',
-    title: 'Living Site',
-    label: 'connected business demo',
-    summary: 'Step inside a fictional Auckland service business whose website, bookings, desk and drafts share one Genome.',
-    tryCopy: 'Move between the public site and operating surfaces to see the same facts stay aligned.',
-    boundary: 'Fictional sample data. Some integrations are impact previews rather than connected customer systems.',
-    href: '/living-site',
-    status: 'live',
-  },
-  {
     slug: 'hui',
     title: 'Hui',
     label: 'meeting record',
@@ -148,7 +127,6 @@ export const PROMOTION_TOOL_SLUGS = [
   'one-minute-agent',
   'agent-maker',
   'motion-studio',
-  'business-genome',
 ] as const;
 
 export const STATUS_LABELS: Record<DemoStatus, string> = {
