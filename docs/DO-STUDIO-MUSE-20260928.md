@@ -20,10 +20,11 @@ Creative work taking shape: paper, translucent layers and plum architectural dep
 
 - **Production build:** passed with `NODE_OPTIONS=--max-old-space-size=4096 pnpm build`. Initial default 2 GB type worker exhausted its heap; no build checks were skipped.
 - **Typecheck:** passed, both standalone and inside Next production build.
-- **Tests:** 36 passed across 8 relevant suites (wrap, follow-through, sharing, image framing/generation/API, immersive experience and hero resilience).
+- **Tests:** 100 passed across 18 suites, including the complete public Pursuit CI unit-test set plus meeting wrap/follow-through/sharing, framing and immersive tests. CI initially found a stale Studio headline expectation; the contract test now checks the new headline, work-gallery link and opt-in spatial tour while preserving its destination and privacy checks.
 - **ESLint:** all changed source files pass with zero warnings. Full repo lint reports 1,173 errors and 247 warnings in the first run; its sole changed-file diagnostic was an existing unused suppression in WorldAtelierStage, removed here. Other diagnostics are outside the change. No broad cleanup was mixed into this feature.
 - **Guards:** macron check passed via `node --import tsx scripts/lint-macrons.ts` (the tsx CLI IPC socket is unsupported in this runtime). Brand and front-door guards passed. Context health passed with 31 existing review warnings.
 - **Browser:** 21 checks passed against the production server at 1440px and 375px. Actual WebGL scene rendered; hero pause, tour scrub and reduced-motion still worked. Recording remained consent-gated. Pack review gates, edit invalidation, share payload, transcript handoff, PNG and post handoff were exercised. No uncaught page errors or horizontal overflow in checked surfaces.
+- **Hosted preview:** Vercel reported READY for application commit `f9ed227a`; HTTP checks returned 200 with expected content for `/creative-studio`, `/do/meetings` and `/creative-studio/assembl?tool=image`. Preview authentication was retained.
 - **Export:** 1080 × 1350 PNG decoded successfully and its corner matched the selected plum matte `(36,11,33)`.
 - **Limits:** native share-sheet invocation is simulated; physical phone recording and authenticated model/transcription calls are not covered by these checks. The private hosted hubs are outside available source access.
 
