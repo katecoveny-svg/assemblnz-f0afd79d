@@ -18,7 +18,24 @@ Creative work taking shape: paper, translucent layers and plum architectural dep
 
 ## Verification
 
-To be completed with the final branch checks and browser evidence.
+- **Production build:** passed with `NODE_OPTIONS=--max-old-space-size=4096 pnpm build`. Initial default 2 GB type worker exhausted its heap; no build checks were skipped.
+- **Typecheck:** passed, both standalone and inside Next production build.
+- **Tests:** 36 passed across 8 relevant suites (wrap, follow-through, sharing, image framing/generation/API, immersive experience and hero resilience).
+- **ESLint:** all changed source files pass with zero warnings. Full repo lint reports 1,173 errors and 247 warnings in the first run; its sole changed-file diagnostic was an existing unused suppression in WorldAtelierStage, removed here. Other diagnostics are outside the change. No broad cleanup was mixed into this feature.
+- **Guards:** macron check passed via `node --import tsx scripts/lint-macrons.ts` (the tsx CLI IPC socket is unsupported in this runtime). Brand and front-door guards passed. Context health passed with 31 existing review warnings.
+- **Browser:** 21 checks passed against the production server at 1440px and 375px. Actual WebGL scene rendered; hero pause, tour scrub and reduced-motion still worked. Recording remained consent-gated. Pack review gates, edit invalidation, share payload, transcript handoff, PNG and post handoff were exercised. No uncaught page errors or horizontal overflow in checked surfaces.
+- **Export:** 1080 × 1350 PNG decoded successfully and its corner matched the selected plum matte `(36,11,33)`.
+- **Limits:** native share-sheet invocation is simulated; physical phone recording and authenticated model/transcription calls are not covered by these checks. The private hosted hubs are outside available source access.
+
+[Machine-readable browser checks](evidence/do-studio-20260928/result.json)
+
+| Desktop Studio | Phone Studio |
+|---|---|
+| ![Desktop Studio](evidence/do-studio-20260928/studio-desktop.jpg) | ![Phone Studio](evidence/do-studio-20260928/studio-mobile.jpg) |
+
+[Actual 3D tour](evidence/do-studio-20260928/studio-tour.jpg) · [Meeting wrap on phone](evidence/do-studio-20260928/meeting-wrap-mobile.jpg) · [Image framing](evidence/do-studio-20260928/maker-frame-desktop.jpg) · [Phone framing controls](evidence/do-studio-20260928/maker-frame-mobile.jpg)
+
+Reproduce using `scripts/review-do-studio.cjs`. Set `ASSEMBL_REVIEW_SERVER=start` after a production build; the default uses dev. `ASSEMBL_PLAYWRIGHT_MODULE`, `ASSEMBL_CHROMIUM_PATH` and `ASSEMBL_REVIEW_OUTPUT` support managed runtimes without adding a product dependency.
 
 ## Muse commercial finding
 
