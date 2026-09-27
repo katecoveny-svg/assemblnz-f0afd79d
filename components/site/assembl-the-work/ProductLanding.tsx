@@ -6,6 +6,7 @@ import './assembl-the-work.css';
 import './product-landing.css';
 import './immersive-studio.css';
 import { FluidField } from '../craft/FluidField';
+import { StudioAssemblyHero } from './StudioAssemblyHero';
 import '../craft/fluid-type.css';
 
 const content = {
@@ -30,10 +31,10 @@ export function ProductLanding({product}:{product:'pursuit'|'studio'}) {
   const workspace=PRODUCT_DESTINATIONS[product].workspace;
   return <div className="atw product-page immersive-studio">
     <a className="atw-skip" href="#studio-work">Skip to the work</a>
-    <section className="product-hero" style={{backgroundImage:`linear-gradient(90deg,rgba(36,11,33,.72),rgba(36,11,33,.18)),url(${c.image})`}}>
-      <header className="atw-nav"><Link className="atw-wordmark" href="/">assembl</Link><nav aria-label="Primary"><Link href="/pursuit" aria-current={product==='pursuit'?'page':undefined}>Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio" aria-current={product==='studio'?'page':undefined}>Studio</Link></nav></header>
+    {product === 'studio' ? <StudioAssemblyHero /> : <section className="product-hero" style={{backgroundImage:`linear-gradient(90deg,rgba(36,11,33,.72),rgba(36,11,33,.18)),url(${c.image})`}}>
+      <header className="atw-nav"><Link className="atw-wordmark" href="/">assembl</Link><nav aria-label="Primary"><Link href="/pursuit" aria-current={product==='pursuit'?'page':undefined}>Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio">Studio</Link></nav></header>
       <div className="product-hero-copy"><p className="atw-kicker">{c.name} / {c.verb}</p><h1>{c.heading}</h1><p>{c.body}</p><div><a className="atw-pill" href="#studio-work">See the possibilities <ArrowDown size={18} aria-hidden="true" /></a><a className="atw-text-link" href={workspace} target="_blank" rel="noopener noreferrer">{c.action}<ArrowUpRight size={18} aria-hidden="true" /></a></div><small className="studio-workspace-note"><LockKeyhole size={12} aria-hidden="true" />Your existing private workspace. Sign-in required.</small></div>
-    </section>
+    </section>}
     {product==='studio' && <section className="product-offer atw-section" aria-labelledby="assembl-maker-title"><p className="atw-kicker">make with assembl</p><h2 id="assembl-maker-title">The same world.<br />Your next piece of work.</h2><p>Use the current assembl colours, type and imagery to create a post or prepare an image. Edit the words, choose a format and download the result.</p><Link className="atw-pill atw-pill-dark" href={PRODUCT_DESTINATIONS.studio.maker}>Make an assembl image <ArrowUpRight size={18} aria-hidden="true" /></Link><small>Included images and post exports work in your browser. Image generation sends your brief and chosen reference to the connected provider. Nothing publishes automatically.</small></section>}
     {product==='studio'?<StudioGallery />:<section className="product-work atw-section" id="studio-work"><h2>The opportunity.<br />The evidence.<br />The next move.</h2></section>}
     <section className="product-offer atw-section"><p className="atw-kicker">working proof / assembl flex</p><h2>Your energy.<br />Your boundaries.</h2><p>Try a household flexibility journey: set an EV deadline, protect a battery reserve, review a proposal and keep the final say. Fictional household data. No connected devices.</p><Link className="atw-pill atw-pill-dark" href={product==='pursuit'?'/pursuit/flex':'/creative-studio/flex'}>Try the simulation <ArrowUpRight size={18} aria-hidden="true" /></Link></section>

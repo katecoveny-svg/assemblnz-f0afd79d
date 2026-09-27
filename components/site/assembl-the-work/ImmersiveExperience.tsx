@@ -6,6 +6,7 @@ import { useRef, useState } from 'react';
 import { motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { ArrowDown, ArrowRight, ArrowUpRight, Check, FileText, Layers3, Play, ScanLine } from 'lucide-react';
 import { DoMark } from '@/components/do/DoMark';
+import { StudioSpatialTour } from './StudioSpatialTour';
 import styles from './immersive-experience.module.css';
 
 const steps = [
@@ -91,7 +92,7 @@ export function StudioGallery() {
     <div className={styles.galleryControls} aria-label="Choose a visual example">{studies.map((item,i)=><button type="button" key={item.id} aria-pressed={index===i} onClick={()=>{setIndex(i);setPlaying(false);}}>0{i+1}<span>{item.name}</span><ArrowDown size={15} aria-hidden="true" /></button>)}</div>
     <div className={styles.galleryFrame}>
       <div className={styles.galleryMedia}>
-        {playing && study.id==='motion' ? <video controls autoPlay playsInline preload="metadata" poster={study.image} aria-label="Assembl motion study"><source src="/do/cinema/do-orb-loop.mp4" type="video/mp4" /></video> : <Image src={study.image} alt={study.title} fill sizes="(max-width: 760px) 100vw, 75vw" />}
+        {study.id === 'space' ? <StudioSpatialTour /> : playing && study.id==='motion' ? <video controls autoPlay playsInline preload="metadata" poster={study.image} aria-label="Assembl motion study"><source src="/do/cinema/do-orb-loop.mp4" type="video/mp4" /></video> : <Image src={study.image} alt={study.title} fill sizes="(max-width: 760px) 100vw, 75vw" />}
         {study.id==='motion' && !playing && <button type="button" className={styles.play} onClick={()=>setPlaying(true)}><Play size={22} aria-hidden="true" />Play film</button>}
       </div>
       <div className={styles.galleryCaption}><span className={styles.eyebrow}>assembl visual work / 0{index+1}</span><h3>{study.title}</h3><p>{study.body}</p>{study.id!=='motion' ? <Link href={study.href}>{study.action}<ArrowUpRight size={18} aria-hidden="true" /></Link> : <button type="button" onClick={()=>setPlaying(true)}>{playing?'Film playing above':'Play the film'}<Play size={16} aria-hidden="true" /></button>}<small>Assembl concept and identity work. Not a client endorsement or live agent activity.</small></div>

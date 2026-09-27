@@ -13,6 +13,11 @@ export const ASSEMBL_CREATIVE_BRAND = {
 
 export const ASSEMBL_CREATIVE_ASSETS = [
   {
+    id: 'assembly', label: 'work taking shape', note: 'Studio artwork · generated concept',
+    src: '/studio/assembly/creative-work-taking-shape.webp',
+    promptCue: 'Translucent vellum and paper sheets gathering into one architectural folded ribbon. Deep plum walls, soft natural light and tactile paper. A concept artwork, never a captured location or client result',
+  },
+  {
     id: 'atelier', label: 'the assembl atelier', note: 'homepage world · concept image',
     src: '/do/world/atelier-poster.png',
     promptCue: 'The same tactile, architectural atelier as the Assembl homepage: sculptural workspaces, rounded forms, quiet plum and rose light, useful objects gathering into a coherent whole',

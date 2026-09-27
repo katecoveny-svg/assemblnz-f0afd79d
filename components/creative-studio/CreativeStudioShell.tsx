@@ -7,6 +7,7 @@ import { ASSEMBL_CREATIVE_ASSETS, ASSEMBL_CREATIVE_BRAND, ASSEMBL_CREATIVE_PROFI
 import { canvasFontFamily } from "@/lib/creative/canvas-font";
 import { PRODUCT_DESTINATIONS } from "@/lib/product-destinations";
 import styles from "./assembl-studio.module.css";
+import { DEFAULT_IMAGE_FRAMING, imageFrameGeometry, type ImageFraming } from "@/lib/creative/image-framing";
 
 type StudioTab = "brand" | "image";
 type FilterMode = "original" | "plum" | "night";
@@ -82,17 +83,22 @@ function drawCover(
   image: HTMLImageElement,
   width: number,
   height: number,
+  frame: ImageFraming,
 ) {
-  const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight);
-  const drawWidth = image.naturalWidth * scale;
-  const drawHeight = image.naturalHeight * scale;
-  context.drawImage(
-    image,
-    (width - drawWidth) / 2,
-    (height - drawHeight) / 2,
-    drawWidth,
-    drawHeight,
-  );
+  const g = imageFrameGeometry(width, height, image.naturalWidth, image.naturalHeight, frame);
+  context.fillStyle = frame.background;
+  context.fillRect(0, 0, width, height);
+  context.save();
+  context.beginPath();
+  context.roundRect(g.inset, g.inset, g.areaWidth, g.areaHeight, g.inset > 0 ? Math.min(width, height) * .025 : 0);
+  context.clip();
+  if (g.inset > 0 && frame.fit === 'contain') {
+    context.beginPath();
+    context.roundRect(g.x, g.y, g.drawWidth, g.drawHeight, Math.min(g.drawWidth, g.drawHeight) * .025);
+    context.clip();
+  }
+  context.drawImage(image, g.x, g.y, g.drawWidth, g.drawHeight);
+  context.restore();
 }
 
 function drawWordmark(
@@ -127,6 +133,7 @@ function renderArtwork(
   filter: FilterMode,
   intensity: number,
   wordmark: boolean,
+  frame: ImageFraming,
 ) {
   canvas.width = width;
   canvas.height = height;
@@ -136,7 +143,7 @@ function renderArtwork(
   context.clearRect(0, 0, width, height);
   context.imageSmoothingEnabled = true;
   context.imageSmoothingQuality = "high";
-  drawCover(context, image, width, height);
+  drawCover(context, image, width, height, frame);
 
   if (filter !== "original") {
     const imageData = context.getImageData(0, 0, width, height);
@@ -180,7 +187,7 @@ function renderArtwork(
     context.fillRect(0, 0, width, height);
   }
 
-  if (wordmark) drawWordmark(context, width, height, filter === "night");
+  if (wordmark) drawWordmark(context, width, height, filter === "night" || (frame.background === '#240B21' && (frame.inset > 0 || frame.fit === 'contain')));
 }
 
 function loadImage(src: string) {
@@ -283,6 +290,7 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
   const [filter, setFilter] = useState<FilterMode>("original");
   const [intensity, setIntensity] = useState(76);
   const [wordmark, setWordmark] = useState(true);
+  const [framing, setFraming] = useState<ImageFraming>({ ...DEFAULT_IMAGE_FRAMING });
   const [selectedAssetId, setSelectedAssetId] = useState(BRAND_ASSETS[0].id);
   const [imageSrc, setImageSrc] = useState(BRAND_ASSETS[0].src);
   const [useImageReference, setUseImageReference] = useState(true);
@@ -323,6 +331,7 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
           filter,
           intensity,
           wordmark,
+          framing,
         );
         setError("");
       })
@@ -333,9 +342,10 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
     return () => {
       active = false;
     };
-  }, [aspect, filter, imageSrc, intensity, wordmark]);
+  }, [aspect, filter, imageSrc, intensity, wordmark, framing]);
 
   const chooseAsset = (asset: BrandAsset) => {
+    setFraming({ ...DEFAULT_IMAGE_FRAMING });
     setSelectedAssetId(asset.id);
     setUseImageReference(true);
 
@@ -366,6 +376,7 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
       const dataUrl = await blobToDataUrl(photo);
       await loadImage(dataUrl);
       setSelectedAssetId("upload");
+      setFraming({ ...DEFAULT_IMAGE_FRAMING });
       setUseImageReference(false);
 
       setImageSrc(dataUrl);
@@ -429,6 +440,7 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
       }
 
       setImageSrc(data.images[0]);
+      setFraming({ ...DEFAULT_IMAGE_FRAMING });
 
       setSelectedAssetId("generated");
       setSourceLabel("generated draft");
@@ -468,6 +480,7 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
         filter,
         intensity,
         wordmark,
+        framing,
       );
       const blob = await new Promise<Blob | null>((resolve) =>
         canvas.toBlob(resolve, "image/png"),
@@ -668,13 +681,36 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
               )}
             </div>
 
-            <div className="mt-5 overflow-hidden border border-[#240B21]/10 bg-[#F5F1F2]">
+            <div className={styles.artworkFrame}>
               <canvas
                 ref={canvasRef}
                 className="block h-auto max-h-[68svh] w-full object-contain"
                 aria-label="Filtered image preview"
               />
             </div>
+
+            <fieldset className={styles.framing}>
+              <legend>Make room for the image.</legend>
+              <div className={styles.framingTop}>
+                <div role="group" aria-label="Image fit">
+                  {(['cover', 'contain'] as const).map(fit => <button key={fit} type="button" aria-pressed={framing.fit === fit} onClick={() => setFraming(f => ({ ...f, fit, zoom: 1 }))}>{fit === 'cover' ? 'Fill the frame' : 'Keep the whole image'}</button>)}
+                </div>
+                <button type="button" onClick={() => setFraming({ ...DEFAULT_IMAGE_FRAMING })}>Reset framing</button>
+              </div>
+              <div className={styles.framingGrid}>
+                {([
+                  ['x', 'Horizontal position', 0, 100, 1],
+                  ['y', 'Vertical position', 0, 100, 1],
+                  ['zoom', 'Zoom', 1, 2.5, .05],
+                  ['inset', 'Frame space', 0, 12, 1],
+                ] as const).map(([key, label, min, max, step]) => <label key={key}><span>{label}<output>{key === 'zoom' ? `${framing[key].toFixed(2)}×` : `${framing[key]}%`}</output></span><input aria-label={label} type="range" min={min} max={max} step={step} value={framing[key]} onChange={e => setFraming(f => ({ ...f, [key]: Number(e.target.value) }))} /></label>)}
+              </div>
+              <div className={styles.matte} role="group" aria-label="Frame background">
+                <span>Background</span>
+                {([['#FFFDFB', 'Paper'], ['#240B21', 'Plum'], ['#916A70', 'Rose']] as const).map(([background, label]) => <button key={background} type="button" aria-pressed={framing.background === background} onClick={() => setFraming(f => ({ ...f, background }))}><i style={{ background }} aria-hidden="true" />{label}</button>)}
+              </div>
+              <p>Framing carries into your PNG and post. Generating a new image uses the full original reference.</p>
+            </fieldset>
 
             <div className="mt-5 grid grid-cols-3 gap-2">
               {FILTERS.map((item) => (
@@ -730,7 +766,7 @@ function AssemblImageMaker({ onUseImage }: { onUseImage: (src: string, label: st
                 try {
                   await document.fonts.ready;
                   const canvas = document.createElement("canvas");
-                  renderArtwork(canvas, await loadImage(imageSrc), aspect.width, aspect.height, filter, intensity, false);
+                  renderArtwork(canvas, await loadImage(imageSrc), aspect.width, aspect.height, filter, intensity, false, framing);
                   onUseImage(canvas.toDataURL("image/png"), sourceLabel);
                 } catch (e) { setError((e as Error).message); }
               }}>Use image in my post</button>

@@ -18,6 +18,23 @@
 .tools button[aria-pressed='true'] { background: #240b21; color: #fffdfb; border-color: #240b21; }
 .tools p { margin-left: auto; font-size: 14px; }
 .page canvas { border-radius: 20px; }
+.artworkFrame { margin-top: 20px; padding: 14px; background: radial-gradient(ellipse at 80% 0, #916a7038, transparent 75%), #e9e0e5; border-radius: 30px; box-shadow: inset 0 1px 0 #fffdfb, 0 24px 60px -40px #240b2170; }
+.framing { min-width: 0; margin: 26px 0 0; padding: 20px 0; border: 0; }
+.framing legend { padding: 0; font-size: 22px; letter-spacing: -.035em; }
+.framingTop { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; margin: 4px 0 22px; }
+.framingTop>div { display: flex; flex-wrap: wrap; gap: 5px; }
+.framing button { color: #240b21; font-size: 14px; padding: 10px 12px; background: #f5f1f2; border: 1px solid transparent; }
+.framing button[aria-pressed=true] { background: #240b21; color: #fffdfb; }
+.framingGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.framingGrid label>span { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; margin-bottom: 6px; }
+.framingGrid output { color: #654a4e; }
+.framingGrid input { width: 100%; min-height: 32px; accent-color: #916a70; }
+.matte { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 20px; font-size: 14px; }
+.matte>span { margin-right: 8px; }
+.matte button { display: flex; align-items: center; gap: 8px; }
+.matte i { width: 16px; height: 16px; border-radius: 50%; border: 1px solid #916a7077; }
+.framing>p { margin: 16px 0 0; font-size: 13px; line-height: 1.6; color: #654a4e; }
+@media(max-width:650px) { .framingGrid { grid-template-columns: 1fr; gap: 16px; } .artworkFrame { padding: 8px; border-radius: 24px; } }
 .page section section { box-shadow: 0 12px 40px #240b2106; }
 .page section :is(input:not([type='range']):not([type='checkbox']):not([type='color']), textarea) { border-radius: 12px; }
 .page section button, .page section label:has(input[type='file']) { border-radius: 14px; min-height: 44px; }
