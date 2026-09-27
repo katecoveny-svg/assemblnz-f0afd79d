@@ -120,7 +120,7 @@ export const PORT_2FA_EVIDENCE_RECEIPT_DEMO: EvidenceReceiptDemoV0 = {
     evidence_owner: 'assembl owns the evidence',
   },
   named_human: {
-    name: 'Alex R.',
+    name: 'Alex R. (sample)',
     role: 'loyalty operations',
   },
   permission: {
@@ -227,7 +227,7 @@ export const EVIDENCE_RECEIPT_MOMENTS = [
       { label: 'balance', value: '$0.45 sample' },
       { label: 'choice', value: 'carrier wallet (sample)' },
       { label: 'redemption', value: 'staged · not sent' },
-      { label: 'confirm', value: 'Alex R. · loyalty ops' },
+      { label: 'confirm', value: 'Alex R. (sample) · loyalty ops' },
     ],
   },
 ] as const;
@@ -247,7 +247,7 @@ export const EVIDENCE_RECEIPT_OPS = {
     {
       id: 'approvals',
       title: 'Approvals',
-      body: 'Named human Alex R. holds settle. Act stays locked without a yes.',
+      body: 'Named human Alex R. (sample) holds settle. Act stays locked without a yes.',
     },
     {
       id: 'reporting',
@@ -390,7 +390,7 @@ export const EVIDENCE_RECEIPT_PREVIEW = {
   metricsEyebrow: 'DEMO trust · directional',
   metricsTitle: 'Proof signals — not invented live scores.',
   metricsSupport:
-    'Sample figures for this DEMO conversation only. Not Engage People benchmarks, not a signed carrier result, not a live feed. No fake client logos.',
+    'Sample figures for this DEMO conversation only. Not third-party benchmarks, not a signed carrier result, not a live feed. No fake client logos.',
   metrics: [
     {
       value: '≤2h',
@@ -493,11 +493,11 @@ export const EVIDENCE_RECEIPT_PREVIEW = {
     },
     {
       q: 'Show the Evidence receipt',
-      a: 'Draft ready — Evidence receipt. Locks wait label, sample earn, permission, and named human Alex R. Mock hashes only. Status: awaiting human approval. Nothing settles without a yes.',
+      a: 'Draft ready — Evidence receipt. Locks wait label, sample earn, permission, and named human Alex R. (sample). Mock hashes only. Status: awaiting human approval. Nothing settles without a yes.',
     },
     {
       q: 'Who reviews the credit?',
-      a: 'Draft ready — human yes. Loyalty operations (Alex R. on this DEMO) reviews before anything settles. Permission is opted in and reversible. Status: awaiting human approval. Outbound: none from this page.',
+      a: 'Draft ready — human yes. Loyalty operations (Alex R. (sample) on this DEMO) reviews before anything settles. Permission is opted in and reversible. Status: awaiting human approval. Outbound: none from this page.',
     },
     {
       q: 'Does this replace our wallet?',
