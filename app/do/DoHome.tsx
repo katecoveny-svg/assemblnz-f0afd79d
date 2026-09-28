@@ -197,7 +197,7 @@ export function DoHome() {
             <Link className={`${styles.startCard} ${styles.everydayTask}`} href="/do/widget">
               <span className={styles.startStatus}>01 / PASTE TEXT · TRY A DRAFT</span>
               <div className={styles.taskSculpture}><DoPresence size="large" /></div>
-              <div className={styles.featuredCopy}><h2>Less admin.<br /><span>More mahi.</span></h2><p>Write a reply, make a plan, compare options or find the details.</p></div>
+              <div className={styles.featuredCopy}><h2>Less admin.<br /><span>More real work.</span></h2><p>Write a reply, make a plan, compare options or find the details.</p></div>
               <strong>Open Everyday DO <ArrowUpRight size={24} aria-hidden="true" /></strong>
             </Link>
           </DoGlowCard>
