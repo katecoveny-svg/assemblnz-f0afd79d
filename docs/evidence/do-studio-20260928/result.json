@@ -1,0 +1,30 @@
+{
+  "checkedAt": "2026-09-27T19:54:15.034Z",
+  "checks": [
+    "Studio desktop has no horizontal overflow",
+    "New Studio art loaded",
+    "Hero motion can be paused",
+    "Actual 3D scene loads",
+    "Tour scrubs into Studio chapter",
+    "Studio 375px has no horizontal overflow",
+    "Reduced motion uses still view",
+    "Meeting 375px has no horizontal overflow",
+    "Recording requires consent",
+    "Missing owner is surfaced",
+    "Completed fields are acknowledged",
+    "Pack sharing starts disabled",
+    "Review enables sharing",
+    "Only the reviewed pack is shared",
+    "Editing invalidates share review",
+    "Work pack 375px has no horizontal overflow",
+    "Work pack reaches existing transcript preparation",
+    "Framing exports a real PNG",
+    "Framed image hands into post maker",
+    "Image maker 375px has no horizontal overflow",
+    "No uncaught page errors"
+  ],
+  "errors": [],
+  "limitations": [
+    "Native phone share sheet simulated; physical audio and authenticated providers not exercised."
+  ]
+}

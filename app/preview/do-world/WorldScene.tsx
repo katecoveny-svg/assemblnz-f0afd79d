@@ -405,10 +405,12 @@ function Room({ onReady }: { onReady: (ready: boolean) => void }) {
 
 function Journey({
   progress,
+  playhead,
   paused,
   reduced,
 }: {
   progress: RefObject<number>;
+  playhead?: number;
   paused: boolean;
   reduced: boolean;
 }) {
@@ -416,6 +418,9 @@ function Journey({
   const look = useRef(new Vector3());
   const { size, camera, invalidate } = useThree();
   const compact = size.width < 600;
+
+  // A timed or manually scrubbed tour wakes the demand renderer without scroll.
+  useEffect(() => { invalidate(); }, [playhead, invalidate]);
 
   // Eye-level walkthrough (~1.72–1.88 m). DO dwell frames the D sculpture at z≈-15.
   // Mobile path stays closer to centreline and slightly lower for 375 framing.
@@ -528,6 +533,7 @@ function ContextHealth({ onLost }: { onLost: () => void }) {
 
 export default function WorldScene(props: {
   progress: RefObject<number>;
+  playhead?: number;
   paused: boolean;
   reduced?: boolean;
   onReady?: (ready: boolean) => void;
@@ -577,6 +583,7 @@ export default function WorldScene(props: {
       <Room onReady={markReady} />
       <Journey
         progress={props.progress}
+        playhead={props.playhead}
         paused={props.paused}
         reduced={Boolean(props.reduced)}
       />

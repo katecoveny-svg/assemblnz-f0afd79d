@@ -8,6 +8,7 @@ import styles from './world-atelier-stage.module.css';
 
 export type WorldSceneProps = {
   progress: RefObject<number>;
+  playhead?: number;
   paused: boolean;
   reduced?: boolean;
   onReady?: (ready: boolean) => void;
@@ -19,8 +20,9 @@ class Boundary extends Component<{ children: ReactNode; onFailure: () => void },
   componentDidCatch() { this.props.onFailure(); }
   render() { return this.state.failed ? null : this.props.children; }
 }
-export function WorldAtelierStage({ progress, paused, reduced, visible, failed, onReady, onFailure, priority=false, variant='atelier' }: {
+export function WorldAtelierStage({ progress, playhead, paused, reduced, visible, failed, onReady, onFailure, priority=false, variant='atelier' }: {
   progress: RefObject<number>;
+  playhead?: number;
   paused: boolean;
   reduced: boolean;
   visible: boolean;
@@ -49,7 +51,6 @@ export function WorldAtelierStage({ progress, paused, reduced, visible, failed, 
     {variant === 'franklin' ? <picture>
       <source media="(max-width: 650px)" srcSet={FRANKLIN_ASSETS.mobilePoster} />
       {/* A native picture keeps the correct real-render fallback even with JavaScript off. */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={FRANKLIN_ASSETS.poster} alt="" className={`${styles.posterNative}${dimmed ? ` ${styles.posterDimmed}` : ''}`} decoding="async" fetchPriority={priority ? 'high' : 'auto'} />
     </picture> : <>
       <Image src="/do/world/atelier-poster.png" alt="" fill sizes="100vw" quality={75} priority={priority} unoptimized className={`${styles.poster}${dimmed ? ` ${styles.posterDimmed}` : ''}`} />
@@ -57,7 +58,7 @@ export function WorldAtelierStage({ progress, paused, reduced, visible, failed, 
       <img src="/do/world/atelier-poster.png" alt="" className={`${styles.posterNative}${dimmed ? ` ${styles.posterDimmed}` : ''}`} decoding="async" fetchPriority={priority ? 'high' : 'auto'} />
     </>}
     <Boundary key={variant} onFailure={onFailure}>
-      {live && Scene ? <Scene progress={progress} paused={paused} onReady={markReady} onFailure={onFailure} /> : null}
+      {live && Scene ? <Scene progress={progress} playhead={playhead} paused={paused} onReady={markReady} onFailure={onFailure} /> : null}
     </Boundary>
   </div>;
 }
