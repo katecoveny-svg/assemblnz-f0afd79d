@@ -659,3 +659,5 @@
 .editorBackdrop:not([open]) {
   display: none;
 }
+
+.page h1, .page h2, .page h3 { font-family: var(--font-body), sans-serif; }

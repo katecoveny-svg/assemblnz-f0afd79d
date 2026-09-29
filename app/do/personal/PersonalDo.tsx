@@ -537,12 +537,10 @@ export function PersonalDo() {
             if (!busy) setEditor(false);
           }}
           className={styles.editorBackdrop}
+          aria-labelledby="personal-editor-title"
         >
           <section
             className={styles.editor}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="personal-editor-title"
           >
             <div className={styles.row}>
               <p className={styles.eyebrow}>GIVE DO AN ONGOING JOB</p>

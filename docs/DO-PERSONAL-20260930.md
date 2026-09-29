@@ -39,10 +39,11 @@ Code deployment and the first real user check are separate proof. The public run
 
 - 19 executable database checks using PostgreSQL-compatible PGlite: RLS/role grants, owner isolation, consent expiry, duplicate claim prevention, pause/revision invalidation, review-only completion, deletion cascade, quota surviving deletion and NZ DST.
 - 11 Vitest API/contract checks: auth, origin, payload scope, provider consent, non-cacheable private errors, owner binding, manual quota outcomes, unset/wrong cron secrets and bounded worker batch.
+- 20 browser checks passed, including 375/320px, explicit consent/reset, review-gated sharing, pause/delete, canonical typography, reduced motion and no page runtime errors. Screenshots and results: `docs/evidence/do-personal-20260930/`.
 - Repeatable mobile/browser proof: `scripts/review-do-personal.cjs`. Signed-in browser interactions use fictional intercepted API fixtures, never another person's session.
-- Typecheck, changed-file ESLint, brand/macron/front-door guards and production compilation are the release gates. Current results are recorded in the PR.
+- Typecheck, changed-file ESLint and brand/macron/front-door guards pass. GitHub core validation and memory boundaries pass. The initial Vercel preview reached READY on its standard build. Final revision results are recorded in the PR.
 
-Local Turbopack first rejected cross-worktree dependency symlinks, which were replaced by a local dependency tree. It then failed while resolving pre-existing Cormorant font imports on unrelated demo pages. Webpack then hit network errors fetching unrelated Google fonts. Local runtime compilation reuses the actual font CSS and WOFF2 files from the previously successful web build through Next's offline font fixture hook; no production code or font selections are changed. Webpack compilation with those cached fonts is used for local runtime proof; the deployment's standard build remains unchanged and must pass before a merge.
+Local Turbopack first rejected cross-worktree dependency symlinks, which were replaced by a local dependency tree. It then failed while resolving pre-existing Cormorant font imports on unrelated demo pages. Webpack then hit network errors fetching unrelated Google fonts. Local runtime compilation reuses the actual font CSS and WOFF2 files from the previously successful web build through Next's offline font fixture hook; no production code or font selections are changed. Webpack full compilation also exposed an unrelated existing Spline export incompatibility. The focused local dev server with cached actual fonts provides browser interaction proof; Vercel provides the full standard production compilation proof. No production build command or dependencies were changed.
 
 ## Rollback
 
@@ -51,3 +52,5 @@ Revert the isolated feature PR to remove the route, link and cron. Pause respons
 ## Next useful release
 
 Connect one explicitly selected calendar/email source, add source-change events and notifications, and verify the signed-in account end to end. Keep personal and client data separate. Native keyboard/Share Sheet integration remains in the separate iPhone development branch, not silently merged here.
+
+The automatic Supabase preview branch cannot replay an older unrelated migration: `tenant_customers.display_name` does not exist when the Air NZ seed runs. That preview check is failed, not silently treated as green. Personal DO storage was validated separately against the real schema in a rolled-back transaction.
