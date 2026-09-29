@@ -29,7 +29,7 @@ struct DOHomeView: View {
                 VStack(alignment: .leading, spacing: 24) {
                     VStack(alignment: .leading, spacing: 10) {
                         Text("YOUR WORK. A LITTLE LIGHTER.").font(.caption2.monospaced()).tracking(2).foregroundStyle(DOColour.rose)
-                        Text("What needs\ndoing?").font(.system(size: 44, weight: .semibold, design: .rounded)).tracking(-2).fixedSize(horizontal: false, vertical: true)
+                        Text("What needs\ndoing?").font(.custom("InstrumentSans-Regular", size: 44, relativeTo: .largeTitle).weight(.semibold)).tracking(-2).fixedSize(horizontal: false, vertical: true)
                         Text("Bring a little context. Leave with something useful.").foregroundStyle(.secondary)
                     }
                     Image("WorkInPocket").resizable().scaledToFill().frame(height: 180).clipped().clipShape(RoundedRectangle(cornerRadius: 28)).accessibilityLabel("Sculptural paper and phone concept artwork")
@@ -37,10 +37,10 @@ struct DOHomeView: View {
                         Label("On this iPhone", systemImage: "iphone")
                         Spacer()
                         Text(keyboardReady ? "Keyboard draft ready" : "Nothing sent").foregroundStyle(DOColour.rose)
-                    }.font(.caption)
+                    }.font(.custom("InstrumentSans-Regular", size: 12, relativeTo: .caption))
                     VStack(alignment: .leading, spacing: 16) {
                         HStack {
-                            Text("Your draft").font(.title3.weight(.semibold))
+                            Text("Your draft").font(.custom("InstrumentSans-Regular", size: 20, relativeTo: .title3).weight(.semibold))
                             Spacer()
                             PasteButton(payloadType: String.self) { values in
                                 if let value = values.first { text = value; reviewed = false }
@@ -52,7 +52,7 @@ struct DOHomeView: View {
                         HStack {
                             Text("\(text.count) / 12,000").font(.caption.monospaced()).foregroundStyle(text.count > 12000 ? .red : .secondary)
                             Spacer()
-                            Button("Clear") { text = ""; reviewed = false }.font(.callout)
+                            Button("Clear") { text = ""; reviewed = false }.font(.custom("InstrumentSans-Regular", size: 16, relativeTo: .callout))
                         }
                         Button { perform { try store.save(text); message = "Saved on this iPhone."; reload() } } label: {
                             Label("Save draft", systemImage: "tray.and.arrow.down").frame(maxWidth: .infinity)
@@ -66,7 +66,7 @@ struct DOHomeView: View {
                             }
                         } label: { Label("Copy & open DO", systemImage: "arrow.up.right.square").frame(maxWidth: .infinity) }
                             .buttonStyle(.borderedProminent).tint(DOColour.plum).disabled(!valid)
-                        Text("Opens the live workspace in your browser. Paste only what you want DO to use; cloud preparation has its own sign-in and consent. This native editor does not call a model.").font(.caption).foregroundStyle(.secondary)
+                        Text("Opens the live workspace in your browser. Paste only what you want DO to use; cloud preparation has its own sign-in and consent. This native editor does not call a model.").font(.custom("InstrumentSans-Regular", size: 12, relativeTo: .caption)).foregroundStyle(.secondary)
                         Toggle("I’ve checked this exact draft", isOn: $reviewed).disabled(!valid)
                         HStack {
                             Button("Use in keyboard") {
@@ -75,26 +75,27 @@ struct DOHomeView: View {
                             ShareLink(item: text) { Label("Share", systemImage: "square.and.arrow.up") }.disabled(!valid || !reviewed)
                         }
                     }.padding(20).background(.white.opacity(0.85)).clipShape(RoundedRectangle(cornerRadius: 28))
-                    if !message.isEmpty { Text(message).font(.callout).foregroundStyle(DOColour.rose).accessibilityAddTraits(.updatesFrequently) }
+                    if !message.isEmpty { Text(message).font(.custom("InstrumentSans-Regular", size: 16, relativeTo: .callout)).foregroundStyle(DOColour.rose).accessibilityAddTraits(.updatesFrequently) }
                     if keyboardReady {
                         Button("Remove draft from keyboard", role: .destructive) { perform { try store.clearKeyboard(); message = "Keyboard access removed. A loaded draft is rechecked before insertion."; reload() } }
                     }
                     VStack(alignment: .leading, spacing: 14) {
-                        Text("Pick up where you left off.").font(.title2.weight(.semibold))
+                        Text("Pick up where you left off.").font(.custom("InstrumentSans-Regular", size: 22, relativeTo: .title2).weight(.semibold))
                         if drafts.isEmpty { Text("Save a draft here, or share text from another app to DO. Up to 20 drafts stay on this device until you delete them.").foregroundStyle(.secondary) }
                         ForEach(drafts) { draft in
                             HStack {
                                 Button { text = draft.text; reviewed = false; message = "Draft opened. Review any edits before sharing." } label: {
-                                    VStack(alignment: .leading, spacing: 5) { Text(draft.title).lineLimit(2); Text(draft.createdAt, style: .date).font(.caption).foregroundStyle(.secondary) }.frame(maxWidth: .infinity, alignment: .leading)
+                                    VStack(alignment: .leading, spacing: 5) { Text(draft.title).lineLimit(2); Text(draft.createdAt, style: .date).font(.custom("InstrumentSans-Regular", size: 12, relativeTo: .caption)).foregroundStyle(.secondary) }.frame(maxWidth: .infinity, alignment: .leading)
                                 }
                                 Button(role: .destructive) { perform { try store.remove(draft); reload() } } label: { Image(systemName: "trash").frame(width: 44, height: 44) }.accessibilityLabel("Delete \(draft.title)")
                             }.padding(16).background(.white.opacity(0.65)).clipShape(RoundedRectangle(cornerRadius: 20))
                         }
                     }
-                    Text("Less admin, more mahi.").font(.headline).padding(.vertical, 18)
+                    Text("Less admin, more mahi.").font(.custom("InstrumentSans-Regular", size: 17, relativeTo: .headline).weight(.semibold)).padding(.vertical, 18)
                 }.padding(20).frame(maxWidth: 680)
             }
             .background(LinearGradient(colors: [DOColour.paper, Color(red: 0.95, green: 0.90, blue: 0.93)], startPoint: .topLeading, endPoint: .bottomTrailing))
+            .font(.custom("InstrumentSans-Regular", size: 17, relativeTo: .body))
             .foregroundStyle(DOColour.plum)
             .navigationTitle("DO").navigationBarTitleDisplayMode(.inline)
             .toolbar { ToolbarItem(placement: .topBarTrailing) { Button("Set up", systemImage: "keyboard") { showSetup = true } } }

@@ -39,3 +39,5 @@ Primary references:
 - https://developer.apple.com/documentation/uikit/handling-text-interactions-in-custom-keyboards
 - https://developer.apple.com/documentation/xcode/configuring-app-groups
 - https://github.com/yonaskolb/XcodeGen/blob/master/Docs/ProjectSpec.md
+
+The native workspace bundles canonical Instrument Sans with Dynamic Type-relative sizing. The upstream SIL Open Font License is retained in `DOApp/Fonts/OFL.txt`; source: https://github.com/google/fonts/tree/main/ofl/instrumentsans. System keyboard and Share Sheet chrome retain platform controls.
