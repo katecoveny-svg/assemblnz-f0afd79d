@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { FileText, Mic, Eye, AudioLines, Settings2 } from 'lucide-react';
 import { DoTextWorkspace } from '@/app/do/DoTextWorkspace';
@@ -30,12 +31,15 @@ export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTa
     setOfferedContext({ text, id: Date.now() }); setMode('write'); return true;
   }
   return <DoProductFrame product="your workspace">
-    <section className={`${styles.hero} ${styles.workspaceHero}`}>
+    <section className={`${styles.hero} ${styles.workspaceHero}`} data-embedded={embedded || undefined}>
       <div className={styles.workspaceIntro}>
-      <p className={styles.kicker}>A LITTLE HELP, RIGHT HERE</p>
+      <p className={styles.kicker}>YOUR WORK. A LITTLE LIGHTER.</p>
       <h1>What needs doing?</h1>
       <p>Bring the context. Choose a task. Leave with something useful.</p>
-      </div><DoPresence />
+      </div>{embedded ? <DoPresence /> : <div className={styles.workspaceArtwork}>
+        <Image src="/do/editorial/work-in-your-pocket.webp" alt="Paper and a phone, assembled into a sculptural still life. Concept artwork." fill sizes="(max-width: 600px) 100vw, 420px" priority />
+        <span className={styles.artworkBadge}><DoPresence size="small" />Ready when you are.</span>
+      </div>}
     </section>
     <div className={styles.workspace}>
       <nav className={styles.workspaceModes} aria-label="Ways to work with DO">
