@@ -99,3 +99,7 @@ When a feature creates reusable mechanics, update this registry before closing t
 - **Extends:** actual atelier `WorldAtelierStage` with optional playhead invalidation for opt-in Studio playback, without changing the scroll-led callers. New generated concept artwork is documented in `public/studio/assembly/README.md`.
 - **Proof:** helper tests, existing meeting/share/image route regression tests, `scripts/review-do-studio.cjs` and the evidence linked in `docs/DO-STUDIO-MUSE-20260928.md`.
 - **Access boundary:** separate signed-in Pursuit/Studio source was not available; no claim that those hosted private hubs changed.
+
+## DO phone viewport handling · 30 Sep 2026
+
+Extends `apps/do/shared/distribution.ts`, shared by the website and generated extension: clamps launcher/panel to `visualViewport`, preserves safe areas, supports touch dragging and reset position, and keeps context review separate from movement. Proof: `floating.test.ts` and `scripts/review-do-mobile.cjs`. Physical iPhone QA remains separate. The iOS keyboard is an offline development foundation, not a native agent runtime or installable release.

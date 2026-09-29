@@ -66,7 +66,18 @@ describe('portable DO companion', () => {
   it('keeps and clamps the previous companion position when upgrading', () => {
     const s = setup(false, '{"left":5000,"top":120}');
     expect(s.find('launch').style.left).toBe('716px'); expect(s.find('launch').style.top).toBe('120px');
-    expect(setup(false, '{"left":"invalid","top":120}').find('launch').style.left).toBeUndefined();
+    expect(setup(false, '{"left":"invalid","top":120}').find('launch').style.left).toBe('100px');
+  });
+  it('keeps the companion above an open phone keyboard and can reset its position', () => {
+    const s = setup(); s.window.assemblDo.open();
+    s.window.visualViewport = { width: 375, height: 300, offsetLeft: 0, offsetTop: 40 };
+    s.listeners.resize({});
+    expect(s.panel.style.maxHeight).toBe('284px');
+    expect(s.panel.style.maxWidth).toBe('359px');
+    expect(parseFloat(s.panel.style.top)).toBeGreaterThanOrEqual(48);
+    s.find('dock').handlers.click({});
+    expect(s.query).not.toHaveBeenCalled();
+    expect(s.saved.size).toBe(1);
   });
   it('does not recursively mount inside the embedded workspace', () => { expect(setup(true).body.children).toHaveLength(0); });
   it('clamps dragging to the viewport and suppresses the resulting click', () => {

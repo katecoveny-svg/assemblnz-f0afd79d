@@ -52,6 +52,14 @@ export default function DoInstallPage() {
         <p className={styles.note}>Keep DO open while recording. To bring context from another app, paste text or add a screenshot; the phone workspace does not float over other apps.</p>
       </section>
 
+      <section className={styles.card} id="keyboard">
+        <p className={styles.kicker}>IN DEVELOPMENT · NOT YET INSTALLABLE</p>
+        <h2 className={styles.cardTitle}>DO in your iPhone keyboard.</h2>
+        <p className={styles.heroCopy}>The keyboard is a separate iPhone extension. The development version lets you review nearby text and insert it after review. It still needs a signed app and device testing.</p>
+        <p className={styles.note}>For now, use DO from your home screen, paste text or add a screenshot. A website cannot add itself to your keyboard, read every app or float over the whole phone.</p>
+        <Link className={styles.cta} href="/do/widget">Use the phone workspace</Link>
+      </section>
+
       <section className={styles.card} id="chrome">
         <h2 className={styles.cardTitle}>Chrome DO</h2>
         <ol className={styles.list}>
