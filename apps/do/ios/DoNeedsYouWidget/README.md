@@ -1,14 +1,3 @@
-# DO Needs you — iOS WidgetKit stub
+# DO workspace widget
 
-Home Screen widget showing **Needs you** count + top agent title. Tap opens `do://needs-you` (falls back to `https://assembl.co.nz/do#needs-you`).
-
-## Open in Xcode
-
-1. Add a Widget Extension target to the DO iOS app
-2. Copy `NeedsYouWidget.swift` into the widget target
-3. Set the widget URL scheme `do` on the containing app
-4. Widget fetches `GET {apiBase}/api/do/agents?grouped=1` when the timeline reloads
-
-## DEMO honesty
-
-v0 stub uses a static placeholder timeline until the app ships with authenticated fetch. Web stand-in lives on `/do` (“Needs you” plate).
+Included in the native XcodeGen project. Shows whether a locally reviewed keyboard draft is currently available, without exposing its text. It opens `assembl-do://drafts`. There are no fictional approval counts or remote data claims. iOS controls refresh timing; a timeline entry clears the ready state at expiry. Signed App Group and physical-device testing remain necessary.

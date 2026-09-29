@@ -1,0 +1,47 @@
+name: DO iPhone development
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'apps/do/ios/**'
+      - '.github/workflows/do-ios-development.yml'
+concurrency:
+  group: do-ios-${{ github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  ios:
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          sparse-checkout: apps/do/ios
+      - name: Generate Xcode project
+        run: |
+          brew install xcodegen
+          cd apps/do/ios
+          xcodegen generate
+      - name: Build app and all extensions without distribution signing
+        run: |
+          xcodebuild -project apps/do/ios/DO.xcodeproj -scheme DO -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' -derivedDataPath "$RUNNER_TEMP/DO-build" CODE_SIGNING_ALLOWED=NO build
+      - name: Test local draft consent, expiry and revocation
+        run: |
+          device=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; d=json.load(sys.stdin); print(next(x["udid"] for xs in d["devices"].values() for x in xs if x["name"].startswith("iPhone")))')
+          xcodebuild -project apps/do/ios/DO.xcodeproj -scheme DO -configuration Debug -destination "platform=iOS Simulator,id=$device" -derivedDataPath "$RUNNER_TEMP/DO-build" -resultBundlePath "$RUNNER_TEMP/DO-tests.xcresult" CODE_SIGNING_ALLOWED=NO test
+          xcrun simctl boot "$device" || true
+          xcrun simctl bootstatus "$device" -b
+          xcrun simctl install "$device" "$RUNNER_TEMP/DO-build/Build/Products/Debug-iphonesimulator/DOApp.app"
+          xcrun simctl launch "$device" co.assembl.do
+          sleep 4
+          xcrun simctl io "$device" screenshot "$RUNNER_TEMP/DO-iPhone.png"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: DO-iPhone-development-proof-not-an-IPA
+          path: |
+            ${{ runner.temp }}/DO-iPhone.png
+            ${{ runner.temp }}/DO-tests.xcresult
+          retention-days: 7
