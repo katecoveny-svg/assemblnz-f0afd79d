@@ -15,6 +15,10 @@
     {
       "path": "/api/dash/payouts/run",
       "schedule": "0 2 * * *"
+    },
+    {
+      "path": "/api/do/personal/cron",
+      "schedule": "5 * * * *"
     }
   ],
   "redirects": [

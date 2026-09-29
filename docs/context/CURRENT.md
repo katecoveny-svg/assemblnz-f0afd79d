@@ -10,6 +10,8 @@ It is intentionally shorter and more changeable than the long-term strategy docu
 
 ## current shape
 
+**30 Sep Personal DO implementation:** `feat/do-personal-20260930` adds private ongoing responsibilities, explicit saved context, seven-day background preparation permission and daily cloud draft checks. The additive database migration is applied with empty tables; no user was enrolled. Code deployment and live owner/provider proof remain separate. See `docs/DO-PERSONAL-20260930.md`.
+
 **30 Sep 2026 mobile pass:** PR #1415 is verified merged at `d26657410cee4ba3f1c3b913cbb6358933acd876`; its older review label below is historical. The new `feat/do-mobile-rollup-20260930` branch adds DO editorial imagery and phone viewport handling to the shared companion. Kate authorised push/merge after checks. The iOS keyboard remains offline development source, not an installable cloud agent. See `docs/DO-MOBILE-20260930.md`.
 
 **28 Sep 2026 review branch, not a production claim:** `feat/do-meeting-studio-muse-20260928` extends Meeting DO with a local closing check and reviewed work pack, adds shared image-framing controls to the Assembl maker, and refines public Studio with generated art and an opt-in tour through the existing 3D atelier. Base main was verified at `82070f3825728ae7a88affc54062ce34b42cca8b`; older review labels below are historical and not a fresh merge audit. Separate hosted private `/studios` and `/agency` source was unavailable. Muse findings support testing a paid, one-task integration pilot; pricing and strategy remain recommendations, and no connector acceptance or partnership is established. See `docs/DO-STUDIO-MUSE-20260928.md`.

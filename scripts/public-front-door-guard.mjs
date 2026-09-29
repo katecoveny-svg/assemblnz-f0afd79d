@@ -115,8 +115,11 @@ for (const path of publicFiles) {
   if (/\bDOO\b|\bDoo\b|Builderdoo/i.test(text)) {
     errors.push(`${path}: product is DO; specialist is Builder DO`);
   }
+  // Kate requested Personal DO on 30 Sep. Permit only its explicit DO-home entry;
+  // this does not reopen the retired specialist shelf or company homepage promos.
+  const promoText = path === 'app/do/DoHome.tsx' ? text.replace('<Link href="/do/personal">Personal DO</Link>', '') : text;
   for (const promo of bannedPromos) {
-    if (text.includes(promo)) errors.push(`${path}: banned public promo "${promo}"`);
+    if (promoText.includes(promo)) errors.push(`${path}: banned public promo "${promo}"`);
   }
   for (const href of bannedHrefs) {
     if (text.includes(href)) errors.push(`${path}: banned public ${href}`);
