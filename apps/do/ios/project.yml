@@ -22,6 +22,8 @@ targets:
     info:
       path: DOApp/Info.plist
       properties:
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleDisplayName: DO
         UILaunchScreen: {}
         UIApplicationSceneManifest:
@@ -63,6 +65,8 @@ targets:
     info:
       path: DoShare/Info.plist
       properties:
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleDisplayName: DO
         NSExtension:
           NSExtensionPointIdentifier: com.apple.share-services
@@ -86,6 +90,8 @@ targets:
     info:
       path: DoNeedsYouWidget/Info.plist
       properties:
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleDisplayName: DO workspace
         NSExtension:
           NSExtensionPointIdentifier: com.apple.widgetkit-extension

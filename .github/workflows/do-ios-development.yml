@@ -5,6 +5,9 @@ on:
     paths:
       - 'apps/do/ios/**'
       - '.github/workflows/do-ios-development.yml'
+concurrency:
+  group: do-ios-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
