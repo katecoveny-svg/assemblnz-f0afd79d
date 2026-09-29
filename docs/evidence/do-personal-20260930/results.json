@@ -1,0 +1,27 @@
+{
+  "checks": [
+    "signed-out entry has sign-in link",
+    "signed-out screen has no private memory",
+    "headings use Assembl sans typography",
+    "375px page fits",
+    "native editor modal opens",
+    "no provider consent by default",
+    "save needs consent",
+    "phone inputs do not zoom",
+    "editing clears old consent",
+    "explicit save recorded",
+    "memory is visible and controllable",
+    "sharing blocked before review",
+    "review unlocks explicit sharing",
+    "320px workspace fits",
+    "paused responsibility cannot run",
+    "delete asks about notes and history",
+    "cancel delete preserves memory",
+    "delete clears displayed context and runs",
+    "reduced motion removes image transition",
+    "no runtime page errors"
+  ],
+  "errors": [],
+  "apiMode": "fictional intercepted fixtures",
+  "physicalDeviceTested": false
+}

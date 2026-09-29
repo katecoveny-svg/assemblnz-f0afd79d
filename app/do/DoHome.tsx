@@ -181,6 +181,7 @@ export function DoHome() {
         </Link>
         <span className={styles.product}>/ DO</span>
         <nav aria-label="assembl products">
+          <Link href="/do/personal">Personal DO</Link>
           <Link href="/do/widget">Open workspace</Link>
           <Link href="/login?redirect=%2Fdo">Sign in</Link>
         </nav>

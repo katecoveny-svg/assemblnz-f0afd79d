@@ -103,3 +103,7 @@ When a feature creates reusable mechanics, update this registry before closing t
 ## DO phone viewport handling · 30 Sep 2026
 
 Extends `apps/do/shared/distribution.ts`, shared by the website and generated extension: clamps launcher/panel to `visualViewport`, preserves safe areas, supports touch dragging and reset position, and keeps context review separate from movement. Proof: `floating.test.ts` and `scripts/review-do-mobile.cjs`. Physical iPhone QA remains separate. The iOS keyboard is an offline development foundation, not a native agent runtime or installable release.
+
+### Personal DO responsibilities (30 Sep 2026)
+
+**Creates:** `apps/do/personal/` + `/api/do/personal` and the `do_personal_*` tables/RPCs: owner-scoped saved context, expiring preparation consent, atomic daily claims, revocation-aware finish, independent quota and review history. **Uses:** existing DO owner verification, preparation provider ladder, evidence hashes and reviewed sharing. Cloud scheduling requires production cron configuration; no account monitoring, native push or autonomous external action is implied. See `docs/DO-PERSONAL-20260930.md` and its repeatable SQL/API/browser checks.

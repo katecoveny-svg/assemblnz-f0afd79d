@@ -1,0 +1,38 @@
+// Repeatable database contract proof; no production connection or provider call.
+// npm install --prefix /tmp/assembl-personal-sql @electric-sql/pglite@0.3.14
+const {PGlite}=require(process.env.ASSEMBL_PGLITE_MODULE||'/tmp/assembl-personal-sql/node_modules/@electric-sql/pglite');
+const fs=require('node:fs');const assert=require('node:assert/strict');
+(async()=>{const db=new PGlite();let count=0;const check=(name,ok)=>{assert.ok(ok,name);count++;console.log('PASS '+name)};
+ await db.exec(`create role anon; create role authenticated; create role service_role bypassrls; create schema auth; create table auth.users(id uuid primary key,is_anonymous boolean default false); create function auth.uid() returns uuid language sql as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$; create function auth.jwt() returns jsonb language sql as $$select coalesce(nullif(current_setting('request.jwt.claims',true),''),'{}')::jsonb$$;grant usage on schema auth to authenticated,service_role;grant select on auth.users to service_role;`);
+ await db.exec(fs.readFileSync('supabase/migrations/20260929213918_do_personal_responsibilities.sql','utf8'));
+ const a='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',b='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',anon='cccccccc-cccc-4ccc-8ccc-cccccccccccc';await db.query('insert into auth.users values ($1,false),($2,false),($3,true)',[a,b,anon]);
+ const save=async(owner,id=null)=> (await db.query("select public.do_personal_save($1,$2,'Day','Prepare a checklist','Proposal due Friday','Pacific/Auckland',7) as id",[owner,id])).rows[0].id;
+ const task=await save(a),other=await save(b);
+ check('saved context belongs to its owner',(await db.query('select owner_id from public.do_personal_responsibilities where id=$1',[task])).rows[0].owner_id===a);
+ await assert.rejects(()=>save(anon));check('anonymous accounts cannot save',true);
+ await assert.rejects(()=>save(b,task));check('cannot replace another owner context',true);
+ await db.query("select set_config('request.jwt.claim.sub',$1,false)",[b]);await db.exec('set role authenticated');
+ check('RLS hides another owner context',(await db.query('select id from public.do_personal_responsibilities')).rows.length===1);
+ await assert.rejects(()=>db.query("update public.do_personal_responsibilities set active=true"));check('client cannot forge schedules or quota',true);
+ await assert.rejects(()=>db.query('select * from public.do_personal_claim()'));check('worker RPC is inaccessible to clients',true);
+ await db.exec('reset role');await db.exec('set role anon');await assert.rejects(()=>db.query('select * from public.do_personal_responsibilities'));check('signed-out callers cannot read notes',true);await db.exec('reset role');
+ const claim=async(owner,id)=>(await db.query('select * from public.do_personal_claim($1,$2)',[owner,id])).rows;
+ check('manual claim is owner scoped',(await claim(b,task)).length===0);
+ const first=(await claim(a,task))[0];check('real claim creates running record',!!first?.run_id);
+ check('repeat claim cannot duplicate paid work',(await claim(a,task)).length===0);
+ await db.query('select public.do_personal_pause($1,$2)',[a,task]);
+ const finish=await db.query("select public.do_personal_finish($1,'Do this','{}',false) as published",[first.run_id]);check('pause discards in-flight result',finish.rows[0].published===false);
+ await save(a,task);await db.query("update public.do_personal_runs set started_at=now()-interval '2 hours' where id=$1",[first.run_id]);const second=(await claim(a,task))[0];await save(a,task);
+ check('changed notes invalidate previous consent/result',(await db.query("select public.do_personal_finish($1,'stale','{}',false) as published",[second.run_id])).rows[0].published===false);
+ await db.query("update public.do_personal_responsibilities set consent_until=now()-interval '1 second' where id=$1",[task]);check('expired permission blocks work',(await claim(a,task)).length===0);
+ const good=(await claim(b,other))[0];await db.query("select public.do_personal_finish($1,'Draft checklist','{\"method\":\"model\"}',false)",[good.run_id]);
+ check('completion is a review draft, never external success',(await db.query('select status from public.do_personal_runs where id=$1',[good.run_id])).rows[0].status==='needs_review');
+ for(let i=0;i<4;i++)await save(a);await assert.rejects(()=>save(a));check('five responsibility cap enforced in storage',true);
+ await db.query("update public.do_personal_responsibilities set active=true,consent_until=now()+interval '1 day' where id=$1",[task]);
+ await db.query("insert into public.do_personal_usage(owner_id,created_at) select $1,now()-interval '2 hours' from generate_series(1,3)",[a]);
+ check('all attempts count toward 24-hour model cap',(await claim(a,task)).length===0);
+ await db.query('delete from public.do_personal_responsibilities where owner_id=$1',[a]);const recreated=await save(a);check('deleting all notes cannot reset model quota',(await claim(a,recreated)).length===0);
+ const dst=await db.query("select ('2026-09-27 07:00'::timestamp at time zone 'Pacific/Auckland')::text as after, ('2026-09-26 07:00'::timestamp at time zone 'Pacific/Auckland')::text as before");check('NZ daily hour follows daylight saving',dst.rows[0].after.includes('18:00')&&dst.rows[0].before.includes('19:00'));
+ await db.query('delete from public.do_personal_responsibilities where id=$1',[other]);check('deleting memory also deletes its run history',(await db.query('select id from public.do_personal_runs where responsibility_id=$1',[other])).rows.length===0);
+ await db.close();console.log(`${count} database checks passed`);
+})().catch(e=>{console.error(e);process.exitCode=1});
