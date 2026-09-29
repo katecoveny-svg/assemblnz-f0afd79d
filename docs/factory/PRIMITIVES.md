@@ -103,3 +103,7 @@ When a feature creates reusable mechanics, update this registry before closing t
 ## DO phone viewport handling · 30 Sep 2026
 
 Extends `apps/do/shared/distribution.ts`, shared by the website and generated extension: clamps launcher/panel to `visualViewport`, preserves safe areas, supports touch dragging and reset position, and keeps context review separate from movement. Proof: `floating.test.ts` and `scripts/review-do-mobile.cjs`. Physical iPhone QA remains separate. The iOS keyboard is an offline development foundation, not a native agent runtime or installable release.
+
+## Native reviewed draft handoff · 30 Sep 2026
+
+`apps/do/ios/Shared/DOStore.swift` is the local-only native handoff primitive. App/Share Sheet saves never approve keyboard access; explicit review releases one draft for one hour; keyboard reads only, checks identity/expiry again before insertion, and clears its preview on context change. XCTest contracts live in `apps/do/ios/Tests`. Unsigned compiler proof and signed App Group/device proof remain separate. This is not a cloud execution or generic cross-app context bridge.

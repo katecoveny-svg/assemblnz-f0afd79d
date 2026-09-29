@@ -1,0 +1,111 @@
+name: DO
+options:
+  minimumXcodeGenVersion: 2.42.0
+  deploymentTarget:
+    iOS: '17.0'
+settings:
+  base:
+    SWIFT_VERSION: '5.0'
+    TARGETED_DEVICE_FAMILY: '1,2'
+    MARKETING_VERSION: '0.2.0'
+    CURRENT_PROJECT_VERSION: 2
+    CODE_SIGN_STYLE: Automatic
+targets:
+  DOApp:
+    type: application
+    platform: iOS
+    sources: [DOApp, Shared]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: co.assembl.do
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    info:
+      path: DOApp/Info.plist
+      properties:
+        CFBundleDisplayName: DO
+        UILaunchScreen: {}
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        CFBundleURLTypes:
+          - CFBundleURLName: co.assembl.do
+            CFBundleURLSchemes: [assembl-do]
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        ITSAppUsesNonExemptEncryption: false
+    entitlements:
+      path: DOApp/DOApp.entitlements
+      properties:
+        com.apple.security.application-groups: [group.co.assembl.do]
+    dependencies:
+      - target: DoKeyboard
+      - target: DoShare
+      - target: DoNeedsYouWidget
+  DoKeyboard:
+    type: app-extension
+    platform: iOS
+    sources: [DoKeyboard, Shared]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: co.assembl.do.keyboard
+        APPLICATION_EXTENSION_API_ONLY: true
+        INFOPLIST_FILE: DoKeyboard/Info.plist
+    entitlements:
+      path: DoKeyboard/DoKeyboard.entitlements
+      properties:
+        com.apple.security.application-groups: [group.co.assembl.do]
+  DoShare:
+    type: app-extension
+    platform: iOS
+    sources: [DoShare, Shared]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: co.assembl.do.share
+        APPLICATION_EXTENSION_API_ONLY: true
+    info:
+      path: DoShare/Info.plist
+      properties:
+        CFBundleDisplayName: DO
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.share-services
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).ShareViewController
+          NSExtensionAttributes:
+            NSExtensionActivationRule:
+              NSExtensionActivationSupportsText: true
+              NSExtensionActivationSupportsWebURLWithMaxCount: 1
+    entitlements:
+      path: DoShare/DoShare.entitlements
+      properties:
+        com.apple.security.application-groups: [group.co.assembl.do]
+  DoNeedsYouWidget:
+    type: app-extension
+    platform: iOS
+    sources: [DoNeedsYouWidget, Shared]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: co.assembl.do.widget
+        APPLICATION_EXTENSION_API_ONLY: true
+    info:
+      path: DoNeedsYouWidget/Info.plist
+      properties:
+        CFBundleDisplayName: DO workspace
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    entitlements:
+      path: DoNeedsYouWidget/DoNeedsYouWidget.entitlements
+      properties:
+        com.apple.security.application-groups: [group.co.assembl.do]
+  DOTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [Tests, Shared]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: co.assembl.do.tests
+        GENERATE_INFOPLIST_FILE: true
+schemes:
+  DO:
+    build:
+      targets:
+        DOApp: all
+        DOTests: [test]
+    test:
+      targets: [DOTests]

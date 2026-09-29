@@ -1,0 +1,10 @@
+DO.xcodeproj/
+build/
+*.xcuserstate
+DOApp/Info.plist
+DOApp/DOApp.entitlements
+DoKeyboard/DoKeyboard.entitlements
+DoShare/Info.plist
+DoShare/DoShare.entitlements
+DoNeedsYouWidget/Info.plist
+DoNeedsYouWidget/DoNeedsYouWidget.entitlements
