@@ -11,7 +11,7 @@ private enum CompanionPreference {
 }
 
 final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WKUIDelegate {
-    @Published var status = "Choose an app, select text, then bring it here when you want help."
+    @Published var status = "Click the D to open DO. Use selected text only when you want to bring something from another app."
     @Published var review = ""
     @Published var targetName = "your app"
     @Published var destinationChecked = false
@@ -22,7 +22,7 @@ final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WK
         super.init()
         web.navigationDelegate = self
         web.uiDelegate = self
-        web.load(URLRequest(url: URL(string: "https://www.assembl.co.nz/do/widget")!))
+        web.load(URLRequest(url: URL(string: "https://www.assembl.co.nz/do")!))
         if let active = NSWorkspace.shared.frontmostApplication,
            active.processIdentifier != ProcessInfo.processInfo.processIdentifier,
            active.activationPolicy == .regular {
@@ -108,7 +108,7 @@ final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WK
         guard web.url?.host == "www.assembl.co.nz",
               web.url?.path == "/do/widget",
               !review.isEmpty else {
-            status = "Open the DO workspace before adding text."
+            status = "Choose Writing & capture before adding your reviewed text. Nothing has been sent."
             return
         }
         let data: [String: Any] = [
@@ -195,9 +195,10 @@ struct Workspace: View {
                 Text("DO").font(.title.bold())
                 Text("by assembl").foregroundColor(.secondary)
                 Spacer()
-                Button("Workspace") { model.open("/do/widget") }
+                Button("Open DO") { model.open("/do") }
+                Button("Writing & capture") { model.open("/do/widget") }
                 Button("Bills & budget") { model.open("/do/bills") }
-                Button("School admin") { model.open("/do/family") }
+
             }
             HStack {
                 Button("Enable app interaction") { model.enableInteraction() }

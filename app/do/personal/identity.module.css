@@ -106,3 +106,6 @@
 
 /* The settings dialog is mounted from compact navigation. Never inherit its small control text. */
 .backdrop .label input, .backdrop .label textarea, .backdrop .label select { font-size: 16px; }
+
+.character>span{--presence-size:100%!important;width:100%;height:100%}.character[data-character=orbit]{transform:rotate(6deg)}.character[data-character=spark]{transform:rotate(-6deg)}
+.character{position:relative}.character>.personalOrbit{position:absolute;inset:32% 12%;width:auto!important;height:auto!important;border:1px solid #916a7090;border-radius:50%;transform:rotate(-30deg)}.character>.personalSpark{position:absolute;top:5%;right:5%;width:auto!important;height:auto!important;font-size:20px;color:#916a70}

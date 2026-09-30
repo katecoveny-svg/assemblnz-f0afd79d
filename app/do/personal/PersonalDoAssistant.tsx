@@ -140,11 +140,11 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange }: 
       </div>
     </div>}
     <form onSubmit={event => void submit(event)}>
-      <label className={styles.inputLabel} htmlFor="personal-assistant-input">{result ? 'What would help next?' : 'What’s on your mind?'}</label>
-      <textarea ref={inputRef} id="personal-assistant-input" data-do-primary-input value={message} maxLength={4000} rows={3} disabled={working} placeholder="A tricky reply, something to organise, a plan you haven’t had time for…" onChange={event => { setMessage(event.target.value); setConsent(false); setNotice(''); }} />
+      <label className={styles.inputLabel} htmlFor="personal-assistant-input">{result ? 'What would help next?' : 'What needs doing?'}</label>
+      <textarea ref={inputRef} id="personal-assistant-input" data-do-primary-input value={message} maxLength={4000} rows={3} disabled={working} placeholder="e.g. Prepare a reply to my property manager" onChange={event => { setMessage(event.target.value); setConsent(false); setNotice(''); }} />
       <div className={styles.composerFooter}>
         <span>{working ? 'Checking the request and preparing your reply…' : 'You decide what happens next'}</span>
-        {working ? <button className={styles.stop} type="button" onClick={cancel}><X size={15} /> Stop</button> : <button className={styles.send} type="submit" disabled={!message.trim() || loading || !availability?.ready}>{reviewOpen && consent ? 'Ask DO' : 'Let’s sort it'}<ArrowUpRight size={18} /></button>}
+        {working ? <button className={styles.stop} type="button" onClick={cancel}><X size={15} /> Stop</button> : <button className={styles.send} type="submit" disabled={!message.trim() || loading || !availability?.ready}>{reviewOpen && consent ? 'Ask DO' : 'Start'}<ArrowUpRight size={18} /></button>}
       </div>
       <details className={styles.notes}><summary>Add a little context <ChevronDown size={14} /></summary><label htmlFor="personal-assistant-notes">Notes to use in this conversation</label><textarea id="personal-assistant-notes" value={context} maxLength={6000} rows={3} disabled={working} onChange={event => { setContext(event.target.value); setConsent(false); }} placeholder="Paste only the details you want DO to use. Links are not opened." /><p>Remove passwords, payment details and anything you don’t want to share. Only the last exchange and these notes go with your next message.</p></details>
       {reviewOpen && <div className={styles.consent}>
@@ -154,7 +154,7 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange }: 
     </form>
     <div className={styles.status} aria-live="polite" role="status">
       {loading && <p><LoaderCircle size={13} /> Checking availability…</p>}
-      {!loading && availability && !availability.ready && <p>{availability.message} {!availability.signedIn ? <Link href="/login?redirect=%2Fdo%2Fpersonal">Sign in</Link> : <button type="button" onClick={() => { setError(''); void loadAvailability(); }}>Check again</button>}</p>}
+      {!loading && availability && !availability.ready && <p>{availability.message} {!availability.signedIn ? <Link href="/login?redirect=%2Fdo">Sign in</Link> : <button type="button" onClick={() => { setError(''); void loadAvailability(); }}>Check again</button>}</p>}
       {!loading && !availability && <button type="button" onClick={() => { setError(''); void loadAvailability(); }}>Check availability again</button>}
       {notice && <p>{notice}</p>}
     </div>

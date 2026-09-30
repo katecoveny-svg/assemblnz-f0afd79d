@@ -1,0 +1,32 @@
+/* One working entry, shared visually with the Assembl front door. */
+.workspace{margin:0 auto 40px;padding:0!important;max-width:1120px}
+.stage{max-width:670px;margin:0 auto;min-height:calc(100svh - 88px);padding:24px 0 62px;color:#240b21;display:flex;flex-direction:column;justify-content:center;isolation:isolate}
+.stage>[hidden]{display:none!important}
+.heading{text-align:center;display:flex;flex-direction:column;align-items:center;margin:0 0 24px;gap:10px}
+.object{position:relative;display:grid;place-items:center;width:208px;height:151px;margin-bottom:6px}
+.object>span:last-child{--presence-size:180px;position:relative;z-index:2;transform:translate(-3px,-6px)}
+.tile{position:absolute;width:120px;height:120px;border-radius:35px 35px 58px 35px;transform:rotate(-10deg) translate(-12px,-2px);background:#dad2f4;box-shadow:inset 1px 2px 1px #fffdfbe6,3px 5px 0 #b9aedb55,7px 12px 17px #654a4e15}
+.petal{position:absolute;width:83px;height:83px;right:10px;bottom:14px;border-radius:50%;background:#eac8df;box-shadow:inset 1px 2px 1px #fffdfbba,0 7px 14px #654a4e12}
+.workspace .intro h1{font-family:var(--font-body),sans-serif;color:#240b21;font-size:clamp(36px,3.8vw,48px);font-weight:500;letter-spacing:-.055em;line-height:1.08;margin:0}
+.intro p{font-size:15px;color:#654a4e;margin:14px 0 0;line-height:1.5}
+.composerTabs{display:flex;align-self:center;justify-content:center;gap:4px;margin:0 0 15px;padding:4px;border-radius:16px;background:#f5f1f2}
+.workspace .composerTabs button{border:0;background:transparent;border-radius:12px;min-height:40px;padding:8px 17px;font-size:12px;color:#654a4e;transition:background 150ms,box-shadow 150ms}
+.workspace .composerTabs button[aria-pressed=true]{background:#fffdfb;color:#240b21;box-shadow:0 2px 5px #240b2110}
+.workspace .intake{background:#fffdfb;border:1px solid #ded0db;border-radius:26px;padding:19px 22px 13px;box-shadow:0 5px 10px #240b2106,0 13px 35px #240b2107,inset 0 1px 0 #fff;min-width:0}
+.intakeTop{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.workspace .intake textarea{border:0;box-shadow:none;background:transparent;resize:vertical;padding:4px 0;margin:0;min-height:60px;font-size:16px;line-height:1.6;border-radius:8px}
+.workspace .intake textarea::placeholder{color:#654a4e;opacity:1}
+.intakeActions{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-top:9px}
+.addContext{position:relative}.workspace .addContext>summary{display:flex;gap:8px;align-items:center;font-size:12px;color:#654a4e;min-height:44px;padding:8px 4px;list-style:none;font-weight:400}.addContext>summary::-webkit-details-marker{display:none}
+.captureModes{position:absolute;bottom:calc(100% + 9px);left:0;display:flex;align-items:center;gap:7px;padding:10px;background:#fffdfb;border:1px solid #ded0db;border-radius:20px;box-shadow:0 12px 30px #240b211a;z-index:6;max-width:calc(100vw - 76px)}
+.workspace .captureModes button{display:flex;flex-direction:column;gap:7px;border:0;border-radius:13px;min-width:68px;min-height:75px;padding:10px;background:#f5f1f2;font-size:11px}.workspace .captureModes button:first-child{background:#dad2f4}.workspace .captureModes button:nth-child(2){background:#eac8df}.captureModes button span{white-space:nowrap}
+.workspace .stage .primary{display:inline-flex;align-items:center;gap:25px;padding:11px 16px 11px 20px;min-height:46px;border-radius:16px;border:1px solid #654a4e;background:linear-gradient(165deg,#654a4e 0%,#35122f 50%,#240b21 100%);color:#fffdfb;box-shadow:inset 0 1px 1px #eac8df88,0 2px 0 #240b21,0 8px 15px #240b2120;font-size:13px;transition:transform 150ms,box-shadow 150ms}
+.workspace .stage .primary:hover:not(:disabled){transform:translateY(-1px);background:linear-gradient(165deg,#654a4e,#240b21);box-shadow:inset 0 1px 1px #eac8df88,0 3px 0 #240b21,0 11px 18px #240b2128}.workspace .stage .primary:active:not(:disabled){transform:translateY(2px);box-shadow:inset 0 1px 1px #eac8df88,0 1px 0 #240b21,0 4px 8px #240b2110}.workspace .stage .primary:disabled{opacity:.5}
+.privacy{font-size:10px;line-height:1.5;color:#654a4e;margin:16px 0 0}
+.workspace .exampleToggle{width:auto;align-self:center;display:flex;gap:11px;border:0;background:transparent;color:#654a4e;font-size:12px;min-height:44px;margin:13px 0 0;padding:10px 13px}
+.mainModes{display:flex;justify-content:center;gap:12px;margin:12px 0 0}.workspace .mainModes button{border:0;background:transparent;color:#654a4e;font-size:12px;padding:9px}.mainModes button>svg{background:#f5f1f2;border-radius:7px;padding:2px;width:25px;height:25px}.mainModes button:first-child>svg{background:#dad2f4}.mainModes button:nth-child(2)>svg{background:#eac8df}
+.workspace .stage>section{max-width:100%}
+@media(min-width:900px){.stage:focus-within .object>span:last-child{transform:translate(-3px,-8px) rotate(2deg)}}
+@media(max-width:760px){.stage{min-height:calc(100svh - 76px);padding:18px 0 45px;justify-content:center}.heading{margin-bottom:23px;gap:8px}.object{width:172px;height:129px;margin:0}.object>span:last-child{--presence-size:154px}.tile{width:99px;height:99px;border-radius:30px 30px 48px 30px}.petal{width:69px;height:69px;right:8px;bottom:14px}.workspace .intro h1{font-size:34px;letter-spacing:-.052em}.intro p{font-size:13px;margin-top:12px}.workspace .intake{padding:16px 16px 12px;border-radius:23px}.workspace .intake textarea{font-size:16px;min-height:76px}.composerTabs{margin-bottom:14px}.workspace .composerTabs button{font-size:11px;padding:8px 14px}.workspace .stage .primary{gap:16px;min-height:45px;padding:10px 13px 10px 16px}.privacy{font-size:9px;margin-top:14px}.mainModes{gap:5px}.workspace .mainModes button{font-size:11px;padding:8px 5px;gap:5px}}
+@media(prefers-reduced-motion:no-preference){.tile{animation:do-tile-settle 700ms cubic-bezier(.2,.8,.2,1) both}.petal{animation:do-petal-settle 850ms cubic-bezier(.2,.8,.2,1) both}.object>span:last-child{transition:transform 300ms}@keyframes do-tile-settle{from{opacity:0;transform:rotate(-18deg) translate(-28px,9px)}}@keyframes do-petal-settle{from{opacity:0;transform:translate(18px,9px)}}}
+@media(prefers-reduced-motion:reduce){.workspace .stage button,.object>span:last-child{transition:none}.workspace .stage button:hover,.workspace .stage button:active,.stage:focus-within .object>span:last-child{transform:none}}

@@ -7,3 +7,5 @@
 [data-do-sign-in] input[type="checkbox"] { accent-color: #654a4e; }
 [data-do-sign-in] input:focus { border-color: #916a70; box-shadow: 0 0 0 2px #916a7026; }
 [data-do-sign-in] :is(a,button,input):focus-visible { outline: 2px solid #916a70; outline-offset: 4px; }
+
+[data-do-sign-in]{background:#fffdfb!important}[data-do-sign-in] .glass-card{background:#fffdfb;border:1px solid #ded0db;border-radius:28px;box-shadow:0 15px 50px #240b210b}[data-do-sign-in] h1{text-transform:none!important;letter-spacing:-.055em!important}[data-do-sign-in] .cta-primary{border-radius:16px;background:linear-gradient(165deg,#654a4e,#240b21);box-shadow:inset 0 1px 0 #eac8df88,0 2px 0 #240b21,0 8px 18px #240b2118}

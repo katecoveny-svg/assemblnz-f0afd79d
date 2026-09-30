@@ -137,3 +137,11 @@ from recorded replies and bookings. Per-owner webhook keys accept idempotent
 intake and outcome events; three-day follow-ups are fresh approval-required jobs.
 `/api/mcp` exposes owner-scoped preparation/status/evidence, with no send tool.
 See `docs/DO-ENQUIRIES-RUNBOOK.md` for activation, validation and limits.
+
+### Unified DO entry and identity (30 Sep review implementation)
+
+**Extends:** existing PersonalDo at `/do`, retaining `/do/personal` for PWA and reviewed share intake. Keeps `/do/widget` as the exact-path capture receiver; known legacy task links resolve there. Uses existing owner/session/consent logic unchanged. No notes enter navigation URLs.
+
+**Extends:** `DoMark` through shared `DoPresence`, `DoBrand`, optional `DoEntryObject`/`DoObjectCanvas`, and `scripts/generate-do-identity.mjs`. Real bevelled geometry is progressive enhancement with static/reduced-motion fallback; no hosted provider or continuous render loop is needed. Consumer menus no longer label the seeded developer board as saved user tasks. Native source changes are not an installed/signed Mac release.
+
+**Creates:** `lib/do/navigation.ts` for non-content DO sign-in return selectors, with explicit task/tool allowlists. Proof: `navigation.test.ts`, existing consent/owner/capture regression tests, and `scripts/review-do-unified.cjs`. See `docs/DO-UNIFIED-20260930.md` for actual check results and remaining release gates.

@@ -3,7 +3,7 @@
 > The canonical visual system for the assembl company site, product surfaces and the shared base beneath every demonstrator.
 
 **Status:** Locked  
-**Last updated:** 17 September 2026  
+**Last updated:** 30 September 2026
 **Applies to:** assembl public pages, product surfaces, evidence artefacts and the shared frame of client demonstrators
 
 This document overrides older brass, amber, pounamu, cobalt, pearl, canary, grape-purple and Cormorant-led directions wherever they conflict.
@@ -17,6 +17,14 @@ This document overrides older brass, amber, pounamu, cobalt, pearl, canary, grap
 | Dusty rose | `#916A70` | State, progress, permission, focus and active details |
 | Chalk | `#F5F1F2` | Secondary surface, pale field and paper contrast |
 | Paper | `#FFFDFB` | Primary canvas and fully opaque type on deep plum |
+
+### DO daylight extension · 30 September 2026
+
+Kate’s accepted unified DO direction adds lilac `#DAD2F4`, petal `#EAC8DF` and blush `#F5E4E7` for rounded physical forms and shallow supporting surfaces. Deep plum remains the primary ink and DO body; dusty rose retains its state/permission role. These pastels are deliberate additions, not permission for saturated neon or arbitrary palettes.
+
+The DO entry is one sculptural, bevelled D with its inner dot, a lilac rounded tile and an offset petal disc. Optional real 3D uses demand rendering, bounded DPR and pointer response that settles. The complete SVG composition remains available for reduced motion, unsupported WebGL and scene failure. One primary input or action comes before product explanations.
+
+`DoEntryObject`, `DoPresence` and `DoBrand` share the identity across company entry and working app. `scripts/generate-do-identity.mjs` derives browser, phone and native-source icons from the canonical `DoMark` path. Installed native applications are not updated merely by changing source assets.
 
 ### Usage rules
 
@@ -32,6 +40,8 @@ This document overrides older brass, amber, pounamu, cobalt, pearl, canary, grap
 - **Instrument Sans** for headlines, body copy, navigation and controls.
 - **IBM Plex Mono** only for wait-state labels, evidence, timestamps, permissions, receipts and proof.
 - The wordmark is always lowercase `assembl` and uses a regular or medium weight. It must never appear as `Assembl` or `ASSEMBL`.
+- The company letter mark and favicon are lowercase `a`, never a capital A. This does not change the intentional uppercase D in DO or verified client identities.
+- Do not substitute a serif in company documents or social cards. Inspect the actual rendered font, not only the configured fallback name.
 - Product verbs such as `find it.`, `DO it.` and `show it.` use Instrument Sans, upright. Do not revive old serif/italic treatments as company precedent.
 
 ## Assembly grammar

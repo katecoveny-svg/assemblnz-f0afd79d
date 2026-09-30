@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   manifest: '/do/manifest.webmanifest',
   applicationName: 'DO',
   appleWebApp: { capable: true, title: 'DO', statusBarStyle: 'default' },
-  icons: { icon: '/do/icons/do-192.png?v=3', apple: '/do/icons/do-180.png?v=2' },
+  icons: { icon: '/do/icons/do-192.png?v=4', apple: '/do/icons/do-180.png?v=4' },
 };
 
 export default function DoLayout({ children }: { children: ReactNode }) {

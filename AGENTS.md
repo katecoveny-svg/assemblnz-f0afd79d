@@ -110,13 +110,14 @@ Current tokens:
 - dusty rose `#916A70`
 - chalk `#F5F1F2`
 - paper `#FFFDFB`
+- DO daylight accents: lilac `#DAD2F4`, petal `#EAC8DF`, blush `#F5E4E7`
 
 Typography:
 
 - Instrument Sans — headlines/body/navigation/controls
 - IBM Plex Mono — wait-state labels/evidence/timestamps/proof
 
-Wordmark: lowercase `assembl`.
+Wordmark: lowercase `assembl`. Company letter mark/favicon: lowercase `a`, never capital A. DO intentionally retains the uppercase D and interior dot. `docs/assembl-brand-system.md` is the single visual canon; historical root guides and old skills cannot override it.
 
 No chatbot/robot imagery. Prefer editorial or sculptural product photography and visual metaphors of assembly.
 
