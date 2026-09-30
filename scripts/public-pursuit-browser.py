@@ -84,6 +84,23 @@ async def main():
       await expect(outreach.get_by_role('heading',name='Fixture seller',exact=True)).to_have_count(0)
       assert not errors,errors
       report.append({'width':width,'websiteOutreach':'review, edit invalidation, export and changed-brief reset passed','providerCall':False})
+      # An empty verified shortlist must never expose an unsupported account/export.
+      empty_fixture=json.loads(json.dumps(outreach_fixture))
+      empty_fixture['campaign']['prospects']=[]
+      empty_fixture['campaign']['gaps']=['No verified shortlist: no prospect passed the identity and signal checks.']
+      await page.unroute('**/api/pursuit/research')
+      async def empty_mock(route):
+        await route.fulfill(json={'ready':True,'typesafeReady':False} if route.request.method=='GET' else empty_fixture)
+      await page.route('**/api/pursuit/research',empty_mock)
+      await outreach.get_by_label('Your business website',exact=True).fill('https://seller.example.com/')
+      await outreach.get_by_role('button',name='Find prospects').click()
+      await expect(outreach.get_by_text('No verified shortlist. No sufficiently supported accounts were found. Refine the market brief using the research gaps below.',exact=True)).to_be_visible()
+      await expect(outreach.get_by_role('button',name='Download reviewed outreach')).to_have_count(0)
+      await expect(outreach.get_by_role('button',name='Fixture prospect',exact=False)).to_have_count(0)
+      await outreach.get_by_text('Research gaps & receipt',exact=True).click()
+      await expect(outreach.get_by_text(empty_fixture['campaign']['gaps'][0],exact=True)).to_be_visible()
+      await page.screenshot(path=str(OUT/f'outreach-empty-{width}.png'),timeout=60000)
+      report.append({'width':width,'emptyShortlist':'explicit no verified shortlist, no account or export, visible research gap','providerCall':False})
       # Assembl maker: actual canvas exports; provider response is a labelled fixture.
       generation_requests=[]
       asset=base64.b64encode(Path('public/do/world/atelier-poster.png').read_bytes()).decode()
