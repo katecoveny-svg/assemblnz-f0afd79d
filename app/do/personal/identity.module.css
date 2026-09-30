@@ -103,3 +103,6 @@
 @media (max-width: 760px) { .identity[data-compact] { flex-wrap: nowrap; } .identity[data-compact] > button { width: auto; margin: 0; font-size: 11px; min-height: 44px; padding: 10px 11px; max-width: 185px; } .preview > .character { width: 160px; height: 160px; } }
 
 .preview h3 { color: #fffdfb; }
+
+/* The settings dialog is mounted from compact navigation. Never inherit its small control text. */
+.backdrop .label input, .backdrop .label textarea, .backdrop .label select { font-size: 16px; }

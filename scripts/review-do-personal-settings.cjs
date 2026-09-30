@@ -24,6 +24,7 @@ const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLen
     await page.route('**/api/do/personal', route => signedIn
       ? route.fulfill({ json: { workspaceKey: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', responsibilities: [], runs: [], worker: { configured: true, lastSeenAt: new Date().toISOString() } } })
       : route.fulfill({ status: 401, json: { workspaceKey: 'guest', error: 'Sign in for cloud responsibilities.' } }));
+    await page.route('**/api/do/personal/assistant', route => route.fulfill({ status: signedIn ? 200 : 401, json: { signedIn, ready: signedIn, reason: signedIn ? null : 'sign_in_required', message: signedIn ? 'Fictional configured status; not live provider proof.' : 'Sign in to ask your Personal DO.', model: 'gpt-6-astra', externalActions: false } }));
     await page.route('**/api/do/live-token', route => route.fulfill({ json: { enabled: false, configured: false, signedIn: true, remaining: null, dailyLimit: 3, sessionSeconds: 300, model: 'test-fixture' } }));
     await page.route('**/api/do/personal/profile', route => {
       const request = route.request();
@@ -74,12 +75,12 @@ const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLen
     await page.getByRole('button', { name: 'Customise Pip' }).waitFor();
     check('one explicit save carries the correct settings', mutations.length === 1 && mutations[0].displayName === 'Pip' && mutations[0].tone === 'direct');
     await page.reload({ waitUntil: 'networkidle' });
-    check('settings return after reload', await page.getByRole('heading', { name: 'Meet Pip.' }).isVisible());
+    check('settings return after reload', await page.getByRole('navigation', { name: 'Personal DO', exact: true }).getByRole('button', { name: 'Customise Pip', exact: true }).isVisible());
     await page.screenshot({ path: out + '/personal-workspace-mobile.png', fullPage: true });
     await page.getByRole('button', { name: 'Customise Pip' }).click();
     await page.getByLabel('What shall we call your DO?').fill('Unsaved name');
     await page.getByRole('button', { name: 'Close customisation' }).click();
-    check('closing discards edits', await page.getByRole('heading', { name: 'Meet Pip.' }).isVisible());
+    check('closing discards edits', await page.getByRole('navigation', { name: 'Personal DO', exact: true }).getByRole('button', { name: 'Customise Pip', exact: true }).isVisible());
     await page.getByRole('button', { name: 'Customise Pip' }).click();
     check('reopening restores saved name', await page.getByLabel('What shall we call your DO?').inputValue() === 'Pip');
     await page.getByRole('button', { name: 'Next', exact: true }).click();
@@ -109,7 +110,7 @@ const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLen
     check('all twelve workflow choices remain available', await page.locator('[aria-label="Everyday NZ checklists"] button').count() === 12);
     await page.getByLabel('What needs sorting?').fill('Fictional school trip on Friday 9 October 2026, 9 am to 3 pm. Bring a coat and lunch. Permission reply needed Thursday.');
     await page.getByLabel('Kind of admin').selectOption('school');
-    await page.getByRole('button', { name: 'Let’s sort it', exact: false }).click();
+    await page.locator('#personal-local-checklist').getByRole('button', { name: 'Let’s sort it', exact: true }).click();
     await page.getByRole('button', { name: 'See my next steps', exact: false }).click();
     check('source excerpts are prefilled for review', (await page.getByLabel('What is happening?').inputValue()).includes('Fictional school trip'));
     await page.getByLabel('What is happening?').fill('');
