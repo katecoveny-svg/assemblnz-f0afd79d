@@ -1,0 +1,32 @@
+name: RSS adapter validation
+
+on:
+  pull_request:
+    paths:
+      - 'supabase/functions/adapter-rss/**'
+      - 'supabase/functions/_shared/opportunity-envelope.ts'
+      - '.github/workflows/rss-adapter-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  rss-adapter:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.9.6
+      - name: Strict edge type validation
+        run: deno check --no-config --node-modules-dir=none supabase/functions/adapter-rss/index.ts
+      - name: Real handler failure and freshness regression (local stub only)
+        run: deno test --no-config --node-modules-dir=none --import-map=supabase/functions/adapter-rss/tests/import-map.json supabase/functions/adapter-rss/tests/handler.test.ts
+      - name: Install pinned parser test tooling outside the repository
+        run: npm install --prefix /tmp/beehive-parser-test --ignore-scripts --no-audit --no-fund rss-parser@3.13.0 tsx@4.22.0
+      - name: Feed format and attribution regression tests
+        run: NODE_PATH=/tmp/beehive-parser-test/node_modules node --import /tmp/beehive-parser-test/node_modules/tsx/dist/loader.mjs --test supabase/functions/adapter-rss/feed-response.test.ts

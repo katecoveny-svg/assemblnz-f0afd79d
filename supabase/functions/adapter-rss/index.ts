@@ -5,7 +5,7 @@
 // kb_source_runs. Triggers auto-enqueue embedding via DB trigger.
 // ═══════════════════════════════════════════════════════════════
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
-import Parser from "https://esm.sh/rss-parser@3.13.0";
+import Parser from "npm:rss-parser@3.13.0";
 import { documentEnvelope } from "../_shared/opportunity-envelope.ts";
 import { FeedResponseError, parseFeedResponse } from "./feed-response.ts";
 
