@@ -4,51 +4,38 @@ import { useId } from "react";
 import type { PersonalDoProfile } from "@/apps/do/personal/profile";
 import styles from "./identity.module.css";
 
-/** Authored vector companions. Decorative, and never a connection or work-state indicator. */
+const silhouette = "M73 40H148C232 40 278 85 278 157C278 232 231 278 148 278H73V40ZM125 90V228H150C197 228 226 204 226 158C226 112 198 90 150 90H125Z";
+/** The canonical D and luminous inner dot, with a personal material finish. No connection status implied. */
 export function PersonalDoCharacter({ avatar, small = false }: {
   avatar: PersonalDoProfile["avatar"];
   small?: boolean;
 }) {
   const id = useId().replaceAll(":", "");
-  const material = `url(#${id}-material)`;
-  const edge = `url(#${id}-edge)`;
+  const pale = avatar === "pebble";
   return <span className={styles.character} data-small={small || undefined} data-character={avatar} aria-hidden="true">
-    <svg viewBox="0 0 320 320" focusable="false">
+    <svg viewBox="0 0 360 340" focusable="false">
       <defs>
-        <linearGradient id={`${id}-material`} x1=".15" y1="0" x2=".85" y2="1" gradientUnits="objectBoundingBox">
-          <stop stopColor="#F2DDE0" /><stop offset=".19" stopColor="#D2ABB3" /><stop offset=".46" stopColor="#916A70" /><stop offset=".76" stopColor="#654A4E" /><stop offset="1" stopColor="#240B21" />
+        <linearGradient id={`${id}-face`} x1="0" y1="0" x2=".85" y2="1">
+          <stop stopColor={pale ? "#FFFDFB" : "#CDA6B4"} /><stop offset=".14" stopColor={pale ? "#EADFE2" : "#916A70"} /><stop offset=".3" stopColor={pale ? "#C0A6B0" : "#543046"} /><stop offset=".5" stopColor={pale ? "#F5F1F2" : "#240B21"} /><stop offset=".79" stopColor={pale ? "#D3BAC4" : "#43203B"} /><stop offset="1" stopColor="#916A70" />
         </linearGradient>
-        <linearGradient id={`${id}-edge`} x1="0" y1="0" x2="1" y2="1"><stop stopColor="#FFFDFB" stopOpacity=".75" /><stop offset=".5" stopColor="#D6B4BE" stopOpacity=".28" /><stop offset="1" stopColor="#240B21" stopOpacity=".3" /></linearGradient>
-        <radialGradient id={`${id}-core`} cx="35%" cy="28%" r="80%"><stop stopColor="#FFFDFB" /><stop offset=".42" stopColor="#EDD0D5" /><stop offset=".8" stopColor="#B38B93" /><stop offset="1" stopColor="#654A4E" /></radialGradient>
-        <radialGradient id={`${id}-recess`}><stop stopColor="#240B21" /><stop offset=".75" stopColor="#4C283F" /><stop offset="1" stopColor="#916A70" /></radialGradient>
+        <linearGradient id={`${id}-side`} x1="0" y1="0" x2="1" y2="1"><stop stopColor="#B992A2" /><stop offset=".35" stopColor="#654A4E" /><stop offset=".65" stopColor="#240B21" /><stop offset="1" stopColor="#4C293F" /></linearGradient>
+        <linearGradient id={`${id}-edge`} x1="0" y1="0" x2="1" y2=".8"><stop stopColor="#FFFDFB" /><stop offset=".25" stopColor="#F0CAD7" /><stop offset=".55" stopColor="#916A70" /><stop offset="1" stopColor="#F3D9E1" /></linearGradient>
+        <radialGradient id={`${id}-light`}><stop stopColor="#F6DFE8" stopOpacity=".8" /><stop offset=".35" stopColor="#D9A9BE" stopOpacity=".26" /><stop offset="1" stopColor="#916A70" stopOpacity="0" /></radialGradient>
+        <radialGradient id={`${id}-dot`} cx="35%" cy="25%" r="75%"><stop stopColor="#FFFDFB" /><stop offset=".36" stopColor="#FFF3F3" /><stop offset=".7" stopColor="#E9BBCD" /><stop offset="1" stopColor="#916A70" /></radialGradient>
+        <linearGradient id={`${id}-shine`} x1="0" y1="0" x2=".4" y2="1"><stop stopColor="#FFFDFB" stopOpacity=".5" /><stop offset=".55" stopColor="#FFFDFB" stopOpacity="0" /></linearGradient>
       </defs>
-      {avatar === "bloom" && <g transform="rotate(-12 160 160)">
-        {[180, 240, 300, 0, 60, 120].map(angle => <g key={angle} transform={`rotate(${angle} 160 160)`}>
-          <path d="M144 171C112 135 98 68 122 37C141 12 177 22 190 51C207 91 189 150 174 174Z" fill="#240B21" opacity=".18" transform="translate(3 6)" />
-          <path d="M143 170C111 134 98 66 122 36C141 12 177 22 190 51C207 91 189 150 173 173Z" fill={material} stroke={edge} strokeWidth="1.1" />
-          <path d="M124 47C108 81 126 129 143 149" fill="none" stroke="#FFFDFB" strokeOpacity=".25" strokeWidth="2" strokeLinecap="round" />
-        </g>)}
-        <circle cx="160" cy="160" r="37" fill={`url(#${id}-recess)`} />
-        <circle cx="159" cy="157" r="23" fill={`url(#${id}-core)`} stroke={edge} />
-      </g>}
-      {avatar === "orbit" && <g fill="none" stroke={material} strokeWidth="38">
-        <ellipse cx="160" cy="160" rx="115" ry="66" transform="rotate(-40 160 160)" />
-        <ellipse cx="160" cy="160" rx="115" ry="66" transform="rotate(40 160 160)" />
-        <ellipse cx="160" cy="160" rx="115" ry="66" transform="rotate(40 160 160)" stroke={edge} strokeWidth="1.4" />
-        <circle cx="160" cy="160" r="27" fill={`url(#${id}-core)`} stroke={edge} strokeWidth="1" />
-      </g>}
-      {avatar === "pebble" && <g>
-        <path d="M74 85C111 29 218 24 259 100C299 176 232 273 159 278C75 283 25 174 74 85Z" fill={material} stroke={edge} strokeWidth="1.5" />
-        <path d="M86 103C102 69 143 51 179 56" fill="none" stroke="#FFFDFB" strokeOpacity=".5" strokeWidth="3" strokeLinecap="round" />
-        <ellipse cx="169" cy="158" rx="30" ry="34" transform="rotate(18 169 158)" fill={`url(#${id}-recess)`} />
-        <ellipse cx="167" cy="153" rx="19" ry="22" transform="rotate(18 167 153)" fill={`url(#${id}-core)`} />
-      </g>}
-      {avatar === "spark" && <g>
-        <path d="M160 24C180 108 214 140 297 160C214 179 180 214 160 297C140 214 108 179 24 160C108 140 140 108 160 24Z" fill={material} stroke={edge} strokeWidth="1.5" />
-        <path d="M160 47C151 107 117 142 57 159" fill="none" stroke="#FFFDFB" strokeOpacity=".4" strokeWidth="2" />
-        <circle cx="160" cy="159" r="28" fill={`url(#${id}-recess)`} />
-        <circle cx="159" cy="156" r="17" fill={`url(#${id}-core)`} />
-      </g>}
+      <g transform="translate(8 5)">
+        {[22, 18, 14, 10, 6].map(depth => <path key={depth} d={silhouette} fill={`url(#${id}-side)`} fillRule="evenodd" transform={`translate(${depth} ${depth * .55})`} />)}
+        <path d={silhouette} fill={`url(#${id}-face)`} fillRule="evenodd" stroke={`url(#${id}-edge)`} strokeWidth="1.3" strokeLinejoin="round" />
+        <path d="M80 48H148C200 48 237 67 254 103" fill="none" stroke="#FFFDFB" strokeOpacity=".48" strokeWidth="2" strokeLinecap="round" />
+        <path d="M125 226V90H150C190 90 216 107 224 139" fill="none" stroke="#240B21" strokeOpacity=".65" strokeWidth="3" strokeLinecap="round" />
+        <path d="M84 56H146C184 56 210 63 230 80L182 92C163 85 151 86 126 86V172L84 191Z" fill={`url(#${id}-shine)`} />
+        <circle cx="167" cy="157" r="68" fill={`url(#${id}-light)`} />
+        <circle className={styles.characterCore} cx="167" cy="155" r="25" fill={`url(#${id}-dot)`} stroke="#FFF1F5" strokeOpacity=".65" />
+        <circle cx="159" cy="147" r="9" fill="#FFFDFB" opacity=".45" />
+        {avatar === "orbit" && <ellipse cx="168" cy="158" rx="137" ry="45" fill="none" stroke="#E4C0CD" strokeOpacity=".5" strokeWidth="1.8" transform="rotate(-30 168 158)" />}
+        {avatar === "spark" && <path d="M288 46V70M276 58H300" stroke="#F5D5E1" strokeWidth="2" strokeLinecap="round" />}
+      </g>
     </svg>
   </span>;
 }

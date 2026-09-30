@@ -45,8 +45,8 @@ export default function DoInstallPage() {
 
       <section className={styles.card} id="phone">
         <h2 className={styles.cardTitle}>DO on your phone.</h2>
-        <p className={styles.heroCopy}>Open your workspace, add text or a screenshot, or record an in-person meeting. Keep DO on your home screen for next time.</p>
-        <Link className={styles.cta} href="/do/widget">Open DO</Link>{' '}<DoShareButton />
+        <p className={styles.heroCopy}>Open your DO, pick up a task or bring some context. Keep the same assistant on your home screen for next time.</p>
+        <Link className={styles.cta} href="/do/personal">Open your DO</Link>{' '}<DoShareButton />
         <DoInstallPwaCta phone prominent />
         <p className={styles.note}>Share DO sends a public link. Share notes sends only the text you reviewed through your phone’s Share menu. Your recording and original source are not attached.</p>
         <p className={styles.note}>Keep DO open while recording. To bring context from another app, paste text or add a screenshot; the phone workspace does not float over other apps.</p>
@@ -55,9 +55,9 @@ export default function DoInstallPage() {
       <section className={styles.card} id="keyboard">
         <p className={styles.kicker}>IN DEVELOPMENT · NOT YET INSTALLABLE</p>
         <h2 className={styles.cardTitle}>DO in your iPhone keyboard.</h2>
-        <p className={styles.heroCopy}>The keyboard is a separate iPhone extension. The development version lets you review nearby text and insert it after review. It still needs a signed app and device testing.</p>
+        <p className={styles.heroCopy}>The native iPhone app, keyboard, Share Sheet and home-screen widget are in development. The separate native build has passed simulator checks for local drafts and reviewed keyboard handoff. A signed iPhone build and device testing are still required.</p>
         <p className={styles.note}>For now, use DO from your home screen, paste text or add a screenshot. A website cannot add itself to your keyboard, read every app or float over the whole phone.</p>
-        <Link className={styles.cta} href="/do/widget">Use the phone workspace</Link>
+        <Link className={styles.cta} href="/do/personal">Use your DO on the web</Link>
       </section>
 
       <section className={styles.card} id="chrome">

@@ -12,9 +12,11 @@ const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLe
 (async () => {
   fs.mkdirSync(out, { recursive: true });
   const browser = await chromium.launch({ executablePath: process.env.ASSEMBL_CHROMIUM_PATH || '/usr/bin/chromium', headless: true });
+  let proofPage;
   try {
     const context = await browser.newContext({ viewport: { width: 375, height: 812 } });
     const page = await context.newPage();
+    proofPage = page;
     page.setDefaultTimeout(15_000);
     const errors = [], tokens = [], mutations = [], compiles = [];
     page.on('pageerror', (error) => errors.push(error.message));
@@ -150,5 +152,9 @@ const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLe
     check('375px call panel fits viewport', await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
     check('no browser runtime errors', errors.length === 0);
     fs.writeFileSync(out + '/results.json', JSON.stringify({ checks, errors, apiMode: 'fictional intercepted fixtures; mocked media and Google WebSocket', liveProviderTested: false, realMicrophoneTested: false }, null, 2));
-  } finally { await browser.close(); }
+  } finally {
+    if (proofPage) await proofPage.screenshot({ path: out + '/final-state.png', fullPage: true }).catch(() => {});
+    if (!fs.existsSync(out + '/results.json')) fs.writeFileSync(out + '/results.json', JSON.stringify({ checks, completed: false, apiMode: 'Fictional fixtures only; see CI failure log', liveProviderTested: false }, null, 2));
+    await browser.close();
+  }
 })().catch((error) => { console.error(error); process.exitCode = 1; });

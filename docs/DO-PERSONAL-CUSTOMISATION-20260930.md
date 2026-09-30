@@ -78,3 +78,20 @@ The next preview includes the [task-first visual replacement and optional onboar
 The final combined DO/API/domain suite passed **1,192 tests across 81 passing suites**, with one suite/two tests intentionally skipped. Complete TypeScript and changed-file lint passed. CI now includes the personal domain tests and a read-only Playwright proof stage after the production build, using only fictional intercepted account/provider/audio fixtures and publishing screenshots/results as short-lived build artifacts. This supplies browser proof without weakening Vercel protection or requiring private account credentials. Real microphone/provider and signed-in persistence verification remain separate.
 
 The first repaired replay advanced past Air NZ and then found that the Zoo-shaped registry also lacks the UUID `id` referenced by later Happy Tails tables. The compatibility bridge now adds a defaulted, non-null unique UUID identity without replacing the slug key or existing UUIDs. Local tests use fictional records and execute the later FK definitions without replaying personal demo fixtures.
+
+### Partial-replay and protected-preview follow-up
+
+The previous isolated preview had already recorded the Air NZ migration, so correctly skipped its later UUID amendment. Meanwhile the repository owner merged PR #1419, including that amendment, and Vercel deployed merge commit `4ceb14de70679b04da7e7745ec47134b0e9b0933`. Remaining work moved to a fresh draft branch based on this identical source tree. Its fresh preview replay includes the UUID bridge in chronological order; **37 local SQL replay checks pass**, and the new preview must confirm its own result. The proposed partial-preview amendment to the legacy Happy Tails fixture file was removed as unnecessary, so that file and all its pre-existing data are untouched. No branch reset or direct production database mutation was performed.
+
+Actual GitHub Chromium proof has captured 375px workspace/settings screenshots and passed the initial 18 settings/consent/mobile assertions. Its first run stopped at a test setup error: the source-derived field was intentionally prefilled, so the sequential-typing test now checks and clears that prefill before typing. Live visual review also caught the global heading colour overriding the plum stage; an explicit paper heading colour and browser contrast assertion correct it. Full browser-flow and real-provider proof remain pending.
+
+The weather browser request now explicitly retains same-origin credentials for the protected preview. Provider adapters still omit credentials and never forward incoming headers to public sources. This changes no server authorization or Vercel protection setting; deployment verification remains required.
+
+
+### New assistant / portable follow-up
+
+The user-confirmed merge of PR #1419 deployed successfully. Read-only production metadata confirms that the responsibilities table exists but `do_personal_profiles` and its migration are absent; live profile persistence therefore needs separately authorised migration/application and signed-in testing. No production schema action was performed in this work.
+
+Remaining improvements are based on merge commit `4ceb14de70679b04da7e7745ec47134b0e9b0933` on a new draft branch. They include the second, more dimensional D-led visual pass, the [Astra + TypeSafe primary conversation](./DO-PERSONAL-ASTRA-TYPESAFE-20260930.md), [portable focus and mobile-source hardening](./DO-PORTABLE-UNIFICATION-20260930.md), protected-preview weather requests and expanded fictional browser proof. No change to historical seed files or private fixture content is included in this follow-up.
+
+Final local follow-up check: **1,244 tests passed across 93 passing suites**, one suite/two tests skipped. Full TypeScript, changed TypeScript/TSX lint, brand/front-door/macron guards and source diff checks passed. The installed OpenAI SDK wire-format regression proves the Astra request includes the intended reasoning setting; it does not use a real API key or prove hosted model access.

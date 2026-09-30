@@ -12,7 +12,7 @@ Objective: useful NZ weather and dated official hazard information without askin
 - Optional component: `LifeAdminLocalUpdates` in `app/do/personal/`, no props
 - Mount: secondary Around you area, coordinated with the Personal DO interface owner
 
-The two source reads are independent and user-triggered. Neither account state nor the assistant's private context enters the endpoint. No database, model, credential, provider signup, paid subscription, notification enrolment, emergency dispatch or production change is involved. No data is fabricated as a fallback.
+The two source reads are independent and user-triggered. The endpoint does not read account state or the assistant's private context. No database, model, credential creation, provider signup, paid subscription, notification enrolment, emergency dispatch or production change is involved. No data is fabricated as a fallback.
 
 ## Sources and permissions verified
 
@@ -71,11 +71,13 @@ All unknown/duplicate parameters are rejected before provider access. Weather re
 
 Browser/CDN responses use `Cache-Control: no-store`; the explicitly described bounded provider cache is server-side. Snapshots expose `status`, `freshness` (`fetched`, `cached`, `revalidated`, `unavailable`), `checkedAt`, original `fetchedAt`, `validUntil` and a truthful message. Source publication/model times remain separate. Unavailable sources return 503 with no forecast/headlines; invalid inputs return 400; excessive client refreshes return 429 with Retry-After.
 
+The browser calls Assembl's relative API with `credentials: same-origin` and `mode: same-origin`. This retains existing site/deployment-access cookies for protected previews; it does not change access controls or send those cookies to a provider. Upstream adapters independently use `credentials: omit`, fixed headers and no forwarded request context. NZTA's browser client already uses fetch's default same-origin credential behaviour. A regression check covers both sides of this boundary after a protected-preview weather check exposed the original client's overly broad `omit` setting.
+
 The component ages displayed snapshots after `validUntil`. Closing a disclosure, changing cities, pressing Stop or unmounting aborts/invalidate the client request and prevents a late result from appearing. A server request already underway may finish to populate the shared public cache. Refresh is manual; there is no background emergency check, push notification, automatic location sharing or autonomous downstream action.
 
 ## Proof, remaining gates and rollback
 
-- `lib/do/nz-local-updates.test.ts` and `app/api/do/nz-local-updates/route.test.ts`: 50 focused tests passed
+- `lib/do/nz-local-updates.test.ts`, `app/api/do/nz-local-updates/route.test.ts` and `app/do/personal/LifeAdminLocalUpdates.test.ts`: 53 focused tests passed (72 when run together with the existing NZTA source/route tests)
 - Coverage includes units, missing rainfall, forecast intervals, old/future models, safe links, original publication dates, malformed/oversized payloads, Expires/304, single-flight, failure backoff, Retry-After, unknown cities, private query rejection, 400/429/503 and explicit no-account routes
 - Focused TypeScript (the new contract, adapters, route and component), ESLint, `git diff --check`, brand guard and macron guard: passed
 - One temporary direct-outbound live adapter test: passed; removed after validation to keep the ordinary test suite deterministic

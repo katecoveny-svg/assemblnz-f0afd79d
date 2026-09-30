@@ -11,9 +11,11 @@ const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLen
 (async () => {
   fs.mkdirSync(out, { recursive: true });
   const browser = await chromium.launch({ executablePath: process.env.ASSEMBL_CHROMIUM_PATH || '/usr/bin/chromium', headless: true });
+  let proofPage;
   try {
     const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
     const page = await context.newPage();
+    proofPage = page;
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     let profile = { ...defaults }, saved = false, failSave = false, signedIn = true;
@@ -38,6 +40,10 @@ const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLen
     await page.goto(origin + '/do/personal', { waitUntil: 'networkidle', timeout: 120000 });
     await page.getByRole('button', { name: 'Make DO mine' }).waitFor();
     await page.addStyleTag({ content: 'nextjs-portal{display:none!important}' });
+    await page.screenshot({ path: out + '/personal-arrival-desktop.png', fullPage: true });
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.screenshot({ path: out + '/personal-arrival-mobile.png', fullPage: true });
+    await page.setViewportSize({ width: 1440, height: 1000 });
     check('account settings render without a provider', await page.getByRole('button', { name: 'Make DO mine' }).isVisible());
     check('plum-stage headline keeps readable paper contrast', await page.locator('#life-admin-heading').evaluate(el => getComputedStyle(el).color === 'rgb(255, 253, 251)'));
     await page.getByRole('button', { name: 'Make DO mine' }).click();
@@ -97,12 +103,14 @@ const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLen
     await page.setViewportSize({ width: 320, height: 640 });
     check('320px page fits', await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
     await page.setViewportSize({ width: 375, height: 812 });
-    await page.getByRole('button', { name: 'Skip guide', exact: true }).click();
-    await page.getByRole('button', { name: 'All 12 checklists', exact: false }).click();
+    await page.getByRole('button', { name: 'Use my own note', exact: false }).click();
+    await page.getByText('More things to sort', { exact: false }).click();
+    await page.getByText('Use a local checklist', { exact: false }).click();
     check('all twelve workflow choices remain available', await page.locator('[aria-label="Everyday NZ checklists"] button').count() === 12);
-    await page.getByLabel('Kind of admin').selectOption('school');
     await page.getByLabel('What needs sorting?').fill('Fictional school trip on Friday 9 October 2026, 9 am to 3 pm. Bring a coat and lunch. Permission reply needed Thursday.');
-    await page.getByRole('button', { name: 'Make my checklist', exact: false }).click();
+    await page.getByLabel('Kind of admin').selectOption('school');
+    await page.getByRole('button', { name: 'Let’s sort it', exact: false }).click();
+    await page.getByRole('button', { name: 'See my next steps', exact: false }).click();
     check('source excerpts are prefilled for review', (await page.getByLabel('What is happening?').inputValue()).includes('Fictional school trip'));
     await page.getByLabel('What is happening?').fill('');
     await page.getByLabel('What is happening?').pressSequentially('Fictional school trip');
@@ -111,7 +119,7 @@ const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLen
     await page.getByLabel('Gear, kai and costs').fill('Coat and lunch. Cost not stated.');
     await page.getByLabel('Permission or reply needed').fill('Reply through the school’s normal channel.');
     await page.getByRole('checkbox', { name: /I’ve checked the source, details and proposed steps/ }).check();
-    await page.getByRole('button', { name: 'Review these steps together', exact: false }).click();
+    await page.getByRole('button', { name: 'Review these steps together', exact: true }).click();
     check('review creates actionable steps without completing them', await page.getByRole('button', { name: 'I’ve done this', exact: true }).count() === 3);
     await page.getByRole('button', { name: 'I’ve done this', exact: true }).first().click();
     await page.getByLabel('What confirms it is done?').fill('Fictional confirmation received and checked.');
@@ -137,8 +145,9 @@ const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLen
     signedIn = false;
     await page.reload({ waitUntil: 'networkidle' });
     await page.setViewportSize({ width: 375, height: 812 });
+    await page.getByText('Use a local checklist', { exact: false }).click();
     await page.getByLabel('What needs sorting?').fill('Fictional unfinished guest note.');
-    await page.getByRole('link', { name: 'Sign in', exact: true }).click();
+    await page.getByRole('navigation', { name: 'Personal DO', exact: true }).getByRole('link', { name: 'Sign in', exact: true }).click();
     await page.getByRole('dialog', { name: 'Your checklist is in this page.' }).waitFor();
     check('guest sign-in warns before losing current work', await page.getByRole('button', { name: 'Stay and keep my work', exact: true }).isVisible());
     await page.screenshot({ path: out + '/personal-guest-leave-mobile.png' });
@@ -146,5 +155,9 @@ const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLen
     check('cancelling navigation preserves the guest note', await page.getByLabel('What needs sorting?').inputValue() === 'Fictional unfinished guest note.');
     check('no runtime errors', errors.length === 0);
     fs.writeFileSync(out + '/results.json', JSON.stringify({ checks, errors, apiMode: 'Fictional intercepted fixtures; no provider/account proof', physicalDeviceTested: false }, null, 2));
-  } finally { await browser.close(); }
+  } finally {
+    if (proofPage) await proofPage.screenshot({ path: out + '/final-state.png', fullPage: true }).catch(() => {});
+    if (!fs.existsSync(out + '/results.json')) fs.writeFileSync(out + '/results.json', JSON.stringify({ checks, completed: false, apiMode: 'Fictional fixtures only; see CI failure log', liveProviderTested: false }, null, 2));
+    await browser.close();
+  }
 })().catch(error => { console.error(error); process.exitCode = 1; });

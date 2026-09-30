@@ -46,7 +46,7 @@ describe('DO PWA', () => {
     };
     expect(manifest.name).toBe('DO by assembl');
     expect(manifest.short_name).toBe('DO');
-    expect(manifest.start_url).toBe('/do');
+    expect(manifest.start_url).toBe('/do/personal');
     expect(manifest.scope).toBe('/do');
     expect(manifest.display).toBe('standalone');
     expect(manifest.theme_color.toLowerCase()).toBe('#240b21');
@@ -56,6 +56,8 @@ describe('DO PWA', () => {
     const urls = manifest.shortcuts.map((s) => s.url);
     expect(urls).toEqual(
       expect.arrayContaining([
+        '/do/personal',
+        '/do/widget',
         '/do/meetings?phone=1',
         '/do/household',
         '/do/office',

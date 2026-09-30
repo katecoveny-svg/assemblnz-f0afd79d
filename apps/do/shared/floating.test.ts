@@ -24,7 +24,7 @@ class Element {
   releasePointerCapture() { this.capture = false; }
   focus() {} select() {}
 }
-function setup(embedded = false, legacyPosition?: string) {
+function setup(embedded = false, legacyPosition?: string, pathname = embedded ? "/do/widget" : "/do/install", pageOrigin = DO_DISTRIBUTION_ORIGIN) {
   const body = new Element();
   const listeners: Record<string, (e: any) => void> = {};
   const saved = new Map<string, string>();
@@ -36,16 +36,20 @@ function setup(embedded = false, legacyPosition?: string) {
     closest: (selector: string): any => selector.startsWith('p,h1') ? area : null,
     getBoundingClientRect: () => ({ left: 20, top: 20, right: 220, bottom: 60, width: 200, height: 40 }),
   };
-  const window: any = { addEventListener: (k: string, f: (e: any) => void) => { listeners[k] = f; }, removeEventListener: vi.fn() };
+  const input = { focus: vi.fn(), scrollIntoView: vi.fn() };
+  const selector = vi.fn(() => input);
+  const dispatchEvent = vi.fn();
+  const location = { origin: pageOrigin, pathname };
+  const window: any = { dispatchEvent, addEventListener: (k: string, f: (e: any) => void) => { listeners[k] = f; }, removeEventListener: vi.fn() };
   window.self = window; window.top = embedded ? {} : window;
   runInNewContext(doWidgetScript(DO_DISTRIBUTION_ORIGIN), {
-    document: { createElement: () => new Element(), body, createTreeWalker: query,
+    document: { createElement: () => new Element(), body, createTreeWalker: query, querySelector: selector,
       elementFromPoint: () => area, createRange: () => ({ selectNodeContents() {}, getClientRects: () => [area.getBoundingClientRect()] }),
       addEventListener: (k: string, fn: (e: any) => void) => { documentListeners[k] = fn; },
       removeEventListener: (k: string) => { delete documentListeners[k]; },
     },
     NodeFilter: { SHOW_TEXT: 4 }, getComputedStyle: () => ({ opacity: '1' }),
-    window, location: { origin: DO_DISTRIBUTION_ORIGIN, pathname: '/do/widget' },
+    window, location, CustomEvent: class { constructor(public type: string) {} },
     innerWidth: 800, innerHeight: 600, URL, crypto: { randomUUID: () => 'context-test-id' },
     cancelAnimationFrame: vi.fn(), requestAnimationFrame: (f: () => void) => { frames.push(f); return frames.length; },
     localStorage: { getItem: (k: string) => saved.get(k), setItem: (k: string, v: string) => saved.set(k, v) },
@@ -53,7 +57,7 @@ function setup(embedded = false, legacyPosition?: string) {
   const all = (e: Element): Element[] => [e, ...e.children.flatMap(all)];
   const find = (name: string) => all(body).find(e => e.className === name)!;
   const panel = find('panel');
-  return { body, window, find, panel, saved, query, listeners, documentListeners, area, flush: () => { frames.splice(0).forEach(f => f()); }, frame: panel?.children.at(-1)! };
+  return { body, window, find, panel, saved, query, listeners, documentListeners, area, input, selector, location, dispatchEvent, flush: () => { frames.splice(0).forEach(f => f()); }, frame: panel?.children.at(-1)! };
 }
 const click = { detail: 1 };
 describe('portable DO companion', () => {
@@ -80,6 +84,37 @@ describe('portable DO companion', () => {
     expect(s.saved.size).toBe(1);
   });
   it('does not recursively mount inside the embedded workspace', () => { expect(setup(true).body.children).toHaveLength(0); });
+  it.each(['/do/personal', '/do/personal/', '/do/widget'])('focuses the existing assistant on %s without loading a duplicate workspace', pathname => {
+    const s = setup(false, undefined, pathname);
+    s.find('launch').handlers.click(click); s.flush();
+    expect(s.dispatchEvent).toHaveBeenCalledWith(expect.objectContaining({ type: 'assembl:do-focus' }));
+    expect(s.input.focus).toHaveBeenCalledWith({ preventScroll: true });
+    expect(s.input.scrollIntoView).toHaveBeenCalledWith({ block: 'center', behavior: 'instant' });
+    expect(s.panel.hidden).toBe(true); expect(s.frame.src).toBe('');
+    expect(s.query).not.toHaveBeenCalled();
+    s.window.assemblDo.open(); s.flush();
+    expect(s.frame.src).toBe(''); expect(s.input.focus).toHaveBeenCalledTimes(2);
+  });
+  it('uses current navigation state and retains a prior embedded draft without reopening it', () => {
+    const s = setup(); s.window.assemblDo.open();
+    expect(s.panel.hidden).toBe(false);
+    s.location.pathname = '/do/personal'; s.find('launch').handlers.click(click); s.flush();
+    expect(s.panel.hidden).toBe(true); expect(s.input.focus).toHaveBeenCalled();
+    expect(s.frame.src).toBe(DO_DISTRIBUTION_ORIGIN + '/do/widget');
+    s.location.pathname = '/do/install'; s.find('launch').handlers.click(click);
+    expect(s.panel.hidden).toBe(false);
+  });
+  it('does not treat a third-party site with the same path as the assistant', () => {
+    const s = setup(false, undefined, '/do/personal', 'https://example.com');
+    s.find('launch').handlers.click(click);
+    expect(s.panel.hidden).toBe(false); expect(s.dispatchEvent).not.toHaveBeenCalled();
+  });
+  it('keeps explicitly offered context in review, even on a workspace route', () => {
+    const s = setup(false, undefined, '/do/personal');
+    s.window.assemblDo.open({ text: 'Only this selected excerpt' });
+    expect(s.panel.hidden).toBe(false); expect(s.find('review').hidden).toBe(false);
+    expect(s.frame.contentWindow.postMessage).not.toHaveBeenCalled();
+  });
   it('clamps dragging to the viewport and suppresses the resulting click', () => {
     const s = setup(), orb = s.find('launch');
     orb.handlers.pointerdown({ button: 0, isPrimary: true, clientX: 110, clientY: 110, pointerId: 1 });

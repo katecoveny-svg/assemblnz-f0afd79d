@@ -26,6 +26,12 @@ export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTa
     const frame = requestAnimationFrame(() => setMode(tool));
     return () => cancelAnimationFrame(frame);
   }, []);
+  useEffect(() => {
+    // The portable D returns to this mounted editor rather than nesting another workspace.
+    const focus = () => setMode('write');
+    window.addEventListener('assembl:do-focus', focus);
+    return () => window.removeEventListener('assembl:do-focus', focus);
+  }, []);
   function acceptContext(text: string) {
     if (!text.trim() || text.length > 12000) return false;
     setOfferedContext({ text, id: Date.now() }); setMode('write'); return true;

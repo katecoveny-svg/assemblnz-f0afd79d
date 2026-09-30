@@ -28,7 +28,9 @@ function usePublicSnapshot<T extends Snapshot>(parse: (body: unknown) => T) {
     const request = new AbortController(); controller.current = request;
     setBusy(true); setSnapshot(null); setNotice('');
     try {
-      const response = await fetch(url, { cache: 'no-store', credentials: 'omit', signal: request.signal });
+      // Keep existing access cookies on our own route (including protected previews).
+      // The server adapter separately omits credentials and forwards no client headers upstream.
+      const response = await fetch(url, { cache: 'no-store', credentials: 'same-origin', mode: 'same-origin', signal: request.signal });
       const body: unknown = await response.json();
       if (request.signal.aborted || controller.current !== request) return;
       if (response.status === 429) { setNotice('Please wait a minute before checking again.'); return; }
