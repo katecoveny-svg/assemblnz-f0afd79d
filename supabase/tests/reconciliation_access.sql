@@ -1,3 +1,4 @@
+BEGIN;
 DO $$
 DECLARE t text; r text; p text;
 BEGIN
@@ -26,3 +27,4 @@ INSERT INTO public.family_inbox_tokens(hub,provider,refresh_token) VALUES ('synt
 UPDATE public.family_inbox_tokens SET email='test.invalid' WHERE hub='synthetic-test';
 DELETE FROM public.family_inbox_tokens WHERE hub='synthetic-test';
 RESET ROLE;
+ROLLBACK;
