@@ -39,7 +39,9 @@ beforeEach(() => {
 describe("Personal DO HTTP boundaries", () => {
   it("requires an owner before reading private data", async () => {
     vi.mocked(doOwner).mockResolvedValue(null);
-    expect((await GET()).status).toBe(401);
+    const response = await GET();
+    expect(response.status).toBe(401);
+    expect((await response.json()).workspaceKey).toBe("guest");
     expect(personalState).not.toHaveBeenCalled();
   });
   it("rejects cross-origin mutation and never calls storage", async () => {
@@ -80,6 +82,12 @@ describe("Personal DO HTTP boundaries", () => {
     const response = await GET();
     expect(response.status).toBe(503);
     expect(response.headers.get("cache-control")).toBe("private, no-store");
+    expect((await response.json()).workspaceKey).toBe(owner.id);
+  });
+  it("identifies the verified workspace independently of the client", async () => {
+    vi.mocked(personalState).mockResolvedValue({ responsibilities: [], runs: [], worker: { configured: false, lastSeenAt: null } });
+    const response = await GET();
+    expect((await response.json()).workspaceKey).toBe(owner.id);
   });
   it("manual preparation uses the verified owner and does not bypass quota", async () => {
     vi.mocked(runPersonal).mockResolvedValue({

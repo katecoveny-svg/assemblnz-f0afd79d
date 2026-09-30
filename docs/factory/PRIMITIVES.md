@@ -107,3 +107,12 @@ Extends `apps/do/shared/distribution.ts`, shared by the website and generated ex
 ### Personal DO responsibilities (30 Sep 2026)
 
 **Creates:** `apps/do/personal/` + `/api/do/personal` and the `do_personal_*` tables/RPCs: owner-scoped saved context, expiring preparation consent, atomic daily claims, revocation-aware finish, independent quota and review history. **Uses:** existing DO owner verification, preparation provider ladder, evidence hashes and reviewed sharing. Cloud scheduling requires production cron configuration; no account monitoring, native push or autonomous external action is implied. See `docs/DO-PERSONAL-20260930.md` and its repeatable SQL/API/browser checks.
+
+### Personal DO identity, calls and NZ life admin (30 Sep review implementation)
+
+- **Creates:** owner-scoped `apps/do/personal/profile*.ts` identity/style contract and `/api/do/personal/profile`. **Extends:** existing preparation and Gemini live calls with bounded style, explicit consent, owner/revision checks and reviewed unsaved handoffs. Profile migration remains unapplied; real audio proof pending.
+- **Creates:** twelve-workflow `apps/do/personal/life-admin/` review/evidence flow, UUID-scoped optional snapshots, guest work-loss warnings, local exports and calendar files. Uses existing vision and draft providers only after consent. No automatic external completion or reminders.
+- **Creates:** `/do/receive` and `apps/do/shared/share-intake.ts`, a scoped text/link PWA handoff with escaped review, expiry, owner binding and URL token stripping. Old share API remains retired; OS support must be checked.
+- **Creates:** `lib/do/nz-public-data.ts` and `/api/do/nz-public-data`, fixed-upstream, bounded, no-store NZTA public reads. **Uses:** existing rate backstop. Live source/route HTTP 200/400/503 proved; no user data, keys or private records sent.
+- **Creates:** `DoReadAloud` / `read-aloud.ts`, explicit local-English-only speech output with safe unavailability. Device runtime proof pending.
+- **Proof and rollout:** `docs/DO-PERSONAL-CUSTOMISATION-20260930.md`, focused API/domain tests, profile SQL suite, repeatable browser scripts. Do not turn passing unit tests into a live-provider or physical-device claim.

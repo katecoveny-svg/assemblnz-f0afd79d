@@ -5,6 +5,12 @@
   "description": "Your portable work companion. Talk, record, prepare and review with permission. Draft-only tools; no automatic sends or purchases.",
   "start_url": "/do/widget",
   "scope": "/do",
+  "share_target": {
+    "action": "/do/receive",
+    "method": "POST",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": { "title": "title", "text": "text", "url": "url" }
+  },
   "display": "standalone",
   "display_override": [
     "standalone",
