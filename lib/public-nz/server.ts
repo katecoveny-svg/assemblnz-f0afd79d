@@ -30,3 +30,12 @@ export async function retrievePublicNzKnowledge(options: { query?: string; limit
     return buildPublicNzResult([], [], { ...options, now, failed: true });
   } finally { clearTimeout(timeout); }
 }
+
+/** At most 2.5s discovery + one shared 2s verification batch, never a per-link retry. */
+export async function retrieveVerifiedPublicNzKnowledge(options: { query?: string; limit?: number } = {}) {
+  const discovery = await retrievePublicNzKnowledge(options);
+  const { verifyParliamentBills } = await import('./parliament');
+  const ids = discovery.records.filter(r => r.citation.startsWith('bills:')).map(r => r.citation.slice(6));
+  const verification = await verifyParliamentBills(ids);
+  return { discovery, verification };
+}
