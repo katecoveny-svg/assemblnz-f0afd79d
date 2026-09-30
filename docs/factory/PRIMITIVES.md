@@ -137,3 +137,7 @@ from recorded replies and bookings. Per-owner webhook keys accept idempotent
 intake and outcome events; three-day follow-ups are fresh approval-required jobs.
 `/api/mcp` exposes owner-scoped preparation/status/evidence, with no send tool.
 See `docs/DO-ENQUIRIES-RUNBOOK.md` for activation, validation and limits.
+
+## Reviewed NZ public link boundary — review foundation
+
+**Extends** kb_sources/kb_documents via `lib/public-nz/` and homepage/knowledge-search/general Pursuit. Code-reviewed GETS/Bills identity and URL constraints, anonymous bounded reads, no stored content/metadata output, explicit unknown publication/status and per-source stale/error telemetry. It supplies discovery links, not substantive intelligence or current opportunity claims. Proof: `lib/public-nz/model.test.ts`, `lib/public-nz/server.test.ts`; see `docs/PUBLIC-NZ-LINK-BOUNDARY.md` for DO integration and ingestion guarantees still required. No new ingestion, permissions, database changes or deployment.
