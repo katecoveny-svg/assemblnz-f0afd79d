@@ -491,3 +491,17 @@
 @keyframes companionWork { 0%,100% { transform: perspective(700px) rotateY(-10deg) rotateZ(-3deg) translateY(-7px); } 50% { transform: perspective(700px) rotateY(12deg) rotateZ(3deg) translateY(-17px); } }
 @media (max-width:760px) { .exampleBadge { font-size:8px; padding-inline:4px; } .exampleLabel { font-size:12px; min-height:28px; } .exampleResult { display:none; } .workspace .exampleCard { min-height:156px; } }
 @media (prefers-reduced-motion:reduce) { .characterStage[data-working] > span:nth-child(2) { animation:none; } }
+
+/* Keep the phone's decorative identity clear of the question and the first action in reach. */
+@media (max-width: 760px) {
+  .intro { padding-top: 22px; padding-bottom: 15px; }
+  .intro .eyebrow { margin-bottom: 25px; }
+  .companion { width: 80px; height: 80px; top: 5px; right: 0; }
+  .characterStage { width: 80px; height: 80px; top: 0; }
+  .characterStage > span:nth-child(2) { width: 80px; height: 80px; }
+  .characterDisc { width: 70px; height: 27px; bottom: 0; }
+  .characterShadow { width: 57px; bottom: 0; }
+  .companion figcaption { display: none; }
+  .exampleVisual { height: 73px; }
+  .workspace .exampleCard { min-height: 148px; }
+}
