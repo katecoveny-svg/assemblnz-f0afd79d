@@ -61,6 +61,7 @@ function LifeAdminWorkspace({ profile, onCustomise, onTalk, intake, storageScope
   const [forgetConfirm, setForgetConfirm] = useState(false);
   const seenIntake = useRef<string | null>(null);
   const sourceRef = useRef<HTMLTextAreaElement>(null);
+  const activeHeading = useRef<HTMLHeadingElement>(null);
   const request = useRef<AbortController | null>(null);
   const requestVersion = useRef(0);
   const busyLock = useRef(false);
@@ -93,7 +94,13 @@ function LifeAdminWorkspace({ profile, onCustomise, onTalk, intake, storageScope
     setPlans((current) => current.map((item) => item.id === plan.id ? plan : item));
     setReviewChecked(false); setProviderConsent(false); setNotice('');
   }
-  function openPlan(plan: LifeAdminPlan) { setSelected(plan.id); setReviewChecked(false); setProviderConsent(false); setTaskEditor(null); }
+  function openPlan(plan: LifeAdminPlan) {
+    setSelected(plan.id); setReviewChecked(false); setProviderConsent(false); setTaskEditor(null);
+    requestAnimationFrame(() => {
+      activeHeading.current?.focus({ preventScroll: true });
+      activeHeading.current?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    });
+  }
   function start(event: FormEvent) {
     event.preventDefault();
     if (!chosen) { setNotice('Choose the kind of admin so I can give you the right checklist.'); return; }
@@ -223,11 +230,11 @@ function LifeAdminWorkspace({ profile, onCustomise, onTalk, intake, storageScope
           {captureMode === 'forward' && <p className={styles.captureHint}>Paste an email below, or use your phone’s share menu to send text into DO. No inbox is connected.</p>}
           <textarea ref={sourceRef} id="life-admin-source" value={source} onChange={(event) => { setSource(event.target.value); if (!event.target.value) setSourceIntakeId(null); setMethod('pasted-text'); }} maxLength={LIFE_ADMIN_SOURCE_LIMIT} rows={3} placeholder={template?.prompt ?? 'A school notice. A renewal. That thing you keep putting off…'} required />
           {intake && source !== intake.text && <button type="button" className={styles.textButton} disabled={Boolean(source.trim()) || intake.text.length > LIFE_ADMIN_SOURCE_LIMIT} onClick={() => { setSource(intake.text); setSourceIntakeId(intake.id); setTitle(intake.sourceTitle ?? 'Incoming note'); setSourceUrl(''); setMethod('pasted-text'); }}>Use incoming note</button>}
-          <div className={styles.intakeFields}><label>Kind of admin<select value={category} onChange={(event) => setCategory(event.target.value as LifeAdminCategory | 'auto')}><option value="auto">Suggest from my note</option>{LIFE_ADMIN_TEMPLATES.map((item) => <option value={item.id} key={item.id}>{item.name}</option>)}</select></label><details className={styles.optionalTitle}><summary>Name this note</summary><label>Name it, if useful<input value={title} maxLength={160} onChange={(event) => setTitle(event.target.value)} placeholder="e.g. Friday’s school trip" /></label></details></div>
+          <div className={styles.intakeFields}><label>Kind of admin<select value={category} onChange={(event) => setCategory(event.target.value as LifeAdminCategory | 'auto')}><option value="auto">Suggest from note</option>{LIFE_ADMIN_TEMPLATES.map((item) => <option value={item.id} key={item.id}>{item.name}</option>)}</select></label><details className={styles.optionalTitle}><summary>Name this note</summary><label>Name it, if useful<input value={title} maxLength={160} onChange={(event) => setTitle(event.target.value)} placeholder="e.g. Friday’s school trip" /></label></details></div>
           {category === 'auto' && !inferred && source.trim().length >= 5 && <p className={styles.hint}>Choose a kind of admin above so the checklist fits your note.</p>}
           {category === 'auto' && inferred && <p className={styles.hint}>Suggested: {lifeAdminTemplate(inferred).name}. Change it above if another checklist fits better.</p>}
           <details className={styles.sourceLink}><summary>Add the original source link</summary><label>Link for your reference<input type="url" value={sourceUrl} maxLength={2000} placeholder="https://…" onChange={(event) => setSourceUrl(event.target.value)} /></label><small>Linked pages are not fetched. Queries and sign-in tokens are removed from stored links.</small></details>
-          <div className={styles.intakeActions}><span>One useful next step.<small>Checklist prepared on this device.</small></span><button className={styles.primary} type="submit" disabled={source.trim().length < 5 || !chosen}>Make my checklist <ArrowRight size={19} /></button></div>
+          <div className={styles.intakeActions}><span>One useful next step.<small>On this device.</small></span><button className={styles.primary} type="submit" disabled={source.trim().length < 5 || !chosen}>Make my checklist <ArrowRight size={19} /></button></div>
           <p className={styles.privacy}>Keep passwords, identity numbers, payment details and anything unnecessary out of your notes.</p>
         </form>
         {captureMode === 'photo' && <div className={styles.vision}><p className={styles.hint}>For screenshots, review what is visible first. Optional image processing sends the approved image to assembl’s configured OpenAI, Anthropic or Google vision provider.</p><DoVision onUse={(text) => {
@@ -255,7 +262,7 @@ function LifeAdminWorkspace({ profile, onCustomise, onTalk, intake, storageScope
           {simple && visible.length > 1 && <p className={styles.hint}>{visible.length - 1} more kept out of the way. Switch to the full picture when you want them.</p>}
         </div>
         {active && activeTemplate && <article className={styles.detail} aria-labelledby="life-admin-active-title">
-          <header className={styles.detailHeader}><div><p className={styles.eyebrow}>{activeTemplate.name}</p><h3 id="life-admin-active-title">{active.title}</h3></div><button type="button" aria-label="Close checklist details" onClick={() => { setSelected(null); setTaskEditor(null); setProviderConsent(false); }}><X size={18} /></button></header>
+          <header className={styles.detailHeader}><div><p className={styles.eyebrow}>{activeTemplate.name}</p><h3 ref={activeHeading} tabIndex={-1} id="life-admin-active-title">{active.title}</h3></div><button type="button" aria-label="Close checklist details" onClick={() => { setSelected(null); setTaskEditor(null); setProviderConsent(false); }}><X size={18} /></button></header>
           <div className={styles.next}><span>JUST THE NEXT THING</span><p>{nextLifeAdminStep(active)}</p></div>
           <details className={styles.disclosure}><summary><FileText size={16} /> Source and exact details</summary><p>{active.source.title} · {active.source.method.replaceAll('-', ' ')}</p><pre>{active.source.text}</pre>{active.source.url && <a href={active.source.url} target="_blank" rel="noopener noreferrer">Open original source <ArrowUpRight size={14} /></a>}<h4>Exact matches, not confirmed deadlines</h4><pre>{extractDetails(active.source.text)}</pre></details>
           <fieldset className={styles.fields} disabled={busyId === active.id}><legend>{missing.length ? `${missing.length} detail${missing.length === 1 ? '' : 's'} to fill in` : active.reviewedAt ? 'The details you reviewed' : 'Source details to check'}</legend><p className={styles.hint}>Matching source excerpts are copied in where possible. Check their meaning or add what you know. Say “not stated” where the source is silent; check uncertainty before acting.</p>{activeTemplate.fields.map((field) => <label key={field.key}>{field.label}<textarea rows={2} value={active.fields[field.key] ?? ''} maxLength={2000} placeholder={field.hint} onChange={(event) => editField(active, field.key, event.target.value)} /></label>)}</fieldset>

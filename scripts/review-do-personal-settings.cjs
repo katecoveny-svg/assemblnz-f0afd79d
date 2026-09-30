@@ -39,6 +39,7 @@ const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLen
     await page.getByRole('button', { name: 'Make DO mine' }).waitFor();
     await page.addStyleTag({ content: 'nextjs-portal{display:none!important}' });
     check('account settings render without a provider', await page.getByRole('button', { name: 'Make DO mine' }).isVisible());
+    check('plum-stage headline keeps readable paper contrast', await page.locator('#life-admin-heading').evaluate(el => getComputedStyle(el).color === 'rgb(255, 253, 251)'));
     await page.getByRole('button', { name: 'Make DO mine' }).click();
     const dialog = page.getByRole('dialog', { name: 'Hello, your DO.' });
     check('onboarding is a real modal', await dialog.isVisible());
@@ -102,6 +103,8 @@ const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLen
     await page.getByLabel('Kind of admin').selectOption('school');
     await page.getByLabel('What needs sorting?').fill('Fictional school trip on Friday 9 October 2026, 9 am to 3 pm. Bring a coat and lunch. Permission reply needed Thursday.');
     await page.getByRole('button', { name: 'Make my checklist', exact: false }).click();
+    check('source excerpts are prefilled for review', (await page.getByLabel('What is happening?').inputValue()).includes('Fictional school trip'));
+    await page.getByLabel('What is happening?').fill('');
     await page.getByLabel('What is happening?').pressSequentially('Fictional school trip');
     check('typing spaces preserves ordinary multiword details', await page.getByLabel('What is happening?').inputValue() === 'Fictional school trip');
     await page.getByLabel('Dates and times to check').fill('Friday 9 October 2026, 9 am–3 pm. Reply Thursday.');

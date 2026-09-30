@@ -43,6 +43,13 @@ alter table public.tenant_customers add column if not exists name text;
 alter table public.tenant_customers add column if not exists display_name text;
 alter table public.tenant_customers add column if not exists brand jsonb not null default '{}'::jsonb;
 alter table public.tenant_customers add column if not exists meta jsonb not null default '{}'::jsonb;
+-- Zoo keys the registry by slug; later tenant tables reference a UUID identity.
+-- Add that identity without replacing the slug key or any existing UUID values.
+alter table public.tenant_customers add column if not exists id uuid default gen_random_uuid();
+alter table public.tenant_customers alter column id set default gen_random_uuid();
+update public.tenant_customers set id = gen_random_uuid() where id is null;
+alter table public.tenant_customers alter column id set not null;
+create unique index if not exists tenant_customers_replay_id_unique on public.tenant_customers(id);
 
 create or replace function public.tenant_customers_fill_name_aliases()
 returns trigger

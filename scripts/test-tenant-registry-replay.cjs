@@ -34,10 +34,17 @@ const check = (label, result) => { assert.ok(result, label); checks.push(label);
     // Lula's existing additive compatibility section supplies its own columns.
     const lulaRegistry = lula.slice(lula.indexOf('create table if not exists public.tenant_customers'), lula.indexOf('-- 2 · Ops data model'));
     await db.exec(lulaRegistry);
+    // Execute the exact later private-table FK definitions, but not its personal
+    // demo data. This test needs only the public registry and fictional records.
+    await db.exec(happy.slice(0, happy.indexOf('-- RLS —')));
     await db.exec(seed(happy));
+    await db.exec("insert into public.tenant_dogs(tenant_id,slug,name) select id,'fictional-dog','Fictional dog' from public.tenant_customers where slug='happy-tails';");
+    check(`${shape}: later UUID foreign keys work`, (await db.query("select count(*)::int as count from public.tenant_dogs where slug='fictional-dog'")).rows[0].count === 1);
+    const stableId = (await db.query("select id from public.tenant_customers where slug='air-nz'")).rows[0].id;
     await db.exec(seed(registry));
     check(`${shape}: later registry seeds remain compatible`, (await db.query("select count(*)::int as count from public.tenant_customers where slug in ('lula-inn','happy-tails','aironaut')")).rows[0].count === 3);
     await db.exec(air); await db.exec(rewards);
+    check(`${shape}: existing UUID identity survives replay`, (await db.query("select id from public.tenant_customers where slug='air-nz'")).rows[0].id === stableId);
     check(`${shape}: repeat replay is idempotent`, (await db.query("select count(*)::int as count from public.tenant_customers where slug='air-nz'")).rows[0].count === 1);
     check(`${shape}: RLS remains enabled`, (await db.query("select relrowsecurity from pg_class where oid='public.tenant_customers'::regclass")).rows[0].relrowsecurity);
     check(`${shape}: trigger has no elevated execution`, (await db.query("select prosecdef from pg_proc where oid='public.tenant_customers_fill_name_aliases()'::regprocedure")).rows[0].prosecdef === false);

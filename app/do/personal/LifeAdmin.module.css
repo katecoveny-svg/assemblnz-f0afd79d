@@ -133,7 +133,7 @@
 .intro { position: relative; z-index: 1; padding: 34px 0 28px; }
 .intro .eyebrow { color: #dac5cb; font: 10px/1.6 var(--font-mono), monospace; letter-spacing: .11em; margin-bottom: 22px; }
 .intro .eyebrow span { color: #916a70; padding: 0 8px; }
-.intro h1 { font-size: clamp(46px, 5.4vw, 80px); font-weight: 450; line-height: .99; letter-spacing: -.065em; margin: 0; }
+.intro h1 { color: var(--paper); font-size: clamp(46px, 5.4vw, 80px); font-weight: 450; line-height: .99; letter-spacing: -.065em; margin: 0; }
 .intro h1 span { color: #e0bcc5; }
 .heading .intro > p:last-child { color: #dac5cb; font-size: 15px; margin: 19px 0 0; }
 .companion { margin: 0; min-width: 0; position: relative; display: flex; justify-content: center; align-items: center; height: 310px; }
@@ -319,3 +319,8 @@
   .welcomeBody > p, .workspace .welcome button, .workspace .welcome a, .workspace .welcome .skipGuide { font-size: 11px; }
   .workspace .optionalTitle > summary { font-size: 11px; }
 }
+
+.workspace .notice:empty { display: none; }
+.workspace .connections, .workspace .storage, .workspace .capabilities { margin: 12px 0 0; padding-top: 0; }
+.detailHeader h3 { color: var(--ink); scroll-margin-top: 30px; }
+.detailHeader h3:focus-visible { outline: 2px solid var(--rose); outline-offset: 7px; }
