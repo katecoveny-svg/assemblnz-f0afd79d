@@ -75,6 +75,47 @@ describe('website-led outreach boundaries', () => {
     const request = JSON.parse(String(fetcher.mock.calls[0][1]?.body));
     expect(request.tools[0].max_uses).toBe(5); expect(request.system).toContain('SELLER');
   });
+  it('repairs three overlong fields with original URL enums and retains the researched accounts', async () => {
+    vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
+    const oversized = { draft: { ...draft, summary: 'x'.repeat(500) }, campaign: structuredClone(campaign) };
+    oversized.campaign.prospects[0].fit = 'x'.repeat(450);
+    oversized.campaign.prospects[0].proof = 'x'.repeat(350);
+    const fetcher = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(Response.json({ stop_reason: 'end_turn', content: [
+        ...Array.from({ length: 5 }, () => ({ type: 'server_tool_use', name: 'web_search' })),
+        { type: 'web_search_tool_result', content: urls.map(url => ({ type: 'web_search_result', url, title: 'Fixture source' })) },
+        { type: 'text', text: JSON.stringify(oversized) },
+      ] }))
+      .mockImplementationOnce(async (_url, init) => {
+        const body = JSON.parse(String(init?.body));
+        expect(body.tools).toBeUndefined();
+        const schema = body.output_config.format.schema.properties;
+        expect(schema.draft.properties.evidence.items.properties.url.enum).toEqual(urls);
+        const fields = schema.campaign.properties.prospects.items.properties;
+        expect(fields.signal.properties.url.enum).toEqual(urls);
+        expect(fields.contactUrl.anyOf.find((entry: { type: string }) => entry.type === 'null')).toBeDefined();
+        return Response.json({ stop_reason: 'end_turn', content: [{ type: 'text', text: JSON.stringify({ draft, campaign }) }] });
+      });
+    const result = await runPublicResearch(input, false, fetcher);
+    expect(result.campaign).toEqual(campaign);
+    expect(result.draft).toEqual(draft);
+    expect(result.trace).toMatchObject({ providerCalls: 2, webSearches: 5 });
+    expect(fetcher).toHaveBeenCalledTimes(2);
+  });
+  it.each(['introduced', 'original'])('still rejects an %s untraced evidence URL during repair', async kind => {
+    vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
+    const changed = { ...draft, evidence: [{ ...draft.evidence[0], url: 'https://untraced.example.com/news' }] };
+    const original = { draft: { ...(kind === 'original' ? changed : draft), summary: 'x'.repeat(500) }, campaign };
+    const fetcher = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(Response.json({ stop_reason: 'end_turn', content: [
+        { type: 'server_tool_use', name: 'web_search' },
+        { type: 'web_search_tool_result', content: urls.map(url => ({ type: 'web_search_result', url, title: 'Fixture source' })) },
+        { type: 'text', text: JSON.stringify(original) },
+      ] }))
+      .mockResolvedValueOnce(Response.json({ stop_reason: 'end_turn', content: [{ type: 'text', text: JSON.stringify({ draft: changed, campaign }) }] }));
+    await expect(runPublicResearch(input, false, fetcher)).rejects.toThrow('untraced_source');
+    expect(fetcher).toHaveBeenCalledTimes(2);
+  });
   it('does not substitute leads after a provider failure', async () => {
     vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
     await expect(runPublicResearch(input, false, vi.fn<typeof fetch>().mockResolvedValue(new Response('', { status: 503 })))).rejects.toThrow('research_provider_http_503');
