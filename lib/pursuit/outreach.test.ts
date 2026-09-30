@@ -215,14 +215,34 @@ describe('outreach formatting repair', () => {
     expect(formatting.output_config.format.schema.properties.campaign).toBeDefined();
     expect(fetcher).toHaveBeenCalledTimes(2);
   });
-  it('rejects formatter reassignment of an existing source to an unsupported account', async () => {
+  it('omits formatter reassignment and discloses an honest zero result', async () => {
     vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
     const long = structuredClone(campaign); long.prospects[0].opening = 'A'.repeat(1300);
     const altered = structuredClone(campaign); altered.prospects[0].website = urls[0];
     const fetcher = vi.fn<typeof fetch>()
       .mockResolvedValueOnce(researched({ draft, campaign: long }))
       .mockResolvedValueOnce(Response.json({ stop_reason: 'end_turn', content: [{ type: 'text', text: JSON.stringify({ draft, campaign: altered }) }] }));
-    await expect(runPublicResearch(input, false, fetcher)).rejects.toThrow('untraced_source');
+    const result = await runPublicResearch(input, false, fetcher);
+    expect(result.campaign?.prospects).toEqual([]);
+    expect(result.campaign?.gaps.join(' ')).toContain('formatter changed the original');
+    expect(result.campaign?.gaps[0]).toContain('No verified shortlist');
+    expect(result.warning).toContain('No verified shortlist');
+    expect(fetcher).toHaveBeenCalledTimes(2);
+  });
+  it('retains unchanged grounded associations beside an omitted formatter rename', async () => {
+    vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
+    const second = { ...structuredClone(campaign.prospects[0]), company: 'Second fixture buyer', website: 'https://second.example.com/', signal: { ...campaign.prospects[0].signal, url: 'https://second.example.com/news' } };
+    const long = structuredClone(campaign); long.prospects.push(second); long.prospects[0].opening = 'A'.repeat(1300);
+    const altered = structuredClone(campaign); altered.prospects.push({ ...second, company: 'An unsupported replacement identity' });
+    const fetcher = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(researched({ draft, campaign: long }, [second.website, second.signal.url]))
+      .mockResolvedValueOnce(Response.json({ stop_reason: 'end_turn', content: [{ type: 'text', text: JSON.stringify({ draft, campaign: altered }) }] }));
+    const result = await runPublicResearch(input, false, fetcher);
+    expect(result.campaign?.prospects).toEqual(campaign.prospects);
+    expect(result.campaign?.gaps.join(' ')).toContain('formatter changed the original');
+    expect(result.campaign?.gaps.join(' ')).not.toContain('No verified shortlist');
+    expect(result.trace.providerCalls).toBe(2);
+    expect(result.trace.webSearches).toBe(1);
   });
   it('rejects a new source inserted during formatting even if search returned it', async () => {
     vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');

@@ -95,26 +95,31 @@ export async function formatPublicOutreach(value: unknown, sources: EvidenceSour
  // A URL appearing somewhere in the original response does not permit
  // assigning it to another account. Keep company/identity/signal pairs intact.
  const originalProspects = record(value) && record(value.campaign) && Array.isArray(value.campaign.prospects) ? value.campaign.prospects.filter(record) : [];
- if (record(parsed.campaign) && Array.isArray(parsed.campaign.prospects)) {
-  parsed.campaign.prospects.forEach((prospect, index) => {
-   if (!record(prospect) || !record(prospect.signal)) return; // schema validation remains fatal below
+ const formattedCampaign = OutreachCampaign.parse(parsed.campaign); // malformed candidates remain fatal
+ let reassigned = 0;
+ formattedCampaign.prospects = formattedCampaign.prospects.filter((prospect, index) => {
    const signal = prospect.signal;
    const original = originalProspects.some(previous => record(previous.signal)
     && String(previous.company).trim() === String(prospect.company).trim()
     && publicWebsite(String(previous.website)) === publicWebsite(String(prospect.website))
     && publicWebsite(String(previous.signal.url)) === publicWebsite(String(signal.url)));
    if (!original) {
-    console.warn('public_research_source_validation', { stage: 'outreach_format', field: 'prospect.identity', index, category: 'account_reassigned' });
-    throw new Error('untraced_source');
+    console.warn('public_research_prospect_omitted', { stage: 'outreach_format', field: 'prospect.identity', index, category: 'account_reassigned' });
+    reassigned++;
+    return false;
    }
+   return true;
   });
- }
+ if (reassigned) formattedCampaign.gaps = [
+  `Omitted unsupported accounts: formatter changed the original company, website or signal association (${reassigned}). No replacement accounts were added.`,
+  ...formattedCampaign.gaps,
+ ].slice(0, 5);
  let draft;
  try { draft = parseGroundedDraft(parsed.draft,sources); } catch (error) {
   if (error instanceof Error && error.message === 'untraced_source')
    console.warn('public_research_source_validation', { stage: 'outreach_format', field: 'draft.evidence' });
   throw error;
  }
- const campaign = parseGroundedOutreach(parsed.campaign,sources.map(source=>source.url),sellerWebsite);
+ const campaign = parseGroundedOutreach(formattedCampaign,sources.map(source=>source.url),sellerWebsite);
  return { draft, campaign, inputTokens:record(raw.usage)?Number(raw.usage.input_tokens)||0:0, outputTokens:record(raw.usage)?Number(raw.usage.output_tokens)||0:0 };
 }
