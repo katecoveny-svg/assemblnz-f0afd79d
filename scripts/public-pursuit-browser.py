@@ -97,7 +97,15 @@ async def main():
       await page.route('**/api/creative/image',image_mock)
       await page.goto('http://127.0.0.1:3000/creative-studio/assembl',wait_until='domcontentloaded')
       design=page.get_by_role('region',name='Design a post',exact=True)
+      # The SSR form can be visible before React handles edits. Prove an
+      # interactive tab transition before filling, then verify React's counter.
+      await page.get_by_role('button',name='02 / Prepare an image',exact=True).click()
+      await expect(page.get_by_role('region',name='Prepare an image',exact=True)).to_be_visible()
+      await page.get_by_role('button',name='01 / Design a post',exact=True).click()
+      await expect(design).to_be_visible()
       await design.get_by_label('headline',exact=False).fill('Good work comes together.')
+      await expect(design.get_by_label('headline',exact=False)).to_have_value('Good work comes together.')
+      await expect(design.get_by_text(str(len('Good work comes together.'))+'/90',exact=True)).to_be_visible()
       for label,dimensions in [('LinkedIn 1200 × 627',(1200,627)),('square 1080 × 1080',(1080,1080)),('portrait 1080 × 1350',(1080,1350)),('story 1080 × 1920',(1080,1920))]:
         await design.get_by_role('button',name=label,exact=True).click()
         async with page.expect_download() as png:
