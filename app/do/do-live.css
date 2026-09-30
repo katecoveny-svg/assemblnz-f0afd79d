@@ -21,6 +21,7 @@
 
 .do-live-dock strong {
   display: block;
+  overflow-wrap: anywhere;
   margin-top: 3px;
   color: #2c1023;
   font-size: 16px;
@@ -36,6 +37,9 @@
 
 .do-live-dock button {
   flex: 0 0 auto;
+  min-height: 44px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
   border: 0;
   border-radius: 999px;
   padding: 10px 14px;
@@ -190,5 +194,28 @@
   .do-live-transcript,
   .do-live-draft {
     padding: 14px;
+  }
+}
+
+.do-live-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.do-live-profile {
+  overflow-wrap: anywhere;
+}
+.do-live-profile summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.do-live-transcript > button,
+.do-live-draft > button {
+  margin: 4px 8px 4px 0;
+}
+@media (max-width: 680px) {
+  .do-live-choice select,
+  .do-live-draft textarea {
+    font-size: 16px;
   }
 }

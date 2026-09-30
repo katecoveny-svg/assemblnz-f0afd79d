@@ -16,14 +16,15 @@ const json = (body: unknown, status = 200) =>
   Response.json(body, { status, headers: privateDoHeaders });
 export async function GET() {
   const owner = await doOwner();
-  if (!owner) return json({ error: "Sign in to open your Personal DO." }, 401);
+  if (!owner) return json({ error: "Sign in to open your Personal DO.", workspaceKey: "guest" }, 401);
   try {
-    return json(await personalState(owner.id));
+    return json({ ...await personalState(owner.id), workspaceKey: owner.id });
   } catch {
     return json(
       {
         error:
           "Personal DO could not load. Your saved work has not been changed.",
+        workspaceKey: owner.id,
       },
       503,
     );

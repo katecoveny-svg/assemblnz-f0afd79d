@@ -11,6 +11,8 @@ import {
   type PersonalRun,
   type PersonalState,
 } from "./contract";
+import { getPersonalDoProfile } from "./profile-service";
+import { formatPersonalDoStyle } from "./profile";
 
 // Callers must verify doOwner() or CRON_SECRET before entering this module.
 export function personalWorkerConfigured() {
@@ -125,6 +127,20 @@ export async function runPersonal(ownerId?: string, id?: string) {
     | undefined;
   if (!claim) return { claimed: false, published: false };
   const item = claim.responsibility;
+  // Preferences are optional: an older installation without the additive
+  // profile table must still prepare already-consented responsibilities.
+  // Only a successfully loaded, explicitly saved profile is sent to a provider.
+  let communicationStyle: string | undefined;
+  let profileUpdatedAt: string | null = null;
+  try {
+    const state = await getPersonalDoProfile(item.owner_id);
+    if (state.saved) {
+      communicationStyle = formatPersonalDoStyle(state.profile);
+      profileUpdatedAt = state.profile.updatedAt;
+    }
+  } catch {
+    // Preserve the original draft path; profile UI reports its own storage error.
+  }
   // Recheck revocation immediately before data leaves the server. An in-flight
   // provider request cannot be recalled; finish() also rejects stale results.
   const { data: current, error: lookupError } = await db
@@ -153,7 +169,7 @@ export async function runPersonal(ownerId?: string, id?: string) {
           0,
           2000,
         ),
-    });
+    }, undefined, communicationStyle);
     const { data: published, error: finishError } = await db.rpc(
       "do_personal_finish",
       {
@@ -165,6 +181,7 @@ export async function runPersonal(ownerId?: string, id?: string) {
           notesUpdatedAt: item.updated_at,
           revision: item.revision,
           permissionExpiresAt: item.consent_until,
+          profileUpdatedAt,
         },
         p_failed: false,
       },

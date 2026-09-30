@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
 import {
   useCallback,
@@ -12,13 +11,27 @@ import {
   ArrowUpRight,
   Check,
   Clock3,
+  ChevronDown,
+  HeartHandshake,
+  CloudSun,
   Pause,
   Plus,
   RefreshCw,
   X,
 } from "lucide-react";
+import { DoMark } from "@/components/do/DoMark";
 import { DoPresence } from "@/components/do/DoPresence";
 import { DoShareButton } from "@/components/do/DoShareButton";
+import { DoReadAloud } from "@/components/do/DoReadAloud";
+import { DoGeminiLive } from "@/app/do/DoGeminiLive";
+import type { PersonalDoProfile } from "@/apps/do/personal/profile";
+import { PersonalDoSettings } from "./PersonalDoSettings";
+import { LifeAdmin } from "./LifeAdmin";
+import { NzCareNavigation } from "./NzCareNavigation";
+import { LifeAdminLocalUpdates } from "./LifeAdminLocalUpdates";
+import { acceptDoShare, readDoShareForWorkspace, doShareText } from "@/apps/do/shared/share-intake";
+import { createClient as createBrowserClient } from "@/lib/supabase/client";
+import { replacePersonalLoad, shouldRevalidatePersonalOwner } from "@/apps/do/personal/session";
 import {
   PERSONAL_BOUNDARY,
   PERSONAL_STARTERS,
@@ -42,11 +55,21 @@ const stamp = (date: string, zone = "Pacific/Auckland") =>
   }).format(new Date(date));
 export function PersonalDo() {
   const [state, setState] = useState<PersonalState | null>(null);
+  const [personalProfile, setPersonalProfile] = useState<PersonalDoProfile | null>(null);
+  const [sharedIntake, setSharedIntake] = useState<{ id: string; text: string; sourceTitle: string }>();
+  const [workspaceKey, setWorkspaceKey] = useState<string | null>(null);
+  const [guestDirty, setGuestDirty] = useState(false);
+  const [leavingHref, setLeavingHref] = useState<string | null>(null);
+  const leaveDialog = useRef<HTMLDialogElement>(null);
+  const approvedLeave = useRef(false);
+  const workspaceRef = useRef<string | null>(null);
+  const loadRequest = useRef<AbortController | null>(null);
   const [now, setNow] = useState(() => Date.now());
   const [access, setAccess] = useState<
     "loading" | "signed-out" | "ready" | "error"
   >("loading");
   const [notice, setNotice] = useState("");
+  const [callOpen, setCallOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const lock = useRef(false);
   const [form, setForm] = useState(emptyForm);
@@ -55,13 +78,33 @@ export function PersonalDo() {
   const [editor, setEditor] = useState(false);
   const [deleting, setDeleting] = useState<string | null>(null);
   const editorHeading = useRef<HTMLHeadingElement>(null);
+  const settingsButton = useRef<HTMLButtonElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const load = useCallback(async () => {
+    const controller = replacePersonalLoad(loadRequest.current);
+    loadRequest.current = controller;
+    let verifiedScope: string | null = null;
     try {
-      const r = await fetch("/api/do/personal", { cache: "no-store" });
+      const r = await fetch("/api/do/personal", { cache: "no-store", signal: controller.signal });
       const data = await r.json();
+      if (controller.signal.aborted) return;
+      const scope = data.workspaceKey === "guest" || (typeof data.workspaceKey === "string" && /^[a-f0-9-]{36}$/i.test(data.workspaceKey)) ? data.workspaceKey as string : null;
+      if (!scope) throw new Error("Account identity unavailable.");
+      verifiedScope = scope;
+      if (workspaceRef.current !== scope) {
+        if (workspaceRef.current !== null) setSharedIntake(undefined);
+        setPersonalProfile(null);
+        setForm(emptyForm); setEditor(false); setConsent(false); setEditId(undefined);
+      }
+      workspaceRef.current = scope;
+      setWorkspaceKey(scope);
+      try {
+        const share = readDoShareForWorkspace(window.sessionStorage, scope);
+        if (share) setSharedIntake({ id: share.id, text: doShareText(share), sourceTitle: share.title || "Shared into DO" });
+      } catch { /* Storage access must not stop the workspace loading. */ }
       if (r.status === 401) {
         setState(null);
+        setPersonalProfile(null);
         setAccess("signed-out");
         setForm(emptyForm);
         setEditor(false);
@@ -72,6 +115,11 @@ export function PersonalDo() {
       setNow(Date.now());
       setAccess("ready");
     } catch {
+      if (controller.signal.aborted) return;
+      // An authenticated storage error includes a verified scope; network or
+      // malformed identity errors cannot safely reuse a previous person's UI.
+      setPersonalProfile(null);
+      if (!verifiedScope) { workspaceRef.current = null; setWorkspaceKey(null); setSharedIntake(undefined); setEditor(false); setConsent(false); }
       setAccess("error");
       setState(null);
       setNotice(
@@ -87,7 +135,23 @@ export function PersonalDo() {
       if (!lock.current) void load();
     };
     window.addEventListener("focus", refresh);
-    return () => window.removeEventListener("focus", refresh);
+    let unsubscribe: (() => void) | undefined;
+    try {
+      const client = createBrowserClient();
+      const subscription = client.auth.onAuthStateChange((_event, session) => {
+        const hintedScope = session?.user?.id ?? "guest";
+        if (shouldRevalidatePersonalOwner(_event, workspaceRef.current, hintedScope)) {
+          loadRequest.current?.abort();
+          workspaceRef.current = null;
+          setWorkspaceKey(null); setState(null); setPersonalProfile(null);
+          setSharedIntake(undefined); setForm(emptyForm); setEditor(false); setConsent(false);
+          // The event only invalidates. The server verifies the new owner.
+          void load();
+        }
+      });
+      unsubscribe = () => subscription.data.subscription.unsubscribe();
+    } catch { /* Public local tools still work when Supabase is not configured. */ }
+    return () => { window.removeEventListener("focus", refresh); loadRequest.current?.abort(); unsubscribe?.(); };
   }, [load]);
   useEffect(() => {
     if (editor) {
@@ -97,6 +161,19 @@ export function PersonalDo() {
       dialog.current?.close();
     }
   }, [editor]);
+  useEffect(() => {
+    if (leavingHref) leaveDialog.current?.showModal();
+    else leaveDialog.current?.close();
+  }, [leavingHref]);
+  useEffect(() => {
+    if (workspaceKey !== "guest" || !guestDirty) return;
+    const warn = (event: BeforeUnloadEvent) => {
+      if (approvedLeave.current) return;
+      event.preventDefault(); event.returnValue = "";
+    };
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [workspaceKey, guestDirty]);
   function openEditor(
     item?: Responsibility,
     starter?: (typeof PERSONAL_STARTERS)[number],
@@ -155,70 +232,43 @@ export function PersonalDo() {
       setConsent(false);
     }
   }
+  function keepCallDraft(notes: string) {
+    if (busy || editor || !state?.worker.configured || state.responsibilities.length >= 5 || notes.length > 10000) return false;
+    setEditId(undefined);
+    setForm({
+      ...emptyForm,
+      title: "A next step from our call",
+      goal: "Prepare the next useful step from these reviewed call notes. Flag anything that still needs checking or my decision.",
+      notes,
+    });
+    setConsent(false);
+    setNotice("");
+    setEditor(true);
+    return true;
+  }
   const needsReview =
     state?.runs.filter((r) => r.status === "needs_review").length ?? 0;
   return (
-    <main className={styles.page}>
+    <main className={styles.page} onClickCapture={event => {
+      if (workspaceKey !== "guest" || !guestDirty || !(event.target instanceof Element)) return;
+      const link = event.target.closest<HTMLAnchorElement>("a[href]");
+      if (!link || link.target === "_blank" || link.download) return;
+      const destination = new URL(link.href, window.location.href);
+      if (destination.origin !== window.location.origin || (destination.pathname === window.location.pathname && destination.search === window.location.search)) return;
+      event.preventDefault(); event.stopPropagation(); setLeavingHref(destination.href);
+    }}>
       <header className={styles.nav}>
-        <Link href="/do" className={styles.brand}>
-          DO <span>by assembl</span>
+        <Link href="/do" className={styles.brand} aria-label="DO by assembl, home">
+          <span className={styles.brandMark}><DoMark /></span>
+          <span className={styles.brandName}>DO<span>by assembl</span></span>
         </Link>
-        <nav aria-label="Personal DO">
-          <Link href="/do/widget">
-            Workspace <ArrowUpRight size={15} />
-          </Link>
-          <Link href="/do/install#phone">On your phone</Link>
+        <nav aria-label="Personal DO" className={styles.navActions}>
+          <Link className={styles.phoneLink} href="/do/install#phone">On your phone <ArrowUpRight size={14} /></Link>
+          {access === "ready" && workspaceKey
+            ? <PersonalDoSettings key={workspaceKey} compact triggerRef={settingsButton} onProfileChange={setPersonalProfile} />
+            : <Link className={styles.signIn} href="/login?redirect=%2Fdo%2Fpersonal">Sign in <ArrowUpRight size={15} /></Link>}
         </nav>
       </header>
-      <section className={styles.hero}>
-        <div className={styles.intro}>
-          <p className={styles.eyebrow}>PERSONAL DO / YOUR ONGOING WORK</p>
-          <h1>
-            A little less
-            <br />
-            <span>on your mind.</span>
-          </h1>
-          <p>
-            Give DO something to stay on top of. Keep the context, prepare the
-            next step, and come back to work you can review.
-          </p>
-          <div className={styles.heroActions}>
-            {access === "ready" ? (
-              <button
-                onClick={() => openEditor()}
-                disabled={
-                  busy ||
-                  !state?.worker.configured ||
-                  state.responsibilities.length >= 5
-                }
-              >
-                <Plus size={18} /> Give DO a responsibility
-              </button>
-            ) : (
-              <Link href="/login?redirect=%2Fdo%2Fpersonal">
-                Open my Personal DO <ArrowUpRight size={18} />
-              </Link>
-            )}
-            <a href="#how-it-works">See how it works ↓</a>
-          </div>
-        </div>
-        <div className={styles.art}>
-          <Image
-            src="/do/editorial/work-in-your-pocket.webp"
-            alt="Paperwork gathered beside a phone in a plum setting. Concept artwork."
-            fill
-            sizes="(max-width: 760px) 100vw, 48vw"
-            priority
-          />
-          <div className={styles.presence}>
-            <DoPresence size="small" />
-          </div>
-          <div className={styles.artCaption}>
-            <span>your context, kept.</span>
-            <strong>your next step, prepared.</strong>
-          </div>
-        </div>
-      </section>
       <div className={styles.notice} role="status" aria-live="polite">
         {notice}
       </div>
@@ -230,8 +280,27 @@ export function PersonalDo() {
           Try loading again <RefreshCw size={16} />
         </button>
       )}
+      {workspaceKey && <LifeAdmin key={workspaceKey} profile={personalProfile} onCustomise={access === "ready" ? () => settingsButton.current?.click() : undefined} storageScope={workspaceKey} intake={sharedIntake} onGuestWorkChange={setGuestDirty} onIntakeAccepted={id => { try { acceptDoShare(window.sessionStorage, id); } catch { /* Storage may be unavailable. */ } }} onTalk={() => { setCallOpen(true); requestAnimationFrame(() => document.getElementById("personal-do-call")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" })); }} />}
+      {workspaceKey && callOpen && <div id="personal-do-call" className={styles.call}>
+        <div className={styles.callHeading}><p className={styles.eyebrow}>A LITTLE SPACE TO TALK</p><a href="#life-admin">Back to my workspace ↑</a></div>
+        <DoGeminiLive
+          key={`${workspaceKey}:${personalProfile?.updatedAt ?? "default"}`}
+          profile={personalProfile ?? undefined}
+          draftTarget="responsibility"
+          onDraft={state?.worker.configured && state.responsibilities.length < 5 ? keepCallDraft : undefined}
+        />
+      </div>}
+      {workspaceKey && <section className={styles.around} aria-labelledby="around-you-title">
+        <div className={styles.aroundHeading}><p className={styles.eyebrow}>AOTEAROA / USEFUL WHEN YOU NEED IT</p><h2 id="around-you-title">Around you.</h2></div>
+        <div className={styles.aroundGrid}>
+          <details className={styles.aroundPanel}><summary><HeartHandshake size={23} /><span><strong>Care, health & later life</strong><small>Support, appointments and the right place to ask</small></span><Plus size={19} /></summary><NzCareNavigation storageScope={workspaceKey} /></details>
+          <details className={styles.aroundPanel}><summary><CloudSun size={23} /><span><strong>Weather & public updates</strong><small>Check the conditions before your next step</small></span><Plus size={19} /></summary><LifeAdminLocalUpdates key={workspaceKey} /></details>
+        </div>
+      </section>}
       {access === "ready" && state && (
-        <>
+        <details className={styles.ongoing}>
+          <summary><span><span className={styles.eyebrow}>KEEP IT MOVING</span><strong>Ongoing responsibilities</strong></span><span className={styles.ongoingCount}>{needsReview ? `${needsReview} to review` : `${state.responsibilities.length} saved`} <ChevronDown size={20} /></span></summary>
+          <div className={styles.ongoingIntro}><p>Give DO a set of notes and permission to prepare the next step each day.</p><button className={styles.save} onClick={() => openEditor()} disabled={busy || !state.worker.configured || state.responsibilities.length >= 5}><Plus size={18} /> Give DO a responsibility</button></div>
           <section
             className={styles.worker}
             aria-label="Background worker status"
@@ -474,6 +543,7 @@ export function PersonalDo() {
                               filename: "personal-do-draft.txt",
                             }}
                           />
+                          <DoReadAloud text={run.output} />
                         </div>
                       )}
                     </article>
@@ -482,9 +552,11 @@ export function PersonalDo() {
               </div>
             </div>
           </section>
-        </>
+        </details>
       )}
-      <section id="how-it-works" className={styles.how}>
+      <details id="how-it-works" className={styles.how}>
+        <summary>How Personal DO works <Plus size={18} /></summary>
+        <div className={styles.howContent}>
         <p className={styles.eyebrow}>THE FIRST PERSONAL DO RELEASE</p>
         <h2>
           You set the responsibility.
@@ -523,12 +595,24 @@ export function PersonalDo() {
           monitoring, push notifications and cross-app screen access are not
           connected.
         </p>
-      </section>
+        </div>
+      </details>
       <footer className={styles.footer}>
         <Link href="/">assembl</Link>
         <span>less admin, more mahi.</span>
         <Link href="/legal/privacy">Privacy</Link>
       </footer>
+      {leavingHref && <dialog ref={leaveDialog} className={styles.editorBackdrop} aria-labelledby="guest-leave-title" onCancel={event => { event.preventDefault(); setLeavingHref(null); }}>
+        <section className={styles.editor}>
+          <p className={styles.eyebrow}>KEEP YOUR WORK BEFORE YOU GO</p>
+          <h2 id="guest-leave-title">Your checklist is in this page.</h2>
+          <p>Signing in or leaving starts a fresh workspace. Stay and use Download all guest work to keep a copy first. You can paste it back into your signed-in workspace.</p>
+          <div className={styles.actions}>
+            <button type="button" onClick={() => { setLeavingHref(null); setNotice("Use Download all guest work above your checklist before signing in."); }}>Stay and keep my work</button>
+            <button type="button" onClick={() => { approvedLeave.current = true; window.location.assign(leavingHref); }}>Leave without this work</button>
+          </div>
+        </section>
+      </dialog>}
       {editor && (
         <dialog
           ref={dialog}

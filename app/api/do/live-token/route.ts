@@ -1,4 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
+import { getPersonalDoProfile } from "@/apps/do/personal/profile-service";
+import type { PersonalDoProfile } from "@/apps/do/personal/profile";
 import { admitDoRequest, readDoJson } from "@/apps/do/shared/http";
 import { chatClientIp, checkChatRateLimit } from "@/lib/agents/chat-rate-limit";
 import {
@@ -76,12 +78,29 @@ export async function POST(request: Request) {
       429,
     );
 
+  // Load only this authenticated owner's reviewed profile. Never accept identity,
+  // preferences, tools or system instructions supplied by the browser.
+  let profile: PersonalDoProfile | undefined;
+  if (parsed.data.includeProfile) {
+    try {
+      ({ profile } = await getPersonalDoProfile(owner.id));
+    } catch {
+      return json({ error: "Your saved DO profile could not be checked. Refresh and try again." }, 503);
+    }
+    if (profile.updatedAt !== parsed.data.profileUpdatedAt)
+      return json({ error: "Your DO profile changed. Refresh and review it before calling." }, 409);
+  }
+  if (request.signal.aborted)
+    return json({ error: "This call was cancelled before connecting." }, 499);
+
   let reservation: Awaited<ReturnType<typeof reserveDoVoice>> | undefined;
   try {
     reservation = await reserveDoVoice(owner.id);
-    const { mode, voiceName } = parsed.data;
+    if (request.signal.aborted) throw new Error("cancelled");
+    const { mode } = parsed.data;
+    const voiceName = profile?.voiceName ?? parsed.data.voiceName;
     const model = DO_VOICE_MODELS[mode];
-    const config = doVoiceConfig(mode, voiceName);
+    const config = doVoiceConfig(mode, voiceName, profile);
     // Google rejects subsequent messages after expiry; this is not just a UI timer.
     const expiresAt = new Date(
       Date.now() + DO_VOICE_SECONDS * 1000,
@@ -102,6 +121,7 @@ export async function POST(request: Request) {
         ]),
       },
     });
+    if (request.signal.aborted) throw new Error("cancelled");
     if (!token.name) throw new Error("incomplete_token");
     // Never log or persist the temporary token. It is used only by this browser session.
     return json(
@@ -110,6 +130,7 @@ export async function POST(request: Request) {
         model,
         mode,
         voiceName,
+        displayName: profile?.displayName ?? "DO",
         config,
         expiresAt,
         sessionSeconds: DO_VOICE_SECONDS,
@@ -118,6 +139,8 @@ export async function POST(request: Request) {
     );
   } catch (error) {
     if (reservation) await reservation.release().catch(() => {});
+    if (request.signal.aborted)
+      return json({ error: "This call was cancelled before connecting." }, 499);
     if (error instanceof DoVoiceAllowanceError)
       return json(
         { error: error.message },
