@@ -10,6 +10,7 @@ export const personalAssistantInputSchema = z.object({
   context: text(6000).default(''),
   history: z.array(z.object({ role: z.enum(['user', 'assistant']), text: text(10000).refine(value => value.length > 0) }).strict()).max(2).default([]),
   consent: z.literal(true, { error: 'Confirm that OpenAI and TypeSafe may use this text for this request.' }),
+  usePublicNz: z.boolean().default(false),
   useSavedStyle: z.boolean().default(false),
 }).strict().refine(value => value.message.length + value.context.length + value.history.reduce((sum, turn) => sum + turn.text.length, 0) <= 24000, 'This conversation is too long. Start a new conversation or shorten the notes.');
 export type PersonalAssistantInput = z.infer<typeof personalAssistantInputSchema>;
@@ -23,7 +24,7 @@ export type PersonalAssistantAction = keyof typeof PERSONAL_ASSISTANT_ACTIONS;
 export const personalAssistantDraftSchema = z.object({
   reply: z.string().min(1).max(4000).describe('A helpful plain-text answer. No claim to have executed tools or looked up current facts.'),
   rationale: z.string().min(1).max(500).describe('Brief user-facing explanation of the recommendation, not private reasoning or chain of thought.'),
-  evidence: z.array(z.object({ source: z.enum(['message', 'notes', 'conversation']), quote: z.string().min(1).max(500) }).strict()).max(5).describe('Exact short quotations from the supplied user message, notes or earlier user turns only. These are user-supplied claims, not independently verified facts.'),
+  evidence: z.array(z.object({ source: z.enum(['message', 'notes', 'conversation', 'public_source']), citation: z.string().url().max(250).optional(), quote: z.string().min(1).max(500) }).strict()).max(5).describe('Exact short quotations from the supplied user message, notes or earlier user turns only. These are user-supplied claims, not independently verified facts.'),
   missingInformation: z.array(z.string().min(1).max(300)).max(5),
   nextStep: z.object({
     kind: z.enum(['review_draft', 'answer_question']),
@@ -48,15 +49,17 @@ export type PersonalAssistantResult = PersonalAssistantDraft & {
     usage?: { inputTokens: number; outputTokens: number };
     note: string;
   };
+  officialSources?: import('@/lib/public-nz/parliament').VerifiedBill[];
+  officialSourcesRequested?: boolean;
   generation: { provider: 'openai'; requestedModel: typeof PERSONAL_DO_MODEL; actualModel: string; reasoningEffort: typeof PERSONAL_DO_REASONING_EFFORT; usage?: { inputTokens: number | null; outputTokens: number | null; reasoningTokens: number | null; cacheReadTokens: number | null; cacheWriteTokens: number | null } } | null;
 };
 
 /** Provider output cannot manufacture citations, execution authority or an unknown next-step kind. */
-export function validatePersonalAssistantDraft(raw: unknown, input: PersonalAssistantInput, action: PersonalAssistantAction): PersonalAssistantDraft {
+export function validatePersonalAssistantDraft(raw: unknown, input: PersonalAssistantInput, action: PersonalAssistantAction, officialSources: import('@/lib/public-nz/parliament').VerifiedBill[] = []): PersonalAssistantDraft {
   const draft = personalAssistantDraftSchema.parse(raw);
   if (draft.nextStep.kind === 'review_draft' ? !draft.nextStep.draft : draft.nextStep.draft !== null) throw new Error('invalid_next_step');
   if (action !== 'prepare' && (draft.nextStep.kind !== 'answer_question' || draft.nextStep.draft !== null)) throw new Error('clarification_required');
   const sources = { message: [input.message], notes: [input.context], conversation: input.history.filter(turn => turn.role === 'user').map(turn => turn.text) };
-  if (draft.evidence.some(item => !sources[item.source].some(source => source.includes(item.quote)))) throw new Error('unsubstantiated_quote');
+  if (draft.evidence.some(item => item.source === 'public_source' ? !officialSources.some(source => source.url === item.citation && Date.parse(source.verifiedAt) <= Date.now() && Date.parse(source.expiresAt) > Date.now() && [source.title, source.excerpt, source.status, source.stage].some(text => text?.includes(item.quote))) : !!item.citation || !sources[item.source].some(source => source.includes(item.quote)))) throw new Error('unsubstantiated_quote');
   return draft;
 }

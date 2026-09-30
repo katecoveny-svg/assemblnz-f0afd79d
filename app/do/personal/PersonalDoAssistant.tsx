@@ -16,6 +16,7 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange }: 
   const [message, setMessage] = useState('');
   const [context, setContext] = useState('');
   const [consent, setConsent] = useState(false);
+  const [usePublicNz, setUsePublicNz] = useState(false);
   const [useSavedStyle, setUseSavedStyle] = useState(false);
   const [reviewOpen, setReviewOpen] = useState(false);
   const [availability, setAvailability] = useState<PersonalAssistantAvailability | null>(null);
@@ -89,7 +90,7 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange }: 
       { role: 'user', text: lastMessage },
       { role: 'assistant', text: [result.reply, draft].filter(Boolean).join('\n\n') },
     ] : [];
-    const parsed = personalAssistantInputSchema.safeParse({ message, context, history, consent, useSavedStyle });
+    const parsed = personalAssistantInputSchema.safeParse({ message, context, history, consent, useSavedStyle, usePublicNz });
     if (!parsed.success) { setError(parsed.error.issues[0]?.message ?? 'Check your request.'); return; }
     const body = JSON.stringify(parsed.data);
     if (attempt.current?.body !== body) attempt.current = { body, id: crypto.randomUUID() };
@@ -137,13 +138,14 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange }: 
         {result.nextStep.draft === null && <p className={styles.question}>{result.nextStep.label}</p>}
         <details className={styles.evidence}><summary>Why this next step <ChevronDown size={14} /></summary>
           <p>{result.rationale}</p>
-          {!!result.evidence.length && <><h4>From what you shared</h4><ul>{result.evidence.map((item, index) => <li key={index}>“{item.quote}” <span>({item.source})</span></li>)}</ul></>}
+          {!!result.evidence.length && <><h4>What this reply uses</h4><ul>{result.evidence.map((item, index) => <li key={index}>“{item.quote}” <span>({item.source === 'public_source' ? 'official reference' : item.source})</span>{item.source === 'public_source' && item.citation && <a href={item.citation} target="_blank" rel="noopener noreferrer"> Source</a>}</li>)}</ul></>}
           {!!result.missingInformation.length && <><h4>Still to check</h4><ul>{result.missingInformation.map((item, index) => <li key={index}>{item}</li>)}</ul></>}
           <p>{result.generation ? `Reply: ${result.generation.actualModel} · ${result.generation.reasoningEffort} reasoning.` : 'No OpenAI generation was made for this reply.'} Request check: TypeSafe ({result.reasoning.model}).</p>
           <p>{result.reasoning.note} Your text and reply are not saved to your Assembl account by this conversation; provider retention terms apply.</p>
         </details>
       </div>
     </div>}
+    {result?.officialSourcesRequested && <details className={styles.notes}><summary>Official references checked for this request</summary>{result.officialSources?.length ? result.officialSources.map(source => <article key={source.citation}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a><p>{source.status || 'Status not provided'}{source.stage ? ` · ${source.stage}` : ''}</p><p>{source.excerpt}</p><p>Checked {source.verifiedAt}. Introduction: {source.introducedAt || 'unknown'}. Stage activity: {source.activityAt || 'unknown'}. Original publication unknown. A bill is not necessarily enacted law; recheck at the source.</p></article>) : <p>No fresh verified Parliament evidence was available for this request. Discovery links do not establish current facts.</p>}</details>}
     <form onSubmit={event => void submit(event)}>
       <label className={styles.inputLabel} htmlFor="personal-assistant-input">{result ? 'What would help next?' : 'What needs doing?'}</label>
       <textarea ref={inputRef} id="personal-assistant-input" data-do-primary-input value={message} maxLength={4000} rows={3} disabled={working} placeholder="e.g. Prepare a reply to my property manager" onChange={event => { setMessage(event.target.value); setConsent(false); setNotice(''); }} />
@@ -151,6 +153,7 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange }: 
         <span>{working ? 'Checking the request and preparing your reply…' : 'You decide what happens next'}</span>
         {working ? <button className={styles.stop} type="button" onClick={cancel}><X size={15} /> Stop</button> : <button className={styles.send} type="submit" disabled={!message.trim() || loading || !availability?.ready}>{reviewOpen && consent ? 'Ask DO' : 'Start'}<ArrowUpRight size={18} /></button>}
       </div>
+      <label className={styles.consent}><input type="checkbox" checked={usePublicNz} disabled={working} onChange={event => { setUsePublicNz(event.target.checked); setConsent(false); }} /><span>Include official NZ references. Fresh Parliament details only; other links need checking. This is not a topic search. Selected public references also go to OpenAI and TypeSafe.</span></label>
       <details className={styles.notes}><summary>Add a little context <ChevronDown size={14} /></summary><label htmlFor="personal-assistant-notes">Notes to use in this conversation</label><textarea id="personal-assistant-notes" value={context} maxLength={6000} rows={3} disabled={working} onChange={event => { setContext(event.target.value); setConsent(false); }} placeholder="Paste only the details you want DO to use. Links are not opened." /><p>Remove passwords, payment details and anything you don’t want to share. Only the last exchange and these notes go with your next message.</p></details>
       {reviewOpen && <div className={styles.consent}>
         <label><input ref={consentRef} type="checkbox" checked={consent} disabled={working} onChange={event => setConsent(event.target.checked)} /><span>{PERSONAL_DO_ASSISTANT_CONSENT}</span></label>

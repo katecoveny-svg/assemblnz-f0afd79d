@@ -72,7 +72,7 @@ describe('Personal DO assistant route security', () => {
     vi.mocked(runPersonalAssistant).mockResolvedValue({ id: 'draft', reviewRequired: true, externalActions: false } as never);
     const req = request(); const response = await POST(req);
     expect(response.status).toBe(200);
-    expect(runPersonalAssistant).toHaveBeenCalledWith({ ...payload, history: [], context: '', useSavedStyle: false }, owner.id, req.signal);
+    expect(runPersonalAssistant).toHaveBeenCalledWith({ ...payload, history: [], context: '', useSavedStyle: false, usePublicNz: false }, owner.id, req.signal);
     expect(await response.json()).toMatchObject({ result: { externalActions: false } });
   });
   it('redacts unknown errors, and returns only deliberately safe domain messages', async () => {
