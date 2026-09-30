@@ -266,7 +266,7 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
       <div hidden={Boolean(assistant) && localOpen}>{assistant}</div>
       <div id="personal-local-checklist" hidden={Boolean(assistant) && !localOpen}>{localComposer}</div>
       {!localOpen && assistant && <div className={styles.mainModes} aria-label="More ways to start">
-        {onTalk && <button type="button" onClick={onTalk}><Mic size={18} />Talk</button>}
+        {onTalk && <button type="button" onClick={onTalk} aria-label="Talk it through"><Mic size={18} />Talk</button>}
         <button type="button" onClick={() => { setLocalOpen(true); setCaptureMode('photo'); }}><Camera size={18} />Photo</button>
         <button type="button" onClick={() => { setLocalOpen(true); setCaptureMode('forward'); requestAnimationFrame(() => sourceRef.current?.focus()); }}><Forward size={18} />Paste a notice</button>
       </div>}

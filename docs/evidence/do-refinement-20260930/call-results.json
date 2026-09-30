@@ -1,0 +1,32 @@
+{
+  "checks": [
+    "no microphone or token before consent",
+    "call requires separate unselected consent",
+    "personal profile sharing is reviewable",
+    "saved voice is shown and cannot diverge silently",
+    "changing conversation settings revokes earlier consent",
+    "denied microphone never reserves a provider session",
+    "repeated start clicks acquire microphone once",
+    "late microphone permission after cancel is stopped without connecting",
+    "call request is limited to consent and saved profile revision",
+    "mute disables track and sends no further microphone frames",
+    "unmute resumes microphone frames",
+    "duplicate provider tool calls are compiled once",
+    "new provider brief never overwrites user edits",
+    "clearing review text keeps the editor available",
+    "reviewed notes enter an unsaved responsibility editor",
+    "responsibility needs its own fresh consent",
+    "transferring notes closes microphone and audio contexts",
+    "ended session ignores late transcript messages",
+    "ending the call preserves its reviewable transcript",
+    "backgrounding immediately closes microphone and socket",
+    "socket errors stop microphone and require fresh consent for retry",
+    "explicit End call stops microphone",
+    "375px call panel fits viewport",
+    "no browser runtime errors"
+  ],
+  "errors": [],
+  "apiMode": "fictional intercepted fixtures; mocked media and Google WebSocket",
+  "liveProviderTested": false,
+  "realMicrophoneTested": false
+}

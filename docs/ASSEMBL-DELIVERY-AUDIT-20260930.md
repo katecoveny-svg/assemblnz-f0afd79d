@@ -48,10 +48,11 @@ Kate asked to recover continuity, build the Personal DO suggestions and simplify
 
 ## Verification and limits
 
-- 124 focused tests across Personal DO, profiles, providers, life-admin and API boundaries pass, including new owner-scope, consent, conflict and worker-health tests.
+- The full DO core test selection passes: 1,257 tests passed, two skipped by the existing suite. This includes 124 focused Personal DO/API tests and new owner-scope, consent, conflict and worker-health coverage.
 - 12 executable local PostgreSQL-compatible checks pass: private RLS, service-only writes, stale revisions, removal tombstones, anonymous denial, bounds and account-deletion cascade.
 - 22 browser checks pass with real local page rendering and fictional signed-in storage responses: 375/320px, first-screen input, one composer, explicit save, refresh/restore, conflict, cancel/remove, missing heartbeat, homepage doors and no runtime errors. The unauthenticated checklist API denial was exercised against the real local route.
 - The standard full production build passes (Turbopack compilation, TypeScript, all 206 static pages). Typecheck, focused ESLint and brand/front-door guards pass. Macron check is invoked with `node --import tsx scripts/lint-macrons.ts` because the CLI's temporary IPC pipe is unavailable in this runner.
+- The existing customisation/checklist, call-lifecycle and assistant browser suites also pass: 72 additional checks with fictional account/audio/provider fixtures. Their navigation assertions now follow the simpler entry. CI retains these suites and adds the snapshot browser and SQL checks.
 - Screenshots and test results are in `docs/evidence/do-refinement-20260930/`. Repeat with `scripts/review-do-refinement.cjs` and `scripts/test-do-personal-checklists-sql.cjs`.
 - Migration `20260930063926_do_personal_checklist_cloud.sql` is applied to Assembl-prod; RLS and service-only RPC grants were verified against its actual schema. The filename matches the server migration history. The migration creates empty private storage only. No personal records, bank data or tasks were seeded. No provider generation, real booking, message, payment or account connection was triggered by the audit.
 - Production build/deployment and final branch SHA are recorded in the delivery PR. Do not infer production success from local mocks or a READY deployment from an earlier commit.

@@ -5,27 +5,26 @@ import { LifeAdmin } from './LifeAdmin';
 import { PersonalDoCharacter } from './PersonalDoCharacter';
 
 describe('Personal DO visual entry', () => {
-  it('shows three explicitly fictional local examples and one own-note path', () => {
+  it('lets guests start their own note before opting into fictional examples', () => {
     const html = renderToStaticMarkup(createElement(LifeAdmin, { storageScope: 'guest' }));
-    expect(html).toContain('aria-label="Try a fictional example"');
-    expect(html).toContain('aria-label="Try school notice"');
-    expect(html).toContain('aria-label="Try bill example"');
-    expect(html).toContain('aria-label="Try car reminder"');
-    expect(html).toContain('Fictional examples. Real checklists. Nothing sent.');
-    expect(html).toContain('Use my own note');
+    expect(html).not.toContain('data-example=');
+    expect(html).toContain('Not sure? Try a school notice, bill or WoF example');
+    expect(html).toContain('aria-expanded="false"');
+    expect(html).toContain('What needs sorting?');
     expect(html).toContain('Let’s sort it');
     expect(html).toContain('data-do-primary-input="true"');
     expect(html).toContain('What’s underway');
     expect(html).toContain('More things to sort');
     expect(html).not.toContain('Your first three steps');
   });
-  it('accepts an owner-scoped assistant slot while keeping local capture as an optional disclosure', () => {
+  it('keeps one primary assistant input with local capture available by choice', () => {
     const assistant = createElement('textarea', { id: 'personal-assistant-input', 'data-do-primary-input': true, 'aria-label': 'Main assistant test input' });
-    const html = renderToStaticMarkup(createElement(LifeAdmin, { storageScope: 'owner-a', assistant }));
+    const html = renderToStaticMarkup(createElement(LifeAdmin, { storageScope: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', assistant }));
     expect(html.match(/data-do-primary-input="true"/g)).toHaveLength(1);
     expect(html).toContain('id="personal-assistant-input"');
-    expect(html).toContain('Use a local checklist');
-    expect(html).toContain('Works on this device, without sending your note for drafting.');
+    expect(html).toContain('Make a checklist');
+    expect(html).toContain('id="personal-local-checklist" hidden=""');
+    expect(html).toContain('Saved checklists');
     expect(html).toContain('Photo');
     expect(html).toContain('Forward');
     expect(html).not.toContain('Guest work stays on this page');

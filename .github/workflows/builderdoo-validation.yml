@@ -56,10 +56,12 @@ jobs:
         run: pnpm build
       - name: Install isolated browser verification tools
         run: |
-          npm install --prefix /tmp/assembl-browser --no-save playwright@1.55.0
+          npm install --prefix /tmp/assembl-browser --no-save playwright@1.55.0 @electric-sql/pglite@0.3.14
           node /tmp/assembl-browser/node_modules/playwright/cli.js install --with-deps chromium
           echo "ASSEMBL_PLAYWRIGHT_MODULE=/tmp/assembl-browser/node_modules/playwright" >> "$GITHUB_ENV"
           node -e "console.log('ASSEMBL_CHROMIUM_PATH=' + require('/tmp/assembl-browser/node_modules/playwright').chromium.executablePath())" >> "$GITHUB_ENV"
+      - name: Private checklist SQL boundaries
+        run: ASSEMBL_PGLITE_MODULE=/tmp/assembl-browser/node_modules/@electric-sql/pglite node scripts/test-do-personal-checklists-sql.cjs
       - name: Personal DO browser proof with fictional account and audio fixtures
         env:
           ASSEMBL_REVIEW_ORIGIN: http://127.0.0.1:3117
@@ -78,8 +80,10 @@ jobs:
           portable_status=$?
           ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/assistant node scripts/review-do-personal-assistant.cjs
           assistant_status=$?
+          ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/refinement node scripts/review-do-refinement.cjs
+          refinement_status=$?
           set -e
-          test "$settings_status" -eq 0 && test "$calls_status" -eq 0 && test "$portable_status" -eq 0 && test "$assistant_status" -eq 0
+          test "$settings_status" -eq 0 && test "$calls_status" -eq 0 && test "$portable_status" -eq 0 && test "$assistant_status" -eq 0 && test "$refinement_status" -eq 0
       - uses: actions/upload-artifact@v4
         if: always()
         with:
