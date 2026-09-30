@@ -33,6 +33,8 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      NODE_OPTIONS: --max-old-space-size=6144
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -49,6 +51,32 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
       - name: DO core unit tests
-        run: pnpm test apps/do/shared app/api/do lib/os/improvement.test.ts lib/os/routing.test.ts lib/connectors/pipedream.test.ts
+        run: pnpm test apps/do/shared apps/do/personal app/api/do app/do/personal lib/do/nz-public-data.test.ts lib/do/nz-local-updates.test.ts lib/os/improvement.test.ts lib/os/routing.test.ts lib/connectors/pipedream.test.ts
       - name: Production build
         run: pnpm build
+      - name: Install isolated browser verification tools
+        run: |
+          npm install --prefix /tmp/assembl-browser --no-save playwright@1.55.0
+          node /tmp/assembl-browser/node_modules/playwright/cli.js install --with-deps chromium
+          echo "ASSEMBL_PLAYWRIGHT_MODULE=/tmp/assembl-browser/node_modules/playwright" >> "$GITHUB_ENV"
+          node -e "console.log('ASSEMBL_CHROMIUM_PATH=' + require('/tmp/assembl-browser/node_modules/playwright').chromium.executablePath())" >> "$GITHUB_ENV"
+      - name: Personal DO browser proof with fictional account and audio fixtures
+        env:
+          ASSEMBL_REVIEW_ORIGIN: http://127.0.0.1:3117
+        run: |
+          set -euo pipefail
+          node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3117 > /tmp/personal-do-server.log 2>&1 &
+          server=$!
+          trap 'kill "$server" || true' EXIT
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:3117/do/personal >/dev/null && break; sleep 2; done
+          ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/settings node scripts/review-do-personal-settings.cjs
+          ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/calls node scripts/review-do-personal-call.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: personal-do-browser-proof
+          path: |
+            /tmp/personal-do-proof/
+            /tmp/personal-do-server.log
+          if-no-files-found: warn
+          retention-days: 14

@@ -5,7 +5,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const { chromium } = require(process.env.ASSEMBL_PLAYWRIGHT_MODULE || '/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 const origin = process.env.ASSEMBL_REVIEW_ORIGIN || 'http://127.0.0.1:3023';
-const out = process.env.ASSEMBL_CALL_REVIEW_OUTPUT || '/tmp/assembl-personal-call-review';
+const out = process.env.ASSEMBL_CALL_REVIEW_OUTPUT || process.env.ASSEMBL_REVIEW_OUTPUT || '/tmp/assembl-personal-call-review';
 const checks = [];
 function check(name, value) { assert.ok(value, name); checks.push(name); console.log('PASS ' + name); }
 const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLength: 'brief', initiative: 'gentle', preferences: 'Fictional test: use short lists.', voiceName: 'Aoede', onboardingCompleted: true, updatedAt: '2026-09-30T03:00:00.000Z' };
@@ -71,6 +71,7 @@ const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLe
       window.WebSocket = FakeSocket;
     });
     await page.goto(origin + '/do/personal', { waitUntil: 'networkidle', timeout: 120_000 });
+    await page.getByRole('button', { name: 'Talk it through', exact: true }).click();
     const panel = page.getByRole('region', { name: 'Call Moss', exact: true });
     await panel.getByRole('button', { name: 'Call Moss', exact: true }).click();
     const consent = panel.getByRole('checkbox', { name: /Use my microphone with Google Gemini/ });

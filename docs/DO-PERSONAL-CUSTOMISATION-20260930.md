@@ -62,3 +62,17 @@ Browser scripts use fictional intercepted account/provider fixtures and are curr
 Rollback: revert the feature commit and manifest change; do not drop populated user tables as part of an application rollback.
 
 Technical references: [Google live model](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-live), [ephemeral tokens](https://ai.google.dev/gemini-api/docs/live-api/ephemeral-tokens), [Supabase auth events](https://supabase.com/docs/reference/javascript/auth-onauthstatechange), [share-target support](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest/Reference/share_target), [on-device voices](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisVoice/localService).
+
+## First preview result and database replay repair
+
+PR #1419 commit `55c810f7401516c723b1c51206e62127cca19353` reached Vercel **READY**. All three GitHub workflows passed, including the standard production build, core validation, context health and private-memory boundaries. The connected Vercel read returned HTTP 200 for `/do/personal`. Browser inspection remains behind Vercel authentication; this is not a visual or signed-in account test.
+
+Supabase's isolated preview failed before the new profile migration: the July Zoo migration creates `tenant_customers.name NOT NULL`; Air NZ's later `CREATE TABLE IF NOT EXISTS` cannot add its incompatible `display_name` and `meta` shape. The next review commit repairs that historical replay point with missing-column additions and a SECURITY INVOKER trigger filling absent name aliases. Existing labels, NOT NULL constraints, RLS and write permissions remain intact. Already-applied production migrations are not replayed and no live database was modified.
+
+`node scripts/test-tenant-registry-replay.cjs` passed 31 local checks across Zoo-, Air-NZ- and Lula-shaped registries, executing full Air NZ/Everyday Rewards migrations and later registry seeds, repeat replay, constraint preservation and denied public writes. Full preview replay still needs its own result; a later unrelated migration may reveal another historical blocker. The separate preview branch may need its documented rebuild flow to replay modified historical files.
+
+## Second review integration
+
+The next preview includes the [task-first visual replacement and optional onboarding](./DO-PERSONAL-INTERFACE-20260930.md), [eight care/health/later-life navigation guides](./integrations/nz-care-navigation.md), and [live city-centre weather and official GeoNet updates](./integrations/nz-local-updates.md). Emergency links open the person's phone app; DO does not place calls or monitor emergencies. Weather is a model forecast, not an observation or severe-weather alert. GeoNet stories are not a comprehensive general-news service. No personal cloud computer is connected; the existing browser surface is consented capture/preview, and its setup is labelled accordingly.
+
+The final combined DO/API/domain suite passed **1,192 tests across 81 passing suites**, with one suite/two tests intentionally skipped. Complete TypeScript and changed-file lint passed. CI now includes the personal domain tests and a read-only Playwright proof stage after the production build, using only fictional intercepted account/provider/audio fixtures and publishing screenshots/results as short-lived build artifacts. This supplies browser proof without weakening Vercel protection or requiring private account credentials. Real microphone/provider and signed-in persistence verification remain separate.

@@ -16,10 +16,12 @@ const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLen
     const page = await context.newPage();
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
-    let profile = { ...defaults }, saved = false, failSave = false;
+    let profile = { ...defaults }, saved = false, failSave = false, signedIn = true;
     const mutations = [];
     await page.route('**/api/**', route => route.fulfill({ status: 503, json: { error: 'Fictional test: provider unavailable' } }));
-    await page.route('**/api/do/personal', route => route.fulfill({ json: { workspaceKey: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', responsibilities: [], runs: [], worker: { configured: true, lastSeenAt: new Date().toISOString() } } }));
+    await page.route('**/api/do/personal', route => signedIn
+      ? route.fulfill({ json: { workspaceKey: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', responsibilities: [], runs: [], worker: { configured: true, lastSeenAt: new Date().toISOString() } } })
+      : route.fulfill({ status: 401, json: { workspaceKey: 'guest', error: 'Sign in for cloud responsibilities.' } }));
     await page.route('**/api/do/live-token', route => route.fulfill({ json: { enabled: false, configured: false, signedIn: true, remaining: null, dailyLimit: 3, sessionSeconds: 300, model: 'test-fixture' } }));
     await page.route('**/api/do/personal/profile', route => {
       const request = route.request();
@@ -93,6 +95,52 @@ const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLen
     check('explicit forget returns to defaults', !saved && profile.displayName === 'DO');
     await page.setViewportSize({ width: 320, height: 640 });
     check('320px page fits', await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.getByRole('button', { name: 'Skip guide', exact: true }).click();
+    await page.getByRole('button', { name: 'All 12 checklists', exact: false }).click();
+    check('all twelve workflow choices remain available', await page.locator('[aria-label="Everyday NZ checklists"] button').count() === 12);
+    await page.getByLabel('Kind of admin').selectOption('school');
+    await page.getByLabel('What needs sorting?').fill('Fictional school trip on Friday 9 October 2026, 9 am to 3 pm. Bring a coat and lunch. Permission reply needed Thursday.');
+    await page.getByRole('button', { name: 'Make my checklist', exact: false }).click();
+    await page.getByLabel('What is happening?').pressSequentially('Fictional school trip');
+    check('typing spaces preserves ordinary multiword details', await page.getByLabel('What is happening?').inputValue() === 'Fictional school trip');
+    await page.getByLabel('Dates and times to check').fill('Friday 9 October 2026, 9 am–3 pm. Reply Thursday.');
+    await page.getByLabel('Gear, kai and costs').fill('Coat and lunch. Cost not stated.');
+    await page.getByLabel('Permission or reply needed').fill('Reply through the school’s normal channel.');
+    await page.getByRole('checkbox', { name: /I’ve checked the source, details and proposed steps/ }).check();
+    await page.getByRole('button', { name: 'Review these steps together', exact: false }).click();
+    check('review creates actionable steps without completing them', await page.getByRole('button', { name: 'I’ve done this', exact: true }).count() === 3);
+    await page.getByRole('button', { name: 'I’ve done this', exact: true }).first().click();
+    await page.getByLabel('What confirms it is done?').fill('Fictional confirmation received and checked.');
+    await page.getByRole('button', { name: 'Save this record', exact: true }).click();
+    check('done is labelled as the user’s record', await page.getByText('Done · recorded by you', { exact: true }).isVisible());
+    await page.getByRole('button', { name: 'Undo last checklist change', exact: false }).click();
+    check('undo restores the prior checklist state', await page.getByRole('button', { name: 'I’ve done this', exact: true }).count() === 3);
+    await page.screenshot({ path: out + '/personal-checklist-mobile.png', fullPage: true });
+    await page.getByText('Care, health & later life', { exact: true }).first().click();
+    await page.getByRole('button', { name: 'Aa · Larger text', exact: true }).click();
+    check('care navigation has an accessible larger-text mode', await page.getByRole('button', { name: 'Aa · Standard text', exact: true }).getAttribute('aria-pressed') === 'true');
+    await page.locator('#nz-care-navigation').screenshot({ path: out + '/personal-care-mobile.png' });
+    await page.getByText('Weather & public updates', { exact: true }).click();
+    await page.getByText('Weather for your day', { exact: true }).click();
+    await page.getByLabel('Choose a city or town').selectOption('auckland');
+    await page.getByRole('button', { name: 'Check city forecast', exact: false }).click();
+    await page.getByText('This source could not be checked. Try again or open the official source below.', { exact: true }).waitFor();
+    check('weather failure stays honest', await page.getByText('This source could not be checked. Try again or open the official source below.', { exact: true }).isVisible());
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    check('reduced motion keeps the task available', await page.getByLabel('What needs sorting?').isVisible());
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.screenshot({ path: out + '/personal-integrated-desktop.png', fullPage: true });
+    signedIn = false;
+    await page.reload({ waitUntil: 'networkidle' });
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.getByLabel('What needs sorting?').fill('Fictional unfinished guest note.');
+    await page.getByRole('link', { name: 'Sign in', exact: true }).click();
+    await page.getByRole('dialog', { name: 'Your checklist is in this page.' }).waitFor();
+    check('guest sign-in warns before losing current work', await page.getByRole('button', { name: 'Stay and keep my work', exact: true }).isVisible());
+    await page.screenshot({ path: out + '/personal-guest-leave-mobile.png' });
+    await page.getByRole('button', { name: 'Stay and keep my work', exact: true }).click();
+    check('cancelling navigation preserves the guest note', await page.getByLabel('What needs sorting?').inputValue() === 'Fictional unfinished guest note.');
     check('no runtime errors', errors.length === 0);
     fs.writeFileSync(out + '/results.json', JSON.stringify({ checks, errors, apiMode: 'Fictional intercepted fixtures; no provider/account proof', physicalDeviceTested: false }, null, 2));
   } finally { await browser.close(); }

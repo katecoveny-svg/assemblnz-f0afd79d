@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
 import {
   useCallback,
@@ -12,11 +11,15 @@ import {
   ArrowUpRight,
   Check,
   Clock3,
+  ChevronDown,
+  HeartHandshake,
+  CloudSun,
   Pause,
   Plus,
   RefreshCw,
   X,
 } from "lucide-react";
+import { DoMark } from "@/components/do/DoMark";
 import { DoPresence } from "@/components/do/DoPresence";
 import { DoShareButton } from "@/components/do/DoShareButton";
 import { DoReadAloud } from "@/components/do/DoReadAloud";
@@ -24,6 +27,8 @@ import { DoGeminiLive } from "@/app/do/DoGeminiLive";
 import type { PersonalDoProfile } from "@/apps/do/personal/profile";
 import { PersonalDoSettings } from "./PersonalDoSettings";
 import { LifeAdmin } from "./LifeAdmin";
+import { NzCareNavigation } from "./NzCareNavigation";
+import { LifeAdminLocalUpdates } from "./LifeAdminLocalUpdates";
 import { acceptDoShare, readDoShareForWorkspace, doShareText } from "@/apps/do/shared/share-intake";
 import { createClient as createBrowserClient } from "@/lib/supabase/client";
 import { replacePersonalLoad, shouldRevalidatePersonalOwner } from "@/apps/do/personal/session";
@@ -64,6 +69,7 @@ export function PersonalDo() {
     "loading" | "signed-out" | "ready" | "error"
   >("loading");
   const [notice, setNotice] = useState("");
+  const [callOpen, setCallOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const lock = useRef(false);
   const [form, setForm] = useState(emptyForm);
@@ -72,6 +78,7 @@ export function PersonalDo() {
   const [editor, setEditor] = useState(false);
   const [deleting, setDeleting] = useState<string | null>(null);
   const editorHeading = useRef<HTMLHeadingElement>(null);
+  const settingsButton = useRef<HTMLButtonElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const load = useCallback(async () => {
     const controller = replacePersonalLoad(loadRequest.current);
@@ -251,64 +258,17 @@ export function PersonalDo() {
       event.preventDefault(); event.stopPropagation(); setLeavingHref(destination.href);
     }}>
       <header className={styles.nav}>
-        <Link href="/do" className={styles.brand}>
-          DO <span>by assembl</span>
+        <Link href="/do" className={styles.brand} aria-label="DO by assembl, home">
+          <span className={styles.brandMark}><DoMark /></span>
+          <span className={styles.brandName}>DO<span>by assembl</span></span>
         </Link>
-        <nav aria-label="Personal DO">
-          <Link href="/do/widget">
-            Workspace <ArrowUpRight size={15} />
-          </Link>
-          <Link href="/do/install#phone">On your phone</Link>
+        <nav aria-label="Personal DO" className={styles.navActions}>
+          <Link className={styles.phoneLink} href="/do/install#phone">On your phone <ArrowUpRight size={14} /></Link>
+          {access === "ready" && workspaceKey
+            ? <PersonalDoSettings key={workspaceKey} compact triggerRef={settingsButton} onProfileChange={setPersonalProfile} />
+            : <Link className={styles.signIn} href="/login?redirect=%2Fdo%2Fpersonal">Sign in <ArrowUpRight size={15} /></Link>}
         </nav>
       </header>
-      <section className={styles.hero} data-workspace={access === "ready" || undefined}>
-        <div className={styles.intro}>
-          <p className={styles.eyebrow}>PERSONAL DO / {personalProfile?.displayName ? `YOURS, ${personalProfile.displayName.toUpperCase()}` : "A LITTLE MORE ROOM"}</p>
-          <h1>
-            What do you want<br />
-            <span>off your plate?</span>
-          </h1>
-          <p>
-            Tell me, show me, or start with a note. One place to untangle the
-            everyday, prepare the next step, and keep you in charge.
-          </p>
-          <div className={styles.heroActions}>
-            {access === "ready" ? (
-              <button
-                onClick={() => openEditor()}
-                disabled={
-                  busy ||
-                  !state?.worker.configured ||
-                  state.responsibilities.length >= 5
-                }
-              >
-                <Plus size={18} /> Give DO a responsibility
-              </button>
-            ) : (
-              <Link href="/login?redirect=%2Fdo%2Fpersonal">
-                Open my Personal DO <ArrowUpRight size={18} />
-              </Link>
-            )}
-            <a href="#how-it-works">See how it works ↓</a>
-          </div>
-        </div>
-        <div className={styles.art}>
-          <Image
-            src="/do/editorial/work-in-your-pocket.webp"
-            alt="Paperwork gathered beside a phone in a plum setting. Concept artwork."
-            fill
-            sizes="(max-width: 760px) 100vw, 48vw"
-            priority
-          />
-          <div className={styles.presence}>
-            <DoPresence size="small" />
-          </div>
-          <div className={styles.artCaption}>
-            <span>your context, kept.</span>
-            <strong>your next step, prepared.</strong>
-          </div>
-        </div>
-      </section>
       <div className={styles.notice} role="status" aria-live="polite">
         {notice}
       </div>
@@ -320,9 +280,9 @@ export function PersonalDo() {
           Try loading again <RefreshCw size={16} />
         </button>
       )}
-      {access === "ready" && workspaceKey && <PersonalDoSettings key={workspaceKey} onProfileChange={setPersonalProfile} />}
-      {workspaceKey && <LifeAdmin key={workspaceKey} storageScope={workspaceKey} intake={sharedIntake} onGuestWorkChange={setGuestDirty} onIntakeAccepted={id => { try { acceptDoShare(window.sessionStorage, id); } catch { /* Storage may be unavailable. */ } }} onTalk={() => document.getElementById("personal-do-call")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" })} />}
-      {workspaceKey && <div id="personal-do-call" className={styles.call}>
+      {workspaceKey && <LifeAdmin key={workspaceKey} profile={personalProfile} onCustomise={access === "ready" ? () => settingsButton.current?.click() : undefined} storageScope={workspaceKey} intake={sharedIntake} onGuestWorkChange={setGuestDirty} onIntakeAccepted={id => { try { acceptDoShare(window.sessionStorage, id); } catch { /* Storage may be unavailable. */ } }} onTalk={() => { setCallOpen(true); requestAnimationFrame(() => document.getElementById("personal-do-call")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" })); }} />}
+      {workspaceKey && callOpen && <div id="personal-do-call" className={styles.call}>
+        <div className={styles.callHeading}><p className={styles.eyebrow}>A LITTLE SPACE TO TALK</p><a href="#life-admin">Back to my workspace ↑</a></div>
         <DoGeminiLive
           key={`${workspaceKey}:${personalProfile?.updatedAt ?? "default"}`}
           profile={personalProfile ?? undefined}
@@ -330,8 +290,17 @@ export function PersonalDo() {
           onDraft={state?.worker.configured && state.responsibilities.length < 5 ? keepCallDraft : undefined}
         />
       </div>}
+      {workspaceKey && <section className={styles.around} aria-labelledby="around-you-title">
+        <div className={styles.aroundHeading}><p className={styles.eyebrow}>AOTEAROA / USEFUL WHEN YOU NEED IT</p><h2 id="around-you-title">Around you.</h2></div>
+        <div className={styles.aroundGrid}>
+          <details className={styles.aroundPanel}><summary><HeartHandshake size={23} /><span><strong>Care, health & later life</strong><small>Support, appointments and the right place to ask</small></span><Plus size={19} /></summary><NzCareNavigation storageScope={workspaceKey} /></details>
+          <details className={styles.aroundPanel}><summary><CloudSun size={23} /><span><strong>Weather & public updates</strong><small>Check the conditions before your next step</small></span><Plus size={19} /></summary><LifeAdminLocalUpdates key={workspaceKey} /></details>
+        </div>
+      </section>}
       {access === "ready" && state && (
-        <>
+        <details className={styles.ongoing}>
+          <summary><span><span className={styles.eyebrow}>KEEP IT MOVING</span><strong>Ongoing responsibilities</strong></span><span className={styles.ongoingCount}>{needsReview ? `${needsReview} to review` : `${state.responsibilities.length} saved`} <ChevronDown size={20} /></span></summary>
+          <div className={styles.ongoingIntro}><p>Give DO a set of notes and permission to prepare the next step each day.</p><button className={styles.save} onClick={() => openEditor()} disabled={busy || !state.worker.configured || state.responsibilities.length >= 5}><Plus size={18} /> Give DO a responsibility</button></div>
           <section
             className={styles.worker}
             aria-label="Background worker status"
@@ -583,9 +552,11 @@ export function PersonalDo() {
               </div>
             </div>
           </section>
-        </>
+        </details>
       )}
-      <section id="how-it-works" className={styles.how}>
+      <details id="how-it-works" className={styles.how}>
+        <summary>How Personal DO works <Plus size={18} /></summary>
+        <div className={styles.howContent}>
         <p className={styles.eyebrow}>THE FIRST PERSONAL DO RELEASE</p>
         <h2>
           You set the responsibility.
@@ -624,7 +595,8 @@ export function PersonalDo() {
           monitoring, push notifications and cross-app screen access are not
           connected.
         </p>
-      </section>
+        </div>
+      </details>
       <footer className={styles.footer}>
         <Link href="/">assembl</Link>
         <span>less admin, more mahi.</span>

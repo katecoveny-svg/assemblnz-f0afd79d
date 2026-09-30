@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type RefObject } from "react";
 import { ArrowLeft, ArrowRight, Check, Settings2, ShieldCheck, X } from "lucide-react";
 import {
   DEFAULT_PERSONAL_DO_PROFILE,
@@ -39,7 +39,9 @@ function editable(profile: PersonalDoProfile): PersonalDoProfileInput {
   return input;
 }
 
-export function PersonalDoSettings({ onProfileChange }: {
+export function PersonalDoSettings({ onProfileChange, compact = false, triggerRef }: {
+  triggerRef?: RefObject<HTMLButtonElement | null>;
+  compact?: boolean;
   onProfileChange: (profile: PersonalDoProfile | null) => void;
 }) {
   const [profile, setProfile] = useState<PersonalDoProfile | null>(null);
@@ -169,14 +171,14 @@ export function PersonalDoSettings({ onProfileChange }: {
       ? "The proposal looks like a useful place to start. Is Friday a firm deadline, or is there room to move?"
       : "Let’s make a little room in your day. Start with the proposal, then check that Friday’s deadline is still right.";
   return <>
-    <section className={styles.identity} aria-label="Your DO settings">
+    <section className={styles.identity} data-compact={compact || undefined} aria-label="Your DO settings">
       <PersonalDoCharacter avatar={profile?.avatar ?? "bloom"} small />
       <div className={styles.identityText}>
         <p className={styles.eyebrow}>{saved ? "MADE YOURS" : "A GOOD PLACE TO BEGIN"}</p>
         <h2>{saved ? `Meet ${name}.` : "Make a little more you."}</h2>
         <p>{loading ? "Opening your DO settings…" : error || (saved ? `${tones.find(item => item.value === profile?.tone)?.label}. ${lengths.find(item => item.value === profile?.responseLength)?.label}. Your preferences, kept with your account.` : "A name. A character. A way of working that feels right.")}</p>
       </div>
-      {error ? <button type="button" onClick={() => void load()}>Try settings again</button> : <button type="button" onClick={edit} disabled={loading}>
+      {error ? <button type="button" onClick={() => void load()}>Try settings again</button> : <button ref={triggerRef} type="button" onClick={edit} disabled={loading}>
         {saved ? <><Settings2 size={17} /> Customise {name}</> : <>Make DO mine <ArrowRight size={17} /></>}
       </button>}
     </section>

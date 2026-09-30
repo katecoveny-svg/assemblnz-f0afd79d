@@ -33,6 +33,36 @@ create table if not exists public.tenant_customers (
 comment on table public.tenant_customers is
   'Registry of hosted per-customer demo/pilot workspaces (e.g. Air NZ × Dash). Concept demos — brand tokens drive the workspace chrome.';
 
+-- Replay compatibility (30 Sep 2026): the earlier Zoo migration creates the
+-- same registry with `name NOT NULL`, not `display_name`. CREATE IF NOT EXISTS
+-- above cannot reconcile an existing table. Preserve both legacy contracts and
+-- their constraints so this and later display_name-only seeds can replay.
+-- This repairs fresh/partial replay; already-applied production migrations are
+-- not re-run. No existing names, status checks, RLS or policies are removed.
+alter table public.tenant_customers add column if not exists name text;
+alter table public.tenant_customers add column if not exists display_name text;
+alter table public.tenant_customers add column if not exists brand jsonb not null default '{}'::jsonb;
+alter table public.tenant_customers add column if not exists meta jsonb not null default '{}'::jsonb;
+
+create or replace function public.tenant_customers_fill_name_aliases()
+returns trigger
+language plpgsql
+security invoker
+set search_path = ''
+as $$
+begin
+  -- Fill missing aliases only; do not overwrite intentionally different labels.
+  new.name := coalesce(new.name, new.display_name);
+  new.display_name := coalesce(new.display_name, new.name);
+  return new;
+end;
+$$;
+revoke all on function public.tenant_customers_fill_name_aliases() from public;
+drop trigger if exists tenant_customers_fill_name_aliases on public.tenant_customers;
+create trigger tenant_customers_fill_name_aliases
+  before insert or update on public.tenant_customers
+  for each row execute function public.tenant_customers_fill_name_aliases();
+
 -- ---------------------------------------------------------------------------
 -- 2 · tenant_air_nz_journeys — mocked passenger journeys for the demo
 -- ---------------------------------------------------------------------------
