@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+vi.mock('@/apps/do/enquiries/service', () => ({ prepareEnquiryFollowups: vi.fn().mockResolvedValue(0) }));
 vi.mock("@/apps/do/services/owner", async (original) => ({
   ...(await original<typeof import("@/apps/do/services/owner")>()),
   doOwner: vi.fn(),
@@ -130,7 +131,7 @@ describe("Personal DO HTTP boundaries", () => {
         headers: { authorization: "Bearer test-secret" },
       }),
     );
-    expect(await response.json()).toEqual({ claimed: 3, published: 3 });
+    expect(await response.json()).toEqual({ claimed: 3, published: 3, followupsPrepared: 0 });
     expect(personalHeartbeat).toHaveBeenCalledOnce();
     expect(runPersonal).toHaveBeenCalledTimes(3);
     vi.unstubAllEnvs();

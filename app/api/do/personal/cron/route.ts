@@ -1,5 +1,6 @@
 import { timingSafeEqual } from "node:crypto";
 import { personalHeartbeat, runPersonal } from "@/apps/do/personal/service";
+import { prepareEnquiryFollowups } from '@/apps/do/enquiries/service';
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 export const maxDuration = 180;
@@ -11,10 +12,13 @@ export async function GET(request: Request) {
     !secret ||
     got.length !== expected.length ||
     !timingSafeEqual(got, expected)
-  )
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  ) {
+    // Deliberately log only a diagnostic code, never the credential/header.
+    console.warn('[do-worker]', secret ? 'cron_bearer_mismatch' : 'cron_secret_missing');
+    return Response.json({ error: "Unauthorized" }, { status: 401, headers: { 'Cache-Control': 'no-store' } });
+  }
   try {
-    await personalHeartbeat();
+    const followupsPrepared = await prepareEnquiryFollowups();
     let claimed = 0,
       published = 0;
     for (let i = 0; i < 3; i++) {
@@ -23,8 +27,9 @@ export async function GET(request: Request) {
       claimed++;
       if (result.published) published++;
     }
+    await personalHeartbeat();
     return Response.json(
-      { claimed, published },
+      { claimed, published, followupsPrepared },
       { headers: { "Cache-Control": "no-store" } },
     );
   } catch {

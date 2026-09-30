@@ -81,7 +81,7 @@ export async function authenticateMcpRequest(request: Request): Promise<
     const supabase = getServiceClient();
     const { data: userData, error: userError } = await supabase.auth.getUser(token);
     const user = userData.user;
-    if (userError || !user) return { ok: false, status: 401, error: 'invalid_access_token' };
+    if (userError || !user || user.is_anonymous) return { ok: false, status: 401, error: 'invalid_access_token' };
 
     const { data, error } = await supabase
       .from('mcp_tenant_memberships')
