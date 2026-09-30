@@ -22,6 +22,13 @@ describe('public local-information endpoint', () => {
     expect((await GET(request('?source=geonet-news'))).status).toBe(200);
     expect(mocks.news).toHaveBeenCalledWith(); expect(mocks.weather).not.toHaveBeenCalled();
   });
+  it('does not pass same-origin browser access cookies or account headers to the provider adapter', async () => {
+    const withAccess = new Request('https://assembl.co.nz/api/do/nz-local-updates?source=weather&place=auckland', {
+      headers: { Cookie: 'preview_access=test-only-cookie', Authorization: 'Bearer test-only-value' },
+    });
+    expect((await GET(withAccess)).status).toBe(200);
+    expect(mocks.weather).toHaveBeenCalledExactlyOnceWith('auckland');
+  });
   it.each(['', '?source=weather', '?source=weather&place=home', '?source=weather&place=auckland&place=wellington',
     '?source=weather&place=auckland&lat=-36.85', '?source=weather&place=auckland&notes=private', '?source=weather&place=auckland&address=home',
     '?source=geonet-news&place=auckland', '?source=geonet-news&place=', '?source=geonet-news&source=weather',

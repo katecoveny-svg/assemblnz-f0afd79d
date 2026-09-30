@@ -51,7 +51,7 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
       - name: DO core unit tests
-        run: pnpm test apps/do/shared apps/do/personal app/api/do app/do/personal lib/do/nz-public-data.test.ts lib/do/nz-local-updates.test.ts lib/os/improvement.test.ts lib/os/routing.test.ts lib/connectors/pipedream.test.ts
+        run: pnpm test apps/do/shared apps/do/personal app/api/do app/do/personal lib/do/nz-public-data.test.ts lib/do/nz-local-updates.test.ts lib/do/do-pwa.test.ts lib/typesafe lib/os/improvement.test.ts lib/os/routing.test.ts lib/connectors/pipedream.test.ts
       - name: Production build
         run: pnpm build
       - name: Install isolated browser verification tools
@@ -69,8 +69,17 @@ jobs:
           server=$!
           trap 'kill "$server" || true' EXIT
           for i in $(seq 1 60); do curl -sf http://127.0.0.1:3117/do/personal >/dev/null && break; sleep 2; done
+          set +e
           ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/settings node scripts/review-do-personal-settings.cjs
+          settings_status=$?
           ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/calls node scripts/review-do-personal-call.cjs
+          calls_status=$?
+          ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/portable node scripts/review-do-portable.cjs
+          portable_status=$?
+          ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/assistant node scripts/review-do-personal-assistant.cjs
+          assistant_status=$?
+          set -e
+          test "$settings_status" -eq 0 && test "$calls_status" -eq 0 && test "$portable_status" -eq 0 && test "$assistant_status" -eq 0
       - uses: actions/upload-artifact@v4
         if: always()
         with:

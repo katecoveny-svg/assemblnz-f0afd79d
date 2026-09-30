@@ -77,6 +77,15 @@ function openaiProvider() {
   return createOpenAI({ apiKey });
 }
 
+/** Explicit OpenAI Responses route for consented, no-fallback experiences. */
+export function openaiResponsesRung(id: string): ModelRung | null {
+  const apiKey = process.env.OPENAI_API_KEY?.trim();
+  if (!apiKey) return null;
+  // A provider-specific consent must not silently route through OPENAI_BASE_URL.
+  const provider = createOpenAI({ apiKey, baseURL: 'https://api.openai.com/v1' });
+  return { id, label: id, model: provider.responses(id), isPrimary: true };
+}
+
 function xaiProvider() {
   const apiKey = process.env.XAI_API_KEY;
   if (!apiKey) return null;

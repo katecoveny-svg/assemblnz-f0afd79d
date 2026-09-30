@@ -101,3 +101,5 @@
 .preview { background: #240b21; }
 .sample { border-radius: 12px; background: #fffdfb0a; }
 @media (max-width: 760px) { .identity[data-compact] { flex-wrap: nowrap; } .identity[data-compact] > button { width: auto; margin: 0; font-size: 11px; min-height: 44px; padding: 10px 11px; max-width: 185px; } .preview > .character { width: 160px; height: 160px; } }
+
+.preview h3 { color: #fffdfb; }

@@ -1,8 +1,8 @@
 "use client";
 
 import Link from 'next/link';
-import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { ArrowDownToLine, ArrowRight, ArrowUpRight, Check, ChevronRight, Camera, FileText, Forward, Keyboard, Mic, Plus, RotateCcw, ShieldCheck, Sparkles, X } from 'lucide-react';
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { ArrowDownToLine, ArrowRight, ArrowUpRight, Check, ChevronRight, Camera, FileText, Forward, Keyboard, Mic, Plus, RotateCcw, ShieldCheck, Sparkles, X, Backpack, ReceiptText, CarFront } from 'lucide-react';
 import { LifeAdminTraffic } from './LifeAdminTraffic';
 import { PersonalDoCharacter } from './PersonalDoCharacter';
 import type { PersonalDoProfile } from '@/apps/do/personal/profile';
@@ -16,6 +16,7 @@ import {
   type LifeAdminLane, type LifeAdminPlan, type LifeAdminTransition,
 } from '@/apps/do/personal/life-admin/engine';
 import { LIFE_ADMIN_CAPABILITIES, LIFE_ADMIN_TEMPLATES, lifeAdminTemplate, suggestLifeAdminCategory, type LifeAdminCategory } from '@/apps/do/personal/life-admin/templates';
+import { LIFE_ADMIN_EXAMPLES } from '@/apps/do/personal/life-admin/examples';
 import styles from './LifeAdmin.module.css';
 
 type Intake = { id: string; text: string; sourceTitle?: string };
@@ -31,17 +32,19 @@ function readableError(error: unknown, fallback: string) {
   if (error && typeof error === 'object' && 'issues' in error && Array.isArray(error.issues)) return error.issues[0]?.message ?? fallback;
   return error instanceof Error ? error.message : fallback;
 }
-type LifeAdminProps = { onCustomise?: () => void; profile?: PersonalDoProfile | null; onTalk?: () => void; intake?: Intake | null; storageScope?: string; onIntakeAccepted?: (id: string) => void; onGuestWorkChange?: (dirty: boolean) => void };
+type LifeAdminProps = { assistant?: ReactNode; assistantWork?: { dirty: boolean; exportText: string }; assistantWorking?: boolean; onCustomise?: () => void; profile?: PersonalDoProfile | null; onTalk?: () => void; intake?: Intake | null; storageScope?: string; onIntakeAccepted?: (id: string) => void; onGuestWorkChange?: (dirty: boolean) => void };
 export function LifeAdmin(props: LifeAdminProps) {
   return <LifeAdminWorkspace key={props.storageScope ?? 'unavailable'} {...props} />;
 }
-function LifeAdminWorkspace({ profile, onCustomise, onTalk, intake, storageScope = 'unavailable', onIntakeAccepted, onGuestWorkChange }: LifeAdminProps) {
+function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false, profile, onCustomise, onTalk, intake, storageScope = 'unavailable', onIntakeAccepted, onGuestWorkChange }: LifeAdminProps) {
   const storageKey = lifeAdminStorageKey(storageScope);
   const [source, setSource] = useState('');
   const [captureMode, setCaptureMode] = useState<'type' | 'photo' | 'forward'>('type');
-  const [showAllStarters, setShowAllStarters] = useState(false);
+  const [showExamples, setShowExamples] = useState(true);
   const [guideStarted, setGuideStarted] = useState(false);
   const [guideDismissed, setGuideDismissed] = useState(false);
+  const [boardOpen, setBoardOpen] = useState(false);
+  const [localOpen, setLocalOpen] = useState(Boolean(intake));
   const [sourceIntakeId, setSourceIntakeId] = useState<string | null>(null);
   const [title, setTitle] = useState('');
   const [sourceUrl, setSourceUrl] = useState('');
@@ -62,11 +65,12 @@ function LifeAdminWorkspace({ profile, onCustomise, onTalk, intake, storageScope
   const seenIntake = useRef<string | null>(null);
   const sourceRef = useRef<HTMLTextAreaElement>(null);
   const activeHeading = useRef<HTMLHeadingElement>(null);
+  const resultHeading = useRef<HTMLHeadingElement>(null);
   const request = useRef<AbortController | null>(null);
   const requestVersion = useRef(0);
   const busyLock = useRef(false);
   const plansRef = useRef(plans);
-  const guestDirty = storageScope === 'guest' && (Boolean(source.trim()) || plans.length > 0);
+  const guestDirty = storageScope === 'guest' && (Boolean(source.trim()) || plans.length > 0 || Boolean(assistantWork?.dirty));
   useEffect(() => { onGuestWorkChange?.(guestDirty); }, [guestDirty, onGuestWorkChange]);
   useEffect(() => { plansRef.current = plans; }, [plans]);
   useEffect(() => () => { requestVersion.current++; request.current?.abort(); }, []);
@@ -77,7 +81,7 @@ function LifeAdminWorkspace({ profile, onCustomise, onTalk, intake, storageScope
       if (intake.text.length > LIFE_ADMIN_SOURCE_LIMIT) { setNotice('That handoff is longer than 12,000 characters. Shorten it before adding it here. Nothing was sent.'); return; }
       // Never overwrite a note that the person is currently editing.
       if (source.trim()) { setNotice('Your new handoff is ready below. Finish or clear your current note, then choose “Use incoming note”.'); return; }
-      setSource(intake.text); setSourceIntakeId(intake.id); setTitle(intake.sourceTitle ?? 'Reviewed handoff'); setMethod('pasted-text'); setSourceUrl('');
+      setLocalOpen(true); setSource(intake.text); setSourceIntakeId(intake.id); setTitle(intake.sourceTitle ?? 'Reviewed handoff'); setMethod('pasted-text'); setSourceUrl('');
       setNotice('Your incoming note is ready to review. Nothing has been sent for drafting.'); sourceRef.current?.focus();
     });
     return () => cancelAnimationFrame(frame);
@@ -97,8 +101,8 @@ function LifeAdminWorkspace({ profile, onCustomise, onTalk, intake, storageScope
   function openPlan(plan: LifeAdminPlan) {
     setSelected(plan.id); setReviewChecked(false); setProviderConsent(false); setTaskEditor(null);
     requestAnimationFrame(() => {
-      activeHeading.current?.focus({ preventScroll: true });
-      activeHeading.current?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+      resultHeading.current?.focus({ preventScroll: true });
+      resultHeading.current?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
     });
   }
   function start(event: FormEvent) {
@@ -111,6 +115,14 @@ function LifeAdminWorkspace({ profile, onCustomise, onTalk, intake, storageScope
       if (sourceIntakeId) onIntakeAccepted?.(sourceIntakeId);
       setSourceIntakeId(null); setSource(''); setTitle(''); setSourceUrl(''); setMethod('pasted-text'); setNotice('Checklist prepared on this device. Check the details, then review the next steps together.');
     } catch (error) { setNotice(readableError(error, 'Check your note and try again.')); }
+  }
+  function tryExample(example: (typeof LIFE_ADMIN_EXAMPLES)[number]) {
+    if (plans.length >= 30) { setNotice('This workspace holds up to 30 checklists. Download a pack before starting a fresh workspace.'); return; }
+    try {
+      const plan = createLifeAdminPlan({ source: example.source, category: example.category, title: example.title, method: 'pasted-text' });
+      setPlans(current => [plan, ...current]); setGuideStarted(true); openPlan(plan); setLane('needs-you');
+      setNotice('Fictional example prepared on this device. Check the details and see the next steps. Nothing has been sent or completed for you.');
+    } catch (error) { setNotice(readableError(error, 'This example could not open. Try your own note instead.')); }
   }
   function editField(plan: LifeAdminPlan, key: string, value: string) {
     if (busyId === plan.id) return;
@@ -185,39 +197,7 @@ function LifeAdminWorkspace({ profile, onCustomise, onTalk, intake, storageScope
     setPlans((current) => current.map((item) => item.id === plan.id ? { ...item, followUpOn: date || null, updatedAt: new Date().toISOString() } : item)); setUndo(null);
   }
   const counts = (id: LifeAdminLane) => plans.filter((plan) => lifeAdminLane(plan) === id).length;
-  return (
-    <section className={styles.workspace} id="life-admin" aria-labelledby="life-admin-heading">
-      <div className={styles.stage} data-simple={simple || undefined}>
-      <header className={styles.heading}>
-        <div className={styles.intro}>
-          <p className={styles.eyebrow}>PERSONAL DO <span> / </span> A LITTLE MORE ROOM</p>
-          <h1 id="life-admin-heading">What do you want<br /><span>off your plate?</span></h1>
-          <p>The messy version is a good place to start.</p>
-        </div>
-        <figure className={styles.companion}>
-          <div className={styles.characterStage} data-noting={Boolean(source.trim()) || undefined}>
-            <span className={styles.characterDisc} />
-            <PersonalDoCharacter avatar={profile?.avatar ?? 'bloom'} />
-            <span className={styles.characterShadow} />
-          </div>
-          <figcaption><h2>Meet {profile?.displayName || 'DO'}.</h2><span>Your pace. Your say.</span></figcaption>
-        </figure>
-      </header>
-      {(!onCustomise || profile) && (!profile?.onboardingCompleted || guideStarted) && !guideDismissed && !intake && <section className={styles.welcome} aria-label="Getting started with Personal DO">
-        <ol className={styles.welcomeSteps} aria-label="Your first three steps">
-          <li data-current={!guideStarted && !plans.length || undefined}><span>01</span>Meet your DO</li>
-          <li data-current={guideStarted && !plans.length || undefined}><span>02</span>One thing to sort</li>
-          <li data-current={Boolean(plans.length) || undefined}><span>03</span>Your next step</li>
-        </ol>
-        <div className={styles.welcomeBody}>
-          <p>{plans.length ? 'Your checklist is ready. Check the details, then choose what happens next.' : guideStarted ? 'A few words is enough. Choose a checklist and we’ll keep the next step clear.' : 'Give your DO a name and a feel, or get straight to the thing on your mind.'}</p>
-          <div>
-            {!guideStarted && !plans.length && (onCustomise ? <button type="button" onClick={() => { setGuideStarted(true); onCustomise(); }}>Choose name & look <ArrowUpRight size={14} /></button> : <Link href="/login?redirect=%2Fdo%2Fpersonal">Sign in to personalise <ArrowUpRight size={14} /></Link>)}
-            {!plans.length && !guideStarted && <button type="button" onClick={() => { setGuideStarted(true); sourceRef.current?.focus(); }}>Start with a note <ArrowRight size={14} /></button>}
-            <button className={styles.skipGuide} type="button" onClick={() => setGuideDismissed(true)}>{plans.length ? 'I’ve got this' : 'Skip guide'}</button>
-          </div>
-        </div>
-      </section>}
+  const localComposer = (
       <div className={styles.intake}>
         <form onSubmit={start}>
           <div className={styles.intakeTop}><label htmlFor="life-admin-source">What needs sorting?</label><span className={styles.privateLabel}><ShieldCheck size={14} /> You decide what happens next</span></div>
@@ -228,14 +208,16 @@ function LifeAdminWorkspace({ profile, onCustomise, onTalk, intake, storageScope
             <button type="button" aria-pressed={captureMode === 'type'} onClick={() => { setCaptureMode('type'); sourceRef.current?.focus(); }}><Keyboard size={18} /><span>Type</span></button>
           </div>
           {captureMode === 'forward' && <p className={styles.captureHint}>Paste an email below, or use your phone’s share menu to send text into DO. No inbox is connected.</p>}
-          <textarea ref={sourceRef} id="life-admin-source" value={source} onChange={(event) => { setSource(event.target.value); if (!event.target.value) setSourceIntakeId(null); setMethod('pasted-text'); }} maxLength={LIFE_ADMIN_SOURCE_LIMIT} rows={3} placeholder={template?.prompt ?? 'A school notice. A renewal. That thing you keep putting off…'} required />
+          <textarea ref={sourceRef} data-do-primary-input={assistant ? undefined : true} id="life-admin-source" value={source} onChange={(event) => { setSource(event.target.value); if (!event.target.value) setSourceIntakeId(null); setMethod('pasted-text'); }} maxLength={LIFE_ADMIN_SOURCE_LIMIT} rows={2} placeholder={template?.prompt ?? 'Type or paste it here…'} required />
           {intake && source !== intake.text && <button type="button" className={styles.textButton} disabled={Boolean(source.trim()) || intake.text.length > LIFE_ADMIN_SOURCE_LIMIT} onClick={() => { setSource(intake.text); setSourceIntakeId(intake.id); setTitle(intake.sourceTitle ?? 'Incoming note'); setSourceUrl(''); setMethod('pasted-text'); }}>Use incoming note</button>}
+          {(Boolean(source.trim()) || category !== 'auto') && <div className={styles.noteDetails}>
           <div className={styles.intakeFields}><label>Kind of admin<select value={category} onChange={(event) => setCategory(event.target.value as LifeAdminCategory | 'auto')}><option value="auto">Suggest from note</option>{LIFE_ADMIN_TEMPLATES.map((item) => <option value={item.id} key={item.id}>{item.name}</option>)}</select></label><details className={styles.optionalTitle}><summary>Name this note</summary><label>Name it, if useful<input value={title} maxLength={160} onChange={(event) => setTitle(event.target.value)} placeholder="e.g. Friday’s school trip" /></label></details></div>
           {category === 'auto' && !inferred && source.trim().length >= 5 && <p className={styles.hint}>Choose a kind of admin above so the checklist fits your note.</p>}
           {category === 'auto' && inferred && <p className={styles.hint}>Suggested: {lifeAdminTemplate(inferred).name}. Change it above if another checklist fits better.</p>}
           <details className={styles.sourceLink}><summary>Add the original source link</summary><label>Link for your reference<input type="url" value={sourceUrl} maxLength={2000} placeholder="https://…" onChange={(event) => setSourceUrl(event.target.value)} /></label><small>Linked pages are not fetched. Queries and sign-in tokens are removed from stored links.</small></details>
-          <div className={styles.intakeActions}><span>One useful next step.<small>On this device.</small></span><button className={styles.primary} type="submit" disabled={source.trim().length < 5 || !chosen}>Make my checklist <ArrowRight size={19} /></button></div>
-          <p className={styles.privacy}>Keep passwords, identity numbers, payment details and anything unnecessary out of your notes.</p>
+          </div>}
+          <div className={styles.intakeActions}><span><ShieldCheck size={13} /> Stays on this device</span><button className={styles.primary} type="submit" disabled={source.trim().length < 5 || !chosen}>Let’s sort it <ArrowRight size={19} /></button></div>
+          <p className={styles.privacy}>Please leave out passwords, ID numbers and payment details.</p>
         </form>
         {captureMode === 'photo' && <div className={styles.vision}><p className={styles.hint}>For screenshots, review what is visible first. Optional image processing sends the approved image to assembl’s configured OpenAI, Anthropic or Google vision provider.</p><DoVision onUse={(text) => {
           const combined = source.trim() ? `${source.trim()}\n\n${text}` : text;
@@ -243,16 +225,58 @@ function LifeAdminWorkspace({ profile, onCustomise, onTalk, intake, storageScope
           setSource(combined); setMethod('reviewed-observation'); setNotice('Reviewed image notes added. Check them here before making a checklist.'); return true;
         }} /></div>}
       </div>
+  );
+  return (
+    <section className={styles.workspace} id="life-admin" aria-labelledby="life-admin-heading">
+      <div className={styles.stage} data-simple={simple || undefined}>
+      <header className={styles.heading}>
+        <div className={styles.intro}>
+          <p className={styles.eyebrow}>YOUR PERSONAL DO</p>
+          <h1 id="life-admin-heading">What do you want<br /><span>off your plate?</span></h1>
+          <p>Try an example. Or give me yours.</p>
+        </div>
+        <figure className={styles.companion}>
+          <div className={styles.characterStage} data-working={assistantWorking || undefined} data-noting={Boolean(source.trim()) || undefined}>
+            <span className={styles.characterDisc} />
+            <PersonalDoCharacter avatar={profile?.avatar ?? 'bloom'} />
+            <span className={styles.characterShadow} />
+          </div>
+          <figcaption><span className={styles.companionBrand}>DO</span><h2>{assistantWorking ? 'Preparing your next step…' : `Meet ${profile?.displayName || 'DO'}.`}</h2></figcaption>
+        </figure>
+      </header>
+      {!plans.length && showExamples && !source.trim() && !intake && <section className={styles.examples} aria-label="Try a fictional example">
+        <div className={styles.exampleHeading}><span>TRY ONE THING</span><button type="button" onClick={() => { setShowExamples(false); setGuideStarted(true); if (assistant) document.getElementById('personal-assistant-input')?.focus(); else sourceRef.current?.focus(); }}>Use my own note <ArrowRight size={14} /></button></div>
+        <div className={styles.exampleGrid}>{LIFE_ADMIN_EXAMPLES.map((example, index) => {
+          const Icon = [Backpack, ReceiptText, CarFront][index];
+          return <button className={styles.exampleCard} data-example={example.id} type="button" key={example.id} onClick={() => tryExample(example)} aria-label={example.action}>
+            <span className={styles.exampleBadge}>EXAMPLE</span>
+            <span className={styles.exampleVisual} aria-hidden="true"><span className={styles.exampleDocument}><Icon size={21} /><strong>{example.document}</strong><small>{example.detail}</small><i /><i /></span><ArrowRight className={styles.exampleArrow} size={21} /><span className={styles.exampleOutcome}><Check size={20} /><i /><i /></span></span>
+            <span className={styles.exampleLabel}>{example.label}<ArrowUpRight size={16} /></span><span className={styles.exampleResult}>{example.output}</span>
+          </button>;
+        })}</div>
+        <p className={styles.exampleNote}>Fictional examples. Real checklists. Nothing sent.</p>
+      </section>}
+      {active && <section className={styles.quickResult} aria-labelledby="personal-do-result">
+        <div className={styles.resultStamp}><Check size={19} /><span>{lifeAdminLane(active) === 'done' ? 'RECORDED BY YOU' : 'READY TO CHECK'}</span></div>
+        <h2 ref={resultHeading} tabIndex={-1} id="personal-do-result">{active.title}</h2><p>{nextLifeAdminStep(active)}</p>
+        <button type="button" onClick={() => { setBoardOpen(true); requestAnimationFrame(() => { activeHeading.current?.focus({ preventScroll: true }); activeHeading.current?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); }); }}>See my next steps <ArrowRight size={17} /></button>
+        {!guideDismissed && (!profile?.onboardingCompleted || guideStarted) && <div className={styles.resultGuide}><span>You check it. You decide.</span>{onCustomise && <button type="button" onClick={onCustomise}>Make DO mine <ArrowUpRight size={13} /></button>}<button type="button" onClick={() => setGuideDismissed(true)} aria-label="Dismiss first-result guide"><X size={14} /></button></div>}
+      </section>}
+      {assistant ? <>
+        <div className={styles.mainModes} aria-label="Ways to ask DO">
+          {onTalk && <button type="button" onClick={onTalk} aria-label="Talk it through"><Mic size={18} />Talk</button>}
+          <button type="button" onClick={() => { setLocalOpen(true); setCaptureMode('photo'); requestAnimationFrame(() => document.getElementById('personal-local-checklist')?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' })); }}><Camera size={18} />Photo</button>
+          <button type="button" onClick={() => { setLocalOpen(true); setCaptureMode('forward'); requestAnimationFrame(() => sourceRef.current?.focus()); }}><Forward size={18} />Forward</button>
+          <button type="button" onClick={() => document.getElementById('personal-assistant-input')?.focus()}><Keyboard size={18} />Type</button>
+        </div>
+        {assistant}
+      </> : localComposer}
+
       </div>
-      <div className={styles.workspaceTools}>
-        <span className={styles.toolsCaption}>A LITTLE LESS TO HOLD IN YOUR HEAD</span>
-        <button className={styles.mode} type="button" aria-pressed={simple} onClick={() => setSimple(!simple)}>{simple ? 'Show the full picture' : 'I’m overwhelmed · just one thing'}<span aria-hidden="true">{simple ? '−' : '↘'}</span></button>
-      </div>
-      {storageScope === 'guest' && <aside className={styles.guest}><p>Guest mode stays on this open page. Signing in, leaving or refreshing clears this workspace. Download your work first; it won’t transfer to an account automatically.</p><button type="button" disabled={!guestDirty} onClick={() => { saveFile('do-guest-work.txt', [source.trim() ? `Unfinished note: ${title || 'Untitled'}\n${source}` : '', ...plans.map(lifeAdminPack)].filter(Boolean).join('\n\n────────\n\n')); setNotice('Your current note and guest checklists were downloaded. Nothing was sent or transferred to an account.'); }}>Download all guest work</button></aside>}
-      {!plans.length && !simple && <div className={styles.starterArea}>
-        <div className={styles.starterHeading}><p>Or start with something familiar</p><button type="button" className={styles.textButton} aria-expanded={showAllStarters} onClick={() => setShowAllStarters(!showAllStarters)}>{showAllStarters ? 'Show less' : 'All 12 checklists'} <Plus size={15} /></button></div>
-        <div className={styles.starters} aria-label="Everyday NZ checklists">{LIFE_ADMIN_TEMPLATES.slice(0, showAllStarters ? undefined : 4).map((item, index) => <button type="button" key={item.id} aria-pressed={category === item.id} onClick={() => { setCategory(item.id); sourceRef.current?.focus(); }}><span className={styles.starterIndex} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span><span>{item.name}</span><small>{item.description}</small><ChevronRight size={16} /></button>)}</div>
-      </div>}
+      {Boolean(plans.length) && <div className={styles.workspaceTools}><span className={styles.toolsCaption}>YOUR NEXT STEP</span><button className={styles.mode} type="button" aria-pressed={simple} onClick={() => setSimple(!simple)}>{simple ? 'Show the full picture' : 'I’m overwhelmed · just one thing'}<span aria-hidden="true">{simple ? '−' : '↘'}</span></button></div>}
+      {storageScope === 'guest' && guestDirty && <aside className={styles.guest}><p>Guest work stays on this page. Download it before signing in, refreshing or leaving.</p><button type="button" onClick={() => { saveFile('do-guest-work.txt', [assistantWork?.exportText ? `Personal DO conversation\n${assistantWork.exportText}` : '', source.trim() ? `Unfinished note: ${title || 'Untitled'}\n${source}` : '', ...plans.map(lifeAdminPack)].filter(Boolean).join('\n\n────────\n\n')); setNotice('Your current note and guest checklists were downloaded. Nothing was sent or transferred to an account.'); }}>Download all guest work</button></aside>}
+      <div hidden={!plans.length}>
+      <details className={styles.workUnderway} open={boardOpen} onToggle={event => setBoardOpen(event.currentTarget.open)}><summary><span>What’s underway <b>{plans.length}</b></span><Plus size={19} /></summary>
       <div className={styles.boardHeader}><nav className={styles.lanes} aria-label="Checklist status">{lanes.map((item) => <button key={item.id} type="button" aria-pressed={lane === item.id} onClick={() => { setLane(item.id); setSelected(null); setTaskEditor(null); setProviderConsent(false); }}>{item.name}<span>{counts(item.id)}</span></button>)}</nav><span className={styles.device}>This open workspace · save is optional</span></div>
       <p className={styles.boardHint}>{lane === 'today' ? 'Reviewed steps ready to move. Follow-up dates are checked when you open this workspace.' : lane === 'needs-you' ? 'Missing details, review decisions and things waiting on someone.' : 'Completed or cancelled steps, with your recorded evidence. Prepared drafts alone are not completed external work.'}</p>
       <div className={styles.board} data-empty={!plans.length || undefined}>
@@ -272,7 +296,7 @@ function LifeAdminWorkspace({ profile, onCustomise, onTalk, intake, storageScope
             {taskEditor?.taskId === task.id && <form className={styles.recordForm} onSubmit={recordStep}><label>{taskEditor.status === 'done' ? 'What confirms it is done?' : 'Who or what are you waiting for?'}<textarea rows={2} value={taskEditor.note} minLength={taskEditor.status === 'done' ? 8 : 3} maxLength={2000} required placeholder={taskEditor.status === 'done' ? 'e.g. School confirmed receipt today; reference held in my email' : 'e.g. The school’s answer about collection time'} onChange={(event) => setTaskEditor({ ...taskEditor, note: event.target.value })} /></label>{taskEditor.status === 'done' ? <label>Evidence link, if useful<input type="url" value={taskEditor.url} maxLength={2000} onChange={(event) => setTaskEditor({ ...taskEditor, url: event.target.value })} placeholder="https://…" /><small>Do not paste private access tokens. URL queries are removed.</small></label> : <label>When will you check again?<input type="date" required value={taskEditor.date} onChange={(event) => setTaskEditor({ ...taskEditor, date: event.target.value })} /></label>}<div className={styles.taskActions}><button className={styles.primary} type="submit">Save this record</button><button type="button" onClick={() => setTaskEditor(null)}>Cancel</button></div></form>}
           </li>)}</ol>
           <div className={styles.followUp}><label>Your next check date<input type="date" value={active.followUpOn ?? ''} disabled={busyId === active.id} onChange={(event) => setFollowUp(active, event.target.value)} /></label><p>No background reminder is scheduled. Download an all-day calendar file if you want to import it into your own calendar.</p>{active.followUpOn && <button type="button" onClick={() => { saveFile('do-follow-up.ics', lifeAdminCalendarFile(active), 'text/calendar;charset=utf-8'); setNotice('Calendar file downloaded. Import and review it in your calendar; no calendar was changed by DO.'); }}><ArrowDownToLine size={16} /> Download calendar file</button>}</div>
-          <details className={styles.disclosure}><summary><Sparkles size={16} /> Make the draft more useful</summary><p>Optional: ask DO to turn this checklist into a tailored brief, list or draft message.</p><p className={styles.hint}>This sends the source note, title and all details above to assembl’s configured Anthropic, OpenAI, Google or Groq generation provider. Include children’s, health or other sensitive details only if you want them used for this one draft. No passwords, identity numbers or payment details.</p><label className={styles.consent}><input type="checkbox" checked={providerConsent} disabled={Boolean(busyId)} onChange={(event) => setProviderConsent(event.target.checked)} />Send these notes and details to the configured provider for this draft.</label><div className={styles.taskActions}><button className={styles.primary} type="button" disabled={!providerConsent || Boolean(busyId)} onClick={() => void prepare()}>{busyId === active.id ? 'Preparing…' : 'Prepare my draft'}</button>{busyId === active.id && <button type="button" onClick={() => request.current?.abort()}>Stop</button>}</div><small>Uses your DO sign-in. Availability is checked when you ask. Local checklists still work if generation is unavailable.</small></details>
+          <details className={styles.disclosure}><summary><Sparkles size={16} /> Make the draft more useful</summary><p>Optional: ask DO to turn this checklist into a tailored brief, list or draft message.</p><p className={styles.hint}>This sends the source note, title and all details above to assembl’s configured Anthropic, OpenAI, Google or Groq generation provider. Include children’s, health or other sensitive details only if you want them used for this one draft. No passwords, identity numbers or payment details.</p><label className={styles.consent}><input type="checkbox" checked={providerConsent} disabled={Boolean(busyId)} onChange={(event) => setProviderConsent(event.target.checked)} />Send these notes and details to the configured provider for this draft.</label><div className={styles.taskActions}><button className={styles.primary} type="button" disabled={!providerConsent || Boolean(busyId)} onClick={() => void prepare()}>{busyId === active.id ? 'Preparing…' : 'Prepare my draft'}</button>{busyId === active.id && <button type="button" onClick={() => request.current?.abort()}>Stop</button>}</div><small>Uses your DO sign-in and Assembl’s configured drafting provider. This flow does not use the TypeSafe check. Availability is checked when you ask; local checklists still work if generation is unavailable.</small></details>
           {active.generated && <section className={styles.generated}><h4>Your generated draft · review before using</h4><pre>{active.generated.text}</pre><details><summary>Preparation evidence</summary><p>Provider: {active.generated.model ?? 'Not recorded'}<br />Prepared: {active.generated.createdAt}</p><p className={styles.hash}>Source fingerprint: {active.generated.sourceHash}<br />Original output fingerprint: {active.generated.outputHash}</p><p>Draft preparation only. This is not evidence of sending or external completion.</p></details></section>}
           {['vehicle', 'transport', 'travel'].includes(active.category) && <LifeAdminTraffic />}
           {activeTemplate.resources.length > 0 && <div className={styles.resources}><h4>Useful NZ sources</h4>{activeTemplate.resources.map((resource) => <div key={resource.url}><a href={resource.url} target="_blank" rel="noopener noreferrer">{resource.title} <ArrowUpRight size={14} /></a><p>{resource.note}</p></div>)}</div>}
@@ -280,8 +304,12 @@ function LifeAdminWorkspace({ profile, onCustomise, onTalk, intake, storageScope
         </article>}
       </div>
       <div className={styles.notice} role="status" aria-live="polite">{notice}{undo && <button type="button" disabled={Boolean(busyId)} onClick={() => { replacePlan(undo); setLane(lifeAdminLane(undo)); setUndo(null); setTaskEditor(null); setNotice('Last checklist change undone. Nothing outside DO was changed.'); }}><RotateCcw size={15} /> Undo last checklist change</button>}</div>
+      </details>
+      </div>
+      {assistant && <details id="personal-local-checklist" className={styles.localChecklist} open={localOpen} onToggle={event => setLocalOpen(event.currentTarget.open)}><summary>Use a local checklist <Plus size={17} /></summary><p className={styles.hint}>Works on this device, without sending your note for drafting.</p>{localComposer}</details>}
+      <details className={styles.moreChecklists}><summary>More things to sort <Plus size={17} /></summary><div className={styles.starters} aria-label="Everyday NZ checklists">{LIFE_ADMIN_TEMPLATES.map((item, index) => <button type="button" key={item.id} aria-pressed={category === item.id} onClick={() => { setCategory(item.id); setShowExamples(false); setLocalOpen(true); requestAnimationFrame(() => sourceRef.current?.focus()); }}><span className={styles.starterIndex} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span><span>{item.name}</span><small>{item.description}</small><ChevronRight size={16} /></button>)}</div><button type="button" className={styles.textButton} onClick={() => { setShowExamples(true); document.getElementById('life-admin-heading')?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); }}>Show visual examples</button></details>
       <details className={styles.connections}><summary>Need to work in another app? <ArrowUpRight size={15} /></summary><p>Start here without connecting anything. Add a browser companion when you want to bring in something from another page.</p><Link href="/do/install#chrome">Set up the browser companion <ArrowUpRight size={15} /></Link><br /><Link href="/do/widget">Open the writing workspace <ArrowUpRight size={15} /></Link><p className={styles.hint}>The companion can bring selected context back for review. It does not give DO permission to send, pay or change an account. A personal cloud computer is not connected here.</p></details>
-      <details className={styles.storage}><summary>Keep this for later</summary><p>Checklists stay in this open page unless you save a snapshot. {storageScope === 'guest' ? 'Sign in to use account-scoped browser snapshots. Guest checklists are not transferred automatically.' : !storageKey ? 'Account identity could not be checked, so browser snapshots are unavailable.' : ''} Browser snapshots are not encrypted and do not sync. They are separated by DO account. Guest mode stays in this open page; download a checklist to keep it. Someone with access to this browser’s stored data may still be able to read them. Prefer a download for private information on a shared device.</p><label className={styles.consent}><input type="checkbox" checked={saveAllowed} disabled={!storageKey} onChange={(event) => setSaveAllowed(event.target.checked)} />I want to save or open checklist data in this browser for this DO account.</label><div className={styles.taskActions}><button type="button" disabled={!saveAllowed || !plans.length || Boolean(busyId)} onClick={persist}>Save browser snapshot</button><button type="button" disabled={!saveAllowed || Boolean(busyId)} onClick={restore}>Open saved snapshot</button><button type="button" disabled={!storageKey} onClick={() => setForgetConfirm(true)}>Remove saved snapshot</button></div>{forgetConfirm && <div className={styles.confirm}><p>Remove the snapshot saved by this browser? Open checklists will stay here.</p><button type="button" onClick={forget}>Yes, remove snapshot</button><button type="button" onClick={() => setForgetConfirm(false)}>Keep it</button></div>}</details>
+      {Boolean(plans.length) && <details className={styles.storage}><summary>Keep this for later</summary><p>Checklists stay in this open page unless you save a snapshot. {storageScope === 'guest' ? 'Sign in to use account-scoped browser snapshots. Guest checklists are not transferred automatically.' : !storageKey ? 'Account identity could not be checked, so browser snapshots are unavailable.' : ''} Browser snapshots are not encrypted and do not sync. They are separated by DO account. Guest mode stays in this open page; download a checklist to keep it. Someone with access to this browser’s stored data may still be able to read them. Prefer a download for private information on a shared device.</p><label className={styles.consent}><input type="checkbox" checked={saveAllowed} disabled={!storageKey} onChange={(event) => setSaveAllowed(event.target.checked)} />I want to save or open checklist data in this browser for this DO account.</label><div className={styles.taskActions}><button type="button" disabled={!saveAllowed || !plans.length || Boolean(busyId)} onClick={persist}>Save browser snapshot</button><button type="button" disabled={!saveAllowed || Boolean(busyId)} onClick={restore}>Open saved snapshot</button><button type="button" disabled={!storageKey} onClick={() => setForgetConfirm(true)}>Remove saved snapshot</button></div>{forgetConfirm && <div className={styles.confirm}><p>Remove the snapshot saved by this browser? Open checklists will stay here.</p><button type="button" onClick={forget}>Yes, remove snapshot</button><button type="button" onClick={() => setForgetConfirm(false)}>Keep it</button></div>}</details>}
       <details className={styles.capabilities}><summary>What works here, and what needs another step</summary><div>{LIFE_ADMIN_CAPABILITIES.map((capability) => <section key={capability.name}><h4>{capability.name}<span>{capability.status}</span></h4><p>{capability.detail}</p></section>)}</div><p>{LIFE_ADMIN_BOUNDARY}</p></details>
     </section>
   );

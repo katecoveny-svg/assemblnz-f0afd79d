@@ -121,7 +121,8 @@ function protocol(message = 'TypeSafe returned an invalid response.'): never {
 function probability(v: unknown): v is number {
   return typeof v === 'number' && Number.isFinite(v) && v >= 0 && v <= 1;
 }
-function parseChoice<K extends string>(raw: unknown, keys: readonly K[]): Choice<K> {
+/** Shared vendor choice validator; product rubrics may define their own bounded keys. */
+export function parseChoice<K extends string>(raw: unknown, keys: readonly K[]): Choice<K> {
   if (!object(raw) || raw.type !== 'choice' || typeof raw.choice !== 'string' ||
       !keys.includes(raw.choice as K) || !probability(raw.confidence) || !object(raw.probabilities)) return protocol();
   const p = raw.probabilities;

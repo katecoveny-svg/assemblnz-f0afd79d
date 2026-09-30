@@ -1,0 +1,104 @@
+import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest';
+vi.mock('ai', async original => ({ ...(await original<typeof import('ai')>()), generateText: vi.fn() }));
+vi.mock('@/lib/ai/router', () => ({ openaiResponsesRung: vi.fn() }));
+vi.mock('@/lib/typesafe/transport', () => ({ evaluateTypeSafePayload: vi.fn() }));
+vi.mock('./profile-service', () => ({ getPersonalDoProfile: vi.fn() }));
+import { generateText } from 'ai';
+import { openaiResponsesRung } from '@/lib/ai/router';
+import { evaluateTypeSafePayload } from '@/lib/typesafe/transport';
+import { getPersonalDoProfile } from './profile-service';
+import { DEFAULT_PERSONAL_DO_PROFILE } from './profile';
+import { personalAssistantInputSchema } from './assistant';
+import { personalAssistantAvailability, runPersonalAssistant } from './assistant-server';
+
+const owner = 'test-owner';
+const input = personalAssistantInputSchema.parse({ message: 'Help me plan the house move.', consent: true });
+const output = { reply: 'Start with the moving date.', rationale: 'The date determines the order of work.', evidence: [{ source: 'message', quote: 'house move' }], missingInformation: ['Moving date'], nextStep: { kind: 'review_draft', label: 'Review this plan', draft: '1. Confirm the moving date.\n2. List the rooms to pack.' } };
+const evaluation = (choice: 'prepare' | 'clarify' | 'unsupported' = 'prepare', confidence = 0.9) => ({ evaluation: { model: 'jev-1.13.0', action: { type: 'choice' as const, choice, confidence, probabilities: { prepare: 0.9, clarify: 0.08, unsupported: 0.02 } }, usage: { input_tokens: 100, output_tokens: 10 } }, elapsedMs: 50, attempts: 1 });
+beforeEach(() => {
+  vi.clearAllMocks();
+  vi.stubEnv('OPENAI_API_KEY', 'TEST_ONLY_NOT_REAL'); vi.stubEnv('TYPESAFE_API_KEY', 'TEST_ONLY_NOT_REAL');
+  vi.stubEnv('TYPESAFE_ENABLED', 'true'); vi.stubEnv('TYPESAFE_PILOT_USER_IDS', owner); vi.stubEnv('TYPESAFE_REVIEW_THRESHOLD', '0.75');
+  vi.mocked(openaiResponsesRung).mockReturnValue({ id: 'gpt-6-astra', label: 'gpt-6-astra', isPrimary: true, model: 'test-model' });
+  vi.mocked(evaluateTypeSafePayload).mockResolvedValue(evaluation());
+  vi.mocked(generateText).mockResolvedValue({ output, response: { modelId: 'gpt-6-astra' }, finishReason: 'stop' } as unknown as Awaited<ReturnType<typeof generateText>>);
+  vi.mocked(getPersonalDoProfile).mockResolvedValue({ profile: DEFAULT_PERSONAL_DO_PROFILE, saved: false });
+});
+afterEach(() => vi.unstubAllEnvs());
+
+describe('Personal DO live-provider orchestration (mocked providers)', () => {
+  it('reports configuration rather than claiming a live model was proved', () => {
+    expect(personalAssistantAvailability(owner)).toMatchObject({ ready: true, model: 'gpt-6-astra' });
+    expect(personalAssistantAvailability(null)).toMatchObject({ ready: false, signedIn: false });
+    expect(JSON.stringify(personalAssistantAvailability(null))).not.toContain('TEST_ONLY');
+    vi.stubEnv('OPENAI_API_KEY', ''); expect(personalAssistantAvailability(owner).reason).toBe('astra_unavailable');
+    vi.stubEnv('TYPESAFE_ENABLED', 'false'); expect(personalAssistantAvailability(owner).reason).toBe('typesafe_unavailable');
+    expect(personalAssistantAvailability('other').reason).toBe('pilot_access_required');
+  });
+  it('runs TypeSafe then only Astra, with bounded structured output and no tools', async () => {
+    const result = await runPersonalAssistant(input, owner);
+    expect(evaluateTypeSafePayload).toHaveBeenCalledOnce(); expect(generateText).toHaveBeenCalledOnce();
+    expect(vi.mocked(evaluateTypeSafePayload).mock.invocationCallOrder[0]).toBeLessThan(vi.mocked(generateText).mock.invocationCallOrder[0]);
+    expect(openaiResponsesRung).toHaveBeenCalledWith('gpt-6-astra');
+    const options = vi.mocked(generateText).mock.calls[0][0];
+    expect(options).toMatchObject({ maxRetries: 0, maxOutputTokens: 6000, providerOptions: { openai: { forceReasoning: true, reasoningEffort: 'medium', reasoningSummary: null, store: false } } });
+    expect(options).not.toHaveProperty('tools'); expect(options.system).toContain('hidden chain of thought');
+    expect(result).toMatchObject({ state: 'draft', externalActions: false, persisted: false, reviewRequired: true, generation: { actualModel: 'gpt-6-astra' }, reasoning: { provider: 'typesafe' } });
+    expect(getPersonalDoProfile).not.toHaveBeenCalled();
+  });
+  it('holds existing pilot access and consent boundaries before calls', async () => {
+    await expect(runPersonalAssistant(input, 'other')).rejects.toMatchObject({ code: 'pilot_access_required' });
+    await expect(runPersonalAssistant({ ...input, consent: false } as never, owner)).rejects.toThrow();
+    vi.stubEnv('TYPESAFE_ENABLED', 'false'); await expect(runPersonalAssistant(input, owner)).rejects.toMatchObject({ code: 'pilot_not_configured' });
+    expect(generateText).not.toHaveBeenCalled(); expect(evaluateTypeSafePayload).not.toHaveBeenCalled();
+  });
+  it('does not fall back if either provider is absent or fails', async () => {
+    vi.mocked(openaiResponsesRung).mockReturnValue(null);
+    await expect(runPersonalAssistant(input, owner)).rejects.toMatchObject({ code: 'astra_unavailable' });
+    expect(evaluateTypeSafePayload).not.toHaveBeenCalled();
+    vi.mocked(openaiResponsesRung).mockReturnValue({ id: 'gpt-6-astra', label: 'gpt-6-astra', isPrimary: true, model: 'test-model' });
+    vi.mocked(evaluateTypeSafePayload).mockRejectedValue(new Error('provider rejected request'));
+    await expect(runPersonalAssistant(input, owner)).rejects.toThrow(); expect(generateText).not.toHaveBeenCalled();
+  });
+  it('stops unsupported routes without labelling a template as Astra output', async () => {
+    vi.mocked(evaluateTypeSafePayload).mockResolvedValue(evaluation('unsupported'));
+    expect(await runPersonalAssistant(input, owner)).toMatchObject({ state: 'unsupported', generation: null, nextStep: { kind: 'answer_question', draft: null } });
+    expect(generateText).not.toHaveBeenCalled();
+  });
+  it('low confidence requires a question and rejects a draft instead', async () => {
+    vi.mocked(evaluateTypeSafePayload).mockResolvedValue(evaluation('prepare', 0.1));
+    await expect(runPersonalAssistant(input, owner)).rejects.toMatchObject({ code: 'astra_generation_failed' });
+    const prompt = JSON.parse(String(vi.mocked(generateText).mock.calls[0][0].messages?.[0].content));
+    expect(prompt.policy.route).toBe('clarify');
+    vi.mocked(generateText).mockResolvedValue({ output: { ...output, nextStep: { kind: 'answer_question', label: 'When are you moving?', draft: null } }, response: { modelId: 'gpt-6-astra' }, finishReason: 'stop' } as unknown as Awaited<ReturnType<typeof generateText>>);
+    expect((await runPersonalAssistant(input, owner)).state).toBe('needs_input');
+  });
+  it('sends saved style only with explicit opt-in, to OpenAI only, bound to the owner', async () => {
+    await runPersonalAssistant({ ...input, useSavedStyle: true }, owner);
+    expect(getPersonalDoProfile).toHaveBeenCalledWith(owner);
+    expect(JSON.stringify(vi.mocked(evaluateTypeSafePayload).mock.calls[0][0])).not.toContain('communicationStyle');
+    const prompt = JSON.parse(String(vi.mocked(generateText).mock.calls[0][0].messages?.[0].content));
+    expect(prompt.communicationStyle).toContain('No setting grants authority');
+  });
+  it('fails closed on forged evidence, wrong actual model, incomplete output and raw provider errors', async () => {
+    for (const response of [
+      { output: { ...output, evidence: [{ source: 'notes', quote: 'invented' }] }, response: { modelId: 'gpt-6-astra' }, finishReason: 'stop' },
+      { output, response: { modelId: 'gpt-4.1-mini' }, finishReason: 'stop' },
+      { output, response: { modelId: 'gpt-6-astra' }, finishReason: 'length' },
+    ]) {
+      vi.mocked(generateText).mockResolvedValue(response as unknown as Awaited<ReturnType<typeof generateText>>);
+      await expect(runPersonalAssistant(input, owner)).rejects.toMatchObject({ code: 'astra_generation_failed' });
+    }
+    vi.mocked(generateText).mockRejectedValue(new Error('PRIVATE_PROVIDER_BODY SECRET'));
+    await expect(runPersonalAssistant(input, owner)).rejects.toThrow('could not finish a validated reply');
+  });
+  it('cancels before any provider request or subsequent generation', async () => {
+    const controller = new AbortController(); controller.abort();
+    await expect(runPersonalAssistant(input, owner, controller.signal)).rejects.toMatchObject({ code: 'request_cancelled' });
+    expect(evaluateTypeSafePayload).not.toHaveBeenCalled(); expect(generateText).not.toHaveBeenCalled();
+    const active = new AbortController();
+    vi.mocked(evaluateTypeSafePayload).mockImplementation(async () => { active.abort(); return evaluation(); });
+    await expect(runPersonalAssistant(input, owner, active.signal)).rejects.toMatchObject({ code: 'request_cancelled' });
+    expect(generateText).not.toHaveBeenCalled();
+  });
+});

@@ -27,6 +27,7 @@ import { DoGeminiLive } from "@/app/do/DoGeminiLive";
 import type { PersonalDoProfile } from "@/apps/do/personal/profile";
 import { PersonalDoSettings } from "./PersonalDoSettings";
 import { LifeAdmin } from "./LifeAdmin";
+import { PersonalDoAssistant, type PersonalAssistantWork } from "./PersonalDoAssistant";
 import { NzCareNavigation } from "./NzCareNavigation";
 import { LifeAdminLocalUpdates } from "./LifeAdminLocalUpdates";
 import { acceptDoShare, readDoShareForWorkspace, doShareText } from "@/apps/do/shared/share-intake";
@@ -59,6 +60,8 @@ export function PersonalDo() {
   const [sharedIntake, setSharedIntake] = useState<{ id: string; text: string; sourceTitle: string }>();
   const [workspaceKey, setWorkspaceKey] = useState<string | null>(null);
   const [guestDirty, setGuestDirty] = useState(false);
+  const [assistantWork, setAssistantWork] = useState<PersonalAssistantWork>({ dirty: false, exportText: "" });
+  const [assistantWorking, setAssistantWorking] = useState(false);
   const [leavingHref, setLeavingHref] = useState<string | null>(null);
   const leaveDialog = useRef<HTMLDialogElement>(null);
   const approvedLeave = useRef(false);
@@ -93,6 +96,7 @@ export function PersonalDo() {
       verifiedScope = scope;
       if (workspaceRef.current !== scope) {
         if (workspaceRef.current !== null) setSharedIntake(undefined);
+        setAssistantWork({ dirty: false, exportText: "" }); setAssistantWorking(false);
         setPersonalProfile(null);
         setForm(emptyForm); setEditor(false); setConsent(false); setEditId(undefined);
       }
@@ -119,7 +123,7 @@ export function PersonalDo() {
       // An authenticated storage error includes a verified scope; network or
       // malformed identity errors cannot safely reuse a previous person's UI.
       setPersonalProfile(null);
-      if (!verifiedScope) { workspaceRef.current = null; setWorkspaceKey(null); setSharedIntake(undefined); setEditor(false); setConsent(false); }
+      if (!verifiedScope) { workspaceRef.current = null; setWorkspaceKey(null); setSharedIntake(undefined); setEditor(false); setConsent(false); setAssistantWork({ dirty: false, exportText: "" }); setAssistantWorking(false); }
       setAccess("error");
       setState(null);
       setNotice(
@@ -143,7 +147,7 @@ export function PersonalDo() {
         if (shouldRevalidatePersonalOwner(_event, workspaceRef.current, hintedScope)) {
           loadRequest.current?.abort();
           workspaceRef.current = null;
-          setWorkspaceKey(null); setState(null); setPersonalProfile(null);
+          setWorkspaceKey(null); setState(null); setPersonalProfile(null); setAssistantWork({ dirty: false, exportText: "" }); setAssistantWorking(false);
           setSharedIntake(undefined); setForm(emptyForm); setEditor(false); setConsent(false);
           // The event only invalidates. The server verifies the new owner.
           void load();
@@ -280,7 +284,7 @@ export function PersonalDo() {
           Try loading again <RefreshCw size={16} />
         </button>
       )}
-      {workspaceKey && <LifeAdmin key={workspaceKey} profile={personalProfile} onCustomise={access === "ready" ? () => settingsButton.current?.click() : undefined} storageScope={workspaceKey} intake={sharedIntake} onGuestWorkChange={setGuestDirty} onIntakeAccepted={id => { try { acceptDoShare(window.sessionStorage, id); } catch { /* Storage may be unavailable. */ } }} onTalk={() => { setCallOpen(true); requestAnimationFrame(() => document.getElementById("personal-do-call")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" })); }} />}
+      {workspaceKey && <LifeAdmin key={workspaceKey} assistant={<PersonalDoAssistant key={workspaceKey} profile={personalProfile ?? undefined} onWorkingChange={setAssistantWorking} onWorkChange={setAssistantWork} />} assistantWork={assistantWork} assistantWorking={assistantWorking} profile={personalProfile} onCustomise={access === "ready" ? () => settingsButton.current?.click() : undefined} storageScope={workspaceKey} intake={sharedIntake} onGuestWorkChange={setGuestDirty} onIntakeAccepted={id => { try { acceptDoShare(window.sessionStorage, id); } catch { /* Storage may be unavailable. */ } }} onTalk={() => { setCallOpen(true); requestAnimationFrame(() => document.getElementById("personal-do-call")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" })); }} />}
       {workspaceKey && callOpen && <div id="personal-do-call" className={styles.call}>
         <div className={styles.callHeading}><p className={styles.eyebrow}>A LITTLE SPACE TO TALK</p><a href="#life-admin">Back to my workspace ↑</a></div>
         <DoGeminiLive
@@ -317,7 +321,7 @@ export function PersonalDo() {
                   ? `Last worker check: ${stamp(state.worker.lastSeenAt)} (NZ time).`
                   : "Waiting for the first cloud worker check."}{" "}
                 Checks run hourly; queued work may take longer. Results appear
-                here. Phone notifications are not connected.
+                here. Phone notifications are not connected. Uses Assembl’s configured drafting provider; this flow does not use the TypeSafe check.
               </p>
             </div>
             <button
@@ -727,7 +731,7 @@ export function PersonalDo() {
               </label>
               <p>
                 Results appear in Personal DO. This permission covers
-                preparation only.
+                preparation only. Uses Assembl’s configured drafting provider; this flow does not use the TypeSafe check.
               </p>
               <button
                 type="submit"

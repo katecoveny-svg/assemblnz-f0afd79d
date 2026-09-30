@@ -3,7 +3,7 @@
   "name": "DO by assembl",
   "short_name": "DO",
   "description": "Your portable work companion. Talk, record, prepare and review with permission. Draft-only tools; no automatic sends or purchases.",
-  "start_url": "/do/widget",
+  "start_url": "/do/personal",
   "scope": "/do",
   "share_target": {
     "action": "/do/receive",
@@ -53,6 +53,12 @@
     }
   ],
   "shortcuts": [
+    {
+      "name": "Your DO",
+      "short_name": "Your DO",
+      "url": "/do/personal",
+      "description": "Pick up with your personal assistant."
+    },
     {
       "name": "DO workspace",
       "short_name": "Workspace",

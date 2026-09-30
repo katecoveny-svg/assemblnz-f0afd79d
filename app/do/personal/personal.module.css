@@ -746,3 +746,6 @@
 .aroundPanel[open] > summary > svg:last-child { transform: rotate(45deg); }
 .aroundPanel > section { margin: 0 20px 20px; }
 @media (max-width: 760px) { .around { margin-top: 27px; } .aroundHeading { display: block; } .aroundHeading h2 { font-size: 27px; margin-top: 7px; } .aroundHeading .eyebrow { font-size: 8px; margin: 0; } .aroundGrid { grid-template-columns: 1fr; gap: 11px; } .page .aroundPanel > summary { min-height: 86px; padding: 16px; gap: 12px; } .aroundPanel > summary strong { font-size: 16px; } .aroundPanel > summary small { font-size: 10px; line-height: 1.5; } .aroundPanel > section { margin: 0 9px 12px; } }
+
+/* Low-specificity default prevents legacy green-grey global headings leaking into Personal DO. */
+.page :where(h1, h2, h3, h4) { color: var(--ink); }

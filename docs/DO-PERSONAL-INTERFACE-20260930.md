@@ -32,3 +32,13 @@ The character is decorative and never indicates provider availability, connectiv
 - Required preview review: 375px and desktop, first use and saved profile, settings consent/cancel, all twelve categories, Photo/Forward/Type, voice opening and return, ongoing responsibilities, large-text care, weather/updates failure and cancellation, guest leave warning, keyboard focus, reduced motion and no horizontal overflow.
 
 This extends the existing Personal DO interface and character primitive; it does not create a second runtime or permission model.
+
+## Subsequent user-directed visual and assistant refinement
+
+The user rejected the flower-like companion and excess explanatory copy. The revised surface uses the canonical D with its luminous inner dot, an authored extruded material treatment, finite introduction motion and tactile lit controls. Real assistant preparation can drive the working motion; reduced-motion users receive a static, complete interface. A low-specificity scoped heading colour prevents legacy green-grey global heading colours leaking into the surface.
+
+Three clearly fictional visual examples now show familiar school, bill and vehicle inputs. A backpack cue, receipt and WoF disc distinguish them. Each opens the real local review workflow with a source explicitly labelled FICTIONAL EXAMPLE. None is a claim about the user's actual affairs or completed external work. A short result appears first; full details live behind “What's underway”. Twelve categories remain under “More things to sort”.
+
+The primary natural-language assistant is supplied as an owner-keyed slot. Its context and consent stay separate from the local checklist flow. Provider-backed input and output are included with local work in the guest download, and either makes the existing leave warning active. On owner changes, parent conversation-export and working projections reset as well as the keyed assistant. Photo/share capture remains in a secondary local review flow, never automatically sent to a provider.
+
+Focused visual-entry, example and engine tests: 33 passed before primary assistant integration, with final integrated rerun required. Source-level checks are not a substitute for new-preview desktop and mobile screenshot proof.
