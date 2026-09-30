@@ -181,8 +181,8 @@ export function DoHome() {
         </Link>
         <span className={styles.product}>/ DO</span>
         <nav aria-label="assembl products">
-          <Link href="/do/personal">Personal DO</Link>
-          <Link href="/do/widget">Open workspace</Link>
+          <Link href="/do/personal">Open DO</Link>
+          <Link href="/do/widget">Writing workspace</Link>
           <Link href="/login?redirect=%2Fdo">Sign in</Link>
         </nav>
       </header>
@@ -195,11 +195,11 @@ export function DoHome() {
         </div>
         <div className={styles.startGrid}>
           <DoGlowCard as="div" variant="bare" className={styles.featuredTask}>
-            <Link className={`${styles.startCard} ${styles.everydayTask}`} href="/do/widget">
+            <Link className={`${styles.startCard} ${styles.everydayTask}`} href="/do/personal">
               <span className={styles.startStatus}>01 / PASTE TEXT · TRY A DRAFT</span>
               <div className={styles.taskSculpture}><Image src="/do/editorial/work-in-your-pocket.webp" alt="Paperwork gathered beside a phone in a sculptural plum setting. Concept artwork." fill sizes="(max-width: 760px) 100vw, 50vw" priority /><span className={styles.artMark}><DoPresence size="small" /></span></div>
               <div className={styles.featuredCopy}><h2>Less admin.<br /><span>More mahi.</span></h2><p>Write a reply, make a plan, compare options or find the details.</p></div>
-              <strong>Open Everyday DO <ArrowUpRight size={24} aria-hidden="true" /></strong>
+              <strong>Open DO <ArrowUpRight size={24} aria-hidden="true" /></strong>
             </Link>
           </DoGlowCard>
           <Link className={`${styles.startCard} ${styles.meetingTask}`} href="/do/meetings">
@@ -207,7 +207,7 @@ export function DoHome() {
             <h2>Meet. Then move.</h2><p>Record or paste a transcript. Review notes and prepare the follow-up.</p>
             <strong>Open Meeting DO <ArrowUpRight size={22} aria-hidden="true" /></strong>
           </Link>
-          <Link className={`${styles.startCard} ${styles.familyTask}`} href="/do/widget?task=plan">
+          <Link className={`${styles.startCard} ${styles.familyTask}`} href="/do/personal">
             <div className={styles.taskTop}><span className={styles.startStatus}>03 / PASTE A NOTICE · REVIEW A PLAN</span><CalendarDays size={28} strokeWidth={1.3} aria-hidden="true" /></div>
             <h2>Life, a little lighter.</h2><p>Turn a school notice or family to-do list into a plan you can check and keep.</p>
             <strong>Organise a notice <ArrowUpRight size={22} aria-hidden="true" /></strong>
@@ -289,7 +289,7 @@ export function DoHome() {
             Choose the task. Add the context. Review the result.
           </p>
           <div className={styles.actions}>
-            <Link href="/do/widget" className={styles.primary}>
+            <Link href="/do/personal" className={styles.primary}>
               Open DO workspace
             </Link>
             <Link href="/" className={styles.ghost}>

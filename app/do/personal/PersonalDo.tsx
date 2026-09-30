@@ -40,6 +40,7 @@ import {
   type PersonalState,
   type Responsibility,
 } from "@/apps/do/personal/contract";
+import { personalWorkerHealth } from "@/apps/do/personal/worker-health";
 import styles from "./personal.module.css";
 const emptyForm = {
   title: "",
@@ -68,6 +69,7 @@ export function PersonalDo() {
   const workspaceRef = useRef<string | null>(null);
   const loadRequest = useRef<AbortController | null>(null);
   const [now, setNow] = useState(() => Date.now());
+  const workerHealth = state ? personalWorkerHealth(state.worker, now) : null;
   const [access, setAccess] = useState<
     "loading" | "signed-out" | "ready" | "error"
   >("loading");
@@ -312,15 +314,14 @@ export function PersonalDo() {
             <Clock3 size={20} />
             <div>
               <strong>
-                {state.worker.configured
-                  ? "Daily cloud preparation"
-                  : "Cloud preparation unavailable"}
+                {workerHealth?.label}
               </strong>
               <p>
+                {workerHealth?.detail}{" "}
                 {state.worker.lastSeenAt
                   ? `Last worker check: ${stamp(state.worker.lastSeenAt)} (NZ time).`
                   : "Waiting for the first cloud worker check."}{" "}
-                Checks run hourly; queued work may take longer. Results appear
+                Checks are scheduled hourly; queued work may take longer. Results appear
                 here. Phone notifications are not connected. Uses Assembl’s configured drafting provider; this flow does not use the TypeSafe check.
               </p>
             </div>
@@ -580,8 +581,7 @@ export function PersonalDo() {
             <span>02</span>
             <h3>Come back to prepared work.</h3>
             <p>
-              Daily cloud checks work while this page is closed. You approve
-              seven days at a time. Up to five checks per account in 24 hours.
+              When the background worker is healthy, it can prepare work while this page is closed. Check its status above. You approve seven days at a time, with up to five preparations per account in 24 hours.
             </p>
           </article>
           <article>

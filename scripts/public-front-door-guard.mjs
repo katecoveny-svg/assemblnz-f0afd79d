@@ -165,7 +165,7 @@ if (!/atelier-poster\.png/.test(doHome)) {
   errors.push('Public /do must use the daylight atelier still (atelier-poster.png)');
 }
 // Product access must not regress to a contact-only explanation page again.
-for (const href of ['/do/bills', '/do/widget', '/do/meetings', '/do/widget?task=plan']) {
+for (const href of ['/do/bills', '/do/personal', '/do/meetings', '/do/widget']) {
   if (!doHome.includes(`href="${href}"`)) errors.push(`Public /do is missing its task entry: ${href}`);
 }
 if (!doHome.includes('SIGN IN FOR NOTES')) errors.push('Meeting entry must explain the sign-in requirement');

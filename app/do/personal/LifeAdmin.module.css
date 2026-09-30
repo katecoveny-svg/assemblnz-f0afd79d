@@ -505,3 +505,17 @@
   .exampleVisual { height: 73px; }
   .workspace .exampleCard { min-height: 148px; }
 }
+/* A quiet first screen: one composer, with examples and detail on request. */
+.composerTabs { display: flex; gap: .5rem; margin: .5rem 0 1rem; }
+.workspace .composerTabs button { border: 0; background: transparent; border-radius: 999px; padding: .65rem 1rem; font-size: .9rem; min-height: 44px; }
+.workspace .composerTabs button[aria-pressed=true] { color: #fffdfb; background: #240b21; }
+.workspace .exampleToggle { display: flex; justify-content: space-between; width: 100%; text-align: left; border: 0; background: transparent; padding: 1rem 0; font-size: .84rem; color: #654a4e; }
+.cloudStorage { border: 0; border-radius: 22px; background: linear-gradient(120deg,#f5f1f2,#fffdfb); padding: 1rem 1.25rem; margin: 1rem 0; }
+.cloudStorage summary { display: flex; align-items: center; flex-wrap: wrap; gap: .65rem; font-weight: 500; cursor: pointer; min-height: 44px; }
+.cloudStorage summary > span { margin-left: auto; font-size: .76rem; color: #654a4e; font-weight: 400; }
+.cloudStorage > p { font-size: .85rem; line-height: 1.6; max-width: 70ch; }
+.cloudStorage [role=status]:empty { display: none; }
+.stage .composerTabs { gap: 8px; }
+.workspace .stage .composerTabs button { color: #ecdbe3; background: #fffdfb0b; border: 1px solid #ead4df33; }
+.workspace .stage .composerTabs button[aria-pressed=true] { color: #240b21; background: #fffdfb; border-color: #fffdfb; }
+.workspace .stage .exampleToggle { color: #dfc8d3; }

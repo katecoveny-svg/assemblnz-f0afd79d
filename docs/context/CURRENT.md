@@ -1,6 +1,6 @@
 # assembl — current operating state
 
-**Last verified:** 17 September 2026  
+**Last verified:** 30 September 2026 (Personal DO/homepage audit; other sections retain their dated scope)
 **Status:** current working context  
 **Update rule:** refresh from merged work and accepted decisions; do not rewrite stable canon casually.
 
@@ -9,6 +9,8 @@ This file answers: **where is assembl at right now?**
 It is intentionally shorter and more changeable than the long-term strategy documents.
 
 ## current shape
+
+**30 Sep continuity audit and refinement:** main `ca4ef4afb6d31c3af7b6bf7680de8588a74cab23` contains merged Personal DO PRs #1418–#1421. Profiles exist in production. The cron heartbeat remains unverified and runtime logs show 401 responses; do not market this as proven always-on. The current delivery simplifies the homepage/DO entry and adds explicit private, revision-checked checklist snapshots. Native iOS #1417 remains draft. See `docs/ASSEMBL-DELIVERY-AUDIT-20260930.md` for the built/missing matrix and proof; deployment of this refinement is recorded in its PR.
 
 **30 Sep Personal DO implementation:** `feat/do-personal-20260930` adds private ongoing responsibilities, explicit saved context, seven-day background preparation permission and daily cloud draft checks. The additive database migration is applied with empty tables; no user was enrolled. Code deployment and live owner/provider proof remain separate. See `docs/DO-PERSONAL-20260930.md`.
 
