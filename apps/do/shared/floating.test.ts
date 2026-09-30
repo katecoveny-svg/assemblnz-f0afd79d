@@ -83,6 +83,17 @@ describe('portable DO companion', () => {
     expect(s.query).not.toHaveBeenCalled();
     expect(s.saved.size).toBe(1);
   });
+  it('reclamps a moved launcher when a phone viewport narrows', () => {
+    const s = setup();
+    s.window.visualViewport = { width: 375, height: 812, offsetLeft: 0, offsetTop: 0 };
+    s.find('dock').handlers.click({});
+    s.window.visualViewport = { width: 320, height: 640, offsetLeft: 0, offsetTop: 0 };
+    s.listeners.resize({});
+    const launch = s.find('launch').getBoundingClientRect();
+    expect(launch.left).toBeGreaterThanOrEqual(8); expect(launch.top).toBeGreaterThanOrEqual(8);
+    expect(launch.left + launch.width).toBeLessThanOrEqual(312);
+    expect(launch.top + launch.height).toBeLessThanOrEqual(632);
+  });
   it('does not recursively mount inside the embedded workspace', () => { expect(setup(true).body.children).toHaveLength(0); });
   it.each(['/do/personal', '/do/personal/', '/do/widget'])('focuses the existing assistant on %s without loading a duplicate workspace', pathname => {
     const s = setup(false, undefined, pathname);

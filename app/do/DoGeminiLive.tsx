@@ -530,6 +530,7 @@ export function DoGeminiLive({
             <label>
               Conversation
               <select
+                aria-label="Conversation"
                 value={mode}
                 onChange={(e) => setMode(e.target.value as DoVoiceMode)}
               >
@@ -540,6 +541,7 @@ export function DoGeminiLive({
             <label>
               Voice
               <select
+                aria-label="Voice"
                 disabled={Boolean(profile)}
                 value={profile?.voiceName ?? voiceName}
                 onChange={(e) =>

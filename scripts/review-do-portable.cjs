@@ -79,9 +79,23 @@ const fixture = `<!doctype html><meta name="viewport" content="width=device-widt
     await page.evaluate(() => history.pushState({}, '', '/do/personal'));
     await page.locator('.launch').tap();
     check('SPA navigation returns to the same DO', await focused('personal-assistant-input') && !(await panel.isVisible()));
+    const beforeResize = await page.locator('.launch').boundingBox();
     await page.setViewportSize({ width: 320, height: 640 });
+    const immediateResize = await page.locator('.launch').boundingBox();
+    // setViewportSize updates layout before the browser is guaranteed to dispatch resize.
+    // Wait for the real handler to satisfy the same strict 8px bounds; do not force it.
+    try {
+      await page.waitForFunction(() => {
+        const launcher = document.querySelector('[data-do-companion]')?.shadowRoot?.querySelector('.launch');
+        if (!launcher) return false;
+        const r = launcher.getBoundingClientRect();
+        return innerWidth === 320 && innerHeight === 640 && r.left >= 8 && r.top >= 8 && r.right <= 312 && r.bottom <= 632;
+      }, null, { timeout: 3000 });
+    } finally {
+      fs.writeFileSync(out + '/resize-geometry.json', JSON.stringify({ beforeResize, immediateResize, settled: await page.locator('.launch').boundingBox(), viewport: await page.evaluate(() => ({ width: innerWidth, height: innerHeight })) }, null, 2));
+    }
     const narrow = await page.locator('.launch').boundingBox();
-    check('D stays reachable at 320px', narrow.x >= 8 && narrow.x + narrow.width <= 312 && narrow.y + narrow.height <= 632);
+    check('D stays reachable at 320px', narrow.x >= 8 && narrow.y >= 8 && narrow.x + narrow.width <= 312 && narrow.y + narrow.height <= 632);
     await page.emulateMedia({ reducedMotion: 'reduce' });
     check('Reduced motion disables glow transform transition', await page.locator('.spark').evaluate(e => getComputedStyle(e).transitionDuration === '0s'));
     check('No provider or API request from opening and moving', requests.every(url => !new URL(url).pathname.startsWith('/api/')));
