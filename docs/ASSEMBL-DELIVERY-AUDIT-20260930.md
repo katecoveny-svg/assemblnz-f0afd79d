@@ -57,6 +57,12 @@ Kate asked to recover continuity, build the Personal DO suggestions and simplify
 - Migration `20260930063926_do_personal_checklist_cloud.sql` is applied to Assembl-prod; RLS and service-only RPC grants were verified against its actual schema. The filename matches the server migration history. The migration creates empty private storage only. No personal records, bank data or tasks were seeded. No provider generation, real booking, message, payment or account connection was triggered by the audit.
 - Production build/deployment and final branch SHA are recorded in the delivery PR. Do not infer production success from local mocks or a READY deployment from an earlier commit.
 
+## Release repair discovered during validation
+
+The initial full build and Vercel preview succeeded. A subsequent clean CI build reproduced an existing Next/Turbopack Google-font query error in the Air NZ operations and Contact Energy layouts. Both used the same normal Cormorant Garamond weight pair. This delivery bundles the same version 4.001 font locally with its OFL licence, preserves the CSS variables and 500–600 weight range, and retains the full character set including Māori macrons. This removes the two failing external stylesheet requests without upgrading the framework or changing page designs.
+
+Supabase preview remains blocked by an older duplicated migration version `20260716090000` (`family_inbox_tokens` and `creative_agency_auaha`). This failure predates the new snapshot migration; it is not represented as a passing preview. The actual snapshot schema/RLS/grants and isolated executable database checks are the storage evidence. Automated Vercel/Cursor code reviews were unavailable due to account credit/usage limits.
+
 ## Recovery and rollback
 
 Use `/do/personal` → **Saved checklists** → **Open saved checklists** on a signed-in device. Start with Open before saving; review conflicts before replacing the account copy. Removing the cloud collection leaves open/browser copies intact. This is a manual snapshot, not automatic synchronisation.

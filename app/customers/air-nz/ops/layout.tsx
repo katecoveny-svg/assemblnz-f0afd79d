@@ -1,6 +1,7 @@
+import { airNzLockup as cormorant } from '@/lib/fonts/customer-lockups';
 import type { ReactNode } from 'react';
 import type { Metadata } from 'next';
-import { Inter_Tight, Fraunces, Cormorant_Garamond } from 'next/font/google';
+import { Inter_Tight, Fraunces } from 'next/font/google';
 import rootStyles from '../dash/airnz.module.css';
 import ops from './ops.module.css';
 import { OpsSidebar } from '@/components/customers/air-nz/ops-chrome';
@@ -36,13 +37,6 @@ const fraunces = Fraunces({
   display: 'swap',
 });
 
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['500', '600'],
-  style: ['normal'],
-  variable: '--airnz-lockup',
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: 'Air New Zealand × Dash — Partner Operations (concept)',

@@ -1,6 +1,7 @@
+import { contactLockup as cormorant } from '@/lib/fonts/customer-lockups';
 import type { ReactNode } from 'react';
 import type { Metadata } from 'next';
-import { Montserrat, Cormorant_Garamond } from 'next/font/google';
+import { Montserrat } from 'next/font/google';
 import styles from './contact.module.css';
 import { CreditsProvider } from '@/components/customers/contact-energy/CreditsProvider';
 import {
@@ -35,12 +36,6 @@ const montserrat = Montserrat({
   display: 'swap',
 });
 
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['500', '600'],
-  variable: '--contact-lockup',
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: 'Contact Energy × Assembling — pitch concept (demo)',
