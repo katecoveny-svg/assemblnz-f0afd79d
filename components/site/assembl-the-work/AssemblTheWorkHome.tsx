@@ -1,32 +1,42 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowUpRight, LockKeyhole } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { useState } from 'react';
+import { ArrowUpRight, Plus } from 'lucide-react';
 import { AssemblWorldHero } from './AssemblWorldHero';
 import { DoFilm } from '@/components/do/DoFilm';
-import { LivingBrief, ProductDoors } from './ImmersiveExperience';
-import { LivePursuitCanvas } from '../pursuit/LivePursuitCanvas';
+import { LivingBrief } from './ImmersiveExperience';
+const LivePursuitCanvas = dynamic(() => import('../pursuit/LivePursuitCanvas').then(module => module.LivePursuitCanvas));
 import { PRODUCT_DESTINATIONS } from '@/lib/product-destinations';
-import { HERO } from './copy';
+import { PRODUCTS } from './copy';
 import { FluidField } from '../craft/FluidField';
 import '../craft/fluid-type.css';
 import './assembl-the-work.css';
 import './assembl-spatial.css';
 import './immersive-home.css';
+import './refined-home.css';
 
 export function AssemblTheWorkHome({ preview = false }: { preview?: boolean }) {
-  return <div className="atw atw-spatial atw-immersive" data-preview={preview}>
-    <a className="atw-skip" href="#try-pursuit">Skip to the research canvas</a>
+  const [researchOpen, setResearchOpen] = useState(false);
+  const [filmOpen, setFilmOpen] = useState(false);
+  return <div className="atw atw-spatial atw-immersive atw-refined" data-preview={preview}>
+    <a className="atw-skip" href="#products">Skip to the products</a>
     {preview && <div className="atw-preview-ribbon"><strong>PREVIEW</strong><span>Homepage review</span><Link href="/">Live homepage <ArrowUpRight size={14} /></Link></div>}
-    <AssemblWorldHero preview={preview} />
-    <section className="atw-product-strip" aria-label="Three products, one system"><Link href="/pursuit"><strong>Pursuit</strong><span>find it.</span></Link><Link href="/do"><strong>DO</strong><span>DO it.</span></Link><Link href="/creative-studio"><strong>Studio</strong><span>show it.</span></Link><p>{HERO.loopLine}</p></section>
-    <ProductDoors />
-    <LivePursuitCanvas />
-    {/* The existing, explicitly labelled illustration remains separate from real research. */}
+    <AssemblWorldHero preview={preview} showSummary={false} />
+    <section id="products" className="refined-products" aria-labelledby="products-title">
+      <header><p className="atw-kicker">THREE PRODUCTS. ONE CONNECTED SYSTEM.</p><h2 id="products-title">Find the work.<br />DO the work. Show the possibility.</h2><p>Start with the part you need. Connect the rest when the work calls for it.</p></header>
+      <div className="refined-product-grid">{PRODUCTS.items.map((product, index) => <Link href={product.href} key={product.id} className="refined-product" data-product={product.id}>
+        <div className="refined-product-art" aria-hidden="true"><span className="refined-shape" /><span className="refined-shape" /><span className="refined-shape" /><small>0{index + 1}</small><strong>{product.verb.split(' · ')[1]}</strong></div>
+        <div className="refined-product-copy"><h3>{product.name}<ArrowUpRight size={22} /></h3><p>{product.body}</p><span>{product.id === 'do' ? 'Open DO' : `Explore ${product.name}`} <ArrowUpRight size={16} /></span></div>
+      </Link>)}</div>
+    </section>
     <LivingBrief />
-    <section className="immersive-statement" aria-labelledby="statement-title"><FluidField tone="plum" /><p>less starting over. more moving forward.</p><h2 id="statement-title">The idea is only<br />the <span className="fluid-text fluid-text-light">beginning.</span></h2><div><p>Find the opening. Prepare the work. Give the possibility a form someone can see, change and try.</p><Link href="/creative-studio">See what Studio can do <ArrowUpRight size={19} /></Link></div></section>
-    <DoFilm />
-    <section className="immersive-close" id="choose" aria-labelledby="choose-title"><FluidField /><div><p className="atw-kicker">start with the work in front of you.</p><h2 id="choose-title">What could we<br /><span className="fluid-text">assembl together?</span></h2><p>Bring an opportunity, a repetitive job or an idea that needs to be seen. Start with one product, or connect the whole system.</p><Link className="atw-pill atw-pill-dark" href="/contact?product=system">Bring us the work <ArrowUpRight size={18} /></Link></div><aside aria-label="Existing workspaces"><p>Already working with assembl?</p><a href={PRODUCT_DESTINATIONS.pursuit.workspace} target="_blank" rel="noopener noreferrer"><span><small>Pursuit</small>Open client hubs</span><ArrowUpRight size={20} /></a><a href={PRODUCT_DESTINATIONS.studio.workspace} target="_blank" rel="noopener noreferrer"><span><small>Studio</small>Open Creative Studio</span><ArrowUpRight size={20} /></a><small><LockKeyhole size={12} />Your existing private workspaces. Sign-in required.</small></aside></section>
-    <footer className="atw-footer"><Link className="atw-wordmark" href="/">assembl</Link><p>Find it. DO it. Show it.<br />Built in New Zealand.</p><nav aria-label="Footer"><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio">Studio</Link><Link href="/tools/agents">Agent tools</Link><Link href="/about">About</Link><Link href="/contact">Contact</Link><Link href="/legal/privacy">Privacy</Link></nav><span>Good work comes together.</span></footer>
+    <section className="refined-explore" aria-label="Explore the products in more detail">
+      <details open={researchOpen} onToggle={event => setResearchOpen(event.currentTarget.open)}><summary><span>Try Pursuit research<small>Bring a company or a question</small></span><Plus size={22} /></summary>{researchOpen && <LivePursuitCanvas />}</details>
+      <details open={filmOpen} onToggle={event => setFilmOpen(event.currentTarget.open)}><summary><span>See DO in motion<small>A closer look at the experience</small></span><Plus size={22} /></summary>{filmOpen && <DoFilm />}</details>
+    </section>
+    <section className="immersive-close refined-close" id="choose" aria-labelledby="choose-title"><FluidField /><div><p className="atw-kicker">LESS ADMIN. MORE MAHI.</p><h2 id="choose-title">What needs<br /><span className="fluid-text">doing?</span></h2><p>Bring an opportunity, a repetitive job or an idea that needs to be seen. We’ll help you turn it into useful work.</p><Link className="atw-pill atw-pill-dark" href="/contact?product=system">Bring us the work <ArrowUpRight size={18} /></Link></div></section>
+    <footer className="atw-footer"><Link className="atw-wordmark" href="/">assembl</Link><p>Find it. DO it. Show it.<br />Built in New Zealand.</p><nav aria-label="Footer"><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio">Studio</Link><Link href="/about">About</Link><Link href="/contact">Contact</Link><Link href="/legal/privacy">Privacy</Link></nav><details className="refined-workspaces"><summary>Existing workspaces</summary><a href={PRODUCT_DESTINATIONS.pursuit.workspace} target="_blank" rel="noopener noreferrer">Pursuit hubs ↗</a><a href={PRODUCT_DESTINATIONS.studio.workspace} target="_blank" rel="noopener noreferrer">Creative Studio ↗</a><small>Private workspaces · sign-in required</small></details></footer>
   </div>;
 }

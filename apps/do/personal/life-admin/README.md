@@ -1,6 +1,6 @@
 # Personal DO life-admin workflows
 
-Review implementation on `feat/do-personality-voice-20260930`. This creates a reusable local workflow/evidence contract and extends existing DO preparation, vision and identity primitives. It does not create a second external-action runtime.
+Initial implementation merged in PR #1419; the 30 September refinement adds explicit private cloud snapshots. This creates a reusable local workflow/evidence contract and extends existing DO preparation, vision and identity primitives. It does not create a second external-action runtime.
 
 ## What is implemented
 
@@ -20,7 +20,7 @@ Review implementation on `feat/do-personality-voice-20260930`. This creates a re
 
 | Capability | State | What remains outside this change |
 | --- | --- | --- |
-| Local text/checklist, review, wait/completion tracking, exports | Implemented | No cloud sync or background worker for these local plans |
+| Local text/checklist, review, wait/completion tracking, exports | Implemented | Explicit account snapshots are available; no automatic sync or background worker for these plans |
 | All twelve household categories | Preparation-only | External actions remain user-performed and user-recorded |
 | Tailored draft | Provider-dependent, requires DO sign-in and explicit transfer consent | Live provider quality must be exercised in configured deployment |
 | Screenshot/photo intake | Existing provider-dependent vision, separately consented | Physical-phone and live provider proof still separate |
@@ -43,6 +43,10 @@ Review implementation on `feat/do-personality-voice-20260930`. This creates a re
 - The parent must avoid mounting under an unknown identity and clear/bind incoming handoffs across account changes. A guest handoff is transferred only through the parent’s explicit review flow
 - `onIntakeAccepted` fires only after successfully creating a checklist from the incoming source. Displaying it does not consume it
 - Optional onTalk scrolls to the existing Call DO surface, rather than starting a microphone or live session
+
+## Private cloud snapshots
+
+`ChecklistCloud` and `/api/do/personal/checklists` save an explicitly approved collection of up to 30 validated plans. Open saved checklists first to get the current revision. No automatic upload, model invocation, chat storage, sharing or scheduled reminders. A session-scope header must match the authenticated owner; the header never chooses the database owner. Cross-account changes and stale revisions return 409. Restore keeps open edits and warns about differences. Removing a collection saves an empty revisioned tombstone so an older device cannot resurrect it. RLS allows owner reads only; all writes use a service-only atomic compare-and-save RPC. Full route, schema, owner-filter, local SQL and fictional browser tests are in the refinement audit.
 
 ## Privacy and evidence
 

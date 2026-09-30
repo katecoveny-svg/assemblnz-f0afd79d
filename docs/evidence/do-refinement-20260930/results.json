@@ -1,0 +1,29 @@
+{
+  "checks": [
+    "guest can start without an account",
+    "examples are optional",
+    "only one composer is visible",
+    "task input is on the first mobile screen",
+    "real API rejects anonymous cloud read",
+    "local example creates reviewable checklist",
+    "signed-in entry has one composer",
+    "no automatic cloud upload",
+    "save requires explicit consent",
+    "explicit save stores one collection",
+    "no automatic retrieval on load",
+    "saved work restores after refresh",
+    "conflict blocks another save until reloaded",
+    "removal can be cancelled",
+    "remove keeps open work but empties cloud",
+    "missing heartbeat is visibly unverified",
+    "320px open workspace fits",
+    "three clear product doors",
+    "research is not loaded before requested",
+    "mobile homepage fits",
+    "primary DO entry opens personal workspace",
+    "no runtime page errors"
+  ],
+  "errors": [],
+  "apiMode": "fictional signed-in fixtures; real unauthenticated denial",
+  "physicalPhoneTested": false
+}

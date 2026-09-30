@@ -134,6 +134,7 @@ export const LIFE_ADMIN_CAPABILITIES = [
   { name: 'Tailored draft', status: 'Provider-dependent', detail: 'Uses your DO sign-in and assembl’s configured generation providers after a separate choice.' },
   { name: 'NZTA road notices', status: 'Public live fetch', detail: 'No account needed. State-highway snapshots with source time, region filter and an unavailable state.' },
   { name: 'Official NZ guidance', status: 'Public links', detail: 'Open the official service yourself. Links do not prove an account or live data connection.' },
+  { name: 'Saved checklists', status: 'Private account copy', detail: 'Choose Save to keep your collection in your Assembl account, then open it on another device. Later edits need another save. Chat and reminders are separate.' },
   { name: 'Email, calendar & household sharing', status: 'Not connected here', detail: 'Download a private pack or a calendar file. No inbox access, calendar sync or invitations.' },
   { name: 'Reminders & push', status: 'On-screen only', detail: 'Follow-up dates show when you open this workspace. No background check or notification is scheduled.' },
 ] as const;

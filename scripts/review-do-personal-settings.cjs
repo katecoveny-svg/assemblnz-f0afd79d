@@ -104,9 +104,8 @@ const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLen
     await page.setViewportSize({ width: 320, height: 640 });
     check('320px page fits', await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
     await page.setViewportSize({ width: 375, height: 812 });
-    await page.getByRole('button', { name: 'Use my own note', exact: false }).click();
     await page.getByText('More things to sort', { exact: false }).click();
-    await page.getByText('Use a local checklist', { exact: false }).click();
+    await page.getByRole('button', { name: 'Make a checklist', exact: true }).click();
     check('all twelve workflow choices remain available', await page.locator('[aria-label="Everyday NZ checklists"] button').count() === 12);
     await page.getByLabel('What needs sorting?').fill('Fictional school trip on Friday 9 October 2026, 9 am to 3 pm. Bring a coat and lunch. Permission reply needed Thursday.');
     await page.getByLabel('Kind of admin').selectOption('school');
@@ -146,7 +145,7 @@ const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLen
     signedIn = false;
     await page.reload({ waitUntil: 'networkidle' });
     await page.setViewportSize({ width: 375, height: 812 });
-    await page.getByText('Use a local checklist', { exact: false }).click();
+    await page.getByRole('button', { name: 'Make a checklist', exact: true }).click();
     await page.getByLabel('What needs sorting?').fill('Fictional unfinished guest note.');
     await page.getByRole('navigation', { name: 'Personal DO', exact: true }).getByRole('link', { name: 'Sign in', exact: true }).click();
     await page.getByRole('dialog', { name: 'Your checklist is in this page.' }).waitFor();

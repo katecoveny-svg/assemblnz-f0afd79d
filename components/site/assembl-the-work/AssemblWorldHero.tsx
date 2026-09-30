@@ -14,7 +14,7 @@ const chapters = [
   { product: 'Studio', verb: 'show it.', input: 'A brief. An idea. A piece of work.', output: 'Something people can see, try and understand.', href: '/creative-studio', action: 'Explore Studio' },
 ] as const;
 
-export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
+export function AssemblWorldHero({ preview = false, showSummary = true }: { preview?: boolean; showSummary?: boolean }) {
   const progress = useRef(0);
   const rail = useRef<HTMLElement>(null);
   const [paused, setPaused] = useState(false);
@@ -78,7 +78,7 @@ export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
         <div className={styles.job} id="do-input"><p className={styles.jobNote}>Start with <Link href="/pursuit">Pursuit</Link>, <Link href="/do">DO</Link> or <Link href="/creative-studio">Studio</Link>. Connect them when the work needs the full loop.</p></div>
         <p className={styles.honesty}>{failed ? 'Still view. ' : reduced ? '' : 'Scroll or choose a chapter. '}An imagined workspace, not live agent activity.</p>
       </div>
-      <div className={styles.stillSummary} aria-label="The complete work loop">{chapters.map(item => <article key={item.product}><span>{item.product}</span><h2>{item.verb}</h2><p>{item.input}</p><p>{item.output}</p><Link href={item.href}>{item.action}<ArrowUpRight size={16} aria-hidden="true" /></Link></article>)}</div>
+      {showSummary && <div className={styles.stillSummary} aria-label="The complete work loop">{chapters.map(item => <article key={item.product}><span>{item.product}</span><h2>{item.verb}</h2><p>{item.input}</p><p>{item.output}</p><Link href={item.href}>{item.action}<ArrowUpRight size={16} aria-hidden="true" /></Link></article>)}</div>}
     </section>
   );
 }
