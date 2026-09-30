@@ -22,3 +22,18 @@ it('uses only public credentials, bounded projection and reviewed source ids',as
  await retrievePublicNzKnowledge();
  expect(mocks.createClient.mock.calls[0][1]).toBe('public-key');expect(chain.in).toHaveBeenCalledWith('id',PUBLIC_NZ_SOURCES.map(s=>s.id));expect(chain.limit).toHaveBeenCalledWith(2);expect(chain.select.mock.calls[0][0]).not.toMatch(/content|metadata|config|name/);expect(from).toHaveBeenCalledTimes(1);
 });
+it('projects only approved document identity/link/time fields and never private content/config',async()=>{
+ vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL','https://example.supabase.co');vi.stubEnv('NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY','public-key');
+ const policy=PUBLIC_NZ_SOURCES[1];
+ const makeChain=(data:unknown[])=>{
+  const chain={select:vi.fn(),in:vi.fn(),eq:vi.fn(),order:vi.fn(),limit:vi.fn(),abortSignal:vi.fn(async()=>({data,error:null}))};
+  for(const name of ['select','in','eq','order','limit'] as const)chain[name].mockReturnValue(chain);
+  return chain;
+ };
+ const source=makeChain([{...policy,active:true,status:'ok',last_checked_at:null,last_successful_fetch:null}]);
+ const documents=makeChain([]);const from=vi.fn((table:string)=>table==='kb_sources'?source:documents);mocks.createClient.mockReturnValue({from});
+ await retrievePublicNzKnowledge();
+ expect(from.mock.calls.map(c=>c[0])).toEqual(['kb_sources','kb_documents']);
+ expect(documents.select).toHaveBeenCalledWith('source_id,external_id,url,inserted_at');expect(documents.eq).toHaveBeenCalledWith('source_id',policy.id);expect(documents.limit).toHaveBeenCalledWith(40);
+ expect(JSON.stringify(documents.select.mock.calls)).not.toMatch(/content|title|metadata|config|auth|owner/);
+});
