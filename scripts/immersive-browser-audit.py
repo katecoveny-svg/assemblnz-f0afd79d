@@ -105,9 +105,9 @@ async def main():
                         await page.wait_for_timeout(1200)
                         await capture(page,f'{name}-{width}-products')
                         if width > 1000:
-                            await page.locator('article[data-product="do"]').hover(position={'x':24,'y':24})
+                            await page.locator('#products [data-product="do"]').hover(position={'x':24,'y':24})
                             await page.wait_for_timeout(500)
-                            result['hoverTransform'] = await page.locator('article[data-product="do"]').evaluate('(e)=>getComputedStyle(e).transform')
+                            result['hoverTransform'] = await page.locator('#products [data-product="do"]').evaluate('(e)=>getComputedStyle(e).transform')
                             await capture(page,f'{name}-{width}-hover')
                         for ending in ['/studios','/agency']:
                             assert any(a['href'] == 'https://assembl-pursuit.katecoveny.chatgpt.site' + ending for a in result['page']['links']), 'Missing exact workspace destination'
@@ -154,7 +154,7 @@ async def main():
                 await capture(page,f'home-375-{label}')
                 if LOCAL:
                     await expect(page.locator('#products h2')).to_be_visible()
-                    await expect(page.locator('article[data-product="do"]')).to_be_visible()
+                    await expect(page.locator('#products [data-product="do"]')).to_be_visible()
                     assert await page.locator('a[href="https://assembl-pursuit.katecoveny.chatgpt.site/studios"]').count() > 0
                 result['passed']=True
             except Exception as e:
