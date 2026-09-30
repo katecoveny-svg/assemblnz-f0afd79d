@@ -11,9 +11,9 @@ describe('assembl-the-work homepage copy', () => {
 
   it('emphasises DO in nav and products', () => {
     expect(NAV.products.find((p) => p.label === 'DO')?.emphasis).toBe(true);
-    expect(NAV.cta.href).toBe('#do-input');
+    expect(NAV.cta.href).toBe('#products');
     expect(PRODUCTS.items.find((p) => p.id === 'do')?.hero).toBe(true);
-    expect(START.primary.href).toBe('#do-input');
+    expect(START.primary.href).toBe('/pursuit');
   });
 
   it('avoids bare AI and banned slop in public labels', () => {

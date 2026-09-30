@@ -18,7 +18,7 @@ export function personalAssistantAvailability(ownerId: string | null): PersonalA
   const common = { model: PERSONAL_DO_MODEL, externalActions: false as const };
   if (!ownerId) return { ...common, signedIn: false, ready: false, reason: 'sign_in_required', message: 'Sign in to ask your Personal DO. Your note can stay here while you decide.' };
   const typesafe = pilotStatus(ownerId);
-  if (!typesafe.allowed) return { ...common, signedIn: true, ready: false, reason: 'pilot_access_required', message: 'This account needs access to the TypeSafe pilot before Personal DO can reason through a request.' };
+  if (!typesafe.allowed) return { ...common, signedIn: true, ready: false, reason: 'pilot_access_required', message: 'Personal DO is not enabled for this account yet. Your note stays here while assembl connects your access.' };
   if (!typesafe.ready) return { ...common, signedIn: true, ready: false, reason: 'typesafe_unavailable', message: 'The TypeSafe reasoning service is not available on this deployment yet. Your note stays in the editor.' };
   if (!process.env.OPENAI_API_KEY?.trim()) return { ...common, signedIn: true, ready: false, reason: 'astra_unavailable', message: 'GPT-6 Astra is not configured on this deployment yet. Your note stays in the editor.' };
   return { ...common, signedIn: true, ready: true, reason: null, message: 'Configured for GPT-6 Astra with a TypeSafe request check. Each reply reports the model that actually answered.' };
