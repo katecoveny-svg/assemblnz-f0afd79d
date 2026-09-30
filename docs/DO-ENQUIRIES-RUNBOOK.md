@@ -30,7 +30,8 @@ understood or solved the customer's enquiry. Edit it before sending.
 ## Deployment and worker
 
 Apply the existing `20260821143000_mcp_oauth_memberships.sql` migration if absent,
-then `20260930160837_do_enquiry_execution.sql`, before deploying this code.
+then `20260930160837_do_enquiry_execution.sql` and
+`20260930165658_do_enquiry_followup_outcomes.sql`, before deploying this code.
 New tables use RLS. Browser roles cannot write approval state, invoke mutation
 RPCs or read webhook hashes. Service-role operations bind the verified owner.
 
@@ -103,6 +104,8 @@ per day. The response supplies the job ID. To report an outcome:
 duplicate counts on retries. There is no webhook event for approval or send.
 The funnel covers the latest 200 jobs and excludes child follow-ups, with that
 window stated in the UI and plugin result.
+Replies and bookings recorded against a follow-up also update the original
+enquiry atomically, so the outcome counts once in that original enquiry's funnel.
 
 ## Authenticated plugin
 

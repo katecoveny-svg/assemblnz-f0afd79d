@@ -15,6 +15,8 @@ begin
   assert rejected,'changed duplicate accepted'; rejected=false;
   begin perform public.do_enquiry_transition(b,(j->>'id')::uuid,'approve',jsonb_build_object('revision',j->>'revision')); exception when others then rejected=sqlerrm='not_found'; end;
   assert rejected,'foreign owner could claim job'; rejected=false;
+  begin perform public.do_enquiry_transition(a,(j->>'id')::uuid,'approve','{}'); exception when others then rejected=sqlerrm='review_changed'; end;
+  assert rejected,'missing reviewed revision accepted'; rejected=false;
   rev=j->>'revision';
   j=public.do_enquiry_transition(a,(j->>'id')::uuid,'edit',jsonb_build_object('revision',rev,'subject','Reviewed subject','body','Reviewed body'));
   assert j->>'revision'<>rev,'edit did not invalidate prior approval';
@@ -40,6 +42,16 @@ begin
   j=public.do_enquiry_transition(a,(j->>'id')::uuid,'booked','{"source":"test","evidence":"Fictional booking reference"}');
   assert j->>'booked_at' is not null,'booking not recorded';
   other=public.do_enquiry_receive(b,'test:other','other-hash','{"name":"Rangi","email":"rangi@example.invalid","message":"Help","subject":"Enquiry","body":"Thanks","source":"test"}');
+  other=public.do_enquiry_transition(b,(other->>'id')::uuid,'approve',jsonb_build_object('revision',other->>'revision'));
+  other=public.do_enquiry_transition(b,(other->>'id')::uuid,'finish',jsonb_build_object('revision',other->>'revision','status','sent','providerId','fictional-second-receipt'));
+  update public.do_enquiry_jobs set followup_due_at=now()-interval '1 minute' where id=(other->>'id')::uuid;
+  n=public.do_enquiry_followups(20,b); assert n=1,'second owner followup not prepared';
+  select to_jsonb(t) into child from public.do_enquiry_jobs t where parent_id=(other->>'id')::uuid;
+  child=public.do_enquiry_transition(b,(child->>'id')::uuid,'approve',jsonb_build_object('revision',child->>'revision'));
+  child=public.do_enquiry_transition(b,(child->>'id')::uuid,'finish',jsonb_build_object('revision',child->>'revision','status','sent','providerId','fictional-followup-receipt'));
+  child=public.do_enquiry_transition(b,(child->>'id')::uuid,'answered','{"source":"test","evidence":"Reply to follow-up"}');
+  child=public.do_enquiry_transition(b,(child->>'id')::uuid,'booked','{"source":"test","evidence":"Booking after follow-up"}');
+  assert (select answered_at is not null and booked_at is not null from public.do_enquiry_jobs where id=(other->>'id')::uuid),'followup outcomes missing from original enquiry funnel';
   assert not has_function_privilege('authenticated','public.do_enquiry_transition(uuid,uuid,text,jsonb)','execute'),'browser role can self-approve via RPC';
   assert not has_table_privilege('authenticated','public.do_enquiry_jobs','update'),'browser role can mutate approval';
   assert not has_table_privilege('anon','public.do_enquiry_jobs','select'),'anonymous role can read jobs';
