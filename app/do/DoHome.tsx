@@ -183,6 +183,7 @@ export function DoHome() {
         <nav aria-label="assembl products">
           <Link href="/do/personal">Open DO</Link>
           <Link href="/do/widget">Writing workspace</Link>
+          <Link href="/do/enquiries">Enquiries</Link>
           <Link href="/login?redirect=%2Fdo">Sign in</Link>
         </nav>
       </header>

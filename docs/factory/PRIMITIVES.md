@@ -127,3 +127,13 @@ Extends `apps/do/shared/distribution.ts`, shared by the website and generated ex
 ### Private checklist snapshots and worker health (30 Sep 2026)
 
 **Extends:** the existing life-admin schema, verified DO owner and Supabase service pattern with `/api/do/personal/checklists`, `ChecklistCloud`, `cloud*.ts` and `do_personal_save_checklists`. Explicit consent, owner/session-scope matching, full-schema validation, bounded collections and atomic expected-revision writes are reusable. Empty snapshots retain their revision to prevent stale resurrection. Restore preserves open edits. No automatic sync, chat storage, household sharing or model invocation. **Extends:** scheduled-worker presentation with heartbeat freshness; configuration is not operational proof. See `docs/ASSEMBL-DELIVERY-AUDIT-20260930.md` and repeatable SQL/API/browser checks.
+# Enquiry execution primitive (30 September 2026)
+
+`apps/do/enquiries` extends verified DO ownership, Supabase storage, the existing
+Brevo sender, the Personal DO scheduler and MCP membership permissions. Approval
+is an atomic database claim bound to a saved draft revision; uncertain transport
+results are not retried. Durable job evidence distinguishes provider acceptance
+from recorded replies and bookings. Per-owner webhook keys accept idempotent
+intake and outcome events; three-day follow-ups are fresh approval-required jobs.
+`/api/mcp` exposes owner-scoped preparation/status/evidence, with no send tool.
+See `docs/DO-ENQUIRIES-RUNBOOK.md` for activation, validation and limits.

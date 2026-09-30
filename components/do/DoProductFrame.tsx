@@ -34,6 +34,7 @@ export function DoProductFrame({ product, children, board = 'portable-widget' }:
           <Link href="/do" {...linkProps}>DO home</Link>
           <Link href="/do/widget" {...linkProps}>Writing, voice &amp; vision</Link>
           <Link href="/do/meetings" {...linkProps}>Meeting notes</Link>
+          <Link href="/do/enquiries" {...linkProps}>Enquiry replies · private pilot</Link>
           <Link href="/do/bills" {...linkProps}>Watch my bills</Link>
           <Link href="/do/flex" {...linkProps}>Household flexibility · simulation</Link>
           <Link href="/do/office" {...linkProps}>Office</Link>
