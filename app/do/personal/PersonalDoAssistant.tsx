@@ -27,6 +27,7 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange }: 
   const [result, setResult] = useState<PersonalAssistantResult | null>(null);
   const [draft, setDraft] = useState('');
   const [copied, setCopied] = useState(false);
+  const attempt = useRef<{ body: string; id: string } | null>(null);
   const request = useRef<AbortController | null>(null);
   const statusRequest = useRef<AbortController | null>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -73,6 +74,7 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange }: 
     setConsent(false); setNotice('Stopped. Your note is still here.');
   }
   function clearConversation() {
+    attempt.current = null;
     cancel(); setResult(null); setDraft(''); setLastMessage(''); setCopied(false);
     setMessage(''); setContext(''); setReviewOpen(false); setError(''); setNotice('New conversation.');
     inputRef.current?.focus();
@@ -89,12 +91,14 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange }: 
     ] : [];
     const parsed = personalAssistantInputSchema.safeParse({ message, context, history, consent, useSavedStyle });
     if (!parsed.success) { setError(parsed.error.issues[0]?.message ?? 'Check your request.'); return; }
+    const body = JSON.stringify(parsed.data);
+    if (attempt.current?.body !== body) attempt.current = { body, id: crypto.randomUUID() };
     const controller = new AbortController(); request.current = controller; lock.current = true;
     setWorking(true); workingCallback.current?.(true); setConsent(false); setCopied(false);
     try {
       const response = await fetch('/api/do/personal/assistant', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(parsed.data), signal: controller.signal,
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'Idempotency-Key': attempt.current.id },
+        body, signal: controller.signal,
       });
       const data = await response.json();
       if (controller.signal.aborted || !alive.current || request.current !== controller) return;
@@ -104,6 +108,7 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange }: 
       }
       const next = data.result as PersonalAssistantResult;
       if (!personalAssistantDraftSchema.safeParse(next && { reply: next.reply, rationale: next.rationale, evidence: next.evidence, missingInformation: next.missingInformation, nextStep: next.nextStep }).success || !next.reasoning || next.externalActions !== false || next.reviewRequired !== true || typeof next.id !== 'string') throw new Error('DO returned an incomplete reply. Please try again.');
+      attempt.current = null;
       setResult(next); setDraft(next.nextStep.draft ?? ''); setLastMessage(parsed.data.message);
       setMessage(''); setReviewOpen(false); setNotice('A reply is ready for your review.');
       requestAnimationFrame(() => resultRef.current?.focus());
@@ -154,7 +159,7 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange }: 
     </form>
     <div className={styles.status} aria-live="polite" role="status">
       {loading && <p><LoaderCircle size={13} /> Checking availability…</p>}
-      {!loading && availability && !availability.ready && <p>{availability.message} {!availability.signedIn ? <Link href="/login?redirect=%2Fdo">Sign in</Link> : <button type="button" onClick={() => { setError(''); void loadAvailability(); }}>Check again</button>}</p>}
+      {!loading && availability && !availability.ready && <p>{availability.message} {availability.reason === 'entitlement_required' && <Link href="/do/billing">Personal DO subscription</Link>} {!availability.signedIn ? <Link href="/login?redirect=%2Fdo">Sign in</Link> : <button type="button" onClick={() => { setError(''); void loadAvailability(); }}>Check again</button>}</p>}
       {!loading && !availability && <button type="button" onClick={() => { setError(''); void loadAvailability(); }}>Check availability again</button>}
       {notice && <p>{notice}</p>}
     </div>

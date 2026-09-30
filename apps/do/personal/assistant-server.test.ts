@@ -2,14 +2,16 @@ import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest';
 vi.mock('ai', async original => ({ ...(await original<typeof import('ai')>()), generateText: vi.fn() }));
 vi.mock('@/lib/ai/router', () => ({ openaiResponsesRung: vi.fn() }));
 vi.mock('@/lib/typesafe/transport', () => ({ evaluateTypeSafePayload: vi.fn() }));
+vi.mock('@/lib/billing/personal-do-access', () => ({ admitPersonalDoUsage: vi.fn(), hasPersonalDoEntitlement: vi.fn() }));
 vi.mock('./profile-service', () => ({ getPersonalDoProfile: vi.fn() }));
+import { admitPersonalDoUsage, hasPersonalDoEntitlement } from '@/lib/billing/personal-do-access';
 import { generateText } from 'ai';
 import { openaiResponsesRung } from '@/lib/ai/router';
 import { evaluateTypeSafePayload } from '@/lib/typesafe/transport';
 import { getPersonalDoProfile } from './profile-service';
 import { DEFAULT_PERSONAL_DO_PROFILE } from './profile';
 import { personalAssistantInputSchema } from './assistant';
-import { personalAssistantAvailability, runPersonalAssistant } from './assistant-server';
+import { personalAssistantAvailability, checkedPersonalAssistantAvailability, runPersonalAssistant } from './assistant-server';
 
 const owner = 'test-owner';
 const input = personalAssistantInputSchema.parse({ message: 'Help me plan the house move.', consent: true });
@@ -100,5 +102,33 @@ describe('Personal DO live-provider orchestration (mocked providers)', () => {
     vi.mocked(evaluateTypeSafePayload).mockImplementation(async () => { active.abort(); return evaluation(); });
     await expect(runPersonalAssistant(input, owner, active.signal)).rejects.toMatchObject({ code: 'request_cancelled' });
     expect(generateText).not.toHaveBeenCalled();
+  });
+});
+
+describe('consumer provider boundary', () => {
+  const enable = () => {
+    for (const [key, value] of Object.entries({ PERSONAL_DO_CONSUMER_ENABLED: 'true', PERSONAL_DO_COST_LIMITS_VERIFIED:'true', PERSONAL_DO_MAX_OUTPUT_TOKENS:'2000', PERSONAL_DO_MAX_INPUT_BYTES:'12000', PERSONAL_DO_PROVIDER_TARIFFS_JSON:JSON.stringify({astraInputUsdPerMillion:10,astraOutputUsdPerMillion:50,astraCacheReadUsdPerMillion:1,astraCacheWriteUsdPerMillion:12.5,typesafeInputUsdPerMillion:1,typesafeOutputUsdPerMillion:1,usdToNzd:2}), PERSONAL_DO_STRIPE_PRICE_ID: 'price_test', PERSONAL_DO_MONTHLY_AMOUNT_CENTS: '100', PERSONAL_DO_CURRENCY: 'nzd', PERSONAL_DO_TAX_TREATMENT: 'inclusive', PERSONAL_DO_STRIPE_AUTOMATIC_TAX: 'false', PERSONAL_DO_REQUESTS_PER_DAY: '5', PERSONAL_DO_REQUESTS_PER_MONTH: '30', PERSONAL_DO_MAX_REQUEST_PROVIDER_COST_CENTS: '10', PERSONAL_DO_MAX_MONTHLY_PROVIDER_COST_CENTS: '100', PERSONAL_DO_GLOBAL_MONTHLY_PROVIDER_COST_CENTS: '1000' })) vi.stubEnv(key, value);
+  };
+  it('does not substitute the pilot allowlist for consumer entitlement', async () => {
+    enable(); vi.mocked(hasPersonalDoEntitlement).mockResolvedValue(false);
+    expect(await checkedPersonalAssistantAvailability(owner)).toMatchObject({ready:false,reason:'entitlement_required'});
+    vi.mocked(admitPersonalDoUsage).mockRejectedValue(new Error('No entitlement'));
+    await expect(runPersonalAssistant(input,owner)).rejects.toThrow('No entitlement');
+    expect(evaluateTypeSafePayload).not.toHaveBeenCalled(); expect(generateText).not.toHaveBeenCalled();
+  });
+  it('reserves before both providers and settles token-only measurements; configured output bound applies', async () => {
+    enable(); const finish=vi.fn().mockResolvedValue(undefined);
+    vi.mocked(admitPersonalDoUsage).mockResolvedValue({requestId:'test',finish});
+    await runPersonalAssistant(input,'paid-owner');
+    expect(vi.mocked(admitPersonalDoUsage).mock.invocationCallOrder[0]).toBeLessThan(vi.mocked(evaluateTypeSafePayload).mock.invocationCallOrder[0]);
+    expect(vi.mocked(generateText).mock.calls[0][0].maxOutputTokens).toBe(2000);
+    expect(finish).toHaveBeenCalledWith(true,expect.objectContaining({typesafe:{inputTokens:100,outputTokens:10}}));
+  });
+  it('retains the reservation on provider failure and never falls back', async () => {
+    enable(); const finish=vi.fn().mockResolvedValue(undefined);
+    vi.mocked(admitPersonalDoUsage).mockResolvedValue({requestId:'test',finish});
+    vi.mocked(evaluateTypeSafePayload).mockRejectedValue(new Error('provider unavailable'));
+    await expect(runPersonalAssistant(input,'paid-owner')).rejects.toThrow();
+    expect(finish).toHaveBeenCalledWith(false,null); expect(generateText).not.toHaveBeenCalled();
   });
 });

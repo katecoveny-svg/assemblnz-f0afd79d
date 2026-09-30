@@ -1,18 +1,13 @@
-# DO web/PWA launch review and billing reliability
+# Personal DO web/PWA and fail-closed consumer billing
 
-Personal DO currently requires account enrollment and two provider credentials unavailable in its production Vercel runtime. This review restores the held unified UI on the exact production base, keeps account access restricted, and documents the bounded consumer offer and remaining launch gates without inventing pricing.
+Personal DO needs a coherent direct consumer experience and a trustworthy boundary between paid access, private account tests and provider spending. This branch reconciles the reviewed unified UI onto ce99584, fixes private PWA caching and webhook error acknowledgements, and adds a dedicated owner-bound consumer subscription and usage path. Existing industry and marketplace prices are not consumer defaults.
 
-The billing routes now reject cross-origin requests, and both Stripe webhook endpoints return retryable failures when required audit or domain writes fail. DO's worker no longer persists authenticated page HTML or replays it offline. A dedicated consumer configuration parser has no industry/business price defaults and does not enable sales.
+The consumer path is disabled unless its dedicated price, tax, tariffs, input/output/request limits and verified reservation budgets are complete. Owner entitlement comes from an atomic signed webhook mirror; checkout redirects never grant access. Durable admission binds retries to owner/input digest, serializes concurrency/global budgets, and fails closed before providers. Portal does not provision customers; checkout uses durable Stripe idempotency and blocks existing subscriptions. Cancellation and stale-event behavior have local SQL coverage.
 
-Acceptance criteria:
-- Auth/account/consent gates remain intact; no paid/public access widening.
-- Failed webhook writes are retried; repeated upsert delivery converges and cancellation write failures are not acknowledged.
-- Offline DO returns only a public shell; older page caches are purged.
-- Production labels remain honest about web/PWA, Chrome unpacked, Mac source and native iPhone availability.
-- One coherent consumer proposal and secure setup handoff is documented without replacing assembl's business/creative positioning.
+Production provider connection is a **separate completed configuration action**: approved account-only TypeSafe enrollment and provider keys, exact unchanged ce99584 redeploy dpl_DPdWj5WnUf3gSnN5hHDaT9ufM6kb. One fictional Ask DO returned GPT-6 Astra/TypeSafe output with provenance. None of this branch is production code.
 
-Validation: full typecheck, changed-source lint; full suite 2,273 passed/2 skipped before the final added webhook audit test; final targeted suite 26 passed. Desktop and 375px rendered DO entry, no horizontal overflow. Production build fails on legacy Turbopack Google-font import mapping; green CI/preview is still required. Exact final run totals are in the task's verification logs.
+Validation: 2287 tests passed, 2 intentionally skipped; typecheck and changed-source lint pass. Isolated PostgreSQL/PGlite migration assertions cover owner entitlements, retry/conflict, concurrency, allowances, cost reservations, cancellation ordering, role denial and checkout attempts. PWA runtime privacy and webhook failed-write/redelivery tests pass. Clean Node24 production build passes; no fonts or tests removed. See release review for exact-head CI/preview results and remaining live payment/device proof.
 
-Remaining risks: no live assistant answer until secure configuration is saved and the existing production deployment is redeployed; no approved consumer price, durable consumer entitlement/cost ledger or complete payment proof; no real iPhone install/voice/cron proof; shared public NZ retrieval not wired into Ask DO. Existing business payment paths are not Personal DO subscriptions. Stripe event-ordering/late-event reconciliation is not solved by retry handling alone.
+Release blockers: no approved fee/GST/allowances; TypeSafe tariffs and real cost distribution not established; reservations are conservative accounting, not a measured invoice guarantee; unapplied migration and unconfigured dedicated Stripe test/webhook/portal path; real iPhone installation/private-session test pending. Live NZ answer retrieval is owned separately and is not claimed by this PR. Voice/cron/native capabilities retain honest labels.
 
-Rollback: revert the launch-hardening commit; held UI restoration is a separate commit. Publish as draft only after parent approval of the held bundle publication. Do not merge or deploy this branch.
+Draft only. No merge, auto-merge, production code deployment, live prices/charges or consumer flag activation. Roll back consumer hardening separately from held UI restoration. Full release checklist: docs/DO-CONSUMER-LAUNCH-20261001.md.

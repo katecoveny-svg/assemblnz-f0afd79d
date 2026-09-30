@@ -34,7 +34,7 @@ export const personalAssistantDraftSchema = z.object({
 export type PersonalAssistantDraft = z.infer<typeof personalAssistantDraftSchema>;
 export type PersonalAssistantAvailability = {
   signedIn: boolean; ready: boolean;
-  reason: 'sign_in_required' | 'astra_unavailable' | 'typesafe_unavailable' | 'pilot_access_required' | null;
+  reason: 'sign_in_required' | 'astra_unavailable' | 'typesafe_unavailable' | 'pilot_access_required' | 'consumer_unavailable' | 'entitlement_required' | null;
   message: string;
   model: typeof PERSONAL_DO_MODEL;
   externalActions: false;
@@ -45,9 +45,10 @@ export type PersonalAssistantResult = PersonalAssistantDraft & {
   reasoning: {
     provider: 'typesafe'; model: string; action: PersonalAssistantAction;
     confidence: number; threshold: number; elapsedMs: number;
+    usage?: { inputTokens: number; outputTokens: number };
     note: string;
   };
-  generation: { provider: 'openai'; requestedModel: typeof PERSONAL_DO_MODEL; actualModel: string; reasoningEffort: typeof PERSONAL_DO_REASONING_EFFORT } | null;
+  generation: { provider: 'openai'; requestedModel: typeof PERSONAL_DO_MODEL; actualModel: string; reasoningEffort: typeof PERSONAL_DO_REASONING_EFFORT; usage?: { inputTokens: number | null; outputTokens: number | null; reasoningTokens: number | null; cacheReadTokens: number | null; cacheWriteTokens: number | null } } | null;
 };
 
 /** Provider output cannot manufacture citations, execution authority or an unknown next-step kind. */
