@@ -15,7 +15,7 @@ async def main():
         if route.request.method=='GET':await route.fulfill(json={'ready':True,'typesafeReady':False})
         else:await route.fulfill(json=fixture)
       await page.route('**/api/pursuit/research',mock)
-      await page.goto('http://127.0.0.1:3000/',wait_until='domcontentloaded')
+      await page.goto('http://127.0.0.1:3000/pursuit',wait_until='domcontentloaded')
       canvas=page.locator('#try-pursuit');await canvas.scroll_into_view_if_needed()
       await canvas.get_by_label('Company or sector',exact=True).fill('Example NZ business')
       await canvas.get_by_label('What should the agent investigate?',exact=True).fill('Research a useful customer service proposal from public sources.')
