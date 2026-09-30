@@ -7,6 +7,7 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import Parser from "https://esm.sh/rss-parser@3.13.0";
 import { documentEnvelope } from "../_shared/opportunity-envelope.ts";
+import { FeedResponseError, parseFeedResponse } from "./feed-response.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -50,10 +51,9 @@ Deno.serve(async (req) => {
     const resp = await fetch(source.url, {
       headers: { "User-Agent": UA, "Accept": "application/rss+xml, application/atom+xml, application/xml, text/xml, */*" },
       redirect: "follow",
+      signal: AbortSignal.timeout(20_000),
     });
-    if (!resp.ok) throw new Error(`HTTP ${resp.status} fetching feed`);
-    const xml = await resp.text();
-    const feed = await parser.parseString(xml);
+    const feed = await parseFeedResponse(resp, (xml) => parser.parseString(xml));
     let added = 0, updated = 0;
 
     for (const item of feed.items.slice(0, 50)) {
@@ -140,7 +140,10 @@ Deno.serve(async (req) => {
     if (runId) {
       await admin.from("kb_source_runs").update({
         finished_at: new Date().toISOString(),
-        status: "error", error: { message: msg }, duration_ms: Date.now() - t0,
+        status: "error", error: {
+          message: msg,
+          ...(err instanceof FeedResponseError ? { code: err.code, ...err.details } : {}),
+        }, duration_ms: Date.now() - t0,
       }).eq("id", runId);
     }
     return new Response(JSON.stringify({ ok: false, error: msg }), {
