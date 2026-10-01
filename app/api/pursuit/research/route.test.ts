@@ -47,3 +47,18 @@ describe('public research availability and allowance', () => {
     expect(mocks.reserve).not.toHaveBeenCalled();
   });
 });
+
+describe('same-ID recovery spends no provider call',()=>{
+ it('returns a saved result before invoking research or completing another run',async()=>{
+  const saved={mode:'live',trace:{id:'00000000-0000-4000-8000-000000000001'},draft:{title:'Saved result'}};
+  mocks.reserve.mockResolvedValue({status:'replay',result:saved});
+  expect(await (await POST(request())).json()).toEqual(saved);
+  expect(mocks.research).not.toHaveBeenCalled();expect(mocks.complete).not.toHaveBeenCalled();expect(mocks.fail).not.toHaveBeenCalled();
+ });
+ for(const status of ['pending','failed'])it(`does not restart a ${status} request`,async()=>{
+  mocks.reserve.mockResolvedValue({status});
+  const response=await POST(request());expect(response.status).toBe(409);
+  const body=await response.json();expect(body.code).toBe(status);expect(body.error).not.toContain('Start a new brief');
+  expect(mocks.research).not.toHaveBeenCalled();expect(mocks.complete).not.toHaveBeenCalled();
+ });
+});

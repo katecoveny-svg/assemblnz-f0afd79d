@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { ArrowRight, ArrowUpRight, Download, Search, Check } from 'lucide-react';
 import { Draft, type PublicResearchResult } from '@/lib/pursuit/public-contract';
 import { buildPitchHtml } from '@/lib/pursuit/pitch-export';
@@ -9,6 +9,7 @@ import styles from './live-pursuit.module.css';
 import { useResearchAvailability, refreshResearchAvailability } from './useResearchAvailability';
 import { PursuitWalkthrough } from './PursuitWalkthrough';
 import walkthroughStyles from './pursuit-walkthrough.module.css';
+import { matchesPublicAttempt, publicAttempt, type PublicAttempt } from '@/lib/pursuit/public-attempt';
 
 const EXAMPLES = [
   { company: 'NZ Post', goal: 'Find a source-backed customer service opportunity where a small demonstrator could make parcel delivery questions easier to resolve.' },
@@ -21,7 +22,7 @@ function saveFile(name: string, text: string, type: string) {
   setTimeout(() => URL.revokeObjectURL(url), 2000);
 }
 
-export function LivePursuitCanvas() {
+export function LivePursuitCanvas({ homepage = false }: { homepage?: boolean }) {
   const status = useResearchAvailability();
   const [company, setCompany] = useState('');
   const [goal, setGoal] = useState('');
@@ -32,42 +33,54 @@ export function LivePursuitCanvas() {
   const [result, setResult] = useState<PublicResearchResult | null>(null);
   const [reviewed, setReviewed] = useState(false);
   const [tab, setTab] = useState<'evidence' | 'proposal' | 'plan'>('evidence');
+  const [attempt, setAttempt] = useState<PublicAttempt | null>(null);
+  const active = useRef<AbortController | null>(null);
+  useEffect(() => () => active.current?.abort(), []);
+  const brief = { company, goal, consent: true as const, useTypeSafe: useTypeSafe && Boolean(status?.typesafeReady) };
+  const canRecover = matchesPublicAttempt(attempt, brief);
 
   async function submit(event: FormEvent) {
-    event.preventDefault(); if (busy || !status?.ready) return;
+    event.preventDefault(); if (active.current || !consent || (!status?.ready && !canRecover)) return;
+    const next = publicAttempt(attempt, brief, () => crypto.randomUUID());
+    const controller = new AbortController(); active.current = controller; setAttempt(next);
     setBusy(true); setError(''); setResult(null); setReviewed(false);
     try {
       const response = await fetch('/api/pursuit/research', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ requestId: crypto.randomUUID(), company, goal, consent, useTypeSafe: useTypeSafe && status.typesafeReady }), signal: AbortSignal.timeout(115000) });
+        body: JSON.stringify(next.input), signal: AbortSignal.any([controller.signal, AbortSignal.timeout(115000)]) });
       const value = await response.json();
       if (!response.ok) throw new Error(typeof value.error === 'string' ? value.error : 'Research was not completed.');
       Draft.parse(value.draft);
       if (value.mode !== 'live' || !Array.isArray(value.trace?.sources) || !value.trace.sources.length) throw new Error('The response did not include a source trail.');
       setResult(value); setTab('evidence');
-    } catch (e) { setError(e instanceof Error ? e.message : 'Research could not be completed.'); }
-    finally { setBusy(false); refreshResearchAvailability(); }
+    } catch (e) {
+      setError(e instanceof DOMException && (e.name === 'AbortError' || e.name === 'TimeoutError')
+        ? 'Stopped waiting. The bounded request may still finish. Recover this same brief to check its saved result; no fresh research request is created.'
+        : e instanceof Error ? e.message : 'Research could not be completed.');
+    }
+    finally { active.current = null; setBusy(false); refreshResearchAvailability(); }
   }
 
   const title = result?.draft.title ?? 'An opportunity starts with a question.';
   return <section className={styles.section} id="try-pursuit" aria-labelledby="try-pursuit-title">
-    <header className={styles.heading}><div><p className={styles.kicker}>Pursuit / research you can use</p><h2 id="try-pursuit-title">Already have<br /><span>a company in mind?</span></h2></div><p>Ask a specific question about a company or sector. Review the research and download an editable pitch with its sources.</p></header>
+    <header className={styles.heading}><div><p className={styles.kicker}>Pursuit / research you can use</p><h2 id="try-pursuit-title">{homepage ? <>Ask a question.<br /><span>Get a sourced first step.</span></> : <>Already have<br /><span>a company in mind?</span></>}</h2></div><p>Ask a specific question about a company or sector. Review the research and download an editable pitch with its sources.</p></header>
     <div className={`${styles.canvas} ${!result && !busy ? walkthroughStyles.previewCanvas : ''}`}>
       <form onSubmit={submit} className={styles.form}>
         <p className={styles.status}>{status?.message ?? (status === null ? 'Checking research availability…' : status.ready ? 'Public research is available.' : 'Live research is temporarily unavailable.')}</p>
-        <label>Company or sector<input name="company" value={company} onChange={e => setCompany(e.target.value)} minLength={2} maxLength={120} required placeholder="A New Zealand company or sector" /></label>
-        <label>What should the agent investigate?<textarea name="goal" value={goal} onChange={e => setGoal(e.target.value)} minLength={12} maxLength={700} required rows={5} placeholder="Find a specific customer problem we could demonstrate a better way to solve." /></label>
+        <label>Company or sector<input name="company" disabled={busy} value={company} onChange={e => setCompany(e.target.value)} minLength={2} maxLength={120} required placeholder="A New Zealand company or sector" /></label>
+        <label>What should the agent investigate?<textarea name="goal" disabled={busy} value={goal} onChange={e => setGoal(e.target.value)} minLength={12} maxLength={700} required rows={5} placeholder="Find a specific customer problem we could demonstrate a better way to solve." /></label>
         <div className={styles.examples} aria-label="Example research briefs">{EXAMPLES.map(example => <button key={example.company} type="button" disabled={busy} onClick={() => { setCompany(example.company); setGoal(example.goal); }}>{example.company}<ArrowUpRight size={13} /></button>)}</div>
-        <label className={styles.check}><input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} required /><span>Send this public brief to the research provider. Do not include passwords, confidential information or personal records. The result is stored for retries and abuse control.</span></label>
-        {status?.typesafeReady && <label className={styles.check}><input type="checkbox" checked={useTypeSafe} onChange={e => setUseTypeSafe(e.target.checked)} /><span>Also share the public research draft with TypeSafe to suggest a next action. This does not authorise an external action.</span></label>}
-        <button className={styles.primary} type="submit" disabled={busy || !status?.ready || !consent}>{busy ? 'Research request running…' : 'Research an opportunity'}<Search size={17} /></button>
+        <label className={styles.check}><input type="checkbox" disabled={busy} checked={consent} onChange={e => setConsent(e.target.checked)} required /><span>Send this public brief to the research provider. Do not include passwords, confidential information or personal records. The result is stored for retries and abuse control.</span></label>
+        {status?.typesafeReady && <label className={styles.check}><input type="checkbox" disabled={busy} checked={useTypeSafe} onChange={e => setUseTypeSafe(e.target.checked)} /><span>Also share the public research draft with TypeSafe to suggest a next action. This does not authorise an external action.</span></label>}
+        <button className={styles.primary} type="submit" disabled={busy || (!status?.ready && !canRecover) || !consent}>{busy ? 'Research request running…' : canRecover ? 'Recover this request' : 'Research an opportunity'}<Search size={17} /></button>
+        {busy && <button type="button" onClick={() => active.current?.abort()}>Stop waiting</button>}
         <p className={styles.note}>A limited free trial. No sign-in to your private systems. No messages, purchases or publication. <Link href="/tools/agents">How the tools work</Link>.</p>
         {error && <p role="alert" className={styles.error}>{error}</p>}
       </form>
       <div className={styles.board} aria-busy={busy}>
         <div className={styles.boardTop}><span>the pursuit canvas</span><span>{result ? 'DRAFT / SOURCE-LINKED' : busy ? 'REQUEST IN PROGRESS' : 'YOUR WORK APPEARS HERE'}</span></div>
         {(result || busy) && <h3>{title}</h3>}
-        {!result ? busy ? <div className={styles.empty}><p role="status">Searching public sources and preparing the brief. This can take a minute or two.</p></div> : <PursuitWalkthrough compact /> : <>
-          <p>{result.draft.summary}</p>
+        {!result ? busy ? <div className={styles.empty}><p role="status">Searching public sources and preparing the brief. This can take a minute or two.</p></div> : error ? <div className={styles.empty}><h3>No verified research result.</h3><p>The request did not produce a saved source trail. The illustration has not been used as a result.</p></div> : homepage ? <div className={styles.empty}><h3>Your first piece of work.</h3><p>Research one company or sector. Get public sources, a proposed opening and a small work plan you can review and export.</p><p>Choose a brief and consent before the agent runs.</p></div> : <PursuitWalkthrough compact /> : <>
+          <p>{result.draft.summary}</p><p className={styles.note}>{result.warning}</p>
           <div className={styles.tabs} aria-label="Review your pursuit">{(['evidence', 'proposal', 'plan'] as const).map(name => <button key={name} type="button" onClick={() => setTab(name)} aria-pressed={tab === name}>{name}<ArrowRight size={14} /></button>)}</div>
           <div className={styles.cards}>
             {tab === 'evidence' && result.draft.evidence.map((fact, i) => <article key={fact.url + i}><span>SOURCE {i + 1}</span><p>{fact.claim}</p><a href={fact.url} target="_blank" rel="noopener noreferrer">Read the source<ArrowUpRight size={14} /></a></article>)}

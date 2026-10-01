@@ -32,7 +32,12 @@ export function safeSourceUrl(value:string):string|null {
 }
 export function parseGroundedDraft(value:unknown,sources:EvidenceSource[]):PursuitDraft {
   const draft=Draft.parse(value); const known=new Set(sources.map(s=>safeSourceUrl(s.url)));
-  for(const fact of draft.evidence){const url=safeSourceUrl(fact.url);if(!url||!known.has(url))throw new Error('untraced_source');fact.url=url;}
+  for(const [index,fact] of draft.evidence.entries()){const url=safeSourceUrl(fact.url);if(!url||!known.has(url))throw new PublicSourceError(index,url?'not_returned':'unsafe_url');fact.url=url;}
   return draft;
+}
+/** Safe diagnostics only: never retain the rejected URL or model content. */
+export class PublicSourceError extends Error {
+  readonly field='draft.evidence.url';
+  constructor(readonly index:number,readonly category:'not_returned'|'unsafe_url') {super('untraced_source');this.name='PublicSourceError';}
 }
 export function containsCredential(value:string):boolean{return /(?:sk-[a-z0-9_-]{16,}|ts_[a-z0-9_-]{16,}|(?:api[_ -]?key|password|secret|bearer)\s*[:=]\s*\S{10,})/i.test(value);}

@@ -1,0 +1,22 @@
+[
+  {
+    "width": 375,
+    "failureShowsNoFixture": true,
+    "sameIdAndBody": true,
+    "recoveryEnabledWhenAllowanceExhausted": true,
+    "changedBriefBlocked": true,
+    "interceptedPosts": 2,
+    "providerCalls": 0,
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "failureShowsNoFixture": true,
+    "sameIdAndBody": true,
+    "recoveryEnabledWhenAllowanceExhausted": true,
+    "changedBriefBlocked": true,
+    "interceptedPosts": 2,
+    "providerCalls": 0,
+    "errors": []
+  }
+]
