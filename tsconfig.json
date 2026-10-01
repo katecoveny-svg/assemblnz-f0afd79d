@@ -53,6 +53,7 @@
     "Waihanga-Agents",
     "iho-router-index.ts",
     "supabase",
+    "security-proposals/nz-edge-maintenance",
     "remotion",
     "docs",
     ".lovable",

@@ -1,0 +1,40 @@
+name: Edge proposal and web build boundary
+on:
+  pull_request:
+    paths:
+      - 'security-proposals/nz-edge-maintenance/**'
+      - 'scripts/test-nz-edge-maintenance.cjs'
+      - 'tsconfig.json'
+      - '.github/workflows/edge-proposal-web-boundary.yml'
+permissions:
+  contents: read
+concurrency:
+  group: edge-proposal-web-boundary-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NODE_OPTIONS: --max-old-space-size=6144
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Unapplied proposal effects and exact rollback hashes
+        run: node --test scripts/test-nz-edge-maintenance.cjs
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+          run_install: false
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @assembl/canvas build
+      - run: pnpm typecheck
+      - name: Full production build with application guards intact
+        run: pnpm build
+      - run: git diff --check
