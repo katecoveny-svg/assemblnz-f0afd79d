@@ -1,5 +1,5 @@
 import localFont from 'next/font/local';
-import { JetBrains_Mono, Lato, Manrope, Montserrat, Orbitron, Playfair_Display, Poppins, Public_Sans } from 'next/font/google';
+import { JetBrains_Mono, Lato, Manrope, Orbitron, Playfair_Display, Poppins, Public_Sans } from 'next/font/google';
 import type { NextFontWithVariable } from 'next/dist/compiled/@next/font/dist/types';
 
 // Shared body / mono — most brands share Inter body + JetBrains Mono.
@@ -90,11 +90,17 @@ const publicSans = Public_Sans({
 // the standard free geometric-sans stand-in for Gotham; Public Sans (exact
 // weights already loaded) carries body/UI copy. Tracking + uppercase live in
 // the components, not the font.
-const montserrat = Montserrat({
-  subsets: ['latin'],
+const montserrat = localFont({
+  src: [
+    { path: '../fonts/assets/montserrat-normal.woff2', weight: '300', style: 'normal' },
+    { path: '../fonts/assets/montserrat-normal.woff2', weight: '500', style: 'normal' },
+    { path: '../fonts/assets/montserrat-normal.woff2', weight: '700', style: 'normal' },
+  ],
+  style: 'normal',
   variable: '--font-brand-display',
   display: 'swap',
-  weight: ['300', '500', '700'],
+  adjustFontFallback: false,
+  fallback: ['Montserrat Build Fallback'],
 });
 
 // MOANA (concept pilot): a clean nautical geometric sans — Poppins as display,

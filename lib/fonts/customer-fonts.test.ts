@@ -12,7 +12,8 @@ const assetRoot = resolve(import.meta.dirname, 'assets');
 type Font = { familyName: string; italicAngle: number; variationAxes: Record<string, { min: number; max: number }>; hasGlyphForCodePoint: (code: number) => boolean };
 const fontFromBuffer = createRequire(import.meta.url)('next/dist/compiled/@next/font/dist/fontkit').default as (buffer: Buffer) => Font;
 // Cormorant's variable source retains its legacy default-instance family name.
-const embeddedFamily = (family: string) => family === 'Cormorant Garamond' ? 'Cormorant Garamond Light' : family;
+const embeddedFamilies: Record<string, string> = { 'Cormorant Garamond': 'Cormorant Garamond Light', Montserrat: 'Montserrat Thin' };
+const embeddedFamily = (family: string) => embeddedFamilies[family] ?? family;
 
 describe('licensed customer fonts without a Google build-time request', () => {
   it('preserves client directives before imports in every migrated module', () => {
@@ -80,7 +81,7 @@ describe('licensed customer fonts without a Google build-time request', () => {
       expect(faces).toEqual(contract.styles.flatMap(style => contract.weights.map(weight => ({ weight, style }))));
       for (const node of source.statements) {
         if (ts.isImportDeclaration(node) && ts.isStringLiteral(node.moduleSpecifier) && node.moduleSpecifier.text === 'next/font/google') {
-          expect(node.importClause?.namedBindings?.getText(source)).not.toMatch(/\b(Inter|Inter_Tight|Cormorant_Garamond|Fraunces)\b/);
+          expect(node.importClause?.namedBindings?.getText(source)).not.toMatch(/\b(Inter|Inter_Tight|Cormorant_Garamond|Fraunces|Montserrat)\b/);
         }
       }
     });
@@ -99,7 +100,7 @@ describe('licensed customer fonts without a Google build-time request', () => {
     expect(layout).toContain("import '@/lib/fonts/customer-fallbacks.css'");
     const get = createRequire(import.meta.url)('next/dist/compiled/@next/font/dist/google/get-fallback-font-override-metrics').getFallbackFontOverrideMetrics as (family: string) => Record<string, string>;
     const css = readFileSync(resolve(import.meta.dirname, 'customer-fallbacks.css'), 'utf8');
-    for (const family of ['Inter', 'Inter Tight', 'Cormorant Garamond', 'Fraunces']) {
+    for (const family of ['Inter', 'Inter Tight', 'Cormorant Garamond', 'Fraunces', 'Montserrat']) {
       const face = css.split('@font-face').find(face => face.includes(`'${family} Build Fallback'`))!;
       const metrics = get(family);
       expect(face).toContain(`local('${metrics.fallbackFont}')`);

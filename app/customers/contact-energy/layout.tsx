@@ -1,7 +1,8 @@
+import localFont from 'next/font/local';
 import { contactLockup as cormorant } from '@/lib/fonts/customer-lockups';
 import type { ReactNode } from 'react';
 import type { Metadata } from 'next';
-import { Montserrat } from 'next/font/google';
+
 import styles from './contact.module.css';
 import { CreditsProvider } from '@/components/customers/contact-energy/CreditsProvider';
 import {
@@ -29,11 +30,19 @@ import { getBrandConfig } from '@/lib/brand/configs';
  * customer. Fictional account, illustrative figures, no real credits.
  */
 
-const montserrat = Montserrat({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '900'],
+const montserrat = localFont({
+  src: [
+    { path: '../../../lib/fonts/assets/montserrat-normal.woff2', weight: '400', style: 'normal' },
+    { path: '../../../lib/fonts/assets/montserrat-normal.woff2', weight: '500', style: 'normal' },
+    { path: '../../../lib/fonts/assets/montserrat-normal.woff2', weight: '600', style: 'normal' },
+    { path: '../../../lib/fonts/assets/montserrat-normal.woff2', weight: '700', style: 'normal' },
+    { path: '../../../lib/fonts/assets/montserrat-normal.woff2', weight: '900', style: 'normal' },
+  ],
+  style: 'normal',
   variable: '--contact-body',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Montserrat Build Fallback'],
 });
 
 
