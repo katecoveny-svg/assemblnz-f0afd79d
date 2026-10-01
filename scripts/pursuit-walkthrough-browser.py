@@ -135,7 +135,7 @@ async def main():
                         await demo.evaluate('node=>document.activeElement?.blur()')
                         await demo.screenshot(path=str(OUT/f'{"home" if path=="/" else "pursuit"}-{industry}-{width}-{motion}.png'))
                         # Viewport evidence avoids locator capture relocating fixed skip links.
-                        await pitch.evaluate('node=>node.scrollIntoView({block:"center"})')
+                        await pitch.evaluate('node=>node.scrollIntoView({block:"center",behavior:"instant"})')
                         await page.screenshot(path=str(OUT/f'viewport-{"home" if path=="/" else "pursuit"}-{industry}-{width}-{motion}.png'))
                     control=demo.get_by_label('Walkthrough steps').locator('button[aria-pressed=true]').filter(has_text='The pitch')
                     await control.focus()
