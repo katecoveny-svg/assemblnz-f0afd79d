@@ -15,9 +15,12 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
     page.on('pageerror', error => errors.push(page.url() + ": " + error.message));
     const visit = async path => { const response = await page.goto(origin + path, { waitUntil: 'networkidle' }); assert.ok(response?.ok(), path); await page.evaluate(() => document.fonts.ready); return response; };
     await visit('/');
-    check('homepage has one invitation', await page.getByRole('heading', { name: 'What needs doing?', level: 1, exact: true }).count() === 1);
+    await page.getByRole('heading', { name: 'assembl the work.', level: 1, exact: true }).waitFor();
+    check('homepage has one assembl invitation', await page.getByRole('heading', { name: 'assembl the work.', level: 1, exact: true }).count() === 1);
     check('Open DO goes directly to the product', await page.getByRole('link', { name: 'Open DO', exact: true }).first().getAttribute('href') === '/do');
-    check('atelier is optional and not mounted', await page.locator('canvas').count() === 0);
+    await page.waitForFunction(() => document.querySelector('[data-chapter][data-static="true"]'));
+    check('reduced-motion homepage has a static scene and complete work loop', await page.locator('[data-world="atelier"] canvas').count() === 0 && await page.getByLabel('The complete work loop', { exact: true }).isVisible());
+    check('deeper atelier remains optional and unmounted', !await page.locator('.refined-atelier').evaluate(el => el.open) && await page.locator('.refined-atelier canvas').count() === 0);
     await page.screenshot({ path: out + '/01-home-desktop.png' });
     await page.getByRole('link', { name: 'Open DO', exact: true }).first().click();
     await page.locator('#life-admin-source').waitFor();
@@ -91,36 +94,45 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
     await clean.screenshot({ path: out + '/05-install-375.png' });
     await clean.goto(origin + '/', { waitUntil: 'networkidle' });
     await clean.screenshot({ path: out + '/06-home-375.png' });
-    // Normal-motion view must either render real 3D or retain the complete visible fallback.
+    // The company scene is distinct from DO's product identity renderer.
     await clean.setViewportSize({ width: 1440, height: 1000 }); await clean.emulateMedia({ reducedMotion: 'no-preference' });
     await clean.reload({ waitUntil: 'networkidle' });
-    await clean.locator('[data-renderer]').waitFor();
-    await clean.waitForFunction(() => document.querySelector('[data-renderer="3d"]'), null, { timeout: 15000 });
-    const renderer = await clean.locator('[data-renderer]').getAttribute('data-renderer');
-    check('normal motion renders actual 3D', renderer === '3d');
-    check('3D enhancement does not hide the primary action', await clean.getByRole('link', { name: 'Open DO', exact: true }).first().isVisible());
-    await clean.screenshot({ path: out + '/07-home-motion.png' });
+    const scene = clean.locator('[data-world="atelier"]');
+    await clean.waitForFunction(() => document.querySelector('[data-world="atelier"][data-scene-ready="true"] canvas'), null, { timeout: 15000 });
+    const renderer = 'assembl-world-3d';
+    check('normal motion renders the actual assembl scene', await scene.locator('canvas').isVisible());
+    for (const [index, product] of ['Pursuit', 'DO', 'Studio'].entries()) {
+      await clean.getByRole('button', { name: `View ${product} scene`, exact: true }).click();
+      await clean.waitForFunction(index => document.querySelector('[data-chapter]')?.getAttribute('data-chapter') === String(index), index);
+      check(`${product} chapter is selectable`, await clean.getByRole('button', { name: `View ${product} scene`, exact: true }).getAttribute('aria-pressed') === 'true');
+    }
+    await clean.getByRole('button', { name: 'Pause scene motion', exact: true }).click();
+    check('scene pause is explicit', await clean.getByRole('button', { name: 'Resume scene motion', exact: true }).getAttribute('aria-pressed') === 'true');
+    await clean.screenshot({ path: out + '/07-home-motion.png', animations: 'disabled', timeout: 60000 });
+    await clean.getByRole('button', { name: 'Resume scene motion', exact: true }).click();
+    check('scene resumes explicitly', await clean.getByRole('button', { name: 'Pause scene motion', exact: true }).getAttribute('aria-pressed') === 'false');
     await clean.locator('#products').scrollIntoViewIfNeeded();
-    await clean.waitForFunction(() => !document.querySelector('[data-renderer] canvas'));
-    // R3F intentionally disposes the old GL context 500ms after unmount.
-    await clean.waitForTimeout(650);
-    await clean.locator('[data-renderer]').scrollIntoViewIfNeeded();
-    await clean.waitForFunction(() => document.querySelector('[data-renderer="3d"]'));
-    check('3D returns after offscreen teardown', await clean.locator('[data-renderer="3d"]').isVisible());
+    await clean.waitForFunction(() => !document.querySelector('[data-world="atelier"] canvas'));
+    check('offscreen scene releases its renderer', await scene.locator('canvas').count() === 0);
+    await clean.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
+    await clean.waitForFunction(() => document.querySelector('[data-world="atelier"][data-scene-ready="true"] canvas'));
+    check('scene returns after offscreen teardown', await scene.locator('canvas').isVisible());
     await clean.emulateMedia({ reducedMotion: 'reduce' });
-    await clean.waitForFunction(() => !document.querySelector('[data-renderer] canvas'));
-    // R3F intentionally disposes the old GL context 500ms after unmount.
-    await clean.waitForTimeout(650);
-    check('reduced motion has a complete static mark', await clean.locator('[data-renderer="static"]').isVisible());
+    await clean.waitForFunction(() => document.querySelector('[data-chapter][data-static="true"]') && !document.querySelector('[data-world="atelier"] canvas'));
+    check('reduced motion retains the complete work loop', await clean.getByLabel('The complete work loop', { exact: true }).isVisible());
     await clean.emulateMedia({ reducedMotion: 'no-preference' });
-    await clean.waitForFunction(() => document.querySelector('[data-renderer="3d"]'));
-    check('3D returns after reduced-motion preference changes', await clean.locator('[data-renderer="3d"]').isVisible());
+    await clean.waitForFunction(() => document.querySelector('[data-world="atelier"][data-scene-ready="true"] canvas'));
+    check('scene returns after reduced-motion preference changes', await scene.locator('canvas').isVisible());
     const fallback = await context.newPage();
     await fallback.addInitScript(() => { const original = HTMLCanvasElement.prototype.getContext; HTMLCanvasElement.prototype.getContext = function(type, ...args) { if (String(type).startsWith('webgl')) return null; return original.call(this, type, ...args); }; });
     await fallback.emulateMedia({ reducedMotion: 'no-preference' });
     await fallback.goto(origin + '/', { waitUntil: 'networkidle' });
-    check('WebGL unavailable keeps complete static identity', await fallback.locator('[data-renderer="static"]').isVisible() && await fallback.getByRole('link', { name: 'Open DO', exact: true }).first().isVisible());
-    await fallback.screenshot({ path: out + '/08-webgl-fallback.png' });
+    await fallback.waitForFunction(() => document.querySelector('[data-chapter][data-static="true"]'));
+    check('WebGL unavailable keeps the visible scene poster and complete work loop', await fallback.locator('[data-world="atelier"] img').last().evaluate(img => img.complete && img.naturalWidth > 0) && await fallback.getByLabel('The complete work loop', { exact: true }).isVisible() && await fallback.getByRole('link', { name: 'Open DO', exact: true }).first().isVisible());
+    await fallback.screenshot({ path: out + '/08-webgl-fallback.png', animations: 'disabled', timeout: 60000 });
+    await fallback.close();
+    await clean.emulateMedia({ reducedMotion: 'reduce' });
+    await clean.waitForTimeout(650); // Dispose the earlier normal-motion GL context before static screenshots.
     for (const width of [1440, 375]) {
       await clean.setViewportSize({ width, height: width === 375 ? 812 : 1000 });
       for (const path of ['/do', '/do/personal', '/do/bills', '/do/billing', '/do/install', '/do/typesafe']) {
@@ -132,7 +144,7 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
         if (path === '/do' || path === '/do/bills') {
           await clean.evaluate(() => document.fonts.ready);
           check(`Instrument Sans loaded on ${path} at ${width}px`, await clean.locator('h1').evaluate(el => /Instrument.?Sans/i.test(getComputedStyle(el).fontFamily) && document.fonts.check(`16px ${getComputedStyle(el).fontFamily.split(',')[0]}`)));
-          await clean.screenshot({ path: out + `/pink-${path === '/do' ? 'home' : 'bills'}-${width}.png`, fullPage: true });
+          await clean.screenshot({ path: out + `/pink-${path === '/do' ? 'home' : 'bills'}-${width}.png`, fullPage: true, animations: 'disabled', timeout: 60000 });
         }
       }
     }
