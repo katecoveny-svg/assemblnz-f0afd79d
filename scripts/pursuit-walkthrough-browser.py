@@ -58,6 +58,7 @@ async def main():
                     await expect(demo.get_by_text('Outline options to check with the project engineer.', exact=True)).to_be_visible()
                     await demo.evaluate('node => { if (document.activeElement instanceof HTMLElement) document.activeElement.blur(); }')
                     assert await demo.get_by_role('heading', name='School drainage. Our approach.', exact=True).evaluate('node => getComputedStyle(node).color') == 'rgb(255, 253, 251)'
+                    assert await demo.evaluate('node => { const bounds = node.getBoundingClientRect(); return [...node.querySelectorAll("button")].every(button => { const rect = button.getBoundingClientRect(); return rect.width === 0 || (rect.left >= bounds.left - 1 && rect.right <= bounds.right + 1); }); }'), 'walkthrough control clipped'
                     await demo.screenshot(path=str(OUT / f'{"home" if path == "/" else "pursuit"}-pitch-{width}-{motion}.png'))
                     if motion == 'reduce':
                         await expect(demo.get_by_role('button', name='Still view', exact=True)).to_be_disabled()
