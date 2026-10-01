@@ -16,6 +16,7 @@ export function PursuitWalkthrough({ compact = false }: { compact?: boolean }) {
   const [step, setStep] = useState(3);
   const [playing, setPlaying] = useState(false);
   const [reduced, setReduced] = useState(true);
+  const [ready, setReady] = useState(false);
   const root = useRef<HTMLElement>(null);
   const id = useId();
   const example = PURSUIT_EXAMPLES[industry];
@@ -25,7 +26,7 @@ export function PursuitWalkthrough({ compact = false }: { compact?: boolean }) {
   useEffect(() => {
     const query = matchMedia('(prefers-reduced-motion: reduce)');
     const update = () => { setReduced(query.matches); setPlaying(false); };
-    update(); query.addEventListener('change', update);
+    update(); setReady(true); query.addEventListener('change', update);
     const hide = () => { if (document.hidden) setPlaying(false); };
     document.addEventListener('visibilitychange', hide);
     const observer = new IntersectionObserver(entries => { if (!entries[0].isIntersecting) setPlaying(false); });
@@ -53,7 +54,7 @@ export function PursuitWalkthrough({ compact = false }: { compact?: boolean }) {
     }
   };
 
-  return <section ref={root} className={`${styles.walkthrough} ${compact ? styles.compact : ''}`} aria-label="Pursuit illustrated walkthrough" data-step={step} data-reduced={reduced} data-industry={example.id}>
+  return <section ref={root} className={`${styles.walkthrough} ${compact ? styles.compact : ''}`} aria-label="Pursuit illustrated walkthrough" data-step={step} data-ready={ready} data-reduced={reduced} data-industry={example.id}>
     <header className={styles.intro}><p className={styles.eyebrow}>Pursuit → Studio</p><h2>One signal.<br />Many possibilities.</h2><p>Find the businesses it matters to.<br />Show them a better way.</p></header>
     <div className={styles.industries} role="tablist" aria-label="Choose an example industry" onKeyDown={industryKeyboard}>{PURSUIT_EXAMPLES.map((item, index) => <button type="button" role="tab" id={`${id}-${item.id}`} aria-controls={`${id}-example`} aria-selected={industry === index} tabIndex={industry === index ? 0 : -1} key={item.id} onClick={() => selectIndustry(index)}>{item.name}<ArrowUpRight size={14} aria-hidden="true" /></button>)}</div>
     <div className={styles.example}><span>Illustrated example · no live research</span><span>Fictional sources, businesses and brands</span></div>

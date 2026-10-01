@@ -67,6 +67,8 @@ async def main():
                     await page.goto(ORIGIN + path, wait_until='domcontentloaded', timeout=120000)
                     demo = page.get_by_role('region', name='Pursuit illustrated walkthrough')
                     await expect(demo).to_be_visible(timeout=120000)
+                    # Reduced motion matches server HTML; wait for attached client handlers.
+                    await expect(demo).to_have_attribute('data-ready', 'true')
                     await expect(demo).to_have_attribute('data-reduced', str(motion == 'reduce').lower())
                     await expect(demo.get_by_text('Illustrated example · no live research', exact=True)).to_be_visible()
                     if path == '/':
