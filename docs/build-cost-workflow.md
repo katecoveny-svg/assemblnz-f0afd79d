@@ -18,7 +18,7 @@ The ignore command requires the previous deployment SHA, compares the complete r
 | --- | --- | --- |
 | `docs/context/CURRENT.md`, `docs/factory/LEARNINGS.md` | Skip Next build | Authoring/context checks consume these separately; no root app runtime imports/readers found in current-main audit. |
 | `docs/deployment-and-release-checklist.md` | Skip Next build | Human release guidance; required release checks still apply. |
-| `research/note.md`, `outputs/proof.png`, `.pr-assets/phone.png` | Skip Next build | Research/evidence files outside `public/`, runtime content and root app imports. HTML/JSON and unknown output formats build. |
+| `research/note.md`, `outputs/proof.png`, `.pr-assets/phone.png` | Skip Next build | Research/evidence files outside `public/`, runtime content and root app imports. All evidence directories accept only the audited Markdown/image/PDF formats. TypeScript, JavaScript, HTML, JSON and unknown formats build, including under `pr-evidence/` and `.pr-assets/`; root TypeScript includes are not bypassed. |
 | `security-proposals/nz-edge-maintenance/proposed/mcp-nz-govt/index.ts` | Skip Vercel only | Explicitly excluded by `tsconfig.json`; unapplied files consumed by `scripts/test-nz-edge-maintenance.cjs`. Existing proposal security/typecheck/full-build CI remains intact. |
 | `apps/do/macos/DOCompanion.swift`, `apps/do/extension/manifest.json` | Build | `next.config.ts` traces both trees into `/api/do/download`; native-only is not independent. |
 | `apps/do/shared/do-tasks.ts` | Build | Public-front-door guard and web runtime use shared DO content. |

@@ -50,3 +50,12 @@ test('real Git range, cross-boundary rename, and legacy wrapper', () => {
     assert.equal(run(git('rev-parse','HEAD')),1);
   } finally {rmSync(root,{recursive:true,force:true});}
 });
+
+for (const directory of ['pr-evidence', '.pr-assets', '.pr-screenshots', '.pr-shots']) {
+  for (const extension of ['ts', 'tsx', 'js', 'mjs', 'json', 'html', 'unknown']) {
+    test(`unknown or executable evidence builds: ${directory}/proof.${extension}`, () =>
+      assert.equal(shouldBuild([`${directory}/proof.${extension}`]), true));
+  }
+  test(`audited screenshot skips: ${directory}/phone.png`, () =>
+    assert.equal(shouldBuild([`${directory}/phone.png`]), false));
+}

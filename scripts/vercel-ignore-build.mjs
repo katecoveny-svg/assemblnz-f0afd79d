@@ -10,8 +10,8 @@ const NON_RUNTIME = [
   /^docs\/(deployment-and-release-checklist|deployment-surfaces|build-cost-workflow)\.md$/,
   /^research\/[^\n]+\.md$/,
   /^outputs\/[^\n]+\.(md|png|jpg|webp|pdf)$/,
-  /^\.pr-(assets|screenshots|shots)\//,
-  /^pr-evidence\//,
+  /^\.pr-(assets|screenshots|shots)\/[^\n]+\.(md|png|jpg|webp|pdf)$/,
+  /^pr-evidence\/[^\n]+\.(md|png|jpg|webp|pdf)$/,
   /^(AGENT_CHAT_STARTER|AGENTS|CLAUDE|START_HERE|README)\.md$/,
   /^config\/context-manifest\.json$/,
   // Unapplied proposal excluded by tsconfig; its security CI remains mandatory.
