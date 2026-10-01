@@ -52,7 +52,7 @@ export function PortableDo({ initialFixture = false, initialScope = 'personal' }
     ownerRef.current = null;
     pendingId.current = crypto.randomUUID(); contextId.current = crypto.randomUUID();
   }, []);
-  const refresh = useCallback(async () => {
+  const refresh = useCallback(async (requestedId?: string) => {
     const epoch = ++generation.current;
     network.current?.abort();
     const controller = new AbortController(); network.current = controller;
@@ -62,14 +62,14 @@ export function PortableDo({ initialFixture = false, initialScope = 'personal' }
         const loaded = await repo.list(FIXTURE_OWNER, scope, now());
         if (epoch !== generation.current) return;
         setTasks(loaded); setOwner(FIXTURE_OWNER);
-        const id = new URLSearchParams(location.search).get('task');
+        const id = requestedId ?? new URLSearchParams(location.search).get('task');
         const reopened = loaded.find(t => t.id === id);
-        if (reopened) { setTask(reopened); setResult(reopened.result || ''); }
+        setTask(reopened || null); setResult(reopened?.result || '');
         setMessage('Fictional fixture · saved only in this browser.');
         return;
       }
       const params = new URLSearchParams({ scope });
-      const id = new URLSearchParams(location.search).get('task'); if (id) params.set('id', id);
+      const id = requestedId ?? new URLSearchParams(location.search).get('task'); if (id) params.set('id', id);
       const response = await fetch(`/api/do/continuity?${params}`, { cache: 'no-store', signal: controller.signal });
       const data = await response.json();
       if (epoch !== generation.current) return;
@@ -83,10 +83,12 @@ export function PortableDo({ initialFixture = false, initialScope = 'personal' }
       if (!data.durable || data.storage !== 'database') throw new Error('Online storage could not be confirmed.');
       const loaded = (data.tasks as unknown[]).map(t => taskSchema.parse(t));
       if (loaded.some(t => t.ownerId !== data.workspaceKey || t.scope !== scope)) throw new Error('Reopen your workspace.');
-      setTasks(loaded); if (id && loaded[0]) { setTask(loaded[0]); setResult(loaded[0].result || ''); }
+      const reopened = id ? loaded.find(t => t.id === id) : null;
+      setTasks(loaded); setTask(reopened || null); setResult(reopened?.result || '');
       setMessage(id && !loaded.length ? 'That task is no longer available.' : 'Private online storage connected.');
     } catch (error) {
       if (epoch !== generation.current || controller.signal.aborted) return;
+      setTask(null); setTasks([]); setResult('');
       setMessage(error instanceof Error ? error.message : 'Storage unavailable. Retry when connected.');
     }
   }, [fixture, scope]);
@@ -192,7 +194,7 @@ export function PortableDo({ initialFixture = false, initialScope = 'personal' }
       </section>
       <section className={styles.card}><h2>{task?.status === 'needs_review' ? 'Make it yours.' : 'The next step, ready to review.'}</h2>
         {task?.status === 'needs_review' ? <><label htmlFor="portable-result">Editable result</label><textarea id="portable-result" className={styles.result} value={result} maxLength={CONTINUITY_RESULT_LIMIT} onChange={e => setResult(e.target.value)} /><button className={styles.primary} disabled={busy || result === task.result} onClick={() => void mutate({ action: 'edit', id: task.id, scope, expectedRevision: task.revision, result })}>Save edited result</button><p className={styles.small}>{result === task.result ? 'Last confirmed revision shown.' : 'Unsaved edits · keep this tab open.'}</p></> : <div className={styles.empty}><DoPresence size="small" /><p>{stopped ? 'This task is stopped. Review a new request to continue.' : 'Save your reviewed request, then prepare an EA worksheet.'}</p></div>}
-        <p className={styles.small}>{CONTINUITY_BOUNDARY}</p><div className={styles.saved}><h3>Reopen a task</h3>{tasks.length ? tasks.map(t => <button key={t.id} disabled={busy} onClick={() => { setTask(t); setResult(t.result || ''); setRequest(''); setNotes(''); setInclude(false); setConsent(false); const url = new URL(location.href); url.searchParams.set('task', t.id); url.searchParams.set('scope', scope); history.replaceState(null, '', url); }}>{t.request.slice(0, 70) || 'Expired task'} <small>{labels[t.status]}</small></button>) : <p>No confirmed tasks in this scope.</p>}<button disabled={busy} onClick={() => void refresh()}>Reopen / retry connection</button><p className={styles.small}>{fixture ? 'Reload proves this browser’s fixture only.' : 'Desktop continuation requires the same signed-in owner and approved online storage.'}</p></div>
+        <p className={styles.small}>{CONTINUITY_BOUNDARY}</p><div className={styles.saved}><h3>Reopen a task</h3>{tasks.length ? tasks.map(t => <button key={t.id} disabled={busy} onClick={() => { setTask(null); setResult(''); setRequest(''); setNotes(''); setInclude(false); setConsent(false); const url = new URL(location.href); url.searchParams.set('task', t.id); url.searchParams.set('scope', scope); history.replaceState(null, '', url); void refresh(t.id); }}>{t.request.slice(0, 70) || 'Expired task'} <small>{labels[t.status]}</small></button>) : <p>No confirmed tasks in this scope.</p>}<button disabled={busy} onClick={() => void refresh()}>Reopen / retry connection</button><p className={styles.small}>{fixture ? 'Reload proves this browser’s fixture only.' : 'Desktop continuation requires the same signed-in owner and approved online storage.'}</p></div>
       </section>
     </div>
   </main>;

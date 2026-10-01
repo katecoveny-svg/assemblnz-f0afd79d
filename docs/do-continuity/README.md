@@ -6,7 +6,7 @@
 
 Deliberately paste one request → review explicitly selected notes → consent to saving → keep one stable task ID → reopen the same owner/scope task → prepare and edit a result. Authority is preparation only. Personal and Work are distinct scopes; identity/scope changes clear the composer, selected notes, consent and result. Memory collection consent is not preparation/provider consent.
 
-Files are limited to `apps/do/continuity/*`, `app/do/continue/*`, `app/api/do/continuity/*`, this proposal package and the isolated SQL test script. Provider/UI, memory and peer-scheduling owners retain their modules. No changes to Ask Assembl, scheduled responsibilities, native wrappers, extensions, shared preparation, or owner-review-only memory.
+Files are limited to `apps/do/continuity/*`, `app/do/continue/*`, `app/api/do/continuity/*`, this proposal package, dedicated SQL/browser test scripts and `.github/workflows/do-continuity-validation.yml`. Provider/UI, memory and peer-scheduling owners retain their modules. No changes to Ask Assembl, scheduled responsibilities, native wrappers, extensions, shared preparation, or owner-review-only memory.
 
 ## Reuse map
 
