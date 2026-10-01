@@ -76,7 +76,7 @@ begin
  if p_owner is null then raise exception 'owner_required'; end if;
  perform pg_advisory_xact_lock(hashtextextended(p_owner::text,3027));
  v_now:=clock_timestamp();
- with due as (select owner_id,id from public.do_personal_memory where owner_id=p_owner and expires_at<=v_now order by expires_at for update skip locked limit 100)
+ with due as (select owner_id,id from public.do_personal_memory where owner_id=p_owner and record is not null and expires_at<=v_now order by expires_at for update skip locked limit 100)
  update public.do_personal_memory m set record=null,expires_at=null,revision=revision+1 from due where m.owner_id=due.owner_id and m.id=due.id;
  get diagnostics v_count=row_count;
  return v_count;
@@ -88,7 +88,7 @@ declare v_count integer; v_now timestamptz;
 begin
  if p_limit is null or p_limit<1 or p_limit>100 then raise exception 'memory_invalid_batch'; end if;
  v_now:=clock_timestamp();
- with due as (select owner_id,id from public.do_personal_memory where expires_at<=v_now order by expires_at for update skip locked limit p_limit)
+ with due as (select owner_id,id from public.do_personal_memory where record is not null and expires_at<=v_now order by expires_at for update skip locked limit p_limit)
  update public.do_personal_memory m set record=null,expires_at=null,revision=revision+1 from due where m.owner_id=due.owner_id and m.id=due.id;
  get diagnostics v_count=row_count;
  return v_count;
