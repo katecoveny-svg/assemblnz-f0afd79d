@@ -1,6 +1,6 @@
 # Client workspace migration checkpoint
 
-**Review implementation, not production cutover.** Authority now includes tested publication on assembl.co.nz. Publication is still conditional on source/data reconciliation, authenticated persistence, recipient isolation, visual proof and coordinated release review. Original Site remains the working source of truth.
+**Review implementation, not production cutover.** Any coordinated publication requires independent review and its applicable acceptance gates. The limited new empty owner stage has its own DB enablement/persistence gates; legacy import/cutover and recipient/media activation are separate. Original Site remains the working source of truth.
 
 ## Identity and provenance
 
@@ -33,7 +33,7 @@ Company and client fields can be edited for arbitrary briefs. Intelligence-linke
 
 - Local UI: `http://127.0.0.1:3187/review/client-hub` with `ASSEMBL_HUB_MIGRATION_REVIEW=1`.
 - Isolated recipient boundary: `/api/client-hub-migration/recipient/[id]`.
-- Proposed production owner route: choose one canonical direct workspace route after reconciliation; do not replace existing `/studios` destinations yet.
+- Disabled-by-default new owner route: `/studio/workspace`; do not replace existing `/studios` destinations. It starts at the working brief and step navigation, with one contextual visual and no duplicate promotional hero.
 
 ## Production gates
 
@@ -56,3 +56,7 @@ Uses the original Studio renderer/board/brand contracts and existing main UI/aut
 Owner API/unit tests:7 additional passes, total16. Actual synthetic Postgres RLS/RPC/storage-membership tests pass; production cookie/storage/account proof is outstanding. Sharing and backup import are disabled on the new owner stage.
 
 Two representative fictional screenshots are saved privately to Library: desktop `libfile_01a8d6a02020819193acd0b03b1b75b1`, mobile `libfile_9e270a16870c8191b3b53965b5aee473`, both version1. These show the fixture review, not an activated live owner account.
+
+## Current V2 checkpoint
+
+The supported serial comparison passed clean main55.21s and migration b72846531 in53.27s. Final V2 edits await the next coordinated build slot. Independent SQL review rejected V1; archived proposals are DO NOT APPLY. Revised owner-only schema has75 isolated Supabase-image checks,25 API/session tests, full typecheck and lint0/0 passing. It enforces operator-managed DB enablement, RPC-only CAS writes, complete bounded payload validation, locked quotas, soft deletion and operator-only retention. See `owner-schema-review-v2.md` and `owner-activation-plan.md`. No recipient/Storage objects or production changes. A server flag alone is not a DB kill switch; revoke DB enablement too.

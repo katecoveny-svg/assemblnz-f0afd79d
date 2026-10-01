@@ -39,4 +39,15 @@ describe('new owner workspace boundary',()=>{
   session.value={userId:id,client:{rpc:async()=>({data:[],error:null})}};
   const r=await POST(new Request('https://www.assembl.co.nz/api/client-hub-migration/owner',{method:'POST',headers:{origin:'https://www.assembl.co.nz','content-type':'application/json'},body:JSON.stringify({id,revision:1,payload:emptyOwnerHub()})}));expect(r.status).toBe(409);
  });
+ it.each([['P0001',409],['22023',400],['42501',404]])('maps database %s without returning database internals',async(code,status)=>{
+  session.value={userId:id,client:{rpc:async()=>({data:null,error:{code,message:'PRIVATE_DB_SENTINEL'}})}};
+  const r=await POST(new Request('https://www.assembl.co.nz/api/client-hub-migration/owner',{method:'POST',headers:{origin:'https://www.assembl.co.nz','content-type':'application/json'},body:JSON.stringify({revision:0,payload:emptyOwnerHub()})}));expect(r.status).toBe(status);expect(await r.text()).not.toContain('PRIVATE_DB_SENTINEL');
+ });
+ it('rejects null/missing schemaVersion and null revision before storage',()=>{
+  for(const schemaVersion of [null,undefined,'1'])expect(()=>parseOwnerDraft({revision:0,payload:{...emptyOwnerHub(),schemaVersion}})).toThrow();
+  expect(()=>parseOwnerDraft({revision:null,payload:emptyOwnerHub()})).toThrow();
+ });
+ it('bounds streamed bodies before storage',async()=>{
+  const r=await POST(new Request('https://www.assembl.co.nz/api/client-hub-migration/owner',{method:'POST',headers:{origin:'https://www.assembl.co.nz','content-type':'application/json'},body:'x'.repeat(1800001)}));expect(r.status).toBe(413);
+ });
 });

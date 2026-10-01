@@ -1,3 +1,5 @@
+-- HISTORICAL V1 HARNESS; rejected schema. DO NOT RUN for V2.
+-- Use test-owner-schema.py exclusively in its isolated no-network container.
 -- Isolated test harness only; never run against a linked project.
 do $$ begin if not exists(select 1 from pg_roles where rolname='anon') then create role anon;end if;end $$;
 do $$ begin if not exists(select 1 from pg_roles where rolname='authenticated') then create role authenticated;end if;end $$;

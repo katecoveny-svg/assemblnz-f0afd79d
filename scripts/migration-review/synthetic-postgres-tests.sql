@@ -1,3 +1,5 @@
+-- HISTORICAL V1 HARNESS; rejected schema. DO NOT RUN for V2.
+-- Use test-owner-schema.py exclusively in its isolated no-network container.
 -- Real Postgres queries under synthetic authenticated identities. No keys/network.
 set role authenticated;
 set request.jwt.claim.sub='11111111-1111-4111-8111-111111111111';

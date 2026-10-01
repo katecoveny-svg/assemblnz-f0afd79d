@@ -58,6 +58,13 @@ export function createReviewTransport() {
 
 const reviewFetch = createReviewTransport();
 export async function migrationFetch(input:RequestInfo|URL,init?:RequestInit):Promise<Response> {
+  // One inspected original illustration; explicit same-origin read, never a
+  // provider/API fallback. All other unavailable requests retain their denial.
+  if(typeof window!=='undefined'){
+    const asset=new URL(input instanceof Request?input.url:input.toString(),window.location.origin);
+    const verb=(init?.method||(input instanceof Request?input.method:'GET')).toUpperCase();
+    if(asset.origin===window.location.origin&&['/cinematic/concept-travel.webp','/cinematic/interview-cloud.svg','/cinematic/interview-research.svg','/cinematic/interview-advisory.svg'].includes(asset.pathname)&&!asset.search&&verb==='GET')return globalThis.fetch(asset,{method:'GET',credentials:'omit',redirect:'error'});
+  }
   if(typeof window === 'undefined' || window.location.pathname !== '/studio/workspace') return reviewFetch(input,init);
   const url=new URL(input instanceof Request?input.url:String(input),window.location.origin);
   const method=(init?.method || (input instanceof Request?input.method:'GET')).toUpperCase();

@@ -59,3 +59,18 @@
 .client-hub-migration-review .cs[data-owner-workspace] .ep-brief-heading h1 { font-size: 32px; }
 .client-hub-migration-review .cs[data-owner-workspace] .context-visual-prompt { padding: 72px 24px 28px; }
 .client-hub-migration-review .cs[data-owner-workspace] .cs-inspiration .cs-art-label { top: 14px; bottom: auto; }
+.client-hub-migration-review .cs[data-owner-workspace] .cs-top-actions button[aria-label="My concepts"],
+.client-hub-migration-review .cs[data-owner-workspace] .cs-top-context .cs-text { display: inline-flex; }
+.client-hub-migration-review .interview-start { margin: 24px 0 0; padding-top: 22px; border-top: 1px solid #e4dce0; }
+.client-hub-migration-review .interview-start h2 { font-size: 22px; }
+.client-hub-migration-review .interview-start p { font-size: 13px; margin: 8px 0 14px; }
+.client-hub-migration-review .interview-cards { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; }
+.client-hub-migration-review .interview-cards button { border: 1px solid #dfd1d8; border-radius: 16px; padding: 18px; text-align: left; background: #FFFDFB; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 72px; }
+.client-hub-migration-review .interview-visual { padding: 56px 28px 28px; display: grid; gap: 12px; align-content: center; min-height: 100%; background: #F5F1F2; }
+.client-hub-migration-review .interview-visual>div { display: flex; align-items: center; gap: 18px; padding: 24px; background: #FFFDFB; border: 1px solid #dfd1d8; border-radius: 18px; }
+.client-hub-migration-review .interview-visual>svg { margin: auto; color: #916A70; }
+.client-hub-migration-review .interview-visual p { font-size: 13px; margin-top: 6px; }
+.client-hub-migration-review .cs-inspiration>img[src$=".svg"] { object-fit: contain; padding: 16px; background: #F5F1F2; }
+.client-hub-migration-review .ib-pick-image img[src$=".svg"],
+.client-hub-migration-review .ib-node-image[src$=".svg"] { object-fit: contain; background: #F5F1F2; }
+@media(max-width:650px){.client-hub-migration-review .interview-cards { grid-template-columns: 1fr; }.client-hub-migration-review .interview-visual { padding: 64px 20px 24px; }}
