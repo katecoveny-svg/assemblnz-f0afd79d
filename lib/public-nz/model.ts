@@ -21,11 +21,16 @@ export function matchesSource(row: SourceRow, policy: typeof PUBLIC_NZ_SOURCES[n
 }
 export function officialDocumentUrl(key: string, value: unknown): string | null {
   if (typeof value !== 'string' || value.length > 250) return null;
+  if (key === 'gets') {
+    // Validate raw spelling before URL parsing can erase traversal, escapes or ports.
+    // Only redundant literal separators in the reviewed agency/detail path vary.
+    const match = /^https:\/\/www\.gets\.govt\.nz\/+([A-Za-z0-9_-]{1,30})\/+ExternalTenderDetails\.htm\?id=(\d{1,12})$/.exec(value);
+    return match && match[0] === value ? `https://www.gets.govt.nz/${match[1]}/ExternalTenderDetails.htm?id=${match[2]}` : null;
+  }
   try {
     const u = new URL(value);
     if (u.protocol !== 'https:' || u.username || u.password || u.port || u.hash) return null;
     if (key === 'bills' && u.hostname === 'bills.parliament.nz' && !u.search && /^\/v\/6\/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(u.pathname)) return u.href;
-    if (key === 'gets' && u.hostname === 'www.gets.govt.nz' && /^\/[A-Za-z0-9_-]{1,30}\/ExternalTenderDetails\.htm$/.test(u.pathname) && /^\?id=\d{1,12}$/.test(u.search)) return u.href;
   } catch { /* fail closed */ }
   return null;
 }
@@ -49,7 +54,7 @@ export function buildPublicNzResult(sourceRows: SourceRow[], documents: LinkRow[
         if (!url || seen.has(url)) continue;
         const u = new URL(url);
         const identity = policy.key === 'bills' ? u.pathname.split('/').at(-1)! : u.searchParams.get('id')!;
-        if (policy.key === 'bills' ? document.external_id !== identity : document.external_id !== url && document.external_id !== identity) continue;
+        if (policy.key === 'bills' ? document.external_id !== identity : document.external_id !== identity && officialDocumentUrl('gets', document.external_id) !== url) continue;
         seen.add(url);
         records.push({ citation: `${policy.key}:${identity}`, label: policy.key === 'gets' ? `GETS tender record ${identity}` : 'Parliament bill record', url, source: policy.name, originalPublicationAt: null, dateProvenance: 'unverified', recordedAt: timestamp(document.inserted_at, now), sourceCheckedAt: lastCheckedAt, sourceFetchedAt: lastSuccessfulFetchAt, status: 'verify_at_source' });
       }
