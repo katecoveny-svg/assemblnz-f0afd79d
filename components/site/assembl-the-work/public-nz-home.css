@@ -15,13 +15,13 @@
 .public-nz-home .aj-livedata-note { border-top: 1px solid #916a7033; padding-top: 16px; margin-top: 22px; font: 10px/1.6 var(--font-mono),monospace; letter-spacing: .05em; color: #654a4e; }
 .public-nz-home .aj-livedata-figures { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; align-content: start; }
 .public-nz-home .aj-figure { display: flex; flex-direction: column; gap: 10px; padding: 18px; border: 1px solid #916a702b; border-radius: 18px; background: #fffdfb; overflow-wrap: anywhere; }
-.public-nz-home .public-nz-source { background: #e3ced830; padding: 14px 18px; }
+.public-nz-home .public-nz-source { background: #dad2f430; padding: 14px 18px; }
 .public-nz-home .public-nz-source > span { font: 11px/1.5 var(--font-mono),monospace; }
 .public-nz-home .public-nz-record > span { font-size: 16px; font-weight: 500; line-height: 1.4; }
 .public-nz-home .aj-figure a { color: #240b21; text-decoration-color: #916a70; text-underline-offset: 3px; }
 .public-nz-home .aj-figure a:focus-visible { outline: 2px solid #916a70; outline-offset: 4px; border-radius: 2px; }
 .public-nz-home .aj-figure small { font-size: 11px; line-height: 1.65; color: #654a4e; }
-.public-nz-home .aj-figure .public-nz-kind { align-self: flex-start; font: 9px/1.5 var(--font-mono),monospace; text-transform: uppercase; letter-spacing: .05em; color: #240b21; background: #e3ced84d; border-radius: 6px; padding: 4px 6px; }
+.public-nz-home .aj-figure .public-nz-kind { align-self: flex-start; font: 9px/1.5 var(--font-mono),monospace; text-transform: uppercase; letter-spacing: .05em; color: #240b21; background: #dad2f44d; border-radius: 6px; padding: 4px 6px; }
 .public-nz-home .aj-livedata-figures > p { grid-column: 1 / -1; margin: 4px 0; font-size: 12px; line-height: 1.6; color: #654a4e; }
 @media (max-width: 900px) { .atw .public-nz-home { grid-template-columns: minmax(0,1fr); } }
 @media (max-width: 540px) { .public-nz-home .aj-livedata-figures { grid-template-columns: minmax(0,1fr); } }
