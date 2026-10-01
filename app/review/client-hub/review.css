@@ -53,3 +53,9 @@
 .client-hub-migration-review .ep-hero-visual:has(.context-visual-prompt) .ep-hero-caption,
 .client-hub-migration-review .cs-inspiration:has(.context-visual-prompt) .cs-inspiration-caption { position: relative; left: auto; right: auto; bottom: auto; margin: 0 20px 20px; }
 .client-hub-migration-review .ep-hero-visual:has(> .context-visual-prompt) { background: #F5F1F2; }
+/* The activated owner path starts at work, keeping one contextual visual. */
+.client-hub-migration-review .cs[data-owner-workspace] .cs-content { padding-top: 24px; }
+.client-hub-migration-review .cs[data-owner-workspace] .ep-brief-heading { margin: 20px 0; }
+.client-hub-migration-review .cs[data-owner-workspace] .ep-brief-heading h1 { font-size: 32px; }
+.client-hub-migration-review .cs[data-owner-workspace] .context-visual-prompt { padding: 72px 24px 28px; }
+.client-hub-migration-review .cs[data-owner-workspace] .cs-inspiration .cs-art-label { top: 14px; bottom: auto; }
