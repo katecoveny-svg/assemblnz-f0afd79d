@@ -1,5 +1,7 @@
 'use client';
 
+import localFont from 'next/font/local';
+import { preserveSingleFontStyle } from '@/lib/fonts/local-font-metadata';
 /**
  * HeroGolden — the homepage hero, marketplace direction.
  *
@@ -21,13 +23,31 @@ import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Lato, Space_Mono } from 'next/font/google';
+
 import { ArrowRight } from 'lucide-react';
 
 // Headline set in Lato 900, the Dash brand display weight, in charcoal.
-const lato = Lato({ subsets: ['latin'], weight: ['400', '900'], display: 'swap' });
+const latoLocal = localFont({
+  src: [
+    { path: '../../lib/fonts/assets/lato-normal-400.ttf', weight: '400', style: 'normal' },
+    { path: '../../lib/fonts/assets/lato-normal-900.ttf', weight: '900', style: 'normal' },
+  ],
+  display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Lato Build Fallback'],
+});
+const lato = preserveSingleFontStyle(latoLocal, 'normal');
 // Eyebrow set in Space Mono, matching the marketplace surfaces.
-const spaceMono = Space_Mono({ subsets: ['latin'], weight: ['400', '700'], display: 'swap' });
+const spaceMonoLocal = localFont({
+  src: [
+    { path: '../../lib/fonts/assets/space-mono-normal-400.woff2', weight: '400', style: 'normal' },
+    { path: '../../lib/fonts/assets/space-mono-normal-700.woff2', weight: '700', style: 'normal' },
+  ],
+  display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Space Mono Build Fallback'],
+});
+const spaceMono = preserveSingleFontStyle(spaceMonoLocal, 'normal');
 
 const GOLD_ACCENT = '#BFA37A';
 const CHARCOAL = '#3A3832';

@@ -130,5 +130,426 @@
       100.0,
       1000.0
     ]
+  },
+  {
+    "family": "Roboto",
+    "file": "roboto-normal.woff2",
+    "style": "normal",
+    "version": "Version 3.015; 2026",
+    "source": "https://raw.githubusercontent.com/google/fonts/9710da1eacb3be272583c3224dcb70f9da6eadbb/ofl/roboto/Roboto%5Bwdth%2Cwght%5D.ttf",
+    "sourceSha256": "d7598e12c5dbef095ff8272cfc55da0250bd07fbdecbac8a530b9b277872a134",
+    "sha256": "01818c94a3c2cde4fa143dca8f3a93af4fb6865be72ca9c9dfb3c7ae3b8a7c6d",
+    "pinnedAxes": {
+      "wdth": 100
+    },
+    "license": "roboto-OFL.txt",
+    "weightRange": [
+      100.0,
+      900.0
+    ],
+    "embeddedFamily": "Roboto",
+    "originalBinary": false,
+    "missingMacrons": []
+  },
+  {
+    "family": "JetBrains Mono",
+    "file": "jetbrains-mono-normal.woff2",
+    "style": "normal",
+    "version": "Version 2.211",
+    "source": "https://raw.githubusercontent.com/google/fonts/9710da1eacb3be272583c3224dcb70f9da6eadbb/ofl/jetbrainsmono/JetBrainsMono%5Bwght%5D.ttf",
+    "sourceSha256": "48715a42ec242c21e9f02692891e147d022299a52e48d5e413e1a942193ffeda",
+    "sha256": "7b7f3419196f675a973d30cb70078749120caddea86c8547ebf54a8db2ca13af",
+    "pinnedAxes": {},
+    "license": "jetbrainsmono-OFL.txt",
+    "weightRange": [
+      100.0,
+      800.0
+    ],
+    "embeddedFamily": "JetBrains Mono",
+    "originalBinary": false,
+    "missingMacrons": []
+  },
+  {
+    "family": "Manrope",
+    "file": "manrope-normal.woff2",
+    "style": "normal",
+    "version": "Version 4.504",
+    "source": "https://raw.githubusercontent.com/google/fonts/8f9a401dbb3793e0d1264b15d96aa253f05280f5/ofl/manrope/Manrope%5Bwght%5D.ttf",
+    "sourceSha256": "d0639be45d0af36e798172419d7bd173c4bd4f29e2b76cbb69db1d11bf8b0a40",
+    "sha256": "e391a6ac08ae3daf2a2cd250425a2c7fb6c46947983ff7dbac8e5a8202314e0d",
+    "pinnedAxes": {},
+    "license": "manrope-OFL.txt",
+    "weightRange": [
+      200.0,
+      800.0
+    ],
+    "embeddedFamily": "Manrope ExtraLight",
+    "originalBinary": false,
+    "missingMacrons": []
+  },
+  {
+    "family": "Orbitron",
+    "file": "orbitron-normal.ttf",
+    "style": "normal",
+    "version": "Version 2.001",
+    "source": "https://raw.githubusercontent.com/google/fonts/9710da1eacb3be272583c3224dcb70f9da6eadbb/ofl/orbitron/Orbitron%5Bwght%5D.ttf",
+    "sourceSha256": "f42db2dd16e642258e35782916eceb1dcdbea06fb958d77ad71dc5963587e8fd",
+    "sha256": "f42db2dd16e642258e35782916eceb1dcdbea06fb958d77ad71dc5963587e8fd",
+    "pinnedAxes": {},
+    "license": "orbitron-OFL.txt",
+    "weightRange": [
+      400.0,
+      900.0
+    ],
+    "embeddedFamily": "Orbitron",
+    "originalBinary": true,
+    "missingMacrons": [
+      "\u0100",
+      "\u0101",
+      "\u0112",
+      "\u0113",
+      "\u012a",
+      "\u012b",
+      "\u014c",
+      "\u014d",
+      "\u016a",
+      "\u016b"
+    ]
+  },
+  {
+    "family": "Playfair Display",
+    "file": "playfair-display-normal.ttf",
+    "style": "normal",
+    "version": "Version 1.203",
+    "source": "https://raw.githubusercontent.com/google/fonts/9710da1eacb3be272583c3224dcb70f9da6eadbb/ofl/playfairdisplay/PlayfairDisplay%5Bwght%5D.ttf",
+    "sourceSha256": "c40f2293766a503bc70cce9e512ef844a4ccb7cbcde792fe2ea31d191917d8d6",
+    "sha256": "c40f2293766a503bc70cce9e512ef844a4ccb7cbcde792fe2ea31d191917d8d6",
+    "pinnedAxes": {},
+    "license": "playfairdisplay-OFL.txt",
+    "weightRange": [
+      400.0,
+      900.0
+    ],
+    "embeddedFamily": "Playfair Display",
+    "originalBinary": true,
+    "missingMacrons": []
+  },
+  {
+    "family": "Lato",
+    "file": "lato-normal-900.ttf",
+    "style": "normal",
+    "version": "Version 1.104; Western+Polish opensource",
+    "source": "https://raw.githubusercontent.com/google/fonts/90abd17b4f97671435798b6147b698aa9087612f/ofl/lato/Lato-Black.ttf",
+    "sourceSha256": "8b32bc539ca95dda2d2206a43234b5f3b0fe964bd25966c860bc80ec7f06d702",
+    "sha256": "8b32bc539ca95dda2d2206a43234b5f3b0fe964bd25966c860bc80ec7f06d702",
+    "pinnedAxes": {},
+    "license": "lato-OFL.txt",
+    "weightRange": [
+      900,
+      900
+    ],
+    "embeddedFamily": "Lato Black",
+    "originalBinary": true,
+    "missingMacrons": [
+      "\u0100",
+      "\u0101",
+      "\u0112",
+      "\u0113",
+      "\u012a",
+      "\u012b",
+      "\u014c",
+      "\u014d",
+      "\u016a",
+      "\u016b"
+    ]
+  },
+  {
+    "family": "Lato",
+    "file": "lato-italic-900.ttf",
+    "style": "italic",
+    "version": "Version 1.104; Western+Polish opensource",
+    "source": "https://raw.githubusercontent.com/google/fonts/90abd17b4f97671435798b6147b698aa9087612f/ofl/lato/Lato-BlackItalic.ttf",
+    "sourceSha256": "09660c19f1773a761b2e56a05b666813dfd6e6196b4ad9d85ff881f29a30e839",
+    "sha256": "09660c19f1773a761b2e56a05b666813dfd6e6196b4ad9d85ff881f29a30e839",
+    "pinnedAxes": {},
+    "license": "lato-OFL.txt",
+    "weightRange": [
+      900,
+      900
+    ],
+    "embeddedFamily": "Lato Black",
+    "originalBinary": true,
+    "missingMacrons": [
+      "\u0100",
+      "\u0101",
+      "\u0112",
+      "\u0113",
+      "\u012a",
+      "\u012b",
+      "\u014c",
+      "\u014d",
+      "\u016a",
+      "\u016b"
+    ]
+  },
+  {
+    "family": "Lato",
+    "file": "lato-normal-700.ttf",
+    "style": "normal",
+    "version": "Version 1.104; Western+Polish opensource",
+    "source": "https://raw.githubusercontent.com/google/fonts/90abd17b4f97671435798b6147b698aa9087612f/ofl/lato/Lato-Bold.ttf",
+    "sourceSha256": "14f7de6b616950395062902eb8f70f01c0a901223db5d40f2a05728ac4a830f6",
+    "sha256": "14f7de6b616950395062902eb8f70f01c0a901223db5d40f2a05728ac4a830f6",
+    "pinnedAxes": {},
+    "license": "lato-OFL.txt",
+    "weightRange": [
+      700,
+      700
+    ],
+    "embeddedFamily": "Lato",
+    "originalBinary": true,
+    "missingMacrons": [
+      "\u0100",
+      "\u0101",
+      "\u0112",
+      "\u0113",
+      "\u012a",
+      "\u012b",
+      "\u014c",
+      "\u014d",
+      "\u016a",
+      "\u016b"
+    ]
+  },
+  {
+    "family": "Lato",
+    "file": "lato-italic-700.ttf",
+    "style": "italic",
+    "version": "Version 1.104; Western+Polish opensource",
+    "source": "https://raw.githubusercontent.com/google/fonts/90abd17b4f97671435798b6147b698aa9087612f/ofl/lato/Lato-BoldItalic.ttf",
+    "sourceSha256": "2101c00b9c973a666bf128b3a776a45df7107bd29116079ee00541a8863d50ce",
+    "sha256": "2101c00b9c973a666bf128b3a776a45df7107bd29116079ee00541a8863d50ce",
+    "pinnedAxes": {},
+    "license": "lato-OFL.txt",
+    "weightRange": [
+      700,
+      700
+    ],
+    "embeddedFamily": "Lato",
+    "originalBinary": true,
+    "missingMacrons": [
+      "\u0100",
+      "\u0101",
+      "\u0112",
+      "\u0113",
+      "\u012a",
+      "\u012b",
+      "\u014c",
+      "\u014d",
+      "\u016a",
+      "\u016b"
+    ]
+  },
+  {
+    "family": "Lato",
+    "file": "lato-italic-400.ttf",
+    "style": "italic",
+    "version": "Version 1.104; Western+Polish opensource",
+    "source": "https://raw.githubusercontent.com/google/fonts/90abd17b4f97671435798b6147b698aa9087612f/ofl/lato/Lato-Italic.ttf",
+    "sourceSha256": "1a63dda1d2f019336e934e41d7ffa8f3e5f4cee0eb6a0c4734827dbe09ce5015",
+    "sha256": "1a63dda1d2f019336e934e41d7ffa8f3e5f4cee0eb6a0c4734827dbe09ce5015",
+    "pinnedAxes": {},
+    "license": "lato-OFL.txt",
+    "weightRange": [
+      400,
+      400
+    ],
+    "embeddedFamily": "Lato",
+    "originalBinary": true,
+    "missingMacrons": [
+      "\u0100",
+      "\u0101",
+      "\u0112",
+      "\u0113",
+      "\u012a",
+      "\u012b",
+      "\u014c",
+      "\u014d",
+      "\u016a",
+      "\u016b"
+    ]
+  },
+  {
+    "family": "Lato",
+    "file": "lato-normal-400.ttf",
+    "style": "normal",
+    "version": "Version 1.104; Western+Polish opensource",
+    "source": "https://raw.githubusercontent.com/google/fonts/90abd17b4f97671435798b6147b698aa9087612f/ofl/lato/Lato-Regular.ttf",
+    "sourceSha256": "7ae714b63c2c8b940bdd211a0cc678f01168a34eea8aa13c0df25364f29238a7",
+    "sha256": "7ae714b63c2c8b940bdd211a0cc678f01168a34eea8aa13c0df25364f29238a7",
+    "pinnedAxes": {},
+    "license": "lato-OFL.txt",
+    "weightRange": [
+      400,
+      400
+    ],
+    "embeddedFamily": "Lato",
+    "originalBinary": true,
+    "missingMacrons": [
+      "\u0100",
+      "\u0101",
+      "\u0112",
+      "\u0113",
+      "\u012a",
+      "\u012b",
+      "\u014c",
+      "\u014d",
+      "\u016a",
+      "\u016b"
+    ]
+  },
+  {
+    "family": "Public Sans",
+    "file": "public-sans-normal.woff2",
+    "style": "normal",
+    "version": "Version 2.001",
+    "source": "https://raw.githubusercontent.com/google/fonts/9710da1eacb3be272583c3224dcb70f9da6eadbb/ofl/publicsans/PublicSans%5Bwght%5D.ttf",
+    "sourceSha256": "d75a7dc1a27eb9e336d5b33f55489d2ecb5621bf694d5c43b2415bce2ca830a8",
+    "sha256": "82d45c7f758c7dea4e97ebe7edcee6feebc595d9f4a2aa9d7f2b8f4aca9a98ca",
+    "pinnedAxes": {},
+    "license": "publicsans-OFL.txt",
+    "weightRange": [
+      100.0,
+      900.0
+    ],
+    "embeddedFamily": "Public Sans Thin",
+    "originalBinary": false,
+    "missingMacrons": []
+  },
+  {
+    "family": "Poppins",
+    "file": "poppins-normal-700.woff2",
+    "style": "normal",
+    "version": "4.004",
+    "source": "https://raw.githubusercontent.com/google/fonts/9710da1eacb3be272583c3224dcb70f9da6eadbb/ofl/poppins/Poppins-Bold.ttf",
+    "sourceSha256": "983676516167748b74de6f4771fb384c664fd913acb8b471122ecacf5da5ea6c",
+    "sha256": "3d615551d27f028fac5bbb9918b7228883832adb1481c46704043a1e6f54e7b6",
+    "pinnedAxes": {},
+    "license": "poppins-OFL.txt",
+    "weightRange": [
+      700,
+      700
+    ],
+    "embeddedFamily": "Poppins",
+    "originalBinary": false,
+    "missingMacrons": []
+  },
+  {
+    "family": "Poppins",
+    "file": "poppins-normal-500.woff2",
+    "style": "normal",
+    "version": "4.004",
+    "source": "https://raw.githubusercontent.com/google/fonts/9710da1eacb3be272583c3224dcb70f9da6eadbb/ofl/poppins/Poppins-Medium.ttf",
+    "sourceSha256": "90373e7d838d32468438fc3e152dca0bdb12edcab99ea639f158790b1ba1fd05",
+    "sha256": "0858381adb7b21f531d5fb132ec9bd22a4ddb9d698c0f906194a851b2c976007",
+    "pinnedAxes": {},
+    "license": "poppins-OFL.txt",
+    "weightRange": [
+      500,
+      500
+    ],
+    "embeddedFamily": "Poppins Medium",
+    "originalBinary": false,
+    "missingMacrons": []
+  },
+  {
+    "family": "Poppins",
+    "file": "poppins-normal-600.woff2",
+    "style": "normal",
+    "version": "4.004",
+    "source": "https://raw.githubusercontent.com/google/fonts/9710da1eacb3be272583c3224dcb70f9da6eadbb/ofl/poppins/Poppins-SemiBold.ttf",
+    "sourceSha256": "d3bf1bdaf0550e83da9ac0b1d1d9fe6db086835a83aa28578e609a394b9a0286",
+    "sha256": "23e52c0caeeb83d8253323d05281e04b86495100aced05d20c1e57d5af0c021f",
+    "pinnedAxes": {},
+    "license": "poppins-OFL.txt",
+    "weightRange": [
+      600,
+      600
+    ],
+    "embeddedFamily": "Poppins SemiBold",
+    "originalBinary": false,
+    "missingMacrons": []
+  },
+  {
+    "family": "Space Mono",
+    "file": "space-mono-normal-700.woff2",
+    "style": "normal",
+    "version": "Version 1.003; ttfautohint (v1.8.4.7-5d5b)",
+    "source": "https://raw.githubusercontent.com/google/fonts/9710da1eacb3be272583c3224dcb70f9da6eadbb/ofl/spacemono/SpaceMono-Bold.ttf",
+    "sourceSha256": "405e73d41afb7e5906efce206a326af5c956f38e255f35421c260e861e599c59",
+    "sha256": "aa90806275743a460cb47b707d975c27358473cd6068bba1d4c62d13d747b120",
+    "pinnedAxes": {},
+    "license": "spacemono-OFL.txt",
+    "weightRange": [
+      700,
+      700
+    ],
+    "embeddedFamily": "Space Mono",
+    "originalBinary": false,
+    "missingMacrons": []
+  },
+  {
+    "family": "Space Mono",
+    "file": "space-mono-normal-400.woff2",
+    "style": "normal",
+    "version": "Version 1.003; ttfautohint (v1.8.4.7-5d5b)",
+    "source": "https://raw.githubusercontent.com/google/fonts/9710da1eacb3be272583c3224dcb70f9da6eadbb/ofl/spacemono/SpaceMono-Regular.ttf",
+    "sourceSha256": "95837e182baeeada83368f7748db28357f0a1b75c6b84ff7065b5edf933c8e18",
+    "sha256": "a3281287939a152ec1485709aff1a77515b4f0d657a24fcda3a5a439aa39adb2",
+    "pinnedAxes": {},
+    "license": "spacemono-OFL.txt",
+    "weightRange": [
+      400,
+      400
+    ],
+    "embeddedFamily": "Space Mono",
+    "originalBinary": false,
+    "missingMacrons": []
+  },
+  {
+    "family": "Zilla Slab",
+    "file": "zilla-slab-italic-400.woff2",
+    "style": "italic",
+    "version": "Version 1.1; 2017; ttfautohint (v1.6)",
+    "source": "https://raw.githubusercontent.com/google/fonts/9710da1eacb3be272583c3224dcb70f9da6eadbb/ofl/zillaslab/ZillaSlab-Italic.ttf",
+    "sourceSha256": "ff0cd7a2f0db59d017d51b4ed9003f58bf21ae218ab2a965aa3bc1dd894c152b",
+    "sha256": "9417b28ca4a752500c720ab914b8555b007ed067dbd5c47c8f13ddee171d1815",
+    "pinnedAxes": {},
+    "license": "zillaslab-OFL.txt",
+    "weightRange": [
+      400,
+      400
+    ],
+    "embeddedFamily": "Zilla Slab",
+    "originalBinary": false,
+    "missingMacrons": []
+  },
+  {
+    "family": "Archivo Black",
+    "file": "archivo-black-normal-400.woff2",
+    "style": "normal",
+    "version": "Version 1.006",
+    "source": "https://raw.githubusercontent.com/google/fonts/9710da1eacb3be272583c3224dcb70f9da6eadbb/ofl/archivoblack/ArchivoBlack-Regular.ttf",
+    "sourceSha256": "dd9a89a019b4849f66ab75455fe7bdf931311042cbb0f0f97acc061539703180",
+    "sha256": "c1a36cce93e75bb56a9502e384249d8dd6a20189053d1628b12274bcb8437ae1",
+    "pinnedAxes": {},
+    "license": "archivoblack-OFL.txt",
+    "weightRange": [
+      400,
+      400
+    ],
+    "embeddedFamily": "Archivo Black",
+    "originalBinary": false,
+    "missingMacrons": []
   }
 ]

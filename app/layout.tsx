@@ -1,5 +1,6 @@
+import localFont from 'next/font/local';
 import type { Metadata } from 'next';
-import { IBM_Plex_Mono, Instrument_Sans, Archivo_Black } from 'next/font/google';
+import { IBM_Plex_Mono, Instrument_Sans } from 'next/font/google';
 import { GlobalNav, GlobalFooter } from '@/components/site/GlobalChrome';
 import { ScrollProgress } from '@/components/site/scroll-progress';
 import { CommandPalette } from '@/components/site/CommandPalette';
@@ -52,11 +53,14 @@ const plexMono = IBM_Plex_Mono({
 
 // Retained only for legacy/editorial surfaces that still explicitly consume it.
 // Current company UI remains Instrument Sans + IBM Plex Mono per brand canon.
-const archivoBlack = Archivo_Black({
-  subsets: ['latin'],
-  weight: ['400'],
+const archivoBlack = localFont({
+  src: '../lib/fonts/assets/archivo-black-normal-400.woff2',
+  weight: '400',
+  style: 'normal',
   variable: '--font-editorial',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Archivo Black Build Fallback'],
 });
 
 const CURRENT_DESCRIPTION =
