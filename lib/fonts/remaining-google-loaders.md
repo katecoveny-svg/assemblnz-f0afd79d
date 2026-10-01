@@ -49,3 +49,9 @@ The minimal follow-up converts only the two Montserrat declarations. Other entri
 - Preserve Next 16.2.6 fallback metrics and pinned official source provenance/licences. Check reserved font names before conversion.
 - Reuse checked-in assets only where family, style, axis defaults and weight coverage match. Cache output alone is not licensed source provenance.
 - Extend the existing font contract tests and repeat full builds in isolated output directories. No dependency/bundler switch or skipped build.
+
+## DM Sans follow-up evidence
+
+Maintenance exact-head CI run [36837881883](https://github.com/katecoveny-svg/assemblnz-f0afd79d/actions/runs/36837881883), reconciled head `d46bc0f9e`, failed after type/core tests passed: six Turbopack errors in `[next]/internal/font/google/dm_sans_b4859cc7.module.css`, imported by `app/alphassembl/layout.tsx`. The log contains both “next/font/google queries have exactly one entry” and unresolved `@vercel/turbopack-next/internal/font/google/font`. The Vercel preview passed that head. This is the same intermittent parser exposure; repeating the build does not remove it.
+
+The separate DM Sans patch converts only `dmSans` in that layout (normal 500/600/700, `--font-alpha-display`). It pins optical size14, matching the currently Google-served outlines, rather than silently using the source TTF optical-size9 default. Source and served versions are4.004. Canonical Instrument Sans/Plex Mono remain unchanged; 13 other Google families remain after Montserrat and DM Sans.

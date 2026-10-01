@@ -335,5 +335,19 @@
       "normal"
     ],
     "variable": "--contact-body"
+  },
+  {
+    "file": "app/alphassembl/layout.tsx",
+    "name": "dmSans",
+    "family": "DM Sans",
+    "weights": [
+      "500",
+      "600",
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--font-alpha-display"
   }
 ]
