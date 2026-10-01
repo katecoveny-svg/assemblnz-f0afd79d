@@ -11,9 +11,9 @@ export const companies = {
 export type CompanyKey=keyof typeof companies;
 export function companyKey(name:string):CompanyKey {
  if(/^assembl(?:\s|$)/i.test(name.trim()))return "assembl";
- if(/^sap(?:\s|$)/i.test(name.trim()))return "sap";
- if(/^hawkins(?:\s|$)/i.test(name.trim()))return "hawkins";
- if(/^southbase(?:\s|$)/i.test(name.trim()))return "southbase";
+ if(/^(?:sap(?:\s|$)|Example Technology Studio$)/i.test(name.trim()))return "sap";
+ if(/^(?:hawkins(?:\s|$)|Example Construction Studio$)/i.test(name.trim()))return "hawkins";
+ if(/^(?:southbase(?:\s|$)|Example Project Studio$)/i.test(name.trim()))return "southbase";
  return "custom";
 }
 export function clientSectors(seller:string, focus?:ResearchFocus):readonly Sector[]{

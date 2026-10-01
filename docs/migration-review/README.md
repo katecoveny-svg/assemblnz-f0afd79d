@@ -5,7 +5,7 @@
 ## Identity and provenance
 
 - Target repo: `katecoveny-svg/assemblnz-f0afd79d`; local branch `review/client-hub-migration`.
-- Initial target baseline: `beab36a512422a6c4571e78c5dad797d76d6f04a`. Current production main `106adfb9a6a9469d86c7d5942d97171ebb9f595b` (including PR1432) was merged into this isolated branch; no DO/source implementation changes are made here.
+- Initial target baseline: `beab36a512422a6c4571e78c5dad797d76d6f04a`. Current approved main `dd241e532519f00094a221d094a584840544ca06` (including font PR1441 and preceding production work) was merged into this isolated branch; no DO/source implementation changes are made here.
 - Original Site: `appgprj_6aa356a9700081919f7959cc70c9f6d8`, Sep14 checkout, commit `f9c752ed5d5107ebac9f675aa6d14bce116c01c1`.
 - The 58 copied dependency files are inventoried with original SHA256 and byte sizes in `source-inventory.json`. This is an archival checkout plus five local modifications, **not a reconciled export of today's deployed version**.
 - `dirty-source-hashes.json` covers all five modified original files. The original checkout, environment and data are untouched. No credentials or production records were copied.
@@ -48,3 +48,11 @@ Company and client fields can be edited for arbitrary briefs. Intelligence-linke
 ## Reusable boundary
 
 Uses the original Studio renderer/board/brand contracts and existing main UI/auth/provider foundations. Creates a temporary fixture transport and a reusable pure recipient policy. Extends no DO or source-ingestion implementation. A grant policy is necessary but does not replace authoritative server lookup/RLS or prove live access protection.
+
+## New empty owner-workspace stage
+
+`/studio/workspace` and `/api/client-hub-migration/owner` are implemented but off by default. They start with no client records or fixture ideas; owner-authored ideas use the original editor/renderer. The existing verified cookie session, exact user allowlist, original payload validation, same-origin/no-store API and security-invoker optimistic-save RPC define the boundary. The SQL proposal is separately reviewed and unapplied; no production credentials, grants, media or old data are connected. See `owner-activation-plan.md` and `confidential-preset-audit.md`.
+
+Owner API/unit tests:7 additional passes, total16. Actual synthetic Postgres RLS/RPC/storage-membership tests pass; production cookie/storage/account proof is outstanding. Sharing and backup import are disabled on the new owner stage.
+
+Two representative fictional screenshots are saved privately to Library: desktop `libfile_01a8d6a02020819193acd0b03b1b75b1`, mobile `libfile_9e270a16870c8191b3b53965b5aee473`, both version1. These show the fixture review, not an activated live owner account.

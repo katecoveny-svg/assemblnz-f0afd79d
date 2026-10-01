@@ -45,3 +45,11 @@
   .client-hub-migration-review .cs-rail nav button { flex: none; }
   .client-hub-migration-review .cs-intel { order: 0; margin-left: auto; flex: none; max-width: 100%; }
 }
+/* Prompt controls and the original caption must occupy separate layout space. */
+.client-hub-migration-review .ep-hero-visual:has(> .context-visual-prompt),
+.client-hub-migration-review .cs-inspiration:has(> .context-visual-prompt) { display: flex; flex-direction: column; }
+.client-hub-migration-review .ep-hero-visual > .context-visual-prompt,
+.client-hub-migration-review .cs-inspiration > .context-visual-prompt { flex: 1; height: auto; min-height: 0; padding: 110px 24px 28px; }
+.client-hub-migration-review .ep-hero-visual:has(.context-visual-prompt) .ep-hero-caption,
+.client-hub-migration-review .cs-inspiration:has(.context-visual-prompt) .cs-inspiration-caption { position: relative; left: auto; right: auto; bottom: auto; margin: 0 20px 20px; }
+.client-hub-migration-review .ep-hero-visual:has(> .context-visual-prompt) { background: #F5F1F2; }

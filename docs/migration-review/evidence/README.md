@@ -1,5 +1,7 @@
 # Synthetic local review evidence
 
-Use only desktop-final-opportunity.png and mobile-final-prepared.png as the current inspected checkpoint. Both contain fictional review data, not private client records. The mobile full-page image captures a sticky main navigation at its current scroll position; actual document width measured375 at375 viewport.
+Current desktop-final-opportunity.png and mobile-final-prepared.png both show the opportunity view with fictional Example Studio/Fictional community housing team values. The mobile filename is retained for Library identity; its current version1 shows the opportunity, and earlier git/Library version0 retains the prepared-draft screenshot.
 
-Other local screenshots are intermediate diagnostics and are intentionally not committed as release proof. Keyboard interaction is confirmed; some headless pointer actions did not settle and pointer/touch acceptance remains open. No file download/share/provider action was exercised.
+Desktop1440 and mobile375 were pixel-inspected. Prompt controls and captions occupy separate layout space. Mobile document width375, no broken images or overlap. No original private client records, account/browser tabs or personal data. These are fixture-review screenshots, not activated owner-session proof.
+
+Keyboard journey preparation and board movement were confirmed earlier; some headless pointer actions did not settle and full pointer/touch/reduced-motion acceptance remains open. No file download/share/provider action exercised. Intermediate local screenshots are diagnostic and not committed as release proof.

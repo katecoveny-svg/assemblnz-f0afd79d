@@ -10,4 +10,6 @@ Retained named buyer examples (travel, retail, procurement etc.) are independent
 
 Old security-panel claims about Sites sign-in, active research, unlisted sharing and connected providers were replaced with the actual staged port boundary. Sharing actions remain disabled; all unknown provider/upload/grant calls fail closed. New drafts use server-verified assembl identity and owner RLS only after activation; no owner payload is returned by recipient routes.
 
+The emitted development review chunk was checked and excluded the person/prospect pitch strings. Production compilation did not finish, so that narrower emitted-bundle check is not production acceptance.
+
 Before production release: inspect built client chunks for excluded prospect text and ensure no archived screenshot/source path/account metadata is bundled. Authorised old-record import and media reconciliation remain separate decisions. Do not import an owner backup containing old client material under this activation plan.
