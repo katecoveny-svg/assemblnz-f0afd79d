@@ -86,7 +86,7 @@ export const syntheticTransport: CoordinationTransport = {
     let next: Session = { ...s, received, seen: { ...s.seen, [e.id]: supplied } };
     if (received.alex && received.sam) {
       const proposal = overlap(received.alex, received.sam, s.durationMinutes);
-      const planDigest = await digest({ taskId: e.taskId, contactId: e.contactId, revision: s.revision, expiresAt: s.expiresAt, durationMinutes: s.durationMinutes, owners: ['alex', 'sam'], windows: received, proposal: proposal ?? null });
+      const planDigest = await digest({ taskId: e.taskId, contactId: e.contactId, revision: s.revision, expiresAt: s.expiresAt, durationMinutes: s.durationMinutes, timezone: 'Pacific/Auckland', owners: ['alex', 'sam'], windows: received, proposal: proposal ?? null });
       next = { ...next, proposal, digest: planDigest, status: proposal ? 'proposal' : 'no_overlap' };
     }
     return { session: next, duplicate: false };

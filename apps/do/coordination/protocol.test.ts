@@ -68,6 +68,13 @@ describe('synthetic EA coordination', () => {
   it('canonical digest ignores property order and new approvals reject started slots', async () => {
     expect(await digest({ sam: { end: 'b', start: 'a' }, alex: ['x'] })).toBe(await digest({ alex: ['x'], sam: { start: 'a', end: 'b' } }));
     const { s } = await prepare();
+    const f = fixture();
+    const accepted = acceptContact(acceptContact(f.session, 'alex', now), 'sam', now);
+    const a = await disclose(accepted, 'alex', f.privateWindows.alex, now);
+    const b = await disclose(a.session, 'sam', f.privateWindows.sam, now);
+    const reverseFirst = await syntheticTransport.deliver(b.session, 'alex', b.envelope, now);
+    const reverse = await syntheticTransport.deliver(reverseFirst.session, 'sam', a.envelope, now);
+    expect(reverse.session.digest).toBe(s.digest);
     expect(() => approveProposal(s, 'alex', s.revision, s.digest!, Date.parse(s.proposal!.start))).toThrow('started');
   });
   it('uses instants through Auckland DST and timezone offsets', () => {
