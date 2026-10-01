@@ -26,7 +26,8 @@ const document = { ...base, id: docId, requirements: [
   { id: requirement, text: 'Fictional requirement: supply an induction record.', citation: cite(docId), unclear: false },
   { id: missing, text: 'Fictional requirement: supply a transport plan.', citation: cite(docId, 3), unclear: false },
 ] };
-const evidence = { ...base, id: evId, claims: [{ requirementId: requirement, text: 'Fictional induction record supplied.', citation: cite(evId, 4) }] };
+const evidence = { ...base, id: evId, claims: [{ documentId: docId, documentVersion: document.version,
+  requirementId: requirement, text: 'Fictional induction record supplied.', citation: cite(evId, 4) }] };
 const args = { documentId: docId, evidenceIds: [evId], requestId: reqId };
 const store = (d = document, e = evidence, clock = () => now) => createFixtureReviewStore({ documents: [d], evidence: [e], now: clock });
 
@@ -104,6 +105,23 @@ describe('NZBN mocked wire and minimal projection', () => {
 });
 
 describe('fictional preparation receipts', () => {
+  it('cannot reuse an association across same-owner documents sharing a requirement UUID', () => {
+    const otherId = '00000000-0000-4000-8000-000000000006';
+    const other = { ...document, id: otherId, requirements: document.requirements.map(r => ({ ...r, citation: cite(otherId) })) };
+    const s = createFixtureReviewStore({ documents: [document, other], evidence: [evidence], now: () => now });
+    expect(s.map(principal, args).requirements[0].state).toBe('matched');
+    const result = s.map(principal, { ...args, documentId: otherId, requestId: otherId });
+    expect(result.requirements[0]).toMatchObject({ state: 'missing', matchedEvidence: [] });
+  });
+  it('cannot carry an association onto another immutable version of the same document', () => {
+    const updated = { ...document, version: 'fictional-v2', requirements: document.requirements.map(r => ({
+      ...r, citation: { ...r.citation, version: 'fictional-v2' },
+    })) };
+    const result = store(updated).map(principal, args);
+    expect(result.requirements[0]).toMatchObject({ state: 'missing', matchedEvidence: [] });
+    const updatedEvidence = { ...evidence, claims: evidence.claims.map(c => ({ ...c, documentVersion: 'fictional-v2' })) };
+    expect(store(updated, updatedEvidence).map(principal, args).requirements[0].state).toBe('matched');
+  });
   it('maps explicit supplied associations with version/page citations and missing questions', () => {
     const review = store().map(principal, args);
     expect(review.mode).toBe('fictional-fixture'); expect(review.status).toBe('prepared');

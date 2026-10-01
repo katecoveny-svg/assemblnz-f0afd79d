@@ -13,7 +13,7 @@ export const documentSchema = source.extend({ requirements: z.array(z.object({
 }).strict()).min(1).max(50) }).strict();
 export const evidenceSchema = source.extend({ claims: z.array(z.object({
   // Explicit supplied associations; text similarity is never a match.
-  requirementId: id, text, citation,
+  documentId: id, documentVersion: z.string().min(1).max(80), requirementId: id, text, citation,
 }).strict()).max(50) }).strict();
 export const mapInput = z.object({ documentId: id, evidenceIds: z.array(id).max(20)
   .refine(ids => new Set(ids).size === ids.length), requestId: id }).strict();
@@ -98,7 +98,8 @@ export function createFixtureReviewStore(input: { documents: Document[]; evidenc
       document: { sourceId: d.id, version: d.version },
       evidenceVersions: selected.map(e => ({ sourceId: e.id, version: e.version })),
       requirements: d.requirements.map(r => {
-        const claims = selected.flatMap(e => e.claims.filter(c => c.requirementId === r.id));
+        const claims = selected.flatMap(e => e.claims.filter(c => c.documentId === d.id
+          && c.documentVersion === d.version && c.requirementId === r.id));
         const unclear = !allFresh || r.unclear || injection.test(r.text) || claims.some(c => injection.test(c.text));
         return { requirementId: r.id, citation: r.citation,
           state: unclear ? 'unclear' : claims.length ? 'matched' : 'missing',
