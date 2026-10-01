@@ -20,3 +20,13 @@ Only weight varies, matching the previous Google requests. Inter optical size is
 Cause: [Next #99114](https://github.com/vercel/next.js/issues/99114). A valid Google Fonts response can contain an extensionless `/l/font?kit=…&skey=…&v=…` URL. Turbopack treats its ampersands as additional internal query entries and fails with `next/font/google queries have exactly one entry`; the reported module-resolution failures follow that parsing failure. Webpack has a separate extension-parsing failure, so a bundler switch is not the remedy.
 
 Scope: this removes the changing Google response from the four families implicated in the recurring customer builds. Other existing Google loaders still need network access; this is not a claim that every font in the app is offline. There are no dependency upgrades, cache resets, retries, build-check bypasses or production configuration changes.
+
+## Montserrat follow-up
+
+The homepage preview at commit `50856ece0158fa90dd6240d5d1d0c3e02a5b496c` failed with the same Turbopack query parser error in the unchanged brand Montserrat declaration. A later preview passed, confirming intermittent exposure remains in the unconverted families. This follow-up bundles only Montserrat normal Version 9.000 from the same pinned official Google Fonts source commit. The variable source retains the legacy default-instance name “Montserrat Thin”; its `wght` axis covers 100–900. Declarations still expose only their previous individual weights and normal style. Next's Arial fallback metrics are preserved. OFL has no reserved font name declaration. The source TTF SHA and packaged WOFF2 SHA are recorded in customer-fonts.json.
+
+See ../remaining-google-loaders.md for the audited remaining-loader scope; canonical loaders remain unchanged in this minimal follow-up.
+
+## DM Sans follow-up
+
+The Alphassembl declaration has the same verified query/resolver failure in maintenance CI36837881883. DM Sans normal Version4.004 is packaged from the same official source pin. Pin `opsz:14` to match the Google-served default for this request (the source TTF defaults to9); retain the exact normal500/600/700 face entries, variable and swap mode. The source keeps the legacy “DM Sans9pt” name even at optical size14. Next16.2.6 Arial fallback metrics94.90%/29.66%/0.00%/104.53% are preserved. OFL has no declared reserved font name. Full glyph coverage and source/packaged checksums are recorded and tested.
