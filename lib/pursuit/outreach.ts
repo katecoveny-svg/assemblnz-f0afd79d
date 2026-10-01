@@ -57,6 +57,10 @@ export function parseOutreach(value: unknown, sourceUrls: string[], sellerWebsit
     prospect.website = identityPage(prospect.website);
     traced(prospect.website, 'prospect.website');
     traced(prospect.signal.url, 'prospect.signal.url');
+    // The source contract records retrieval, not verified publication dates.
+    // Model-provided dates (including today's date) carry no date provenance.
+    // Keep them unknown until trusted source metadata can validate publication.
+    prospect.signal.publishedAt = null;
     // A guessed /contact page must not be presented as discovered evidence.
     // Missing optional contact data should not discard a sourced account.
     prospect.contactUrl = prospect.contactUrl ? exact(prospect.contactUrl) : null;
@@ -65,6 +69,47 @@ export function parseOutreach(value: unknown, sourceUrls: string[], sellerWebsit
     seen.add(domain);
   }
   return campaign;
+}
+
+
+/** A partial shortlist is valid only after each retained account passes the
+ * unchanged validator. Unsupported accounts are omitted, never repaired into
+ * guessed identities. Seller/schema failures still reject the whole response.
+ */
+export function parseGroundedOutreach(value: unknown, sourceUrls: string[], sellerWebsite: string): OutreachCampaign {
+  const campaign = OutreachCampaign.parse(value);
+  const validated = parseOutreach({ ...campaign, prospects: [] }, sourceUrls, sellerWebsite);
+  const known = new Set(sourceUrls.map(publicWebsite).filter((url): url is string => Boolean(url)));
+  const host = (url: string) => new URL(url).hostname.replace(/^www\./, '');
+  const sellerHost = host(publicWebsite(sellerWebsite)!);
+  const seen = new Set<string>();
+  const omitted = new Map<string, number>();
+  campaign.prospects.forEach((prospect, index) => {
+    const website = publicWebsite(prospect.website);
+    const signal = publicWebsite(prospect.signal.url);
+    let field = 'prospect.website';
+    let category = !website || !known.has(website) ? 'identity_untraced' : '';
+    if (!category && (!signal || !known.has(signal))) { field = 'prospect.signal.url'; category = 'signal_untraced'; }
+    if (!category && host(website!) === sellerHost) category = 'seller_identity';
+    if (!category && seen.has(host(website!))) category = 'duplicate_identity';
+    if (category) {
+      omitted.set(category, (omitted.get(category) ?? 0) + 1);
+      console.warn('public_research_prospect_omitted', { field, index, category });
+      return;
+    }
+    const retained = parseOutreach({ ...validated, prospects: [prospect] }, sourceUrls, sellerWebsite).prospects[0];
+    validated.prospects.push(retained);
+    seen.add(host(website!));
+  });
+  const gaps: string[] = [];
+  if (!validated.prospects.length) gaps.push('No verified shortlist: no prospect passed the identity, signal and distinct-account checks. Further public-source research is needed.');
+  if (omitted.size) {
+    const labels: Record<string, string> = { identity_untraced: 'untraced company website', signal_untraced: 'untraced signal', seller_identity: 'seller listed as prospect', duplicate_identity: 'duplicate account' };
+    gaps.push('Omitted unsupported accounts: ' + [...omitted].map(([category, count]) => `${labels[category]} (${count})`).join('; ') + '. No replacement accounts were added.');
+  }
+  validated.gaps = [...gaps, ...validated.gaps].slice(0, 5);
+  // Recheck the complete retained set, including duplicates and source rules.
+  return parseOutreach(validated, sourceUrls, sellerWebsite);
 }
 
 export type OutreachCopy = { subject: string; opening: string; followUp: string };
