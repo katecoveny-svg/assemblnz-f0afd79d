@@ -160,3 +160,7 @@ Extends existing `apps/do/personal` responsibilities, runs and worker health wit
 ### EA-to-EA diary coordination (fictional review foundation)
 
 Creates `apps/do/coordination/protocol.ts` and `/do/coordination`: strict synthetic envelopes, exact-window disclosure, deterministic overlap, revision/digest-bound dual review, expiry/revocation, idempotent delivery and three-round cap. Uses canonical DO frame/identity. Session-only two-adult fixtures; no production peer identity, memory access, calendar permissions, durable delivery or booking. See `docs/DO-EA-COORDINATION.md` for audited boundaries, tests and live adapter gates.
+
+### Authenticated EA coordination (inactive durable proposal)
+
+Adds `apps/do/coordination/durable/*` and `/api/do/coordination` behind an off-by-default pilot flag and a reject-all pairing adapter. Authenticated session-bound commands and private snapshots use proposed isolated participant storage, exact disclosure/proposal approval, CAS, bounded rounds/quotas and durable replay tombstones. SQL remains `docs/do-coordination/schema-review.sql` outside migrations; no real pairing, calendar/provider action or external transport. Public fictional review stays unchanged. See `docs/do-coordination/README.md` for PostgreSQL proof and activation gates.
