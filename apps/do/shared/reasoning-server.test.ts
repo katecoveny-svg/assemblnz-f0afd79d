@@ -53,4 +53,15 @@ describe('Shared DO Astra/TypeSafe admission (mocked HTTP only)', () => {
     expect(await runDoTextReasoning(input as never, owner)).toMatchObject({ state: 'unsupported', externalActions: false, generation: null });
     expect(fetcher).not.toHaveBeenCalled(); expect(gate.finish).toHaveBeenCalledWith(true, expect.any(Object));
   });
+  it('saved style is Astra-only data and never expands classifier context or tools', async () => {
+    const fetcher = vi.fn(async () => new Response(JSON.stringify({ error: { message: 'Fictional interruption' } }), { status: 503, headers: { 'content-type': 'application/json' } }));
+    vi.stubGlobal('fetch', fetcher);
+    const style = 'Private saved wording preference: keep replies short.';
+    await expect(runDoTextReasoning(input as never, owner, undefined, undefined, style)).rejects.toMatchObject({ code: 'astra_generation_failed' });
+    expect(JSON.stringify(gate.check.mock.calls[0][0])).not.toContain(style);
+    expect(JSON.stringify(gate.check.mock.calls[0][0])).not.toContain('communicationStyle');
+    const body = JSON.parse(String((fetcher.mock.calls[0] as unknown as [string, RequestInit])[1].body));
+    expect(JSON.stringify(body.input)).toContain(style);
+    expect(body.tools).toBeUndefined();
+  });
 });

@@ -40,7 +40,7 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
   const [sourceUrl, setSourceUrl] = useState('');
   const [consent, setConsent] = useState(false);
   const [availability, setAvailability] = useState<DoAvailability | null>(null);
-  const [needsSignIn, setNeedsSignIn] = useState(false);
+  const [needsSignIn, setNeedsSignIn] = useState(true);
   const pathname = usePathname();
   const query = useSyncExternalStore(subscribeLocation, currentSearch, () => "");
   const [busy, setBusy] = useState(false);
@@ -56,7 +56,7 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
 
   const applyRuntime = useCallback((data: RuntimeStatus) => {
     setAvailability(data.availability || null);
-    setNeedsSignIn(data.signedIn !== true && data.trial?.remaining === 0);
+    setNeedsSignIn(data.signedIn !== true);
   }, []);
 
   useEffect(() => {
@@ -102,7 +102,7 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
 
   async function prepare(event: React.FormEvent) {
     event.preventDefault();
-    if (!consent || !source.trim() || busy) return;
+    if (!consent || !source.trim() || busy || (task !== 'extract' && needsSignIn)) return;
     setBusy(true); setError(''); setNotice('');
     const controller = new AbortController(); abort.current = controller;
     try {
@@ -113,7 +113,7 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
       const data = await response.json();
       if (controller.signal.aborted) return;
       if (!response.ok || !data.draft) {
-        if (data.error === 'trial_exhausted') setNeedsSignIn(true);
+        if (data.error === 'sign_in_required') setNeedsSignIn(true);
         throw new Error(data.message || 'DO could not finish this preparation.');
       }
       setDraft(data.draft); setReviewer(''); setSourceForDraft(source.trim()); setBriefForDraft(brief.trim());
@@ -157,10 +157,10 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
       {!focus && <div className="do-example-row"><span>Try with sample text:</span>{EXAMPLES.map((example, index) => <button key={example.title} type="button" disabled={busy} onClick={() => { setSource(example.text); setSourceTitle(example.title); setSourceUrl(''); setBrief(''); setConsent(false); setTask(index === 0 ? 'reply' : index === 1 ? 'brief' : 'compare'); }}>{index === 0 ? 'A message' : index === 1 ? 'School notice' : 'Two quotes'}</button>)}</div>}
       <details className="do-source-details"><summary>Add a source label or instructions</summary><label htmlFor="do-source-title">Source label</label><input id="do-source-title" value={sourceTitle} maxLength={160} disabled={busy} onChange={event => { setSourceTitle(event.target.value); setConsent(false); }} placeholder="For example, September supplier quotes" /><label htmlFor="do-source-url">Source link, if useful</label><input id="do-source-url" type="url" value={sourceUrl} maxLength={2_000} disabled={busy} onChange={event => { setSourceUrl(event.target.value); setConsent(false); }} placeholder="https://…" /><p>Links are recorded as references. Paste the text you want used; DO does not open these pages.</p><label htmlFor="do-brief">Anything to focus on?</label><textarea id="do-brief" value={brief} maxLength={DO_BRIEF_LIMIT} rows={3} disabled={busy} onChange={event => { setBrief(event.target.value); setConsent(false); }} placeholder="For example, prepare this for Jamie and flag anything we need to confirm." /></details>
       <label className="do-consent"><input type="checkbox" checked={consent} disabled={busy} onChange={event => setConsent(event.target.checked)} /><span>Use this text for this preparation.<small>{task === 'extract' ? 'assembl will extract exact matches from the text.' : 'The text and instructions go to OpenAI (GPT-6 Astra) and TypeSafe after this confirmation.'} Saving a copy on this device is a separate choice.</small></span></label>
-      <div className="do-prepare-actions"><button className="do-primary" disabled={busy || needsSignIn || !consent || !source.trim() || (task !== 'extract' && availability?.preparation === 'unavailable')} type="submit">{busy ? <LoaderCircle className="do-spin" size={18} /> : <span className="do-action-mark" aria-hidden><DoMark /></span>}{busy ? 'Preparing your draft…' : DO_TASKS.find(option => option.id === task)!.title}<ArrowUpRight size={18} /></button>{busy && <button type="button" className="do-quiet-button" onClick={() => abort.current?.abort()}>Stop</button>}</div>
+      <div className="do-prepare-actions"><button className="do-primary" disabled={busy || (task !== 'extract' && needsSignIn) || !consent || !source.trim() || (task !== 'extract' && availability?.preparation === 'unavailable')} type="submit">{busy ? <LoaderCircle className="do-spin" size={18} /> : <span className="do-action-mark" aria-hidden><DoMark /></span>}{busy ? 'Preparing your draft…' : DO_TASKS.find(option => option.id === task)!.title}<ArrowUpRight size={18} /></button>{busy && <button type="button" className="do-quiet-button" onClick={() => abort.current?.abort()}>Stop</button>}</div>
       <p className="do-runtime-note">{availability?.note || 'Preparation status is checked when you run a task.'}</p>
     </form>
-    {needsSignIn && <p className="do-error" role="status">Your free tries are used. <a href={`/login?redirect=${encodeURIComponent(doReturnPath(pathname || '/do/widget', query))}`} target="_blank" rel="noopener noreferrer">Sign in in a new tab</a>, then return here. Your text stays on this page. <button type="button" className="do-quiet-button" onClick={() => void readRuntime(AbortSignal.timeout(10_000)).then(applyRuntime).then(() => setError('')).catch(cause => setError(cause instanceof Error ? cause.message : 'Connection could not be checked.'))}>Check connection</button></p>}
+    {task !== 'extract' && needsSignIn && <p className="do-error" role="status">Model preparation needs your signed-in account and configured access. Exact extraction needs no model or subscription. <a href={`/login?redirect=${encodeURIComponent(doReturnPath(pathname || '/do/widget', query))}`} target="_blank" rel="noopener noreferrer">Sign in in a new tab</a>, then return here. Your text stays on this page. <button type="button" className="do-quiet-button" onClick={() => void readRuntime(AbortSignal.timeout(10_000)).then(applyRuntime).then(() => setError('')).catch(cause => setError(cause instanceof Error ? cause.message : 'Connection could not be checked.'))}>Check connection</button></p>}
     {error && <p className="do-error" role="alert">{error}</p>}
     {notice && <p className="do-success" role="status">{notice}</p>}
     {draft && <section ref={resultRef} tabIndex={-1} className="do-prepared" aria-label="Prepared draft">

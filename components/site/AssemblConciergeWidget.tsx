@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { X } from 'lucide-react';
-import { isCustomerWorkspace, isAlphassembl, isAssemblBills, isStandaloneHealth, isMotionStudio, isCreativeStudio, isAgentMarketplace } from '@/components/site/site-header';
+import { publicDoAssistantIsolated } from '@/apps/do/shared/public-assistant-routes';
 import { DoBrand } from '@/components/do/DoBrand';
 import { PersonalDoAssistant } from '@/app/do/personal/PersonalDoAssistant';
 import { createClient } from '@/lib/supabase/client';
@@ -13,7 +13,7 @@ import styles from './do-site-assistant.module.css';
 /** Public DO drafting surface. No page scraping, customer data, FAQ simulation or execution. */
 export function AssemblConciergeWidget() {
   const pathname = usePathname() ?? '/';
-  const isolated = /^\/(do|pursuit|admin|auth)(\/|$)/.test(pathname) || pathname === '/login' || pathname === '/preview/home' || /^\/agents\/[^/]+\/chat(\/|$)/.test(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || isMotionStudio(pathname) || isCreativeStudio(pathname) || isAgentMarketplace(pathname);
+  const isolated = publicDoAssistantIsolated(pathname);
   const [open, setOpen] = useState(false);
   const [owner, setOwner] = useState<string | null>(null);
   const [epoch, setEpoch] = useState(0);

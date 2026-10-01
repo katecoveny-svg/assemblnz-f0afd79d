@@ -18,12 +18,12 @@ export async function POST(req: Request) {
   try {
     const { messages, moreAvailable } = await collectFamilyMail(owner.externalId, parsed.data.senders, parsed.data.days);
     if (!messages.some(m => m.text.trim())) {
-      return json({ empty: true, message: 'No readable messages matched these senders in this time range. No free task was used.' });
+      return json({ empty: true, message: 'No readable messages matched these senders in this time range. No provider request started.' });
     }
     const result = await organiseFamilyMail(messages, req.signal, { ownerId: owner.id, providerConsentVersion: parsed.data.providerConsentVersion, requestId: req.headers.get('Idempotency-Key') ?? undefined });
     return json({ result, sources: messages.map(source => ({ id: source.id, subject: source.subject, from: source.from, date: source.date, truncated: source.truncated, hasAttachments: source.hasAttachments, url: `https://mail.google.com/mail/u/0/#all/${source.id}` })), checkedAt: new Date().toISOString(), moreAvailable, status: 'review', stored: false });
   } catch (error) {
     if (error instanceof PilotError) return json({ message: error.message, error: error.code }, error.status);
-    return json({ message: 'DO could not complete a source-checked school-admin list. Check your Gmail connection and try again. No free task was retained for this failed run.' }, 503);
+    return json({ message: 'DO could not complete a source-checked school-admin list. Check your Gmail connection and try again. No usable draft was saved. A provider budget reservation may remain for work already attempted.' }, 503);
   }
 }

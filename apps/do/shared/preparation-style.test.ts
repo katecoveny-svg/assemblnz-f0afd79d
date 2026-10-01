@@ -19,7 +19,8 @@ describe("Personal DO provider style boundary", () => {
     await prepareDoDraft(input, undefined, style);
     const request = provider.generate.mock.calls[0][0];
     const payload = JSON.parse(request.context);
-    expect(payload.communicationStyle).toBe(style);
+    expect(payload).not.toHaveProperty("communicationStyle");
+    expect(provider.generate.mock.calls[0][4]).toBe(style);
     expect(request.message).toContain(input.brief);
     expect(payload.sourceText).toBe(input.source);
     expect(request.tools).toBeUndefined();
@@ -28,7 +29,8 @@ describe("Personal DO provider style boundary", () => {
   it("caps style at the server boundary without truncating source or task", async () => {
     await prepareDoDraft(input, undefined, "x".repeat(5000));
     const payload = JSON.parse(provider.generate.mock.calls[0][0].context);
-    expect(payload.communicationStyle.length).toBe(2200);
+    expect(payload).not.toHaveProperty("communicationStyle");
+    expect(provider.generate.mock.calls[0][4].length).toBe(2200);
     expect(payload.sourceText).toBe(input.source);
     expect(provider.generate.mock.calls[0][0].message).toContain(input.brief);
   });

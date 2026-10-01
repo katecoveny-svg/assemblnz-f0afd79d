@@ -65,11 +65,11 @@ export async function prepareDoDraft(input: DoPreparationInput, signal?: AbortSi
   } else {
     if (input.providerConsentVersion !== DO_TEXT_PROVIDER_CONSENT_VERSION) throw new DoPreparationError('runtime_unavailable', 'Renew permission to share this draft with OpenAI and TypeSafe. No provider request started.');
     if (!scope?.ownerId) throw new DoPreparationError('runtime_unavailable', 'Sign in before preparing a draft. Exact extraction remains available.');
-    const context = JSON.stringify({ sourceTitle: input.sourceTitle, sourceUrl: input.sourceUrl, sourceText: input.source, ...(communicationStyle ? { communicationStyle: communicationStyle.slice(0, 2200) } : {}) });
+    const context = JSON.stringify({ sourceTitle: input.sourceTitle, sourceUrl: input.sourceUrl, sourceText: input.source });
     if (context.length > 6000) throw new DoPreparationError('runtime_unavailable', 'Use a shorter excerpt for this bounded draft. Your original text is unchanged.');
     const message = `${TASK_INSTRUCTIONS[input.task]}\nUser direction: ${input.brief}`;
     if (message.length > 4000) throw new DoPreparationError('runtime_unavailable', 'Shorten the direction before preparing. Nothing was transmitted.');
-    reasoned = await runDoTextReasoning({ message, context, history: [], consent: true, usePublicNz: false, useSavedStyle: false }, scope.ownerId, signal, scope.requestId);
+    reasoned = await runDoTextReasoning({ message, context, history: [], consent: true, usePublicNz: false, useSavedStyle: false }, scope.ownerId, signal, scope.requestId, communicationStyle?.slice(0, 2200));
     if (!reasoned.generation || reasoned.state === 'unsupported') throw new DoPreparationError('generation_failed', 'DO could not prepare this request. Review what information or permission is missing.');
     text = reasoned.nextStep.draft ?? reasoned.reply; model = reasoned.generation.actualModel;
   }

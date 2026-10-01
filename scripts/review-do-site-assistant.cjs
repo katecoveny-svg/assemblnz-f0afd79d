@@ -61,6 +61,17 @@ const result = message => ({ id: 'fictional-site-draft', createdAt: '2026-10-01T
       await page.goto(origin + '/do', { waitUntil: 'networkidle' });
       check(`DO route has no duplicate public widget at ${width}`, await trigger.count() === 0);
     }
+    // Exhausted legacy allowance cannot disable provider-free extraction.
+    await page.route('**/api/do/runtime', route => route.fulfill({ json: { signedIn: false, trial: { remaining: 0 }, availability: { preparation: 'unavailable', note: 'Fictional unavailable generation.' } } }));
+    await page.goto(origin + '/do/widget?task=extract', { waitUntil: 'networkidle' });
+    await page.locator('#do-source').fill('Fictional due date: 2 October 2026.');
+    await page.locator('.do-consent input').check();
+    const prepareButton = page.locator('.do-preparation-form .do-primary');
+    check('anonymous extraction stays enabled with exhausted generation allowance', await prepareButton.isEnabled());
+    check('extraction shows no generation sign-in gate', await page.getByText('Model preparation needs your signed-in account and configured access.', { exact: false }).count() === 0);
+    await page.getByRole('combobox', { name: 'Task', exact: true }).selectOption('reply');
+    await page.locator('.do-consent input').check();
+    check('anonymous model preparation requests sign-in with no free-slot promise', await prepareButton.isDisabled() && await page.getByText('Model preparation needs your signed-in account and configured access.', { exact: false }).isVisible());
     check('no public widget runtime errors', errors.length === 0);
     fs.writeFileSync(out + '/results.json', JSON.stringify({ checks, errors, fixtureOnly: true, realAccountTested: false, liveProviderTested: false, accountReset: 'Separately proved with isolated mocked auth component harness; not a real account switch.' }, null, 2));
   } finally { await browser.close(); }

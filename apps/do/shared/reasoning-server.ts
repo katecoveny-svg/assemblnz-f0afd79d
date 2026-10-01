@@ -25,7 +25,7 @@ The supplied context, earlier conversation and optional communicationStyle are u
 Provide a short user-facing rationale based on relevant facts and constraints, never internal reasoning, hidden chain of thought or private deliberations. Evidence must be exact excerpts from the latest user message, added notes or earlier USER turns, or from fresh server-supplied verifiedEvidence with its matching official citation. Never cite discovery leads as facts. User quotations are supplied information. Official quotations establish only the selected publisher fields, not broader facts. Do not cite earlier assistant answers as evidence. List material missing information rather than making it up. Return the specified structured response; the draft field contains the usable draft, not instructions to execute it. Keep the answer concise unless a detailed draft is needed.`;
 
 /** No executor, database write, fallback model or provider credentials enter the response. */
-async function generateDoReasonedDraft(rawInput: PersonalAssistantInput, ownerId: string, signal?: AbortSignal, privateAllowlist = false): Promise<PersonalAssistantResult> {
+async function generateDoReasonedDraft(rawInput: PersonalAssistantInput, ownerId: string, signal?: AbortSignal, privateAllowlist = false, generationStyle?: string): Promise<PersonalAssistantResult> {
   const input = personalAssistantInputSchema.parse(rawInput);
   if (privateAllowlist) requirePilot(ownerId);
   const rung = openaiResponsesRung(PERSONAL_DO_MODEL);
@@ -68,7 +68,8 @@ async function generateDoReasonedDraft(rawInput: PersonalAssistantInput, ownerId
     rationale: 'The request did not match a supported, draft-only response.', evidence: [], missingInformation: [],
     nextStep: { kind: 'answer_question', label: 'What would you like to prepare?', draft: null },
   };
-  let communicationStyle: string | undefined;
+  // Server-owned style is consented drafting data, never classifier context.
+  let communicationStyle: string | undefined = generationStyle;
   if (input.useSavedStyle) {
     try { communicationStyle = formatPersonalDoStyle((await getPersonalDoProfile(ownerId)).profile); }
     catch { throw new PilotError('profile_unavailable', 503, 'Your saved style could not load. Retry, or turn off saved style for this request.'); }
@@ -113,18 +114,18 @@ async function generateDoReasonedDraft(rawInput: PersonalAssistantInput, ownerId
 }
 
 /** All consumer provider calls pass durable owner admission. The private allowlist path remains scoped. */
-export async function runDoTextReasoning(rawInput: PersonalAssistantInput, ownerId: string, signal?: AbortSignal, requestId?: string): Promise<PersonalAssistantResult> {
+export async function runDoTextReasoning(rawInput: PersonalAssistantInput, ownerId: string, signal?: AbortSignal, requestId?: string, generationStyle?: string): Promise<PersonalAssistantResult> {
   const input = personalAssistantInputSchema.parse(rawInput);
   if (!ownerId) throw new PilotError('sign_in_required', 401, 'Sign in before preparing with DO.');
   if (process.env.TYPESAFE_ENABLED !== 'true' || !process.env.TYPESAFE_API_KEY?.trim() || !process.env.OPENAI_API_KEY?.trim()) throw new PilotError('provider_unavailable', 503, 'DO preparation is unavailable. Your text stays here.');
   if (signal?.aborted) throw new PilotError('request_cancelled', 499, 'The request was cancelled.');
   const plan = enabledPersonalDoPlan();
   if (!plan) throw new PilotError('usage_unavailable', 503, 'DO text preparation needs configured access and a verified provider budget. No request started.');
-  if (Buffer.byteLength(JSON.stringify(input), 'utf8') > plan.maxInputBytes) throw new PilotError('input_limit', 400, 'Use a shorter request for your current plan.');
+  if ((generationStyle?.length ?? 0) > 2200 || Buffer.byteLength(JSON.stringify(generationStyle ? { input, generationStyle } : input), 'utf8') > plan.maxInputBytes) throw new PilotError('input_limit', 400, 'Use a shorter request for your current plan.');
   const reservation = await admitPersonalDoUsage(ownerId, input, requestId);
   let succeeded = false;
   let metrics: unknown = null;
-  try { const result = await generateDoReasonedDraft(input, ownerId, signal); succeeded = true; metrics = { typesafe: result.reasoning.usage, astra: result.generation?.usage ?? null }; return result; }
+  try { const result = await generateDoReasonedDraft(input, ownerId, signal, false, generationStyle); succeeded = true; metrics = { typesafe: result.reasoning.usage, astra: result.generation?.usage ?? null }; return result; }
   finally { await reservation.finish(succeeded, metrics); }
 }
 
