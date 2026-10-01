@@ -33,7 +33,7 @@ const result = message => ({ id: 'fictional-site-draft', createdAt: '2026-10-01T
       const panel = workspace.getByRole('region', { name: 'Ask DO', exact: true });
       check(`canonical DO identity at ${width}`, await workspace.getByRole('link', { name: 'DO by assembl, home', exact: true }).getAttribute('href') === '/do');
       check(`ordinary sign-in returns to public page at ${width}`, await workspace.getByRole('link', { name: 'Sign in to DO', exact: true }).getAttribute('href') === '/login?redirect=%2Fcontact');
-      await panel.getByText('Sign in before drafting.', { exact: true }).waitFor();
+      await panel.getByRole('status').getByText(/^Sign in before drafting\./).waitFor();
       const input = panel.locator('#personal-assistant-input'); await input.fill('Fictional EA request.');
       check(`signed-out drafting fails closed at ${width}`, await panel.getByRole('button', { name: 'Start', exact: false }).isDisabled());
       ready = true; await page.reload({ waitUntil: 'networkidle' }); await trigger.click();
