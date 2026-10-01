@@ -1,7 +1,8 @@
+import { preserveSingleFontStyle } from '@/lib/fonts/local-font-metadata';
 import localFont from 'next/font/local';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
-import { Space_Mono } from 'next/font/google';
+
 import './keeper.css';
 
 /**
@@ -42,12 +43,17 @@ const sans = localFont({
   fallback: ['Inter Build Fallback'],
 });
 
-const mono = Space_Mono({
-  subsets: ['latin'],
-  weight: ['400', '700'],
+const monoLocal = localFont({
+  src: [
+    { path: '../../../../lib/fonts/assets/space-mono-normal-400.woff2', weight: '400', style: 'normal' },
+    { path: '../../../../lib/fonts/assets/space-mono-normal-700.woff2', weight: '700', style: 'normal' },
+  ],
   variable: '--font-keeper-mono',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Space Mono Build Fallback'],
 });
+const mono = preserveSingleFontStyle(monoLocal, 'normal');
 
 export const metadata: Metadata = {
   title: 'Happy Tails · Keeper workspace',

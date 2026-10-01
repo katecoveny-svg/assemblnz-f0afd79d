@@ -53,7 +53,10 @@ const COMPANION_CLIENT = String.raw`(() => {
     if(path!=='/do'&&path!=='/do/personal'&&path!=='/do/widget')return false;
     finishPick();remember();panel.hidden=true;launch.setAttribute('aria-expanded','false');
     window.dispatchEvent(new CustomEvent('assembl:do-focus'));
+    const focusAfterHandoff=document.activeElement;
     requestAnimationFrame(()=>{
+      // Keep initial focus for a newly opened editor, but respect a later selection.
+      if(document.activeElement!==focusAfterHandoff&&document.activeElement!==document.body)return;
       const selector=path==='/do/widget'?'#do-source':'[data-do-primary-input]';
       const input=document.querySelector(selector);
       if(input){input.focus({preventScroll:true});input.scrollIntoView({block:'center',behavior:'instant'});}

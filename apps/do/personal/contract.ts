@@ -76,8 +76,8 @@ export const PERSONAL_STARTERS = [
     goal: "Review my ongoing work and unanswered questions. Prepare follow-up drafts and tell me which decisions need my attention.",
   },
 ] as const;
-export function responsibilityStatus(item: Responsibility, now = Date.now()) {
+export function responsibilityStatus(item: Responsibility, now = Date.now(), providerPermissionReady = true) {
   if (!item.active) return "Paused";
   if (Date.parse(item.consent_until) <= now) return "Permission expired";
-  return "Scheduled";
+  return providerPermissionReady ? "Scheduled" : "Permission renewal needed";
 }

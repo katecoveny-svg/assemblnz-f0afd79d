@@ -7,8 +7,8 @@ import { getServiceClient } from "@/lib/supabase/service";
 import { createClient as createOwnerClient } from "@/lib/supabase/server";
 import { getDoAvailability, prepareDoDraft } from "@/apps/do/shared/preparation-server";
 import { getPersonalDoProfile } from "./profile-service";
-import { DEFAULT_PERSONAL_DO_PROFILE, formatPersonalDoStyle } from "./profile";
-import { runPersonal, personalState } from "./service";
+import { DEFAULT_PERSONAL_DO_PROFILE } from "./profile";
+import { runPersonal, personalState, personalWorkerConfigured } from "./service";
 
 const owner = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa";
 const id = "11111111-1111-4111-8111-111111111111";
@@ -31,52 +31,27 @@ beforeEach(() => {
 });
 afterEach(() => vi.unstubAllEnvs());
 
-describe("Personal DO draft personalisation", () => {
-  it("adds saved style separately without truncating notes or increasing permissions", async () => {
-    expect(await runPersonal(owner, id)).toEqual({ claimed: true, published: true });
-    expect(getPersonalDoProfile).toHaveBeenCalledWith(owner);
-    expect(prepareDoDraft).toHaveBeenCalledWith(expect.objectContaining({ source: item.notes, consent: true }), undefined, formatPersonalDoStyle(profile));
-    expect(db.rpc).toHaveBeenCalledWith("do_personal_finish", expect.objectContaining({ p_evidence: expect.objectContaining({ profileUpdatedAt: profile.updatedAt, revision: 1, permissionExpiresAt: item.consent_until }) }));
-  });
-
-  it("does not send unsaved defaults as personal profile data", async () => {
-    vi.mocked(getPersonalDoProfile).mockResolvedValue({ profile: DEFAULT_PERSONAL_DO_PROFILE, saved: false });
-    await runPersonal(owner, id);
-    expect(prepareDoDraft).toHaveBeenCalledWith(expect.any(Object), undefined, undefined);
-  });
-
-  it("keeps existing responsibilities working when profile storage is absent", async () => {
-    vi.mocked(getPersonalDoProfile).mockRejectedValue(new Error("table missing"));
-    expect(await runPersonal(owner, id)).toEqual({ claimed: true, published: true });
-    expect(prepareDoDraft).toHaveBeenCalledWith(expect.any(Object), undefined, undefined);
-    expect(db.rpc).toHaveBeenCalledWith("do_personal_finish", expect.objectContaining({ p_evidence: expect.objectContaining({ profileUpdatedAt: null }) }));
-  });
-
-  it("rechecks responsibility permission after loading the profile and before provider use", async () => {
-    query.maybeSingle.mockResolvedValue({ data: { ...item, active: false }, error: null });
-    expect(await runPersonal(owner, id)).toEqual({ claimed: true, published: false });
-    expect(getPersonalDoProfile).toHaveBeenCalledOnce();
-    expect(vi.mocked(getPersonalDoProfile).mock.invocationCallOrder[0]).toBeLessThan(query.maybeSingle.mock.invocationCallOrder[0]);
-    expect(prepareDoDraft).not.toHaveBeenCalled();
-  });
-
-  it("does not read preferences or call a provider without a claimed responsibility", async () => {
-    db.rpc.mockResolvedValue({ data: [], error: null });
-    expect(await runPersonal(owner, id)).toEqual({ claimed: false, published: false });
+describe("Background provider permission renewal", () => {
+  it.each([
+    ['active old permission', item],
+    ['expired old permission', { ...item, consent_until: '2000-01-01T00:00:00Z' }],
+    ['revoked old permission', { ...item, active: false }],
+    ['changed notes revision', { ...item, revision: 2 }],
+    ['missing optional profile', item],
+    ['different claimed owner', { ...item, owner_id: 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb' }],
+  ])('never transmits under %s without a renewed stored provider grant', async (_name, responsibility) => {
+    db.rpc.mockResolvedValue({ data: [{ run_id: run, responsibility }], error: null });
+    await expect(runPersonal(owner, id)).rejects.toThrow('renewed OpenAI and TypeSafe permission');
+    expect(db.rpc).not.toHaveBeenCalled();
+    expect(db.from).not.toHaveBeenCalled();
+    expect(getServiceClient).not.toHaveBeenCalled();
     expect(getPersonalDoProfile).not.toHaveBeenCalled();
     expect(prepareDoDraft).not.toHaveBeenCalled();
   });
-});
-
-it("rejects an ownerless targeted run before storage access", async () => {
- await expect(runPersonal(undefined,id)).rejects.toThrow("Owner required");
- expect(db.rpc).not.toHaveBeenCalled();
-});
-it("rejects cross-owner claims before reading context or calling a provider", async () => {
- db.rpc.mockResolvedValue({ data: [{ run_id: run, responsibility: { ...item, owner_id: "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb" } }], error: null });
- await expect(runPersonal(owner,id)).rejects.toThrow("Claim ownership mismatch");
- expect(getPersonalDoProfile).not.toHaveBeenCalled();
- expect(prepareDoDraft).not.toHaveBeenCalled();
+  it('rejects an ownerless targeted run before storage access', async () => {
+    await expect(runPersonal(undefined,id)).rejects.toThrow('Owner required');
+    expect(db.rpc).not.toHaveBeenCalled(); expect(prepareDoDraft).not.toHaveBeenCalled();
+  });
 });
 it("reads run output through cookie-owner RLS even when provider memory is disabled", async () => {
  vi.stubEnv('DO_PROVIDER_MEMORY_ENABLED','false');
@@ -85,8 +60,22 @@ it("reads run output through cookie-owner RLS even when provider memory is disab
  const ownerDb={from:vi.fn().mockReturnValue(ownerQuery)};
  db.from.mockReturnValue(serviceQuery);
  vi.mocked(createOwnerClient).mockResolvedValue(ownerDb as unknown as Awaited<ReturnType<typeof createOwnerClient>>);
- expect((await personalState(owner)).runs).toEqual([]);
+ const state=await personalState(owner);
+ expect(state.runs).toEqual([]);
+ expect(state.worker.configured).toBe(false);
  expect(ownerDb.from).toHaveBeenCalledWith('do_personal_runs');
  expect(ownerQuery.eq).toHaveBeenCalledWith('owner_id',owner);
  expect(db.from).not.toHaveBeenCalledWith('do_personal_runs');
+});
+
+it("keeps the background worker disabled even with provider configuration present", () => {
+ expect(personalWorkerConfigured()).toBe(false);
+ expect(db.rpc).not.toHaveBeenCalled();
+ expect(db.from).not.toHaveBeenCalled();
+ expect(prepareDoDraft).not.toHaveBeenCalled();
+});
+it("does not fall back to service-role output reads when the cookie client fails", async () => {
+ vi.mocked(createOwnerClient).mockRejectedValue(new Error("Fictional unavailable session"));
+ await expect(personalState(owner)).rejects.toThrow("Fictional unavailable session");
+ expect(db.from).not.toHaveBeenCalled();
 });

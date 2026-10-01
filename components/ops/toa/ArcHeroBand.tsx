@@ -1,6 +1,7 @@
+
 import localFont from 'next/font/local';
 import Image from 'next/image';
-import { Zilla_Slab } from 'next/font/google';
+
 import type { BrandConfig } from '@/lib/brand/brand-config';
 
 /**
@@ -26,11 +27,13 @@ const cormorant = localFont({
 });
 // Stand-in for TOA's Archer slab (licensed) — used only for the italic
 // tone-contract line, mirroring the italic serif quotes on toa.nz.
-const zilla = Zilla_Slab({
-  subsets: ['latin'],
-  weight: ['400'],
-  style: ['italic'],
+const zilla = localFont({
+  src: '../../../lib/fonts/assets/zilla-slab-italic-400.woff2',
+  weight: '400',
+  style: 'italic',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Zilla Slab Build Fallback'],
 });
 
 const CHAMPAGNE = '#bfa37a';
