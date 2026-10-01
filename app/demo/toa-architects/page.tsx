@@ -1,7 +1,8 @@
+import localFont from 'next/font/local';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Cormorant_Garamond, Lato } from 'next/font/google';
+import { Lato } from 'next/font/google';
 import { BrandThemeProvider } from '@/lib/brand/BrandThemeProvider';
 import { getBrandConfig } from '@/lib/brand/configs';
 import { FilmHero } from '@/components/ops/toa/FilmHero';
@@ -32,10 +33,15 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['400', '500'],
+const cormorant = localFont({
+  src: [
+    { path: '../../../lib/fonts/assets/cormorant-garamond-normal.woff2', weight: '400', style: 'normal' },
+    { path: '../../../lib/fonts/assets/cormorant-garamond-normal.woff2', weight: '500', style: 'normal' },
+  ],
+  style: 'normal',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Cormorant Garamond Build Fallback'],
 });
 const lato = Lato({ subsets: ['latin'], weight: ['400', '700'], display: 'swap' });
 

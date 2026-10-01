@@ -1,7 +1,8 @@
+import localFont from 'next/font/local';
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Cormorant_Garamond } from 'next/font/google';
+
 
 /**
  * DrawingsToLife — "drawings rise. sun turns. rooms come to life."
@@ -16,10 +17,16 @@ import { Cormorant_Garamond } from 'next/font/google';
  *
  * Honest: the plan is a stand-in of the 16C typology, not Nick's sheets.
  */
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
+const cormorant = localFont({
+  src: [
+    { path: '../../../lib/fonts/assets/cormorant-garamond-normal.woff2', weight: '400', style: 'normal' },
+    { path: '../../../lib/fonts/assets/cormorant-garamond-normal.woff2', weight: '500', style: 'normal' },
+    { path: '../../../lib/fonts/assets/cormorant-garamond-normal.woff2', weight: '600', style: 'normal' },
+  ],
+  style: 'normal',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Cormorant Garamond Build Fallback'],
 });
 
 const VIEWER = '/brand/toa-architects/16a-hubert-henderson/bim-viewer-interior.html';

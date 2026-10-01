@@ -15,6 +15,7 @@ import {
   websiteNode,
   softwareApplicationNode,
 } from '@/lib/seo/schema';
+import '@/lib/fonts/customer-fallbacks.css';
 import './globals.css';
 import './life.css';
 

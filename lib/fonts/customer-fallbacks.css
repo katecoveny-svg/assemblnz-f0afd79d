@@ -1,0 +1,37 @@
+/* Preserve the pre-migration next/font/google fallback metrics. */
+
+@font-face {
+  font-family: 'Inter Build Fallback';
+  src: local('Arial');
+  ascent-override: 90.44%;
+  descent-override: 22.52%;
+  line-gap-override: 0.00%;
+  size-adjust: 107.12%;
+}
+
+@font-face {
+  font-family: 'Inter Tight Build Fallback';
+  src: local('Arial');
+  ascent-override: 100.51%;
+  descent-override: 25.03%;
+  line-gap-override: 0.00%;
+  size-adjust: 96.39%;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond Build Fallback';
+  src: local('Times New Roman');
+  ascent-override: 95.27%;
+  descent-override: 29.59%;
+  line-gap-override: 0.00%;
+  size-adjust: 96.98%;
+}
+
+@font-face {
+  font-family: 'Fraunces Build Fallback';
+  src: local('Times New Roman');
+  ascent-override: 84.71%;
+  descent-override: 22.09%;
+  line-gap-override: 0.00%;
+  size-adjust: 115.45%;
+}
