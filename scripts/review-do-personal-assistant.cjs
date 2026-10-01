@@ -59,8 +59,21 @@ const makeResult = message => ({
     check('portable focus returns to the same composer', await input.evaluate(element => element === document.activeElement));
     check('one consented request carries no invented authority', posts.length === 1 && posts[0].consent === true && posts[0].history.length === 0 && posts[0].useSavedStyle === false);
     const draft = panel.locator('#personal-assistant-draft');
+    // Fictional fixture diagnostics: preserve events and controlled-value writes even on failure.
+    await page.evaluate(() => {
+      window.__draftEvents = [];
+      const record = (type, element, value) => {
+        if (element.id !== 'personal-assistant-draft') return;
+        window.__draftEvents.push({ type, value, disabled: element.disabled, at: performance.now() });
+        if (window.__draftEvents.length > 100) window.__draftEvents.shift();
+      };
+      for (const type of ['beforeinput', 'input', 'change']) document.addEventListener(type, event => record(type, event.target, event.target.value), true);
+      const descriptor = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value');
+      Object.defineProperty(HTMLTextAreaElement.prototype, 'value', { ...descriptor, set(value) { record('controlled-value-write', this, value); descriptor.set.call(this, value); } });
+    });
     await draft.fill('My reviewed fictional reply.');
-    check('reply is editable before reuse', await draft.inputValue() === 'My reviewed fictional reply.');
+    const editedValue = await draft.inputValue();
+    check(`reply is editable before reuse (actual: ${JSON.stringify(editedValue)})`, editedValue === 'My reviewed fictional reply.');
     await panel.getByRole('button', { name: 'Copy draft', exact: true }).click();
     await panel.getByRole('button', { name: 'Copied', exact: true }).waitFor();
     check('copy uses only the edited draft', await page.evaluate(() => window.__assistantClipboard[0] === 'My reviewed fictional reply.'));
@@ -89,6 +102,10 @@ const makeResult = message => ({
     check('no browser runtime errors', errors.length === 0);
     fs.writeFileSync(out + '/results.json', JSON.stringify({ checks, errors, fixtureOnly: true, liveProviderTested: false, realAccountTested: false }, null, 2));
   } finally {
+    if (page) {
+      const diagnostic = await page.evaluate(() => { const draft = document.getElementById('personal-assistant-draft'); return { events: window.__draftEvents ?? [], value: draft?.value ?? null, disabled: draft?.disabled ?? null, busy: document.querySelector('[aria-label="Ask Pip"]')?.getAttribute('aria-busy') ?? null }; }).catch(() => ({ unavailable: true }));
+      fs.writeFileSync(out + '/draft-diagnostic.json', JSON.stringify(diagnostic, null, 2));
+    }
     if (page) await page.screenshot({ path: out + '/final-state.png', fullPage: true }).catch(() => {});
     if (!fs.existsSync(out + '/results.json')) fs.writeFileSync(out + '/results.json', JSON.stringify({ checks, completed: false, fixtureOnly: true, liveProviderTested: false }, null, 2));
     await browser.close();
