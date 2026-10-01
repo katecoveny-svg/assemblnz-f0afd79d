@@ -50,14 +50,14 @@ async def main():
                     await demo.get_by_role('button', name='Next walkthrough step', exact=True).click()
                     await expect(demo).to_have_attribute('data-step', '1')
                     # Name spacing is renderer-dependent; use the stable pressed step button.
-                    control = demo.locator('button[aria-pressed=true]').filter(has_text='Find the fit')
+                    control = demo.locator('button[aria-pressed=true]').filter(has_text='Match your services')
                     await control.focus()
                     await page.keyboard.press('End')
                     await expect(demo).to_have_attribute('data-step', '2')
-                    await demo.get_by_role('button', name='Engineer review', exact=True).click()
-                    await expect(demo.get_by_text('Check the context, ownership and missing facts.', exact=True)).to_be_visible()
+                    await demo.get_by_role('button', name='Drainage plan', exact=True).click()
+                    await expect(demo.get_by_text('Outline options to check with the project engineer.', exact=True)).to_be_visible()
                     await demo.evaluate('node => { if (document.activeElement instanceof HTMLElement) document.activeElement.blur(); }')
-                    assert await demo.get_by_role('heading', name='A clearer project handover.', exact=True).evaluate('node => getComputedStyle(node).color') == 'rgb(255, 253, 251)'
+                    assert await demo.get_by_role('heading', name='School drainage. Our approach.', exact=True).evaluate('node => getComputedStyle(node).color') == 'rgb(255, 253, 251)'
                     await demo.screenshot(path=str(OUT / f'{"home" if path == "/" else "pursuit"}-pitch-{width}-{motion}.png'))
                     if motion == 'reduce':
                         await expect(demo.get_by_role('button', name='Still view', exact=True)).to_be_disabled()
