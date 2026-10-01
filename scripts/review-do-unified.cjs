@@ -12,10 +12,10 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
   try {
     const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
     const page = await context.newPage();
-    page.on('pageerror', error => errors.push(error.message));
+    page.on('pageerror', error => errors.push(page.url() + ": " + error.message));
     const visit = async path => { const response = await page.goto(origin + path, { waitUntil: 'networkidle' }); assert.ok(response?.ok(), path); await page.evaluate(() => document.fonts.ready); return response; };
     await visit('/');
-    check('homepage has one invitation', await page.getByRole('heading', { name: 'What needs doing?', exact: true }).count() === 1);
+    check('homepage has one invitation', await page.getByRole('heading', { name: 'What needs doing?', level: 1, exact: true }).count() === 1);
     check('Open DO goes directly to the product', await page.getByRole('link', { name: 'Open DO', exact: true }).first().getAttribute('href') === '/do');
     check('atelier is optional and not mounted', await page.locator('canvas').count() === 0);
     await page.screenshot({ path: out + '/01-home-desktop.png' });
@@ -35,19 +35,34 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
     check('example produces real reviewable local work', await page.locator('#personal-do-result').isVisible());
     check('example remains labelled fictional', (await page.locator('body').innerText()).includes('Fictional example'));
     await page.screenshot({ path: out + '/04-local-result-375.png', fullPage: true });
-    await page.getByRole('navigation', { name: 'DO', exact: true }).getByRole('link', { name: 'Sign in', exact: false }).click();
+    await page.getByRole('link', { name: 'Sign in', exact: true }).first().click();
     check('sign-in does not discard guest work silently', await page.getByRole('dialog').isVisible());
     await page.getByRole('button', { name: 'Stay and keep my work' }).click();
     check('cancel keeps the same local work', await page.locator('#personal-do-result').isVisible());
     // Fresh tab avoids accepting the browser's unsaved-work warning in test cleanup.
-    const clean = await context.newPage(); clean.on('pageerror', e => errors.push(e.message));
-    for (const path of ['/', '/do', '/do/personal', '/do?open=1', '/do?task=plan', '/do/widget?task=rewrite', '/do/widget?tool=look', '/do/meetings', '/do/bills', '/do/enquiries', '/do/install', '/do/install#chrome', '/do/share', '/do/live', '/do/travel', '/about', '/contact', '/pursuit', '/creative-studio', '/legal/privacy', '/login?redirect=%2Fdo']) {
-      const response = await clean.goto(origin + path, { waitUntil: 'domcontentloaded' });
+    const clean = await context.newPage(); clean.on('pageerror', e => errors.push(clean.url() + ": " + e.message));
+    for (const path of ['/', '/do', '/do/personal', '/do?open=1', '/do?task=plan', '/do/widget?task=rewrite', '/do/widget?tool=look', '/do/meetings', '/do/bills', '/do/enquiries', '/do/install', '/do/install#chrome', '/do/billing', '/do/share', '/do/live', '/do/travel', '/about', '/contact', '/pursuit', '/creative-studio', '/legal/privacy', '/login?redirect=%2Fdo']) {
+      await clean.goto('about:blank'); // Force an HTTP navigation even for same-page hash routes.
+      const response = await clean.goto(origin + path, { waitUntil: 'networkidle' });
       const title = await clean.title(); const final = new URL(clean.url());
       links.push({ path, status: response.status(), final: final.pathname + final.search + final.hash, title });
       check(`route ${path}`, response.ok());
       if (path === '/do?task=plan' || path === '/do/travel') check(`${path} retains task`, final.pathname === '/do/widget' && final.searchParams.get('task') === 'plan');
     }
+    await clean.goto(origin + '/login?redirect=%2Fdo', { waitUntil: 'networkidle' });
+    check('ordinary login retains the DO return destination', new URL(clean.url()).pathname === '/login' && new URL(clean.url()).searchParams.get('redirect') === '/do' && await clean.getByRole('heading', { name: 'Sign in to DO', exact: true }).isVisible());
+    const emailInput = clean.getByRole('textbox', { name: 'Email', exact: true });
+    if (await emailInput.count()) {
+      check('configured login has an email form', await emailInput.isVisible());
+      check('login is not submitted by this proof', await clean.getByRole('button', { name: 'email me a link', exact: true }).isDisabled());
+    } else {
+      check('unconfigured login fails closed explicitly', await clean.getByText('Configuration missing', { exact: true }).isVisible());
+      check('unconfigured login cannot submit', await clean.getByRole('button', { name: 'email me a link', exact: true }).count() === 0);
+    }
+    await clean.screenshot({ path: out + '/09-login-return.png' });
+    await clean.goto(origin + '/do/billing', { waitUntil: 'networkidle' });
+    check('unconfigured consumer billing offers no sale', (await clean.locator('main').innerText()).includes('Personal DO subscriptions are not available yet.') && await clean.getByRole('button', { name: 'Continue to secure checkout', exact: true }).count() === 0);
+    await clean.screenshot({ path: out + '/10-billing-disabled.png' });
     await clean.goto(origin + '/do/widget?tool=look', { waitUntil: 'networkidle' });
     await clean.locator('summary[aria-label="More DO tools"]').click();
     const signIn = clean.getByRole('link', { name: 'Sign in', exact: true }).first();

@@ -13,12 +13,12 @@ export async function retrievePublicNzKnowledge(options: { query?: string; limit
     if (!url || !key) throw new Error('unavailable');
     const db = createClient(url, key, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } });
     const read = async () => {
-      const sources = await db.from('kb_sources').select('id,type,url,category,active,status,last_checked_at,last_successful_fetch').in('id', PUBLIC_NZ_SOURCES.map(s => s.id)).limit(PUBLIC_NZ_LIMITS.sources).abortSignal(controller.signal);
+      const sources = await db.from('kb_sources').select('id,type,url,category,active,status,last_checked_at,last_successful_fetch').in('id', PUBLIC_NZ_SOURCES.map(s => s.id)).limit(PUBLIC_NZ_LIMITS.sources).retry(false).abortSignal(controller.signal);
       if (sources.error) throw sources.error;
       const rows = (sources.data ?? []) as SourceRow[];
       const approved = PUBLIC_NZ_SOURCES.filter(p => rows.some(s => matchesSource(s, p)));
       const pages = await Promise.all(approved.map(async policy => {
-        const result = await db.from('kb_documents').select('source_id,external_id,url,inserted_at').eq('source_id', policy.id).order('inserted_at', { ascending: false }).limit(PUBLIC_NZ_LIMITS.scannedPerSource).abortSignal(controller.signal);
+        const result = await db.from('kb_documents').select('source_id,external_id,url,inserted_at').eq('source_id', policy.id).order('inserted_at', { ascending: false }).limit(PUBLIC_NZ_LIMITS.scannedPerSource).retry(false).abortSignal(controller.signal);
         if (result.error) throw result.error;
         return (result.data ?? []) as LinkRow[];
       }));
