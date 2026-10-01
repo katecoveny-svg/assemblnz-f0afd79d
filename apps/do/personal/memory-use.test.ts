@@ -23,16 +23,16 @@ describe('inactive provider memory contract', () => {
     for (const change of [{ ownerId: record.id }, { revokedAt: now }, { expiresAt: now }, { scope: { kind: 'responsibility', responsibilityId: record.id, responsibilityRevision: 1 } }, { selections: [consent.selections[0], consent.selections[0]] }]) expect(() => validateMemorySnapshot(ownerId, scope, { ...consent, ...change }, [record], now)).toThrow();
   });
   it('fails closed without storage or a current owned responsibility', async () => {
-    await expect(readProviderMemory(null, ownerId, scope, consent.id, now)).rejects.toThrow('unavailable');
-    await expect(readProviderMemory(store({ scopeIsCurrent: async () => false }), ownerId, scope, consent.id, now)).rejects.toThrow('unavailable');
-    await expect(readProviderMemory(store(), ownerId, scope, record.id, now)).rejects.toThrow('denied');
+    await expect(readProviderMemory(null, ownerId, scope, consent.id, () => now)).rejects.toThrow('unavailable');
+    await expect(readProviderMemory(store({ scopeIsCurrent: async () => false }), ownerId, scope, consent.id, () => now)).rejects.toThrow('unavailable');
+    await expect(readProviderMemory(store(), ownerId, scope, record.id, () => now)).rejects.toThrow('denied');
   });
   it('rechecks revocation and edits before dispatch and output retention', async () => {
-    const bundle = await readProviderMemory(store(), ownerId, scope, consent.id, now);
-    await expect(recheckProviderMemory(store({ readSnapshot: async () => ({ consent: { ...consent, revokedAt: now }, records: [record] }) }), ownerId, scope, bundle, now)).rejects.toThrow();
-    await expect(recheckProviderMemory(store({ readSnapshot: async () => ({ consent: { ...consent, revision: 2 }, records: [record] }) }), ownerId, scope, bundle, now)).rejects.toThrow('changed');
-    await expect(recheckProviderMemory(store(), ownerId, scope, bundle, record.expiresAt)).rejects.toThrow();
-    await expect(recheckProviderMemory(store(), ownerId, scope, bundle, now)).resolves.toEqual(bundle);
+    const bundle = await readProviderMemory(store(), ownerId, scope, consent.id, () => now);
+    await expect(recheckProviderMemory(store({ readSnapshot: async () => ({ consent: { ...consent, revokedAt: now }, records: [record] }) }), ownerId, scope, bundle, () => now)).rejects.toThrow();
+    await expect(recheckProviderMemory(store({ readSnapshot: async () => ({ consent: { ...consent, revision: 2 }, records: [record] }) }), ownerId, scope, bundle, () => now)).rejects.toThrow('changed');
+    await expect(recheckProviderMemory(store(), ownerId, scope, bundle, () => record.expiresAt)).rejects.toThrow();
+    await expect(recheckProviderMemory(store(), ownerId, scope, bundle, () => now)).resolves.toEqual(bundle);
   });
   it('bounds context and refuses unexpected records', () => {
     expect(() => validateMemorySnapshot(ownerId, scope, consent, [record, record], now)).toThrow();
@@ -42,8 +42,19 @@ describe('inactive provider memory contract', () => {
   });
   it('rejects responsibility pause racing snapshot retrieval and storage failure', async () => {
     let checks = 0;
-    await expect(readProviderMemory(store({ scopeIsCurrent: async () => ++checks === 1 }), ownerId, scope, consent.id, now)).rejects.toThrow('changed');
-    await expect(readProviderMemory(store({ readSnapshot: async () => { throw new Error('storage unavailable'); } }), ownerId, scope, consent.id, now)).rejects.toThrow();
+    await expect(readProviderMemory(store({ scopeIsCurrent: async () => ++checks === 1 }), ownerId, scope, consent.id, () => now)).rejects.toThrow('changed');
+    await expect(readProviderMemory(store({ readSnapshot: async () => { throw new Error('storage unavailable'); } }), ownerId, scope, consent.id, () => now)).rejects.toThrow();
+  });
+  it('samples the trusted clock after awaited reads and strips storage/validation details', async () => {
+    let time = now;
+    const delayed = store({ readSnapshot: async () => { time = record.expiresAt; return { consent, records: [record] }; } });
+    await expect(readProviderMemory(delayed, ownerId, scope, consent.id, () => time)).rejects.toThrow('memory_use_denied');
+    const bundle = await readProviderMemory(store(), ownerId, scope, consent.id, () => now);
+    time = now;
+    await expect(recheckProviderMemory(delayed, ownerId, scope, bundle, () => time)).rejects.toThrow('memory_use_denied');
+    for (const unsafe of [store({ readSnapshot: async () => { throw new Error('PRIVATE_SENTINEL'); } }), store({ readSnapshot: async () => ({ consent: { ...consent, providers: ['PRIVATE_SENTINEL'] }, records: [record] }) })]) {
+      await expect(readProviderMemory(unsafe, ownerId, scope, consent.id, () => now)).rejects.toMatchObject({ message: 'memory_use_unavailable', code: 'memory_use_unavailable' });
+    }
   });
 });
 const policy = { timezone: 'Pacific/Auckland', quietStartHour: 22, quietEndHour: 7, cooldownHours: 24, paused: false };

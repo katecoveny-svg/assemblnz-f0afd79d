@@ -21,6 +21,7 @@ on:
       - 'docs/DO-*.md'
       - 'docs/do-personal/**'
       - 'scripts/test-do-memory-sql.cjs'
+      - 'scripts/test-do-provider-memory-sql.cjs'
       - 'package.json'
       - 'pnpm-lock.yaml'
       - 'vercel.json'
@@ -68,6 +69,8 @@ jobs:
         run: ASSEMBL_PGLITE_MODULE=/tmp/assembl-browser/node_modules/@electric-sql/pglite node scripts/test-do-personal-checklists-sql.cjs
       - name: Optional memory SQL boundaries (proposal only)
         run: ASSEMBL_PGLITE_MODULE=/tmp/assembl-browser/node_modules/@electric-sql/pglite node scripts/test-do-memory-sql.cjs
+      - name: Scoped provider memory SQL boundaries (proposal only)
+        run: ASSEMBL_PGLITE_MODULE=/tmp/assembl-browser/node_modules/@electric-sql/pglite node scripts/test-do-provider-memory-sql.cjs
       - name: Personal DO browser proof with fictional account and audio fixtures
         env:
           ASSEMBL_REVIEW_ORIGIN: http://127.0.0.1:3117
