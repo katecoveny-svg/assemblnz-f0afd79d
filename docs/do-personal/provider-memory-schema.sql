@@ -42,6 +42,9 @@ create table public.do_provider_preparation_reservation (
  primary key(owner_id,novelty_key)
 );
 create unique index do_provider_reservation_run on public.do_provider_preparation_reservation(run_id) where run_id is not null;
+-- Existing authenticated reads hide expired derived rows immediately, even with cleanup offline.
+alter table public.do_personal_runs add column provider_context_expires_at timestamptz check(provider_context_expires_at is null or isfinite(provider_context_expires_at));
+alter policy personal_runs_owner on public.do_personal_runs using ((select auth.uid())=owner_id and coalesce((select auth.jwt()->>'is_anonymous'),'false')='false' and (provider_context_expires_at is null or provider_context_expires_at>clock_timestamp()));
 alter table public.do_provider_context enable row level security;
 alter table public.do_provider_context_consent enable row level security;
 alter table public.do_provider_preparation_policy enable row level security;
@@ -79,6 +82,7 @@ begin
  v_now:=clock_timestamp();
  if coalesce(r.revision,0)<>p_expected or (r.revision is not null and r.body is null) then raise exception 'context_conflict'; end if;
  if r.revision is not null then perform public.do_provider_invalidate_outputs(p_owner,null,p_id); end if;
+ v_now:=clock_timestamp(); -- Invalidation can wait for a worker-held run row.
  if r.expires_at<=v_now then
   update public.do_provider_context set revision=revision+1,kind=null,body=null,observed_at=null,confirmed_at=null,expires_at=null,retention_days=null where owner_id=p_owner and id=p_id;
   return false;
@@ -104,6 +108,7 @@ begin
  v_now:=clock_timestamp();
  if coalesce(r.revision,0)<>p_expected or (r.revision is not null and r.scope is null) then raise exception 'context_conflict'; end if;
  if r.revision is not null then perform public.do_provider_invalidate_outputs(p_owner,p_id,null); end if;
+ v_now:=clock_timestamp(); -- Invalidation can wait for a worker-held run row.
  if r.expires_at<=v_now or p_scope is null then
   if r.revision is null then raise exception 'context_conflict'; end if;
   update public.do_provider_context_consent set revision=revision+1,scope=null,selections=null,consented_at=null,expires_at=null where owner_id=p_owner and id=p_id;
@@ -173,6 +178,7 @@ begin
  or exists(select 1 from public.do_provider_preparation_reservation where owner_id=p_owner and created_at>v_now-p.cooldown_hours*interval '1 hour') then return false; end if;
  if (select count(*) from public.do_provider_preparation_reservation where owner_id=p_owner)>=1000 then raise exception 'preparation_limit'; end if;
  insert into public.do_provider_preparation_reservation(owner_id,novelty_key,run_id,consent_id,consent_revision,policy_revision,expires_at,status) values(p_owner,p_key,p_run,p_consent,p_consent_revision,p_policy_revision,c.expires_at,'reserved');
+ update public.do_personal_runs set provider_context_expires_at=c.expires_at where owner_id=p_owner and id=p_run;
  return true;
 end $$;
 create function public.do_provider_prepare_state(p_owner uuid,p_key text,p_status text,p_until timestamptz default null) returns boolean

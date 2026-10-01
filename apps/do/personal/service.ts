@@ -1,5 +1,6 @@
 import "server-only";
 import { getServiceClient } from "@/lib/supabase/service";
+import { createClient as createOwnerClient } from "@/lib/supabase/server";
 import {
   getDoAvailability,
   prepareDoDraft,
@@ -27,6 +28,9 @@ function fail(error: unknown) {
 export async function personalState(ownerId: string): Promise<PersonalState> {
   if (!ownerId) throw new Error("Owner required.");
   const db = getServiceClient();
+  // Run outputs use the authenticated cookie client so DB expiry RLS remains effective
+  // after the provider-memory collection flag is paused. Service role bypasses RLS.
+  const ownerDb = await createOwnerClient();
   const [tasks, runs, worker] = await Promise.all([
     db
       .from("do_personal_responsibilities")
@@ -35,7 +39,7 @@ export async function personalState(ownerId: string): Promise<PersonalState> {
       )
       .eq("owner_id", ownerId)
       .order("created_at"),
-    db
+    ownerDb
       .from("do_personal_runs")
       .select(
         "id,responsibility_id,revision,status,output,evidence,started_at,finished_at",

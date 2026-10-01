@@ -85,6 +85,12 @@ class PostgresProof {
   check('existing owned job reserves atomic publication once',(await db.query('select do_provider_prepare_reserve($1,$2,$3,1,$4,1) as ok',[a,run2,consent2,'atomic:1'])).rows[0].ok===true);
   check('atomic publication stores draft and receipt together',(await db.query("select do_provider_prepare_publish($1,$2,'Fictional context-derived draft','{\"quote\":\"Fictional sample\"}') as ok",[a,'atomic:1'])).rows[0].ok===true&&(await db.query('select status from do_personal_runs where id=$1',[run2])).rows[0].status==='needs_review');
   check('publication retry never writes twice',(await db.query("select do_provider_prepare_publish($1,$2,'Retry','{}') as ok",[a,'atomic:1'])).rows[0].ok===false);
+  await db.query("select set_config('request.jwt.claim.sub',$1,false)",[a]);await db.exec('set role authenticated');
+  check('owner reads unexpired derived output',(await db.query('select output,evidence from do_personal_runs where id=$1',[run2])).rows.length===1);await db.exec('reset role');
+  await db.query("update do_personal_runs set provider_context_expires_at=clock_timestamp()-interval '1 second' where id=$1",[run2]);
+  await db.exec('set role authenticated');check('expired output and evidence hidden immediately without cleanup',(await db.query('select output,evidence from do_personal_runs where id=$1',[run2])).rows.length===0);await db.exec('reset role');
+  check('physical draft still exists until bounded cleanup',(await db.query('select output from do_personal_runs where id=$1',[run2])).rows[0].output==='Fictional context-derived draft');
+  await db.query('update do_personal_runs set provider_context_expires_at=$2 where id=$1',[run2,expires]);
   check('dismissal preserves no action authority',(await db.query("select do_provider_prepare_state($1,$2,'dismissed',null) as ok",[a,'atomic:1'])).rows[0].ok===true);
   if(real){
    await db.query("update do_provider_preparation_reservation set created_at=clock_timestamp()-interval '2 days' where owner_id=$1",[a]);
@@ -100,6 +106,27 @@ class PostgresProof {
     await new Promise(resolve=>setTimeout(resolve,800));await holder.exec('commit');
     check('publication rechecks expiry after a separate-session lock wait',(await publication).rows[0].ok===false&&(await db.query('select output from do_personal_runs where id=$1',[run3])).rows[0].output===null);
    }finally{await holder.close();}
+   for(const kind of ['context','consent']){
+    await db.query("update do_provider_preparation_reservation set created_at=clock_timestamp()-interval '2 days' where owner_id=$1",[a]);
+    const raceTask=(await db.query("select do_personal_save($1,null,'Race','Prepare fictional lock sample','Fictional notes','Pacific/Auckland',7) as id",[a])).rows[0].id;
+    const raceRun=(await db.query('select * from do_personal_claim($1,$2)',[a,raceTask])).rows[0].run_id;
+    const raceContext=kind==='context'?'77777777-7777-4777-8777-777777777777':'99999999-9999-4999-8999-999999999999';
+    const raceConsent=raceContext,raceScope={kind:'responsibility',responsibilityId:raceTask,responsibilityRevision:1};
+    await context(a,0,'Fictional lock-wait context.',raceContext);
+    const shortExpiry=new Date(Date.now()+600).toISOString();
+    await consent(a,0,raceScope,raceConsent,[{recordId:raceContext,revision:1}],shortExpiry);
+    if(kind==='context')await db.query('update do_provider_context set expires_at=$3 where owner_id=$1 and id=$2',[a,raceContext,shortExpiry]);
+    await db.query('select do_provider_policy_change($1,$2,0,$3,0,0,24,false)',[a,raceTask,'Pacific/Auckland']);
+    assert.equal((await db.query('select do_provider_prepare_reserve($1,$2,$3,1,$4,1) as ok',[a,raceRun,raceConsent,`cas:${kind}:1`])).rows[0].ok,true);
+    const runHolder=new Database();try{
+     await runHolder.exec('begin');await runHolder.query('select id from do_personal_runs where id=$1 for update',[raceRun]);
+     const mutation=kind==='context'?context(a,1,'Must not renew after expiry.',raceContext):consent(a,1,raceScope,raceConsent,[{recordId:raceContext,revision:1}]);
+     await new Promise(resolve=>setTimeout(resolve,800));await runHolder.exec('commit');
+     check(`${kind} CAS resamples expiry after run-row invalidation wait`,(await mutation).rows[0].ok===false);
+     const tombstone=kind==='context'?(await db.query('select body as value,revision from do_provider_context where owner_id=$1 and id=$2',[a,raceContext])).rows[0]:(await db.query('select scope as value,revision from do_provider_context_consent where owner_id=$1 and id=$2',[a,raceConsent])).rows[0];
+     check(`${kind} expiry commits irreversible tombstone`,tombstone.value===null&&tombstone.revision===2);
+    }finally{await runHolder.close();}
+   }
   }
   await context(a,1,null,contextId);
   const erased=(await db.query('select status,output,evidence from do_personal_runs where id=$1',[run2])).rows[0];
