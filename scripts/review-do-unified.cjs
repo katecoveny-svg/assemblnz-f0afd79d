@@ -63,6 +63,20 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
     await clean.goto(origin + '/do/billing', { waitUntil: 'networkidle' });
     check('unconfigured consumer billing offers no sale', (await clean.locator('main').innerText()).includes('Personal DO subscriptions are not available yet.') && await clean.getByRole('button', { name: 'Continue to secure checkout', exact: true }).count() === 0);
     await clean.screenshot({ path: out + '/10-billing-disabled.png' });
+    await clean.setViewportSize({ width: 375, height: 812 });
+    check('billing page fits 375px', await clean.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    const shortcuts = clean.getByRole('navigation', { name: 'DO workspace shortcuts', exact: true });
+    check('billing shortcut bar stays fixed within the phone viewport', await shortcuts.evaluate(el => {
+      const rect = el.getBoundingClientRect();
+      return getComputedStyle(el).position === 'fixed' && rect.left >= 0 && rect.right <= innerWidth;
+    }));
+    check('billing retains both visible functional shortcuts', await shortcuts.getByRole('link', { name: 'DO home', exact: true }).isVisible() && await shortcuts.getByRole('link', { name: 'assembl', exact: true }).isVisible() && await shortcuts.getByRole('link', { name: 'DO home', exact: true }).getAttribute('href') === '/do' && await shortcuts.getByRole('link', { name: 'assembl', exact: true }).getAttribute('href') === '/');
+    await clean.screenshot({ path: out + '/11-billing-disabled-375.png', fullPage: true });
+    await shortcuts.getByRole('link', { name: 'DO home', exact: true }).click();
+    await clean.locator('#life-admin-source').waitFor();
+    check('billing phone shortcut opens the DO workspace', new URL(clean.url()).pathname === '/do');
+    await clean.setViewportSize({ width: 1440, height: 1000 });
+
     await clean.goto(origin + '/do/widget?tool=look', { waitUntil: 'networkidle' });
     await clean.locator('summary[aria-label="More DO tools"]').click();
     const signIn = clean.getByRole('link', { name: 'Sign in', exact: true }).first();
