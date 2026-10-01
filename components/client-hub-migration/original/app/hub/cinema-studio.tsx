@@ -1,6 +1,6 @@
 "use client";
 import { migrationFetch as fetch } from "@/lib/client-hub-migration/review-adapter";
-import {useEffect,useRef,useState} from "react";
+import {useEffect,useLayoutEffect,useRef,useState} from "react";
 import {Film,Image as ImageIcon,Upload} from "lucide-react";
 import type {Hub} from "@/components/client-hub-migration/original/lib/pursuit-hub";
 import {cinemaArtwork} from "@/components/client-hub-migration/original/lib/hub-visuals";
@@ -9,7 +9,7 @@ import "./cinema-studio.css";
 import ArtDirection from "./art-direction";
 
 export default function CinemaStudio({hub,onChange,localPreview=false}:{hub:Hub;onChange:(next:Hub)=>void;localPreview?:boolean}){
- const active=useRef(true),latest=useRef(hub);latest.current=hub;useEffect(()=>{active.current=true;return()=>{active.current=false;};},[]);
+ const active=useRef(true),latest=useRef(hub);useLayoutEffect(()=>{latest.current=hub;},[hub]);useEffect(()=>{active.current=true;return()=>{active.current=false;};},[]);
  const [items,setItems]=useState<DemoVideo[]>([]),[busy,setBusy]=useState(false),[message,setMessage]=useState("");
  const setting=hub.cinema||{mode:"automatic" as const,title:"",description:""},scene=sceneFilm(hub),selected=items.find(v=>v.id===setting.mediaId),url=setting.mode==="upload"&&setting.mediaId?`/api/demo-video?company=${encodeURIComponent(hub.seller)}&id=${setting.mediaId}`:cinemaFor(hub,"")?.src;
  useEffect(()=>{if(localPreview)return;let active=true;fetch(`/api/demo-video?company=${encodeURIComponent(hub.seller)}`).then(async r=>{const data=await r.json() as {error?:string;items:DemoVideo[]};if(!r.ok)throw Error(data.error);if(active)setItems(data.items);}).catch(e=>{if(active)setMessage(e.message);});return()=>{active=false;};},[hub.seller,localPreview]);

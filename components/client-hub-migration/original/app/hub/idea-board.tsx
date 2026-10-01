@@ -1,5 +1,5 @@
 "use client";
-import {useRef,useState,type PointerEvent,type KeyboardEvent} from "react";
+import {useLayoutEffect,useRef,useState,type PointerEvent,type KeyboardEvent} from "react";
 import {ArrowUpRight,Check,Grip,Layers3,Maximize2,Minus,Plus,RotateCcw,ShieldCheck,Sparkles,X} from "lucide-react";
 import {boardNodeIds,boardPositions,newIdeaBoard,selectBoardIdea,type BoardNodeId,type BoardIdea,type BoardSource,type IdeaBoardState} from "@/components/client-hub-migration/original/lib/idea-board";
 import "./idea-board.css";
@@ -10,7 +10,7 @@ export default function IdeaBoard({ideas,sources,value,onChange,onDevelop,onExpl
  const idea=ideas.find(i=>i.id===value?.ideaId)||ideas[0];
  const state=idea?selectBoardIdea(value,idea.id,sources.map(s=>s.id)):newIdeaBoard("");
  const [tab,setTab]=useState<"ideas"|"sources">("ideas"),[zoom,setZoom]=useState(0.8),[inspecting,setInspecting]=useState<BoardNodeId>(),[announcement,setAnnouncement]=useState(""),[dragged,setDragged]=useState(false);
- const plane=useRef<HTMLDivElement>(null),scroll=useRef<HTMLDivElement>(null),drag=useRef<{id:BoardNodeId;pointerId:number;clientX:number;clientY:number;x:number;y:number}|undefined>(undefined),latest=useRef(state);latest.current=state;
+ const plane=useRef<HTMLDivElement>(null),scroll=useRef<HTMLDivElement>(null),drag=useRef<{id:BoardNodeId;pointerId:number;clientX:number;clientY:number;x:number;y:number}|undefined>(undefined),latest=useRef(state);useLayoutEffect(()=>{latest.current=state;},[state]);
  function choose(id:string){onChange(selectBoardIdea(value,id,sources.map(s=>s.id)));setAnnouncement("Idea placed on the board. Its customer moment, agent task and handoff are connected.");setInspecting(undefined);}
  function move(id:BoardNodeId,x:number,y:number){const old=latest.current;const next={...old,nodes:old.nodes.map(n=>n.id===id?{...n,x:Math.max(0,Math.min(900,x)),y:Math.max(0,Math.min(650,y))}:n)};latest.current=next;onChange(next);}
  function start(event:PointerEvent<HTMLButtonElement>,id:BoardNodeId){if(busy||event.button!==0)return;const node=state.nodes.find(n=>n.id===id)||{...boardPositions[id]};event.currentTarget.setPointerCapture(event.pointerId);drag.current={id,pointerId:event.pointerId,clientX:event.clientX,clientY:event.clientY,x:node.x,y:node.y};setDragged(true);}
