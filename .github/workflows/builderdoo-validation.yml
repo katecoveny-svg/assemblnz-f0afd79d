@@ -55,7 +55,7 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
       - name: DO core unit tests
-        run: pnpm test apps/do/shared apps/do/personal app/api/do app/do/personal lib/do/nz-public-data.test.ts lib/do/nz-local-updates.test.ts lib/do/do-pwa.test.ts lib/do/availability lib/do/travel lib/typesafe lib/os/improvement.test.ts lib/os/routing.test.ts lib/connectors/pipedream.test.ts
+        run: pnpm test apps/do/coordination apps/do/shared apps/do/personal apps/do/services/family.test.ts apps/do/services/family-server.test.ts app/api/do app/do/personal lib/do/nz-public-data.test.ts lib/do/nz-local-updates.test.ts lib/do/do-pwa.test.ts lib/do/availability lib/do/travel lib/typesafe lib/os/improvement.test.ts lib/os/routing.test.ts lib/connectors/pipedream.test.ts
       - name: Production build
         run: pnpm build
       - name: Install isolated browser verification tools
@@ -84,14 +84,18 @@ jobs:
           calls_status=$?
           ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/portable node scripts/review-do-portable.cjs
           portable_status=$?
-          ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/assistant node scripts/review-do-personal-assistant.cjs
+          # Next pins the generated widget to localhost in this loopback server.
+          # Exercise same-origin workspace focus; other suites retain their existing host.
+          ASSEMBL_REVIEW_ORIGIN=http://localhost:3117 ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/assistant node scripts/review-do-personal-assistant.cjs
           assistant_status=$?
+          ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/site-assistant node scripts/review-do-site-assistant.cjs
+          site_status=$?
           ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/refinement node scripts/review-do-refinement.cjs
           refinement_status=$?
           ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/unified node scripts/review-do-unified.cjs
           unified_status=$?
           set -e
-          test "$settings_status" -eq 0 && test "$calls_status" -eq 0 && test "$portable_status" -eq 0 && test "$assistant_status" -eq 0 && test "$refinement_status" -eq 0 && test "$unified_status" -eq 0
+          test "$settings_status" -eq 0 && test "$calls_status" -eq 0 && test "$portable_status" -eq 0 && test "$assistant_status" -eq 0 && test "$site_status" -eq 0 && test "$refinement_status" -eq 0 && test "$unified_status" -eq 0
       - uses: actions/upload-artifact@v4
         if: always()
         with:

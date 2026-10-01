@@ -125,7 +125,7 @@ export function MeetingDoExperience(p: MeetingExperienceProps) {
       <h2 id="transcript-title">First, check the words.</h2><p>Correct names and anything the recording missed.</p>
       <label className={styles.field}>Transcript<textarea rows={10} maxLength={12000} disabled={p.busy} value={p.notes} onChange={e => p.editNotes(e.target.value)} /></label>
       {auth}
-      <label className={styles.consent}><input type="checkbox" checked={p.shareNotes} disabled={p.busy} onChange={e => p.setShareNotes(e.target.checked)} /><span>Use this transcript with DO’s preparation provider to write my notes.</span></label>
+      <label className={styles.consent}><input type="checkbox" checked={p.shareNotes} disabled={p.busy} onChange={e => p.setShareNotes(e.target.checked)} /><span>Share this transcript with OpenAI (GPT-6 Astra) and TypeSafe to prepare notes for my review.</span></label>
       <button className={styles.primary} disabled={!p.shareNotes || p.busy || p.signedIn !== true} onClick={() => p.process('smart-notes')}>Prepare my notes <ArrowUpRight size={18} /></button>
     </section>}
     {p.busy && <div className={styles.preparing} role="status"><div className={styles.assemblingLines} aria-hidden="true"><i /><i /><i /></div><div><strong>{p.activity === 'transcribe' ? 'Turning the recording into words.' : 'Preparing your meeting notes.'}</strong><p>You can stop this request. Your source stays here.</p></div><button className={styles.textButton} onClick={p.cancel}>Stop</button></div>}

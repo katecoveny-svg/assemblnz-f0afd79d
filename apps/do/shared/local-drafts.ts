@@ -13,6 +13,8 @@ const savedSchema = z.object({
     reviewedAt: z.string().datetime().optional(), reviewedTextHash: z.string().max(64).optional(),
     evidence: z.object({
       method: z.enum(['model', 'exact-extraction']), model: z.string().max(100).nullable(),
+      reasoning: z.object({ provider: z.literal('typesafe'), model: z.string().max(100), action: z.string().max(100) }).optional(),
+      providerConsentVersion: z.literal('do-openai-typesafe-v1').optional(),
       sourceTitle: z.string().max(160), sourceUrl: z.string().max(1_000).transform(cleanSourceUrl),
       sourceHash: z.string().length(64), sourceCharacters: z.number().min(1).max(DO_SOURCE_LIMIT),
       instructionHash: z.string().length(64), outputHash: z.string().length(64),

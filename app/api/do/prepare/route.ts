@@ -1,4 +1,5 @@
-import { reserveDoTrial, DoTrialError } from '@/apps/do/shared/trial';
+import { PilotError } from '@/lib/typesafe/core';
+import { DO_TEXT_PROVIDER_CONSENT_VERSION } from '@/apps/do/shared/provider-consent';
 import { preparationInputSchema } from '@/apps/do/shared/preparation';
 import { DoPreparationError, prepareDoDraft } from '@/apps/do/shared/preparation-server';
 import { admitDoRequest, allowedDoOrigin, doHeaders, readDoJson } from '@/apps/do/shared/http';
@@ -28,16 +29,14 @@ export async function POST(request: Request) {
     if (!rate.allowed) { headers.set('Retry-After', '600'); return json({ error: 'rate_limited', message: 'You have reached the preparation limit for now. Please try again in ten minutes.' }, 429); }
   }
   const owner = await doOwner();
-  let reservation: Awaited<ReturnType<typeof reserveDoTrial>>;
-  try { reservation = await reserveDoTrial(ip, { signedInOwnerId: owner?.id }); }
-  catch (error) { const e = error as DoTrialError; return json({ error: e.code, message: e.message }, e.code === 'trial_exhausted' ? 402 : 503); }
+  if (parsed.data.task !== 'extract' && (!owner || parsed.data.providerConsentVersion !== DO_TEXT_PROVIDER_CONSENT_VERSION)) return json({ error: owner ? 'provider_consent_required' : 'sign_in_required', message: owner ? 'Confirm OpenAI and TypeSafe for this draft.' : 'Sign in before preparing a draft. Exact extraction remains available.' }, owner ? 400 : 401);
   try {
     return json({
-      draft: await prepareDoDraft(parsed.data, request.signal),
-      trialBypassed: Boolean(reservation.bypassed),
+      draft: await prepareDoDraft(parsed.data, request.signal, undefined, owner ? { ownerId: owner.id, requestId: request.headers.get('Idempotency-Key') ?? undefined } : undefined),
+      trialBypassed: false,
     }, 200);
   } catch (error) {
-    await reservation.release().catch(() => {});
+    if (error instanceof PilotError) return json({ error: error.code, message: error.message }, error.status);
     if (error instanceof DoPreparationError) return json({ error: error.code, message: error.message }, 503);
     return json({ error: 'preparation_failed', message: 'DO could not finish this preparation. Your text is still in the editor. Please try again.' }, 503);
   }
