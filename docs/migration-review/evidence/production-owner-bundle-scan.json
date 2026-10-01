@@ -1,5 +1,5 @@
 {
-  "commit": "059547c3fc1d17df49636617e7dc2bb97ecb68a1",
+  "commit": "1d2228b859ac0f28eb4fc4d6ea57ae1bd142a3d5",
   "chunks": [
     "/_next/static/chunks/0-k0pm1qj8bxf.js",
     "/_next/static/chunks/00r8j8.n6sa3u.js",
@@ -26,5 +26,5 @@
     "marina"
   ],
   "findings": {},
-  "scope": "Owner-page14 referenced production client chunks; empty schema/default privateNotes keys excluded from sensitive-value findings; unrelated legacy app routes not audited."
+  "scope": "Owner-page referenced production client chunks; empty schema/default privateNotes keys are not sensitive values. Unrelated legacy app routes not audited."
 }

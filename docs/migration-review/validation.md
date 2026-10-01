@@ -51,3 +51,5 @@ Schema remains unapplied, with no owner enabled. Exact frozen SQL hash `ce71a6f5
 ## Final corrected implementation acceptance
 
 Exact implementation revision `059547c3fc1d17df49636617e7dc2bb97ecb68a1` passed the full standard production build (Node22.22.2/pnpm9.15.9), exit0 in53.8s, including TypeScript. Evidence: `evidence/build-migration-corrected-final.json`. Earlier pending-build statements describe historical checkpoints. Latest31 tests and scoped lint pass. Native Chrome CDP pointer/touch selection/opening and reduced-motion CSS proof recorded in `evidence/native-interaction-proof.json`. Review stays draft; no production activation or Site cutover.
+
+Final acceptance supersedes historical pending notes: implementation `1d2228b859ac0f28eb4fc4d6ea57ae1bd142a3d5` passed exact full standard build in52.34s, exit0, TypeScript included. `evidence/build-migration-final-button.json`. Latest scoped button/background pixels inspected, native input proof retained. Nine production-mode route checks remain valid: server/routes unchanged from059547c3f. Additional commits change documentation/evidence only.
