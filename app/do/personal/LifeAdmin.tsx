@@ -92,10 +92,12 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
     return () => cancelAnimationFrame(frame);
   }, [intake, source]);
   useEffect(() => {
-    const focus = () => requestAnimationFrame(() => {
+    // Both editors are already mounted. A deferred second focus can steal the
+    // next draft edit after the assistant's synchronous portable handoff.
+    const focus = () => {
       if (localOpen) sourceRef.current?.focus();
       else document.getElementById('personal-assistant-input')?.focus();
-    });
+    };
     window.addEventListener('assembl:do-focus', focus);
     return () => window.removeEventListener('assembl:do-focus', focus);
   }, [localOpen]);

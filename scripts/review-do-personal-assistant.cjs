@@ -57,20 +57,34 @@ const makeResult = message => ({
     check('reply receives keyboard focus', true);
     await page.evaluate(() => dispatchEvent(new Event('assembl:do-focus')));
     check('portable focus returns to the same composer', await input.evaluate(element => element === document.activeElement));
+    const launcherResponse = await page.request.get(origin + '/api/do/widget');
+    check('actual portable launcher is available', launcherResponse.ok());
+    await page.addScriptTag({ content: await launcherResponse.text() });
+    await page.locator('[data-do-companion] .launch').click();
+    await page.waitForFunction(() => document.activeElement?.id === 'personal-assistant-input');
+    check('actual portable launcher initially focuses the existing composer', true);
     check('one consented request carries no invented authority', posts.length === 1 && posts[0].consent === true && posts[0].history.length === 0 && posts[0].useSavedStyle === false);
     const draft = panel.locator('#personal-assistant-draft');
     // Fictional fixture diagnostics: preserve events and controlled-value writes even on failure.
     await page.evaluate(() => {
       window.__draftEvents = [];
       const record = (type, element, value) => {
-        if (element.id !== 'personal-assistant-draft') return;
-        window.__draftEvents.push({ type, value, disabled: element.disabled, at: performance.now() });
+        if (!['personal-assistant-draft', 'personal-assistant-input'].includes(element.id)) return;
+        window.__draftEvents.push({ type, target: element.id, value, disabled: element.disabled, at: performance.now() });
         if (window.__draftEvents.length > 100) window.__draftEvents.shift();
       };
-      for (const type of ['beforeinput', 'input', 'change']) document.addEventListener(type, event => record(type, event.target, event.target.value), true);
+      for (const type of ['focusin', 'beforeinput', 'input', 'change']) document.addEventListener(type, event => record(type, event.target, event.target.value), true);
       const descriptor = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value');
       Object.defineProperty(HTMLTextAreaElement.prototype, 'value', { ...descriptor, set(value) { record('controlled-value-write', this, value); descriptor.set.call(this, value); } });
     });
+    // A person can select the draft immediately after returning to the editor.
+    // No queued parent focus may retarget the following edit to the composer.
+    await draft.evaluate(element => {
+      document.querySelector('[data-do-companion]').shadowRoot.querySelector('.launch').click();
+      element.focus();
+    });
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(resolve)));
+    check('draft focus survives the portable handoff frame', await draft.evaluate(element => element === document.activeElement));
     await draft.fill('My reviewed fictional reply.');
     const editedValue = await draft.inputValue();
     check(`reply is editable before reuse (actual: ${JSON.stringify(editedValue)})`, editedValue === 'My reviewed fictional reply.');
