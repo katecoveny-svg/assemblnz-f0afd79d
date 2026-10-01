@@ -1,0 +1,60 @@
+{
+  "implementationCommit": "059547c3fc1d17df49636617e7dc2bb97ecb68a1",
+  "context": "Local next start production build, no cookies, review flag deliberately1, owner flag0. Latest unbuilt delta is scoped button CSS only; route/server code identical. Not deployed production acceptance. POST403 request guard; all GET404.",
+  "checks": [
+    {
+      "path": "/review/client-hub",
+      "method": "GET",
+      "status": 404,
+      "fixtureOrPrivatePayloadReturned": false
+    },
+    {
+      "path": "/review/client-hub?layout=owner",
+      "method": "GET",
+      "status": 404,
+      "fixtureOrPrivatePayloadReturned": false
+    },
+    {
+      "path": "/review/client-hub?example=airnz",
+      "method": "GET",
+      "status": 404,
+      "fixtureOrPrivatePayloadReturned": false
+    },
+    {
+      "path": "/review/client-hub?example=pwc",
+      "method": "GET",
+      "status": 404,
+      "fixtureOrPrivatePayloadReturned": false
+    },
+    {
+      "path": "/review/client-hub?example=deloitte",
+      "method": "GET",
+      "status": 404,
+      "fixtureOrPrivatePayloadReturned": false
+    },
+    {
+      "path": "/studio/workspace",
+      "method": "GET",
+      "status": 404,
+      "fixtureOrPrivatePayloadReturned": false
+    },
+    {
+      "path": "/api/client-hub-migration/owner",
+      "method": "GET",
+      "status": 404,
+      "fixtureOrPrivatePayloadReturned": false
+    },
+    {
+      "path": "/api/client-hub-migration/owner",
+      "method": "POST",
+      "status": 403,
+      "fixtureOrPrivatePayloadReturned": false
+    },
+    {
+      "path": "/api/client-hub-migration/recipient/00000000-0000-4000-8000-000000000001",
+      "method": "GET",
+      "status": 404,
+      "fixtureOrPrivatePayloadReturned": false
+    }
+  ]
+}

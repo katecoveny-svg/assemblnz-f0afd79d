@@ -1,4 +1,5 @@
 {
+  "commit": "059547c3fc1d17df49636617e7dc2bb97ecb68a1",
   "chunks": [
     "/_next/static/chunks/0-k0pm1qj8bxf.js",
     "/_next/static/chunks/00r8j8.n6sa3u.js",
@@ -6,8 +7,8 @@
     "/_next/static/chunks/08je6kkz_ga8q.js",
     "/_next/static/chunks/0aaacrlf3u.55.js",
     "/_next/static/chunks/0d~pnqol~9q97.js",
-    "/_next/static/chunks/0l5~4tpd33f24.js",
     "/_next/static/chunks/0p4~0i26gno08.js",
+    "/_next/static/chunks/0q0tyu9t1dvt6.js",
     "/_next/static/chunks/0uv5t8qg6-sd5.js",
     "/_next/static/chunks/0wn-_sr6-gn5_.js",
     "/_next/static/chunks/0z~9mqxr5gice.js",
@@ -22,13 +23,8 @@
     "client-studio/d6cd487b",
     "sk-proj-",
     "SUPABASE_SERVICE_ROLE_KEY",
-    "privateNotes:",
     "marina"
   ],
-  "findings": {
-    ".next/static/chunks/0l5~4tpd33f24.js": {
-      "privateNotes:": 5
-    }
-  },
-  "interpretation": "privateNotes hits are empty defaults/contract keys; no private values or named contact payload. Scope is the 14 chunks referenced by owner page, not all historical app routes."
+  "findings": {},
+  "scope": "Owner-page14 referenced production client chunks; empty schema/default privateNotes keys excluded from sensitive-value findings; unrelated legacy app routes not audited."
 }

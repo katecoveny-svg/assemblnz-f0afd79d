@@ -76,7 +76,7 @@
 @media(max-width:650px){.client-hub-migration-review .interview-cards { grid-template-columns: 1fr; }.client-hub-migration-review .interview-visual { padding: 64px 20px 24px; }}
 /* Preserve readable action-panel contrast against inherited app text rules. */
 .client-hub-migration-review .ib-form h3 { color: #FFFDFB; }
-.client-hub-migration-review .ib-form .ib-form-button { color: #230B23; }
+.client-hub-migration-review .ib-form .ib-form-button { color: #230B23; background: #FFFDFB; border: 1px solid #DFD1D8; }
 
 /* Embedded controls own their scroll space; global chrome must not cover them. */
 body:has(.client-hub-migration-review) > .relative > nav[aria-label="Primary"] { position: relative; top: auto; }
