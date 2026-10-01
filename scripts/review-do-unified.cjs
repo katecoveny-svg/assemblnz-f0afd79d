@@ -22,6 +22,7 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
     await page.getByRole('link', { name: 'Open DO', exact: true }).first().click();
     await page.locator('#life-admin-source').waitFor();
     check('one click from Assembl reaches a working input', new URL(page.url()).pathname === '/do' && await page.locator('#life-admin-source').isVisible());
+    check('pink app backdrop is exposed behind the personal surface', await page.locator('.do-app-shell > main').evaluate(el => getComputedStyle(el).backgroundColor === 'rgba(0, 0, 0, 0)' && getComputedStyle(document.querySelector('.do-app-shell')).backgroundImage.includes('radial-gradient')));
     check('canonical title has no duplicated product suffix', await page.title() === 'DO by assembl');
     check('no duplicate floating app inside the app', await page.locator('[data-do-companion]').count() === 0);
     check('guest sees one composer', await page.locator('textarea:visible').count() === 1);

@@ -158,7 +158,7 @@ export function BillsWorkspace() {
 
       <div className={styles.columns}>
         <section aria-labelledby="recurring-title">
-          <div className={styles.sectionHead}><div><p className={styles.kicker}>01 · FIND</p><h2 id="recurring-title">Payments to look at.</h2></div></div>
+          <div className={styles.sectionHead}><div><p className={styles.kicker}>01 · FIND</p><h2 id="recurring-title">Recurring payments</h2></div></div>
           <p className={styles.small}>Candidates from the supplied records. Check the merchant, service and usage before deciding a charge is wrong.</p>
           {recurring.length === 0 && <div className={styles.empty}>No recurring pattern found. Add at least three payments to the same merchant, or add a checked bill.</div>}
           <div className={styles.cards}>{recurring.map(payment => <article key={payment.id} className={styles.card}>
@@ -173,7 +173,7 @@ export function BillsWorkspace() {
         </section>
 
         <section aria-labelledby="calendar-title">
-          <div className={styles.sectionHead}><div><p className={styles.kicker}>02 · CHECK</p><h2 id="calendar-title">Dates from the bill.</h2></div></div>
+          <div className={styles.sectionHead}><div><p className={styles.kicker}>02 · CHECK</p><h2 id="calendar-title">Bill dates</h2></div></div>
           <p className={styles.small}>Dates come from checked invoices or renewal notices. Transaction timing is never used as a due date.</p>
           {invoices.length === 0 && <div className={styles.empty}>No checked bills yet. Add details from an actual invoice or notice below.</div>}
           <div className={styles.cards}>{[...invoices].sort((a, b) => (a.dueOn || '9999').localeCompare(b.dueOn || '9999')).map(invoice => <article key={invoice.id} className={styles.card}>
@@ -210,7 +210,7 @@ export function BillsWorkspace() {
 
       <section ref={draftRef} tabIndex={-1} className={styles.draftPanel} aria-labelledby="draft-title">
         <p className={styles.kicker}>03 · PREPARE → REVIEW → KEEP THE EVIDENCE</p>
-        <h2 id="draft-title">{draft ? draft.title : 'A useful next step, ready to check.'}</h2>
+        <h2 id="draft-title">{draft ? draft.title : 'Draft a reply'}</h2>
         {draft ? <>
           <p>{draft.mode === 'demo' ? 'Fictional example draft. ' : ''}Nothing has been sent. Preparing another enquiry replaces this draft; download it first if you want to keep it.</p>
           <label className={styles.draftLabel}>Edit your enquiry<textarea rows={12} maxLength={12000} disabled={busy} value={draft.text} onChange={event => setDraft(editFinancialDraft(draft, event.target.value))} /></label>

@@ -107,3 +107,5 @@
 }
 
 .do-app-shell :is(p,span,small,label,summary,a,li,dt,dd,pre){font-family:var(--font-body),'Instrument Sans',sans-serif}
+
+.do-app-shell>main,.do-app-shell .do-craft{background:transparent}
