@@ -305,5 +305,35 @@
       "italic"
     ],
     "variable": "--font-brand-body"
+  },
+  {
+    "file": "lib/brand/fonts.ts",
+    "name": "montserrat",
+    "family": "Montserrat",
+    "weights": [
+      "300",
+      "500",
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--font-brand-display"
+  },
+  {
+    "file": "app/customers/contact-energy/layout.tsx",
+    "name": "montserrat",
+    "family": "Montserrat",
+    "weights": [
+      "400",
+      "500",
+      "600",
+      "700",
+      "900"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--contact-body"
   }
 ]
