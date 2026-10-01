@@ -32,7 +32,7 @@ const result = message => ({ id: 'fictional-site-draft', createdAt: '2026-10-01T
       const workspace = page.getByRole('region', { name: 'DO drafting workspace', exact: true });
       const panel = workspace.getByRole('region', { name: 'Ask DO', exact: true });
       check(`canonical DO identity at ${width}`, await workspace.getByRole('link', { name: 'DO by assembl, home', exact: true }).getAttribute('href') === '/do');
-      check(`ordinary sign-in returns to public page at ${width}`, await workspace.getByRole('link', { name: 'Sign in to DO', exact: true }).getAttribute('href') === '/login?redirect=%2Fcontact');
+      check(`contact sign-in uses the supported DO return at ${width}`, await workspace.getByRole('link', { name: 'Sign in to DO', exact: true }).getAttribute('href') === '/login?redirect=%2Fdo');
       await panel.getByRole('status').getByText(/^Sign in before drafting\./).waitFor();
       const input = panel.locator('#personal-assistant-input'); await input.fill('Fictional EA request.');
       check(`signed-out drafting fails closed at ${width}`, await panel.getByRole('button', { name: 'Start', exact: false }).isDisabled());
@@ -60,6 +60,12 @@ const result = message => ({ id: 'fictional-site-draft', createdAt: '2026-10-01T
       check(`public route change clears exchange at ${width}`, await panel.locator('#personal-assistant-draft').count() === 0 && await panel.locator('#personal-assistant-input').inputValue() === '');
       await page.goto(origin + '/do', { waitUntil: 'networkidle' });
       check(`DO route has no duplicate public widget at ${width}`, await trigger.count() === 0);
+      await page.goto(origin + '/', { waitUntil: 'networkidle' }); await trigger.click();
+      const signIn = workspace.getByRole('link', { name: 'Sign in to DO', exact: true });
+      check(`home sign-in uses the supported DO return at ${width}`, await signIn.getAttribute('href') === '/login?redirect=%2Fdo');
+      await signIn.click();
+      await page.getByRole('heading', { name: 'Sign in to DO', exact: true }).waitFor();
+      check(`public widget reaches ordinary DO login at ${width}`, new URL(page.url()).pathname === '/login' && new URL(page.url()).searchParams.get('redirect') === '/do');
     }
     // Exhausted legacy allowance cannot disable provider-free extraction.
     await page.route('**/api/do/runtime', route => route.fulfill({ json: { signedIn: false, trial: { remaining: 0 }, availability: { preparation: 'unavailable', note: 'Fictional unavailable generation.' } } }));

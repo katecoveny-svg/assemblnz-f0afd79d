@@ -59,7 +59,7 @@ export function AssemblConciergeWidget() {
       <header><DoBrand /><button type="button" aria-label="Close DO" onClick={close}><X size={20} /></button></header>
       <p>Prepare a reply, organise a plan or sort a life-admin note. Only what you choose to type is shared after confirmation.</p>
       <p>No page, inbox or customer records are read. Drafts need your review and stay in this open panel; copy anything you want to keep.</p>
-      {!owner && <Link href={`/login?redirect=${encodeURIComponent(pathname)}`}>Sign in to DO</Link>}
+      {!owner && <Link href="/login?redirect=%2Fdo">Sign in to DO</Link>}
       <PersonalDoAssistant key={`${pathname}:${owner ?? 'signed-out'}:${epoch}`} onWorkChange={work => { dirty.current = work.dirty; }} />
     </section>}
     <button ref={trigger} type="button" className={styles.trigger} aria-expanded={open} aria-controls="site-do-workspace" onClick={() => open ? close() : setOpen(true)}>Ask DO</button>
