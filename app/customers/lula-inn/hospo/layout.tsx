@@ -1,6 +1,7 @@
+import { preserveSingleFontStyle } from '@/lib/fonts/local-font-metadata';
 import localFont from 'next/font/local';
 import type { Metadata } from 'next';
-import { Space_Mono } from 'next/font/google';
+
 import { HospoShell } from '@/components/customers/lula-inn/HospoShell';
 
 // The Lula Inn side uses Fraunces (warm editorial serif — the elevated-casual
@@ -33,12 +34,17 @@ const inter = localFont({
   fallback: ['Inter Build Fallback'],
 });
 
-const spaceMono = Space_Mono({
-  subsets: ['latin'],
-  weight: ['400', '700'],
+const spaceMonoLocal = localFont({
+  src: [
+    { path: '../../../../lib/fonts/assets/space-mono-normal-400.woff2', weight: '400', style: 'normal' },
+    { path: '../../../../lib/fonts/assets/space-mono-normal-700.woff2', weight: '700', style: 'normal' },
+  ],
   variable: '--lula-mono',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Space Mono Build Fallback'],
 });
+const spaceMono = preserveSingleFontStyle(spaceMonoLocal, 'normal');
 
 export const metadata: Metadata = {
   title: 'The Lula Inn × assembl — hospo ops (concept)',

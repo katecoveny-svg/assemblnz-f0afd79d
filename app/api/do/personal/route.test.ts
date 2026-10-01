@@ -10,6 +10,7 @@ vi.mock("@/apps/do/personal/service", () => ({
   mutatePersonal: vi.fn(),
   runPersonal: vi.fn(),
   personalHeartbeat: vi.fn(),
+  personalWorkerConfigured: vi.fn().mockReturnValue(true),
 }));
 import { doOwner } from "@/apps/do/services/owner";
 import {
@@ -120,7 +121,7 @@ describe("Personal DO HTTP boundaries", () => {
     expect(runPersonal).not.toHaveBeenCalled();
     vi.unstubAllEnvs();
   });
-  it("bounds each valid cron invocation to three claims", async () => {
+  it("bounds each enabled worker cron invocation to three claims", async () => {
     vi.stubEnv("CRON_SECRET", "test-secret");
     vi.mocked(runPersonal).mockResolvedValue({
       claimed: true,
@@ -131,7 +132,7 @@ describe("Personal DO HTTP boundaries", () => {
         headers: { authorization: "Bearer test-secret" },
       }),
     );
-    expect(await response.json()).toEqual({ claimed: 3, published: 3, followupsPrepared: 0 });
+    expect(await response.json()).toEqual({ claimed: 3, published: 3, followupsPrepared: 0, personal: { status: 'enabled' } });
     expect(personalHeartbeat).toHaveBeenCalledOnce();
     expect(runPersonal).toHaveBeenCalledTimes(3);
     vi.unstubAllEnvs();

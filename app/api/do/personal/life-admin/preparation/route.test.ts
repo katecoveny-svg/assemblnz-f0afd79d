@@ -12,7 +12,7 @@ import { prepareDoDraft } from '@/apps/do/shared/preparation-server';
 import { getPersonalDoProfile } from '@/apps/do/personal/profile-service';
 import { DEFAULT_PERSONAL_DO_PROFILE } from '@/apps/do/personal/profile';
 const owner = { id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', externalId: 'do:user:a' };
-const valid = { category: 'school', source: 'A school notice needing a checklist.', title: 'Trip', fields: { event: 'School trip', timing: 'Date not stated', gear: 'Hat', permission: 'Reply needed' }, consent: true };
+const valid = { category: 'school', source: 'A school notice needing a checklist.', title: 'Trip', fields: { event: 'School trip', timing: 'Date not stated', gear: 'Hat', permission: 'Reply needed' }, providerConsentVersion: 'do-openai-typesafe-v1', consent: true };
 const request = (body: unknown = valid, origin = 'https://www.assembl.co.nz') => new Request('https://www.assembl.co.nz/api/do/personal/life-admin/preparation', { method: 'POST', headers: { origin, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
 beforeEach(() => {
   vi.clearAllMocks();
@@ -55,13 +55,13 @@ describe('Life-admin provider preparation boundary', () => {
     expect(response.status).toBe(200);
     expect(response.headers.get('cache-control')).toBe('private, no-store');
     expect(await response.json()).toEqual({ draft: { text: 'Draft only', status: 'draft' } });
-    expect(prepareDoDraft).toHaveBeenCalledWith(expect.objectContaining({ task: 'plan', consent: true, sourceTitle: 'Trip', sourceUrl: '' }), expect.any(AbortSignal), undefined);
+    expect(prepareDoDraft).toHaveBeenCalledWith(expect.objectContaining({ task: 'plan', providerConsentVersion: 'do-openai-typesafe-v1', consent: true, sourceTitle: 'Trip', sourceUrl: '' }), expect.any(AbortSignal), undefined, expect.objectContaining({ ownerId: owner.id }));
   });
   it('uses only the verified owner profile as a bounded separate style hint', async () => {
     vi.mocked(getPersonalDoProfile).mockResolvedValue({ profile: { ...DEFAULT_PERSONAL_DO_PROFILE, displayName: 'Kea' }, saved: true });
     expect((await POST(request())).status).toBe(200);
     expect(getPersonalDoProfile).toHaveBeenCalledWith(owner.id);
-    expect(prepareDoDraft).toHaveBeenCalledWith(expect.anything(), expect.any(AbortSignal), expect.stringContaining('Kea'));
+    expect(prepareDoDraft).toHaveBeenCalledWith(expect.anything(), expect.any(AbortSignal), expect.stringContaining('Kea'), expect.objectContaining({ ownerId: owner.id }));
   });
   it('missing optional profile storage does not disable preparation', async () => {
     vi.mocked(getPersonalDoProfile).mockRejectedValue(new Error('missing table'));

@@ -26,6 +26,7 @@ class Element {
 }
 function setup(embedded = false, legacyPosition?: string, pathname = embedded ? "/do/widget" : "/do/install", pageOrigin = DO_DISTRIBUTION_ORIGIN) {
   const body = new Element();
+  const active = { current: body as unknown };
   const listeners: Record<string, (e: any) => void> = {};
   const saved = new Map<string, string>();
   if (legacyPosition) saved.set('assembl:do:companion-position:v1', legacyPosition);
@@ -43,7 +44,7 @@ function setup(embedded = false, legacyPosition?: string, pathname = embedded ? 
   const window: any = { dispatchEvent, addEventListener: (k: string, f: (e: any) => void) => { listeners[k] = f; }, removeEventListener: vi.fn() };
   window.self = window; window.top = embedded ? {} : window;
   runInNewContext(doWidgetScript(DO_DISTRIBUTION_ORIGIN), {
-    document: { createElement: () => new Element(), body, createTreeWalker: query, querySelector: selector,
+    document: { createElement: () => new Element(), body, get activeElement() { return active.current; }, createTreeWalker: query, querySelector: selector,
       elementFromPoint: () => area, createRange: () => ({ selectNodeContents() {}, getClientRects: () => [area.getBoundingClientRect()] }),
       addEventListener: (k: string, fn: (e: any) => void) => { documentListeners[k] = fn; },
       removeEventListener: (k: string) => { delete documentListeners[k]; },
@@ -57,7 +58,7 @@ function setup(embedded = false, legacyPosition?: string, pathname = embedded ? 
   const all = (e: Element): Element[] => [e, ...e.children.flatMap(all)];
   const find = (name: string) => all(body).find(e => e.className === name)!;
   const panel = find('panel');
-  return { body, window, find, panel, saved, query, listeners, documentListeners, area, input, selector, location, dispatchEvent, flush: () => { frames.splice(0).forEach(f => f()); }, frame: panel?.children.at(-1)! };
+  return { body, active, window, find, panel, saved, query, listeners, documentListeners, area, input, selector, location, dispatchEvent, flush: () => { frames.splice(0).forEach(f => f()); }, frame: panel?.children.at(-1)! };
 }
 const click = { detail: 1 };
 describe('portable DO companion', () => {
@@ -105,6 +106,25 @@ describe('portable DO companion', () => {
     expect(s.query).not.toHaveBeenCalled();
     s.window.assemblDo.open(); s.flush();
     expect(s.frame.src).toBe(''); expect(s.input.focus).toHaveBeenCalledTimes(2);
+  });
+  it('respects a draft selection made after the launcher handoff but before its frame', () => {
+    const s = setup(false, undefined, '/do/personal');
+    s.find('launch').handlers.click(click);
+    s.active.current = { id: 'personal-assistant-draft' };
+    s.flush();
+    expect(s.input.focus).not.toHaveBeenCalled();
+    expect(s.input.scrollIntoView).not.toHaveBeenCalled();
+    expect(s.frame.src).toBe(''); expect(s.panel.hidden).toBe(true);
+  });
+  it('keeps initial fallback focus when the captured element leaves focus on body', () => {
+    const s = setup(false, undefined, '/do/personal');
+    s.active.current = { id: 'previous-editor' };
+    s.find('launch').handlers.click(click);
+    s.active.current = s.body;
+    s.flush();
+    expect(s.input.focus).toHaveBeenCalledWith({ preventScroll: true });
+    expect(s.input.scrollIntoView).toHaveBeenCalledWith({ block: 'center', behavior: 'instant' });
+    expect(s.frame.src).toBe(''); expect(s.panel.hidden).toBe(true);
   });
   it('uses current navigation state and retains a prior embedded draft without reopening it', () => {
     const s = setup(); s.window.assemblDo.open();

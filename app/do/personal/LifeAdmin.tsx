@@ -1,5 +1,7 @@
 "use client";
 
+import { DO_TEXT_PROVIDER_CONSENT_VERSION, DO_TEXT_PROVIDER_CONSENT } from '@/apps/do/shared/provider-consent';
+
 import Link from 'next/link';
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { ArrowDownToLine, ArrowRight, ArrowUpRight, Check, ChevronRight, FileText, Mic, Plus, RotateCcw, ShieldCheck, Sparkles, X, Backpack, ReceiptText, CarFront } from 'lucide-react';
@@ -90,10 +92,12 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
     return () => cancelAnimationFrame(frame);
   }, [intake, source]);
   useEffect(() => {
-    const focus = () => requestAnimationFrame(() => {
+    // Both editors are already mounted. A deferred second focus can steal the
+    // next draft edit after the assistant's synchronous portable handoff.
+    const focus = () => {
       if (localOpen) sourceRef.current?.focus();
       else document.getElementById('personal-assistant-input')?.focus();
-    });
+    };
     window.addEventListener('assembl:do-focus', focus);
     return () => window.removeEventListener('assembl:do-focus', focus);
   }, [localOpen]);
@@ -167,7 +171,7 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
     const version = ++requestVersion.current; setBusyId(target.id); setNotice('Preparing a draft from the notes and details you approved…');
     try {
       const response = await fetch('/api/do/personal/life-admin/preparation', { method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: controller.signal,
-        body: JSON.stringify({ category: target.category, source: target.source.text, title: target.title, fields: target.fields, consent: true }) });
+        body: JSON.stringify({ category: target.category, source: target.source.text, title: target.title, fields: target.fields, consent: true, providerConsentVersion: DO_TEXT_PROVIDER_CONSENT_VERSION }) });
       const body = await response.json() as { draft?: DoPreparedDraft; error?: string };
       if (!response.ok || !body.draft) throw new Error(body.error || 'Draft preparation is unavailable. Your checklist is unchanged.');
       if (version !== requestVersion.current || controller.signal.aborted) return;
@@ -296,7 +300,7 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
             {taskEditor?.taskId === task.id && <form className={styles.recordForm} onSubmit={recordStep}><label>{taskEditor.status === 'done' ? 'What confirms it is done?' : 'Who or what are you waiting for?'}<textarea rows={2} value={taskEditor.note} minLength={taskEditor.status === 'done' ? 8 : 3} maxLength={2000} required placeholder={taskEditor.status === 'done' ? 'e.g. School confirmed receipt today; reference held in my email' : 'e.g. The school’s answer about collection time'} onChange={(event) => setTaskEditor({ ...taskEditor, note: event.target.value })} /></label>{taskEditor.status === 'done' ? <label>Evidence link, if useful<input type="url" value={taskEditor.url} maxLength={2000} onChange={(event) => setTaskEditor({ ...taskEditor, url: event.target.value })} placeholder="https://…" /><small>Do not paste private access tokens. URL queries are removed.</small></label> : <label>When will you check again?<input type="date" required value={taskEditor.date} onChange={(event) => setTaskEditor({ ...taskEditor, date: event.target.value })} /></label>}<div className={styles.taskActions}><button className={styles.primary} type="submit">Save this record</button><button type="button" onClick={() => setTaskEditor(null)}>Cancel</button></div></form>}
           </li>)}</ol>
           <div className={styles.followUp}><label>Your next check date<input type="date" value={active.followUpOn ?? ''} disabled={busyId === active.id} onChange={(event) => setFollowUp(active, event.target.value)} /></label><p>No background reminder is scheduled. Download an all-day calendar file if you want to import it into your own calendar.</p>{active.followUpOn && <button type="button" onClick={() => { saveFile('do-follow-up.ics', lifeAdminCalendarFile(active), 'text/calendar;charset=utf-8'); setNotice('Calendar file downloaded. Import and review it in your calendar; no calendar was changed by DO.'); }}><ArrowDownToLine size={16} /> Download calendar file</button>}</div>
-          <details className={styles.disclosure}><summary><Sparkles size={16} /> Make the draft more useful</summary><p>Optional: ask DO to turn this checklist into a tailored brief, list or draft message.</p><p className={styles.hint}>This sends the source note, title and all details above to assembl’s configured Anthropic, OpenAI, Google or Groq generation provider. Include children’s, health or other sensitive details only if you want them used for this one draft. No passwords, identity numbers or payment details.</p><label className={styles.consent}><input type="checkbox" checked={providerConsent} disabled={Boolean(busyId)} onChange={(event) => setProviderConsent(event.target.checked)} />Send these notes and details to the configured provider for this draft.</label><div className={styles.taskActions}><button className={styles.primary} type="button" disabled={!providerConsent || Boolean(busyId)} onClick={() => void prepare()}>{busyId === active.id ? 'Preparing…' : 'Prepare my draft'}</button>{busyId === active.id && <button type="button" onClick={() => request.current?.abort()}>Stop</button>}</div><small>Uses your DO sign-in and Assembl’s configured drafting provider. This flow does not use the TypeSafe check. Availability is checked when you ask; local checklists still work if generation is unavailable.</small></details>
+          <details className={styles.disclosure}><summary><Sparkles size={16} /> Make the draft more useful</summary><p>Optional: ask DO to turn this checklist into a tailored brief, list or draft message.</p><p className={styles.hint}>This sends the source note, title and all details above to OpenAI (GPT-6 Astra) and TypeSafe. Include children’s, health or other sensitive details only if you want them used for this one draft. No passwords, identity numbers or payment details.</p><label className={styles.consent}><input type="checkbox" checked={providerConsent} disabled={Boolean(busyId)} onChange={(event) => setProviderConsent(event.target.checked)} />{DO_TEXT_PROVIDER_CONSENT}</label><div className={styles.taskActions}><button className={styles.primary} type="button" disabled={!providerConsent || Boolean(busyId)} onClick={() => void prepare()}>{busyId === active.id ? 'Preparing…' : 'Prepare my draft'}</button>{busyId === active.id && <button type="button" onClick={() => request.current?.abort()}>Stop</button>}</div><small>Uses your DO sign-in, configured entitlement and bounded provider budget. TypeSafe checks the request; GPT-6 Astra prepares the draft. Availability is checked when you ask; local checklists still work if generation is unavailable.</small></details>
           {active.generated && <section className={styles.generated}><h4>Your generated draft · review before using</h4><pre>{active.generated.text}</pre><details><summary>Preparation evidence</summary><p>Provider: {active.generated.model ?? 'Not recorded'}<br />Prepared: {active.generated.createdAt}</p><p className={styles.hash}>Source fingerprint: {active.generated.sourceHash}<br />Original output fingerprint: {active.generated.outputHash}</p><p>Draft preparation only. This is not evidence of sending or external completion.</p></details></section>}
           {['vehicle', 'transport', 'travel'].includes(active.category) && <LifeAdminTraffic />}
           {activeTemplate.resources.length > 0 && <div className={styles.resources}><h4>Useful NZ sources</h4>{activeTemplate.resources.map((resource) => <div key={resource.url}><a href={resource.url} target="_blank" rel="noopener noreferrer">{resource.title} <ArrowUpRight size={14} /></a><p>{resource.note}</p></div>)}</div>}

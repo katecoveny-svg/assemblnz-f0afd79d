@@ -1,4 +1,5 @@
 'use client';
+import { DO_TEXT_PROVIDER_CONSENT_VERSION } from '@/apps/do/shared/provider-consent';
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
@@ -61,7 +62,7 @@ export function TypeSafePilot({ surface }: { surface: Surface }) {
     try {
       const response = await fetch(withDo ? '/api/do/decision/prepare' : '/api/do/decision', {
         method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(withDo ? { ...checked, shareWithDo: true } : checked),
+        body: JSON.stringify(withDo ? { ...checked, shareWithDo: true, providerConsentVersion: DO_TEXT_PROVIDER_CONSENT_VERSION } : checked),
       });
       const value = await response.json();
       if (!response.ok) throw new Error(typeof value.message === 'string' ? value.message : 'The live request failed.');
