@@ -76,7 +76,7 @@ export function AssemblConciergeWidget() {
   const isProductSurface = !!pathname && (
     pathname === '/do' || pathname.startsWith('/do/') ||
     pathname === '/pursuit' || pathname.startsWith('/pursuit/') ||
-    pathname === '/preview/home'
+    pathname === '/preview/home' || pathname === '/login' || pathname.startsWith('/auth/')
   );
   // True on an agent's own chat page (/agents/<slug>/chat) — where this global
   // concierge would overlap the agent's own chat surface.

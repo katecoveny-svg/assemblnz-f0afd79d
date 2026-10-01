@@ -32,3 +32,11 @@
 @media(max-width:700px) { .refined-product-grid { grid-template-columns: 1fr; gap: 24px; } .refined-product-art { height: 165px; } .refined-product-copy { padding: 20px 4px 12px; } .refined-product-copy p { margin-bottom: 16px; } .refined-explore summary { padding: 22px 18px; } }
 @media(prefers-reduced-motion:reduce) { .refined-product { transition: none; } .refined-product:hover { transform: none; } }
 .atw-refined .refined-product[data-product=do] h3 { color: #240b21; }
+
+/* The simple DO entry and the Assembl family share one paper-and-pastel world. */
+.atw-refined .refined-products{padding-top:90px}.atw-refined .refined-products>header h2{font-size:clamp(36px,4.4vw,62px);font-weight:500;letter-spacing:-.05em}
+.atw-refined .refined-product{border-radius:32px;overflow:hidden;border:0;background:#f5f1f2;box-shadow:0 8px 20px #240b2106;transition:transform 220ms,box-shadow 220ms}.atw-refined .refined-product:hover{transform:translateY(-5px);box-shadow:0 15px 30px #240b2110}
+.atw-refined .refined-product[data-product=do]{background:#dad2f4}.atw-refined .refined-product[data-product=studio]{background:#eac8df}.atw-refined .refined-product-copy{padding:25px}.atw-refined .refined-product-copy p{max-width:29ch;font-size:15px;line-height:1.6}.atw-refined .refined-product-art{min-height:210px}
+.refined-atelier{margin:20px auto;max-width:1440px;padding:0 6%}.refined-atelier>summary{display:flex;align-items:center;justify-content:space-between;list-style:none;cursor:pointer;min-height:80px;border-top:1px solid #240b211a;font-size:19px;letter-spacing:-.035em}.refined-atelier>summary::-webkit-details-marker{display:none}.refined-atelier[open]>summary svg{transform:rotate(45deg)}
+@media(max-width:600px){.atw-refined .refined-products{padding-top:60px}.atw-refined .refined-product-art{min-height:180px}.refined-atelier>summary{font-size:17px}}
+@media(prefers-reduced-motion:reduce){.atw-refined .refined-product{transition:none}.atw-refined .refined-product:hover{transform:none}}

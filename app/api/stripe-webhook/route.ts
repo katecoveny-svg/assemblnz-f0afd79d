@@ -12,8 +12,7 @@
  * regardless of whether the matching toro_payment_intents row is
  * updated.
  *
- * Returns 200 as fast as possible. Heavy work happens after we've
- * acknowledged, so Stripe doesn't retry on a slow DB write.
+ * Returns 200 after durable processing; failed writes return 503 for redelivery.
  *
  * Events handled (the nine called out in the v0.3 commerce spec):
  *   - payment_intent.succeeded
@@ -92,13 +91,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     await processEvent(event);
   } catch (err) {
-    // Log but still 200 — Stripe retries on non-2xx, and our processing
-    // failures are recorded in the audit log via writeAuditRow's catch.
-    // eslint-disable-next-line no-console
+    // Retry failed durable writes; never acknowledge lost entitlement updates.
     console.error(
       `stripe-webhook: processing error for ${event.type} (${event.id}):`,
       err instanceof Error ? err.message : err,
     );
+    return NextResponse.json({ error: 'Webhook processing unavailable' }, { status: 503 });
   }
 
   return NextResponse.json({ received: true, type: event.type, id: event.id }, { status: 200 });
@@ -111,7 +109,7 @@ async function processEvent(event: Stripe.Event): Promise<void> {
   // event).
   const tenantId = await resolveTenantId(event);
 
-  await writeAuditRow({
+  const auditId = await writeAuditRow({
     tenantId: tenantId ?? '00000000-0000-0000-0000-000000000000',
     action: `stripe.${event.type}`,
     agent_slug: 'toro',
@@ -122,6 +120,7 @@ async function processEvent(event: Stripe.Event): Promise<void> {
     },
     tool_output: { livemode: event.livemode },
   });
+  if (!auditId) throw new Error('Webhook audit persistence unavailable');
 
   if (!HANDLED_EVENTS.has(event.type)) return;
 
@@ -159,33 +158,36 @@ async function processEvent(event: Stripe.Event): Promise<void> {
 
 async function onPaymentIntentSucceeded(pi: Stripe.PaymentIntent): Promise<void> {
   const supabase = createServiceClient();
-  await supabase
+  const { error } = await supabase
     .from('toro_payment_intents')
     .update({ status: pi.status, captured_at: new Date().toISOString() })
     .eq('stripe_payment_intent_id', pi.id);
+  if (error) throw new Error('Payment state write failed');
 }
 
 async function onPaymentIntentFailed(pi: Stripe.PaymentIntent): Promise<void> {
   const supabase = createServiceClient();
-  await supabase
+  const { error } = await supabase
     .from('toro_payment_intents')
     .update({ status: 'failed' })
     .eq('stripe_payment_intent_id', pi.id);
+  if (error) throw new Error('Payment state write failed');
 }
 
 async function onPaymentIntentRequiresAction(pi: Stripe.PaymentIntent): Promise<void> {
   const supabase = createServiceClient();
-  await supabase
+  const { error } = await supabase
     .from('toro_payment_intents')
     .update({ status: pi.status })
     .eq('stripe_payment_intent_id', pi.id);
+  if (error) throw new Error('Payment state write failed');
 }
 
 async function onSubscriptionUpsert(sub: Stripe.Subscription): Promise<void> {
   const supabase = createServiceClient();
   const customerId = typeof sub.customer === 'string' ? sub.customer : sub.customer.id;
   const periodEnd = readSubscriptionPeriodEnd(sub);
-  await supabase
+  const { error } = await supabase
     .from('toro_stripe_customers')
     .update({
       subscription_id: sub.id,
@@ -193,6 +195,7 @@ async function onSubscriptionUpsert(sub: Stripe.Subscription): Promise<void> {
       subscription_current_period_end: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
     })
     .eq('stripe_customer_id', customerId);
+  if (error) throw new Error('Customer state write failed');
 
   await syncSelfServeSubscription(sub, customerId, periodEnd);
 }
@@ -200,7 +203,7 @@ async function onSubscriptionUpsert(sub: Stripe.Subscription): Promise<void> {
 async function onSubscriptionDeleted(sub: Stripe.Subscription): Promise<void> {
   const supabase = createServiceClient();
   const customerId = typeof sub.customer === 'string' ? sub.customer : sub.customer.id;
-  await supabase
+  const { error } = await supabase
     .from('toro_stripe_customers')
     .update({
       subscription_id: null,
@@ -208,13 +211,15 @@ async function onSubscriptionDeleted(sub: Stripe.Subscription): Promise<void> {
       subscription_current_period_end: null,
     })
     .eq('stripe_customer_id', customerId);
+  if (error) throw new Error('Customer state write failed');
 
   // Drop self-serve entitlement: mark the row canceled so requireTier falls
   // back to free. We update rather than delete to keep an audit trail.
-  await supabase
+  const { error: subscriptionError } = await supabase
     .from('subscriptions')
     .update({ status: 'canceled', cancel_at_period_end: false })
     .eq('stripe_subscription_id', sub.id);
+  if (subscriptionError) throw new Error('Subscription cancellation write failed');
 }
 
 /**
@@ -233,10 +238,10 @@ async function syncSelfServeSubscription(
   if (!tier) return; // Not a self-serve price — nothing to mirror.
 
   const mapping = await loadCustomerByStripeId(customerId);
-  if (!mapping?.tenant_id) return; // No tenant mapping — fail closed.
+  if (!mapping?.tenant_id) throw new Error('Subscription tenant mapping unavailable');
 
   const supabase = createServiceClient();
-  await supabase.from('subscriptions').upsert(
+  const { error } = await supabase.from('subscriptions').upsert(
     {
       tenant_id: mapping.tenant_id,
       tier,
@@ -249,6 +254,7 @@ async function syncSelfServeSubscription(
     },
     { onConflict: 'stripe_subscription_id', ignoreDuplicates: false },
   );
+  if (error) throw new Error('Subscription entitlement write failed');
 }
 
 async function onSetupIntentSucceeded(si: Stripe.SetupIntent): Promise<void> {
@@ -263,7 +269,7 @@ async function onSetupIntentSucceeded(si: Stripe.SetupIntent): Promise<void> {
   const pm = await stripe.paymentMethods.retrieve(paymentMethodId);
 
   const supabase = createServiceClient();
-  await supabase
+  const { error } = await supabase
     .from('toro_stripe_customers')
     .update({
       default_payment_method_id: paymentMethodId,
@@ -271,6 +277,7 @@ async function onSetupIntentSucceeded(si: Stripe.SetupIntent): Promise<void> {
       default_payment_last4: pm.card?.last4 ?? null,
     })
     .eq('stripe_customer_id', customerId);
+  if (error) throw new Error('Customer state write failed');
 
   // Mirror as the customer's invoice_settings.default_payment_method so
   // future subscription invoices charge this card by default.

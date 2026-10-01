@@ -18,8 +18,8 @@ export function AuthHeader() {
           <span className={styles.pillDash} aria-hidden />
         </Link>
         <nav className={styles.nav} aria-label="Primary">
-          <Link href="/how-it-works">How it works</Link>
-          <Link href="/pricing">Pricing</Link>
+          <Link href="/pursuit">Pursuit</Link>
+          <Link href="/creative-studio">Studio</Link>
           <Link href="/about">About</Link>
         </nav>
         <Link href="/do" className={styles.cta}>

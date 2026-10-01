@@ -19,7 +19,7 @@ import {
   RefreshCw,
   X,
 } from "lucide-react";
-import { DoMark } from "@/components/do/DoMark";
+import { DoBrand } from "@/components/do/DoBrand";
 import { DoPresence } from "@/components/do/DoPresence";
 import { DoShareButton } from "@/components/do/DoShareButton";
 import { DoReadAloud } from "@/components/do/DoReadAloud";
@@ -264,22 +264,20 @@ export function PersonalDo() {
       event.preventDefault(); event.stopPropagation(); setLeavingHref(destination.href);
     }}>
       <header className={styles.nav}>
-        <Link href="/do" className={styles.brand} aria-label="DO by assembl, home">
-          <span className={styles.brandMark}><DoMark /></span>
-          <span className={styles.brandName}>DO<span>by assembl</span></span>
-        </Link>
-        <nav aria-label="Personal DO" className={styles.navActions}>
-          <Link className={styles.phoneLink} href="/do/install#phone">On your phone <ArrowUpRight size={14} /></Link>
+        <DoBrand />
+        <nav aria-label="DO" className={styles.navActions}>
+          <details className={styles.more}><summary>More <Plus size={15} /></summary><nav aria-label="More DO tools"><Link href="/do/widget">Write, talk or look</Link><Link href="/do/meetings">Meeting notes · sign in</Link><Link href="/do/bills">Bills · examples and CSV</Link><Link href="/do/enquiries">Enquiries · private pilot</Link><Link href="/do/install">Keep DO close</Link><Link href="/">assembl</Link><Link href="/pursuit">Pursuit</Link><Link href="/creative-studio">Studio</Link></nav></details>
+          <Link className={styles.phoneLink} href="/do/install#phone">Keep DO close <ArrowUpRight size={14} /></Link>
           {access === "ready" && workspaceKey
             ? <PersonalDoSettings key={workspaceKey} compact triggerRef={settingsButton} onProfileChange={setPersonalProfile} />
-            : <Link className={styles.signIn} href="/login?redirect=%2Fdo%2Fpersonal">Sign in <ArrowUpRight size={15} /></Link>}
+            : <Link className={styles.signIn} href="/login?redirect=%2Fdo">Sign in <ArrowUpRight size={15} /></Link>}
         </nav>
       </header>
       <div className={styles.notice} role="status" aria-live="polite">
         {notice}
       </div>
       {access === "loading" && (
-        <p className={styles.loading}>Opening your private workspace…</p>
+        <p className={styles.loading}>Opening DO…</p>
       )}
       {access === "error" && (
         <button className={styles.retry} onClick={() => void load()}>
@@ -560,7 +558,7 @@ export function PersonalDo() {
         </details>
       )}
       <details id="how-it-works" className={styles.how}>
-        <summary>How Personal DO works <Plus size={18} /></summary>
+        <summary>What DO can do today <Plus size={18} /></summary>
         <div className={styles.howContent}>
         <p className={styles.eyebrow}>THE FIRST PERSONAL DO RELEASE</p>
         <h2>

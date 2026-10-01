@@ -68,10 +68,10 @@ describe('public install discovery', () => {
 });
 
 describe('shared public sign-in entry', () => {
-  it('renders a Meeting-scoped sign-in link that survives the live-host gate', async () => {
+  it('renders a DO-scoped sign-in link that survives the live-host gate', async () => {
     const html = renderToStaticMarkup(createElement(V2Nav));
     const href = html.match(/<a[^>]*href="([^"]+)"[^>]*>\s*sign in\s*<\/a>/)?.[1];
-    expect(href).toBe('/login?redirect=%2Fdo%2Fmeetings');
+    expect(href).toBe('/login?redirect=%2Fdo');
     for (const host of publicHosts) await expectPublicEntry(href!, host);
   });
 });

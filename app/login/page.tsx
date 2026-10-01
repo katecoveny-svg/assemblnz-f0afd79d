@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { DoPresence } from "@/components/do/DoPresence";
 import { LoginForm } from "./login-form";
 import { safeReturnPath } from "@/lib/auth/redirect";
 import { isDoReturn } from "@/lib/auth/redirect";
@@ -56,11 +57,12 @@ export default async function LoginPage({
       <div className="w-full max-w-md">
         <div className="glass-card p-8 sm:p-10">
           <div className="text-center">
+            {forDo && <DoPresence size="medium" />}
             <h1
               className="font-display lowercase leading-[0.95] tracking-tight text-[color:var(--text-primary)]"
               style={{ fontWeight: 500, fontSize: "clamp(2.25rem, 5vw, 3rem)" }}
             >
-              sign in
+              {forDo ? "Sign in to DO" : "sign in"}
               <span
                 aria-hidden
                 style={{ color: "var(--assembl-gold,#916A70)" }}
@@ -70,8 +72,7 @@ export default async function LoginPage({
             </h1>
             {forDo && (
               <p className="mt-4 text-sm leading-relaxed text-[#654A4E]">
-                Keep your DO connections and voice allowance in your own assembl
-                account.
+                Use your assembl account, or enter your email to create one.
               </p>
             )}
           </div>

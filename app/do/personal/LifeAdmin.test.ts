@@ -8,10 +8,10 @@ describe('Personal DO visual entry', () => {
   it('lets guests start their own note before opting into fictional examples', () => {
     const html = renderToStaticMarkup(createElement(LifeAdmin, { storageScope: 'guest' }));
     expect(html).not.toContain('data-example=');
-    expect(html).toContain('Not sure? Try a school notice, bill or WoF example');
+    expect(html).toContain('See an example');
     expect(html).toContain('aria-expanded="false"');
-    expect(html).toContain('What needs sorting?');
-    expect(html).toContain('Let’s sort it');
+    expect(html).toContain('What needs doing?');
+    expect(html).toContain('Start');
     expect(html).toContain('data-do-primary-input="true"');
     expect(html).toContain('What’s underway');
     expect(html).toContain('More things to sort');
@@ -26,7 +26,7 @@ describe('Personal DO visual entry', () => {
     expect(html).toContain('id="personal-local-checklist" hidden=""');
     expect(html).toContain('Saved checklists');
     expect(html).toContain('Photo');
-    expect(html).toContain('Forward');
+    expect(html).toContain('Paste a notice');
     expect(html).not.toContain('Guest work stays on this page');
   });
   it('renders distinct SVG definition IDs for multiple decorative DO identities', () => {
@@ -34,7 +34,7 @@ describe('Personal DO visual entry', () => {
     const ids = [...html.matchAll(/ id="([^"]+)"/g)].map(match => match[1]);
     expect(ids.length).toBeGreaterThan(5);
     expect(new Set(ids).size).toBe(ids.length);
-    expect(html).toContain('fill-rule="evenodd"');
-    expect(html.match(/aria-hidden="true"/g)).toHaveLength(2);
+    expect(html).toContain('M16 12H29C44 12 52 20 52 32S44 52 29 52H16Z');
+    expect(html.match(/aria-hidden="true"/g)).toHaveLength(4);
   });
 });

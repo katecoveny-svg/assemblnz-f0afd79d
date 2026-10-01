@@ -519,3 +519,6 @@
 .workspace .stage .composerTabs button { color: #ecdbe3; background: #fffdfb0b; border: 1px solid #ead4df33; }
 .workspace .stage .composerTabs button[aria-pressed=true] { color: #240b21; background: #fffdfb; border-color: #fffdfb; }
 .workspace .stage .exampleToggle { color: #dfc8d3; }
+
+/* Optional example sheets on the unified daylight surface. */
+.workspace .exampleHeading>span,.workspace .exampleHeading button,.workspace .exampleNote{color:#654a4e}.workspace .exampleCard{box-shadow:0 3px 0 #240b2110,0 12px 24px #240b210c;border:1px solid #fffdfb;background:#f5f1f2}.workspace .exampleCard[data-example=school]{background:#dad2f4}.workspace .exampleCard[data-example=bills]{background:#eac8df}.workspace .exampleCard:hover{box-shadow:0 4px 0 #240b2110,0 17px 28px #240b2114;transform:translateY(-3px);border-color:#fffdfb}.workspace .exampleBadge{background:#fffdfbbf}.workspace .exampleResult{font-size:12px}.workspace .exampleNote{font-size:10px}.workspace .exampleHeading button{min-height:44px}

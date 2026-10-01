@@ -2,16 +2,23 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRef, useState } from 'react';
+import { useRef, useState, useSyncExternalStore } from 'react';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { ArrowDown, ArrowUpRight, Pause, Play } from 'lucide-react';
 import styles from './studio-assembly-hero.module.css';
+
+const subscribeToHydration = () => () => {};
+const clientSnapshot = () => true;
+const serverSnapshot = () => false;
 
 /** Generated concept art, with restrained camera movement. Not a captured 3D scene. */
 export function StudioAssemblyHero() {
   const ref = useRef<HTMLElement>(null);
   const [paused, setPaused] = useState(false);
-  const reduced = useReducedMotion();
+  const prefersReducedMotion = useReducedMotion();
+  const mounted = useSyncExternalStore(subscribeToHydration, clientSnapshot, serverSnapshot);
+  // Match the server markup before applying the browser motion preference.
+  const reduced = mounted && prefersReducedMotion;
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
   const scale = useTransform(scrollYProgress, [0, 1], [1.025, 1.12]);

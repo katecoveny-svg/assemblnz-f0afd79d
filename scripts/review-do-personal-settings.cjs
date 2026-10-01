@@ -8,6 +8,42 @@ const checks = [];
 const check = (label, condition) => { assert.ok(condition, label); checks.push(label); console.log('PASS ' + label); };
 const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLength: 'balanced', initiative: 'gentle', preferences: '', voiceName: 'Kore', onboardingCompleted: false, updatedAt: null };
 
+// WCAG relative luminance for the actual computed text and its opaque backing.
+// Reject unmeasured images/translucency rather than assuming a light background.
+async function headingContrast(page) {
+  return page.locator('#life-admin-heading').evaluate(el => {
+    const rgb = value => {
+      const match = value.match(/^rgba?\(([^)]+)\)$/);
+      if (!match) throw new Error('Unmeasured colour format: ' + value);
+      const parts = match[1].split(',').map(Number);
+      if (parts.length !== 3 && parts.length !== 4) throw new Error('Unmeasured colour: ' + value);
+      return [...parts.slice(0, 3), parts[3] ?? 1];
+    };
+    const foreground = rgb(getComputedStyle(el).color);
+    if (foreground[3] !== 1) throw new Error('Translucent heading requires pixel contrast measurement');
+    let background;
+    for (let node = el; node; node = node.parentElement) {
+      const style = getComputedStyle(node);
+      if (Number(style.opacity) !== 1 || style.backgroundImage !== 'none') throw new Error('Unmeasured heading backing');
+      const colour = rgb(style.backgroundColor);
+      if (colour[3] === 0) continue;
+      if (colour[3] !== 1) throw new Error('Translucent heading backing requires pixel measurement');
+      background = colour;
+      break;
+    }
+    if (!background) throw new Error('No measured opaque heading backing');
+    const luminance = colour => {
+      const linear = colour.slice(0, 3).map(channel => {
+        const srgb = channel / 255;
+        return srgb <= 0.04045 ? srgb / 12.92 : ((srgb + 0.055) / 1.055) ** 2.4;
+      });
+      return linear[0] * 0.2126 + linear[1] * 0.7152 + linear[2] * 0.0722;
+    };
+    const values = [luminance(foreground), luminance(background)].sort((a, b) => b - a);
+    return { foreground, background, ratio: (values[0] + 0.05) / (values[1] + 0.05) };
+  });
+}
+
 (async () => {
   fs.mkdirSync(out, { recursive: true });
   const browser = await chromium.launch({ executablePath: process.env.ASSEMBL_CHROMIUM_PATH || '/usr/bin/chromium', headless: true });
@@ -46,10 +82,17 @@ const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLen
     await page.screenshot({ path: out + '/personal-arrival-mobile.png', fullPage: true });
     await page.setViewportSize({ width: 1440, height: 1000 });
     check('account settings render without a provider', await page.getByRole('button', { name: 'Make DO mine' }).isVisible());
-    check('plum-stage headline keeps readable paper contrast', await page.locator('#life-admin-heading').evaluate(el => getComputedStyle(el).color === 'rgb(255, 253, 251)'));
+    const contrast = [];
+    for (const width of [1440, 375]) {
+      await page.setViewportSize({ width, height: width === 375 ? 812 : 1000 });
+      const measured = await headingContrast(page);
+      contrast.push({ width, ...measured });
+      check(`headline contrast meets WCAG AA text minimum at ${width}px (${measured.ratio.toFixed(2)}:1)`, measured.ratio >= 4.5);
+    }
+    await page.setViewportSize({ width: 1440, height: 1000 });
     await page.getByRole('button', { name: 'Make DO mine' }).click();
-    const dialog = page.getByRole('dialog', { name: 'Hello, your DO.' });
-    check('onboarding is a real modal', await dialog.isVisible());
+    const dialog = page.getByRole('dialog');
+    check('onboarding is a real modal', await page.getByRole('dialog', { name: 'Hello, your DO.', exact: true }).isVisible());
     await page.getByLabel('What shall we call your DO?').fill('Pip');
     await page.getByRole('button', { name: 'Pebble A steady presence' }).click();
     check('selected character has pressed state', await page.getByRole('button', { name: 'Pebble A steady presence' }).getAttribute('aria-pressed') === 'true');
@@ -61,26 +104,26 @@ const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLen
     await page.getByRole('button', { name: 'Next', exact: true }).click();
     await page.getByLabel('Anything else about how you like to work?').fill('Fictional test: use New Zealand spelling.');
     await page.getByLabel('Your call voice').selectOption('Aoede');
-    check('consent is not selected automatically', !(await page.getByRole('checkbox').isChecked()));
+    check('consent is not selected automatically', !(await dialog.getByRole('checkbox').isChecked()));
     check('save is blocked before consent', await page.getByRole('button', { name: 'Save my DO' }).isDisabled());
-    await page.getByRole('checkbox').check();
+    await dialog.getByRole('checkbox').check();
     await page.getByLabel('Your call voice').selectOption('Kore');
-    check('editing clears previous consent', !(await page.getByRole('checkbox').isChecked()));
+    check('editing clears previous consent', !(await dialog.getByRole('checkbox').isChecked()));
     await page.setViewportSize({ width: 375, height: 812 });
     check('375px dialog has no horizontal overflow', await page.getByRole('dialog').evaluate(el => el.scrollWidth <= el.clientWidth));
     check('phone inputs use at least 16px', await page.getByLabel('Anything else about how you like to work?').evaluate(el => parseFloat(getComputedStyle(el).fontSize) >= 16));
     await page.screenshot({ path: out + '/personal-consent-mobile.png' });
-    await page.getByRole('checkbox').check();
+    await dialog.getByRole('checkbox').check();
     await page.getByRole('button', { name: 'Save my DO' }).click();
     await page.getByRole('button', { name: 'Customise Pip' }).waitFor();
     check('one explicit save carries the correct settings', mutations.length === 1 && mutations[0].displayName === 'Pip' && mutations[0].tone === 'direct');
     await page.reload({ waitUntil: 'networkidle' });
-    check('settings return after reload', await page.getByRole('navigation', { name: 'Personal DO', exact: true }).getByRole('button', { name: 'Customise Pip', exact: true }).isVisible());
+    check('settings return after reload', await page.getByRole('navigation', { name: 'DO', exact: true }).getByRole('button', { name: 'Customise Pip', exact: true }).isVisible());
     await page.screenshot({ path: out + '/personal-workspace-mobile.png', fullPage: true });
     await page.getByRole('button', { name: 'Customise Pip' }).click();
     await page.getByLabel('What shall we call your DO?').fill('Unsaved name');
     await page.getByRole('button', { name: 'Close customisation' }).click();
-    check('closing discards edits', await page.getByRole('navigation', { name: 'Personal DO', exact: true }).getByRole('button', { name: 'Customise Pip', exact: true }).isVisible());
+    check('closing discards edits', await page.getByRole('navigation', { name: 'DO', exact: true }).getByRole('button', { name: 'Customise Pip', exact: true }).isVisible());
     await page.getByRole('button', { name: 'Customise Pip' }).click();
     check('reopening restores saved name', await page.getByLabel('What shall we call your DO?').inputValue() === 'Pip');
     await page.getByRole('button', { name: 'Next', exact: true }).click();
@@ -88,7 +131,7 @@ const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLen
     check('step back is internal, route remains stable', page.url().endsWith('/do/personal'));
     await page.getByRole('button', { name: 'Next', exact: true }).click();
     await page.getByRole('button', { name: 'Next', exact: true }).click();
-    await page.getByRole('checkbox').check(); failSave = true;
+    await dialog.getByRole('checkbox').check(); failSave = true;
     await page.getByRole('button', { name: 'Save my DO' }).click();
     await page.getByText('Fictional storage failure. Please retry.').waitFor();
     check('save failure retains editable form', await page.getByRole('dialog').isVisible());
@@ -107,14 +150,17 @@ const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLen
     await page.getByText('More things to sort', { exact: false }).click();
     await page.getByRole('button', { name: 'Make a checklist', exact: true }).click();
     check('all twelve workflow choices remain available', await page.locator('[aria-label="Everyday NZ checklists"] button').count() === 12);
-    await page.getByLabel('What needs sorting?').fill('Fictional school trip on Friday 9 October 2026, 9 am to 3 pm. Bring a coat and lunch. Permission reply needed Thursday.');
+    await page.locator('#life-admin-source').fill('Fictional school trip on Friday 9 October 2026, 9 am to 3 pm. Bring a coat and lunch. Permission reply needed Thursday.');
     await page.getByLabel('Kind of admin').selectOption('school');
-    await page.locator('#personal-local-checklist').getByRole('button', { name: 'Let’s sort it', exact: true }).click();
+    await page.locator('#personal-local-checklist').getByRole('button', { name: 'Start', exact: true }).click();
     await page.getByRole('button', { name: 'See my next steps', exact: false }).click();
+    await page.waitForFunction(() => document.activeElement?.id === 'life-admin-active-title', null, { timeout: 5000 });
+    check('next steps transfers keyboard focus to the checklist heading', await page.locator('#life-admin-active-title').evaluate(el => document.activeElement === el));
     check('source excerpts are prefilled for review', (await page.getByLabel('What is happening?').inputValue()).includes('Fictional school trip'));
     await page.getByLabel('What is happening?').fill('');
     await page.getByLabel('What is happening?').pressSequentially('Fictional school trip');
-    check('typing spaces preserves ordinary multiword details', await page.getByLabel('What is happening?').inputValue() === 'Fictional school trip');
+    const typedDetails = await page.getByLabel('What is happening?').inputValue();
+    check(`typing spaces preserves ordinary multiword details (actual: ${JSON.stringify(typedDetails)})`, typedDetails === 'Fictional school trip');
     await page.getByLabel('Dates and times to check').fill('Friday 9 October 2026, 9 am–3 pm. Reply Thursday.');
     await page.getByLabel('Gear, kai and costs').fill('Coat and lunch. Cost not stated.');
     await page.getByLabel('Permission or reply needed').fill('Reply through the school’s normal channel.');
@@ -139,22 +185,22 @@ const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLen
     await page.getByText('This source could not be checked. Try again or open the official source below.', { exact: true }).waitFor();
     check('weather failure stays honest', await page.getByText('This source could not be checked. Try again or open the official source below.', { exact: true }).isVisible());
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    check('reduced motion keeps the task available', await page.getByLabel('What needs sorting?').isVisible());
+    check('reduced motion keeps the task available', await page.locator('#life-admin-source').isVisible());
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.screenshot({ path: out + '/personal-integrated-desktop.png', fullPage: true });
     signedIn = false;
     await page.reload({ waitUntil: 'networkidle' });
     await page.setViewportSize({ width: 375, height: 812 });
     await page.getByRole('button', { name: 'Make a checklist', exact: true }).click();
-    await page.getByLabel('What needs sorting?').fill('Fictional unfinished guest note.');
-    await page.getByRole('navigation', { name: 'Personal DO', exact: true }).getByRole('link', { name: 'Sign in', exact: true }).click();
+    await page.locator('#life-admin-source').fill('Fictional unfinished guest note.');
+    await page.getByRole('navigation', { name: 'DO', exact: true }).getByRole('link', { name: 'Sign in', exact: true }).click();
     await page.getByRole('dialog', { name: 'Your checklist is in this page.' }).waitFor();
     check('guest sign-in warns before losing current work', await page.getByRole('button', { name: 'Stay and keep my work', exact: true }).isVisible());
     await page.screenshot({ path: out + '/personal-guest-leave-mobile.png' });
     await page.getByRole('button', { name: 'Stay and keep my work', exact: true }).click();
-    check('cancelling navigation preserves the guest note', await page.getByLabel('What needs sorting?').inputValue() === 'Fictional unfinished guest note.');
+    check('cancelling navigation preserves the guest note', await page.locator('#life-admin-source').inputValue() === 'Fictional unfinished guest note.');
     check('no runtime errors', errors.length === 0);
-    fs.writeFileSync(out + '/results.json', JSON.stringify({ checks, errors, apiMode: 'Fictional intercepted fixtures; no provider/account proof', physicalDeviceTested: false }, null, 2));
+    fs.writeFileSync(out + '/results.json', JSON.stringify({ checks, errors, contrast, apiMode: 'Fictional intercepted fixtures; no provider/account proof', physicalDeviceTested: false }, null, 2));
   } finally {
     if (proofPage) await proofPage.screenshot({ path: out + '/final-state.png', fullPage: true }).catch(() => {});
     if (!fs.existsSync(out + '/results.json')) fs.writeFileSync(out + '/results.json', JSON.stringify({ checks, completed: false, apiMode: 'Fictional fixtures only; see CI failure log', liveProviderTested: false }, null, 2));

@@ -1,7 +1,8 @@
 """Local-build UI proof. Research POST is mocked: this does not prove a provider call."""
-import asyncio,json,base64,struct
+import asyncio,json,base64,struct,os
 from pathlib import Path
 from playwright.async_api import async_playwright,expect
+ORIGIN=os.environ.get('ASSEMBL_REVIEW_ORIGIN','http://127.0.0.1:3000')
 OUT=Path('visual-evidence/public-pursuit');OUT.mkdir(parents=True,exist_ok=True)
 fixture={'mode':'live','draft':{'company':'Example NZ business','title':'A source-backed proposal','summary':'Prepare a customer-facing explanation and small demonstrator for review.','evidence':[{'claim':'This fictional fixture validates the evidence layout, not a business claim.','url':'https://www.nzbn.govt.nz/'}],'opportunity':'Propose a clearer way to prepare customer questions before a conversation.','proposedWork':'Prepare a source brief and demonstrator for a person to review.','deliverables':['A source brief','A working demonstrator'],'nextSteps':['Review the sources','Agree one test'],'unknowns':['Budget and demand have not been established']},'trace':{'id':'00000000-0000-4000-8000-000000000001','at':'2026-09-18T00:00:00Z','model':'test-fixture-not-provider','webSearches':1,'knowledgeIds':['pursuit'],'sources':[{'url':'https://www.nzbn.govt.nz/','title':'Fixture','retrievedAt':'2026-09-18'}],'typesafe':{'status':'not_requested'}},'warning':'UI fixture only'}
 async def main():
@@ -15,7 +16,7 @@ async def main():
         if route.request.method=='GET':await route.fulfill(json={'ready':True,'typesafeReady':False})
         else:await route.fulfill(json=fixture)
       await page.route('**/api/pursuit/research',mock)
-      await page.goto('http://127.0.0.1:3000/pursuit',wait_until='domcontentloaded')
+      await page.goto(ORIGIN+'/pursuit',wait_until='domcontentloaded')
       canvas=page.locator('#try-pursuit');await canvas.scroll_into_view_if_needed()
       await canvas.get_by_label('Company or sector',exact=True).fill('Example NZ business')
       await canvas.get_by_label('What should the agent investigate?',exact=True).fill('Research a useful customer service proposal from public sources.')
@@ -47,7 +48,7 @@ async def main():
           assert body['workflow']=='website_outreach' and body['consent']==True
           await route.fulfill(json=outreach_fixture)
       await page.route('**/api/pursuit/research',outreach_mock)
-      await page.goto('http://127.0.0.1:3000/pursuit',wait_until='domcontentloaded')
+      await page.goto(ORIGIN+'/pursuit',wait_until='domcontentloaded')
       await page.screenshot(path=str(OUT/f'pursuit-hero-{width}.png'),timeout=60000)
       await page.locator('#pursuit-canvas').scroll_into_view_if_needed()
       await page.screenshot(path=str(OUT/f'pursuit-sources-{width}.png'),timeout=60000)
@@ -113,7 +114,7 @@ async def main():
         generation_requests.append(body)
         await route.fulfill(json={'images':['data:image/png;base64,'+asset],'remaining':2})
       await page.route('**/api/creative/image',image_mock)
-      await page.goto('http://127.0.0.1:3000/creative-studio/assembl',wait_until='domcontentloaded')
+      await page.goto(ORIGIN+'/creative-studio/assembl',wait_until='domcontentloaded')
       design=page.get_by_role('region',name='Design a post',exact=True)
       # The SSR form can be visible before React handles edits. Prove an
       # interactive tab transition before filling, then verify React's counter.
@@ -148,7 +149,7 @@ async def main():
       assert not errors,errors
       report.append({'width':width,'AssemblStudio':'four PNG sizes, explicit generation, image-to-post handoff and preserved editable headline passed','providerCall':False})
       await ctx.close()
-    request=await p.request.new_context(base_url='http://127.0.0.1:3000')
+    request=await p.request.new_context(base_url=ORIGIN)
     r=await request.get('/api/knowledge/search?q=pursuit');data=await r.json();assert r.status==200 and data['records'] and data['privateKnowledge']==False
     m=await request.post('/api/knowledge/mcp',data={'jsonrpc':'2.0','id':1,'method':'tools/call','params':{'name':'search_assembl_public_knowledge','arguments':{'query':'Studio'}}});payload=await m.json();assert payload['result']['structuredContent']['records']
     status=await request.get('/api/pursuit/research');assert not (await status.json())['ready']
