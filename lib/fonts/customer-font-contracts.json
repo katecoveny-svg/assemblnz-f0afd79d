@@ -349,5 +349,418 @@
       "normal"
     ],
     "variable": "--font-alpha-display"
+  },
+  {
+    "file": "components/homepage/HeroGolden.tsx",
+    "name": "lato",
+    "family": "Lato",
+    "weights": [
+      "400",
+      "900"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": null,
+    "sourceName": "latoLocal",
+    "metadataStyle": "normal"
+  },
+  {
+    "file": "components/homepage/HeroGolden.tsx",
+    "name": "spaceMono",
+    "family": "Space Mono",
+    "weights": [
+      "400",
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": null,
+    "sourceName": "spaceMonoLocal",
+    "metadataStyle": "normal"
+  },
+  {
+    "file": "components/ops/toa/ArcHeroBand.tsx",
+    "name": "zilla",
+    "family": "Zilla Slab",
+    "weights": [
+      "400"
+    ],
+    "styles": [
+      "italic"
+    ],
+    "variable": null
+  },
+  {
+    "file": "app/pilot/layout.tsx",
+    "name": "lato",
+    "family": "Lato",
+    "weights": [
+      "400",
+      "700",
+      "900"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--mk-display",
+    "sourceName": "latoLocal",
+    "metadataStyle": "normal"
+  },
+  {
+    "file": "app/pilot/layout.tsx",
+    "name": "spaceMono",
+    "family": "Space Mono",
+    "weights": [
+      "400",
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--mk-mono",
+    "sourceName": "spaceMonoLocal",
+    "metadataStyle": "normal"
+  },
+  {
+    "file": "lib/brand/fonts.ts",
+    "name": "jetbrainsMono",
+    "family": "JetBrains Mono",
+    "weights": [
+      "100 800"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--font-brand-mono"
+  },
+  {
+    "file": "lib/brand/fonts.ts",
+    "name": "manrope",
+    "family": "Manrope",
+    "weights": [
+      "200 800"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--font-brand-display"
+  },
+  {
+    "file": "lib/brand/fonts.ts",
+    "name": "playfair",
+    "family": "Playfair Display",
+    "weights": [
+      "400 900"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--font-brand-display"
+  },
+  {
+    "file": "lib/brand/fonts.ts",
+    "name": "orbitron",
+    "family": "Orbitron",
+    "weights": [
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--font-brand-display"
+  },
+  {
+    "file": "lib/brand/fonts.ts",
+    "name": "lato",
+    "family": "Lato",
+    "weights": [
+      "400",
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--font-brand-body",
+    "sourceName": "latoLocal",
+    "metadataStyle": "normal"
+  },
+  {
+    "file": "lib/brand/fonts.ts",
+    "name": "publicSans",
+    "family": "Public Sans",
+    "weights": [
+      "400",
+      "500",
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--font-brand-body",
+    "sourceName": "publicSansLocal",
+    "metadataStyle": "normal"
+  },
+  {
+    "file": "lib/brand/fonts.ts",
+    "name": "poppins",
+    "family": "Poppins",
+    "weights": [
+      "500",
+      "600",
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--font-brand-display",
+    "sourceName": "poppinsLocal",
+    "metadataStyle": "normal"
+  },
+  {
+    "file": "app/mana-receipts/layout.tsx",
+    "name": "lato",
+    "family": "Lato",
+    "weights": [
+      "400",
+      "700",
+      "900"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--mana-body",
+    "sourceName": "latoLocal",
+    "metadataStyle": "normal"
+  },
+  {
+    "file": "app/mana-receipts/layout.tsx",
+    "name": "spaceMono",
+    "family": "Space Mono",
+    "weights": [
+      "400",
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--mana-mono",
+    "sourceName": "spaceMonoLocal",
+    "metadataStyle": "normal"
+  },
+  {
+    "file": "app/demo/toa-architects/page.tsx",
+    "name": "lato",
+    "family": "Lato",
+    "weights": [
+      "400",
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": null,
+    "sourceName": "latoLocal",
+    "metadataStyle": "normal"
+  },
+  {
+    "file": "app/agents/layout.tsx",
+    "name": "lato",
+    "family": "Lato",
+    "weights": [
+      "400",
+      "700",
+      "900"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--mk-display",
+    "sourceName": "latoLocal",
+    "metadataStyle": "normal"
+  },
+  {
+    "file": "app/agents/layout.tsx",
+    "name": "spaceMono",
+    "family": "Space Mono",
+    "weights": [
+      "400",
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--mk-mono",
+    "sourceName": "spaceMonoLocal",
+    "metadataStyle": "normal"
+  },
+  {
+    "file": "app/layout.tsx",
+    "name": "archivoBlack",
+    "family": "Archivo Black",
+    "weights": [
+      "400"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--font-editorial"
+  },
+  {
+    "file": "app/assembling/fonts.ts",
+    "name": "dashFont",
+    "family": "Lato",
+    "weights": [
+      "400",
+      "700",
+      "900"
+    ],
+    "styles": [
+      "normal",
+      "italic"
+    ],
+    "variable": "--font-dash-sans"
+  },
+  {
+    "file": "app/assembling/fonts.ts",
+    "name": "dashMono",
+    "family": "Space Mono",
+    "weights": [
+      "400",
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--font-dash-mono",
+    "sourceName": "dashMonoLocal",
+    "metadataStyle": "normal"
+  },
+  {
+    "file": "app/customers/everyday-rewards/assembled/layout.tsx",
+    "name": "roboto",
+    "family": "Roboto",
+    "weights": [
+      "400",
+      "500",
+      "700",
+      "900"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--edr-body",
+    "sourceName": "robotoLocal",
+    "metadataStyle": "normal"
+  },
+  {
+    "file": "app/customers/everyday-rewards/assembled/layout.tsx",
+    "name": "spaceMono",
+    "family": "Space Mono",
+    "weights": [
+      "400",
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--edr-mono",
+    "sourceName": "spaceMonoLocal",
+    "metadataStyle": "normal"
+  },
+  {
+    "file": "app/customers/everyday-rewards/ops/layout.tsx",
+    "name": "roboto",
+    "family": "Roboto",
+    "weights": [
+      "400",
+      "500",
+      "700",
+      "900"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--edr-body",
+    "sourceName": "robotoLocal",
+    "metadataStyle": "normal"
+  },
+  {
+    "file": "app/customers/everyday-rewards/ops/layout.tsx",
+    "name": "spaceMono",
+    "family": "Space Mono",
+    "weights": [
+      "400",
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--edr-mono",
+    "sourceName": "spaceMonoLocal",
+    "metadataStyle": "normal"
+  },
+  {
+    "file": "app/customers/lula-inn/hospo/layout.tsx",
+    "name": "spaceMono",
+    "family": "Space Mono",
+    "weights": [
+      "400",
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--lula-mono",
+    "sourceName": "spaceMonoLocal",
+    "metadataStyle": "normal"
+  },
+  {
+    "file": "app/customers/everyday-rewards/dash/layout.tsx",
+    "name": "roboto",
+    "family": "Roboto",
+    "weights": [
+      "400",
+      "500",
+      "700",
+      "900"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--edr-body",
+    "sourceName": "robotoLocal",
+    "metadataStyle": "normal"
+  },
+  {
+    "file": "app/customers/everyday-rewards/dash/layout.tsx",
+    "name": "spaceMono",
+    "family": "Space Mono",
+    "weights": [
+      "400",
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--edr-mono",
+    "sourceName": "spaceMonoLocal",
+    "metadataStyle": "normal"
+  },
+  {
+    "file": "app/customers/happy-tails/keeper/layout.tsx",
+    "name": "mono",
+    "family": "Space Mono",
+    "weights": [
+      "400",
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--font-keeper-mono",
+    "sourceName": "monoLocal",
+    "metadataStyle": "normal"
   }
 ]

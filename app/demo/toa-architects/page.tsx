@@ -1,8 +1,9 @@
+import { preserveSingleFontStyle } from '@/lib/fonts/local-font-metadata';
 import localFont from 'next/font/local';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Lato } from 'next/font/google';
+
 import { BrandThemeProvider } from '@/lib/brand/BrandThemeProvider';
 import { getBrandConfig } from '@/lib/brand/configs';
 import { FilmHero } from '@/components/ops/toa/FilmHero';
@@ -41,7 +42,16 @@ const cormorant = localFont({
   adjustFontFallback: false,
   fallback: ['Cormorant Garamond Build Fallback'],
 });
-const lato = Lato({ subsets: ['latin'], weight: ['400', '700'], display: 'swap' });
+const latoLocal = localFont({
+  src: [
+    { path: '../../../lib/fonts/assets/lato-normal-400.ttf', weight: '400', style: 'normal' },
+    { path: '../../../lib/fonts/assets/lato-normal-700.ttf', weight: '700', style: 'normal' },
+  ],
+  display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Lato Build Fallback'],
+});
+const lato = preserveSingleFontStyle(latoLocal, 'normal');
 
 const CHAMPAGNE = '#bfa37a';
 
