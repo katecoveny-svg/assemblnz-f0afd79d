@@ -1,0 +1,309 @@
+[
+  {
+    "file": "app/customers/everyday-rewards/assembled/layout.tsx",
+    "name": "cormorant",
+    "family": "Cormorant Garamond",
+    "weights": [
+      "500",
+      "600"
+    ],
+    "styles": [
+      "normal",
+      "italic"
+    ],
+    "variable": "--edr-display"
+  },
+  {
+    "file": "app/customers/everyday-rewards/dash/layout.tsx",
+    "name": "cormorant",
+    "family": "Cormorant Garamond",
+    "weights": [
+      "500",
+      "600"
+    ],
+    "styles": [
+      "normal",
+      "italic"
+    ],
+    "variable": "--edr-display"
+  },
+  {
+    "file": "app/customers/everyday-rewards/ops/layout.tsx",
+    "name": "cormorant",
+    "family": "Cormorant Garamond",
+    "weights": [
+      "500",
+      "600"
+    ],
+    "styles": [
+      "normal",
+      "italic"
+    ],
+    "variable": "--edr-display"
+  },
+  {
+    "file": "app/customers/lula-inn/hospo/layout.tsx",
+    "name": "fraunces",
+    "family": "Fraunces",
+    "weights": [
+      "500",
+      "600"
+    ],
+    "styles": [
+      "normal",
+      "italic"
+    ],
+    "variable": "--lula-display"
+  },
+  {
+    "file": "app/customers/lula-inn/hospo/layout.tsx",
+    "name": "inter",
+    "family": "Inter",
+    "weights": [
+      "400",
+      "500",
+      "600",
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--lula-body"
+  },
+  {
+    "file": "app/customers/happy-tails/keeper/layout.tsx",
+    "name": "serif",
+    "family": "Cormorant Garamond",
+    "weights": [
+      "400",
+      "500",
+      "600"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--font-keeper-serif"
+  },
+  {
+    "file": "app/customers/happy-tails/keeper/layout.tsx",
+    "name": "sans",
+    "family": "Inter",
+    "weights": [
+      "400",
+      "500",
+      "600",
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--font-keeper-sans"
+  },
+  {
+    "file": "app/customers/air-nz/dash/layout.tsx",
+    "name": "interTight",
+    "family": "Inter Tight",
+    "weights": [
+      "400",
+      "500",
+      "600",
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--airnz-body"
+  },
+  {
+    "file": "app/customers/air-nz/dash/layout.tsx",
+    "name": "fraunces",
+    "family": "Fraunces",
+    "weights": [
+      "500",
+      "600",
+      "900"
+    ],
+    "styles": [
+      "italic",
+      "normal"
+    ],
+    "variable": "--airnz-display"
+  },
+  {
+    "file": "app/customers/air-nz/dash/layout.tsx",
+    "name": "cormorant",
+    "family": "Cormorant Garamond",
+    "weights": [
+      "500",
+      "600"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--airnz-lockup"
+  },
+  {
+    "file": "app/customers/air-nz/ops/layout.tsx",
+    "name": "interTight",
+    "family": "Inter Tight",
+    "weights": [
+      "400",
+      "500",
+      "600",
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--airnz-body"
+  },
+  {
+    "file": "app/customers/air-nz/ops/layout.tsx",
+    "name": "fraunces",
+    "family": "Fraunces",
+    "weights": [
+      "500",
+      "600",
+      "900"
+    ],
+    "styles": [
+      "italic",
+      "normal"
+    ],
+    "variable": "--airnz-display"
+  },
+  {
+    "file": "app/demo/toa-architects/page.tsx",
+    "name": "cormorant",
+    "family": "Cormorant Garamond",
+    "weights": [
+      "400",
+      "500"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": null
+  },
+  {
+    "file": "app/mana-receipts/layout.tsx",
+    "name": "cormorant",
+    "family": "Cormorant Garamond",
+    "weights": [
+      "400",
+      "500",
+      "600",
+      "700"
+    ],
+    "styles": [
+      "normal",
+      "italic"
+    ],
+    "variable": "--mana-display"
+  },
+  {
+    "file": "app/alphassembl/layout.tsx",
+    "name": "inter",
+    "family": "Inter",
+    "weights": [
+      "100 900"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--font-alpha-body"
+  },
+  {
+    "file": "components/ops/toa/PersonalOpener.tsx",
+    "name": "cormorant",
+    "family": "Cormorant Garamond",
+    "weights": [
+      "400",
+      "500",
+      "600"
+    ],
+    "styles": [
+      "normal",
+      "italic"
+    ],
+    "variable": null
+  },
+  {
+    "file": "components/ops/toa/DrawingsToLife.tsx",
+    "name": "cormorant",
+    "family": "Cormorant Garamond",
+    "weights": [
+      "400",
+      "500",
+      "600"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": null
+  },
+  {
+    "file": "components/ops/toa/ArcHeroBand.tsx",
+    "name": "cormorant",
+    "family": "Cormorant Garamond",
+    "weights": [
+      "400",
+      "500"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": null
+  },
+  {
+    "file": "lib/brand/fonts.ts",
+    "name": "inter",
+    "family": "Inter",
+    "weights": [
+      "100 900"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--font-brand-body"
+  },
+  {
+    "file": "lib/brand/fonts.ts",
+    "name": "interTight",
+    "family": "Inter Tight",
+    "weights": [
+      "100 900"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--font-brand-display"
+  },
+  {
+    "file": "lib/brand/fonts.ts",
+    "name": "cormorant",
+    "family": "Cormorant Garamond",
+    "weights": [
+      "400",
+      "500",
+      "600",
+      "700"
+    ],
+    "styles": [
+      "normal"
+    ],
+    "variable": "--font-brand-display"
+  },
+  {
+    "file": "lib/brand/fonts.ts",
+    "name": "frauncesItalicBody",
+    "family": "Fraunces",
+    "weights": [
+      "900"
+    ],
+    "styles": [
+      "italic"
+    ],
+    "variable": "--font-brand-body"
+  }
+]
