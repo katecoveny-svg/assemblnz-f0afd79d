@@ -157,3 +157,7 @@ See `docs/DO-ENQUIRIES-RUNBOOK.md` for activation, validation and limits.
 ### Optional Personal DO context and review queue (review build)
 
 Extends existing `apps/do/personal` responsibilities, runs and worker health with `memory.ts`, `memory-service.ts` and `review-queue.ts`. Owner-only self context has explicit notice/consent, provenance, retention and CAS/tombstone forgetting; memory is never model input in this phase. Family roles are fictional preview metadata with no authority. SQL proposal remains outside migrations and the feature is inactive. Proof: personal unit/API suite plus `scripts/test-do-memory-sql.cjs` with isolated PostgreSQL concurrency mode. See `docs/do-personal/README.md` for activation blockers and adapter contract.
+
+### EA-to-EA diary coordination (fictional review foundation)
+
+Creates `apps/do/coordination/protocol.ts` and `/do/coordination`: strict synthetic envelopes, exact-window disclosure, deterministic overlap, revision/digest-bound dual review, expiry/revocation, idempotent delivery and three-round cap. Uses canonical DO frame/identity. Session-only two-adult fixtures; no production peer identity, memory access, calendar permissions, durable delivery or booking. See `docs/DO-EA-COORDINATION.md` for audited boundaries, tests and live adapter gates.
