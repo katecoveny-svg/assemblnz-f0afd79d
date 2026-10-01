@@ -24,3 +24,5 @@ The new blocked-WebGL browser check exposed a real initialization fallback gap: 
 Local full production build is deliberately deferred while root serializes heavy builds for font repair. CI production build and exact preview remain required before release. No merge or manual deployment is authorized by this task.
 
 Rollback is a revert of this feature branch. The reusable walkthrough and browser proof prevent future empty-state redesigns from hiding the output or silently spending trial quota.
+
+The desktop sample pitch card stays untransformed during step changes, keeping its proposal controls stationary. Decorative brief/match cards retain normal motion. The CI pointer timeout resolved the correct Drainage plan button but waited for a stable ancestor; local Chromium 1194 inspection showed the active pitch transform transition starting at time zero. The browser proof retains the real mouse click and exact caption assertions, adds a stationary-surface assertion, and emits card/button geometry and animation diagnostics on failure. This is a targeted usability improvement; only exact-head CI can establish whether it resolves the Linux timeout.

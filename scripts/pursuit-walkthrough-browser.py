@@ -61,7 +61,30 @@ async def main():
                     await control.focus()
                     await page.keyboard.press('End')
                     await expect(demo).to_have_attribute('data-step', '2')
-                    await demo.get_by_role('button', name='Drainage plan', exact=True).click()
+                    choice = demo.get_by_role('button', name='Drainage plan', exact=True)
+                    # Step changes may animate decorative cards, never this interactive surface.
+                    assert await choice.evaluate("node => getComputedStyle(node.closest('article')).transform") == 'none'
+                    try:
+                        await choice.click()
+                    except Exception:
+                        diagnostics = await demo.evaluate('''node => ({
+                          scrollY, viewport: {width: innerWidth, height: innerHeight},
+                          stage: node.dataset.step,
+                          articles: [...node.querySelectorAll('article')].map(card => ({
+                            active: card.dataset.active, display: getComputedStyle(card).display,
+                            transform: getComputedStyle(card).transform, rect: card.getBoundingClientRect().toJSON(),
+                            buttons: [...card.querySelectorAll('button')].map(button => ({
+                              name: button.textContent, disabled: button.disabled, rect: button.getBoundingClientRect().toJSON()
+                            }))
+                          })),
+                          animations: node.getAnimations({subtree: true}).map(animation => ({
+                            state: animation.playState, time: String(animation.currentTime),
+                            target: animation.effect?.target?.tagName
+                          }))
+                        })''')
+                        (OUT / f'failure-{width}-{motion}.json').write_text(json.dumps({'route': path, **diagnostics}, indent=2))
+                        await page.screenshot(path=str(OUT / f'failure-{width}-{motion}.png'), timeout=10000)
+                        raise
                     await expect(demo.get_by_text('Outline options to check with the project engineer.', exact=True)).to_be_visible()
                     await demo.evaluate('node => { if (document.activeElement instanceof HTMLElement) document.activeElement.blur(); }')
                     assert await demo.get_by_role('heading', name='School drainage. Our approach.', exact=True).evaluate('node => getComputedStyle(node).color') == 'rgb(255, 253, 251)'

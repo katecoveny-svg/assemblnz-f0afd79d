@@ -11,3 +11,5 @@
 .walkthrough .boundary div>a{background:none;color:var(--ink);padding:0;margin-top:8px;font-size:12px;text-decoration:underline;text-underline-offset:4px;border-radius:0;min-height:44px}
 .walkthrough .arrows{flex-shrink:0}
 .walkthrough .arrows button{flex:0 0 44px;min-width:44px;max-width:44px;padding:0;box-sizing:border-box}
+/* The sample controls are a stationary work surface, including during step changes. */
+.stage article.pitch[data-active]{transform:none;transition:box-shadow .65s ease}
