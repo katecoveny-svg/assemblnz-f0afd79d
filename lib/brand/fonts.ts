@@ -1,24 +1,17 @@
-import {
-  Cormorant_Garamond,
-  Fraunces,
-  Inter,
-  Inter_Tight,
-  JetBrains_Mono,
-  Lato,
-  Manrope,
-  Montserrat,
-  Orbitron,
-  Playfair_Display,
-  Poppins,
-  Public_Sans,
-} from 'next/font/google';
+import localFont from 'next/font/local';
+import { JetBrains_Mono, Lato, Manrope, Montserrat, Orbitron, Playfair_Display, Poppins, Public_Sans } from 'next/font/google';
 import type { NextFontWithVariable } from 'next/dist/compiled/@next/font/dist/types';
 
 // Shared body / mono — most brands share Inter body + JetBrains Mono.
-const inter = Inter({
-  subsets: ['latin'],
+const inter = localFont({
+  src: [
+    { path: '../fonts/assets/inter-normal.woff2', weight: '100 900', style: 'normal' },
+  ],
+  style: 'normal',
   variable: '--font-brand-body',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Inter Build Fallback'],
 });
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
@@ -27,10 +20,15 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 // Per-brand display / specialty fonts.
-const interTight = Inter_Tight({
-  subsets: ['latin'],
+const interTight = localFont({
+  src: [
+    { path: '../fonts/assets/inter-tight-normal.woff2', weight: '100 900', style: 'normal' },
+  ],
+  style: 'normal',
   variable: '--font-brand-display',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Inter Tight Build Fallback'],
 });
 const manrope = Manrope({
   subsets: ['latin'],
@@ -42,11 +40,18 @@ const playfair = Playfair_Display({
   variable: '--font-brand-display',
   display: 'swap',
 });
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
+const cormorant = localFont({
+  src: [
+    { path: '../fonts/assets/cormorant-garamond-normal.woff2', weight: '400', style: 'normal' },
+    { path: '../fonts/assets/cormorant-garamond-normal.woff2', weight: '500', style: 'normal' },
+    { path: '../fonts/assets/cormorant-garamond-normal.woff2', weight: '600', style: 'normal' },
+    { path: '../fonts/assets/cormorant-garamond-normal.woff2', weight: '700', style: 'normal' },
+  ],
+  style: 'normal',
   variable: '--font-brand-display',
   display: 'swap',
-  weight: ['400', '500', '600', '700'],
+  adjustFontFallback: false,
+  fallback: ['Cormorant Garamond Build Fallback'],
 });
 
 // AIRONAUT: Orbitron Bold 700 as display, Lato Regular/Medium as body.
@@ -102,12 +107,14 @@ const poppins = Poppins({
 });
 
 // Air NZ needs Fraunces Italic 900 as body per brief.
-const frauncesItalicBody = Fraunces({
-  subsets: ['latin'],
+const frauncesItalicBody = localFont({
+  src: '../fonts/assets/fraunces-italic.woff2',
+  weight: '900',
+  style: 'italic',
   variable: '--font-brand-body',
   display: 'swap',
-  weight: ['900'],
-  style: ['italic'],
+  adjustFontFallback: false,
+  fallback: ['Fraunces Build Fallback'],
 });
 
 export type BrandFonts = {

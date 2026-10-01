@@ -1,0 +1,102 @@
+[
+  {
+    "family": "Inter",
+    "file": "inter-normal.woff2",
+    "style": "normal",
+    "version": "Version 4.001;git-66647c0bb",
+    "source": "https://raw.githubusercontent.com/google/fonts/9710da1eacb3be272583c3224dcb70f9da6eadbb/ofl/inter/Inter%5Bopsz%2Cwght%5D.ttf",
+    "sourceSha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+    "sha256": "7b8eb970f742c155ff34f5491d68409fbf8a503f6999cdba92dc5be1cd849de9",
+    "pinnedAxes": {
+      "opsz": 14
+    },
+    "license": "Inter-OFL.txt",
+    "weightRange": [
+      100.0,
+      900.0
+    ]
+  },
+  {
+    "family": "Inter Tight",
+    "file": "inter-tight-normal.woff2",
+    "style": "normal",
+    "version": "Version 3.004",
+    "source": "https://raw.githubusercontent.com/google/fonts/9710da1eacb3be272583c3224dcb70f9da6eadbb/ofl/intertight/InterTight%5Bwght%5D.ttf",
+    "sourceSha256": "b81b73dcb64df3c230cabade7df6c5773bf863233f24c9ee51087519f1f88b6f",
+    "sha256": "c4e5b8b5f857330c2d2ad94257fe1537fe1830c61b2fda9f5782abe8ef89d9ea",
+    "pinnedAxes": {},
+    "license": "InterTight-OFL.txt",
+    "weightRange": [
+      100.0,
+      900.0
+    ]
+  },
+  {
+    "family": "Cormorant Garamond",
+    "file": "cormorant-garamond-italic.woff2",
+    "style": "italic",
+    "version": "Version 4.001",
+    "source": "https://raw.githubusercontent.com/google/fonts/9710da1eacb3be272583c3224dcb70f9da6eadbb/ofl/cormorantgaramond/CormorantGaramond-Italic%5Bwght%5D.ttf",
+    "sourceSha256": "0f48ea6abb2084537854f7174c470991a463b13036309e3b50a81511611c530d",
+    "sha256": "e3229aab545b0029282cfc6cbddeb5af064c0a2b1aa0081c6baeb576a4f6aaaf",
+    "pinnedAxes": {},
+    "license": "CormorantGaramond-OFL.txt",
+    "weightRange": [
+      300.0,
+      700.0
+    ]
+  },
+  {
+    "family": "Cormorant Garamond",
+    "file": "cormorant-garamond-normal.woff2",
+    "style": "normal",
+    "version": "Version 4.001",
+    "source": "https://raw.githubusercontent.com/google/fonts/9710da1eacb3be272583c3224dcb70f9da6eadbb/ofl/cormorantgaramond/CormorantGaramond%5Bwght%5D.ttf",
+    "sourceSha256": "b20b7d9626dd956b2c5e558692ad328b1f19e3275e2782db4fa07670d83f35e0",
+    "sha256": "a3fd727a0ed7db3c7a15d933e89a3ad7784fd25bbd5dcc41e9dd597b479d9e87",
+    "pinnedAxes": {},
+    "license": "CormorantGaramond-OFL.txt",
+    "weightRange": [
+      300.0,
+      700.0
+    ]
+  },
+  {
+    "family": "Fraunces",
+    "file": "fraunces-italic.woff2",
+    "style": "italic",
+    "version": "Version 1.000;[b76b70a41]",
+    "source": "https://raw.githubusercontent.com/google/fonts/9710da1eacb3be272583c3224dcb70f9da6eadbb/ofl/fraunces/Fraunces-Italic%5BSOFT%2CWONK%2Copsz%2Cwght%5D.ttf",
+    "sourceSha256": "b24448c43702fac4ee856781d461a0dfba8d8e594b6e8e190234b75fed2c0e01",
+    "sha256": "c5838823c00bfbd03595b442443ff18ad4b07609ee10f8587a449817b17eb3d6",
+    "pinnedAxes": {
+      "opsz": 14,
+      "SOFT": 0,
+      "WONK": 1
+    },
+    "license": "Fraunces-OFL.txt",
+    "weightRange": [
+      100.0,
+      900.0
+    ]
+  },
+  {
+    "family": "Fraunces",
+    "file": "fraunces-normal.woff2",
+    "style": "normal",
+    "version": "Version 1.000;[b76b70a41]",
+    "source": "https://raw.githubusercontent.com/google/fonts/9710da1eacb3be272583c3224dcb70f9da6eadbb/ofl/fraunces/Fraunces%5BSOFT%2CWONK%2Copsz%2Cwght%5D.ttf",
+    "sourceSha256": "177ff6c0f14e5550a3c624247cd1189611d4eb65d000b14944c63d967958abbb",
+    "sha256": "8876512a0913d134aaf0c6863c01d3b41ff2946d78d59c1ffcd04cd481f9bd8c",
+    "pinnedAxes": {
+      "opsz": 14,
+      "SOFT": 0,
+      "WONK": 1
+    },
+    "license": "Fraunces-OFL.txt",
+    "weightRange": [
+      100.0,
+      900.0
+    ]
+  }
+]

@@ -1,5 +1,6 @@
+import localFont from 'next/font/local';
 import type { Metadata } from 'next';
-import { Roboto, Cormorant_Garamond, Space_Mono } from 'next/font/google';
+import { Roboto, Space_Mono } from 'next/font/google';
 
 // The "assembled" grocery journey concept runs the shared lib/journey engine
 // under the Everyday Rewards brand. Fonts mirror the dash lockup; the pilot
@@ -10,12 +11,17 @@ const roboto = Roboto({
   variable: '--edr-body',
   display: 'swap',
 });
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['500', '600'],
-  style: ['normal', 'italic'],
+const cormorant = localFont({
+  src: [
+    { path: '../../../../lib/fonts/assets/cormorant-garamond-normal.woff2', weight: '500', style: 'normal' },
+    { path: '../../../../lib/fonts/assets/cormorant-garamond-normal.woff2', weight: '600', style: 'normal' },
+    { path: '../../../../lib/fonts/assets/cormorant-garamond-italic.woff2', weight: '500', style: 'italic' },
+    { path: '../../../../lib/fonts/assets/cormorant-garamond-italic.woff2', weight: '600', style: 'italic' },
+  ],
   variable: '--edr-display',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Cormorant Garamond Build Fallback'],
 });
 const spaceMono = Space_Mono({
   subsets: ['latin'],
