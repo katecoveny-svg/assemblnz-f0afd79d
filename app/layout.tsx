@@ -109,9 +109,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <KeteAccentProvider>
           <ScrollProgress />
           <CommandPalette />
-          <div className="hidden md:block">
-            <AssemblConciergeWidget />
-          </div>
+          <AssemblConciergeWidget />
           <PwaRegister />
           <PublicWatchFrame>
             <GlobalNav />
