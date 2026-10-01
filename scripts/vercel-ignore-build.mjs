@@ -1,44 +1,41 @@
 #!/usr/bin/env node
-/**
- * Vercel ignored-build decision.
- * Exit 0 = skip deployment, exit 1 = build.
- *
- * We skip branches dedicated to screenshots/evidence and commits that only
- * change non-runtime documentation/research/context. Repo CI still validates
- * canonical context separately, so these changes do not need a Next build.
- */
+/** Exit 0 skips Vercel; exit 1 builds. Unknown paths/history always build. */
 import { execFileSync } from 'node:child_process';
+import { pathToFileURL } from 'node:url';
 
-const ref = process.env.VERCEL_GIT_COMMIT_REF || '';
-if (/^(assets\/|pr-assets\/)/.test(ref) || /(shots|screenshots|screens)/i.test(ref)) process.exit(0);
-
-const base = process.env.VERCEL_GIT_PREVIOUS_SHA?.trim() || 'HEAD^';
-let files = [];
-try {
-  files = execFileSync('git', ['diff', '--name-only', base, 'HEAD'], { encoding: 'utf8' })
-    .split('\n').map((value) => value.trim()).filter(Boolean);
-} catch {
-  // When Git history is too shallow or this is the first deployment, build.
-  process.exit(1);
-}
-
-// A redeploy can intentionally apply changed environment variables to the same
-// commit. An empty Git diff does not mean that build configuration is unchanged.
-if (!files.length) process.exit(1);
-
+// Audited authoring/evidence paths only. Never infer relevance from branch names
+// or file extensions alone. See docs/build-cost-workflow.md for dependencies.
 const NON_RUNTIME = [
-  /^docs\//,
-  /^research\//,
-  /^outputs\//,
+  /^docs\/(context|factory)\/[^\n]+\.md$/,
+  /^docs\/(deployment-and-release-checklist|deployment-surfaces|build-cost-workflow)\.md$/,
+  /^research\/[^\n]+\.md$/,
+  /^outputs\/[^\n]+\.(md|png|jpg|webp|pdf)$/,
   /^\.pr-(assets|screenshots|shots)\//,
   /^pr-evidence\//,
-  /^AGENT_CHAT_STARTER\.md$/,
-  /^AGENTS\.md$/,
-  /^CLAUDE\.md$/,
-  /^START_HERE\.md$/,
-  /^README\.md$/,
+  /^(AGENT_CHAT_STARTER|AGENTS|CLAUDE|START_HERE|README)\.md$/,
   /^config\/context-manifest\.json$/,
+  // Unapplied proposal excluded by tsconfig; its security CI remains mandatory.
+  /^security-proposals\/nz-edge-maintenance\//,
 ];
 
-const onlyNonRuntime = files.every((file) => NON_RUNTIME.some((pattern) => pattern.test(file)));
-process.exit(onlyNonRuntime ? 0 : 1);
+export function shouldBuild(files) {
+  return !files.length || files.some(file => !NON_RUNTIME.some(pattern => pattern.test(file)));
+}
+
+export function buildDecision(env = process.env, git = execFileSync) {
+  // Missing previous deployment is not evidence of irrelevance. HEAD^ misses
+  // earlier commits in a batched push and can hide a runtime change.
+  const base = env.VERCEL_GIT_PREVIOUS_SHA?.trim();
+  if (!base) return true;
+  try {
+    const files = git('git', ['diff', '--name-only', '-z', '--no-renames', base, 'HEAD'], { encoding: 'utf8' })
+      .split('\0').filter(Boolean);
+    return shouldBuild(files);
+  } catch { return true; }
+}
+
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const build = buildDecision();
+  console.log(`vercel-ignore-build: ${build ? 'build (runtime, unknown, or redeploy)' : 'skip (audited authoring/evidence only)'}`);
+  process.exit(build ? 1 : 0);
+}
