@@ -4,7 +4,7 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import { ArrowUpRight, Plus } from 'lucide-react';
-import { AssemblEntry } from './AssemblEntry';
+import { PursuitWalkthrough } from '../pursuit/PursuitWalkthrough';
 const AssemblWorldHero = dynamic(() => import('./AssemblWorldHero').then(module => module.AssemblWorldHero));
 import { DoFilm } from '@/components/do/DoFilm';
 import { LivingBrief } from './ImmersiveExperience';
@@ -27,7 +27,7 @@ export function AssemblTheWorkHome({ preview = false }: { preview?: boolean }) {
   return <div className="atw atw-spatial atw-immersive atw-refined" data-preview={preview}>
     <a className="atw-skip" href="#products">Skip to the products</a>
     {preview && <div className="atw-preview-ribbon"><strong>PREVIEW</strong><span>Homepage review</span><Link href="/">Live homepage <ArrowUpRight size={14} /></Link></div>}
-    <AssemblEntry />
+    <AssemblWorldHero preview={preview} />
     <section id="products" className="refined-products" aria-labelledby="products-title">
       <header><p className="atw-kicker">A PLACE FOR THE WORK.</p><h2 id="products-title">From a loose end<br />to a useful next step.</h2><p>Everyday jobs with DO. Business opportunities with Pursuit. Ideas made tangible in Studio.</p></header>
       <div className="refined-product-grid">{PRODUCTS.items.map((product, index) => <Link href={product.href} key={product.id} className="refined-product" data-product={product.id}>
@@ -35,7 +35,8 @@ export function AssemblTheWorkHome({ preview = false }: { preview?: boolean }) {
         <div className="refined-product-copy"><h3>{product.name}<ArrowUpRight size={22} /></h3><p>{product.body}</p><span>{product.id === 'do' ? 'Open DO' : `Explore ${product.name}`} <ArrowUpRight size={16} /></span></div>
       </Link>)}</div>
     </section>
-    <details className="refined-atelier" open={atelierOpen} onToggle={event => setAtelierOpen(event.currentTarget.open)}><summary>See assembl in motion <Plus size={20} /></summary>{atelierOpen && <><AssemblWorldHero preview={preview} showSummary={false} /><LivingBrief /></>}</details>
+    <PursuitWalkthrough />
+    <details className="refined-atelier" open={atelierOpen} onToggle={event => setAtelierOpen(event.currentTarget.open)}><summary>See the work take shape <Plus size={20} /></summary>{atelierOpen && <LivingBrief />}</details>
     <section className="refined-explore" aria-label="Explore the products in more detail">
       <details open={researchOpen} onToggle={event => setResearchOpen(event.currentTarget.open)}><summary><span>Try Pursuit research<small>Bring a company or a question</small></span><Plus size={22} /></summary>{researchOpen && <LivePursuitCanvas />}</details>
       <details open={filmOpen} onToggle={event => setFilmOpen(event.currentTarget.open)}><summary><span>See DO in motion<small>A closer look at the experience</small></span><Plus size={22} /></summary>{filmOpen && <DoFilm />}</details>
