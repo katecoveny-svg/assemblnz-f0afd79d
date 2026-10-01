@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import dynamic from "next/dynamic";
 import DoMemory from "./live/DoMemory";
 import { DoVision } from "./DoVision";
@@ -286,7 +287,7 @@ export function DoBuilder({
         </div>
         <span className="dob-allowance">
           {trialBypassed
-            ? "Signed in · unlimited prepare"
+            ? "Configured access"
             : remaining === null
               ? `${trialLimit} free sandbox tasks`
               : `${remaining} of ${trialLimit} sandbox tasks left`}
@@ -295,13 +296,13 @@ export function DoBuilder({
       <div className="dob-trial">
         <span>
           {trialBypassed
-            ? "Signed-in Assembl users are not limited by the public sandbox. Anonymous tries still share a per-network free allowance."
-            : `Public sandbox: ${trialLimit} free tasks per network. Sign in for unlimited prepare. Failed generations do not use a task.`}
+            ? "Provider tasks require a checked allowance. Sign-in does not grant unlimited use."
+            : `Public sandbox: ${trialLimit} free tasks per network. Sign-in does not grant unlimited use. Failed adapter generations do not use a trial task.`}
         </span>
         {trialBypassed ? (
-          <a href="/do/connections">
+          <Link href="/do/connections">
             Connections <ArrowUpRight size={14} />
-          </a>
+          </Link>
         ) : (
           <a href={ENQUIRE}>
             Enquire about more <ArrowUpRight size={14} />
@@ -506,12 +507,11 @@ export function DoBuilder({
               <div className="dob-gate">
                 <h3>Your free sandbox tasks on this network are used.</h3>
                 <p>
-                  Sign in to your Assembl account for unlimited prepare, or enquire
-                  to arrange continued access. Your work stays in the editor.
+                  Enquire about configured access and usage limits. Sign-in does not grant unlimited provider use. Your work stays in the editor.
                 </p>
-                <a href="/login?redirect=%2Fdo">
-                  Sign in for unlimited prepare <ArrowUpRight size={17} />
-                </a>
+                <Link href="/login?redirect=%2Fdo">
+                  Sign in to DO <ArrowUpRight size={17} />
+                </Link>
                 <a href={ENQUIRE}>
                   Open an enquiry email <ArrowUpRight size={17} />
                 </a>

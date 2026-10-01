@@ -2,7 +2,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const { chromium } = require(process.env.ASSEMBL_PLAYWRIGHT_MODULE || '/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
-const origin = process.env.ASSEMBL_REVIEW_ORIGIN || 'http://127.0.0.1:3117';
+const origin = process.env.ASSEMBL_REVIEW_ORIGIN || 'http://localhost:3117';
 const out = process.env.ASSEMBL_REVIEW_OUTPUT || '/tmp/assembl-personal-assistant-review';
 const checks = [];
 const check = (name, condition) => { assert.ok(condition, name); checks.push(name); console.log('PASS ' + name); };
@@ -57,20 +57,51 @@ const makeResult = message => ({
     check('reply receives keyboard focus', true);
     await page.evaluate(() => dispatchEvent(new Event('assembl:do-focus')));
     check('portable focus returns to the same composer', await input.evaluate(element => element === document.activeElement));
-    check('one consented request carries no invented authority', posts.length === 1 && posts[0].consent === true && posts[0].history.length === 0 && posts[0].useSavedStyle === false);
-    const draft = panel.locator('#personal-assistant-draft');
     // Fictional fixture diagnostics: preserve events and controlled-value writes even on failure.
     await page.evaluate(() => {
       window.__draftEvents = [];
       const record = (type, element, value) => {
-        if (element.id !== 'personal-assistant-draft') return;
-        window.__draftEvents.push({ type, value, disabled: element.disabled, at: performance.now() });
+        if (!['personal-assistant-draft', 'personal-assistant-input'].includes(element.id)) return;
+        window.__draftEvents.push({ type, target: element.id, value, disabled: element.disabled, at: performance.now() });
         if (window.__draftEvents.length > 100) window.__draftEvents.shift();
       };
-      for (const type of ['beforeinput', 'input', 'change']) document.addEventListener(type, event => record(type, event.target, event.target.value), true);
+      for (const type of ['focusin', 'beforeinput', 'input', 'change']) document.addEventListener(type, event => record(type, event.target, event.target.value), true);
       const descriptor = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value');
       Object.defineProperty(HTMLTextAreaElement.prototype, 'value', { ...descriptor, set(value) { record('controlled-value-write', this, value); descriptor.set.call(this, value); } });
     });
+    const launcherResponse = await page.request.get(origin + '/api/do/widget');
+    check('actual portable launcher is available', launcherResponse.ok());
+    const launcherScript = await launcherResponse.text();
+    await page.evaluate(script => {
+      window.__launcherDiagnostic = { pageOrigin: location.origin, pathname: location.pathname, embeddedOrigin: script.match(/const origin = (.*);/)?.[1] ?? null, focusDispatches: [] };
+      window.addEventListener('assembl:do-focus', () => window.__launcherDiagnostic.focusDispatches.push({ at: performance.now(), activeId: document.activeElement?.id ?? null }));
+    }, launcherScript);
+    let embeddedOrigin;
+    try {
+      const rawOrigin = await page.evaluate(() => window.__launcherDiagnostic.embeddedOrigin);
+      assert.equal(typeof rawOrigin, 'string', 'Actual portable launcher is missing its embedded origin');
+      embeddedOrigin = JSON.parse(rawOrigin);
+      assert.equal(typeof embeddedOrigin, 'string', 'Actual portable launcher embedded origin must be a string');
+      assert.equal(new URL(embeddedOrigin).origin, embeddedOrigin, 'Actual portable launcher embedded origin must be an HTTP(S) origin');
+      assert.ok(['http:', 'https:'].includes(new URL(embeddedOrigin).protocol), 'Actual portable launcher embedded origin must use HTTP(S)');
+    } catch (error) {
+      throw new Error('Actual portable launcher has a missing or malformed embedded origin: ' + error.message);
+    }
+    check('actual portable launcher matches the workspace origin', embeddedOrigin === await page.evaluate(() => location.origin));
+    await page.addScriptTag({ content: launcherScript });
+    await page.locator('[data-do-companion] .launch').click();
+    await page.waitForFunction(() => document.activeElement?.id === 'personal-assistant-input');
+    check('actual portable launcher initially focuses the existing composer', true);
+    check('one consented request carries no invented authority', posts.length === 1 && posts[0].consent === true && posts[0].history.length === 0 && posts[0].useSavedStyle === false);
+    const draft = panel.locator('#personal-assistant-draft');
+    // A person can select the draft immediately after returning to the editor.
+    // No queued parent focus may retarget the following edit to the composer.
+    await draft.evaluate(element => {
+      document.querySelector('[data-do-companion]').shadowRoot.querySelector('.launch').click();
+      element.focus();
+    });
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(resolve)));
+    check('draft focus survives the portable handoff frame', await draft.evaluate(element => element === document.activeElement));
     await draft.fill('My reviewed fictional reply.');
     const editedValue = await draft.inputValue();
     check(`reply is editable before reuse (actual: ${JSON.stringify(editedValue)})`, editedValue === 'My reviewed fictional reply.');
@@ -103,7 +134,7 @@ const makeResult = message => ({
     fs.writeFileSync(out + '/results.json', JSON.stringify({ checks, errors, fixtureOnly: true, liveProviderTested: false, realAccountTested: false }, null, 2));
   } finally {
     if (page) {
-      const diagnostic = await page.evaluate(() => { const draft = document.getElementById('personal-assistant-draft'); return { events: window.__draftEvents ?? [], value: draft?.value ?? null, disabled: draft?.disabled ?? null, busy: document.querySelector('[aria-label="Ask Pip"]')?.getAttribute('aria-busy') ?? null }; }).catch(() => ({ unavailable: true }));
+      const diagnostic = await page.evaluate(() => { const draft = document.getElementById('personal-assistant-draft'); const host = document.querySelector('[data-do-companion]'); const shadow = host?.shadowRoot; return { launcher: { ...window.__launcherDiagnostic, panelHidden: shadow?.querySelector('.panel')?.hidden ?? null, frameUrl: shadow?.querySelector('iframe')?.src ?? null, activeId: document.activeElement?.id ?? null }, events: window.__draftEvents ?? [], value: draft?.value ?? null, disabled: draft?.disabled ?? null, busy: document.querySelector('[aria-label="Ask Pip"]')?.getAttribute('aria-busy') ?? null }; }).catch(() => ({ unavailable: true }));
       fs.writeFileSync(out + '/draft-diagnostic.json', JSON.stringify(diagnostic, null, 2));
     }
     if (page) await page.screenshot({ path: out + '/final-state.png', fullPage: true }).catch(() => {});

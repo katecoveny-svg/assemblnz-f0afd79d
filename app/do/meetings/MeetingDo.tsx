@@ -1,5 +1,7 @@
 'use client';
 
+import { DO_TEXT_PROVIDER_CONSENT_VERSION } from '@/apps/do/shared/provider-consent';
+
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { MeetingDoExperience } from './MeetingDoExperience';
@@ -282,6 +284,7 @@ function MeetingDoState({ previewNotes }: { previewNotes: boolean }) {
                   sourceUrl: '',
                   consent: true,
                   brief: MEETING_SMART_NOTES_BRIEF,
+                  providerConsentVersion: DO_TEXT_PROVIDER_CONSENT_VERSION,
                 }),
               }),
         },

@@ -1,3 +1,4 @@
+import { PilotError } from '@/lib/typesafe/core';
 import { doOwner, privateDoHeaders, sameDoOrigin } from '@/apps/do/services/owner';
 import { admitDoRequest, readDoJson } from '@/apps/do/shared/http';
 import { chatClientIp, checkChatRateLimit } from '@/lib/agents/chat-rate-limit';
@@ -28,10 +29,11 @@ export async function POST(request: Request) {
     if (source.length > 12_000) return json({ error: 'Shorten the notes or details to 12,000 characters together.' }, 400);
     let style: string | undefined;
     try { const saved = await getPersonalDoProfile(owner.id); if (saved.saved) style = formatPersonalDoStyle(saved.profile); } catch { /* Optional preferences never block preparation. */ }
-    const draft = await prepareDoDraft({ task: 'plan', source, sourceTitle: input.title || template.packTitle, sourceUrl: '', consent: true, brief: lifeAdminPreparationBrief(input.category) }, request.signal, style);
+    const draft = await prepareDoDraft({ task: 'plan', source, sourceTitle: input.title || template.packTitle, sourceUrl: '', consent: true, providerConsentVersion: input.providerConsentVersion, brief: lifeAdminPreparationBrief(input.category) }, request.signal, style, { ownerId: owner.id, requestId: request.headers.get('Idempotency-Key') ?? undefined });
     if (request.signal.aborted) return json({ error: 'Draft preparation was stopped.' }, 409);
     return json({ draft });
   } catch (error) {
+    if (error instanceof PilotError) return json({ error: error.message }, error.status);
     return json({ error: error instanceof DoPreparationError ? error.message : 'The draft could not be prepared. Your local checklist is unchanged.' }, 503);
   }
 }

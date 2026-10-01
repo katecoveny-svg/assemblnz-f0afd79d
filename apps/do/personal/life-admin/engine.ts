@@ -1,3 +1,4 @@
+import { DO_TEXT_PROVIDER_CONSENT_VERSION } from '../../shared/provider-consent';
 import { z } from 'zod';
 import { cleanSourceUrl, extractDetails } from '@/apps/do/shared/preparation';
 import { LIFE_ADMIN_CATEGORIES, lifeAdminTemplate, type LifeAdminCategory } from './templates';
@@ -174,7 +175,7 @@ export function hasLifeAdminSecretLabel(text: string) {
 }
 export const lifeAdminPreparationSchema = z.object({
   category: z.enum(LIFE_ADMIN_CATEGORIES), source: z.string().trim().min(5).max(LIFE_ADMIN_SOURCE_LIMIT),
-  title: z.string().trim().max(160), fields: z.record(z.string().max(60), shortText), consent: z.literal(true),
+  title: z.string().trim().max(160), fields: z.record(z.string().max(60), shortText), providerConsentVersion: z.literal(DO_TEXT_PROVIDER_CONSENT_VERSION), consent: z.literal(true),
 }).strict().superRefine((input, ctx) => {
   const template = lifeAdminTemplate(input.category);
   if (Object.keys(input.fields).some((key) => !template.fields.some((field) => field.key === key))) ctx.addIssue({ code: 'custom', message: 'Unknown workflow field.' });

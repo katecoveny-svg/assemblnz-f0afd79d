@@ -1,6 +1,7 @@
 import { doOwner, sameDoOrigin, privateDoHeaders } from '@/apps/do/services/owner';
 import { readDoJson, admitDoRequest } from '@/apps/do/shared/http';
-import { reserveDoTrial } from '@/apps/do/shared/trial';
+import { admitPersonalDoUsage } from '@/lib/billing/personal-do-access';
+import { enabledPersonalDoPlan } from '@/lib/billing/personal-do-plan';
 import { prepareDoDraft } from '@/apps/do/shared/preparation-server';
 import { chatClientIp, checkChatRateLimit } from '@/lib/agents/chat-rate-limit';
 import { parseInput, PilotError } from '@/lib/typesafe/core';
@@ -32,10 +33,16 @@ export async function POST(request: Request) {
     if (!rate.allowed) return json({ error: 'rate_limited', message: 'The DO preparation limit has been reached. Try again later.' }, 429);
     if (request.signal.aborted) return json({ error: 'cancelled', message: 'The request was cancelled.' }, 409);
     // Ignore any decision, draft, user ID, provider or permission posted by the client.
-    const pilot = await runPilot(input, owner.id);
+    const plan = enabledPersonalDoPlan();
+    if (!plan || Buffer.byteLength(JSON.stringify(input), 'utf8') > plan.maxInputBytes) throw new PilotError('usage_unavailable', 503, 'DO needs configured access and a bounded provider budget before this check.');
+    const reservation = await admitPersonalDoUsage(owner.id, { entrypoint: 'decision-check', input }, request.headers.get('Idempotency-Key') ?? undefined);
+    let pilot: Awaited<ReturnType<typeof runPilot>>;
+    let checked = false;
+    try { pilot = await runPilot(input, owner.id, request.signal); checked = true; }
+    finally { await reservation.finish(checked); }
     const workflow = await runDoWorkflow(input, pilot, {
-      reserve: () => reserveDoTrial(ip, { signedInOwnerId: owner.id }),
-      prepare: prepareDoDraft,
+      reserve: async () => ({ release: async () => {} }), // Generation reserves its own owner-bound budget; deterministic extraction never does.
+      prepare: (preparation, signal) => prepareDoDraft(preparation, signal, undefined, { ownerId: owner.id }),
     }, request.signal);
     return json({ ...pilot, workflow });
   } catch (error) {

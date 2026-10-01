@@ -1,4 +1,6 @@
 'use client';
+
+import { DO_TEXT_PROVIDER_CONSENT_VERSION } from '@/apps/do/shared/provider-consent';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, ArrowUpRight, CalendarDays, Check, FileCheck2, Inbox, LoaderCircle, LogOut, ShoppingBag, Wallet } from 'lucide-react';
@@ -47,7 +49,7 @@ export function FamilyDo() {
     return data;
   }
   async function run() {
-    const data = await api('/api/do/family', 'POST', { senders: senders.split(/[,;\n]+/).map(s => s.trim()).filter(Boolean), days, consent });
+    const data = await api('/api/do/family', 'POST', { senders: senders.split(/[,;\n]+/).map(s => s.trim()).filter(Boolean), days, consent, providerConsentVersion: DO_TEXT_PROVIDER_CONSENT_VERSION });
     if (data.empty) { setDigest(null); setNotice(data.message); return; }
     setDigest(data); setReviewed([]);
   }
@@ -68,11 +70,9 @@ export function FamilyDo() {
         <label>Sender email addresses<textarea rows={3} placeholder="One school or activity email address per line" value={senders} onChange={e => setSenders(e.target.value)} required maxLength={2050}/></label>
         <label>Look back<select value={days} onChange={e => setDays(Number(e.target.value))}><option value={7}>7 days</option><option value={14}>14 days</option><option value={30}>30 days</option></select></label>
         <p>Up to 20 recent messages from these senders. Attachments stay in Gmail. Long messages may be shortened and will be marked.</p>
-        <label className="family-consent"><input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)}/><span>Use these emails to prepare my list through assembl’s text service. I have permission to use this family information.</span></label>
+        <label className="family-consent"><input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)}/><span>Share the selected email text with OpenAI (GPT-6 Astra) and TypeSafe to prepare my list. I have permission to use this family information.</span></label>
         <button className="family-primary" disabled={!connection?.connected || !consent || Boolean(busy) || trialUsed}>{busy ? <LoaderCircle size={18}/> : <Inbox size={18}/>} Prepare my school admin</button>
-        <p>{connection?.signedIn
-          ? <>Signed-in prepare is unlimited. Anonymous sandbox tries still share a per-network free allowance.</>
-          : <>Public sandbox: three free tasks per network, then <a href="/login?redirect=%2Fdo%2Ffamily">sign in for unlimited prepare</a> or <a href={enquiry}>enquire to continue</a>.</>}</p>
+        <p>Preparation needs configured DO access and a bounded provider budget. Signing in does not grant unlimited use. No paid subscription is offered here.</p>
       </form>
     </aside><section className="family-results" aria-label="School admin for review">
       <div className="family-results-head"><div><p className="family-kicker">03 · YOUR REVIEW</p><h2>{digest ? 'Here’s what needs you.' : 'Your week, made clearer.'}</h2></div>{digest && <button onClick={download}>Download list</button>}</div>

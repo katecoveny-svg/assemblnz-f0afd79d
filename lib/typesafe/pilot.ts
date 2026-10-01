@@ -17,13 +17,14 @@ export function requirePilot(ownerId: string) {
   if (!status.allowed) throw new PilotError('pilot_access_required', 403, 'This account is not on the TypeSafe pilot allowlist.');
   if (!status.enabled || !status.configured) throw new PilotError('pilot_not_configured', 503, 'The TypeSafe pilot is not enabled and configured on this deployment.');
 }
-export async function runPilot(input: PilotInput, ownerId: string): Promise<PilotResult> {
+export async function runPilot(input: PilotInput, ownerId: string, signal?: AbortSignal): Promise<PilotResult> {
   requirePilot(ownerId);
+  if (signal?.aborted) throw new PilotError('request_cancelled', 499, 'The request was cancelled.');
   const model = process.env.TYPESAFE_MODEL?.trim() || 'jev-1.13.0';
   const threshold = Number(process.env.TYPESAFE_REVIEW_THRESHOLD ?? '0.75');
   if (!Number.isFinite(threshold) || threshold < 0 || threshold > 1) throw new PilotError('invalid_configuration', 503, 'The review threshold is invalid.');
   const { evaluation, elapsedMs, attempts } = await evaluateTypeSafe(input, {
-    apiKey: process.env.TYPESAFE_API_KEY!, model,
+    apiKey: process.env.TYPESAFE_API_KEY!, model, signal,
   });
   const decision = decide(input, evaluation, threshold);
   const canPrepare = decision.action !== 'ask_user' && decision.action !== 'unsupported';

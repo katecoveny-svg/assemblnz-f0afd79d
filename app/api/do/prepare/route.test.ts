@@ -1,3 +1,5 @@
+vi.mock('@/apps/do/services/owner', () => ({ doOwner: vi.fn() }));
+import { doOwner } from '@/apps/do/services/owner';
 const trial = vi.hoisted(() => ({ reserve: vi.fn(), release: vi.fn() }));
 vi.mock('@/apps/do/shared/trial', () => ({ reserveDoTrial: trial.reserve, DoTrialError: class extends Error {} }));
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -14,20 +16,29 @@ let ip = 0;
 function request(body: unknown, origin = 'https://www.assembl.co.nz') {
   return new Request('https://www.assembl.co.nz/api/do/prepare', { method: 'POST', headers: { 'Content-Type': 'application/json', Origin: origin, 'x-test-ip': `ip-${ip++}` }, body: JSON.stringify(body) });
 }
-const input = { task: 'brief', source: 'A document chosen by this visitor.', consent: true };
-beforeEach(() => { trial.reserve.mockReset(); trial.release.mockResolvedValue(undefined); trial.reserve.mockResolvedValue({ release: trial.release }); model.prepare.mockReset(); model.prepare.mockResolvedValue({ id: 'own-draft', status: 'draft' }); });
+const input = { task: 'brief', source: 'A document chosen by this visitor.', consent: true, providerConsentVersion: 'do-openai-typesafe-v1' };
+beforeEach(() => { vi.mocked(doOwner).mockResolvedValue({ id: 'owner', externalId: 'do:user:owner' }); trial.reserve.mockReset(); trial.release.mockResolvedValue(undefined); trial.reserve.mockResolvedValue({ release: trial.release }); model.prepare.mockReset(); model.prepare.mockResolvedValue({ id: 'own-draft', status: 'draft' }); });
 
 describe('public DO preparation boundary', () => {
-  it('enforces the shared three-task gate before generating any draft', async () => {
-    trial.reserve.mockRejectedValue({ code: 'trial_exhausted', message: 'Enquire to continue' });
-    const response = await POST(request(input));
-    expect(response.status).toBe(402); expect(model.prepare).not.toHaveBeenCalled();
+  it('rejects unowned model requests and never treats sign-in as a trial bypass', async () => {
+    vi.mocked(doOwner).mockResolvedValue(null);
+    expect((await POST(request(input))).status).toBe(401);
+    expect(model.prepare).not.toHaveBeenCalled(); expect(trial.reserve).not.toHaveBeenCalled();
+  });
+  it('keeps exact extraction model-free and allowance-free without sign-in', async () => {
+    vi.mocked(doOwner).mockResolvedValue(null);
+    expect((await POST(request({ ...input, task: 'extract' }))).status).toBe(200);
+    expect(trial.reserve).not.toHaveBeenCalled();
+  });
+  it('rejects old unnamed consent before model transmission', async () => {
+    expect((await POST(request({ ...input, providerConsentVersion: undefined }))).status).toBe(400);
+    expect(model.prepare).not.toHaveBeenCalled();
   });
   it('rejects a foreign site before model invocation', async () => {
     const response = await POST(request(input, 'https://unrelated.example'));
     expect(response.status).toBe(403); expect(response.headers.get('Access-Control-Allow-Origin')).toBeNull(); expect(model.prepare).not.toHaveBeenCalled();
   });
-  it('accepts explicit consent from the same site and installed extension without cookies', async () => {
+  it('accepts explicit named consent only with server-verified owner scope', async () => {
     for (const origin of ['https://www.assembl.co.nz', 'chrome-extension://' + 'a'.repeat(32)]) {
       const response = await POST(request(input, origin));
       expect(response.status).toBe(200); expect(response.headers.get('Cache-Control')).toBe('no-store');
