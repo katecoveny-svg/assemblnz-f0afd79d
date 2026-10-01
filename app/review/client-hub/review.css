@@ -1,0 +1,5 @@
+.client-hub-migration-review { --font-sans: var(--font-body); font-family: var(--font-body), sans-serif; }
+.migration-boundary { background: #240B21; color: #FFFDFB; padding: 14px 24px; font-family: var(--font-body), sans-serif; font-size: 13px; position: relative; z-index: 50; }
+.migration-boundary strong { display: block; margin-bottom: 4px; }
+.client-hub-migration-review .cs-shell { font-family: var(--font-body), sans-serif; }
+@media (max-width: 600px) { .migration-boundary { padding: 12px 16px; } }
