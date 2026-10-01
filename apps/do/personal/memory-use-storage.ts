@@ -5,7 +5,7 @@ import { memoryUseScopeSchema, PROVIDER_MEMORY_NOTICE_VERSION } from './memory-u
 import { MemoryUseError, type ProviderMemoryStore } from './memory-use-server';
 import { preparationPolicySchema } from './preparation-controls';
 
-const id = z.string().uuid();
+const id = z.string().uuid().toLowerCase();
 const revision = z.number().int().min(0);
 const date = z.string().datetime({ offset: true });
 export const providerContextMutationSchema = z.discriminatedUnion('action', [
@@ -84,9 +84,27 @@ export async function readProviderContextReview(ownerId: string): Promise<{ cont
   return parsed.data;
 }
 export async function changePreparedWorkState(ownerId: string, raw: unknown): Promise<boolean> {
-  const parsed = z.object({ noveltyKey: z.string().regex(/^[a-zA-Z0-9:_-]{1,160}$/), status: z.enum(['prepared_draft','dismissed','failed']), dismissedUntil: date.nullable() }).strict().safeParse(raw);
+  const parsed = z.object({ noveltyKey: z.string().regex(/^[a-zA-Z0-9:_-]{1,160}$/), status: z.enum(['dismissed','failed']), dismissedUntil: date.nullable() }).strict().safeParse(raw);
   if (!parsed.success) throw new MemoryUseError('memory_use_denied');
   const result = await rpc(ownerId, 'do_provider_prepare_state', { p_key: parsed.data.noveltyKey, p_status: parsed.data.status, p_until: parsed.data.dismissedUntil });
+  if (typeof result !== 'boolean') throw new MemoryUseError('memory_use_unavailable');
+  return result;
+}
+export async function readPreparedWorkReservation(ownerId: string, noveltyKey: string) {
+  if (!/^[a-zA-Z0-9:_-]{1,160}$/.test(noveltyKey)) throw new MemoryUseError('memory_use_denied');
+  const raw = await rpc(ownerId, 'do_provider_prepare_get', { p_key: noveltyKey });
+  const parsed = z.object({ noveltyKey: z.string(), status: z.enum(['reserved','prepared_draft','dismissed','failed']), runId: id.nullable(), createdAt: date, expiresAt: date, dismissedUntil: date.nullable() }).strict().safeParse(raw);
+  if (!parsed.success) throw new MemoryUseError('memory_use_unavailable');
+  return parsed.data;
+}
+/** Mandatory publication path for context-derived jobs; never call ordinary finish first. */
+export async function publishPreparedWork(ownerId: string, raw: unknown): Promise<boolean> {
+  const parsed = z.object({ noveltyKey: z.string().regex(/^[a-zA-Z0-9:_-]{1,160}$/), output: z.string().min(1).max(20000), evidence: z.record(z.string(), z.unknown()) }).strict().safeParse(raw);
+  if (!parsed.success) throw new MemoryUseError('memory_use_denied');
+  let size: number;
+  try { size = JSON.stringify(parsed.data.evidence).length; } catch { throw new MemoryUseError('memory_use_denied'); }
+  if (size>32000) throw new MemoryUseError('memory_use_denied');
+  const result = await rpc(ownerId, 'do_provider_prepare_publish', { p_key: parsed.data.noveltyKey, p_output: parsed.data.output, p_evidence: parsed.data.evidence });
   if (typeof result !== 'boolean') throw new MemoryUseError('memory_use_unavailable');
   return result;
 }

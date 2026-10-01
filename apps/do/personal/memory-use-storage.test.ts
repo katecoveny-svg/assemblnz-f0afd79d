@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 const mocks = vi.hoisted(() => ({ rpc: vi.fn(), abortSignal: vi.fn() }));
 vi.mock('@/lib/supabase/service', () => ({ getServiceClient: () => ({ rpc: mocks.rpc }) }));
-import { changeProviderContext, changeProviderConsent, createProviderMemoryStore, reservePreparedWork, readProviderContextReview } from './memory-use-storage';
+import { changeProviderContext, changeProviderConsent, createProviderMemoryStore, reservePreparedWork, readProviderContextReview, publishPreparedWork, changePreparedWorkState } from './memory-use-storage';
 const owner='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',id='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
 const input={action:'confirm',id,expectedRevision:0,kind:'goal',text:'Fictional sample goal.',observedAt:'2026-10-01T00:00:00Z',retentionDays:7,selfOnly:true,nonSensitive:true,confirm:true};
 afterEach(()=>{vi.unstubAllEnvs();vi.resetAllMocks();});
@@ -12,4 +12,5 @@ describe('durable provider memory adapter remains inactive by default',()=>{
  it('requires named providers and separate explicit consent',async()=>{ready();const consent={action:'consent',id,expectedRevision:0,scope:{kind:'assistant'},selections:[{recordId:id,revision:1}],expiresAt:'2026-10-07T00:00:00Z',providers:['openai','typesafe'],noticeVersion:1,consent:true};await expect(changeProviderConsent(owner,consent)).resolves.toBe(true);await expect(changeProviderConsent(owner,{...consent,providers:['openai']})).rejects.toThrow('denied');});
  it('normalises storage failures without leaking details',async()=>{ready(null,{message:'PRIVATE_SENTINEL'});await expect(changeProviderContext(owner,input)).rejects.toMatchObject({message:'memory_use_unavailable'});ready();mocks.abortSignal.mockRejectedValue(new Error('PRIVATE_SENTINEL'));await expect(changeProviderContext(owner,input)).rejects.toMatchObject({message:'memory_use_unavailable'});});
  it('refuses malformed review or reservation success responses',async()=>{ready('PRIVATE_SENTINEL');await expect(readProviderContextReview(owner)).rejects.toThrow('unavailable');await expect(reservePreparedWork(owner,{runId:id,consentId:id,consentRevision:1,policyRevision:1,noveltyKey:'sample:revision:1'})).rejects.toThrow('unavailable');});
+ it('uses only atomic publication and refuses receipt fabrication through state changes',async()=>{ready();await expect(publishPreparedWork(owner,{noveltyKey:'sample:1',output:'Fictional draft',evidence:{}})).resolves.toBe(true);expect(mocks.rpc).toHaveBeenCalledWith('do_provider_prepare_publish',expect.objectContaining({p_owner:owner,p_key:'sample:1'}));await expect(changePreparedWorkState(owner,{noveltyKey:'sample:1',status:'prepared_draft',dismissedUntil:null})).rejects.toThrow('denied');});
 });

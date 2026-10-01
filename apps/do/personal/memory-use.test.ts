@@ -40,6 +40,10 @@ describe('inactive provider memory contract', () => {
     expect(() => validateMemorySnapshot(ownerId, scope, { ...consent, expiresAt: '2026-10-09T00:00:00Z' }, [{ ...record, expiresAt: '2026-10-10T00:00:00Z' }], now)).toThrow();
     expect(() => validateMemorySnapshot(ownerId, scope, consent, [null], now)).toThrow();
   });
+  it('normalises UUID identity before deduplication and context matching', () => {
+    expect(validateMemorySnapshot(ownerId.toUpperCase(), scope, { ...consent, selections: [{ recordId: record.id.toUpperCase(), revision: 1 }] }, [record], now).references[0].recordId).toBe(record.id);
+    expect(() => validateMemorySnapshot(ownerId, scope, { ...consent, selections: [{ recordId: record.id, revision: 1 }, { recordId: record.id.toUpperCase(), revision: 1 }] }, [record], now)).toThrow();
+  });
   it('rejects responsibility pause racing snapshot retrieval and storage failure', async () => {
     let checks = 0;
     await expect(readProviderMemory(store({ scopeIsCurrent: async () => ++checks === 1 }), ownerId, scope, consent.id, () => now)).rejects.toThrow('changed');

@@ -6,19 +6,19 @@ export const PROVIDER_MEMORY_NOTICE = 'Optionally share these selected, confirme
 const date = z.string().datetime({ offset: true });
 export const memoryUseScopeSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('assistant') }).strict(),
-  z.object({ kind: z.literal('responsibility'), responsibilityId: z.string().uuid(), responsibilityRevision: z.number().int().positive() }).strict(),
+  z.object({ kind: z.literal('responsibility'), responsibilityId: z.string().uuid().toLowerCase(), responsibilityRevision: z.number().int().positive() }).strict(),
 ]);
 export type MemoryUseScope = z.infer<typeof memoryUseScopeSchema>;
 export const memoryUseConsentSchema = z.object({
-  id: z.string().uuid(), revision: z.number().int().positive(), ownerId: z.string().uuid(),
+  id: z.string().uuid().toLowerCase(), revision: z.number().int().positive(), ownerId: z.string().uuid().toLowerCase(),
   noticeVersion: z.literal(PROVIDER_MEMORY_NOTICE_VERSION), providers: z.tuple([z.literal('openai'), z.literal('typesafe')]),
-  scope: memoryUseScopeSchema, selections: z.array(z.object({ recordId: z.string().uuid(), revision: z.number().int().positive() }).strict()).min(1).max(8),
+  scope: memoryUseScopeSchema, selections: z.array(z.object({ recordId: z.string().uuid().toLowerCase(), revision: z.number().int().positive() }).strict()).min(1).max(8),
   consentedAt: date, expiresAt: date, revokedAt: date.nullable(),
 }).strict().refine(value => new Set(value.selections.map(item => item.recordId)).size === value.selections.length, 'Duplicate selection');
 export type MemoryUseConsent = z.infer<typeof memoryUseConsentSchema>;
 /** Explicit owner confirmation is required; no proposal/dismissal inference enters this shape. */
 export const confirmedProviderMemorySchema = z.object({
-  id: z.string().uuid(), ownerId: z.string().uuid(), revision: z.number().int().positive(), subject: z.literal('self'),
+  id: z.string().uuid().toLowerCase(), ownerId: z.string().uuid().toLowerCase(), revision: z.number().int().positive(), subject: z.literal('self'),
   kind: z.enum(['goal', 'preference', 'constraint']), text: z.string().trim().min(1).max(1200).refine(value => !/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/u.test(value)),
   source: z.literal('owner_entered'), confirmedAt: date, observedAt: date, expiresAt: date,
   active: z.literal(true), nonSensitive: z.literal(true), use: z.literal('explicit_provider_context'),
@@ -28,7 +28,7 @@ export type MemoryContextReference = { recordId: string; revision: number; obser
 export type ProviderMemoryBundle = { data: { kind: ConfirmedProviderMemory['kind']; text: string }[]; references: MemoryContextReference[]; externalAction: 'none'; untrusted: true };
 
 export function validateMemorySnapshot(ownerId: string, scope: MemoryUseScope, consentRaw: unknown, recordsRaw: unknown[], now: string): ProviderMemoryBundle {
-  const owner = z.string().uuid().parse(ownerId);
+  const owner = z.string().uuid().toLowerCase().parse(ownerId);
   const purpose = memoryUseScopeSchema.parse(scope);
   const consent = memoryUseConsentSchema.parse(consentRaw);
   const clock = Date.parse(date.parse(now));
