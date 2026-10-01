@@ -1,0 +1,17 @@
+# Independent interview examples — local review
+
+Exact routes (development flag + loopback only): `/review/client-hub?example=airnz`, `?example=pwc`, `?example=deloitte`. Production review routes remain unavailable; `/studio/workspace` remains disabled pending separate owner activation. Original Site unchanged.
+
+Air NZ uses the original illustrative airport asset and a sample Auckland–Queenstown readiness journey. PwC uses a fictional client question, evidence checklist and bounded human handoff. Deloitte includes three separately illustrated ideas: Cloud Platform Client Landscape Map, Role-Ready Research Pack, Evidence-to-Conversation Brief. All identify Kate Hudson as author and independent concept/sample data, with zero checked sources. No official brand endorsement, customer relationship, live cloud inventory or external integration is implied.
+
+Local browser matrix captured 24 states: three examples × desktop1440/mobile375 × brief/board/presentation/pitch. Document width stayed375 on all12 mobile states. Board tray/canvas intentionally scroll internally. Airport/workflow artwork loaded; no marina fallback found. Diagram imagery appears in the brief, each relevant idea card, central selected card and presentation opening; the chosen Deloitte/PwC diagram also appears in the journey canvas. Pitch remains written evidence/pilot review, rather than duplicating hero imagery.
+
+Pixel review identified and fixed inherited action-panel heading/button contrast in the scoped migration CSS. This CSS-only follow-up needs a coordinated final production build; previous successful build covers all other implementation code. Full-page headless captures do not reliably paint sandboxed iframes outside the viewport; phone presentation acceptance uses visible viewport captures, not blank offscreen captures.
+
+Native keyboard opened the selected concept and traversed the presentation, selected a choice, checked consent and produced an editable sample draft. Preparation was disabled before consent, enabled afterwards. No draft download/share/save/generation occurred. An offscreen tray pointer click did not update selection through the CLI; a synthetic click and native keyboard worked. Complete touch/pointer/reduced-motion acceptance remains pending and is not inferred from screenshots.
+
+Production bundle scan covers14 emitted client chunks referenced by owner page. No excluded Adrian/private-studio URL, credential marker or marina term found. `privateNotes` occurrences are empty defaults and contract keys, not values. This does not audit unrelated historical application routes or prove no arbitrary future user-entered confidential payload.
+
+Frozen owner SQL hash `ce71a6f5cda98eee3a62ea48792d9e3a4e641d114082defaa0128a60e7668320` independently approved for disabled installation via parent relay. SQL stays outside migrations; no production installation/access rows/activation/purge schedule performed. Remaining operational approval, real cookie/PostgREST acceptance, recipient/media release, exact owner/quotas/retention remain separate.
+
+External application sample: use a small sanitised PDF or short walkthrough only after Kate approves its content and the illustrative airport asset rights. Keep the original private studio URL, client notes, saved records, tender extracts, contact/account details and original screenshots out. These local samples contain no private client records, official logos, invented contact or appointment. Sources must be checked before describing current Air NZ/Koru terms or Deloitte/PwC buyer demand.

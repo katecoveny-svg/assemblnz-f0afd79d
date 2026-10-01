@@ -1,0 +1,34 @@
+{
+  "chunks": [
+    "/_next/static/chunks/0-k0pm1qj8bxf.js",
+    "/_next/static/chunks/00r8j8.n6sa3u.js",
+    "/_next/static/chunks/06zdgljbw5u4w.js",
+    "/_next/static/chunks/08je6kkz_ga8q.js",
+    "/_next/static/chunks/0aaacrlf3u.55.js",
+    "/_next/static/chunks/0d~pnqol~9q97.js",
+    "/_next/static/chunks/0l5~4tpd33f24.js",
+    "/_next/static/chunks/0p4~0i26gno08.js",
+    "/_next/static/chunks/0uv5t8qg6-sd5.js",
+    "/_next/static/chunks/0wn-_sr6-gn5_.js",
+    "/_next/static/chunks/0z~9mqxr5gice.js",
+    "/_next/static/chunks/0~rbo7n_1acj_.js",
+    "/_next/static/chunks/1074d9-d-ewzz.js",
+    "/_next/static/chunks/17f1_8q0aq30x.js"
+  ],
+  "needles": [
+    "Adrian",
+    "adrian",
+    "SAP presentation",
+    "client-studio/d6cd487b",
+    "sk-proj-",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "privateNotes:",
+    "marina"
+  ],
+  "findings": {
+    ".next/static/chunks/0l5~4tpd33f24.js": {
+      "privateNotes:": 5
+    }
+  },
+  "interpretation": "privateNotes hits are empty defaults/contract keys; no private values or named contact payload. Scope is the 14 chunks referenced by owner page, not all historical app routes."
+}

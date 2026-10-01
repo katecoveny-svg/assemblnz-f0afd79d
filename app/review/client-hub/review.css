@@ -74,3 +74,6 @@
 .client-hub-migration-review .ib-pick-image img[src$=".svg"],
 .client-hub-migration-review .ib-node-image[src$=".svg"] { object-fit: contain; background: #F5F1F2; }
 @media(max-width:650px){.client-hub-migration-review .interview-cards { grid-template-columns: 1fr; }.client-hub-migration-review .interview-visual { padding: 64px 20px 24px; }}
+/* Preserve readable action-panel contrast against inherited app text rules. */
+.client-hub-migration-review .ib-form h3 { color: #FFFDFB; }
+.client-hub-migration-review .ib-form .ib-form-button { color: #230B23; }
