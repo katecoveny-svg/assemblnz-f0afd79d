@@ -36,8 +36,13 @@ export function overlap(a: Window[], b: Window[], minutes: number): Window | und
   const w = candidates[0];
   return w ? { start: new Date(w.start).toISOString(), end: new Date(w.start + minutes * 60000).toISOString() } : undefined;
 }
+function canonical(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(canonical);
+  if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).filter(([, v]) => v !== undefined).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0).map(([k, v]) => [k, canonical(v)]));
+  return value;
+}
 export async function digest(value: unknown): Promise<string> {
-  const bytes = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify(value)));
+  const bytes = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify(canonical(value))));
   return Array.from(new Uint8Array(bytes), b => b.toString(16).padStart(2, '0')).join('');
 }
 const peer = (who: Owner): Owner => who === 'alex' ? 'sam' : 'alex';
@@ -89,6 +94,7 @@ export const syntheticTransport: CoordinationTransport = {
 };
 export function approveProposal(s: Session, who: Owner, revision: number, exactDigest: string, now: number): Session {
   active(s, now);
+  if (s.proposal && now >= Date.parse(s.proposal.start)) throw new Error('Proposed time has started');
   if (!s.proposal || !s.digest || exactDigest !== s.digest || revision !== s.revision || !['proposal', 'agreed'].includes(s.status)) throw new Error('Review changed or unavailable');
   const approvals = { ...s.approvals, [who]: exactDigest };
   const agreed = approvals.alex === s.digest && approvals.sam === s.digest;
@@ -102,7 +108,7 @@ export function changePlan(s: Session, minutes: number, now: number): Session {
   active(s, now);
   if (s.revision >= 3) throw new Error('Maximum three rounds reached');
   overlap([], [], minutes);
-  return { ...s, revision: s.revision + 1, durationMinutes: minutes, status: 'disclosure', disclosed: {}, received: {}, approvals: {}, proposal: undefined, digest: undefined, receipt: undefined };
+  return { ...s, revision: s.revision + 1, durationMinutes: minutes, status: s.contacts.alex && s.contacts.sam ? 'disclosure' : 'contact', disclosed: {}, received: {}, approvals: {}, proposal: undefined, digest: undefined, receipt: undefined };
 }
 export function displayWindow(w: Window): string {
   const format = new Intl.DateTimeFormat('en-NZ', { timeZone: 'Pacific/Auckland', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' });

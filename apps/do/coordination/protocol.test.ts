@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { acceptContact, approveProposal, changePlan, close, disclose, displayWindow, fixture, overlap, syntheticTransport } from './protocol';
+import { acceptContact, approveProposal, changePlan, close, disclose, displayWindow, digest, fixture, overlap, syntheticTransport } from './protocol';
 const now = Date.parse('2026-10-04T19:00:00Z');
 async function prepare(noOverlap = false) {
   const f = fixture(noOverlap);
@@ -32,6 +32,14 @@ describe('synthetic EA coordination', () => {
     await expect(syntheticTransport.deliver(s, 'alex', { ...envelope, memory: 'private' }, now)).rejects.toThrow();
     await expect(syntheticTransport.deliver(s, 'alex', { ...envelope, payload: { ...envelope.payload, approve: true } }, now)).rejects.toThrow();
   });
+  it('preserves contact review when duration changes before mutual acceptance', () => {
+    const initial = changePlan(fixture().session, 45, now);
+    expect(initial.status).toBe('contact');
+    const one = changePlan(acceptContact(fixture().session, 'alex', now), 45, now);
+    expect(one.status).toBe('contact');
+    expect(one.contacts).toEqual({ alex: true, sam: false });
+    expect(acceptContact(one, 'sam', now).status).toBe('disclosure');
+  });
   it('invalidates all approvals on changed plan and bounds rounds', async () => {
     const { s, envelope } = await prepare();
     const approved = approveProposal(s, 'alex', s.revision, s.digest!, now);
@@ -56,6 +64,11 @@ describe('synthetic EA coordination', () => {
     const f = fixture(); const accepted = acceptContact(acceptContact(f.session, 'alex', now), 'sam', now);
     const privateWindow = { ...f.privateWindows.alex[0], notes: 'private' };
     await expect(disclose(accepted, 'alex', [privateWindow], now)).rejects.toThrow();
+  });
+  it('canonical digest ignores property order and new approvals reject started slots', async () => {
+    expect(await digest({ sam: { end: 'b', start: 'a' }, alex: ['x'] })).toBe(await digest({ alex: ['x'], sam: { start: 'a', end: 'b' } }));
+    const { s } = await prepare();
+    expect(() => approveProposal(s, 'alex', s.revision, s.digest!, Date.parse(s.proposal!.start))).toThrow('started');
   });
   it('uses instants through Auckland DST and timezone offsets', () => {
     const before = { start: '2026-09-27T01:30:00+12:00', end: '2026-09-27T03:30:00+13:00' };
