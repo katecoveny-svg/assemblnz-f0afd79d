@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 const mocks = vi.hoisted(() => ({ rpc: vi.fn(), from: vi.fn(), update: vi.fn(), eq: vi.fn() }));
 vi.mock('@/lib/supabase/service', () => ({ getServiceClient: () => mocks }));
-import { admitPersonalDoUsage } from '../personal-do-access';
+import { admitPersonalDoUsage, hasPersonalDoEntitlement } from '../personal-do-access';
 const owner = '00000000-0000-4000-8000-000000000001', id = '00000000-0000-4000-8000-000000000002';
 beforeEach(() => {
   vi.resetAllMocks();
@@ -12,6 +12,15 @@ beforeEach(() => {
 });
 afterEach(() => vi.unstubAllEnvs());
 describe('durable consumer admission', () => {
+  it.each([undefined, 'false'])('does not access consumer tables or RPCs with flag %s', async flag => {
+    vi.stubEnv('PERSONAL_DO_CONSUMER_ENABLED', flag);
+    expect(await hasPersonalDoEntitlement(owner)).toBe(false);
+    await expect(admitPersonalDoUsage(owner, {}, id)).rejects.toMatchObject({ code: 'consumer_unavailable', status: 503 });
+    expect(mocks.from).not.toHaveBeenCalled();
+    expect(mocks.rpc).not.toHaveBeenCalled();
+    expect(mocks.update).not.toHaveBeenCalled();
+  });
+
   it('binds request and digest to authenticated owner and all configured budgets, without storing text', async () => {
     const reservation = await admitPersonalDoUsage(owner, { message: 'fictional private request' }, id);
     expect(mocks.rpc).toHaveBeenCalledWith('admit_personal_do_request', expect.objectContaining({ p_owner: owner, p_request: id, p_price: 'price_test', p_daily: 5, p_monthly: 30, p_reserve: 200, p_owner_budget: 1000, p_global_budget: 10000, p_digest: expect.stringMatching(/^[a-f0-9]{64}$/) }));

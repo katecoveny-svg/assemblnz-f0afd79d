@@ -31,6 +31,19 @@ beforeEach(() => {
 afterEach(() => vi.unstubAllEnvs());
 
 describe('Personal DO live-provider orchestration (mocked providers)', () => {
+  it.each([undefined, 'false'])('preserves narrow own-account AI without consumer database admission when flag is %s', async flag => {
+    vi.stubEnv('PERSONAL_DO_CONSUMER_ENABLED', flag);
+    expect(await checkedPersonalAssistantAvailability(owner)).toMatchObject({ ready: true, model: 'gpt-6-astra' });
+    await expect(runPersonalAssistant(input, owner)).resolves.toMatchObject({ reply: output.reply });
+    expect(admitPersonalDoUsage).not.toHaveBeenCalled();
+    expect(hasPersonalDoEntitlement).not.toHaveBeenCalled();
+    expect(generateText).toHaveBeenCalledTimes(1);
+    expect(evaluateTypeSafePayload).toHaveBeenCalledTimes(1);
+    await expect(runPersonalAssistant(input, 'not-allowlisted')).rejects.toMatchObject({ code: 'pilot_access_required' });
+    expect(generateText).toHaveBeenCalledTimes(1);
+    expect(evaluateTypeSafePayload).toHaveBeenCalledTimes(1);
+  });
+
   it('reports configuration rather than claiming a live model was proved', () => {
     expect(personalAssistantAvailability(owner)).toMatchObject({ ready: true, model: 'gpt-6-astra' });
     expect(personalAssistantAvailability(null)).toMatchObject({ ready: false, signedIn: false });
