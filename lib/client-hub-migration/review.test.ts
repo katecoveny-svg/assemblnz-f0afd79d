@@ -4,6 +4,7 @@ import { canReadRecipientSnapshot, isLocalReviewEnabled } from './recipient-poli
 import { starterCompanyHub } from '@/components/client-hub-migration/original/lib/company-hub';
 import { buyerHtml } from '@/components/client-hub-migration/original/lib/pursuit-hub';
 import { GET } from '@/app/api/client-hub-migration/recipient/[id]/route';
+import { hubArtworkPolicy } from './visual-policy';
 
 describe('migration isolation and real component contracts', () => {
   it('roundtrips an original hub and prevents stale writes', async () => {
@@ -35,6 +36,35 @@ describe('migration isolation and real component contracts', () => {
     expect(html).toContain(payload.engine!.concepts[0].title);
     expect(html).not.toContain('PRIVATE-REVIEW-SENTINEL');
     expect(html).not.toContain('PRIVATE-RESEARCH-SENTINEL');
+  });
+});
+
+describe('contextual visual selection', () => {
+  it('does not borrow a landscape, boat scene or another client image for a custom brief', () => {
+    const hub = starterCompanyHub('custom', 'assembl');
+    expect(hub.design.frame.artwork).toBeUndefined();
+    for (const src of ['/cinematic/nadir-coast.jpg', '/cinematic/assembl-plum-aerial.jpg', '/cinematic/nadir-travel.jpg']) {
+      hub.design.frame.artwork = { src, alt: 'Legacy default illustration' };
+      expect(hubArtworkPolicy(hub)).toMatchObject({ src: '', provenance: 'prompt' });
+    }
+    hub.buyer = 'A different client';
+    hub.engine!.selected = hub.engine!.concepts[0].id;
+    const html = buyerHtml(hub);
+    expect(html).not.toContain('<img class="cinema-static"');
+    expect(html).not.toContain('/cinematic/nadir-coast.jpg');
+    expect(html).not.toContain('/cinematic/assembl-plum-aerial.jpg');
+    expect(html).toContain('data-choice="0"');
+  });
+  it('labels matched scenario illustrations and rejects a mismatched sector visual', () => {
+    const hub = starterCompanyHub('travel', 'assembl');
+    expect(hubArtworkPolicy(hub)).toMatchObject({ provenance: 'scenario', src: '/cinematic/nadir-travel.jpg' });
+    hub.design.frame.artwork = { src: '/cinematic/nadir-trade.jpg', alt: 'Trade example' };
+    expect(hubArtworkPolicy(hub).src).toBe('');
+  });
+  it('keeps explicit media selection distinct from relevance approval and media access', () => {
+    const hub = starterCompanyHub('custom', 'assembl');
+    hub.design.frame.artwork = { src: '/api/media?id=10000000-0000-4000-8000-000000000001', alt: 'Chosen owner visual' };
+    expect(hubArtworkPolicy(hub)).toMatchObject({ provenance: 'selected', label: 'Selected visual · review for this brief' });
   });
 });
 

@@ -1,7 +1,7 @@
+import {hubArtworkPolicy} from "@/lib/client-hub-migration/visual-policy";
 import type {Sector} from "./concept-engine";
 import type {Hub} from "./pursuit-hub";
 import {currentArtDirection,directionBrief,creativeBrandContext,livingReferenceDirection} from "./creative-direction";
-import {buyerImage} from "./client-studios";
 
 export const hubVisuals:Record<Sector,{title:string;subject:string;poster:string;legacy:string[];film:boolean}>={
  grocery:{title:"A week, assembled",subject:"Fresh household ingredients, a grocery basket and blank recipe cards assembling into a weekly meal plan",poster:"/cinematic/nadir-grocery.jpg",legacy:["/cinematic/concept-grocery.webp"],film:true},
@@ -24,10 +24,7 @@ export function hubVisualBrief(h:Hub):string{
 }
 
 export function cinemaArtwork(h:Hub):string{
- const visual=hubVisuals[h.engine?.sector||"custom"],src=h.design.frame.artwork?.src;
- const preset=!src||Object.values(hubVisuals).some(v=>v.poster===src||v.legacy.includes(src))||/^\/cinematic\/(?:nadir-(?:coast|river)|assembl-(?:brief|form))\.(?:png|jpg|webp)$/.test(src);
- if(preset){const buyer=buyerImage(h.buyer);if(buyer)return buyer;if(/^sap(?:\s|$)/i.test(h.seller))return "/cinematic/studio-sap-aerial.jpg";if(/^assembl$/i.test(h.seller))return "/cinematic/assembl-plum-aerial.jpg";}
- return !src||visual.legacy.includes(src)?visual.poster:src;
+ return hubArtworkPolicy(h).src;
 }
 
 export function isPresetArtwork(h:Hub):boolean{

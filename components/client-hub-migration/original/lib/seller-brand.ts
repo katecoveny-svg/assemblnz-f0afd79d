@@ -11,7 +11,7 @@ export const sellerBrandSchema=z.object({
 }).strict().superRefine((v,ctx)=>{if(![v.primary,v.onPrimary,v.paper,v.ink].every(x=>/^#[0-9a-f]{6}$/i.test(x)))return;if(contrast(v.primary,v.onPrimary)<4.5)ctx.addIssue({code:z.ZodIssueCode.custom,path:["onPrimary"],message:"Use stronger contrast for button text."});if(contrast(v.paper,v.ink)<4.5)ctx.addIssue({code:z.ZodIssueCode.custom,path:["ink"],message:"Use stronger contrast for body text."});});
 export type SellerBrand=z.infer<typeof sellerBrandSchema>;
 export type BrandDeck=z.infer<typeof deckSchema>;
-export const sellerFonts={sap72:'"SAP 72",Arial,Helvetica,sans-serif',system:'var(--font-body), "Instrument Sans", system-ui,sans-serif',arial:'Arial,Helvetica,sans-serif',editorial:'Georgia,serif'};
+export const sellerFonts={sap72:'"SAP 72",Arial,Helvetica,sans-serif',system:'var(--font-body, "Instrument Sans"), system-ui,sans-serif',arial:'Arial,Helvetica,sans-serif',editorial:'Georgia,serif'};
 export function defaultSellerBrand(seller:string):SellerBrand{
  const base={logo:"",notes:"",notesApproved:false,decks:[]};
  if(/^sap(?:\s|$)/i.test(seller))return {...base,primary:"#0070f2",onPrimary:"#ffffff",accent:"#1b90ff",paper:"#f5f9ff",ink:"#1d2d3e",font:"sap72"};

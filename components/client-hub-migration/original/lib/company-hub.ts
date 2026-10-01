@@ -9,6 +9,6 @@ export function starterCompanyHub(sector:Sector="grocery",seller:string=companie
  h.seller=seller;h.buyer=p.name;h.name=`${seller} for ${p.name}`.slice(0,140);
  h.engine={...starterEngine(sector),brief};h.sources=structuredClone(p.sources);h.offer=brief.slice(0,1200);
  h.film=undefined;h.reviewer="";h.privateNotes="";h.research="";
- h.design={...h.design,buyer:p.name,client:seller,brief,frame:{...h.design.frame,artwork:{src:p.image,alt:`Original illustrative ${sector} concept image`},tokens:{...h.design.frame.tokens,ink:p.accent,accent:p.accent,paper:"#f7f6f1"}}};
+ h.design={...h.design,buyer:p.name,client:seller,brief,frame:{...h.design.frame,artwork:sector==="custom"?undefined:{src:p.image,alt:`Original illustrative ${sector} concept image`},tokens:{...h.design.frame.tokens,ink:p.accent,accent:p.accent,paper:"#f7f6f1"}}};
  return h;
 }

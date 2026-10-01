@@ -1,4 +1,5 @@
 "use client";
+import PreviewImage from "@/components/client-hub-migration/PreviewImage";
 import { migrationFetch as fetch } from "@/lib/client-hub-migration/review-adapter";
 import {useEffect,useMemo,useState} from "react";
 import {BarChart3,ArrowUpRight,ShieldAlert} from "lucide-react";
@@ -106,7 +107,7 @@ export default function CampaignDashboard({company,localPreview,onOpen}:{company
 
     {loading?<p role="status">Loading saved campaigns…</p>:error?<p className="ep-error" role="alert">{error}</p>:!items.length?<div className="cs-empty"><h3>Your first campaign starts with a saved pitch.</h3><p>Add its stage, owner and next action in Deal plan, then save it.</p></div>:<div className="ep-campaigns ep-campaigns-table">
       {filtered.map(x=><article className={`ep-campaign ep-campaign-vuln ep-vuln-row-${x.vulnerability.level}`} key={x.id}>
-        <img src={x.image||clients[x.sector]?.image||clients.custom.image} alt={`Illustrative ${x.buyer} concept`}/>
+        <PreviewImage src={x.image||clients[x.sector]?.image||clients.custom.image} alt={`Illustrative ${x.buyer} concept`}/>
         <div>
           <span className="cs-eyebrow">{x.buyer} · {x.stage}</span>
           <h3>{x.name}</h3>

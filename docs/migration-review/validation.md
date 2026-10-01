@@ -1,23 +1,29 @@
 # Validation checkpoint — Oct1 2026
 
-- Frozen isolated dependency install: passed. Parent dependency tree is no longer shared; no parent checkout was changed.
-- Canvas package build: passed.
-- Full main TypeScript check: passed (`pnpm typecheck`).
-- Relevant Vitest: 6 passed. Original hub schema roundtrip, stale-write rejection, memory isolation, no native network fallback, original interactive HTML renderer with private sentinels excluded, grant identity/scope/status/expiry checks, unavailable recipient endpoint and production/host gating.
-- Scoped lint on new adapter/policy/tests/routes: passed. This does not assert that all copied historical components meet today's full-repo lint rules.
-- Brand guard: passed. Public-front-door guard: passed. Macron guard: passed with local IPC enabled. Diff whitespace check: passed.
-- Local Next webpack development route: `/review/client-hub` HTTP200; compiled actual ConceptStudio dependency closure. Recipient API: HTTP404 with private/no-store. Local server stopped after proof; no browser tab touched.
-- Original five dirty-file SHA256 checks: all unchanged.
-- Source dependency inventory:58 files, no unresolved local imports.
-- Summerset/Ryman-family legacy room API code exercised without provider credentials and synthetic request data only: both503, no external provider call. This is failure-path proof, not live vision output.
+- Frozen isolated dependency install and canvas package build: passed. No parent dependency tree or original checkout changed.
+- Full TypeScript check: passed after final visual/mobile changes (`pnpm typecheck`).
+- Relevant Vitest: **9 passed**. Covers original schema/revision/memory behaviour, no native transport fallback, original renderer/private sentinel exclusion, recipient identity/scope/status/expiry and local-review gates, unavailable recipient endpoint, custom-image rejection and illustration/media provenance.
+- Scoped ESLint across all copied components, new library, review UI and recipient API: **zero errors/warnings**. No global rules disabled. One narrow documented native-image exception supports private/blob/canvas previews without an optimisation proxy.
+- Brand/front-door/macron guards passed on final rerun. Diff whitespace check passed.
+- Development route HTTP200; actual ConceptStudio dependency closure. Recipient API404/private,no-store.
+- All original58 source hashes and five dirty-file hashes rechecked unchanged at this checkpoint.
+- Legacy Summerset/Ryman-family room APIs returned503 on synthetic no-key requests. No paid/provider calls or live vision output claimed.
 
-## Checks not green
+## Browser proof
 
-- Normal production Turbopack build failed in existing Google font generation: cannot resolve `@vercel/turbopack-next/internal/font/google/font` and import-map query errors, including existing Cormorant Garamond modules. No production build acceptance claimed.
-- Webpack production alternative failed at unchanged `components/brand/SplineScene.tsx` importing `@splinetool/react-spline` root export. That component and package version are unchanged by this migration. No unrelated runtime/dependency workaround added.
-- No screenshot/mobile/keyboard/reduced-motion browser interaction proof: supported local browser controller is not exposed in this worker. HTTP and pure renderer tests are narrower evidence.
-- No authenticated production storage, reconciled deployed source, production records/media, working paid image output or live recipient grant/media isolation proof. None implied by passing fixture tests.
+Separate headless `hub-migration` session against loopback only. Signed-in Chrome/DO/Vercel tabs untouched. Synthetic Example Studio/Fictional community housing team brief only.
 
-## Release status
+- Editable company/client/brief values shown in original opportunity UI.
+- Original idea board: native ArrowRight moved an idea from409px to419px.
+- Original renderer: four chapters, selectable priorities, consent-gated Prepare and editable prepared draft. Native Enter produced the draft containing explicit no-send/order/booking/approval statement. Download not invoked.
+- Mobile375px: document scrollWidth375; no broken owner-page images. Header actions wrap, Intelligence is visible, workflow rail scrolls internally. Prepared draft readable in inspected screenshot.
+- Desktop1440px: neutral visual prompt, rounded split hero and working brief inspected. No unrelated boats or default landscape.
+- Browser console after clear had no messages. This is a scoped development check, not production telemetry proof.
+- Pointer clicks in the automation session did not always settle the requested state; keyboard navigation was confirmed. Full pointer/touch and reduced-motion acceptance remain open.
+- Final evidence: `evidence/desktop-final-opportunity.png`, `evidence/mobile-final-prepared.png`. Earlier screenshots are intermediate evidence, including the old mobile overflow; they are not final acceptance images. Full-page capture of the mobile prepared state places the sticky main navigation at its current scroll position.
 
-Local code checkpoint only. Publication authority is recorded, but this branch is **not ship-ready**. Keep original Site working. Coordinate browser proof and build recovery with root; reconcile source/data and implement authoritative storage/access boundaries before any real-content cutover. Audit confidential presets in client bundles before any deployment—even a gated page is not permission to ship private material in JavaScript.
+## Production build and release blockers
+
+Prior Turbopack build failed in existing Google-font generation; prior webpack alternative failed at unchanged Spline root import. Both attempts ended. Parent reports dedicated font repair has two clean builds, with patch pending CI. This branch has not yet consumed/reverified that patch. **No production build active here.** Only isolated dev server3187 and headless browser run. Await the allocated shared build slot; do not claim production build acceptance.
+
+No reconciled deployed Site source, production records/media transfer, authoritative authenticated persistence, live paid image output or recipient grant/media isolation proof. Confidential presets in client bundles need audit before deployment. Keep original Site working; no real-content cutover or sharing authorised by fixture success.

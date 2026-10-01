@@ -5,7 +5,7 @@
 ## Identity and provenance
 
 - Target repo: `katecoveny-svg/assemblnz-f0afd79d`; local branch `review/client-hub-migration`.
-- Target baseline: `beab36a512422a6c4571e78c5dad797d76d6f04a` (main, separate from DO1429/source-card work).
+- Initial target baseline: `beab36a512422a6c4571e78c5dad797d76d6f04a`. Current production main `106adfb9a6a9469d86c7d5942d97171ebb9f595b` (including PR1432) was merged into this isolated branch; no DO/source implementation changes are made here.
 - Original Site: `appgprj_6aa356a9700081919f7959cc70c9f6d8`, Sep14 checkout, commit `f9c752ed5d5107ebac9f675aa6d14bce116c01c1`.
 - The 58 copied dependency files are inventoried with original SHA256 and byte sizes in `source-inventory.json`. This is an archival checkout plus five local modifications, **not a reconciled export of today's deployed version**.
 - `dirty-source-hashes.json` covers all five modified original files. The original checkout, environment and data are untouched. No credentials or production records were copied.
@@ -26,7 +26,7 @@ Company and client fields can be edited for arbitrary briefs. Intelligence-linke
 - Radar/saved intelligence, campaign collection, owned film/media, knowledge records and company agent connections are unconnected. Empty fixtures do **not** establish empty production data.
 - Sharing controls are disabled. The old source's bearer/forwardable link behaviour is not accepted for the new system. The recipient API is deliberately 404/no-store with no connected grant repository.
 - Review page requires development mode, explicit flag and a loopback host. It cannot be opened through a production host. This is not sufficient permission to ship confidential presets in client bundles; audit/sanitise bundle content before publication.
-- Source artwork paths are not copied wholesale. Full visual/media parity remains open; missing illustrative assets must not be mistaken for production media loss.
+- Custom briefs use a neutral visual-direction prompt instead of unrelated marina/boats or another client’s imagery. Matching sector illustrations are explicitly labelled illustrative; selected media does not imply approval or access. Rounded clipping and 375px owner-layout corrections are scoped to this review. No stock assets are copied. Full production visual/media parity remains open.
 - `scripts/migration-review/import-hub.py` records the initial import. Do not rerun it over subsequent review adaptations. Review deltas live in git; original hashes remain the provenance authority.
 
 ## Routes

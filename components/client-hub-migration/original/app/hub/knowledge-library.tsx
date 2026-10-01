@@ -1,4 +1,5 @@
 "use client";
+import {useCommittedCallback} from "@/lib/client-hub-migration/use-committed-callback";
 import { migrationFetch as fetch } from "@/lib/client-hub-migration/review-adapter";
 import {useEffect,useState} from "react";
 import {FileText,Plus,Upload} from "lucide-react";
@@ -10,7 +11,8 @@ async function read(r:Response){const d=await r.json() as {error?:string;items:K
 export default function KnowledgeLibrary({company,buyer,localPreview=false,seed="",onUsed}:{company:string;buyer:string;localPreview?:boolean;seed?:string;onUsed?:()=>void}){
  const [items,setItems]=useState<KnowledgeRecord[]>([]),[selected,setSelected]=useState<KnowledgeRecord|null>(null),[draft,setDraft]=useState<Knowledge>(()=>({...blankKnowledge(company,buyer),text:seed,title:seed?"New learning to review":""})),[busy,setBusy]=useState(""),[message,setMessage]=useState(""),[error,setError]=useState("");
  async function refresh(){try{if(localPreview){setItems(JSON.parse(localStorage.getItem(localKey(company))||"[]"));return;}setItems((await read(await fetch(`/api/knowledge?company=${encodeURIComponent(company)}`))).items);}catch(x){setError((x as Error).message);}}
- useEffect(()=>{void refresh();},[company]);
+ const refreshWorkspace=useCommittedCallback(refresh);
+ useEffect(()=>{void refreshWorkspace();},[company,localPreview,refreshWorkspace]);
  function change(p:Partial<Knowledge>){setDraft(x=>({...x,...p,status:"Draft",reviewedAt:""}));setMessage("");}
  async function upload(file?:File){if(!file)return;setBusy("Reading document text");setError("");try{const text=await extractDocument(file);if(localPreview){change({text,title:file.name,filename:file.name,fileKey:"",fileType:file.type});setMessage("Text extracted for this device preview. The original file is stored only in the signed-in hub.");return;}const form=new FormData();form.set("file",file);form.set("company",company);const saved=await read(await fetch("/api/knowledge",{method:"POST",body:form}));change({text,title:file.name,filename:saved.filename,fileKey:saved.fileKey,fileType:saved.fileType});setMessage("Text extracted. Check it below, save a draft, then approve it for the agent.");}catch(x){setError((x as Error).message);}finally{setBusy("");}}
  async function save(status:Knowledge["status"]){setError("");setBusy("Saving knowledge");try{const payload={...draft,status,reviewedAt:status==="Approved"?new Date().toISOString():""};if(!payload.title.trim()||!payload.text.trim())throw Error("Add a title and the relevant text.");if(status==="Approved"&&!payload.reviewer.trim())throw Error("Enter the reviewer’s name before approving this reference.");const contentChanged=selected&&(selected.payload.text!==draft.text||selected.payload.title!==draft.title||selected.payload.buyer!==draft.buyer||selected.payload.fileKey!==draft.fileKey);if(status==="Approved"&&contentChanged)throw Error("Save these changes as a draft first, then approve the saved version.");let item:KnowledgeRecord;
