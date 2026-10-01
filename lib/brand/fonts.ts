@@ -1,5 +1,6 @@
+import { preserveSingleFontStyle } from '@/lib/fonts/local-font-metadata';
 import localFont from 'next/font/local';
-import { JetBrains_Mono, Lato, Manrope, Orbitron, Playfair_Display, Poppins, Public_Sans } from 'next/font/google';
+
 import type { NextFontWithVariable } from 'next/dist/compiled/@next/font/dist/types';
 
 // Shared body / mono — most brands share Inter body + JetBrains Mono.
@@ -13,10 +14,14 @@ const inter = localFont({
   adjustFontFallback: false,
   fallback: ['Inter Build Fallback'],
 });
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
+const jetbrainsMono = localFont({
+  src: '../fonts/assets/jetbrains-mono-normal.woff2',
+  weight: '100 800',
+  style: 'normal',
   variable: '--font-brand-mono',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['JetBrains Mono Build Fallback'],
 });
 
 // Per-brand display / specialty fonts.
@@ -30,15 +35,23 @@ const interTight = localFont({
   adjustFontFallback: false,
   fallback: ['Inter Tight Build Fallback'],
 });
-const manrope = Manrope({
-  subsets: ['latin'],
+const manrope = localFont({
+  src: '../fonts/assets/manrope-normal.woff2',
+  weight: '200 800',
+  style: 'normal',
   variable: '--font-brand-display',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Manrope Build Fallback'],
 });
-const playfair = Playfair_Display({
-  subsets: ['latin'],
+const playfair = localFont({
+  src: '../fonts/assets/playfair-display-normal.ttf',
+  weight: '400 900',
+  style: 'normal',
   variable: '--font-brand-display',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Playfair Display Build Fallback'],
 });
 const cormorant = localFont({
   src: [
@@ -57,32 +70,46 @@ const cormorant = localFont({
 // AIRONAUT: Orbitron Bold 700 as display, Lato Regular/Medium as body.
 // Real brand kit — Orbitron for the uppercase wordmark & taglines, Lato for
 // paragraph copy.
-const orbitron = Orbitron({
-  subsets: ['latin'],
+const orbitron = localFont({
+  src: '../fonts/assets/orbitron-normal.ttf',
+  weight: '700',
+  style: 'normal',
   variable: '--font-brand-display',
   display: 'swap',
-  weight: ['700'],
+  adjustFontFallback: false,
+  fallback: ['Orbitron Build Fallback'],
 });
 // Note: Lato via next/font/google only ships 100/300/400/700/900. We use
 // 400 (Regular) for body and 700 (Bold) as the emphasised weight — the brief
 // asked for 400+500, but 500 is not published for Lato; 700 is the closest
 // medium-weight substitute the family actually ships.
-const lato = Lato({
-  subsets: ['latin'],
+const latoLocal = localFont({
+  src: [
+    { path: '../fonts/assets/lato-normal-400.ttf', weight: '400', style: 'normal' },
+    { path: '../fonts/assets/lato-normal-700.ttf', weight: '700', style: 'normal' },
+  ],
   variable: '--font-brand-body',
   display: 'swap',
-  weight: ['400', '700'],
+  adjustFontFallback: false,
+  fallback: ['Lato Build Fallback'],
 });
+const lato = preserveSingleFontStyle(latoLocal, 'normal');
 
 // Pearl canon (2026-07-17): Happy Tails reads the Cormorant display + Inter
 // body like the rest of the pearl surfaces (their keeper workspace already
 // sets Cormorant via --font-keeper-serif). Public Sans stays for Toa.
-const publicSans = Public_Sans({
-  subsets: ['latin'],
+const publicSansLocal = localFont({
+  src: [
+    { path: '../fonts/assets/public-sans-normal.woff2', weight: '400', style: 'normal' },
+    { path: '../fonts/assets/public-sans-normal.woff2', weight: '500', style: 'normal' },
+    { path: '../fonts/assets/public-sans-normal.woff2', weight: '700', style: 'normal' },
+  ],
   variable: '--font-brand-body',
   display: 'swap',
-  weight: ['400', '500', '700'],
+  adjustFontFallback: false,
+  fallback: ['Public Sans Build Fallback'],
 });
+const publicSans = preserveSingleFontStyle(publicSansLocal, 'normal');
 
 // TOA ARCHITECTS: real site (toa.nz) sets Gotham Book/Bold uppercase headings
 // with wide tracking + Archer Book slab body, read from computed CSS
@@ -105,12 +132,18 @@ const montserrat = localFont({
 
 // MOANA (concept pilot): a clean nautical geometric sans — Poppins as display,
 // Lato (already imported for Aironaut) as body. JetBrains Mono for mono.
-const poppins = Poppins({
-  subsets: ['latin'],
+const poppinsLocal = localFont({
+  src: [
+    { path: '../fonts/assets/poppins-normal-500.woff2', weight: '500', style: 'normal' },
+    { path: '../fonts/assets/poppins-normal-600.woff2', weight: '600', style: 'normal' },
+    { path: '../fonts/assets/poppins-normal-700.woff2', weight: '700', style: 'normal' },
+  ],
   variable: '--font-brand-display',
   display: 'swap',
-  weight: ['500', '600', '700'],
+  adjustFontFallback: false,
+  fallback: ['Poppins Build Fallback'],
 });
+const poppins = preserveSingleFontStyle(poppinsLocal, 'normal');
 
 // Air NZ needs Fraunces Italic 900 as body per brief.
 const frauncesItalicBody = localFont({

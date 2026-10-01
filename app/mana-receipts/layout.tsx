@@ -1,6 +1,7 @@
+import { preserveSingleFontStyle } from '@/lib/fonts/local-font-metadata';
 import localFont from 'next/font/local';
 import type { ReactNode } from 'react';
-import { Lato, Space_Mono } from 'next/font/google';
+
 
 /**
  * Mana Receipts — the honest trust page. Self-contained CANON type system
@@ -27,19 +28,30 @@ const cormorant = localFont({
   fallback: ['Cormorant Garamond Build Fallback'],
 });
 
-const lato = Lato({
-  subsets: ['latin'],
-  weight: ['400', '700', '900'],
+const latoLocal = localFont({
+  src: [
+    { path: '../../lib/fonts/assets/lato-normal-400.ttf', weight: '400', style: 'normal' },
+    { path: '../../lib/fonts/assets/lato-normal-700.ttf', weight: '700', style: 'normal' },
+    { path: '../../lib/fonts/assets/lato-normal-900.ttf', weight: '900', style: 'normal' },
+  ],
   variable: '--mana-body',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Lato Build Fallback'],
 });
+const lato = preserveSingleFontStyle(latoLocal, 'normal');
 
-const spaceMono = Space_Mono({
-  subsets: ['latin'],
-  weight: ['400', '700'],
+const spaceMonoLocal = localFont({
+  src: [
+    { path: '../../lib/fonts/assets/space-mono-normal-400.woff2', weight: '400', style: 'normal' },
+    { path: '../../lib/fonts/assets/space-mono-normal-700.woff2', weight: '700', style: 'normal' },
+  ],
   variable: '--mana-mono',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Space Mono Build Fallback'],
 });
+const spaceMono = preserveSingleFontStyle(spaceMonoLocal, 'normal');
 
 export default function ManaReceiptsLayout({ children }: { children: ReactNode }) {
   return (

@@ -1,57 +1,55 @@
-# Remaining build-time Google font loaders
+# Noncanonical Google loader repair
 
-Inventory against main `dd241e532519f00094a221d094a584840544ca06`, before the Montserrat follow-up. 34 declarations across 15 families. No matching licensed local assets existed for these families; existing bundled assets are Inter, Inter Tight, Cormorant Garamond and Fraunces. The separate Plus Jakarta Sans/Fraunces OG assets do not substitute for another family.
+Baseline: main `71ac61ac0461d13096e5e5fa8faa23a8830e13f8`. This coherent batch converts all 28 remaining noncanonical declarations across 11 families in 14 modules. Instrument Sans and IBM Plex Mono remain the only production Google imports (three declarations, two families); their options are guarded unchanged. This is not a claim that all font builds are offline.
 
-The minimal follow-up converts only the two Montserrat declarations. Other entries are explicit follow-up scope, not a claim that build-time Google requests have all been removed. Canonical Instrument Sans and IBM Plex Mono remain unchanged.
+## Verified failure
 
-| Family | Module / declaration | Requested weights | Styles | Local asset in this follow-up |
-| --- | --- | --- | --- | --- |
-| JetBrains Mono | `lib/brand/fonts.ts` / `jetbrainsMono` | `variable default` | `normal` | None |
-| Manrope | `lib/brand/fonts.ts` / `manrope` | `variable default` | `normal` | None |
-| Playfair Display | `lib/brand/fonts.ts` / `playfair` | `variable default` | `normal` | None |
-| Orbitron | `lib/brand/fonts.ts` / `orbitron` | `['700']` | `normal` | None |
-| Lato | `lib/brand/fonts.ts` / `lato` | `['400', '700']` | `normal` | None |
-| Public Sans | `lib/brand/fonts.ts` / `publicSans` | `['400', '500', '700']` | `normal` | None |
-| Montserrat | `lib/brand/fonts.ts` / `montserrat` | `['300', '500', '700']` | `normal` | `montserrat-normal.woff2` |
-| Poppins | `lib/brand/fonts.ts` / `poppins` | `['500', '600', '700']` | `normal` | None |
-| Lato | `components/homepage/HeroGolden.tsx` / `lato` | `['400', '900']` | `normal` | None |
-| Space Mono | `components/homepage/HeroGolden.tsx` / `spaceMono` | `['400', '700']` | `normal` | None |
-| Zilla Slab | `components/ops/toa/ArcHeroBand.tsx` / `zilla` | `['400']` | `['italic']` | None |
-| Lato | `app/pilot/layout.tsx` / `lato` | `['400', '700', '900']` | `normal` | None |
-| Space Mono | `app/pilot/layout.tsx` / `spaceMono` | `['400', '700']` | `normal` | None |
-| DM Sans | `app/alphassembl/layout.tsx` / `dmSans` | `['500', '600', '700']` | `normal` | None |
-| Lato | `app/demo/toa-architects/page.tsx` / `lato` | `['400', '700']` | `normal` | None |
-| Lato | `app/mana-receipts/layout.tsx` / `lato` | `['400', '700', '900']` | `normal` | None |
-| Space Mono | `app/mana-receipts/layout.tsx` / `spaceMono` | `['400', '700']` | `normal` | None |
-| Space Mono | `app/customers/happy-tails/keeper/layout.tsx` / `mono` | `['400', '700']` | `normal` | None |
-| Lato | `app/agents/layout.tsx` / `lato` | `['400', '700', '900']` | `normal` | None |
-| Space Mono | `app/agents/layout.tsx` / `spaceMono` | `['400', '700']` | `normal` | None |
-| Instrument Sans | `app/layout.tsx` / `instrumentDisplay` | `['400', '500', '600', '700']` | `normal` | None |
-| Instrument Sans | `app/layout.tsx` / `instrumentBody` | `['400', '500', '600', '700']` | `normal` | None |
-| IBM Plex Mono | `app/layout.tsx` / `plexMono` | `['400', '700']` | `normal` | None |
-| Archivo Black | `app/layout.tsx` / `archivoBlack` | `['400']` | `normal` | None |
-| Space Mono | `app/customers/lula-inn/hospo/layout.tsx` / `spaceMono` | `['400', '700']` | `normal` | None |
-| Lato | `app/assembling/fonts.ts` / `dashFont` | `['400', '700', '900']` | `['normal', 'italic']` | None |
-| Space Mono | `app/assembling/fonts.ts` / `dashMono` | `['400', '700']` | `normal` | None |
-| Montserrat | `app/customers/contact-energy/layout.tsx` / `montserrat` | `['400', '500', '600', '700', '900']` | `normal` | `montserrat-normal.woff2` |
-| Roboto | `app/customers/everyday-rewards/ops/layout.tsx` / `roboto` | `['400', '500', '700', '900']` | `normal` | None |
-| Space Mono | `app/customers/everyday-rewards/ops/layout.tsx` / `spaceMono` | `['400', '700']` | `normal` | None |
-| Roboto | `app/customers/everyday-rewards/assembled/layout.tsx` / `roboto` | `['400', '500', '700', '900']` | `normal` | None |
-| Space Mono | `app/customers/everyday-rewards/assembled/layout.tsx` / `spaceMono` | `['400', '700']` | `normal` | None |
-| Roboto | `app/customers/everyday-rewards/dash/layout.tsx` / `roboto` | `['400', '500', '700', '900']` | `normal` | None |
-| Space Mono | `app/customers/everyday-rewards/dash/layout.tsx` / `spaceMono` | `['400', '700']` | `normal` | None |
+PR1449 head `1ff930950cfa4189a0b65dd22ff62c3827f49e55`, DO run [36864175643](https://github.com/katecoveny-svg/assemblnz-f0afd79d/actions/runs/36864175643), original job 110375449539: 36 Turbopack errors from `[next]/internal/font/google/roboto_b0140833.module.css`, imported by Everyday Rewards layouts. The retained log contains both `next/font/google queries have exactly one entry` and unresolved internal Google font modules. Its unchanged retry passed. This confirms the existing intermittent parser exposure; repeating a build does not remove it. Earlier Montserrat and DM Sans repairs are already merged.
 
-## Migration constraints
+## Exact declaration scope
 
-- Every remaining family uses the same vulnerable Google loader. A passing preview does not establish a durable parser fix.
-- A subsequent migration must retain each declaration’s exact weights/styles/variables and className/style behavior. Static families need their original weight-specific files, not a different family or fabricated variable range.
-- Canonical Instrument Sans/Plex Mono need explicit reviewer scrutiny before changing their loader, including served version, glyphs, metrics, normal style reset and visual checks. Family identity must stay the same.
-- Preserve Next 16.2.6 fallback metrics and pinned official source provenance/licences. Check reserved font names before conversion.
-- Reuse checked-in assets only where family, style, axis defaults and weight coverage match. Cache output alone is not licensed source provenance.
-- Extend the existing font contract tests and repeat full builds in isolated output directories. No dependency/bundler switch or skipped build.
+| Module | Declaration | Family | Weights | Styles | Variable |
+| --- | --- | --- | --- | --- | --- |
+| `components/homepage/HeroGolden.tsx` | `lato` | Lato | `['400', '900']` | `normal` | `none` |
+| `components/homepage/HeroGolden.tsx` | `spaceMono` | Space Mono | `['400', '700']` | `normal` | `none` |
+| `components/ops/toa/ArcHeroBand.tsx` | `zilla` | Zilla Slab | `['400']` | `['italic']` | `none` |
+| `app/pilot/layout.tsx` | `lato` | Lato | `['400', '700', '900']` | `normal` | `'--mk-display'` |
+| `app/pilot/layout.tsx` | `spaceMono` | Space Mono | `['400', '700']` | `normal` | `'--mk-mono'` |
+| `lib/brand/fonts.ts` | `jetbrainsMono` | JetBrains Mono | `variable 100–800` | `normal` | `'--font-brand-mono'` |
+| `lib/brand/fonts.ts` | `manrope` | Manrope | `variable 200–800` | `normal` | `'--font-brand-display'` |
+| `lib/brand/fonts.ts` | `playfair` | Playfair Display | `variable 400–900` | `normal` | `'--font-brand-display'` |
+| `lib/brand/fonts.ts` | `orbitron` | Orbitron | `['700']` | `normal` | `'--font-brand-display'` |
+| `lib/brand/fonts.ts` | `lato` | Lato | `['400', '700']` | `normal` | `'--font-brand-body'` |
+| `lib/brand/fonts.ts` | `publicSans` | Public Sans | `['400', '500', '700']` | `normal` | `'--font-brand-body'` |
+| `lib/brand/fonts.ts` | `poppins` | Poppins | `['500', '600', '700']` | `normal` | `'--font-brand-display'` |
+| `app/mana-receipts/layout.tsx` | `lato` | Lato | `['400', '700', '900']` | `normal` | `'--mana-body'` |
+| `app/mana-receipts/layout.tsx` | `spaceMono` | Space Mono | `['400', '700']` | `normal` | `'--mana-mono'` |
+| `app/demo/toa-architects/page.tsx` | `lato` | Lato | `['400', '700']` | `normal` | `none` |
+| `app/agents/layout.tsx` | `lato` | Lato | `['400', '700', '900']` | `normal` | `'--mk-display'` |
+| `app/agents/layout.tsx` | `spaceMono` | Space Mono | `['400', '700']` | `normal` | `'--mk-mono'` |
+| `app/layout.tsx` | `archivoBlack` | Archivo Black | `['400']` | `normal` | `'--font-editorial'` |
+| `app/assembling/fonts.ts` | `dashFont` | Lato | `['400', '700', '900']` | `['normal', 'italic']` | `'--font-dash-sans'` |
+| `app/assembling/fonts.ts` | `dashMono` | Space Mono | `['400', '700']` | `normal` | `'--font-dash-mono'` |
+| `app/customers/everyday-rewards/assembled/layout.tsx` | `roboto` | Roboto | `['400', '500', '700', '900']` | `normal` | `'--edr-body'` |
+| `app/customers/everyday-rewards/assembled/layout.tsx` | `spaceMono` | Space Mono | `['400', '700']` | `normal` | `'--edr-mono'` |
+| `app/customers/everyday-rewards/ops/layout.tsx` | `roboto` | Roboto | `['400', '500', '700', '900']` | `normal` | `'--edr-body'` |
+| `app/customers/everyday-rewards/ops/layout.tsx` | `spaceMono` | Space Mono | `['400', '700']` | `normal` | `'--edr-mono'` |
+| `app/customers/lula-inn/hospo/layout.tsx` | `spaceMono` | Space Mono | `['400', '700']` | `normal` | `'--lula-mono'` |
+| `app/customers/everyday-rewards/dash/layout.tsx` | `roboto` | Roboto | `['400', '500', '700', '900']` | `normal` | `'--edr-body'` |
+| `app/customers/everyday-rewards/dash/layout.tsx` | `spaceMono` | Space Mono | `['400', '700']` | `normal` | `'--edr-mono'` |
+| `app/customers/happy-tails/keeper/layout.tsx` | `mono` | Space Mono | `['400', '700']` | `normal` | `'--font-keeper-mono'` |
 
-## DM Sans follow-up evidence
+## Preservation and provenance
 
-Maintenance exact-head CI run [36837881883](https://github.com/katecoveny-svg/assemblnz-f0afd79d/actions/runs/36837881883), reconciled head `d46bc0f9e`, failed after type/core tests passed: six Turbopack errors in `[next]/internal/font/google/dm_sans_b4859cc7.module.css`, imported by `app/alphassembl/layout.tsx`. The log contains both “next/font/google queries have exactly one entry” and unresolved `@vercel/turbopack-next/internal/font/google/font`. The Vercel preview passed that head. This is the same intermittent parser exposure; repeating the build does not remove it.
+- Extend the existing customer-font manifest, fallback CSS, tests and two-clean-build workflow. No bundler, dependency, settings, database or consumer logic changes.
+- Static faces retain individual original weights; variable requests retain original ranges. Roboto width is pinned at 100 to match Google’s normal-width response. Normal/italic and mixed-style requests are retained.
+- Multi-source single-style local loaders omit Google’s exported style reset. A small pure metadata helper restores that className/style contract without adding a fontWeight or altering the CSS variable. Single-source declarations use native localFont metadata; mixed-style declarations remain unset as before.
+- Official source pins are in assets/customer-fonts.json: Lato 90abd17b4f97671435798b6147b698aa9087612f (Version 1.104), Manrope 8f9a401dbb3793e0d1264b15d96aa253f05280f5 (Version 4.504), matching Google’s currently served versions. Other families use 9710da1eacb3be272583c3224dcb70f9da6eadbb.
+- Lato, Orbitron and Playfair Display declare reserved font names. Their original TTF binaries are bundled byte-for-byte unchanged (assetSHA equals sourceSHA), preserving licence/name metadata and avoiding a modified-font rename. Other faces use full WOFF2 compression; no glyph subsetting.
+- Lato 1.104 and Orbitron already lack Māori macron glyphs in Google-served files. Their original glyph inventory and adjusted Arial fallback are preserved and tested. The repair does not silently upgrade Lato to 2.015; canonical Instrument Sans continues to carry complete macron coverage.
+- assets/noncanonical-google-parity.json records 30 face/weight comparisons across 11 families: served and packaged versions match; all shared glyph advance widths match exactly (maximum delta 0). Source/asset checksums and OFL notices are bundled.
+- Current Google fallback metrics are unchanged for every family. Production code import guard prevents reintroducing noncanonical Google loaders. Canonical migration requires a separate review.
 
-The separate DM Sans patch converts only `dmSans` in that layout (normal 500/600/700, `--font-alpha-display`). It pins optical size14, matching the currently Google-served outlines, rather than silently using the source TTF optical-size9 default. Source and served versions are4.004. Canonical Instrument Sans/Plex Mono remain unchanged; 13 other Google families remain after Montserrat and DM Sans.
+## Proof gates
+
+Focused font contracts, canonical options, API metadata, identities, axes, glyph/fallback behavior, unchanged RFN binaries and licences are automated. Full builds run twice without the first Next build cache. Representative browser font loading and normal/italic inheritance proof are required. No local full build starts before the coordinated CPU slot is allocated.
