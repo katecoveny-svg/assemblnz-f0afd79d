@@ -6,6 +6,7 @@ Do not extract something merely because it might be reused. Prefer extraction af
 
 | Primitive | Status | Location | Used by | Tests/evals | Notes |
 |---|---|---|---|---|---|
+| NZ evidence service contracts | inactive review slice | `lib/nz-evidence/` | future authenticated connected dots; no runtime registration | `lib/nz-evidence/service.test.ts` | closed auth/NZBN adapters, mock-tested official wire contract, owner/version/page-cited fictional preparation receipts; no provider, charging, ingestion or production change; see `docs/services/nz-evidence-pilot.md` |
 | CustomerJourney foundation | existing | `lib/journey/` | journey surfaces | see journey docs/evals | reusable journey runtime |
 | Business/customer context | existing | `lib/customers/` + related genome/context code | customer workspaces/journeys | audit needed | consolidate semantics before expanding |
 | Model routing | existing | `lib/ai/router.ts`, `lib/os/routing.ts` | agent/model work | routing tests | model is replaceable; route by task capability, measured performance, privacy, latency and cost |
