@@ -98,5 +98,37 @@
       100.0,
       900.0
     ]
+  },
+  {
+    "family": "Montserrat",
+    "file": "montserrat-normal.woff2",
+    "style": "normal",
+    "version": "Version 9.000",
+    "source": "https://raw.githubusercontent.com/google/fonts/9710da1eacb3be272583c3224dcb70f9da6eadbb/ofl/montserrat/Montserrat%5Bwght%5D.ttf",
+    "sourceSha256": "0f7b311b2f3279e4eef9b2f968bcdbab6e28f4daeb1f049f4f278a902bcd82f7",
+    "sha256": "5dccaf59ddb47cc6c44b50b025d7abcf9bb6e7d1c9ae78a78ba0eceaeaaced28",
+    "pinnedAxes": {},
+    "license": "Montserrat-OFL.txt",
+    "weightRange": [
+      100.0,
+      900.0
+    ]
+  },
+  {
+    "family": "DM Sans",
+    "file": "dm-sans-normal.woff2",
+    "style": "normal",
+    "version": "Version 4.004;gftools[0.9.30]",
+    "source": "https://raw.githubusercontent.com/google/fonts/9710da1eacb3be272583c3224dcb70f9da6eadbb/ofl/dmsans/DMSans%5Bopsz%2Cwght%5D.ttf",
+    "sourceSha256": "8cd08d97e89c24d0aa92edd2f0f4c8ee6195eee9b7c9f154865a58b02f0c1c0d",
+    "sha256": "b2ab09a8184fde71fe76be2a3c1d260ff9148f2a6cf5458453561c4ee33f1636",
+    "pinnedAxes": {
+      "opsz": 14
+    },
+    "license": "DMSans-OFL.txt",
+    "weightRange": [
+      100.0,
+      1000.0
+    ]
   }
 ]

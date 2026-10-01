@@ -1,13 +1,18 @@
 import localFont from 'next/font/local';
 import type { Metadata } from 'next';
 import type { ReactNode, CSSProperties } from 'react';
-import { DM_Sans } from 'next/font/google';
 
-const dmSans = DM_Sans({
-  subsets: ['latin'],
+const dmSans = localFont({
+  src: [
+    { path: '../../lib/fonts/assets/dm-sans-normal.woff2', weight: '500', style: 'normal' },
+    { path: '../../lib/fonts/assets/dm-sans-normal.woff2', weight: '600', style: 'normal' },
+    { path: '../../lib/fonts/assets/dm-sans-normal.woff2', weight: '700', style: 'normal' },
+  ],
+  style: 'normal',
   variable: '--font-alpha-display',
   display: 'swap',
-  weight: ['500', '600', '700'],
+  adjustFontFallback: false,
+  fallback: ['DM Sans Build Fallback'],
 });
 const inter = localFont({
   src: [

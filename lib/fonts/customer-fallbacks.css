@@ -35,3 +35,21 @@
   line-gap-override: 0.00%;
   size-adjust: 115.45%;
 }
+
+@font-face {
+  font-family: 'Montserrat Build Fallback';
+  src: local('Arial');
+  ascent-override: 85.79%;
+  descent-override: 22.25%;
+  line-gap-override: 0.00%;
+  size-adjust: 112.83%;
+}
+
+@font-face {
+  font-family: 'DM Sans Build Fallback';
+  src: local('Arial');
+  ascent-override: 94.90%;
+  descent-override: 29.66%;
+  line-gap-override: 0.00%;
+  size-adjust: 104.53%;
+}

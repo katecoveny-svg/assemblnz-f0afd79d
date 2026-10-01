@@ -7,6 +7,8 @@ import { Draft, type PublicResearchResult } from '@/lib/pursuit/public-contract'
 import { buildPitchHtml } from '@/lib/pursuit/pitch-export';
 import styles from './live-pursuit.module.css';
 import { useResearchAvailability, refreshResearchAvailability } from './useResearchAvailability';
+import { PursuitWalkthrough } from './PursuitWalkthrough';
+import walkthroughStyles from './pursuit-walkthrough.module.css';
 
 const EXAMPLES = [
   { company: 'NZ Post', goal: 'Find a source-backed customer service opportunity where a small demonstrator could make parcel delivery questions easier to resolve.' },
@@ -49,7 +51,7 @@ export function LivePursuitCanvas() {
   const title = result?.draft.title ?? 'An opportunity starts with a question.';
   return <section className={styles.section} id="try-pursuit" aria-labelledby="try-pursuit-title">
     <header className={styles.heading}><div><p className={styles.kicker}>Pursuit / research you can use</p><h2 id="try-pursuit-title">Already have<br /><span>a company in mind?</span></h2></div><p>Ask a specific question about a company or sector. Review the research and download an editable pitch with its sources.</p></header>
-    <div className={styles.canvas}>
+    <div className={`${styles.canvas} ${!result && !busy ? walkthroughStyles.previewCanvas : ''}`}>
       <form onSubmit={submit} className={styles.form}>
         <p className={styles.status}>{status?.message ?? (status === null ? 'Checking research availability…' : status.ready ? 'Public research is available.' : 'Live research is temporarily unavailable.')}</p>
         <label>Company or sector<input name="company" value={company} onChange={e => setCompany(e.target.value)} minLength={2} maxLength={120} required placeholder="A New Zealand company or sector" /></label>
@@ -63,8 +65,8 @@ export function LivePursuitCanvas() {
       </form>
       <div className={styles.board} aria-busy={busy}>
         <div className={styles.boardTop}><span>the pursuit canvas</span><span>{result ? 'DRAFT / SOURCE-LINKED' : busy ? 'REQUEST IN PROGRESS' : 'YOUR WORK APPEARS HERE'}</span></div>
-        <h3>{title}</h3>
-        {!result ? <div className={styles.empty}><div className={styles.paperStack} aria-hidden="true"><i /><i /><i /><Search size={34} /></div><p>{busy ? 'Searching public sources and preparing the brief. This can take a minute or two.' : 'Your research will appear here, with links to the evidence and a proposed next step.'}</p><ol><li>Find published evidence.</li><li>Develop a proposed opportunity.</li><li>Review and export the pitch.</li></ol></div> : <>
+        {(result || busy) && <h3>{title}</h3>}
+        {!result ? busy ? <div className={styles.empty}><p role="status">Searching public sources and preparing the brief. This can take a minute or two.</p></div> : <PursuitWalkthrough compact /> : <>
           <p>{result.draft.summary}</p>
           <div className={styles.tabs} aria-label="Review your pursuit">{(['evidence', 'proposal', 'plan'] as const).map(name => <button key={name} type="button" onClick={() => setTab(name)} aria-pressed={tab === name}>{name}<ArrowRight size={14} /></button>)}</div>
           <div className={styles.cards}>

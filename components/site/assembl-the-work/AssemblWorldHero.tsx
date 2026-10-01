@@ -68,8 +68,8 @@ export function AssemblWorldHero({ preview = false, showSummary = true }: { prev
         <div className={styles.copy}>
           <p className={styles.overline}>GOOD WORK COMES TOGETHER.</p>
           <h1 id="atw-hero-title">assembl <br />the work.</h1>
-          <p className={styles.sub}>{HERO.subhead}</p><p className={styles.body}>{HERO.body}</p>
-          <div className={styles.actions}><a className={styles.pill} href="#products">See the whole system <ArrowRight size={20} aria-hidden="true" /></a><Link className={styles.link} href="/do">Open DO <ArrowDown size={16} aria-hidden="true" /></Link></div>
+          <p className={styles.sub}>{HERO.subhead}</p><p className={styles.body}>Find a useful opportunity with Pursuit. Prepare the work with DO. Make it tangible in Studio.</p>
+          <div className={styles.actions}><a className={styles.pill} href="#products">See the whole system <ArrowRight size={20} aria-hidden="true" /></a><Link className={styles.link} href="/pursuit#try-pursuit">Try Pursuit <ArrowDown size={16} aria-hidden="true" /></Link></div>
         </div>
         <aside className={styles.chapter} aria-label="The work, step by step">
           <div className={styles.chapterSteps} aria-label="Choose a scene chapter">{chapters.map((item,index) => <button type="button" key={item.product} onClick={() => jump(index)} aria-label={`View ${item.product} scene`} aria-pressed={chapter === index} data-active={chapter === index}><small>0{index + 1}</small><span>{item.product}</span></button>)}</div>

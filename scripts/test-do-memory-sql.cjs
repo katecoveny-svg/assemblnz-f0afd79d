@@ -62,6 +62,18 @@ const fs = require('node:fs'); const os = require('node:os'); const path = requi
   check('expiry erases content with revision tombstone',(await db.query('select record,revision from public.do_personal_memory where owner_id=$1',[b])).rows[0].revision===2);
   await db.query('delete from public.do_personal_responsibilities where id=$1 and owner_id=$2',[task,a]);
   check('job deletion cascades receipts',(await db.query('select * from public.do_personal_runs where responsibility_id=$1',[task])).rows.length===0);
+  const health = (await db.query('select public.do_personal_memory_maintenance_health() as health')).rows[0].health;
+  check('initial maintenance monitoring is explicitly unverified',health.lastAttemptAt===null && health.status===null);
+  await db.query("select public.do_personal_memory_record_maintenance('completed',7,$1)",[new Date().toISOString()]);
+  const checked=(await db.query('select public.do_personal_memory_maintenance_health() as health')).rows[0].health;
+  check('monitoring returns aggregate bounded fields only',checked.status==='completed' && checked.purged===7 && checked.lastCompletedAt && Object.keys(checked).length===6);
+  await db.query("select public.do_personal_memory_record_maintenance('failed',0,'2020-01-01T00:00:00Z')");
+  check('late monitoring receipt cannot overwrite newer state',(await db.query('select public.do_personal_memory_maintenance_health() as health')).rows[0].health.status==='completed');
+  await assert.rejects(()=>db.query("select public.do_personal_memory_record_maintenance('completed',301,$1)",[new Date().toISOString()])); check('monitoring rejects impossible confirmed counts',true);
+  await db.exec('set role authenticated');
+  await assert.rejects(()=>db.query('select * from public.do_personal_memory_maintenance'));
+  await assert.rejects(()=>db.query('select public.do_personal_memory_maintenance_health()'));
+  check('aggregate monitoring is inaccessible to clients',true); await db.exec('reset role');
   const uuid = require('node:crypto').randomUUID;
   const ids = Array.from({length:30},()=>uuid());
   const put = (key, rev, value) => db.query('select public.do_personal_memory_change($1,$2,$3,$4)',[b,key,rev,value]);
