@@ -73,6 +73,17 @@ describe('unmounted streamable HTTP transport', () => {
     finally {
         await h.close();
     } });
+    it('returns on deadline even when stream cancellation never resolves', async () => {
+        vi.useFakeTimers();
+        const h = createSpecialistHttp('architecture', 'https://candidate.invalid');
+        const body = new ReadableStream<Uint8Array>({ start() {}, cancel() { return new Promise<void>(() => {}); } });
+        const incoming = new Request('https://candidate.invalid/mcp', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream' }, body, duplex: 'half' } as RequestInit & { duplex: 'half' });
+        try {
+            const pending = h.fetch(incoming);
+            await vi.advanceTimersByTimeAsync(10001);
+            expect((await pending).status).toBe(408);
+        } finally { await h.close(); vi.useRealTimers(); }
+    });
     it('caps per-process request admission without charging rails', async () => { const h = createSpecialistHttp('architecture', 'https://candidate.invalid'); try {
         let out: Response | undefined;
         for (let i = 0; i < 61; i++)

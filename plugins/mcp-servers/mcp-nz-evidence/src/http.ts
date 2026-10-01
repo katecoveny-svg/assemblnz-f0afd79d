@@ -44,7 +44,7 @@ export function createSpecialistHttp(domain: 'freight' | 'architecture', origin:
                             break;
                         bytes += value.length;
                         if (bytes > 1024 * 1024) {
-                            await reader.cancel();
+                            void reader.cancel().catch(() => { });
                             return new Response(null, { status: 413 });
                         }
                         chunks.push(value);
@@ -52,7 +52,7 @@ export function createSpecialistHttp(domain: 'freight' | 'architecture', origin:
                 }
                 finally {
                     if (controller.signal.aborted)
-                        await reader.cancel().catch(() => { });
+                        void reader.cancel().catch(() => { });
                     reader.releaseLock();
                 }
                 const body = new Uint8Array(bytes);
@@ -67,7 +67,7 @@ export function createSpecialistHttp(domain: 'freight' | 'architecture', origin:
                 return response;
             }
             catch {
-                return new Response(null, { status: 400, headers: { 'Cache-Control': 'no-store' } });
+                return new Response(null, { status: controller.signal.aborted ? 408 : 400, headers: { 'Cache-Control': 'no-store' } });
             }
             finally {
                 clearTimeout(timer);
