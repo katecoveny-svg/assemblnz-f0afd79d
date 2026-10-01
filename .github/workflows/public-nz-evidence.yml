@@ -7,6 +7,8 @@ on:
       - 'app/api/home/live/**'
       - 'app/api/knowledge/search/**'
       - 'components/site/HomeLiveData.tsx'
+      - 'components/site/assembl-the-work/AssemblTheWorkHome.tsx'
+      - 'components/site/assembl-the-work/public-nz-home.css'
       - '.github/workflows/public-nz-evidence.yml'
 permissions:
   contents: read
@@ -35,7 +37,7 @@ jobs:
       - name: Public boundary, transport, API and consumer contracts
         run: pnpm exec vitest run lib/public-nz app/api/home/live/route.test.ts lib/pursuit/public-contract.test.ts lib/pursuit/pitch-export.test.ts lib/pursuit/outreach.test.ts
       - name: Scoped lint
-        run: pnpm exec eslint lib/public-nz app/api/home/live app/api/knowledge/search/route.ts components/site/HomeLiveData.tsx lib/pursuit/public-research.ts --max-warnings=0
+        run: pnpm exec eslint lib/public-nz app/api/home/live app/api/knowledge/search/route.ts components/site/HomeLiveData.tsx components/site/assembl-the-work/AssemblTheWorkHome.tsx lib/pursuit/public-research.ts --max-warnings=0
       - name: Brand and public front door
         run: |
           node scripts/brand-guard.mjs
