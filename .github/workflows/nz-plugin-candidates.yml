@@ -1,0 +1,44 @@
+name: Unpublished NZ plugin candidates
+on:
+  pull_request:
+    paths:
+      - 'lib/nz-evidence/**'
+      - 'plugins/assembl-nz-freight/**'
+      - 'plugins/assembl-nz-architecture/**'
+      - 'plugins/mcp-servers/mcp-nz-evidence/**'
+      - 'scripts/build-nz-plugin-candidates.mjs'
+      - 'scripts/review-nz-plugin-candidates.mjs'
+      - 'docs/services/nz-plugin-candidates.md'
+      - '.github/workflows/nz-plugin-candidates.yml'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+permissions:
+  contents: read
+concurrency:
+  group: nz-plugin-candidates-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  focused:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: pnpm install --frozen-lockfile
+      - name: Portable manifests and self-contained development bundles
+        run: node scripts/build-nz-plugin-candidates.mjs
+      - name: Deterministic facts, provenance, boundaries and actual MCP transports
+        run: pnpm exec vitest run lib/nz-evidence/service.test.ts lib/nz-evidence/candidates.test.ts lib/nz-evidence/transport.test.ts
+      - name: Explicit plugin type coverage (excluded from root tsconfig)
+        run: pnpm exec tsc --noEmit --skipLibCheck --esModuleInterop --target es2022 --moduleResolution bundler --module esnext plugins/mcp-servers/mcp-nz-evidence/src/*.ts
+      - run: pnpm exec eslint lib/nz-evidence plugins/mcp-servers/mcp-nz-evidence/src --max-warnings=0
+      - run: git diff --check

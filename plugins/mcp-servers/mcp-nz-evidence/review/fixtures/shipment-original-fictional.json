@@ -1,0 +1,27 @@
+{
+  "destination_country": "NZ",
+  "transport_mode": "sea_container",
+  "shipment_date": null,
+  "intended_lodgement_date": "2026-10-01",
+  "goods_condition": "new",
+  "goods_category": "manufactured_nonfood",
+  "country_of_manufacture": null,
+  "country_of_export": null,
+  "wood_packaging": "no",
+  "origin_preference_claimed": "no",
+  "documents": {
+    "commercial_invoice": "present",
+    "packing_list": "present",
+    "transport_document": "present",
+    "quarantine_declaration": "present",
+    "origin_evidence": "absent",
+    "treatment_evidence": "absent"
+  },
+  "quarantine_signed": "yes",
+  "transitional_facility_arranged": "yes",
+  "comparisons": {
+    "consignee_consistency": "matched",
+    "cargo_description_consistency": "matched",
+    "reference_consistency": "matched"
+  }
+}
