@@ -121,6 +121,9 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
     await fallback.goto(origin + '/', { waitUntil: 'networkidle' });
     check('WebGL unavailable keeps complete static identity', await fallback.locator('[data-renderer="static"]').isVisible() && await fallback.getByRole('link', { name: 'Open DO', exact: true }).first().isVisible());
     await fallback.screenshot({ path: out + '/08-webgl-fallback.png' });
+    await fallback.close();
+    await clean.emulateMedia({ reducedMotion: 'reduce' });
+    await clean.waitForTimeout(650); // Dispose the earlier normal-motion GL context before static screenshots.
     for (const width of [1440, 375]) {
       await clean.setViewportSize({ width, height: width === 375 ? 812 : 1000 });
       for (const path of ['/do', '/do/personal', '/do/bills', '/do/billing', '/do/install', '/do/typesafe']) {
@@ -132,7 +135,7 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
         if (path === '/do' || path === '/do/bills') {
           await clean.evaluate(() => document.fonts.ready);
           check(`Instrument Sans loaded on ${path} at ${width}px`, await clean.locator('h1').evaluate(el => /Instrument.?Sans/i.test(getComputedStyle(el).fontFamily) && document.fonts.check(`16px ${getComputedStyle(el).fontFamily.split(',')[0]}`)));
-          await clean.screenshot({ path: out + `/pink-${path === '/do' ? 'home' : 'bills'}-${width}.png`, fullPage: true });
+          await clean.screenshot({ path: out + `/pink-${path === '/do' ? 'home' : 'bills'}-${width}.png`, fullPage: true, animations: 'disabled', timeout: 60000 });
         }
       }
     }
