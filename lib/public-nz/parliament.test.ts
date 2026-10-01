@@ -64,3 +64,9 @@ it('caps combined factual/discovery context and drops stale facts',async()=>{
  const context=publicNzEvidenceContext({discovery,verification},now);expect(context.length).toBeLessThanOrEqual(4000);const data=JSON.parse(context.slice(context.indexOf('\n')+1));expect(data.verifiedEvidence.length).toBeGreaterThan(0);
  expect(publicNzEvidenceContext({discovery,verification},now+PARLIAMENT_LIMITS.freshMs)).not.toContain('Example Bill');
 });
+it('rejects redirected or wrong-final-endpoint responses without using their content',async()=>{
+ for(const properties of [{redirected:true},{url:'https://evil.example/'}]){
+  const res=response();for(const [key,value] of Object.entries(properties))Object.defineProperty(res,key,{value});
+  expect((await verifyParliamentBills([id],{fetcher:async()=>res,now})).records[0].state).toBe('unavailable');
+ }
+});
