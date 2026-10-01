@@ -1,3 +1,4 @@
+-- Preserve 20260717090000_alphassembl_waitlist and all recorded histories.
 -- SPARK generated tools — the draft-only queue behind the /spark
 -- build-your-own-tool surface (ASM-042 App Builder).
 --
@@ -30,3 +31,6 @@ alter table public.spark_tools enable row level security;
 
 create index if not exists spark_tools_status_created_idx
   on public.spark_tools (status, created_at desc);
+
+REVOKE ALL ON TABLE public.spark_tools FROM PUBLIC, anon, authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE public.spark_tools TO service_role;
