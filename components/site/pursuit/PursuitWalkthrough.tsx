@@ -25,8 +25,8 @@ export function PursuitWalkthrough({ compact = false }: { compact?: boolean }) {
 
   useEffect(() => {
     const query = matchMedia('(prefers-reduced-motion: reduce)');
-    const update = () => { setReduced(query.matches); setPlaying(false); };
-    update(); setReady(true); query.addEventListener('change', update);
+    const update = () => { setReduced(query.matches); setPlaying(false); setReady(true); };
+    update(); query.addEventListener('change', update);
     const hide = () => { if (document.hidden) setPlaying(false); };
     document.addEventListener('visibilitychange', hide);
     const observer = new IntersectionObserver(entries => { if (!entries[0].isIntersecting) setPlaying(false); });
