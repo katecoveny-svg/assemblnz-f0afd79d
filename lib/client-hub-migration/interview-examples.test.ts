@@ -20,6 +20,6 @@ describe('independent interview examples',()=>{
  it('carries the selected role-ready visual and original interactive controls into the presentation',()=>{
   const h=createInterviewExample('deloitte'),idea=h.engine!.concepts[1];h.engine!.selected=idea.id;h.design.frame.artwork=interviewArtworkFor(idea.id);
   const html=conceptExperienceHtml(h,undefined,'http://127.0.0.1:19189');
-  expect(html).toContain('interview-research.svg');expect(html).toContain('Platform engineer');expect(html).toContain('id="permission"');expect(html).toContain('id="prepare"');expect(html).not.toContain('assembl-plum-aerial');
+  expect(html).toContain('interview-research.svg');expect(html).toContain('cinema-diagram');expect(html).toContain('interview-opening');expect(html).not.toContain('<img class="cinema-static"');expect(html).toContain('Platform engineer');expect(html).toContain('id="permission"');expect(html).toContain('id="prepare"');expect(html).not.toContain('assembl-plum-aerial');
  });
 });
