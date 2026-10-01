@@ -266,8 +266,8 @@ export function PersonalDo() {
       <header className={styles.nav}>
         <DoBrand />
         <nav aria-label="DO" className={styles.navActions}>
-          <details className={styles.more}><summary>More <Plus size={15} /></summary><nav aria-label="More DO tools"><Link href="/do/widget">Write, talk or look</Link><Link href="/do/meetings">Meeting notes · sign in</Link><Link href="/do/bills">Bills · examples and CSV</Link><Link href="/do/enquiries">Enquiries · private pilot</Link><Link href="/do/install">Keep DO close</Link><Link href="/">assembl</Link><Link href="/pursuit">Pursuit</Link><Link href="/creative-studio">Studio</Link></nav></details>
-          <Link className={styles.phoneLink} href="/do/install#phone">Keep DO close <ArrowUpRight size={14} /></Link>
+          <details className={styles.more}><summary>More <Plus size={15} /></summary><nav aria-label="More DO tools"><Link href="/do/widget">Write, talk or look</Link><Link href="/do/meetings">Meeting notes · sign in</Link><Link href="/do/bills">Bills · examples and CSV</Link><Link href="/do/enquiries">Enquiries · private pilot</Link><Link href="/do/install">Install DO</Link><Link href="/legal/privacy">Privacy</Link></nav></details>
+          <Link className={styles.phoneLink} href="/do/install#phone">Install DO <ArrowUpRight size={14} /></Link>
           {access === "ready" && workspaceKey
             ? <PersonalDoSettings key={workspaceKey} compact triggerRef={settingsButton} onProfileChange={setPersonalProfile} />
             : <Link className={styles.signIn} href="/login?redirect=%2Fdo">Sign in <ArrowUpRight size={15} /></Link>}
@@ -286,7 +286,7 @@ export function PersonalDo() {
       )}
       {workspaceKey && <LifeAdmin key={workspaceKey} assistant={<PersonalDoAssistant key={workspaceKey} profile={personalProfile ?? undefined} onWorkingChange={setAssistantWorking} onWorkChange={setAssistantWork} />} assistantWork={assistantWork} assistantWorking={assistantWorking} profile={personalProfile} onCustomise={access === "ready" ? () => settingsButton.current?.click() : undefined} storageScope={workspaceKey} intake={sharedIntake} onGuestWorkChange={setGuestDirty} onIntakeAccepted={id => { try { acceptDoShare(window.sessionStorage, id); } catch { /* Storage may be unavailable. */ } }} onTalk={() => { setCallOpen(true); requestAnimationFrame(() => document.getElementById("personal-do-call")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" })); }} />}
       {workspaceKey && callOpen && <div id="personal-do-call" className={styles.call}>
-        <div className={styles.callHeading}><p className={styles.eyebrow}>A LITTLE SPACE TO TALK</p><a href="#life-admin">Back to my workspace ↑</a></div>
+        <div className={styles.callHeading}><p className={styles.eyebrow}>VOICE</p><a href="#life-admin">Back to my workspace ↑</a></div>
         <DoGeminiLive
           key={`${workspaceKey}:${personalProfile?.updatedAt ?? "default"}`}
           profile={personalProfile ?? undefined}
@@ -295,7 +295,7 @@ export function PersonalDo() {
         />
       </div>}
       {workspaceKey && <section className={styles.around} aria-labelledby="around-you-title">
-        <div className={styles.aroundHeading}><p className={styles.eyebrow}>AOTEAROA / USEFUL WHEN YOU NEED IT</p><h2 id="around-you-title">Around you.</h2></div>
+        <div className={styles.aroundHeading}><p className={styles.eyebrow}>NEW ZEALAND</p><h2 id="around-you-title">Local information</h2></div>
         <div className={styles.aroundGrid}>
           <details className={styles.aroundPanel}><summary><HeartHandshake size={23} /><span><strong>Care, health & later life</strong><small>Support, appointments and the right place to ask</small></span><Plus size={19} /></summary><NzCareNavigation storageScope={workspaceKey} /></details>
           <details className={styles.aroundPanel}><summary><CloudSun size={23} /><span><strong>Weather & public updates</strong><small>Check the conditions before your next step</small></span><Plus size={19} /></summary><LifeAdminLocalUpdates key={workspaceKey} /></details>
@@ -303,7 +303,7 @@ export function PersonalDo() {
       </section>}
       {access === "ready" && state && (
         <details className={styles.ongoing}>
-          <summary><span><span className={styles.eyebrow}>KEEP IT MOVING</span><strong>Ongoing responsibilities</strong></span><span className={styles.ongoingCount}>{needsReview ? `${needsReview} to review` : `${state.responsibilities.length} saved`} <ChevronDown size={20} /></span></summary>
+          <summary><span><span className={styles.eyebrow}>SAVED NOTES</span><strong>Ongoing responsibilities</strong></span><span className={styles.ongoingCount}>{needsReview ? `${needsReview} to review` : `${state.responsibilities.length} saved`} <ChevronDown size={20} /></span></summary>
           <div className={styles.ongoingIntro}><p>Give DO a set of notes and permission to prepare the next step each day.</p><button className={styles.save} onClick={() => openEditor()} disabled={busy || !state.worker.configured || state.responsibilities.length >= 5}><Plus size={18} /> Give DO a responsibility</button></div>
           <section
             className={styles.worker}
@@ -335,8 +335,8 @@ export function PersonalDo() {
             <div>
               <div className={styles.sectionHeading}>
                 <div>
-                  <p className={styles.eyebrow}>WHAT DO KEEPS TRACK OF</p>
-                  <h2>On my behalf.</h2>
+                  <p className={styles.eyebrow}>RESPONSIBILITIES</p>
+                  <h2>My responsibilities</h2>
                 </div>
                 <span>{state.responsibilities.length} / 5</span>
               </div>
@@ -463,7 +463,7 @@ export function PersonalDo() {
               {state.runs.length === 0 && (
                 <div className={styles.emptyResult}>
                   <DoPresence size="small" />
-                  <h3>Your first draft lands here.</h3>
+                  <h3>No drafts yet</h3>
                   <p>
                     Save a responsibility, then tap Prepare now or wait for its
                     scheduled check.
@@ -560,16 +560,14 @@ export function PersonalDo() {
       <details id="how-it-works" className={styles.how}>
         <summary>What DO can do today <Plus size={18} /></summary>
         <div className={styles.howContent}>
-        <p className={styles.eyebrow}>THE FIRST PERSONAL DO RELEASE</p>
+        <p className={styles.eyebrow}>CURRENT FEATURES</p>
         <h2>
-          You set the responsibility.
-          <br />
-          DO prepares the next step.
+          Saved notes and drafts
         </h2>
         <div>
           <article>
             <span>01</span>
-            <h3>Keep the useful context.</h3>
+            <h3>Saved notes</h3>
             <p>
               Save the notes, preferences and open questions for each
               responsibility. You can read, replace or delete them.
@@ -577,14 +575,14 @@ export function PersonalDo() {
           </article>
           <article>
             <span>02</span>
-            <h3>Come back to prepared work.</h3>
+            <h3>Background drafts</h3>
             <p>
               When the background worker is healthy, it can prepare work while this page is closed. Check its status above. You approve seven days at a time, with up to five preparations per account in 24 hours.
             </p>
           </article>
           <article>
             <span>03</span>
-            <h3>Decide what happens next.</h3>
+            <h3>Review and share</h3>
             <p>
               Read the draft and its source record. Share only after review.
               Messages, bookings and account changes need their own approval and
@@ -600,8 +598,7 @@ export function PersonalDo() {
         </div>
       </details>
       <footer className={styles.footer}>
-        <Link href="/">assembl</Link>
-        <span>less admin, more mahi.</span>
+        <span>DO by assembl</span>
         <Link href="/legal/privacy">Privacy</Link>
       </footer>
       {leavingHref && <dialog ref={leaveDialog} className={styles.editorBackdrop} aria-labelledby="guest-leave-title" onCancel={event => { event.preventDefault(); setLeavingHref(null); }}>

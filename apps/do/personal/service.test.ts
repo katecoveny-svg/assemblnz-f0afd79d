@@ -65,3 +65,14 @@ describe("Personal DO draft personalisation", () => {
     expect(prepareDoDraft).not.toHaveBeenCalled();
   });
 });
+
+it("rejects an ownerless targeted run before storage access", async () => {
+ await expect(runPersonal(undefined,id)).rejects.toThrow("Owner required");
+ expect(db.rpc).not.toHaveBeenCalled();
+});
+it("rejects cross-owner claims before reading context or calling a provider", async () => {
+ db.rpc.mockResolvedValue({ data: [{ run_id: run, responsibility: { ...item, owner_id: "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb" } }], error: null });
+ await expect(runPersonal(owner,id)).rejects.toThrow("Claim ownership mismatch");
+ expect(getPersonalDoProfile).not.toHaveBeenCalled();
+ expect(prepareDoDraft).not.toHaveBeenCalled();
+});

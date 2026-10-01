@@ -17,7 +17,7 @@ export function DoUtilityDock() {
       {!focused && <GlowDoWidget />}
       {!focused && <nav className="do-utility-dock" aria-label="DO workspace shortcuts">
         <Link href="/do">DO home</Link>
-        <Link href="/">assembl</Link>
+        <Link href="/legal/privacy">Privacy</Link>
       </nav>}
     </>
   );

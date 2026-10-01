@@ -38,12 +38,12 @@ export function DoProductFrame({ product, children }: {
           <Link href="/do/enquiries" {...linkProps}>Enquiry replies · private pilot</Link>
           <Link href="/do/bills" {...linkProps}>Bills · examples and CSV</Link>
                     <Link href={`/login?redirect=${encodeURIComponent(doReturnPath(pathname || "/do", query))}`} {...linkProps}>Sign in</Link>
-          <Link href="/do/install" {...linkProps}>Keep DO close</Link>
+          <Link href="/do/install" {...linkProps}>Install DO</Link>
           {!embedded && <DoInstallPwaCta compact />}
         </div>
       </details></div>
     </header>
     {children}
-    <footer className={styles.footer}><Link href="/" {...linkProps}>by assembl</Link><span>your context. your call.</span></footer>
+    <footer className={styles.footer}><span>DO by assembl</span><Link href="/legal/privacy" {...linkProps}>Privacy</Link></footer>
   </main>;
 }
