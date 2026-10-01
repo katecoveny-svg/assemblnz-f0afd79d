@@ -96,3 +96,35 @@ end $$;
 revoke all on function public.do_personal_memory_change(uuid,uuid,integer,jsonb),public.do_personal_memory_purge(uuid),public.do_personal_memory_expire_batch(integer) from public,anon,authenticated;
 grant execute on function public.do_personal_memory_change(uuid,uuid,integer,jsonb),public.do_personal_memory_purge(uuid),public.do_personal_memory_expire_batch(integer) to service_role;
 -- Activation blocked pending monitored purge scheduling and backup/metadata retention review.
+
+-- Aggregate operational metadata, service-only; never context, user IDs or record IDs.
+create table public.do_personal_memory_maintenance (
+ id boolean primary key default true check(id),
+ last_attempt_at timestamptz,
+ last_completed_at timestamptz,
+ status text check(status in ('completed','backlog','deadline','failed')),
+ purged integer not null default 0 check(purged between 0 and 300)
+);
+insert into public.do_personal_memory_maintenance(id) values(true);
+alter table public.do_personal_memory_maintenance enable row level security;
+revoke all on public.do_personal_memory_maintenance from public,anon,authenticated;
+grant all on public.do_personal_memory_maintenance to service_role;
+create function public.do_personal_memory_record_maintenance(p_status text,p_purged integer,p_started timestamptz)
+returns void language plpgsql security invoker set search_path='' as $$
+begin
+ if p_status is null or p_purged is null or p_started is null or p_started>clock_timestamp() then raise exception 'maintenance_invalid'; end if;
+ update public.do_personal_memory_maintenance set last_attempt_at=p_started,
+ last_completed_at=case when p_status='completed' then clock_timestamp() else last_completed_at end,
+ status=p_status,purged=p_purged where id=true and (last_attempt_at is null or last_attempt_at<=p_started);
+end $$;
+create function public.do_personal_memory_maintenance_health()
+returns jsonb language plpgsql security invoker set search_path='' as $$
+declare v_now timestamptz:=clock_timestamp();
+begin
+ return (select jsonb_build_object('lastAttemptAt',h.last_attempt_at,'lastCompletedAt',h.last_completed_at,'status',h.status,'purged',h.purged,
+ 'sampledOverdue',(select count(*) from (select 1 from public.do_personal_memory where record is not null and expires_at<=v_now limit 1001) q),
+ 'oldestOverdueAt',(select expires_at from public.do_personal_memory where record is not null and expires_at<=v_now order by expires_at limit 1))
+ from public.do_personal_memory_maintenance h where id=true);
+end $$;
+revoke all on function public.do_personal_memory_record_maintenance(text,integer,timestamptz),public.do_personal_memory_maintenance_health() from public,anon,authenticated;
+grant execute on function public.do_personal_memory_record_maintenance(text,integer,timestamptz),public.do_personal_memory_maintenance_health() to service_role;
