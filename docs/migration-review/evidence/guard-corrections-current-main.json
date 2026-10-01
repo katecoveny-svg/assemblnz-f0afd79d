@@ -1,0 +1,18 @@
+{
+  "base": "d786a1c1f1c38970e864683720ca2ec4bbb91535",
+  "original_site_source_files": 58,
+  "original_site_source_unchanged": true,
+  "original_site_dirty_files": 5,
+  "original_site_dirty_unchanged": true,
+  "assets_unchanged_from_main": {
+    "public/cinematic/concept-travel.webp": true,
+    "public/cinematic/interview-cloud.svg": true,
+    "public/cinematic/interview-research.svg": true,
+    "public/cinematic/interview-advisory.svg": true
+  },
+  "sql_sha256": "ce71a6f5cda98eee3a62ea48792d9e3a4e641d114082defaa0128a60e7668320",
+  "sql_unapplied": true,
+  "tests": "75 focused hub/auth tests including apex/www routing, owner denial/allowlisted synthetic session and rendered disabled image/film controls",
+  "lint": "scoped ESLint, brand guard and macron check passed",
+  "production_runtime_limit": "Prior a924 correction implementation had 18 local production Host-header checks. This current-main reapplication is newly unit/SSR-tested; exact-head production build and real-host runtime proof remain CI/review gates."
+}
