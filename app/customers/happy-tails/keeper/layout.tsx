@@ -1,6 +1,7 @@
+import localFont from 'next/font/local';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
-import { Cormorant_Garamond, Inter, Space_Mono } from 'next/font/google';
+import { Space_Mono } from 'next/font/google';
 import './keeper.css';
 
 /**
@@ -14,18 +15,31 @@ import './keeper.css';
  * demo · pending Liana sign-off.
  */
 
-const serif = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
+const serif = localFont({
+  src: [
+    { path: '../../../../lib/fonts/assets/cormorant-garamond-normal.woff2', weight: '400', style: 'normal' },
+    { path: '../../../../lib/fonts/assets/cormorant-garamond-normal.woff2', weight: '500', style: 'normal' },
+    { path: '../../../../lib/fonts/assets/cormorant-garamond-normal.woff2', weight: '600', style: 'normal' },
+  ],
+  style: 'normal',
   variable: '--font-keeper-serif',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Cormorant Garamond Build Fallback'],
 });
 
-const sans = Inter({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+const sans = localFont({
+  src: [
+    { path: '../../../../lib/fonts/assets/inter-normal.woff2', weight: '400', style: 'normal' },
+    { path: '../../../../lib/fonts/assets/inter-normal.woff2', weight: '500', style: 'normal' },
+    { path: '../../../../lib/fonts/assets/inter-normal.woff2', weight: '600', style: 'normal' },
+    { path: '../../../../lib/fonts/assets/inter-normal.woff2', weight: '700', style: 'normal' },
+  ],
+  style: 'normal',
   variable: '--font-keeper-sans',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Inter Build Fallback'],
 });
 
 const mono = Space_Mono({

@@ -92,7 +92,7 @@ async function headingContrast(page) {
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.getByRole('button', { name: 'Make DO mine' }).click();
     const dialog = page.getByRole('dialog');
-    check('onboarding is a real modal', await page.getByRole('dialog', { name: 'Hello, your DO.', exact: true }).isVisible());
+    check('onboarding is a real modal', await page.getByRole('dialog', { name: 'Name and appearance', exact: true }).isVisible());
     await page.getByLabel('What shall we call your DO?').fill('Pip');
     await page.getByRole('button', { name: 'Pebble A steady presence' }).click();
     check('selected character has pressed state', await page.getByRole('button', { name: 'Pebble A steady presence' }).getAttribute('aria-pressed') === 'true');

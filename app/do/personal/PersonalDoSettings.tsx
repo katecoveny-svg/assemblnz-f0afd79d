@@ -175,7 +175,7 @@ export function PersonalDoSettings({ onProfileChange, compact = false, triggerRe
       <PersonalDoCharacter avatar={profile?.avatar ?? "bloom"} small />
       <div className={styles.identityText}>
         <p className={styles.eyebrow}>{saved ? "MADE YOURS" : "A GOOD PLACE TO BEGIN"}</p>
-        <h2>{saved ? `Meet ${name}.` : "Make a little more you."}</h2>
+        <h2>{saved ? `${name} settings` : "Set up DO"}</h2>
         <p>{loading ? "Opening your DO settings…" : error || (saved ? `${tones.find(item => item.value === profile?.tone)?.label}. ${lengths.find(item => item.value === profile?.responseLength)?.label}. Your preferences, kept with your account.` : "A name. A character. A way of working that feels right.")}</p>
       </div>
       {error ? <button type="button" onClick={() => void load()}>Try settings again</button> : <button ref={triggerRef} type="button" onClick={edit} disabled={loading}>
@@ -190,16 +190,16 @@ export function PersonalDoSettings({ onProfileChange, compact = false, triggerRe
           <button type="button" className={styles.close} onClick={() => setOpen(false)} disabled={busy} aria-label="Close customisation"><X size={22} /></button>
         </div>
         <div className={styles.progress} aria-label={`Step ${step + 1} of 3`}>
-          {["A little character", "Your way of working", "The finishing touches"].map((label, index) => <span key={label} data-current={index === step} data-done={index < step}><b>{index < step ? <Check size={12} /> : `0${index + 1}`}</b><span>{label}</span></span>)}
+          {["Appearance", "Preferences", "Review"].map((label, index) => <span key={label} data-current={index === step} data-done={index < step}><b>{index < step ? <Check size={12} /> : `0${index + 1}`}</b><span>{label}</span></span>)}
         </div>
         <div className={styles.sheetGrid}>
           <div className={styles.form}>
-            <h2 id="do-settings-title" ref={heading} tabIndex={-1}>{["Hello, your DO.", "Good help feels right.", "Little things matter."][step]}</h2>
-            <p className={styles.introduction}>{["Give your companion a name and a little character. You can change your mind later.", "Choose how you like a conversation to feel. These settings shape replies and prepared drafts.", "Tell DO what makes help useful for you. Keep personal account details and secrets out of this box."][step]}</p>
+            <h2 id="do-settings-title" ref={heading} tabIndex={-1}>{["Name and appearance", "Preferences", "Review and save"][step]}</h2>
+            <p className={styles.introduction}>{["Choose a name and appearance. Change them any time.", "Choose the tone and length of replies.", "Tell DO what makes help useful for you. Keep personal account details and secrets out of this box."][step]}</p>
             {step === 0 && <>
               <label className={styles.label}>What shall we call your DO?<input autoComplete="off" value={draft.displayName} maxLength={32} onChange={e => change("displayName", e.target.value)} placeholder="DO, Dot, Pip…" /></label>
               <fieldset className={styles.fieldset}><legend>Choose a finish</legend><div className={styles.characters}>{characters.map(item => <button key={item.value} type="button" aria-pressed={draft.avatar === item.value} onClick={() => change("avatar", item.value)}><PersonalDoCharacter avatar={item.value} small /><strong>{item.label}</strong><span>{item.note}</span></button>)}</div></fieldset>
-              <p className={styles.hint}>Still DO by assembl. Just a little more yours.</p>
+              <p className={styles.hint}>You can change this later.</p>
             </>}
             {step === 1 && <>
               <fieldset className={styles.fieldset}><legend>How should DO sound?</legend><div className={styles.choices}>{tones.map(item => <button type="button" key={item.value} aria-pressed={draft.tone === item.value} onClick={() => change("tone", item.value)}><span><strong>{item.label}</strong><small>{item.note}</small></span><span className={styles.radio}>{draft.tone === item.value && <Check size={13} />}</span></button>)}</div></fieldset>

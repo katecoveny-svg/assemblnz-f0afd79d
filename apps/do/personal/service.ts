@@ -6,6 +6,7 @@ import {
 } from "@/apps/do/shared/preparation-server";
 import {
   PERSONAL_BOUNDARY,
+  personalSaveSchema,
   type PersonalSave,
   type Responsibility,
   type PersonalRun,
@@ -24,6 +25,7 @@ function fail(error: unknown) {
   if (error) throw new Error("Personal DO storage unavailable.");
 }
 export async function personalState(ownerId: string): Promise<PersonalState> {
+  if (!ownerId) throw new Error("Owner required.");
   const db = getServiceClient();
   const [tasks, runs, worker] = await Promise.all([
     db
@@ -60,6 +62,8 @@ export async function personalState(ownerId: string): Promise<PersonalState> {
   };
 }
 export async function savePersonal(ownerId: string, input: PersonalSave) {
+  if (!ownerId) throw new Error("Owner required.");
+  input = personalSaveSchema.parse(input);
   if (!personalWorkerConfigured())
     throw new Error(
       "Cloud preparation is not configured. Your notes have not been saved.",
@@ -85,6 +89,7 @@ export async function mutatePersonal(
   action: "pause" | "delete" | "review",
   id: string,
 ) {
+  if (!ownerId) throw new Error("Owner required.");
   const db = getServiceClient();
   if (action === "pause") {
     const { data, error } = await db.rpc("do_personal_pause", {
@@ -114,6 +119,7 @@ export async function mutatePersonal(
   return Boolean(data?.length);
 }
 export async function runPersonal(ownerId?: string, id?: string) {
+  if ((id && !ownerId) || ownerId === "") throw new Error("Owner required.");
   if (!personalWorkerConfigured())
     throw new Error("Cloud preparation is unavailable.");
   const db = getServiceClient();
@@ -127,6 +133,8 @@ export async function runPersonal(ownerId?: string, id?: string) {
     | undefined;
   if (!claim) return { claimed: false, published: false };
   const item = claim.responsibility;
+  if (!item.owner_id || (ownerId && item.owner_id !== ownerId) || (id && item.id !== id))
+    throw new Error("Claim ownership mismatch.");
   // Preferences are optional: an older installation without the additive
   // profile table must still prepare already-consented responsibilities.
   // Only a successfully loaded, explicitly saved profile is sent to a provider.

@@ -296,12 +296,6 @@ export function DoStory() {
             <Link href="/" className={styles.ghost}>
               Back to assembl
             </Link>
-            <Link href="/pursuit" className={styles.ghost}>
-              Open Pursuit
-            </Link>
-            <Link href="/creative-studio" className={styles.ghost}>
-              Open Studio
-            </Link>
           </div>
         </Reveal>
       </main>
@@ -312,8 +306,6 @@ export function DoStory() {
         </Link>
         <p>Find it. DO it. Show it.</p>
         <nav aria-label="Footer">
-          <Link href="/pursuit">Pursuit</Link>
-          <Link href="/creative-studio">Studio</Link>
           <Link href="/contact">Contact</Link>
         </nav>
       </footer>
