@@ -37,6 +37,16 @@ export function WorldAtelierStage({ progress, playhead, paused, reduced, visible
   const markReady = useCallback((ready: boolean) => { setSceneReady(ready); onReady(ready); }, [onReady]);
   useEffect(() => {
     if (reduced || failed) return;
+    // Renderer creation can reject asynchronously outside the React boundary.
+    // Detect unavailable WebGL2 before loading either scene so the caller can
+    // expose its complete still view instead of leaving a long empty scene rail.
+    let supported = false;
+    try {
+      const probe = document.createElement('canvas').getContext('webgl2');
+      supported = Boolean(probe);
+      probe?.getExtension('WEBGL_lose_context')?.loseContext();
+    } catch { supported = false; }
+    if (!supported) { onFailure(); return; }
     let cancelled = false;
     const load = variant === 'franklin' ? import('@/app/preview/do-world/FranklinOfficeScene') : import('@/app/preview/do-world/WorldScene');
     load.then(mod => { if (!cancelled) setScene(() => mod.default); }).catch((error: unknown) => {

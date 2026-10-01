@@ -7,6 +7,7 @@ on:
       - 'components/site/pursuit/LivePursuitCanvas.tsx'
       - 'components/site/assembl-the-work/AssemblTheWorkHome.tsx'
       - 'components/site/assembl-the-work/AssemblWorldHero.tsx'
+      - 'components/site/assembl-the-work/WorldAtelierStage.tsx'
       - 'scripts/pursuit-walkthrough-browser.py'
       - '.github/workflows/pursuit-walkthrough-review.yml'
   workflow_dispatch:
@@ -35,7 +36,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @assembl/canvas build
       - run: pnpm typecheck
-      - run: pnpm exec eslint components/site/pursuit/PursuitWalkthrough.tsx components/site/pursuit/LivePursuitCanvas.tsx components/site/assembl-the-work/AssemblTheWorkHome.tsx components/site/assembl-the-work/AssemblWorldHero.tsx
+      - run: pnpm exec eslint components/site/pursuit/PursuitWalkthrough.tsx components/site/pursuit/LivePursuitCanvas.tsx components/site/assembl-the-work/AssemblTheWorkHome.tsx components/site/assembl-the-work/AssemblWorldHero.tsx components/site/assembl-the-work/WorldAtelierStage.tsx
       - run: pnpm test lib/pursuit/outreach.test.ts lib/pursuit/pitch-export.test.ts components/site/assembl-the-work/hero-resilience.test.ts
       - run: pnpm build
       - run: pip install playwright==1.55.0 && playwright install --with-deps chromium

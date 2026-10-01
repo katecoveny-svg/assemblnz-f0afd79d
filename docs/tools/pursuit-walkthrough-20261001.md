@@ -17,7 +17,9 @@ Use Instrument Sans and canonical plum/rose/petal/paper. Recognizable papers ass
 
 Dedicated `scripts/pursuit-walkthrough-browser.py` covers both `/` and `/pursuit` at 375px/1440px, normal/reduced motion, scene pause/chapter controls, walkthrough keyboard/step/playback controls, static fallback, sample concept controls, contrast, overflow and runtime errors. Every research POST is blocked and counted: these tests never spend provider quota. Screenshots/report are emitted under `visual-evidence/pursuit-walkthrough/` and uploaded by the dedicated CI workflow.
 
-The existing immersive audit is updated for the requested assembl-led heading and scene location. It retains the optional LivingBrief opening, interactive controls, source-image decoding and other product checks; it no longer requires the superseded DO-first heading.
+The existing immersive audit is updated for the requested assembl-led heading and scene location. It retains the optional LivingBrief opening, interactive controls, source-image decoding and other product checks; it no longer requires the superseded DO-first heading. The DO owner's combined harness retains its product checks and verifies the restored scene. Its offscreen test now verifies the whole observed rail has left the viewport before asserting renderer release.
+
+The new blocked-WebGL browser check exposed a real initialization fallback gap: renderer creation can fail asynchronously before React's boundary reports it, leaving the complete static work loop hidden. WorldAtelierStage now checks WebGL2 availability before loading either scene and releases its probe context. Unsupported browsers enter the existing complete still view; capable browsers keep the same scene, camera, artwork and controls. The real scene, offscreen return, reduced-motion return, decoded poster and complete fallback assertions remain required.
 
 Local full production build is deliberately deferred while root serializes heavy builds for font repair. CI production build and exact preview remain required before release. No merge or manual deployment is authorized by this task.
 
