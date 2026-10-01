@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { FileText, Mic, Eye, AudioLines, Settings2 } from 'lucide-react';
 import { DoTextWorkspace } from '@/app/do/DoTextWorkspace';
@@ -11,6 +10,7 @@ import { DoWorkspace } from '@/app/do/DoWorkspace';
 import { DoProductFrame, useDoEmbeddedSurface } from './DoProductFrame';
 import styles from './do-product-focus.module.css';
 import { DoPresence } from './DoPresence';
+import { DoEntryObject } from './DoEntryObject';
 import type { DoTask } from '@/apps/do/shared/preparation';
 
 type Mode = 'write' | 'talk' | 'look' | 'build';
@@ -36,16 +36,12 @@ export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTa
     if (!text.trim() || text.length > 12000) return false;
     setOfferedContext({ text, id: Date.now() }); setMode('write'); return true;
   }
-  return <DoProductFrame product="your workspace">
+  return <DoProductFrame product="Writing & capture">
     <section className={`${styles.hero} ${styles.workspaceHero}`} data-embedded={embedded || undefined}>
       <div className={styles.workspaceIntro}>
-      <p className={styles.kicker}>YOUR WORK. A LITTLE LIGHTER.</p>
       <h1>What needs doing?</h1>
-      <p>Bring the context. Choose a task. Leave with something useful.</p>
-      </div>{embedded ? <DoPresence /> : <div className={styles.workspaceArtwork}>
-        <Image src="/do/editorial/work-in-your-pocket.webp" alt="Paper and a phone, assembled into a sculptural still life. Concept artwork." fill sizes="(max-width: 600px) 100vw, 420px" priority />
-        <span className={styles.artworkBadge}><DoPresence size="small" />Ready when you are.</span>
-      </div>}
+      <p>Bring the details. Prepare something you can review.</p>
+      </div>{embedded ? <DoPresence size="small" /> : <DoEntryObject compact />}
     </section>
     <div className={styles.workspace}>
       <nav className={styles.workspaceModes} aria-label="Ways to work with DO">

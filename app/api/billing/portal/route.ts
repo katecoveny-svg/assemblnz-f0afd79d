@@ -6,6 +6,7 @@
  * which drops the tenant back to free via requireTier.
  */
 import { NextResponse } from 'next/server';
+import { sameDoOrigin } from '@/apps/do/services/owner';
 import { createClient } from '@/lib/supabase/server';
 import { getStripe } from '@/lib/stripe/client';
 import { loadCustomer } from '@/lib/stripe/customer';
@@ -15,6 +16,7 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
+  if (!sameDoOrigin(req)) return NextResponse.json({ error: 'Origin not allowed' }, { status: 403 });
   const supabase = await createClient();
   const {
     data: { user },
@@ -37,7 +39,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const origin = req.headers.get('origin') ?? new URL(req.url).origin;
+    const origin = new URL(req.url).origin;
     const stripe = getStripe();
     const session = await stripe.billingPortal.sessions.create({
       customer: customer.stripe_customer_id,

@@ -44,7 +44,7 @@ const makeResult = message => ({
     await input.fill('Fictional request: prepare a short reply.');
     check('primary composer needs no category', await input.isVisible() && !(await page.getByLabel('Kind of admin').isVisible()));
     check('typing does not call a provider', posts.length === 0);
-    await panel.getByRole('button', { name: 'Let’s sort it', exact: false }).click();
+    await panel.getByRole('button', { name: 'Start', exact: false }).click();
     const consent = panel.getByRole('checkbox', { name: /Share this message, added notes/ });
     check('named provider consent is initially unselected', !await consent.isChecked() && posts.length === 0);
     await consent.check();
@@ -70,7 +70,7 @@ const makeResult = message => ({
     await panel.screenshot({ path: out + '/assistant-reviewed-mobile.png' });
     responseMode = 'error';
     await input.fill('Make my fictional reply even shorter.');
-    await panel.getByRole('button', { name: 'Let’s sort it', exact: false }).click(); await consent.check();
+    await panel.getByRole('button', { name: 'Start', exact: false }).click(); await consent.check();
     await panel.getByRole('button', { name: 'Ask DO', exact: false }).click();
     await panel.getByText('Fictional service interruption. Your note is still here.', { exact: true }).waitFor();
     check('follow-up includes only the last visible exchange', posts[1].history.length === 2 && posts[1].history[1].text.includes('My reviewed fictional reply.'));

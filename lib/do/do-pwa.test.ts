@@ -59,11 +59,9 @@ describe('DO PWA', () => {
         '/do/personal',
         '/do/widget',
         '/do/meetings?phone=1',
-        '/do/household',
-        '/do/office',
-        '/do/builder',
-        '/do/connections',
       ]),
     );
+    expect(urls).not.toContain('/do/household');
+    expect(urls).not.toContain('/do/office');
   });
 });

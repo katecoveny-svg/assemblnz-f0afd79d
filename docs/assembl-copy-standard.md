@@ -3,10 +3,18 @@
 > Canonical public copy standard for assembl websites, product interfaces, demonstrators, proposals and sales material.
 
 **Status:** Locked  
-**Last updated:** 21 September 2026
+**Last updated:** 30 September 2026
 **Typography:** Instrument Sans for normal copy. IBM Plex Mono only for evidence, timestamps, permissions, receipts and proof metadata.
 
 This standard overrides older public phrasing when it conflicts with the current company architecture.
+
+## Unified DO entry · 30 September 2026
+
+The latest accepted brief makes the first entry minimal and task-first: **What needs doing?** with **Open DO** on the company page, then the working input at `/do`. `/do/personal` remains the installed-app compatibility route. Use **DO by assembl**, not a second consumer product called Personal DO or DO workspace. Preserve Pursuit and Studio as clear optional product destinations.
+
+The 21 September company explanation below remains background positioning; it does not have to fill the first viewport. Use progressive disclosure for provider consent, capabilities, saved work and setup. Never imply the conversational draft is saved across sign-in or that opening the input authorises a provider call.
+
+Short introduction: “DO by assembl helps with everyday jobs: preparing a reply, sorting a school notice or planning a weekend away. Keep the useful details together, review the work and choose what happens next. It’s an early version, ready to try in your browser. Start with one thing.”
 
 ## 1. company message hierarchy
 

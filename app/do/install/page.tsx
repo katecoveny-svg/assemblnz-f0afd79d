@@ -2,15 +2,17 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { DoInstallPwaCta } from '@/components/do/DoInstallPwaCta';
 import { DoShareButton } from '@/components/do/DoShareButton';
-import { DoMark } from '@/components/do/DoMark';
+import { DoBrand } from '@/components/do/DoBrand';
+import { DoPresence } from '@/components/do/DoPresence';
 import { DoDownloadCtas } from '@/components/do/DoDownloadCtas';
 import styles from './install.module.css';
 import '../do.css';
+import { InstallOptions } from './InstallOptions';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Install DO · Phone, Chrome + Mac · assembl' },
+  title: { absolute: 'Keep DO close · DO by assembl' },
   description:
-    'Download the Chrome DO extension zip or the Mac companion source. Load unpacked in Chrome; build the Mac app on a Mac with Xcode tools.',
+    'Use DO in your browser or add it to your home screen. Chrome manual setup and Mac developer source are available separately.',
   alternates: { canonical: '/do/install' },
   robots: { index: true, follow: true },
 };
@@ -19,49 +21,42 @@ export default function DoInstallPage() {
   return (
     <main className={styles.page}>
       <header className={styles.header}>
-        <Link href="/do" className={styles.brand}>
-          <span className={styles.mark} aria-hidden>
-            <DoMark />
-          </span>
-          DO
-        </Link>
+        <DoBrand />
         <nav className={styles.nav} aria-label="DO">
-          <Link className={styles.navLink} href="/do">Your DOs</Link>
+          <Link className={styles.navLink} href="/do">Open DO</Link>
           <Link className={styles.navLink} href="/do/meetings">Meeting DO</Link>
           <Link className={styles.navLink} href="/login?redirect=%2Fdo%2Finstall">Sign in</Link>
         </nav>
       </header>
 
-      <section>
-        <p className={styles.kicker}>INSTALL · PORTABLE DO</p>
-        <h1 className={styles.heroTitle}>Take DO with you.</h1>
-        <p className={styles.heroCopy}>
-          Download Chrome DO for the browser toolbar, or Mac DO source to build
-          the floating companion on your Mac. Drafts only — nothing is sent or
-          paid for you.
-        </p>
-        <DoDownloadCtas variant="sheet" />
+      <section className={styles.hero}>
+        <DoPresence size="medium" />
+        <h1 className={styles.heroTitle}>Keep DO close.</h1>
+        <p className={styles.heroCopy}>Use DO in your browser, or add it to your home screen.</p>
+        <Link className={styles.cta} href="/do">Continue in browser</Link>
       </section>
 
       <section className={styles.card} id="phone">
         <h2 className={styles.cardTitle}>DO on your phone.</h2>
         <p className={styles.heroCopy}>Open your DO, pick up a task or bring some context. Keep the same assistant on your home screen for next time.</p>
-        <Link className={styles.cta} href="/do/personal">Open your DO</Link>{' '}<DoShareButton />
+        <Link className={styles.cta} href="/do">Open DO</Link>{' '}<DoShareButton />
         <DoInstallPwaCta phone prominent />
         <p className={styles.note}>Share DO sends a public link. Share notes sends only the text you reviewed through your phone’s Share menu. Your recording and original source are not attached.</p>
         <p className={styles.note}>Keep DO open while recording. To bring context from another app, paste text or add a screenshot; the phone workspace does not float over other apps.</p>
       </section>
 
+      <InstallOptions>
+        <DoDownloadCtas variant="sheet" />
       <section className={styles.card} id="keyboard">
         <p className={styles.kicker}>IN DEVELOPMENT · NOT YET INSTALLABLE</p>
         <h2 className={styles.cardTitle}>DO in your iPhone keyboard.</h2>
         <p className={styles.heroCopy}>The native iPhone app, keyboard, Share Sheet and home-screen widget are in development. The separate native build has passed simulator checks for local drafts and reviewed keyboard handoff. A signed iPhone build and device testing are still required.</p>
         <p className={styles.note}>For now, use DO from your home screen, paste text or add a screenshot. A website cannot add itself to your keyboard, read every app or float over the whole phone.</p>
-        <Link className={styles.cta} href="/do/personal">Use your DO on the web</Link>
+        <Link className={styles.cta} href="/do">Use your DO on the web</Link>
       </section>
 
       <section className={styles.card} id="chrome">
-        <h2 className={styles.cardTitle}>Chrome DO</h2>
+        <h2 className={styles.cardTitle}>Chrome extension</h2>
         <ol className={styles.list}>
           <li className={styles.listItem}>
             Click <strong>Download Chrome DO</strong> — you get{' '}
@@ -97,7 +92,7 @@ export default function DoInstallPage() {
       </section>
 
       <section className={styles.card} id="mac">
-        <h2 className={styles.cardTitle}>Mac DO</h2>
+        <h2 className={styles.cardTitle}>Mac source · developer preview</h2>
         <p className={styles.heroCopy}>
           There is <strong>no notarised public .app download</strong> yet. The button
           downloads the companion <strong>source</strong> from{' '}
@@ -132,6 +127,8 @@ export default function DoInstallPage() {
           </a>
         </p>
       </section>
+
+      </InstallOptions>
 
       <p className={styles.foot}>
         <Link className={styles.footLink} href="/do">← Back to DO</Link>

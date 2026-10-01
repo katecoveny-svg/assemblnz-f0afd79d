@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-18",
+  "updated_at": "2026-09-30",
   "purpose": "Canonical routing manifest for Assembl agents, coding harnesses and DO runtimes. This file points to truth; it does not duplicate full context.",
   "entrypoints": {
     "human_or_coding_agent": [
@@ -53,9 +53,9 @@
     }
   },
   "product_structure": {
-    "pursuit": "find the work — signals, friction, opportunities, buyers, tenders and evidence",
-    "do": "do the work — portable bounded execution with permissions, verification and receipts",
-    "show": "show the possibility — Studio proof, demonstrators, journeys, creative, campaigns, websites and tender artefacts",
+    "pursuit": "find the work \u2014 signals, friction, opportunities, buyers, tenders and evidence",
+    "do": "do the work \u2014 portable bounded execution with permissions, verification and receipts",
+    "show": "show the possibility \u2014 Studio proof, demonstrators, journeys, creative, campaigns, websites and tender artefacts",
     "factory": "shared context, primitives, agents, skills, connectors, design, tests, evals and learning",
     "proof": "evidence and outcomes feeding back into Pursuit and the Factory"
   },
@@ -79,8 +79,8 @@
     },
     "visual_grammar": "things gather, organise and move with purpose until a useful whole is visible",
     "modes": [
-      "brand/narrative assembly — premium aerial/top-down collective movement",
-      "product/proof assembly — recognisable inputs become a reviewable output with permission and evidence"
+      "brand/narrative assembly \u2014 premium aerial/top-down collective movement",
+      "product/proof assembly \u2014 recognisable inputs become a reviewable output with permission and evidence"
     ],
     "forbidden_company_directions": [
       "Cormorant-led company branding",
@@ -92,7 +92,12 @@
       "robot/chatbot imagery",
       "generic neon AI gradients"
     ],
-    "note": "Named client demonstrators may retain verified client-specific brand systems. Legacy surfaces are not company-brand precedent."
+    "note": "Named client demonstrators may retain verified client-specific brand systems. Legacy surfaces are not company-brand precedent.",
+    "do_daylight_accents": {
+      "lilac": "#DAD2F4",
+      "petal": "#EAC8DF",
+      "blush": "#F5E4E7"
+    }
   },
   "precedence": [
     "current explicit task/user instruction",

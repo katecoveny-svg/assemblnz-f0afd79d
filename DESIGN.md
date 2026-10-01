@@ -4,7 +4,9 @@
 >
 > Canonical visual tokens and identity live in `docs/assembl-brand-system.md`. Public language rules live in `docs/assembl-copy-standard.md`. If this file conflicts with either, the canonical documents win.
 
-**Last updated:** 17 September 2026
+**Last updated:** 30 September 2026
+
+The current unified DO direction adds the playful lilac/petal daylight surfaces and real sculptural D specified in the brand canon. Historical root guides and old skills are not alternate instructions. Company wordmark: lowercase `assembl`; company letter mark: lowercase `a`; DO: uppercase D with its inner dot.
 
 ## 1. design principle
 

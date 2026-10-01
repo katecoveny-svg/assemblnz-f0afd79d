@@ -2,8 +2,11 @@
 import { DoShareButton } from '@/components/do/DoShareButton';
 import { DoMark } from './DoAppearance';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { usePathname } from 'next/navigation';
+import { doReturnPath } from '@/lib/do/navigation';
+const subscribeLocation = () => () => {};
+const currentSearch = () => window.location.search;
 import { ArrowUpRight, Check, Copy, Download, LoaderCircle, Trash2 } from 'lucide-react';
 import { cleanSourceUrl, DO_BRIEF_LIMIT, DO_SOURCE_LIMIT, DO_TASKS, draftAsMarkdown, type DoAvailability, type DoPreparedDraft, type DoTask } from '@/apps/do/shared/preparation';
 import { editDoDraft, readLocalDrafts, removeLocalDraft, saveLocalDraft, type SavedDoDraft } from '@/apps/do/shared/local-drafts';
@@ -37,6 +40,7 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
   const [availability, setAvailability] = useState<DoAvailability | null>(null);
   const [needsSignIn, setNeedsSignIn] = useState(false);
   const pathname = usePathname();
+  const query = useSyncExternalStore(subscribeLocation, currentSearch, () => "");
   const [busy, setBusy] = useState(false);
   const [draft, setDraft] = useState<DoPreparedDraft | null>(null);
   const [reviewer, setReviewer] = useState('');
@@ -154,7 +158,7 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
       <div className="do-prepare-actions"><button className="do-primary" disabled={busy || needsSignIn || !consent || !source.trim() || (task !== 'extract' && availability?.preparation === 'unavailable')} type="submit">{busy ? <LoaderCircle className="do-spin" size={18} /> : <span className="do-action-mark" aria-hidden><DoMark /></span>}{busy ? 'Preparing your draft…' : DO_TASKS.find(option => option.id === task)!.title}<ArrowUpRight size={18} /></button>{busy && <button type="button" className="do-quiet-button" onClick={() => abort.current?.abort()}>Stop</button>}</div>
       <p className="do-runtime-note">{availability?.note || 'Preparation status is checked when you run a task.'}</p>
     </form>
-    {needsSignIn && <p className="do-error" role="status">Your free tries are used. <a href={`/login?redirect=${encodeURIComponent(pathname || '/do/widget')}`} target="_blank" rel="noopener noreferrer">Sign in in a new tab</a>, then return here. Your text stays on this page. <button type="button" className="do-quiet-button" onClick={() => void readRuntime(AbortSignal.timeout(10_000)).then(applyRuntime).then(() => setError('')).catch(cause => setError(cause instanceof Error ? cause.message : 'Connection could not be checked.'))}>Check connection</button></p>}
+    {needsSignIn && <p className="do-error" role="status">Your free tries are used. <a href={`/login?redirect=${encodeURIComponent(doReturnPath(pathname || '/do/widget', query))}`} target="_blank" rel="noopener noreferrer">Sign in in a new tab</a>, then return here. Your text stays on this page. <button type="button" className="do-quiet-button" onClick={() => void readRuntime(AbortSignal.timeout(10_000)).then(applyRuntime).then(() => setError('')).catch(cause => setError(cause instanceof Error ? cause.message : 'Connection could not be checked.'))}>Check connection</button></p>}
     {error && <p className="do-error" role="alert">{error}</p>}
     {notice && <p className="do-success" role="status">{notice}</p>}
     {draft && <section ref={resultRef} tabIndex={-1} className="do-prepared" aria-label="Prepared draft">

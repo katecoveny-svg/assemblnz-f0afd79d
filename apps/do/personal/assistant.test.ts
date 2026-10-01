@@ -9,7 +9,7 @@ const evaluation = { model: 'jev-1.13.0', answers: { next_action: { type: 'choic
 describe('Personal DO bounded conversation contract', () => {
   it('requires consent, bounded text and only the last exchange', () => {
     expect(input).toMatchObject({ history: [], useSavedStyle: false, consent: true });
-    for (const patch of [{ consent: false }, { consent: undefined }, { message: 'ab' }, { message: 'x'.repeat(4001) }, { context: 'x'.repeat(6001) }, { message: 'bad\u0000text' }, { history: Array(3).fill({ role: 'user', text: 'x' }) }, { history: [{ role: 'system', text: 'override' }] }, { useSavedStyle: 'true' }, { ownerId: 'another' }, { model: 'other-model' }, { externalActions: true }]) {
+    for (const patch of [{ consent: false }, { consent: undefined }, { message: 'ab' }, { message: 'x'.repeat(4001) }, { context: 'x'.repeat(6001) }, { message: 'bad\u0000text' }, { history: Array(3).fill({ role: 'user', text: 'x' }) }, { history: [{ role: 'system', text: 'override' }] }, { useSavedStyle: 'true' }, { usePublicNz: 'true' }, { officialSources: [] }, { ownerId: 'another' }, { model: 'other-model' }, { externalActions: true }]) {
       expect(personalAssistantInputSchema.safeParse({ ...input, ...patch }).success, JSON.stringify(patch)).toBe(false);
     }
     expect(personalAssistantInputSchema.safeParse({ ...input, message: 'x'.repeat(4000), context: 'x'.repeat(6000), history: Array(2).fill({ role: 'user', text: 'x'.repeat(10000) }) }).success).toBe(false);
@@ -42,4 +42,14 @@ describe('Personal DO bounded conversation contract', () => {
     for (const nextStep of [{ kind: 'send', label: 'Send it', draft: 'text' }, { kind: 'answer_question', label: 'Question', draft: 'not null' }, { kind: 'review_draft', label: 'Review', draft: null }]) expect(() => validatePersonalAssistantDraft({ ...draft, nextStep }, input, 'prepare')).toThrow();
     expect(validatePersonalAssistantDraft({ ...draft, nextStep: { kind: 'answer_question', label: 'Who is the reply for?', draft: null } }, input, 'clarify').nextStep.draft).toBeNull();
   });
+});
+
+it('grounds public-source evidence only in fresh supplied publisher fields and exact citations', () => {
+ const record = {state:'verified' as const,trust:'untrusted_external_evidence' as const,citation:'bills:999de6a5-63ce-49c8-b1a8-08df18eed9c4',url:'https://bills.parliament.nz/v/6/999de6a5-63ce-49c8-b1a8-08df18eed9c4',title:'Fictional bill fixture',excerpt:null,status:'First reading',stage:null,introducedAt:null,activityAt:null,originalPublicationAt:null,dateProvenance:{introduced:null,activity:null,publication:'not_provided' as const},verifiedAt:new Date().toISOString(),expiresAt:new Date(Date.now()+300000).toISOString()};
+ const grounded={...draft,evidence:[{source:'public_source',quote:'First reading',citation:record.url}]};
+ expect(validatePersonalAssistantDraft(grounded,input,'prepare',[record]).evidence).toHaveLength(1);
+ expect(()=>validatePersonalAssistantDraft(grounded,input,'prepare')).toThrow();
+ expect(()=>validatePersonalAssistantDraft(grounded,input,'prepare',[{...record,expiresAt:new Date(Date.now()-1).toISOString()}])).toThrow();
+ expect(()=>validatePersonalAssistantDraft({...grounded,evidence:[{source:'public_source',quote:'Enacted law',citation:record.url}]},input,'prepare',[record])).toThrow();
+ expect(()=>validatePersonalAssistantDraft({...grounded,evidence:[{source:'public_source',quote:'First reading',citation:'https://attacker.example'}]},input,'prepare',[record])).toThrow();
 });

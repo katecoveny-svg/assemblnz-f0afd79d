@@ -1,17 +1,14 @@
 import type { CSSProperties } from 'react';
 
 /**
- * The assembl wordmark — always lowercase, non-italic, weight 600.
+ * The assembl wordmark — lowercase Instrument Sans, upright, medium weight.
  *
  * Centralised so the letterform is identical on every surface (header, footer,
  * anywhere the brand name is set as a wordmark) and trivial to swap for a
  * hand-tuned SVG later.
  *
- * We deliberately do NOT use the italic display cut. The display face's italic
- * lowercase "f" has an exaggerated swoopy descender that reads badly at
- * wordmark scale — SemiBold roman keeps the editorial feel without it. Size,
- * colour and tracking are inherited from the parent (set them on the wrapping
- * Link/element); this component only fixes the family, weight and style.
+ * Size, colour and tracking are inherited from the parent. The fallback stays
+ * sans-serif so a delayed webfont never revives the retired serif identity.
  */
 export function AssemblWordmark({
   className = '',
@@ -22,12 +19,11 @@ export function AssemblWordmark({
 }) {
   return (
     <span
-      className={`font-display font-semibold lowercase ${className}`}
+      className={`font-display font-medium lowercase ${className}`}
       style={{
-        fontFamily: 'var(--font-display), "Cormorant Garamond", Georgia, serif',
+        fontFamily: 'var(--font-display), "Instrument Sans", system-ui, sans-serif',
         fontStyle: 'normal',
-        fontWeight: 600,
-        fontVariationSettings: '"opsz" 40, "wght" 600',
+        fontWeight: 500,
         ...style,
       }}
     >

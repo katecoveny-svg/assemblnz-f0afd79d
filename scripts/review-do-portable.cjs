@@ -9,7 +9,7 @@ const checks = [];
 const check = (label, condition) => { assert.ok(condition, label); checks.push(label); console.log('PASS ' + label); };
 const fixture = `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><title>DO portability fixture</title>
 <style>body{margin:0;background:#fffdfb;color:#240b21;font:16px/1.6 system-ui}main{padding:28px;min-height:1800px}h1{font-size:36px;line-height:1.1}textarea{box-sizing:border-box;width:100%;font:16px system-ui;padding:16px;min-height:150px;border:1px solid #916a70;border-radius:16px}.space{height:900px}</style>
-<main><h1>Same DO, within reach.</h1><p id="brief">Fictional fixture: prepare a short reply about Thursday.</p><label for="personal-assistant-input">Your task</label><textarea id="personal-assistant-input">Keep this unsent draft</textarea><textarea id="do-source" aria-label="Existing writing workspace">Existing draft stays here</textarea><div class="space"></div><p>Page scrolling remains available.</p></main>`;
+<main><h1>Same DO, within reach.</h1><p id="brief">Fictional fixture: prepare a short reply about Thursday.</p><label for="personal-assistant-input">Your task</label><textarea id="personal-assistant-input" data-do-primary-input>Keep this unsent draft</textarea><textarea id="do-source" aria-label="Existing writing workspace">Existing draft stays here</textarea><div class="space"></div><p>Page scrolling remains available.</p></main>`;
 
 (async () => {
   fs.mkdirSync(out, { recursive: true });

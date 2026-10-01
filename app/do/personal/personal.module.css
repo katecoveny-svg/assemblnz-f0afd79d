@@ -749,3 +749,7 @@
 
 /* Low-specificity default prevents legacy green-grey global headings leaking into Personal DO. */
 .page :where(h1, h2, h3, h4) { color: var(--ink); }
+
+/* Unified DO chrome. The working route and installed alias are the same product. */
+.page{max-width:none;background:#fffdfb}.nav{min-height:88px;max-width:1280px}.more{position:relative}.page .more>summary{display:flex;align-items:center;gap:10px;min-height:44px;cursor:pointer;padding:9px 14px;border-radius:15px;background:#f5f1f2;border:1px solid #240b210b;font-size:12px;list-style:none;text-decoration:none}.more>summary::-webkit-details-marker{display:none}.page .more>nav{position:absolute;z-index:15;right:0;top:calc(100% + 10px);min-width:250px;display:grid;gap:0;padding:12px;background:#fffdfb;border:1px solid #e2d6dd;border-radius:22px;box-shadow:0 15px 50px #240b2120}.more nav a{padding:11px 13px;border-radius:12px}.more nav a:hover{background:#f5f1f2}.nav .signIn{border-radius:15px}.around,.page .ongoing,.page .how,.footer{max-width:1000px}.around{padding-top:28px}.footer{margin-top:45px}.nav .phoneLink{display:none}
+@media(max-width:760px){.nav{min-height:76px}.nav .navActions{gap:7px}.page .more>summary{padding:9px 11px}.nav .signIn{padding:9px 11px}.page .more>nav{right:-70px;max-width:calc(100vw - 32px);min-width:235px}}
