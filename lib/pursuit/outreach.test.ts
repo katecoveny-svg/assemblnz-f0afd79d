@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { outreachExport, parseOutreach, publicWebsite, reviewFingerprint, type OutreachCampaign } from './outreach';
+import { outreachExport, parseOutreach, parseGroundedOutreach, publicWebsite, reviewFingerprint, type OutreachCampaign } from './outreach';
 import { TrialInput } from './public-contract';
 import { runPublicResearch } from './public-research';
 import { ASSEMBL_PUBLIC_OFFER } from './public-knowledge';
@@ -52,6 +52,25 @@ describe('website-led outreach boundaries', () => {
     expect(parseOutreach({ ...campaign, prospects: [] }, urls, input.company).prospects).toEqual([]);
     expect(parseOutreach(campaign, urls, input.company).prospects[0].signal.publishedAt).toBeNull();
   });
+  it.each(['2026-09-30', '2025-01-01', '2026-99-99'])('clears unsupported model publication date %s without removing a grounded account', date => {
+    const guessed = structuredClone(campaign); guessed.prospects[0].signal.publishedAt = date;
+    for (const parse of [parseOutreach, parseGroundedOutreach]) {
+      const result = parse(guessed, urls, input.company);
+      expect(result.prospects).toHaveLength(1);
+      expect(result.prospects[0].signal.publishedAt).toBeNull();
+      expect(result.prospects[0].signal.url).toBe(campaign.prospects[0].signal.url);
+    }
+    expect(guessed.prospects[0].signal.publishedAt).toBe(date); // no mutation of caller data
+  });
+  it('exports publication unknown separately from the research timestamp', () => {
+    const guessed = structuredClone(campaign); guessed.prospects[0].signal.publishedAt = '2026-09-30';
+    const result = parseGroundedOutreach(guessed, urls, input.company);
+    const prospect = result.prospects[0];
+    const exported = outreachExport(result, prospect, prospect, 'fixture-receipt', '2026-09-30T22:59:02.656Z');
+    expect(exported).toContain('Published: Unknown; do not infer urgency');
+    expect(exported).toContain('Researched: 2026-09-30T22:59:02.656Z');
+    expect(exported).not.toContain('Published: 2026-09-30');
+  });
   it('binds review to the exact copy, prospect and research receipt', () => {
     const p = campaign.prospects[0]; const copy = { subject: p.subject, opening: p.opening, followUp: p.followUp };
     const initial = reviewFingerprint('receipt-a', p, copy);
@@ -75,6 +94,47 @@ describe('website-led outreach boundaries', () => {
     const request = JSON.parse(String(fetcher.mock.calls[0][1]?.body));
     expect(request.tools[0].max_uses).toBe(5); expect(request.system).toContain('SELLER');
   });
+  it('repairs three overlong fields with original URL enums and retains the researched accounts', async () => {
+    vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
+    const oversized = { draft: { ...draft, summary: 'x'.repeat(500) }, campaign: structuredClone(campaign) };
+    oversized.campaign.prospects[0].fit = 'x'.repeat(450);
+    oversized.campaign.prospects[0].proof = 'x'.repeat(350);
+    const fetcher = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(Response.json({ stop_reason: 'end_turn', content: [
+        ...Array.from({ length: 5 }, () => ({ type: 'server_tool_use', name: 'web_search' })),
+        { type: 'web_search_tool_result', content: urls.map(url => ({ type: 'web_search_result', url, title: 'Fixture source' })) },
+        { type: 'text', text: JSON.stringify(oversized) },
+      ] }))
+      .mockImplementationOnce(async (_url, init) => {
+        const body = JSON.parse(String(init?.body));
+        expect(body.tools).toBeUndefined();
+        const schema = body.output_config.format.schema.properties;
+        expect(schema.draft.properties.evidence.items.properties.url.enum).toEqual(urls);
+        const fields = schema.campaign.properties.prospects.items.properties;
+        expect(fields.signal.properties.url.enum).toEqual(urls);
+        expect(fields.contactUrl.anyOf.find((entry: { type: string }) => entry.type === 'null')).toBeDefined();
+        return Response.json({ stop_reason: 'end_turn', content: [{ type: 'text', text: JSON.stringify({ draft, campaign }) }] });
+      });
+    const result = await runPublicResearch(input, false, fetcher);
+    expect(result.campaign).toEqual(campaign);
+    expect(result.draft).toEqual(draft);
+    expect(result.trace).toMatchObject({ providerCalls: 2, webSearches: 5 });
+    expect(fetcher).toHaveBeenCalledTimes(2);
+  });
+  it.each(['introduced', 'original'])('still rejects an %s untraced evidence URL during repair', async kind => {
+    vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
+    const changed = { ...draft, evidence: [{ ...draft.evidence[0], url: 'https://untraced.example.com/news' }] };
+    const original = { draft: { ...(kind === 'original' ? changed : draft), summary: 'x'.repeat(500) }, campaign };
+    const fetcher = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(Response.json({ stop_reason: 'end_turn', content: [
+        { type: 'server_tool_use', name: 'web_search' },
+        { type: 'web_search_tool_result', content: urls.map(url => ({ type: 'web_search_result', url, title: 'Fixture source' })) },
+        { type: 'text', text: JSON.stringify(original) },
+      ] }))
+      .mockResolvedValueOnce(Response.json({ stop_reason: 'end_turn', content: [{ type: 'text', text: JSON.stringify({ draft: changed, campaign }) }] }));
+    await expect(runPublicResearch(input, false, fetcher)).rejects.toThrow('untraced_source');
+    expect(fetcher).toHaveBeenCalledTimes(2);
+  });
   it('does not substitute leads after a provider failure', async () => {
     vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
     await expect(runPublicResearch(input, false, vi.fn<typeof fetch>().mockResolvedValue(new Response('', { status: 503 })))).rejects.toThrow('research_provider_http_503');
@@ -96,12 +156,83 @@ describe('website-led outreach boundaries', () => {
   });
 });
 
+describe('partial source-validated shortlist', () => {
+  it('retains only fully traced identities and signals and reports omissions', () => {
+    const missingIdentity = { ...campaign.prospects[0], website: 'https://unsupported.example.com/' };
+    const missingSignal = { ...campaign.prospects[0], website: 'https://another.example.com/', signal: { ...campaign.prospects[0].signal, url: 'https://another.example.com/unreturned' } };
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const result = parseGroundedOutreach({ ...campaign, prospects: [missingIdentity, campaign.prospects[0], missingSignal] }, [...urls, missingSignal.website], input.company);
+    expect(result.prospects).toEqual(campaign.prospects);
+    expect(result.gaps.join(' ')).toContain('untraced company website (1)');
+    expect(result.gaps.join(' ')).toContain('untraced signal (1)');
+    expect(result.gaps.join(' ')).toContain(campaign.gaps[0]);
+    expect(warn.mock.calls).toEqual([
+      ['public_research_prospect_omitted', { field: 'prospect.website', index: 0, category: 'identity_untraced' }],
+      ['public_research_prospect_omitted', { field: 'prospect.signal.url', index: 2, category: 'signal_untraced' }],
+    ]);
+    warn.mockRestore();
+  });
+  it('does not substitute a guessed homepage even when a same-domain page was searched', () => {
+    const result = parseGroundedOutreach(campaign, [urls[0], urls[2]], input.company);
+    expect(result.prospects).toEqual([]);
+    expect(result.gaps[0]).toContain('No verified shortlist');
+    expect(result.gaps.join(' ')).toContain('No replacement accounts were added');
+  });
+  it('omits duplicate and seller identities without discarding a valid distinct account', () => {
+    const seller = { ...campaign.prospects[0], website: urls[0], signal: { ...campaign.prospects[0].signal, url: urls[0] } };
+    const result = parseGroundedOutreach({ ...campaign, prospects: [campaign.prospects[0], campaign.prospects[0], seller] }, urls, input.company);
+    expect(result.prospects).toEqual(campaign.prospects);
+    expect(result.gaps.join(' ')).toContain('duplicate account (1)');
+    expect(result.gaps.join(' ')).toContain('seller listed as prospect (1)');
+  });
+  it('keeps schema and seller errors fatal and bounds gaps without losing the zero-result warning', () => {
+    expect(() => parseGroundedOutreach(campaign, urls, 'https://different.example.com')).toThrow('seller_website_mismatch');
+    expect(() => parseGroundedOutreach({ ...campaign, market: '' }, urls, input.company)).toThrow();
+    const result = parseGroundedOutreach({ ...campaign, prospects: [{ ...campaign.prospects[0], website: 'https://unsupported.example.com/' }], gaps: Array.from({ length: 5 }, (_, i) => 'Original research limitation ' + i) }, urls, input.company);
+    expect(result.gaps).toHaveLength(5);
+    expect(result.gaps[0]).toContain('No verified shortlist');
+    expect(parseOutreach(result, urls, input.company)).toEqual(result);
+  });
+  it.each([false, true])('returns an honest empty shortlist through research, repair=%s', async repair => {
+    vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
+    const unsupported = { ...campaign, prospects: [{ ...campaign.prospects[0], website: 'https://unsupported.example.com/' }] };
+    const original = { draft: repair ? { ...draft, summary: 'x'.repeat(500) } : draft, campaign: unsupported };
+    const fetcher = vi.fn<typeof fetch>().mockResolvedValueOnce(Response.json({ stop_reason: 'end_turn', content: [
+      { type: 'server_tool_use', name: 'web_search' },
+      { type: 'web_search_tool_result', content: urls.map(url => ({ type: 'web_search_result', url, title: 'Fixture source' })) },
+      { type: 'text', text: JSON.stringify(original) },
+    ] }));
+    if (repair) fetcher.mockResolvedValueOnce(Response.json({ stop_reason: 'end_turn', content: [{ type: 'text', text: JSON.stringify({ draft, campaign: unsupported }) }] }));
+    const result = await runPublicResearch(input, false, fetcher);
+    expect(result.campaign?.prospects).toEqual([]);
+    expect(result.campaign?.gaps[0]).toContain('No verified shortlist');
+    expect(result.warning).toContain('No verified shortlist');
+    expect(result.trace.providerCalls).toBe(repair ? 2 : 1);
+    expect(result.trace.webSearches).toBe(1);
+    expect(fetcher).toHaveBeenCalledTimes(repair ? 2 : 1);
+  });
+});
+
 describe('outreach formatting repair', () => {
   const researched = (value: unknown, extraUrls: string[] = []) => Response.json({ stop_reason: 'end_turn', content: [
     { type: 'server_tool_use', name: 'web_search' },
     { type: 'web_search_tool_result', content: [...urls, ...extraUrls].map(url => ({ type: 'web_search_result', url, title: 'Fixture source' })) },
     { type: 'text', text: JSON.stringify(value) },
   ] });
+  it.each([false, true])('does not promote provider dates or retrieval timestamps to publication, repair=%s', async repair => {
+    vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
+    const guessed = structuredClone(campaign); guessed.prospects[0].signal.publishedAt = '2026-09-30';
+    const original = { draft: repair ? { ...draft, summary: 'x'.repeat(500) } : draft, campaign: guessed };
+    const fetcher = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(researched(original));
+    if (repair) fetcher.mockResolvedValueOnce(Response.json({ stop_reason: 'end_turn', content: [{ type: 'text', text: JSON.stringify({ draft, campaign: guessed }) }] }));
+    const result = await runPublicResearch(input, false, fetcher);
+    expect(result.campaign?.prospects).toHaveLength(1);
+    expect(result.campaign?.prospects[0].signal.publishedAt).toBeNull();
+    expect(result.trace.sources.every(source => Boolean(source.retrievedAt))).toBe(true);
+    expect(result.trace.at).toBeTruthy();
+    expect(fetcher).toHaveBeenCalledTimes(repair ? 2 : 1);
+  });
   it('repairs an overlong campaign once without starting another search', async () => {
     vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
     const long = structuredClone(campaign); long.prospects[0].opening = 'A'.repeat(1300);
@@ -116,6 +247,35 @@ describe('outreach formatting repair', () => {
     expect(formatting.tools).toBeUndefined();
     expect(formatting.output_config.format.schema.properties.campaign).toBeDefined();
     expect(fetcher).toHaveBeenCalledTimes(2);
+  });
+  it('omits formatter reassignment and discloses an honest zero result', async () => {
+    vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
+    const long = structuredClone(campaign); long.prospects[0].opening = 'A'.repeat(1300);
+    const altered = structuredClone(campaign); altered.prospects[0].website = urls[0];
+    const fetcher = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(researched({ draft, campaign: long }))
+      .mockResolvedValueOnce(Response.json({ stop_reason: 'end_turn', content: [{ type: 'text', text: JSON.stringify({ draft, campaign: altered }) }] }));
+    const result = await runPublicResearch(input, false, fetcher);
+    expect(result.campaign?.prospects).toEqual([]);
+    expect(result.campaign?.gaps.join(' ')).toContain('formatter changed the original');
+    expect(result.campaign?.gaps[0]).toContain('No verified shortlist');
+    expect(result.warning).toContain('No verified shortlist');
+    expect(fetcher).toHaveBeenCalledTimes(2);
+  });
+  it('retains unchanged grounded associations beside an omitted formatter rename', async () => {
+    vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
+    const second = { ...structuredClone(campaign.prospects[0]), company: 'Second fixture buyer', website: 'https://second.example.com/', signal: { ...campaign.prospects[0].signal, url: 'https://second.example.com/news' } };
+    const long = structuredClone(campaign); long.prospects.push(second); long.prospects[0].opening = 'A'.repeat(1300);
+    const altered = structuredClone(campaign); altered.prospects.push({ ...second, company: 'An unsupported replacement identity' });
+    const fetcher = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(researched({ draft, campaign: long }, [second.website, second.signal.url]))
+      .mockResolvedValueOnce(Response.json({ stop_reason: 'end_turn', content: [{ type: 'text', text: JSON.stringify({ draft, campaign: altered }) }] }));
+    const result = await runPublicResearch(input, false, fetcher);
+    expect(result.campaign?.prospects).toEqual(campaign.prospects);
+    expect(result.campaign?.gaps.join(' ')).toContain('formatter changed the original');
+    expect(result.campaign?.gaps.join(' ')).not.toContain('No verified shortlist');
+    expect(result.trace.providerCalls).toBe(2);
+    expect(result.trace.webSearches).toBe(1);
   });
   it('rejects a new source inserted during formatting even if search returned it', async () => {
     vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');

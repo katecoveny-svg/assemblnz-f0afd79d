@@ -1,5 +1,5 @@
 import 'server-only';
-import {parseOutreach,OutreachCampaign,publicWebsite} from './outreach';
+import {parseGroundedOutreach,OutreachCampaign,publicWebsite} from './outreach';
 import {OUTREACH_SYSTEM} from './outreach-prompt';
 import {evaluateTypeSafe} from '@/lib/typesafe/transport';
 import {Draft,parseGroundedDraft,safeSourceUrl,type EvidenceSource,type PublicResearchResult,type TrialInput} from './public-contract';
@@ -47,7 +47,7 @@ export async function runPublicResearch(input:TrialInput,allowTypeSafe:boolean,f
   const edited=await formatPublicOutreach(output,[...sources.values()],input.company,model,key,fetcher,deadline);
   providerCalls++;inputTokens+=edited.inputTokens;outputTokens+=edited.outputTokens;draft=edited.draft;campaign=edited.campaign;
  }else{
-  campaign=outreach?parseOutreach(campaignValue,[...sources.keys()],input.company):undefined;
+  campaign=outreach?parseGroundedOutreach(campaignValue,[...sources.keys()],input.company):undefined;
   if(valid.success){draft=parseGroundedDraft(valid.data,[...sources.values()]);}
   else if(providerCalls<2){
    const edited=await formatPublicDraft(value,[...sources.values()],model,key,fetcher,deadline);
@@ -59,5 +59,5 @@ export async function runPublicResearch(input:TrialInput,allowTypeSafe:boolean,f
  // snippet. Other sellers retain their researched offer without this override.
  if(assemblSeller&&campaign)campaign.seller.offer=ASSEMBL_PUBLIC_OFFER;
  if(input.useTypeSafe&&allowTypeSafe&&process.env.TYPESAFE_API_KEY){try{const evaluated=await evaluateTypeSafe({surface:'pursuit',intent:'Prepare a draft Studio handoff from this public-source opportunity. Do not send or publish.',page:{title:draft.title,url:draft.evidence[0].url,text:JSON.stringify({draft,sources:[...sources.values()]})},claim:'',shareWithTypeSafe:true},{apiKey:process.env.TYPESAFE_API_KEY,model:process.env.TYPESAFE_MODEL??'jev-latest',timeoutMs:5000});typesafe={status:'completed',model:evaluated.evaluation.model,action:evaluated.evaluation.answers.next_action.choice,confidence:evaluated.evaluation.answers.next_action.confidence};}catch{typesafe={status:'unavailable'};}}
- return {mode:'live',draft,...(campaign?{campaign}:{}),trace:{id:input.requestId,at,model,providerCalls,webSearches,knowledgeIds:knowledge.map(k=>k.id),sources:[...sources.values()].filter(s=>Boolean(campaign)||draft.evidence.some(e=>e.url===s.url)),inputTokens,outputTokens,typesafe,persisted:true},warning:'Independent research draft. Evidence is source-linked, not independently fact-checked. The opportunity is a proposal. Review before sharing; nothing has been sent, published or written to a private client hub.'};
+ return {mode:'live',draft,...(campaign?{campaign}:{}),trace:{id:input.requestId,at,model,providerCalls,webSearches,knowledgeIds:knowledge.map(k=>k.id),sources:[...sources.values()].filter(s=>Boolean(campaign)||draft.evidence.some(e=>e.url===s.url)),inputTokens,outputTokens,typesafe,persisted:true},warning:(campaign&&!campaign.prospects.length?'No verified shortlist. No prospect passed the source checks. ':'')+'Independent research draft. Evidence is source-linked, not independently fact-checked. The opportunity is a proposal. Review before sharing; nothing has been sent, published or written to a private client hub.'};
 }
