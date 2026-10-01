@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import { tripSchema, type DoTrip } from '../../../apps/do/shared/travel';
 
-/** Synthetic preparation only. No document upload, pass barcode, or provider call. */
+/** No document upload, pass barcode, or provider call. Manual fields require review. */
 export type TravelSource = {
-  id: string; kind: 'synthetic_itinerary' | 'synthetic_boarding_summary';
+  id: string; kind: 'synthetic_itinerary' | 'synthetic_boarding_summary' | 'user_manual';
   observedAt: string; verifiedAt: string; expiresAt: string;
 };
 export type TravelTime = { local: string; offset: string; zone: string };
@@ -38,7 +38,7 @@ export function applyTravelToTrip(trip: DoTrip, draft: TravelDraft, expectedRevi
   if (draft.review !== 'acknowledged' || draft.revision !== expectedRevision) throw new Error('Review required');
   return tripSchema.parse({ ...trip, summary: draft.flights.map(f =>
     `${f.marketingFlight} (operated as ${f.operatingFlight}): ${f.origin} ${f.departure.local} ${f.departure.offset} [${f.departure.zone}] → ${f.destination} ${f.arrival.local} ${f.arrival.offset} [${f.arrival.zone}]`
-  ).join('\n') + '\nSynthetic itinerary. Flight status unknown. Nothing booked.', updatedAt: draft.preparedAt });
+  ).join('\n') + `\n${draft.source.kind === 'user_manual' ? 'User-entered itinerary; provider verification required.' : 'Synthetic itinerary.'} Flight status unknown. Nothing booked.`, updatedAt: draft.preparedAt });
 }
 
 const instantPattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/;
@@ -72,8 +72,14 @@ export function prepareTravel(document: TravelDocument, completion: {
   responsibilityId: string; runId: string; revision: number; completedAt: string;
 }): TravelDraft {
   if (document.synthetic !== true) throw new Error('Only synthetic documents supported');
+  if (!['synthetic_itinerary', 'synthetic_boarding_summary'].includes(document.source.kind)) throw new Error('Unsupported synthetic source');
+  return prepareReviewedTravel(document, completion);
+}
+
+/** Internal common projection; manual entry gate is owned by manual-input.ts. */
+export function prepareReviewedTravel(document: { source: TravelSource; flights: FlightInput[] }, completion: Parameters<typeof prepareTravel>[1]): TravelDraft {
   const source = document.source;
-  if (!['synthetic_itinerary', 'synthetic_boarding_summary'].includes(source.kind)) throw new Error('Unsupported source');
+  if (!['synthetic_itinerary', 'synthetic_boarding_summary', 'user_manual'].includes(source.kind)) throw new Error('Unsupported source');
   const observed = instant(source.observedAt), verified = instant(source.verifiedAt), expiry = instant(source.expiresAt);
   const completed = instant(completion.completedAt);
   if (observed > verified || verified > completed || expiry <= verified) throw new Error('Invalid evidence times');
@@ -120,7 +126,7 @@ export function travelTimeline(draft: TravelDraft, now: string) {
     { kind: 'departure' as const, airport: f.origin, time: f.departure, instant: travelInstant(f.departure), flight: f.marketingFlight, operatingFlight: f.operatingFlight },
     { kind: 'arrival' as const, airport: f.destination, time: f.arrival, instant: travelInstant(f.arrival), flight: f.marketingFlight, operatingFlight: f.operatingFlight },
   ]).sort((a,b) => a.instant-b.instant).map(e => ({ ...e, sourceId: draft.source.id,
-    evidence: fresh ? 'synthetic' as const : 'stale' as const, flightStatus: 'unknown' as const }));
+    evidence: fresh ? (draft.source.kind === 'user_manual' ? 'user_entered' as const : 'synthetic' as const) : 'stale' as const, flightStatus: 'unknown' as const }));
 }
 
 /** Official universal link. Opening is user-directed; prices and terms stay in Uber. */
