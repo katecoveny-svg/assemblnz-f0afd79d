@@ -12,7 +12,7 @@ OUT.mkdir(parents=True, exist_ok=True)
 async def main():
     report = []
     async with async_playwright() as playwright:
-        browser = await playwright.chromium.launch(**({'executable_path': os.environ['PLAYWRIGHT_EXECUTABLE_PATH']} if os.environ.get('PLAYWRIGHT_EXECUTABLE_PATH') else {}))
+        browser = await playwright.chromium.launch(args=['--disable-dev-shm-usage', '--enable-webgl', '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'], **({'executable_path': os.environ['PLAYWRIGHT_EXECUTABLE_PATH']} if os.environ.get('PLAYWRIGHT_EXECUTABLE_PATH') else {}))
         for width in (375, 1440):
             for motion in ('no-preference', 'reduce'):
                 context = await browser.new_context(viewport={'width': width, 'height': 900}, reduced_motion=motion)
@@ -41,10 +41,14 @@ async def main():
                             await expect(scene.get_by_role('button', name='Pause scene motion', exact=True)).to_be_disabled()
                             await expect(scene.get_by_label('The complete work loop')).to_be_visible()
                         else:
-                            await scene.get_by_role('button', name='Pause scene motion', exact=True).click()
+                            # Exercise native keyboard activation without waiting for two
+                            # stable software-WebGL frames (the immersive audit uses this path).
+                            pause = scene.get_by_role('button', name='Pause scene motion', exact=True)
+                            await pause.focus()
+                            await pause.press('Enter')
                             await expect(scene.get_by_role('button', name='Resume scene motion', exact=True)).to_have_attribute('aria-pressed', 'true')
-                            await scene.get_by_role('button', name='Resume scene motion', exact=True).click()
-                            await scene.get_by_role('button', name='View Studio scene', exact=True).click()
+                            await scene.get_by_role('button', name='Resume scene motion', exact=True).press('Enter')
+                            await scene.get_by_role('button', name='View Studio scene', exact=True).press('Enter')
                             await expect(scene).to_have_attribute('data-chapter', '2')
                     await demo.scroll_into_view_if_needed()
                     await demo.get_by_role('button', name='Next walkthrough step', exact=True).click()
