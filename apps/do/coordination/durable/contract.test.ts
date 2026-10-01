@@ -1,0 +1,7 @@
+import { describe, expect, it } from 'vitest';
+import { commandSchema, durableEnvelopeSchema } from './contract';
+const envelope = { version: 1, kind: 'availability', contactId: '11111111-1111-4111-8111-111111111111', taskId: '22222222-2222-4222-8222-222222222222', revision: 1, from: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', to: 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb', expiresAt: '2026-10-03T22:00:00Z', windows: [{ start: '2026-10-03T09:00:00+13:00', end: '2026-10-03T10:00:00+13:00' }] };
+describe('minimal authenticated peer contracts', () => {
+ it('accepts explicit UTC/offset windows and rejects authority or private context fields', () => { expect(durableEnvelopeSchema.safeParse(envelope).success).toBe(true); for (const key of ['instructions','notes','memoryId','memoryBody','consentRef','calendarDescription','unavailableReason','permit']) expect(durableEnvelopeSchema.safeParse({ ...envelope, [key]: 'private' }).success).toBe(false); expect(durableEnvelopeSchema.safeParse({ ...envelope, from: envelope.to }).success).toBe(false); });
+ it('never accepts an owner identity supplied as a command field', () => { const command = { kind: 'approve', requestId: envelope.contactId, taskId: envelope.taskId, expectedRevision: 1, proposalDigest: 'a'.repeat(64) }; expect(commandSchema.safeParse(command).success).toBe(true); expect(commandSchema.safeParse({ ...command, ownerId: envelope.to }).success).toBe(false); });
+});

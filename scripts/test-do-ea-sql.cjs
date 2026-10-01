@@ -1,0 +1,84 @@
+// Isolated PostgreSQL 17 proof. Never accepts a remote connection or application credentials.
+// docker run -d --name do-ea-isolated-proof -p 127.0.0.1:55439:5432 -e POSTGRES_PASSWORD=fictional-ea-test-only -e POSTGRES_DB=ea_proof postgres:17
+const { Client } = require(process.env.DO_EA_PG_MODULE || '/tmp/assembl-personal-sql/node_modules/pg');
+const fs = require('node:fs'); const assert = require('node:assert/strict'); const { randomUUID } = require('node:crypto');
+const connectionString = 'postgresql://postgres:fictional-ea-test-only@127.0.0.1:55439/ea_proof';
+const a='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',b='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb', stranger='cccccccc-cccc-4ccc-8ccc-cccccccccccc', guest='dddddddd-dddd-4ddd-8ddd-dddddddddddd';
+let checks=0; const clients=[];
+async function session(owner, role='authenticated') { const c=new Client({connectionString}); await c.connect(); clients.push(c); await c.query('select set_config(\'request.jwt.claim.sub\',$1,false),set_config(\'request.jwt.claims\',$2,false)',[owner,JSON.stringify({sub:owner,is_anonymous:owner===guest})]); await c.query('set role '+role); return c; }
+const cmd=(c,v)=>c.query('select public.do_ea_command($1::jsonb) as result',[v]).then(r=>r.rows[0].result);
+const snap=c=>c.query('select public.do_ea_snapshot() as result').then(r=>r.rows[0].result);
+const req=(kind, fields)=>({kind,requestId:randomUUID(),...fields});
+const pass=name=>{checks++;console.log('PASS '+name);};
+(async()=>{const admin=new Client({connectionString}); await admin.connect(); clients.push(admin);
+try {
+ await admin.query('drop schema if exists do_ea_private cascade; drop schema if exists auth cascade; drop function if exists public.do_ea_command(jsonb),public.do_ea_snapshot()');
+ await admin.query(`do $$begin if not exists(select 1 from pg_roles where rolname='anon') then create role anon; end if; if not exists(select 1 from pg_roles where rolname='authenticated') then create role authenticated; end if; if not exists(select 1 from pg_roles where rolname='service_role') then create role service_role bypassrls; end if; end$$; create schema auth; create table auth.users(id uuid primary key,is_anonymous boolean); create function auth.uid() returns uuid language sql as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$; create function auth.jwt() returns jsonb language sql as $$select coalesce(nullif(current_setting('request.jwt.claims',true),''),'{}')::jsonb$$; grant usage on schema auth,public to anon,authenticated,service_role; alter default privileges grant all on tables to service_role,authenticated,anon; alter default privileges grant all on functions to service_role,authenticated,anon;`);
+ await admin.query(fs.readFileSync('docs/do-coordination/schema-review.sql','utf8'));
+ await admin.query('insert into auth.users values($1,false),($2,false),($3,false),($4,true)',[a,b,stranger,guest]);
+ const A=await session(a),B=await session(b),C=await session(stranger),G=await session(guest),service=await session(a,'service_role'),anon=await session(a,'anon');
+ const expiry=new Date(Date.now()+2*86400000).toISOString();
+ const pair=async(first=a,second=b)=>{const id=randomUUID();await admin.query('insert into do_ea_private.contacts(id,owner_a,owner_b,pairing_source,expires_at) values($1,$2,$3,\'isolated_fixture\',$4)',[id,first,second,expiry]);return id;};
+ const contact=await pair();
+ for(const c of [anon,service,G]) await assert.rejects(()=>snap(c)); pass('anon, anonymous JWT and service_role cannot invoke participant RPCs');
+ for(const c of [A,B,service,anon]) {await assert.rejects(()=>c.query('select * from do_ea_private.permissions'));await assert.rejects(()=>c.query('select do_ea_private.clear_task($1,\'revoked\')',[randomUUID()]));} pass('inherited default ACLs stripped; API roles cannot read tables or invoke private helpers');
+ await assert.rejects(()=>cmd(C,req('accept_contact',{contactId:contact,expectedRevision:0})),/ea_scope/);
+ await assert.rejects(()=>cmd(A,req('accept_contact',{contactId:randomUUID(),expectedRevision:0})),/ea_scope/); pass('stranger and guessed contact IDs cannot pair or enumerate');
+ const accept=req('accept_contact',{contactId:contact,expectedRevision:0});await cmd(A,accept);
+ assert.equal((await cmd(A,accept)).duplicate,true);await assert.rejects(()=>cmd(A,{...accept,expectedRevision:1}),/ea_replay/);pass('exact retry idempotent; request ID with changed content rejected');
+ await assert.rejects(()=>cmd(A,req('create_task',{contactId:contact,expectedRevision:1,durationMinutes:30,expiresAt:expiry})),/ea_scope/);
+ await cmd(B,req('accept_contact',{contactId:contact,expectedRevision:1}));pass('mutual authenticated contact acceptance required');
+ const made=await cmd(A,req('create_task',{contactId:contact,expectedRevision:2,durationMinutes:30,expiresAt:expiry}));const taskId=made.taskId;
+ assert.equal((await snap(C)).tasks.length,0);assert.equal((await snap(B)).tasks[0].id,taskId);pass('shared task only visible to its two participants');
+ const base={taskId,expectedRevision:1};
+ const start=new Date(Date.now()+3600000).toISOString(),end=new Date(Date.now()+7200000).toISOString();
+ const windows=[{start,end}];
+ for(const bad of [{windows:[{start,end,privateNotes:'secret'}]},{windows:null},{windows:[{start:'infinity',end}]},{windows:[{start:end,end:start}]},{windows:[{start,end}],expiresAt:null},{ownerId:b},{expectedRevision:'1'},{durationMinutes:2}]) await assert.rejects(()=>cmd(A,{...req('save_windows',{...base,windows,expiresAt:expiry}),...bad}));pass('SQL rejects private fields, owner injection, nulls, wrong types and invalid windows');
+ const savedA=await cmd(A,req('save_windows',{...base,windows,expiresAt:expiry}));
+ assert.equal((await snap(B)).permissions.length,0);assert.equal((await snap(B)).inbox.length,0);pass('saved windows are private until exact disclosure approval');
+ await assert.rejects(()=>cmd(A,req('queue_disclosure',{...base,disclosureDigest:'f'.repeat(64)})),/ea_scope/);
+ const queuedA=await cmd(A,req('queue_disclosure',{...base,disclosureDigest:savedA.disclosureDigest}));
+ assert.equal((await snap(B)).inbox[0].envelope,null);assert.equal((await snap(B)).tasks[0].proposal,null);pass('queued metadata is distinct from delivered windows; wrong disclosure digest denied');
+ await assert.rejects(()=>cmd(A,req('deliver',{...base,messageId:queuedA.messageId})),/ea_scope/);
+ const delivered=req('deliver',{...base,messageId:queuedA.messageId});await cmd(B,delivered);assert.equal((await cmd(B,delivered)).duplicate,true);
+ assert.equal((await snap(B)).inbox[0].envelope.windows.length,1);pass('only addressed recipient delivers approved envelope; duplicate delivery is harmless');
+ const savedB=await cmd(B,req('save_windows',{...base,windows,expiresAt:expiry}));const queuedB=await cmd(B,req('queue_disclosure',{...base,disclosureDigest:savedB.disclosureDigest}));await cmd(A,req('deliver',{...base,messageId:queuedB.messageId}));
+ const proposal=(await snap(A)).tasks[0];assert.equal(proposal.status,'proposed');assert.equal(Date.parse(proposal.proposal.end)-Date.parse(proposal.proposal.start),30*60000);pass('both delivered permissions produce deterministic UTC overlap');
+ await assert.rejects(()=>cmd(A,req('approve',{...base,proposalDigest:'e'.repeat(64)})),/ea_scope/);
+ const approvedA=req('approve',{...base,proposalDigest:proposal.proposal_digest});await cmd(A,approvedA);assert.equal((await snap(B)).tasks[0].receipt,null);
+ await cmd(B,req('approve',{...base,proposalDigest:proposal.proposal_digest}));assert.equal((await snap(A)).tasks[0].receipt.calendarBookingCreated,false);pass('both exact-content approvals required; receipt explicitly says no calendar booking');
+ await admin.query("update do_ea_private.tasks set proposal=jsonb_set(proposal,'{start}',to_jsonb((clock_timestamp()-interval '1 second')::text)) where id=$1",[taskId]);
+ await assert.rejects(()=>cmd(A,approvedA),/ea_scope/);await assert.rejects(()=>cmd(B,req('approve',{...base,proposalDigest:proposal.proposal_digest})),/ea_scope/);pass('started slot rejects fresh approval and historical approval replay');
+ const change=await cmd(B,req('change_plan',{...base,durationMinutes:45}));assert.equal(change.revision,2);
+ const changed=await snap(A);assert.equal(changed.tasks[0].proposal,null);assert.equal(changed.inbox[0].envelope,null);assert.equal(changed.permissions[0].windows,null);assert.equal(changed.approvals[0].invalidated,true);
+ await assert.rejects(()=>cmd(B,delivered),/ea_replay/);await assert.rejects(()=>cmd(A,req('approve',{...base,proposalDigest:proposal.proposal_digest})),/ea_conflict/);pass('changed plan atomically invalidates all disclosure, delivery and approvals; old revision rejected');
+ const races=await Promise.allSettled([cmd(A,req('change_plan',{taskId,expectedRevision:2,durationMinutes:60})),cmd(B,req('change_plan',{taskId,expectedRevision:2,durationMinutes:90}))]);assert.equal(races.filter(x=>x.status==='fulfilled').length,1);await assert.rejects(()=>cmd(A,req('change_plan',{taskId,expectedRevision:3,durationMinutes:30})),/ea_quota/);pass('concurrent CAS has one winner; negotiation bounded to three revisions');
+ await cmd(A,req('decline',{taskId,expectedRevision:3}));assert.equal((await cmd(B,req('approve',{taskId,expectedRevision:3,proposalDigest:proposal.proposal_digest}))).error,'closed');pass('decline closes task and prevents approval resurrection');
+ const make=async()=> (await cmd(A,req('create_task',{contactId:contact,expectedRevision:2,durationMinutes:30,expiresAt:expiry}))).taskId;
+ const expired=await make();await admin.query("update do_ea_private.tasks set expires_at=clock_timestamp()-interval '1 second' where id=$1",[expired]);assert.equal((await cmd(A,req('change_plan',{taskId:expired,expectedRevision:1,durationMinutes:45}))).error,'expired');assert.equal((await admin.query('select status from do_ea_private.tasks where id=$1',[expired])).rows[0].status,'expired');pass('expiry commits tombstone rather than rolling back behind an exception');
+ const locked=await make();const lock=new Client({connectionString});await lock.connect();clients.push(lock);await lock.query('begin');await lock.query('select pg_advisory_xact_lock(hashtextextended($1,686))',[a]);
+ await lock.query("update do_ea_private.tasks set expires_at=clock_timestamp()+interval '120 milliseconds' where id=$1",[locked]);const pending=cmd(B,req('change_plan',{taskId:locked,expectedRevision:1,durationMinutes:45}));await lock.query('select pg_sleep(0.18)');await lock.query('commit');assert.equal((await pending).error,'expired');pass('server wallclock rechecked after waiting for participant lock');
+ const taskLocked=await make();await lock.query('begin');await lock.query("update do_ea_private.tasks set expires_at=clock_timestamp()+interval '120 milliseconds' where id=$1",[taskLocked]);
+ const waitingTask=cmd(B,req('change_plan',{taskId:taskLocked,expectedRevision:1,durationMinutes:45}));await lock.query('select pg_sleep(0.18)');await lock.query('commit');assert.equal((await waitingTask).error,'expired');pass('separate task lock wait crossing expiry cannot authorise command');
+ const snapshotLocked=await make();await lock.query('begin');await lock.query("update do_ea_private.tasks set expires_at=clock_timestamp()+interval '120 milliseconds' where id=$1",[snapshotLocked]);
+ const waitingSnapshot=snap(B);await lock.query('select pg_sleep(0.18)');await lock.query('commit');assert.equal((await waitingSnapshot).tasks.find(x=>x.id===snapshotLocked).status,'expired');pass('snapshot resamples after task locks; expired bodies never emitted after a wait');
+ const targetExpiry=await make(), sibling=await make();
+ await admin.query("update do_ea_private.tasks set expires_at=clock_timestamp()+interval '120 milliseconds' where id=$1",[targetExpiry]);
+ await lock.query('begin');await lock.query('select id from do_ea_private.tasks where id=$1 for update',[sibling]);
+ const waitingSibling=cmd(B,req('change_plan',{taskId:targetExpiry,expectedRevision:1,durationMinutes:45}));await lock.query('select pg_sleep(0.18)');await lock.query('commit');assert.equal((await waitingSibling).error,'expired');pass('expiry sweep waiting on a sibling task resamples before target authorisation');
+ const noOverlap=await make();const nb={taskId:noOverlap,expectedRevision:1};
+ const late=[{start:new Date(Date.now()+10800000).toISOString(),end:new Date(Date.now()+14400000).toISOString()}];
+ for(const [sender,receiver,ws] of [[A,B,windows],[B,A,late]]) {const saved=await cmd(sender,req('save_windows',{...nb,windows:ws,expiresAt:expiry}));const queued=await cmd(sender,req('queue_disclosure',{...nb,disclosureDigest:saved.disclosureDigest}));await cmd(receiver,req('deliver',{...nb,messageId:queued.messageId}));}
+ assert.equal((await snap(A)).tasks.find(x=>x.id===noOverlap).status,'no_overlap');pass('nonoverlapping exact permissions produce no proposal or booking');
+ const live=await make();await cmd(B,req('save_windows',{taskId:live,expectedRevision:1,windows,expiresAt:expiry}));await cmd(A,req('revoke_contact',{contactId:contact,expectedRevision:2}));assert.equal((await snap(B)).tasks.find(x=>x.id===live).status,'revoked');assert.equal((await snap(B)).permissions.find(x=>x.task_id===live).windows,null);assert.equal((await cmd(A,accept)).error,'closed');pass('revocation clears private/shared windows and prevents old request resurrection');
+ await A.end();clients.splice(clients.indexOf(A),1);const reopened=await session(a);assert.equal((await snap(reopened)).contacts[0].status,'revoked');pass('durable closed state survives new authenticated session');
+ const healthy=await pair(a,stranger);await cmd(reopened,req('accept_contact',{contactId:healthy,expectedRevision:0}));await cmd(C,req('accept_contact',{contactId:healthy,expectedRevision:1}));
+ await admin.query('insert into do_ea_private.requests select $1,gen_random_uuid(),\'fixture tombstone\',\'{"saved":false}\'::jsonb from generate_series(1,200)',[stranger]);
+ // Stranger quota tested on its separately seeded verified pairing, not guessed ownership.
+ const other=randomUUID();await admin.query('insert into do_ea_private.contacts values($1,$2,$3,\'isolated_fixture\',0,false,false,\'pending\',$4)',[other,b,stranger,expiry]);await assert.rejects(()=>cmd(C,req('accept_contact',{contactId:other,expectedRevision:0})),/ea_quota/);pass('lifetime request tombstone quota cannot be freed by replay/delete');
+ const many=await Promise.allSettled(Array.from({length:25},()=>cmd(reopened,req('create_task',{contactId:healthy,expectedRevision:2,durationMinutes:30,expiresAt:expiry}))));assert.equal((await admin.query('select count(*)::int n from do_ea_private.participants where owner_id=$1',[a])).rows[0].n,20);assert.ok(many.some(x=>x.status==='rejected'));pass('parallel creation cannot exceed either participant lifetime task quota');
+ for(let n=0;n<3;n++){const owner=randomUUID();await admin.query('insert into auth.users values($1,false)',[owner]);const first=a<owner?a:owner,second=a<owner?owner:a;await admin.query('insert into do_ea_private.contacts(id,owner_a,owner_b,pairing_source,expires_at) values($1,$2,$3,\'isolated_fixture\',$4)',[randomUUID(),first,second,expiry]);}
+ const extra=randomUUID();await admin.query('insert into auth.users values($1,false)',[extra]);await assert.rejects(()=>admin.query('insert into do_ea_private.contacts(id,owner_a,owner_b,pairing_source,expires_at) values($1,$2,$3,\'isolated_fixture\',$4)',[randomUUID(),a<extra?a:extra,a<extra?extra:a,expiry]),/ea_quota/);pass('trusted fixture pairing still cannot exceed bounded five-contact graph');
+ const utc=(await admin.query("select ('2026-09-27T01:30:00+12:00'::timestamptz at time zone 'Pacific/Auckland')::text before,('2026-09-27T03:30:00+13:00'::timestamptz at time zone 'Pacific/Auckland')::text after,extract(epoch from('2026-09-27T03:30:00+13:00'::timestamptz-'2026-09-27T01:30:00+12:00'::timestamptz))::int seconds")).rows[0];assert.equal(utc.seconds,3600);pass('Auckland spring DST transition uses absolute instants, not local clock subtraction');
+ console.log(`${checks} isolated PostgreSQL checks passed. Synthetic sessions only; proposal schema not activated.`);
+}finally{await Promise.all(clients.map(c=>c.end().catch(()=>{})));}})().catch(e=>{console.error(e);process.exitCode=1;});
