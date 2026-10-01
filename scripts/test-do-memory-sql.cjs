@@ -26,6 +26,8 @@ const fs = require('node:fs'); const os = require('node:os'); const path = requi
   for (const malformed of [{...record,active:'true'}, {...record,text:12}, {...record,extra:'permission'}, {...record,expiresAt:'not-a-date'}, {...record,revision:1.5}, {...record,retentionDays:'7'}]) await assert.rejects(() => change(a,0,malformed));
   check('malformed types, extra fields and dates fail in PostgreSQL',true);
   await assert.rejects(() => change(a,0,null)); check('absent delete cannot report success',true);
+  const future=new Date(Date.now()+86400000).toISOString();
+  await assert.rejects(()=>change(a,0,{...record,observedAt:future,consentedAt:future,reviewedAt:future,updatedAt:future,expiresAt:new Date(Date.now()+8*86400000).toISOString()})); check('future-dated provenance cannot extend retention',true);
   await change(a,0,record);
   await assert.rejects(() => change(a,0,record)); check('retry cannot duplicate or overwrite creation',true);
   await assert.rejects(() => change(anonymous,0,record)); check('anonymous account cannot create context',true);
@@ -91,6 +93,13 @@ const fs = require('node:fs'); const os = require('node:os'); const path = requi
     await db.query("update public.do_personal_memory set record=record || $3::jsonb,expires_at=($3::jsonb->>'expiresAt')::timestamptz where owner_id=$1 and id=$2",[b,fresh,{observedAt:past,consentedAt:past,reviewedAt:past,updatedAt:past,expiresAt:expiry}]);
     await Promise.allSettled([db.query('select public.do_personal_memory_expire_batch(100)'),second.query('select public.do_personal_memory_change($1,$2,$3,$4)',[b,fresh,2,{...record,id:fresh,revision:3}])]);
     check('separate-session expiry/purge race leaves only tombstone',(await db.query('select record from public.do_personal_memory where owner_id=$1 and id=$2',[b,fresh])).rows[0].record===null);
+    const timed=uuid();
+    await put(timed,0,{...record,id:timed,expiresAt:new Date(Date.now()+500).toISOString()});
+    await db.exec('begin');
+    await db.query('select pg_advisory_xact_lock(hashtextextended($1,3027))',[b]);
+    const blocked=second.query('select public.do_personal_memory_change($1,$2,$3,$4)',[b,timed,1,{...record,id:timed,revision:2}]);
+    await db.query('select pg_sleep(0.8)'); await db.exec('commit');
+    check('lock wait across expiry uses current wall clock and commits erasure',(await blocked).rows[0].do_personal_memory_change===false && (await db.query('select record from public.do_personal_memory where owner_id=$1 and id=$2',[b,timed])).rows[0].record===null);
    } finally { await second.close(); }
   }
   console.log(`${checks} local database checks passed`);

@@ -40,16 +40,17 @@ create policy do_memory_owner on public.do_personal_memory for select to authent
  using ((select auth.uid())=owner_id and coalesce((select auth.jwt()->>'is_anonymous'),'false')='false' and expires_at>now());
 create function public.do_personal_memory_change(p_owner uuid,p_id uuid,p_expected_revision integer,p_record jsonb)
 returns boolean language plpgsql security invoker set search_path='' as $$
-declare v_current integer; v_record jsonb; v_expiry timestamptz;
+declare v_current integer; v_record jsonb; v_expiry timestamptz; v_now timestamptz;
 begin
  if p_owner is null or p_id is null or p_expected_revision is null or p_expected_revision<0 then raise exception 'memory_invalid'; end if;
  perform pg_advisory_xact_lock(hashtextextended(p_owner::text,3027));
  if not exists(select 1 from auth.users where id=p_owner and not is_anonymous) then raise exception 'owner_required'; end if;
  select revision,record,expires_at into v_current,v_record,v_expiry from public.do_personal_memory where owner_id=p_owner and id=p_id for update;
+ v_now:=clock_timestamp();
  if v_current is null and p_record is null then raise exception 'memory_not_found'; end if;
  if coalesce(v_current,0)<>p_expected_revision then raise exception 'memory_conflict'; end if;
  if v_current is not null and v_record is null then raise exception 'memory_conflict'; end if;
- if v_expiry<=now() then
+ if v_expiry<=v_now then
   -- Return false after committing erasure: raising here would roll back the tombstone.
   update public.do_personal_memory set record=null,expires_at=null,revision=revision+1 where owner_id=p_owner and id=p_id;
   return false;
@@ -61,7 +62,8 @@ begin
  if jsonb_typeof(p_record)<>'object' or not (p_record ?& array['id','revision','expiresAt']) then raise exception 'memory_invalid'; end if;
  if jsonb_typeof(p_record->'id')<>'string' or jsonb_typeof(p_record->'revision')<>'number' or jsonb_typeof(p_record->'expiresAt')<>'string' then raise exception 'memory_invalid'; end if;
  if p_record->>'id'<>p_id::text or p_record->>'revision'<>(p_expected_revision+1)::text then raise exception 'memory_conflict'; end if;
- if (p_record->>'expiresAt')::timestamptz<=now() then raise exception 'memory_expired'; end if;
+ if (p_record->>'consentedAt')::timestamptz>v_now or (p_record->>'updatedAt')::timestamptz>v_now or (p_record->>'reviewedAt')::timestamptz>v_now or (p_record->>'observedAt')::timestamptz>v_now then raise exception 'memory_future_provenance'; end if;
+ if (p_record->>'expiresAt')::timestamptz<=v_now then raise exception 'memory_expired'; end if;
  if v_current is null and (select count(*) from public.do_personal_memory where owner_id=p_owner and record is not null)>=30 then raise exception 'memory_limit'; end if;
  insert into public.do_personal_memory(owner_id,id,revision,record,expires_at) values(p_owner,p_id,p_expected_revision+1,p_record,(p_record->>'expiresAt')::timestamptz)
  on conflict(owner_id,id) do update set record=excluded.record,revision=excluded.revision,expires_at=excluded.expires_at;
@@ -69,11 +71,12 @@ begin
 end $$;
 create function public.do_personal_memory_purge(p_owner uuid)
 returns integer language plpgsql security invoker set search_path='' as $$
-declare v_count integer;
+declare v_count integer; v_now timestamptz;
 begin
  if p_owner is null then raise exception 'owner_required'; end if;
  perform pg_advisory_xact_lock(hashtextextended(p_owner::text,3027));
- with due as (select owner_id,id from public.do_personal_memory where owner_id=p_owner and expires_at<=now() order by expires_at for update skip locked limit 100)
+ v_now:=clock_timestamp();
+ with due as (select owner_id,id from public.do_personal_memory where owner_id=p_owner and expires_at<=v_now order by expires_at for update skip locked limit 100)
  update public.do_personal_memory m set record=null,expires_at=null,revision=revision+1 from due where m.owner_id=due.owner_id and m.id=due.id;
  get diagnostics v_count=row_count;
  return v_count;
@@ -81,10 +84,11 @@ end $$;
 -- Scheduled caller must record batch count, failures and oldest overdue expiry; no scheduler enabled here.
 create function public.do_personal_memory_expire_batch(p_limit integer default 100)
 returns integer language plpgsql security invoker set search_path='' as $$
-declare v_count integer;
+declare v_count integer; v_now timestamptz;
 begin
  if p_limit is null or p_limit<1 or p_limit>100 then raise exception 'memory_invalid_batch'; end if;
- with due as (select owner_id,id from public.do_personal_memory where expires_at<=now() order by expires_at for update skip locked limit p_limit)
+ v_now:=clock_timestamp();
+ with due as (select owner_id,id from public.do_personal_memory where expires_at<=v_now order by expires_at for update skip locked limit p_limit)
  update public.do_personal_memory m set record=null,expires_at=null,revision=revision+1 from due where m.owner_id=due.owner_id and m.id=due.id;
  get diagnostics v_count=row_count;
  return v_count;
