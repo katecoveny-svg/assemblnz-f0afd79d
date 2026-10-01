@@ -56,4 +56,15 @@ export function createReviewTransport() {
   };
 }
 
-export const migrationFetch = createReviewTransport();
+const reviewFetch = createReviewTransport();
+export async function migrationFetch(input:RequestInfo|URL,init?:RequestInit):Promise<Response> {
+  if(typeof window === 'undefined' || window.location.pathname !== '/studio/workspace') return reviewFetch(input,init);
+  const url=new URL(input instanceof Request?input.url:String(input),window.location.origin);
+  const method=(init?.method || (input instanceof Request?input.method:'GET')).toUpperCase();
+  if(url.origin===window.location.origin && url.pathname==='/api/hub' && ['GET','POST'].includes(method)) {
+    const target=new URL('/api/client-hub-migration/owner',window.location.origin);
+    if(url.searchParams.has('id'))target.searchParams.set('id',url.searchParams.get('id')!);
+    return window.fetch(target,{...init,method,credentials:'same-origin',redirect:'error',cache:'no-store'});
+  }
+  return Response.json({error:'This connection is not available in the new owner workspace. No provider, upload or sharing action occurred.'},{status:503});
+}

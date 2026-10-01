@@ -29,8 +29,6 @@ export const deploymentOptions=[
 export const securitySources=[
  {title:"NZ Privacy Commissioner · third-party responsibilities",url:"https://www.privacy.org.nz/assets/New-order/Resources-/Publications/Guidance-resources/2024-11-21-s11-third-party-providers.pdf",note:"Outsourcing does not remove the customer’s privacy responsibilities. Agree security, use, breach reporting, retention and access."},
  {title:"NZ Privacy Commissioner · privacy statements",url:"https://www.privacy.org.nz/resources-and-learning/knowledge-base/view/312/",note:"Explain collection, purpose, recipients, required information and access/correction rights. Assess indirect collection notices for lead research."},
- {title:"SAP · Kyma application environment",url:"https://help.sap.com/docs/BTP/65de2977205c403bbc107264b8eccf4b/468c2f3c3ca24c2c8497ef9f83154c44.html",note:"SAP BTP supports containerised applications. This codebase needs adaptation before it could run there."},
- {title:"SAP · partner certification framework",url:"https://news.sap.com/2026/01/updates-sap-integration-certification-program-partner-built-solutions/",note:"A potential partner route to assess. assembl is not represented as SAP certified or approved."},
 ] as const;
 export function defaultSecurity(h:Pick<Hub,"seller">):SecurityPlan{return {operator:"Assembl New Zealand Limited",customer:h.seller,contact:"",deployment:"managed",environment:"",region:"",data:"Public sources, original illustrative media and synthetic demonstration information. No production customer records in the initial evaluation.",retention:"",itOwner:"",legalOwner:"",reviews:securityChecks.map(x=>({id:x.id,status:"Not assessed",owner:"",evidence:""}))};}
 export function securityBrief(h:Hub){
@@ -78,7 +76,7 @@ Document the parties’ actual legal roles for each processing purpose and appli
 ## Draft privacy notice — complete before publication
 ${p.operator||"[LEGAL ENTITY]"} operates the agreed assembl service. Contact ${p.contact||"[PRIVACY CONTACT AND ADDRESS]"} about personal information and access or correction requests.
 The signed-in workspace uses account identity, material the authorised operator supplies, saved work and selected service requests to provide research, drafting, media and demonstrations. Identify the final categories and lawful purposes for the deployed service. Explain what is optional and what cannot work without the required information.
-Private documents and workspace notes are not included in the standard shared demo. The operator chooses reviewed content for an unlisted link. Anyone holding that link can open or forward it. The demonstrator keeps interactive choices in the current visit unless the visitor downloads a brief. Infrastructure providers may receive ordinary request information; verify and disclose logs and retention separately.
+Private documents and workspace notes are not included in the standard shared demo. Sharing is disabled in this port. A future recipient projection requires authenticated, expiring, revocable grants; a URL alone grants no access. The demonstrator keeps interactive choices in the current visit unless the visitor downloads a brief. Infrastructure providers may receive ordinary request information; verify and disclose logs and retention separately.
 AI requests include the selected brief, conversation context and relevant approved reference extracts. Research can use external web search. Describe the actual service providers and international transfers in the final notice. Explain notices or applicable exceptions for personal information collected indirectly through lead research.
 Publish the confirmed retention schedule, contact method, access/correction process and complaint route. Do not publish this draft with unresolved entity, contact, provider or retention details.
 
@@ -93,7 +91,7 @@ Status: ${mode.status}
 4. Controlled pilot: limited users, monitoring, support contacts, correction and rollback. A named client owner decides acceptance.
 5. Production decision: settle outstanding assurance, procurement and support requirements before wider access or consequential actions.
 
-For SAP BTP/Kyma or another client platform, first replace or adapt the current Sites identity, Cloudflare Workers runtime, D1 database and R2 file bindings, and the Supabase/AI service path. Package and test the application in the chosen environment; configure client identity, data store, object storage, secrets, approved model service and network policy. A downloadable demonstration HTML file is not the complete server application.
+For a client platform, first replace or adapt the current Sites identity, Cloudflare Workers runtime, D1 database and R2 file bindings, and the Supabase/AI service path. Package and test the application in the chosen environment; configure client identity, data store, object storage, secrets, approved model service and network policy. A downloadable demonstration HTML file is not the complete server application.
 
 ## Review register
 ${p.reviews.map(r=>`- ${securityChecks.find(x=>x.id===r.id)?.title||r.id}: ${r.status}. Owner: ${r.owner||"to assign"}. Evidence/decision: ${r.evidence||"not supplied"}`).join("\n")}

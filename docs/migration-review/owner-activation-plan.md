@@ -1,0 +1,15 @@
+# Smallest new owner-workspace activation
+
+Proposed canonical direct route: `/studio/workspace`, private/noindex, no new landing detour. Separate namespaced API: `/api/client-hub-migration/owner`. Existing `/studios` and original Site remain intact.
+
+Stage1 creates **new empty records only**. The initial brief has no checked sources, research, contractor evidence, selected idea or media. Owner can edit company/client/brief, add an owner-authored idea, edit its story/options, use original journey preview, save and reopen. It is not deterministic fixture generation: generation/research/company-agent/upload/recipient actions stay unavailable. Inline brand edits travel with the saved draft; company-wide defaults/deck storage remain unavailable. The browser's company choice never selects the database tenant.
+
+Activation decisions:
+1. Review the separate `owner-schema-proposal.sql` and `storage-policy-proposal.sql`; neither is a production migration and neither has been applied. Use the repository migration workflow only after approval. Stage1 needs only owner drafts/revision RPC; recipient/storage structures can remain unactivated.
+2. Use existing cookie-based assembl Supabase client and `auth.getUser()` verification, no service-role or copied credential. Reject anonymous users. Explicit server activation flag `ASSEMBL_STUDIO_OWNER_WORKSPACE=1` and exact UUID allowlist `ASSEMBL_STUDIO_OWNER_ALLOWLIST` start with Kate's verified existing user ID, supplied through the approved operator process. Never derive identity from seller, URL, browser payload or editable metadata. Flag stays off by default.
+3. Owner draft table has owner RLS, bounded JSON, immutable owner/id and revision trigger; atomic security-invoker RPC matches owner and expected revision. Failed/stale updates do not insert a replacement. API uses private/no-store, same-origin JSON writes, strict original payload validation and no cross-origin requests. No deletion endpoint.
+4. Once schema and coordinated release are approved, test Kate's existing session: empty start → edit/add idea → save → reload/reopen → revision conflict and another synthetic user denied. This is the activation gate; local SQL/mock tests are not real account proof.
+5. Leave recipient route404, grants creation absent, private storage uploads absent and old-data migration pending. No public links, invites, permanent public media URLs or paid providers. A future recipient projection is separate/immutable, authenticated-user-bound, expiring/revocable, and includes selected media only.
+6. Rollback: disable flag; new owner records stay retained and original Site stays available. Do not delete records. No rewiring of original private links.
+
+Schema/access tests run in an isolated Docker Postgres17 container, no network, tmpfs data, synthetic identities/records and a mock storage.objects table. They exercise actual RLS/RPC and grant/media denial; they do not prove deployed Supabase Storage delivery, JWT cookie behaviour, CORS or full production recipient UI. Current production authentication/storage acceptance remains outstanding.
