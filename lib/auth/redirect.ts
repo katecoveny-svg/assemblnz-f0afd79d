@@ -44,3 +44,8 @@ export function isDoReturn(raw: string | null): boolean {
   const path = resolveAuthReturn(raw);
   return /^\/do(?:\/|\?|#|$)/.test(path);
 }
+
+/** Only the canonical owner workspace participates in its same-host sign-in flow. */
+export function isStudioOwnerReturn(raw: string | null): boolean {
+  return safeReturnPath(raw, '') === '/studio/workspace';
+}
