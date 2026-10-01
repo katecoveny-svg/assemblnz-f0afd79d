@@ -10,6 +10,7 @@ import {
   savePersonal,
   mutatePersonal,
 } from "@/apps/do/personal/service";
+import { personalReviewQueue } from "@/apps/do/personal/review-queue";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 const json = (body: unknown, status = 200) =>
@@ -18,7 +19,8 @@ export async function GET() {
   const owner = await doOwner();
   if (!owner) return json({ error: "Sign in to open your Personal DO.", workspaceKey: "guest" }, 401);
   try {
-    return json({ ...await personalState(owner.id), workspaceKey: owner.id });
+    const state = await personalState(owner.id);
+    return json({ ...state, reviewQueue: personalReviewQueue(state), workspaceKey: owner.id });
   } catch {
     return json(
       {
