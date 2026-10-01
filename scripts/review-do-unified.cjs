@@ -111,7 +111,12 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
     await clean.screenshot({ path: out + '/07-home-motion.png', animations: 'disabled', timeout: 60000 });
     await clean.getByRole('button', { name: 'Resume scene motion', exact: true }).click();
     check('scene resumes explicitly', await clean.getByRole('button', { name: 'Pause scene motion', exact: true }).getAttribute('aria-pressed') === 'false');
-    await clean.locator('#products').scrollIntoViewIfNeeded();
+    await clean.evaluate(() => {
+      const rail = document.querySelector('[data-chapter]');
+      if (!rail) throw new Error('Missing assembl scene rail');
+      scrollTo({ top: scrollY + rail.getBoundingClientRect().bottom + 1, behavior: 'instant' });
+    });
+    check('scene rail is offscreen before renderer teardown', await clean.locator('[data-chapter]').evaluate(el => el.getBoundingClientRect().bottom <= 0));
     await clean.waitForFunction(() => !document.querySelector('[data-world="atelier"] canvas'));
     check('offscreen scene releases its renderer', await scene.locator('canvas').count() === 0);
     await clean.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
