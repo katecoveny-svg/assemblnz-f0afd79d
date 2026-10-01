@@ -1,4 +1,6 @@
 'use client';
+
+import { DO_TEXT_PROVIDER_CONSENT_VERSION } from '@/apps/do/shared/provider-consent';
 import { DoShareButton } from '@/components/do/DoShareButton';
 import { DoMark } from './DoAppearance';
 
@@ -106,7 +108,7 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
     try {
       const response = await fetch('/api/do/prepare', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: controller.signal,
-        body: JSON.stringify({ task, source, brief, sourceTitle: sourceTitle || 'Pasted text', sourceUrl, consent }),
+        body: JSON.stringify({ task, source, brief, sourceTitle: sourceTitle || 'Pasted text', sourceUrl, consent, providerConsentVersion: DO_TEXT_PROVIDER_CONSENT_VERSION }),
       });
       const data = await response.json();
       if (controller.signal.aborted) return;
@@ -154,7 +156,7 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
       <textarea id="do-source" value={source} maxLength={DO_SOURCE_LIMIT} rows={7} required disabled={busy} onChange={event => { setSource(event.target.value); setConsent(false); }} placeholder="Paste a notice, brief, quote or the part of a page you want to work with…" />
       {!focus && <div className="do-example-row"><span>Try with sample text:</span>{EXAMPLES.map((example, index) => <button key={example.title} type="button" disabled={busy} onClick={() => { setSource(example.text); setSourceTitle(example.title); setSourceUrl(''); setBrief(''); setConsent(false); setTask(index === 0 ? 'reply' : index === 1 ? 'brief' : 'compare'); }}>{index === 0 ? 'A message' : index === 1 ? 'School notice' : 'Two quotes'}</button>)}</div>}
       <details className="do-source-details"><summary>Add a source label or instructions</summary><label htmlFor="do-source-title">Source label</label><input id="do-source-title" value={sourceTitle} maxLength={160} disabled={busy} onChange={event => { setSourceTitle(event.target.value); setConsent(false); }} placeholder="For example, September supplier quotes" /><label htmlFor="do-source-url">Source link, if useful</label><input id="do-source-url" type="url" value={sourceUrl} maxLength={2_000} disabled={busy} onChange={event => { setSourceUrl(event.target.value); setConsent(false); }} placeholder="https://…" /><p>Links are recorded as references. Paste the text you want used; DO does not open these pages.</p><label htmlFor="do-brief">Anything to focus on?</label><textarea id="do-brief" value={brief} maxLength={DO_BRIEF_LIMIT} rows={3} disabled={busy} onChange={event => { setBrief(event.target.value); setConsent(false); }} placeholder="For example, prepare this for Jamie and flag anything we need to confirm." /></details>
-      <label className="do-consent"><input type="checkbox" checked={consent} disabled={busy} onChange={event => setConsent(event.target.checked)} /><span>Use this text for this preparation.<small>{task === 'extract' ? 'assembl will extract exact matches from the text.' : 'The text and instructions go to assembl and its configured model provider.'} Saving a copy on this device is a separate choice.</small></span></label>
+      <label className="do-consent"><input type="checkbox" checked={consent} disabled={busy} onChange={event => setConsent(event.target.checked)} /><span>Use this text for this preparation.<small>{task === 'extract' ? 'assembl will extract exact matches from the text.' : 'The text and instructions go to OpenAI (GPT-6 Astra) and TypeSafe after this confirmation.'} Saving a copy on this device is a separate choice.</small></span></label>
       <div className="do-prepare-actions"><button className="do-primary" disabled={busy || needsSignIn || !consent || !source.trim() || (task !== 'extract' && availability?.preparation === 'unavailable')} type="submit">{busy ? <LoaderCircle className="do-spin" size={18} /> : <span className="do-action-mark" aria-hidden><DoMark /></span>}{busy ? 'Preparing your draft…' : DO_TASKS.find(option => option.id === task)!.title}<ArrowUpRight size={18} /></button>{busy && <button type="button" className="do-quiet-button" onClick={() => abort.current?.abort()}>Stop</button>}</div>
       <p className="do-runtime-note">{availability?.note || 'Preparation status is checked when you run a task.'}</p>
     </form>

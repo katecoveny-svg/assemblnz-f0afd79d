@@ -320,7 +320,7 @@ export function PersonalDo() {
                   ? `Last worker check: ${stamp(state.worker.lastSeenAt)} (NZ time).`
                   : "Waiting for the first cloud worker check."}{" "}
                 Checks are scheduled hourly; queued work may take longer. Results appear
-                here. Phone notifications are not connected. Uses Assembl’s configured drafting provider; this flow does not use the TypeSafe check.
+                here. Phone notifications are not connected. Background preparation is paused until renewed OpenAI and TypeSafe permission can be saved safely.
               </p>
             </div>
             <button
@@ -351,7 +351,7 @@ export function PersonalDo() {
                   <article className={styles.responsibility} key={item.id}>
                     <div className={styles.row}>
                       <span className={styles.status}>
-                        {responsibilityStatus(item, now)}
+                        {responsibilityStatus(item, now, state?.worker.configured === true)}
                       </span>
                       <span>
                         Daily · {String(item.local_hour).padStart(2, "0")}:00
@@ -380,7 +380,7 @@ export function PersonalDo() {
                       <button
                         disabled={
                           busy ||
-                          responsibilityStatus(item, now) !== "Scheduled" ||
+                          responsibilityStatus(item, now, state?.worker.configured === true) !== "Scheduled" ||
                           !state.worker.configured
                         }
                         onClick={() => void change({ id: item.id }, true)}
@@ -726,7 +726,7 @@ export function PersonalDo() {
               </label>
               <p>
                 Results appear in Personal DO. This permission covers
-                preparation only. Uses Assembl’s configured drafting provider; this flow does not use the TypeSafe check.
+                preparation only. Background preparation is paused until renewed OpenAI and TypeSafe permission can be saved safely.
               </p>
               <button
                 type="submit"

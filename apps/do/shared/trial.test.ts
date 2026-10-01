@@ -48,18 +48,13 @@ describe('DO shared trial', () => {
     await expect(reserveDoTrial('unknown')).rejects.toMatchObject({ code: 'trial_unavailable' });
   });
 
-  it('bypasses the network quota for signed-in DO owners', async () => {
+  it('never bypasses the network quota just because an owner is signed in', async () => {
     await reserveDoTrial('192.0.2.1');
     await reserveDoTrial('192.0.2.1');
     await reserveDoTrial('192.0.2.1');
     await expect(reserveDoTrial('192.0.2.1')).rejects.toMatchObject({ code: 'trial_exhausted' });
-    const bypass = await reserveDoTrial('192.0.2.1', { signedInOwnerId: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa' });
-    expect(bypass.bypassed).toBe(true);
-    expect(await readDoTrial('192.0.2.1', { signedInOwnerId: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa' })).toMatchObject({
-      bypassed: true,
-      remaining: null,
-      mode: 'signed_in_unlimited',
-    });
+    await expect(reserveDoTrial('192.0.2.1', { signedInOwnerId: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa' })).rejects.toMatchObject({ code: 'trial_exhausted' });
+    expect(await readDoTrial('192.0.2.1', { signedInOwnerId: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa' })).toMatchObject({ bypassed: false, remaining: 0, mode: 'anon_sandbox' });
   });
 
   it('honours DO_TRIAL_LIMIT for anonymous sandbox only', async () => {
@@ -68,8 +63,7 @@ describe('DO shared trial', () => {
     await reserveDoTrial('192.0.2.1');
     await expect(reserveDoTrial('192.0.2.1')).rejects.toMatchObject({ code: 'trial_exhausted' });
     expect(await readDoTrial('192.0.2.1')).toMatchObject({ limit: 1, remaining: 0, mode: 'anon_sandbox' });
-    const bypass = await reserveDoTrial('192.0.2.1', { signedInOwnerId: 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb' });
-    expect(bypass.bypassed).toBe(true);
+    await expect(reserveDoTrial('192.0.2.1', { signedInOwnerId: 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb' })).rejects.toMatchObject({ code: 'trial_exhausted' });
   });
 
   it('falls back to 3 when DO_TRIAL_LIMIT is invalid', () => {
