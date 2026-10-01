@@ -17,6 +17,8 @@ on:
       - 'app/auth/**'
       - 'middleware.ts'
       - 'docs/DO-*.md'
+      - 'docs/do-personal/**'
+      - 'scripts/test-do-memory-sql.cjs'
       - 'package.json'
       - 'pnpm-lock.yaml'
       - 'vercel.json'
@@ -62,6 +64,8 @@ jobs:
           node -e "console.log('ASSEMBL_CHROMIUM_PATH=' + require('/tmp/assembl-browser/node_modules/playwright').chromium.executablePath())" >> "$GITHUB_ENV"
       - name: Private checklist SQL boundaries
         run: ASSEMBL_PGLITE_MODULE=/tmp/assembl-browser/node_modules/@electric-sql/pglite node scripts/test-do-personal-checklists-sql.cjs
+      - name: Optional memory SQL boundaries (proposal only)
+        run: ASSEMBL_PGLITE_MODULE=/tmp/assembl-browser/node_modules/@electric-sql/pglite node scripts/test-do-memory-sql.cjs
       - name: Personal DO browser proof with fictional account and audio fixtures
         env:
           ASSEMBL_REVIEW_ORIGIN: http://127.0.0.1:3117
