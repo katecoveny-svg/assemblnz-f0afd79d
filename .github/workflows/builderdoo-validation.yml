@@ -10,6 +10,8 @@ on:
       - 'components/do/**'
       - 'components/site/assembl-the-work/**'
       - 'lib/os/**'
+      - 'lib/do/availability/**'
+      - 'lib/do/travel/**'
       - 'lib/connectors/pipedream.ts'
       - 'lib/connectors/pipedream.test.ts'
       - 'lib/auth/**'
@@ -53,7 +55,7 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
       - name: DO core unit tests
-        run: pnpm test apps/do/shared apps/do/personal app/api/do app/do/personal lib/do/nz-public-data.test.ts lib/do/nz-local-updates.test.ts lib/do/do-pwa.test.ts lib/typesafe lib/os/improvement.test.ts lib/os/routing.test.ts lib/connectors/pipedream.test.ts
+        run: pnpm test apps/do/shared apps/do/personal app/api/do app/do/personal lib/do/nz-public-data.test.ts lib/do/nz-local-updates.test.ts lib/do/do-pwa.test.ts lib/do/availability lib/do/travel lib/typesafe lib/os/improvement.test.ts lib/os/routing.test.ts lib/connectors/pipedream.test.ts
       - name: Production build
         run: pnpm build
       - name: Install isolated browser verification tools
