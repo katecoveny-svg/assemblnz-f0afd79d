@@ -36,10 +36,13 @@ export function TypeSafePilot({ surface }: { surface: Surface }) {
       }).catch(() => { if (!controller.signal.aborted) setStatus({ ready: false }); });
     try {
       const stored = sessionStorage.getItem(HANDOFF_KEY);
-      sessionStorage.removeItem(HANDOFF_KEY);
       if (stored && stored.length <= 30_000) {
         const next = parseInput({ ...JSON.parse(stored), surface, shareWithTypeSafe: true });
-        setInput({ ...next, shareWithTypeSafe: false }); setMode('live');
+        queueMicrotask(() => {
+          if (controller.signal.aborted) return;
+          sessionStorage.removeItem(HANDOFF_KEY);
+          setInput({ ...next, shareWithTypeSafe: false }); setMode('live');
+        });
       }
     } catch { /* Invalid or disabled session storage must not break the page. */ }
     return () => { controller.abort(); generation.current++; };
@@ -83,8 +86,8 @@ export function TypeSafePilot({ surface }: { surface: Surface }) {
 
   return <main className={styles.root}>
     <header className={styles.header}>
-      <Link href="/" className={styles.wordmark}>assembl</Link>
-      <nav aria-label="Pilot surfaces"><Link href="/pursuit/typesafe">Pursuit</Link><Link href="/do/typesafe">DO</Link><Link href="/creative-studio/typesafe">Studio</Link></nav>
+      <Link href={surface === 'do' ? '/do' : '/'} className={styles.wordmark}>assembl</Link>
+      <nav aria-label="Pilot surfaces">{surface !== 'do' && <Link href="/pursuit/typesafe">Pursuit</Link>}<Link href="/do">DO</Link>{surface !== 'do' && <Link href="/creative-studio/typesafe">Studio</Link>}</nav>
       <span className={styles.eyebrow}>PILOT PREVIEW · DRAFT ONLY</span>
     </header>
     <section className={styles.intro}>
@@ -168,10 +171,10 @@ export function TypeSafePilot({ surface }: { surface: Surface }) {
         </div>
       </section>
     </div>
-    <section className={styles.next}>
+    {surface !== 'do' && <section className={styles.next}>
       <div><p className={styles.eyebrow}>03 · CONNECT THE WORK</p><h2>one context. three useful surfaces.</h2><p>Carry this context into DO or prepare a Studio handoff. Live context uses this browser tab’s session storage, is consumed on the next surface, and requires fresh consent before another provider call. This does not create a durable client record.</p></div>
       <div className={styles.nextButtons}><button type="button" disabled={busy} onClick={() => handoff('do')}>Open in DO →</button><button type="button" disabled={busy} onClick={() => handoff('studio')}>Prepare in Studio →</button></div>
-    </section>
+    </section>}
     <footer className={styles.footer}>assembl · find it. DO it. show it.<span>Text decisions by TypeSafe when live. Execution authority stays with you.</span></footer>
   </main>;
 }
