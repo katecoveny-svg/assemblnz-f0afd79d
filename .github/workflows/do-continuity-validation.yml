@@ -1,0 +1,54 @@
+name: Portable DO continuity validation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'apps/do/continuity/**'
+      - 'app/do/continue/**'
+      - 'app/api/do/continuity/**'
+      - 'docs/do-continuity/**'
+      - 'scripts/test-do-continuity-sql.cjs'
+      - '.github/workflows/do-continuity-validation.yml'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: do-continuity-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: pnpm install --frozen-lockfile
+      - name: Portable contracts, API gates and existing intake boundaries
+        run: pnpm exec vitest run apps/do/continuity/continuity.test.ts app/api/do/continuity/route.test.ts apps/do/shared/portable-contract.test.ts apps/do/shared/share-intake.test.ts apps/do/shared/native-entry.test.ts
+      - name: Scoped lint
+        run: pnpm exec eslint app/do/continue app/api/do/continuity apps/do/continuity scripts/test-do-continuity-sql.cjs --max-warnings=0
+      - name: Isolated SQL image
+        run: docker pull postgres:17-alpine
+      - name: Proposal-only SQL boundaries with fictional Auth
+        run: node scripts/test-do-continuity-sql.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: portable-do-sql-proof
+          path: output/playwright/portable-sql-results.json
+          if-no-files-found: warn
+          retention-days: 14
