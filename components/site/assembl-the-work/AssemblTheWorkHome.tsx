@@ -11,11 +11,13 @@ const LivePursuitCanvas = dynamic(() => import('../pursuit/LivePursuitCanvas').t
 import { PRODUCT_DESTINATIONS } from '@/lib/product-destinations';
 import { PRODUCTS } from './copy';
 import { FluidField } from '../craft/FluidField';
+import { HomeLiveData } from '../HomeLiveData';
 import '../craft/fluid-type.css';
 import './assembl-the-work.css';
 import './assembl-spatial.css';
 import './immersive-home.css';
 import './refined-home.css';
+import './public-nz-home.css';
 
 export function AssemblTheWorkHome({ preview = false }: { preview?: boolean }) {
   const [researchOpen, setResearchOpen] = useState(false);
@@ -36,6 +38,7 @@ export function AssemblTheWorkHome({ preview = false }: { preview?: boolean }) {
       <details open={researchOpen} onToggle={event => setResearchOpen(event.currentTarget.open)}><summary><span>Try Pursuit research<small>Bring a company or a question</small></span><Plus size={22} /></summary>{researchOpen && <LivePursuitCanvas />}</details>
       <details open={filmOpen} onToggle={event => setFilmOpen(event.currentTarget.open)}><summary><span>See DO in motion<small>A closer look at the experience</small></span><Plus size={22} /></summary>{filmOpen && <DoFilm />}</details>
     </section>
+    <HomeLiveData variant="refined" />
     <section className="immersive-close refined-close" id="choose" aria-labelledby="choose-title"><FluidField /><div><p className="atw-kicker">LESS ADMIN. MORE MAHI.</p><h2 id="choose-title">What needs<br /><span className="fluid-text">doing?</span></h2><p>Bring an opportunity, a repetitive job or an idea that needs to be seen. We’ll help you turn it into useful work.</p><Link className="atw-pill atw-pill-dark" href="/contact?product=system">Bring us the work <ArrowUpRight size={18} /></Link></div></section>
     <footer className="atw-footer"><Link className="atw-wordmark" href="/">assembl</Link><p>Find it. DO it. Show it.<br />Built in New Zealand.</p><nav aria-label="Footer"><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio">Studio</Link><Link href="/about">About</Link><Link href="/contact">Contact</Link><Link href="/legal/privacy">Privacy</Link></nav><details className="refined-workspaces"><summary>Existing workspaces</summary><a href={PRODUCT_DESTINATIONS.pursuit.workspace} target="_blank" rel="noopener noreferrer">Pursuit hubs ↗</a><a href={PRODUCT_DESTINATIONS.studio.workspace} target="_blank" rel="noopener noreferrer">Creative Studio ↗</a><small>Private workspaces · sign-in required</small></details></footer>
   </div>;
