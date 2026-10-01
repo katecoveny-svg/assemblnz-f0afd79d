@@ -37,7 +37,7 @@ async def main():
       report.append({'width':width,'UI':'passed with mocked research','providerCall':False,'errors':errors})
       # New website-to-outreach flow: explicit fixture, no live provider claim.
       outreach_fixture=json.loads(json.dumps(fixture))
-      outreach_fixture['campaign']={'seller':{'name':'Fixture seller','website':'https://seller.example.com/','offer':'A fictional business service used only for this UI test.'},'market':'Fictional businesses for UI testing','prospects':[{'company':'Fixture prospect','website':'https://buyer.example.com/','buyerRole':'Operations manager','signal':{'claim':'A fictional public service announcement for UI verification.','url':'https://buyer.example.com/news','publishedAt':None},'fit':'The published service may fit the proposed offer.','hypothesis':'Could a small walkthrough help the team?','proof':'Propose a focused service walkthrough.','contactUrl':None,'unknowns':['Buyer and contact permission are not established.'],'subject':'A proposed walkthrough','opening':'Your service announcement prompted a question. Would a short walkthrough help?','followUp':'Possible later follow-up: would an outline be useful?'}],'gaps':['Test fixture only; no contact is verified.']}
+      outreach_fixture['campaign']={'seller':{'name':'Fixture seller','website':'https://seller.example.com/','offer':'A fictional business service used only for this UI test.'},'market':'Fictional businesses for UI testing','prospects':[{'company':'Fixture prospect','website':'https://buyer.example.com/','buyerRole':'Operations manager','signal':{'claim':'A fictional public service announcement for UI verification.','url':'https://buyer.example.com/news','publishedAt':'2026-09-18'},'fit':'The published service may fit the proposed offer.','hypothesis':'Could a small walkthrough help the team?','proof':'Propose a focused service walkthrough.','contactUrl':None,'unknowns':['Buyer and contact permission are not established.'],'subject':'A proposed walkthrough','opening':'Your service announcement prompted a question. Would a short walkthrough help?','followUp':'Possible later follow-up: would an outline be useful?'}],'gaps':['Test fixture only; no contact is verified.']}
       outreach_fixture['trace']['sources']=[{'url':u,'title':'UI fixture','retrievedAt':'2026-09-22'} for u in ['https://seller.example.com/','https://buyer.example.com/','https://buyer.example.com/news']]
       await page.unroute('**/api/pursuit/research')
       async def outreach_mock(route):
@@ -64,6 +64,7 @@ async def main():
       await outreach.get_by_label('Research these public details',exact=False).check()
       await outreach.get_by_role('button',name='Find prospects').click()
       await expect(outreach.get_by_role('heading',name='Fixture seller',exact=True)).to_be_visible()
+      await expect(outreach.get_by_text('Published: date unknown · Researched: 2026-09-18. Retrieval does not establish recency or buying intent.',exact=True)).to_be_visible()
       export_button=outreach.get_by_role('button',name='Download reviewed outreach')
       await expect(export_button).to_be_disabled()
       review=outreach.get_by_label('I have reviewed these exact drafts',exact=False)

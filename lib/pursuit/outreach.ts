@@ -57,6 +57,10 @@ export function parseOutreach(value: unknown, sourceUrls: string[], sellerWebsit
     prospect.website = identityPage(prospect.website);
     traced(prospect.website, 'prospect.website');
     traced(prospect.signal.url, 'prospect.signal.url');
+    // The source contract records retrieval, not verified publication dates.
+    // Model-provided dates (including today's date) carry no date provenance.
+    // Keep them unknown until trusted source metadata can validate publication.
+    prospect.signal.publishedAt = null;
     // A guessed /contact page must not be presented as discovered evidence.
     // Missing optional contact data should not discard a sourced account.
     prospect.contactUrl = prospect.contactUrl ? exact(prospect.contactUrl) : null;

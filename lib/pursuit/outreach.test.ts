@@ -52,6 +52,25 @@ describe('website-led outreach boundaries', () => {
     expect(parseOutreach({ ...campaign, prospects: [] }, urls, input.company).prospects).toEqual([]);
     expect(parseOutreach(campaign, urls, input.company).prospects[0].signal.publishedAt).toBeNull();
   });
+  it.each(['2026-09-30', '2025-01-01', '2026-99-99'])('clears unsupported model publication date %s without removing a grounded account', date => {
+    const guessed = structuredClone(campaign); guessed.prospects[0].signal.publishedAt = date;
+    for (const parse of [parseOutreach, parseGroundedOutreach]) {
+      const result = parse(guessed, urls, input.company);
+      expect(result.prospects).toHaveLength(1);
+      expect(result.prospects[0].signal.publishedAt).toBeNull();
+      expect(result.prospects[0].signal.url).toBe(campaign.prospects[0].signal.url);
+    }
+    expect(guessed.prospects[0].signal.publishedAt).toBe(date); // no mutation of caller data
+  });
+  it('exports publication unknown separately from the research timestamp', () => {
+    const guessed = structuredClone(campaign); guessed.prospects[0].signal.publishedAt = '2026-09-30';
+    const result = parseGroundedOutreach(guessed, urls, input.company);
+    const prospect = result.prospects[0];
+    const exported = outreachExport(result, prospect, prospect, 'fixture-receipt', '2026-09-30T22:59:02.656Z');
+    expect(exported).toContain('Published: Unknown; do not infer urgency');
+    expect(exported).toContain('Researched: 2026-09-30T22:59:02.656Z');
+    expect(exported).not.toContain('Published: 2026-09-30');
+  });
   it('binds review to the exact copy, prospect and research receipt', () => {
     const p = campaign.prospects[0]; const copy = { subject: p.subject, opening: p.opening, followUp: p.followUp };
     const initial = reviewFingerprint('receipt-a', p, copy);
@@ -200,6 +219,20 @@ describe('outreach formatting repair', () => {
     { type: 'web_search_tool_result', content: [...urls, ...extraUrls].map(url => ({ type: 'web_search_result', url, title: 'Fixture source' })) },
     { type: 'text', text: JSON.stringify(value) },
   ] });
+  it.each([false, true])('does not promote provider dates or retrieval timestamps to publication, repair=%s', async repair => {
+    vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
+    const guessed = structuredClone(campaign); guessed.prospects[0].signal.publishedAt = '2026-09-30';
+    const original = { draft: repair ? { ...draft, summary: 'x'.repeat(500) } : draft, campaign: guessed };
+    const fetcher = vi.fn<typeof fetch>()
+      .mockResolvedValueOnce(researched(original));
+    if (repair) fetcher.mockResolvedValueOnce(Response.json({ stop_reason: 'end_turn', content: [{ type: 'text', text: JSON.stringify({ draft, campaign: guessed }) }] }));
+    const result = await runPublicResearch(input, false, fetcher);
+    expect(result.campaign?.prospects).toHaveLength(1);
+    expect(result.campaign?.prospects[0].signal.publishedAt).toBeNull();
+    expect(result.trace.sources.every(source => Boolean(source.retrievedAt))).toBe(true);
+    expect(result.trace.at).toBeTruthy();
+    expect(fetcher).toHaveBeenCalledTimes(repair ? 2 : 1);
+  });
   it('repairs an overlong campaign once without starting another search', async () => {
     vi.stubEnv('ANTHROPIC_API_KEY', 'fixture-only');
     const long = structuredClone(campaign); long.prospects[0].opening = 'A'.repeat(1300);
