@@ -95,7 +95,7 @@ describe('portable DO companion', () => {
     expect(launch.top + launch.height).toBeLessThanOrEqual(632);
   });
   it('does not recursively mount inside the embedded workspace', () => { expect(setup(true).body.children).toHaveLength(0); });
-  it.each(['/do/personal', '/do/personal/', '/do/widget'])('focuses the existing assistant on %s without loading a duplicate workspace', pathname => {
+  it.each(['/do', '/do/', '/do/personal', '/do/personal/', '/do/widget'])('focuses the existing assistant on %s without loading a duplicate workspace', pathname => {
     const s = setup(false, undefined, pathname);
     s.find('launch').handlers.click(click); s.flush();
     expect(s.dispatchEvent).toHaveBeenCalledWith(expect.objectContaining({ type: 'assembl:do-focus' }));

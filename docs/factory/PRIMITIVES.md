@@ -138,6 +138,13 @@ intake and outcome events; three-day follow-ups are fresh approval-required jobs
 `/api/mcp` exposes owner-scoped preparation/status/evidence, with no send tool.
 See `docs/DO-ENQUIRIES-RUNBOOK.md` for activation, validation and limits.
 
+### Unified DO entry and identity (30 Sep review implementation)
+
+**Extends:** existing PersonalDo at `/do`, retaining `/do/personal` for PWA and reviewed share intake. Keeps `/do/widget` as the exact-path capture receiver; known legacy task links resolve there. Uses existing owner/session/consent logic unchanged. No notes enter navigation URLs.
+
+**Extends:** `DoMark` through shared `DoPresence`, `DoBrand`, optional `DoEntryObject`/`DoObjectCanvas`, and `scripts/generate-do-identity.mjs`. Real bevelled geometry is progressive enhancement with static/reduced-motion fallback; no hosted provider or continuous render loop is needed. Consumer menus no longer label the seeded developer board as saved user tasks. Native source changes are not an installed/signed Mac release.
+
+**Creates:** `lib/do/navigation.ts` for non-content DO sign-in return selectors, with explicit task/tool allowlists. Proof: `navigation.test.ts`, existing consent/owner/capture regression tests, and `scripts/review-do-unified.cjs`. See `docs/DO-UNIFIED-20260930.md` for actual check results and remaining release gates.
 ## Reviewed NZ public link boundary — review foundation
 
 **Extends** kb_sources/kb_documents via `lib/public-nz/` and homepage/knowledge-search/general Pursuit. Code-reviewed GETS/Bills identity and URL constraints, anonymous bounded reads, no stored content/metadata output, explicit unknown publication/status and per-source stale/error telemetry. It supplies discovery links, not substantive intelligence or current opportunity claims. Proof: `lib/public-nz/model.test.ts`, `lib/public-nz/server.test.ts`; see `docs/PUBLIC-NZ-LINK-BOUNDARY.md` for DO integration and ingestion guarantees still required. No new ingestion, permissions, database changes or deployment.

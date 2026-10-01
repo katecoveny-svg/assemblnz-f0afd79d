@@ -2,14 +2,18 @@
   "id": "/do",
   "name": "DO by assembl",
   "short_name": "DO",
-  "description": "Your portable work companion. Talk, record, prepare and review with permission. Draft-only tools; no automatic sends or purchases.",
+  "description": "Notes, plans and drafts for everyday jobs. Made by assembl.",
   "start_url": "/do/personal",
   "scope": "/do",
   "share_target": {
     "action": "/do/receive",
     "method": "POST",
     "enctype": "application/x-www-form-urlencoded",
-    "params": { "title": "title", "text": "text", "url": "url" }
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
   },
   "display": "standalone",
   "display_override": [
@@ -28,25 +32,25 @@
   ],
   "icons": [
     {
-      "src": "/do/icons/do-192.png?v=3",
+      "src": "/do/icons/do-192.png?v=4",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/do/icons/do-512.png?v=3",
+      "src": "/do/icons/do-512.png?v=4",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/do/icons/do-192.png?v=3",
+      "src": "/do/icons/do-192.png?v=4",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/do/icons/do-512.png?v=3",
+      "src": "/do/icons/do-512.png?v=4",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
@@ -54,14 +58,14 @@
   ],
   "shortcuts": [
     {
-      "name": "Your DO",
-      "short_name": "Your DO",
+      "name": "Open DO",
+      "short_name": "DO",
       "url": "/do/personal",
-      "description": "Pick up with your personal assistant."
+      "description": "Notes, plans and drafts for everyday jobs."
     },
     {
-      "name": "DO workspace",
-      "short_name": "Workspace",
+      "name": "Write, talk or look",
+      "short_name": "Writing",
       "url": "/do/widget",
       "description": "Talk, prepare and review in your workspace."
     },
@@ -70,30 +74,6 @@
       "short_name": "Meeting",
       "url": "/do/meetings?phone=1",
       "description": "Open and record a meeting on your phone."
-    },
-    {
-      "name": "Household Floor",
-      "short_name": "Household",
-      "url": "/do/household",
-      "description": "Family seats, evening board, drafts only."
-    },
-    {
-      "name": "DO Office",
-      "short_name": "Office",
-      "url": "/do/office",
-      "description": "Coordinate specialist DOs in the office."
-    },
-    {
-      "name": "Builder DO",
-      "short_name": "Builder",
-      "url": "/do/builder",
-      "description": "Turn a software idea into a build job to review."
-    },
-    {
-      "name": "Connections",
-      "short_name": "Connect",
-      "url": "/do/connections",
-      "description": "Link the accounts DO may use with your approval."
     }
   ]
 }

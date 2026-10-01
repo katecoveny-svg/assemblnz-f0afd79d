@@ -3,7 +3,7 @@ import { admitDoRequest, readDoJson } from '@/apps/do/shared/http';
 import { chatClientIp, checkChatRateLimit } from '@/lib/agents/chat-rate-limit';
 import { PilotError } from '@/lib/typesafe/core';
 import { personalAssistantInputSchema } from '@/apps/do/personal/assistant';
-import { personalAssistantAvailability, runPersonalAssistant } from '@/apps/do/personal/assistant-server';
+import { personalAssistantAvailability, checkedPersonalAssistantAvailability, runPersonalAssistant } from '@/apps/do/personal/assistant-server';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -13,7 +13,7 @@ const json = (body: unknown, status = 200, extra: Record<string, string> = {}) =
 
 export async function GET() {
   const owner = await doOwner();
-  return json(personalAssistantAvailability(owner?.id ?? null), owner ? 200 : 401);
+  return json(await (process.env.PERSONAL_DO_CONSUMER_ENABLED === 'true' ? checkedPersonalAssistantAvailability(owner?.id ?? null) : personalAssistantAvailability(owner?.id ?? null)), owner ? 200 : 401);
 }
 
 export async function POST(request: Request) {
@@ -25,13 +25,13 @@ export async function POST(request: Request) {
   catch { return json({ error: 'invalid_request', message: 'Use a shorter, valid request.' }, 400); }
   const parsed = personalAssistantInputSchema.safeParse(raw);
   if (!parsed.success) return json({ error: 'invalid_input', message: parsed.error.issues[0]?.message ?? 'Check your request.' }, 400);
-  const availability = personalAssistantAvailability(owner.id);
-  if (!availability.ready) return json({ error: availability.reason, message: availability.message }, availability.reason === 'pilot_access_required' ? 403 : 503);
+  const availability = await (process.env.PERSONAL_DO_CONSUMER_ENABLED === 'true' ? checkedPersonalAssistantAvailability(owner.id) : personalAssistantAvailability(owner.id));
+  if (!availability.ready) return json({ error: availability.reason, message: availability.message }, (availability.reason === 'pilot_access_required' || availability.reason === 'entitlement_required') ? 403 : 503);
   const ip = chatClientIp(request.headers);
   if (!admitDoRequest(`personal-assistant:${owner.id}`) || !admitDoRequest(`personal-assistant-ip:${ip}`)) return json({ error: 'rate_limited', message: 'Please wait a minute before asking again.' }, 429, { 'Retry-After': '60' });
   const rate = await checkChatRateLimit(ip, 'do-personal-assistant');
   if (!rate.allowed) return json({ error: 'rate_limited', message: 'You have reached the request limit for now. Please try again in ten minutes.' }, 429, { 'Retry-After': '600' });
-  try { return json({ result: await runPersonalAssistant(parsed.data, owner.id, request.signal) }); }
+  try { return json({ result: await (process.env.PERSONAL_DO_CONSUMER_ENABLED === 'true' ? runPersonalAssistant(parsed.data, owner.id, request.signal, request.headers.get('Idempotency-Key') ?? undefined) : runPersonalAssistant(parsed.data, owner.id, request.signal)) }); }
   catch (error) {
     if (error instanceof PilotError) return json({ error: error.code, message: error.message }, error.status);
     return json({ error: 'assistant_failed', message: 'Your Personal DO could not finish this request. Your note is still in the editor.' }, 503);

@@ -2,10 +2,9 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
-import { ArrowDownToLine, ArrowRight, ArrowUpRight, Check, ChevronRight, Camera, FileText, Forward, Keyboard, Mic, Plus, RotateCcw, ShieldCheck, Sparkles, X, Backpack, ReceiptText, CarFront } from 'lucide-react';
+import { ArrowDownToLine, ArrowRight, ArrowUpRight, Check, ChevronRight, FileText, Mic, Plus, RotateCcw, ShieldCheck, Sparkles, X, Backpack, ReceiptText, CarFront } from 'lucide-react';
 import { ChecklistCloud } from './ChecklistCloud';
 import { LifeAdminTraffic } from './LifeAdminTraffic';
-import { PersonalDoCharacter } from './PersonalDoCharacter';
 import type { PersonalDoProfile } from '@/apps/do/personal/profile';
 import { DoVision } from '@/app/do/DoVision';
 import { extractDetails, type DoPreparedDraft } from '@/apps/do/shared/preparation';
@@ -19,6 +18,9 @@ import {
 import { LIFE_ADMIN_CAPABILITIES, LIFE_ADMIN_TEMPLATES, lifeAdminTemplate, suggestLifeAdminCategory, type LifeAdminCategory } from '@/apps/do/personal/life-admin/templates';
 import { LIFE_ADMIN_EXAMPLES } from '@/apps/do/personal/life-admin/examples';
 import styles from './LifeAdmin.module.css';
+import entry from './entry.module.css';
+import { DoEntryObject } from '@/components/do/DoEntryObject';
+import { DoActionIcon } from '@/components/do/DoBrand';
 
 type Intake = { id: string; text: string; sourceTitle?: string };
 type TaskEditor = { planId: string; taskId: string; status: 'done' | 'waiting'; note: string; url: string; date: string };
@@ -207,26 +209,20 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
   }
   const counts = (id: LifeAdminLane) => plans.filter((plan) => lifeAdminLane(plan) === id).length;
   const localComposer = (
-      <div className={styles.intake}>
+      <div className={entry.intake}>
         <form onSubmit={start}>
-          <div className={styles.intakeTop}><label htmlFor="life-admin-source">What needs sorting?</label><span className={styles.privateLabel}><ShieldCheck size={14} /> You decide what happens next</span></div>
-          <div className={styles.captureModes} aria-label="Ways to start">
-            {onTalk && <button type="button" onClick={onTalk} aria-label="Talk it through"><Mic size={18} /><span>Talk</span></button>}
-            <button type="button" aria-pressed={captureMode === 'photo'} onClick={() => { setCaptureMode(captureMode === 'photo' ? 'type' : 'photo'); }}><Camera size={18} /><span>Photo</span></button>
-            <button type="button" aria-pressed={captureMode === 'forward'} onClick={() => { setCaptureMode('forward'); sourceRef.current?.focus(); }}><Forward size={18} /><span>Forward</span></button>
-            <button type="button" aria-pressed={captureMode === 'type'} onClick={() => { setCaptureMode('type'); sourceRef.current?.focus(); }}><Keyboard size={18} /><span>Type</span></button>
-          </div>
+          <div className={entry.intakeTop}><label htmlFor="life-admin-source">What needs doing?</label></div>
           {captureMode === 'forward' && <p className={styles.captureHint}>Paste an email below, or use your phone’s share menu to send text into DO. No inbox is connected.</p>}
-          <textarea ref={sourceRef} data-do-primary-input={localOpen || !assistant ? true : undefined} id="life-admin-source" value={source} onChange={(event) => { setSource(event.target.value); if (!event.target.value) setSourceIntakeId(null); setMethod('pasted-text'); }} maxLength={LIFE_ADMIN_SOURCE_LIMIT} rows={2} placeholder={template?.prompt ?? 'Type or paste it here…'} required />
+          <textarea ref={sourceRef} data-do-primary-input={localOpen || !assistant ? true : undefined} id="life-admin-source" value={source} onChange={(event) => { setSource(event.target.value); if (!event.target.value) setSourceIntakeId(null); setMethod('pasted-text'); }} maxLength={LIFE_ADMIN_SOURCE_LIMIT} rows={2} placeholder={template?.prompt ?? 'Paste a notice or tell DO what needs sorting…'} required />
           {intake && source !== intake.text && <button type="button" className={styles.textButton} disabled={Boolean(source.trim()) || intake.text.length > LIFE_ADMIN_SOURCE_LIMIT} onClick={() => { setSource(intake.text); setSourceIntakeId(intake.id); setTitle(intake.sourceTitle ?? 'Incoming note'); setSourceUrl(''); setMethod('pasted-text'); }}>Use incoming note</button>}
           {(Boolean(source.trim()) || category !== 'auto') && <div className={styles.noteDetails}>
-          <div className={styles.intakeFields}><label>Kind of admin<select value={category} onChange={(event) => setCategory(event.target.value as LifeAdminCategory | 'auto')}><option value="auto">Suggest from note</option>{LIFE_ADMIN_TEMPLATES.map((item) => <option value={item.id} key={item.id}>{item.name}</option>)}</select></label><details className={styles.optionalTitle}><summary>Name this note</summary><label>Name it, if useful<input value={title} maxLength={160} onChange={(event) => setTitle(event.target.value)} placeholder="e.g. Friday’s school trip" /></label></details></div>
+          <div className={entry.intakeFields}><label>Kind of admin<select value={category} onChange={(event) => setCategory(event.target.value as LifeAdminCategory | 'auto')}><option value="auto">Suggest from note</option>{LIFE_ADMIN_TEMPLATES.map((item) => <option value={item.id} key={item.id}>{item.name}</option>)}</select></label><details className={styles.optionalTitle}><summary>Name this note</summary><label>Name it, if useful<input value={title} maxLength={160} onChange={(event) => setTitle(event.target.value)} placeholder="e.g. Friday’s school trip" /></label></details></div>
           {category === 'auto' && !inferred && source.trim().length >= 5 && <p className={styles.hint}>Choose a kind of admin above so the checklist fits your note.</p>}
           {category === 'auto' && inferred && <p className={styles.hint}>Suggested: {lifeAdminTemplate(inferred).name}. Change it above if another checklist fits better.</p>}
           <details className={styles.sourceLink}><summary>Add the original source link</summary><label>Link for your reference<input type="url" value={sourceUrl} maxLength={2000} placeholder="https://…" onChange={(event) => setSourceUrl(event.target.value)} /></label><small>Linked pages are not fetched. Queries and sign-in tokens are removed from stored links.</small></details>
           </div>}
-          <div className={styles.intakeActions}><span><ShieldCheck size={13} /> Stays on this device</span><button className={styles.primary} type="submit" disabled={source.trim().length < 5 || !chosen}>Let’s sort it <ArrowRight size={19} /></button></div>
-          <p className={styles.privacy}>Please leave out passwords, ID numbers and payment details.</p>
+          <div className={entry.intakeActions}><details className={entry.addContext}><summary><Plus size={17} /> Add context</summary><div className={entry.captureModes}>{onTalk && <button type="button" onClick={onTalk}><DoActionIcon kind="voice" /><span>Talk</span></button>}<button type="button" aria-pressed={captureMode === 'photo'} onClick={() => setCaptureMode(captureMode === 'photo' ? 'type' : 'photo')}><DoActionIcon kind="photo" /><span>Photo</span></button><button type="button" onClick={() => { setCaptureMode('forward'); sourceRef.current?.focus(); }}><DoActionIcon kind="note" /><span>Paste a notice</span></button></div></details><button className={entry.primary} type="submit" disabled={source.trim().length < 5 || !chosen}>Start <DoActionIcon kind="arrow" /></button></div>
+          <p className={entry.privacy}>Checklist stays on this device. Leave out passwords and payment details.</p>
         </form>
         {captureMode === 'photo' && <div className={styles.vision}><p className={styles.hint}>For screenshots, review what is visible first. Optional image processing sends the approved image to assembl’s configured OpenAI, Anthropic or Google vision provider.</p><DoVision onUse={(text) => {
           const combined = source.trim() ? `${source.trim()}\n\n${text}` : text;
@@ -236,22 +232,14 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
       </div>
   );
   return (
-    <section className={styles.workspace} id="life-admin" aria-labelledby="life-admin-heading">
-      <div className={styles.stage} data-simple={simple || undefined}>
-      <header className={styles.heading}>
-        <div className={styles.intro}>
-          <p className={styles.eyebrow}>YOUR PERSONAL DO</p>
-          <h1 id="life-admin-heading">What do you want<br /><span>off your plate?</span></h1>
-          <p>One note. One useful next step.</p>
+    <section className={`${styles.workspace} ${entry.workspace}`} id="life-admin" aria-labelledby="life-admin-heading">
+      <div className={entry.stage} data-simple={simple || undefined}>
+      <header className={entry.heading}>
+        <DoEntryObject compact avatar={profile?.avatar} working={assistantWorking} finish={profile?.avatar === 'pebble' ? 'paper' : 'plum'} />
+        <div className={entry.intro}>
+          <h1 id="life-admin-heading">What needs doing?</h1>
+          <p>{assistantWorking ? 'Preparing your next step…' : profile?.displayName && profile.displayName !== 'DO' ? `${profile.displayName}, here to help with the next step.` : 'Start with one thing. Add the details as you go.'}</p>
         </div>
-        <figure className={styles.companion}>
-          <div className={styles.characterStage} data-working={assistantWorking || undefined} data-noting={Boolean(source.trim()) || undefined}>
-            <span className={styles.characterDisc} />
-            <PersonalDoCharacter avatar={profile?.avatar ?? 'bloom'} />
-            <span className={styles.characterShadow} />
-          </div>
-          <figcaption><span className={styles.companionBrand}>DO</span><h2>{assistantWorking ? 'Preparing your next step…' : `Meet ${profile?.displayName || 'DO'}.`}</h2></figcaption>
-        </figure>
       </header>
       {active && <section className={styles.quickResult} aria-labelledby="personal-do-result">
         <div className={styles.resultStamp}><Check size={19} /><span>{lifeAdminLane(active) === 'done' ? 'RECORDED BY YOU' : 'READY TO CHECK'}</span></div>
@@ -259,18 +247,18 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
         <button type="button" onClick={() => { setBoardOpen(true); requestAnimationFrame(() => { activeHeading.current?.focus({ preventScroll: true }); activeHeading.current?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); }); }}>See my next steps <ArrowRight size={17} /></button>
         {!guideDismissed && (!profile?.onboardingCompleted || guideStarted) && <div className={styles.resultGuide}><span>You check it. You decide.</span>{onCustomise && <button type="button" onClick={onCustomise}>Make DO mine <ArrowUpRight size={13} /></button>}<button type="button" onClick={() => setGuideDismissed(true)} aria-label="Dismiss first-result guide"><X size={14} /></button></div>}
       </section>}
-      {assistant && <nav className={styles.composerTabs} aria-label="Choose how to start">
+      {assistant && <nav className={entry.composerTabs} aria-label="Choose how to start">
         <button type="button" aria-pressed={!localOpen} onClick={() => { setLocalOpen(false); requestAnimationFrame(() => document.getElementById('personal-assistant-input')?.focus()); }}>Ask DO</button>
         <button type="button" aria-pressed={localOpen} onClick={() => { setLocalOpen(true); requestAnimationFrame(() => sourceRef.current?.focus()); }}>Make a checklist</button>
       </nav>}
       <div hidden={Boolean(assistant) && localOpen}>{assistant}</div>
       <div id="personal-local-checklist" hidden={Boolean(assistant) && !localOpen}>{localComposer}</div>
-      {!localOpen && assistant && <div className={styles.mainModes} aria-label="More ways to start">
-        {onTalk && <button type="button" onClick={onTalk} aria-label="Talk it through"><Mic size={18} />Talk</button>}
-        <button type="button" onClick={() => { setLocalOpen(true); setCaptureMode('photo'); }}><Camera size={18} />Photo</button>
-        <button type="button" onClick={() => { setLocalOpen(true); setCaptureMode('forward'); requestAnimationFrame(() => sourceRef.current?.focus()); }}><Forward size={18} />Paste a notice</button>
+      {!localOpen && assistant && <div className={entry.mainModes} aria-label="More ways to start">
+        {onTalk && <button type="button" onClick={onTalk} aria-label="Talk it through"><DoActionIcon kind="voice" />Talk</button>}
+        <button type="button" onClick={() => { setLocalOpen(true); setCaptureMode('photo'); }}><DoActionIcon kind="photo" />Photo</button>
+        <button type="button" onClick={() => { setLocalOpen(true); setCaptureMode('forward'); requestAnimationFrame(() => sourceRef.current?.focus()); }}><DoActionIcon kind="note" />Paste a notice</button>
       </div>}
-      {!plans.length && <button type="button" className={styles.exampleToggle} aria-expanded={showExamples} onClick={() => setShowExamples(!showExamples)}>{showExamples ? 'Hide examples' : 'Not sure? Try a school notice, bill or WoF example'}<ChevronRight size={16} /></button>}
+      {!plans.length && <button type="button" className={entry.exampleToggle} aria-expanded={showExamples} onClick={() => setShowExamples(!showExamples)}>{showExamples ? 'Hide examples' : 'See an example'}<ChevronRight size={16} /></button>}
       {!plans.length && showExamples && !source.trim() && !intake && <section className={styles.examples} aria-label="Try a fictional example">
         <div className={styles.exampleHeading}><span>TRY ONE THING</span><button type="button" onClick={() => { setShowExamples(false); setGuideStarted(true); if (assistant) document.getElementById('personal-assistant-input')?.focus(); else sourceRef.current?.focus(); }}>Use my own note <ArrowRight size={14} /></button></div>
         <div className={styles.exampleGrid}>{LIFE_ADMIN_EXAMPLES.map((example, index) => {

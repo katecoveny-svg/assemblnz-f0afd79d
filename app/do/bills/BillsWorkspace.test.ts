@@ -19,7 +19,7 @@ describe('Bills entry and connection honesty', () => {
     expect(html).toContain('Prepare renewal questions');
     expect(html).toContain('type="file"');
     expect(html).toContain('href="/do/bills/compare"');
-    expect(html).toContain('aria-label="DO home"');
+    expect(html).toContain('aria-label="DO by assembl, home"');
     expect(html).not.toMatch(/<button[^>]*>(?:Connect bank|Pay now|Switch now|Send)/);
   });
 });

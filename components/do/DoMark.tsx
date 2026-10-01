@@ -1,3 +1,6 @@
+/** One silhouette shared by the mark, dimensional presence and portable launcher. */
+export const DO_MARK_PATH = "M16 12H29C44 12 52 20 52 32S44 52 29 52H16Z";
+
 export function DoMark({
   character = "symbol",
 }: {
@@ -8,7 +11,7 @@ export function DoMark({
       {character === "symbol" ? (
         <>
           <path
-            d="M16 12H29C44 12 52 20 52 32S44 52 29 52H16Z"
+            d={DO_MARK_PATH}
             fill="none"
             stroke="currentColor"
             strokeWidth="7"

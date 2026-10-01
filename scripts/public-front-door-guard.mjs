@@ -20,9 +20,10 @@ const checks = [
   ['app/page.tsx', /AssemblTheWorkHome/],
   ['app/do/page.tsx', /<DoHome\s*\/>/],
   ['components/site/assembl-the-work/AssemblTheWorkHome.tsx', /<DoFilm\s*\/>/],
-  ['app/do/DoHome.tsx', /Work from the place/],
-  ['app/do/DoHome.tsx', /small agent that sits where you already work/],
-  ['app/do/DoHome.tsx', /atelier-poster\.png/],
+  ['app/do/DoHome.tsx', /<PersonalDo\s*\/>/],
+  ['app/do/DoStory.tsx', /Work from the place/],
+  ['app/do/DoStory.tsx', /small agent that sits where you already work/],
+  ['app/do/DoStory.tsx', /atelier-poster\.png/],
   // Movability now belongs to the shared website/extension companion. Retain its legacy position migration.
   ['components/site/assembl-the-work/GlowDoWidget.tsx', /src="\/api\/do\/widget"/],
   ['apps/do/shared/distribution.ts', /COMPANION_POSITION_KEY/],
@@ -137,7 +138,9 @@ const companyCss = read('components/site/assembl-the-work/assembl-the-work.css')
 if (/font-family:Georgia|font-family:[^;}]*Times New Roman/.test(companyCss)) {
   errors.push('Company typography must use Instrument Sans, not the retired serif font');
 }
-const doHome = read('app/do/DoHome.tsx');
+// The September 30 unified brief supersedes a mandatory chooser: /do is the app.
+const doHome = read('app/do/DoStory.tsx');
+const doWorkspace = read('app/do/personal/PersonalDo.tsx');
 const doHomePublic = doHome
   .replace(/\/\*[\s\S]*?\*\//g, '')
   .replace(/^\s*\/\/.*$/gm, '')
@@ -166,9 +169,9 @@ if (!/atelier-poster\.png/.test(doHome)) {
 }
 // Product access must not regress to a contact-only explanation page again.
 for (const href of ['/do/bills', '/do/personal', '/do/meetings', '/do/widget']) {
-  if (!doHome.includes(`href="${href}"`)) errors.push(`Public /do is missing its task entry: ${href}`);
+  if (href !== '/do/personal' && !doWorkspace.includes(`href="${href}"`)) errors.push(`Public /do is missing its task entry: ${href}`);
 }
-if (!doHome.includes('SIGN IN FOR NOTES')) errors.push('Meeting entry must explain the sign-in requirement');
+if (!doWorkspace.includes('Meeting notes · sign in')) errors.push('Meeting entry must explain the sign-in requirement');
 
 const meetingUi = read('app/do/meetings/MeetingDo.tsx') + (existsSync('app/do/meetings/MeetingDoExperience.tsx') ? read('app/do/meetings/MeetingDoExperience.tsx') : '');
 const meetingChrome = meetingUi.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
@@ -204,5 +207,5 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  'public-front-door-guard: working DO entry links, preserved atelier, private-data and capability boundaries',
+  'public-front-door-guard: direct working DO entry, contextual tools, preserved atelier and permission boundaries',
 );

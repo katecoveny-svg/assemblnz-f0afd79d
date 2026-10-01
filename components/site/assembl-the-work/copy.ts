@@ -8,7 +8,7 @@ export const POSITIONING = {
 
 export const HOME_META = {
   title: 'assembl — find it. DO it. show it.',
-  description: POSITIONING.company,
+  description: 'DO helps with everyday jobs. Pursuit finds business opportunities. Studio makes ideas tangible. Start with the work in front of you.',
 } as const;
 
 export const PREVIEW_META = {
@@ -58,19 +58,19 @@ export const PRODUCTS = {
   items: [
     {
       id: 'pursuit', name: 'Pursuit', verb: '01 · find it.',
-      body: POSITIONING.pursuit,
+      body: 'Research a company. Check the sources. Find an opportunity worth pursuing.',
       href: '/pursuit',
       external: false,
       explore: 'Explore Pursuit', note: 'Start with the public story, then move into a private Pursuit workspace when the work is live.',
     },
     {
       id: 'do', name: 'DO', verb: '02 · DO it.', hero: true,
-      body: POSITIONING.do,
+      body: 'Bring a note, a notice or a job. Prepare the next step and review it.',
       href: '/do', explore: 'Meet DO', note: 'Use DO where the work already happens, with consequential actions kept behind explicit approval.',
     },
     {
       id: 'studio', name: 'Studio', verb: '03 · show it.',
-      body: POSITIONING.studio,
+      body: 'Turn an idea into a website, a visual or an experience people can try.',
       href: '/creative-studio', explore: 'Explore Studio', note: 'Use Studio independently or as the proof layer for Pursuit and DO.',
     },
   ],
