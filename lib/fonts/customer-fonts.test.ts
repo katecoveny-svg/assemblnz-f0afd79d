@@ -15,6 +15,15 @@ const fontFromBuffer = createRequire(import.meta.url)('next/dist/compiled/@next/
 const embeddedFamily = (family: string) => family === 'Cormorant Garamond' ? 'Cormorant Garamond Light' : family;
 
 describe('licensed customer fonts without a Google build-time request', () => {
+  it('preserves client directives before imports in every migrated module', () => {
+    const clientFiles = new Set(['components/ops/toa/DrawingsToLife.tsx']);
+    for (const file of new Set(contracts.map(contract => contract.file))) {
+      const source = ts.createSourceFile(file, readFileSync(resolve(root, file), 'utf8'), ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+      const index = source.statements.findIndex(node => ts.isExpressionStatement(node) && ts.isStringLiteral(node.expression) && node.expression.text === 'use client');
+      if (clientFiles.has(file) || index >= 0) expect(index, file).toBe(0);
+    }
+  });
+
   for (const asset of assets) {
     it(`keeps ${asset.family} ${asset.style}, its weight axis and Māori coverage`, () => {
       const bytes = readFileSync(resolve(assetRoot, asset.file));
@@ -50,7 +59,17 @@ describe('licensed customer fonts without a Google build-time request', () => {
       expect(literal(property(options!, 'variable')?.initializer) ?? null).toBe(contract.variable);
       expect(literal(property(options!, 'display')?.initializer)).toBe('swap');
       expect(property(options!, 'adjustFontFallback')?.initializer.kind).toBe(ts.SyntaxKind.FalseKeyword);
-      const src = property(options!, 'src')!.initializer as ts.ArrayLiteralExpression;
+      const sourceOption = property(options!, 'src')!.initializer;
+      if (ts.isStringLiteral(sourceOption)) {
+        const font = fontFromBuffer(readFileSync(resolve(root, contract.file, '..', sourceOption.text)));
+        expect(font.familyName).toBe(embeddedFamily(contract.family));
+        const expectedWeight = contract.weights.length === 1 ? contract.weights[0] : `${contract.weights[0]} ${contract.weights.at(-1)}`;
+        expect(literal(property(options!, 'weight')?.initializer)).toBe(expectedWeight);
+        expect(contract.styles).toHaveLength(1);
+        expect(literal(property(options!, 'style')?.initializer)).toBe(contract.styles[0]);
+        return;
+      }
+      const src = sourceOption as ts.ArrayLiteralExpression;
       const faces = src.elements.map(element => {
         const face = element as ts.ObjectLiteralExpression;
         const path = literal(property(face, 'path')?.initializer)!;
@@ -66,6 +85,13 @@ describe('licensed customer fonts without a Google build-time request', () => {
       }
     });
   }
+
+  it('uses a single source for className consumers that need the original normal-style reset', () => {
+    for (const file of ['components/ops/toa/ArcHeroBand.tsx', 'components/ops/toa/DrawingsToLife.tsx', 'app/demo/toa-architects/page.tsx']) {
+      const text = readFileSync(resolve(root, file), 'utf8');
+      expect(text).toMatch(/const cormorant = localFont\(\{\s+src: '[^']+',\s+weight: '[\d ]+',\s+style: 'normal'/);
+    }
+  });
 
   it('retains the canonical Instrument Sans/Plex Mono loaders and previous fallback metrics', () => {
     const layout = readFileSync(resolve(root, 'app/layout.tsx'), 'utf8');

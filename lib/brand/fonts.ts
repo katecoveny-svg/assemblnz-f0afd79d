@@ -108,9 +108,7 @@ const poppins = Poppins({
 
 // Air NZ needs Fraunces Italic 900 as body per brief.
 const frauncesItalicBody = localFont({
-  src: [
-    { path: '../fonts/assets/fraunces-italic.woff2', weight: '900', style: 'italic' },
-  ],
+  src: '../fonts/assets/fraunces-italic.woff2',
   weight: '900',
   style: 'italic',
   variable: '--font-brand-body',

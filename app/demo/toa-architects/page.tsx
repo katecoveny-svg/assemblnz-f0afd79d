@@ -34,10 +34,8 @@ export const metadata: Metadata = {
 };
 
 const cormorant = localFont({
-  src: [
-    { path: '../../../lib/fonts/assets/cormorant-garamond-normal.woff2', weight: '400', style: 'normal' },
-    { path: '../../../lib/fonts/assets/cormorant-garamond-normal.woff2', weight: '500', style: 'normal' },
-  ],
+  src: '../../../lib/fonts/assets/cormorant-garamond-normal.woff2',
+  weight: '400 500',
   style: 'normal',
   display: 'swap',
   adjustFontFallback: false,

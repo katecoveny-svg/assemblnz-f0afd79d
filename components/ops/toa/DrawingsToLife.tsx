@@ -1,6 +1,6 @@
-import localFont from 'next/font/local';
 'use client';
 
+import localFont from 'next/font/local';
 import { useEffect, useRef, useState } from 'react';
 
 
@@ -18,11 +18,8 @@ import { useEffect, useRef, useState } from 'react';
  * Honest: the plan is a stand-in of the 16C typology, not Nick's sheets.
  */
 const cormorant = localFont({
-  src: [
-    { path: '../../../lib/fonts/assets/cormorant-garamond-normal.woff2', weight: '400', style: 'normal' },
-    { path: '../../../lib/fonts/assets/cormorant-garamond-normal.woff2', weight: '500', style: 'normal' },
-    { path: '../../../lib/fonts/assets/cormorant-garamond-normal.woff2', weight: '600', style: 'normal' },
-  ],
+  src: '../../../lib/fonts/assets/cormorant-garamond-normal.woff2',
+  weight: '400 600',
   style: 'normal',
   display: 'swap',
   adjustFontFallback: false,
