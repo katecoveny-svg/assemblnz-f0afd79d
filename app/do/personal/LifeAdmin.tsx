@@ -238,14 +238,14 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
         <DoEntryObject compact avatar={profile?.avatar} working={assistantWorking} finish={profile?.avatar === 'pebble' ? 'paper' : 'plum'} />
         <div className={entry.intro}>
           <h1 id="life-admin-heading">What needs doing?</h1>
-          <p>{assistantWorking ? 'Preparing your next step…' : profile?.displayName && profile.displayName !== 'DO' ? `${profile.displayName}, here to help with the next step.` : 'Start with one thing. Add the details as you go.'}</p>
+          <p>{assistantWorking ? 'Preparing your reply…' : profile?.displayName && profile.displayName !== 'DO' ? `Hi, ${profile.displayName}.` : 'Ask a question, write a reply or sort a notice.'}</p>
         </div>
       </header>
       {active && <section className={styles.quickResult} aria-labelledby="personal-do-result">
         <div className={styles.resultStamp}><Check size={19} /><span>{lifeAdminLane(active) === 'done' ? 'RECORDED BY YOU' : 'READY TO CHECK'}</span></div>
         <h2 ref={resultHeading} tabIndex={-1} id="personal-do-result">{active.title}</h2><p>{nextLifeAdminStep(active)}</p>
         <button type="button" onClick={() => { setBoardOpen(true); requestAnimationFrame(() => { activeHeading.current?.focus({ preventScroll: true }); activeHeading.current?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); }); }}>See my next steps <ArrowRight size={17} /></button>
-        {!guideDismissed && (!profile?.onboardingCompleted || guideStarted) && <div className={styles.resultGuide}><span>You check it. You decide.</span>{onCustomise && <button type="button" onClick={onCustomise}>Make DO mine <ArrowUpRight size={13} /></button>}<button type="button" onClick={() => setGuideDismissed(true)} aria-label="Dismiss first-result guide"><X size={14} /></button></div>}
+        {!guideDismissed && (!profile?.onboardingCompleted || guideStarted) && <div className={styles.resultGuide}><span>Review before sharing.</span>{onCustomise && <button type="button" onClick={onCustomise}>Make DO mine <ArrowUpRight size={13} /></button>}<button type="button" onClick={() => setGuideDismissed(true)} aria-label="Dismiss first-result guide"><X size={14} /></button></div>}
       </section>}
       {assistant && <nav className={entry.composerTabs} aria-label="Choose how to start">
         <button type="button" aria-pressed={!localOpen} onClick={() => { setLocalOpen(false); requestAnimationFrame(() => document.getElementById('personal-assistant-input')?.focus()); }}>Ask DO</button>
@@ -253,10 +253,10 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
       </nav>}
       <div hidden={Boolean(assistant) && localOpen}>{assistant}</div>
       <div id="personal-local-checklist" hidden={Boolean(assistant) && !localOpen}>{localComposer}</div>
-      {!localOpen && assistant && <div className={entry.mainModes} aria-label="More ways to start">
-        {onTalk && <button type="button" onClick={onTalk} aria-label="Talk it through"><DoActionIcon kind="voice" />Talk</button>}
-        <button type="button" onClick={() => { setLocalOpen(true); setCaptureMode('photo'); }}><DoActionIcon kind="photo" />Photo</button>
-        <button type="button" onClick={() => { setLocalOpen(true); setCaptureMode('forward'); requestAnimationFrame(() => sourceRef.current?.focus()); }}><DoActionIcon kind="note" />Paste a notice</button>
+      {assistant && <div className={entry.mainModes} aria-label="More ways to start">
+        {onTalk && <button type="button" onClick={onTalk} aria-label="Talk it through"><DoActionIcon kind="voice" /><span><strong>Talk</strong><small>Open voice options</small></span></button>}
+        <button type="button" onClick={() => { setLocalOpen(true); setCaptureMode('photo'); }}><DoActionIcon kind="photo" /><span><strong>Photo</strong><small>Review an image</small></span></button>
+        <button type="button" onClick={() => { setLocalOpen(true); setCaptureMode('forward'); requestAnimationFrame(() => sourceRef.current?.focus()); }}><DoActionIcon kind="note" /><span><strong>Paste a notice</strong><small>Make a checklist</small></span></button>
       </div>}
       {!plans.length && <button type="button" className={entry.exampleToggle} aria-expanded={showExamples} onClick={() => setShowExamples(!showExamples)}>{showExamples ? 'Hide examples' : 'See an example'}<ChevronRight size={16} /></button>}
       {!plans.length && showExamples && !source.trim() && !intake && <section className={styles.examples} aria-label="Try a fictional example">
@@ -281,7 +281,7 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
       <p className={styles.boardHint}>{lane === 'today' ? 'Reviewed steps ready to move. Follow-up dates are checked when you open this workspace.' : lane === 'needs-you' ? 'Missing details, review decisions and things waiting on someone.' : 'Completed or cancelled steps, with your recorded evidence. Prepared drafts alone are not completed external work.'}</p>
       <div className={styles.board} data-empty={!plans.length || undefined}>
         <div className={styles.planList}>
-          {!listed.length && <div className={styles.empty}><span className={styles.emptyMark} aria-hidden="true"><Check size={22} /></span><div><h3>{plans.length ? 'A little breathing room.' : 'Room for your next step.'}</h3><p>{plans.length ? 'Nothing in this view right now.' : 'Your first checklist will appear here. Start with a note above.'}</p></div></div>}
+          {!listed.length && <div className={styles.empty}><span className={styles.emptyMark} aria-hidden="true"><Check size={22} /></span><div><h3>{plans.length ? 'Nothing in this view' : 'No checklists yet'}</h3><p>{plans.length ? 'Nothing in this view right now.' : 'Your first checklist will appear here. Start with a note above.'}</p></div></div>}
           {listed.map((plan) => <button type="button" className={`${styles.planCard} ${selected === plan.id ? styles.selected : ''}`} key={plan.id} onClick={() => openPlan(plan)}><span className={styles.planCategory}>{lifeAdminTemplate(plan.category).name}{isLifeAdminFollowUpDue(plan) && <b>Check date reached</b>}</span><strong>{plan.title}</strong><span>{nextLifeAdminStep(plan)}</span><small>{plan.tasks.filter((task) => task.status === 'done').length}/{plan.tasks.length} steps recorded complete</small></button>)}
           {simple && visible.length > 1 && <p className={styles.hint}>{visible.length - 1} more kept out of the way. Switch to the full picture when you want them.</p>}
         </div>

@@ -114,9 +114,9 @@ export function BillsWorkspace() {
     <div className={styles.page}>
       <section className={styles.hero} aria-labelledby="bills-title">
         <div className={styles.heroCopy}>
-        <p className={styles.kicker}>DO BILLS · LESS ADMIN, MORE MAHI.</p>
-        <h1 id="bills-title">Know what’s coming.<br />Get the next step ready.</h1>
-        <p>Find recurring payments, check bill dates and prepare the questions worth asking.</p>
+        <p className={styles.kicker}>DO BILLS</p>
+        <h1 id="bills-title">Bills</h1>
+        <p>Check payments and dates from an example or your CSV.</p>
         <Link className={styles.textLink} href="/do/bills/compare">Compare a bill against current offers ↗</Link>
         </div><DoPresence className={styles.heroPresence} working={busy} />
       </section>
@@ -124,7 +124,7 @@ export function BillsWorkspace() {
       <section className={styles.sourcePanel} aria-labelledby="source-title">
         <div className={styles.sectionHead}>
           <div><p className={styles.kicker}>{demo ? 'FICTIONAL HOUSEHOLD' : 'YOUR RECORDS · THIS PAGE ONLY'}</p>
-            <h2 id="source-title">{demo ? 'Try the example.' : 'Your bill check.'}</h2></div>
+            <h2 id="source-title">{demo ? 'Example bills' : 'My bills'}</h2></div>
           <span className={styles.badge}>No bank connected</span>
         </div>
         <p>{demo ? 'All names, transactions and invoices below are fictional. Explore the complete draft-and-review flow.' : 'CSV rows and checked bills stay in this open page. Download any draft you want to keep before leaving or refreshing.'}</p>

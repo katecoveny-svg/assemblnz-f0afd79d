@@ -30,3 +30,16 @@
 @media(max-width:760px){.stage{min-height:calc(100svh - 76px);padding:18px 0 45px;justify-content:center}.heading{margin-bottom:23px;gap:8px}.object{width:172px;height:129px;margin:0}.object>span:last-child{--presence-size:154px}.tile{width:99px;height:99px;border-radius:30px 30px 48px 30px}.petal{width:69px;height:69px;right:8px;bottom:14px}.workspace .intro h1{font-size:34px;letter-spacing:-.052em}.intro p{font-size:13px;margin-top:12px}.workspace .intake{padding:16px 16px 12px;border-radius:23px}.workspace .intake textarea{font-size:16px;min-height:76px}.composerTabs{margin-bottom:14px}.workspace .composerTabs button{font-size:11px;padding:8px 14px}.workspace .stage .primary{gap:16px;min-height:45px;padding:10px 13px 10px 16px}.privacy{font-size:9px;margin-top:14px}.mainModes{gap:5px}.workspace .mainModes button{font-size:11px;padding:8px 5px;gap:5px}}
 @media(prefers-reduced-motion:no-preference){.tile{animation:do-tile-settle 700ms cubic-bezier(.2,.8,.2,1) both}.petal{animation:do-petal-settle 850ms cubic-bezier(.2,.8,.2,1) both}.object>span:last-child{transition:transform 300ms}@keyframes do-tile-settle{from{opacity:0;transform:rotate(-18deg) translate(-28px,9px)}}@keyframes do-petal-settle{from{opacity:0;transform:translate(18px,9px)}}}
 @media(prefers-reduced-motion:reduce){.workspace .stage button,.object>span:last-child{transition:none}.workspace .stage button:hover,.workspace .stage button:active,.stage:focus-within .object>span:last-child{transform:none}}
+
+/* Personal app: three real input routes, with a readable resting state. */
+.stage{min-height:calc(100svh - 88px);padding-top:18px}
+.heading{gap:4px;margin-bottom:22px}.intro p{max-width:360px;margin:12px auto 0}
+.workspace .mainModes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:20px 0 0}
+.workspace .mainModes button{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:16px;min-width:0;min-height:130px;padding:18px;border:1px solid #cdb5c9;border-radius:22px;background:#fffdfb;box-shadow:0 6px 0 #e2c9d9,0 16px 30px #654a4e12;color:#240b21;font-size:14px}
+.workspace .mainModes button:nth-child(2){background:#f5e4e7}.workspace .mainModes button:nth-child(3){background:#efebfb}
+.mainModes button>span{display:grid;gap:5px}.mainModes strong{font-weight:600}.workspace .mainModes small{font-size:11px;color:#654a4e;line-height:1.4}
+.workspace .mainModes button:hover{transform:translateY(-2px)}
+@media(max-width:600px){.workspace .mainModes{gap:8px}.workspace .mainModes button{padding:13px 10px;min-height:125px;border-radius:18px;font-size:12px;gap:13px}.workspace .mainModes small{font-size:10px}.stage{padding-top:8px}}
+@media(prefers-reduced-motion:reduce){.workspace .mainModes button{transition:none}.workspace .mainModes button:hover{transform:none}}
+
+.intro{background:#fffdfb;border:1px solid #e3cdda;border-radius:24px;padding:18px 24px;box-shadow:0 10px 32px #916a7010}

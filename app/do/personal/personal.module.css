@@ -4,7 +4,7 @@
   --rose: #916a70;
   --chalk: #f5f1f2;
   color: var(--ink);
-  background: var(--paper);
+  background: transparent;
   font-family: var(--font-body), sans-serif;
   min-height: 100dvh;
   padding: 0 clamp(20px, 5vw, 90px);

@@ -70,7 +70,7 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
       const rect = el.getBoundingClientRect();
       return getComputedStyle(el).position === 'fixed' && rect.left >= 0 && rect.right <= innerWidth;
     }));
-    check('billing retains both visible functional shortcuts', await shortcuts.getByRole('link', { name: 'DO home', exact: true }).isVisible() && await shortcuts.getByRole('link', { name: 'assembl', exact: true }).isVisible() && await shortcuts.getByRole('link', { name: 'DO home', exact: true }).getAttribute('href') === '/do' && await shortcuts.getByRole('link', { name: 'assembl', exact: true }).getAttribute('href') === '/');
+    check('billing retains both visible functional shortcuts', await shortcuts.getByRole('link', { name: 'DO home', exact: true }).isVisible() && await shortcuts.getByRole('link', { name: 'Privacy', exact: true }).isVisible() && await shortcuts.getByRole('link', { name: 'DO home', exact: true }).getAttribute('href') === '/do' && await shortcuts.getByRole('link', { name: 'Privacy', exact: true }).getAttribute('href') === '/legal/privacy');
     await clean.screenshot({ path: out + '/11-billing-disabled-375.png', fullPage: true });
     await shortcuts.getByRole('link', { name: 'DO home', exact: true }).click();
     await clean.locator('#life-admin-source').waitFor();
@@ -120,6 +120,21 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
     await fallback.goto(origin + '/', { waitUntil: 'networkidle' });
     check('WebGL unavailable keeps complete static identity', await fallback.locator('[data-renderer="static"]').isVisible() && await fallback.getByRole('link', { name: 'Open DO', exact: true }).first().isVisible());
     await fallback.screenshot({ path: out + '/08-webgl-fallback.png' });
+    for (const width of [1440, 375]) {
+      await clean.setViewportSize({ width, height: width === 375 ? 812 : 1000 });
+      for (const path of ['/do', '/do/personal', '/do/bills', '/do/billing', '/do/install', '/do/typesafe']) {
+        const response = await clean.goto(origin + path, { waitUntil: 'networkidle' });
+        check(`standalone DO route ${path} responds at ${width}px`, response?.ok());
+        const destinations = await clean.locator('a[href]').evaluateAll(nodes => nodes.map(node => new URL(node.href).pathname));
+        check(`no cross-product links on ${path} at ${width}px`, destinations.every(path => !/^\/(pursuit|creative-studio|hub|hubs|customers)(\/|$)/.test(path)));
+        check(`no horizontal overflow on ${path} at ${width}px`, await clean.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+        if (path === '/do' || path === '/do/bills') {
+          await clean.evaluate(() => document.fonts.ready);
+          check(`Instrument Sans loaded on ${path} at ${width}px`, await clean.locator('h1').evaluate(el => /Instrument.?Sans/i.test(getComputedStyle(el).fontFamily) && document.fonts.check(`16px ${getComputedStyle(el).fontFamily.split(',')[0]}`)));
+          await clean.screenshot({ path: out + `/pink-${path === '/do' ? 'home' : 'bills'}-${width}.png`, fullPage: true });
+        }
+      }
+    }
     check('no unexpected runtime page errors', errors.length === 0);
     fs.writeFileSync(out + '/results.json', JSON.stringify({ checks, links, errors, renderer, claims: 'Real anonymous HTTP and guest local interaction. No provider, signed-in account, real microphone, native install or external execution tested.' }, null, 2));
   } finally { await browser.close(); }
