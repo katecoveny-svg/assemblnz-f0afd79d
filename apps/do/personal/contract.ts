@@ -5,7 +5,7 @@ export const PERSONAL_BOUNDARY =
 export const personalSaveSchema = z
   .object({
     action: z.literal("save"),
-    id: z.string().uuid().optional(),
+    id: z.string().uuid(),
     title: z.string().trim().min(1).max(100),
     goal: z.string().trim().min(10).max(1500),
     notes: z.string().trim().min(1).max(10000),
@@ -22,8 +22,9 @@ export const personalSaveSchema = z
       }, "Choose a valid time zone."),
     localHour: z.number().int().min(0).max(23),
     consent: z.literal(true),
+    expectedRevision: z.number().int().min(0).max(1999999999),
   })
-  .strict();
+  .strict().refine(input => Boolean(input.id), "Reload the responsibility before saving.");
 export const personalMutationSchema = z.union([
   personalSaveSchema,
   z
@@ -60,6 +61,7 @@ export type PersonalRun = {
 export type PersonalState = {
   responsibilities: Responsibility[];
   runs: PersonalRun[];
+  storage?: { available: boolean };
   worker: { configured: boolean; lastSeenAt: string | null };
 };
 export const PERSONAL_STARTERS = [
@@ -81,3 +83,5 @@ export function responsibilityStatus(item: Responsibility, now = Date.now(), pro
   if (Date.parse(item.consent_until) <= now) return "Permission expired";
   return providerPermissionReady ? "Scheduled" : "Permission renewal needed";
 }
+
+export const personalStorageReceiptSchema = z.object({ id: z.string().uuid(), saved: z.literal(true), preparation: z.literal("off") }).strict();

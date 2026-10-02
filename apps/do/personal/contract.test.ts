@@ -7,12 +7,14 @@ import {
 } from "./contract";
 const input = {
   action: "save",
+  id: "11111111-1111-4111-8111-111111111111",
   title: "Prepare my day",
   goal: "Prepare a daily checklist.",
   notes: "Proposal due Friday.",
   timezone: "Pacific/Auckland",
   localHour: 7,
   consent: true,
+  expectedRevision: 0,
 };
 describe("Personal DO permissions and bounds", () => {
   it("requires explicit consent and rejects injected owner or execution fields", () => {
