@@ -109,3 +109,11 @@ export async function closedHostDispatcher(request: Request, ordinaryApp: (reque
   if (gate.state === 'ordinary_host') return ordinaryApp(request);
   return new Response(null, { status: gate.state === 'denied' ? gate.status : 503, headers: { 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' } });
 }
+
+/** Pure reference for the unapplied SQL issuance contract; not a DB executor. */
+export function proposedChildInterval(databaseNowMs: number, parentExpiresAtMs: number) {
+  if (![databaseNowMs, parentExpiresAtMs].every(Number.isSafeInteger)) return null;
+  const expiresAtMs = Math.min(databaseNowMs + 20000, parentExpiresAtMs);
+  if (expiresAtMs - databaseNowMs < 15000) return null;
+  return { issuedAtMs: databaseNowMs, expiresAtMs };
+}

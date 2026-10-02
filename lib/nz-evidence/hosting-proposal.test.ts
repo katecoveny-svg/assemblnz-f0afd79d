@@ -162,3 +162,12 @@ it('noncooperative log authority retains its slot across minute windows', async 
     expect(claim).toHaveBeenCalledTimes(1);
   } finally { vi.useRealTimers(); }
 });
+
+it('source issuance never outlives its parent and rechecks fresh post-lock time', async () => {
+  const { proposedChildInterval } = await import('../../security-proposals/nz-plugin-hosting/policy');
+  expect(proposedChildInterval(1000, 17000)).toEqual({ issuedAtMs: 1000, expiresAtMs: 17000 });
+  expect(proposedChildInterval(2001, 17000)).toBe(null); // lock wait consumed minimum lifetime
+  expect(proposedChildInterval(17000, 17000)).toBe(null);
+  expect(proposedChildInterval(1000, 50000)).toEqual({ issuedAtMs: 1000, expiresAtMs: 21000 });
+  expect(proposedChildInterval(2000, 17000)).toEqual({ issuedAtMs: 2000, expiresAtMs: 17000 });
+});
