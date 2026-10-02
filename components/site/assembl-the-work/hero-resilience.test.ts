@@ -13,7 +13,8 @@ describe('homepage complete still view', () => {
     expect(html).toContain('View Pursuit scene');
     expect(html).toContain('View DO scene');
     expect(html).toContain('View Studio scene');
-    expect(html).toContain('not live agent activity');
+    expect(html).toContain('Illustrative workspace tour');
+    expect(html).toContain('No live agent activity.');
     expect(html).not.toContain('name="brief"');
     expect(html).not.toContain('/do/meetings');
     expect(html).not.toContain('/do/household');

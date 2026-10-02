@@ -97,7 +97,7 @@ async def main():
                     if name == 'home' and LOCAL:
                         # The assembl scene leads the homepage; the deeper brief remains optional.
                         atelier = page.locator('details.refined-atelier')
-                        await expect(page.get_by_role('heading', name='Assemble useful work.', level=1, exact=True)).to_have_count(1)
+                        await expect(page.get_by_role('heading', name='Improve workflows. Build software.', level=1, exact=True)).to_have_count(1)
                         await expect(page.locator('[data-chapter]')).to_have_count(1)
                         await expect(page.locator('#how-it-works')).to_have_count(0)
                         await expect(page.locator('[data-chapter]')).to_be_visible()
