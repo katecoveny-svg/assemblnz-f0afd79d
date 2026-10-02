@@ -194,5 +194,5 @@ final class NativeReviewClient {
         }
     }
     private func fail(_ message: String) { busy = false; recipient = nil; status(message); changed() }
-    private func accept() { busy = false; accepted = true; unknown = false; status("Added to this editor for review. Not saved or synced. Preparation still needs your confirmation."); changed() }
+    private func accept() { pending = nil; busy = false; accepted = true; unknown = false; status("Added to this editor for review. Not saved or synced. Preparation still needs your confirmation."); changed() }
 }

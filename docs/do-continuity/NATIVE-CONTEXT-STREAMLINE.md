@@ -11,3 +11,11 @@ Missing matching receiver/API is a version error, not a sign-in diagnosis. Confi
 Apple references: [content picker](https://developer.apple.com/documentation/screencapturekit/sccontentsharingpicker), [one-frame screenshot API](https://developer.apple.com/documentation/screencapturekit/scscreenshotmanager/captureimage(contentfilter:configuration:completionhandler:)), [WWDC23 system picker and screenshot flow](https://developer.apple.com/videos/play/wwdc2023/10136/). Local SDK declarations were checked. No OS screen permission or capture was exercised.
 
 Visual proof is offscreen rendering of actual native SwiftUI source plus an isolated fictional-auth React fixture. No new visible DO instance or orb is launched during Kate's active desktop use. It is review evidence, not a claim that a matching app/web version is installed or that native VoiceOver/screen permission works end-to-end.
+
+## Review fixes: transient work and identity
+
+Review hashing captures the exact draft, editor revision, recipient and lifecycle generation; logout or replacement during hashing cannot restore a stale draft. Direct editor and reviewed Look context use metadata-only recipient validation before preparation, with the page session identity checked against the fresh server recipient. The existing explicit provider consent and server expected-owner checks remain required. No editor text travels in recipient lookup.
+
+Uncertain recipient transport invalidates transfer authority and preparation consent while retaining unsent editor work. A verified logout, scope boundary or differing account clears private context. Same-owner SIGNED_IN revalidates metadata without destroying work. An accepted offer's late cancel returns its existing receipt without network validation; native verified acceptance clears pending cancellation state.
+
+Full typecheck currently has nine diagnostics outside this diff; inheritance is unverified without a clean frozen bootstrap/canvas prerequisite and identical baseline comparison. Source-only tests do not replace an agreed live native accessibility/picker session.

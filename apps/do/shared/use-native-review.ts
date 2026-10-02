@@ -11,6 +11,7 @@ type Options = {
   revision: MutableRefObject<number>;
   onCommit(text: string, owner: string): void;
   onReset(): void;
+  onUnavailable(): void;
   onReveal?(): void;
 };
 
@@ -31,6 +32,8 @@ export function useNativeReview(options: Options) {
   useEffect(() => {
     if (!options.enabled || !nativeReviewDocumentAllowed(location.href, window === window.top)) return;
     const controller = new AbortController();
+    let seenOwner: string | null = null;
+    let authKnown = false;
     const reset = () => { owner.current = null; pending.current = null; latest.current.onReset(); };
     const receiver = new NativeReviewBridge({
       allowedDocument: () => nativeReviewDocumentAllowed(location.href, window === window.top),
@@ -39,7 +42,11 @@ export function useNativeReview(options: Options) {
         const response = await fetch('/api/do/native-recipient', { method: 'GET', credentials: 'same-origin', cache: 'no-store', signal: AbortSignal.any([controller.signal, AbortSignal.timeout(5000)]) });
         if (!response.ok) throw new NativeRecipientLookupError(response.status === 401 ? 'sign_in_required' : response.status === 404 ? 'workspace_version_required' : 'recipient_unavailable');
         const parsed = nativeRecipientSchema.safeParse(await response.json());
-        return parsed.success ? parsed.data : null;
+        if (!parsed.success || !authKnown) return null;
+        // Page session identity is a boundary hint, never transport authority.
+        // A differing server-confirmed recipient cannot silently inherit editor work.
+        if (parsed.data.owner !== seenOwner) { receiver.invalidate(); return null; }
+        return parsed.data;
       },
       editor: () => ({ revision: latest.current.revision.current, occupied: latest.current.occupied }),
       commit: (text, binding, committed) => {
@@ -49,6 +56,7 @@ export function useNativeReview(options: Options) {
         latest.current.onReveal?.();
       },
       clear: reset,
+      unavailable: () => { owner.current = null; pending.current = null; latest.current.onUnavailable(); },
     });
     bridge.current = receiver;
     const receive = (request: NativeReviewRequest) => receiver.request(request);
@@ -60,11 +68,12 @@ export function useNativeReview(options: Options) {
     window.addEventListener('pagehide', pagehide);
     let unsubscribe = () => {};
     try {
-      let seenOwner: string | null = null;
       const { data } = createClient().auth.onAuthStateChange((event, session) => {
         const next = session?.user?.id ?? null; // Session/token material never leaves the page.
+        authKnown = true;
         if (event === 'INITIAL_SESSION') { seenOwner = next; return; }
-        if (event === 'SIGNED_IN' || event === 'SIGNED_OUT' || next !== seenOwner) receiver.invalidate();
+        if (event === 'SIGNED_OUT' || next !== seenOwner) receiver.invalidate();
+        else if (event === 'SIGNED_IN') void receiver.request({ version: 1, action: 'lookup' });
         seenOwner = next;
       });
       unsubscribe = () => data.subscription.unsubscribe();
@@ -78,5 +87,13 @@ export function useNativeReview(options: Options) {
       window.removeEventListener('pagehide', pagehide);
     };
   }, [options.enabled]);
-  return { owner, bridge };
+  const bindRecipient = async () => {
+    const receiver = bridge.current;
+    if (!receiver) return null;
+    const result = await receiver.request({ version: 1, action: 'lookup' });
+    if (bridge.current !== receiver || result.status !== 'recipient') return null;
+    owner.current = result.owner;
+    return result.owner;
+  };
+  return { owner, bridge, bindRecipient };
 }

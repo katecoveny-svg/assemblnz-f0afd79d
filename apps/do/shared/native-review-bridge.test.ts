@@ -96,6 +96,15 @@ describe('transient native review protocol', () => {
     const pending = g.bridge.request({ ...binding, action: 'commit', reservation: token, text: 'Fictional' }); await turns(); g.state.revision++; g.state.callback!(1);
     const accepted = await pending; expect(await g.bridge.request({ ...binding, action: 'cancel' })).toEqual(accepted);
   });
+  it('accepted cancel avoids network; uncertainty preserves text until verified owner changes', async () => {
+    const f = fixture(), bound = await f.binding(), reservation = await f.reserve(bound);
+    const pending = f.bridge.request({ ...bound, action: 'commit', reservation, text: 'Unsent fictional work' });
+    await turns(); f.state.revision++; f.state.callback!(1); const accepted = await pending;
+    f.state.online = false;
+    expect(await f.bridge.request({ ...bound, action: 'cancel' })).toEqual(accepted);
+    expect((await f.lookup()).status).toBe('rejected'); expect(f.state.text).toBe('Unsent fictional work'); expect(f.state.clears).toBe(0);
+    f.state.online = true; f.state.owner = B; await f.lookup(); expect(f.state.text).toBe(''); expect(f.state.clears).toBe(1);
+  });
   it('offline/signout never commits and metadata actions cannot carry text', async () => {
     const f = fixture(); f.state.online = false; expect((await f.lookup()).status).toBe('rejected'); expect(f.state.commits).toBe(0);
     expect((await f.bridge.request({ version: 1, action: 'lookup', text: 'Must not travel' })).status).toBe('rejected');

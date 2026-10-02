@@ -78,9 +78,11 @@ let lost=CompanionModel()
 lost.fictional.destination=URL(string:"https://www.assembl.co.nz/do/widget?nativeReview=1")!
 lost.review="Fictional lost-receipt note"
 var commits=0
+var lateCancels=0
 var lastCommit:[String:Any]=[:]
 lost.nativeReview.transport={request,complete in
  let action=request["action"] as? String
+ if action=="cancel" { lateCancels+=1 }
  if action=="lookup"{complete(.success(["version":1,"status":"recipient","owner":lost.fictional.account,"label":"Account " + lost.fictional.account,"scope":"Personal","documentId":"30000000-0000-4000-8000-000000000001","generation":0,"editorRevision":0,"occupied":false]));return}
  var response=request;response.removeValue(forKey:"action");response.removeValue(forKey:"text");response.removeValue(forKey:"reservation")
  if action=="reserve"{response["status"]="reserved";response["reservation"]="40000000-0000-4000-8000-000000000001";response["expiresAt"]=Date().timeIntervalSince1970*1000+15000;complete(.success(response));return}
@@ -94,6 +96,7 @@ lost.addToDO()
 check("receipt lookup recovers without resending text",lost.nativeReview.accepted && commits==1)
 lost.nativeReview.navigate();lost.addToDO()
 check("new document cannot replay same review",lost.nativeReview.blocked && commits==1)
+check("accepted receipt clears pending offer; closing sends no late cancel",lateCancels==0)
 
 let result: [String:Any] = ["passedChecks":checks,"knownReleaseBlockers":[],"wrongAccountBlocked":true,"realClipboardRead":false,"otherAppSelectionRead":false,"providerCalls":0,"receiverRenderProof":"separate actual React receiver browser tests"]
 let data = try! JSONSerialization.data(withJSONObject:result,options:[.prettyPrinted,.sortedKeys])

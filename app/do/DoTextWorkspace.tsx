@@ -5,7 +5,7 @@ import { DO_TEXT_PROVIDER_CONSENT_VERSION } from '@/apps/do/shared/provider-cons
 import { DoShareButton } from '@/components/do/DoShareButton';
 import { DoMark } from './DoAppearance';
 
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { usePathname } from 'next/navigation';
 import { doReturnPath } from '@/lib/do/navigation';
 const subscribeLocation = () => () => {};
@@ -58,6 +58,10 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
   const [briefForDraft, setBriefForDraft] = useState('');
   const abort = useRef<AbortController | null>(null);
   const resultRef = useRef<HTMLElement>(null);
+  const currentDraft = useRef(draft);
+  const reviewGeneration = useRef(0);
+  useLayoutEffect(() => { currentDraft.current = draft; });
+  useEffect(() => () => { reviewGeneration.current++; }, []);
 
   const nativeReview = useNativeReview({
     enabled: nativeOrigin,
@@ -70,7 +74,13 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
       setSourceUrl(''); setConsent(false); setDraft(null); setSaved([]);
       setNotice('Added to this editor for review. This session is not saved or synced.');
     },
+    onUnavailable: () => {
+      reviewGeneration.current++;
+      abort.current?.abort(); setBusy(false); setConsent(false);
+      setNotice('Recipient could not be checked. Your work is still here; reconnect and confirm before preparing.');
+    },
     onReset: () => {
+      reviewGeneration.current++; currentDraft.current = null;
       abort.current?.abort(); setBusy(false); setSource(''); setBrief(''); setSourceTitle(''); setSourceUrl('');
       setConsent(false); setDraft(null); setSaved([]); setNeedsSignIn(true); setError(''); setSourceForDraft(''); setBriefForDraft(''); setReviewer('');
       onNativeReveal?.(); setNotice('Recipient changed or became unavailable. Review context cleared.');
@@ -128,11 +138,15 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
   async function prepare(event: React.FormEvent) {
     event.preventDefault();
     if (!consent || !source.trim() || busy || (task !== 'extract' && needsSignIn)) return;
-    const expectedOwner = isNativeDocument() ? nativeReview.owner.current : null;
-    if (isNativeDocument() && !expectedOwner) { setError('Check this app’s signed-in recipient before preparing.'); return; }
+    const revision = editorRevision.current;
+    const generation = reviewGeneration.current;
     setBusy(true); setError(''); setNotice('');
     const controller = new AbortController(); abort.current = controller;
+    let expectedOwner: string | null = null;
     try {
+      expectedOwner = isNativeDocument() ? await nativeReview.bindRecipient() : null;
+      if (controller.signal.aborted || revision !== editorRevision.current || generation !== reviewGeneration.current) return;
+      if (isNativeDocument() && !expectedOwner) throw new Error('Check this app’s signed-in recipient before preparing.');
       const response = await fetch('/api/do/prepare', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: controller.signal,
         body: JSON.stringify({ ...(expectedOwner ? { nativeExpectedOwner: expectedOwner } : {}), task, source, brief, sourceTitle: sourceTitle || 'Pasted text', sourceUrl, consent, providerConsentVersion: DO_TEXT_PROVIDER_CONSENT_VERSION }),
@@ -153,12 +167,18 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
 
   async function review() {
     if (!draft || !reviewer.trim()) return;
+    const reviewedDraft = draft;
+    const generation = reviewGeneration.current;
+    const expectedOwner = nativeReview.owner.current;
+    const revision = editorRevision.current;
+    const reviewedBy = reviewer.trim();
     try {
-      const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(draft.text));
+      const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(reviewedDraft.text));
+      if (generation !== reviewGeneration.current || currentDraft.current !== reviewedDraft || revision !== editorRevision.current || nativeReview.owner.current !== expectedOwner) return;
       const reviewedTextHash = [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
-      setDraft({ ...draft, status: 'reviewed', reviewer: reviewer.trim(), reviewedAt: new Date().toISOString(), reviewedTextHash });
+      setDraft({ ...reviewedDraft, status: 'reviewed', reviewer: reviewedBy, reviewedAt: new Date().toISOString(), reviewedTextHash });
       setNotice('Review recorded in this draft. You can now copy or download it for your next step.');
-    } catch { setError('The review could not be recorded in this browser. You can still download the draft.'); }
+    } catch { if (generation === reviewGeneration.current && currentDraft.current === reviewedDraft) setError('The review could not be recorded in this browser. You can still download the draft.'); }
   }
 
   function save() {

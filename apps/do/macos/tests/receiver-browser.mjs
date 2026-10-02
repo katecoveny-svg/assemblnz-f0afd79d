@@ -44,7 +44,7 @@ async function fixture({url='https://www.assembl.co.nz/do/widget?nativeReview=1'
     return new Response(JSON.stringify(window.__owner?{version:1,owner:window.__owner,scope:'Personal',label:window.__owner.endsWith('1')?'alex@example.invalid':'taylor@example.invalid'}:{error:'sign_in_required'}),{status:window.__owner?200:401,headers:{'Content-Type':'application/json'}});
    }
    if(url==='/api/do/runtime')return new Response(JSON.stringify({signedIn:true,availability:{preparation:'unavailable',note:'Fictional test; provider disabled'}}),{headers:{'Content-Type':'application/json'}});
-   if(url==='/api/do/prepare'&&window.__allowPreparation){window.__preparations.push(JSON.parse(opts.body));return new Promise((_resolve,reject)=>{opts.signal.addEventListener('abort',()=>{window.__abortedPreparation++;reject(new DOMException('fictional aborted','AbortError'));});});}
+   if(url==='/api/do/prepare'&&window.__allowPreparation){window.__preparations.push(JSON.parse(opts.body));if(window.__returnDraft)return new Response(JSON.stringify({draft:{id:'fictional-draft',task:'extract',title:'Fictional draft',text:'Fictional prepared text',version:1,createdAt:'2026-10-02T00:00:00Z',status:'draft',evidence:{method:'exact-extraction',model:null,sourceTitle:'Fictional source',sourceUrl:'',sourceCharacters:26,sourceHash:'fictional',instructionHash:'fictional',outputHash:'fictional',consentAt:'2026-10-02T00:00:00Z',boundary:'Fictional transport; no external actions'}}}),{headers:{'Content-Type':'application/json'}});return new Promise((_resolve,reject)=>{opts.signal.addEventListener('abort',()=>{window.__abortedPreparation++;reject(new DOMException('fictional aborted','AbortError'));});});}
    window.__providers++;throw Error('real work forbidden');
   };
  },{owner:A});
@@ -61,6 +61,42 @@ try{
   assert.deepEqual(await request(page,{...b,action:'receipt'}),r);assert.deepEqual(await request(page,c),r);assert.equal((await request(page,{...c,text:'Changed'})).status,'rejected');
   assert.equal(await page.evaluate(()=>window.__reveals),1);assert.equal(await page.getByText('Save in this browser',{exact:true}).count(),0);await clean(page);
   await page.screenshot({path:resolve(out,'actual-receiver-375.png')});checks.push('actual committed textarea precedes accepted receipt; duplicate/lost receipt recovery; transient storage');await context.close();
+ }
+ {
+  const {page,context}=await fixture(),b=await binding(page),c=await offer(page,b,'Accepted fictional unsent work');
+  const accepted=await request(page,c);assert.equal(accepted.status,'accepted');
+  const count=await page.evaluate(()=>window.__lookups.length);await page.evaluate(()=>window.__offline=true);
+  assert.deepEqual(await request(page,{...b,action:'cancel'}),accepted);assert.equal(await page.evaluate(()=>window.__lookups.length),count);
+  assert.equal((await request(page,{version:1,action:'lookup'})).status,'rejected');assert.equal(await page.locator('#do-source').inputValue(),c.text);
+  await page.evaluate(()=>window.__offline=false);await page.evaluate(owner=>window.__owner=owner,B);
+  await request(page,{version:1,action:'lookup'});assert.equal(await page.locator('#do-source').inputValue(),'');await clean(page);
+  checks.push('accepted close returns receipt offline; uncertain lookup retains unsent work; confirmed owner change clears it');await context.close();
+ }
+ {
+  const {page,context}=await fixture();await page.locator('#do-source').fill('Fictional directly pasted work');
+  await page.evaluate(owner=>window.__auth('SIGNED_IN',{user:{id:owner}}),A);
+  assert.equal(await page.locator('#do-source').inputValue(),'Fictional directly pasted work');
+  await page.evaluate(()=>window.__allowPreparation=true);await page.getByLabel('Task',{exact:true}).selectOption('extract');await page.locator('.do-consent input').check();
+  await page.locator('button[type=submit]').click();await page.waitForFunction(()=>window.__preparations.length===1);
+  const prep=await page.evaluate(()=>window.__preparations[0]);assert.equal(prep.nativeExpectedOwner,A);assert.equal(prep.source,'Fictional directly pasted work');assert.equal(prep.consent,true);
+  await page.evaluate(()=>window.__auth('SIGNED_OUT',null));await page.waitForFunction(()=>window.__abortedPreparation===1);await clean(page);
+  checks.push('same-owner SIGNED_IN retains pasted work; metadata-only binding enables consented direct preparation');await context.close();
+ }
+ {
+  const {page,context}=await fixture();await page.locator('#do-source').fill('Fictional original-owner direct work');
+  await page.evaluate(owner=>{window.__allowPreparation=true;window.__owner=owner},B);await page.getByLabel('Task',{exact:true}).selectOption('extract');await page.locator('.do-consent input').check();await page.locator('button[type=submit]').click();
+  await page.waitForFunction(()=>document.querySelector('#do-source').value==='');assert.deepEqual(await page.evaluate(()=>window.__preparations),[]);await clean(page);
+  checks.push('direct preparation rejects differing page/session and server recipient without transporting text');await context.close();
+ }
+ {
+  const {page,context}=await fixture();await page.locator('#do-source').fill('Fictional hash-race source');
+  await page.evaluate(()=>{window.__allowPreparation=true;window.__returnDraft=true;});await page.getByLabel('Task',{exact:true}).selectOption('extract');await page.locator('.do-consent input').check();await page.locator('button[type=submit]').click();await page.locator('#do-result').waitFor();
+  await page.locator('#do-reviewer').fill('Fictional reviewer');await page.evaluate(()=>{crypto.subtle.digest=()=>new Promise(resolve=>{window.__resolveDigest=resolve});});
+  await page.getByRole('button',{name:'Mark as reviewed'}).click();await page.waitForFunction(()=>typeof window.__resolveDigest==='function');
+  await page.evaluate(()=>window.__auth('SIGNED_OUT',null));await page.waitForFunction(()=>!document.querySelector('#do-result'));
+  await page.evaluate(()=>window.__resolveDigest(new Uint8Array(32).buffer));await page.waitForTimeout(50);
+  assert.equal(await page.locator('#do-result').count(),0);assert.equal(await page.locator('#do-source').inputValue(),'');await clean(page);
+  checks.push('logout during deferred review digest cannot resurrect prior-owner draft');await context.close();
  }
  for(const phase of ['before-reserve','before-commit','after-commit']){
   const {page,context}=await fixture(),b=await binding(page);

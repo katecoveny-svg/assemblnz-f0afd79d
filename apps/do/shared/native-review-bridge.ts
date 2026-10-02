@@ -35,6 +35,7 @@ export type NativeReviewEnvironment = {
   // The component invokes committed only after its actual editor render commits.
   commit(text: string, binding: NativeBinding, committed: (editorRevision: number) => void): void;
   clear(): void;
+  unavailable?(): void;
   now?(): number;
   randomId?(): string;
 };
@@ -52,6 +53,7 @@ export class NativeReviewBridge {
   readonly documentId: string;
   private generation = 0;
   private recipient: NativeRecipient | null = null;
+  private lastConfirmedRecipient: NativeRecipient | null = null;
   private disposed = false;
   private identityIssued = 0;
   private identityApplied = 0;
@@ -73,7 +75,8 @@ export class NativeReviewBridge {
     for (const entry of this.entries.values()) {
       if (entry.phase !== 'accepted') { entry.phase = 'failed'; entry.finish?.(rejected('recipient_invalidated')); }
     }
-    if (clear) this.environment.clear();
+    if (clear) { this.lastConfirmedRecipient = null; this.environment.clear(); }
+    else this.environment.unavailable?.();
   }
   dispose() { this.disposed = true; this.invalidate(); }
 
@@ -82,14 +85,14 @@ export class NativeReviewBridge {
     const sequence = ++this.identityIssued;
     let value: NativeRecipient | null;
     try { value = await this.environment.resolveRecipient(); } catch (cause) {
-      if (!this.disposed && generation === this.generation && sequence >= this.identityApplied) { this.identityApplied = sequence; this.failureCode = cause instanceof NativeRecipientLookupError ? cause.code : 'recipient_unavailable'; this.invalidate(); }
+      if (!this.disposed && generation === this.generation && sequence >= this.identityApplied) { this.identityApplied = sequence; this.failureCode = cause instanceof NativeRecipientLookupError ? cause.code : 'recipient_unavailable'; this.invalidate(this.failureCode === 'sign_in_required'); }
       return null;
     }
     if (this.disposed || generation !== this.generation || sequence < this.identityApplied || !this.environment.allowedDocument()) return null;
     this.identityApplied = sequence;
-    if (!value || !nativeRecipientSchema.safeParse(value).success) { this.invalidate(); return null; }
-    if (this.recipient && (value.owner !== this.recipient.owner || value.scope !== this.recipient.scope)) this.invalidate();
-    this.recipient = value; this.failureCode = 'recipient_unavailable';
+    if (!value || !nativeRecipientSchema.safeParse(value).success) { this.invalidate(false); return null; }
+    if (this.lastConfirmedRecipient && (value.owner !== this.lastConfirmedRecipient.owner || value.scope !== this.lastConfirmedRecipient.scope)) this.invalidate();
+    this.recipient = value; this.lastConfirmedRecipient = value; this.failureCode = 'recipient_unavailable';
     return value;
   }
 
@@ -102,6 +105,12 @@ export class NativeReviewBridge {
     if (!parsed.success) return rejected('invalid_request');
     if (this.disposed || !this.environment.allowedDocument()) return rejected('wrong_document');
     const request = parsed.data;
+    // A late close cannot retract acceptance or require network availability.
+    if (request.action === 'cancel') {
+      const binding = bindingSchema.strip().parse(request);
+      const existing = this.entries.get(binding.offerId);
+      if (binding.documentId === this.documentId && binding.generation === this.generation && existing?.receipt && sameBinding(existing.binding, binding)) return existing.receipt;
+    }
     const owner = await this.identity();
     if (!owner) return rejected(this.failureCode);
     const editor = this.environment.editor();
