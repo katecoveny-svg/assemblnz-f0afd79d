@@ -65,12 +65,6 @@ async def main():
                 await page.route('**/api/pursuit/research', research)
                 for path in ('/', '/pursuit'):
                     await page.goto(ORIGIN + path, wait_until='domcontentloaded', timeout=120000)
-                    demo = page.get_by_role('region', name='Pursuit illustrated walkthrough')
-                    await expect(demo).to_be_visible(timeout=120000)
-                    # Reduced motion matches server HTML; wait for attached client handlers.
-                    await expect(demo).to_have_attribute('data-ready', 'true')
-                    await expect(demo).to_have_attribute('data-reduced', str(motion == 'reduce').lower())
-                    await expect(demo.get_by_text('Illustrated example · no live research', exact=True)).to_be_visible()
                     if path == '/':
                         await expect(page.get_by_role('heading', name='assembl the work.', exact=True)).to_be_attached()
                         await expect(page.locator('#live-data')).to_be_attached()
@@ -92,6 +86,36 @@ async def main():
                             await chapter.focus()
                             await chapter.press('Enter')
                             await expect(scene).to_have_attribute('data-chapter', '2', timeout=30000)
+                        recording = page.get_by_role('region', name='Watch a question', exact=False)
+                        await expect(recording).to_be_visible()
+                        await expect(page.get_by_role('region', name='Pursuit illustrated walkthrough')).to_have_count(0)
+                        video = recording.locator('video')
+                        await expect(video).to_have_attribute('preload', 'none')
+                        assert await video.evaluate('node => node.controls && !node.autoplay && node.paused')
+                        await expect(video.locator('source')).to_have_attribute('src', '/videos/pursuit/assembl-20261002/recording.mp4')
+                        for name in ('Download the editable pitch', 'Download the source brief', 'Read the recording transcript'):
+                            link = recording.get_by_role('link', name=name, exact=True)
+                            response = await page.request.get(ORIGIN + await link.get_attribute('href'))
+                            assert response.status == 200, name
+                        brief = await page.request.get(ORIGIN + '/videos/pursuit/assembl-20261002/source-brief.json')
+                        receipt = await brief.json()
+                        assert receipt['trace']['id'] == '506bac24-9b18-47e9-a558-66784c5422d0'
+                        assert receipt['trace']['providerCalls'] == 1 and receipt['trace']['webSearches'] == 0
+                        await video.scroll_into_view_if_needed()
+                        await video.evaluate('node => node.play()')
+                        await page.wait_for_function("document.querySelector('video').currentTime > 0.2")
+                        assert await video.evaluate('node => node.videoWidth === 1440 && node.duration > 60 && node.duration < 64')
+                        await video.evaluate('node => node.pause()')
+                        await recording.screenshot(path=str(OUT / f'recorded-run-{width}-{motion}.png'))
+                        assert await page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1'), f'overflow {path} {width}'
+                        assert not posts and not errors, {'posts': posts, 'errors': errors}
+                        report.append({'route': path, 'width': width, 'motion': motion, 'recordingPlayback': 'passed', 'downloads': 'passed', 'researchPosts': len(posts), 'errors': errors.copy()})
+                        continue
+                    demo = page.get_by_role('region', name='Pursuit illustrated walkthrough')
+                    await expect(demo).to_be_visible(timeout=120000)
+                    await expect(demo).to_have_attribute('data-ready', 'true')
+                    await expect(demo).to_have_attribute('data-reduced', str(motion == 'reduce').lower())
+                    await expect(demo.get_by_text('Illustrated example · no live research', exact=True)).to_be_visible()
                     await demo.scroll_into_view_if_needed()
                     await expect(demo).to_have_attribute('data-step', '3')
                     await expect(demo.get_by_text('Fictional sources, businesses and brands', exact=True)).to_be_visible()

@@ -1,0 +1,27 @@
+Pursuit: a real recorded run — 2 October 2026
+
+This silent screen recording shows the real preview application. A fictional independent consultancy is the input scenario; the research, returned output, downloads and saved-result recovery are real.
+
+The user consents to submitting a public question about assembl. Pursuit checks the Assembl website and Business.govt.nz's Safe and smart AI use page. No web searches or private knowledge retrieval occur.
+
+One provider call returns a saved draft titled “AI Governance & Responsible Adoption Framework”. Two evidence cards quote the checked pages. The proposed opportunity and work are commercial hypotheses, with demand and buyer intent still unverified.
+
+The user reviews evidence, proposal, deliverables, unknowns and next steps; opens the runtime trace; confirms review; and downloads the editable pitch and source brief.
+
+The user recovers the same request. The server returns the identical saved result via lookup-only recovery. No additional provider call occurs.
+
+The video is a continuous excerpt of the original recording. Only setup and idle time before submission were trimmed; the actual wait, outcome, review, export and recovery remain. No generated result or mocked response was inserted. The protected preview responses were relayed unchanged using the existing authorized Vercel CLI; no account, login or credential screens were captured.
+
+Research receipt: 506bac24-9b18-47e9-a558-66784c5422d0
+Model: claude-haiku-4-5-20251001
+Provider calls: 1. Web searches: 0.
+Returned usage: 3,661 input tokens and 417 output tokens.
+Model charge calculated from returned usage: US$0.005746 before tax.
+Reserved maximum for the dispatched call: US$0.212 before tax.
+This is usage-based calculation and reservation evidence, not an independently verified invoice charge.
+
+Sources:
+https://www.assembl.co.nz/
+https://www.business.govt.nz/operations/getting-started-with-ai/safe-and-smart-ai-use
+
+Publication dates are unknown. Retrieval timestamps do not establish recent buyer activity. Review the proposed work before sharing it. Nothing was sent to a client or published by the research request.

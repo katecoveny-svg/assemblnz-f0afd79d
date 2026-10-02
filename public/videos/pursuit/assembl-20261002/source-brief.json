@@ -1,0 +1,84 @@
+{
+  "mode": "direct_source_brief",
+  "draft": {
+    "company": "assembl.co.nz",
+    "title": "AI Governance & Responsible Adoption Framework",
+    "summary": "assembl's opportunity discovery and work preparation tools could support New Zealand businesses in implementing the privacy, security and transparency requirements outlined in official guidance. We propose developing a structured intake workflow connecting AI governance assessment with practical next steps.",
+    "evidence": [
+      {
+        "claim": "Find a useful opportunity with Pursuit. Prepare the work with DO. Make it tangible in Studio.",
+        "url": "https://www.assembl.co.nz/"
+      },
+      {
+        "claim": "Typing, pasting, or uploading information into an AI tool all count as disclosures – so never use high‑risk information.",
+        "url": "https://www.business.govt.nz/operations/getting-started-with-ai/safe-and-smart-ai-use"
+      }
+    ],
+    "opportunity": "Many New Zealand businesses adopting AI lack a structured method to map governance requirements, identify high-risk practices, and document compliant workflows before tool implementation.",
+    "proposedWork": "Design an assembl-native workflow template that guides businesses through privacy responsibilities, data sovereignty questions, and responsible AI checkpoints, integrating Pursuit research discovery with DO preparation and Studio documentation.",
+    "deliverables": [
+      "AI Governance Assessment Workflow Template for assembl",
+      "Privacy & Security Checklist with Risk-Mapping Components",
+      "Studio Export Template for Responsible AI Implementation Plan"
+    ],
+    "nextSteps": [
+      "Test workflow hypothesis with 2-3 pilot businesses across property, professional services, or construction sectors",
+      "Map assembl tool capabilities to Business.govt.nz governance checklist structure",
+      "Review alignment with Māori Data Sovereignty principles and offshore data residency triggers"
+    ],
+    "unknowns": [
+      "Whether target businesses perceive governance workflow as blocking or enabling adoption speed",
+      "Demand for structured AI governance support among assembl's current and potential user base",
+      "Appropriate business model—embedded feature, standalone service, or partner integration"
+    ]
+  },
+  "warning": "Scoped public-source brief · two fixed pages checked · zero web searches. Independent scoped draft from the two listed pages, not exhaustive discovery. Exact extracted source quotes are separate from commercial proposals. Publication dates are unknown. Buyer intent, budget and demand are unverified. Review before sharing; nothing has been sent or published.",
+  "trace": {
+    "id": "506bac24-9b18-47e9-a558-66784c5422d0",
+    "at": "2026-10-02T06:36:11.368Z",
+    "model": "claude-haiku-4-5-20251001",
+    "providerCalls": 1,
+    "webSearches": 0,
+    "knowledgeIds": [],
+    "sources": [
+      {
+        "url": "https://www.assembl.co.nz/",
+        "title": "assembl — find it. DO it. show it.",
+        "retrievedAt": "2026-10-02T06:36:11.368Z",
+        "expiresAt": "2026-10-02T06:41:11.368Z",
+        "publishedAt": null,
+        "sha256": "3a068f7921d287d0cfa9117d015dd68bc875b3432194f69e87b918bc3fe269af",
+        "textSha256": "0989873e4a347a7df53793e607f51d34c41782748f1d3babafe967df28254743",
+        "bytes": 59995,
+        "textTruncated": false
+      },
+      {
+        "url": "https://www.business.govt.nz/operations/getting-started-with-ai/safe-and-smart-ai-use",
+        "title": "Safe and smart AI use - Business.govt.nz",
+        "retrievedAt": "2026-10-02T06:36:10.432Z",
+        "expiresAt": "2026-10-02T06:41:10.432Z",
+        "publishedAt": null,
+        "sha256": "6c5b22313ce3d235c3460036a8c8a16b22933bca60558114181508bec0f13667",
+        "textSha256": "190285a7b993c3309e66097bda97098f1aa129cd987880c15ae359f0e7d63e46",
+        "bytes": 189783,
+        "textTruncated": true
+      }
+    ],
+    "inputTokens": 3661,
+    "outputTokens": 417,
+    "typesafe": {
+      "status": "not_requested"
+    },
+    "persisted": true,
+    "budget": {
+      "model": "claude-haiku-4-5-20251001",
+      "currency": "USD",
+      "maxUsd": 0.8695652173913044,
+      "calls": 1,
+      "reservedUpperUsd": 0.212,
+      "searchAdmitted": false,
+      "assumedTaxRate": 0.15,
+      "grossUpperUsd": 0.24379999999999996
+    }
+  }
+}
