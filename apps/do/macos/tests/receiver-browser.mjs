@@ -161,13 +161,14 @@ try{
 
  {
   // Full actual Focus + Vision surfaces; only unused live/build tools and Next runtime are stubbed.
+  // Next normally replaces process.env in next/image; this standalone browser bundle must do the same.
   const focusStubs={...stubs,
    'next/link':`import React from 'react';export default function Link({children,...props}){return React.createElement('a',props,children)}`,
    'next/dynamic':`export default function dynamic(){return ()=>null}`,
    '@/app/do/DoGeminiLive':`export function DoGeminiLive(){return null}`,
    '@/app/do/DoWorkspace':`export function DoWorkspace(){return null}`,
   };delete focusStubs['@/components/do/DoShareButton'];
-  const focused=await build({stdin:{contents:`import React from 'react';import {createRoot} from 'react-dom/client';import {DoFocusWorkspace} from './components/do/DoFocusWorkspace';import './app/do/do.css';window.__root=createRoot(document.getElementById('root'));window.__root.render(React.createElement(DoFocusWorkspace,{}));`,resolveDir:process.cwd(),loader:'tsx'},bundle:true,write:false,outdir:resolve(out,'focus-bundle'),platform:'browser',format:'iife',define:{'process.env.NODE_ENV':'"production"'},plugins:[{name:'fictional-focus',setup(b){b.onResolve({filter:/.*/},a=>focusStubs[a.path]?{path:a.path,namespace:'fixture'}:undefined);b.onLoad({filter:/.*/,namespace:'fixture'},a=>({contents:focusStubs[a.path],loader:'js',resolveDir:process.cwd()}));}}]});
+  const focused=await build({stdin:{contents:`import React from 'react';import {createRoot} from 'react-dom/client';import {DoFocusWorkspace} from './components/do/DoFocusWorkspace';import './app/do/do.css';window.__root=createRoot(document.getElementById('root'));window.__root.render(React.createElement(DoFocusWorkspace,{}));`,resolveDir:process.cwd(),loader:'tsx'},bundle:true,write:false,outdir:resolve(out,'focus-bundle'),platform:'browser',format:'iife',define:{'process.env.NODE_ENV':'"production"','process.env':'{}'},plugins:[{name:'fictional-focus',setup(b){b.onResolve({filter:/.*/},a=>focusStubs[a.path]?{path:a.path,namespace:'fixture'}:undefined);b.onLoad({filter:/.*/,namespace:'fixture'},a=>({contents:focusStubs[a.path],loader:'js',resolveDir:process.cwd()}));}}]});
   const {page,context}=await fixture();await page.evaluate(()=>window.__root.unmount());
   for(const file of focused.outputFiles){if(file.path.endsWith('.js'))await page.addScriptTag({content:file.text});if(file.path.endsWith('.css'))await page.addStyleTag({content:file.text});}
   await page.waitForFunction(()=>typeof window.assemblDoNativeReview==='function');await page.setViewportSize({width:820,height:850});
