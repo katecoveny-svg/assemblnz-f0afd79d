@@ -11,7 +11,7 @@ import styles from './assembl-world-hero.module.css';
 
 const chapters = [
   { product: 'Pursuit', verb: 'find it.', input: 'A signal. A source. A question.', output: 'An opportunity worth reviewing.', href: '/pursuit', action: 'Explore Pursuit' },
-  { product: 'DO', verb: 'DO it.', input: 'Context, tools and permission for a bounded job.', output: 'Prepared work with the next action clear.', href: '/do', action: 'Open DO' },
+  { product: 'DO', verb: 'DO it.', input: 'Bring the details.', output: 'Get a draft, plan or checklist to review.', href: '/do', action: 'Open DO' },
   { product: 'Studio', verb: 'show it.', input: 'A brief. An idea. A piece of work.', output: 'Something people can see, try and understand.', href: '/creative-studio', action: 'Explore Studio' },
 ] as const;
 
