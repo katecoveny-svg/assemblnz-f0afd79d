@@ -242,7 +242,7 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
       <header className={entry.heading}>
         <div className={entry.artwork} aria-hidden="true" data-renderer="static-art"><Image src="/brand/do-assembled-plum.webp" alt="" width={1200} height={800} priority unoptimized /></div>
         <div className={entry.intro}>
-          <h1 id="life-admin-heading">What needs doing?</h1>
+          <h1 id="life-admin-heading">Your personal agent.</h1>
           <p>{assistantWorking ? 'Preparing your reply…' : profile?.displayName && profile.displayName !== 'DO' ? `Hi, ${profile.displayName}.` : 'Ask a question, write a reply or sort a notice.'}</p>
         </div>
       </header>

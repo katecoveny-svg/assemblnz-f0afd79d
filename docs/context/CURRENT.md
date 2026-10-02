@@ -26,13 +26,13 @@ assembl is becoming an **intelligence-powered software factory for finding, doin
 
 Working company shorthand:
 
-> **assembl the work.**
+> **Assemble useful work.**
 >
-> **find it. DO it. show it.**
+> **Business intelligence. Strategy. Software.**
 
 Commercially, Pursuit, DO and Studio can stand alone or connect:
 
-> **use one. connect two. run the whole loop.**
+> **Start with one product. Bring them together when the work calls for it.**
 
 ### PURSUIT — find the work
 

@@ -16,13 +16,13 @@ The durable asset is not any single model. It is Assembl's context, reusable cap
 
 ## working company structure
 
-> **assembl the work.**
+> **Assemble useful work.**
 >
-> **find it. DO it. show it.**
+> **Business intelligence. Strategy. Software.**
 
 The three customer-facing products are **Pursuit, DO and Studio**. Each can stand alone. Together they connect opportunity, execution and proof.
 
-> **use one. connect two. run the whole loop.**
+> **Start with one product. Bring them together when the work calls for it.**
 
 ### 1. Pursuit — find the work
 

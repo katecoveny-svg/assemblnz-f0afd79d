@@ -48,11 +48,8 @@ const CORE_PATHS = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
-
   const core: MetadataRoute.Sitemap = CORE_PATHS.map((path) => ({
     url: `${BASE}${path}`,
-    lastModified,
     changeFrequency: 'weekly',
     priority:
       path === ''

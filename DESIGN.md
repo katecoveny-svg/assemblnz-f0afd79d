@@ -218,9 +218,9 @@ Use short, concrete New Zealand English.
 
 Current company architecture can be expressed as:
 
-> **assembl the work.**
+> **Assemble useful work.**
 >
-> **find it. DO it. show it.**
+> **Business intelligence. Strategy. Software.**
 
 Product labels:
 

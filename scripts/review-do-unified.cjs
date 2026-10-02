@@ -15,8 +15,8 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
     page.on('pageerror', error => errors.push(page.url() + ": " + error.message));
     const visit = async path => { const response = await page.goto(origin + path, { waitUntil: 'networkidle' }); assert.ok(response?.ok(), path); await page.evaluate(() => document.fonts.ready); return response; };
     await visit('/');
-    await page.getByRole('heading', { name: 'assembl the work.', level: 1, exact: true }).waitFor();
-    check('homepage has one assembl invitation', await page.getByRole('heading', { name: 'assembl the work.', level: 1, exact: true }).count() === 1);
+    await page.getByRole('heading', { name: 'Assemble useful work.', level: 1, exact: true }).waitFor();
+    check('homepage has one assembl invitation', await page.getByRole('heading', { name: 'Assemble useful work.', level: 1, exact: true }).count() === 1);
     check('Open DO goes directly to the product', await page.getByRole('link', { name: 'Open DO', exact: true }).first().getAttribute('href') === '/do');
     await page.waitForFunction(() => document.querySelector('[data-chapter][data-static="true"]'));
     check('reduced-motion homepage has a static scene and complete work loop', await page.locator('[data-world="atelier"] canvas').count() === 0 && await page.getByLabel('The complete work loop', { exact: true }).isVisible());
@@ -40,9 +40,9 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
     const mark = personal.getByRole('link', { name: 'DO by assembl, home', exact: true }).locator('[data-glass-identity="do"] img');
     await mark.evaluate(el => el.decode());
     check('personal DO loads the exact approved glass D artwork including its dot',
-      await mark.evaluate(el => new URL(el.src).pathname === '/brand/do-assembled-plum.webp' && new URL(el.src).searchParams.get('v') === 'glass07'
-        && el.complete && el.naturalWidth === 1200 && el.naturalHeight === 800));
-    check('canonical title has no duplicated product suffix', await page.title() === 'DO by assembl');
+      await mark.evaluate(el => new URL(el.src).pathname === '/brand/do-glass-D-transparent.png' && new URL(el.src).searchParams.get('v') === 'cutout1'
+        && el.complete && el.naturalWidth === 1254 && el.naturalHeight === 1254));
+    check('canonical title has no duplicated product suffix', await page.title() === 'DO by assembl | Your personal agent for useful work');
     check('no duplicate floating app inside the app', await page.locator('[data-do-companion]').count() === 0);
     check('guest sees one composer', await page.locator('textarea:visible').count() === 1);
     await page.screenshot({ path: out + '/02-do-desktop.png' });

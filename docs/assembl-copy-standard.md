@@ -20,11 +20,11 @@ Short introduction: “DO by assembl helps with everyday jobs: preparing a reply
 
 ### Master idea
 
-> **assembl the work.**
+> **Assemble useful work.**
 
 ### Product shorthand
 
-> **find it. DO it. show it.**
+> **Business intelligence. Strategy. Software.**
 
 ### Plain explanation
 
@@ -42,7 +42,7 @@ Kate supplied this positioning on 21 September 2026 to align the homepage with c
 
 Commercial line:
 
-> **use one. connect two. run the whole loop.**
+> **Start with one product. Bring them together when the work calls for it.**
 
 Follow with plain language when space allows:
 
@@ -320,9 +320,9 @@ Current preferred company homepage hierarchy:
 
 ### Hero
 
-> **assembl the work.**
+> **Assemble useful work.**
 >
-> **find it. DO it. show it.**
+> **Business intelligence. Strategy. Software.**
 
 Support:
 
@@ -338,7 +338,7 @@ Product line:
 
 Commercial line:
 
-> **use one. connect two. run the whole loop.**
+> **Start with one product. Bring them together when the work calls for it.**
 
 ### Pursuit
 

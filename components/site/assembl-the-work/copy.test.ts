@@ -2,10 +2,10 @@ import { describe, expect, it } from 'vitest';
 import { REVIEW, HERO, NAV, PRODUCTS, START } from './copy';
 
 describe('assembl-the-work homepage copy', () => {
-  it('locks the master line and bans keep-it', () => {
-    expect(HERO.headline).toBe('assembl the work.');
-    expect(HERO.subhead).toBe('find it. DO it. show it.');
-    expect(HERO.loopLine).toBe('use one. connect two. run the whole loop.');
+  it('keeps the company offer broad and avoids retired slogans', () => {
+    expect(HERO.headline).toBe('Assemble useful work.');
+    expect(HERO.subhead).toBe('Business intelligence. Strategy. Software.');
+    expect(HERO.loopLine).toBe('Start with one product. Bring them together when the work calls for it.');
     expect(HERO.loopLine.toLowerCase()).not.toContain('keep it');
   });
 

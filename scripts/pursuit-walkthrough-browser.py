@@ -66,10 +66,10 @@ async def main():
                 for path in ('/', '/pursuit'):
                     await page.goto(ORIGIN + path, wait_until='domcontentloaded', timeout=120000)
                     if path == '/':
-                        await expect(page.get_by_role('heading', name='assembl the work.', exact=True)).to_be_attached()
+                        await expect(page.get_by_role('heading', name='Assemble useful work.', exact=True)).to_be_attached()
                         await expect(page.locator('#live-data')).to_be_attached()
                         await page.screenshot(path=str(OUT / f'home-{width}-{motion}.png'), full_page=False)
-                        scene = page.get_by_role('region', name='assembl the work.', exact=True)
+                        scene = page.get_by_role('region', name='Assemble useful work.', exact=True)
                         if motion == 'reduce':
                             await expect(scene.get_by_role('button', name='Still view; scene motion unavailable', exact=True)).to_be_disabled()
                             await expect(scene.get_by_label('The complete work loop')).to_be_visible()

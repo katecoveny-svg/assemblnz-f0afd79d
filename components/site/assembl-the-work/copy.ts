@@ -1,14 +1,14 @@
 /** Public homepage positioning. Product demonstrations are labelled at their entry points. */
 export const POSITIONING = {
-  company: 'assembl is a platform that turns live business signals into governed agentic work.',
-  pursuit: 'Pursuit finds the work by identifying meaningful changes and opportunities.',
-  do: 'DO assembles the context, agents, tools and permissions to act, with human approval for consequential steps and evidence of what happened.',
-  studio: 'Studio turns that work into demonstrations, proposals and customer experiences.',
+  company: 'assembl brings business intelligence, strategy and software together to make useful work and customer experiences.',
+  pursuit: 'Pursuit researches business signals and opportunities, with the reasons and sources attached.',
+  do: 'DO is your portable personal agent. It helps assemble useful work from the context you bring: a draft, a plan or a next step to review.',
+  studio: 'Studio helps turn a brief into working software, demonstrations, pitches and customer experiences.',
 } as const;
 
 export const HOME_META = {
-  title: 'assembl — find it. DO it. show it.',
-  description: 'DO helps with everyday jobs. Pursuit finds business opportunities. Studio makes ideas tangible. Start with the work in front of you.',
+  title: 'assembl | Business intelligence, agents and useful work',
+  description: 'Business intelligence, strategy and software from assembl. Specialist agents help prepare useful work, customer experiences, demos and proposals.',
 } as const;
 
 export const PREVIEW_META = {
@@ -30,14 +30,14 @@ export const NAV = {
 
 export const HERO = {
   brand: POSITIONING.company,
-  headline: 'assembl the work.',
-  subhead: 'find it. DO it. show it.',
+  headline: 'Assemble useful work.',
+  subhead: 'Business intelligence. Strategy. Software.',
   body: POSITIONING.company,
   explanation: `${POSITIONING.pursuit} ${POSITIONING.do} ${POSITIONING.studio}`,
   ctaPrimary: { label: 'see the system →', href: '#products' },
   ctaSecondary: { label: 'meet DO', href: '/do' },
   productLine: 'Pursuit · DO · Studio',
-  loopLine: 'use one. connect two. run the whole loop.',
+  loopLine: 'Start with one product. Bring them together when the work calls for it.',
 } as const;
 
 export const SIGNALS = {
@@ -53,24 +53,24 @@ export const SIGNALS = {
 
 export const PRODUCTS = {
   kicker: 'three products · one system',
-  title: 'three ways to assembl the work.',
+  title: 'A reason. A next step. A working version.',
   lede: 'Start with Pursuit, DO or Studio. Each works independently. Together, they connect the opportunity, the work and the proof.',
   items: [
     {
-      id: 'pursuit', name: 'Pursuit', verb: '01 · find it.',
-      body: 'Research a company. Check the sources. Find an opportunity worth pursuing.',
+      id: 'pursuit', name: 'Pursuit', verb: '01 · Research.',
+      body: 'An opening, with the reasons attached. Research companies, signals and opportunities. Review the sources before choosing your next move.',
       href: '/pursuit',
       external: false,
       explore: 'Explore Pursuit', note: 'Start with the public story, then move into a private Pursuit workspace when the work is live.',
     },
     {
-      id: 'do', name: 'DO', verb: '02 · DO it.', hero: true,
-      body: 'Bring a note, a notice or a job. Prepare the next step and review it.',
-      href: '/do', explore: 'Meet DO', note: 'Use DO where the work already happens, with consequential actions kept behind explicit approval.',
+      id: 'do', name: 'DO', verb: '02 · Prepare.', hero: true,
+      body: 'Your portable personal agent for useful work. Bring the details, prepare a reply or make a plan. Use DO on its own or as part of assembl.',
+      href: '/do', explore: 'Meet DO', note: 'Start in your browser. The optional browser companion brings selected context back for review. Available actions depend on the surface and connections you choose.',
     },
     {
-      id: 'studio', name: 'Studio', verb: '03 · show it.',
-      body: 'Turn an idea into a website, a visual or an experience people can try.',
+      id: 'studio', name: 'Studio', verb: '03 · Make.',
+      body: 'Give the idea a working version. Develop a pitch, a demonstrator or a customer experience people can see and try.',
       href: '/creative-studio', explore: 'Explore Studio', note: 'Use Studio independently or as the proof layer for Pursuit and DO.',
     },
   ],
@@ -143,6 +143,6 @@ export const START = {
 } as const;
 
 export const FOOTER = {
-  line: 'find it. DO it. show it.',
+  line: 'Intelligence. Strategy. Software. Useful work.',
   note: 'One shared context · permissioned action · proof that compounds. · Built in New Zealand',
 } as const;

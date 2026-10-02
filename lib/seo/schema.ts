@@ -22,8 +22,7 @@ export function organizationNode(): Json {
     logo: { '@type': 'ImageObject', url: LOGO, width: 512, height: 512 },
     image: OG_IMAGE,
     description:
-      'assembl is a New Zealand software company building one connected system for finding, doing and showing valuable work. Pursuit turns signals into evidence-backed opportunities, DO is the portable multi-model agent execution layer, and Studio turns work into demonstrations, creative and commercial proof. The shared Factory carries context, connectors, permissions, evidence and learning across the system.',
-    slogan: 'Find it. DO it. Show it.',
+      'assembl brings business intelligence, strategy and software together to make useful work and customer experiences. Pursuit researches opportunities, DO helps prepare personal and work tasks, and Studio develops software, demonstrations, pitches and customer experiences.',
     knowsAbout: [
       'AI agents for work',
       'agentic workflows',
@@ -41,7 +40,6 @@ export function organizationNode(): Json {
       { '@type': 'City', name: 'Auckland' },
     ],
     knowsLanguage: ['en-NZ'],
-    founder: { '@id': PERSON_ID },
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer support',
@@ -85,16 +83,14 @@ export function softwareApplicationNode(): Json {
     operatingSystem: 'Web, macOS, browser',
     url: `${SITE_URL}/do`,
     description:
-      'DO is assembl’s portable agent execution layer. It keeps agent identity, context, tools, permissions and evidence stable while the underlying model can change for coding, research, voice, vision or creative work.',
+      'DO is a portable personal agent that helps assemble useful work. Ask questions, prepare replies, organise tasks and review drafts. Use DO on its own or as part of assembl. Available context and actions depend on the surface and connections you choose.',
     publisher: { '@id': ORG_ID },
     featureList: [
-      'portable specialist agents',
-      'multi-model routing',
-      'capability-based connectors',
-      'human approval boundaries',
-      'evidence and receipts',
-      'Builderdoo software-building agent',
-      'DO Office coordination surface',
+      'questions and draft replies',
+      'plans and task lists',
+      'reviewed source context',
+      'explicit provider consent',
+      'review before consequential action',
     ],
   };
 }

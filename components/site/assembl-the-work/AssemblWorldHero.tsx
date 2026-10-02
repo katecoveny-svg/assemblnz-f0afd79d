@@ -10,9 +10,9 @@ import { WorldAtelierStage, useAtelierMotionGate, useAtelierVisibility } from '.
 import styles from './assembl-world-hero.module.css';
 
 const chapters = [
-  { product: 'Pursuit', verb: 'find it.', input: 'A signal. A source. A question.', output: 'An opportunity worth reviewing.', href: '/pursuit', action: 'Explore Pursuit' },
-  { product: 'DO', verb: 'DO it.', input: 'Bring the details.', output: 'Get a draft, plan or checklist to review.', href: '/do', action: 'Open DO' },
-  { product: 'Studio', verb: 'show it.', input: 'A brief. An idea. A piece of work.', output: 'Something people can see, try and understand.', href: '/creative-studio', action: 'Explore Studio' },
+  { product: 'Pursuit', verb: 'Research.', input: 'A signal. A source. A question.', output: 'An opportunity worth reviewing.', href: '/pursuit', action: 'Explore Pursuit' },
+  { product: 'DO', verb: 'Prepare.', input: 'Bring the details.', output: 'Get a draft, plan or checklist to review.', href: '/do', action: 'Open DO' },
+  { product: 'Studio', verb: 'Make.', input: 'A brief. An idea. A piece of work.', output: 'Something people can see, try and understand.', href: '/creative-studio', action: 'Explore Studio' },
 ] as const;
 
 export function AssemblWorldHero({ preview = false, showSummary = true }: { preview?: boolean; showSummary?: boolean }) {
@@ -67,16 +67,16 @@ export function AssemblWorldHero({ preview = false, showSummary = true }: { prev
           </button>
         </header>
         <div className={styles.copy}>
-          <p className={styles.overline}>GOOD WORK COMES TOGETHER.</p>
-          <h1 id="atw-hero-title">assembl <br />the work.</h1>
-          <p className={styles.sub}>{HERO.subhead}</p><p className={styles.body}>Find a useful opportunity with Pursuit. Prepare the work with DO. Make it tangible in Studio.</p>
-          <div className={styles.actions}><a className={styles.pill} href="#products">See the whole system <ArrowRight size={20} aria-hidden="true" /></a><Link className={styles.link} href="/pursuit#try-pursuit">Try Pursuit <ArrowDown size={16} aria-hidden="true" /></Link></div>
+          <p className={styles.overline}>BUILT IN AOTEAROA.</p>
+          <h1 id="atw-hero-title">Assemble<br />useful work.</h1>
+          <p className={styles.sub}>{HERO.subhead}</p><p className={styles.body}>Specialist agents help turn the right signals and context into useful work and customer experiences.</p>
+          <div className={styles.actions}><Link className={styles.pill} href="/contact?product=system">Bring a brief <ArrowRight size={20} aria-hidden="true" /></Link><Link className={styles.link} href="/do">Open DO <ArrowDown size={16} aria-hidden="true" /></Link></div>
         </div>
         <aside className={styles.chapter} aria-label="The work, step by step">
           <div className={styles.chapterSteps} aria-label="Choose a scene chapter">{chapters.map((item,index) => <button type="button" key={item.product} onClick={() => jump(index)} aria-label={`View ${item.product} scene`} aria-pressed={chapter === index} data-active={chapter === index}><small>0{index + 1}</small><span>{item.product}</span></button>)}</div>
           <div className={styles.chapterBody}><span className={styles.chapterLabel}>{current.product}</span><h2>{current.verb}</h2><p>{current.input}<br /><strong>{current.output}</strong></p><Link href={current.href}>{current.action}<ArrowUpRight size={16} aria-hidden="true" /></Link></div>
         </aside>
-        <div className={styles.job} id="do-input"><p className={styles.jobNote}>Start with <Link href="/pursuit">Pursuit</Link>, <Link href="/do">DO</Link> or <Link href="/creative-studio">Studio</Link>. Connect them when the work needs the full loop.</p></div>
+        <div className={styles.job} id="do-input"><p className={styles.jobNote}>Start with <Link href="/pursuit">Pursuit</Link>, <Link href="/do">DO</Link> or <Link href="/creative-studio">Studio</Link>. Use them together when the work calls for it.</p></div>
         <p className={styles.honesty}>{failed ? 'Still view. ' : reduced ? '' : 'Scroll or choose a chapter. '}An imagined workspace, not live agent activity.</p>
       </div>
       {showSummary && <div className={styles.stillSummary} aria-label="The complete work loop">{chapters.map(item => <article key={item.product}><span>{item.product}</span><h2>{item.verb}</h2><p>{item.input}</p><p>{item.output}</p><Link href={item.href}>{item.action}<ArrowUpRight size={16} aria-hidden="true" /></Link></article>)}</div>}
