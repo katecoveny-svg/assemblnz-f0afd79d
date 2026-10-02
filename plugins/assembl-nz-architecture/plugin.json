@@ -1,0 +1,14 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "assembl-nz-architecture",
+  "version": "0.1.0",
+  "description": "Coordinate a redacted user-supplied RFI register, compare revisions and export a draft response matrix. No source-document inspection.",
+  "author": {
+    "name": "assembl"
+  },
+  "keywords": [
+    "New Zealand",
+    "architecture",
+    "evidence preparation"
+  ]
+}
