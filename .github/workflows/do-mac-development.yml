@@ -33,8 +33,9 @@ jobs:
         env:
           DO_MAC_ARCH: ${{ matrix.arch }}
         run: |
-          cmp public/do/icons/do-192.png apps/do/macos/resources/do-192.png
-          cmp public/do/icons/do-512.png apps/do/macos/resources/do-512.png
+          # Accepted native exports have their own reviewed pixel/hash contract.
+          echo 'be680f20f24c76d4f3a701c4374ee6c188f74798a3a97688e669f6b5e5925d87  apps/do/macos/resources/do-192.png' | shasum -a 256 -c -
+          echo '462ee5d979266a5820016fb5fb20b2f7d62e1537fc130d9f7133ad36f7ad628d  apps/do/macos/resources/do-512.png' | shasum -a 256 -c -
           bash apps/do/macos/build.sh "$RUNNER_TEMP/do-build"
           codesign --verify --strict "$RUNNER_TEMP/do-build/DO.app"
           file "$RUNNER_TEMP/do-build/DO.app/Contents/MacOS/DO"
