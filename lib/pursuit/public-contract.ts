@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { DIRECT_FOCUS_VALUES } from './direct-proposal';
 import { publicWebsite, type OutreachCampaign } from './outreach';
 export const TrialInput = z.object({
   requestId:z.string().uuid(),
@@ -8,7 +9,8 @@ export const TrialInput = z.object({
   useTypeSafe:z.boolean().default(false),
   workflow:z.literal('website_outreach').optional(),
   sourceMode:z.literal('direct_source_brief').optional(),
-}).strict().refine(input=>!input.sourceMode||(!input.workflow&&!input.useTypeSafe&&['assembl.co.nz','www.assembl.co.nz','https://www.assembl.co.nz/'].includes(input.company.toLowerCase())),{message:'Scoped research checks assembl.co.nz and one fixed official page, without outreach or TypeSafe.',path:['sourceMode']}).refine(input => !input.workflow || Boolean(publicWebsite(input.company)), {message:'Use a public HTTPS business website.',path:['company']});
+  directFocus:z.enum(DIRECT_FOCUS_VALUES).optional(),
+}).strict().refine(input=>!input.directFocus||Boolean(input.sourceMode),{message:'Select a focus only for scoped research.',path:['directFocus']}).refine(input=>!input.sourceMode||(!input.workflow&&!input.useTypeSafe&&['assembl.co.nz','www.assembl.co.nz','https://www.assembl.co.nz/'].includes(input.company.toLowerCase())),{message:'Scoped research checks assembl.co.nz and one fixed official page, without outreach or TypeSafe.',path:['sourceMode']}).refine(input => !input.workflow || Boolean(publicWebsite(input.company)), {message:'Use a public HTTPS business website.',path:['company']});
 export type TrialInput = z.infer<typeof TrialInput>;
 export const Draft = z.object({
   company:z.string().min(2).max(120), title:z.string().min(4).max(100),
@@ -24,12 +26,16 @@ export type PursuitDraft = z.infer<typeof Draft>;
 export type EvidenceSource = {url:string;title:string;retrievedAt:string;expiresAt?:string;publishedAt?:null;sha256?:string;textSha256?:string;bytes?:number;textTruncated?:boolean};
 export type PublicBudgetReceipt={model:string;currency:'USD';maxUsd:number;calls:number;reservedUpperUsd:number;searchAdmitted:false;assumedTaxRate:number;grossUpperUsd:number};
 export type PublicFailureReceipt={requestId:string;stage:'draft'|'formatter'|'validation';providerCalls:number;webSearches:number;budget:PublicBudgetReceipt};
+/** Client-only context for display and deliberate user downloads. Never a server result. */
+export const ScopedPlanContext = z.object({kind:z.literal('authored_starter_plan'),yourBrief:z.string().min(12).max(700),focus:z.enum(DIRECT_FOCUS_VALUES)}).strict();
 export type PublicResearchResult = {
   mode:'live'|'direct_source_brief';draft:PursuitDraft;
+  planKind?:'authored_starter_plan';
   trace:{id:string;at:string;model:string;providerCalls:number;webSearches:number;knowledgeIds:string[];sources:EvidenceSource[];inputTokens:number;outputTokens:number;budget?:PublicBudgetReceipt;typesafe:{status:'not_requested'|'unavailable'|'completed';model?:string;action?:string;confidence?:number};persisted:true};
   warning:string;
   campaign?:OutreachCampaign;
 };
+export type PublicPresentationResult = PublicResearchResult & {scopedPlan?:z.infer<typeof ScopedPlanContext>};
 export function safeSourceUrl(value:string):string|null {
   try{const u=new URL(value);if(u.protocol!=='https:'||u.username||u.password||!u.hostname.includes('.')||/^\d+[.:]/.test(u.hostname)||u.hostname.endsWith('.local')||u.hostname==='localhost')return null;u.hash='';return u.toString();}catch{return null;}
 }
