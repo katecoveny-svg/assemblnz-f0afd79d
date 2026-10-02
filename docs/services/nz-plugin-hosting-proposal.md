@@ -1,4 +1,4 @@
-> Permission boundary: this is inactive engineering review material. Only the separate protected-setup document defines the next prospective request; it excludes database/Cron/credentials/public opening and is not ready until actual account costs are confirmed. No broad infrastructure or spending approval is requested here.
+> Permission boundary: this is inactive engineering review material. Only the separate protected-setup document defines the next prospective request; it excludes database/Cron/credentials/public opening and has verified US$0 incremental empty-project cost on current Pro, and still requires owner permission. No broad infrastructure or spending approval is requested here.
 
 # NZ public plugin hosting — inactive proposal
 
@@ -87,7 +87,7 @@ Privacy/support/terms must identify the verified publisher, actual endpoints/pro
 
 ## Current next-step boundary
 
-The [protected closed setup document](nz-freight-owner-permission.md) is the sole prospective owner request and is pending actual account-cost confirmation. It excludes credentials, database/Cron application, deployments/builds, paid add-ons, public opening, live pilots and publication. None of the engineering proposals above is authorised through that request. A future live-service stage requires separate concrete permission and proof; no30-day budget or unbounded overshoot acknowledgement is requested.
+The [protected closed setup document](nz-freight-owner-permission.md) is the sole prospective owner request and has verified US$0 incremental empty-project cost on current Pro and awaits owner permission. It excludes credentials, database/Cron application, deployments/builds, paid add-ons, public opening, live pilots and publication. None of the engineering proposals above is authorised through that request. A future live-service stage requires separate concrete permission and proof; no30-day budget or unbounded overshoot acknowledgement is requested.
 
 No route/DNS/project/production SQL/credential or scheduler changes have occurred. A protected empty503 deployment is not equivalent to access protection. Any later closed synthetic deployment must first have actual cost-checked approval and Vercel Authentication covering All Deployments, including custom and generated/default/preview URLs. The current founder project remains unchanged, including deployed maintenance pauses.
 
@@ -107,7 +107,7 @@ Final targeted proof also covers source-active2, MCP120/minute and2000/day, sour
 
 ## Subsequent freight-only closed integration
 
-See [the exact owner permission bundle](nz-freight-owner-permission.md). It describes only a prospective protected empty freight project/hostname on the existing plan, pending actual cost verification; no deployment or database/Cron/operating-budget authority is included. Minimal closed Node build is generated only under ignored local review output, with no current-project mount or environment lookup. Independent cleanup SQL runs while disabled and records a fixed health receipt; the proposed driver rejects stale/missing/overdue health in its fixed claim SQL. Local cleanup tests prove bounded deletion and role separation; no Cron job or monitor is installed.
+See [the exact owner permission bundle](nz-freight-owner-permission.md). It describes only a prospective protected empty freight project/hostname on the existing plan, with verified US$0 incremental empty setup cost; no deployment or database/Cron/operating-budget authority is included. Minimal closed Node build is generated only under ignored local review output, with no current-project mount or environment lookup. Independent cleanup SQL runs while disabled and records a fixed health receipt; the proposed driver rejects stale/missing/overdue health in its fixed claim SQL. Local cleanup tests prove bounded deletion and role separation; no Cron job or monitor is installed.
 
 Pinned proof-only node-postgres8.23.1 lives in a separate private package/lock, leaving root dependency graphs unchanged. The unmounted adapter has250ms connection,500ms server statement,100ms lock and1second caller bounds; four capacities release only on actual end events. Actual Node driver proof uses a prewarmed fixture-only Docker loopback protocol bridge: server timeout and caller-abort rollbacks and backend disappearance were observed, with source hashes. It is not hosted TCP/TLS, credentials, pooler behavior or partition proof. Those remain release gates. Added isolated CI uses the verified multiarchitecture PostgreSQL17.10 digest; existing required CI is unchanged.
 
