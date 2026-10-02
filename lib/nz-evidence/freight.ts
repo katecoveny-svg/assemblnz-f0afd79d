@@ -6,6 +6,7 @@ export const entryDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(v => {
 });
 const yes = z.enum(['yes', 'no', 'unknown']);
 const presence = z.enum(['present', 'absent', 'unknown']);
+const signedDecimal = z.string().regex(/^-?\d{1,12}(?:\.\d{1,6})?$/);
 const decimal = z.string().regex(/^\d{1,12}(?:\.\d{1,6})?$/);
 const count = z.number().int().min(0).max(1e9).nullable();
 const packageUnit = z.enum(['cartons', 'pallets', 'pieces', 'other', 'unknown']);
@@ -19,7 +20,7 @@ export const shipmentReviewInput = z.object({
     quantities: z.object({ invoice_units: count, packing_units: count, invoice_packages: count, packing_packages: count, transport_packages: count,
         invoice_package_unit: packageUnit, packing_package_unit: packageUnit, transport_package_unit: packageUnit }).strict().optional(),
     weights: z.object({ net_kg: decimal.nullable(), gross_kg: decimal.nullable(), same_goods_basis: yes }).strict().optional(),
-    invoice_math: z.object({ line_subtotal: decimal, stated_goods_subtotal: decimal, stated_invoice_total: decimal.nullable(), explicit_adjustments: decimal.nullable(), currency: z.string().regex(/^[A-Z]{3}$/) }).strict().optional(),
+    invoice_math: z.object({ line_subtotal: decimal, stated_goods_subtotal: decimal, stated_invoice_total: decimal.nullable(), explicit_adjustments: signedDecimal.nullable(), currency: z.string().regex(/^[A-Z]{3}$/) }).strict().optional(),
 }).strict();
 export const FREIGHT_SOURCES = {
     import: 'https://www.customs.govt.nz/business/import',
@@ -28,7 +29,8 @@ export const FREIGHT_SOURCES = {
     fx: 'https://www.customs.govt.nz/business/import/customs-rates-of-exchange',
 } as const;
 export const FREIGHT_NOTICE = 'Preparation for broker review only. Document presence and consistency do not establish admissibility, classification, valuation, origin entitlement, authenticity, sanctions compliance or Customs/MPI release.';
-const decimalUnits = (v: string) => { const [a, b = ''] = v.split('.'); return BigInt(a) * 1000000n + BigInt(b.padEnd(6, '0')); };
+const decimalUnits=(v:string)=>{const negative=v.startsWith('-');const [a,b='']=(negative?v.slice(1):v).split('.');const units=BigInt(a)*1000000n+BigInt(b.padEnd(6,'0'));return negative?-units:units;};
+
 export function reviewShipmentDocuments(raw: unknown, now = Date.now()) {
     const parsed = shipmentReviewInput.safeParse(raw);
     if (!parsed.success)
@@ -45,6 +47,9 @@ export function reviewShipmentDocuments(raw: unknown, now = Date.now()) {
         evidence_fields: string[];
     }[] = [];
     const add = (id: string, status: typeof checks[number]['status'], message: string, fields: string[], basis: typeof checks[number]['basis'] = 'broker_preparation_practice') => checks.push({ id, status, priority: status === 'conflicting' || status === 'missing' ? 'blocking' : 'review', message, action: 'Confirm the supplied evidence and resolve this item with the broker before relying on the packet.', basis, source_ids: [id.startsWith('container') || id === 'wood_packaging' ? 'sea_container' : 'import'], evidence_fields: fields });
+    for(const name of ['shipment_date','intended_lodgement_date','country_of_manufacture','country_of_export'] as const) {
+        add(name,p[name]===null?'not_assessed':'supplied',p[name]===null?`User-supplied ${name}: unknown; confirm this fact with the broker.`:`User-supplied ${name}: ${p[name]}; accuracy/applicability is unverified.`,[name]);
+    }
     for (const name of ['commercial_invoice', 'packing_list', 'transport_document', 'quarantine_declaration'] as const)
         add(name, p.documents[name] === 'present' ? 'supplied' : p.documents[name] === 'absent' ? 'missing' : 'not_assessed', `User-reported ${name.replace(/_/g, ' ')}: ${p.documents[name]}.`, [`documents.${name}`]);
     for (const name of ['quarantine_signed', 'transitional_facility_arranged'] as const)

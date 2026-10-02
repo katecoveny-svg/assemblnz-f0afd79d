@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { gunzipSync } from 'node:zlib';
 import { z } from 'zod';
+import { SaxesParser } from 'saxes';
 import { entryDate } from './freight';
 import { NzServiceError } from './auth';
 export const CUSTOMS_URLS = {
@@ -164,6 +165,8 @@ type TariffRecord = {
     row: number;
     startDay: string;
     endDay: string;
+    startMinute: number;
+    endMinute: number;
 };
 export function indexTariff(details: string): Map<string, TariffRecord[]> {
     const rows = details.replace(/^\uFEFF/, '').split(/\r?\n/).filter(Boolean);
@@ -173,11 +176,11 @@ export function indexTariff(details: string): Map<string, TariffRecord[]> {
     const index = new Map<string, TariffRecord[]>();
     for (let i = 1; i < rows.length; i++) {
         const c = rows[i].split('~');
-        if (c.length !== 15 || c.slice(0, 5).some(v => !/^\d{2}$/.test(v)) || !/^[A-Z]$/.test(c[5]) || c[14].length > 2000)
+        if (c.length !== 15 || c.slice(0, 5).some(v => !/^\d{2}$/.test(v)) || !/^[A-Z]$/.test(c[5]) || c.some(v => v.length > 2000))
             throw new NzServiceError('unavailable');
         const start = tariffDate(c[12]), end = tariffDate(c[13]);
         const code = c.slice(0, 5).join('') + c[5];
-        const record = { code, description: c[14], statisticalUnit: c[7], supplementaryUnit: c[8], validFrom: c[12], validTo: c[13], row: i + 1, startDay: start.day, endDay: end.day };
+        const record = { code, description: c[14], statisticalUnit: c[7], supplementaryUnit: c[8], validFrom: c[12], validTo: c[13], row: i + 1, startDay: start.day, endDay: end.day, startMinute: start.minute, endMinute: end.minute };
         const key = code.slice(0, 10);
         const existing = index.get(key) ?? [];
         existing.push(record);
@@ -186,11 +189,12 @@ export function indexTariff(details: string): Map<string, TariffRecord[]> {
     return index;
 }
 export function selectTariff(details: string, code: string, date: string) { return tariffMatches(indexTariff(details), code, date); }
+function reversedValidity(r:TariffRecord) { return r.startDay>r.endDay||(r.startDay===r.endDay&&r.startMinute>r.endMinute); }
 class PublicReferenceQualityError extends Error {
 }
 function tariffMatches(index: Map<string, TariffRecord[]>, code: string, date: string) {
     const allNumericCodeRows = index.get(code.slice(0, 10)) ?? [];
-    if (allNumericCodeRows.some(r => r.startDay > r.endDay))
+    if (allNumericCodeRows.some(r => reversedValidity(r)))
         throw new PublicReferenceQualityError();
     const candidates = allNumericCodeRows.filter(r => code.length === 10 || r.code === code);
     return candidates.filter(r => (code.length === 10 || r.code === code) && r.startDay <= date && date <= r.endDay);
@@ -206,144 +210,107 @@ export function tariffSnapshotStale(published: number, observed: number, now: nu
     const pubDay = `${p.year}-${p.month}-${p.day}`;
     return pubDay < expected || (+p.hour < 4 && pubDay === expected);
 }
-const xmlText = (block: string, tag: string) => {
-    const matches = [...block.matchAll(new RegExp(`<${tag}>\\s*([^<>]{1,150})\\s*</${tag}>`, 'g'))];
-    if (matches.length !== 1)
-        throw new NzServiceError('unavailable');
-    return matches[0][1].trim();
-};
-type FxRecord = {
-    currency: string;
-    periodStart: string;
-    periodEnd: string;
-    foreignPerNzd: string;
-    record: number;
-    column: string;
-};
-export function indexFx(xml: string): FxRecord[] {
-    const historic = /<historicExchangeRateList(?:\s[^>]*)?>/.test(xml);
-    if (/<!DOCTYPE|<!ENTITY/i.test(xml) || (!historic && !/<exchangeRateList(?:\s[^>]*)?>/.test(xml)))
-        throw new NzServiceError('unavailable');
-    const records = [...xml.matchAll(historic ? /<historicExchangeRate(?:\s[^>]*)?>([\s\S]*?)<\/historicExchangeRate>/g : /<exchangeRate(?:\s[^>]*)?>([\s\S]*?)<\/exchangeRate>/g)];
-    if (!records.length || records.length > 100000)
-        throw new NzServiceError('unavailable');
-    const rates: FxRecord[] = [];
-    records.forEach((m, i) => {
-        const currency = xmlText(m[1], 'currencyCode');
-        if (!/^[A-Z]{3}$/.test(currency))
-            throw new NzServiceError('unavailable');
-        for (const suffix of historic ? [''] : ['Now', 'Future']) {
-            const end = xmlText(m[1], `date${suffix}`).slice(0, 10);
-            if (!entryDate.safeParse(end).success)
-                throw new NzServiceError('unavailable');
-            const raw = xmlText(m[1], `rate${suffix}`);
-            if (!/^\d+(\.\d+)?$/.test(raw) || !Number.isFinite(Number(raw)) || Number(raw) <= 0)
-                throw new NzServiceError('unavailable');
-            if (end < '2020-01-01')
-                continue;
-            if (new Date(end + 'T00:00:00Z').getUTCDay() !== 0)
-                throw new NzServiceError('unavailable');
-            const start = new Date(Date.parse(end + 'T00:00:00Z') - 13 * DAY).toISOString().slice(0, 10);
-            rates.push({ currency, periodStart: start, periodEnd: end, foreignPerNzd: raw, record: i + 1, column: suffix });
-        }
+export function tariffUsableUntil(published:number,observed:number):number {
+    const parts=Object.fromEntries(new Intl.DateTimeFormat('en-NZ',{timeZone:'Pacific/Auckland',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(published).map(p=>[p.type,p.value]));
+    const next=new Date(Date.parse(`${parts.year}-${parts.month}-${parts.day}T00:00:00Z`)+DAY).toISOString().slice(0,10);
+    const utcGuess=Date.parse(next+'T08:00:00Z');
+    const offset=new Intl.DateTimeFormat('en-NZ',{timeZone:'Pacific/Auckland',timeZoneName:'longOffset'}).formatToParts(utcGuess).find(p=>p.type==='timeZoneName')?.value;
+    const m=/^GMT\+(\d{2}):(\d{2})$/.exec(offset??'');if(!m)throw new NzServiceError('unavailable');
+    const producerDeadline=utcGuess-(+m[1]*60+ +m[2])*60000;
+    return Math.min(observed+DAY,producerDeadline);
+}
+type FxRecord={currency:string;periodStart:string;periodEnd:string;foreignPerNzd:string;record:number;column:string};
+/** Strict well-formed XML plus exact direct-child schema; no DTD/entities, HTML, fragments or text-date truncation. */
+export function indexFx(xml:string):FxRecord[] {
+    if(Buffer.byteLength(xml,'utf8')>8*1024*1024)throw new NzServiceError('unavailable');
+    const parser=new SaxesParser({xmlns:false,fragment:false,defaultXMLVersion:'1.0'});
+    const stack:string[]=[];let root='',record:Record<string,string>|undefined,field='',text='',count=0,ended=false;
+    const rates:FxRecord[]=[];
+    const deny=()=>{throw new NzServiceError('unavailable');};
+    const fields=()=>root==='exchangeRateList'?['countryName','currencyCode','dateNow','rateNow','dateFuture','rateFuture','currencyName']:['countryName','currencyCode','date','rate','currencyName'];
+    parser.on('error',deny);parser.on('doctype',deny);parser.on('processinginstruction',deny);parser.on('cdata',deny);
+    parser.on('xmldecl',decl=>{if(decl.version!=='1.0'||(decl.encoding&&!/^utf-8$/i.test(decl.encoding)))deny();});
+    parser.on('opentag',node=>{
+        if(Object.keys(node.attributes).length)deny();
+        if(stack.length===0){if(root||!['exchangeRateList','historicExchangeRateList'].includes(node.name))deny();root=node.name;}
+        else if(stack.length===1){if(node.name!==(root==='exchangeRateList'?'exchangeRate':'historicExchangeRate')||++count>100000)deny();record=Object.create(null);}
+        else if(stack.length===2){if(!fields().includes(node.name)||Object.hasOwn(record!,node.name))deny();field=node.name;text='';}
+        else deny();
+        stack.push(node.name);
     });
+    parser.on('text',value=>{if(stack.length===3){text+=value;if(text.length>150)deny();}else if(value.trim())deny();});
+    parser.on('closetag',()=>{
+        if(stack.length===3){if(!text.trim())deny();record![field]=text.trim();field='';text='';}
+        if(stack.length===2){
+            if(fields().some(f=>!Object.hasOwn(record!,f))||Object.keys(record!).length!==fields().length)deny();
+            const currency=record!.currencyCode;if(!/^[A-Z]{3}$/.test(currency))deny();
+            for(const suffix of root==='exchangeRateList'?['Now','Future']:['']){
+                const end=record![`date${suffix}`],raw=record![`rate${suffix}`];
+                if(!entryDate.safeParse(end).success||!/^\d{1,12}(?:\.\d{1,12})?$/.test(raw)||!Number.isFinite(Number(raw))||Number(raw)<=0)deny();
+                if(end<'2020-01-01')continue;
+                if(new Date(end+'T00:00:00Z').getUTCDay()!==0)deny();
+                const start=new Date(Date.parse(end+'T00:00:00Z')-13*DAY).toISOString().slice(0,10);
+                rates.push({currency,periodStart:start,periodEnd:end,foreignPerNzd:raw,record:count,column:suffix});
+            }
+            if(root==='exchangeRateList'&&Date.parse(record!.dateFuture)-Date.parse(record!.dateNow)!==14*DAY)deny();
+            record=undefined;
+        }
+        stack.pop();
+    });
+    parser.on('end',()=>{ended=true;});
+    try {parser.write(xml).close();}catch{deny();}
+    if(!ended||stack.length||!root||!count)deny();
     return rates;
 }
-function fxMatches(rates: FxRecord[], currency: string, date: string) {
-    const matches = rates.filter(v => v.currency === currency && v.periodStart <= date && date <= v.periodEnd);
-    return matches.filter((v, i) => matches.findIndex(x => x.periodStart === v.periodStart && x.periodEnd === v.periodEnd && x.foreignPerNzd === v.foreignPerNzd) === i);
+function fxMatches(rates:FxRecord[],currency:string,date:string){
+    const matches=rates.filter(v=>v.currency===currency&&v.periodStart<=date&&date<=v.periodEnd);
+    const seen=new Set<string>();return matches.filter(v=>{const key=JSON.stringify([v.periodStart,v.periodEnd,v.foreignPerNzd]);if(seen.has(key))return false;seen.add(key);return true;});
 }
-export function selectFx(xml: string, currency: string, date: string) { return fxMatches(indexFx(xml), currency, date); }
-/** Public read-only adapter: bounded single-flight process cache, no customer data or filesystem ingestion. */
-export function createCustomsReferences(transport: PublicTransport = createCustomsTransport(), now = Date.now) {
-    const cache = new Map<string, {
-        until: number;
-        pending: Promise<PublicSnapshot>;
-    }>();
-    let active = 0;
-    const parsedFx = new Map<string, {
-        sha256: string;
-        rates: FxRecord[];
-    }>();
-    const ratesFor = (s: PublicSnapshot) => { const existing = parsedFx.get(s.url); if (existing?.sha256 === s.sha256)
-        return existing.rates; const rates = indexFx(new TextDecoder('utf-8', { fatal: true }).decode(s.bytes)); parsedFx.set(s.url, { sha256: s.sha256, rates }); return rates; };
-    let parsedTariff: {
-        sha256: string;
-        index: Map<string, TariffRecord[]>;
-        stamp: string;
-        quarantined: number;
-        quarantinedCodes: number;
-    } | undefined;
-    const load = async (url: typeof CUSTOMS_URLS[keyof typeof CUSTOMS_URLS], cap: number) => {
-        const existing = cache.get(url);
-        if (existing && existing.until > now())
-            return existing.pending;
-        if (active >= 2)
-            throw new NzServiceError('unavailable');
+export function selectFx(xml:string,currency:string,date:string){return fxMatches(indexFx(xml),currency,date);}
+type Admitted={snapshot:PublicSnapshot;tariff?:{index:Map<string,TariffRecord[]>;published:number;quarantined:number;quarantinedCodes:number};fx?:FxRecord[]};
+/** Cache becomes visible only after complete bounded parsing/schema admission; failures get five-second backoff, not positive TTL. */
+export function createCustomsReferences(transport:PublicTransport=createCustomsTransport(),now=Date.now){
+    const cache=new Map<string,{until:number;value:Admitted}>(),flight=new Map<string,Promise<Admitted>>(),negative=new Map<string,number>();let active=0;
+    const load=async(url:typeof CUSTOMS_URLS[keyof typeof CUSTOMS_URLS],cap:number):Promise<Admitted>=>{
+        const cached=cache.get(url);if(cached&&cached.until>now())return cached.value;
+        const pendingOld=flight.get(url);if(pendingOld)return pendingOld;
+        if((negative.get(url)??0)>now()||active>=2)throw new NzServiceError('unavailable');
         active++;
-        const pending = transport(url, cap).finally(() => { active--; });
-        cache.set(url, { until: now() + (url === CUSTOMS_URLS.tariff ? 3600000 : DAY), pending });
-        try {
-            return await pending;
-        }
-        catch {
-            cache.delete(url);
-            throw new NzServiceError('unavailable');
-        }
+        const pending=(async()=>{
+            const snapshot=await transport(url,cap);
+            if(snapshot.url!==url||snapshot.bytes.length>cap||!Number.isFinite(snapshot.observedAt))throw new NzServiceError('unavailable');
+            const value:Admitted={snapshot};
+            if(url===CUSTOMS_URLS.tariff){const m=tariffMembers(snapshot.bytes),index=indexTariff(m.details),published=parseNzStamp(m.stamp);value.tariff={index,published,quarantined:[...index.values()].reduce((n,rows)=>n+rows.filter(reversedValidity).length,0),quarantinedCodes:[...index.values()].filter(rows=>rows.some(reversedValidity)).length};}
+            else value.fx=indexFx(new TextDecoder('utf-8',{fatal:true}).decode(snapshot.bytes));
+            cache.set(url,{until:Math.min(now()+(url===CUSTOMS_URLS.tariff?3600000:DAY),snapshot.observedAt+DAY),value});negative.delete(url);return value;
+        })().catch(()=>{negative.set(url,now()+5000);throw new NzServiceError('unavailable');}).finally(()=>{active--;if(flight.get(url)===pending)flight.delete(url);});
+        flight.set(url,pending);return pending;
     };
-    const source = (s: PublicSnapshot) => ({ url: s.url, sha256: s.sha256, observedAt: new Date(s.observedAt).toISOString(),
-        expiresAt: new Date(s.observedAt + DAY).toISOString(), attribution: 'Crown copyright — New Zealand Customs Service. Adapted for exact-code/period lookup; no endorsement.', licenceUrl: 'https://www.customs.govt.nz/about-us/about-this-website/copyright', parserVersion: '0.1.0' });
+    const source=(s:PublicSnapshot)=>({url:s.url,sha256:s.sha256,observedAt:new Date(s.observedAt).toISOString(),expiresAt:new Date(s.observedAt+DAY).toISOString(),attribution:'Crown copyright — New Zealand Customs Service. Adapted for exact-code/period lookup; no endorsement.',licenceUrl:'https://www.customs.govt.nz/about-us/about-this-website/copyright',parserVersion:'0.2.0'});
     return {
-        async tariff(raw: unknown) {
-            const parsed = tariffInput.safeParse(raw);
-            if (!parsed.success)
-                throw new NzServiceError('invalid_input');
-            try {
-                const s = await load(CUSTOMS_URLS.tariff, 8 * 1024 * 1024);
-                if (parsedTariff?.sha256 !== s.sha256) {
-                    const m = tariffMembers(s.bytes);
-                    const index = indexTariff(m.details);
-                    parsedTariff = { sha256: s.sha256, index, stamp: m.stamp, quarantined: [...index.values()].reduce((n, rows) => n + rows.filter(r => r.startDay > r.endDay).length, 0), quarantinedCodes: [...index.values()].filter(rows => rows.some(r => r.startDay > r.endDay)).length };
-                }
-                const { index, stamp, quarantined, quarantinedCodes } = parsedTariff;
-                const published = parseNzStamp(stamp);
-                const matches = tariffMatches(index, parsed.data.code, parsed.data.entryDate);
-                const partialDay = matches.some(m => (tariffDate(m.validFrom).day === parsed.data.entryDate && tariffDate(m.validFrom).minute !== 0) || (tariffDate(m.validTo).day === parsed.data.entryDate && tariffDate(m.validTo).minute !== 1439));
-                const stale = tariffSnapshotStale(published, s.observedAt, now());
-                return { state: stale ? 'stale' : matches.length === 1 && !partialDay ? 'found' : matches.length ? 'ambiguous' : 'not_found',
-                    suppliedCode: parsed.data.code, entryDate: parsed.data.entryDate,
-                    matches: stale || partialDay || matches.length !== 1 ? [] : matches, source: { ...source(s), publishedAt: new Date(published).toISOString(), archiveMember: 'Tariff_Details.csv', freshnessPolicy: 'Observed 04:00 Auckland daily producer run, four-hour assembl grace; not a Customs SLA', snapshotQuality: quarantinedCodes ? 'degraded' : 'validated', quarantinedRecordCount: quarantined, quarantinedCodeCount: quarantinedCodes },
-                    limitation: 'Exact supplied code existence/date lookup only; not classification, eligibility, tariff ruling or duty/levy calculation.' };
-            }
-            catch (error) {
-                return { state: 'unavailable', reason: error instanceof PublicReferenceQualityError ? 'source_data_quality' : 'source_unavailable_or_schema_changed', suppliedCode: parsed.data.code, citation: CUSTOMS_URLS.tariff };
-            }
+        async tariff(raw:unknown){
+            const p=tariffInput.safeParse(raw);if(!p.success)throw new NzServiceError('invalid_input');
+            try{
+                const admitted=await load(CUSTOMS_URLS.tariff,8*1024*1024),s=admitted.snapshot,t=admitted.tariff!;
+                const matches=tariffMatches(t.index,p.data.code,p.data.entryDate);
+                const partial=matches.some(m=>(m.startDay===p.data.entryDate&&m.startMinute!==0)||(m.endDay===p.data.entryDate&&m.endMinute!==1439));
+                const usableUntil=tariffUsableUntil(t.published,s.observedAt),stale=tariffSnapshotStale(t.published,s.observedAt,now())||usableUntil<=now();
+                return {state:stale?'stale':matches.length===1&&!partial?'found':matches.length?'ambiguous':'not_found',suppliedCode:p.data.code,entryDate:p.data.entryDate,
+                    matches:stale||partial||matches.length!==1?[]:matches.map(({startMinute:_start,endMinute:_end,...row})=>({...row})),
+                    source:{...source(s),fetchExpiresAt:new Date(s.observedAt+DAY).toISOString(),usableUntil:new Date(usableUntil).toISOString(),expiresAt:new Date(usableUntil).toISOString(),publishedAt:new Date(t.published).toISOString(),archiveMember:'Tariff_Details.csv',freshnessPolicy:'Observed 04:00 Auckland daily producer run, four-hour assembl grace; not a Customs SLA',snapshotQuality:t.quarantinedCodes?'degraded':'validated',quarantinedRecordCount:t.quarantined,quarantinedCodeCount:t.quarantinedCodes},
+                    limitation:'Exact supplied code/date lookup only; not classification, eligibility, tariff ruling or duty/levy calculation.'};
+            }catch(error){return {state:'unavailable',reason:error instanceof PublicReferenceQualityError?'source_data_quality':'source_unavailable_or_schema_changed',suppliedCode:p.data.code,citation:CUSTOMS_URLS.tariff};}
         },
-        async fx(raw: unknown) {
-            const parsed = fxInput.safeParse(raw);
-            if (!parsed.success)
-                throw new NzServiceError('invalid_input');
-            if (parsed.data.entryDate < '2020-01-01')
-                return { state: 'date_out_of_range', limitation: 'Historical period semantics before 2020 are not supported.' };
-            if (parsed.data.currency === 'NZD')
-                return { state: 'found', currency: 'NZD', entryDate: parsed.data.entryDate, rate: '1.00', basis: 'identity conversion; not a downloaded Customs rate' };
-            try {
-                let s = await load(CUSTOMS_URLS.currentFx, 64 * 1024);
-                let indexed = ratesFor(s);
-                let matches = fxMatches(indexed, parsed.data.currency, parsed.data.entryDate);
-                if (!matches.length) {
-                    s = await load(CUSTOMS_URLS.historicFx, 8 * 1024 * 1024);
-                    indexed = ratesFor(s);
-                    matches = fxMatches(indexed, parsed.data.currency, parsed.data.entryDate);
-                }
-                const stale = s.observedAt > now() || s.observedAt + DAY <= now();
-                return { state: stale ? 'stale' : matches.length === 1 ? 'found' : matches.length ? 'ambiguous' : indexed.some(r => r.currency === parsed.data.currency) ? 'date_out_of_range' : 'currency_not_published',
-                    currency: parsed.data.currency, entryDate: parsed.data.entryDate, rates: stale || matches.length !== 1 ? [] : matches,
-                    source: source(s), limitation: 'Official Customs published reference by entry date. Rate is foreign currency per NZD; no conversion, valuation or declaration is performed.' };
-            }
-            catch {
-                return { state: 'unavailable', currency: parsed.data.currency, citation: CUSTOMS_URLS.currentFx };
-            }
+        async fx(raw:unknown){
+            const p=fxInput.safeParse(raw);if(!p.success)throw new NzServiceError('invalid_input');
+            if(p.data.entryDate<'2020-01-01')return {state:'date_out_of_range',limitation:'Historical period semantics before2020 are unsupported.'};
+            if(p.data.currency==='NZD')return {state:'found',currency:'NZD',entryDate:p.data.entryDate,rate:'1.00',basis:'identity conversion; not a downloaded Customs rate'};
+            try{
+                let admitted=await load(CUSTOMS_URLS.currentFx,65536),matches=fxMatches(admitted.fx!,p.data.currency,p.data.entryDate);
+                if(!matches.length){admitted=await load(CUSTOMS_URLS.historicFx,8*1024*1024);matches=fxMatches(admitted.fx!,p.data.currency,p.data.entryDate);}
+                const s=admitted.snapshot,stale=s.observedAt>now()||s.observedAt+DAY<=now();
+                return {state:stale?'stale':matches.length===1?'found':matches.length?'ambiguous':admitted.fx!.some(r=>r.currency===p.data.currency)?'date_out_of_range':'currency_not_published',currency:p.data.currency,entryDate:p.data.entryDate,rates:stale||matches.length!==1?[]:matches.map(v=>({...v})),source:source(s),limitation:'Official Customs reference by intended lodgement date; foreign currency per NZD, no conversion/valuation/declaration.'};
+            }catch{return {state:'unavailable',currency:p.data.currency,citation:CUSTOMS_URLS.currentFx};}
         },
     };
 }

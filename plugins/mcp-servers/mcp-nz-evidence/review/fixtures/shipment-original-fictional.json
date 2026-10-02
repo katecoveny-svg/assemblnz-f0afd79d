@@ -1,12 +1,12 @@
 {
   "destination_country": "NZ",
   "transport_mode": "sea_container",
-  "shipment_date": null,
+  "shipment_date": "2026-09-30",
   "intended_lodgement_date": "2026-10-01",
   "goods_condition": "new",
   "goods_category": "manufactured_nonfood",
-  "country_of_manufacture": null,
-  "country_of_export": null,
+  "country_of_manufacture": "AU",
+  "country_of_export": "AU",
   "wood_packaging": "no",
   "origin_preference_claimed": "no",
   "documents": {

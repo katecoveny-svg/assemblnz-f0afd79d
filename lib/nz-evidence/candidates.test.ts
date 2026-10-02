@@ -2,12 +2,12 @@ import { gzipSync } from 'node:zlib';
 import { describe, it, expect, vi } from 'vitest';
 import { prepareRfi, compareRfi, exportRfi, type RfiRegister } from './architecture';
 import { reviewShipmentDocuments, shipmentReviewInput } from './freight';
-import { tariffMembers, tariffDate, parseNzStamp, tariffSnapshotStale, selectFx, selectTariff, createCustomsTransport, createCustomsReferences, CUSTOMS_URLS } from './customs-public';
+import { tariffMembers, tariffDate, parseNzStamp, tariffSnapshotStale, tariffUsableUntil, selectFx, selectTariff, createCustomsTransport, createCustomsReferences, CUSTOMS_URLS } from './customs-public';
 export const register: RfiRegister = { schema_version: '1.0', case_label: 'CASE-A', questions: [{ id: 'Q1a', source_number: '1(a)', text: 'Current window schedule?' }, { id: 'Q1b', source_number: '1(b)', text: 'Reconcile W03 material.' }, { id: 'Q2', source_number: '2', text: 'Provide TR-01.' }, { id: 'Q3', source_number: '3', text: 'Revised services drawing?' }, { id: 'Q4', source_number: '4', text: 'Energy report?' }], documents: [{ id: 'DOC-A', lineage_id: 'A201', revision: 'C', state: 'current' }, { id: 'DOC-S', lineage_id: 'SPEC', revision: 'A', state: 'current' }, { id: 'DOC-B', lineage_id: 'A301', revision: 'B', state: 'superseded' }, { id: 'DOC-C', lineage_id: 'A301', revision: 'C', state: 'current' }], evidence: [{ id: 'EV-A', document_id: 'DOC-A', page_1_based: 2, statement: 'W03 aluminium.', fact_key: 'W03.frame', fact_value: 'aluminium' }, { id: 'EV-S', document_id: 'DOC-S', page_1_based: 3, statement: 'W03 timber.', fact_key: 'W03.frame', fact_value: 'timber' }, { id: 'EV-B', document_id: 'DOC-B', page_1_based: 4, statement: 'Datum to confirm.' }, { id: 'EV-C', document_id: 'DOC-C', page_1_based: 1, statement: 'DEMO-DATUM-01.' }], mappings: [{ question_id: 'Q1a', evidence_ids: ['EV-A'] }, { question_id: 'Q1b', evidence_ids: ['EV-A', 'EV-S'] }, { question_id: 'Q3', evidence_ids: ['EV-B'] }], required_attachments: [{ question_id: 'Q2', expected_document_id: 'TR-01', description: 'Declared attachment.' }] };
-export const shipment = { destination_country: 'NZ', transport_mode: 'sea_container', shipment_date: null, intended_lodgement_date: '2026-10-01', goods_condition: 'new', goods_category: 'manufactured_nonfood', country_of_manufacture: null, country_of_export: null, wood_packaging: 'no', origin_preference_claimed: 'no', documents: { commercial_invoice: 'present', packing_list: 'present', transport_document: 'present', quarantine_declaration: 'present', origin_evidence: 'absent', treatment_evidence: 'absent' }, quarantine_signed: 'yes', transitional_facility_arranged: 'yes', comparisons: { consignee_consistency: 'matched', cargo_description_consistency: 'matched', reference_consistency: 'matched' } };
+export const shipment = { destination_country: 'NZ', transport_mode: 'sea_container', shipment_date: '2026-09-30', intended_lodgement_date: '2026-10-01', goods_condition: 'new', goods_category: 'manufactured_nonfood', country_of_manufacture: 'AU', country_of_export: 'AU', wood_packaging: 'no', origin_preference_claimed: 'no', documents: { commercial_invoice: 'present', packing_list: 'present', transport_document: 'present', quarantine_declaration: 'present', origin_evidence: 'absent', treatment_evidence: 'absent' }, quarantine_signed: 'yes', transitional_facility_arranged: 'yes', comparisons: { consignee_consistency: 'matched', cargo_description_consistency: 'matched', reference_consistency: 'matched' } };
 describe('public RFI register', () => {
-    it('retains all subparts and gaps with unverified provenance', () => { const r = prepareRfi(register); expect(r.rows.map(x => x.id)).toEqual(['Q1a', 'Q1b', 'Q2', 'Q3', 'Q4']); expect(r.rows[4].status).toBe('unmapped'); expect(r.findings.map(f => f.code)).toEqual(expect.arrayContaining(['missing_attachment', 'conflicting_fact', 'noncurrent_evidence'])); expect(r.rows[0].evidence[0].source_content_verified).toBe(false); });
-    it('does not choose the correct conflicting fact', () => { const r = prepareRfi(register); expect(r.rows[1].status).toBe('blocked_by_conflict'); expect(r.rows[1].evidence.map(e => e.fact_value)).toEqual(['aluminium', 'timber']); });
+    it('retains all subparts and gaps with unverified provenance', () => { const r = prepareRfi(register); expect(r.rows.map(x => x.id)).toEqual(['Q1a', 'Q1b', 'Q2', 'Q3', 'Q4']); expect(r.rows[4].status).toBe('unmapped'); expect(r.findings.map(f => f.code)).toEqual(expect.arrayContaining(['missing_attachment', 'conflicting_fact', 'noncurrent_evidence'])); expect(r.evidence_dictionary[r.rows[0].evidence_ids[0]].source_content_verified).toBe(false); });
+    it('does not choose the correct conflicting fact', () => { const r = prepareRfi(register); expect(r.rows[1].status).toBe('blocked_by_conflict'); expect(r.rows[1].evidence_ids.map(id => r.canonical_register.evidence.find(e => e.id === id)?.fact_value)).toEqual(['aluminium', 'timber']); });
     it.each(['unknown_reference', 'duplicate', 'cycle', 'secret', 'email'])('rejects %s before transformation', kind => { const p = structuredClone(register); if (kind === 'unknown_reference')
         p.mappings[0].evidence_ids = ['OTHER']; if (kind === 'duplicate')
         p.questions.push(p.questions[0]); if (kind === 'cycle')
@@ -29,12 +29,12 @@ describe('freight preparation', () => {
     it('uses exact decimal arithmetic and does not infer adjustments', () => { const r = reviewShipmentDocuments({ ...shipment, invoice_math: { line_subtotal: '0.30', stated_goods_subtotal: '0.3', stated_invoice_total: '0.3', explicit_adjustments: null, currency: 'NZD' }, weights: { gross_kg: '2', net_kg: '3', same_goods_basis: 'yes' } }, 0); expect(r.checks.find(c => c.id === 'goods_subtotal')?.status).toBe('supplied'); expect(r.checks.find(c => c.id === 'invoice_total')?.status).toBe('not_assessed'); expect(r.checks.find(c => c.id === 'weights')?.status).toBe('conflicting'); });
     it('rejects identifiers and unknown action fields', () => expect(() => reviewShipmentDocuments({ ...shipment, clientCode: '123', submit: true })).toThrow());
 });
-const fx = '<exchangeRateList><exchangeRate><currencyCode>USD</currencyCode><dateNow>2026-10-11</dateNow><rateNow>0.56</rateNow><dateFuture>2026-10-25</dateFuture><rateFuture>0.55</rateFuture></exchangeRate></exchangeRateList>';
+const fx = '<exchangeRateList><exchangeRate><countryName>Original fictional label</countryName><currencyName>Original fictional currency</currencyName><currencyCode>USD</currencyCode><dateNow>2026-10-11</dateNow><rateNow>0.56</rateNow><dateFuture>2026-10-25</dateFuture><rateFuture>0.55</rateFuture></exchangeRate></exchangeRateList>';
 describe('Customs reference contracts', () => {
     it('rejects yesterday’s archive after the Auckland daily grace even when freshly downloaded', () => { const now = Date.parse('2026-10-02T20:00:00Z'); expect(tariffSnapshotStale(Date.parse('2026-10-01T15:00:00Z'), now, now)).toBe(true); expect(tariffSnapshotStale(Date.parse('2026-10-02T15:00:00Z'), now, now)).toBe(false); });
     it('uses NZ producer timezone and explicit non-ISO dates', () => { expect(new Date(parseNzStamp('Fri Oct  2 04:00:01 AM NZDT 2026')).toISOString()).toBe('2026-10-01T15:00:01.000Z'); expect(tariffDate('Jul 15 2010 12:00AM')).toEqual({ day: '2010-07-15', minute: 0 }); expect(() => tariffDate('Feb 30 2026 12:00AM')).toThrow(); });
     it('resolves the fortnight boundary with decimal strings', () => { expect(selectFx(fx, 'USD', '2026-10-11')[0].foreignPerNzd).toBe('0.56'); expect(selectFx(fx, 'USD', '2026-10-12')[0].foreignPerNzd).toBe('0.55'); expect(selectFx(fx, 'USD', '2026-10-26')).toHaveLength(0); });
-    it('parses historic shape without filling missing fortnights', () => { const xml = '<historicExchangeRateList><historicExchangeRate><currencyCode>USD</currencyCode><date>2026-10-25</date><rate>0.55</rate></historicExchangeRate></historicExchangeRateList>'; expect(selectFx(xml, 'USD', '2026-10-01')).toHaveLength(0); expect(selectFx(xml, 'USD', '2026-10-12')[0].periodStart).toBe('2026-10-12'); });
+    it('parses historic shape without filling missing fortnights', () => { const xml = '<historicExchangeRateList><historicExchangeRate><countryName>Original fictional label</countryName><currencyName>Original fictional currency</currencyName><currencyCode>USD</currencyCode><date>2026-10-25</date><rate>0.55</rate></historicExchangeRate></historicExchangeRateList>'; expect(selectFx(xml, 'USD', '2026-10-01')).toHaveLength(0); expect(selectFx(xml, 'USD', '2026-10-12')[0].periodStart).toBe('2026-10-12'); });
     it.each(['<!DOCTYPE x>' + fx, '<!ENTITY x "bad">' + fx, fx.replace('0.56', '-1')])('denies unsafe XML/rates', xml => expect(() => selectFx(xml, 'USD', '2026-10-11')).toThrow());
     it('reports conflicting rates rather than silently selecting first', () => { const xml = fx.replace('</exchangeRateList>', fx.match(/<exchangeRate>[\s\S]*<\/exchangeRate>/)![0].replace('0.56', '0.57') + '</exchangeRateList>'); expect(selectFx(xml, 'USD', '2026-10-11')).toHaveLength(2); });
     it('pins wire target, omits credentials and denies redirects/oversize', async () => { const mock = vi.fn(async (_url: RequestInfo | URL, _init?: RequestInit) => new Response('too large')); const t = createCustomsTransport(mock as unknown as typeof fetch, () => 0); await expect(t(CUSTOMS_URLS.currentFx, 2)).rejects.toThrow(); expect(mock.mock.calls[0][1]).toMatchObject({ redirect: 'error', credentials: 'omit' }); expect(mock.mock.calls[0][0]).toBe(CUSTOMS_URLS.currentFx); });
@@ -108,4 +108,64 @@ describe('bounded tariff snapshot admission', () => {
             vi.useRealTimers();
         }
     });
+});
+
+describe('independent review regressions',()=>{
+ const decision=[{question_id:'Q1a',evidence_ids:['EV-A'],prior_dependencies:[{evidence_id:'EV-A',document_id:'DOC-A',revision:'C',supplied_sha256:null}]}];
+ it.each(['state','lineage','issue_date','response','opposing_fact','attachment'])('rechecks changed scoped review context: %s',change=>{
+  const candidate=structuredClone(register);
+  if(change==='state')candidate.documents[0].state='superseded';
+  if(change==='lineage')candidate.documents[0].lineage_id='NEW-LINEAGE';
+  if(change==='issue_date')candidate.documents[0].issue_date='2026-09-23';
+  if(change==='response')candidate.mappings[0].response_draft='Certified compliant and approved.';
+  if(change==='opposing_fact')candidate.evidence[1].fact_value='different material';
+  if(change==='attachment')candidate.required_attachments.push({question_id:'Q1a',expected_document_id:'NEW-ATTACHMENT',description:'Declared fictional attachment.'});
+  expect(compareRfi({baseline:register,candidate,reviewer_decisions:decision}).reviewer_decisions[0].review_required).toBe(true);
+ });
+ it('rechecks a newly introduced conflict while unaffected decisions remain scoped',()=>{
+  const baseline=structuredClone(register);baseline.evidence[1].fact_value='aluminium';
+  const candidate=structuredClone(baseline);candidate.evidence[1].fact_value='timber';
+  expect(compareRfi({baseline,candidate,reviewer_decisions:decision}).reviewer_decisions[0].review_required).toBe(true);
+  const unrelated=structuredClone(register);unrelated.documents.push({id:'UNMAPPED',lineage_id:'UNRELATED',revision:'A',state:'unknown'});
+  expect(compareRfi({baseline:register,candidate:unrelated,reviewer_decisions:decision}).reviewer_decisions[0].review_required).toBe(false);
+ });
+ it('rejects anonymous case mismatch and exports unassociated global findings',()=>{
+  expect(()=>compareRfi({baseline:register,candidate:{...register,case_label:'DIFFERENT'},reviewer_decisions:decision})).toThrow();
+  const p=structuredClone(register);p.documents.push({id:'UNMAPPED',lineage_id:'UNRELATED',revision:'',state:'unknown'});
+  const out=exportRfi({register:p,format:'csv'});expect(out.content).toContain('row_type');expect(out.content).toContain('"finding",""');expect(out.content).toContain('metadata_review_required');expect(out.content).toContain('UNMAPPED');expect(out.rows).toHaveLength(5);
+ });
+ it('surfaces null facts and safely reconciles signed discounts',()=>{
+  const r=reviewShipmentDocuments({...shipment,shipment_date:null,intended_lodgement_date:null,country_of_manufacture:null,country_of_export:null},0);
+  expect(r.packet_status).toBe('unable_to_assess');expect(r.unknowns).toEqual(expect.arrayContaining(['shipment_date','intended_lodgement_date','country_of_manufacture','country_of_export']));
+  for(const [goods,discount,total] of [['100','-10','90'],['0.30','-0.10','0.20']]){
+   const out=reviewShipmentDocuments({...shipment,invoice_math:{line_subtotal:goods,stated_goods_subtotal:goods,stated_invoice_total:total,explicit_adjustments:discount,currency:'NZD'}},0);expect(out.checks.find(c=>c.id==='invoice_total')?.status).toBe('supplied');
+  }
+ });
+ it('quarantines same-day reversed history for every numeric-code variant and later dates',async()=>{
+  const now=Date.parse('2026-10-01T23:00:00Z');
+  const details=[tariffHeader,tariffRow('3901100001E','May 25 2022  4:00PM','May 25 2022  3:50PM'),tariffRow('3901100001E','May 25 2022  3:50PM','Dec 31 3000 11:59PM'),tariffRow('3901100002A','Jul 15 2010 12:00AM','Dec 31 3000 11:59PM')].join('\n');
+  const bytes=archive({'Tariff_Details.csv':details,'time_stamp.txt':'Fri Oct  2 04:00:01 AM NZDT 2026'}),r=createCustomsReferences(async url=>({bytes,url,observedAt:now,sha256:'mock'}),()=>now);
+  for(const code of ['3901100001','3901100001E','39.01.10.00.01Z']){const out=await r.tariff({code,entryDate:'2026-10-02'});expect(out.state).toBe('unavailable');expect(out.reason).toBe('source_data_quality');}
+  const good=await r.tariff({code:'3901100002A',entryDate:'2026-10-02'});expect(good.source?.quarantinedCodeCount).toBe(1);expect(good.source?.quarantinedRecordCount).toBe(1);
+ });
+ it('uses earliest fetch-age/next Auckland producer grace deadline across DST',()=>{
+  const published=Date.parse('2026-10-01T15:00:01Z'),observed=Date.parse('2026-10-01T23:00:00Z');expect(new Date(tariffUsableUntil(published,observed)).toISOString()).toBe('2026-10-02T19:00:00.000Z');
+  // Spring:27Sep08:00 NZDT; autumn:5Apr08:00 NZST. Retrieval near grace makes producer bound earlier.
+  expect(new Date(tariffUsableUntil(Date.parse('2026-09-25T16:00:01Z'),Date.parse('2026-09-26T01:00:00Z'))).toISOString()).toBe('2026-09-26T19:00:00.000Z');
+  expect(new Date(tariffUsableUntil(Date.parse('2026-04-03T15:00:01Z'),Date.parse('2026-04-04T01:00:00Z'))).toISOString()).toBe('2026-04-04T20:00:00.000Z');
+  expect(tariffUsableUntil(published,published)).toBe(published+86400000);
+ });
+ it.each([fx.slice(0,-19),'<!--'+fx+'-->','<html>'+fx+'</html>',fx+fx,fx.replace('2026-10-11','2026-10-11junk'),fx.replace('<currencyCode>','<currencyCode attr="bad">')])('rejects structurally invalid or schema-changed XML',xml=>expect(()=>selectFx(xml,'USD','2026-10-11')).toThrow());
+ it('does not poison successful-download cache with failed XML admission',async()=>{
+  let clock=Date.parse('2026-10-01T23:00:00Z'),calls=0;
+  const r=createCustomsReferences(async url=>({bytes:new TextEncoder().encode(++calls===1?fx.slice(0,-19):fx),url,observedAt:clock,sha256:String(calls)}),()=>clock);
+  expect((await r.fx({currency:'USD',entryDate:'2026-10-11'})).state).toBe('unavailable');clock+=5001;
+  expect((await r.fx({currency:'USD',entryDate:'2026-10-11'})).state).toBe('found');expect(calls).toBe(2);
+ });
+ it('does not poison tariff cache with a bad successful download',async()=>{
+  let clock=Date.parse('2026-10-01T23:00:00Z'),calls=0;
+  const bytes=archive({'Tariff_Details.csv':[tariffHeader,tariffRow('3901100001E','Jul 15 2010 12:00AM','Dec 31 3000 11:59PM')].join('\n'),'time_stamp.txt':'Fri Oct  2 04:00:01 AM NZDT 2026'});
+  const r=createCustomsReferences(async url=>({bytes:++calls===1?new Uint8Array([1,2,3]):bytes,url,observedAt:clock,sha256:String(calls)}),()=>clock);
+  expect((await r.tariff({code:'3901100001E',entryDate:'2026-10-01'})).state).toBe('unavailable');clock+=5001;expect((await r.tariff({code:'3901100001E',entryDate:'2026-10-01'})).state).toBe('found');expect(calls).toBe(2);
+ });
 });

@@ -1,4 +1,5 @@
 import { createMcpHandler } from '@modelcontextprotocol/server';
+import { RFI_LIMITS } from '../../../../lib/nz-evidence/architecture';
 import { createSpecialistServer } from './server';
 /** Unmounted transport factory. Deployment/host-level quotas/HTTPS require separate release approval. */
 export function createSpecialistHttp(domain: 'freight' | 'architecture', origin: string) {
@@ -61,10 +62,15 @@ export function createSpecialistHttp(domain: 'freight' | 'architecture', origin:
                     body.set(c, offset);
                     offset += c.length;
                 }
+                const decoded=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(body));
+                if(!decoded||typeof decoded!=='object'||Array.isArray(decoded)||(typeof decoded.id==='string'&&decoded.id.length>128)||(typeof decoded.id==='number'&&!Number.isSafeInteger(decoded.id)))return new Response(null,{status:400});
                 const response = await Promise.race([handler.fetch(new Request(request.url, { method: 'POST', headers: request.headers, body, signal: controller.signal })), deadline]);
-                response.headers.set('Cache-Control', 'no-store');
-                response.headers.set('X-Content-Type-Options', 'nosniff');
-                return response;
+                const outputReader=response.body?.getReader(),outputChunks:Uint8Array[]=[];let outputBytes=0;
+                if(outputReader)try{while(true){const{done,value}=await Promise.race([outputReader.read(),deadline]);if(done)break;outputBytes+=value.length;if(outputBytes>RFI_LIMITS.resultBytes){void outputReader.cancel().catch(()=>{});return new Response(null,{status:502,headers:{'Cache-Control':'no-store'}});}outputChunks.push(value);}}finally{if(controller.signal.aborted)void outputReader.cancel().catch(()=>{});outputReader.releaseLock();}
+                const output=new Uint8Array(outputBytes);let outputOffset=0;for(const chunk of outputChunks){output.set(chunk,outputOffset);outputOffset+=chunk.length;}
+                const headers=new Headers(response.headers);headers.set('Cache-Control','no-store');headers.set('X-Content-Type-Options','nosniff');
+                return new Response(outputBytes?output:null,{status:response.status,headers});
+
             }
             catch {
                 return new Response(null, { status: controller.signal.aborted ? 408 : 400, headers: { 'Cache-Control': 'no-store' } });
