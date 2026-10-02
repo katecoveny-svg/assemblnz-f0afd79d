@@ -1,11 +1,15 @@
 """Explicit local proof only. Fixed disposable container; no host DB/network credentials."""
-import concurrent.futures, json, subprocess, time, uuid
+import concurrent.futures, hashlib, json, pathlib, re, subprocess, time, uuid
 CONTAINER = 'assembl-nz-quota-proof-task3'
 configuration=json.loads(subprocess.check_output(['docker','inspect',CONTAINER],text=True))[0]
 assert configuration['HostConfig']['NetworkMode']=='none'
 assert configuration['HostConfig']['Memory']==268435456
 assert not any(m['Type']=='bind' for m in configuration['Mounts'])
 assert configuration['Config']['Image']=='postgres:17-alpine'
+image=json.loads(subprocess.check_output(['docker','image','inspect',configuration['Image']],text=True))[0]
+sql_source=pathlib.Path(__file__).resolve().parent.parent.joinpath('security-proposals/nz-plugin-hosting/quota-review.sql').read_text()
+sql_hash=hashlib.sha256(sql_source.encode()).hexdigest()
+
 
 proof = []
 def sql(query, check=True):
@@ -21,6 +25,9 @@ def claim(kind='mcp', parent=None):
         return {'state':'denied','reason':'lock_timeout'}
     return json.loads(result.stdout.strip().splitlines()[-1])
 def reset(): sql('RESET ROLE; DELETE FROM nz_freight_quota.leases; DELETE FROM nz_freight_quota.windows; UPDATE nz_freight_quota.control SET enabled=true;')
+for name,body in re.findall(r'CREATE FUNCTION nz_freight_quota\.(\w+)\(.*?AS \$\$(.*?)\$\$;',sql_source,re.S):
+    actual=sql("SELECT prosrc FROM pg_catalog.pg_proc p JOIN pg_catalog.pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname='nz_freight_quota' AND p.proname='"+name+"';").stdout.rstrip('\n')
+    assert actual==body.rstrip('\n')
 sql('UPDATE nz_freight_quota.control SET enabled=false;'); assert claim()['reason']=='closed'; proof.append('default-disabled returns closed')
 for role in ['anon','authenticated','nz_freight_quota']:
     assert sql('SET ROLE '+role+'; SELECT * FROM nz_freight_quota.control;',False).returncode != 0
@@ -48,8 +55,10 @@ assert value("SET ROLE nz_freight_quota; SELECT nz_freight_quota.release('"+pare
 assert value("SET ROLE nz_freight_quota; SELECT nz_freight_quota.release('"+child['lease']['id']+"',"+str(child['lease']['fence'])+");")=='t'
 assert value("SET ROLE nz_freight_quota; SELECT nz_freight_quota.release('"+parent+"',"+parent_fence+");")=='t'
 proof.append('returned child expiry equals stored parent; parent held until child settlement release')
-sql("UPDATE nz_freight_quota.leases SET expires_at=pg_catalog.clock_timestamp()+interval '1 second' WHERE id='"+parent+"';")
-assert claim('source_load',parent)['state']=='denied'; proof.append('child capped at parent expiry; short parent denies')
+reset(); parent=claim()['lease']['id']; sql("UPDATE nz_freight_quota.leases SET expires_at=pg_catalog.clock_timestamp()+interval '1 second' WHERE id='"+parent+"';")
+assert claim('source_load',parent)['reason']=='unavailable'
+assert value("SELECT count(*) FROM nz_freight_quota.leases WHERE kind='source_load';")=='0'
+proof.append('live unreleased short parent returns unavailable and no child')
 reset(); parent=claim()['lease']['id']; sql("UPDATE nz_freight_quota.leases SET released=true WHERE id='"+parent+"';")
 assert claim('source_load',parent)['state']=='denied'; proof.append('released parent denies')
 assert claim('source_load',str(uuid.uuid4()))['state']=='denied'
@@ -81,7 +90,7 @@ lock=subprocess.Popen(['docker','exec',CONTAINER,'psql','-X','-U','postgres','-A
 for _ in range(30):
     if value("SELECT count(*) FROM pg_catalog.pg_stat_activity WHERE application_name='nz-quota-margin-proof' AND wait_event='PgSleep';")=='1':break
     time.sleep(.001)
-assert claim('source_load',parent)['state']=='denied'; lock.communicate(timeout=3)
+assert claim('source_load',parent)['reason']=='unavailable'; lock.communicate(timeout=3)
 assert value("SELECT count(*) FROM nz_freight_quota.leases WHERE kind='source_load';")=='0'
 proof.append('70ms parent transaction crosses15sec margin and mints no child')
 reset(); parent=claim()['lease']['id']
@@ -92,6 +101,32 @@ assert value("SELECT used FROM nz_freight_quota.windows WHERE kind='source_day';
 assert value("SELECT count(*) FROM nz_freight_quota.leases WHERE kind='source_load';")=='0'
 sql('DROP TRIGGER fixture_delay ON nz_freight_quota.windows; DROP FUNCTION nz_freight_quota.fixture_delay();')
 proof.append('final expiry recheck denies after70ms intervening counter work; no child minted')
+
+# Independent targeted ceilings: seed only private fictional counters near each actual policy boundary.
+reset(); parent=claim()['lease']['id']
+with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool: children=list(pool.map(lambda _:claim('source_load',parent),range(4)))
+assert sum(x['state']=='admitted' for x in children)<=2
+for _ in range(2): claim('source_load',parent)
+assert value("SELECT count(*) FROM nz_freight_quota.leases WHERE kind='source_load' AND NOT released;")=='2'
+proof.append('concurrent source active ceiling2')
+for counter,limit,kind in [('mcp_minute',120,'mcp'),('mcp_day',2000,'mcp'),('source_day',200,'source_load')]:
+    reset(); parent=claim()['lease']['id']
+    sql("UPDATE nz_freight_quota.leases SET released=true;") if kind=='mcp' else None
+    grain='minute' if counter=='mcp_minute' else 'day'
+    sql("INSERT INTO nz_freight_quota.windows(kind,start_at,used) VALUES('"+counter+"',pg_catalog.date_trunc('"+grain+"',pg_catalog.clock_timestamp() AT TIME ZONE 'UTC') AT TIME ZONE 'UTC',"+str(limit-1)+") ON CONFLICT(kind) DO UPDATE SET used=EXCLUDED.used,start_at=EXCLUDED.start_at;")
+    assert claim(kind,parent if kind=='source_load' else None)['state']=='admitted'
+    assert claim(kind,parent if kind=='source_load' else None)['reason']=='limit'
+    assert value("SELECT used FROM nz_freight_quota.windows WHERE kind='"+counter+"';")==str(limit)
+    proof.append(counter+' ceiling'+str(limit)+' accepts last slot and denies next')
+reset()
+result=json.loads(value("INSERT INTO nz_freight_quota.windows VALUES('attempt_minute',pg_catalog.date_trunc('minute',pg_catalog.clock_timestamp() AT TIME ZONE 'UTC') AT TIME ZONE 'UTC',479); SET ROLE nz_freight_quota; SELECT pg_catalog.jsonb_build_array(nz_freight_quota.claim('"+str(uuid.uuid4())+"','mcp'),nz_freight_quota.claim('"+str(uuid.uuid4())+"','mcp'));"))
+assert result[0]['state']=='admitted' and result[1]['reason']=='limit'
+assert value("SELECT used FROM nz_freight_quota.windows WHERE kind='attempt_minute';")=='481'
+proof.append('backend480 last allowed attempt;481 denied')
+reset()
+for i in range(11): assert value('SET ROLE nz_freight_quota; SELECT nz_freight_quota.claim_log_slot();')==('t' if i<10 else 'f')
+assert value("SELECT used FROM nz_freight_quota.windows WHERE kind='log_minute';")=='11'
+proof.append('log slots10 allowed;11 denied')
 
 # Temp objects use adversarial names/types; privileged function resolution must remain catalog-first.
 reset()
@@ -115,6 +150,23 @@ for _ in range(30):
 assert ids.isdigit(); assert value('SELECT pg_catalog.pg_cancel_backend('+ids+');')=='t'
 _,err=sleeper.communicate(timeout=3); assert sleeper.returncode!=0 and 'canceling statement' in err
 proof.append('actual pg_cancel_backend cancels isolated query; caller abort alone remains insufficient')
+# Cancel a real quota claim after it changes counters, prove rollback and retry.
+reset()
+sql("CREATE FUNCTION nz_freight_quota.fixture_cancel_delay() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN PERFORM pg_catalog.pg_sleep(10); RETURN NEW; END $$; CREATE TRIGGER fixture_cancel_delay BEFORE INSERT ON nz_freight_quota.leases FOR EACH ROW EXECUTE FUNCTION nz_freight_quota.fixture_cancel_delay();")
+invocation=str(uuid.uuid4())
+pending=subprocess.Popen(['docker','exec',CONTAINER,'psql','-X','-U','postgres','-At','-v','ON_ERROR_STOP=1','-c',"SET application_name='nz-quota-transaction-cancel'; SET ROLE nz_freight_quota; SELECT nz_freight_quota.claim('"+invocation+"','mcp');"],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
+for _ in range(40):
+    ids=value("SELECT coalesce(string_agg(pid::text,','),'none') FROM pg_catalog.pg_stat_activity WHERE application_name='nz-quota-transaction-cancel' AND wait_event='PgSleep';")
+    if ids!='none':break
+    time.sleep(.01)
+assert ids.isdigit(); assert value('SELECT pg_catalog.pg_cancel_backend('+ids+');')=='t'
+_,err=pending.communicate(timeout=3); assert pending.returncode!=0 and 'canceling statement' in err
+assert value('SELECT count(*) FROM nz_freight_quota.leases;')=='0'
+assert value('SELECT count(*) FROM nz_freight_quota.windows;')=='0'
+sql('DROP TRIGGER fixture_cancel_delay ON nz_freight_quota.leases; DROP FUNCTION nz_freight_quota.fixture_cancel_delay();')
+retry=json.loads(value("SET ROLE nz_freight_quota; SELECT nz_freight_quota.claim('"+invocation+"','mcp');")); assert retry['state']=='admitted'
+proof.append('actual in-flight quota transaction cancellation rolls back counters/lease and same UUID retries')
+
 # Demonstrate cutoff honestly: cleanup executes only after enabled valid claim reaches cleanup.
 reset(); sql("INSERT INTO nz_freight_quota.leases VALUES ('"+str(uuid.uuid4())+"','"+str(uuid.uuid4())+"',999999,'mcp',NULL,pg_catalog.statement_timestamp()-interval '49 hours',pg_catalog.statement_timestamp()-interval '49 hours'+interval '20 seconds',true);")
 sql('UPDATE nz_freight_quota.control SET enabled=false;'); assert claim()['reason']=='closed'
@@ -122,4 +174,15 @@ assert value("SELECT count(*) FROM nz_freight_quota.leases WHERE issued_at<pg_ca
 sql('UPDATE nz_freight_quota.control SET enabled=true;'); assert claim()['state']=='admitted'
 assert value("SELECT count(*) FROM nz_freight_quota.leases WHERE issued_at<pg_catalog.clock_timestamp()-interval '48 hours';")=='0'
 proof.append('49hour cleanup on successful claim; disabled service retains row (activation gate)')
-print(json.dumps({'scope':'disposable network-none postgres17 only','tests':proof,'count':len(proof),'production_access':False},indent=2))
+# Actual distinct LOGIN principal: only intended quota membership, fresh sessions.
+sql("DO $$ BEGIN IF NOT EXISTS(SELECT 1 FROM pg_catalog.pg_roles WHERE rolname='nz_fixture_login') THEN CREATE ROLE nz_fixture_login LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS; END IF; END $$; GRANT nz_freight_quota TO nz_fixture_login;")
+def restricted(query):
+    return subprocess.run(['docker','exec',CONTAINER,'psql','-X','-U','nz_fixture_login','-d','postgres','-At','-v','ON_ERROR_STOP=1','-c',query],capture_output=True,text=True,timeout=5)
+for query in ['SET ROLE postgres;','SET ROLE nz_freight_quota_owner;','SELECT * FROM nz_freight_quota.control;','SELECT nz_freight_quota.take_backend_attempt();',"CREATE ROLE forbidden_escalation SUPERUSER;"]:
+    assert restricted(query).returncode!=0
+reset()
+login_result=restricted("SELECT current_user; CREATE TEMP TABLE control(id int,enabled bool); CREATE DOMAIN pg_temp.uuid AS text; CREATE FUNCTION pg_temp.clock_timestamp() RETURNS timestamptz LANGUAGE sql AS 'SELECT ''1900-01-01''::timestamptz'; SELECT nz_freight_quota.claim('"+str(uuid.uuid4())+"','mcp');")
+assert login_result.returncode==0 and login_result.stdout.splitlines()[0]=='nz_fixture_login'
+assert json.loads(login_result.stdout.strip().splitlines()[-1])['state']=='admitted'
+proof.append('fresh restricted LOGIN has only quota membership; escalation/table/helper denial and temp attack safety')
+print(json.dumps({'scope':'disposable network-none postgres17 only','tests':proof,'count':len(proof),'production_access':False,'sql_sha256':sql_hash,'server_version':value('SHOW server_version;'),'image_id':configuration['Image'],'image_repo_digests':image.get('RepoDigests',[]),'network_mode':configuration['HostConfig']['NetworkMode'],'memory_bytes':configuration['HostConfig']['Memory']},indent=2))
