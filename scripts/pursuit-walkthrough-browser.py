@@ -86,30 +86,21 @@ async def main():
                             await chapter.focus()
                             await chapter.press('Enter')
                             await expect(scene).to_have_attribute('data-chapter', '2', timeout=30000)
-                        recording = page.get_by_role('region', name='Watch a question', exact=False)
-                        await expect(recording).to_be_visible()
+                        # Kate approved hiding this rejected surface while the actual
+                        # signed-in canvas recording is prepared. Keep historical evidence.
+                        await expect(page.get_by_role('region', name='Watch a question', exact=False)).to_have_count(0)
                         await expect(page.get_by_role('region', name='Pursuit illustrated walkthrough')).to_have_count(0)
-                        video = recording.locator('video')
-                        await expect(video).to_have_attribute('preload', 'none')
-                        assert await video.evaluate('node => node.controls && !node.autoplay && node.paused')
-                        await expect(video.locator('source')).to_have_attribute('src', '/videos/pursuit/assembl-20261002/recording.mp4')
-                        for name in ('Download the editable pitch', 'Download the source brief', 'Read the recording transcript'):
-                            link = recording.get_by_role('link', name=name, exact=True)
-                            response = await page.request.get(ORIGIN + await link.get_attribute('href'))
-                            assert response.status == 200, name
+                        await expect(page.locator('video source[src="/videos/pursuit/assembl-20261002/recording.mp4"]')).to_have_count(0)
+                        for filename in ('recording.mp4', 'poster.png', 'captions.vtt', 'pitch.html', 'source-brief.json', 'transcript.txt'):
+                            response = await page.request.get(ORIGIN + '/videos/pursuit/assembl-20261002/' + filename)
+                            assert response.status == 200, filename
                         brief = await page.request.get(ORIGIN + '/videos/pursuit/assembl-20261002/source-brief.json')
                         receipt = await brief.json()
                         assert receipt['trace']['id'] == '506bac24-9b18-47e9-a558-66784c5422d0'
                         assert receipt['trace']['providerCalls'] == 1 and receipt['trace']['webSearches'] == 0
-                        await video.scroll_into_view_if_needed()
-                        await video.evaluate('node => node.play()')
-                        await page.wait_for_function("document.querySelector('video').currentTime > 0.2")
-                        assert await video.evaluate('node => node.videoWidth === 1440 && node.duration > 60 && node.duration < 64')
-                        await video.evaluate('node => node.pause()')
-                        await recording.screenshot(path=str(OUT / f'recorded-run-{width}-{motion}.png'))
                         assert await page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1'), f'overflow {path} {width}'
                         assert not posts and not errors, {'posts': posts, 'errors': errors}
-                        report.append({'route': path, 'width': width, 'motion': motion, 'recordingPlayback': 'passed', 'downloads': 'passed', 'researchPosts': len(posts), 'errors': errors.copy()})
+                        report.append({'route': path, 'width': width, 'motion': motion, 'recordingHidden': 'passed', 'historicalEvidenceRetained': 'passed', 'researchPosts': len(posts), 'errors': errors.copy()})
                         continue
                     demo = page.get_by_role('region', name='Pursuit illustrated walkthrough')
                     await expect(demo).to_be_visible(timeout=120000)
