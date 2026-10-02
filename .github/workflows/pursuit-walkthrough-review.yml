@@ -5,6 +5,9 @@ on:
       - 'components/site/pursuit/PursuitWalkthrough.tsx'
       - 'components/site/pursuit/pursuit-examples.ts'
       - 'components/site/pursuit/pursuit-walkthrough.module.css'
+      - 'components/site/pursuit/PursuitRecordedRun.tsx'
+      - 'components/site/pursuit/pursuit-recorded-run.module.css'
+      - 'public/videos/pursuit/**'
       - 'components/site/pursuit/LivePursuitCanvas.tsx'
       - 'components/site/assembl-the-work/AssemblTheWorkHome.tsx'
       - 'components/site/assembl-the-work/AssemblWorldHero.tsx'
@@ -37,7 +40,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @assembl/canvas build
       - run: pnpm typecheck
-      - run: pnpm exec eslint components/site/pursuit/pursuit-examples.ts components/site/pursuit/PursuitWalkthrough.tsx components/site/pursuit/LivePursuitCanvas.tsx components/site/assembl-the-work/AssemblTheWorkHome.tsx components/site/assembl-the-work/AssemblWorldHero.tsx components/site/assembl-the-work/WorldAtelierStage.tsx
+      - run: pnpm exec eslint components/site/pursuit/pursuit-examples.ts components/site/pursuit/PursuitWalkthrough.tsx components/site/pursuit/PursuitRecordedRun.tsx components/site/pursuit/LivePursuitCanvas.tsx components/site/assembl-the-work/AssemblTheWorkHome.tsx components/site/assembl-the-work/AssemblWorldHero.tsx components/site/assembl-the-work/WorldAtelierStage.tsx
       - run: pnpm test lib/pursuit/outreach.test.ts lib/pursuit/pitch-export.test.ts components/site/assembl-the-work/hero-resilience.test.ts
       - run: pnpm build
       - run: pip install playwright==1.55.0 && playwright install --with-deps chromium
