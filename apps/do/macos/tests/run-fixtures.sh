@@ -14,5 +14,5 @@ PY
 xcrun swiftc -D DO_WIDGET_FIXTURE -target arm64-apple-macos13.0 -swift-version 5 \
   -module-cache-path output/widget-fixture/module-cache \
   -framework Cocoa -framework SwiftUI -framework WebKit -framework ApplicationServices -framework ServiceManagement \
-  output/widget-fixture/main.swift apps/do/macos/CompanionMedia.swift -o output/widget-fixture/widget-fixture
+  output/widget-fixture/main.swift apps/do/macos/CompanionMedia.swift apps/do/macos/NativeReviewBridge.swift -o output/widget-fixture/widget-fixture
 output/widget-fixture/widget-fixture

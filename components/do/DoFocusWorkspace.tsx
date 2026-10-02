@@ -29,8 +29,10 @@ export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTa
   useEffect(() => {
     // The portable D returns to this mounted editor rather than nesting another workspace.
     const focus = () => setMode('write');
+    const image = () => { if (new URLSearchParams(location.search).get('nativeReview') === '1') setMode('look'); };
     window.addEventListener('assembl:do-focus', focus);
-    return () => window.removeEventListener('assembl:do-focus', focus);
+    window.addEventListener('assembl:do-focus-image', image);
+    return () => { window.removeEventListener('assembl:do-focus', focus); window.removeEventListener('assembl:do-focus-image', image); };
   }, []);
   function acceptContext(text: string) {
     if (!text.trim() || text.length > 12000) return false;
@@ -50,7 +52,7 @@ export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTa
         <button aria-pressed={mode === 'look'} onClick={() => setMode('look')}><Eye size={15} />Look</button>
         <Link href="/do/meetings" target={embedded ? '_blank' : undefined} rel={embedded ? 'noopener noreferrer' : undefined}><AudioLines size={15} />Meet</Link>
       </nav>
-      <div hidden={mode !== 'write'}><DoTextWorkspace embedded={embedded} initialTask={initialTask} focus offeredContext={offeredContext} onSourceChange={setContext} /></div>
+      <div hidden={mode !== 'write'}><DoTextWorkspace embedded={embedded} initialTask={initialTask} focus offeredContext={offeredContext} onSourceChange={setContext} onNativeReveal={() => setMode('write')} /></div>
       {embedded && (mode === 'talk' || mode === 'look') ? <section className={styles.toolSurface} aria-label="Open this tool in a full window">
         <h2>{mode === 'talk' ? 'A conversation with DO.' : 'Show DO what you mean.'}</h2>
         <p className={styles.help}>Open this tool in its own window for sign-in and device permissions. Your draft stays here. No source text is transferred automatically.</p>

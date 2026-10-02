@@ -27,6 +27,10 @@ Open DO, choose the app you want to work in, select text, then return to DO and 
 
 The Mac orb, web launcher and Chrome companion are entry points to DO, with different capture capabilities. They do not by themselves share tasks, local storage, browser sessions or permission grants. The `/do/continue` milestone is an explicitly fictional browser-local fixture while durable integration remains closed. See `docs/do-templates/DO-PORTABLE-AGENT.md` for the broader intended direction.
 
+Native-v1 opens `/do/widget?nativeReview=1` as a transient Personal editor. **Check recipient** names the server-verified account in this app’s WebKit session; Chrome sign-in is separate. **Add to DO** binds the exact reviewed text to that account, document and editor revision through a short-lived one-use reservation. An accepted receipt means React committed the text to this editor. It does not mean saved, synced or prepared. There is no legacy unbound handoff fallback.
+
+This transient editor neither restores nor saves the shared browser draft key. Account/scope changes clear prior context and consent and abort preparation; native-origin preparation rechecks the expected owner on the server before provider work. A missing receipt is unknown: check it only in the same document, without replaying text. Navigation requires Clear/new capture/edit before a new offer. Cancellation cannot retract text already committed to the editor.
+
 Accessibility permission is requested only through the labelled **Enable app interaction** button. Each capture and paste checks permission and target application again. Secure text fields are refused. No selected text or clipboard content is automatically read on launch.
 
 ## what it does not do yet

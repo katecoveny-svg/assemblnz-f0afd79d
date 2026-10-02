@@ -4,9 +4,11 @@ import { describe, expect, it } from 'vitest';
 describe('native DO source entry boundaries', () => {
   it('opens the unified DO and keeps reviewed text in the existing capture receiver', () => {
     const source = readFileSync('apps/do/macos/DOCompanion.swift', 'utf8');
-    expect(source).toContain('URL(string: "https://www.assembl.co.nz/do")');
-    expect(source).toContain('destination?.path == "/do/widget"');
-    expect(source).toContain('Writing & capture');
+    expect(source).toContain('URL(string: "https://www.assembl.co.nz/do/widget?nativeReview=1")');
+    expect(readFileSync('apps/do/macos/NativeReviewBridge.swift', 'utf8')).toContain('url.path == "/do/widget"');
+    expect(source).toContain('Bring context');
+    expect(source).not.toContain('Button("Open DO")');
+    expect(source).not.toContain('Button("Bills & budget")');
     expect(source).toContain('Moving shares nothing');
   });
   it('allows microphone prompts at the unified path without granting permission', () => {

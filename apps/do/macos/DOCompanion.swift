@@ -3,6 +3,7 @@ import SwiftUI
 import WebKit
 import ApplicationServices
 import ServiceManagement
+import UniformTypeIdentifiers
 
 private enum CompanionPreference {
     static let orbX = "do.companion.orb.x"
@@ -17,7 +18,7 @@ struct FictionalCapture {
     var selection: FictionalSelection = .unavailable
     var clipboard: String? = nil
     var destination = URL(string: "https://www.assembl.co.nz/do/widget")!
-    var account = "fictional-owner-a"
+    var account = "10000000-0000-4000-8000-000000000001"
     var offers: [String] = []
     var selectionReads = 0
     var clipboardReads = 0
@@ -26,11 +27,14 @@ struct FictionalCapture {
 
 final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WKUIDelegate {
     @Published var status = "Click the D to open DO. Use selected text only when you want to bring something from another app."
-    @Published var review = ""
+    @Published var review = "" { didSet { destinationChecked = false; nativeReview.edit(review) } }
+    @Published var reviewVisible = false
+    @Published var workspaceNotice = ""
     @Published var targetName = "your app"
     @Published var destinationChecked = false
     var target: NSRunningApplication?
     let web = WKWebView(frame: .zero)
+    lazy var nativeReview = NativeReviewClient(web: web, status: { [weak self] text in self?.status = text; if self?.reviewVisible != true { self?.workspaceNotice = text } }, changed: { [weak self] in self?.objectWillChange.send() })
 #if DO_WIDGET_FIXTURE
     var fictional = FictionalCapture()
 #endif
@@ -42,8 +46,24 @@ final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WK
 #if DO_WIDGET_FIXTURE
         // No hosted page, observers, private clipboard or application reads.
         web.loadHTMLString("<p>Fictional widget test only.</p>", baseURL: nil)
+        nativeReview.destination = { [weak self] in self?.fictional.destination }
+        nativeReview.transport = { [weak self] request, completion in
+            guard let self else { return }
+            let action = request["action"] as? String
+            if action == "lookup" {
+                completion(.success(["version":1,"status":"recipient","owner":self.fictional.account,"label":self.fictional.account.hasSuffix("1") ? "alex@example.invalid" : "taylor@example.invalid","scope":"Personal","documentId":"30000000-0000-4000-8000-000000000001","generation":0,"editorRevision":self.fictional.offers.isEmpty ? 0 : 1,"occupied":!self.fictional.offers.isEmpty])); return
+            }
+            var response = request
+            response.removeValue(forKey:"action"); response.removeValue(forKey:"text"); response.removeValue(forKey:"reservation")
+            if action == "reserve" {
+                response["status"] = "reserved"; response["reservation"] = "40000000-0000-4000-8000-000000000001"; response["expiresAt"] = Date().timeIntervalSince1970 * 1000 + 15000
+            } else if action == "commit", request["owner"] as? String == self.fictional.account, let text = request["text"] as? String {
+                self.fictional.offers.append(text); response["status"] = "accepted"; response["committedEditorRevision"] = (request["editorRevision"] as? Int ?? 0) + 1
+            } else { response = ["version":1,"status":"rejected","code":"fictional_recipient_changed"] }
+            completion(.success(response))
+        }
 #else
-        web.load(URLRequest(url: URL(string: "https://www.assembl.co.nz/do")!))
+        web.load(URLRequest(url: URL(string: "https://www.assembl.co.nz/do/widget?nativeReview=1")!))
         if let active = NSWorkspace.shared.frontmostApplication,
            active.processIdentifier != ProcessInfo.processInfo.processIdentifier,
            active.activationPolicy == .regular {
@@ -187,38 +207,9 @@ final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WK
 
     func addToDO() {
 #if DO_WIDGET_FIXTURE
-        let destination: URL? = fictional.destination
-#else
-        let destination = web.url
+        nativeReview.destination = { [weak self] in self?.fictional.destination }
 #endif
-        guard destination?.scheme == "https",
-              destination?.host == "www.assembl.co.nz",
-              destination?.path == "/do/widget",
-              !review.isEmpty else {
-            status = "Choose Writing & capture before adding your reviewed text. Nothing has been sent."
-            return
-        }
-#if DO_WIDGET_FIXTURE
-        fictional.offers.append(review)
-        status = "Fictional text offered; preparation has not started."
-        return
-#else
-        let data: [String: Any] = [
-            "type": "assembl-do:context",
-            "text": review,
-            "title": "Reviewed app selection",
-            "url": "",
-        ]
-        guard let json = try? JSONSerialization.data(withJSONObject: data),
-              let encoded = String(data: json, encoding: .utf8) else { return }
-        web.evaluateJavaScript("window.postMessage(\(encoded), 'https://www.assembl.co.nz')") { _, error in
-            DispatchQueue.main.async {
-                self.status = error == nil
-                    ? "Text offered to the DO editor. Check it there and choose a task; preparation has not started."
-                    : "The workspace did not accept the text. Copy it into DO instead."
-            }
-        }
-#endif
+        nativeReview.add()
     }
 
     func pasteReviewed() {
@@ -237,12 +228,29 @@ final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WK
     }
 
     func open(_ path: String) {
+        let path = path == "/do/widget" ? "/do/widget?nativeReview=1" : path
 #if DO_WIDGET_FIXTURE
         fictional.destination = URL(string: "https://www.assembl.co.nz" + path)!
 #else
         web.load(URLRequest(url: URL(string: "https://www.assembl.co.nz" + path)!))
 #endif
     }
+
+    func webView(_ webView: WKWebView, runOpenPanelWith parameters: WKOpenPanelParameters, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping ([URL]?) -> Void) {
+#if DO_WIDGET_FIXTURE
+        completionHandler(nil) // Fixtures never open a dialog or read a user file.
+#else
+        guard frame.isMainFrame, NativeReviewClient.allowed(webView.url), let window = webView.window else { completionHandler(nil); return }
+        let picker = NSOpenPanel()
+        picker.title = "Choose a screenshot or photo"
+        picker.allowedContentTypes = [.png, .jpeg, .webP]
+        picker.canChooseFiles = true; picker.canChooseDirectories = false; picker.allowsMultipleSelection = false
+        picker.beginSheetModal(for: window) { response in completionHandler(response == .OK ? picker.urls : nil) }
+#endif
+    }
+
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) { nativeReview.navigate() }
+    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) { nativeReview.navigate() }
 
     func webView(
         _ webView: WKWebView,
@@ -253,7 +261,8 @@ final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WK
             decisionHandler(.cancel)
             return
         }
-        if url.scheme == "https", url.host == "www.assembl.co.nz" {
+        if url.scheme == "https", url.host == "www.assembl.co.nz", url.port == nil || url.port == 443 {
+            if navigationAction.targetFrame?.isMainFrame == true { nativeReview.navigate() }
             decisionHandler(.allow)
             return
         }
@@ -286,49 +295,72 @@ struct WebWorkspace: NSViewRepresentable {
 
 struct Workspace: View {
     @ObservedObject var model: CompanionModel
+    private let rose = Color(red: 0.40, green: 0.29, blue: 0.31)
     var body: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 0) {
             HStack {
-                Text("DO").font(.title.bold())
-                Text("by assembl").foregroundColor(.secondary)
                 Spacer()
-                Button("Open DO") { model.open("/do") }
-                Button("Writing & capture") { model.open("/do/widget") }
-                Button("Bills & budget") { model.open("/do/bills") }
-
-            }
-            HStack {
-                Button("Enable app interaction") { model.enableInteraction() }
-                Button("Use selected text") { model.captureSelection() }
-                Button("Review clipboard") { model.reviewClipboard() }
-                Spacer()
-                Text(model.targetName).lineLimit(1)
-            }
-            TextEditor(text: $model.review)
-                .font(.system(size: 12))
-                .frame(height: 85)
-                .border(Color.purple.opacity(0.2))
-                .accessibilityLabel("Text for your review")
-            HStack {
-                Button("Add to DO") { model.addToDO() }.disabled(model.review.isEmpty)
-                Button("Clear") {
-                    model.clearCapture()
+                Menu("Bring context") {
+                    Button("Selected text") { model.captureSelection(); model.reviewVisible = true }
+                    Button("Copied text") { model.reviewClipboard(); model.reviewVisible = true }
+                    Button("Screenshot or photo") { model.nativeReview.showScreenshotInput() }
                 }
-                Spacer()
-                Toggle("I checked the destination in \(model.targetName)", isOn: $model.destinationChecked)
-                    .toggleStyle(.checkbox)
-                Button("Paste reviewed text") { model.pasteReviewed() }
-                    .disabled(!model.destinationChecked || model.review.isEmpty)
-            }
-            Text(model.status)
-                .font(.system(size: 11))
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .fixedSize(horizontal: false, vertical: true)
+                .menuStyle(.borderlessButton)
+                .fixedSize()
+                .padding(.horizontal, 16).padding(.vertical, 9)
+                .background(Color(red: 0.92, green: 0.78, blue: 0.87), in: Capsule())
+                .foregroundColor(Color(red: 0.14, green: 0.04, blue: 0.13))
+            }.padding(10)
+            if !model.workspaceNotice.isEmpty { Text(model.workspaceNotice).font(.system(size: 12)).frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, 14).padding(.bottom, 8) }
             WebWorkspace(model: model)
         }
-        .padding(14)
         .background(Color(red: 0.97, green: 0.95, blue: 0.97))
         .frame(minWidth: 680, minHeight: 720)
+        .sheet(isPresented: $model.reviewVisible, onDismiss: { model.clearCapture() }) { ContextReview(model: model) }
+    }
+}
+
+struct ContextReview: View {
+    @ObservedObject var model: CompanionModel
+    private let plum = Color(red: 0.14, green: 0.04, blue: 0.13)
+    private let rose = Color(red: 0.40, green: 0.29, blue: 0.31)
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            HStack {
+                Text("Review this context").font(.title2.weight(.semibold))
+                Spacer()
+                Button("Close") { model.reviewVisible = false }.keyboardShortcut(.cancelAction)
+            }
+            Text("Nothing is added until you choose Add. Preparation is a separate choice.")
+                .font(.subheadline).foregroundColor(plum.opacity(0.75))
+            TextEditor(text: $model.review)
+                .font(.system(size: 14)).frame(height: 190)
+                .padding(8).background(Color.white, in: RoundedRectangle(cornerRadius: 16))
+                .overlay(RoundedRectangle(cornerRadius: 16).stroke(rose.opacity(0.18)))
+                .accessibilityLabel("Text for your review")
+            HStack {
+                Text("\(model.nativeReview.recipientLabel) · Personal").font(.system(size: 11)).textSelection(.enabled)
+                Spacer()
+                Button("Check recipient") { model.nativeReview.checkRecipient() }.disabled(model.nativeReview.busy)
+            }
+            Text(model.status).font(.system(size: 12)).fixedSize(horizontal: false, vertical: true)
+            DisclosureGroup("App interaction") {
+                VStack(alignment: .leading, spacing: 10) {
+                    Button("Enable selected-text access…") { model.enableInteraction() }
+                    Text("Accessibility is optional. Copied text works without it.").font(.caption)
+                    Toggle("I checked the destination in \(model.targetName)", isOn: $model.destinationChecked)
+                    Button("Insert reviewed text in \(model.targetName)") { model.pasteReviewed() }.disabled(!model.destinationChecked || model.review.isEmpty)
+                }.padding(.top, 8)
+            }.font(.caption)
+            HStack {
+                Button("Clear") { model.clearCapture() }
+                Spacer()
+                Button(model.nativeReview.addLabel) { model.addToDO() }
+                    .buttonStyle(.borderedProminent).tint(rose)
+                    .disabled(model.review.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || model.review.utf16.count > 12000 || model.nativeReview.busy || model.nativeReview.accepted || model.nativeReview.blocked)
+            }
+        }.padding(24).frame(width: 560).foregroundColor(plum)
+            .background(Color(red: 0.97, green: 0.95, blue: 0.97))
     }
 }
 
@@ -360,6 +392,10 @@ final class DraggableOrbView: NSHostingView<Orb> {
     var startOrigin = NSPoint.zero
     var moved = false
 
+    override func isAccessibilityElement() -> Bool { true }
+    override func accessibilityRole() -> NSAccessibility.Role? { .button }
+    override func accessibilityLabel() -> String? { "Choose a DO action" }
+    override func accessibilityChildren() -> [Any]? { [] }
     override var acceptsFirstResponder: Bool { true }
     override func accessibilityPerformPress() -> Bool {
         guard let openDO else { return false }
@@ -436,13 +472,14 @@ struct QuickActions: View {
     }
 }
 
-final class AppDelegate: NSObject, NSApplicationDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
     var orb: NSPanel!
     var workspace: NSWindow!
     let model = CompanionModel()
     var menuItem: NSStatusItem!
     var launchAtLoginItem: NSMenuItem?
     let quickActions = NSPopover()
+    private var returnFocusToOrb = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
@@ -601,17 +638,31 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.activate(ignoringOtherApps: true)
     }
 
+    func popoverDidClose(_ notification: Notification) {
+        guard returnFocusToOrb else { return }
+        returnFocusToOrb = false
+        orb.makeKey()
+        orb.makeFirstResponder(orb.contentView)
+    }
+
+    private func cancelQuickActions() {
+        returnFocusToOrb = true
+        quickActions.performClose(nil)
+    }
+
     private func showQuickActions(from view: NSView) {
         if quickActions.isShown {
-            quickActions.performClose(nil)
+            cancelQuickActions()
             return
         }
+        quickActions.delegate = self
+        returnFocusToOrb = false
         quickActions.behavior = .transient
         quickActions.contentViewController = NSHostingController(rootView: QuickActions(
             selectText: { [weak self] in self?.reviewFromOrb(clipboard: false) },
             reviewClipboard: { [weak self] in self?.reviewFromOrb(clipboard: true) },
             openWorkspace: { [weak self] in self?.showWorkspace() },
-            cancel: { [weak self] in self?.quickActions.performClose(nil) }
+            cancel: { [weak self] in self?.cancelQuickActions() }
         ))
         quickActions.show(relativeTo: view.bounds, of: view, preferredEdge: .minX)
     }
@@ -620,6 +671,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // Capture before activating DO so the existing target app stays intact.
         // These methods neither prompt for permission nor transmit the review.
         if clipboard { model.reviewClipboard() } else { model.captureSelection() }
+        model.reviewVisible = true
         showWorkspace()
     }
 
