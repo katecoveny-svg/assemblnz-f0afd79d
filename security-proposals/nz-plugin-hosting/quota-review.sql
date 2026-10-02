@@ -6,6 +6,7 @@ CREATE ROLE nz_freight_quota_owner NOLOGIN NOBYPASSRLS;
 CREATE ROLE nz_freight_quota NOLOGIN NOBYPASSRLS;
 CREATE SCHEMA nz_freight_quota AUTHORIZATION nz_freight_quota_owner;
 REVOKE ALL ON SCHEMA nz_freight_quota FROM PUBLIC, anon, authenticated;
+ALTER DEFAULT PRIVILEGES FOR ROLE nz_freight_quota_owner REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC;
 CREATE TABLE nz_freight_quota.control (
  id pg_catalog.int4 PRIMARY KEY CHECK(id=1), enabled pg_catalog.bool NOT NULL DEFAULT false,
  policy pg_catalog.text NOT NULL DEFAULT 'nz-public-hosting-v1' CHECK(policy='nz-public-hosting-v1'),
@@ -65,7 +66,7 @@ BEGIN
  RETURN pg_catalog.jsonb_build_object('state','denied','reason','unavailable','retryAfterSeconds',60); END IF;
  END IF;
  SELECT pg_catalog.count(*) INTO live_count FROM nz_freight_quota.leases WHERE kind=p_kind AND NOT released AND expires_at>t;
- IF live_count>=CASE WHEN p_kind='mcp' THEN 4 ELSE 2 END THEN limited:=true; END IF;
+ IF live_count>=(CASE WHEN p_kind='mcp' THEN 4 ELSE 2 END) THEN limited:=true; END IF;
  IF p_kind='mcp' THEN
  INSERT INTO nz_freight_quota.windows(kind,start_at,used) VALUES('mcp_minute',minute_at,0),('mcp_day',day_at,0)
  ON CONFLICT(kind) DO UPDATE SET start_at=EXCLUDED.start_at,used=CASE WHEN nz_freight_quota.windows.start_at=EXCLUDED.start_at THEN nz_freight_quota.windows.used ELSE 0 END;
