@@ -3,6 +3,7 @@ export const HOSTING_PROPOSAL = {
   status: 'inactive_proposal', version: 'nz-public-hosting-v1',
   hosts: { freight: 'nz-freight.assembl.co.nz', architecture: 'nz-rfi.assembl.co.nz' },
   mcpPath: '/mcp', challengePath: '/.well-known/openai-apps-challenge',
+  backendAttemptsPerMinuteGlobal: 480, summariesPerMinuteGlobal: 10, localAdmissionAttemptsPerMinute: 60,
   requestsPerMinuteGlobal: 120, requestsPerUtcDayGlobal: 2000,
   activeRequestsGlobal: 4, activeSourceLoadsGlobal: 2, sourceLoadsPerUtcDayGlobal: 200,
   requestBytes: 1048576, resultBytes: 524288, deadlineMs: 10000,
@@ -12,6 +13,21 @@ export const HOSTING_PROPOSAL = {
 } as const;
 export type Domain = keyof typeof HOSTING_PROPOSAL.hosts;
 export type Gate = { state: 'eligible'; domain: Domain } | { state: 'denied'; status: 400 | 403 | 404 | 405 | 413 | 415 };
+
+export type AliasGate = { state: 'ordinary_host' } | { state: 'plugin_path'; domain: Domain; route: 'mcp' | 'challenge' | 'public_info' } | { state: 'denied'; status: 400 | 404 | 405 };
+/** Must run for EVERY plugin-host request, including static paths, before app/auth middleware.
+ * Pure proposal only: an eligible path is not release permission or a mounted handler.
+ */
+export function pluginAliasGate(request: Request): AliasGate {
+  const u = new URL(request.url);
+  const domain = (Object.keys(HOSTING_PROPOSAL.hosts) as Domain[]).find(d => u.hostname.replace(/\.$/, '') === HOSTING_PROPOSAL.hosts[d]);
+  if (!domain) return { state: 'ordinary_host' };
+  if (u.origin !== `https://${HOSTING_PROPOSAL.hosts[domain]}` || u.search || u.hash || u.username || u.password || (request.headers.has('host') && request.headers.get('host') !== u.host)) return { state: 'denied', status: 404 };
+  const route = u.pathname === HOSTING_PROPOSAL.mcpPath ? 'mcp' : u.pathname === HOSTING_PROPOSAL.challengePath ? 'challenge' : ['/privacy', '/terms', '/support'].includes(u.pathname) ? 'public_info' : undefined;
+  if (!route) return { state: 'denied', status: 404 };
+  if (route === 'mcp' ? request.method !== 'POST' : !['GET', 'HEAD'].includes(request.method)) return { state: 'denied', status: 405 };
+  return { state: 'plugin_path', domain, route };
+}
 
 /** Pure boundary specification; eligible is not activation or authorization to execute. */
 export function inspectProposedRequest(request: Request): Gate {
@@ -34,11 +50,15 @@ export type AdmissionRequest = {
   invocationId: string; // server-generated UUID, never a caller request/document/account ID
   domain: Domain; kind: 'mcp' | 'source_load'; parentLeaseId?: string;
 };
-export type Lease = { id: string; expiresAtMs: number; fence: number };
-export type Admission = { state: 'admitted'; lease: Lease } | { state: 'denied'; reason: 'closed' | 'limit' | 'unavailable' | 'duplicate'; retryAfterSeconds: number };
+export type Lease = { id: string; issuedAtMs: number; expiresAtMs: number; fence: number };
+export type MonotonicClock = () => number;
+export type Admission = { state: 'admitted'; databaseNowMs: number; lease: Lease } | { state: 'denied'; reason: 'closed' | 'limit' | 'unavailable' | 'duplicate'; retryAfterSeconds: number };
 /** Future backend: one transaction checks kill state, counters and leases under common locks.
  * No caller-provided caps/clocks, refund on finish, memory fallback or user-body persistence.
  * Every MCP transport request counts. Source claims require a live parent lease; retries count.
+ * Database-issued interval and fresh databaseNowMs are sampled after all locks, immediately
+ * before response/commit. Consumer subtracts the entire monotonic RPC elapsed time as a
+ * conservative transit bound, and requires the full15second job envelope to remain.
  * Duplicate invocation IDs cannot acquire another lease or execute twice. Completed IDs retain
  * only a bounded tombstone, never response bodies. Release is exact-ID/fence, idempotent.
  */
@@ -52,8 +72,9 @@ export const closedAdmission: DistributedAdmission = {
 };
 const uuid = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
 /** Contract consumer for local tests only. Real distributed storage/transaction proof is a release gate. */
-export async function checkedClaim(request: AdmissionRequest, nowMs: number, store: DistributedAdmission = closedAdmission): Promise<Admission> {
-  if (!Number.isSafeInteger(nowMs) || request.policy !== HOSTING_PROPOSAL.version || !uuid.test(request.invocationId) || !Object.hasOwn(HOSTING_PROPOSAL.hosts, request.domain) || !['mcp', 'source_load'].includes(request.kind) || (request.kind === 'source_load' ? !uuid.test(request.parentLeaseId ?? '') : request.parentLeaseId !== undefined)) return { state: 'denied', reason: 'unavailable', retryAfterSeconds: 60 };
+export async function checkedClaim(request: AdmissionRequest, store: DistributedAdmission = closedAdmission, monotonic: MonotonicClock = () => performance.now()): Promise<Admission> {
+  const startMs = monotonic();
+  if (!Number.isFinite(startMs) || request.policy !== HOSTING_PROPOSAL.version || !uuid.test(request.invocationId) || !Object.hasOwn(HOSTING_PROPOSAL.hosts, request.domain) || !['mcp', 'source_load'].includes(request.kind) || (request.kind === 'source_load' ? !uuid.test(request.parentLeaseId ?? '') : request.parentLeaseId !== undefined)) return { state: 'denied', reason: 'unavailable', retryAfterSeconds: 60 };
   const controller = new AbortController();
   let timer: ReturnType<typeof setTimeout> | undefined;
   try {
@@ -63,9 +84,9 @@ export async function checkedClaim(request: AdmissionRequest, nowMs: number, sto
       if (!['closed', 'limit', 'unavailable', 'duplicate'].includes(result.reason) || !Number.isInteger(result.retryAfterSeconds) || result.retryAfterSeconds < 1 || result.retryAfterSeconds > 86400) throw new Error();
       return { state: 'denied', reason: result.reason, retryAfterSeconds: result.retryAfterSeconds };
     }
-    const l = result.lease;
-    if (result.state !== 'admitted' || !l || !uuid.test(l.id) || !Number.isSafeInteger(l.fence) || l.fence < 1 || !Number.isSafeInteger(l.expiresAtMs) || l.expiresAtMs <= nowMs || l.expiresAtMs - nowMs > HOSTING_PROPOSAL.leaseMs) throw new Error();
-    return { state: 'admitted', lease: { id: l.id, expiresAtMs: l.expiresAtMs, fence: l.fence } };
+    const l = result.lease, endMs = monotonic(), elapsedMs = endMs - startMs;
+    if (result.state !== 'admitted' || !l || !uuid.test(l.id) || !Number.isSafeInteger(l.fence) || l.fence < 1 || !Number.isSafeInteger(l.issuedAtMs) || !Number.isSafeInteger(l.expiresAtMs) || !Number.isSafeInteger(result.databaseNowMs) || l.issuedAtMs > result.databaseNowMs || l.expiresAtMs <= result.databaseNowMs || l.expiresAtMs - l.issuedAtMs > HOSTING_PROPOSAL.leaseMs || !Number.isFinite(endMs) || elapsedMs < 0 || elapsedMs > HOSTING_PROPOSAL.admissionDeadlineMs || l.expiresAtMs - result.databaseNowMs - elapsedMs < HOSTING_PROPOSAL.platformMaxDurationSeconds * 1000) throw new Error();
+    return { state: 'admitted', databaseNowMs: result.databaseNowMs, lease: { id: l.id, issuedAtMs: l.issuedAtMs, expiresAtMs: l.expiresAtMs, fence: l.fence } };
   } catch { return { state: 'denied', reason: 'unavailable', retryAfterSeconds: 60 }; }
   finally { clearTimeout(timer); }
 }
@@ -78,4 +99,13 @@ export function operationalEvent(raw: unknown) {
   const p = raw as Record<string, unknown>;
   if (Object.keys(p).some(k => !['domain', 'status', 'duration', 'requestBytes', 'responseBytes'].includes(k)) || (typeof p.domain !== 'string' || !Object.hasOwn(HOSTING_PROPOSAL.hosts, p.domain)) || !statuses.includes(p.status as typeof statuses[number]) || !buckets.includes(p.duration as typeof buckets[number]) || !Number.isSafeInteger(p.requestBytes) || Number(p.requestBytes) < 0 || Number(p.requestBytes) > HOSTING_PROPOSAL.requestBytes || !Number.isSafeInteger(p.responseBytes) || Number(p.responseBytes) < 0 || Number(p.responseBytes) > HOSTING_PROPOSAL.resultBytes) throw new Error('Invalid metric');
   return { event: 'nz_plugin_request', domain: p.domain as Domain, status: p.status as typeof statuses[number], duration: p.duration as typeof buckets[number], requestBytes: Number(p.requestBytes), responseBytes: Number(p.responseBytes) };
+}
+
+/** Inactive dispatcher: plugin aliases never fall through to the ordinary app.
+ * No live/plugin handler injection exists in this closed stage.
+ */
+export async function closedHostDispatcher(request: Request, ordinaryApp: (request: Request) => Promise<Response>): Promise<Response> {
+  const gate = pluginAliasGate(request);
+  if (gate.state === 'ordinary_host') return ordinaryApp(request);
+  return new Response(null, { status: gate.state === 'denied' ? gate.status : 503, headers: { 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' } });
 }
