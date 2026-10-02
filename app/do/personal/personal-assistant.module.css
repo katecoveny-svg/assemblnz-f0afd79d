@@ -9,7 +9,7 @@
 .consent small{display:block;margin-top:5px;font-size:.72rem;font-weight:400;line-height:1.5;color:var(--do-ink, #654a4e)}
 
 /* Assembled glass: an opaque working control beneath the glass identity. */
-.panel{border-radius:32px 42px 32px 38px;box-shadow:0 14px 36px #172d550b}.panel .send{background:var(--do-plum, #240b21);border-color:transparent;border-radius:999px;box-shadow:none}.panel .send:hover:not(:disabled){background:var(--do-hover, #240b21)}.panel .send:active:not(:disabled){background:var(--do-active, #240b21)}.panel button:disabled{opacity:1;background:var(--do-chalk, #f5f1f2);color:var(--do-ink, #654a4e);border-color:transparent}.panel form>textarea{min-height:94px}.composerFooter>span{font-size:11px}.panel .consent,.panel .draft{border-radius:24px}.panel .reply{color:var(--do-ink, #240b21)}
+.panel{border-radius:32px 42px 32px 38px;box-shadow:0 14px 36px color-mix(in srgb, var(--do-ink) 4.31%, transparent)}.panel .send{background:var(--do-plum, #240b21);border-color:transparent;border-radius:999px;box-shadow:none}.panel .send:hover:not(:disabled){background:var(--do-hover, #240b21)}.panel .send:active:not(:disabled){background:var(--do-active, #240b21)}.panel button:disabled{opacity:1;background:var(--do-chalk, #f5f1f2);color:var(--do-ink, #654a4e);border-color:transparent}.panel form>textarea{min-height:94px}.composerFooter>span{font-size:11px}.panel .consent,.panel .draft{border-radius:24px}.panel .reply{color:var(--do-ink, #240b21)}
 
 /* DO07: compact working panel layers over the artwork without competing with it. */
 .panel{border-radius:38px;background:var(--do-paper);border:1px solid #ffffffaa;backdrop-filter:blur(18px);padding:22px 24px 18px}

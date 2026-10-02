@@ -34,7 +34,7 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
     }));
     const artwork = personal.locator('[data-renderer="static-art"] img');
     check('approved assembled plum glass artwork is loaded as static art in reduced motion', await artwork.evaluate(el =>
-      el.getAttribute('src') === '/brand/do-assembled-glass.png' && el.complete && el.naturalWidth > 0)
+      el.getAttribute('src') === '/brand/do-assembled-plum.webp' && el.complete && el.naturalWidth > 0)
       && await personal.locator('[data-renderer="static-art"] canvas').count() === 0);
     const mark = personal.getByRole('link', { name: 'DO by assembl, home', exact: true }).locator('svg');
     check('personal DO retains the canonical D path and interior dot',

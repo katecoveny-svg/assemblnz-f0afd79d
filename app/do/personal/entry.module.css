@@ -51,11 +51,11 @@
 .intro{position:relative;z-index:1;border:0;background:transparent;padding:0;box-shadow:none;width:48%}
 .workspace .intro h1{font-size:clamp(58px,6.5vw,92px);line-height:.98;color:var(--do-ink);max-width:470px;letter-spacing:-.065em}
 .intro p{font-size:18px;max-width:320px;margin:22px 0 0;color:var(--do-ink)}
-.composerTabs{align-self:flex-start;background:var(--do-chalk);border:1px solid #172d5520;border-radius:999px;padding:4px;margin-bottom:14px;backdrop-filter:blur(12px)}
+.composerTabs{align-self:flex-start;background:var(--do-chalk);border:1px solid color-mix(in srgb, var(--do-ink) 12.55%, transparent);border-radius:999px;padding:4px;margin-bottom:14px;backdrop-filter:blur(12px)}
 .workspace .composerTabs button{border-radius:999px;color:var(--do-ink);min-height:44px;font-size:13px}
 .workspace .composerTabs button[aria-pressed=true]{background:var(--do-paper);color:var(--do-ink)}
 .stage>div:not(.heading){width:420px;max-width:100%}
-.workspace .intake{background:var(--do-paper);border:1px solid #ffffffaa;border-radius:38px;box-shadow:0 12px 36px #2149680b;padding:22px 24px 18px;backdrop-filter:blur(18px)}
+.workspace .intake{background:var(--do-paper);border:1px solid #ffffffaa;border-radius:38px;box-shadow:0 12px 36px color-mix(in srgb, var(--do-ink) 4.31%, transparent);padding:22px 24px 18px;backdrop-filter:blur(18px)}
 .workspace .intake textarea::placeholder,.privacy,.workspace .addContext>summary{color:var(--do-ink)}
 .privacy{font-size:11px}
 .workspace .stage .primary{background:var(--do-plum);border:0;border-radius:999px;color:var(--do-paper);box-shadow:none;min-height:48px;font-size:14px}
