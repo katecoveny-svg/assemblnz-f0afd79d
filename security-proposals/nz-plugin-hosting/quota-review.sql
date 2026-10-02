@@ -103,6 +103,8 @@ RETURNS pg_catalog.bool LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_cat
 BEGIN
  PERFORM 1 FROM nz_freight_quota.control WHERE id=1 FOR UPDATE;
  IF NOT nz_freight_quota.take_backend_attempt() THEN RETURN false; END IF;
+ -- A parent release cannot surrender capacity while a source child is still active.
+ IF EXISTS(SELECT 1 FROM nz_freight_quota.leases p JOIN nz_freight_quota.leases c ON c.parent=p.id WHERE p.id=p_id AND p.fence=p_fence AND NOT c.released AND c.expires_at>pg_catalog.clock_timestamp()) THEN RETURN false; END IF;
  UPDATE nz_freight_quota.leases SET released=true WHERE id=p_id AND fence=p_fence;
  RETURN FOUND; -- exact fence, idempotent, no refund of attempt/minute/day counters
 END $$;
