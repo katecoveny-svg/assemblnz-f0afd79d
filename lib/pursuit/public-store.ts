@@ -1,5 +1,6 @@
 import 'server-only';
 import {createHmac} from 'node:crypto';
+import type {DirectBriefFailure} from './direct-source-brief';
 import type {PublicResearchResult} from './public-contract';
 const noStore={'Cache-Control':'no-store'};export {noStore};
 export function storageConfigured(){return Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL&&process.env.SUPABASE_SERVICE_ROLE_KEY);}
@@ -29,5 +30,5 @@ export async function recoverTrial(id:string,principal:string,inputHash:string):
  throw new Error('storage_unavailable');
 }
 export async function completeTrial(id:string,principal:string,result:PublicResearchResult){const rows=await db(`pursuit_public_runs?id=eq.${encodeURIComponent(id)}&principal_hash=eq.${principal}&state=eq.pending`,'PATCH',{state:'complete',completed_at:new Date().toISOString(),result,trace:result.trace});if(!Array.isArray(rows)||rows.length!==1)throw new Error('receipt_not_saved');}
-export async function failTrial(id:string,principal:string,code='research_unavailable'){const safe=/^[a-z_0-9]{1,60}$/.test(code)?code:'research_unavailable';await db(`pursuit_public_runs?id=eq.${encodeURIComponent(id)}&principal_hash=eq.${principal}&state=eq.pending`,'PATCH',{state:'failed',completed_at:new Date().toISOString(),trace:{error:safe}}).catch(()=>undefined);}
+export async function failTrial(id:string,principal:string,code='research_unavailable',receipt?:DirectBriefFailure['receipt']){const safe=/^[a-z_0-9]{1,60}$/.test(code)?code:'research_unavailable';await db(`pursuit_public_runs?id=eq.${encodeURIComponent(id)}&principal_hash=eq.${principal}&state=eq.pending`,'PATCH',{state:'failed',completed_at:new Date().toISOString(),trace:{error:safe,...(receipt?{receipt}:{})}}).catch(()=>undefined);}
 export async function countPublicTool(tool:string){try{await db('rpc/count_public_tool','POST',{p_tool:tool});return true;}catch{return false;}}

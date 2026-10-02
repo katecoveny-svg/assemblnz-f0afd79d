@@ -5,7 +5,7 @@ export type PublicAttempt = { input: Readonly<TrialInput>; fingerprint: string }
 
 function normalized(brief: PublicBrief): PublicBrief {
   return { company: brief.company.trim(), goal: brief.goal.trim(), consent: brief.consent,
-    useTypeSafe: brief.useTypeSafe, ...(brief.workflow ? { workflow: brief.workflow } : {}) };
+    useTypeSafe: brief.useTypeSafe, ...(brief.workflow ? { workflow: brief.workflow } : {}), ...(brief.sourceMode ? { sourceMode: brief.sourceMode } : {}) };
 }
 
 export function matchesPublicAttempt(attempt: PublicAttempt | null, brief: PublicBrief): boolean {

@@ -2,6 +2,7 @@ import {beforeEach,describe,expect,it,vi} from 'vitest';
 vi.mock('@/lib/public-nz/server',()=>({retrieveVerifiedPublicNzKnowledge:vi.fn(async()=>null)}));
 vi.mock('@/lib/typesafe/transport',()=>({evaluateTypeSafe:vi.fn()}));
 import {runPublicResearch} from './public-research';
+import {createPublicTestAdmission} from './public-cost-admission';
 import {PublicSourceError} from './public-contract';
 const draft={company:'assembl',title:'A public source proposal',summary:'An independent source-based brief for human review.',evidence:[{claim:'This source describes a public company service.',url:'https://example.com/service?version=1'}],opportunity:'Propose a service explanation to validate with the company.',proposedWork:'Prepare a small independent demonstrator for review.',deliverables:['Source brief','Small demonstrator'],nextSteps:['Review sources','Ask about demand'],unknowns:['Budget and buying intent are unknown.']};
 const input={requestId:'00000000-0000-4000-8000-000000000001',company:'assembl.co.nz',goal:'Research one useful consultancy proposal from public sources.',consent:true as const,useTypeSafe:false};
@@ -25,4 +26,10 @@ describe('general research source validation stage',()=>{
  it('keeps rejected model content outside diagnostic properties',()=>{
   expect(JSON.parse(JSON.stringify(new PublicSourceError(0,'not_returned')))).toEqual({index:0,category:'not_returned',field:'draft.evidence.url',name:'PublicSourceError'});
  });
+});
+
+it('approved one-dollar admission blocks current managed search before any billable fetch',async()=>{
+ const paid=vi.fn<typeof fetch>();const admission=createPublicTestAdmission(1,paid);
+ await expect(runPublicResearch(input,false,admission.fetcher)).rejects.toThrow('research_search_cost_bound_unverified');
+ expect(paid).not.toHaveBeenCalled();expect(admission.receipt().calls).toBe(0);
 });

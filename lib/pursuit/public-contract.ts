@@ -7,7 +7,8 @@ export const TrialInput = z.object({
   consent:z.literal(true),
   useTypeSafe:z.boolean().default(false),
   workflow:z.literal('website_outreach').optional(),
-}).strict().refine(input => !input.workflow || Boolean(publicWebsite(input.company)), {message:'Use a public HTTPS business website.',path:['company']});
+  sourceMode:z.literal('direct_source_brief').optional(),
+}).strict().refine(input=>!input.sourceMode||(!input.workflow&&!input.useTypeSafe&&['assembl.co.nz','www.assembl.co.nz','https://www.assembl.co.nz/'].includes(input.company.toLowerCase())),{message:'Scoped research checks assembl.co.nz and one fixed official page, without outreach or TypeSafe.',path:['sourceMode']}).refine(input => !input.workflow || Boolean(publicWebsite(input.company)), {message:'Use a public HTTPS business website.',path:['company']});
 export type TrialInput = z.infer<typeof TrialInput>;
 export const Draft = z.object({
   company:z.string().min(2).max(120), title:z.string().min(4).max(100),
@@ -20,10 +21,11 @@ export const Draft = z.object({
   unknowns:z.array(z.string().min(3).max(180)).min(1).max(4),
 }).strict();
 export type PursuitDraft = z.infer<typeof Draft>;
-export type EvidenceSource = {url:string;title:string;retrievedAt:string};
+export type EvidenceSource = {url:string;title:string;retrievedAt:string;expiresAt?:string;publishedAt?:null;sha256?:string;textSha256?:string;bytes?:number;textTruncated?:boolean};
+export type PublicBudgetReceipt={model:string;currency:'USD';maxUsd:number;calls:number;reservedUpperUsd:number;searchAdmitted:false;assumedTaxRate:number;grossUpperUsd:number};
 export type PublicResearchResult = {
-  mode:'live';draft:PursuitDraft;
-  trace:{id:string;at:string;model:string;providerCalls:number;webSearches:number;knowledgeIds:string[];sources:EvidenceSource[];inputTokens:number;outputTokens:number;typesafe:{status:'not_requested'|'unavailable'|'completed';model?:string;action?:string;confidence?:number};persisted:true};
+  mode:'live'|'direct_source_brief';draft:PursuitDraft;
+  trace:{id:string;at:string;model:string;providerCalls:number;webSearches:number;knowledgeIds:string[];sources:EvidenceSource[];inputTokens:number;outputTokens:number;budget?:PublicBudgetReceipt;typesafe:{status:'not_requested'|'unavailable'|'completed';model?:string;action?:string;confidence?:number};persisted:true};
   warning:string;
   campaign?:OutreachCampaign;
 };

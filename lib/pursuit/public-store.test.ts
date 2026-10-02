@@ -1,5 +1,5 @@
 import {afterEach,beforeEach,describe,expect,it,vi} from 'vitest';
-import {recoverTrial} from './public-store';
+import {recoverTrial,failTrial} from './public-store';
 beforeEach(()=>{vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL','https://storage.example');vi.stubEnv('SUPABASE_SERVICE_ROLE_KEY','test-only');});
 afterEach(()=>vi.unstubAllGlobals());
 describe('read-only recovery storage query',()=>{
@@ -17,4 +17,10 @@ describe('read-only recovery storage query',()=>{
   const result={mode:'live',draft:{title:'Saved result'}};vi.stubGlobal('fetch',vi.fn(async()=>Response.json([{state:'complete',result}])));
   expect(await recoverTrial('id','owner','hash')).toEqual({status:'replay',result});
  });
+});
+
+it('stores failed scoped admission receipts in the existing private trace without another inference call',async()=>{
+ const fetcher=vi.fn<typeof fetch>(async()=>Response.json([]));vi.stubGlobal('fetch',fetcher);
+ const receipt={requestId:'id',stage:'draft' as const,providerCalls:1,webSearches:0,budget:{model:'claude-haiku-4-5-20251001',currency:'USD' as const,maxUsd:1/1.15,calls:1,reservedUpperUsd:.212,searchAdmitted:false as const,assumedTaxRate:.15,grossUpperUsd:.2438}};
+ await failTrial('id','owner','direct_brief_failed',receipt);expect(fetcher).toHaveBeenCalledOnce();const [,init]=fetcher.mock.calls[0];expect(init?.method).toBe('PATCH');expect(JSON.parse(init?.body as string)).toMatchObject({state:'failed',trace:{error:'direct_brief_failed',receipt}});
 });
