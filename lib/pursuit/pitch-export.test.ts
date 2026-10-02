@@ -18,3 +18,7 @@ describe('public pursuit export and copy',()=>{
     }
   });
 });
+
+it('labels direct-source exports without claiming web research',()=>{
+ const direct={mode:'direct_source_brief',draft:{company:'assembl',title:'Scoped review proposal',summary:'A hypothetical small consultancy engagement.',evidence:[{claim:'The source describes human review.',url:'https://www.assembl.co.nz/'}],opportunity:'Propose a human review assessment.',proposedWork:'Prepare a small workflow demonstrator.',deliverables:['A source brief','A demonstrator'],nextSteps:['Review sources','Discuss scope'],unknowns:['Demand remains unknown']},trace:{at:'2026-10-02T00:00:00Z'}} as PublicResearchResult;const html=buildPitchHtml(direct);expect(html).toContain('zero web searches');expect(html).toContain('Publication dates unknown');expect(html).not.toContain('live web research');
+});

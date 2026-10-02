@@ -8,7 +8,7 @@ fixture={'mode':'live','draft':{'company':'Example NZ business','title':'A sourc
 async def main():
   report=[]
   async with async_playwright() as p:
-    browser=await p.chromium.launch()
+    browser=await p.chromium.launch(executable_path=os.environ.get('ASSEMBL_REVIEW_BROWSER_EXECUTABLE') or None)
     for width in [375,1440]:
       ctx=await browser.new_context(viewport={'width':width,'height':900},reduced_motion='reduce',accept_downloads=True)
       page=await ctx.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
@@ -18,9 +18,11 @@ async def main():
       await page.route('**/api/pursuit/research',mock)
       await page.goto(ORIGIN+'/pursuit',wait_until='domcontentloaded')
       canvas=page.locator('#try-pursuit');await canvas.scroll_into_view_if_needed()
+      await expect(canvas.get_by_text('Public research is available.',exact=True)).to_be_visible()
       await canvas.get_by_label('Company or sector',exact=True).fill('Example NZ business')
       await canvas.get_by_label('What should the agent investigate?',exact=True).fill('Research a useful customer service proposal from public sources.')
-      await canvas.locator('input[type=checkbox]').first.check()
+      await expect(canvas.get_by_role('button',name='Research an opportunity')).to_be_disabled()
+      await canvas.get_by_label('Send this public brief to the research provider.',exact=False).check()
       await canvas.get_by_role('button',name='Research an opportunity').click()
       await expect(canvas.get_by_role('heading',name='A source-backed proposal')).to_be_visible()
       await canvas.get_by_role('button',name='proposal',exact=True).click()
@@ -36,6 +38,45 @@ async def main():
       assert not errors,errors
       assert await page.evaluate('document.documentElement.scrollWidth <= innerWidth+1')
       report.append({'width':width,'UI':'passed with mocked research','providerCall':False,'errors':errors})
+      # Explicit fixed-source flow: intercepted fixtures, zero live inference.
+      scoped=json.loads(json.dumps(fixture));scoped['mode']='direct_source_brief'
+      scoped['warning']='Scoped public-source brief · two fixed pages checked · zero web searches. Publication dates unknown; buyer intent unverified. UI fixture only.'
+      scoped['trace'].update({'webSearches':0,'knowledgeIds':[],'providerCalls':1,'budget':{'reservedUpperUsd':0.212,'assumedTaxRate':0.15}})
+      direct_requests=[]
+      await page.unroute('**/api/pursuit/research')
+      async def direct_mock(route):
+        if route.request.method=='GET':await route.fulfill(json={'ready':True,'typesafeReady':True})
+        else:
+          body=route.request.post_data_json
+          assert body['sourceMode']=='direct_source_brief' and body['company']=='assembl.co.nz' and body['consent']==True and body['useTypeSafe']==False
+          direct_requests.append({'body':body,'recovery':route.request.headers.get('x-pursuit-recovery')})
+          await route.fulfill(json=scoped)
+      await page.route('**/api/pursuit/research',direct_mock)
+      await page.goto(ORIGIN+'/pursuit',wait_until='domcontentloaded')
+      canvas=page.locator('#try-pursuit')
+      await expect(canvas.get_by_text('Public research is available.',exact=True)).to_be_visible()
+      await canvas.get_by_label('Scoped Assembl brief:',exact=False).check()
+      await expect(canvas.get_by_label('Company or sector',exact=True)).to_be_disabled()
+      await expect(canvas.get_by_role('button',name='Research an opportunity')).to_be_disabled()
+      await expect(canvas.get_by_label('Also share the public research draft',exact=False)).to_have_count(0)
+      await canvas.get_by_label('Send this public brief to the research provider.',exact=False).check()
+      await canvas.get_by_role('button',name='Research an opportunity').click()
+      await expect(canvas.get_by_role('heading',name='A source-backed proposal')).to_be_visible()
+      await canvas.get_by_text('See what actually ran',exact=True).click()
+      await expect(canvas.get_by_text('Web searches: 0.',exact=False)).to_be_visible()
+      await expect(canvas.get_by_text('Publication dates are unknown;',exact=False)).to_be_visible()
+      await canvas.get_by_label('I have reviewed the evidence',exact=False).check()
+      async with page.expect_download() as direct_down:
+        await canvas.get_by_role('button',name='Export the pitch').click()
+      await (await direct_down.value).save_as(OUT/f'direct-source-fixture-{width}.html')
+      html=(OUT/f'direct-source-fixture-{width}.html').read_text()
+      assert 'zero web searches' in html and 'live web research' not in html
+      await canvas.get_by_role('button',name='Recover this request',exact=True).click()
+      await expect(canvas.get_by_role('heading',name='A source-backed proposal')).to_be_visible()
+      assert len(direct_requests)==2 and direct_requests[0]['body']==direct_requests[1]['body'] and direct_requests[1]['recovery']=='lookup-only'
+      await canvas.scroll_into_view_if_needed()
+      await page.screenshot(path=str(OUT/f'direct-source-{width}.png'),timeout=60000)
+      report.append({'width':width,'directSource':'explicit scoped input, separate consent, zero-search result/export and same-ID lookup-only replay passed','providerCall':False})
       # New website-to-outreach flow: explicit fixture, no live provider claim.
       outreach_fixture=json.loads(json.dumps(fixture))
       outreach_fixture['campaign']={'seller':{'name':'Fixture seller','website':'https://seller.example.com/','offer':'A fictional business service used only for this UI test.'},'market':'Fictional businesses for UI testing','prospects':[{'company':'Fixture prospect','website':'https://buyer.example.com/','buyerRole':'Operations manager','signal':{'claim':'A fictional public service announcement for UI verification.','url':'https://buyer.example.com/news','publishedAt':'2026-09-18'},'fit':'The published service may fit the proposed offer.','hypothesis':'Could a small walkthrough help the team?','proof':'Propose a focused service walkthrough.','contactUrl':None,'unknowns':['Buyer and contact permission are not established.'],'subject':'A proposed walkthrough','opening':'Your service announcement prompted a question. Would a short walkthrough help?','followUp':'Possible later follow-up: would an outline be useful?'}],'gaps':['Test fixture only; no contact is verified.']}
