@@ -36,11 +36,10 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
     check('approved assembled plum glass artwork is loaded as static art in reduced motion', await artwork.evaluate(el =>
       el.getAttribute('src') === '/brand/do-assembled-plum.webp' && el.complete && el.naturalWidth > 0)
       && await personal.locator('[data-renderer="static-art"] canvas').count() === 0);
-    const mark = personal.getByRole('link', { name: 'DO by assembl, home', exact: true }).locator('svg');
-    check('personal DO retains the canonical D path and interior dot',
-      await mark.locator('path').getAttribute('d') === 'M16 12H29C44 12 52 20 52 32S44 52 29 52H16Z'
-      && await mark.locator('circle').evaluate(el => el.getAttribute('cx') === '30'
-        && el.getAttribute('cy') === '32' && el.getAttribute('r') === '6'));
+    const mark = personal.getByRole('link', { name: 'DO by assembl, home', exact: true }).locator('[data-glass-identity="do"] img');
+    check('personal DO loads the exact approved glass D artwork including its dot',
+      await mark.evaluate(el => el.getAttribute('src') === '/brand/do-assembled-plum.webp?v=glass07'
+        && el.complete && el.naturalWidth === 1200 && el.naturalHeight === 800));
     check('canonical title has no duplicated product suffix', await page.title() === 'DO by assembl');
     check('no duplicate floating app inside the app', await page.locator('[data-do-companion]').count() === 0);
     check('guest sees one composer', await page.locator('textarea:visible').count() === 1);
@@ -49,8 +48,7 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
     check('mobile has no horizontal overflow', await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
     check('mobile composer and action are above the fold', await page.locator('#life-admin-source').evaluate(e => e.getBoundingClientRect().bottom < innerHeight) && await page.getByRole('button', { name: 'Start', exact: true }).evaluate(e => e.getBoundingClientRect().bottom < innerHeight));
     await page.screenshot({ path: out + '/03-do-375.png' });
-    await page.getByRole('button', { name: 'See an example', exact: false }).click();
-    await page.getByRole('button', { name: 'Try school notice', exact: true }).click();
+    await page.getByRole('button', { name: 'Try fictional school notice', exact: true }).click();
     check('example produces real reviewable local work', await page.locator('#personal-do-result').isVisible());
     check('example remains labelled fictional', (await page.locator('body').innerText()).includes('Fictional example'));
     await page.screenshot({ path: out + '/04-local-result-375.png', fullPage: true });
