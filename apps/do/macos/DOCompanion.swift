@@ -10,6 +10,20 @@ private enum CompanionPreference {
     static let orbVisible = "do.companion.orb.visible"
 }
 
+#if DO_WIDGET_FIXTURE
+// Compiled only into the isolated test executable, never the shipped build.
+enum FictionalSelection { case text(String), denied, unavailable, secure, unknownSecurity }
+struct FictionalCapture {
+    var selection: FictionalSelection = .unavailable
+    var clipboard: String? = nil
+    var destination = URL(string: "https://www.assembl.co.nz/do/widget")!
+    var account = "fictional-owner-a"
+    var offers: [String] = []
+    var selectionReads = 0
+    var clipboardReads = 0
+}
+#endif
+
 final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WKUIDelegate {
     @Published var status = "Click the D to open DO. Use selected text only when you want to bring something from another app."
     @Published var review = ""
@@ -17,11 +31,18 @@ final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WK
     @Published var destinationChecked = false
     var target: NSRunningApplication?
     let web = WKWebView(frame: .zero)
+#if DO_WIDGET_FIXTURE
+    var fictional = FictionalCapture()
+#endif
 
     override init() {
         super.init()
         web.navigationDelegate = self
         web.uiDelegate = self
+#if DO_WIDGET_FIXTURE
+        // No hosted page, observers, private clipboard or application reads.
+        web.loadHTMLString("<p>Fictional widget test only.</p>", baseURL: nil)
+#else
         web.load(URLRequest(url: URL(string: "https://www.assembl.co.nz/do")!))
         if let active = NSWorkspace.shared.frontmostApplication,
            active.processIdentifier != ProcessInfo.processInfo.processIdentifier,
@@ -35,6 +56,7 @@ final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WK
             name: NSWorkspace.didActivateApplicationNotification,
             object: nil
         )
+#endif
     }
 
     @objc func activated(_ notification: Notification) {
@@ -47,17 +69,22 @@ final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WK
     }
 
     func enableInteraction() {
+#if DO_WIDGET_FIXTURE
+        status = "Fictional permission denied. No grant requested."
+#else
         let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true] as CFDictionary
         status = AXIsProcessTrustedWithOptions(options)
             ? "App interaction is available. Each capture or paste still needs your click."
             : "Allow DO in System Settings → Privacy & Security → Accessibility, then return here."
+#endif
     }
 
     func focusedElement() -> AXUIElement? {
-        guard AXIsProcessTrusted() else {
-            status = "Use Enable app interaction first. Nothing was read or changed."
-            return nil
-        }
+#if DO_WIDGET_FIXTURE
+        status = "Fictional permission denied. No app read."
+        return nil
+#else
+        guard permitsSelectionRead(AXIsProcessTrusted()) else { return nil }
         guard let app = target, !app.isTerminated else {
             status = "Choose the app you want to work in first."
             return nil
@@ -72,15 +99,61 @@ final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WK
         }
         let element = raw as! AXUIElement
         var subrole: CFTypeRef?
-        AXUIElementCopyAttributeValue(element, kAXSubroleAttribute as CFString, &subrole)
-        if (subrole as? String) == "AXSecureTextField" {
-            status = "DO does not read or write password fields."
-            return nil
-        }
+        let checked = AXUIElementCopyAttributeValue(element, kAXSubroleAttribute as CFString, &subrole) == .success
+        guard safeSelectionField(checked ? subrole as? String : nil) else { return nil }
         return element
+#endif
+    }
+
+    private func permitsSelectionRead(_ trusted: Bool) -> Bool {
+        guard trusted else {
+            status = "Use Enable app interaction first. Nothing was read or changed."
+            return false
+        }
+        return true
+    }
+
+    private func safeSelectionField(_ fieldSubrole: String?) -> Bool {
+        guard let fieldSubrole else {
+            status = "The field's security could not be checked. Nothing was read or changed."
+            return false
+        }
+        if fieldSubrole == "AXSecureTextField" {
+            status = "DO does not read or write password fields."
+            return false
+        }
+        return true
+    }
+
+    func clearCapture() {
+        review = ""
+        destinationChecked = false
+    }
+
+    private func acceptCapture(_ text: String?) -> Bool {
+        guard let text, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return false }
+        guard text.utf16.count <= 12000 else {
+            status = "This text is too long. Choose an excerpt of up to 12,000 characters. Nothing was added."
+            return false
+        }
+        review = text
+        return true
     }
 
     func captureSelection() {
+        clearCapture()
+#if DO_WIDGET_FIXTURE
+        switch fictional.selection {
+        case .denied: _ = permitsSelectionRead(false); return
+        case .unavailable: status = "No selected text is available."; return
+        case .secure: _ = safeSelectionField("AXSecureTextField"); return
+        case .unknownSecurity: _ = safeSelectionField(nil); return
+        case .text(let text):
+            guard permitsSelectionRead(true), safeSelectionField("AXTextField") else { return }
+            fictional.selectionReads += 1
+            guard acceptCapture(text) else { if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { status = "No selected text is available." }; return }
+        }
+#else
         guard let element = focusedElement() else { return }
         var selected: CFTypeRef?
         guard AXUIElementCopyAttributeValue(element, kAXSelectedTextAttribute as CFString, &selected) == .success,
@@ -89,28 +162,47 @@ final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WK
             status = "No selected text is available from \(targetName). Select the relevant text there, or copy it and use Review clipboard."
             return
         }
-        review = String(text.prefix(12000))
+        guard acceptCapture(text) else { return }
+#endif
         destinationChecked = false
         status = "Selected text from \(targetName) is here for review. It has not been sent to DO."
     }
 
     func reviewClipboard() {
-        guard let text = NSPasteboard.general.string(forType: .string), !text.isEmpty else {
+        clearCapture()
+#if DO_WIDGET_FIXTURE
+        fictional.clipboardReads += 1
+        let text = fictional.clipboard
+#else
+        let text = NSPasteboard.general.string(forType: .string)
+#endif
+        guard acceptCapture(text) else {
+            if let text, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { return }
             status = "The clipboard has no text."
             return
         }
-        review = String(text.prefix(12000))
         destinationChecked = false
         status = "Clipboard text is here for review. Nothing has been pasted or sent."
     }
 
     func addToDO() {
-        guard web.url?.host == "www.assembl.co.nz",
-              web.url?.path == "/do/widget",
+#if DO_WIDGET_FIXTURE
+        let destination: URL? = fictional.destination
+#else
+        let destination = web.url
+#endif
+        guard destination?.scheme == "https",
+              destination?.host == "www.assembl.co.nz",
+              destination?.path == "/do/widget",
               !review.isEmpty else {
             status = "Choose Writing & capture before adding your reviewed text. Nothing has been sent."
             return
         }
+#if DO_WIDGET_FIXTURE
+        fictional.offers.append(review)
+        status = "Fictional text offered; preparation has not started."
+        return
+#else
         let data: [String: Any] = [
             "type": "assembl-do:context",
             "text": review,
@@ -126,6 +218,7 @@ final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WK
                     : "The workspace did not accept the text. Copy it into DO instead."
             }
         }
+#endif
     }
 
     func pasteReviewed() {
@@ -144,7 +237,11 @@ final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WK
     }
 
     func open(_ path: String) {
+#if DO_WIDGET_FIXTURE
+        fictional.destination = URL(string: "https://www.assembl.co.nz" + path)!
+#else
         web.load(URLRequest(url: URL(string: "https://www.assembl.co.nz" + path)!))
+#endif
     }
 
     func webView(
@@ -215,8 +312,7 @@ struct Workspace: View {
             HStack {
                 Button("Add to DO") { model.addToDO() }.disabled(model.review.isEmpty)
                 Button("Clear") {
-                    model.review = ""
-                    model.destinationChecked = false
+                    model.clearCapture()
                 }
                 Spacer()
                 Toggle("I checked the destination in \(model.targetName)", isOn: $model.destinationChecked)
@@ -253,6 +349,10 @@ struct Orb: View {
             .accessibilityLabel("Choose a DO action")
     }
 }
+final class OrbPanel: NSPanel {
+    override var canBecomeKey: Bool { true }
+}
+
 final class DraggableOrbView: NSHostingView<Orb> {
     var openDO: (() -> Void)?
     var didMove: ((NSPoint) -> Void)?
@@ -260,10 +360,23 @@ final class DraggableOrbView: NSHostingView<Orb> {
     var startOrigin = NSPoint.zero
     var moved = false
 
+    override var acceptsFirstResponder: Bool { true }
+    override func accessibilityPerformPress() -> Bool {
+        guard let openDO else { return false }
+        openDO()
+        return true
+    }
+    override func keyDown(with event: NSEvent) {
+        if [36, 49, 76].contains(event.keyCode) { openDO?(); return }
+        super.keyDown(with: event)
+    }
+
     override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
     override func hitTest(_ point: NSPoint) -> NSView? { bounds.contains(point) ? self : nil }
 
     override func mouseDown(with event: NSEvent) {
+        window?.makeKey()
+        window?.makeFirstResponder(self)
         startMouse = window?.convertPoint(toScreen: event.locationInWindow) ?? .zero
         startOrigin = window?.frame.origin ?? .zero
         moved = false
@@ -345,7 +458,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         workspace.center()
         workspace.contentView = NSHostingView(rootView: Workspace(model: model))
 
-        orb = NSPanel(
+        orb = OrbPanel(
             contentRect: NSRect(x: 1100, y: 640, width: 96, height: 96),
             styleMask: [.borderless, .nonactivatingPanel],
             backing: .buffered,
@@ -362,6 +475,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         orb.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
 
         let orbView = DraggableOrbView(rootView: Orb())
+        orbView.setAccessibilityRole(.button)
+        orbView.setAccessibilityLabel("Choose a DO action")
         orbView.openDO = { [weak self, weak orbView] in
             guard let self, let orbView else { return }
             self.showQuickActions(from: orbView)
@@ -504,10 +619,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func reviewFromOrb(clipboard: Bool) {
         // Capture before activating DO so the existing target app stays intact.
         // These methods neither prompt for permission nor transmit the review.
-        model.review = ""
-        model.destinationChecked = false
         if clipboard { model.reviewClipboard() } else { model.captureSelection() }
-        if !model.review.isEmpty, model.web.url?.path != "/do/widget" { model.open("/do/widget") }
         showWorkspace()
     }
 

@@ -5,7 +5,7 @@ describe('native DO source entry boundaries', () => {
   it('opens the unified DO and keeps reviewed text in the existing capture receiver', () => {
     const source = readFileSync('apps/do/macos/DOCompanion.swift', 'utf8');
     expect(source).toContain('URL(string: "https://www.assembl.co.nz/do")');
-    expect(source).toContain('web.url?.path == "/do/widget"');
+    expect(source).toContain('destination?.path == "/do/widget"');
     expect(source).toContain('Writing & capture');
     expect(source).toContain('Moving shares nothing');
   });
