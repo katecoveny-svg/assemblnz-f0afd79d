@@ -295,6 +295,7 @@ struct QuickActions: View {
     let selectText: () -> Void
     let reviewClipboard: () -> Void
     let openWorkspace: () -> Void
+    let cancel: () -> Void
     private let plum = Color(red: 0.14, green: 0.04, blue: 0.13)
 
     var body: some View {
@@ -308,6 +309,7 @@ struct QuickActions: View {
                 .help("Reads copied text only after this click.")
             Divider()
             Button("Open workspace", action: openWorkspace)
+            Button("Cancel", action: cancel)
             Text("No text is read by opening this menu. Nothing is sent.")
                 .font(.caption).foregroundColor(plum.opacity(0.75))
         }
@@ -493,7 +495,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         quickActions.contentViewController = NSHostingController(rootView: QuickActions(
             selectText: { [weak self] in self?.reviewFromOrb(clipboard: false) },
             reviewClipboard: { [weak self] in self?.reviewFromOrb(clipboard: true) },
-            openWorkspace: { [weak self] in self?.showWorkspace() }
+            openWorkspace: { [weak self] in self?.showWorkspace() },
+            cancel: { [weak self] in self?.quickActions.performClose(nil) }
         ))
         quickActions.show(relativeTo: view.bounds, of: view, preferredEdge: .minX)
     }
