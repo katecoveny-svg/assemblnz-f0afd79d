@@ -14,14 +14,14 @@ try {
  check('task input is on the first mobile screen',await page.locator('#life-admin-source').evaluate(e=>e.getBoundingClientRect().bottom<innerHeight));
  await page.screenshot({path:out+'/do-mobile.png',fullPage:true});
  check('real API rejects anonymous cloud read',(await page.request.get(origin+'/api/do/personal/checklists')).status()===401);
- await page.getByRole('button',{name:'See an example'}).click();await page.locator('[data-example]').first().click();check('local example creates reviewable checklist',await page.getByRole('heading',{name:'School trip — fictional example'}).count()>0 || await page.locator('#personal-do-result').isVisible());
+ await page.getByRole('button',{name:'Try fictional school notice',exact:true}).click();check('local example creates reviewable checklist',await page.getByRole('heading',{name:'School trip — fictional example'}).count()>0 || await page.locator('#personal-do-result').isVisible());
  const identity={workspaceKey:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',responsibilities:[],runs:[],worker:{configured:true,lastSeenAt:null}};
  await page.route('**/api/do/personal',route=>route.fulfill({json:identity}));
  await page.route('**/api/do/personal/assistant',route=>route.fulfill({json:{ready:false,signedIn:true,message:'Fictional browser proof; no provider is called.'}}));
  let saved={plans:[],revision:0,savedAt:null},writes=0,conflict=false;
  await page.route('**/api/do/personal/checklists',route=>{if(route.request().method()==='GET')return route.fulfill({json:saved});writes++;const body=route.request().postDataJSON();if(conflict||body.expectedRevision!==saved.revision){conflict=false;return route.fulfill({status:409,json:{error:'Your saved collection changed on another device. Open the latest saved copy before saving again.'}})}saved={plans:body.plans,revision:saved.revision+1,savedAt:new Date().toISOString()};return route.fulfill({json:saved});});
  await page.reload({waitUntil:'networkidle'});check('signed-in entry has one composer',await page.locator('textarea:visible').count()===1);
- await page.getByRole('button',{name:'See an example'}).click();await page.locator('[data-example]').first().click();
+ await page.getByRole('button',{name:'Try fictional school notice',exact:true}).click();
  await page.locator('summary').filter({hasText:'Saved checklists'}).click();await page.getByRole('button',{name:'Open saved checklists',exact:true}).click();
  const consent=page.getByRole('checkbox',{name:'I want to save or remove this checklist collection in my private Assembl account.'});await consent.waitFor();
  check('no automatic cloud upload',writes===0);check('save requires explicit consent',await page.getByRole('button',{name:'Save 1 checklist to my account'}).isDisabled());
