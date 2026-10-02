@@ -109,3 +109,11 @@
 .do-app-shell :is(p,span,small,label,summary,a,li,dt,dd,pre){font-family:var(--font-body),'Instrument Sans',sans-serif}
 
 .do-app-shell>main,.do-app-shell .do-craft{background:transparent}
+
+/* The reviewed personal DO direction opts out of the old rose atmosphere. */
+.do-app-shell:has([data-do-identity="assembled-glass"]){background:transparent}
+.do-app-shell [data-do-identity="assembled-glass"] [class*="panel"]:hover,
+.do-app-shell [data-do-identity="assembled-glass"] [class*="card"]:hover,
+.do-app-shell [data-do-identity="assembled-glass"] [class*="document"]:hover{transform:none;box-shadow:0 14px 36px color-mix(in srgb, var(--do-ink) 4.31%, transparent);border-color:var(--do-chalk)}
+.do-app-shell [data-do-identity="assembled-glass"] [class*="primary"]::after,
+.do-app-shell [data-do-identity="assembled-glass"] [class*="Primary"]::after{content:none}

@@ -93,6 +93,13 @@
       "generic neon AI gradients"
     ],
     "note": "Named client demonstrators may retain verified client-specific brand systems. Legacy surfaces are not company-brand precedent.",
+    "do_daylight_scope": "Prior treatment retained only on unmigrated DO surfaces; superseded in personal DO by the selected assembled plum glass scope in docs/assembl-brand-system.md.",
+    "do_assembled_glass_scope": {
+      "status": "DO07 visuals approved 2 October; source/CI review pending; company/icon rollout deferred",
+      "token_source": "lib/brand/do-identity.ts",
+      "hero": "approved DO07 assembled plum static artwork; not real-time 3D",
+      "identity": "canonical uppercase D-dot; lowercase assembl/company a retained"
+    },
     "do_daylight_accents": {
       "lilac": "#DAD2F4",
       "petal": "#EAC8DF",

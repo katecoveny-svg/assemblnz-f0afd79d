@@ -21,7 +21,8 @@ import { LIFE_ADMIN_CAPABILITIES, LIFE_ADMIN_TEMPLATES, lifeAdminTemplate, sugge
 import { LIFE_ADMIN_EXAMPLES } from '@/apps/do/personal/life-admin/examples';
 import styles from './LifeAdmin.module.css';
 import entry from './entry.module.css';
-import { DoEntryObject } from '@/components/do/DoEntryObject';
+import Image from 'next/image';
+import { PersonalDoCharacter } from './PersonalDoCharacter';
 import { DoActionIcon } from '@/components/do/DoBrand';
 
 type Intake = { id: string; text: string; sourceTitle?: string };
@@ -239,21 +240,23 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
     <section className={`${styles.workspace} ${entry.workspace}`} id="life-admin" aria-labelledby="life-admin-heading">
       <div className={entry.stage} data-simple={simple || undefined}>
       <header className={entry.heading}>
-        <DoEntryObject compact avatar={profile?.avatar} working={assistantWorking} finish={profile?.avatar === 'pebble' ? 'paper' : 'plum'} />
+        <div className={entry.artwork} aria-hidden="true" data-renderer="static-art"><Image src="/brand/do-assembled-plum.webp" alt="" width={1200} height={800} priority unoptimized /></div>
         <div className={entry.intro}>
           <h1 id="life-admin-heading">What needs doing?</h1>
           <p>{assistantWorking ? 'Preparing your reply…' : profile?.displayName && profile.displayName !== 'DO' ? `Hi, ${profile.displayName}.` : 'Ask a question, write a reply or sort a notice.'}</p>
         </div>
       </header>
-      {active && <section className={styles.quickResult} aria-labelledby="personal-do-result">
+      {active && <section className={`${styles.quickResult} ${entry.review}`} aria-labelledby="personal-do-result">
         <div className={styles.resultStamp}><Check size={19} /><span>{lifeAdminLane(active) === 'done' ? 'RECORDED BY YOU' : 'READY TO CHECK'}</span></div>
         <h2 ref={resultHeading} tabIndex={-1} id="personal-do-result">{active.title}</h2><p>{nextLifeAdminStep(active)}</p>
+        <ul className={entry.previewSteps} aria-label="Checklist preview">{active.tasks.filter(task => task.kind !== 'preparation').slice(0, 2).map(task => <li key={task.id}><span aria-hidden="true">{task.status === 'done' ? '✓' : '○'}</span>{task.title}</li>)}</ul>
         <button type="button" onClick={() => { setBoardOpen(true); requestAnimationFrame(() => { activeHeading.current?.focus({ preventScroll: true }); activeHeading.current?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); }); }}>See my next steps <ArrowRight size={17} /></button>
         {!guideDismissed && (!profile?.onboardingCompleted || guideStarted) && <div className={styles.resultGuide}><span>Review before sharing.</span>{onCustomise && <button type="button" onClick={onCustomise}>Make DO mine <ArrowUpRight size={13} /></button>}<button type="button" onClick={() => setGuideDismissed(true)} aria-label="Dismiss first-result guide"><X size={14} /></button></div>}
       </section>}
       {assistant && <nav className={entry.composerTabs} aria-label="Choose how to start">
         <button type="button" aria-pressed={!localOpen} onClick={() => { setLocalOpen(false); requestAnimationFrame(() => document.getElementById('personal-assistant-input')?.focus()); }}>Ask DO</button>
         <button type="button" aria-pressed={localOpen} onClick={() => { setLocalOpen(true); requestAnimationFrame(() => sourceRef.current?.focus()); }}>Make a checklist</button>
+        {profile && <span className={entry.finishChoice} aria-label={`Your saved DO finish: ${profile.avatar === 'bloom' ? 'Rose' : profile.avatar}`}><PersonalDoCharacter avatar={profile.avatar} small /></span>}
       </nav>}
       <div hidden={Boolean(assistant) && localOpen}>{assistant}</div>
       <div id="personal-local-checklist" hidden={Boolean(assistant) && !localOpen}>{localComposer}</div>

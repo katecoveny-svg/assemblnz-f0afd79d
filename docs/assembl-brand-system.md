@@ -2,11 +2,11 @@
 
 > The canonical visual system for the assembl company site, product surfaces and the shared base beneath every demonstrator.
 
-**Status:** Locked  
-**Last updated:** 30 September 2026
+**Status:** Company canon retained; approved DO07 assembled plum glass; source/CI review pending
+**Last updated:** 2 October 2026
 **Applies to:** assembl public pages, product surfaces, evidence artefacts and the shared frame of client demonstrators
 
-This document overrides older brass, amber, pounamu, cobalt, pearl, canary, grape-purple and Cormorant-led directions wherever they conflict.
+This document overrides older directions where they conflict. The company palette below remains canonical. Personal DO uses the approved assembled plum glass scope documented below; the earlier blue proposal is superseded.
 
 ## Canonical palette
 
@@ -18,15 +18,17 @@ This document overrides older brass, amber, pounamu, cobalt, pearl, canary, grap
 | Chalk | `#F5F1F2` | Secondary surface, pale field and paper contrast |
 | Paper | `#FFFDFB` | Primary canvas and fully opaque type on deep plum |
 
-### DO daylight extension · 30 September 2026
+### Prior DO daylight extension · retained on unmigrated surfaces
 
-Kate’s accepted unified DO direction adds lilac `#DAD2F4`, petal `#EAC8DF` and blush `#F5E4E7` for rounded physical forms and shallow supporting surfaces. Deep plum remains the primary ink and DO body; dusty rose retains its state/permission role. These pastels are deliberate additions, not permission for saturated neon or arbitrary palettes.
+The prior 30 September DO direction added lilac `#DAD2F4`, petal `#EAC8DF` and blush `#F5E4E7` for rounded physical forms and shallow supporting surfaces. Deep plum remains the primary ink and DO body; dusty rose retains its state/permission role. These pastels are deliberate additions, not permission for saturated neon or arbitrary palettes.
 
 The DO entry is one sculptural, bevelled D with its inner dot, a lilac rounded tile and an offset petal disc. Optional real 3D uses demand rendering, bounded DPR and pointer response that settles. The complete SVG composition remains available for reduced motion, unsupported WebGL and scene failure. One primary input or action comes before product explanations.
 
 `DoEntryObject`, `DoPresence` and `DoBrand` share the identity across company entry and working app. `scripts/generate-do-identity.mjs` derives browser, phone and native-source icons from the canonical `DoMark` path. Installed native applications are not updated merely by changing source assets.
 
-### Usage rules
+The approved assembled plum glass section below supersedes this prior treatment in personal DO. This paragraph records the retained appearance of unmigrated surfaces, not a second active instruction for that slice.
+
+### Company usage rules
 
 - Use deep plum for text on chalk or paper.
 - Use paper or chalk for text on deep plum.
@@ -200,3 +202,23 @@ A connected key, green light, successful build, animation or preview is not proo
 ## Operational guide
 
 Agents and designers should also read root `DESIGN.md` for composition, motion/3D, client-work and quality-gate rules.
+
+## DO07 assembled plum glass · approved visuals, implementation review
+
+Kate approved DO07 on 2 October 2026 after rejecting the blue Liquid light proposal. This is the personal DO slice, not a whole-company or installed-icon rollout. Lowercase assembl/company a and uppercase DO D-dot remain distinct. Consumer DO contains no Pursuit/Studio promotion.
+
+`lib/brand/do-identity.ts` supplies scoped CSS roles. Plum/ink/active `#240B21`; muted/hover `#654A4E`; dusty rose `#916A70`; chalk `#F5F1F2`; paper `#FFFDFB`; petal `#EAC8DF`; lilac `#DAD2F4`. Body copy uses plum; pale lilac supports review. Glass tints reuse lilac, paper and petal without introducing extra interface colours. Instrument Sans and IBM Plex Mono retain their established roles.
+
+The hero `/brand/do-assembled-plum.webp` is approved static artwork: an assembled glass D with plum spine, lilac upper curve, rose lower curve and detached interior dot. It is not real-time 3D or evidence of connectivity. The artwork is a material interpretation, not an exact vector export. Identity controls retain exact `DO_MARK_PATH` and dot (30,32,r6). A few large rounded pieces, visible joins, deliberate cropping and negative space express assembly. No blue rebrand or repeated card-grid composition.
+
+One useful input precedes explanations. The existing review shows actual prepared task titles. Fictional examples stay explicitly labelled, and ready for review remains distinct from completed work. Preserve source/provider consent, on-device storage truth, guest continuation, access and error states. Do not imply diary activation, persistent memory, calendar bookings or external completion without verified capability.
+
+The hero uses a 1200×800 WebP (69,288 bytes), down from the 1.7 MB review PNG. It is static in both motion preferences and requires no WebGL. Its approved source artwork is retained in the review Library bundle. Controls remain opaque; phone text is at least 16px and targets at least 44px. Desktop and tablet keep input and review separate; phone retains one clear composer.
+
+### Scope and remaining release gates
+
+Personal entry, input, review, example disclosures and Local information summary use these roles. The signed-in empty-draft presence explicitly uses matching glass colours; real authenticated preview pixels still require authorised access. No fixture or new provider behaviour is introduced.
+
+Other DO routes, widgets and source consent retain existing behaviour. DO favicon/PWA/extension/Mac exports and installed-update proof require their separate owner and approval. Company lowercase-a rollout and named client brands are outside this slice. Saved Rose/Orbit/Pebble/Spark preferences remain separate from the fixed hero, with no storage changes.
+
+Visual approval is recorded; source review, focused checks and final remote CI are required before merge. A source update does not update installed apps or establish live capability.

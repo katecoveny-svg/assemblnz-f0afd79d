@@ -25,7 +25,22 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
     await page.getByRole('link', { name: 'Open DO', exact: true }).first().click();
     await page.locator('#life-admin-source').waitFor();
     check('one click from Assembl reaches a working input', new URL(page.url()).pathname === '/do' && await page.locator('#life-admin-source').isVisible());
-    check('pink app backdrop is exposed behind the personal surface', await page.locator('.do-app-shell > main').evaluate(el => getComputedStyle(el).backgroundColor === 'rgba(0, 0, 0, 0)' && getComputedStyle(document.querySelector('.do-app-shell')).backgroundImage.includes('radial-gradient')));
+    const personal = page.locator('.do-app-shell > main[data-do-identity="assembled-glass"]');
+    check('personal DO has the approved scoped chalk canvas and plum identity role', await personal.evaluate(el => {
+      const style = getComputedStyle(el);
+      return style.getPropertyValue('--do-chalk').trim().toUpperCase() === '#F5F1F2'
+        && style.getPropertyValue('--do-plum').trim().toUpperCase() === '#240B21'
+        && style.backgroundColor === 'rgb(245, 241, 242)' && style.backgroundImage === 'none';
+    }));
+    const artwork = personal.locator('[data-renderer="static-art"] img');
+    check('approved assembled plum glass artwork is loaded as static art in reduced motion', await artwork.evaluate(el =>
+      el.getAttribute('src') === '/brand/do-assembled-plum.webp' && el.complete && el.naturalWidth > 0)
+      && await personal.locator('[data-renderer="static-art"] canvas').count() === 0);
+    const mark = personal.getByRole('link', { name: 'DO by assembl, home', exact: true }).locator('svg');
+    check('personal DO retains the canonical D path and interior dot',
+      await mark.locator('path').getAttribute('d') === 'M16 12H29C44 12 52 20 52 32S44 52 29 52H16Z'
+      && await mark.locator('circle').evaluate(el => el.getAttribute('cx') === '30'
+        && el.getAttribute('cy') === '32' && el.getAttribute('r') === '6'));
     check('canonical title has no duplicated product suffix', await page.title() === 'DO by assembl');
     check('no duplicate floating app inside the app', await page.locator('[data-do-companion]').count() === 0);
     check('guest sees one composer', await page.locator('textarea:visible').count() === 1);

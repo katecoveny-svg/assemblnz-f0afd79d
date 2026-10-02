@@ -42,6 +42,7 @@ import {
 } from "@/apps/do/personal/contract";
 import { personalWorkerHealth } from "@/apps/do/personal/worker-health";
 import styles from "./personal.module.css";
+import { doIdentityStyle } from "@/lib/brand/do-identity";
 const emptyForm = {
   title: "",
   goal: "",
@@ -255,7 +256,7 @@ export function PersonalDo() {
   const needsReview =
     state?.runs.filter((r) => r.status === "needs_review").length ?? 0;
   return (
-    <main className={styles.page} onClickCapture={event => {
+    <main className={styles.page} style={doIdentityStyle} data-do-identity="assembled-glass" onClickCapture={event => {
       if (workspaceKey !== "guest" || !guestDirty || !(event.target instanceof Element)) return;
       const link = event.target.closest<HTMLAnchorElement>("a[href]");
       if (!link || link.target === "_blank" || link.download) return;
@@ -264,9 +265,9 @@ export function PersonalDo() {
       event.preventDefault(); event.stopPropagation(); setLeavingHref(destination.href);
     }}>
       <header className={styles.nav}>
-        <DoBrand />
+        <DoBrand finish="glass" />
         <nav aria-label="DO" className={styles.navActions}>
-          <details className={styles.more}><summary>More <Plus size={15} /></summary><nav aria-label="More DO tools"><Link href="/do/widget">Write, talk or look</Link><Link href="/do/meetings">Meeting notes · sign in</Link><Link href="/do/bills">Bills · examples and CSV</Link><Link href="/do/enquiries">Enquiries · private pilot</Link><Link href="/do/install">Install DO</Link><Link href="/legal/privacy">Privacy</Link></nav></details>
+          <details className={styles.more}><summary>More <Plus size={15} /></summary><nav aria-label="More DO tools"><Link href="/do/widget">Write, talk or look</Link><Link href="/do/meetings">Meeting notes · sign in</Link><Link href="/do/bills">Bills · examples and CSV</Link><Link href="/do/install">Install DO</Link><Link href="/legal/privacy">Privacy</Link></nav></details>
           <Link className={styles.phoneLink} href="/do/install#phone">Install DO <ArrowUpRight size={14} /></Link>
           {access === "ready" && workspaceKey
             ? <PersonalDoSettings key={workspaceKey} compact triggerRef={settingsButton} onProfileChange={setPersonalProfile} />
@@ -462,7 +463,7 @@ export function PersonalDo() {
               </div>
               {state.runs.length === 0 && (
                 <div className={styles.emptyResult}>
-                  <DoPresence size="small" />
+                  <DoPresence size="small" finish="glass" />
                   <h3>No drafts yet</h3>
                   <p>
                     Save a responsibility, then tap Prepare now or wait for its
