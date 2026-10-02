@@ -8,7 +8,7 @@ The homepage's illustrated fictional walkthrough is replaced by an actual record
 - Frozen request: `506bac24-9b18-47e9-a558-66784c5422d0`.
 - Before submission, a global read-only production database count returned zero rows for that ID. Kate confirmed the existing provider key's credited-account provenance; root then authorized the single previously approved test.
 - Exactly one fresh admission returned HTTP 200 and a persisted `direct_source_brief`. The production database independently confirms state `complete`, admitted at `2026-10-02T06:36:09.770436Z`, completed at `06:36:21.665Z`.
-- Exactly one same-ID lookup-only replay returned HTTP 200 and the byte-equivalent JSON result. The stored trace remains one provider call and zero web searches.
+- Exactly one same-ID lookup-only replay returned HTTP 200 and the identical structured JSON result. Serialization order differs after database storage; all values match. The stored trace remains one provider call and zero web searches.
 - Model `claude-haiku-4-5-20251001`; returned usage 3,661 input / 417 output tokens. At the pinned standard tariff this calculates to US$0.005746 before tax, not a verified billed charge. The dispatched call reserved US$0.212; the approved two-call candidate upper reserve was US$0.422. No formatter call was needed.
 
 The output proposes an AI governance workflow using two exact source quotes. This is useful scoped research and a commercial hypothesis, not qualified buyer discovery or proof of demand. Publication dates remain unknown. The original managed-search provenance failure is not claimed fixed by this alternative.
