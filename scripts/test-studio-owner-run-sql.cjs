@@ -7,7 +7,7 @@ const owner='11111111-1111-4111-8111-111111111111',other='22222222-2222-4222-822
 const policy={id:'synthetic-ci-only',ownerId:owner,expiresAt:'2099-01-01T00:00:00Z',maxRuns:1,provider:'openai',accountRef:'fictional-test-only',model:'test-model',pricingVersion:'synthetic-v1',maxCalls:2,maxInputTokens:2000,maxOutputTokens:1000,maxUsdMicros:7000,inputUsdMicrosPerMillion:1000000,outputUsdMicrosPerMillion:5000000,tools:false,cache:false,retries:0,repairs:0};
 const clients=[];let checks=0;
 const pass=name=>{checks++;console.log('PASS '+name);};
-async function connect(role){const c=new Client({connectionString,query_timeout:10000});await c.connect();clients.push(c);if(role)await c.query('set role '+role);return c;}
+async function connect(role){const c=new Client({connectionString:role?connectionString.replace('supabase_admin:',role+':'):connectionString,query_timeout:10000});c.on('error',error=>console.error('Synthetic DB connection error:',error.message));await c.connect();clients.push(c);return c;}
 const cmd=(client,name,input,id=owner)=>client.query('select public.studio_owner_run_command($1::uuid,$2::text,$3::jsonb) as result',[id,name,input]).then(r=>r.rows[0].result);
 (async()=>{try{
  const admin=await connect();assert.equal((await admin.query('select current_database() as db')).rows[0].db,'studio_run_proof');
@@ -15,6 +15,7 @@ const cmd=(client,name,input,id=owner)=>client.query('select public.studio_owner
  // This dedicated empty database supplies ordinary synthetic identity fixtures.
  await admin.query(`create schema if not exists auth;create table if not exists auth.users(id uuid primary key);create or replace function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;create or replace function auth.jwt() returns jsonb language sql stable as $$select coalesce(nullif(current_setting('request.jwt.claims',true),''),'{}')::jsonb$$;
  do $$begin if not exists(select 1 from pg_roles where rolname='anon') then create role anon;end if;if not exists(select 1 from pg_roles where rolname='authenticated') then create role authenticated;end if;if not exists(select 1 from pg_roles where rolname='service_role') then create role service_role bypassrls;end if;end$$;
+ alter role anon login password 'fictional-studio-run-only';alter role authenticated login password 'fictional-studio-run-only';alter role service_role login password 'fictional-studio-run-only';
  grant usage on schema auth,public to anon,authenticated,service_role;grant execute on function auth.uid(),auth.jwt() to anon,authenticated;alter default privileges in schema public grant all on tables to public,anon,authenticated,service_role;alter default privileges in schema public grant execute on functions to public,anon,authenticated,service_role;`);
  await admin.query('insert into auth.users(id) values($1),($2),($3) on conflict do nothing',[owner,other,disabled]);
  await admin.query(fs.readFileSync('docs/migration-review/owner-schema-proposal.sql','utf8'));
@@ -115,4 +116,4 @@ const cmd=(client,name,input,id=owner)=>client.query('select public.studio_owner
  await A.query("select set_config('request.jwt.claims','{\"is_anonymous\":true}',false)");assert.equal((await A.query('select count(*)::int as n from public.studio_owner_runs')).rows[0].n,0);pass('anonymous identity denied despite matching UUID');
  await admin.query('update public.studio_owner_access set enabled=false where owner_user_id=$1',[owner]);await assert.rejects(()=>cmd(service,'lookup',{runId:actual}),/run_owner_denied/);assert.equal((await B.query('select count(*)::int as n from public.studio_owner_runs where run_id=$1',[otherRunId])).rows[0].n,1);pass('DB disablement denies direct RPC without disabling the other owner');
  console.log(`PASS ${checks} isolated database checks; no production/provider access`);
-}finally{await Promise.all(clients.map(c=>c.end()));}})().catch(e=>{console.error(e);process.exitCode=1;});
+}finally{await Promise.allSettled(clients.map(c=>c.end()));}})().catch(e=>{console.error(e);process.exitCode=1;});
