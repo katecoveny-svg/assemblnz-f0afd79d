@@ -171,3 +171,13 @@ it('source issuance never outlives its parent and rechecks fresh post-lock time'
   expect(proposedChildInterval(1000, 50000)).toEqual({ issuedAtMs: 1000, expiresAtMs: 21000 });
   expect(proposedChildInterval(2000, 17000)).toEqual({ issuedAtMs: 2000, expiresAtMs: 17000 });
 });
+
+it('separate freight entry is closed on every eligible route and denies every other host/path', async () => {
+  const { closedFreightEntry, freightProjectProposal } = await import('../../security-proposals/nz-plugin-hosting/freight-entry');
+  expect(freightProjectProposal.releaseEnabled).toBe(false); expect(freightProjectProposal.backendEnabled).toBe(false);
+  for (const path of ['/mcp','/privacy','/terms','/support',P.challengePath]) {
+    const response=await closedFreightEntry(new Request('https://'+P.hosts.freight+path,{method:path==='/mcp'?'POST':'GET'}));
+    expect(response.status).toBe(503); expect(await response.text()).toBe('');
+  }
+  for (const url of ['https://assembl.co.nz/mcp','https://'+P.hosts.architecture+'/mcp','https://'+P.hosts.freight+'/_next/static/x','https://'+P.hosts.freight+'/api/mcp']) expect((await closedFreightEntry(new Request(url))).status).toBe(404);
+});
