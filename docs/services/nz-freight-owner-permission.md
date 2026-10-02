@@ -1,6 +1,6 @@
 # Protected empty freight setup — exact owner permission bundle
 
-**Ready for root to request owner permission; not authorised or performed.** On 2 October 2026, the designated read-only cost audit verified the current assembl nz Vercel account is Pro. It confirmed an ordinary additional **empty** project has **US$0 incremental cost**, provided there is no Git integration, deployment or resource provision. Vercel Authentication **All Deployments** is included without an additional charge. This finding applies only to this empty setup; it does not quote future builds or operation.
+**Approved by Kate and empty setup completed on 2 October 2026.** See the execution receipt below. The following cost finding and exact request record the approved boundary. On 2 October 2026, the designated read-only cost audit verified the current assembl nz Vercel account is Pro. It confirmed an ordinary additional **empty** project has **US$0 incremental cost**, provided there is no Git integration, deployment or resource provision. Vercel Authentication **All Deployments** is included without an additional charge. This finding applies only to this empty setup; it does not quote future builds or operation.
 
 ## Exact request
 
@@ -21,3 +21,13 @@ No build or deployment is included. Future protected/synthetic deployments can i
 No deployment/build, credentials or secrets, environment values, OIDC trust changes, database login/grant/migration/RPC application, Cron/cleanup installation, private data, real sources/provider calls, public MCP access, client registration, publisher verification/submission, paid products, live pilot or30-day operating budget. Database/cleanup/driver designs remain unapplied review material. Release flags stay off. Before any later deployment, review inherited environment names and platform OIDC trust metadata without reading values; broad founder/customer authority blocks deployment.
 
 **Owner wording:** “May we create the empty `assembl-nz-freight` Vercel project and associate the already-owned `nz-freight.assembl.co.nz` hostname, with included Authentication All Deployments restricted to existing authorised Vercel users? The verified incremental cost is US$0 for this empty setup. No Git integration, deployment, credentials, database, Cron, paid changes or public opening. `iad1` is a later proposed region; no runtime is created now.”
+
+## Empty setup execution receipt — 2 October 2026
+
+Kate explicitly approved the empty private Vercel project and owned hostname. Fresh installed-CLI read-only checks confirmed the existing team is still Pro and the apex domain is verified. The official create-project API created only `assembl-nz-freight`, with `ssoProtection.deploymentType=all` supplied in the creation request; no Git repository or deployment was requested. Domain association succeeded and returned `verified=true`.
+
+Project ID: `prj_3YTZarDKprfxTMjxujq2XDO8lKNR`. Team ID: `team_4fkROIfytNfYsGSjVX2dC2DI`. Read-back at `2026-10-02T03:55:34Z` confirmed All Deployments protection, no Git link, zero deployments, zero project environment entries, no Password Protection, no automation bypass tokens and no trusted-IP bypass configuration. No new access grant or bypass/share credential was created. Existing founder/customer projects were not changed.
+
+`nz-freight.assembl.co.nz` is associated with that project and ownership-verified, with no redirect or Git branch. Vercel reports DNS `misconfigured=true`, `configuredBy=null`; association is complete, but DNS routing is not configured. Recommended CNAME is `f23d6cf784c12344.vercel-dns-016.com.`. No DNS record was written. No deployment, runtime, region configuration, credential, database, Cron, paid resource, publication or public service was created. Proposed future `iad1` remains deferred.
+
+This is saved-configuration verification only. Anonymous-access coverage, TLS and runtime behavior cannot be proved without a separately approved deployment. Empty project creation does not activate the plugin or evidence service. The generic permission request above is now historical; it conveys no deployment authority.
