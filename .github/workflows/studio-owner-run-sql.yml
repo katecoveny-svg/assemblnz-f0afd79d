@@ -1,0 +1,41 @@
+name: Unactivated private Studio run SQL proof
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'lib/client-hub-migration/owner-run-*'
+      - 'docs/migration-review/owner-run-*'
+      - 'docs/migration-review/owner-schema-proposal.sql'
+      - 'scripts/migration-review/synthetic-owner-payload.json'
+      - 'scripts/test-studio-owner-run-sql.cjs'
+      - '.github/workflows/studio-owner-run-sql.yml'
+permissions:
+  contents: read
+jobs:
+  isolated-sql:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        # Extension-bearing image matching the inspected production PG version.
+        # CI fixture only. No production credentials or project connection.
+        image: supabase/postgres:17.6.1.111
+        env:
+          POSTGRES_PASSWORD: fictional-studio-run-only
+          POSTGRES_DB: studio_run_proof
+        ports:
+          - 55440:5432
+        options: >-
+          --health-cmd "pg_isready -U supabase_admin -d studio_run_proof"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install isolated SQL test driver
+        run: npm install --prefix /tmp/studio-run-sql-proof --no-save pg@8.16.3
+      - name: Actual synthetic SQL atomicity and RLS checks
+        env:
+          STUDIO_RUN_PG_MODULE: /tmp/studio-run-sql-proof/node_modules/pg
+        run: node scripts/test-studio-owner-run-sql.cjs
