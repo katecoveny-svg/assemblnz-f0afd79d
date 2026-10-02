@@ -9,5 +9,6 @@ export function doReturnPath(pathname: string, search = ''): string {
   if (task && ['reply', 'rewrite', 'plan', 'brief', 'meeting-notes', 'compare', 'extract'].includes(task)) target.set('task', task);
   if (tool && ['write', 'talk', 'look'].includes(tool)) target.set('tool', tool);
   if (source.get('phone') === '1') target.set('phone', '1');
+  if (path === '/do/widget' && source.get('nativeReview') === '1') target.set('nativeReview', '1');
   return `${path}${target.size ? `?${target}` : ''}`;
 }

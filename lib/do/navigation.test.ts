@@ -13,4 +13,10 @@ describe('DO sign-in return', () => {
     expect(doReturnPath('/do/widget', '?task=https://example.com&tool=unknown')).toBe('/do/widget');
     for (const path of ['https://example.com', '//example.com', '/app', '/do-other', '/do/../app']) expect(doReturnPath(path)).toBe('/do');
   });
+  it('keeps native transient mode through sign-in only for its fixed widget route', () => {
+    expect(doReturnPath('/do/widget','?nativeReview=1&tool=look&text=private&token=secret')).toBe('/do/widget?tool=look&nativeReview=1');
+    expect(doReturnPath('/do/personal','?nativeReview=1')).toBe('/do/personal');
+    expect(doReturnPath('/do/widget','?nativeReview=2')).toBe('/do/widget');
+  });
+
 });

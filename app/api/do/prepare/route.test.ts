@@ -83,4 +83,22 @@ describe('public DO preparation boundary', () => {
     for (let count = 0; count < 6; count++) expect((await POST(make())).status).toBe(200);
     const limited = await POST(make()); expect(limited.status).toBe(429); expect(limited.headers.get('Retry-After')).toBe('60');
   });
+  it('rejects native expected-owner changes before provider work, even for extraction', async () => {
+    const nativeExpectedOwner = '10000000-0000-4000-8000-000000000001';
+    for (const task of ['brief','extract']) expect((await POST(request({...input,task,nativeExpectedOwner}))).status).toBe(409);
+    expect(model.prepare).not.toHaveBeenCalled();expect(trial.reserve).not.toHaveBeenCalled();
+  });
+  it('strips matching native consistency metadata from provider inputs', async () => {
+    const nativeExpectedOwner = '10000000-0000-4000-8000-000000000001';
+    vi.mocked(doOwner).mockResolvedValue({id:nativeExpectedOwner,externalId:`do:user:${nativeExpectedOwner}`});
+    expect((await POST(request({...input,nativeExpectedOwner}))).status).toBe(200);
+    expect(model.prepare.mock.calls[0][0]).not.toHaveProperty('nativeExpectedOwner');
+  });
+
+  it('rechecks native owner after intervening awaits immediately before provider work', async () => {
+    const nativeExpectedOwner='10000000-0000-4000-8000-000000000001';
+    vi.mocked(doOwner).mockResolvedValueOnce({id:nativeExpectedOwner,externalId:`do:user:${nativeExpectedOwner}`}).mockResolvedValueOnce({id:'10000000-0000-4000-8000-000000000002',externalId:'do:user:other'});
+    expect((await POST(request({...input,nativeExpectedOwner}))).status).toBe(409);expect(model.prepare).not.toHaveBeenCalled();
+  });
+
 });

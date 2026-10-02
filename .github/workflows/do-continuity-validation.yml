@@ -8,6 +8,14 @@ on:
       - 'app/do/continue/**'
       - 'app/api/do/continuity/**'
       - 'docs/do-continuity/**'
+      - 'apps/do/shared/native-review*'
+      - 'apps/do/shared/use-native-review.ts'
+      - 'apps/do/macos/NativeReviewBridge.swift'
+      - 'app/api/do/native-recipient/**'
+      - 'app/api/do/prepare/**'
+      - 'app/do/DoTextWorkspace.tsx'
+      - 'components/do/DoFocusWorkspace.tsx'
+      - 'lib/do/navigation*'
       - 'scripts/test-do-continuity-sql.cjs'
       - 'scripts/review-do-continuity.cjs'
       - '.github/workflows/do-continuity-validation.yml'
@@ -42,19 +50,28 @@ jobs:
           node-version: 24
       - run: pnpm install --frozen-lockfile
       - name: Portable contracts, API gates and existing intake boundaries
-        run: pnpm exec vitest run apps/do/continuity/continuity.test.ts app/api/do/continuity/route.test.ts apps/do/shared/portable-contract.test.ts apps/do/shared/share-intake.test.ts apps/do/shared/native-entry.test.ts
+        run: pnpm exec vitest run apps/do/continuity/continuity.test.ts app/api/do/continuity/route.test.ts apps/do/shared/portable-contract.test.ts apps/do/shared/share-intake.test.ts apps/do/shared/native-entry.test.ts apps/do/shared/native-review-bridge.test.ts app/api/do/native-recipient/route.test.ts app/api/do/prepare/route.test.ts lib/do/navigation.test.ts
       - name: Scoped lint
-        run: pnpm exec eslint app/do/continue app/api/do/continuity apps/do/continuity scripts/test-do-continuity-sql.cjs scripts/review-do-continuity.cjs --max-warnings=0
+        run: pnpm exec eslint app/do/continue app/api/do/continuity apps/do/continuity scripts/test-do-continuity-sql.cjs scripts/review-do-continuity.cjs app/do/DoTextWorkspace.tsx components/do/DoFocusWorkspace.tsx apps/do/shared/use-native-review.ts apps/do/shared/native-review-bridge.ts apps/do/shared/native-review-bridge.test.ts app/api/do/native-recipient app/api/do/prepare lib/do/navigation.ts lib/do/navigation.test.ts --max-warnings=0
       - name: Isolated SQL image
         run: docker pull postgres:17-alpine
       - name: Proposal-only SQL boundaries with fictional Auth
         run: node scripts/test-do-continuity-sql.cjs
+      - name: Canvas prerequisite and full typecheck
+        run: |
+          pnpm --filter @assembl/canvas build
+          pnpm exec tsc --noEmit --incremental false
       - name: Full production build
         run: pnpm build
       - name: Isolated browser tools
         run: |
           npm install --prefix /tmp/portable-browser --no-save playwright@1.55.0
           node /tmp/portable-browser/node_modules/playwright/cli.js install --with-deps chromium
+      - name: Actual native React receiver with fictional identity and transport
+        env:
+          DO_ESBUILD_MODULE: ${{ github.workspace }}/node_modules/.pnpm/esbuild@0.28.0/node_modules/esbuild
+          DO_PLAYWRIGHT_MODULE: /tmp/portable-browser/node_modules/playwright
+        run: node apps/do/macos/tests/receiver-browser.mjs
       - name: Fictional local browser continuity proof
         env:
           ASSEMBL_PLAYWRIGHT_MODULE: /tmp/portable-browser/node_modules/playwright
@@ -73,6 +90,8 @@ jobs:
           path: |
             output/playwright/portable-sql-results.json
             output/playwright/continuity-browser/
+            output/native-receiver/results.json
+            output/native-receiver/*.png
             /tmp/portable-server.log
           if-no-files-found: warn
           retention-days: 14
