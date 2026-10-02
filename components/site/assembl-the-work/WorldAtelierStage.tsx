@@ -1,7 +1,6 @@
 'use client';
 
 /** Shared public architectural stage. A new scene is explicit, never a global swap. */
-import Image from 'next/image';
 import { Component, useCallback, useEffect, useState, type ComponentType, type ReactNode, type RefObject } from 'react';
 import { FRANKLIN_ASSETS } from '@/lib/design/franklin-scene';
 import styles from './world-atelier-stage.module.css';
@@ -62,11 +61,11 @@ export function WorldAtelierStage({ progress, playhead, paused, reduced, visible
       <source media="(max-width: 650px)" srcSet={FRANKLIN_ASSETS.mobilePoster} />
       {/* A native picture keeps the correct real-render fallback even with JavaScript off. */}
       <img src={FRANKLIN_ASSETS.poster} alt="" className={`${styles.posterNative}${dimmed ? ` ${styles.posterDimmed}` : ''}`} decoding="async" fetchPriority={priority ? 'high' : 'auto'} />
-    </picture> : <>
-      <Image src="/do/world/atelier-poster.png" alt="" fill sizes="100vw" quality={75} priority={priority} unoptimized className={`${styles.poster}${dimmed ? ` ${styles.posterDimmed}` : ''}`} />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/do/world/atelier-poster.png" alt="" className={`${styles.posterNative}${dimmed ? ` ${styles.posterDimmed}` : ''}`} decoding="async" fetchPriority={priority ? 'high' : 'auto'} />
-    </>}
+    </picture> : <picture>
+      <source media="(max-width: 650px)" srcSet="/do/world/atelier-glass-poster-mobile.webp" />
+      {/* Real scene capture also works without JavaScript or WebGL. */}
+      <img src="/do/world/atelier-glass-poster.webp" alt="" className={`${styles.posterNative}${dimmed ? ` ${styles.posterDimmed}` : ''}`} decoding="async" fetchPriority={priority ? 'high' : 'auto'} />
+    </picture>}
     <Boundary key={variant} onFailure={onFailure}>
       {live && Scene ? <Scene progress={progress} playhead={playhead} paused={paused} onReady={markReady} onFailure={onFailure} /> : null}
     </Boundary>
@@ -74,7 +73,9 @@ export function WorldAtelierStage({ progress, playhead, paused, reduced, visible
 }
 /** A phone is not a request for reduced motion. */
 export function useAtelierMotionGate() {
-  const [reduced, setReduced] = useState(false);
+  // A complete still view is the server/no-JavaScript baseline. Only load
+  // WebGL after the browser confirms that motion is wanted.
+  const [reduced, setReduced] = useState(true);
   useEffect(() => {
     const query = matchMedia('(prefers-reduced-motion: reduce)');
     const sync = () => setReduced(query.matches);

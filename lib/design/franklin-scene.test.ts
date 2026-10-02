@@ -43,7 +43,7 @@ describe('Franklin real 3D homepage', () => {
     const html=renderToStaticMarkup(createElement(AssemblWorldHero));
     expect(html).toContain('data-world="atelier"');
     expect(html).toContain('assembl');expect(html).toContain('the work.');
-    expect(html).toContain('/do/world/atelier-poster.png');
+    expect(html).toContain('/do/world/atelier-glass-poster.webp');
     for(const href of ['/pursuit','/do','/creative-studio'])expect(html).toContain(`href="${href}"`);
     expect(html).toContain('The work, step by step');
     expect(html).not.toContain('https://assembl-pursuit');

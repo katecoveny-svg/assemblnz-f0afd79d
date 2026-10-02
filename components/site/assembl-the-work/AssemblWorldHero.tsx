@@ -2,6 +2,7 @@
 
 /** The accepted WorldAtelierStage, with a readable HTML layer and chapter controls. */
 import Link from 'next/link';
+import { AssemblGlassMark } from '@/components/site/AssemblGlassMark';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowDown, ArrowRight, ArrowUpRight, Pause, Play } from 'lucide-react';
 import { HERO } from './copy';
@@ -10,7 +11,7 @@ import styles from './assembl-world-hero.module.css';
 
 const chapters = [
   { product: 'Pursuit', verb: 'find it.', input: 'A signal. A source. A question.', output: 'An opportunity worth reviewing.', href: '/pursuit', action: 'Explore Pursuit' },
-  { product: 'DO', verb: 'DO it.', input: 'Context, tools and permission for a bounded job.', output: 'Prepared work with the next action clear.', href: '/do', action: 'Open DO' },
+  { product: 'DO', verb: 'DO it.', input: 'Bring the details.', output: 'Get a draft, plan or checklist to review.', href: '/do', action: 'Open DO' },
   { product: 'Studio', verb: 'show it.', input: 'A brief. An idea. A piece of work.', output: 'Something people can see, try and understand.', href: '/creative-studio', action: 'Explore Studio' },
 ] as const;
 
@@ -59,7 +60,7 @@ export function AssemblWorldHero({ preview = false, showSummary = true }: { prev
         <WorldAtelierStage progress={progress} paused={paused} reduced={reduced} visible={visible} failed={failed} onReady={setSceneReady} onFailure={onFailure} priority />
         <div className={styles.scrim} aria-hidden="true" />
         <header className={styles.nav}>
-          <Link className={styles.wordmark} href="/" aria-label="assembl home">assembl</Link>
+          <Link className={styles.wordmark} href="/" aria-label="assembl home"><AssemblGlassMark size={36} /><span>assembl</span></Link>
           <nav aria-label="Primary"><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio">Studio</Link></nav>
           <button type="button" className={styles.motion} onClick={() => setPaused(v => !v)} disabled={reduced || failed} aria-pressed={paused} aria-label={paused ? 'Resume scene motion' : 'Pause scene motion'}>
             {paused || reduced ? <Play size={13} aria-hidden="true" /> : <Pause size={13} aria-hidden="true" />}{reduced || failed ? 'Still view' : paused ? 'Resume' : 'Pause'}

@@ -2,7 +2,7 @@
 
 > The canonical visual system for the assembl company site, product surfaces and the shared base beneath every demonstrator.
 
-**Status:** Company canon retained; approved DO07 assembled plum glass; source/CI review pending
+**Status:** DO07 released; wider assembled-glass rollout approved, implementation under review
 **Last updated:** 2 October 2026
 **Applies to:** assembl public pages, product surfaces, evidence artefacts and the shared frame of client demonstrators
 
@@ -203,7 +203,7 @@ A connected key, green light, successful build, animation or preview is not proo
 
 Agents and designers should also read root `DESIGN.md` for composition, motion/3D, client-work and quality-gate rules.
 
-## DO07 assembled plum glass · approved visuals, implementation review
+## DO07 assembled plum glass · personal slice released
 
 Kate approved DO07 on 2 October 2026 after rejecting the blue Liquid light proposal. This is the personal DO slice, not a whole-company or installed-icon rollout. Lowercase assembl/company a and uppercase DO D-dot remain distinct. Consumer DO contains no Pursuit/Studio promotion.
 
@@ -221,4 +221,20 @@ Personal entry, input, review, example disclosures and Local information summary
 
 Other DO routes, widgets and source consent retain existing behaviour. DO favicon/PWA/extension/Mac exports and installed-update proof require their separate owner and approval. Company lowercase-a rollout and named client brands are outside this slice. Saved Rose/Orbit/Pebble/Spark preferences remain separate from the fixed hero, with no storage changes.
 
-Visual approval is recorded; source review, focused checks and final remote CI are required before merge. A source update does not update installed apps or establish live capability.
+The personal slice merged as PR1463 and was verified live on 2 October 2026. Its production build and 256 fictional browser checks passed. Wider source review and installed-update proof remain separate; an asset update does not establish live capability.
+
+## Wider assembled-glass identity · 2 October 2026
+
+Kate approved extending the matching lowercase assembl a / uppercase DO D treatment across the wider brand, explicitly retaining the immersive homepage flythrough. This implementation keeps the authored atelier, eye-level camera/gaze paths, chapter dwell, three product destinations, pause/resume, demand rendering, bounded DPR and visibility/context-loss gates. It does not replace the flythrough with raster hero art or establish live agent activity.
+
+`components/brand/AssembledGlassMarks.tsx` supplies real scene geometry. The lowercase a uses the exact outlined Instrument Sans 500 glyph from `brand/assembl-identity/mark.svg`, shared through `lib/brand/assembl-mark.ts`. The D is a closed, bevelled outline derived from the canonical stroke contour with its separate dot. A single solid and continuous vertex colour transitions avoid overlapping transparent junction surfaces. Glass pieces use plum, lilac and petal; architecture remains paper/daylight, with its authored felt/metal finishes graded to plum/rose. Natural harbour/plant colours are context, not new interface roles.
+
+Small identity controls and 16/32/48 px company favicons retain opaque canonical vectors for legibility. Larger company app icons use a generator-derived glass SVG with the same lowercase outline. DO browser favicons use opaque canonical 16/32 px D/dot exports; revised web icon URLs use v=5, without claiming installed app refresh. Larger DO web/PWA icon sources use the same canonical D path and dot in glass-coloured pieces. `generate-do-identity.mjs --web-only` deliberately leaves extension/Mac packages unchanged; matched source assets require coordinated native-owner handoff and installed-update proof. Source changes alone do not update installed apps.
+
+The homepage's a artwork is a static material image for sharing, not the moving scene. Root OG uses it; the shared OG helper's optional image is not applied to named client brands. Header colours are scoped to the company header so legacy/customer body palettes are not rewritten globally. Existing useful-demo copy and Pursuit data/consent logic remain with their owner.
+
+Fallbacks use actual captures of the revised scene, with separate desktop/phone WebPs. The complete still view is the server baseline until the browser confirms motion is wanted. Reduced motion, unavailable WebGL and no JavaScript retain all three product paths; ordinary phones can still use the animated scene. The scene is an imagined workspace, not live activity.
+
+Local proof includes desktop/375px real-animation recordings, keyboard skip and pause/resume, zero overflow, complete fallbacks and draw-call instrumentation (zero settled/paused; active during travel). These are bounded local-browser measurements, not universal device-performance claims. Final current-main/source review and the coherent release's remote CI remain required before publication. No secrets, auth/provider/storage/schema/billing logic or client-hub themes are changed.
+
+Review corrections replace the D's overlapping open tubes/caps with one closed bevelled solid, rounded inner joins and welded smooth normals. The material uses softer refraction and a broad paper environment fill, without postprocessing or camera edits. A topology audit of the final D finds zero open/non-manifold edges. Continuous scrims and opaque control backings retain readability: measured text bounds at 1440×900 and 375×812 fall within the constant #240B21/78% backing; chalk on that backing over a pure-white scene is 8.31:1. This is a bounded viewport check, not a claim about every possible layout.
