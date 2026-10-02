@@ -230,11 +230,12 @@ Principle:
 ## brand state — do not drift
 
 Canonical company brand: `docs/assembl-brand-system.md`.
-Operational design guide: `DESIGN.md`. Personal DO follows the selected assembled plum glass scope in that same canon, with machine-readable roles in `lib/brand/do-identity.ts` and approved DO07 assembled plum static artwork. Prior plum/daylight instructions remain for unmigrated surfaces only. Kate approved the DO07 visuals on 2 October; source/CI review remains pending. Company/icon rollout is separate.
+Operational design guide: `DESIGN.md`. Kate’s exact glass lowercase company a and uppercase DO D-dot are locked as primary across company and DO; originals/Library IDs/hashes are in `public/brand/canonical/glass-v1/manifest.json`, shared via `GlassIdentity`. Visible light-field text is #492B3E; #240B21 remains a dark/action accent. Do not restore the earlier reconstructed meshes, opaque vector primaries or dark scrim. DO07 and the earlier wider rollout are released; the new daylight correction is held locally for review, not published. Native package application/installed proof remain separate.
 
 Company surfaces use:
 
-- Deep plum `#240B21`;
+- Visible light-field ink `#492B3E`;
+- Deep plum `#240B21` for dark fields/action fills;
 - Muted plum `#654A4E`;
 - Dusty rose `#916A70`;
 - Chalk `#F5F1F2`;
@@ -294,4 +295,4 @@ At the end of a meaningful workday:
 5. register reusable capabilities, decisions and learnings in the Factory docs;
 6. never let an automated process silently rewrite brand or product canon.
 
-**2 October glass identity:** DO07 is merged in PR1463 (`d568e6c4`) and verified live at www.assembl.co.nz/do with the 69 KB static artwork and 256 production-built fictional browser checks. Real authenticated preview is still unverified. Kate then approved the wider matching lowercase-a/D glass rollout while preserving the immersive flythrough. That wider scene/icon/header/OG implementation is under source review, not yet published; useful Pursuit demo and portable native owners retain their boundaries.
+**2 October glass identity:** DO07 merged in PR1463 (`d568e6c4`) and was verified live with the 69 KB artwork and 256 production-built fictional browser checks. The earlier wider PR1471 rollout was merged externally; root verified production on main `9c3544f5`. Kate subsequently rejected its dark/mobile composition and reconstructed marks, locking the exact supplied glass originals as primary. DO08 daylight correction is local, unpushed review work: compact phone header, #492B3E ink, exact artwork planes inside the real moving room and a fictional notice using the existing local checklist handler. This does not claim exact modular glass geometry, authorised signed-in preview, real-device Safari or installed-native parity. Useful Pursuit demo, copy strategy and portable-native owners retain their boundaries.

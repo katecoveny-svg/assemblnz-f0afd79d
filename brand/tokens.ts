@@ -15,7 +15,7 @@ export const brand = {
     dustyRose: '#916A70',
     chalk: '#F5F1F2',
     paper: '#FFFDFB',
-    ink: '#240B21',
+    ink: '#492B3E',
 
     // Legacy compatibility tokens — do not use for new Assembl company work.
     pounamu: '#2B6B57',

@@ -40,3 +40,8 @@
 .refined-atelier{margin:20px auto;max-width:1440px;padding:0 6%}.refined-atelier>summary{display:flex;align-items:center;justify-content:space-between;list-style:none;cursor:pointer;min-height:80px;border-top:1px solid #240b211a;font-size:19px;letter-spacing:-.035em}.refined-atelier>summary::-webkit-details-marker{display:none}.refined-atelier[open]>summary svg{transform:rotate(45deg)}
 @media(max-width:600px){.atw-refined .refined-products{padding-top:60px}.atw-refined .refined-product-art{min-height:180px}.refined-atelier>summary{font-size:17px}}
 @media(prefers-reduced-motion:reduce){.atw-refined .refined-product{transition:none}.atw-refined .refined-product:hover{transform:none}}
+
+/* Scroll changes the artwork, never the demo hit targets. */
+@supports(animation-timeline:view()){.atw-refined .refined-product-art .refined-shape{animation:assembl-art-drift linear both;animation-timeline:view();animation-range:entry 0% exit 100%}@keyframes assembl-art-drift{from{translate:0 20px;rotate:-4deg}to{translate:0 -20px;rotate:4deg}}}
+.atw-refined .refined-products h2,.atw-refined .refined-product h3{color:#492b3e}.atw-refined .refined-product-art{transition:filter .3s}.atw-refined .refined-product:hover .refined-product-art{filter:brightness(1.04)}
+@media(prefers-reduced-motion:reduce){.atw-refined .refined-product-art .refined-shape{animation:none;translate:none;rotate:none}.atw-refined .refined-product-art{transition:none}}
