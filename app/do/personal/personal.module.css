@@ -1,10 +1,10 @@
 .page {
   --ink: var(--do-ink, #240b21);
   --paper: #fffdfb;
-  --rose: var(--do-cobalt, #916a70);
-  --chalk: var(--do-ice, #f5f1f2);
+  --rose: var(--do-plum, #916a70);
+  --chalk: var(--do-chalk, #f5f1f2);
   color: var(--ink);
-  background: var(--do-ice, transparent);
+  background: var(--do-chalk, transparent);
   font-family: var(--font-body), sans-serif;
   min-height: 100dvh;
   padding: 0 clamp(20px, 5vw, 90px);
@@ -737,7 +737,7 @@
 .aroundGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 17px; align-items: start; }
 .page .aroundPanel { border: 1px solid color-mix(in srgb, var(--do-ink) 16%, transparent); border-radius: 16px; margin: 0; min-width: 0; }
 .page .aroundPanel > summary { gap: 15px; padding: 21px; min-height: 95px; text-decoration: none; }
-.aroundPanel > summary > svg:first-child { color: var(--do-cobalt); flex-shrink: 0; }
+.aroundPanel > summary > svg:first-child { color: var(--do-plum); flex-shrink: 0; }
 .aroundPanel > summary > span { display: flex; flex-direction: column; gap: 5px; }
 .aroundPanel > summary strong { font-size: 17px; font-weight: 500; letter-spacing: -.025em; }
 .aroundPanel > summary small { font-size: 11px; color: var(--do-ink); }
@@ -753,4 +753,4 @@
 /* Unified DO chrome. The working route and installed alias are the same product. */
 .page{max-width:none;background:transparent}.nav{min-height:88px;max-width:1280px}.more{position:relative}.page .more>summary{display:flex;align-items:center;gap:10px;min-height:44px;cursor:pointer;padding:9px 14px;border-radius:15px;background:#f5f1f2;border:1px solid #240b210b;font-size:12px;list-style:none;text-decoration:none}.more>summary::-webkit-details-marker{display:none}.page .more>nav{position:absolute;z-index:15;right:0;top:calc(100% + 10px);min-width:250px;display:grid;gap:0;padding:12px;background:#fffdfb;border:1px solid #e2d6dd;border-radius:22px;box-shadow:0 15px 50px #240b2120}.more nav a{padding:11px 13px;border-radius:12px}.more nav a:hover{background:#f5f1f2}.nav .signIn{border-radius:15px}.around,.page .ongoing,.page .how,.footer{max-width:1000px}.around{padding-top:28px}.footer{margin-top:45px}.nav .phoneLink{display:none}
 @media(max-width:760px){.nav{min-height:76px}.nav .navActions{gap:7px}.page .more>summary{padding:9px 11px}.nav .signIn{padding:9px 11px}.page .more>nav{right:-70px;max-width:calc(100vw - 32px);min-width:235px}}
-.page[data-do-identity=liquid-light]{background:var(--do-ice);padding:0 clamp(22px,5vw,90px)}.page[data-do-identity=liquid-light] .more>summary{background:var(--do-paper);border-color:transparent}.page[data-do-identity=liquid-light] .nav .signIn{border:1px solid #172d5520;background:var(--do-paper);border-radius:999px}
+.page[data-do-identity=assembled-glass]{background:var(--do-chalk);padding:0 clamp(22px,5vw,90px)}.page[data-do-identity=assembled-glass] .more>summary{background:var(--do-paper);border-color:transparent}.page[data-do-identity=assembled-glass] .nav .signIn{border:1px solid #172d5520;background:var(--do-paper);border-radius:999px}

@@ -15,10 +15,10 @@ export function DoPresence({ size = 'medium', working = false, className = '', f
     <svg viewBox="0 0 80 80" className={styles.sculpture} focusable="false">
       <defs>
         <linearGradient id={`${id}-face`} x1="0" y1="0" x2=".7" y2="1">
-          <stop stopColor={finish === 'glass' ? glass.highlight : finish === 'paper' ? colour.paper : '#B98DAB'} /><stop offset=".3" stopColor={finish === 'glass' ? colour.cobalt : finish === 'paper' ? '#EAC8DF' : '#654A4E'} /><stop offset=".6" stopColor={finish === 'glass' ? glass.reflection : finish === 'paper' ? '#F5F1F2' : '#240B21'} /><stop offset="1" stopColor={finish === 'glass' ? colour.cobalt : '#916A70'} />
+          <stop stopColor={finish === 'glass' ? glass.highlight : finish === 'paper' ? colour.paper : '#B98DAB'} /><stop offset=".3" stopColor={finish === 'glass' ? colour.plum : finish === 'paper' ? '#EAC8DF' : '#654A4E'} /><stop offset=".6" stopColor={finish === 'glass' ? glass.reflection : finish === 'paper' ? '#F5F1F2' : '#240B21'} /><stop offset="1" stopColor={finish === 'glass' ? colour.plum : '#916A70'} />
         </linearGradient>
-        <linearGradient id={`${id}-edge`} x1="0" y1="0" x2="1" y2="1"><stop stopColor={finish === 'glass' ? colour.ice : '#916A70'} /><stop offset=".5" stopColor={finish === 'glass' ? colour.cobalt : '#654A4E'} /><stop offset="1" stopColor={finish === 'glass' ? colour.ink : '#240B21'} /></linearGradient>
-        <radialGradient id={`${id}-dot`} cx="30%" cy="25%"><stop stopColor="#FFFDFB" /><stop offset=".55" stopColor={finish === 'glass' ? colour.peach : '#F5E4E7'} /><stop offset="1" stopColor={finish === 'glass' ? colour.peach : '#EAC8DF'} /></radialGradient>
+        <linearGradient id={`${id}-edge`} x1="0" y1="0" x2="1" y2="1"><stop stopColor={finish === 'glass' ? colour.chalk : '#916A70'} /><stop offset=".5" stopColor={finish === 'glass' ? colour.plum : '#654A4E'} /><stop offset="1" stopColor={finish === 'glass' ? colour.ink : '#240B21'} /></linearGradient>
+        <radialGradient id={`${id}-dot`} cx="30%" cy="25%"><stop stopColor="#FFFDFB" /><stop offset=".55" stopColor={finish === 'glass' ? colour.petal : '#F5E4E7'} /><stop offset="1" stopColor={finish === 'glass' ? colour.petal : '#EAC8DF'} /></radialGradient>
         <radialGradient id={`${id}-glow`}><stop stopColor="#EAC8DF" stopOpacity=".8" /><stop offset="1" stopColor="#EAC8DF" stopOpacity="0" /></radialGradient>
       </defs>
       <g transform="translate(6 5)">

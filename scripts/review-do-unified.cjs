@@ -25,16 +25,16 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
     await page.getByRole('link', { name: 'Open DO', exact: true }).first().click();
     await page.locator('#life-admin-source').waitFor();
     check('one click from Assembl reaches a working input', new URL(page.url()).pathname === '/do' && await page.locator('#life-admin-source').isVisible());
-    const personal = page.locator('.do-app-shell > main[data-do-identity="liquid-light"]');
-    check('personal DO has the approved scoped ice canvas and cobalt identity role', await personal.evaluate(el => {
+    const personal = page.locator('.do-app-shell > main[data-do-identity="assembled-glass"]');
+    check('personal DO has the approved scoped chalk canvas and plum identity role', await personal.evaluate(el => {
       const style = getComputedStyle(el);
-      return style.getPropertyValue('--do-ice').trim().toUpperCase() === '#D8EAF8'
-        && style.getPropertyValue('--do-cobalt').trim().toUpperCase() === '#244FCA'
-        && style.backgroundColor === 'rgb(216, 234, 248)' && style.backgroundImage === 'none';
+      return style.getPropertyValue('--do-chalk').trim().toUpperCase() === '#F5F1F2'
+        && style.getPropertyValue('--do-plum').trim().toUpperCase() === '#240B21'
+        && style.backgroundColor === 'rgb(245, 241, 242)' && style.backgroundImage === 'none';
     }));
     const artwork = personal.locator('[data-renderer="static-art"] img');
-    check('approved Liquid light artwork is loaded as static art in reduced motion', await artwork.evaluate(el =>
-      el.getAttribute('src') === '/brand/do-liquid-light.png' && el.complete && el.naturalWidth > 0)
+    check('approved assembled plum glass artwork is loaded as static art in reduced motion', await artwork.evaluate(el =>
+      el.getAttribute('src') === '/brand/do-assembled-glass.png' && el.complete && el.naturalWidth > 0)
       && await personal.locator('[data-renderer="static-art"] canvas').count() === 0);
     const mark = personal.getByRole('link', { name: 'DO by assembl, home', exact: true }).locator('svg');
     check('personal DO retains the canonical D path and interior dot',

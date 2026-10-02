@@ -103,14 +103,14 @@ Mixed/non-shipping areas such as `research/`, `marketing/`, root-level audits/br
 
 Visual source of truth: `docs/assembl-brand-system.md`.
 
-Company tokens (personal DO has the explicit Liquid light scope in the same canon):
+Company tokens (personal DO has the explicit assembled plum glass scope in the same canon):
 
 - deep plum `#240B21`
 - muted plum `#654A4E`
 - dusty rose `#916A70`
 - chalk `#F5F1F2`
 - paper `#FFFDFB`
-- Personal DO: selected Liquid light roles from `lib/brand/do-identity.ts`, exact 03A static hero, canonical D-dot on identity controls. Prior daylight accents apply only to unmigrated DO surfaces; company tokens and client brands remain unchanged.
+- Personal DO: selected assembled plum glass roles from `lib/brand/do-identity.ts`, approved DO07 static hero, canonical D-dot on identity controls. Prior daylight accents apply only to unmigrated DO surfaces; company tokens and client brands remain unchanged.
 
 Typography:
 

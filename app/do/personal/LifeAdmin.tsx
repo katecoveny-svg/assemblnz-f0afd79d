@@ -240,7 +240,7 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
     <section className={`${styles.workspace} ${entry.workspace}`} id="life-admin" aria-labelledby="life-admin-heading">
       <div className={entry.stage} data-simple={simple || undefined}>
       <header className={entry.heading}>
-        <div className={entry.artwork} aria-hidden="true" data-renderer="static-art"><Image src="/brand/do-liquid-light.png" alt="" width={1536} height={1024} priority unoptimized /></div>
+        <div className={entry.artwork} aria-hidden="true" data-renderer="static-art"><Image src="/brand/do-assembled-plum.webp" alt="" width={1200} height={800} priority unoptimized /></div>
         <div className={entry.intro}>
           <h1 id="life-admin-heading">What needs doing?</h1>
           <p>{assistantWorking ? 'Preparing your reply…' : profile?.displayName && profile.displayName !== 'DO' ? `Hi, ${profile.displayName}.` : 'Ask a question, write a reply or sort a notice.'}</p>

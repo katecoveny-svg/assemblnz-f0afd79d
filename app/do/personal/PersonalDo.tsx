@@ -256,7 +256,7 @@ export function PersonalDo() {
   const needsReview =
     state?.runs.filter((r) => r.status === "needs_review").length ?? 0;
   return (
-    <main className={styles.page} style={doIdentityStyle} data-do-identity="liquid-light" onClickCapture={event => {
+    <main className={styles.page} style={doIdentityStyle} data-do-identity="assembled-glass" onClickCapture={event => {
       if (workspaceKey !== "guest" || !guestDirty || !(event.target instanceof Element)) return;
       const link = event.target.closest<HTMLAnchorElement>("a[href]");
       if (!link || link.target === "_blank" || link.download) return;

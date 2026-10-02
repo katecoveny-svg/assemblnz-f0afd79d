@@ -111,9 +111,9 @@
 .do-app-shell>main,.do-app-shell .do-craft{background:transparent}
 
 /* The reviewed personal DO direction opts out of the old rose atmosphere. */
-.do-app-shell:has([data-do-identity="liquid-light"]){background:transparent}
-.do-app-shell [data-do-identity="liquid-light"] [class*="panel"]:hover,
-.do-app-shell [data-do-identity="liquid-light"] [class*="card"]:hover,
-.do-app-shell [data-do-identity="liquid-light"] [class*="document"]:hover{transform:none;box-shadow:0 14px 36px #172d550b;border-color:var(--do-ice)}
-.do-app-shell [data-do-identity="liquid-light"] [class*="primary"]::after,
-.do-app-shell [data-do-identity="liquid-light"] [class*="Primary"]::after{content:none}
+.do-app-shell:has([data-do-identity="assembled-glass"]){background:transparent}
+.do-app-shell [data-do-identity="assembled-glass"] [class*="panel"]:hover,
+.do-app-shell [data-do-identity="assembled-glass"] [class*="card"]:hover,
+.do-app-shell [data-do-identity="assembled-glass"] [class*="document"]:hover{transform:none;box-shadow:0 14px 36px #172d550b;border-color:var(--do-chalk)}
+.do-app-shell [data-do-identity="assembled-glass"] [class*="primary"]::after,
+.do-app-shell [data-do-identity="assembled-glass"] [class*="Primary"]::after{content:none}

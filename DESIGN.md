@@ -6,7 +6,7 @@
 
 **Last updated:** 2 October 2026
 
-Personal DO now uses the selected Liquid light scope in the brand canon: exact 03A static glass artwork plus shared scoped ice/cobalt/peach/mint/paper roles. Prior daylight remains only on unmigrated surfaces; company palette remains unchanged. Historical root guides and old skills are not alternate instructions. Company wordmark: lowercase `assembl`; company letter mark: lowercase `a`; DO: uppercase D with its inner dot.
+Personal DO now uses the selected assembled plum glass scope in the brand canon: approved DO07 static glass artwork plus shared scoped plum/chalk/petal/lilac/paper roles. Prior daylight remains only on unmigrated surfaces; company palette remains unchanged. Historical root guides and old skills are not alternate instructions. Company wordmark: lowercase `assembl`; company letter mark: lowercase `a`; DO: uppercase D with its inner dot.
 
 ## 1. design principle
 
@@ -113,7 +113,7 @@ The canonical DO symbol is implemented in `components/do/DoMark.tsx`: a glowing 
 
 Rules:
 
-- preserve canonical D-dot geometry; personal DO uses the scoped Liquid light roles, while unmigrated company/DO surfaces retain existing plum material until their rollout is reviewed;
+- preserve canonical D-dot geometry; personal DO uses the scoped assembled plum glass roles, while unmigrated company/DO surfaces retain existing plum material until their rollout is reviewed;
 - this approved identity is the exception to the general ban on generic orbs;
 - do not replace it with an unrelated sphere, chatbot face or mascot;
 - keep its behaviour calm and legible;

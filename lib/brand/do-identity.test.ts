@@ -10,13 +10,13 @@ function contrast(a: string, b: string) {
   return (levels[0] + .05) / (levels[1] + .05);
 }
 describe('DO readable controls and tiny identity', () => {
-  it.each(['ice', 'mint', 'paper'] as const)('body copy passes AA on %s', surface => {
+  it.each(['chalk', 'lilac', 'paper'] as const)('body copy passes AA on %s', surface => {
     expect(contrast(colours.ink, colours[surface])).toBeGreaterThanOrEqual(4.5);
   });
-  it.each(['cobalt', 'hover', 'active'] as const)('primary label passes AA in %s state', state => {
+  it.each(['plum', 'hover', 'active'] as const)('primary label passes AA in %s state', state => {
     expect(contrast(colours.paper, colours[state])).toBeGreaterThanOrEqual(4.5);
   });
   it('tiny D and dot remain distinguishable against the canvas', () => {
-    expect(contrast(colours.cobalt, colours.ice)).toBeGreaterThanOrEqual(3);
+    expect(contrast(colours.plum, colours.chalk)).toBeGreaterThanOrEqual(3);
   });
 });

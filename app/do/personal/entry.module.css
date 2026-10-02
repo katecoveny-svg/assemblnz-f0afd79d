@@ -43,7 +43,7 @@
 @media(prefers-reduced-motion:reduce){.workspace .mainModes button{transition:none}.workspace .mainModes button:hover{transform:none}}
 
 .intro{background:#fffdfb;border:1px solid #e3cdda;border-radius:24px;padding:18px 24px;box-shadow:0 10px 32px #916a7010}
-/* Approved 03A artwork anchors the real working shell; it is static art. */
+/* Approved DO07 artwork anchors the real working shell; it is static art. */
 .stage{max-width:1120px;position:relative;align-items:flex-start;justify-content:flex-start;min-height:730px;padding:54px 0 60px;color:var(--do-ink)}
 .heading{display:block;width:100%;text-align:left;margin:0 0 40px;min-height:215px}
 .artwork{position:absolute;z-index:-1;right:-85px;top:-15px;width:900px;height:620px;pointer-events:none;mask-image:radial-gradient(ellipse at 58% 48%,#000 40%,transparent 74%)}
@@ -51,17 +51,17 @@
 .intro{position:relative;z-index:1;border:0;background:transparent;padding:0;box-shadow:none;width:48%}
 .workspace .intro h1{font-size:clamp(58px,6.5vw,92px);line-height:.98;color:var(--do-ink);max-width:470px;letter-spacing:-.065em}
 .intro p{font-size:18px;max-width:320px;margin:22px 0 0;color:var(--do-ink)}
-.composerTabs{align-self:flex-start;background:#d8eaf8b8;border:1px solid #172d5520;border-radius:999px;padding:4px;margin-bottom:14px;backdrop-filter:blur(12px)}
+.composerTabs{align-self:flex-start;background:var(--do-chalk);border:1px solid #172d5520;border-radius:999px;padding:4px;margin-bottom:14px;backdrop-filter:blur(12px)}
 .workspace .composerTabs button{border-radius:999px;color:var(--do-ink);min-height:44px;font-size:13px}
 .workspace .composerTabs button[aria-pressed=true]{background:var(--do-paper);color:var(--do-ink)}
 .stage>div:not(.heading){width:420px;max-width:100%}
-.workspace .intake{background:#fffcf9ee;border:1px solid #ffffffaa;border-radius:38px;box-shadow:0 12px 36px #2149680b;padding:22px 24px 18px;backdrop-filter:blur(18px)}
+.workspace .intake{background:var(--do-paper);border:1px solid #ffffffaa;border-radius:38px;box-shadow:0 12px 36px #2149680b;padding:22px 24px 18px;backdrop-filter:blur(18px)}
 .workspace .intake textarea::placeholder,.privacy,.workspace .addContext>summary{color:var(--do-ink)}
 .privacy{font-size:11px}
-.workspace .stage .primary{background:var(--do-cobalt);border:0;border-radius:999px;color:var(--do-paper);box-shadow:none;min-height:48px;font-size:14px}
+.workspace .stage .primary{background:var(--do-plum);border:0;border-radius:999px;color:var(--do-paper);box-shadow:none;min-height:48px;font-size:14px}
 .workspace .stage .primary:hover:not(:disabled){background:var(--do-hover);box-shadow:none;transform:none}
 .workspace .stage .primary:active:not(:disabled){background:var(--do-active);box-shadow:none;transform:none}
-.workspace .stage .primary:disabled{opacity:1;background:var(--do-ice);color:var(--do-ink)}
+.workspace .stage .primary:disabled{opacity:1;background:var(--do-chalk);color:var(--do-ink)}
 .workspace .mainModes{width:420px;max-width:100%;display:flex;gap:18px;margin-top:12px}
 .workspace .mainModes button,.workspace .mainModes button:nth-child(2),.workspace .mainModes button:nth-child(3){flex:1;align-items:center;min-height:58px;text-align:center;padding:8px 4px;background:transparent;box-shadow:none;border:0;border-radius:24px;color:var(--do-ink);gap:6px}
 .workspace .mainModes small{display:none}
@@ -69,11 +69,11 @@
 .workspace .mainModes button:hover{transform:none;background:#fffdfba0}
 .workspace .exampleToggle{align-self:flex-start;color:var(--do-ink)}
 .workspace .stage>section{width:100%}
-.workspace .captureModes button{color:var(--do-ink);background:var(--do-ice)}
-.workspace .captureModes button:first-child{background:var(--do-mint)}
-.workspace .captureModes button:nth-child(2){background:var(--do-peach)}
+.workspace .captureModes button{color:var(--do-ink);background:var(--do-chalk)}
+.workspace .captureModes button:first-child{background:var(--do-lilac)}
+.workspace .captureModes button:nth-child(2){background:var(--do-petal)}
 .captureModes{border:0;background:var(--do-paper)}
-.workspace .stage .review{position:absolute;right:0;top:452px;width:49%;background:#dff5eff2;border:1px solid #ffffff80;border-radius:54px 54px 38px 54px;padding:28px 32px;box-shadow:0 16px 34px #183c6a12;color:var(--do-ink);backdrop-filter:blur(18px)}
+.workspace .stage .review{position:absolute;right:0;top:452px;width:49%;background:color-mix(in srgb, var(--do-lilac) 52%, var(--do-paper));border:1px solid #ffffff80;border-radius:54px 54px 38px 54px;padding:28px 32px;box-shadow:0 16px 34px #240b2112;color:var(--do-ink);backdrop-filter:blur(18px)}
 .workspace .review h2{font-size:28px;line-height:1.2;letter-spacing:-.04em}
 .stage:has(>.review) .heading{margin-bottom:40px}
 .workspace .review button{background:var(--do-paper);color:var(--do-ink);border-radius:999px;border-color:transparent}
