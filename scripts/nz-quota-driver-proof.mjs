@@ -5,13 +5,15 @@ import { createHash, randomUUID } from 'node:crypto';
 import { execFileSync, spawn } from 'node:child_process';
 import { Duplex } from 'node:stream';
 import { resolve } from 'node:path';
-import { proposedQuotaDriver } from '../security-proposals/nz-plugin-hosting/quota-driver.mjs';
+import { proposedQuotaDriverForFixture } from '../security-proposals/nz-plugin-hosting/quota-driver.mjs';
 const root = resolve(import.meta.dirname, '..');
 const container = JSON.parse(execFileSync('docker', ['inspect', 'assembl-nz-driver-proof-task3'], { encoding: 'utf8' }))[0];
 assert.equal(container.HostConfig.Memory, 268435456);
 assert.equal(container.HostConfig.NetworkMode, 'assembl-nz-driver-proof-task3');
 const network = JSON.parse(execFileSync('docker', ['network', 'inspect', 'assembl-nz-driver-proof-task3'], { encoding: 'utf8' }))[0];
-assert.equal(network.Internal, true); assert(!container.Mounts.some(m => m.Type === 'bind'));
+assert.equal(network.Internal, true); assert.deepEqual(Object.keys(container.NetworkSettings.Networks),['assembl-nz-driver-proof-task3']);
+assert.equal(container.NetworkSettings.Networks['assembl-nz-driver-proof-task3'].NetworkID,network.Id);
+assert.deepEqual(Object.keys(network.Containers),[container.Id]); assert(!container.Mounts.some(m => m.Type === 'bind'));
 // Fixture-only protocol bridge: real pg protocol via nc on the isolated container's own loopback.
 // No external TCP connection or production endpoint; this does not prove hosted TLS/network behavior.
 class FixtureStream extends Duplex {
@@ -34,12 +36,13 @@ const require = createRequire(resolve(root, 'security-proposals/nz-plugin-hostin
 const { Client } = require('pg');
 const prepared = [];
 async function prepare() { prepared.push(new FixtureStream()); await new Promise(r => setTimeout(r, 4000)); }
-const connection = { host: '127.0.0.1', port: 55439, user: 'nz_driver_fixture', database: 'postgres', ssl: false, stream: () => { const stream=prepared.shift(); assert(stream); return stream; } };
+const connection = { host: '127.0.0.1', port: 55439, user: 'nz_driver_fixture', database: 'postgres', password: 'fictional-fixture-only', ssl: false };
 await prepare();
-const admin = new Client({ ...connection, user: 'postgres', connectionTimeoutMillis: 1000 }); await admin.connect();
+const streamFactory=()=>{const stream=prepared.shift();assert(stream);return stream;};
+const admin = new Client({ ...connection, user: 'postgres', connectionTimeoutMillis: 1000, options:'-c statement_timeout=2000', sslnegotiation:'postgres',client_encoding:'UTF8', stream: streamFactory }); await admin.connect();
 try {
   await admin.query("DO $$ BEGIN IF NOT EXISTS(SELECT 1 FROM pg_catalog.pg_roles WHERE rolname='nz_driver_fixture') THEN CREATE ROLE nz_driver_fixture LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOREPLICATION NOBYPASSRLS; END IF; END $$; GRANT nz_freight_quota TO nz_driver_fixture; UPDATE nz_freight_quota.control SET enabled=true; SELECT nz_freight_quota.cleanup_expired()");
-  const driver = proposedQuotaDriver(Client, connection);
+  const driver = proposedQuotaDriverForFixture(Client, connection, streamFactory);
   await admin.query("UPDATE nz_freight_quota.cleanup_status SET last_success=pg_catalog.clock_timestamp()-interval '31 minutes'");
   await prepare(); assert.equal(await driver.claim({ invocationId: randomUUID(), kind: 'mcp' }), null);
   await admin.query('SELECT nz_freight_quota.cleanup_expired()');
@@ -76,5 +79,5 @@ try {
   await admin.query('DROP TRIGGER driver_delay ON nz_freight_quota.leases; DROP FUNCTION nz_freight_quota.driver_delay()');
   await prepare();
   const retry = await driver.claim({ invocationId: randomUUID(), kind: 'mcp' }); assert.equal(retry.state, 'admitted');
-  console.log(JSON.stringify({ scope: 'actual pg driver over fixture protocol bridge/internal Docker loopback only; hosted TLS/network unproved', driverVersion: require('pg/package.json').version, serverVersion: (await admin.query('SHOW server_version')).rows[0].server_version, sqlSha256: createHash('sha256').update(readFileSync(resolve(root, 'security-proposals/nz-plugin-hosting/quota-review.sql'))).digest('hex'), adapterSha256: createHash('sha256').update(readFileSync(resolve(root, 'security-proposals/nz-plugin-hosting/quota-driver.mjs'))).digest('hex'), cleanupSqlSha256: createHash('sha256').update(readFileSync(resolve(root, 'security-proposals/nz-plugin-hosting/cleanup-review.sql'))).digest('hex'), tests: ['stale cleanup receipt denies driver admission', 'scoped login admitted; end releases capacity', 'server500ms timeout rolls back real claim', 'caller abort ends actual driver connection; backend absent by bounded check; no counter commit', 'fresh connection retry admitted'], imageId: container.Image, publicActivation: false }, null, 2));
+  console.log(JSON.stringify({ scope: 'actual pg driver over fixture protocol bridge/internal Docker loopback only; hosted TLS/network unproved', driverVersion: require('pg/package.json').version, serverVersion: (await admin.query('SHOW server_version')).rows[0].server_version, sqlSha256: createHash('sha256').update(readFileSync(resolve(root, 'security-proposals/nz-plugin-hosting/quota-review.sql'))).digest('hex'), adapterSha256: createHash('sha256').update(readFileSync(resolve(root, 'security-proposals/nz-plugin-hosting/quota-driver.mjs'))).digest('hex'), cleanupSqlSha256: createHash('sha256').update(readFileSync(resolve(root, 'security-proposals/nz-plugin-hosting/cleanup-review.sql'))).digest('hex'), tests: ['explicit fixture configuration; final effective pg settings validated; no ambient credentials', 'stale cleanup receipt denies driver admission', 'scoped login admitted; end releases capacity', 'server500ms timeout rolls back real claim', 'caller abort ends actual driver connection; backend absent by bounded check; no counter commit', 'fresh connection retry admitted'], imageId: container.Image, publicActivation: false }, null, 2));
 } finally { await admin.end(); }

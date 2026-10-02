@@ -1,10 +1,10 @@
 # Freight-only owner release gates — inactive
 
-Use `docs/services/nz-freight-owner-permission.md` as the single concrete owner permission bundle: separate freight-only Vercel project, exact host/region, quota/cleanup permissions and recommended US$20/30-day budget with freight-only shutdown atUS$15. These are proposals, not approvals. Root reviews implementation choices and exact source artifact first. Kate is asked to approve the resulting infrastructure and cost decision, not select algorithms.
+Use `docs/services/nz-freight-owner-permission.md` as the single concrete owner permission bundle: separate freight-only Vercel project, exact host/region, quota/cleanup permissions and recommended soft US$20/30-day operating target with separately acknowledged unbounded overshoot risk with freight-only shutdown atUS$15. These are proposals, not approvals. Root reviews implementation choices and exact source artifact first. Kate is asked to approve the resulting infrastructure and cost decision, not select algorithms.
 
 - Approve the exact freight hostname, TLS/protection and public challenge/privacy/terms/support paths. No architecture activation.
 - Approve quota-only persistent access: private counters, UUID/fenced leases, 48-hour cleanup target, requiring independently scheduled bounded cleanup and overdue monitoring before a deletion guarantee; no content/customer identity. SQL remains unapplied until separately authorised and concurrency/privilege/deadline tested.
-- Approve actual hosting isolation and US-region processing. Shared-project parent credentials and resource headroom are unproved; a separate project on the existing platform is an alternative requiring approval, not a created resource.
+- Approve actual hosting isolation and US-region processing. The selected recommendation is a separate freight-only project on the existing platform, requiring approval and project environment/OIDC trust/resource proof; no shared-parent deployment is selected and no project is created.
 - Supply and approve an incremental spending ceiling, alerts and plugin-only shutdown. No amount or price is invented. Anonymous denial traffic can still incur platform cost. Vercel team-wide auto-pause affects all production projects and is delayed; no team-wide pause is authorised.
 - Approve truthful privacy/support/source-rights disclosures after actual log/retention/platform proof. Publisher personal account identifiers stay internal.
 
