@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Square, Volume2 } from "lucide-react";
-import { DO_PRONUNCIATION_SAMPLE, DO_READOUT_VOICE_KEY, doReadoutVoiceLabel, localDoReadoutVoices, selectedDoReadoutVoice } from "@/apps/do/shared/read-aloud";
+import { DO_PRONUNCIATION_SAMPLE, DO_READOUT_VOICE_KEY, doReadoutVoiceIdentity, doReadoutVoiceLabel, localDoReadoutVoices, selectedDoReadoutVoice } from "@/apps/do/shared/read-aloud";
 import styles from "./do-share.module.css";
 
 let activeReadout: { stop: () => void } | null = null;
@@ -86,7 +86,7 @@ export function DoReadAloud({ text }: { text: string }) {
     catch { stop(); setNotice("Read-aloud could not start. Your draft is still here."); }
   }
   return <div className={styles.wrap}>
-    <button type="button" className={styles.button} disabled={!text.trim()} aria-pressed={speaking} onClick={() => read()} title="Read this draft using an on-device English voice, when available.">
+    <button type="button" className={styles.button} disabled={!speaking && !text.trim()} aria-pressed={speaking} onClick={() => read()} title="Read this draft using an on-device English voice, when available.">
       {speaking ? <Square size={15} aria-hidden="true" /> : <Volume2 size={16} aria-hidden="true" />}{speaking ? "Stop reading" : "Read aloud"}
     </button>
     <details style={{ maxWidth: "100%" }}>
@@ -100,8 +100,8 @@ export function DoReadAloud({ text }: { text: string }) {
         setNotice("Voice choice applies to read-aloud on this browser, not calls or dictation.");
       }}>
         <option value="">Automatic on-device English</option>
-        {selected && !voices.some(voice => voice.voiceURI === selected) && <option value={selected} disabled>Selected voice unavailable</option>}
-        {voices.map(voice => <option key={voice.voiceURI} value={voice.voiceURI}>{doReadoutVoiceLabel(voice)}</option>)}
+        {selected && !voices.some(voice => doReadoutVoiceIdentity(voice) === selected) && <option value={selected} disabled>Selected voice unavailable</option>}
+        {voices.map(voice => <option key={voice.voiceURI} value={doReadoutVoiceIdentity(voice)}>{doReadoutVoiceLabel(voice)}</option>)}
       </select></label>
       <span className={styles.notice}>{voices.some(voice => /^en[-_]NZ$/i.test(voice.lang)) ? "NZ locale is reported by your device. Listen before relying on the accent or Māori pronunciation." : "No on-device NZ English voice is reported here. Other English voices are not labelled as NZ."} Choice stays in this browser.</span>
       <button type="button" className={styles.button} onClick={() => read(DO_PRONUNCIATION_SAMPLE)} disabled={speaking}>Preview pronunciation</button>

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { DO_PRONUNCIATION_SAMPLE, doReadoutVoiceLabel, localDoReadoutVoice, localDoReadoutVoices, selectedDoReadoutVoice } from "./read-aloud";
+import { DO_PRONUNCIATION_SAMPLE, doReadoutVoiceIdentity, doReadoutVoiceLabel, localDoReadoutVoice, localDoReadoutVoices, selectedDoReadoutVoice } from "./read-aloud";
 describe("DO on-device readout", () => {
   it("prefers local New Zealand English without using a remote default", () => {
     const voices = [{ lang: "en-NZ", localService: false }, { lang: "en-US", localService: true }, { lang: "en-NZ", localService: true }];
@@ -18,12 +18,18 @@ describe("DO explicit device voice options", () => {
   it("never lists or selects remote voices, even with an NZ locale", () => {
     const remote = { ...nz, voiceURI: "remote:nz", localService: false };
     expect(localDoReadoutVoices([remote, au, nz, nz])).toEqual([au, nz]);
-    expect(selectedDoReadoutVoice([remote, au], remote.voiceURI)).toBeUndefined();
+    expect(selectedDoReadoutVoice([remote, au], doReadoutVoiceIdentity(remote))).toBeUndefined();
   });
   it("retains the explicit voice instead of silently using another accent", () => {
-    expect(selectedDoReadoutVoice([nz, au], au.voiceURI)).toBe(au);
-    expect(selectedDoReadoutVoice([au], nz.voiceURI)).toBeUndefined();
+    expect(selectedDoReadoutVoice([nz, au], doReadoutVoiceIdentity(au))).toBe(au);
+    expect(selectedDoReadoutVoice([au], doReadoutVoiceIdentity(nz))).toBeUndefined();
     expect(selectedDoReadoutVoice([au, nz], "")).toBe(nz);
+  });
+  it("rejects changed locale or name even when the URI is reused", () => {
+    const identity = doReadoutVoiceIdentity(nz);
+    expect(selectedDoReadoutVoice([{ ...nz, lang: "en-AU" }], identity)).toBeUndefined();
+    expect(selectedDoReadoutVoice([{ ...nz, name: "Replacement" }], identity)).toBeUndefined();
+    expect(selectedDoReadoutVoice([nz], nz.voiceURI)).toBeUndefined();
   });
   it("reports NZ locale as unverified and never relabels Australian English", () => {
     expect(doReadoutVoiceLabel(nz)).toContain("NZ locale, not listening-verified");

@@ -15,10 +15,13 @@ export function localDoReadoutVoices<T extends DoDeviceVoice>(voices: T[]): T[] 
     seen.add(voice.voiceURI); return true;
   });
 }
+export function doReadoutVoiceIdentity(voice: DoDeviceVoice): string {
+  return JSON.stringify([voice.voiceURI, voice.lang, voice.name]);
+}
 export function selectedDoReadoutVoice<T extends DoDeviceVoice>(voices: T[], selected: string): T | undefined {
   const local = localDoReadoutVoices(voices);
   // Never substitute another accent after an explicit device-voice selection.
-  return selected ? local.find(voice => voice.voiceURI === selected) : localDoReadoutVoice(local);
+  return selected ? local.find(voice => doReadoutVoiceIdentity(voice) === selected) : localDoReadoutVoice(local);
 }
 export function doReadoutVoiceLabel(voice: DoDeviceVoice): string {
   return `${voice.name} · ${voice.lang}${/^en[-_]NZ$/i.test(voice.lang) ? " · NZ locale, not listening-verified" : ""}`;
