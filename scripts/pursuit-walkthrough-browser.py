@@ -77,7 +77,7 @@ async def main():
                         await page.screenshot(path=str(OUT / f'home-{width}-{motion}.png'), full_page=False)
                         scene = page.get_by_role('region', name='assembl the work.', exact=True)
                         if motion == 'reduce':
-                            await expect(scene.get_by_role('button', name='Pause scene motion', exact=True)).to_be_disabled()
+                            await expect(scene.get_by_role('button', name='Still view; scene motion unavailable', exact=True)).to_be_disabled()
                             await expect(scene.get_by_label('The complete work loop')).to_be_visible()
                         else:
                             # Exercise native keyboard activation without waiting for two

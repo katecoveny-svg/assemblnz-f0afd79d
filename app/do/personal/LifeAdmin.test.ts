@@ -8,13 +8,14 @@ describe('Personal DO visual entry', () => {
   it('lets guests start their own note before opting into fictional examples', () => {
     const html = renderToStaticMarkup(createElement(LifeAdmin, { storageScope: 'guest' }));
     expect(html).not.toContain('data-example=');
-    expect(html).toContain('See an example');
+    expect(html).toContain('aria-label="Try fictional school notice"');
+    expect(html).toContain('Fictional example · on this device');
     expect(html).toContain('aria-expanded="false"');
     expect(html).toContain('What needs doing?');
     expect(html).toContain('Start');
     expect(html).toContain('data-do-primary-input="true"');
     expect(html).toContain('What’s underway');
-    expect(html).toContain('More things to sort');
+    expect(html).toContain('Keep going.');
     expect(html).not.toContain('Your first three steps');
   });
   it('keeps one primary assistant input with local capture available by choice', () => {
