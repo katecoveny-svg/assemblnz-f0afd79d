@@ -293,3 +293,5 @@ At the end of a meaningful workday:
 4. update stable canon only when a durable decision changed;
 5. register reusable capabilities, decisions and learnings in the Factory docs;
 6. never let an automated process silently rewrite brand or product canon.
+
+**2 October glass identity:** DO07 is merged in PR1463 (`d568e6c4`) and verified live at www.assembl.co.nz/do with the 69 KB static artwork and 256 production-built fictional browser checks. Real authenticated preview is still unverified. Kate then approved the wider matching lowercase-a/D glass rollout while preserving the immersive flythrough. That wider scene/icon/header/OG implementation is under source review, not yet published; useful Pursuit demo and portable native owners retain their boundaries.

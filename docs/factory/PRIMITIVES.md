@@ -169,3 +169,5 @@ Creates `apps/do/coordination/protocol.ts` and `/do/coordination`: strict synthe
 ### Authenticated EA coordination (inactive durable proposal)
 
 Adds `apps/do/coordination/durable/*` and `/api/do/coordination` behind an off-by-default pilot flag and a reject-all pairing adapter. Authenticated session-bound commands and private snapshots use proposed isolated participant storage, exact disclosure/proposal approval, CAS, bounded rounds/quotas and durable replay tombstones. SQL remains `docs/do-coordination/schema-review.sql` outside migrations; no real pairing, calendar/provider action or external transport. Public fictional review stays unchanged. See `docs/do-coordination/README.md` for PostgreSQL proof and activation gates.
+
+- **Assembled glass identity:** `components/brand/AssembledGlassMarks.tsx` reuses canonical lowercase assembl a and uppercase DO D-dot contours as real scene geometry; `AssemblGlassMark` supplies the small opaque vector. Keep the demand-rendered atelier and complete real-scene fallbacks; raster artwork never substitutes for motion proof.

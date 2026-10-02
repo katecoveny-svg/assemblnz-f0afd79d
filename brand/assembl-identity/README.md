@@ -26,7 +26,7 @@ or third-party font request is needed to render or regenerate these assets.
 Run `node scripts/generate-assembl-identity.mjs`, then
 `pnpm exec vitest run lib/brand/assembl-identity.test.ts`.
 
-- `mark.svg` produces `public/icons/assembl-icon-{16,32,48,180,192,512}x*.png`
+- `mark.svg` produces the high-contrast16/32/48 px marks; `glass-mark.svg` uses the exact same outline for larger 180/192/512 px glass exports. Together they produce `public/icons/assembl-icon-{16,32,48,180,192,512}x*.png`
 - 16/32/48 PNG frames form both `public/icons/favicon.ico` and `app/favicon.ico`
 - `app/icon.png` is byte-identical to the 32px PNG; `app/apple-icon.png` to 180px
 - `wordmark.svg` produces the existing `/press` download at
@@ -40,3 +40,5 @@ file-convention assets in `app/`, so both sources must stay in sync.
 The existing root `assembl-icon.png` experiment, `public/images/brand-mark.png`,
 old social images, `public/assembling/favicons`, DO's intentional D identity and
 verified client assets are outside this current company/browser asset family.
+
+The exact glyph and transform are shared with `lib/brand/assembl-mark.ts` and the real homepage glass geometry. The small code-native company control remains opaque; DO keeps its separate uppercase D-dot. Generated art is not a substitute for canonical vector geometry.

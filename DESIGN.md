@@ -336,3 +336,7 @@ The standard is not “looks like AI”.
 The standard is:
 
 > **clear enough to understand, beautiful enough to remember, truthful enough to trust.**
+
+## Wider glass identity rollout · approved 2 October 2026
+
+Keep the immersive homepage camera journey. Use real assembled-glass a/D geometry in the atelier, with canonical vector controls and readable tiny favicons. Larger icon/share artwork may use the approved glass material. The scene is imagined; no live agent claim follows from animation. Preserve mobile motion, pause, complete reduced-motion/no-WebGL/no-JS views and demand rendering. See the scoped rollout section in `docs/assembl-brand-system.md`; native installed-app verification stays with its owner.

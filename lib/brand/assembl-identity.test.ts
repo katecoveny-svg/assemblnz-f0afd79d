@@ -5,10 +5,13 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import sharp from 'sharp';
 import { describe, expect, it } from 'vitest';
 import { AssemblWordmark } from '@/components/site/AssemblWordmark';
+import { AssemblGlassMark } from '@/components/site/AssemblGlassMark';
+import { ASSEMBL_A_PATH, ASSEMBL_A_TRANSFORM } from './assembl-mark';
 
 const read = (path: string) => readFileSync(path);
 const text = (path: string) => read(path).toString('utf8');
 const mark = read('brand/assembl-identity/mark.svg');
+const glass = read('brand/assembl-identity/glass-mark.svg');
 const sizes = [16, 32, 48, 180, 192, 512];
 
 describe('assembl lowercase browser identity', () => {
@@ -33,10 +36,23 @@ describe('assembl lowercase browser identity', () => {
     expect(text('brand/assembl-identity/OFL.txt')).toContain('SIL OPEN FONT LICENSE Version 1.1');
   });
 
+  it('uses the exact lowercase outline in glass exports, controls and real geometry', () => {
+    const source = text('brand/assembl-identity/mark.svg');
+    expect(ASSEMBL_A_PATH).toBe(source.match(/<path d="([^"]+)"/)![1]);
+    expect(ASSEMBL_A_TRANSFORM).toBe(source.match(/transform="([^"]+)"/)![1]);
+    const html = renderToStaticMarkup(createElement(AssemblGlassMark));
+    expect(html).toContain(`d="${ASSEMBL_A_PATH}"`);
+    expect(html).toContain(`transform="${ASSEMBL_A_TRANSFORM}"`);
+    const glassSvg = glass.toString('utf8');
+    expect(glassSvg).toContain('data-text="a"');
+    for (const contour of [...glassSvg.matchAll(/<path d="([^"]+)"/g)]) expect(contour[1]).toBe(ASSEMBL_A_PATH);
+    expect(glassSvg).not.toMatch(/<text\b|font-family=/);
+  });
+
   it.each(sizes)('serves the canonical mark at %ipx with an opaque paper background', async (size) => {
     const png = read(`public/icons/assembl-icon-${size}x${size}.png`);
     expect(await sharp(png).metadata()).toMatchObject({ width: size, height: size, format: 'png' });
-    const expected = await sharp(mark, { density: 576 }).resize(size, size).png().toBuffer();
+    const expected = await sharp(size < 180 ? mark : glass, { density: 576 }).resize(size, size).png().toBuffer();
     expect(png.equals(expected)).toBe(true);
     const { data, info } = await sharp(png).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
     expect([...data.subarray(0, 4)]).toEqual([255, 253, 251, 255]);
@@ -52,11 +68,11 @@ describe('assembl lowercase browser identity', () => {
       for (let x = 0; x < info.width; x++) {
         const at = (y * info.width + x) * info.channels;
         const rgb = [data[at], data[at + 1], data[at + 2]];
-        if (rgb.join(',') === '36,11,33') plumPixels++;
+        if (rgb[0] < 110 && rgb[1] < 80 && rgb[2] < 110) plumPixels++;
         if (Math.hypot(x + 0.5 - 256, y + 0.5 - 256) > 204.8 && rgb.join(',') !== '255,253,251') outsideInk++;
       }
     }
-    expect(plumPixels).toBeGreaterThan(10000);
+    expect(plumPixels).toBeGreaterThan(8000);
     expect(outsideInk).toBe(0);
   });
 

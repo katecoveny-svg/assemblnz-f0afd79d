@@ -5,11 +5,12 @@ import sharp from 'sharp';
 
 const file = (path) => fileURLToPath(new URL(`../${path}`, import.meta.url));
 const source = await readFile(file('brand/assembl-identity/mark.svg'));
+const glass = await readFile(file('brand/assembl-identity/glass-mark.svg'));
 const sizes = [16, 32, 48, 180, 192, 512];
 const pngs = new Map();
 
 for (const size of sizes) {
-  const png = await sharp(source, { density: 576 }).resize(size, size).png().toBuffer();
+  const png = await sharp(size < 180 ? source : glass, { density: 576 }).resize(size, size).png().toBuffer();
   pngs.set(size, png);
   await writeFile(file(`public/icons/assembl-icon-${size}x${size}.png`), png);
 }
@@ -39,4 +40,4 @@ await writeFile(file('app/icon.png'), pngs.get(32));
 await writeFile(file('app/apple-icon.png'), pngs.get(180));
 await sharp(await readFile(file('brand/assembl-identity/wordmark.svg')))
   .png().toFile(file('public/img/press/assembl-wordmark.png'));
-console.log('assembl identity regenerated: lowercase Instrument Sans, plum/paper.');
+console.log('assembl identity regenerated: canonical lowercase Instrument Sans; flat tiny marks, assembled glass at app sizes.');

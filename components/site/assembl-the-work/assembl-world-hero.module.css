@@ -44,3 +44,7 @@
 .rail .chapterSteps button[data-active=true]{box-shadow:inset 0 0 0 1px #fffdfb99}.jobNote{border-radius:23px;border-color:#fffdfb26}
 .rail[data-static] .stillSummary{border-radius:0 0 36px 36px;background:linear-gradient(#fffdfb,#f5f1f2)}.stillSummary article{border:0;padding-top:12px}
 @media(max-width:650px){.rail{margin:8px 8px 0;border-radius:28px}.frame{top:8px;height:calc(100svh - 16px);border-radius:28px;padding-left:5%;padding-right:5%}.rail .chapterSteps button{border:0;border-radius:14px}.rail .copy h1{font-size:clamp(56px,15.4vw,88px)}}
+
+/* Same company identity as the glass scene; small vector remains readable. */
+.rail .wordmark{display:inline-flex;align-items:center;gap:10px}.rail .wordmark>svg{width:36px;height:36px}
+@media(max-width:650px){.rail .wordmark{gap:7px}.rail .wordmark>svg{width:30px;height:30px}}
