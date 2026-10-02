@@ -65,7 +65,7 @@ const cmd=(client,name,input,id=owner)=>client.query('select public.studio_owner
  pass('two enabled owners retain distinct drafts/runs; cross-owner reads, writes, save/delete RPCs and run access deny without mutation');
  for(const client of [A,B,anon,service])for(const table of ['studio_owner_run_policies','studio_owner_runs','studio_owner_drafts']){
   for(const [privilege,statement] of [
-   ['INSERT',`insert into public.${table} select * from public.${table} where false`],
+   ['INSERT',table==='studio_owner_drafts'?`insert into public.${table}(owner_user_id,revision,payload) select owner_user_id,revision,payload from public.${table} where false`:`insert into public.${table} select * from public.${table} where false`],
    ['UPDATE',`update public.${table} set owner_user_id=owner_user_id where false`],
    ['DELETE',`delete from public.${table} where false`],
    ['TRUNCATE',`truncate public.${table}`],
