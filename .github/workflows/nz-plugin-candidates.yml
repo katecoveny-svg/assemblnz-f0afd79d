@@ -8,6 +8,11 @@ on:
       - 'plugins/mcp-servers/mcp-nz-evidence/**'
       - 'scripts/build-nz-plugin-candidates.mjs'
       - 'scripts/review-nz-plugin-candidates.mjs'
+      - 'scripts/lib/nz-plugin-zip.mjs'
+      - 'scripts/nz-plugin-zip.test.mjs'
+      - 'scripts/verify-nz-plugin-packaging.mjs'
+      - 'security-proposals/nz-plugin-hosting/**'
+      - 'docs/services/nz-plugin-hosting-proposal.md'
       - 'docs/services/nz-plugin-candidates.md'
       - '.github/workflows/nz-plugin-candidates.yml'
       - 'package.json'
@@ -34,11 +39,15 @@ jobs:
         with:
           node-version: 24
       - run: pnpm install --frozen-lockfile
-      - name: Portable manifests and self-contained development bundles
-        run: node scripts/build-nz-plugin-candidates.mjs
+      - name: Deterministic ZIP headers and timezone-independent complete packages
+        run: |
+          node --test scripts/nz-plugin-zip.test.mjs
+          node scripts/verify-nz-plugin-packaging.mjs
       - name: Deterministic facts, provenance, boundaries and actual MCP transports
-        run: pnpm exec vitest run lib/nz-evidence/service.test.ts lib/nz-evidence/candidates.test.ts lib/nz-evidence/transport.test.ts
+        run: pnpm exec vitest run lib/nz-evidence/service.test.ts lib/nz-evidence/candidates.test.ts lib/nz-evidence/transport.test.ts lib/nz-evidence/hosting-proposal.test.ts
       - name: Explicit plugin type coverage (excluded from root tsconfig)
         run: pnpm exec tsc --noEmit --skipLibCheck --esModuleInterop --target es2022 --moduleResolution bundler --module esnext plugins/mcp-servers/mcp-nz-evidence/src/*.ts
-      - run: pnpm exec eslint lib/nz-evidence plugins/mcp-servers/mcp-nz-evidence/src --max-warnings=0
+      - name: Strict inactive hosting policy contract
+        run: pnpm exec tsc --noEmit --strict --skipLibCheck --target es2022 --moduleResolution bundler --module esnext security-proposals/nz-plugin-hosting/policy.ts
+      - run: pnpm exec eslint lib/nz-evidence plugins/mcp-servers/mcp-nz-evidence/src security-proposals/nz-plugin-hosting/policy.ts scripts/lib/nz-plugin-zip.mjs scripts/nz-plugin-zip.test.mjs scripts/verify-nz-plugin-packaging.mjs --max-warnings=0
       - run: git diff --check
