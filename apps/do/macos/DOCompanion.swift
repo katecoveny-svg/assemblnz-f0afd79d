@@ -249,8 +249,8 @@ struct Orb: View {
                 Text("DO").font(.system(size: 24, weight: .regular))
             }
         }.frame(width: 96, height: 96)
-            .help("Click to open DO. Drag to move. Moving shares nothing.")
-            .accessibilityLabel("Open DO")
+            .help("Click for DO actions. Drag to move. Moving shares nothing.")
+            .accessibilityLabel("Choose a DO action")
     }
 }
 final class DraggableOrbView: NSHostingView<Orb> {
@@ -291,12 +291,43 @@ final class DraggableOrbView: NSHostingView<Orb> {
     }
 }
 
+struct QuickActions: View {
+    let selectText: () -> Void
+    let reviewClipboard: () -> Void
+    let openWorkspace: () -> Void
+    private let plum = Color(red: 0.14, green: 0.04, blue: 0.13)
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Bring something to DO").font(.headline)
+            Text("Choose the text. Review it before using it.")
+                .font(.subheadline).foregroundColor(plum.opacity(0.75))
+            Button("Review selected text", action: selectText)
+                .help("Uses existing Accessibility permission. No permission is requested here.")
+            Button("Review clipboard", action: reviewClipboard)
+                .help("Reads copied text only after this click.")
+            Divider()
+            Button("Open workspace", action: openWorkspace)
+            Text("No text is read by opening this menu. Nothing is sent.")
+                .font(.caption).foregroundColor(plum.opacity(0.75))
+        }
+        .buttonStyle(.bordered)
+        .tint(Color(red: 0.40, green: 0.29, blue: 0.31))
+        .foregroundColor(plum)
+        .padding(18)
+        .frame(width: 300)
+        .background(.ultraThinMaterial)
+        .background(Color(red: 0.92, green: 0.78, blue: 0.87).opacity(0.45))
+    }
+}
+
 final class AppDelegate: NSObject, NSApplicationDelegate {
     var orb: NSPanel!
     var workspace: NSWindow!
     let model = CompanionModel()
     var menuItem: NSStatusItem!
     var launchAtLoginItem: NSMenuItem?
+    let quickActions = NSPopover()
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
@@ -329,7 +360,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         orb.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
 
         let orbView = DraggableOrbView(rootView: Orb())
-        orbView.openDO = { [weak self] in self?.showWorkspace() }
+        orbView.openDO = { [weak self, weak orbView] in
+            guard let self, let orbView else { return }
+            self.showQuickActions(from: orbView)
+        }
         orbView.didMove = { [weak self] origin in self?.saveOrbPosition(origin) }
         orb.contentView = orbView
 
@@ -445,8 +479,33 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc func showWorkspace() {
+        quickActions.performClose(nil)
         workspace.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
+    }
+
+    private func showQuickActions(from view: NSView) {
+        if quickActions.isShown {
+            quickActions.performClose(nil)
+            return
+        }
+        quickActions.behavior = .transient
+        quickActions.contentViewController = NSHostingController(rootView: QuickActions(
+            selectText: { [weak self] in self?.reviewFromOrb(clipboard: false) },
+            reviewClipboard: { [weak self] in self?.reviewFromOrb(clipboard: true) },
+            openWorkspace: { [weak self] in self?.showWorkspace() }
+        ))
+        quickActions.show(relativeTo: view.bounds, of: view, preferredEdge: .minX)
+    }
+
+    private func reviewFromOrb(clipboard: Bool) {
+        // Capture before activating DO so the existing target app stays intact.
+        // These methods neither prompt for permission nor transmit the review.
+        model.review = ""
+        model.destinationChecked = false
+        if clipboard { model.reviewClipboard() } else { model.captureSelection() }
+        if !model.review.isEmpty, model.web.url?.path != "/do/widget" { model.open("/do/widget") }
+        showWorkspace()
     }
 
     @objc func showOrb() {

@@ -17,11 +17,15 @@ This is still an unsigned/ad-hoc local development companion, not a notarised pu
 
 ## current interaction model
 
+The floating D opens a compact action menu: **Review selected text**, **Review clipboard**, or **Open workspace**. Opening this menu does not read anything. Dragging only moves the D. Selected-text capture uses existing Accessibility permission; this shortcut does not request a grant. Clipboard review reads copied text only after its button is clicked. A new capture clears the prior native review so a failed capture cannot present old text as the new selection.
+
+The menu brings captured text into the existing native review box. **Add to DO** is still a separate action; provider preparation and its consent remain separate again. If capture fails, the existing web page is not navigated away. Open workspace preserves the existing web page.
+
 The toolbar offers explicit selection capture from the previously active app and review-first paste.
 
 Open DO, choose the app you want to work in, select text, then return to DO and choose **Use selected text** (Show DO see-this). Capture stays in the local review box until you choose **Add to DO**. Use **Review clipboard** to inspect copied text. **Paste reviewed text** inserts only the reviewed content into the chosen editable field. It never presses Return or Send.
 
-This Mac orb is the **same portable DO** as the web floating ✦ and Chrome companion — not a separate product. See `docs/do-templates/DO-PORTABLE-AGENT.md`.
+The Mac orb, web launcher and Chrome companion are entry points to DO, with different capture capabilities. They do not by themselves share tasks, local storage, browser sessions or permission grants. The `/do/continue` milestone is an explicitly fictional browser-local fixture while durable integration remains closed. See `docs/do-templates/DO-PORTABLE-AGENT.md` for the broader intended direction.
 
 Accessibility permission is requested only through the labelled **Enable app interaction** button. Each capture and paste checks permission and target application again. Secure text fields are refused. No selected text or clipboard content is automatically read on launch.
 
