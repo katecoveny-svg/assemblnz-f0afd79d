@@ -8,7 +8,7 @@ describe('read-only recovery storage query',()=>{
   expect(await recoverTrial('request-id','owner-hash','input-hash')).toEqual({status:'not_found'});
   expect(fetcher).toHaveBeenCalledTimes(1);
   const [url,init]=fetcher.mock.calls[0];expect(init?.method).toBe('GET');expect(init?.body).toBeUndefined();
-  const params=new URL(String(url)).searchParams;expect(params.get('id')).toBe('eq.request-id');expect(params.get('principal_hash')).toBe('eq.owner-hash');expect(params.get('input_hash')).toBe('eq.input-hash');expect(params.get('select')).toBe('state,result');expect(String(url)).not.toContain('/rpc/');
+  const params=new URL(String(url)).searchParams;expect(params.get('id')).toBe('eq.request-id');expect(params.get('principal_hash')).toBe('eq.owner-hash');expect(params.get('input_hash')).toBe('eq.input-hash');expect(params.get('select')).toBe('state,result,trace');expect(String(url)).not.toContain('/rpc/');
  });
  for(const state of ['pending','failed'])it(`returns only status for ${state} rows`,async()=>{
   vi.stubGlobal('fetch',vi.fn(async()=>Response.json([{state,result:null}])));expect(await recoverTrial('id','owner','hash')).toEqual({status:state});
@@ -23,4 +23,10 @@ it('stores failed scoped admission receipts in the existing private trace withou
  const fetcher=vi.fn<typeof fetch>(async()=>Response.json([]));vi.stubGlobal('fetch',fetcher);
  const receipt={requestId:'id',stage:'draft' as const,providerCalls:1,webSearches:0,budget:{model:'claude-haiku-4-5-20251001',currency:'USD' as const,maxUsd:1/1.15,calls:1,reservedUpperUsd:.212,searchAdmitted:false as const,assumedTaxRate:.15,grossUpperUsd:.2438}};
  await failTrial('id','owner','direct_brief_failed',receipt);expect(fetcher).toHaveBeenCalledOnce();const [,init]=fetcher.mock.calls[0];expect(init?.method).toBe('PATCH');expect(JSON.parse(init?.body as string)).toMatchObject({state:'failed',trace:{error:'direct_brief_failed',receipt}});
+});
+
+it('recovers a failed-run safe receipt through GET without a new reservation or inference',async()=>{
+ const receipt={requestId:'id',stage:'formatter' as const,providerCalls:2,webSearches:0,budget:{model:'claude-haiku-4-5-20251001',currency:'USD' as const,maxUsd:1/1.15,calls:2,reservedUpperUsd:.422,searchAdmitted:false as const,assumedTaxRate:.15,grossUpperUsd:.4853}};
+ const fetcher=vi.fn<typeof fetch>(async()=>Response.json([{state:'failed',trace:{receipt:{...receipt,private:'do not expose'}},result:null}]));vi.stubGlobal('fetch',fetcher);
+ expect(await recoverTrial('id','owner','hash')).toEqual({status:'failed',receipt});expect(fetcher).toHaveBeenCalledOnce();expect(fetcher.mock.calls[0][1]?.method).toBe('GET');
 });

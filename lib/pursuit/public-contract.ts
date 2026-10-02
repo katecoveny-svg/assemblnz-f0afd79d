@@ -23,6 +23,7 @@ export const Draft = z.object({
 export type PursuitDraft = z.infer<typeof Draft>;
 export type EvidenceSource = {url:string;title:string;retrievedAt:string;expiresAt?:string;publishedAt?:null;sha256?:string;textSha256?:string;bytes?:number;textTruncated?:boolean};
 export type PublicBudgetReceipt={model:string;currency:'USD';maxUsd:number;calls:number;reservedUpperUsd:number;searchAdmitted:false;assumedTaxRate:number;grossUpperUsd:number};
+export type PublicFailureReceipt={requestId:string;stage:'draft'|'formatter'|'validation';providerCalls:number;webSearches:number;budget:PublicBudgetReceipt};
 export type PublicResearchResult = {
   mode:'live'|'direct_source_brief';draft:PursuitDraft;
   trace:{id:string;at:string;model:string;providerCalls:number;webSearches:number;knowledgeIds:string[];sources:EvidenceSource[];inputTokens:number;outputTokens:number;budget?:PublicBudgetReceipt;typesafe:{status:'not_requested'|'unavailable'|'completed';model?:string;action?:string;confidence?:number};persisted:true};

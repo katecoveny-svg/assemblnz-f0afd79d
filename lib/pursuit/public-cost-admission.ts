@@ -1,3 +1,4 @@
+import type {PublicFailureReceipt} from './public-contract';
 /** Review-only admission for the approved <=US$1 test. Not wired to public routes.
  * Haiku's documented 200K context provides a conservative bound for one
  * no-tool inference. Provider-managed search can perform hidden inference
@@ -36,4 +37,12 @@ export function createPublicTestAdmission(maxUsd:number,next:typeof fetch) {
   return next(url,{...init,body:JSON.stringify({...raw,model:PUBLIC_TEST_MODEL,service_tier:'standard_only'})});
  };
  return {fetcher:admitted,receipt:()=>({model:PUBLIC_TEST_MODEL,currency:'USD' as const,maxUsd,calls,reservedUpperUsd,searchAdmitted:false as const})};
+}
+
+/** Reconstruct only the known safe receipt fields from private storage or API JSON. */
+export function readPublicFailureReceipt(value:unknown,requestId:string):PublicFailureReceipt|undefined {
+ if(!record(value)||value.requestId!==requestId||!['draft','formatter','validation'].includes(String(value.stage))||value.webSearches!==0||!record(value.budget))return;
+ const b=value.budget;
+ if(b.model!==PUBLIC_TEST_MODEL||b.currency!=='USD'||b.searchAdmitted!==false||b.assumedTaxRate!==.15||!Number.isInteger(b.calls)||Number(b.calls)<1||Number(b.calls)>2||value.providerCalls!==b.calls||typeof b.maxUsd!=='number'||!Number.isFinite(b.maxUsd)||Math.abs(b.maxUsd-1/1.15)>1e-9||typeof b.reservedUpperUsd!=='number'||!Number.isFinite(b.reservedUpperUsd)||b.reservedUpperUsd<=0||b.reservedUpperUsd>.45+1e-9||typeof b.grossUpperUsd!=='number'||!Number.isFinite(b.grossUpperUsd)||Math.abs(b.grossUpperUsd-b.reservedUpperUsd*1.15)>1e-9)return;
+ return {requestId,stage:value.stage as PublicFailureReceipt['stage'],providerCalls:Number(b.calls),webSearches:0,budget:{model:PUBLIC_TEST_MODEL,currency:'USD',maxUsd:b.maxUsd,calls:Number(b.calls),reservedUpperUsd:b.reservedUpperUsd,searchAdmitted:false,assumedTaxRate:.15,grossUpperUsd:b.grossUpperUsd}};
 }

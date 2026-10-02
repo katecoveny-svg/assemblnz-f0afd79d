@@ -1,8 +1,9 @@
 """Mocked local UI proof. Every research POST intercepted; no provider call."""
-import asyncio,json
+import asyncio,json,os
 from pathlib import Path
 from playwright.async_api import async_playwright,expect
 OUT=Path(__file__).parent
+ORIGIN=os.environ.get('ASSEMBL_REVIEW_ORIGIN','http://127.0.0.1:3164')
 async def main():
  report=[]
  async with async_playwright() as p:
@@ -19,12 +20,12 @@ async def main():
      if len(posts)>1:await asyncio.sleep(0.8)
      await route.fulfill(status=503 if len(posts)==1 else 409,json={'error':'No verified source trail. Mocked failure.' if len(posts)==1 else 'This saved request failed. Recovery has not started another research call.','code':'untraced_source' if len(posts)==1 else 'failed'})
    await page.route('**/api/pursuit/research',mock)
-   await page.goto('http://127.0.0.1:3164/pursuit',wait_until='networkidle')
+   await page.goto(ORIGIN+'/pursuit',wait_until='networkidle')
    await page.wait_for_timeout(1000)
    canvas=page.locator('#try-pursuit')
    await canvas.get_by_label('Company or sector',exact=True).fill('assembl.co.nz')
    await canvas.get_by_label('What should the agent investigate?',exact=True).fill('Fictional independent consultancy: research one public source-backed opening.')
-   await canvas.locator('input[type=checkbox]').first.check()
+   await canvas.get_by_label('Send this public brief to the research provider.',exact=False).check()
    await canvas.get_by_label('Also share the public research draft',exact=False).check()
    assert await canvas.locator('form').evaluate('(form)=>form.checkValidity()'),await canvas.locator('form').evaluate('(form)=>Array.from(form.elements).map(e=>({name:e.name,value:e.value,valid:e.validity.valid}))')
    await canvas.get_by_role('button',name='Research an opportunity',exact=True).click()

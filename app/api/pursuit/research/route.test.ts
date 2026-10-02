@@ -124,7 +124,20 @@ describe('bounded direct-source route and recovery',()=>{
  });
 });
 
-it('offers a zero-inference native source diagnostic without reserving or exposing full content',async()=>{
+it('offers a protected-preview zero-inference native source diagnostic without reserving or exposing full content',async()=>{
+ vi.stubEnv('VERCEL_ENV','preview');vi.stubEnv('VERCEL_GIT_COMMIT_REF','feat/pursuit-live-home-20261002');
  mocks.sources.mockResolvedValue([{state:'unavailable',url:'https://www.assembl.co.nz/',reason:'source_unavailable',checkedAt:new Date().toISOString()}]);
  const response=await(await GET(new Request(url+'?checkDirectSources=1'))).json();expect(response).toMatchObject({sourcesReady:false,providerCalls:0,webSearches:0,billingAccountTotalVerified:false});expect(mocks.reserve).not.toHaveBeenCalled();expect(mocks.research).not.toHaveBeenCalled();expect(mocks.direct).not.toHaveBeenCalled();expect(mocks.policy).not.toHaveBeenCalled();
+});
+
+for(const env of ['production','development'])it('blocks source diagnostic outside this protected preview',async()=>{
+ vi.stubEnv('VERCEL_ENV',env);vi.stubEnv('VERCEL_GIT_COMMIT_REF','feat/pursuit-live-home-20261002');
+ expect((await GET(new Request(url+'?checkDirectSources=1'))).status).toBe(404);expect(mocks.sources).not.toHaveBeenCalled();expect(mocks.reserve).not.toHaveBeenCalled();
+});
+it('blocks source diagnostic on unrelated preview branches',async()=>{
+ vi.stubEnv('VERCEL_ENV','preview');vi.stubEnv('VERCEL_GIT_COMMIT_REF','other-task');expect((await GET(new Request(url+'?checkDirectSources=1'))).status).toBe(404);expect(mocks.sources).not.toHaveBeenCalled();
+});
+it('returns a terminal failed receipt from lookup-only recovery without research',async()=>{
+ const receipt={safeFixture:true};mocks.recover.mockResolvedValue({status:'failed',receipt});const req=request();req.headers.set('x-pursuit-recovery','lookup-only');
+ const response=await(await POST(req)).json();expect(response).toMatchObject({code:'failed',receipt});expect(mocks.reserve).not.toHaveBeenCalled();expect(mocks.direct).not.toHaveBeenCalled();expect(mocks.research).not.toHaveBeenCalled();
 });

@@ -30,6 +30,16 @@
     "providerCalls": 0
   },
   {
+    "width": 375,
+    "case": "network_failed_receipt",
+    "initialHeading": "Request status is unknown.",
+    "recoveryHeading": "No verified research result.",
+    "sameFrozenBody": true,
+    "lookupOnlyRecovery": true,
+    "fixtureAsResult": false,
+    "providerCalls": 0
+  },
+  {
     "width": 1440,
     "case": "429_missing",
     "initialHeading": "Research was not started.",
@@ -54,6 +64,16 @@
     "case": "network_pending",
     "initialHeading": "Request status is unknown.",
     "recoveryHeading": "Research is still running.",
+    "sameFrozenBody": true,
+    "lookupOnlyRecovery": true,
+    "fixtureAsResult": false,
+    "providerCalls": 0
+  },
+  {
+    "width": 1440,
+    "case": "network_failed_receipt",
+    "initialHeading": "Request status is unknown.",
+    "recoveryHeading": "No verified research result.",
     "sameFrozenBody": true,
     "lookupOnlyRecovery": true,
     "fixtureAsResult": false,

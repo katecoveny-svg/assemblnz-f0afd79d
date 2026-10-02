@@ -29,3 +29,8 @@ it('freezes the first request body and retains the selected router option',()=>{
  expect(Object.isFrozen(attempt.input)).toBe(true);
  expect(publicAttempt(attempt,selected,ids)).toBe(attempt);expect(attempt.input.useTypeSafe).toBe(true);expect(ids).toHaveBeenCalledTimes(1);
 });
+
+it('keeps retrieval mode in the immutable request identity',()=>{
+ const ids=vi.fn(()=> 'direct');const scoped={...brief,sourceMode:'direct_source_brief' as const};const attempt=publicAttempt(null,scoped,ids);
+ expect(attempt.input.sourceMode).toBe('direct_source_brief');expect(publicAttempt(attempt,scoped,ids)).toBe(attempt);expect(matchesPublicAttempt(attempt,brief)).toBe(false);expect(ids).toHaveBeenCalledTimes(1);
+});

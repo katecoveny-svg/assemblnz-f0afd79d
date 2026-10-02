@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { ArrowRight, ArrowUpRight, Download, Search, Check } from 'lucide-react';
-import { Draft, type PublicResearchResult } from '@/lib/pursuit/public-contract';
+import { Draft, type PublicFailureReceipt, type PublicResearchResult } from '@/lib/pursuit/public-contract';
+import {readPublicFailureReceipt} from '@/lib/pursuit/public-cost-admission';
 import { buildPitchHtml } from '@/lib/pursuit/pitch-export';
 import styles from './live-pursuit.module.css';
 import { useResearchAvailability, refreshResearchAvailability } from './useResearchAvailability';
@@ -31,6 +32,7 @@ export function LivePursuitCanvas({ homepage = false }: { homepage?: boolean }) 
   const [useTypeSafe, setUseTypeSafe] = useState(false);
   const [busy, setBusy] = useState(false);
   const [isRecovering, setIsRecovering] = useState(false);
+  const [failureReceipt,setFailureReceipt]=useState<PublicFailureReceipt|null>(null);
   const [error, setError] = useState('');
   const [requestState, setRequestState] = useState<'unknown'|'pending'|'failed'|'not_found'|'not_started'>('unknown');
   const [result, setResult] = useState<PublicResearchResult | null>(null);
@@ -47,12 +49,13 @@ export function LivePursuitCanvas({ homepage = false }: { homepage?: boolean }) 
     const recovering = matchesPublicAttempt(attempt, brief);
     const next = recovering ? attempt! : publicAttempt(null, brief, () => crypto.randomUUID());
     const controller = new AbortController(); active.current = controller; setAttempt(next);
-    setIsRecovering(recovering); setBusy(true); setError(''); setRequestState('unknown'); setResult(null); setReviewed(false);
+    setIsRecovering(recovering); setBusy(true); setError(''); setFailureReceipt(null); setRequestState('unknown'); setResult(null); setReviewed(false);
     try {
       const response = await fetch('/api/pursuit/research', { method: 'POST', headers: { 'Content-Type': 'application/json', ...(recovering ? { 'X-Pursuit-Recovery': 'lookup-only' } : {}) },
         body: JSON.stringify(next.input), signal: AbortSignal.any([controller.signal, AbortSignal.timeout(115000)]) });
       const value = await response.json();
       if (!response.ok) {
+        setFailureReceipt(readPublicFailureReceipt(value.receipt,next.input.requestId)??null);
         setRequestState(value.code === 'pending' ? 'pending' : value.code === 'not_found' ? 'not_found' : ['client_limit','daily_limit','disabled'].includes(value.code) ? 'not_started' : ['failed','untraced_source','direct_sources_unavailable','direct_brief_failed','direct_quote_untraced','direct_quote_drift','direct_inference_unavailable','direct_inference_protocol','direct_inference_usage'].includes(value.code) ? 'failed' : 'unknown');
         throw new Error(typeof value.error === 'string' ? value.error : 'Request status is unknown.');
       }
@@ -83,6 +86,7 @@ export function LivePursuitCanvas({ homepage = false }: { homepage?: boolean }) 
         {busy && <button type="button" onClick={() => active.current?.abort()}>Stop waiting</button>}
         <p className={styles.note}>A limited free trial. No sign-in to your private systems. No messages, purchases or publication. <Link href="/tools/agents">How the tools work</Link>.</p>
         {error && <p role="alert" className={styles.error}>{error}</p>}
+        {error && failureReceipt && <p className={styles.note}>Failed-request budget receipt: {failureReceipt.providerCalls} attempted provider calls; maximum reserved model charge US${failureReceipt.budget.reservedUpperUsd.toFixed(3)} before tax. Stage: {failureReceipt.stage}. Recovery does not start another call.</p>}
       </form>
       <div className={styles.board} aria-busy={busy}>
         <div className={styles.boardTop}><span>the pursuit canvas</span><span>{result ? 'DRAFT / SOURCE-LINKED' : busy ? isRecovering ? 'CHECKING SAVED REQUEST' : 'REQUEST IN PROGRESS' : 'YOUR WORK APPEARS HERE'}</span></div>
