@@ -17,9 +17,9 @@ jobs:
     timeout-minutes: 10
     services:
       postgres:
-        # Extension-bearing image matching the inspected production PG version.
+        # PostgreSQL17.6 extension-bearing baseline reported clean for denial tests.
         # CI fixture only. No production credentials or project connection.
-        image: supabase/postgres:17.6.1.111
+        image: public.ecr.aws/supabase/postgres:17.6.1.071
         env:
           POSTGRES_PASSWORD: fictional-studio-run-only
           POSTGRES_DB: studio_run_proof
