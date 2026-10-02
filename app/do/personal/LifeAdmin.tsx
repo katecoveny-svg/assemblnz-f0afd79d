@@ -24,6 +24,7 @@ import entry from './entry.module.css';
 import Image from 'next/image';
 import { PersonalDoCharacter } from './PersonalDoCharacter';
 import { DoActionIcon } from '@/components/do/DoBrand';
+import { ASSISTANT_NOTE_EVENT, type AssistantNoteOffer } from '@/apps/do/personal/editor-note';
 
 type Intake = { id: string; text: string; sourceTitle?: string };
 type TaskEditor = { planId: string; taskId: string; status: 'done' | 'waiting'; note: string; url: string; date: string };
@@ -213,6 +214,14 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
     setPlans((current) => current.map((item) => item.id === plan.id ? { ...item, followUpOn: date || null, updatedAt: new Date().toISOString() } : item)); setUndo(null);
   }
   const counts = (id: LifeAdminLane) => plans.filter((plan) => lifeAdminLane(plan) === id).length;
+  function copyNoteToAssistant() {
+    const offer: AssistantNoteOffer = { text: source };
+    window.dispatchEvent(new CustomEvent(ASSISTANT_NOTE_EVENT, { detail: offer }));
+    if (!offer.result?.accepted) { setNotice(offer.result?.message ?? 'Ask DO is not ready to receive this note. Your original note is still here.'); return; }
+    setLocalOpen(false);
+    setNotice('Your note was copied to Ask DO for review. The original stays in your checklist editor. Nothing was saved or sent.');
+    requestAnimationFrame(() => document.getElementById('personal-assistant-input')?.focus());
+  }
   const localComposer = (
       <div className={entry.intake}>
         <form onSubmit={start}>
@@ -222,7 +231,7 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
           {intake && source !== intake.text && <button type="button" className={styles.textButton} disabled={Boolean(source.trim()) || intake.text.length > LIFE_ADMIN_SOURCE_LIMIT} onClick={() => { setSource(intake.text); setSourceIntakeId(intake.id); setTitle(intake.sourceTitle ?? 'Incoming note'); setSourceUrl(''); setMethod('pasted-text'); }}>Use incoming note</button>}
           {(Boolean(source.trim()) || category !== 'auto') && <div className={styles.noteDetails}>
           <div className={entry.intakeFields}><label>Kind of admin<select value={category} onChange={(event) => setCategory(event.target.value as LifeAdminCategory | 'auto')}><option value="auto">Suggest from note</option>{LIFE_ADMIN_TEMPLATES.map((item) => <option value={item.id} key={item.id}>{item.name}</option>)}</select></label><details className={styles.optionalTitle}><summary>Name this note</summary><label>Name it, if useful<input value={title} maxLength={160} onChange={(event) => setTitle(event.target.value)} placeholder="e.g. Friday’s school trip" /></label></details></div>
-          {category === 'auto' && !inferred && source.trim().length >= 5 && <p className={styles.hint}>Choose a kind of admin above so the checklist fits your note.</p>}
+          {category === 'auto' && !inferred && source.trim().length >= 5 && <p className={styles.hint}>Choose a kind of admin above so the checklist fits your note.{assistant && <> For a reply, pitch or other work, <button className={styles.textButton} type="button" onClick={copyNoteToAssistant}>Use this note in Ask DO</button>.</>}</p>}
           {category === 'auto' && inferred && <p className={styles.hint}>Suggested: {lifeAdminTemplate(inferred).name}. Change it above if another checklist fits better.</p>}
           <details className={styles.sourceLink}><summary>Add the original source link</summary><label>Link for your reference<input type="url" value={sourceUrl} maxLength={2000} placeholder="https://…" onChange={(event) => setSourceUrl(event.target.value)} /></label><small>Linked pages are not fetched. Queries and sign-in tokens are removed from stored links.</small></details>
           </div>}

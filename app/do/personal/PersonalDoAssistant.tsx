@@ -9,6 +9,7 @@ import {
   type PersonalAssistantAvailability, type PersonalAssistantInput, type PersonalAssistantResult,
 } from '@/apps/do/personal/assistant';
 import type { PersonalDoProfile } from '@/apps/do/personal/profile';
+import { ASSISTANT_NOTE_EVENT, reviewAssistantNote, type AssistantNoteOffer } from '@/apps/do/personal/editor-note';
 import styles from './personal-assistant.module.css';
 
 /** Mount with the verified owner scope as the React key; never persist conversation across accounts. */
@@ -43,6 +44,21 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange }: 
   useEffect(() => { workingCallback.current = onWorkingChange; }, [onWorkingChange]);
   const exportText = [message.trim() ? `Unfinished message\n${message}` : '', context.trim() ? `Added notes\n${context}` : '', result ? `Last request\n${lastMessage}\n\nDO reply (review required)\n${result.reply}${draft ? `\n\nEditable draft\n${draft}` : ''}` : ''].filter(Boolean).join('\n\n');
   useEffect(() => { onWorkChange?.({ dirty: Boolean(exportText), exportText }); }, [exportText, onWorkChange]);
+
+  useLayoutEffect(() => {
+    let offered = false;
+    const receive = (event: Event) => {
+      if (!(event instanceof CustomEvent) || !event.detail || typeof event.detail !== 'object') return;
+      const offer = event.detail as AssistantNoteOffer;
+      offer.result = reviewAssistantNote(offer.text, { message, context, working: lock.current || offered, hasResult: Boolean(result) });
+      if (!offer.result.accepted) return;
+      offered = true;
+      setMessage(offer.result.text); setConsent(false); setReviewOpen(false); setError('');
+      setNotice('Your checklist note was copied here for review. Nothing was saved or sent.');
+    };
+    window.addEventListener(ASSISTANT_NOTE_EVENT, receive);
+    return () => window.removeEventListener(ASSISTANT_NOTE_EVENT, receive);
+  }, [message, context, result]);
 
   const loadAvailability = useCallback(async () => {
     statusRequest.current?.abort();
