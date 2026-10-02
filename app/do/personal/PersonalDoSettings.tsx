@@ -198,7 +198,7 @@ export function PersonalDoSettings({ onProfileChange, compact = false, triggerRe
             <p className={styles.introduction}>{["Choose a name and appearance. Change them any time.", "Choose the tone and length of replies.", "Tell DO what makes help useful for you. Keep personal account details and secrets out of this box."][step]}</p>
             {step === 0 && <>
               <label className={styles.label}>What shall we call your DO?<input autoComplete="off" value={draft.displayName} maxLength={32} onChange={e => change("displayName", e.target.value)} placeholder="DO, Dot, Pip…" /></label>
-              <fieldset className={styles.fieldset}><legend>Choose a finish</legend><div className={styles.characters}>{characters.map(item => <button key={item.value} type="button" aria-pressed={draft.avatar === item.value} onClick={() => change("avatar", item.value)}><PersonalDoCharacter avatar={item.value} small /><strong>{item.label}</strong><span>{item.note}</span></button>)}</div></fieldset>
+              <fieldset className={styles.fieldset}><legend>Choose a finish</legend><p>Your finish appears beside the start controls. The glass artwork stays the same.</p><div className={styles.characters}>{characters.map(item => <button key={item.value} type="button" aria-pressed={draft.avatar === item.value} onClick={() => change("avatar", item.value)}><PersonalDoCharacter avatar={item.value} small /><strong>{item.label}</strong><span>{item.note}</span></button>)}</div></fieldset>
               <p className={styles.hint}>You can change this later.</p>
             </>}
             {step === 1 && <>

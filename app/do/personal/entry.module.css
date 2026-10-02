@@ -43,3 +43,68 @@
 @media(prefers-reduced-motion:reduce){.workspace .mainModes button{transition:none}.workspace .mainModes button:hover{transform:none}}
 
 .intro{background:#fffdfb;border:1px solid #e3cdda;border-radius:24px;padding:18px 24px;box-shadow:0 10px 32px #916a7010}
+/* Approved 03A artwork anchors the real working shell; it is static art. */
+.stage{max-width:1120px;position:relative;align-items:flex-start;justify-content:flex-start;min-height:730px;padding:54px 0 60px;color:var(--do-ink)}
+.heading{display:block;width:100%;text-align:left;margin:0 0 40px;min-height:215px}
+.artwork{position:absolute;z-index:-1;right:-85px;top:-15px;width:900px;height:620px;pointer-events:none;mask-image:radial-gradient(ellipse at 58% 48%,#000 40%,transparent 74%)}
+.artwork img{width:100%;height:100%;object-fit:cover;display:block}
+.intro{position:relative;z-index:1;border:0;background:transparent;padding:0;box-shadow:none;width:48%}
+.workspace .intro h1{font-size:clamp(58px,6.5vw,92px);line-height:.98;color:var(--do-ink);max-width:470px;letter-spacing:-.065em}
+.intro p{font-size:18px;max-width:320px;margin:22px 0 0;color:var(--do-ink)}
+.composerTabs{align-self:flex-start;background:#d8eaf8b8;border:1px solid #172d5520;border-radius:999px;padding:4px;margin-bottom:14px;backdrop-filter:blur(12px)}
+.workspace .composerTabs button{border-radius:999px;color:var(--do-ink);min-height:44px;font-size:13px}
+.workspace .composerTabs button[aria-pressed=true]{background:var(--do-paper);color:var(--do-ink)}
+.stage>div:not(.heading){width:420px;max-width:100%}
+.workspace .intake{background:#fffcf9ee;border:1px solid #ffffffaa;border-radius:38px;box-shadow:0 12px 36px #2149680b;padding:22px 24px 18px;backdrop-filter:blur(18px)}
+.workspace .intake textarea::placeholder,.privacy,.workspace .addContext>summary{color:var(--do-ink)}
+.privacy{font-size:11px}
+.workspace .stage .primary{background:var(--do-cobalt);border:0;border-radius:999px;color:var(--do-paper);box-shadow:none;min-height:48px;font-size:14px}
+.workspace .stage .primary:hover:not(:disabled){background:var(--do-hover);box-shadow:none;transform:none}
+.workspace .stage .primary:active:not(:disabled){background:var(--do-active);box-shadow:none;transform:none}
+.workspace .stage .primary:disabled{opacity:1;background:var(--do-ice);color:var(--do-ink)}
+.workspace .mainModes{width:420px;max-width:100%;display:flex;gap:18px;margin-top:12px}
+.workspace .mainModes button,.workspace .mainModes button:nth-child(2),.workspace .mainModes button:nth-child(3){flex:1;align-items:center;min-height:58px;text-align:center;padding:8px 4px;background:transparent;box-shadow:none;border:0;border-radius:24px;color:var(--do-ink);gap:6px}
+.workspace .mainModes small{display:none}
+.workspace .mainModes button>svg{width:24px;height:24px;background:transparent}
+.workspace .mainModes button:hover{transform:none;background:#fffdfba0}
+.workspace .exampleToggle{align-self:flex-start;color:var(--do-ink)}
+.workspace .stage>section{width:100%}
+.workspace .captureModes button{color:var(--do-ink);background:var(--do-ice)}
+.workspace .captureModes button:first-child{background:var(--do-mint)}
+.workspace .captureModes button:nth-child(2){background:var(--do-peach)}
+.captureModes{border:0;background:var(--do-paper)}
+.workspace .stage .review{position:absolute;right:0;top:452px;width:49%;background:#dff5eff2;border:1px solid #ffffff80;border-radius:54px 54px 38px 54px;padding:28px 32px;box-shadow:0 16px 34px #183c6a12;color:var(--do-ink);backdrop-filter:blur(18px)}
+.workspace .review h2{font-size:28px;line-height:1.2;letter-spacing:-.04em}
+.stage:has(>.review) .heading{margin-bottom:40px}
+.workspace .review button{background:var(--do-paper);color:var(--do-ink);border-radius:999px;border-color:transparent}
+.workspace .review p,.workspace .review h2,.workspace .review :global([class*="resultStamp"]),.workspace .review :global([class*="resultGuide"]){color:var(--do-ink)}
+.workspace .review :global([class*="resultStamp"])>svg{border-color:var(--do-ink)}
+.workspace .review :global([class*="resultGuide"]) button{color:var(--do-ink);min-height:44px;min-width:44px}
+.workspace .review>button{box-shadow:none}
+.workspace .review :global([class*="resultStamp"]) span{font-family:var(--font-mono),'IBM Plex Mono',monospace}
+@media(max-width:1023px){
+.stage{min-height:0;padding:22px 0 32px;align-items:stretch}
+.heading{min-height:196px;margin:0 0 14px}
+.artwork{width:260px;height:178px;right:-72px;top:100px;mask-image:radial-gradient(ellipse at 56% 50%,#000 28%,transparent 75%)}
+.intro{width:100%}
+.workspace .intro h1{font-size:44px;max-width:255px;letter-spacing:-.055em}
+.intro p{font-size:15px;max-width:185px;margin-top:16px;line-height:1.45}
+.stage>div:not(.heading),.workspace .mainModes{width:100%}
+.composerTabs{align-self:flex-start;margin-bottom:12px}
+.workspace .mainModes{gap:8px;margin-top:8px}
+.workspace .mainModes button{min-height:58px;font-size:12px}
+.workspace .intake{padding:20px;border-radius:32px}
+.workspace .intake textarea{min-height:62px;font-size:16px}
+.workspace .stage .review{position:relative;right:auto;top:auto;width:100%;padding:24px;margin:0 0 18px;border-radius:38px 38px 28px 38px}
+.stage:has(>.review) .heading{margin-bottom:14px;min-height:176px}
+.workspace .review h2{font-size:25px}
+}
+
+.previewSteps{list-style:none;padding:0;margin:18px 0 22px;display:grid;gap:12px;font-size:15px;line-height:1.4}.previewSteps li{display:flex;gap:12px;align-items:baseline}.previewSteps li>span{font-size:22px;line-height:1}
+@media(max-width:1023px){.previewSteps{font-size:14px;gap:10px;margin:16px 0 20px}}
+
+@media(min-width:1024px){.stage:has(>.review){min-height:870px}}
+
+@media(min-width:600px) and (max-width:1023px){.heading,.stage:has(>.review) .heading{min-height:270px}.artwork{width:490px;height:337px;right:-30px;top:-12px}.workspace .intro h1{font-size:60px;max-width:350px}.intro p{max-width:280px;font-size:17px}.workspace .stage .review{padding:28px 32px}.workspace .review h2{font-size:28px}.workspace .mainModes{justify-content:flex-start}.workspace .mainModes button{flex:0 1 150px}}
+
+.finishChoice{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;margin-left:4px}.finishChoice>span{transform:scale(.58);transform-origin:center;width:68px;height:68px;flex-shrink:0}

@@ -103,14 +103,14 @@ Mixed/non-shipping areas such as `research/`, `marketing/`, root-level audits/br
 
 Visual source of truth: `docs/assembl-brand-system.md`.
 
-Current tokens:
+Company tokens (personal DO has the explicit Liquid light scope in the same canon):
 
 - deep plum `#240B21`
 - muted plum `#654A4E`
 - dusty rose `#916A70`
 - chalk `#F5F1F2`
 - paper `#FFFDFB`
-- DO daylight accents: lilac `#DAD2F4`, petal `#EAC8DF`, blush `#F5E4E7`
+- Personal DO: selected Liquid light roles from `lib/brand/do-identity.ts`, exact 03A static hero, canonical D-dot on identity controls. Prior daylight accents apply only to unmigrated DO surfaces; company tokens and client brands remain unchanged.
 
 Typography:
 

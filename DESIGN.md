@@ -4,9 +4,9 @@
 >
 > Canonical visual tokens and identity live in `docs/assembl-brand-system.md`. Public language rules live in `docs/assembl-copy-standard.md`. If this file conflicts with either, the canonical documents win.
 
-**Last updated:** 30 September 2026
+**Last updated:** 2 October 2026
 
-The current unified DO direction adds the playful lilac/petal daylight surfaces and real sculptural D specified in the brand canon. Historical root guides and old skills are not alternate instructions. Company wordmark: lowercase `assembl`; company letter mark: lowercase `a`; DO: uppercase D with its inner dot.
+Personal DO now uses the selected Liquid light scope in the brand canon: exact 03A static glass artwork plus shared scoped ice/cobalt/peach/mint/paper roles. Prior daylight remains only on unmigrated surfaces; company palette remains unchanged. Historical root guides and old skills are not alternate instructions. Company wordmark: lowercase `assembl`; company letter mark: lowercase `a`; DO: uppercase D with its inner dot.
 
 ## 1. design principle
 
@@ -113,7 +113,7 @@ The canonical DO symbol is implemented in `components/do/DoMark.tsx`: a glowing 
 
 Rules:
 
-- preserve the deep-plum body and warm rose glow;
+- preserve canonical D-dot geometry; personal DO uses the scoped Liquid light roles, while unmigrated company/DO surfaces retain existing plum material until their rollout is reviewed;
 - this approved identity is the exception to the general ban on generic orbs;
 - do not replace it with an unrelated sphere, chatbot face or mascot;
 - keep its behaviour calm and legible;

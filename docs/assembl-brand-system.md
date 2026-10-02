@@ -2,11 +2,11 @@
 
 > The canonical visual system for the assembl company site, product surfaces and the shared base beneath every demonstrator.
 
-**Status:** Locked  
-**Last updated:** 30 September 2026
+**Status:** Company canon retained; selected DO Liquid light scope under implementation review
+**Last updated:** 2 October 2026
 **Applies to:** assembl public pages, product surfaces, evidence artefacts and the shared frame of client demonstrators
 
-This document overrides older brass, amber, pounamu, cobalt, pearl, canary, grape-purple and Cormorant-led directions wherever they conflict.
+This document overrides older directions where they conflict. The company palette below remains canonical. Its cobalt exclusion does not apply to the explicitly selected personal DO Liquid light scope documented below.
 
 ## Canonical palette
 
@@ -18,15 +18,17 @@ This document overrides older brass, amber, pounamu, cobalt, pearl, canary, grap
 | Chalk | `#F5F1F2` | Secondary surface, pale field and paper contrast |
 | Paper | `#FFFDFB` | Primary canvas and fully opaque type on deep plum |
 
-### DO daylight extension · 30 September 2026
+### Prior DO daylight extension · retained on unmigrated surfaces
 
-Kate’s accepted unified DO direction adds lilac `#DAD2F4`, petal `#EAC8DF` and blush `#F5E4E7` for rounded physical forms and shallow supporting surfaces. Deep plum remains the primary ink and DO body; dusty rose retains its state/permission role. These pastels are deliberate additions, not permission for saturated neon or arbitrary palettes.
+The prior 30 September DO direction added lilac `#DAD2F4`, petal `#EAC8DF` and blush `#F5E4E7` for rounded physical forms and shallow supporting surfaces. Deep plum remains the primary ink and DO body; dusty rose retains its state/permission role. These pastels are deliberate additions, not permission for saturated neon or arbitrary palettes.
 
 The DO entry is one sculptural, bevelled D with its inner dot, a lilac rounded tile and an offset petal disc. Optional real 3D uses demand rendering, bounded DPR and pointer response that settles. The complete SVG composition remains available for reduced motion, unsupported WebGL and scene failure. One primary input or action comes before product explanations.
 
 `DoEntryObject`, `DoPresence` and `DoBrand` share the identity across company entry and working app. `scripts/generate-do-identity.mjs` derives browser, phone and native-source icons from the canonical `DoMark` path. Installed native applications are not updated merely by changing source assets.
 
-### Usage rules
+The selected Liquid light section below supersedes this prior treatment in personal DO. This paragraph records the retained appearance of unmigrated surfaces, not a second active instruction for that slice.
+
+### Company usage rules
 
 - Use deep plum for text on chalk or paper.
 - Use paper or chalk for text on deep plum.
@@ -200,3 +202,50 @@ A connected key, green light, successful build, animation or preview is not proo
 ## Operational guide
 
 Agents and designers should also read root `DESIGN.md` for composition, motion/3D, client-work and quality-gate rules.
+
+## DO Liquid light · selected direction, implementation under review
+
+Kate selected Liquid light on 1 October 2026. This supersedes the DO daylight material/palette for the personal DO slice only; company plum/paper remains canonical while the shared assembl identity rollout is reviewed. Installed icons, other DO routes and named client brands are not changed by this slice. The lowercase assembl wordmark/company a and the uppercase DO D with its interior dot remain fixed. DO is the personal agent inside assembl; the platform is not renamed DO. Consumer DO contains no Pursuit/Studio promotion.
+
+Machine-readable DO roles live in `lib/brand/do-identity.ts`, applied as scoped CSS variables by `PersonalDo`. Do not extend customer `BrandConfigSchema` or reuse historical kete tokens for this system. Keep the existing personal entry/assistant modules; do not introduce an alternate live stylesheet or fixture parser.
+
+| Role | Colour | Use |
+|---|---|---|
+| Ice | `#D8EAF8` | Personal DO canvas, disabled control surface |
+| Cobalt | `#244FCA` | DO body, primary control, focus |
+| Ink | `#172D55` | Readable type on pale fields |
+| Peach | `#F4C1A0` | Interior dot, supporting object; never a status colour |
+| Mint | `#CBEEE2` | Review/supporting plane |
+| Paper | `#FFFDFB` | Opaque composer, paper type on cobalt |
+| Hover / active | `#1D42B0` / `#17378F` | Primary control states |
+
+Instrument Sans remains headline/body/control; IBM Plex Mono remains evidence/status. Spacing: 4/8/12/16/24/32/48/64; control radius 24 or 999, composer 32, review 40/56. Minimum target 44px, phone input 16px, phone edge 22px. Glass does not sit behind small type; controls and consent remain opaque and upright.
+
+DO recognisability comes from the canonical `DO_MARK_PATH` and dot (30,32,r6). Tiny launchers retain an opaque cobalt D outline and separate cobalt dot so both remain distinct on ice; peach is reserved for the larger material treatment. The representative personal shell uses the exact approved 03A cobalt, peach and mint glass artwork as static art. Its luminous refractive material anchors the composition; it is not a real-time 3D implementation. Do not replace it with a giant extruded D. Canonical D-dot remains in the header, launcher and icons. The dot is identity, never evidence of connectivity or completed work.
+
+The selected hero remains identical with reduced motion and requires no WebGL. Existing optional 3D elsewhere keeps demand-rendering and context-loss safeguards; the rejected DO05 renderer modifications were removed. Preparation labels remain truthful; ready for review and completed are different states.
+
+Approved product language is direct: “What needs doing?”, “Ask DO”, “Make a checklist”, “Paste a notice or tell DO what needs sorting…”, “Start”, “Review before sharing.” Keep existing source/provider consent, ondevice storage truth and access/error states. Never imply an active diary, calendar booking, inbox connection, persistent memory or completed external action without verified capability.
+
+Rollout gates: inspect actual personal DO controls at desktop/375px/reduced motion; check actual font rendering, glass material, focus/readability, existing consent and guest state; root review before one final draft PR. Icon generators andbrand tests have a separate owner review; source changes do not update installed PWA/extension/Mac apps. Company mark stays lowercase a, DO stays D-dot. Named client brands are excluded. This section records the selected direction; the implementation remains a proposal until visual review passes.
+
+Optical material tints (`DO_GLASS`) are controlled derivations of cobalt/ice: tint `#AFC9FF`, highlight `#B8DCFF`, reflection `#A9D5F9`. They are not additional interface colour roles.
+
+### Implementation scope and deferred rollout
+
+This is a scoped DO06 proposal, not a locked or completed company rebrand. `DO_IDENTITY` is the personal DO interface role source; `DO_GLASS` supplies only the small static presence material. Artwork is the exact selected 03A asset, not a new colour system.
+
+| Surface | Current proposal | Deferred work / evidence gap |
+|---|---|---|
+| Personal DO entry, input and review | 03A static artwork, scoped roles, existing controls | Root visual approval; authenticated runtime review |
+| Personal DO example disclosures | Ice / peach / mint, ink copy and cobalt illustration accents | Inspect disclosed examples in final batch |
+| Personal DO Local information summary | Cobalt icons, ink caption and copy, ink-derived border | Expanded care/weather content remains its existing component styling until separately reviewed |
+| Personal DO signed-in empty draft presence | Explicit glass finish using the same shared roles | Signed-in pixels not verified; no auth fixture introduced |
+| Other DO routes, consent and public widgets | Existing behavior and identity retained | Separate surface-by-surface design rollout; no permission semantics changes |
+| DO favicon, PWA, extension and Mac packages | Existing installed identity retained | Generator-owner review, canonical D-dot exports, install/update proof |
+| assembl company frame and lowercase a assets | Existing company canon retained | Company visual review and generator rollout; never copy the DO hero into company/client identities |
+| Named client brands | Untouched | Explicit client scope required |
+
+Sequence: approve the local personal slice and review the batched findings; then one reviewed draft PR. Review other DO surfaces next, followed by generator-derived packages and installed-app verification. Company rollout requires its own approval. No public deployment or whole-brand completion is implied by this proposal.
+
+Saved personal finishes remain distinct from the fixed hero artwork. The existing Rose/Orbit/Pebble/Spark companion appears beside start controls and Settings explains this scope; no stored preference changes. Root must appoint and obtain acceptance from the identity-generator owner before any cross-package rollout; no whole-company lock or completed rollout is claimed.

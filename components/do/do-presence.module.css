@@ -6,3 +6,4 @@
 @media(prefers-reduced-motion:no-preference){.presence[data-working] .light{animation:do-preparing 2s ease-in-out infinite}.presence[data-working] .sculpture{transform:rotate(-3deg) translateY(-2px)}}
 @keyframes do-preparing{50%{opacity:.55}}
 @media(prefers-reduced-motion:reduce){.sculpture{transition:none}.presence[data-working] .light{animation:none}}
+.presence[data-finish=glass] .sculpture{transform:rotate(-6deg);filter:drop-shadow(5px 12px 7px #172d551a)}.presence[data-finish=glass] .shadow{background:#244fca20}.presence[data-finish=glass][data-working] .sculpture{transform:rotate(0deg)}

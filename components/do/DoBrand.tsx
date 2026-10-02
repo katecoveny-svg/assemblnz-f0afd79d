@@ -1,9 +1,10 @@
 import Link from 'next/link';
+import { DoMark } from './DoMark';
 import { DoPresence } from './DoPresence';
 import styles from './do-unified.module.css';
 
-export function DoBrand({ href = '/do', target, rel }: { href?: string; target?: string; rel?: string }) {
-  return <Link href={href} target={target} rel={rel} className={styles.brand} aria-label="DO by assembl, home"><DoPresence size="small" /><span>DO<small>by assembl</small></span></Link>;
+export function DoBrand({ href = '/do', target, rel, finish = 'plum' }: { href?: string; target?: string; rel?: string; finish?: 'plum' | 'glass' }) {
+  return <Link href={href} target={target} rel={rel} className={styles.brand} aria-label="DO by assembl, home">{finish === 'glass' ? <span className={styles.flatMark}><DoMark /></span> : <DoPresence size="small" />}<span>DO<small>by assembl</small></span></Link>;
 }
 
 /** Rounded product shapes, kept recognisable at a small control size. */
