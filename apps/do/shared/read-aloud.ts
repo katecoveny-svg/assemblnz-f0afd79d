@@ -5,7 +5,7 @@ export function localDoReadoutVoice<T extends { localService: boolean; lang: str
 }
 
 export const DO_READOUT_VOICE_KEY = "assembl:do:readout-voice:v1";
-export const DO_PRONUNCIATION_SAMPLE = "Auckland, Wellington, Whangārei, Taupō, Ōtaki and Tauranga. Māori and whānau. 2 October, at half past three.";
+export const DO_PRONUNCIATION_SAMPLE = "Kia ora, your appointment in Whangārei is at half past two. Take the Northern Motorway from Auckland.";
 export type DoDeviceVoice = { localService: boolean; lang: string; name: string; voiceURI: string };
 /** Locale metadata is not a listening/pronunciation certification. */
 export function localDoReadoutVoices<T extends DoDeviceVoice>(voices: T[]): T[] {

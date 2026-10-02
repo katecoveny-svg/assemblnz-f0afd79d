@@ -18,7 +18,7 @@ The selected voice URI alone is saved in this browser's localStorage, shared by 
 
 ## Pronunciation acceptance, still pending
 
-Preview uses fixed non-private text: Auckland, Wellington, Whangārei, Taupō, Ōtaki, Tauranga, Māori, whānau, a date and a time. Code preserves macrons; test doubles verify text/voice selection only, not sound. No synthesis/listening was performed. Before labeling any option a verified NZ accent, a NZ listener must hear it; Māori pronunciation needs an appropriate competent reviewer, not a generic model score. Record device/browser or provider/model/voice ID, sample/version, reviewer/date, natural NZ vowels/cadence, place names, macron vowels, numbers and intelligibility. Failures remain visible; do not silently respell names or remove macrons. Avoid sacred forms, personal names without permission, and cloned identifiable voices.
+Preview uses the requested fixed fictional text: “Kia ora, your appointment in Whangārei is at half past two. Take the Northern Motorway from Auckland.” Supplemental listener evaluation should include Wellington, Taupō, Ōtaki, Tauranga, Māori, whānau, dates and times. Code preserves macrons; test doubles verify text/voice selection only, not sound. No synthesis/listening was performed. Before labeling any option a verified NZ accent, a NZ listener must hear it; Māori pronunciation needs an appropriate competent reviewer, not a generic model score. Record device/browser or provider/model/voice ID, sample/version, reviewer/date, natural NZ vowels/cadence, place names, macron vowels, numbers and intelligibility. Failures remain visible; do not silently respell names or remove macrons. Avoid sacred forms, personal names without permission, and cloned identifiable voices.
 
 ## Official references checked 2 October 2026 NZ
 
@@ -28,3 +28,11 @@ Preview uses fixed non-private text: Auckland, Wellington, Whangārei, Taupō, �
 - Browser local/remote service metadata: https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisVoice/localService
 
 No new voice licence is implied by the code. Device voices remain subject to existing OS/browser terms. Cloud commercial/licensing/configuration proof and paid evaluation require a separate approved step. No credentials/settings/grants/SQL/consumer flags changed; no live or paid provider call.
+
+## Follow-up inventory and Gemini evidence
+
+Installed Google Chrome was queried in an isolated profile without accessing user tabs, permissions or audio. Headless inventory is reported separately from an actual interactive user session; empty inventory does not prove the user's Chrome cannot enumerate voices. System `say` inventory and browser inventory are preserved in the review bundle. No en-NZ option may be labelled a heard NZ accent without listening evidence.
+
+Google's current Live guide documents gemini-3.8-live, prebuilt voice configuration and language steering via system instructions; native audio does not accept an explicit language code. The TTS guide now documents the extended Voice Library with language_code, region_code and accent filters, but no authenticated list query or provider call was made here. A possible en-NZ filter is not evidence that an NZ voice exists or works in Live; TTS and Live voice compatibility differ. Before changing call options, resolve an actual supported voice, verify the exact Live contract and bounded cost/consent path, then obtain hearing proof. No voice design/replication or Azure integration is proposed.
+
+Official pages: https://ai.google.dev/gemini-api/docs/live-api/capabilities and https://ai.google.dev/gemini-api/docs/speech-generation .

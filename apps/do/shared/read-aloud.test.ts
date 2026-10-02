@@ -30,7 +30,6 @@ describe("DO explicit device voice options", () => {
     expect(doReadoutVoiceLabel(au)).not.toContain("NZ");
   });
   it("preserves macrons in the fixed pronunciation preview", () => {
-    expect(DO_PRONUNCIATION_SAMPLE).toContain("Whangārei, Taupō, Ōtaki");
-    expect(DO_PRONUNCIATION_SAMPLE).toContain("Māori and whānau");
+    expect(DO_PRONUNCIATION_SAMPLE).toBe("Kia ora, your appointment in Whangārei is at half past two. Take the Northern Motorway from Auckland.");
   });
 });
