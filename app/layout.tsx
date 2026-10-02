@@ -12,7 +12,6 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import {
   graph,
   organizationNode,
-  personNode,
   websiteNode,
   softwareApplicationNode,
 } from '@/lib/seo/schema';
@@ -20,10 +19,9 @@ import '@/lib/fonts/customer-fallbacks.css';
 import './globals.css';
 import './life.css';
 
-// One current entity graph across the public site: assembl, founder, website and DO.
+// One current entity graph across the public site: assembl, website and DO.
 const SITE_GRAPH = graph(
   organizationNode(),
-  personNode(),
   websiteNode(),
   softwareApplicationNode(),
 );
@@ -64,18 +62,17 @@ const archivoBlack = localFont({
 });
 
 const CURRENT_DESCRIPTION =
-  'Pursuit finds evidence-backed work. DO is the portable agent workforce that gets it moving. Studio turns the result into proof, pitches and experiences. One shared context and factory underneath.';
+  'Business intelligence, strategy and software from assembl. Specialist agents help prepare useful work, customer experiences, demos and proposals.';
 
 export const metadata: Metadata = {
   title: {
-    default: 'assembl — find it. DO it. show it.',
+    default: 'assembl | Business intelligence, agents and useful work',
     template: '%s · assembl',
   },
   description: CURRENT_DESCRIPTION,
   metadataBase: new URL('https://www.assembl.co.nz'),
-  alternates: { canonical: '/' },
   openGraph: {
-    title: 'assembl — find it. DO it. show it.',
+    title: 'assembl | Business intelligence, agents and useful work',
     description: CURRENT_DESCRIPTION,
     type: 'website',
     locale: 'en_NZ',
@@ -84,7 +81,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'assembl — find it. DO it. show it.',
+    title: 'assembl | Business intelligence, agents and useful work',
     description: CURRENT_DESCRIPTION,
   },
   icons: {

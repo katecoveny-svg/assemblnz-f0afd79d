@@ -73,7 +73,7 @@ const TIERS: Tier[] = [
   {
     name: 'Enterprise',
     price: 'Custom',
-    blurb: 'Your sources, your SLA, your own index. Talk to Kate.',
+    blurb: 'Your sources, your SLA, your own index. Talk to assembl.',
     features: ['Volume pricing', 'Written SLA', 'Dedicated indexes', 'Custom & private sources'],
   },
 ];
@@ -245,7 +245,7 @@ export default async function DataApiPage() {
                 Two ways in.
               </h2>
               <p className="mt-4 text-[color:var(--text-body)] leading-relaxed">
-                Grab a free Pulse key and start building, or tell Kate what you need and we will
+                Grab a free Pulse key and start building, or tell assembl what you need and we will
                 wire a feed to fit. Either way, a named human in Aotearoa reads it.
               </p>
               <dl className="mt-8 space-y-5">

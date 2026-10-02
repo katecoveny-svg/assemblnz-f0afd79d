@@ -6,9 +6,11 @@ import styles from '@/components/public/public-pages.module.css';
 import company from '@/components/public/company-pages.module.css';
 
 export const metadata: Metadata = {
-  title: 'About assembl',
-  description: 'Pursuit finds the work. DO does the work. Studio shows the possibility. One shared operating layer keeps context, tools, permissions and proof together.',
-  alternates: { canonical: '/about' },
+  title: { absolute: "About assembl | Intelligence, strategy and software" },
+  description: "Business intelligence, strategy and software from assembl in Aotearoa New Zealand. Research opportunities, prepare useful work and develop customer experiences.",
+  alternates: { canonical: "/about" },
+  openGraph: { title: "About assembl | Intelligence, strategy and software", description: "Business intelligence, strategy and software from assembl in Aotearoa New Zealand. Research opportunities, prepare useful work and develop customer experiences.", url: "https://www.assembl.co.nz/about", type: 'website', locale: 'en_NZ', siteName: 'assembl' },
+  twitter: { card: 'summary_large_image', title: "About assembl | Intelligence, strategy and software", description: "Business intelligence, strategy and software from assembl in Aotearoa New Zealand. Research opportunities, prepare useful work and develop customer experiences." },
 };
 
 const products = [
@@ -35,8 +37,8 @@ export default function AboutPage() {
     <section className={styles.hero}>
       <div>
         <p className={styles.eyebrow}>assembl / Aotearoa New Zealand</p>
-        <h1>assembl<br />the work.</h1>
-        <p className={styles.lede}>Find worthwhile work. Bring together the right agents, tools and context to do it. Make the result visible enough to review, approve, test or buy.</p>
+        <h1>Good thinking.<br />Useful work.</h1>
+        <p className={styles.lede}>assembl brings business intelligence, strategy and software together. Specialist agents help research, draft and build. People review important decisions and approve consequential actions.</p>
       </div>
       <aside className={styles.heroAside} aria-label="Three connected products">
         {products.map((product, i) => (
@@ -55,9 +57,9 @@ export default function AboutPage() {
 
     <section className={styles.section}>
       <p className={styles.eyebrow}>One connected system</p>
-      <h2>Signal. Action. Proof.</h2>
+      <h2>Agree the outcome.<br />Assemble the work.</h2>
       <p className={styles.lede}>Pursuit finds what is worth doing. DO moves the work forward. Studio makes the result tangible. The shared operating layer keeps context, tools, permissions, evidence and learning connected underneath.</p>
-      <p>Use one. Connect two. Run the whole loop.</p>
+      <p>Commission a customer journey map, service blueprint, CX, UX or UI design, business case, strategic recommendation, working software, demo, proposal or pitch. Agree the scope and the first useful result.</p>
       <p>Customer journeys, useful waits, loyalty, rewards and sponsorship are capabilities inside this system. They belong where they improve the outcome, not as the definition of the company.</p>
       <p>Preparation is labelled as preparation. A preview is not a live integration. Consequential actions require the appropriate authority, and completed actions should leave evidence.</p>
       <Link href="/contact?product=system">Talk about your work <ArrowUpRight size={18} aria-hidden="true" /></Link>

@@ -9,8 +9,7 @@ import { DoVision } from '@/app/do/DoVision';
 import { DoWorkspace } from '@/app/do/DoWorkspace';
 import { DoProductFrame, useDoEmbeddedSurface } from './DoProductFrame';
 import styles from './do-product-focus.module.css';
-import { DoPresence } from './DoPresence';
-import { DoEntryObject } from './DoEntryObject';
+import { DoGlassHero } from './DoGlassHero';
 import type { DoTask } from '@/apps/do/shared/preparation';
 
 type Mode = 'write' | 'talk' | 'look' | 'build';
@@ -43,7 +42,7 @@ export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTa
       <div className={styles.workspaceIntro}>
       <h1>What needs doing?</h1>
       <p>Bring the details. Prepare something you can review.</p>
-      </div>{embedded ? <DoPresence size="small" /> : <DoEntryObject compact />}
+      </div><DoGlassHero embedded={embedded} />
     </section>
     <div className={styles.workspace}>
       <nav className={styles.workspaceModes} aria-label="Ways to work with DO">

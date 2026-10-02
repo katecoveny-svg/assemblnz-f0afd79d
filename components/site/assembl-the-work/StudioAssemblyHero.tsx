@@ -34,9 +34,9 @@ export function StudioAssemblyHero() {
       <nav aria-label="Primary"><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio" aria-current="page">Studio</Link></nav>
     </header>
     <div className={styles.copy}>
-      <p className={styles.kicker}>STUDIO / SHOW IT.</p>
-      <h1 id="studio-heading">Give the idea<br />a world<br /><span>of its own.</span></h1>
-      <p className={styles.lede}>A brief becomes a place to explore.<br />A story to watch. Something to try.</p>
+      <p className={styles.kicker}>STUDIO / A WORKING VERSION.</p>
+      <h1 id="studio-heading">Give the idea<br /><span>a working version.</span></h1>
+      <p className={styles.lede}>Develop a demo, a pitch or a customer experience.<br />Something people can see, test and discuss.</p>
       <div className={styles.actions}>
         <Link href="/creative-studio/assembl?tool=image">Make an image<ArrowUpRight size={18} aria-hidden="true" /></Link>
         <a href="#studio-work">See the work<ArrowDown size={18} aria-hidden="true" /></a>
