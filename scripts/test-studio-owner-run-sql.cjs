@@ -20,6 +20,7 @@ const cmd=(client,name,input,id=owner)=>client.query('select public.studio_owner
  await admin.query('insert into auth.users(id) values($1),($2),($3) on conflict do nothing',[owner,other,disabled]);
  await admin.query(fs.readFileSync('docs/migration-review/owner-schema-proposal.sql','utf8'));
  await admin.query(fs.readFileSync('docs/migration-review/owner-run-schema-proposal.sql','utf8'));
+ console.log('Synthetic DB versions:',JSON.stringify((await admin.query("select current_setting('server_version') as postgres,extversion as pg_jsonschema from pg_extension where extname='pg_jsonschema'")).rows[0]));
  await admin.query('insert into public.studio_owner_access(owner_user_id,enabled) values($1,true),($2,true),($3,false)',[owner,other,disabled]);
  await admin.query('insert into public.studio_owner_run_policies values($1,$2,$3)',[owner,policy.id,policy]);
  const service=await connect('service_role'),service2=await connect('service_role'),A=await connect('authenticated'),B=await connect('authenticated'),anon=await connect('anon');
