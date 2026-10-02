@@ -71,7 +71,8 @@
       "muted_plum": "#654A4E",
       "dusty_rose": "#916A70",
       "chalk": "#F5F1F2",
-      "paper": "#FFFDFB"
+      "paper": "#FFFDFB",
+      "ink": "#492B3E"
     },
     "fonts": {
       "primary": "Instrument Sans",
@@ -93,12 +94,15 @@
       "generic neon AI gradients"
     ],
     "note": "Named client demonstrators may retain verified client-specific brand systems. Legacy surfaces are not company-brand precedent.",
-    "do_daylight_scope": "Prior treatment retained only on unmigrated DO surfaces; superseded in personal DO by the selected assembled plum glass scope in docs/assembl-brand-system.md.",
+    "do_daylight_scope": "Historical entry-object treatment; not a competing primary identity. Latest locked glass contract and light #492B3E ink are canonical in docs/assembl-brand-system.md.",
     "do_assembled_glass_scope": {
-      "status": "DO07 visuals approved 2 October; source/CI review pending; company/icon rollout deferred",
+      "status": "Exact company/DO glass identities locked 2 October; DO07 and earlier PR1471 rollout released; daylight correction held in local review",
       "token_source": "lib/brand/do-identity.ts",
-      "hero": "approved DO07 assembled plum static artwork; not real-time 3D",
-      "identity": "canonical uppercase D-dot; lowercase assembl/company a retained"
+      "hero": "Exact locked static glass art; current real-room scene uses artwork planes, not exact glass mesh parity",
+      "identity": "Exact lowercase glass company a and uppercase glass D-dot; source-derived tiny derivatives preserve silhouette/material colours/dot",
+      "asset_manifest": "public/brand/canonical/glass-v1/manifest.json",
+      "primary_component": "components/brand/GlassIdentity.tsx",
+      "native_status": "Matching source exports require portable-owner application and installed proof; generators are web-only"
     },
     "do_daylight_accents": {
       "lilac": "#DAD2F4",

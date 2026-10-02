@@ -62,7 +62,7 @@ export function AssemblWorldHero({ preview = false, showSummary = true }: { prev
         <header className={styles.nav}>
           <Link className={styles.wordmark} href="/" aria-label="assembl home"><AssemblGlassMark size={36} /><span>assembl</span></Link>
           <nav aria-label="Primary"><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio">Studio</Link></nav>
-          <button type="button" className={styles.motion} onClick={() => setPaused(v => !v)} disabled={reduced || failed} aria-pressed={paused} aria-label={paused ? 'Resume scene motion' : 'Pause scene motion'}>
+          <button type="button" className={styles.motion} onClick={() => setPaused(v => !v)} disabled={reduced || failed} aria-pressed={paused} aria-label={reduced || failed ? 'Still view; scene motion unavailable' : paused ? 'Resume scene motion' : 'Pause scene motion'} title={reduced || failed ? 'Still view' : paused ? 'Resume scene motion' : 'Pause scene motion'}>
             {paused || reduced ? <Play size={13} aria-hidden="true" /> : <Pause size={13} aria-hidden="true" />}{reduced || failed ? 'Still view' : paused ? 'Resume' : 'Pause'}
           </button>
         </header>

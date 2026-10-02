@@ -23,12 +23,14 @@ describe('DO readable controls and tiny identity', () => {
     expect(info.width).toBe(32); expect(info.height).toBe(32);
     for (const [x, y] of [[9, 16], [14, 16]]) {
       const offset = (y * info.width + x) * info.channels;
-      expect(Math.max(...data.subarray(offset, offset + 3))).toBeLessThan(90);
+      // The canonical inner dot is rose glass, not a black vector dot.
+      const rgb = [...data.subarray(offset, offset + 3)];
+      expect(Math.max(...rgb.map((channel, i) => Math.abs(channel - [255, 253, 251][i])))).toBeGreaterThan(20);
     }
     const layout = readFileSync('app/do/layout.tsx', 'utf8');
-    expect(layout).toContain('do-16.png?v=5'); expect(layout).toContain('do-32.png?v=5');
+    expect(layout).toContain('do-16.png?v=glass-v1'); expect(layout).toContain('do-32.png?v=glass-v1');
     const manifest = JSON.parse(readFileSync('public/do/manifest.webmanifest', 'utf8'));
-    expect(manifest.icons.every((icon: { src: string }) => icon.src.endsWith('?v=5'))).toBe(true);
+    expect(manifest.icons.every((icon: { src: string }) => icon.src.endsWith('?v=glass-v1'))).toBe(true);
   });
   it('tiny D and dot remain distinguishable against the canvas', () => {
     expect(contrast(colours.plum, colours.chalk)).toBeGreaterThanOrEqual(3);

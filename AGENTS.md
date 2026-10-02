@@ -103,14 +103,15 @@ Mixed/non-shipping areas such as `research/`, `marketing/`, root-level audits/br
 
 Visual source of truth: `docs/assembl-brand-system.md`.
 
-Company tokens (personal DO has the explicit assembled plum glass scope in the same canon):
+Company/DO roles (Kate’s exact locked glass identities and latest daylight correction are recorded in the same canon):
 
-- deep plum `#240B21`
+- visible light-field ink `#492B3E`
+- deep plum `#240B21` for dark fields and action fills
 - muted plum `#654A4E`
 - dusty rose `#916A70`
 - chalk `#F5F1F2`
 - paper `#FFFDFB`
-- Personal DO: selected assembled plum glass roles from `lib/brand/do-identity.ts`, approved DO07 static hero, canonical D-dot on identity controls. Prior daylight accents apply only to unmigrated DO surfaces; company tokens and client brands remain unchanged.
+- Primary identities: exact user-locked glass lowercase company a and uppercase DO D-dot, source contract `public/brand/canonical/glass-v1/manifest.json`, shared `GlassIdentity`. Do not reinstate reconstructed meshes or opaque vector primary logos. Tiny derivatives preserve the locked silhouette/material colours and dot. Current corrected room uses artwork planes inside real 3D architecture; exact glass geometry is not claimed. Native installation remains a separate owner/proof task. Verified client brands remain unchanged.
 
 Typography:
 

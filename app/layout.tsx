@@ -89,12 +89,12 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/icons/assembl-icon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/icons/assembl-icon-192x192.png', sizes: '192x192', type: 'image/png' },
-      { url: '/icons/assembl-icon-512x512.png', sizes: '512x512', type: 'image/png' },
+      { url: '/icons/assembl-icon-32x32.png?v=glass-v1', sizes: '32x32', type: 'image/png' },
+      { url: '/icons/assembl-icon-192x192.png?v=glass-v1', sizes: '192x192', type: 'image/png' },
+      { url: '/icons/assembl-icon-512x512.png?v=glass-v1', sizes: '512x512', type: 'image/png' },
     ],
-    apple: '/icons/assembl-icon-180x180.png',
-    shortcut: '/icons/favicon.ico',
+    apple: '/icons/assembl-icon-180x180.png?v=glass-v1',
+    shortcut: '/icons/favicon.ico?v=glass-v1',
   },
   manifest: '/manifest.webmanifest',
 };

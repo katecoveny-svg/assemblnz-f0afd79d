@@ -1,9 +1,17 @@
+# Primary glass identity — current user direction
+
+Kate's locked glass artwork is the primary company a and DO D, including app/browser icons. Exact supplied originals and hashes: `public/brand/canonical/glass-v1/manifest.json`. Shared primary controls: `components/brand/GlassIdentity.tsx`. Web exports: `scripts/glass-identity-assets.mjs`; both existing identity generators use that source. Native installation is separate and must use the same reviewed exports.
+
+The outlined Instrument Sans wordmark remains approved. The earlier letter-mark vectors below are archived compatibility sources, not competing primary marks or automatic tiny-icon fallbacks. Tiny icons are faithful derivatives of the locked glass artwork. No exact glass source mesh was supplied; current scene uses artwork planes inside the real 3D room, not a claimed mesh reconstruction.
+
+---
+
 # assembl browser identity sources
 
-These outlined assets implement the current [company canon](../../docs/assembl-brand-system.md).
+The wordmark outlines implement the approved Instrument Sans wordmark; the primary letter mark follows the locked glass art in the [company canon](../../docs/assembl-brand-system.md).
 They are not an alternative brand specification. The company mark is lowercase
 `a`; the wordmark is lowercase `assembl`, both in Instrument Sans Medium (500).
-Deep plum `#240B21` on paper `#FFFDFB` remains legible at favicon sizes.
+Visible light-field ink is `#492B3E`; #240B21 remains the dark/action accent. Tiny glass derivatives must be inspected for legibility without swapping the approved silhouette.
 
 ## Font provenance
 
@@ -26,7 +34,7 @@ or third-party font request is needed to render or regenerate these assets.
 Run `node scripts/generate-assembl-identity.mjs`, then
 `pnpm exec vitest run lib/brand/assembl-identity.test.ts`.
 
-- `mark.svg` produces the high-contrast16/32/48 px marks; `glass-mark.svg` uses the exact same outline for larger 180/192/512 px glass exports. Together they produce `public/icons/assembl-icon-{16,32,48,180,192,512}x*.png`
+- The locked `/brand/assembl-assembled-plum.webp` supplies every 16/32/48/180/192/512px primary icon through `scripts/glass-identity-assets.mjs`; source originals/hashes are in `public/brand/canonical/glass-v1/manifest.json`. The older SVG letter-mark files remain compatibility artefacts, not active primary exports.
 - 16/32/48 PNG frames form both `public/icons/favicon.ico` and `app/favicon.ico`
 - `app/icon.png` is byte-identical to the 32px PNG; `app/apple-icon.png` to 180px
 - `wordmark.svg` produces the existing `/press` download at
@@ -41,4 +49,4 @@ The existing root `assembl-icon.png` experiment, `public/images/brand-mark.png`,
 old social images, `public/assembling/favicons`, DO's intentional D identity and
 verified client assets are outside this current company/browser asset family.
 
-The exact glyph and transform are shared with `lib/brand/assembl-mark.ts` and the real homepage glass geometry. The small code-native company control remains opaque; DO keeps its separate uppercase D-dot. Generated art is not a substitute for canonical vector geometry.
+The older outlined glyph and transform remain in `lib/brand/assembl-mark.ts` for compatibility. Primary controls use `GlassIdentity`; the current real-room scene uses exact artwork planes, not claimed glass-mesh parity. DO retains its separate uppercase glass D-dot. Do not use the old vector outline as a substitute for the locked primary art.

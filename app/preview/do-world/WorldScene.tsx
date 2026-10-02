@@ -2,7 +2,7 @@
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState, type RefObject } from 'react';
-import { AssembledGlassA, AssembledGlassD } from '@/components/brand/AssembledGlassMarks';
+import { CanonicalGlassSceneArtwork } from '@/components/brand/CanonicalGlassSceneArtwork';
 import { useGLTF } from '@react-three/drei/core/Gltf';
 import { Environment } from '@react-three/drei/core/Environment';
 import { Lightformer } from '@react-three/drei/core/Lightformer';
@@ -30,7 +30,7 @@ const FOG = '#F2F0EF';
 /** Dusty rose — Identity glow + seating accents only (not cool violet). */
 const ROSE = '#916A70';
 const ROSE_WARM = '#c4a098';
-const PLUM_BODY = '#240B21';
+const PLUM_BODY = '#E8DDE3';
 const CHALK = '#F5F1F2';
 const PAPER = '#FFFDFB';
 /** Soft natural key through the glazing — warm daylight, not rose-opal flood. */
@@ -62,8 +62,8 @@ function Identity() {
   const { size } = useThree();
   const compact = size.width < 600;
   return <>
-    <AssembledGlassD position={[compact ? 2.15 : 2.05, compact ? 3.35 : 2.55, compact ? -13.6 : -13.35]} rotation={[0.06, -0.38, 0]} scale={compact ? 1.15 : 1.45} />
-    <AssembledGlassA position={[-5.4, 2.6, -7.2]} rotation={[0, 0.42, 0]} scale={1.7} />
+    <CanonicalGlassSceneArtwork kind="do" position={[compact ? 2.65 : 2.05, compact ? 3.35 : 2.55, compact ? -13.6 : -13.35]} rotation={[0.06, -0.38, 0]} scale={compact ? .72 : 1.45} />
+    <CanonicalGlassSceneArtwork kind="assembl" position={[-5.4, 2.6, -7.2]} rotation={[0, 0.42, 0]} scale={compact ? 1.5 : 1.7} />
   </>;
 }
 
@@ -248,7 +248,9 @@ function Room({ onReady }: { onReady: (ready: boolean) => void }) {
       </Suspense>
       <Environment resolution={256} frames={1} environmentIntensity={0.72}>
         {/* Broad paper fill prevents unlit black bands in the glass environment. */}
-        <Lightformer form="sphere" scale={40} color={PAPER} intensity={0.65} />
+        <Lightformer form="sphere" scale={40} color={PAPER} intensity={0.2} />
+        <Lightformer position={[2,4,4]} scale={[.35,8,1]} color={PAPER} intensity={5} />
+        <Lightformer position={[-4,4,-2]} rotation={[0,Math.PI/3,0]} scale={[.28,9,1]} color={PAPER} intensity={4} />
         {/* Waitematā window elevation — soft daylight bounce into the room. */}
         <Lightformer
           position={[-12, 4, -8]}
@@ -438,7 +440,7 @@ function Journey({
     gaze.getPoint(t, target);
     look.current.lerp(
       target,
-      paused && !reduced ? 1 : reduced ? 1 : 1 - Math.exp(-Math.min(delta, 0.05) * 3.2),
+      paused && !reduced ? 0 : reduced ? 1 : 1 - Math.exp(-Math.min(delta, 0.05) * 3.2),
     );
     camera.lookAt(look.current);
     if ((!paused || reduced) && Math.abs(desired - current.current) > 0.00008) invalidate();

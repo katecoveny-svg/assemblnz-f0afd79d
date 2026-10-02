@@ -2,17 +2,18 @@
 
 > The canonical visual system for the assembl company site, product surfaces and the shared base beneath every demonstrator.
 
-**Status:** DO07 released; wider assembled-glass rollout approved, implementation under review
+**Status:** Exact glass identities locked by Kate; DO07 and the earlier wider rollout released; daylight correction in local review
 **Last updated:** 2 October 2026
 **Applies to:** assembl public pages, product surfaces, evidence artefacts and the shared frame of client demonstrators
 
-This document overrides older directions where they conflict. The company palette below remains canonical. Personal DO uses the approved assembled plum glass scope documented below; the earlier blue proposal is superseded.
+This document overrides older directions where they conflict. Kate’s latest explicit direction locks the supplied glass lowercase company a and uppercase DO D-dot as the primary identities across company and DO surfaces. Their exact source contract is `public/brand/canonical/glass-v1/manifest.json`. The earlier reconstructed meshes, opaque primary controls and dark scrim are superseded. Current daylight corrections are local review work, not yet published; neither this canon nor an asset export claims installed-app refresh.
 
 ## Canonical palette
 
 | Token | Hex | Role |
 |---|---|---|
-| Deep plum | `#240B21` | Primary type, dark fields, product identity and proof frame |
+| Visible plum ink | `#492B3E` | Headlines, body copy, navigation and controls on light fields |
+| Deep plum | `#240B21` | Dark fields, action fills and existing product-stage accents |
 | Muted plum | `#654A4E` | Secondary fields, solid supporting surfaces and large UI elements |
 | Dusty rose | `#916A70` | State, progress, permission, focus and active details |
 | Chalk | `#F5F1F2` | Secondary surface, pale field and paper contrast |
@@ -20,17 +21,17 @@ This document overrides older directions where they conflict. The company palett
 
 ### Prior DO daylight extension · retained on unmigrated surfaces
 
-The prior 30 September DO direction added lilac `#DAD2F4`, petal `#EAC8DF` and blush `#F5E4E7` for rounded physical forms and shallow supporting surfaces. Deep plum remains the primary ink and DO body; dusty rose retains its state/permission role. These pastels are deliberate additions, not permission for saturated neon or arbitrary palettes.
+The prior 30 September DO direction added lilac `#DAD2F4`, petal `#EAC8DF` and blush `#F5E4E7` for rounded physical forms and shallow supporting surfaces. This is historical appearance, not the current primary identity or ink contract. Visible light-field text now uses `#492B3E`; dusty rose retains its state/permission role. These pastels are deliberate additions, not permission for saturated neon or arbitrary palettes.
 
 The DO entry is one sculptural, bevelled D with its inner dot, a lilac rounded tile and an offset petal disc. Optional real 3D uses demand rendering, bounded DPR and pointer response that settles. The complete SVG composition remains available for reduced motion, unsupported WebGL and scene failure. One primary input or action comes before product explanations.
 
-`DoEntryObject`, `DoPresence` and `DoBrand` share the identity across company entry and working app. `scripts/generate-do-identity.mjs` derives browser, phone and native-source icons from the canonical `DoMark` path. Installed native applications are not updated merely by changing source assets.
+The earlier `DoEntryObject` / `DoPresence` / `DoMark` treatment is retained only as existing compatibility code. It is not a competing primary logo or a tiny-icon fallback instruction. Current `DoBrand` uses the locked raster through `GlassIdentity`; the existing identity generators now export that artwork for web use only. Native packages and installation require their owner and separate proof.
 
 The approved assembled plum glass section below supersedes this prior treatment in personal DO. This paragraph records the retained appearance of unmigrated surfaces, not a second active instruction for that slice.
 
 ### Company usage rules
 
-- Use deep plum for text on chalk or paper.
+- Use visible plum ink `#492B3E` for text on chalk or paper; retain deep plum `#240B21` for dark fields and action fills.
 - Use paper or chalk for text on deep plum.
 - Dusty rose marks state, progress, permission or the active piece. It is not decorative confetti and does not carry small text on deep plum.
 - Muted plum is a supporting solid. Avoid using it for long body copy.
@@ -207,34 +208,42 @@ Agents and designers should also read root `DESIGN.md` for composition, motion/3
 
 Kate approved DO07 on 2 October 2026 after rejecting the blue Liquid light proposal. This is the personal DO slice, not a whole-company or installed-icon rollout. Lowercase assembl/company a and uppercase DO D-dot remain distinct. Consumer DO contains no Pursuit/Studio promotion.
 
-`lib/brand/do-identity.ts` supplies scoped CSS roles. Plum/ink/active `#240B21`; muted/hover `#654A4E`; dusty rose `#916A70`; chalk `#F5F1F2`; paper `#FFFDFB`; petal `#EAC8DF`; lilac `#DAD2F4`. Body copy uses plum; pale lilac supports review. Glass tints reuse lilac, paper and petal without introducing extra interface colours. Instrument Sans and IBM Plex Mono retain their established roles.
+`lib/brand/do-identity.ts` supplies scoped CSS roles. Plum/active `#240B21`; visible ink `#492B3E` per Kate’s later daylight correction; muted/hover `#654A4E`; dusty rose `#916A70`; chalk `#F5F1F2`; paper `#FFFDFB`; petal `#EAC8DF`; lilac `#DAD2F4`. Body copy uses the visible plum ink role; pale lilac supports review. Glass tints reuse lilac, paper and petal without introducing extra interface colours. Instrument Sans and IBM Plex Mono retain their established roles.
 
-The hero `/brand/do-assembled-plum.webp` is approved static artwork: an assembled glass D with plum spine, lilac upper curve, rose lower curve and detached interior dot. It is not real-time 3D or evidence of connectivity. The artwork is a material interpretation, not an exact vector export. Identity controls retain exact `DO_MARK_PATH` and dot (30,32,r6). A few large rounded pieces, visible joins, deliberate cropping and negative space express assembly. No blue rebrand or repeated card-grid composition.
+The hero `/brand/do-assembled-plum.webp` is approved static artwork: an assembled glass D with plum spine, lilac upper curve, rose lower curve and detached interior dot. It is not real-time 3D or evidence of connectivity. Kate subsequently locked this glass form as primary identity, together with the matching lowercase company a. It is not an exact export of the older font/stroke paths. Primary controls must use the locked artwork, preserving the D’s plum left-and-bottom spine, lilac upper curve, rose lower curve, visible joins and interior rose dot. `DO_MARK_PATH` is compatibility code, not an alternate primary mark. A few large rounded pieces, visible joins, deliberate cropping and negative space express assembly. No blue rebrand or repeated card-grid composition.
 
 One useful input precedes explanations. The existing review shows actual prepared task titles. Fictional examples stay explicitly labelled, and ready for review remains distinct from completed work. Preserve source/provider consent, on-device storage truth, guest continuation, access and error states. Do not imply diary activation, persistent memory, calendar bookings or external completion without verified capability.
 
-The hero uses a 1200×800 WebP (69,288 bytes), down from the 1.7 MB review PNG. It is static in both motion preferences and requires no WebGL. Its approved source artwork is retained in the review Library bundle. Controls remain opaque; phone text is at least 16px and targets at least 44px. Desktop and tablet keep input and review separate; phone retains one clear composer.
+The hero uses a 1200×800 WebP (69,288 bytes), down from the 1.7 MB review PNG. It is static in both motion preferences and requires no WebGL. Its approved source artwork is retained in the review Library bundle. Required labels remain readable independently of glass artwork; form/body text on phone is at least 16px and touch targets at least 44px. Compact scene-status text is at least 11px with clear contrast, outside the canvas. Desktop and tablet keep input and review separate; phone retains one clear composer.
 
 ### Scope and remaining release gates
 
 Personal entry, input, review, example disclosures and Local information summary use these roles. The signed-in empty-draft presence explicitly uses matching glass colours; real authenticated preview pixels still require authorised access. No fixture or new provider behaviour is introduced.
 
-Other DO routes, widgets and source consent retain existing behaviour. DO favicon/PWA/extension/Mac exports and installed-update proof require their separate owner and approval. Company lowercase-a rollout and named client brands are outside this slice. Saved Rose/Orbit/Pebble/Spark preferences remain separate from the fixed hero, with no storage changes.
+Other DO routes, widgets and source consent retain existing behaviour. Web favicon/PWA exports now use the same locked artwork; extension/Mac source application and installed-update proof remain with their separate owner and approval. Company lowercase-a primary identity follows the same source contract; verified named client brands remain separate. Saved Rose/Orbit/Pebble/Spark preferences remain separate from the fixed hero, with no storage changes.
 
 The personal slice merged as PR1463 and was verified live on 2 October 2026. Its production build and 256 fictional browser checks passed. Wider source review and installed-update proof remain separate; an asset update does not establish live capability.
 
-## Wider assembled-glass identity · 2 October 2026
+## Locked glass identity and daylight correction · 2 October 2026
 
-Kate approved extending the matching lowercase assembl a / uppercase DO D treatment across the wider brand, explicitly retaining the immersive homepage flythrough. This implementation keeps the authored atelier, eye-level camera/gaze paths, chapter dwell, three product destinations, pause/resume, demand rendering, bounded DPR and visibility/context-loss gates. It does not replace the flythrough with raster hero art or establish live agent activity.
+Kate’s supplied glass originals are the primary lowercase assembl a and uppercase DO D with its inner dot. Preserve the exact original bytes, Library IDs and SHA-256 hashes in `public/brand/canonical/glass-v1/manifest.json`. The reusable primary component is `components/brand/GlassIdentity.tsx`; current raster derivatives are `/brand/assembl-assembled-plum.webp` and `/brand/do-assembled-plum.webp`. They share one bright paper/daylight material world, luminous lilac/rose sections, chunky plum spines and deliberate joining seams. Do not redraw either as a plain extruded font glyph or substitute a gradient-filled outline.
 
-`components/brand/AssembledGlassMarks.tsx` supplies real scene geometry. The lowercase a uses the exact outlined Instrument Sans 500 glyph from `brand/assembl-identity/mark.svg`, shared through `lib/brand/assembl-mark.ts`. The D is a closed, bevelled outline derived from the canonical stroke contour with its separate dot. A single solid and continuous vertex colour transitions avoid overlapping transparent junction surfaces. Glass pieces use plum, lilac and petal; architecture remains paper/daylight, with its authored felt/metal finishes graded to plum/rose. Natural harbour/plant colours are context, not new interface roles.
+### Runtime and publication truth
 
-Small identity controls and 16/32/48 px company favicons retain opaque canonical vectors for legibility. Larger company app icons use a generator-derived glass SVG with the same lowercase outline. DO browser favicons use opaque canonical 16/32 px D/dot exports; revised web icon URLs use v=5, without claiming installed app refresh. Larger DO web/PWA icon sources use the same canonical D path and dot in glass-coloured pieces. `generate-do-identity.mjs --web-only` deliberately leaves extension/Mac packages unchanged; matched source assets require coordinated native-owner handoff and installed-update proof. Source changes alone do not update installed apps.
+The earlier wider rollout was merged externally as PR1471; root verified production on main `9c3544f5`. Its reconstructed meshes, opaque vector controls and dark #240B21/78% scrim were rejected in later visual feedback. Their old topology/contrast measurements do not establish quality of the new direction. The DO08 daylight correction is held locally for visual/source review: no new push, preview deployment or merge is implied here.
 
-The homepage's a artwork is a static material image for sharing, not the moving scene. Root OG uses it; the shared OG helper's optional image is not applied to named client brands. Header colours are scoped to the company header so legacy/customer body palettes are not rewritten globally. Existing useful-demo copy and Pursuit data/consent logic remain with their owner.
+The corrected atelier keeps the authored real 3D architecture, camera/gaze paths, chapter dwell, three product destinations, pause/resume, demand rendering, bounded DPR and visibility/context-loss gates. Its primary marks are the exact locked artwork on planes **inside that real moving room**. This is not an exact canonical glass-mesh reconstruction or implemented modular assembly animation. The private rounded-mesh study did not reach reference quality and must not replace the locked artwork. Future true glass geometry requires separate silhouette, material, seam and dot parity review. Static artwork must never be described as proof of interactive glass geometry or live agent activity.
 
-Fallbacks use actual captures of the revised scene, with separate desktop/phone WebPs. The complete still view is the server baseline until the browser confirms motion is wanted. Reduced motion, unavailable WebGL and no JavaScript retain all three product paths; ordinary phones can still use the animated scene. The scene is an imagined workspace, not live activity.
+### Primary controls, icons and derivatives
 
-Local proof includes desktop/375px real-animation recordings, keyboard skip and pause/resume, zero overflow, complete fallbacks and draw-call instrumentation (zero settled/paused; active during travel). These are bounded local-browser measurements, not universal device-performance claims. Final current-main/source review and the coherent release's remote CI remain required before publication. No secrets, auth/provider/storage/schema/billing logic or client-hub themes are changed.
+Headers, web favicons, app icons and share imagery use the same locked art. `scripts/glass-identity-assets.mjs` is the shared web export source; both existing identity generator entry points and the install-icon alias use it. Tiny derivatives may crop, contain, downsample or adjust legibility while preserving the canonical glass silhouette, material colours, joins, lowercase a and D’s dot. Inspect actual 16/32/48px renders; legibility is not permission to reinstate a different font/stroke logo as primary. Archived outlined a/D assets remain compatibility sources; the real-font lowercase assembl wordmark remains unchanged.
 
-Review corrections replace the D's overlapping open tubes/caps with one closed bevelled solid, rounded inner joins and welded smooth normals. The material uses softer refraction and a broad paper environment fill, without postprocessing or camera edits. A topology audit of the final D finds zero open/non-manifold edges. Continuous scrims and opaque control backings retain readability: measured text bounds at 1440×900 and 375×812 fall within the constant #240B21/78% backing; chalk on that backing over a pure-white scene is 8.31:1. This is a bounded viewport check, not a claim about every possible layout.
+Web icon URLs use `v=glass-v1`. The generators are web-only and do not silently write extension/Mac packages. Hand the identical reviewed exports to the portable owner for source consistency and installed-update proof. Updating web assets alone does not update installed applications. Keep verified client identities outside this company/DO rollout.
+
+### Composition and proof
+
+Use light paper treatment with visibly plum text `#492B3E`, not a global dark overlay. Keep one compact phone header, one primary action and scene space; do not restore stacked navigation/chapter/caption pills. Preserve existing functional copy until Kate chooses the separate copy review. The DO entry shows one clearly labelled fictional notice becoming actual local review steps through the existing checklist handler. Capture controls retain the existing Talk/Photo/Paste handlers; source/provider consent, health/privacy guidance, guest/storage boundaries and public widget routes remain intact.
+
+Fallbacks use actual renders of the revised real room, with separate desktop/phone WebPs and a complete semantic work loop. Reduced motion, unavailable WebGL and JavaScript off retain all product links and required content. The scene is an imagined workspace, not live agent activity; keep that status readable. Motion controls require an accessible state label and a 44×44px phone target.
+
+Bounded local proof: desktop and phone pixels inspected, 360/375/390/430px responsive checks, keyboard pause/resume, complete static fallbacks, no horizontal overflow and zero settled idle/paused draw calls after camera easing. These are Chromium/local measurements, not real-iPhone Safari proof. No authorised signed-in private session or installed-native parity is claimed. Exact evidence and remaining gates are recorded in `docs/design/daylight-glass-review.md`. No auth/provider/storage/schema/billing logic or client-hub themes are changed.

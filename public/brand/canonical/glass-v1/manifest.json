@@ -1,0 +1,33 @@
+{
+  "version": "glass-v1",
+  "status": "User-locked primary identity; supplied originals preserved byte-for-byte",
+  "sources": [
+    {
+      "file": "do-small-original.jpeg",
+      "library_file_id": "libfile_87907757bf188191ab499abd9f463d6d",
+      "sha256": "e43bc9a5f7ad6493b592ebbcee7633734fb6b391e174aa06cf9e7c1488133078"
+    },
+    {
+      "file": "do-large-original.jpeg",
+      "library_file_id": "libfile_fb5d4b7c30448191a855dcc78b463356",
+      "sha256": "a15d4f62131fb67d17eb5ff83c634558d702fdb18e3fe0b559b4f1c3af2a8922"
+    },
+    {
+      "file": "assembl-do-pair-original.jpeg",
+      "library_file_id": "libfile_8fa8a3655fc08191a6662df216c5a7b3",
+      "sha256": "da48e4580b2feb057ea24e34e0582582451ff45613bb0a15d0ff14878ce3dd09"
+    },
+    {
+      "file": "assembl-a-original.jpeg",
+      "library_file_id": "libfile_3336c625c5788191b744a4335843fe5c",
+      "sha256": "212a54dd50bf7d7366aff4bce7a2eda85319a03ad5fa9cb7cf582294c65472a1"
+    }
+  ],
+  "runtimeDerivatives": [
+    "/brand/do-assembled-plum.webp",
+    "/brand/assembl-assembled-plum.webp"
+  ],
+  "geometry": "Reviewed real WebGL room uses locked artwork planes. Rounded modular mesh study remains provisional and is not used as the primary identity. No canonical source mesh supplied; do not call the artwork an exact 3D reconstruction.",
+  "textInk": "#492B3E per explicit daylight correction; established plum accent remains #240B21",
+  "motion": "Scroll-driven real room camera. Reviewed marks are exact artwork planes. Reduced motion uses real-render still posters and complete HTML work loop. Modular separation / exact glass mesh are not claimed implemented."
+}
