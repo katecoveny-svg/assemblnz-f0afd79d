@@ -2,7 +2,7 @@
 import { DoReadAloud } from "@/components/do/DoReadAloud";
 
 import Link from 'next/link';
-import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type FormEvent } from 'react';
 import { ArrowUpRight, Check, ChevronDown, Copy, LoaderCircle, RotateCcw, X } from 'lucide-react';
 import {
   PERSONAL_DO_ASSISTANT_CONSENT, personalAssistantInputSchema, personalAssistantDraftSchema,
@@ -35,6 +35,8 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange }: 
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const consentRef = useRef<HTMLInputElement>(null);
   const resultRef = useRef<HTMLHeadingElement>(null);
+  // Focus only a newly committed reply, never a later draft edit or parent render.
+  useLayoutEffect(() => { if (result) resultRef.current?.focus(); }, [result]);
   const lock = useRef(false);
   const alive = useRef(true);
   const workingCallback = useRef(onWorkingChange);
@@ -113,7 +115,6 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange }: 
       attempt.current = null;
       setResult(next); setDraft(next.nextStep.draft ?? ''); setLastMessage(parsed.data.message);
       setMessage(''); setReviewOpen(false); setNotice('A reply is ready for your review.');
-      requestAnimationFrame(() => resultRef.current?.focus());
     } catch (cause) {
       if (!controller.signal.aborted && alive.current && request.current === controller) setError(cause instanceof Error ? cause.message : 'DO could not finish this request. Please try again.');
     } finally {
