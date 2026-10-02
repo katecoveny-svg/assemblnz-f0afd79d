@@ -29,26 +29,32 @@ export function LivePursuitCanvas({ homepage = false }: { homepage?: boolean }) 
   const [consent, setConsent] = useState(false);
   const [useTypeSafe, setUseTypeSafe] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [isRecovering, setIsRecovering] = useState(false);
   const [error, setError] = useState('');
+  const [requestState, setRequestState] = useState<'unknown'|'pending'|'failed'|'not_found'|'not_started'>('unknown');
   const [result, setResult] = useState<PublicResearchResult | null>(null);
   const [reviewed, setReviewed] = useState(false);
   const [tab, setTab] = useState<'evidence' | 'proposal' | 'plan'>('evidence');
   const [attempt, setAttempt] = useState<PublicAttempt | null>(null);
   const active = useRef<AbortController | null>(null);
   useEffect(() => () => active.current?.abort(), []);
-  const brief = { company, goal, consent: true as const, useTypeSafe: useTypeSafe && Boolean(status?.typesafeReady) };
+  const brief = { company, goal, consent: true as const, useTypeSafe };
   const canRecover = matchesPublicAttempt(attempt, brief);
 
   async function submit(event: FormEvent) {
     event.preventDefault(); if (active.current || !consent || (!status?.ready && !canRecover)) return;
-    const next = publicAttempt(attempt, brief, () => crypto.randomUUID());
+    const recovering = matchesPublicAttempt(attempt, brief);
+    const next = recovering ? attempt! : publicAttempt(null, brief, () => crypto.randomUUID());
     const controller = new AbortController(); active.current = controller; setAttempt(next);
-    setBusy(true); setError(''); setResult(null); setReviewed(false);
+    setIsRecovering(recovering); setBusy(true); setError(''); setRequestState('unknown'); setResult(null); setReviewed(false);
     try {
-      const response = await fetch('/api/pursuit/research', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      const response = await fetch('/api/pursuit/research', { method: 'POST', headers: { 'Content-Type': 'application/json', ...(recovering ? { 'X-Pursuit-Recovery': 'lookup-only' } : {}) },
         body: JSON.stringify(next.input), signal: AbortSignal.any([controller.signal, AbortSignal.timeout(115000)]) });
       const value = await response.json();
-      if (!response.ok) throw new Error(typeof value.error === 'string' ? value.error : 'Research was not completed.');
+      if (!response.ok) {
+        setRequestState(value.code === 'pending' ? 'pending' : value.code === 'not_found' ? 'not_found' : ['client_limit','daily_limit','disabled'].includes(value.code) ? 'not_started' : ['failed','untraced_source'].includes(value.code) ? 'failed' : 'unknown');
+        throw new Error(typeof value.error === 'string' ? value.error : 'Request status is unknown.');
+      }
       Draft.parse(value.draft);
       if (value.mode !== 'live' || !Array.isArray(value.trace?.sources) || !value.trace.sources.length) throw new Error('The response did not include a source trail.');
       setResult(value); setTab('evidence');
@@ -71,15 +77,15 @@ export function LivePursuitCanvas({ homepage = false }: { homepage?: boolean }) 
         <div className={styles.examples} aria-label="Example research briefs">{EXAMPLES.map(example => <button key={example.company} type="button" disabled={busy} onClick={() => { setCompany(example.company); setGoal(example.goal); }}>{example.company}<ArrowUpRight size={13} /></button>)}</div>
         <label className={styles.check}><input type="checkbox" disabled={busy} checked={consent} onChange={e => setConsent(e.target.checked)} required /><span>Send this public brief to the research provider. Do not include passwords, confidential information or personal records. The result is stored for retries and abuse control.</span></label>
         {status?.typesafeReady && <label className={styles.check}><input type="checkbox" disabled={busy} checked={useTypeSafe} onChange={e => setUseTypeSafe(e.target.checked)} /><span>Also share the public research draft with TypeSafe to suggest a next action. This does not authorise an external action.</span></label>}
-        <button className={styles.primary} type="submit" disabled={busy || (!status?.ready && !canRecover) || !consent}>{busy ? 'Research request running…' : canRecover ? 'Recover this request' : 'Research an opportunity'}<Search size={17} /></button>
+        <button className={styles.primary} type="submit" disabled={busy || (!status?.ready && !canRecover) || !consent}>{busy ? isRecovering ? 'Checking saved request…' : 'Research request running…' : canRecover ? 'Recover this request' : 'Research an opportunity'}<Search size={17} /></button>
         {busy && <button type="button" onClick={() => active.current?.abort()}>Stop waiting</button>}
         <p className={styles.note}>A limited free trial. No sign-in to your private systems. No messages, purchases or publication. <Link href="/tools/agents">How the tools work</Link>.</p>
         {error && <p role="alert" className={styles.error}>{error}</p>}
       </form>
       <div className={styles.board} aria-busy={busy}>
-        <div className={styles.boardTop}><span>the pursuit canvas</span><span>{result ? 'DRAFT / SOURCE-LINKED' : busy ? 'REQUEST IN PROGRESS' : 'YOUR WORK APPEARS HERE'}</span></div>
+        <div className={styles.boardTop}><span>the pursuit canvas</span><span>{result ? 'DRAFT / SOURCE-LINKED' : busy ? isRecovering ? 'CHECKING SAVED REQUEST' : 'REQUEST IN PROGRESS' : 'YOUR WORK APPEARS HERE'}</span></div>
         {(result || busy) && <h3>{title}</h3>}
-        {!result ? busy ? <div className={styles.empty}><p role="status">Searching public sources and preparing the brief. This can take a minute or two.</p></div> : error ? <div className={styles.empty}><h3>No verified research result.</h3><p>The request did not produce a saved source trail. The illustration has not been used as a result.</p></div> : homepage ? <div className={styles.empty}><h3>Your first piece of work.</h3><p>Research one company or sector. Get public sources, a proposed opening and a small work plan you can review and export.</p><p>Choose a brief and consent before the agent runs.</p></div> : <PursuitWalkthrough compact /> : <>
+        {!result ? busy ? <div className={styles.empty}><p role="status">{isRecovering ? 'Checking saved request. This lookup does not start research.' : 'Searching public sources and preparing the brief. This can take a minute or two.'}</p></div> : error ? <div className={styles.empty}><h3>{requestState === 'failed' ? 'No verified research result.' : requestState === 'pending' ? 'Research is still running.' : requestState === 'not_found' ? 'No saved request found.' : requestState === 'not_started' ? 'Research was not started.' : 'Request status is unknown.'}</h3><p>{requestState === 'failed' ? 'The saved request did not complete.' : requestState === 'pending' ? 'Recover this same brief later to check its saved result.' : requestState === 'not_found' ? 'Recovery only checked for an existing request. It did not start research.' : requestState === 'not_started' ? 'This request was not admitted. Recovery cannot start research.' : 'The bounded request may still finish. Recovery only checks its saved status.'} The illustration has not been used as a result.</p></div> : homepage ? <div className={styles.empty}><h3>Your first piece of work.</h3><p>Research one company or sector. Get public sources, a proposed opening and a small work plan you can review and export.</p><p>Choose a brief and consent before the agent runs.</p></div> : <PursuitWalkthrough compact /> : <>
           <p>{result.draft.summary}</p><p className={styles.note}>{result.warning}</p>
           <div className={styles.tabs} aria-label="Review your pursuit">{(['evidence', 'proposal', 'plan'] as const).map(name => <button key={name} type="button" onClick={() => setTab(name)} aria-pressed={tab === name}>{name}<ArrowRight size={14} /></button>)}</div>
           <div className={styles.cards}>

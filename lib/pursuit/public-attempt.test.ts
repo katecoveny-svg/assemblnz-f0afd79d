@@ -23,3 +23,9 @@ describe('bounded public research identity', () => {
     expect(publicAttempt(null, brief, () => 'visitor-one').input.requestId).not.toBe(publicAttempt(null, brief, () => 'visitor-two').input.requestId);
   });
 });
+
+it('freezes the first request body and retains the selected router option',()=>{
+ const selected={...brief,useTypeSafe:true};const ids=vi.fn(()=> 'first');const attempt=publicAttempt(null,selected,ids);
+ expect(Object.isFrozen(attempt.input)).toBe(true);
+ expect(publicAttempt(attempt,selected,ids)).toBe(attempt);expect(attempt.input.useTypeSafe).toBe(true);expect(ids).toHaveBeenCalledTimes(1);
+});

@@ -1,7 +1,7 @@
 import type { TrialInput } from './public-contract';
 
 export type PublicBrief = Omit<TrialInput, 'requestId'>;
-export type PublicAttempt = { input: TrialInput; fingerprint: string };
+export type PublicAttempt = { input: Readonly<TrialInput>; fingerprint: string };
 
 function normalized(brief: PublicBrief): PublicBrief {
   return { company: brief.company.trim(), goal: brief.goal.trim(), consent: brief.consent,
@@ -16,5 +16,5 @@ export function matchesPublicAttempt(attempt: PublicAttempt | null, brief: Publi
 export function publicAttempt(previous: PublicAttempt | null, brief: PublicBrief, createId: () => string): PublicAttempt {
   if (matchesPublicAttempt(previous, brief)) return previous!;
   const input = normalized(brief);
-  return { input: { requestId: createId(), ...input }, fingerprint: JSON.stringify(input) };
+  return { input: Object.freeze({ requestId: createId(), ...input }), fingerprint: JSON.stringify(input) };
 }

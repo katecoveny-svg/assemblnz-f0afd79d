@@ -1,0 +1,62 @@
+[
+  {
+    "width": 375,
+    "case": "429_missing",
+    "initialHeading": "Research was not started.",
+    "recoveryHeading": "No saved request found.",
+    "sameFrozenBody": true,
+    "lookupOnlyRecovery": true,
+    "fixtureAsResult": false,
+    "providerCalls": 0
+  },
+  {
+    "width": 375,
+    "case": "abort_missing",
+    "initialHeading": "Request status is unknown.",
+    "recoveryHeading": "No saved request found.",
+    "sameFrozenBody": true,
+    "lookupOnlyRecovery": true,
+    "fixtureAsResult": false,
+    "providerCalls": 0
+  },
+  {
+    "width": 375,
+    "case": "network_pending",
+    "initialHeading": "Request status is unknown.",
+    "recoveryHeading": "Research is still running.",
+    "sameFrozenBody": true,
+    "lookupOnlyRecovery": true,
+    "fixtureAsResult": false,
+    "providerCalls": 0
+  },
+  {
+    "width": 1440,
+    "case": "429_missing",
+    "initialHeading": "Research was not started.",
+    "recoveryHeading": "No saved request found.",
+    "sameFrozenBody": true,
+    "lookupOnlyRecovery": true,
+    "fixtureAsResult": false,
+    "providerCalls": 0
+  },
+  {
+    "width": 1440,
+    "case": "abort_missing",
+    "initialHeading": "Request status is unknown.",
+    "recoveryHeading": "No saved request found.",
+    "sameFrozenBody": true,
+    "lookupOnlyRecovery": true,
+    "fixtureAsResult": false,
+    "providerCalls": 0
+  },
+  {
+    "width": 1440,
+    "case": "network_pending",
+    "initialHeading": "Request status is unknown.",
+    "recoveryHeading": "Research is still running.",
+    "sameFrozenBody": true,
+    "lookupOnlyRecovery": true,
+    "fixtureAsResult": false,
+    "providerCalls": 0
+  }
+]

@@ -19,6 +19,15 @@ export function nextTrialReset() {
 }
 export function requestPrincipal(request:Request){const ip=request.headers.get('x-vercel-forwarded-for')??request.headers.get('x-forwarded-for')??'unavailable';return createHmac('sha256',process.env.PURSUIT_TRIAL_HASH_SECRET??process.env.SUPABASE_SERVICE_ROLE_KEY??'local-unconfigured').update(`public-pursuit:v1:${ip.split(',')[0].trim()}`).digest('hex');}
 export async function reserveTrial(id:string,principal:string,inputHash:string):Promise<{status:string;result?:PublicResearchResult;typesafeEnabled?:boolean}>{return db('rpc/reserve_public_pursuit','POST',{p_id:id,p_principal:principal,p_input_hash:inputHash});}
+/** Read-only recovery. Missing or mismatched ownership/input never creates a run. */
+export async function recoverTrial(id:string,principal:string,inputHash:string):Promise<{status:string;result?:PublicResearchResult;typesafeEnabled?:boolean}>{
+ const rows=await db(`pursuit_public_runs?id=eq.${encodeURIComponent(id)}&principal_hash=eq.${encodeURIComponent(principal)}&input_hash=eq.${encodeURIComponent(inputHash)}&select=state,result&limit=1`);
+ if(!Array.isArray(rows))throw new Error('storage_unavailable');
+ const row=rows[0];if(!row)return {status:'not_found'};
+ if(row.state==='complete'&&row.result)return {status:'replay',result:row.result};
+ if(row.state==='pending'||row.state==='failed')return {status:row.state};
+ throw new Error('storage_unavailable');
+}
 export async function completeTrial(id:string,principal:string,result:PublicResearchResult){const rows=await db(`pursuit_public_runs?id=eq.${encodeURIComponent(id)}&principal_hash=eq.${principal}&state=eq.pending`,'PATCH',{state:'complete',completed_at:new Date().toISOString(),result,trace:result.trace});if(!Array.isArray(rows)||rows.length!==1)throw new Error('receipt_not_saved');}
 export async function failTrial(id:string,principal:string,code='research_unavailable'){const safe=/^[a-z_0-9]{1,60}$/.test(code)?code:'research_unavailable';await db(`pursuit_public_runs?id=eq.${encodeURIComponent(id)}&principal_hash=eq.${principal}&state=eq.pending`,'PATCH',{state:'failed',completed_at:new Date().toISOString(),trace:{error:safe}}).catch(()=>undefined);}
 export async function countPublicTool(tool:string){try{await db('rpc/count_public_tool','POST',{p_tool:tool});return true;}catch{return false;}}
