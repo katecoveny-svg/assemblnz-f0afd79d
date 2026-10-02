@@ -1,16 +1,17 @@
 'use client';
+import { retainDirectSourceGoal, DIRECT_STARTER_PLAN_DESCRIPTION, DIRECT_FOCUS_VALUES, DIRECT_FOCUS_LABELS, type DirectFocus } from '@/lib/pursuit/direct-proposal';
 
 import Link from 'next/link';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { ArrowRight, ArrowUpRight, Download, Search, Check } from 'lucide-react';
-import { Draft, type PublicFailureReceipt, type PublicResearchResult } from '@/lib/pursuit/public-contract';
+import { Draft, type PublicFailureReceipt, type PublicPresentationResult } from '@/lib/pursuit/public-contract';
 import {readPublicFailureReceipt} from '@/lib/pursuit/public-cost-admission';
 import { buildPitchHtml } from '@/lib/pursuit/pitch-export';
 import styles from './live-pursuit.module.css';
 import { useResearchAvailability, refreshResearchAvailability } from './useResearchAvailability';
 import { PursuitWalkthrough } from './PursuitWalkthrough';
 import walkthroughStyles from './pursuit-walkthrough.module.css';
-import { matchesPublicAttempt, publicAttempt, type PublicAttempt } from '@/lib/pursuit/public-attempt';
+import { bindPublicPresentation, matchesPublicAttempt, publicAttempt, type PublicAttempt } from '@/lib/pursuit/public-attempt';
 
 const EXAMPLES = [
   { company: 'NZ Post', goal: 'Find a source-backed customer service opportunity where a small demonstrator could make parcel delivery questions easier to resolve.' },
@@ -26,6 +27,7 @@ function saveFile(name: string, text: string, type: string) {
 export function LivePursuitCanvas({ homepage = false }: { homepage?: boolean }) {
   const status = useResearchAvailability();
   const [directSource, setDirectSource] = useState(false);
+  const [directFocus, setDirectFocus] = useState<DirectFocus>('goal-led');
   const [company, setCompany] = useState('');
   const [goal, setGoal] = useState('');
   const [consent, setConsent] = useState(false);
@@ -35,13 +37,13 @@ export function LivePursuitCanvas({ homepage = false }: { homepage?: boolean }) 
   const [failureReceipt,setFailureReceipt]=useState<PublicFailureReceipt|null>(null);
   const [error, setError] = useState('');
   const [requestState, setRequestState] = useState<'unknown'|'pending'|'failed'|'not_found'|'not_started'>('unknown');
-  const [result, setResult] = useState<PublicResearchResult | null>(null);
+  const [result, setResult] = useState<PublicPresentationResult | null>(null);
   const [reviewed, setReviewed] = useState(false);
   const [tab, setTab] = useState<'evidence' | 'proposal' | 'plan'>('evidence');
   const [attempt, setAttempt] = useState<PublicAttempt | null>(null);
   const active = useRef<AbortController | null>(null);
   useEffect(() => () => active.current?.abort(), []);
-  const brief = { company, goal, consent: true as const, useTypeSafe, ...(directSource ? {sourceMode:'direct_source_brief' as const}: {}) };
+  const brief = { company, goal, consent: true as const, useTypeSafe, ...(directSource ? {sourceMode:'direct_source_brief' as const,directFocus}: {}) };
   const canRecover = matchesPublicAttempt(attempt, brief);
 
   async function submit(event: FormEvent) {
@@ -56,12 +58,12 @@ export function LivePursuitCanvas({ homepage = false }: { homepage?: boolean }) 
       const value = await response.json();
       if (!response.ok) {
         setFailureReceipt(readPublicFailureReceipt(value.receipt,next.input.requestId)??null);
-        setRequestState(value.code === 'pending' ? 'pending' : value.code === 'not_found' ? 'not_found' : ['client_limit','daily_limit','disabled'].includes(value.code) ? 'not_started' : ['failed','untraced_source','direct_sources_unavailable','direct_brief_failed','direct_quote_untraced','direct_quote_drift','direct_inference_unavailable','direct_inference_protocol','direct_inference_usage'].includes(value.code) ? 'failed' : 'unknown');
+        setRequestState(value.code === 'pending' ? 'pending' : value.code === 'not_found' ? 'not_found' : ['client_limit','daily_limit','disabled'].includes(value.code) ? 'not_started' : ['failed','untraced_source','direct_sources_unavailable','direct_brief_failed','direct_quote_untraced','direct_quote_drift','direct_inference_unavailable','direct_inference_protocol','direct_inference_usage','direct_proposal_unsupported'].includes(value.code) ? 'failed' : 'unknown');
         throw new Error(typeof value.error === 'string' ? value.error : 'Request status is unknown.');
       }
       Draft.parse(value.draft);
       if (!['live','direct_source_brief'].includes(value.mode) || !Array.isArray(value.trace?.sources) || !value.trace.sources.length) throw new Error('The response did not include a source trail.');
-      setResult(value); setTab('evidence');
+      setResult(bindPublicPresentation(value,next)); setTab('evidence');
     } catch (e) {
       setError(e instanceof DOMException && (e.name === 'AbortError' || e.name === 'TimeoutError')
         ? 'Stopped waiting. The bounded request may still finish. Recover this same brief to check its saved result; no fresh research request is created.'
@@ -76,7 +78,8 @@ export function LivePursuitCanvas({ homepage = false }: { homepage?: boolean }) 
     <div className={`${styles.canvas} ${!result && !busy ? walkthroughStyles.previewCanvas : ''}`}>
       <form onSubmit={submit} className={styles.form}>
         <p className={styles.status}>{status?.message ?? (status === null ? 'Checking research availability…' : status.ready ? 'Public research is available.' : 'Live research is temporarily unavailable.')}</p>
-        <label className={styles.check}><input type="checkbox" disabled={busy} checked={directSource} onChange={e=>{setDirectSource(e.target.checked);if(e.target.checked){setCompany('assembl.co.nz');setGoal('As a fictional independent strategy and technology consultancy, research assembl and propose one useful human-reviewed technology adoption engagement. Keep factual sources separate from commercial hypotheses.');setUseTypeSafe(false);}}} /><span>Scoped Assembl brief: check its website and one fixed official NZ guidance page. Zero web searches; no prospect discovery.</span></label>
+        <label className={styles.check}><input type="checkbox" disabled={busy} checked={directSource} onChange={e=>{setDirectSource(e.target.checked);if(e.target.checked){setCompany('assembl.co.nz');setGoal(retainDirectSourceGoal);setUseTypeSafe(false);}}} /><span>Scoped Assembl brief: check its website and fixed official AI-use guidance (delivery context, not market evidence). Zero web searches; no prospect discovery.</span></label>
+        {directSource && <label>What kind of work should this scoped plan explore?<select disabled={busy} value={directFocus} onChange={e=>setDirectFocus(e.target.value as DirectFocus)}>{DIRECT_FOCUS_VALUES.map(focus=><option value={focus} key={focus}>{DIRECT_FOCUS_LABELS[focus]}</option>)}</select><small>{DIRECT_STARTER_PLAN_DESCRIPTION}</small></label>}
         <label>Company or sector<input name="company" disabled={busy || directSource} value={company} onChange={e => setCompany(e.target.value)} minLength={2} maxLength={120} required placeholder="A New Zealand company or sector" /></label>
         <label>What should the agent investigate?<textarea name="goal" disabled={busy} value={goal} onChange={e => setGoal(e.target.value)} minLength={12} maxLength={700} required rows={5} placeholder="Find a specific customer problem we could demonstrate a better way to solve." /></label>
         <div className={styles.examples} aria-label="Example research briefs">{!directSource && EXAMPLES.map(example => <button key={example.company} type="button" disabled={busy} onClick={() => { setCompany(example.company); setGoal(example.goal); }}>{example.company}<ArrowUpRight size={13} /></button>)}</div>
@@ -92,6 +95,7 @@ export function LivePursuitCanvas({ homepage = false }: { homepage?: boolean }) 
         <div className={styles.boardTop}><span>the pursuit canvas</span><span>{result ? 'DRAFT / SOURCE-LINKED' : busy ? isRecovering ? 'CHECKING SAVED REQUEST' : 'REQUEST IN PROGRESS' : 'YOUR WORK APPEARS HERE'}</span></div>
         {(result || busy) && <h3>{title}</h3>}
         {!result ? busy ? <div className={styles.empty}><p role="status">{isRecovering ? 'Checking saved request. This lookup does not start research.' : directSource ? 'Checking the two fixed public pages and preparing a scoped brief. This can take a minute or two.' : 'Searching public sources and preparing the brief. This can take a minute or two.'}</p></div> : error ? <div className={styles.empty}><h3>{requestState === 'failed' ? 'No verified research result.' : requestState === 'pending' ? 'Research is still running.' : requestState === 'not_found' ? 'No saved request found.' : requestState === 'not_started' ? 'Research was not started.' : 'Request status is unknown.'}</h3><p>{requestState === 'failed' ? 'The saved request did not complete.' : requestState === 'pending' ? 'Recover this same brief later to check its saved result.' : requestState === 'not_found' ? 'Recovery only checked for an existing request. It did not start research.' : requestState === 'not_started' ? 'This request was not admitted. Recovery cannot start research.' : 'The bounded request may still finish. Recovery only checks its saved status.'} The illustration has not been used as a result.</p></div> : homepage ? <div className={styles.empty}><h3>Your first piece of work.</h3><p>Research one company or sector. Get public sources, a proposed opening and a small work plan you can review and export.</p><p>Choose a brief and consent before the agent runs.</p></div> : <PursuitWalkthrough compact /> : <>
+          {result.scopedPlan && <article><h3>Your brief</h3><p>{result.scopedPlan.yourBrief}</p><small>Unverified user input. Focus: {DIRECT_FOCUS_LABELS[result.scopedPlan.focus]}.</small><p className={styles.note}>{DIRECT_STARTER_PLAN_DESCRIPTION}</p></article>}
           <p>{result.draft.summary}</p><p className={styles.note}>{result.warning}</p>
           <div className={styles.tabs} aria-label="Review your pursuit">{(['evidence', 'proposal', 'plan'] as const).map(name => <button key={name} type="button" onClick={() => setTab(name)} aria-pressed={tab === name}>{name}<ArrowRight size={14} /></button>)}</div>
           <div className={styles.cards}>
