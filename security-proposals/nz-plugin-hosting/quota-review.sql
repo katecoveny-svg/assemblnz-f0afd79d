@@ -71,7 +71,7 @@ BEGIN
  ON CONFLICT(kind) DO UPDATE SET start_at=EXCLUDED.start_at,used=CASE WHEN nz_freight_quota.windows.start_at=EXCLUDED.start_at THEN nz_freight_quota.windows.used ELSE 0 END;
  IF EXISTS(SELECT 1 FROM nz_freight_quota.windows WHERE kind='source_day' AND used>=200) THEN limited:=true; END IF;
  END IF;
- -- Prune child before parent under the same control lock. Keep bounded48hour UUID tombstones only.
+ -- Prune child before parent under the same control lock. Apply48hour cutoff only on this successful claim path. NOT an idle/disabled deletion guarantee. Independent bounded cleanup/monitor proof is an activation gate.
  DELETE FROM nz_freight_quota.leases WHERE kind='source_load' AND issued_at<t-interval '48 hours';
  DELETE FROM nz_freight_quota.leases l WHERE kind='mcp' AND issued_at<t-interval '48 hours' AND NOT EXISTS(SELECT 1 FROM nz_freight_quota.leases s WHERE s.parent=l.id);
  IF (SELECT count(*) FROM nz_freight_quota.leases)>=7000 THEN limited:=true; END IF;

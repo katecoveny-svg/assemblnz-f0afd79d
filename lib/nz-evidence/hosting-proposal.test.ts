@@ -130,3 +130,35 @@ it('hung log authority is aborted after one second and emits nothing', async () 
     expect(await pending).toBe(null); expect(signal?.aborted).toBe(true);
   } finally { vi.useRealTimers(); }
 });
+
+it('noncooperative backend retains all four slots after timeout until real settlement', async () => {
+  const { boundedAdmissionCaller } = await import('../../security-proposals/nz-plugin-hosting/rejection-bounds');
+  vi.useFakeTimers();
+  try {
+    const finish: Array<(value: { state: 'denied'; reason: 'limit'; retryAfterSeconds: number }) => void> = [];
+    const claim = vi.fn(() => new Promise<{ state: 'denied'; reason: 'limit'; retryAfterSeconds: number }>(resolve => finish.push(resolve)));
+    const caller = boundedAdmissionCaller({ claim, release: async () => {} }, () => 100);
+    const first = Array.from({ length: 4 }, () => caller(invocation));
+    await vi.advanceTimersByTimeAsync(1001); await Promise.all(first);
+    for (let i = 0; i < 8; i++) expect((await caller(invocation)).state).toBe('denied');
+    expect(claim).toHaveBeenCalledTimes(4);
+    finish[0]({ state: 'denied', reason: 'limit', retryAfterSeconds: 60 });
+    await vi.advanceTimersByTimeAsync(0);
+    const next = caller(invocation); expect(claim).toHaveBeenCalledTimes(5);
+    finish[4]({ state: 'denied', reason: 'limit', retryAfterSeconds: 60 }); await next;
+    for (const resolve of finish.slice(1, 4)) resolve({ state: 'denied', reason: 'limit', retryAfterSeconds: 60 });
+  } finally { vi.useRealTimers(); }
+});
+it('noncooperative log authority retains its slot across minute windows', async () => {
+  const { rejectionSummary } = await import('../../security-proposals/nz-plugin-hosting/rejection-bounds');
+  vi.useFakeTimers();
+  try {
+    let now = 100;
+    const claim = vi.fn(async () => new Promise<boolean>(() => {}));
+    const summary = rejectionSummary(() => now);
+    const first = summary.take({ claimGlobalLogSlot: claim });
+    await vi.advanceTimersByTimeAsync(1001); expect(await first).toBe(null);
+    now += 60000; expect(await summary.take({ claimGlobalLogSlot: claim })).toBe(null);
+    expect(claim).toHaveBeenCalledTimes(1);
+  } finally { vi.useRealTimers(); }
+});
