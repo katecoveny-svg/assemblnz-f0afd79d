@@ -3,7 +3,7 @@ import { AjvJsonSchemaValidator } from '@modelcontextprotocol/server/validators/
 import { readFile, mkdir, readdir, lstat, writeFile, copyFile } from 'node:fs/promises';
 import { resolve, dirname, join } from 'node:path';
 import { createHash } from 'node:crypto';
-import { zipSync } from 'fflate';
+import { developmentPluginZip } from './lib/nz-plugin-zip.mjs';
 const root = resolve(import.meta.dirname, '..');
 const require = createRequire(join(root, 'packages/canvas/package.json'));
 const { build } = require('tsup');
@@ -65,15 +65,15 @@ for (const domain of ['freight', 'architecture']) {
         else {
             if (/(?:^|\/)\.env|\.pem$|\.key$/.test(rel))
                 throw new Error('Forbidden archive member');
-            files[rel] = [new Uint8Array(await readFile(path)), { mtime: new Date('2026-01-01T00:00:00Z') }];
+            files[rel] = new Uint8Array(await readFile(path));
         }
     } };
     await walk(base);
     if (Object.keys(files).length > 5000)
         throw new Error('Too many files');
-    if (Object.values(files).reduce((sum, [b]) => sum + b.length, 0) > 512 * 1024 * 1024)
+    if (Object.values(files).reduce((sum, b) => sum + b.length, 0) > 512 * 1024 * 1024)
         throw new Error('Expanded archive too large');
-    const bytes = zipSync(files, { level: 6 });
+    const bytes = developmentPluginZip(files);
     if (bytes.length > 100 * 1024 * 1024)
         throw new Error('Too large');
     const name = `assembl-nz-${domain}-0.1.0-development.zip`;

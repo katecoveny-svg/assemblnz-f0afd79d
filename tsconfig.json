@@ -54,6 +54,7 @@
     "iho-router-index.ts",
     "supabase",
     "security-proposals/nz-edge-maintenance",
+    "security-proposals/nz-plugin-hosting",
     "remotion",
     "docs",
     ".lovable",
