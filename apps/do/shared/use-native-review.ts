@@ -45,7 +45,7 @@ export function useNativeReview(options: Options) {
         if (!parsed.success || !authKnown) return null;
         // Page session identity is a boundary hint, never transport authority.
         // A differing server-confirmed recipient cannot silently inherit editor work.
-        if (parsed.data.owner !== seenOwner) { receiver.invalidate(); return null; }
+        if (parsed.data.owner !== seenOwner) throw new NativeRecipientLookupError('recipient_changed');
         return parsed.data;
       },
       editor: () => ({ revision: latest.current.revision.current, occupied: latest.current.occupied }),

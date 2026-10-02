@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const NATIVE_REVIEW_VERSION = 1 as const;
 export class NativeRecipientLookupError extends Error {
-  constructor(readonly code: 'sign_in_required' | 'workspace_version_required' | 'recipient_unavailable') { super(code); }
+  constructor(readonly code: 'sign_in_required' | 'workspace_version_required' | 'recipient_unavailable' | 'recipient_changed') { super(code); }
 }
 export const NATIVE_REVIEW_SCOPE = 'Personal' as const;
 const uuid = z.string().uuid();
@@ -85,7 +85,7 @@ export class NativeReviewBridge {
     const sequence = ++this.identityIssued;
     let value: NativeRecipient | null;
     try { value = await this.environment.resolveRecipient(); } catch (cause) {
-      if (!this.disposed && generation === this.generation && sequence >= this.identityApplied) { this.identityApplied = sequence; this.failureCode = cause instanceof NativeRecipientLookupError ? cause.code : 'recipient_unavailable'; this.invalidate(this.failureCode === 'sign_in_required'); }
+      if (!this.disposed && generation === this.generation && sequence >= this.identityApplied) { this.identityApplied = sequence; this.failureCode = cause instanceof NativeRecipientLookupError ? cause.code : 'recipient_unavailable'; this.invalidate(this.failureCode === 'sign_in_required' || this.failureCode === 'recipient_changed'); }
       return null;
     }
     if (this.disposed || generation !== this.generation || sequence < this.identityApplied || !this.environment.allowedDocument()) return null;

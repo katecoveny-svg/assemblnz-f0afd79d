@@ -39,7 +39,7 @@ async function fixture({url='https://www.assembl.co.nz/do/widget?nativeReview=1'
   window.fetch=async(url,opts={})=>{
    if(url==='/api/do/native-recipient'){
     window.__lookups.push({url,method:opts.method,body:opts.body??null});
-    if(window.__defer){window.__defer=false;return new Promise((_resolve,reject)=>{window.__rejectOld=reject;});}
+    if(window.__defer){window.__defer=false;return new Promise((resolve,reject)=>{window.__resolveOld=resolve;window.__rejectOld=reject;});}
     if(window.__offline)throw Error('fictional offline');
     return new Response(JSON.stringify(window.__owner?{version:1,owner:window.__owner,scope:'Personal',label:window.__owner.endsWith('1')?'alex@example.invalid':'taylor@example.invalid'}:{error:'sign_in_required'}),{status:window.__owner?200:401,headers:{'Content-Type':'application/json'}});
    }
@@ -123,6 +123,13 @@ try{
   const {page,context}=await fixture();await page.evaluate(()=>{window.__defer=true;window.__old=window.assemblDoNativeReview({version:1,action:'lookup'});});
   await page.waitForFunction(()=>typeof window.__rejectOld==='function');const b=await binding(page),c=await offer(page,b,'Newer fictional editor work');assert.equal((await request(page,c)).status,'accepted');
   await page.evaluate(async()=>{window.__rejectOld(Error('stale offline'));await window.__old;});assert.equal(await page.locator('#do-source').inputValue(),c.text);await clean(page);checks.push('actual stale async identity failure leaves newer committed text');await context.close();
+ }
+ {
+  const {page,context}=await fixture();await page.evaluate(()=>{window.__defer=true;window.__old=window.assemblDoNativeReview({version:1,action:'lookup'});});await page.waitForFunction(()=>typeof window.__resolveOld==='function');
+  await page.evaluate(owner=>{window.__owner=owner;window.__auth('SIGNED_IN',{user:{id:owner}})},B);await page.locator('#do-source').fill('Fresh fictional owner-B work');
+  await page.evaluate(async owner=>{window.__resolveOld(new Response(JSON.stringify({version:1,owner,scope:'Personal',label:'alex@example.invalid'}),{headers:{'Content-Type':'application/json'}}));await window.__old;},A);
+  assert.equal(await page.locator('#do-source').inputValue(),'Fresh fictional owner-B work');await clean(page);
+  checks.push('delayed prior-owner recipient response cannot clear fresh work after authenticated owner switch');await context.close();
  }
  {
   const {page,context}=await fixture();await page.evaluate(()=>window.__root.unmount());assert.equal(await page.evaluate(()=>typeof window.assemblDoNativeReview),'undefined');checks.push('actual unmount removes receiver');await context.close();
