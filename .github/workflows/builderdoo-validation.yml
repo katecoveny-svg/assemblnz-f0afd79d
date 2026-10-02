@@ -65,6 +65,11 @@ jobs:
           node /tmp/assembl-browser/node_modules/playwright/cli.js install --with-deps chromium
           echo "ASSEMBL_PLAYWRIGHT_MODULE=/tmp/assembl-browser/node_modules/playwright" >> "$GITHUB_ENV"
           node -e "console.log('ASSEMBL_CHROMIUM_PATH=' + require('/tmp/assembl-browser/node_modules/playwright').chromium.executablePath())" >> "$GITHUB_ENV"
+      - name: Personal DO result commit focus regression (fictional fixtures)
+        env:
+          ASSEMBL_ESBUILD_MODULE: ${{ github.workspace }}/node_modules/.pnpm/esbuild@0.28.0/node_modules/esbuild
+          ASSEMBL_REVIEW_OUTPUT: /tmp/personal-do-proof/result-focus
+        run: node scripts/review-do-personal-result-focus.cjs
       - name: Private checklist SQL boundaries
         run: ASSEMBL_PGLITE_MODULE=/tmp/assembl-browser/node_modules/@electric-sql/pglite node scripts/test-do-personal-checklists-sql.cjs
       - name: Optional memory SQL boundaries (proposal only)
