@@ -48,3 +48,15 @@
 /* Same company identity as the glass scene; small vector remains readable. */
 .rail .wordmark{display:inline-flex;align-items:center;gap:10px}.rail .wordmark>svg{width:36px;height:36px}
 @media(max-width:650px){.rail .wordmark{gap:7px}.rail .wordmark>svg{width:30px;height:30px}}
+
+
+/* Continuous scrim rather than a card behind the hero. The text bounds stay
+   inside the constant-alpha region; even pure white scene pixels retain AA. */
+.scrim{background:linear-gradient(90deg,#240b21c7 45%,transparent 80%),linear-gradient(0deg,#240b2180,transparent 35%)}
+.nav nav,.rail .wordmark{padding:8px 14px;background:#240b21c7;border-radius:28px;width:fit-content}.nav nav{gap:24px}
+.chapterBody{background:#240b21c7}
+.rail .chapterSteps button{opacity:1;background:#240b21c7}
+.rail .chapterSteps button[data-active=true]{background:#240b21d4}
+.rail .honesty{width:fit-content;padding:5px 10px;border-radius:12px;background:#240b21c7}
+.jobNote,.rail .motion{background:#240b21c7}
+@media(max-width:650px){.scrim{background:linear-gradient(0deg,transparent 12%,#240b21c7 27%,#240b21c7 75%,transparent 89%)}.nav nav{padding:0 10px}.rail .wordmark{padding:7px 10px}.rail .honesty{margin-top:4px}}

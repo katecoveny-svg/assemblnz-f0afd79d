@@ -2,7 +2,8 @@
 
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import { useThree } from '@react-three/fiber';
-import { CubicBezierCurve3, CurvePath, ExtrudeGeometry, Group, LineCurve3, Plane, TubeGeometry, Vector3 } from 'three';
+import { Color, ExtrudeGeometry, Float32BufferAttribute, Group, Path, Plane, Shape, Vector3 } from 'three';
+import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 import { SVGLoader } from 'three/addons/loaders/SVGLoader.js';
 import { ASSEMBL_A_PATH, ASSEMBL_A_TRANSFORM } from '@/lib/brand/assembl-mark';
 
@@ -13,25 +14,59 @@ const point = (x: number, y: number) => new Vector3((x - 32) / 28, (32 - y) / 28
 /** Real refractive geometry. Camera movement changes reflections; no raster billboard. */
 export function AssembledGlassD(pose: Pose) {
   const { size } = useThree();
-  const pieces = useMemo(() => {
-    const spine = new CurvePath<Vector3>();
-    spine.add(new LineCurve3(point(16, 12), point(16, 52)));
-    const upper = new CurvePath<Vector3>();
-    upper.add(new LineCurve3(point(16, 12), point(29, 12)));
-    upper.add(new CubicBezierCurve3(point(29, 12), point(44, 12), point(52, 20), point(52, 32)));
-    const lower = new CurvePath<Vector3>();
-    lower.add(new CubicBezierCurve3(point(52, 32), point(52, 44), point(44, 52), point(29, 52)));
-    lower.add(new LineCurve3(point(29, 52), point(16, 52)));
-    return [spine, upper, lower].map(curve => ({ geometry: new TubeGeometry(curve, 56, 7 / 56, 24, false), ends: [curve.getPoint(0), curve.getPoint(1)] }));
+  const geometry = useMemo(() => {
+    // One watertight rounded outline: intersecting transmissive tubes and caps
+    // refract each other at the joins and create the old jagged grey protrusions.
+    const outer = new Shape();
+    outer.moveTo(16, 8.5); outer.lineTo(29, 8.5);
+    outer.bezierCurveTo(46, 8.5, 55.5, 18, 55.5, 32);
+    outer.bezierCurveTo(55.5, 46, 46, 55.5, 29, 55.5);
+    outer.lineTo(16, 55.5); outer.quadraticCurveTo(12.5, 55.5, 12.5, 52);
+    outer.lineTo(12.5, 12); outer.quadraticCurveTo(12.5, 8.5, 16, 8.5);
+    const hole = new Path();
+    hole.moveTo(19.5, 17.5); hole.lineTo(19.5, 46.5);
+    hole.quadraticCurveTo(19.5, 48.5, 21.5, 48.5); hole.lineTo(29, 48.5);
+    hole.bezierCurveTo(42, 48.5, 48.5, 42, 48.5, 32);
+    hole.bezierCurveTo(48.5, 22, 42, 15.5, 29, 15.5);
+    hole.lineTo(21.5, 15.5); hole.quadraticCurveTo(19.5, 15.5, 19.5, 17.5); hole.closePath();
+    outer.holes.push(hole);
+    const result = new ExtrudeGeometry(outer, { depth: 4, bevelEnabled: true, bevelThickness: 1.45, bevelSize: 0.7, bevelSegments: 5, curveSegments: 32 });
+    result.translate(-32, -32, -2); result.scale(1 / 28, -1 / 28, 1 / 28);
+    // Reflect SVG y and restore triangle winding. Assign materials per triangle
+    // in this single solid, rather than overlapping transparent meshes.
+    for (const attribute of Object.values(result.attributes)) {
+      const values = attribute.array;
+      for (let vertex = 0; vertex < attribute.count; vertex += 3) {
+        for (let channel = 0; channel < attribute.itemSize; channel++) {
+          const a = (vertex + 1) * attribute.itemSize + channel;
+          const b = (vertex + 2) * attribute.itemSize + channel;
+          const previous = values[a]; values[a] = values[b]; values[b] = previous;
+        }
+      }
+      attribute.needsUpdate = true;
+    }
+    const positions = result.attributes.position;
+    const vertexColours: number[] = [];
+    const plum = new Color('#65404F');
+    const lilac = new Color(colours[1]); const petal = new Color(colours[2]);
+    for (let vertex = 0; vertex < positions.count; vertex++) {
+      const x = positions.getX(vertex); const y = positions.getY(vertex);
+      const colour = petal.clone().lerp(lilac, Math.max(0, Math.min(1, y * 4 + 0.5)));
+      colour.lerp(plum, Math.max(0, Math.min(1, (-x - 0.38) * 12)));
+      vertexColours.push(colour.r, colour.g, colour.b);
+    }
+    result.setAttribute('color', new Float32BufferAttribute(vertexColours, 3));
+    // Extrusion duplicates triangle vertices. Weld the untextured solid before
+    // recomputing normals so bevels reflect smoothly across triangle joins.
+    result.deleteAttribute('normal'); result.deleteAttribute('uv');
+    const smooth = mergeVertices(result, 0.00001); smooth.computeVertexNormals();
+    result.dispose();
+    return smooth;
   }, []);
-  useEffect(() => () => pieces.forEach(piece => piece.geometry.dispose()), [pieces]);
-  const material = (colour: string) => <meshPhysicalMaterial color={colour} metalness={0} roughness={0.055} transmission={size.width < 600 ? 0.5 : 0.86} thickness={0.3} ior={1.46} clearcoat={1} clearcoatRoughness={0.08} envMapIntensity={1.05} />;
+  useEffect(() => () => geometry.dispose(), [geometry]);
   return <group {...pose} name="canonical-assembled-glass-D">
-    {pieces.map((piece, i) => <group key={i}>
-      <mesh geometry={piece.geometry}>{material(colours[i])}</mesh>
-      {piece.ends.filter((_, n) => i === 0 || (i === 2 && n === 0)).map((end, n) => <mesh key={n} position={end}><sphereGeometry args={[7 / 56, 32, 24]} />{material(colours[i])}</mesh>)}
-    </group>)}
-    <mesh position={point(30, 32)}><sphereGeometry args={[6 / 28, 32, 24]} />{material(colours[2])}</mesh>
+    <mesh geometry={geometry}><meshPhysicalMaterial vertexColors metalness={0} roughness={0.16} transmission={size.width < 600 ? 0.38 : 0.58} thickness={0.16} ior={1.32} clearcoat={1} clearcoatRoughness={0.12} envMapIntensity={1.35} /></mesh>
+    <mesh position={point(30, 32)}><sphereGeometry args={[6 / 28, 32, 24]} /><meshPhysicalMaterial color={colours[2]} roughness={0.16} transmission={0.5} thickness={0.16} ior={1.32} clearcoat={1} envMapIntensity={1.35} /></mesh>
   </group>;
 }
 
@@ -74,7 +109,7 @@ export function AssembledGlassA(pose: Pose) {
   useEffect(() => () => geometry.dispose(), [geometry]);
   return <group ref={group} {...pose} name="canonical-lowercase-assembled-glass-a">
     {planes.map((clip, i) => <mesh key={i} geometry={geometry}>
-      <meshPhysicalMaterial color={colours[i]} clippingPlanes={clip} clipShadows metalness={0} roughness={0.065} transmission={size.width < 600 ? 0.5 : 0.86} thickness={0.25} ior={1.46} clearcoat={1} clearcoatRoughness={0.08} envMapIntensity={1.05} />
+      <meshPhysicalMaterial color={colours[i]} clippingPlanes={clip} clipShadows metalness={0} roughness={0.16} transmission={size.width < 600 ? 0.38 : 0.58} thickness={0.16} ior={1.32} clearcoat={1} clearcoatRoughness={0.08} envMapIntensity={1.05} />
     </mesh>)}
   </group>;
 }

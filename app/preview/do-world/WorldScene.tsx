@@ -247,6 +247,8 @@ function Room({ onReady }: { onReady: (ready: boolean) => void }) {
         <Identity />
       </Suspense>
       <Environment resolution={256} frames={1} environmentIntensity={0.72}>
+        {/* Broad paper fill prevents unlit black bands in the glass environment. */}
+        <Lightformer form="sphere" scale={40} color={PAPER} intensity={0.65} />
         {/* Waitematā window elevation — soft daylight bounce into the room. */}
         <Lightformer
           position={[-12, 4, -8]}
