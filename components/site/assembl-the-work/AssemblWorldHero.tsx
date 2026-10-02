@@ -68,16 +68,16 @@ export function AssemblWorldHero({ preview = false, showSummary = true }: { prev
         </header>
         <div className={styles.copy}>
           <p className={styles.overline}>BUILT IN AOTEAROA.</p>
-          <h1 id="atw-hero-title">Assemble<br />useful work.</h1>
-          <p className={styles.sub}>{HERO.subhead}</p><p className={styles.body}>Specialist agents help turn the right signals and context into useful work and customer experiences.</p>
-          <div className={styles.actions}><Link className={styles.pill} href="/contact?product=system">Bring a brief <ArrowRight size={20} aria-hidden="true" /></Link><Link className={styles.link} href="/do">Open DO <ArrowDown size={16} aria-hidden="true" /></Link></div>
+          <h1 id="atw-hero-title"><span>Improve workflows.</span><span>Build software.</span></h1>
+          <p className={styles.body}>{HERO.subhead}</p>
+          <div className={styles.actions}><Link className={styles.pill} href="/contact?product=system">Discuss your project <ArrowRight size={20} aria-hidden="true" /></Link><Link className={styles.link} href="/do">Open DO <ArrowDown size={16} aria-hidden="true" /></Link></div>
         </div>
         <aside className={styles.chapter} aria-label="The work, step by step">
+          <p className={styles.honesty}><span>Illustrative workspace tour</span><span>No live agent activity.</span></p>
           <div className={styles.chapterSteps} aria-label="Choose a scene chapter">{chapters.map((item,index) => <button type="button" key={item.product} onClick={() => jump(index)} aria-label={`View ${item.product} scene`} aria-pressed={chapter === index} data-active={chapter === index}><small>0{index + 1}</small><span>{item.product}</span></button>)}</div>
           <div className={styles.chapterBody}><span className={styles.chapterLabel}>{current.product}</span><h2>{current.verb}</h2><p>{current.input}<br /><strong>{current.output}</strong></p><Link href={current.href}>{current.action}<ArrowUpRight size={16} aria-hidden="true" /></Link></div>
         </aside>
         <div className={styles.job} id="do-input"><p className={styles.jobNote}>Start with <Link href="/pursuit">Pursuit</Link>, <Link href="/do">DO</Link> or <Link href="/creative-studio">Studio</Link>. Use them together when the work calls for it.</p></div>
-        <p className={styles.honesty}>{failed ? 'Still view. ' : reduced ? '' : 'Scroll or choose a chapter. '}An imagined workspace, not live agent activity.</p>
       </div>
       {showSummary && <div className={styles.stillSummary} aria-label="The complete work loop">{chapters.map(item => <article key={item.product}><span>{item.product}</span><h2>{item.verb}</h2><p>{item.input}</p><p>{item.output}</p><Link href={item.href}>{item.action}<ArrowUpRight size={16} aria-hidden="true" /></Link></article>)}</div>}
     </section>

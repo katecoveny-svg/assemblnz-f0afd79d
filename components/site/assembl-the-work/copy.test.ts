@@ -3,8 +3,8 @@ import { REVIEW, HERO, NAV, PRODUCTS, START } from './copy';
 
 describe('assembl-the-work homepage copy', () => {
   it('keeps the company offer broad and avoids retired slogans', () => {
-    expect(HERO.headline).toBe('Assemble useful work.');
-    expect(HERO.subhead).toBe('Business intelligence. Strategy. Software.');
+    expect(HERO.headline).toBe('Improve workflows. Build software.');
+    expect(HERO.subhead).toBe('We work alongside your team to understand the problem, redesign the service or workflow, and build the software or AI it needs.');
     expect(HERO.loopLine).toBe('Start with one product. Bring them together when the work calls for it.');
     expect(HERO.loopLine.toLowerCase()).not.toContain('keep it');
   });
@@ -17,7 +17,10 @@ describe('assembl-the-work homepage copy', () => {
   });
 
   it('avoids bare AI and banned slop in public labels', () => {
-    const blob = JSON.stringify({ REVIEW, HERO, PRODUCTS, START }).toLowerCase();
+    // The reviewed commissioned-service explanation explicitly names software or AI.
+    // Keep bare-AI and slop guards on product labels and the remaining copy.
+    const { subhead: _commissionedExplanation, ...heroLabels } = HERO;
+    const blob = JSON.stringify({ REVIEW, HERO: heroLabels, PRODUCTS, START }).toLowerCase();
     expect(blob).not.toMatch(/\bai\b/);
     expect(blob).not.toContain('seamless');
     expect(blob).not.toContain('quietly');

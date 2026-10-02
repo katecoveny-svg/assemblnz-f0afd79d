@@ -30,8 +30,8 @@ export const NAV = {
 
 export const HERO = {
   brand: POSITIONING.company,
-  headline: 'Assemble useful work.',
-  subhead: 'Business intelligence. Strategy. Software.',
+  headline: 'Improve workflows. Build software.',
+  subhead: 'We work alongside your team to understand the problem, redesign the service or workflow, and build the software or AI it needs.',
   body: POSITIONING.company,
   explanation: `${POSITIONING.pursuit} ${POSITIONING.do} ${POSITIONING.studio}`,
   ctaPrimary: { label: 'see the system →', href: '#products' },

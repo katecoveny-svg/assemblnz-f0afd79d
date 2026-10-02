@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { X } from 'lucide-react';
 import { publicDoAssistantIsolated } from '@/apps/do/shared/public-assistant-routes';
@@ -14,6 +15,23 @@ import styles from './do-site-assistant.module.css';
 export function AssemblConciergeWidget() {
   const pathname = usePathname() ?? '/';
   const isolated = publicDoAssistantIsolated(pathname);
+  const [homeHost, setHomeHost] = useState<HTMLElement | null>(null);
+  useEffect(() => {
+    let frame = 0;
+    const synchronize = () => {
+      frame = 0;
+      const host = pathname === '/' ? document.getElementById('home-do-assistant-slot') : null;
+      setHomeHost(host?.isConnected ? host : null);
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(synchronize);
+    };
+    const observer = new MutationObserver(schedule);
+    observer.observe(document.body, { childList: true, subtree: true });
+    schedule();
+    return () => { observer.disconnect(); cancelAnimationFrame(frame); };
+  }, [pathname]);
+  const connectedHomeHost = pathname === '/' && homeHost?.isConnected ? homeHost : null;
   const [open, setOpen] = useState(false);
   const [owner, setOwner] = useState<string | null>(null);
   const [epoch, setEpoch] = useState(0);
@@ -54,7 +72,7 @@ export function AssemblConciergeWidget() {
     return () => { cancelAnimationFrame(frame); window.removeEventListener('keydown', escape); };
   }, [open, isolated, close]);
   if (isolated) return null;
-  return <aside className={styles.widget} aria-label="DO assistant">
+  const widget = <aside className={styles.widget} data-home-inline={Boolean(connectedHomeHost) || undefined} aria-label="DO assistant">
     {open && <section id="site-do-workspace" className={styles.panel} aria-label="DO drafting workspace">
       <header><DoBrand /><button type="button" aria-label="Close DO" onClick={close}><X size={20} /></button></header>
       <p>Prepare a reply, organise a plan or sort a life-admin note. Only what you choose to type is shared after confirmation.</p>
@@ -64,4 +82,5 @@ export function AssemblConciergeWidget() {
     </section>}
     <button ref={trigger} type="button" className={styles.trigger} aria-expanded={open} aria-controls="site-do-workspace" onClick={() => open ? close() : setOpen(true)}>Ask DO</button>
   </aside>;
+  return connectedHomeHost ? createPortal(widget, connectedHomeHost) : widget;
 }
