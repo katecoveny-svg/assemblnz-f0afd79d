@@ -1,4 +1,5 @@
 "use client";
+import { DoReadAloud } from "@/components/do/DoReadAloud";
 
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
@@ -133,6 +134,7 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange }: 
         {result.nextStep.draft !== null && <div className={styles.draft}>
           <label htmlFor="personal-assistant-draft">{result.nextStep.label}</label>
           <textarea id="personal-assistant-draft" value={draft} maxLength={6000} onChange={event => { setDraft(event.target.value); setCopied(false); setConsent(false); }} rows={8} disabled={working} />
+          <DoReadAloud text={draft} />
           <button type="button" onClick={() => void copyDraft()} disabled={!draft.trim()}>{copied ? <Check size={14} /> : <Copy size={14} />}{copied ? 'Copied' : 'Copy draft'}</button>
         </div>}
         {result.nextStep.draft === null && <p className={styles.question}>{result.nextStep.label}</p>}
