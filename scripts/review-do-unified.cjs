@@ -33,12 +33,14 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
         && style.backgroundColor === 'rgb(245, 241, 242)' && style.backgroundImage === 'none';
     }));
     const artwork = personal.locator('[data-renderer="static-art"] img');
+    await artwork.evaluate(el => el.decode());
     check('approved assembled plum glass artwork is loaded as static art in reduced motion', await artwork.evaluate(el =>
-      el.getAttribute('src') === '/brand/do-assembled-plum.webp' && el.complete && el.naturalWidth > 0)
+      new URL(el.src).pathname === '/brand/do-assembled-plum.webp' && el.complete && el.naturalWidth > 0)
       && await personal.locator('[data-renderer="static-art"] canvas').count() === 0);
     const mark = personal.getByRole('link', { name: 'DO by assembl, home', exact: true }).locator('[data-glass-identity="do"] img');
+    await mark.evaluate(el => el.decode());
     check('personal DO loads the exact approved glass D artwork including its dot',
-      await mark.evaluate(el => el.getAttribute('src') === '/brand/do-assembled-plum.webp?v=glass07'
+      await mark.evaluate(el => new URL(el.src).pathname === '/brand/do-assembled-plum.webp' && new URL(el.src).searchParams.get('v') === 'glass07'
         && el.complete && el.naturalWidth === 1200 && el.naturalHeight === 800));
     check('canonical title has no duplicated product suffix', await page.title() === 'DO by assembl');
     check('no duplicate floating app inside the app', await page.locator('[data-do-companion]').count() === 0);

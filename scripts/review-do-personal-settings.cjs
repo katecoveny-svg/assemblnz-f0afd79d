@@ -147,7 +147,7 @@ async function headingContrast(page) {
     await page.setViewportSize({ width: 320, height: 640 });
     check('320px page fits', await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
     await page.setViewportSize({ width: 375, height: 812 });
-    await page.getByText('More things to sort', { exact: false }).click();
+    await page.locator('summary').filter({ hasText: 'Choose a checklist' }).click();
     await page.getByRole('button', { name: 'Make a checklist', exact: true }).click();
     check('all twelve workflow choices remain available', await page.locator('[aria-label="Everyday NZ checklists"] button').count() === 12);
     await page.locator('#life-admin-source').fill('Fictional school trip on Friday 9 October 2026, 9 am to 3 pm. Bring a coat and lunch. Permission reply needed Thursday.');
