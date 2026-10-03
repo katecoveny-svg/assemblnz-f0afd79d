@@ -72,7 +72,10 @@ async def main():
                         scene = page.get_by_role('region', name='Assemble useful work.', exact=True)
                         if motion == 'reduce':
                             await expect(scene.get_by_role('button', name='Still view; scene motion unavailable', exact=True)).to_be_disabled()
-                            await expect(scene.get_by_label('The complete work loop')).to_be_visible()
+                            summary = page.get_by_label('The complete work loop')
+                            await expect(summary).to_be_visible()
+                            for text in ('Find the opportunity.', 'Your personal agent for getting things done.', 'Show what’s possible.'):
+                                await expect(summary.get_by_text(text, exact=True)).to_be_visible()
                         else:
                             # Exercise native keyboard activation without waiting for two
                             # stable software-WebGL frames (the immersive audit uses this path).
@@ -86,8 +89,7 @@ async def main():
                             await chapter.focus()
                             await chapter.press('Enter')
                             await expect(scene).to_have_attribute('data-chapter', '2', timeout=30000)
-                        await expect(scene.get_by_text('Illustrative workspace tour', exact=True)).to_be_visible()
-                        await expect(scene.get_by_text('No live agent activity.', exact=True)).to_be_visible()
+                        await expect(scene.get_by_text('Interactive demo', exact=True)).to_be_visible()
                         if width <= 650:
                             assistant = page.get_by_role('complementary', name='DO assistant', exact=True)
                             await expect(assistant).to_have_attribute('data-home-inline', 'true')

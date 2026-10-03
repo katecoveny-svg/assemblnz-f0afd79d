@@ -58,19 +58,19 @@ export const PRODUCTS = {
   items: [
     {
       id: 'pursuit', name: 'Pursuit', verb: '01 · Research.',
-      body: 'Research companies and opportunities, with sources attached.',
+      body: 'Find the opportunity.',
       href: '/pursuit',
       external: false,
       explore: 'Explore Pursuit', note: 'Start with the public story, then move into a private Pursuit workspace when the work is live.',
     },
     {
       id: 'do', name: 'DO', verb: '02 · Prepare.', hero: true,
-      body: 'Prepare a draft or plan to review.',
+      body: 'Your personal agent for getting things done.',
       href: '/do', explore: 'Meet DO', note: 'Start in your browser. The optional browser companion brings selected context back for review. Available actions depend on the surface and connections you choose.',
     },
     {
       id: 'studio', name: 'Studio', verb: '03 · Make.',
-      body: 'Make demos, pitches and customer experiences.',
+      body: 'Show what’s possible.',
       href: '/creative-studio', explore: 'Explore Studio', note: 'Use Studio independently or as the proof layer for Pursuit and DO.',
     },
   ],
