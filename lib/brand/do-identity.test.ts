@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import sharp from 'sharp';
+import postcss from 'postcss';
 import { describe, expect, it } from 'vitest';
 import { DO_IDENTITY as colours } from './do-identity';
 function luminance(hex: string) {
@@ -34,5 +35,35 @@ describe('DO readable controls and tiny identity', () => {
   });
   it('tiny D and dot remain distinguishable against the canvas', () => {
     expect(contrast(colours.plum, colours.chalk)).toBeGreaterThanOrEqual(3);
+  });
+});
+
+
+describe('DO daylight app field', () => {
+  it('keeps every default shell background on canonical paper', () => {
+    const sheet = postcss.parse(readFileSync('app/do/do-visual-atmosphere.css', 'utf8'));
+    const fields: string[] = [];
+    sheet.walkRules(rule => {
+      if (!rule.selectors.includes('.do-app-shell')) return;
+      rule.walkDecls(declaration => {
+        if (declaration.prop === '--do-atmo-paper') expect(declaration.value.toUpperCase()).toBe(colours.paper);
+        if (declaration.prop === 'background') fields.push(declaration.value);
+        if (declaration.prop === 'background-image') expect(declaration.value).toBe('none');
+      });
+    });
+    expect(fields.length).toBeGreaterThan(0);
+    for (const field of fields) expect(field).toBe('var(--do-atmo-paper)');
+  });
+  it('preserves the personal field exception and original glass D', () => {
+    const sheet = postcss.parse(readFileSync('app/do/do-visual-atmosphere.css', 'utf8'));
+    const personal: string[] = [];
+    sheet.walkRules(rule => {
+      if (rule.selector === '.do-app-shell:has([data-do-identity="assembled-glass"])') {
+        rule.walkDecls('background', declaration => { personal.push(declaration.value); });
+      }
+    });
+    expect(personal).toEqual(['transparent']);
+    const hero = readFileSync('components/do/DoGlassHero.tsx', 'utf8');
+    expect(hero).toContain('<GlassIdentity kind="do"');
   });
 });

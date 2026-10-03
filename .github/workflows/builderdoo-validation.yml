@@ -13,6 +13,8 @@ on:
       - 'lib/ai/router*'
       - 'output/playwright/notes*/**'
       - 'scripts/review-do-photo-notes.cjs'
+      - 'scripts/review-do-header.cjs'
+      - 'lib/brand/do-identity*'
       - 'lib/os/**'
       - 'lib/do/availability/**'
       - 'lib/do/travel/**'
@@ -71,11 +73,13 @@ jobs:
         run: pnpm typecheck
       - name: DO core unit tests
         run: pnpm test apps/do/coordination apps/do/shared apps/do/personal apps/do/services/family.test.ts apps/do/services/family-server.test.ts app/api/do app/do/personal lib/do/nz-public-data.test.ts lib/do/nz-local-updates.test.ts lib/do/do-pwa.test.ts lib/do/availability lib/do/travel lib/typesafe lib/os/improvement.test.ts lib/os/routing.test.ts lib/connectors/pipedream.test.ts
+      - name: DO paper field and locked identity contracts
+        run: pnpm exec vitest run lib/brand/do-identity.test.ts
       - name: Photo notes and privacy session contracts (synthetic tests)
         run: pnpm exec vitest run apps/do/shared/photo-notes.test.ts apps/do/shared/trial.test.ts lib/ai/completion.test.ts lib/ai/router-transcription.test.ts lib/ai/router-adapter.test.ts app/api/do/vision/route.test.ts apps/do/personal/session.test.ts
       - name: Photo notes scoped lint and brand/macron gates
         run: |
-          pnpm exec eslint app/do/DoBuilder.tsx app/do/DoCanvas.tsx app/do/DoPhotoNotes.tsx app/do/DoVision.tsx app/do/personal/LifeAdmin.tsx components/do/DoFocusWorkspace.tsx components/do/DoWidgetPrivacyBoundary.tsx app/do/widget/page.tsx apps/do/shared/photo-notes.ts lib/ai/completion.ts lib/ai/router.ts app/api/do/vision/route.ts scripts/review-do-photo-notes.cjs --max-warnings=0
+          pnpm exec eslint app/do/DoBuilder.tsx app/do/DoCanvas.tsx app/do/DoPhotoNotes.tsx app/do/DoVision.tsx app/do/personal/LifeAdmin.tsx components/do/DoFocusWorkspace.tsx components/do/DoWidgetPrivacyBoundary.tsx app/do/widget/page.tsx apps/do/shared/photo-notes.ts lib/ai/completion.ts lib/ai/router.ts app/api/do/vision/route.ts scripts/review-do-photo-notes.cjs scripts/review-do-header.cjs --max-warnings=0
           node scripts/brand-guard.mjs
           pnpm lint:macrons
       - name: Production build
@@ -114,6 +118,8 @@ jobs:
           trap 'kill "$server" || true' EXIT
           for i in $(seq 1 60); do curl -sf http://127.0.0.1:3117/do/personal >/dev/null && break; sleep 2; done
           set +e
+          PLAYWRIGHT_MODULE="$ASSEMBL_PLAYWRIGHT_MODULE" CHROMIUM_PATH="$ASSEMBL_CHROMIUM_PATH" DO_REVIEW_ORIGIN="$ASSEMBL_REVIEW_ORIGIN" DO_HEADER_RESULTS=/tmp/do-header-proof node scripts/review-do-header.cjs
+          header_status=$?
           ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/settings node scripts/review-do-personal-settings.cjs
           settings_status=$?
           ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/calls node scripts/review-do-personal-call.cjs
@@ -131,7 +137,7 @@ jobs:
           ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/unified node scripts/review-do-unified.cjs
           unified_status=$?
           set -e
-          test "$settings_status" -eq 0 && test "$calls_status" -eq 0 && test "$portable_status" -eq 0 && test "$assistant_status" -eq 0 && test "$site_status" -eq 0 && test "$refinement_status" -eq 0 && test "$unified_status" -eq 0
+          test "$header_status" -eq 0 && test "$settings_status" -eq 0 && test "$calls_status" -eq 0 && test "$portable_status" -eq 0 && test "$assistant_status" -eq 0 && test "$site_status" -eq 0 && test "$refinement_status" -eq 0 && test "$unified_status" -eq 0
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -141,3 +147,4 @@ jobs:
             /tmp/personal-do-server.log
           if-no-files-found: warn
           retention-days: 14
+
