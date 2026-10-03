@@ -1,10 +1,9 @@
 import Link from 'next/link';
-import { GlassIdentity } from '@/components/brand/GlassIdentity';
-import { DoPresence } from './DoPresence';
+import { DoMark } from './DoMark';
 import styles from './do-unified.module.css';
 
 export function DoBrand({ href = '/do', target, rel, finish = 'glass' }: { href?: string; target?: string; rel?: string; finish?: 'plum' | 'glass' }) {
-  return <Link href={href} target={target} rel={rel} className={styles.brand} aria-label="DO by assembl, home">{finish === 'glass' ? <GlassIdentity kind="do" size={44} /> : <DoPresence size="small" />}<span>DO<small>by assembl</small></span></Link>;
+  return <Link href={href} target={target} rel={rel} className={styles.brand} aria-label="DO by assembl, home"><span className={styles.flatMark} data-do-functional-mark data-finish={finish}><DoMark /></span><span>DO<small>by assembl</small></span></Link>;
 }
 
 /** Rounded product shapes, kept recognisable at a small control size. */

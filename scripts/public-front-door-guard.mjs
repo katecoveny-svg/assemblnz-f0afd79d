@@ -14,6 +14,7 @@
  * See docs/DO-VISUAL-BASELINE.md.
  */
 import { existsSync, readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 const errors = [];
 const read = path => readFileSync(path, 'utf8');
 const checks = [
@@ -28,10 +29,18 @@ const checks = [
   ['components/site/assembl-the-work/GlowDoWidget.tsx', /src="\/api\/do\/widget"/],
   ['apps/do/shared/distribution.ts', /COMPANION_POSITION_KEY/],
   ['apps/do/shared/distribution.ts', /draggable\(launch,launch\)/],
-  ['components/do/DoMark.tsx', /do-identity-dot/],
+  ['components/do/DoMark.tsx', /DO_FUNCTIONAL_MARK_ASSET = '\/brand\/canonical\/do-vector-v1\/DO-D-mono\.svg'/],
+  ['components/do/DoMark.tsx', /<image href=\{DO_FUNCTIONAL_MARK_ASSET\}/],
+  ['components/do/DoMark.tsx', /maskType:'alpha'/],
 ];
 for (const [path, pattern] of checks) {
   if (!pattern.test(read(path))) errors.push(`${path}: the accepted front-door feature is missing (${pattern})`);
+}
+
+// The functional vector keeps the exact reviewed D/counter/bead master.
+const doVectorPath = 'public/brand/canonical/do-vector-v1/DO-D-mono.svg';
+if (!existsSync(doVectorPath) || createHash('sha256').update(readFileSync(doVectorPath)).digest('hex') !== '5225a6b6452ac667e179abc732319f9127909d37a9ea967e6effa0a87bc02f0e') {
+  errors.push(`${doVectorPath}: missing or changed reviewed functional D master`);
 }
 
 // Homepage spatial hero: dual-accept legacy company DoSpatialScene OR WorldScene fly-through.
