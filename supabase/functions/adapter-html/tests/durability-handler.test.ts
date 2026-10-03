@@ -1,4 +1,5 @@
 import { calls, documentState, faultState, reset, rpcState, source, writes } from "./supabase-stub.ts";
+function lastSuccessfulFetch(): string { return source.last_successful_fetch; }
 function assert(value: unknown, message: string): asserts value { if (!value) throw new Error(message); }
 Deno.test("actual html durability faults stop success and expose uncertainty", async () => {
   let handler: ((request: Request) => Response | Promise<Response>) | undefined;
@@ -60,7 +61,7 @@ Deno.test("actual html durability faults stop success and expose uncertainty", a
     reset(); upstream(); Object.assign(faultState, { stage: "run_finish", mode: "throw", afterCommit: true });
     const uncertain = await (await call()).json();
     assert(uncertain.completion_state === "finalization_unknown", "post-commit lost ACK cannot become success");
-    assert(source.last_successful_fetch !== "2026-09-13T22:50:03.788Z", "fixture proves JS cannot promise unchanged timestamp after unknown commit");
+    assert(lastSuccessfulFetch() !== "2026-09-13T22:50:03.788Z", "fixture proves JS cannot promise unchanged timestamp after unknown commit");
     assert(calls.at(-1) === "run_finish", "do not compensate or overwrite a remotely committed success");
     reset(); upstream(); Object.assign(faultState, { stage: "run_finish", mode: "status0", afterCommit: true });
     const resolvedUnknown = await (await call()).json();

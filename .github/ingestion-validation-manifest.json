@@ -67,9 +67,9 @@
       "bytes": 343
     },
     "supabase/functions/adapter-html/tests/durability-handler.test.ts": {
-      "sha256": "8b8b08348bdbec92324d136001d7cf81d835c536a8ace53108a7c6a53fc42a64",
-      "git_blob": "63b8bbf35ff1249cdbd5eb92545d00e80fd4a921",
-      "bytes": 9200
+      "sha256": "80653a3acd986c6fd6656cb2a9c47dcbbc317a04f47bee86cc0225109ac5aa10",
+      "git_blob": "709793049328e44ccd32ec8aebb70a021d3dc871",
+      "bytes": 9273
     },
     "supabase/functions/adapter-html/tests/handler.test.ts": {
       "sha256": "cfdfe040eed6e5fe442561ee57ef5d1d0dbc501bdd5563aced4aa50221058c95",
@@ -112,9 +112,9 @@
       "bytes": 5242
     },
     "supabase/functions/adapter-jsonapi/tests/durability-handler.test.ts": {
-      "sha256": "3db9afeee755e0e3468a58af3955059d2d1347b7a09ceea1916e2925fe153962",
-      "git_blob": "f434c7436c4e922fc31d86d6c9ed333e3bcca57f",
-      "bytes": 9269
+      "sha256": "ce2ed96a79766aac175e14baf8b6f4dfa4fc46b0cf9fdb9728395eb290570cdc",
+      "git_blob": "0c06706a5e0da8bdd08bb0108fecd76015028655",
+      "bytes": 9342
     },
     "supabase/functions/adapter-jsonapi/tests/handler.test.ts": {
       "sha256": "9541a58be039c76d0b198ca36ad605307bbfe76da981505beb13d09adbaeff75",
@@ -172,9 +172,9 @@
       "bytes": 12206
     },
     "supabase/functions/adapter-rss/tests/durability-handler.test.ts": {
-      "sha256": "f97189df428ba5c4d0926b25b2438145b32d7f6a070997bc1c66e434bddabd7e",
-      "git_blob": "81cccc3b01e27b2d0f95b93c8a8a21952723ca66",
-      "bytes": 8357
+      "sha256": "b1b9555e2aafff58f0b2b11129e9dc1e9e1be28b06a0484e3a72c5be99faf917",
+      "git_blob": "88152bc1b35064c67b53645ba4137f3b42dc54c8",
+      "bytes": 8430
     },
     "supabase/functions/adapter-rss/tests/handler.test.ts": {
       "sha256": "4d096f0ecacb711bd562b2743aa407a68ff578ea170eca47770e10c428d61c27",
@@ -261,5 +261,15 @@
     "supabase/functions/adapter-rss/",
     "supabase/functions/adapter-jsonapi/",
     "supabase/functions/adapter-html/"
-  ]
+  ],
+  "test_only_correction": {
+    "previous_reviewed_head": "ae799e90e12534510c681feee800a98b7c2c7ad1",
+    "corrected_test_paths": [
+      "supabase/functions/adapter-rss/tests/durability-handler.test.ts",
+      "supabase/functions/adapter-jsonapi/tests/durability-handler.test.ts",
+      "supabase/functions/adapter-html/tests/durability-handler.test.ts"
+    ],
+    "reason": "TS2367: read mutable fixture success timestamp through explicit string-returning helper; runtime assertion unchanged",
+    "adapter_runtime_v2_unchanged": true
+  }
 }
