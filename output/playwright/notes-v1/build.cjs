@@ -1,4 +1,5 @@
 const esbuild = require(process.env.ASSEMBL_ESBUILD_MODULE || '../../../node_modules/.pnpm/esbuild@0.28.0/node_modules/esbuild');
+const fs = require('node:fs');
 const stubs = {
   '@/app/do/DoTextWorkspace': 'export function DoTextWorkspace(p){return <label>Write draft<textarea aria-label="Write draft" onChange={e=>p.onSourceChange(e.target.value)} /></label>}',
   '@/app/do/DoGeminiLive': 'export function DoGeminiLive(p){return <div data-talk-context={p.context}>Synthetic voice surface; no media or provider calls.</div>}',
@@ -7,4 +8,4 @@ const stubs = {
   './DoGlassHero': 'export function DoGlassHero(){return null}',
   'next/link': 'export default function Link({children,...p}){return <a {...p}>{children}</a>}',
 };
-esbuild.build({entryPoints:[__dirname+'/entry.tsx'],bundle:true,outfile:__dirname+'/bundle.js',jsx:'automatic',tsconfig:__dirname+'/../../../tsconfig.json',loader:{'.css':'local-css'},plugins:[{name:'bounded-synthetic-surfaces',setup(build){build.onResolve({filter:/.*/},args=>stubs[args.path]?{path:args.path,namespace:'synthetic'}:undefined);build.onLoad({filter:/.*/,namespace:'synthetic'},args=>({contents:stubs[args.path],loader:'tsx',resolveDir:__dirname+'/../../..'}));}}]}).catch(error=>{console.error(error);process.exitCode=1});
+esbuild.build({entryPoints:[__dirname+'/entry.tsx'],bundle:true,outfile:__dirname+'/bundle.js',jsx:'automatic',tsconfig:__dirname+'/../../../tsconfig.json',loader:{'.css':'css'},plugins:[{name:'bounded-synthetic-surfaces',setup(build){build.onLoad({filter:/\.module\.css$/},args=>({contents:fs.readFileSync(args.path,'utf8'),loader:'local-css'}));build.onResolve({filter:/.*/},args=>stubs[args.path]?{path:args.path,namespace:'synthetic'}:undefined);build.onLoad({filter:/.*/,namespace:'synthetic'},args=>({contents:stubs[args.path],loader:'tsx',resolveDir:__dirname+'/../../..'}));}}]}).catch(error=>{console.error(error);process.exitCode=1});

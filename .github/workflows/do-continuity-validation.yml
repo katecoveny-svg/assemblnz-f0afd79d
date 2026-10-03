@@ -11,6 +11,7 @@ on:
       - 'apps/do/shared/native-review*'
       - 'apps/do/shared/use-native-review.ts'
       - 'apps/do/macos/NativeReviewBridge.swift'
+      - 'apps/do/macos/tests/receiver-browser.mjs'
       - 'app/api/do/native-recipient/**'
       - 'app/api/do/prepare/**'
       - 'app/do/DoTextWorkspace.tsx'

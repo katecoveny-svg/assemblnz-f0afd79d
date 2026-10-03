@@ -11,7 +11,7 @@ const out=resolve('output/native-receiver');await mkdir(out,{recursive:true});
 const stubs={
  'next/navigation':`export const usePathname=()=>location.pathname;`,
  '@/components/do/DoShareButton':`export function DoShareButton(){return null;}`,
- '@/lib/supabase/client':`export const createClient=()=>({auth:{onAuthStateChange(callback){window.__auth=callback;callback('INITIAL_SESSION',{user:{id:window.__owner}});return {data:{subscription:{unsubscribe(){window.__auth=null}}}};}}});`,
+ '@/lib/supabase/client':`export const createClient=()=>({auth:{onAuthStateChange(callback){window.__authListeners??=new Set();window.__authListeners.add(callback);window.__auth=(...args)=>{for(const listener of [...window.__authListeners])listener(...args)};callback('INITIAL_SESSION',{user:{id:window.__owner}});return {data:{subscription:{unsubscribe(){window.__authListeners.delete(callback);if(!window.__authListeners.size)window.__auth=null}}}};}}});`,
 };
 const bundle=await build({stdin:{contents:`import React from 'react';import {createRoot} from 'react-dom/client';import {DoTextWorkspace} from './app/do/DoTextWorkspace';window.__root=createRoot(document.getElementById('root'));window.__root.render(React.createElement(DoTextWorkspace,{focus:true,onNativeReveal:()=>{window.__reveals++}}));`,resolveDir:process.cwd(),loader:'tsx'},bundle:true,write:false,platform:'browser',format:'iife',define:{'process.env.NODE_ENV':'"production"'},plugins:[{name:'fictional-only',setup(b){b.onResolve({filter:/.*/},a=>stubs[a.path]?{path:a.path,namespace:'fixture'}:undefined);b.onLoad({filter:/.*/,namespace:'fixture'},a=>({contents:stubs[a.path],loader:'js'}));}}]});
 const script=bundle.outputFiles[0].text;await writeFile(resolve(out,'actual-receiver.js'),script);
@@ -43,6 +43,7 @@ async function fixture({url='https://www.assembl.co.nz/do/widget?nativeReview=1'
     if(window.__offline)throw Error('fictional offline');
     return new Response(JSON.stringify(window.__owner?{version:1,owner:window.__owner,scope:'Personal',label:window.__owner.endsWith('1')?'alex@example.invalid':'taylor@example.invalid'}:{error:'sign_in_required'}),{status:window.__owner?200:401,headers:{'Content-Type':'application/json'}});
    }
+   if(url==='/api/do/personal')return new Response(JSON.stringify({workspaceKey:window.__owner||'guest'}),{status:window.__owner?200:401,headers:{'Content-Type':'application/json'}});
    if(url==='/api/do/runtime')return new Response(JSON.stringify({signedIn:true,availability:{preparation:'unavailable',note:'Fictional test; provider disabled'}}),{headers:{'Content-Type':'application/json'}});
    if(url==='/api/do/prepare'&&window.__allowPreparation){window.__preparations.push(JSON.parse(opts.body));if(window.__returnDraft)return new Response(JSON.stringify({draft:{id:'fictional-draft',task:'extract',title:'Fictional draft',text:'Fictional prepared text',version:1,createdAt:'2026-10-02T00:00:00Z',status:'draft',evidence:{method:'exact-extraction',model:null,sourceTitle:'Fictional source',sourceUrl:'',sourceCharacters:26,sourceHash:'fictional',instructionHash:'fictional',outputHash:'fictional',consentAt:'2026-10-02T00:00:00Z',boundary:'Fictional transport; no external actions'}}}),{headers:{'Content-Type':'application/json'}});return new Promise((_resolve,reject)=>{opts.signal.addEventListener('abort',()=>{window.__abortedPreparation++;reject(new DOMException('fictional aborted','AbortError'));});});}
    window.__providers++;throw Error('real work forbidden');
@@ -160,7 +161,7 @@ try{
  }
 
  {
-  // Full actual Focus + Vision surfaces; only unused live/build tools and Next runtime are stubbed.
+  // Actual production widget identity boundary + Focus + Vision surfaces; only unused live/build tools and Next runtime are stubbed.
   // Next normally replaces process.env in next/image; this standalone browser bundle must do the same.
   const focusStubs={...stubs,
    'next/link':`import React from 'react';export default function Link({children,...props}){return React.createElement('a',props,children)}`,
@@ -168,7 +169,7 @@ try{
    '@/app/do/DoGeminiLive':`export function DoGeminiLive(){return null}`,
    '@/app/do/DoWorkspace':`export function DoWorkspace(){return null}`,
   };delete focusStubs['@/components/do/DoShareButton'];
-  const focused=await build({stdin:{contents:`import React from 'react';import {createRoot} from 'react-dom/client';import {DoFocusWorkspace} from './components/do/DoFocusWorkspace';import './app/do/do.css';window.__root=createRoot(document.getElementById('root'));window.__root.render(React.createElement(DoFocusWorkspace,{}));`,resolveDir:process.cwd(),loader:'tsx'},bundle:true,write:false,outdir:resolve(out,'focus-bundle'),platform:'browser',format:'iife',define:{'process.env.NODE_ENV':'"production"','process.env':'{}'},plugins:[{name:'fictional-focus',setup(b){b.onResolve({filter:/.*/},a=>focusStubs[a.path]?{path:a.path,namespace:'fixture'}:undefined);b.onLoad({filter:/.*/,namespace:'fixture'},a=>({contents:focusStubs[a.path],loader:'js',resolveDir:process.cwd()}));}}]});
+  const focused=await build({stdin:{contents:`import React from 'react';import {createRoot} from 'react-dom/client';import {DoWidgetPrivacyBoundary} from './components/do/DoWidgetPrivacyBoundary';import './app/do/do.css';window.__root=createRoot(document.getElementById('root'));window.__root.render(React.createElement(DoWidgetPrivacyBoundary,{initialTask:'reply'}));`,resolveDir:process.cwd(),loader:'tsx'},bundle:true,write:false,outdir:resolve(out,'focus-bundle'),platform:'browser',format:'iife',define:{'process.env.NODE_ENV':'"production"','process.env':'{}'},plugins:[{name:'fictional-focus',setup(b){b.onResolve({filter:/.*/},a=>focusStubs[a.path]?{path:a.path,namespace:'fixture'}:undefined);b.onLoad({filter:/.*/,namespace:'fixture'},a=>({contents:focusStubs[a.path],loader:'js',resolveDir:process.cwd()}));}}]});
   const {page,context}=await fixture();await page.evaluate(()=>window.__root.unmount());
   for(const file of focused.outputFiles){if(file.path.endsWith('.js'))await page.addScriptTag({content:file.text});if(file.path.endsWith('.css'))await page.addStyleTag({content:file.text});}
   await page.waitForFunction(()=>typeof window.assemblDoNativeReview==='function');await page.setViewportSize({width:820,height:850});
@@ -178,8 +179,11 @@ try{
   await page.getByLabel('Choose an image for DO',{exact:true}).setInputFiles({name:'fictional-pixel.png',mimeType:'image/png',buffer:fictionalPNG});
   await page.getByAltText('The image you chose for DO to inspect').waitFor();
   assert.equal(await page.getByRole('button',{name:'Ask DO to look · 1 task'}).isDisabled(),true);await page.getByAltText('The image you chose for DO to inspect').scrollIntoViewIfNeeded();await page.screenshot({path:resolve(out,'actual-image-review-820.png')});
-  await page.evaluate(owner=>{window.__owner=owner;window.__auth('SIGNED_IN',{user:{id:owner}})},B);
-  await page.waitForFunction(()=>!document.querySelector('#do-vision-context'));assert.equal(await page.locator('#do-source').inputValue(),'');await clean(page);
+  await page.evaluate(owner=>{const fetch=window.fetch;window.fetch=(url,options)=>url==='/api/do/personal'?new Promise(resolve=>{window.__resolveWidgetIdentity=()=>resolve(new Response(JSON.stringify({workspaceKey:owner}),{headers:{'Content-Type':'application/json'}}));}):fetch(url,options);window.__owner=owner;window.__auth('SIGNED_IN',{user:{id:owner}})},B);
+  await page.waitForFunction(()=>!document.querySelector('#do-vision-context'));
+  assert.equal(await page.getByAltText('The image you chose for DO to inspect').count(),0);
+  await page.evaluate(()=>window.__resolveWidgetIdentity());
+  await page.waitForFunction(()=>typeof window.assemblDoNativeReview==='function');assert.equal(await page.locator('#do-source').inputValue(),'');await clean(page);
   checks.push('actual Focus links screenshot/photo to local Vision preview; image analysis consent off; auth change unmounts image and clears context');await context.close();
  }
  assert.deepEqual(errors,[]);await writeFile(resolve(out,'results.json'),JSON.stringify({checks,passed:checks.length,errors,actualReactReceiver:true,fictionalAuth:true,providerCalls:0,legacyDraftReads:0,legacyDraftWrites:0,privateCapture:false},null,2)+'\n');console.log(JSON.stringify({passed:checks.length,errors,output:out}));
