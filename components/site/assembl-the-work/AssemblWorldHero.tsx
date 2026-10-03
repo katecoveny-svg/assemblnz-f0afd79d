@@ -5,7 +5,9 @@ import Link from 'next/link';
 import { AssemblGlassMark } from '@/components/site/AssemblGlassMark';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowDown, ArrowRight, ArrowUpRight, Pause, Play } from 'lucide-react';
-import { HERO } from './copy';
+import { HERO, PRODUCTS } from './copy';
+
+const [headlineLead, ...headlineRest] = HERO.headline.split(' ');
 import { WorldAtelierStage, useAtelierMotionGate, useAtelierVisibility } from './WorldAtelierStage';
 import styles from './assembl-world-hero.module.css';
 
@@ -68,8 +70,9 @@ export function AssemblWorldHero({ preview = false, showSummary = true }: { prev
         </header>
         <div className={styles.copy}>
           <p className={styles.overline}>BUILT IN AOTEAROA.</p>
-          <h1 id="atw-hero-title"><span>Improve workflows.</span><span>Build software.</span></h1>
+          <h1 id="atw-hero-title"><span>{headlineLead}</span><span>{headlineRest.join(' ')}</span></h1>
           <p className={styles.body}>{HERO.subhead}</p>
+          <div className={styles.productIntro} aria-label="What each product does">{PRODUCTS.items.map(product => <p key={product.id}><Link href={product.href}>{product.name}</Link> — {product.body}</p>)}</div>
           <div className={styles.actions}><Link className={styles.pill} href="/contact?product=system">Discuss your project <ArrowRight size={20} aria-hidden="true" /></Link><Link className={styles.link} href="/do">Open DO <ArrowDown size={16} aria-hidden="true" /></Link></div>
         </div>
         <aside className={styles.chapter} aria-label="The work, step by step">
