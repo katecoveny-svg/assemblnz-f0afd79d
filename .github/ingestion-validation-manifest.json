@@ -6,6 +6,11 @@
   "frozen_source_zip_sha256": "1a6105c1e8f3a6eadad32ca53b8b455bf7f9b3fd2495f2abe719a915b20e809f",
   "inherited_main_commit": "36cf989b3e54304bb40dd117b4ee38d3ae28813d",
   "files": {
+    ".github/workflows/atomic-ingestion-sql-validation.yml": {
+      "sha256": "11f22bbf9c85b4b52e4728178404a90a9929d1e277a6743702a29938a19dcc82",
+      "git_blob": "096d5d53fc562381d3dbd53968c971ef45c75b66",
+      "bytes": 10840
+    },
     "docs/integrations/ingestion-audit-20261003.md": {
       "sha256": "a2980f1099d8a5041c357d5f37e25eaa2bd51fecd8b50ef7cdbe20aa63855334",
       "git_blob": "2def48cccd9495ee4935986a843dc68a5e35bde3",
@@ -16,20 +21,30 @@
       "git_blob": "47e804118b4e8da84fff4b6054d9adafb54bea78",
       "bytes": 40060
     },
+    "docs/integrations/proposals/atomic-contract-model.test.mjs": {
+      "sha256": "72daaa913bba1f4491c616d99aecff9f20cfb21c9c08330d6e2dd299ab25376c",
+      "git_blob": "d6958651791d7e5b40764f293280bd9b3190ae71",
+      "bytes": 11330
+    },
     "docs/integrations/proposals/atomic-ingestion-finalization-tests.sql": {
-      "sha256": "ae519d3ac12a206814f185ee3b4c78c09ee905f18159b0514b03a111d4f889e9",
-      "git_blob": "b95df2bfcf312b69c98af12e4451451a1e34f0fe",
-      "bytes": 2933
+      "sha256": "6121d900ad890ac9fc51e13687570182778da9993824a9fceeaa0348208b2c51",
+      "git_blob": "c1e7faa7287737b2540fb57ee35ae43c8c573858",
+      "bytes": 485
     },
     "docs/integrations/proposals/atomic-ingestion-finalization.md": {
-      "sha256": "1e09e94daf631718243745dfc537129752bb4397eac7f901847c02bda211fa54",
-      "git_blob": "98720d9ab74d51de8a6ec6a2431e7fcba19a4709",
-      "bytes": 2040
+      "sha256": "9e2d109822e717620a2549d6bc2a8a3763f55417937f6d8199e52200a8297872",
+      "git_blob": "f5e84ae37a319104dbb007273f4b5f227c7ddc1f",
+      "bytes": 7722
     },
     "docs/integrations/proposals/atomic-ingestion-finalization.sql": {
-      "sha256": "bd684d5cfad4df64c8269be927b3c11e4eed30c7ea35badefcd6f8a9becf6ad6",
-      "git_blob": "0b31089e7480a047e06001b03d311ef119a8ebbc",
-      "bytes": 2468
+      "sha256": "d279822428858598341cbca6ba610439e88e84a277a7ee284be42d4347639d0c",
+      "git_blob": "5953e545624f55a2a31f9da527c2d3ba5984bd80",
+      "bytes": 10972
+    },
+    "docs/integrations/proposals/atomic-postgres-harness.py": {
+      "sha256": "198562c15305489e46ad42c78b9ec34324ef1837634c147d086e76d0b7743851",
+      "git_blob": "0612c5e91db3692597b92fc3b22c50cdeddafd52",
+      "bytes": 34135
     },
     "supabase/functions/_shared/opportunity-envelope.ts": {
       "sha256": "bf404578afa41f9d258ea8a9040c22e1d13315c1ec233b6ed34e4e004b3549a4",
@@ -224,12 +239,15 @@
   },
   "allowed_changed_paths": [
     ".github/ingestion-validation-manifest.json",
+    ".github/workflows/atomic-ingestion-sql-validation.yml",
     ".github/workflows/rss-adapter-validation.yml",
     "docs/integrations/ingestion-audit-20261003.md",
     "docs/integrations/ingestion-health-20261003.json",
+    "docs/integrations/proposals/atomic-contract-model.test.mjs",
     "docs/integrations/proposals/atomic-ingestion-finalization-tests.sql",
     "docs/integrations/proposals/atomic-ingestion-finalization.md",
     "docs/integrations/proposals/atomic-ingestion-finalization.sql",
+    "docs/integrations/proposals/atomic-postgres-harness.py",
     "supabase/functions/adapter-html/challenge.test.ts",
     "supabase/functions/adapter-html/challenge.ts",
     "supabase/functions/adapter-html/durability.ts",
