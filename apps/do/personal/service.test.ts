@@ -57,13 +57,15 @@ it("reads run output through cookie-owner RLS even when provider memory is disab
  vi.stubEnv('DO_PROVIDER_MEMORY_ENABLED','false');
  const serviceQuery={select:vi.fn().mockReturnThis(),eq:vi.fn().mockReturnThis(),order:vi.fn().mockResolvedValue({data:[],error:null}),single:vi.fn().mockResolvedValue({data:{last_seen_at:null},error:null})};
  const ownerQuery={select:vi.fn().mockReturnThis(),eq:vi.fn().mockReturnThis(),order:vi.fn().mockReturnThis(),limit:vi.fn().mockResolvedValue({data:[],error:null})};
- const ownerDb={from:vi.fn().mockReturnValue(ownerQuery)};
+ const ownerDb={from:vi.fn().mockImplementation(name=>name==='do_personal_responsibilities'?serviceQuery:ownerQuery)};
  db.from.mockReturnValue(serviceQuery);
  vi.mocked(createOwnerClient).mockResolvedValue(ownerDb as unknown as Awaited<ReturnType<typeof createOwnerClient>>);
  const state=await personalState(owner);
  expect(state.runs).toEqual([]);
  expect(state.worker.configured).toBe(false);
  expect(ownerDb.from).toHaveBeenCalledWith('do_personal_runs');
+ expect(ownerDb.from).toHaveBeenCalledWith('do_personal_responsibilities');
+ expect(db.from).not.toHaveBeenCalledWith('do_personal_responsibilities');
  expect(ownerQuery.eq).toHaveBeenCalledWith('owner_id',owner);
  expect(db.from).not.toHaveBeenCalledWith('do_personal_runs');
 });

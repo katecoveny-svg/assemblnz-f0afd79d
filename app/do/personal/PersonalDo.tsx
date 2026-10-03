@@ -37,6 +37,7 @@ import {
   PERSONAL_BOUNDARY,
   PERSONAL_STARTERS,
   responsibilityStatus,
+  personalStorageReceiptSchema,
   type PersonalState,
   type Responsibility,
 } from "@/apps/do/personal/contract";
@@ -79,7 +80,21 @@ export function PersonalDo() {
   const [busy, setBusy] = useState(false);
   const lock = useRef(false);
   const [form, setForm] = useState(emptyForm);
+  const editorEpoch = useRef(0);
+  const editorDirty = useRef(false);
+  const pendingSave = useRef<{ payload: Record<string, unknown>; owner: string | null; epoch: number } | null>(null);
+  function recoveryKey(owner: string) { return `do:responsibility-request:${owner}`; }
+  function rememberRequest(owner: string, id: string) {
+    try { window.sessionStorage.setItem(recoveryKey(owner), id); } catch { /* Memory guard still applies; browser reload recovery unavailable. */ }
+  }
+  function recoveredRequest(owner: string) {
+    try { const id = window.sessionStorage.getItem(recoveryKey(owner)); return id && /^[a-f0-9-]{36}$/i.test(id) ? id : null; } catch { return null; }
+  }
+  function forgetRequest(owner: string) { try { window.sessionStorage.removeItem(recoveryKey(owner)); } catch { /* No provider/data action. */ } }
+  const [expectedRevision, setExpectedRevision] = useState(0);
   const [editId, setEditId] = useState<string | undefined>();
+  const [saveUncertain, setSaveUncertain] = useState(false);
+  const lastVerifiedOwner = useRef<string | null>(null);
   const [consent, setConsent] = useState(false);
   const [editor, setEditor] = useState(false);
   const [deleting, setDeleting] = useState<string | null>(null);
@@ -97,12 +112,13 @@ export function PersonalDo() {
       const scope = data.workspaceKey === "guest" || (typeof data.workspaceKey === "string" && /^[a-f0-9-]{36}$/i.test(data.workspaceKey)) ? data.workspaceKey as string : null;
       if (!scope) throw new Error("Account identity unavailable.");
       verifiedScope = scope;
-      if (workspaceRef.current !== scope) {
+      if (lastVerifiedOwner.current !== scope) {
         if (workspaceRef.current !== null) setSharedIntake(undefined);
         setAssistantWork({ dirty: false, exportText: "" }); setAssistantWorking(false);
         setPersonalProfile(null);
-        setForm(emptyForm); setEditor(false); setConsent(false); setEditId(undefined);
+        setForm(emptyForm); setEditor(false); setConsent(false); setEditId(undefined); setSaveUncertain(false); pendingSave.current = null; editorDirty.current = false;
       }
+      lastVerifiedOwner.current = scope;
       workspaceRef.current = scope;
       setWorkspaceKey(scope);
       try {
@@ -121,19 +137,21 @@ export function PersonalDo() {
       setState(data);
       setNow(Date.now());
       setAccess("ready");
+      return true;
     } catch {
       if (controller.signal.aborted) return;
       // An authenticated storage error includes a verified scope; network or
       // malformed identity errors cannot safely reuse a previous person's UI.
       setPersonalProfile(null);
-      if (!verifiedScope) { workspaceRef.current = null; setWorkspaceKey(null); setSharedIntake(undefined); setEditor(false); setConsent(false); setAssistantWork({ dirty: false, exportText: "" }); setAssistantWorking(false); }
+      if (!verifiedScope) { workspaceRef.current = null; setWorkspaceKey(null); setSharedIntake(undefined); setConsent(false); setAssistantWork({ dirty: false, exportText: "" }); setAssistantWorking(false); }
       setAccess("error");
       setState(null);
       setNotice(
-        "Your workspace could not load. Try again; nothing has been changed.",
+        "Your workspace could not load. Reopen it before retrying a save.",
       );
+      return false;
     }
-  }, []);
+  }, [setEditor, setConsent]);
   // load changes state only after its asynchronous fetch completes.
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -151,7 +169,7 @@ export function PersonalDo() {
           loadRequest.current?.abort();
           workspaceRef.current = null;
           setWorkspaceKey(null); setState(null); setPersonalProfile(null); setAssistantWork({ dirty: false, exportText: "" }); setAssistantWorking(false);
-          setSharedIntake(undefined); setForm(emptyForm); setEditor(false); setConsent(false);
+          setSharedIntake(undefined); setConsent(false);
           // The event only invalidates. The server verifies the new owner.
           void load();
         }
@@ -167,7 +185,7 @@ export function PersonalDo() {
     } else {
       dialog.current?.close();
     }
-  }, [editor]);
+  }, [editor, access, workspaceKey]);
   useEffect(() => {
     if (leavingHref) leaveDialog.current?.showModal();
     else leaveDialog.current?.close();
@@ -185,7 +203,18 @@ export function PersonalDo() {
     item?: Responsibility,
     starter?: (typeof PERSONAL_STARTERS)[number],
   ) {
-    setEditId(item?.id);
+    if (editorDirty.current || saveUncertain) {
+      setEditor(true);
+      setNotice("Your unsaved editor notes are retained. Retry the original request, keep editing, or explicitly discard them before opening another responsibility.");
+      return;
+    }
+    const recovered = workspaceKey ? recoveredRequest(workspaceKey) : null;
+    if (!item && recovered && state?.responsibilities.some(row => row.id === recovered)) {
+      setNotice("A previous request was saved. Open that responsibility before starting another."); return;
+    }
+    setEditId(item?.id ?? recovered ?? crypto.randomUUID());
+    editorDirty.current = false;
+    setExpectedRevision(item?.revision ?? 0);
     setForm(
       item
         ? {
@@ -201,11 +230,20 @@ export function PersonalDo() {
     setEditor(true);
     setNotice("");
   }
-  async function change(payload: unknown, run = false): Promise<boolean> {
-    if (lock.current) return false;
+  async function change(payload: unknown, run = false, retry = false): Promise<boolean> {
+    const requestOwner = workspaceKey;
+    const saving = !run && (payload as { action?: string }).action === "save";
+    if (lock.current || (saving && saveUncertain && !retry)) return false;
+    if (saving && retry && pendingSave.current?.owner !== requestOwner) return false;
     lock.current = true;
     setBusy(true);
+    if (saving) {
+      if (!retry) pendingSave.current = { payload: payload as Record<string, unknown>, owner: requestOwner, epoch: editorEpoch.current };
+      if (requestOwner) rememberRequest(requestOwner, (payload as { id: string }).id);
+      setSaveUncertain(true);
+    }
     setNotice(run ? "DO is preparing from your saved notes…" : "Saving…");
+    let rejectedWithoutWrite = false;
     try {
       const r = await fetch(run ? "/api/do/personal/run" : "/api/do/personal", {
         method: "POST",
@@ -213,18 +251,43 @@ export function PersonalDo() {
         body: JSON.stringify(payload),
       });
       const data = await r.json();
-      if (!r.ok) throw new Error(data.error || "Please try again.");
-      await load();
+      if (!r.ok) {
+        if (saving && [400,401,403,409].includes(r.status)) {
+          rejectedWithoutWrite = true;
+          setSaveUncertain(false); pendingSave.current = null;
+        }
+        throw new Error(data.error || "No change confirmed. Reopen your workspace before retrying.");
+      }
+      if ((payload as { action?: string }).action === "save" && !personalStorageReceiptSchema.safeParse(data).success) throw new Error("Save not confirmed. Reopen your workspace before retrying; your notes remain here.");
+      if (saving) {
+        const receipt = personalStorageReceiptSchema.parse(data);
+        if (lastVerifiedOwner.current !== requestOwner) return false;
+        setEditId(receipt.id);
+        setExpectedRevision((payload as { expectedRevision: number }).expectedRevision + 1);
+      }
+      if (!(await load())) {
+        setNotice("Your change was confirmed, but the workspace could not reopen. Refresh before saving again; your editor notes are retained privately and will reappear only after the same account is verified.");
+        return false;
+      }
+      if (lastVerifiedOwner.current !== requestOwner) return false;
+      if (saving) {
+        setSaveUncertain(false); pendingSave.current = null;
+        if (requestOwner) forgetRequest(requestOwner);
+      }
       setNotice(
         run
           ? data.published
             ? "A draft is ready for your review."
             : "No draft was published. Check the run history for a failure or cancellation."
-          : "Saved.",
+          : "Saved · preparation off.",
       );
       return true;
     } catch (e) {
-      setNotice(e instanceof Error ? e.message : "Please try again.");
+      setNotice(saving && rejectedWithoutWrite
+        ? `${e instanceof Error ? e.message : "Request rejected."} No save was made by this request. Your editor notes remain editable.`
+        : saving
+        ? "Save not confirmed. Your editor notes are retained. Retry uses the same request ID and original fields; no new responsibility is created by a matching retry."
+        : e instanceof Error ? e.message : "No change confirmed. Reopen your workspace before retrying.");
       return false;
     } finally {
       lock.current = false;
@@ -233,15 +296,37 @@ export function PersonalDo() {
   }
   async function save(event: FormEvent) {
     event.preventDefault();
-    if (await change({ action: "save", ...form, id: editId, consent })) {
-      setEditor(false);
-      setForm(emptyForm);
-      setConsent(false);
+    const submittedEpoch = editorEpoch.current;
+    if (await change({ action: "save", ...form, id: editId, consent, expectedRevision })) {
+      if (submittedEpoch === editorEpoch.current) {
+        editorDirty.current = false;
+        setEditor(false);
+        setForm(emptyForm);
+        setConsent(false);
+      } else {
+        setNotice("The earlier version was saved. Your newer edits remain unsaved; review them before saving again.");
+      }
     }
+  }
+  async function retrySave() {
+    const pending = pendingSave.current;
+    if (!pending || pending.owner !== workspaceKey) return;
+    if (await change(pending.payload, false, true)) {
+      if (pending.epoch === editorEpoch.current) {
+        editorDirty.current = false; setEditor(false); setForm(emptyForm); setConsent(false);
+      } else setNotice("The original request was saved. Your newer edits remain unsaved.");
+    }
+  }
+  function discardEditor() {
+    if (workspaceKey) forgetRequest(workspaceKey);
+    pendingSave.current = null; editorDirty.current = false; setSaveUncertain(false);
+    setForm(emptyForm); setEditId(undefined); setExpectedRevision(0); setConsent(false); setEditor(false);
+    setNotice("Local editor notes discarded. A request already sent may still have saved; check your responsibilities before recreating it.");
   }
   function keepCallDraft(notes: string) {
     if (busy || editor || !state?.worker.configured || state.responsibilities.length >= 5 || notes.length > 10000) return false;
-    setEditId(undefined);
+    setEditId(crypto.randomUUID());
+    setExpectedRevision(0);
     setForm({
       ...emptyForm,
       title: "A next step from our call",
@@ -305,7 +390,7 @@ export function PersonalDo() {
       {access === "ready" && state && (
         <details className={styles.ongoing}>
           <summary><span><span className={styles.eyebrow}>SAVED NOTES</span><strong>Ongoing responsibilities</strong></span><span className={styles.ongoingCount}>{needsReview ? `${needsReview} to review` : `${state.responsibilities.length} saved`} <ChevronDown size={20} /></span></summary>
-          <div className={styles.ongoingIntro}><p>Give DO a set of notes and permission to prepare the next step each day.</p><button className={styles.save} onClick={() => openEditor()} disabled={busy || !state.worker.configured || state.responsibilities.length >= 5}><Plus size={18} /> Give DO a responsibility</button></div>
+          <div className={styles.ongoingIntro}><p>Save your own responsibility and notes privately. Preparation stays off.</p><button className={styles.save} onClick={() => openEditor()} disabled={busy || !state.storage?.available || state.responsibilities.length >= 5}><Plus size={18} /> Give DO a responsibility</button></div>
           <section
             className={styles.worker}
             aria-label="Background worker status"
@@ -320,8 +405,7 @@ export function PersonalDo() {
                 {state.worker.lastSeenAt
                   ? `Last worker check: ${stamp(state.worker.lastSeenAt)} (NZ time).`
                   : "Waiting for the first cloud worker check."}{" "}
-                Checks are scheduled hourly; queued work may take longer. Results appear
-                here. Phone notifications are not connected. Background preparation is paused until renewed OpenAI and TypeSafe permission can be saved safely.
+                Background preparation is off. Saving notes does not queue work or grant provider permission. Phone notifications are not connected.
               </p>
             </div>
             <button
@@ -344,7 +428,7 @@ export function PersonalDo() {
               {state.responsibilities.length === 0 && (
                 <p className={styles.empty}>
                   Start with one small responsibility. Add the notes you want DO
-                  to use, then choose when to check them.
+                  to keep. Saving does not schedule a check.
                 </p>
               )}
               <div className={styles.responsibilities}>
@@ -355,7 +439,7 @@ export function PersonalDo() {
                         {responsibilityStatus(item, now, state?.worker.configured === true)}
                       </span>
                       <span>
-                        Daily · {String(item.local_hour).padStart(2, "0")}:00
+                        Saved · preparation off
                       </span>
                     </div>
                     <h3>{item.title}</h3>
@@ -363,11 +447,7 @@ export function PersonalDo() {
                     <p className={styles.meta}>
                       {item.timezone}
                       <br />
-                      Next eligible check:{" "}
-                      {stamp(item.next_run_at, item.timezone)}
-                      <br />
-                      Permission until{" "}
-                      {stamp(item.consent_until, item.timezone)}
+                      No preparation scheduled
                     </p>
                     <details>
                       <summary>What DO remembers</summary>
@@ -389,7 +469,7 @@ export function PersonalDo() {
                         Prepare now <ArrowUpRight size={15} />
                       </button>
                       <button disabled={busy} onClick={() => openEditor(item)}>
-                        Edit / renew
+                        Edit notes
                       </button>
                       {item.active && (
                         <button
@@ -442,7 +522,7 @@ export function PersonalDo() {
                     disabled={
                       busy ||
                       state.responsibilities.length >= 5 ||
-                      !state.worker.configured
+                      !state.storage?.available
                     }
                     onClick={() => openEditor(undefined, item)}
                   >
@@ -466,7 +546,7 @@ export function PersonalDo() {
                   <DoPresence size="small" finish="glass" />
                   <h3>No drafts yet</h3>
                   <p>
-                    Save a responsibility, then tap Prepare now or wait for its
+                    Background preparation is off. Saving a responsibility does not start its
                     scheduled check.
                   </p>
                 </div>
@@ -578,7 +658,7 @@ export function PersonalDo() {
             <span>02</span>
             <h3>Background drafts</h3>
             <p>
-              When the background worker is healthy, it can prepare work while this page is closed. Check its status above. You approve seven days at a time, with up to five preparations per account in 24 hours.
+              Saving is separate from preparation. Background preparation is off and needs a separate provider permission before it can start.
             </p>
           </article>
           <article>
@@ -613,7 +693,7 @@ export function PersonalDo() {
           </div>
         </section>
       </dialog>}
-      {editor && (
+      {editor && access === "ready" && workspaceKey && workspaceKey !== "guest" && (
         <dialog
           ref={dialog}
           onCancel={(e) => {
@@ -637,7 +717,7 @@ export function PersonalDo() {
               </button>
             </div>
             <h2 id="personal-editor-title" ref={editorHeading} tabIndex={-1}>
-              {editId ? "Keep DO up to date." : "One less loose end."}
+              {expectedRevision > 0 ? "Keep DO up to date." : "One less loose end."}
             </h2>
             <form onSubmit={save}>
               <label>
@@ -647,6 +727,7 @@ export function PersonalDo() {
                   maxLength={100}
                   value={form.title}
                   onChange={(e) => {
+                    editorEpoch.current++; editorDirty.current = true;
                     setForm({ ...form, title: e.target.value });
                     setConsent(false);
                   }}
@@ -662,6 +743,7 @@ export function PersonalDo() {
                   rows={3}
                   value={form.goal}
                   onChange={(e) => {
+                    editorEpoch.current++; editorDirty.current = true;
                     setForm({ ...form, goal: e.target.value });
                     setConsent(false);
                   }}
@@ -676,6 +758,7 @@ export function PersonalDo() {
                   rows={6}
                   value={form.notes}
                   onChange={(e) => {
+                    editorEpoch.current++; editorDirty.current = true;
                     setForm({ ...form, notes: e.target.value });
                     setConsent(false);
                   }}
@@ -684,10 +767,11 @@ export function PersonalDo() {
               </label>
               <div className={styles.schedule}>
                 <label>
-                  Daily check hour
+                  Preferred hour (not scheduled)
                   <select
                     value={form.localHour}
                     onChange={(e) => {
+                      editorEpoch.current++; editorDirty.current = true;
                       setForm({ ...form, localHour: Number(e.target.value) });
                       setConsent(false);
                     }}
@@ -705,6 +789,7 @@ export function PersonalDo() {
                     required
                     value={form.timezone}
                     onChange={(e) => {
+                      editorEpoch.current++; editorDirty.current = true;
                       setForm({ ...form, timezone: e.target.value });
                       setConsent(false);
                     }}
@@ -718,25 +803,22 @@ export function PersonalDo() {
                   onChange={(e) => setConsent(e.target.checked)}
                 />
                 <span>
-                  Save these notes privately to my account and let DO send them
-                  to Assembl’s configured generation provider for daily
-                  preparation over the next seven days. I can pause or delete
-                  this responsibility. A request already in progress cannot be
-                  recalled.
+                  Save my own notes privately to my account so I can reopen, edit or delete this responsibility. New pilot responsibilities expire seven days after saving; saving edits renews that period. Existing legacy responsibilities are not automatically deleted. This does not allow provider use or background preparation.
                 </span>
               </label>
               <p>
-                Results appear in Personal DO. This permission covers
-                preparation only. Background preparation is paused until renewed OpenAI and TypeSafe permission can be saved safely.
+                Preparation is off. Nothing will be sent to OpenAI or TypeSafe by saving these notes.
               </p>
               <button
                 type="submit"
                 className={styles.save}
-                disabled={!consent || busy || !state?.worker.configured}
+                disabled={!consent || busy || saveUncertain || !state?.storage?.available}
               >
-                {busy ? "Saving…" : "Save & start seven days"}{" "}
+                {busy ? "Saving…" : "Save responsibility"}{" "}
                 <ArrowUpRight size={18} />
               </button>
+              {saveUncertain && <button type="button" disabled={busy || !state?.storage?.available} onClick={() => void retrySave()}>Retry original saved request</button>}
+              <button type="button" disabled={busy} onClick={discardEditor}>Discard local editor notes (a sent request may still save)</button>
               <p role="status">{notice}</p>
             </form>
           </section>

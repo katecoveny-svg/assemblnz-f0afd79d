@@ -9,6 +9,7 @@ import {
   personalState,
   savePersonal,
   mutatePersonal,
+  PersonalStorageConflict,
 } from "@/apps/do/personal/service";
 import { personalReviewQueue } from "@/apps/do/personal/review-queue";
 export const dynamic = "force-dynamic";
@@ -52,7 +53,7 @@ export async function POST(request: Request) {
   try {
     const p = parsed.data;
     if (p.action === "save")
-      return json({ id: await savePersonal(owner.id, p) });
+      return json({ id: await savePersonal(owner.id, p), saved: true, preparation: "off" });
     return (await mutatePersonal(owner.id, p.action, p.id))
       ? json({ ok: true })
       : json({ error: "That item is no longer available." }, 404);
@@ -64,7 +65,7 @@ export async function POST(request: Request) {
             ? error.message
             : "Could not save your change.",
       },
-      503,
+      error instanceof PersonalStorageConflict ? 409 : 503,
     );
   }
 }

@@ -5,6 +5,7 @@ vi.mock("@/apps/do/services/owner", async (original) => ({
   doOwner: vi.fn(),
 }));
 vi.mock("@/apps/do/personal/service", () => ({
+  PersonalStorageConflict: class extends Error {},
   personalState: vi.fn(),
   savePersonal: vi.fn(),
   mutatePersonal: vi.fn(),
@@ -61,18 +62,20 @@ describe("Personal DO HTTP boundaries", () => {
       (await POST(request({ action: "pause", id, ownerId: "other" }))).status,
     ).toBe(400);
   });
-  it("does not save without provider consent", async () => {
+  it("does not save without storage consent", async () => {
     expect(
       (
         await POST(
           request({
             action: "save",
+  id: "11111111-1111-4111-8111-111111111111",
             title: "Day",
             goal: "Prepare my checklist",
             notes: "Friday",
             timezone: "Pacific/Auckland",
             localHour: 7,
             consent: false,
+            expectedRevision: 0,
           }),
         )
       ).status,
@@ -137,4 +140,11 @@ describe("Personal DO HTTP boundaries", () => {
     expect(runPersonal).toHaveBeenCalledTimes(3);
     vi.unstubAllEnvs();
   });
+});
+
+it("saves only the authenticated owner's paused responsibility and returns an honest receipt",async()=>{
+ vi.mocked(savePersonal).mockResolvedValue(id);
+ const body={action:'save',id:'11111111-1111-4111-8111-111111111111',title:'Synthetic responsibility',goal:'Review fictional notes',notes:'Fictional only',timezone:'Pacific/Auckland',localHour:7,consent:true,expectedRevision:0};
+ const response=await POST(request(body));expect(response.status).toBe(200);expect(await response.json()).toEqual({id,saved:true,preparation:'off'});expect(savePersonal).toHaveBeenCalledWith(owner.id,body);
+ vi.mocked(doOwner).mockResolvedValue(null);vi.mocked(savePersonal).mockClear();expect((await POST(request(body))).status).toBe(401);expect(savePersonal).not.toHaveBeenCalled();
 });
