@@ -6,6 +6,59 @@ const origin = process.env.ASSEMBL_REVIEW_ORIGIN || 'http://127.0.0.1:3117';
 const out = process.env.ASSEMBL_REVIEW_OUTPUT || '/tmp/personal-do-proof/unified';
 const checks = [], links = [], errors = [];
 const check = (name, condition) => { assert.ok(condition, name); checks.push(name); console.log('PASS ' + name); };
+const functionalAsset = '/brand/canonical/do-vector-v1/DO-D-mono.svg';
+const checkedAssets = new Set();
+async function verifyFunctionalMark(page, root, label) {
+  const mark = root.locator('[data-do-functional-mark] svg');
+  await mark.waitFor({ state: 'visible' });
+  check(`${label}: one decorative functional SVG with canonical viewBox`, await mark.count() === 1
+    && await mark.getAttribute('viewBox') === '0 0 960 1040'
+    && await mark.getAttribute('aria-hidden') === 'true'
+    && await mark.getAttribute('focusable') === 'false');
+  check(`${label}: canonical asset supplies the alpha mask`, await mark.evaluate((svg, asset) => {
+    const masks = svg.querySelectorAll('mask'), images = svg.querySelectorAll('image'), rects = svg.querySelectorAll('rect');
+    const mask = masks[0], image = images[0], rect = rects[0];
+    return masks.length === 1 && images.length === 1 && rects.length === 1
+      && mask.id.startsWith('do-functional-') && mask.id.length > 'do-functional-'.length
+      && getComputedStyle(mask).maskType === 'alpha'
+      && mask.getAttribute('maskUnits') === 'userSpaceOnUse'
+      && image.getAttribute('href') === asset && image.getAttribute('width') === '960' && image.getAttribute('height') === '1040'
+      && rect.getAttribute('mask') === `url(#${mask.id})` && rect.getAttribute('fill') === 'currentColor';
+  }, functionalAsset));
+  const ids = await page.locator('mask[id^="do-functional-"]').evaluateAll(nodes => nodes.map(node => node.id));
+  check(`${label}: all functional mask IDs on the page are unique`, ids.length > 0 && ids.length === new Set(ids).size);
+  const assetURL = new URL(functionalAsset, page.url()).href;
+  if (!checkedAssets.has(assetURL)) {
+    const response = await page.request.get(assetURL);
+    check(`${label}: canonical SVG asset is served`, response.ok() && /image\/svg\+xml/.test(response.headers()['content-type'] || ''));
+    const source = await response.body();
+    check(`${label}: exact two-path D/counter/bead master`, require('node:crypto').createHash('sha256').update(source).digest('hex') === '5225a6b6452ac667e179abc732319f9127909d37a9ea967e6effa0a87bc02f0e'
+      && (source.toString().match(/<path\b/g) || []).length === 2 && source.toString().includes('viewBox="0 0 960 1040"'));
+    checkedAssets.add(assetURL);
+  }
+  const decoded = await mark.evaluate(async svg => {
+    const image = new Image();
+    image.src = new URL(svg.querySelector('image').getAttribute('href'), document.baseURI).href;
+    try { await image.decode(); } catch { return { loaded: false }; }
+    return { loaded: image.complete, width: image.naturalWidth, height: image.naturalHeight };
+  });
+  check(`${label}: browser decodes the canonical SVG at the master aspect`, decoded.loaded && decoded.width > 0 && decoded.height > 0
+    && Math.abs(decoded.width / decoded.height - 960 / 1040) < 0.005);
+  // Inspect actual browser paint, not a rasterisation of the master alone.
+  const screenshot = await mark.screenshot({ animations: 'disabled' });
+  const { data: pixels, info } = await require('sharp')(screenshot).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const scale = Math.min(info.width / 960, info.height / 1040);
+  const sample = (x, y) => {
+    const px = Math.min(info.width - 1, Math.max(0, Math.floor((info.width - 960 * scale) / 2 + x * scale)));
+    const py = Math.min(info.height - 1, Math.max(0, Math.floor((info.height - 1040 * scale) / 2 + y * scale)));
+    return [...pixels.subarray((py * info.width + px) * info.channels, (py * info.width + px) * info.channels + 3)];
+  };
+  const outside = sample(8, 8), counter = sample(400, 270), body = sample(128, 559), bead = sample(442, 559);
+  const distance = (a, b) => Math.max(...a.map((value, index) => Math.abs(value - b[index])));
+  check(`${label}: tight screenshot paints the D and bead with an open counter and background`, distance(body, bead) <= 18
+    && distance(outside, counter) <= 18 && distance(body, outside) >= 60 && distance(bead, counter) >= 60);
+  fs.writeFileSync(out + '/mark-' + label.replace(/[^a-z0-9]+/gi, '-') + '.png', screenshot);
+}
 (async () => {
   fs.mkdirSync(out, { recursive: true });
   const browser = await chromium.launch({ executablePath: process.env.ASSEMBL_CHROMIUM_PATH || '/usr/bin/chromium', headless: true, args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
@@ -37,11 +90,7 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
     check('approved assembled plum glass artwork is loaded as static art in reduced motion', await artwork.evaluate(el =>
       new URL(el.src).pathname === '/brand/do-assembled-plum.webp' && el.complete && el.naturalWidth > 0)
       && await personal.locator('[data-renderer="static-art"] canvas').count() === 0);
-    const mark = personal.getByRole('link', { name: 'DO by assembl, home', exact: true }).locator('[data-glass-identity="do"] img');
-    await mark.evaluate(el => el.decode());
-    check('personal DO loads the exact approved glass D artwork including its dot',
-      await mark.evaluate(el => new URL(el.src).pathname === '/brand/do-glass-D-transparent.png' && new URL(el.src).searchParams.get('v') === 'cutout1'
-        && el.complete && el.naturalWidth === 1254 && el.naturalHeight === 1254));
+    await verifyFunctionalMark(page, personal.getByRole('link', { name: 'DO by assembl, home', exact: true }), 'personal DO');
     check('canonical title has no duplicated product suffix', await page.title() === 'DO by assembl | Your personal agent for useful work');
     check('no duplicate floating app inside the app', await page.locator('[data-do-companion]').count() === 0);
     check('guest sees one composer', await page.locator('textarea:visible').count() === 1);
@@ -101,6 +150,34 @@ const check = (name, condition) => { assert.ok(condition, name); checks.push(nam
     const signIn = clean.getByRole('link', { name: 'Sign in', exact: true }).first();
     check('sign-in retains the selected portable tool', (await signIn.getAttribute('href')).includes('%3Ftool%3Dlook'));
     check('consumer menu does not expose seeded developer board', await clean.getByRole('link', { name: 'Saved tasks', exact: true }).count() === 0);
+    // Exercise the shared component on a real server route without hydration.
+    const noJS = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 375, height: 812 }, reducedMotion: 'reduce' });
+    const serverPage = await noJS.newPage();
+    serverPage.on('pageerror', error => errors.push(serverPage.url() + ': ' + error.message));
+    const installResponse = await serverPage.goto(origin + '/do/install', { waitUntil: 'networkidle' });
+    check('no-JS /do/install is a real server page', installResponse?.ok() && await serverPage.getByRole('heading', { name: 'Keep DO close.', exact: true }).isVisible());
+    const serverBrand = serverPage.getByRole('link', { name: 'DO by assembl, home', exact: true });
+    check('no-JS install header retains its DO destination', await serverBrand.getAttribute('href') === '/do');
+    await verifyFunctionalMark(serverPage, serverBrand, 'no-JS install header');
+    check('no-JS install fits the phone viewport', await serverPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    await serverPage.screenshot({ path: out + '/12-install-no-js-375.png' });
+    await noJS.close();
+    await clean.goto(origin + '/do/install', { waitUntil: 'networkidle' });
+    await verifyFunctionalMark(clean, clean.getByRole('link', { name: 'DO by assembl, home', exact: true }), 'hydrated install header');
+    for (const width of [1440, 375]) {
+      await clean.setViewportSize({ width, height: width === 375 ? 812 : 1000 });
+      await clean.goto(origin + '/contact', { waitUntil: 'networkidle' });
+      const trigger = clean.getByRole('button', { name: 'Ask DO', exact: true });
+      await trigger.click();
+      const panel = clean.getByRole('region', { name: 'DO drafting workspace', exact: true });
+      check(`hydrated contact widget opens at ${width}px`, await panel.isVisible());
+      await verifyFunctionalMark(clean, panel.getByRole('link', { name: 'DO by assembl, home', exact: true }), `contact widget ${width}px`);
+      check(`contact widget fits ${width}px`, await panel.evaluate(el => { const r = el.getBoundingClientRect(); return r.left >= 0 && r.right <= innerWidth; }));
+      await clean.screenshot({ path: out + `/13-contact-widget-${width}.png` });
+      await clean.keyboard.press('Escape');
+      check(`contact widget closes and returns focus at ${width}px`, await panel.count() === 0 && await trigger.evaluate(el => el === document.activeElement));
+    }
+    await clean.setViewportSize({ width: 1440, height: 1000 });
     await clean.goto(origin + '/do/install#chrome', { waitUntil: 'networkidle' });
     check('existing Chrome anchor opens secondary setup', await clean.locator('#chrome').isVisible());
     await clean.setViewportSize({ width: 375, height: 812 });
