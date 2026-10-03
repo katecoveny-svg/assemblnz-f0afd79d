@@ -1,21 +1,25 @@
-name: RSS adapter validation
-
+# Unmounted proposal. Preserves existing RSS Node/parser checks.
+name: Ingestion adapter validation
 on:
   pull_request:
     paths:
       - 'supabase/functions/adapter-rss/**'
+      - 'supabase/functions/adapter-jsonapi/**'
+      - 'supabase/functions/adapter-html/**'
       - 'supabase/functions/_shared/opportunity-envelope.ts'
       - '.github/workflows/rss-adapter-validation.yml'
-
+      - '.github/ingestion-validation-manifest.json'
 permissions:
   contents: read
-
 jobs:
   rss-adapter:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -30,3 +34,124 @@ jobs:
         run: npm install --prefix /tmp/beehive-parser-test --ignore-scripts --no-audit --no-fund rss-parser@3.13.0 tsx@4.22.0
       - name: Feed format and attribution regression tests
         run: NODE_PATH=/tmp/beehive-parser-test/node_modules node --import /tmp/beehive-parser-test/node_modules/tsx/dist/loader.mjs --test supabase/functions/adapter-rss/feed-response.test.ts
+  adapter-deno:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        adapter: [adapter-rss, adapter-jsonapi, adapter-html]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify and record exact reviewed checkout
+        env:
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+          ADAPTER: ${{ matrix.adapter }}
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const cp = require('node:child_process');
+          const path = require('node:path');
+          const crypto = require('node:crypto');
+          const git = (...args) => cp.execFileSync('git', args, {encoding: 'utf8'});
+          const changedPaths = (base, head) => git('diff', '--no-renames', '--name-only', '-z', base, head).split('\0').filter(Boolean);
+          const actual = git('rev-parse', 'HEAD').trim();
+          const expected = process.env.EXPECTED_HEAD;
+          const approvedManifestSha256 = '55943836eb707ef681852aaa7275f6977ffae2f12764aba65600eccdee07bf16';
+          const manifestPath = '.github/ingestion-validation-manifest.json';
+          const dir = path.join(process.env.RUNNER_TEMP, 'ingestion-evidence', process.env.ADAPTER);
+          fs.mkdirSync(dir, {recursive: true});
+          fs.writeFileSync(path.join(dir, 'checkout.json'), JSON.stringify({actual, expected, approvedManifestSha256}, null, 2));
+          if (!/^[0-9a-f]{40}$/.test(expected || '') || actual !== expected) throw new Error('Unexpected checkout HEAD');
+          const bytes = fs.readFileSync(manifestPath);
+          const sha256 = data => crypto.createHash('sha256').update(data).digest('hex');
+          if (sha256(bytes) !== approvedManifestSha256) throw new Error('Unapproved integrity manifest');
+          const manifest = JSON.parse(bytes);
+          if (!/^[0-9a-f]{40}$/.test(manifest.inherited_main_commit)) throw new Error('Invalid reviewed main base');
+          git('merge-base', '--is-ancestor', manifest.inherited_main_commit, actual);
+          const allowed = new Set(manifest.allowed_changed_paths);
+          const changed = changedPaths(manifest.inherited_main_commit, actual);
+          if (changed.some(file => !allowed.has(file))) throw new Error('Changed path outside approved candidate');
+          for (const [file, record] of Object.entries(manifest.files)) {
+            if (file.startsWith('/') || file.split('/').includes('..')) throw new Error('Invalid manifest path');
+            const content = fs.readFileSync(file);
+            if (content.length !== record.bytes || sha256(content) !== record.sha256) throw new Error('Frozen content mismatch: ' + file);
+            if (git('rev-parse', actual + ':' + file).trim() !== record.git_blob) throw new Error('Frozen Git blob mismatch: ' + file);
+            if (!git('ls-tree', actual, '--', file).startsWith('100644 blob ' + record.git_blob + '\t')) throw new Error('Frozen file mode mismatch: ' + file);
+          }
+          for (const root of manifest.adapter_roots) {
+            const tracked = git('ls-tree', '-r', '--name-only', '-z', actual, '--', root).split('\0').filter(Boolean);
+            if (tracked.some(file => !Object.hasOwn(manifest.files, file))) throw new Error('Unapproved adapter file');
+          }
+          fs.writeFileSync(path.join(dir, 'integrity-manifest.json'), bytes);
+          fs.writeFileSync(path.join(dir, 'integrity-result.json'), JSON.stringify({head: actual, inheritedMain: manifest.inherited_main_commit, manifestSha256: approvedManifestSha256, checkedFiles: Object.keys(manifest.files).length, changedPaths: changed}, null, 2));
+          console.log('Verified exact frozen candidate content and current-main inheritance');
+          NODE
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.9.6
+      - name: Type-check production entrypoint with actual dependencies
+        run: deno check --no-config --node-modules-dir=none --lock="$RUNNER_TEMP/ingestion-deno.lock" supabase/functions/${{ matrix.adapter }}/index.ts
+      - name: Type-check and cache fixture dependency graph
+        run: >-
+          deno check --no-config --node-modules-dir=none --lock="$RUNNER_TEMP/ingestion-deno.lock"
+          --import-map=supabase/functions/${{ matrix.adapter }}/tests/import-map.json
+          supabase/functions/${{ matrix.adapter }}/tests/handler.test.ts
+          supabase/functions/${{ matrix.adapter }}/tests/durability-handler.test.ts
+          supabase/functions/${{ matrix.adapter }}/tests/pinned-client.test.ts
+      - name: Fail closed on pinned SDK and PostgREST lock resolution
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+          const path = require('node:path');
+          const lock = JSON.parse(fs.readFileSync(path.join(process.env.RUNNER_TEMP, 'ingestion-deno.lock'), 'utf8'));
+          if (!lock.npm || typeof lock.npm !== 'object') throw new Error('Missing npm lock records');
+          const keys = Object.keys(lock.npm);
+          for (const [name, version] of [['@supabase/supabase-js', '2.45.0'], ['@supabase/postgrest-js', '1.15.8']]) {
+            const matches = keys.filter(key => key.startsWith(name + '@'));
+            if (matches.length !== 1 || matches[0] !== name + '@' + version) throw new Error('Unexpected locked version: ' + name);
+          }
+          const deps = lock.npm['@supabase/supabase-js@2.45.0'].dependencies;
+          const expected = '@supabase/postgrest-js';
+          const linked = Array.isArray(deps)
+            ? deps.includes(expected) || deps.includes(expected + '@1.15.8')
+            : deps && typeof deps === 'object' && [expected, expected + '@1.15.8', '1.15.8'].includes(deps[expected]);
+          if (!linked) throw new Error('Unverified SDK-to-PostgREST dependency link');
+          console.log('Verified supabase-js 2.45.0 / postgrest-js 1.15.8');
+          NODE
+      - name: Execute real handler fixtures without runtime network or environment access
+        run: >-
+          deno test --no-config --node-modules-dir=none --lock="$RUNNER_TEMP/ingestion-deno.lock" --cached-only --frozen --no-prompt
+          --deny-net --deny-env
+          --import-map=supabase/functions/${{ matrix.adapter }}/tests/import-map.json
+          supabase/functions/${{ matrix.adapter }}/tests/handler.test.ts
+          supabase/functions/${{ matrix.adapter }}/tests/durability-handler.test.ts
+          supabase/functions/${{ matrix.adapter }}/tests/pinned-client.test.ts
+      - name: Retain per-adapter dependency evidence even after a failed check
+        if: always()
+        env:
+          ADAPTER: ${{ matrix.adapter }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/ingestion-evidence/$ADAPTER"
+          if test -f "$RUNNER_TEMP/ingestion-deno.lock"; then
+            cp "$RUNNER_TEMP/ingestion-deno.lock" "$RUNNER_TEMP/ingestion-evidence/$ADAPTER/deno.lock"
+            sha256sum "$RUNNER_TEMP/ingestion-evidence/$ADAPTER/deno.lock" > "$RUNNER_TEMP/ingestion-evidence/$ADAPTER/lock.sha256"
+          else
+            echo 'No lock generated; validation did not pass.' > "$RUNNER_TEMP/ingestion-evidence/$ADAPTER/LOCK_MISSING.txt"
+            exit 1
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ingestion-validation-${{ matrix.adapter }}-${{ github.event.pull_request.head.sha }}
+          path: ${{ runner.temp }}/ingestion-evidence/${{ matrix.adapter }}/
+          if-no-files-found: error
+          retention-days: 14
+
