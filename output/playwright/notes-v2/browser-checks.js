@@ -79,6 +79,8 @@ async page => {
   await page.getByText('Build or customise a DO', { exact: true }).click();
   await page.getByRole('button', { name: 'Open the builder', exact: true }).click();
   const builder = page.getByRole('region', { name: 'DO builder workspace', exact: true });
+  ensure(await page.evaluate(() => getComputedStyle(document.querySelector('.dob')).display === 'flex' && getComputedStyle(document.querySelector('.docanvas')).backgroundColor === 'rgb(36, 11, 33)'), 'Builder global CSS was not applied');
+  ensure(await builder.evaluate(element => getComputedStyle(element).padding === '15px'), 'Builder module CSS was not applied');
   await builder.getByText('Show DO', { exact: false }).first().click();
   await upload();
   await notes().getByRole('textbox', { name: /Page 1 text/ }).fill('Builder private synthetic correction.');
@@ -100,6 +102,7 @@ async page => {
   ensure(await notes().getByRole('textbox', { name: /Page 1 text/ }).inputValue() === '', 'Builder applied late response');
   ensure(!await notes().getByRole('checkbox', { name: /Send only page 1 / }).isChecked(), 'Builder retained consent');
   await notes().getByRole('textbox', { name: /Page 1 text/ }).fill('Retained builder synthetic note.');
+  await page.waitForFunction(() => getComputedStyle(document.querySelector('[aria-label="DO builder workspace"]')).opacity === '1');
   ensure(!await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), 'Builder 375px overflow');
   await page.screenshot({ path: out + 'builder-retained-mobile.png', fullPage: true });
   await page.getByRole('button', { name: 'Change synthetic owner' }).click();
