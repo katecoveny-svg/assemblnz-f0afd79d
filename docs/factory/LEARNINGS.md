@@ -72,3 +72,11 @@ A formatting-only model pass can introduce URL drift even when instructed to cop
 ### 2026-09-30 — A bounded shortlist can safely omit ungrounded candidates
 
 Pursuit's schema allows zero accounts. Validate the seller and draft evidence first; omit unsupported, duplicate or seller-as-prospect candidates with explicit gaps, then revalidate every retained account and the complete set. Never substitute guessed company URLs or let formatting reassign source URLs between accounts. Zero results must say no verified shortlist and expose no outreach export. Keep shape/length, seller, draft-evidence and formatter-drift failures fatal. Regression proof belongs in the research/repair tests and zero-result browser path; live model quality still requires an authorised capped smoke test.
+
+## 3 October 2026 — DO handwritten-photo intake (local review)
+
+A multi-select input does not make a single-image vision API a multi-page document flow. Keep ordered local images and editable per-page transcription; charge each explicitly consented page through the existing budget boundary, clear restored provider/review approval, and escape user-reviewed document exports. Separate automatic-save status from transcription error status so successful background saving cannot hide a failed provider call. Local proof: `docs/reviews/2026-10-03-do-photo-notes/REVIEW.md`; synthetic mobile harness only, no paid-call or deployment proof.
+
+### Photo-notes correction after independent review
+
+The initial candidate was rejected for an empty imported page ID colliding with both cleared consent and idle busy state, origin-wide autosave overwriting an empty draft, and conditional tool unmount losing corrected notes. The corrected candidate uses canonical UUID IDs, nullable consent, a synchronous discriminated dispatch lock, mounted/hidden capture state, explicit downloaded backup/import and no browser persistence. Provider finish metadata must survive routing; raw incomplete can normalize to stop, and successful HTTP is not completeness proof. Transcription-only no-fallback/maxRetries0 prevents unconsented retry churn; cleanup may be unconfirmed. See `docs/reviews/2026-10-03-do-photo-notes-v1/REVIEW.md` for local synthetic proof and remaining live gates.

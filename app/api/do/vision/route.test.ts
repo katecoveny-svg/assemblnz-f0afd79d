@@ -59,6 +59,39 @@ beforeEach(() => {
   });
 });
 describe("DO visual context boundary", () => {
+  it("retains partial transcription with explicit status and exactly one unchanged task reservation", async () => {
+    calls.generate.mockResolvedValueOnce({ ok: true, text: "Synthetic partial", rung: { id: "synthetic" }, completion: { finishReason: "length", rawFinishReason: "max_output_tokens", providerStatus: "incomplete", incompleteReason: null } });
+    const response = await POST(make({ ...input, purpose: "transcription" }));
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({ text: "Synthetic partial", completion: { status: "incomplete" } });
+    expect(calls.reserve).toHaveBeenCalledOnce(); expect(calls.release).not.toHaveBeenCalled();
+  });
+  it("marks the existing local character cap incomplete even when the provider ended normally", async () => {
+    calls.generate.mockResolvedValueOnce({ ok: true, text: "A".repeat(12001), rung: { id: "synthetic" }, completion: { finishReason: "stop", rawFinishReason: "end_turn", providerStatus: null, incompleteReason: null } });
+    const body = await (await POST(make({ ...input, purpose: "transcription" }))).json();
+    expect(body.text).toHaveLength(12000);
+    expect(body.completion).toMatchObject({ status: "incomplete", incompleteReason: "local_output_limit" });
+  });
+  it("marks missing completion metadata unverified", async () => {
+    const body = await (await POST(make({ ...input, purpose: "transcription" }))).json();
+    expect(body.completion.status).toBe("unverified");
+  });
+  it("does not claim release when reservation deletion rejects", async () => {
+    calls.generate.mockRejectedValueOnce(new Error("synthetic provider failure"));
+    calls.release.mockRejectedValueOnce(new Error("synthetic deletion failure"));
+    const failed = await POST(make({ ...input, purpose: "transcription" }));
+    expect(failed.status).toBe(503);
+    const body = await failed.json(); expect(body.message).toContain("could not be confirmed");
+    expect(body.message).not.toContain("allowance was released");
+  });
+  it("transcribes only the approved page with the unchanged budget and provider gates", async () => {
+    expect((await POST(make({ ...input, purpose: "transcription" }))).status).toBe(200);
+    expect(calls.generate.mock.calls[0][0].system).toContain("Mark unreadable words [unclear]");
+    expect(calls.generate.mock.calls[0][0].maxOutputTokens).toBe(1200);
+    expect(calls.generate.mock.calls[0][0].fallback).toBe("none");
+    expect(calls.reserve).toHaveBeenCalledTimes(1);
+    expect((await POST(make({ ...input, purpose: "transcription", images: [input] }))).status).toBe(400);
+  });
   it("requires same-origin consent and valid image bytes before any provider or quota call", async () => {
     expect((await POST(make(input, "https://foreign.example"))).status).toBe(
       403,

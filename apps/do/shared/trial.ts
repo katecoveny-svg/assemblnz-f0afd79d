@@ -55,7 +55,8 @@ export async function reserveDoTrial(ip: string, _opts: ReserveDoTrialOptions = 
       if (!error) {
         return {
           release: async () => {
-            await db.from('agent_chat_sessions').delete().eq('id', id).eq('anon_id', anonId);
+            const { error } = await db.from('agent_chat_sessions').delete().eq('id', id).eq('anon_id', anonId);
+            if (error) throw new DoTrialError('trial_unavailable');
           },
           bypassed: false as const,
         };

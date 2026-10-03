@@ -235,14 +235,14 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
           {category === 'auto' && inferred && <p className={styles.hint}>Suggested: {lifeAdminTemplate(inferred).name}. Change it above if another checklist fits better.</p>}
           <details className={styles.sourceLink}><summary>Add the original source link</summary><label>Link for your reference<input type="url" value={sourceUrl} maxLength={2000} placeholder="https://…" onChange={(event) => setSourceUrl(event.target.value)} /></label><small>Linked pages are not fetched. Queries and sign-in tokens are removed from stored links.</small></details>
           </div>}
-          <div className={entry.intakeActions}><details className={entry.addContext}><summary><Plus size={17} /> Add context</summary><div className={entry.captureModes}>{onTalk && <button type="button" onClick={onTalk}><DoActionIcon kind="voice" /><span>Talk</span></button>}<button type="button" aria-pressed={captureMode === 'photo'} onClick={() => setCaptureMode(captureMode === 'photo' ? 'type' : 'photo')}><DoActionIcon kind="photo" /><span>Photo</span></button><button type="button" onClick={() => { setCaptureMode('forward'); sourceRef.current?.focus(); }}><DoActionIcon kind="note" /><span>Paste a notice</span></button></div></details><button className={entry.primary} type="submit" disabled={source.trim().length < 5 || !chosen}>Start <DoActionIcon kind="arrow" /></button></div>
+          <div className={entry.intakeActions}><details className={entry.addContext}><summary><Plus size={17} /> Add context</summary><div className={entry.captureModes}>{onTalk && <button type="button" onClick={() => { setCaptureMode('type'); onTalk?.(); }}><DoActionIcon kind="voice" /><span>Talk</span></button>}<button type="button" aria-pressed={captureMode === 'photo'} onClick={() => setCaptureMode(captureMode === 'photo' ? 'type' : 'photo')}><DoActionIcon kind="photo" /><span>Photo</span></button><button type="button" onClick={() => { setCaptureMode('forward'); sourceRef.current?.focus(); }}><DoActionIcon kind="note" /><span>Paste a notice</span></button></div></details><button className={entry.primary} type="submit" disabled={source.trim().length < 5 || !chosen}>Start <DoActionIcon kind="arrow" /></button></div>
           <p className={entry.privacy}>Checklist stays on this device. Leave out passwords and payment details.</p>
         </form>
-        {captureMode === 'photo' && <div className={styles.vision}><p className={styles.hint}>For screenshots, review what is visible first. Optional image processing sends the approved image to assembl’s configured OpenAI, Anthropic or Google vision provider.</p><DoVision onUse={(text) => {
+        <div hidden={captureMode !== 'photo'} className={styles.vision}><p className={styles.hint}>For screenshots, review what is visible first. Optional image processing sends the approved image to assembl’s configured OpenAI, Anthropic or Google vision provider.</p><DoVision active={captureMode === 'photo' && (!assistant || localOpen)} onUse={(text) => {
           const combined = source.trim() ? `${source.trim()}\n\n${text}` : text;
           if (combined.length > LIFE_ADMIN_SOURCE_LIMIT) { setNotice('That would exceed 12,000 characters. Shorten the current note before adding the observation.'); return false; }
           setSource(combined); setMethod('reviewed-observation'); setNotice('Reviewed image notes added. Check them here before making a checklist.'); return true;
-        }} /></div>}
+        }} /></div>
       </div>
   );
   return (
@@ -270,7 +270,7 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
       <div hidden={Boolean(assistant) && localOpen}>{assistant}</div>
       <div id="personal-local-checklist" hidden={Boolean(assistant) && !localOpen}>{localComposer}</div>
       {assistant && <div className={entry.mainModes} aria-label="More ways to start">
-        {onTalk && <button type="button" onClick={onTalk} aria-label="Talk it through"><span className={entry.voiceObject} aria-hidden="true"><DoActionIcon kind="voice" /></span><span><strong>Talk</strong><small>Open voice options</small></span></button>}
+        {onTalk && <button type="button" onClick={() => { setCaptureMode('type'); onTalk?.(); }} aria-label="Talk it through"><span className={entry.voiceObject} aria-hidden="true"><DoActionIcon kind="voice" /></span><span><strong>Talk</strong><small>Open voice options</small></span></button>}
         <button type="button" onClick={() => { setLocalOpen(true); setCaptureMode('photo'); }}><span className={entry.photoObject} aria-hidden="true"><DoActionIcon kind="photo" /></span><span><strong>Photo</strong><small>Review an image</small></span></button>
         <button type="button" onClick={() => { setLocalOpen(true); setCaptureMode('forward'); requestAnimationFrame(() => sourceRef.current?.focus()); }}><span className={entry.noteObject} aria-hidden="true"><DoActionIcon kind="note" /></span><span><strong>Paste a notice</strong><small>Make a checklist</small></span></button>
       </div>}
