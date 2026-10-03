@@ -9,6 +9,12 @@ DOCKER='/usr/bin/docker'
 ENDPOINT='unix:///var/run/docker.sock'
 DATABASE='assembl_ingestion_fixture'
 SOCKET='/var/run/postgresql'
+PSQL='/usr/lib/postgresql/17/bin/psql'
+PGREADY='/usr/lib/postgresql/17/bin/pg_isready'
+POSTGRES='/usr/lib/postgresql/17/bin/postgres'
+IMAGE_ID='sha256:248efd5e58cd743f2a0e0daec8ea4649e5580145ec2a12e2345bc710d4a77201'
+PACKAGED_VERSION='17.11-1.pgdg12+2'
+IMAGE_FILES={'/usr/lib/postgresql/17/bin/psql': '92479a999b7227713c648475b20b2b870cc7b06ccd4fde429fc696045dd4f146', '/usr/lib/postgresql/17/bin/pg_isready': '10557978eac2173ef7ea9bed2e34fa44ecd30a9f9d4a3eca8c7b782a7eced107', '/usr/lib/postgresql/17/bin/postgres': 'f7d05a9a444dc63d93f6b6e329d31eaebae809e85c8479b5072d8aff595303ed', '/usr/local/bin/docker-entrypoint.sh': '9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5'}
 ROOT=pathlib.Path(__file__).resolve().parent
 SQL=ROOT/'atomic-ingestion-finalization.sql'
 
@@ -44,6 +50,34 @@ def verify_inspection(meta,cid,nonce,image_id):
     require(all(m.get('Type')=='tmpfs' and m.get('Destination') in ('/var/lib/postgresql/data',SOCKET) for m in meta.get('Mounts',[])),'unexpected mounts')
     tmpfs=meta.get('HostConfig',{}).get('Tmpfs',{})
     require(set(tmpfs)=={'/var/lib/postgresql/data',SOCKET},'fresh tmpfs required')
+
+def safe_psql_output(value):
+    # No separate SQL-input field or argv/env dump. stderr MAY contain SQL context.
+    # Only fixed owned-fixture output; redact credential patterns, never arbitrary secrets.
+    if value is None:value=''
+    if isinstance(value,bytes):value=value.decode('utf-8',errors='replace')
+    require(isinstance(value,str),'unexpected diagnostic output type')
+    value=re.sub(r'(?i)postgres(?:ql)?://[^\s]+','[REDACTED_CONNECTION_URI]',value)
+    value=re.sub(r'(?i)\b(?:PGPASSWORD|password|passfile|token|secret)\s*[:=]\s*(?:"[^"\n]*"|\'[^\'\n]*\'|[^\s]+)', '[REDACTED_CREDENTIAL]',value)
+    # Bounded evidence, JSON escaped on write; no terminal interpolation.
+    encoded=value.encode('utf-8');return encoded[:16384].decode('utf-8',errors='ignore'),len(encoded)>16384
+
+def retain_psql_result(directory,owner,sequence,sql,stdout,stderr,returncode,timed_out=False,phase="psql_command"):
+    # Internal helper, no CLI directory/connection arguments. Require recorded run ownership.
+    require(phase in ('psql_command','image_command'),'invalid diagnostic phase')
+    stored=json.loads((directory/'owner.json').read_text())
+    for key in ('nonce','run_id','attempt','container_id'):
+        require(stored.get(key)==owner.get(key) and owner.get(key) is not None,'diagnostic ownership mismatch')
+    require(type(sequence) is int and sequence>0,'invalid diagnostic sequence')
+    require(returncode is None if timed_out else type(returncode) is int,'invalid diagnostic status')
+    clean_out,out_truncated=safe_psql_output(stdout);clean_err,err_truncated=safe_psql_output(stderr)
+    evidence={'phase':phase,'run_id':owner['run_id'],'attempt':owner['attempt'],
+        'sequence':sequence,('sql_sha256' if phase=='psql_command' else 'command_sha256'):hashlib.sha256(sql.encode()).hexdigest(),
+        'returncode':returncode,'timed_out':timed_out,'stdout':clean_out,'stderr':clean_err,
+        'stdout_truncated':out_truncated,'stderr_truncated':err_truncated}
+    path=directory/(phase.replace('_','-')+'-'+str(sequence).zfill(4)+'.json')
+    with path.open('x') as f:json.dump(evidence,f,indent=2);f.write('\n')
+    return path
 
 class Failure(RuntimeError):
     def __init__(self,code,message): self.code=code;self.message=message;super().__init__(code+': '+message)
@@ -98,10 +132,10 @@ class Session:
 
 class OwnedFixture:
     def __init__(self):
-        self.nonce=uuid.uuid4().hex;self.cid=None;self.sessions=[];self.identity=None;self.closed=False
+        self.nonce=uuid.uuid4().hex;self.cid=None;self.sessions=[];self.identity=None;self.closed=False;self.psql_sequence=0;self.image_sequence=0
         self.home=tempfile.TemporaryDirectory(prefix='atomic-proof-config-');self.env=clean_environment(self.home.name)
         self.docker_base=[DOCKER,'--host',ENDPOINT,'--config',self.home.name]
-        self.image_id=None
+        self.image_id=None;self.startup_deadline=None
         require(os.environ.get('GITHUB_ACTIONS')=='true','owned proof requires separately approved ephemeral CI runner')
         self.run_id=os.environ.get('GITHUB_RUN_ID','');self.attempt=os.environ.get('GITHUB_RUN_ATTEMPT','')
         require(re.fullmatch('[0-9]+',self.run_id) and re.fullmatch('[0-9]+',self.attempt),'invalid CI run identity')
@@ -112,8 +146,14 @@ class OwnedFixture:
         require(not self.record.exists(),'proof ownership record already exists; do not adopt/reuse')
         self.evidence={'image_reference':IMAGE,'sql_sha256':digest(SQL),'harness_sha256':digest(__file__),'transport':'owned network-none container, fixed Unix socket, env allowlist','python_version':sys.version,'python_executable_sha256':digest(sys.executable)}
         atexit.register(self.close)
+    def remaining_timeout(self,maximum):
+        deadline=getattr(self,'startup_deadline',None)
+        if deadline is None:return maximum
+        remaining=deadline-time.monotonic()
+        require(remaining>0,'owned fixture final-startup timeout')
+        return min(maximum,remaining)
     def docker(self,args,check=True):
-        result=subprocess.run(self.docker_base+args,env=self.env,text=True,capture_output=True,timeout=10)
+        result=subprocess.run(self.docker_base+args,env=self.env,text=True,capture_output=True,timeout=self.remaining_timeout(10))
         if check:require(result.returncode==0,'docker operation failed: '+result.stderr)
         return result
     def save_record(self,name):
@@ -123,6 +163,8 @@ class OwnedFixture:
         # Future runner must pre-provision the reviewed image. No pull/install fallback.
         image=json.loads(self.docker(['image','inspect',IMAGE]).stdout)[0]
         self.image_id=image['Id'];require(IMAGE.split('@')[1] in [d.split('@')[-1] for d in image.get('RepoDigests',[])],'image digest mismatch')
+        require(image['Id']==IMAGE_ID and image.get('Architecture')=='amd64' and image.get('Os')=='linux','reviewed image platform/config mismatch')
+        require(image.get('Config',{}).get('Entrypoint')==['docker-entrypoint.sh'] and image['Config'].get('Cmd')==['postgres'],'image startup contract mismatch')
         name='assembl-atomic-'+self.nonce;self.save_record(name)
         r=self.docker(['create','--pull=never','--name',name,'--network','none','--label','assembl.atomic.nonce='+self.nonce,'--label','assembl.atomic.run='+self.run_id,'--label','assembl.atomic.attempt='+self.attempt,
         '--tmpfs','/var/lib/postgresql/data:rw,size=128m','--tmpfs',SOCKET+':rw,size=8m',
@@ -130,21 +172,78 @@ class OwnedFixture:
         'postgres','-c',"listen_addresses=",'-c','unix_socket_directories='+SOCKET])
         self.cid=r.stdout.strip();require(re.fullmatch('[0-9a-f]{64}',self.cid),'invalid created container ID')
         self.save_record(name);self.verify();self.docker(['start',self.cid])
-        deadline=time.monotonic()+30
-        while time.monotonic()<deadline:
-            ready=self.docker(['exec',self.cid,'env','-i','PATH=/usr/local/bin:/usr/bin:/bin','pg_isready','-h',SOCKET,'-p','5432','-U','postgres','-d',DATABASE],check=False)
-            if ready.returncode==0:break
-            time.sleep(.1)
-        else:raise RuntimeError('owned fixture readiness timeout')
+        self.startup_deadline=time.monotonic()+30
+        self.image_preflight();self.wait_final_server()
         # Identity comes from newly CREATED exact container, not arbitrary DB metadata.
         self.identity=json.loads(self.raw(self.identity_sql()))
         require(self.identity['database']==DATABASE and self.identity['user']=='postgres' and self.identity['address'] is None,'wrong database/socket identity')
         require(self.identity['data_directory']=='/var/lib/postgresql/data','data directory mismatch')
         require(self.identity['version']=='170011','server version mismatch')
+        require(self.pid1_executable()==POSTGRES,'final server changed during identity query')
+        self.startup_deadline=None
         self.evidence.update({'container_id':self.cid,'image_id':self.image_id,'isolation':self.verify(),'server_identity':self.identity})
         self.raw("CREATE SCHEMA fixture_identity; CREATE TABLE fixture_identity.marker(nonce text PRIMARY KEY); INSERT INTO fixture_identity.marker VALUES("+lit(self.nonce)+")")
-        self.evidence['psql_driver']=self.docker(['exec',self.cid,'env','-i','PATH=/usr/local/bin:/usr/bin:/bin','psql','--version']).stdout.strip()
-        self.evidence['psql_driver_sha256']=self.docker(['exec',self.cid,'env','-i','PATH=/usr/local/bin:/usr/bin:/bin','sha256sum','/usr/local/bin/psql']).stdout.strip().split()[0]
+    def image_command(self,args,check=True):
+        # Fixed executable/arguments supplied only by internal pinned-contract methods.
+        self.verify()
+        owner={'nonce':self.nonce,'run_id':self.run_id,'attempt':self.attempt,'container_id':self.cid}
+        self.image_sequence+=1
+        # Command bytes are hashed, not dumped; every owned preflight result is retained.
+        command=json.dumps(args,separators=(',',':'))
+        try:
+            result=self.docker(['exec','--user','postgres',self.cid,'/usr/bin/env','-i','PATH=/usr/bin:/bin','HOME=/tmp']+args,check=False)
+        except subprocess.TimeoutExpired as exc:
+            retain_psql_result(self.record_dir,owner,self.image_sequence,command,exc.stdout,exc.stderr,None,timed_out=True,phase='image_command')
+            raise
+        retain_psql_result(self.record_dir,owner,self.image_sequence,command,result.stdout,result.stderr,result.returncode,phase='image_command')
+        if check:require(result.returncode==0,'image command failed: '+safe_psql_output(result.stderr)[0])
+        return result
+    def image_preflight(self):
+        resolved=self.image_command(['/usr/bin/readlink','-e',PSQL]).stdout.strip()
+        require(resolved==PSQL,'psql is not the reviewed packaged executable')
+        sums=self.image_command(['/usr/bin/sha256sum']+list(IMAGE_FILES)).stdout.splitlines()
+        actual={}
+        for line in sums:
+            match=re.fullmatch(r'([0-9a-f]{64})  (/[^\n]+)',line)
+            require(match is not None,'malformed image file checksum')
+            require(match.group(2) not in actual,'duplicate image file checksum')
+            actual[match.group(2)]=match.group(1)
+        require(actual==IMAGE_FILES,'pinned image executable/source mismatch')
+        package=self.image_command(['/usr/bin/dpkg-query','-W','-f=${Version}\n','postgresql-client-17']).stdout.strip()
+        require(package==PACKAGED_VERSION,'unexpected packaged psql version')
+        ownership=self.image_command(['/usr/bin/dpkg-query','-S',PSQL]).stdout.strip()
+        require(ownership in ('postgresql-client-17: '+PSQL,'postgresql-client-17:amd64: '+PSQL),'psql package ownership mismatch')
+        version=self.image_command([PSQL,'--version']).stdout.strip()
+        require(version=='psql (PostgreSQL) 17.11 (Debian '+PACKAGED_VERSION+')','psql version identity mismatch')
+        self.evidence.update({'psql_driver':version,'psql_driver_path':resolved,'psql_driver_sha256':actual[PSQL],
+            'packaged_client_version':package,'image_file_sha256':actual})
+        (self.record_dir/'image-preflight.json').write_text(json.dumps({'psql_path':resolved,'package_version':package,'file_sha256':actual},indent=2)+'\n')
+    def pid1_executable(self):
+        return self.image_command(['/usr/bin/readlink','-e','/proc/1/exe']).stdout.strip()
+    def wait_final_server(self):
+        # Pinned entrypoint stops its temporary child server before exec postgres as PID1.
+        # Thus even a successful query against the temporary server is never accepted.
+        observations=[]
+        try:
+            while True:
+                self.remaining_timeout(10)
+                command=self.image_command(['/usr/bin/cat','/proc/1/comm']).stdout.strip()
+                require(command in ('docker-entrypoi','env','bash','gosu','postgres'),'unexpected startup PID1 command')
+                observation={'pid1_command':command};observations.append(observation)
+                if command=='postgres':
+                    # Same postgres UID for proc executable inspection; no extra capability.
+                    executable=self.pid1_executable();observation['pid1_executable']=executable
+                    require(executable==POSTGRES,'unexpected final PID1 executable')
+                    ready=self.image_command([PGREADY,'-h',SOCKET,'-p','5432','-U','postgres','-d',DATABASE],check=False)
+                    observation['pg_isready_returncode']=ready.returncode
+                    require(ready.returncode in (0,1,2),'unexpected final-server readiness failure')
+                    if ready.returncode==0:
+                        require(self.pid1_executable()==POSTGRES,'final server changed during readiness')
+                        return
+                time.sleep(min(.1,self.remaining_timeout(.1)))
+        finally:
+            # Only allowlisted process paths/statuses; no environment or init log dump.
+            (self.record_dir/'final-startup.json').write_text(json.dumps({'observations':observations},indent=2)+'\n')
     def verify(self):
         require(self.cid is not None,'no task-owned instance')
         meta=json.loads(self.docker(['inspect',self.cid]).stdout)[0]
@@ -154,10 +253,20 @@ class OwnedFixture:
     def psql_args(self,name):
         require(re.fullmatch('atomic-[a-z0-9-]+',name) is not None,'invalid application name')
         # No URI, external args, inherited PG*, shell, service or hostaddr.
-        return self.docker_base+['exec','-i',self.cid,'env','-i','PATH=/usr/local/bin:/usr/bin:/bin','HOME=/tmp','PGAPPNAME='+name,
-        'PGOPTIONS=-c statement_timeout=5000 -c lock_timeout=3000','psql','-X','-qAt','-v','ON_ERROR_STOP=1','-v','VERBOSITY=verbose','-h',SOCKET,'-p','5432','-U','postgres','-d',DATABASE]
+        return self.docker_base+['exec','--user','postgres','-i',self.cid,'/usr/bin/env','-i','PATH=/usr/bin:/bin','HOME=/tmp','PGAPPNAME='+name,
+        'PGOPTIONS=-c statement_timeout=5000 -c lock_timeout=3000',PSQL,'-X','-qAt','-v','ON_ERROR_STOP=1','-v','VERBOSITY=verbose','-h',SOCKET,'-p','5432','-U','postgres','-d',DATABASE]
+    def record_psql(self,sql,stdout,stderr,returncode,timed_out=False):
+        self.psql_sequence+=1
+        return retain_psql_result(self.record_dir,{'nonce':self.nonce,'run_id':self.run_id,'attempt':self.attempt,'container_id':self.cid},self.psql_sequence,sql,stdout,stderr,returncode,timed_out)
     def raw(self,sql):
-        self.verify();r=subprocess.run(self.psql_args('atomic-query'),env=self.env,input=sql+';\n',text=True,capture_output=True,timeout=8)
+        self.verify()
+        try:
+            r=subprocess.run(self.psql_args('atomic-query'),env=self.env,input=sql+';\n',text=True,capture_output=True,timeout=self.remaining_timeout(8))
+        except subprocess.TimeoutExpired as exc:
+            self.record_psql(sql,exc.stdout,exc.stderr,None,timed_out=True)
+            raise
+        # Capture first identity query and every failed command BEFORE classification.
+        if self.identity is None or r.returncode:self.record_psql(sql,r.stdout,r.stderr,r.returncode)
         if r.returncode:raise parse_failure(r.stderr)
         return r.stdout.strip()
     def identity_sql(self):
@@ -172,7 +281,7 @@ class OwnedFixture:
         return self.raw(sql)
     def close(self):
         if self.closed:return
-        self.closed=True
+        self.closed=True;self.startup_deadline=None
         errors=[]
         for s in self.sessions:
             try:s.close()

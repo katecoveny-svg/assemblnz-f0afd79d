@@ -7,9 +7,9 @@
   "inherited_main_commit": "36cf989b3e54304bb40dd117b4ee38d3ae28813d",
   "files": {
     ".github/workflows/atomic-ingestion-sql-validation.yml": {
-      "sha256": "11f22bbf9c85b4b52e4728178404a90a9929d1e277a6743702a29938a19dcc82",
-      "git_blob": "096d5d53fc562381d3dbd53968c971ef45c75b66",
-      "bytes": 10840
+      "sha256": "57a85da8bf51286d45983b596da47a94166471980f37b3cea1588d9e45291fe3",
+      "git_blob": "ced0914d3a97a6d79082daf93180be7010170c74",
+      "bytes": 11273
     },
     "docs/integrations/ingestion-audit-20261003.md": {
       "sha256": "a2980f1099d8a5041c357d5f37e25eaa2bd51fecd8b50ef7cdbe20aa63855334",
@@ -42,9 +42,14 @@
       "bytes": 10972
     },
     "docs/integrations/proposals/atomic-postgres-harness.py": {
-      "sha256": "198562c15305489e46ad42c78b9ec34324ef1837634c147d086e76d0b7743851",
-      "git_blob": "0612c5e91db3692597b92fc3b22c50cdeddafd52",
-      "bytes": 34135
+      "sha256": "2094b2230c63e286a098cff155b6f4532813137fc78891250474d22682abf11c",
+      "git_blob": "968b0321763ac01e5e341d3ac949f9de78675711",
+      "bytes": 42431
+    },
+    "docs/integrations/proposals/atomic-postgres-preflight.test.py": {
+      "sha256": "fc9f89eabdbdd3953db59a7c262421709f29d4fa56f0173651c0606daf65554f",
+      "git_blob": "9d68a7a0ca359984ec6e9a2512e2a3af8d3473aa",
+      "bytes": 14845
     },
     "supabase/functions/_shared/opportunity-envelope.ts": {
       "sha256": "bf404578afa41f9d258ea8a9040c22e1d13315c1ec233b6ed34e4e004b3549a4",
@@ -248,6 +253,7 @@
     "docs/integrations/proposals/atomic-ingestion-finalization.md",
     "docs/integrations/proposals/atomic-ingestion-finalization.sql",
     "docs/integrations/proposals/atomic-postgres-harness.py",
+    "docs/integrations/proposals/atomic-postgres-preflight.test.py",
     "supabase/functions/adapter-html/challenge.test.ts",
     "supabase/functions/adapter-html/challenge.ts",
     "supabase/functions/adapter-html/durability.ts",

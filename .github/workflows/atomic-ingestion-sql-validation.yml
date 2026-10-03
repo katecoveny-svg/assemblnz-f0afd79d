@@ -11,6 +11,7 @@ on:
       - 'docs/integrations/proposals/atomic-ingestion-finalization-tests.sql'
       - 'docs/integrations/proposals/atomic-contract-model.test.mjs'
       - 'docs/integrations/proposals/atomic-postgres-harness.py'
+      - 'docs/integrations/proposals/atomic-postgres-preflight.test.py'
 permissions:
   contents: read
 concurrency:
@@ -48,10 +49,11 @@ jobs:
             /docs/integrations/proposals/atomic-ingestion-finalization-tests.sql
             /docs/integrations/proposals/atomic-contract-model.test.mjs
             /docs/integrations/proposals/atomic-postgres-harness.py
+            /docs/integrations/proposals/atomic-postgres-preflight.test.py
       - name: Verify exact reviewed checkout and file bytes
         env:
           REVIEWED_HEAD: ${{ github.event.pull_request.head.sha }}
-          EXPECTED_PARENT: 2adb560ce3fbf3505762516cbbfb87d307df6850
+          EXPECTED_PARENT: caf25dcaf4af77dfcff334e75f4438be1563f2bb
           RUN_ATTEMPT: ${{ github.run_attempt }}
         shell: bash
         run: |
@@ -63,16 +65,7 @@ jobs:
           if os.environ['RUN_ATTEMPT']!='1':raise RuntimeError('one-run approval does not cover reruns')
           parents=subprocess.check_output(['git','rev-list','--parents','-n','1',head],text=True).strip().split()
           if parents!=[head,parent]:raise RuntimeError('unapproved publication parent; future pushes cannot inherit approval')
-          expected_transition={
-              '.github/ingestion-validation-manifest.json':'M',
-              '.github/workflows/rss-adapter-validation.yml':'M',
-              '.github/workflows/atomic-ingestion-sql-validation.yml':'A',
-              'docs/integrations/proposals/atomic-ingestion-finalization.sql':'M',
-              'docs/integrations/proposals/atomic-ingestion-finalization.md':'M',
-              'docs/integrations/proposals/atomic-ingestion-finalization-tests.sql':'M',
-              'docs/integrations/proposals/atomic-contract-model.test.mjs':'A',
-              'docs/integrations/proposals/atomic-postgres-harness.py':'A',
-          }
+          expected_transition={'docs/integrations/proposals/atomic-postgres-harness.py': 'M', 'docs/integrations/proposals/atomic-postgres-preflight.test.py': 'A', '.github/workflows/atomic-ingestion-sql-validation.yml': 'M', '.github/ingestion-validation-manifest.json': 'M', '.github/workflows/rss-adapter-validation.yml': 'M'}
           fields=subprocess.check_output(['git','diff','--no-renames','--name-status','-z',parent,head]).split(b'\0')
           if fields[-1:]!=[b''] or len(fields[:-1])%2:raise RuntimeError('malformed transition')
           actual_transition={fields[i+1].decode():fields[i].decode() for i in range(0,len(fields)-1,2)}
@@ -80,7 +73,7 @@ jobs:
           for name in expected_transition:
               mode=subprocess.check_output(['git','ls-tree',head,'--',name],text=True)
               if not mode.startswith('100644 blob '):raise RuntimeError('unexpected transition mode')
-          expected={'docs/integrations/proposals/atomic-contract-model.test.mjs': '72daaa913bba1f4491c616d99aecff9f20cfb21c9c08330d6e2dd299ab25376c', 'docs/integrations/proposals/atomic-ingestion-finalization-tests.sql': '6121d900ad890ac9fc51e13687570182778da9993824a9fceeaa0348208b2c51', 'docs/integrations/proposals/atomic-ingestion-finalization.md': '9e2d109822e717620a2549d6bc2a8a3763f55417937f6d8199e52200a8297872', 'docs/integrations/proposals/atomic-ingestion-finalization.sql': 'd279822428858598341cbca6ba610439e88e84a277a7ee284be42d4347639d0c', 'docs/integrations/proposals/atomic-postgres-harness.py': '198562c15305489e46ad42c78b9ec34324ef1837634c147d086e76d0b7743851'}
+          expected={'docs/integrations/proposals/atomic-contract-model.test.mjs': '72daaa913bba1f4491c616d99aecff9f20cfb21c9c08330d6e2dd299ab25376c', 'docs/integrations/proposals/atomic-ingestion-finalization-tests.sql': '6121d900ad890ac9fc51e13687570182778da9993824a9fceeaa0348208b2c51', 'docs/integrations/proposals/atomic-ingestion-finalization.md': '9e2d109822e717620a2549d6bc2a8a3763f55417937f6d8199e52200a8297872', 'docs/integrations/proposals/atomic-ingestion-finalization.sql': 'd279822428858598341cbca6ba610439e88e84a277a7ee284be42d4347639d0c', 'docs/integrations/proposals/atomic-postgres-harness.py': '2094b2230c63e286a098cff155b6f4532813137fc78891250474d22682abf11c', 'docs/integrations/proposals/atomic-postgres-preflight.test.py': 'fc9f89eabdbdd3953db59a7c262421709f29d4fa56f0173651c0606daf65554f'}
           root=pathlib.Path('docs/integrations/proposals')
           actual={str(p) for p in root.iterdir() if p.is_file()}
           if actual!=set(expected):raise RuntimeError('unexpected/missing sparse fixture files')
@@ -90,6 +83,14 @@ jobs:
           evidence=pathlib.Path(os.environ['RUNNER_TEMP'])/'atomic-ingestion-proof'
           (evidence/'integrity.json').write_text(json.dumps({'head':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'files':expected,'expected_parent':parent,'run_attempt':1,'transition':actual_transition},indent=2))
           PY
+      - name: Offline diagnostic and image preflight source fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 docs/integrations/proposals/atomic-postgres-harness.py --offline-contract
+          python3 -O docs/integrations/proposals/atomic-postgres-harness.py --offline-contract
+          python3 docs/integrations/proposals/atomic-postgres-preflight.test.py
+          python3 -O docs/integrations/proposals/atomic-postgres-preflight.test.py
       - name: Provision only pinned official PostgreSQL image
         shell: bash
         run: |
