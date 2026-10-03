@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
 export const alt =
-  'assembl. Assemble useful work. Business intelligence, strategy and software. Pursuit, DO and Studio.';
+  'assembl. Assemble useful work. Strategy, design and AI. Pursuit, DO and Studio.';
 export const size = OG_SIZE;
 export const contentType = 'image/png';
 
@@ -12,7 +12,7 @@ export default async function HomeOgImage() {
   return v2OgImage({
     eyebrow: 'built in new zealand',
     headline: 'Assemble useful work.',
-    sub: 'Business intelligence, strategy and software. Specialist agents for useful work and customer experiences.',
+    sub: 'Strategy, design and AI for useful work and better customer experiences.',
     identityArt: `data:image/png;base64,${artwork.toString('base64')}`,
   });
 }

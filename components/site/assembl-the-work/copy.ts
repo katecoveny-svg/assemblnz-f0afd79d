@@ -1,14 +1,14 @@
 /** Public homepage positioning. Product demonstrations are labelled at their entry points. */
 export const POSITIONING = {
-  company: 'assembl brings business intelligence, strategy and software together to make useful work and customer experiences.',
+  company: 'We bring strategy, design and AI together to help businesses find opportunities, create better customer experiences and get useful work done.',
   pursuit: 'Pursuit researches business signals and opportunities, with the reasons and sources attached.',
   do: 'DO is your portable personal agent. It helps assemble useful work from the context you bring: a draft, a plan or a next step to review.',
   studio: 'Studio helps turn a brief into working software, demonstrations, pitches and customer experiences.',
 } as const;
 
 export const HOME_META = {
-  title: 'assembl | Business intelligence, agents and useful work',
-  description: 'Business intelligence, strategy and software from assembl. Specialist agents help prepare useful work, customer experiences, demos and proposals.',
+  title: 'assembl | Strategy, design and AI for useful work',
+  description: POSITIONING.company,
 } as const;
 
 export const PREVIEW_META = {
@@ -30,8 +30,8 @@ export const NAV = {
 
 export const HERO = {
   brand: POSITIONING.company,
-  headline: 'Improve workflows. Build software.',
-  subhead: 'We work alongside your team to understand the problem, redesign the service or workflow, and build the software or AI it needs.',
+  headline: 'Assemble useful work.',
+  subhead: POSITIONING.company,
   body: POSITIONING.company,
   explanation: `${POSITIONING.pursuit} ${POSITIONING.do} ${POSITIONING.studio}`,
   ctaPrimary: { label: 'see the system →', href: '#products' },
@@ -58,19 +58,19 @@ export const PRODUCTS = {
   items: [
     {
       id: 'pursuit', name: 'Pursuit', verb: '01 · Research.',
-      body: 'An opening, with the reasons attached. Research companies, signals and opportunities. Review the sources before choosing your next move.',
+      body: 'Research companies and opportunities, with sources attached.',
       href: '/pursuit',
       external: false,
       explore: 'Explore Pursuit', note: 'Start with the public story, then move into a private Pursuit workspace when the work is live.',
     },
     {
       id: 'do', name: 'DO', verb: '02 · Prepare.', hero: true,
-      body: 'Your portable personal agent for useful work. Bring the details, prepare a reply or make a plan. Use DO on its own or as part of assembl.',
+      body: 'Prepare a draft or plan to review.',
       href: '/do', explore: 'Meet DO', note: 'Start in your browser. The optional browser companion brings selected context back for review. Available actions depend on the surface and connections you choose.',
     },
     {
       id: 'studio', name: 'Studio', verb: '03 · Make.',
-      body: 'Give the idea a working version. Develop a pitch, a demonstrator or a customer experience people can see and try.',
+      body: 'Make demos, pitches and customer experiences.',
       href: '/creative-studio', explore: 'Explore Studio', note: 'Use Studio independently or as the proof layer for Pursuit and DO.',
     },
   ],

@@ -114,3 +114,10 @@
  .rail .honesty{margin:0 0 8px;max-width:none;font-size:11px}
  .rail[data-static] .frame{grid-template-rows:auto 1fr auto}
 }
+
+/* Approved company explanation and the three product jobs remain together. */
+.productIntro{display:grid;gap:5px;margin-top:14px;max-width:48ch;color:var(--ink);font-size:13px;line-height:1.45}
+.productIntro p{margin:0}.productIntro a{color:inherit;font-weight:500}
+@media(max-width:650px){.productIntro{font-size:12px;gap:4px;margin-top:12px}}
+/* Keep copy spacing continuous across the short-phone breakpoint. */
+@media(max-width:650px){.copy,.rail[data-static] .copy{margin-top:clamp(0px,calc(100svh - 565px),240px)}}

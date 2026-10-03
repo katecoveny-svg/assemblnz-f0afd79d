@@ -6,6 +6,6 @@ try {
  await p.waitForFunction(()=>{const c=document.querySelector('canvas'); const poster=document.querySelector('img[src*="atelier-poster"]');return c&&poster&&getComputedStyle(poster).opacity==='0';},null,{timeout:60000});
  await p.evaluate(()=>document.querySelector('canvas').dispatchEvent(new Event('webglcontextlost',{cancelable:true})));
  await p.waitForFunction(()=>{const img=document.querySelector('img[src*="atelier-poster"]');return img&&Number(getComputedStyle(img).opacity)>0.99;},null,{timeout:5000});
- assert.equal(await p.getByRole('heading',{name:'Improve workflows. Build software.',exact:true}).isVisible(),true);
+ assert.equal(await p.getByRole('heading',{name:'Assemble useful work.',exact:true}).isVisible(),true);
  console.log('Context loss restores poster and retains job entry');
 } finally {await b.close();}
