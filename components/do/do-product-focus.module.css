@@ -70,3 +70,11 @@
 /* Portable capture remains a separate consent boundary, within the same DO experience. */
 .workspaceHero:not([data-embedded]){max-width:670px;flex-direction:column-reverse;text-align:center;gap:10px;margin:15px auto 28px}.workspaceHero:not([data-embedded]) .workspaceIntro{max-width:100%}.workspaceHero:not([data-embedded]) h1{font-size:48px;line-height:1.08;letter-spacing:-.055em;margin:8px 0 13px}.workspaceHero:not([data-embedded]) .workspaceIntro>p:last-child{font-size:14px;margin:0 auto;max-width:440px}.workspace{max-width:750px}.workspaceModes{border-radius:17px}.workspaceModes button,.workspaceModes a{border-radius:13px}.workspace :global(.do-primary){border-radius:16px;box-shadow:inset 0 1px 0 #eac8df88,0 2px 0 #240b21,0 9px 18px #240b2118}.workspaceHero[data-embedded] h1{font-size:32px}.workspaceHero[data-embedded] .workspaceIntro>p:last-child{font-size:12px}.workspaceHero[data-embedded]>span:last-child{--presence-size:62px}
 @media(max-width:600px){.workspaceHero:not([data-embedded]){margin:12px auto 25px;gap:5px}.workspaceHero:not([data-embedded]) h1{font-size:35px;max-width:none}.workspaceHero:not([data-embedded]) .workspaceIntro>p:last-child{font-size:13px;max-width:280px}.workspaceHero:not([data-embedded])>div:last-child{width:200px;height:145px}.workspaceModes{position:static}}
+
+/* Short phones keep the brand and actions clear without shrinking their hit areas. */
+@media(max-width:374px){
+ .header{flex-wrap:wrap;row-gap:10px;padding-block:14px}
+ .header>div:first-child{flex:1 0 100%}
+ .header>div:first-child>a{min-height:44px;display:inline-flex}
+ .headerActions{max-width:none;flex:1 0 100%;justify-content:flex-end}
+}

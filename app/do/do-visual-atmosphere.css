@@ -3,7 +3,8 @@
   --do-atmo-plum:#240B21;--do-atmo-rose:#916A70;--do-atmo-paper:#FFFDFB;
   position:relative;min-height:100dvh;isolation:isolate;
   color:#240B21;font-family:var(--font-body),'Instrument Sans',sans-serif;
-  background:radial-gradient(ellipse at 15% 12%,#eac8df 0%,transparent 48%),radial-gradient(ellipse at 88% 38%,#dad2f4 0%,transparent 52%),linear-gradient(155deg,#fff0f5,#f5e4e7 55%,#fffdfb);
+  /* The app field is paper; lilac and rose belong to the locked glass and accents. */
+  background:var(--do-atmo-paper);
 }
 /* Light belongs to the app surface; controls keep opaque paper backing. */
 .do-app-shell::before,.do-app-shell::after{content:none}
