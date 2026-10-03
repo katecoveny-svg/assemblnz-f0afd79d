@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { Eye, MonitorUp, ImagePlus, X } from "lucide-react";
 import {
   DO_VISION_IMAGE_BYTES,
   visionResultContext,
   type DoVisionResult,
 } from "@/apps/do/shared/vision";
+import { DoPhotoNotes } from "./DoPhotoNotes";
 import styles from "./do-vision.module.css";
 
 async function fitImage(
@@ -30,7 +31,8 @@ async function fitImage(
   return data;
 }
 
-export function DoVision({ onUse }: { onUse: (text: string) => boolean }) {
+export function DoVision({ onUse, active = true, contextId = "do-vision-context" }: { onUse: (text: string) => boolean; active?: boolean; contextId?: string }) {
+  const instance = useId();
   const [picture, setPicture] = useState("");
   const [question, setQuestion] = useState(
     "What can you see, and what would help with this work?",
@@ -45,6 +47,8 @@ export function DoVision({ onUse }: { onUse: (text: string) => boolean }) {
   const stream = useRef<MediaStream | null>(null);
   const request = useRef<AbortController | null>(null);
   const generation = useRef(0);
+  const approvedGeneration = useRef<number | null>(null);
+  const captureGeneration = useRef<number | null>(null);
   const uploader = useRef<HTMLInputElement>(null);
   useEffect(() => {
     const lifetimeGeneration = generation;
@@ -58,6 +62,19 @@ export function DoVision({ onUse }: { onUse: (text: string) => boolean }) {
       stream.current?.getTracks().forEach((track) => track.stop());
     };
   }, []);
+  useEffect(() => {
+    if (!active) {
+      generation.current++; approvedGeneration.current = null; captureGeneration.current = null;
+      request.current?.abort(); request.current = null;
+      stream.current?.getTracks().forEach(track => track.stop()); stream.current = null;
+    }
+    const frame = requestAnimationFrame(() => {
+      setConsent(approvedGeneration.current === generation.current);
+      setBusy(Boolean(request.current && !request.current.signal.aborted));
+      setCapturing(captureGeneration.current === generation.current);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [active]);
   function clear() {
     generation.current++;
     request.current?.abort();
@@ -80,6 +97,7 @@ export function DoVision({ onUse }: { onUse: (text: string) => boolean }) {
   }
   async function upload(file: File) {
     const attempt = ++generation.current;
+    captureGeneration.current = attempt;
     setCapturing(true);
     setNotice("");
     try {
@@ -105,11 +123,12 @@ export function DoVision({ onUse }: { onUse: (text: string) => boolean }) {
             : "The image could not be opened. Try a screenshot.",
         );
     } finally {
-      if (attempt === generation.current) setCapturing(false);
+      if (attempt === generation.current) { captureGeneration.current = null; setCapturing(false); }
     }
   }
   async function capture() {
     const attempt = ++generation.current;
+    captureGeneration.current = attempt;
     setCapturing(true);
     setNotice("Choose the tab, window or screen you want to show.");
     let media: MediaStream | undefined;
@@ -152,12 +171,14 @@ export function DoVision({ onUse }: { onUse: (text: string) => boolean }) {
       video.pause();
       video.srcObject = null;
       stream.current = null;
-      if (attempt === generation.current) setCapturing(false);
+      if (attempt === generation.current) { captureGeneration.current = null; setCapturing(false); }
     }
   }
   async function inspect() {
-    if (!picture || !consent || busy) return;
+    if (!active || !picture || !consent || busy || approvedGeneration.current !== generation.current) return;
     const attempt = ++generation.current;
+    approvedGeneration.current = null;
+    setConsent(false);
     const controller = new AbortController();
     request.current = controller;
     setBusy(true);
@@ -191,17 +212,17 @@ export function DoVision({ onUse }: { onUse: (text: string) => boolean }) {
               : "The image could not be inspected.",
         );
     } finally {
-      request.current = null;
-      setBusy(false);
+      if (attempt === generation.current) { request.current = null; approvedGeneration.current = null; setConsent(false); setBusy(false); }
     }
   }
   return (
-    <details className={styles.vision} id="do-vision-context">
+    <details className={styles.vision} id={contextId} data-do-vision-context>
       <summary>
         <Eye size={20} />
-        Show DO <span>A screen, a screenshot or a photo</span>
+        Show DO <span>A screen, a photo or three pages of notes</span>
       </summary>
       <div className={styles.body}>
+        <DoPhotoNotes active={active} />
         <div>
           <h3>Let DO look at this.</h3>
           <p>
@@ -260,11 +281,11 @@ export function DoVision({ onUse }: { onUse: (text: string) => boolean }) {
               </figcaption>
             </figure>
             <div>
-              <label htmlFor="do-vision-question">
+              <label htmlFor={`do-vision-question-${instance}`}>
                 What should DO look for?
               </label>
               <textarea
-                id="do-vision-question"
+                id={`do-vision-question-${instance}`}
                 value={question}
                 maxLength={2000}
                 disabled={busy}
@@ -280,7 +301,7 @@ export function DoVision({ onUse }: { onUse: (text: string) => boolean }) {
                   type="checkbox"
                   checked={consent}
                   disabled={busy}
-                  onChange={(event) => setConsent(event.target.checked)}
+                  onChange={(event) => { approvedGeneration.current = event.target.checked ? generation.current : null; setConsent(event.target.checked); }}
                 />
                 Send this image and question to assembl’s configured vision
                 providers for one observation.
@@ -311,11 +332,11 @@ export function DoVision({ onUse }: { onUse: (text: string) => boolean }) {
         )}
         {result && (
           <div className={styles.result}>
-            <label htmlFor="do-vision-result">
+            <label htmlFor={`do-vision-result-${instance}`}>
               Review and edit what DO saw
             </label>
             <textarea
-              id="do-vision-result"
+              id={`do-vision-result-${instance}`}
               value={draft}
               rows={8}
               onChange={(event) => setDraft(event.target.value)}

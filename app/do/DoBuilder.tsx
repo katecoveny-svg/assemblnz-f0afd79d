@@ -68,12 +68,14 @@ export function DoBuilder({
   initialTemplate,
   initialName = "My DO",
   embedded = false,
+  active = true,
 }: {
   initialBrief?: string;
   initialTask?: DoSkill;
   initialTemplate?: string;
   initialName?: string;
   embedded?: boolean;
+  active?: boolean;
 }) {
   const localPreview = useSyncExternalStore(
     subscribeToHost,
@@ -116,6 +118,14 @@ export function DoBuilder({
   const [ratio, setRatio] = useState("1:1");
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
+  const imageRequest = useRef<AbortController | null>(null);
+  const imageGeneration = useRef(0);
+  useEffect(() => {
+    if (!active) { imageGeneration.current++; imageRequest.current?.abort(); imageRequest.current = null; }
+    const frame = requestAnimationFrame(() => { setConsent(false); if (!imageRequest.current) setBusy(false); });
+    return () => cancelAnimationFrame(frame);
+  }, [active]);
+  useEffect(() => () => { imageGeneration.current++; imageRequest.current?.abort(); }, []);
   async function refreshTrial() {
     try {
       const r = await fetch("/api/do/runtime");
@@ -128,6 +138,7 @@ export function DoBuilder({
     }
   }
   useEffect(() => {
+    if (!active) return;
     const frame = requestAnimationFrame(() => {
       void refreshTrial();
     });
@@ -153,7 +164,7 @@ export function DoBuilder({
       cancelAnimationFrame(frame);
       window.removeEventListener("message", receive);
     };
-  }, [embedded]);
+  }, [embedded, active]);
   const instruction = [
     direction,
     context,
@@ -241,13 +252,16 @@ export function DoBuilder({
     }
   }
   async function runImage() {
-    if (!consent || busy || instruction.length < 10) return;
+    if (!active || !consent || busy || instruction.length < 10 || imageRequest.current) return;
+    const attempt = ++imageGeneration.current;
+    const controller = new AbortController(); imageRequest.current = controller;
     setBusy(true);
     setError("");
     try {
       const r = await fetch("/api/do/image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
         body: JSON.stringify({
           prompt: instruction,
           aspectRatio: ratio,
@@ -255,6 +269,7 @@ export function DoBuilder({
         }),
       });
       const data = await r.json();
+      if (attempt !== imageGeneration.current || controller.signal.aborted) return;
       if (!r.ok) {
         if (r.status === 402) setRemaining(0);
         throw new Error(data.message || "Image generation failed.");
@@ -262,10 +277,9 @@ export function DoBuilder({
       setImages(data.images);
       setNotice("Generated image ready for your review.");
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Image generation failed.");
+      if (attempt === imageGeneration.current) setError(e instanceof Error ? e.message : "Image generation failed.");
     } finally {
-      setBusy(false);
-      void refreshTrial();
+      if (attempt === imageGeneration.current) { imageRequest.current = null; setBusy(false); void refreshTrial(); }
     }
   }
   return (
@@ -309,7 +323,7 @@ export function DoBuilder({
           </a>
         )}
       </div>
-      <DoGeminiLive context={instruction} onDraft={(text) => {
+      {active && <DoGeminiLive context={instruction} onDraft={(text) => {
         const next = `${context}${context ? "\n\n" : ""}Voice brief:\n${text}`;
         if (next.length > 12000) return false;
         setContext(next);
@@ -317,7 +331,7 @@ export function DoBuilder({
         setRunningRecipe(null);
         setNotice("Your voice brief is in the task. Check the context, then approve preparation.");
         return true;
-      }} />
+      }} />}
       <DoCanvas
         name={name}
         onName={setName}
@@ -572,7 +586,7 @@ export function DoBuilder({
           </div>
         </section>
       </div>
-      <DoVision
+      <DoVision active={active} contextId="do-builder-vision-context"
         onUse={(text) => {
           if (context.length + text.length + 2 > 12000) {
             setError(
@@ -634,7 +648,7 @@ export function DoBuilder({
         </p>
       )}
       {notice && <p role="status">{notice}</p>}
-      {runningRecipe && (
+      {active && runningRecipe && (
         <div>
           {runningRecipe.webSearch || runningRecipe.agent ? (
             <LiveDo

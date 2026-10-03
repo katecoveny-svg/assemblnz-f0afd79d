@@ -180,3 +180,30 @@
     flex-wrap: wrap;
   }
 }
+
+.body input:not([type="checkbox"]):not([type="file"]) {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  margin: 8px 0 18px;
+  padding: 12px;
+  border: 1px solid #c9b1c1;
+  border-radius: 10px;
+  background: #fffdfb;
+  color: #240b21;
+  font: 14px var(--font-body), sans-serif;
+}
+.review > div { min-width: 0; }
+.review figcaption { overflow-wrap: anywhere; }
+.body textarea { box-sizing: border-box; }
+
+.completion {
+  border-left: 3px solid #916a70;
+  padding: 10px 14px;
+  background: #fffdfb;
+}
+.completion[data-completion="incomplete"] {
+  border-color: #492b3e;
+  font-weight: 500;
+}

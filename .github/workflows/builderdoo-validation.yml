@@ -9,6 +9,10 @@ on:
       - 'apps/do/**'
       - 'components/do/**'
       - 'components/site/assembl-the-work/**'
+      - 'lib/ai/completion*'
+      - 'lib/ai/router*'
+      - 'output/playwright/notes*/**'
+      - 'scripts/review-do-photo-notes.cjs'
       - 'lib/os/**'
       - 'lib/do/availability/**'
       - 'lib/do/travel/**'
@@ -45,6 +49,13 @@ jobs:
       NODE_OPTIONS: --max-old-space-size=6144
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Verify exact candidate HEAD
+        env:
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
       - uses: pnpm/action-setup@v4
         with:
           version: 9.15.9
@@ -60,6 +71,13 @@ jobs:
         run: pnpm typecheck
       - name: DO core unit tests
         run: pnpm test apps/do/coordination apps/do/shared apps/do/personal apps/do/services/family.test.ts apps/do/services/family-server.test.ts app/api/do app/do/personal lib/do/nz-public-data.test.ts lib/do/nz-local-updates.test.ts lib/do/do-pwa.test.ts lib/do/availability lib/do/travel lib/typesafe lib/os/improvement.test.ts lib/os/routing.test.ts lib/connectors/pipedream.test.ts
+      - name: Photo notes and privacy session contracts (synthetic tests)
+        run: pnpm exec vitest run apps/do/shared/photo-notes.test.ts apps/do/shared/trial.test.ts lib/ai/completion.test.ts lib/ai/router-transcription.test.ts lib/ai/router-adapter.test.ts app/api/do/vision/route.test.ts apps/do/personal/session.test.ts
+      - name: Photo notes scoped lint and brand/macron gates
+        run: |
+          pnpm exec eslint app/do/DoBuilder.tsx app/do/DoCanvas.tsx app/do/DoPhotoNotes.tsx app/do/DoVision.tsx app/do/personal/LifeAdmin.tsx components/do/DoFocusWorkspace.tsx components/do/DoWidgetPrivacyBoundary.tsx app/do/widget/page.tsx apps/do/shared/photo-notes.ts lib/ai/completion.ts lib/ai/router.ts app/api/do/vision/route.ts scripts/review-do-photo-notes.cjs --max-warnings=0
+          node scripts/brand-guard.mjs
+          pnpm lint:macrons
       - name: Production build
         run: pnpm build
       - name: Install isolated browser verification tools
@@ -68,6 +86,13 @@ jobs:
           node /tmp/assembl-browser/node_modules/playwright/cli.js install --with-deps chromium
           echo "ASSEMBL_PLAYWRIGHT_MODULE=/tmp/assembl-browser/node_modules/playwright" >> "$GITHUB_ENV"
           node -e "console.log('ASSEMBL_CHROMIUM_PATH=' + require('/tmp/assembl-browser/node_modules/playwright').chromium.executablePath())" >> "$GITHUB_ENV"
+      - name: Synthetic photo notes phone proof (all nonlocal traffic blocked)
+        env:
+          ASSEMBL_ESBUILD_MODULE: ${{ github.workspace }}/node_modules/.pnpm/esbuild@0.28.0/node_modules/esbuild
+          ASSEMBL_REVIEW_OUTPUT: /tmp/personal-do-proof/photo-notes
+        run: |
+          node scripts/review-do-photo-notes.cjs
+          ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/widget-privacy node output/playwright/notes-privacy/run.cjs
       - name: Personal DO result commit focus regression (fictional fixtures)
         env:
           ASSEMBL_ESBUILD_MODULE: ${{ github.workspace }}/node_modules/.pnpm/esbuild@0.28.0/node_modules/esbuild

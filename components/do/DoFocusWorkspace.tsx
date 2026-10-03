@@ -15,6 +15,7 @@ import type { DoTask } from '@/apps/do/shared/preparation';
 type Mode = 'write' | 'talk' | 'look' | 'build';
 export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTask }) {
   const [mode, setMode] = useState<Mode>('write');
+  const [builderOpened, setBuilderOpened] = useState(false);
   const [context, setContext] = useState('');
   const [offeredContext, setOfferedContext] = useState<{ text: string; id: number }>();
   const embedded = useDoEmbeddedSurface();
@@ -58,14 +59,14 @@ export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTa
         <Link className={styles.primary} style={{ color: '#FFFDFB', textDecoration: 'none' }} href={`/do/widget?tool=${mode}`} target="_blank" rel="noopener noreferrer">{mode === 'talk' ? 'Open voice in a full window' : 'Open vision in a full window'}</Link>
       </section> : <>
         {mode === 'talk' && <div className={styles.toolSurface}><DoGeminiLive context={context} onDraft={acceptContext} /></div>}
-        {mode === 'look' && <section className={styles.toolSurface} aria-label="Show DO an image"><DoVision onUse={acceptContext} /></section>}
+        <section hidden={mode !== 'look'} className={styles.toolSurface} aria-label="Show DO an image"><DoVision active={mode === 'look'} onUse={acceptContext} /></section>
       </>}
       <details className={styles.secondaryDetails} onToggle={e => { if (!e.currentTarget.open && mode === 'build') setMode('write'); }}>
         <summary><Settings2 size={13} aria-hidden="true" style={{ display: 'inline', marginRight: 8 }} />Build or customise a DO</summary>
         <p>Templates, appearance and the advanced builder. Your writing draft stays in this page.</p>
-        <button className={styles.textButton} onClick={() => setMode(mode === 'build' ? 'write' : 'build')}>{mode === 'build' ? 'Back to writing' : 'Open the builder'}</button>
+        <button className={styles.textButton} onClick={() => { setBuilderOpened(true); setMode(mode === 'build' ? 'write' : 'build'); }}>{mode === 'build' ? 'Back to writing' : 'Open the builder'}</button>
       </details>
-      {mode === 'build' && <section className={styles.toolSurface}><DoWorkspace embedded /></section>}
+      {builderOpened && <section hidden={mode !== 'build'} className={styles.toolSurface} aria-label="DO builder workspace"><DoWorkspace embedded active={mode === 'build'} /></section>}
       <p className={styles.privacyNote}>Nothing runs just because you open a tool. You choose what to share.</p>
     </div>
   </DoProductFrame>;

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-const state = vi.hoisted(() => ({ rows: new Map<string, { id: string; anon_id: string; agent_slug: string }>(), fail: false }));
+const state = vi.hoisted(() => ({ rows: new Map<string, { id: string; anon_id: string; agent_slug: string }>(), fail: false, releaseFail: false }));
 vi.mock('@/lib/supabase/service', () => ({ getServiceClient: () => ({ from: () => ({
   insert: async (row: { id: string; anon_id: string; agent_slug: string }) => {
     await Promise.resolve();
@@ -8,17 +8,23 @@ vi.mock('@/lib/supabase/service', () => ({ getServiceClient: () => ({ from: () =
     if (state.rows.has(key)) return { error: { code: '23505' } };
     state.rows.set(key, row); return { error: null };
   },
-  delete: () => ({ eq: (_: string, id: string) => ({ eq: async (_: string, anon: string) => { for (const [key,row] of state.rows) if(row.id === id && row.anon_id === anon) state.rows.delete(key); } }) }),
+  delete: () => ({ eq: (_: string, id: string) => ({ eq: async (_: string, anon: string) => { if (state.releaseFail) return { error: { code: '08006' } }; for (const [key,row] of state.rows) if(row.id === id && row.anon_id === anon) state.rows.delete(key); return { error: null }; } }) }),
   select: () => ({ eq: (_: string, anon: string) => ({ in: async (_: string, slots: string[]) => ({ count: [...state.rows.values()].filter(r => r.anon_id === anon && slots.includes(r.agent_slug)).length, error: state.fail ? { code: '08006' } : null }) }) }),
 }) }) }));
 import { doAnonTrialLimit, readDoTrial, reserveDoTrial } from './trial';
 beforeEach(() => {
   state.rows.clear();
   state.fail = false;
+  state.releaseFail = false;
   vi.unstubAllEnvs();
   vi.stubEnv('SUPABASE_SERVICE_ROLE_KEY', 'test-only-secret');
 });
 describe('DO shared trial', () => {
+  it('rejects returned database deletion errors instead of pretending to release quota', async () => {
+    const reservation = await reserveDoTrial('192.0.2.1'); state.releaseFail = true;
+    await expect(reservation.release()).rejects.toMatchObject({ code: 'trial_unavailable' });
+    expect((await readDoTrial('192.0.2.1')).remaining).toBe(2);
+  });
   it('admits exactly three of twenty simultaneous calls', async () => {
     const results = await Promise.allSettled(Array.from({ length: 20 }, () => reserveDoTrial('192.0.2.1')));
     expect(results.filter(r => r.status === 'fulfilled')).toHaveLength(3);
