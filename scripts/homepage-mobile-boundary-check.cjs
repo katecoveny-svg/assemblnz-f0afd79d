@@ -30,7 +30,7 @@ const path = require('node:path');
             const frame = h1.closest('section').querySelector('header').parentElement;
             const rect = element => { const r = element.getBoundingClientRect(); return { top: r.top, bottom: r.bottom, left: r.left, right: r.right }; };
             const visible = element => element.getClientRects().length > 0 && getComputedStyle(element).visibility !== 'hidden';
-            const disclosure = [...frame.querySelectorAll('p')].find(element => element.textContent.includes('Illustrative workspace tour'));
+            const disclosure = [...frame.querySelectorAll('p')].find(element => element.textContent.includes('Interactive demo'));
             return {
               h1: [...h1.querySelectorAll('span')].map(span => span.textContent.trim()).join(' '), frame: rect(frame), overflow: document.documentElement.scrollWidth > innerWidth,
               targets: [frame.querySelector('a[href="/contact?product=system"]'), disclosure, ...frame.querySelectorAll('[aria-label="Choose a scene chapter"] button')].filter(visible).map(element => ({ text: element.textContent, ...rect(element) })),
