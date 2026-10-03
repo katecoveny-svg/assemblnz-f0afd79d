@@ -3,7 +3,7 @@ async page => {
   const a = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'; const b = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
   const ensure = (ok, message) => { if (!ok) throw new Error(message); };
   const notes = () => page.getByRole('region', {name:'Handwritten notes',exact:true});
-  const open = async () => { await page.getByRole('button',{name:'Look',exact:true}).click();await page.getByText('Show DO',{exact:false}).first().click(); };
+  const open = async () => { await page.getByRole('button',{name:'Photo',exact:true}).click();await page.locator('summary').filter({hasText:/^Photo$/}).first().click(); };
   const add = async () => { await notes().getByLabel('Add handwritten note photos',{exact:true}).setInputFiles(image);await notes().getByRole('status').filter({hasText:'1 page(s) added'}).waitFor();await notes().getByRole('textbox',{name:/Page 1 text/}).fill('Private synthetic draft'); };
   const empty = async () => { await open();ensure(await notes().locator('img').count()===0,'new verified scope adopted old photos'); };
   await open();await add();
@@ -43,13 +43,13 @@ async page => {
   ensure(await page.evaluate(()=>window.__syntheticTrack.readyState==='ended'),'auth invalidation did not stop synthetic camera');
   await page.getByText('Build or customise a DO',{exact:true}).click();
   await page.getByRole('button',{name:'Open the builder',exact:true}).click();
-  await page.getByRole('region',{name:'DO builder workspace',exact:true}).getByText('Show DO',{exact:false}).first().click();
+  await page.getByRole('region',{name:'DO builder workspace',exact:true}).locator('summary').filter({hasText:/^Photo$/}).first().click();
   await add();
   await page.evaluate(b=>window.privacy.event(b),b);
-  await page.getByRole('button',{name:'Write',exact:true}).waitFor();
+  await page.getByRole('button',{name:'Notes',exact:true}).waitFor();
   await page.getByText('Build or customise a DO',{exact:true}).click();
   await page.getByRole('button',{name:'Open the builder',exact:true}).click();
-  await page.getByRole('region',{name:'DO builder workspace',exact:true}).getByText('Show DO',{exact:false}).first().click();
+  await page.getByRole('region',{name:'DO builder workspace',exact:true}).locator('summary').filter({hasText:/^Photo$/}).first().click();
   ensure(await notes().locator('img').count()===0,'production boundary retained builder images across owner switch');
   await page.screenshot({path:'repo/output/playwright/notes-privacy/verified-builder-reset-mobile.png',fullPage:true});
   await page.evaluate(()=>{window.privacy.defer();window.privacy.focus();});

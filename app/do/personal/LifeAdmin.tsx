@@ -225,7 +225,7 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
   const localComposer = (
       <div className={entry.intake}>
         <form onSubmit={start}>
-          <div className={entry.intakeTop}><label htmlFor="life-admin-source">What needs doing?</label></div>
+          <div className={entry.intakeTop}><label htmlFor="life-admin-source">What would you like done?</label></div>
           {captureMode === 'forward' && <p className={styles.captureHint}>Paste an email below, or use your phone’s share menu to send text into DO. No inbox is connected.</p>}
           <textarea ref={sourceRef} data-do-primary-input={localOpen || !assistant ? true : undefined} id="life-admin-source" value={source} onChange={(event) => { setSource(event.target.value); if (!event.target.value) setSourceIntakeId(null); setMethod('pasted-text'); }} maxLength={LIFE_ADMIN_SOURCE_LIMIT} rows={2} placeholder={template?.prompt ?? 'Paste a notice or tell DO what needs sorting…'} required />
           {intake && source !== intake.text && <button type="button" className={styles.textButton} disabled={Boolean(source.trim()) || intake.text.length > LIFE_ADMIN_SOURCE_LIMIT} onClick={() => { setSource(intake.text); setSourceIntakeId(intake.id); setTitle(intake.sourceTitle ?? 'Incoming note'); setSourceUrl(''); setMethod('pasted-text'); }}>Use incoming note</button>}
@@ -235,10 +235,10 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
           {category === 'auto' && inferred && <p className={styles.hint}>Suggested: {lifeAdminTemplate(inferred).name}. Change it above if another checklist fits better.</p>}
           <details className={styles.sourceLink}><summary>Add the original source link</summary><label>Link for your reference<input type="url" value={sourceUrl} maxLength={2000} placeholder="https://…" onChange={(event) => setSourceUrl(event.target.value)} /></label><small>Linked pages are not fetched. Queries and sign-in tokens are removed from stored links.</small></details>
           </div>}
-          <div className={entry.intakeActions}><details className={entry.addContext}><summary><Plus size={17} /> Add context</summary><div className={entry.captureModes}>{onTalk && <button type="button" onClick={() => { setCaptureMode('type'); onTalk?.(); }}><DoActionIcon kind="voice" /><span>Talk</span></button>}<button type="button" aria-pressed={captureMode === 'photo'} onClick={() => setCaptureMode(captureMode === 'photo' ? 'type' : 'photo')}><DoActionIcon kind="photo" /><span>Photo</span></button><button type="button" onClick={() => { setCaptureMode('forward'); sourceRef.current?.focus(); }}><DoActionIcon kind="note" /><span>Paste a notice</span></button></div></details><button className={entry.primary} type="submit" disabled={source.trim().length < 5 || !chosen}>Start <DoActionIcon kind="arrow" /></button></div>
+          <div className={entry.intakeActions}><details className={entry.addContext}><summary><Plus size={17} /> Add context</summary><div className={entry.captureModes}>{onTalk && <button type="button" onClick={() => { setCaptureMode('type'); onTalk?.(); }}><DoActionIcon kind="voice" /><span>Voice</span></button>}<button type="button" aria-pressed={captureMode === 'photo'} onClick={() => setCaptureMode(captureMode === 'photo' ? 'type' : 'photo')}><DoActionIcon kind="photo" /><span>Photo</span></button><button type="button" onClick={() => { setCaptureMode('forward'); sourceRef.current?.focus(); }}><DoActionIcon kind="note" /><span>Notes</span></button></div></details><button className={entry.primary} type="submit" disabled={source.trim().length < 5 || !chosen}>Start <DoActionIcon kind="arrow" /></button></div>
           <p className={entry.privacy}>Checklist stays on this device. Leave out passwords and payment details.</p>
         </form>
-        <div hidden={captureMode !== 'photo'} className={styles.vision}><p className={styles.hint}>For screenshots, review what is visible first. Optional image processing sends the approved image to assembl’s configured OpenAI, Anthropic or Google vision provider.</p><DoVision active={captureMode === 'photo' && (!assistant || localOpen)} onUse={(text) => {
+        <div hidden={captureMode !== 'photo'} className={styles.vision}><DoVision active={captureMode === 'photo' && (!assistant || localOpen)} onUse={(text) => {
           const combined = source.trim() ? `${source.trim()}\n\n${text}` : text;
           if (combined.length > LIFE_ADMIN_SOURCE_LIMIT) { setNotice('That would exceed 12,000 characters. Shorten the current note before adding the observation.'); return false; }
           setSource(combined); setMethod('reviewed-observation'); setNotice('Reviewed image notes added. Check them here before making a checklist.'); return true;
@@ -251,8 +251,8 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
       <header className={entry.heading}>
         <div className={entry.artwork} aria-hidden="true" data-renderer="static-art"><Image src="/brand/do-assembled-plum.webp" alt="" width={1200} height={800} priority unoptimized /></div>
         <div className={entry.intro}>
-          <h1 id="life-admin-heading">Your personal agent.</h1>
-          <p>{assistantWorking ? 'Preparing your reply…' : profile?.displayName && profile.displayName !== 'DO' ? `Hi, ${profile.displayName}.` : 'Ask a question, write a reply or sort a notice.'}</p>
+          <h1 id="life-admin-heading">What would you like done?</h1>
+          <p>{assistantWorking ? 'Preparing your reply…' : profile?.displayName && profile.displayName !== 'DO' ? `Hi, ${profile.displayName}.` : 'A photo, your voice or a note.'}</p>
         </div>
       </header>
       {active && <section className={`${styles.quickResult} ${entry.review}`} aria-labelledby="personal-do-result">
@@ -270,9 +270,9 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
       <div hidden={Boolean(assistant) && localOpen}>{assistant}</div>
       <div id="personal-local-checklist" hidden={Boolean(assistant) && !localOpen}>{localComposer}</div>
       {assistant && <div className={entry.mainModes} aria-label="More ways to start">
-        {onTalk && <button type="button" onClick={() => { setCaptureMode('type'); onTalk?.(); }} aria-label="Talk it through"><span className={entry.voiceObject} aria-hidden="true"><DoActionIcon kind="voice" /></span><span><strong>Talk</strong><small>Open voice options</small></span></button>}
-        <button type="button" onClick={() => { setLocalOpen(true); setCaptureMode('photo'); }}><span className={entry.photoObject} aria-hidden="true"><DoActionIcon kind="photo" /></span><span><strong>Photo</strong><small>Review an image</small></span></button>
-        <button type="button" onClick={() => { setLocalOpen(true); setCaptureMode('forward'); requestAnimationFrame(() => sourceRef.current?.focus()); }}><span className={entry.noteObject} aria-hidden="true"><DoActionIcon kind="note" /></span><span><strong>Paste a notice</strong><small>Make a checklist</small></span></button>
+        {onTalk && <button type="button" onClick={() => { setCaptureMode('type'); onTalk?.(); }} aria-label="Voice: open voice options"><span className={entry.voiceObject} aria-hidden="true"><DoActionIcon kind="voice" /></span><span><strong>Voice</strong></span></button>}
+        <button type="button" onClick={() => { setLocalOpen(true); setCaptureMode('photo'); }} aria-label="Photo: add images"><span className={entry.photoObject} aria-hidden="true"><DoActionIcon kind="photo" /></span><span><strong>Photo</strong></span></button>
+        <button type="button" onClick={() => { setLocalOpen(true); setCaptureMode('forward'); requestAnimationFrame(() => sourceRef.current?.focus()); }} aria-label="Notes: paste a note"><span className={entry.noteObject} aria-hidden="true"><DoActionIcon kind="note" /></span><span><strong>Notes</strong></span></button>
       </div>}
       {!plans.length && !showExamples && !source.trim() && !intake && <button className={entry.exampleObject} type="button" onClick={() => tryExample(LIFE_ADMIN_EXAMPLES[0])} aria-label="Try fictional school notice">
         <span className={entry.exampleFlag}>Fictional example · on this device</span>

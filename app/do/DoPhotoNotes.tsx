@@ -143,18 +143,18 @@ export function DoPhotoNotes({ active = true }: { active?: boolean }) {
     revokeConsent(); replace(action(notesRef.current));
   }
   return <section aria-label="Handwritten notes" className={styles.result}>
-    <h3>Photos to typed notes</h3>
-    <p>Add up to three pages together or one at a time. Order them, transcribe each page, then check every word before downloading.</p>
-    <p>PNG, JPEG or WebP · 10 MB per original · prepared at up to 1600 px and 2 MB. Convert HEIC to JPEG or use a screenshot. Each transcription sends one page once to one configured vision provider and uses one existing task. No automatic retry or provider fallback.</p>
+    <h3>Pages to text</h3>
+    <p>Add up to three pages, together or one at a time.</p>
+    <p>PNG, JPEG or WebP · 10 MB each.</p>
     <div className={styles.actions}>
-      <button disabled={pending || notes.pages.length >= 3} onClick={() => upload.current?.click()}>Add note photos</button>
+      <button disabled={pending || notes.pages.length >= 3} onClick={() => upload.current?.click()}>Add photos</button>
       <input ref={upload} type="file" multiple disabled={pending} accept="image/png,image/jpeg,image/webp" aria-label="Add handwritten note photos" className={styles.file} onChange={event => { const files = Array.from(event.target.files || []); event.target.value = ''; if (files.length) void add(files); }} />
       <button disabled={pending || !notes.pages.length} onClick={() => download('do-notes-backup.json', JSON.stringify(notes), 'application/json')}>Backup photos + text</button>
       <button disabled={pending || !!notes.pages.length} onClick={() => restore.current?.click()}>Import backup</button>
       <input ref={restore} type="file" disabled={pending || !!notes.pages.length} accept="application/json" aria-label="Import note backup" className={styles.file} onChange={event => { const file = event.target.files?.[0]; event.target.value = ''; if (file) void restoreBackup(file); }} />
       <button disabled={pending || !notes.pages.length} onClick={() => mutate(() => empty())}>Clear photos and text</button>
     </div>
-    <small>Nothing is saved in browser storage or synced. Photos and text stay while this workspace is open, including switches between tools. Leaving or reloading loses them; download a backup first. Backups contain your photos and text, so keep them private.</small>
+    <small>Leaving or reloading clears these photos and text. Download a backup first and keep it private.</small>
     <label>Document title<input value={notes.title} maxLength={160} disabled={pending} onChange={event => mutate(value => ({ ...value, title: event.target.value }))} /></label>
     {notes.pages.map((page, index) => <div className={styles.review} key={page.id}>
       <figure>
@@ -182,7 +182,7 @@ export function DoPhotoNotes({ active = true }: { active?: boolean }) {
       <button disabled={pending || !notesReady(notes)} onClick={() => download('do-typed-notes.html', notesHtml(notes), 'text/html;charset=utf-8')}>Download readable document</button>
       <button disabled={pending || !notesReady(notes)} onClick={() => download('do-typed-notes.txt', notesText(notes), 'text/plain;charset=utf-8')}>Download typed text</button>
     </div>
-    <small>The readable document opens in your browser and can be printed or saved as PDF. It contains manually reviewed words, with no extra rewrite call. A provider’s normal ending never verifies a complete transcription.</small>
+    <small>Open the downloaded document to print or save as PDF.</small>
     {notice && <p role="status">{notice}</p>}
   </section>;
 }

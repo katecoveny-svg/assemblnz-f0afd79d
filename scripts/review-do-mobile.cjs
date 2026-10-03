@@ -26,8 +26,8 @@ const check=(label,value)=>{assert.ok(value,label);checks.push(label);console.lo
   await visit('/do/widget');await fit('Workspace 375px');await snap('workspace-mobile');
   const source=page.locator('textarea').first();await source.fill('Please prepare a short reply about the Friday proposal.');
   check('Phone editor avoids auto zoom',await source.evaluate(e=>parseFloat(getComputedStyle(e).fontSize)>=16));
-  await page.getByRole('button',{name:'Talk',exact:true}).click();
-  await page.getByRole('button',{name:'Write',exact:true}).click();
+  await page.getByRole('button',{name:'Voice',exact:true}).click();
+  await page.getByRole('button',{name:'Notes',exact:true}).click();
   check('Mode switch preserves writing',await source.inputValue()==='Please prepare a short reply about the Friday proposal.');
   await page.setViewportSize({width:320,height:640});await fit('Workspace 320px');
   await page.setViewportSize({width:812,height:375});await fit('Workspace landscape');

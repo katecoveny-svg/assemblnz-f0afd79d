@@ -41,15 +41,15 @@ export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTa
   return <DoProductFrame product="Writing & capture">
     <section className={`${styles.hero} ${styles.workspaceHero}`} data-embedded={embedded || undefined}>
       <div className={styles.workspaceIntro}>
-      <h1>What needs doing?</h1>
-      <p>Bring the details. Prepare something you can review.</p>
+      <h1>What would you like done?</h1>
+      <p>A photo, your voice or a note.</p>
       </div><DoGlassHero embedded={embedded} />
     </section>
     <div className={styles.workspace}>
       <nav className={styles.workspaceModes} aria-label="Ways to work with DO">
-        <button aria-pressed={mode === 'write'} onClick={() => setMode('write')}><FileText size={15} />Write</button>
-        <button aria-pressed={mode === 'talk'} onClick={() => setMode('talk')}><Mic size={15} />Talk</button>
-        <button aria-pressed={mode === 'look'} onClick={() => setMode('look')}><Eye size={15} />Look</button>
+        <button aria-pressed={mode === 'write'} onClick={() => setMode('write')}><FileText size={15} />Notes</button>
+        <button aria-pressed={mode === 'talk'} onClick={() => setMode('talk')}><Mic size={15} />Voice</button>
+        <button aria-pressed={mode === 'look'} onClick={() => setMode('look')}><Eye size={15} />Photo</button>
         <Link href="/do/meetings" target={embedded ? '_blank' : undefined} rel={embedded ? 'noopener noreferrer' : undefined}><AudioLines size={15} />Meet</Link>
       </nav>
       <div hidden={mode !== 'write'}><DoTextWorkspace embedded={embedded} initialTask={initialTask} focus offeredContext={offeredContext} onSourceChange={setContext} onNativeReveal={() => setMode('write')} /></div>
