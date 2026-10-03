@@ -11,7 +11,7 @@ describe('Personal DO visual entry', () => {
     expect(html).toContain('aria-label="Try fictional school notice"');
     expect(html).toContain('Fictional example · on this device');
     expect(html).toContain('aria-expanded="false"');
-    expect(html).toContain('Your personal agent.');
+    expect(html).toContain('<h1 id="life-admin-heading">What would you like done?</h1>');
     expect(html).toContain('Start');
     expect(html).toContain('data-do-primary-input="true"');
     expect(html).toContain('What’s underway');

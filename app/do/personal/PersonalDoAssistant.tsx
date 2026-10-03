@@ -166,7 +166,7 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange }: 
     </div>}
     {result?.officialSourcesRequested && <details className={styles.notes}><summary>Official references checked for this request</summary>{result.officialSources?.length ? result.officialSources.map(source => <article key={source.citation}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a><p>{source.status || 'Status not provided'}{source.stage ? ` · ${source.stage}` : ''}</p><p>{source.excerpt}</p><p>Checked {source.verifiedAt}. Introduction: {source.introducedAt || 'unknown'}. Stage activity: {source.activityAt || 'unknown'}. Original publication unknown. A bill is not necessarily enacted law; recheck at the source.</p></article>) : <p>No fresh verified Parliament evidence was available for this request. Discovery links do not establish current facts.</p>}</details>}
     <form onSubmit={event => void submit(event)}>
-      <label className={styles.inputLabel} htmlFor="personal-assistant-input">{result ? 'What would help next?' : 'What needs doing?'}</label>
+      <label className={styles.inputLabel} htmlFor="personal-assistant-input">{result ? 'What would help next?' : 'What would you like done?'}</label>
       <textarea ref={inputRef} id="personal-assistant-input" data-do-primary-input value={message} maxLength={4000} rows={3} disabled={working} placeholder="e.g. Prepare a reply to my property manager" onChange={event => { setMessage(event.target.value); setConsent(false); setNotice(''); }} />
       <div className={styles.composerFooter}>
         <span>{working ? 'Checking the request and preparing your reply…' : 'Review drafts before sharing'}</span>

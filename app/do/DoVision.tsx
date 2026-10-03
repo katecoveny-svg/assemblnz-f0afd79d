@@ -219,18 +219,18 @@ export function DoVision({ onUse, active = true, contextId = "do-vision-context"
     <details className={styles.vision} id={contextId} data-do-vision-context>
       <summary>
         <Eye size={20} />
-        Show DO <span>A screen, a photo or three pages of notes</span>
+        Photo
       </summary>
       <div className={styles.body}>
         <DoPhotoNotes active={active} />
         <div>
-          <h3>Let DO look at this.</h3>
+          <h3>Other image</h3>
           <p>
-            Choose one image. Check what is visible and remove anything you do
-            not want to share.
+            Add one image. Check it before sharing.
           </p>
           <div className={styles.actions}>
             {canShare && (
+              <>
               <button
                 type="button"
                 disabled={capturing || busy}
@@ -239,6 +239,8 @@ export function DoVision({ onUse, active = true, contextId = "do-vision-context"
                 <MonitorUp size={18} />
                 Choose a tab or window
               </button>
+              <small>One frame only.</small>
+              </>
             )}
             <button
               type="button"
@@ -246,7 +248,7 @@ export function DoVision({ onUse, active = true, contextId = "do-vision-context"
               onClick={() => uploader.current?.click()}
             >
               <ImagePlus size={18} />
-              Add screenshot or photo
+              Add image
             </button>
             <input
               ref={uploader}
@@ -261,10 +263,6 @@ export function DoVision({ onUse, active = true, contextId = "do-vision-context"
               }}
             />
           </div>
-          <small>
-            Screen sharing stops after one frame. On a phone or in an app
-            without screen sharing, upload a screenshot or photo.
-          </small>
         </div>
         {picture && (
           <div className={styles.review}>
@@ -303,8 +301,8 @@ export function DoVision({ onUse, active = true, contextId = "do-vision-context"
                   disabled={busy}
                   onChange={(event) => { approvedGeneration.current = event.target.checked ? generation.current : null; setConsent(event.target.checked); }}
                 />
-                Send this image and question to assembl’s configured vision
-                providers for one observation.
+                Send this image and question to assembl’s configured OpenAI, Anthropic
+                or Google vision providers for one observation.
               </label>
               <div className={styles.actions}>
                 <button
@@ -366,6 +364,13 @@ export function DoVision({ onUse, active = true, contextId = "do-vision-context"
             </details>
           </div>
         )}
+        <details>
+          <summary>Photo details</summary>
+          <p>Pages to text: PNG, JPEG or WebP · 10 MB per original · prepared at up to 1600 px and 2 MB. Convert HEIC to JPEG or use a screenshot. Each transcription sends one page once to one configured vision provider and uses one existing task. No automatic retry or provider fallback.</p>
+          <p>Other image: screen sharing stops after one frame. On a phone or in an app without screen sharing, upload a screenshot or photo. Configured providers may be tried in order if one fails.</p>
+          <p>Nothing is saved in browser storage or synced. Photos and text stay while this workspace is open, including switches between tools. Leaving or reloading loses them; download a backup first. Backups contain your photos and text, so keep them private.</p>
+          <p>The downloaded document contains manually reviewed words, with no extra rewrite call. A provider’s normal ending never verifies a complete transcription.</p>
+        </details>
         {notice && <p role="status">{notice}</p>}
       </div>
     </details>

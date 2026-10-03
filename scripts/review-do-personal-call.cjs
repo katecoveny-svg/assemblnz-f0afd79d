@@ -73,7 +73,7 @@ const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLe
       window.WebSocket = FakeSocket;
     });
     await page.goto(origin + '/do/personal', { waitUntil: 'networkidle', timeout: 120_000 });
-    await page.getByRole('button', { name: 'Talk it through', exact: true }).click();
+    await page.getByRole('button', { name: 'Voice: open voice options', exact: true }).click();
     const panel = page.getByRole('region', { name: 'Call Moss', exact: true });
     await panel.getByRole('button', { name: 'Call Moss', exact: true }).click();
     const consent = panel.getByRole('checkbox', { name: /Use my microphone with Google Gemini/ });

@@ -175,7 +175,7 @@ try{
   await page.waitForFunction(()=>typeof window.assemblDoNativeReview==='function');await page.setViewportSize({width:820,height:850});
   await page.screenshot({path:resolve(out,'actual-focus-820.png')});
   await page.evaluate(()=>window.dispatchEvent(new Event('assembl:do-focus-image')));await page.locator('#do-vision-context').waitFor();
-  await page.locator('#do-vision-context summary').click();
+  await page.locator('#do-vision-context > summary').click();
   await page.getByLabel('Choose an image for DO',{exact:true}).setInputFiles({name:'fictional-pixel.png',mimeType:'image/png',buffer:fictionalPNG});
   await page.getByAltText('The image you chose for DO to inspect').waitFor();
   assert.equal(await page.getByRole('button',{name:'Ask DO to look · 1 task'}).isDisabled(),true);await page.getByAltText('The image you chose for DO to inspect').scrollIntoViewIfNeeded();await page.screenshot({path:resolve(out,'actual-image-review-820.png')});
