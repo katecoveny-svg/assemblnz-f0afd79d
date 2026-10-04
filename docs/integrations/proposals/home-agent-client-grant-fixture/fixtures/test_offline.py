@@ -142,24 +142,115 @@ class Offline(unittest.TestCase):
    spawn.assert_not_called()
  def test_wrong_rejection_reason_never_passes(self):
   reason='Pre-action metadata/effective-privilege drift; abort'
-  m.assert_rejection(m.Result(3,b'',('ERROR: '+reason+'\n').encode()),reason)
-  for r in [m.Result(3,b'',b'ERROR: syntax error\n'),m.Result(1,b'',('ERROR: '+reason).encode()),m.Result(3,b'',('ERROR: '+reason+'\nWARNING: bad\n').encode()),m.Result(3,b'',('ERROR: '+reason+'\nconnection lost\n').encode())]:
+  m.assert_rejection(m.Result(3,b'',('ERROR:  '+reason+'\n').encode()),reason)
+  for r in [m.Result(3,b'',b'ERROR:  syntax error\n'),m.Result(1,b'',('ERROR:  '+reason).encode()),m.Result(3,b'',('ERROR:  '+reason+'\nWARNING: bad\n').encode()),m.Result(3,b'',('ERROR:  '+reason+'\nconnection lost\n').encode())]:
    with self.assertRaisesRegex(RuntimeError,'reason mismatch'):m.assert_rejection(r,reason)
  def test_wrong_target_exact_rejection(self):
+  reason='Wrong fixture target/executor/version';error=('ERROR:  '+reason+'\n').encode()
+  m.assert_rejection(m.Result(3,b'',error),reason)
+  for r in [m.Result(0,(reason+'\n').encode(),b'\\quit: extra argument "3" ignored\n'),m.Result(0,b'',error),m.Result(1,b'',error),m.Result(3,b'',b'ERROR:  missing DB\n'),m.Result(3,b'extra',error),m.Result(3,b'',error+b'WARNING: extra\n'),m.Result(3,b'',error,1,('true',)),m.Result(3,b'',error,0,('false',))]:
+   with self.subTest(result=r),self.assertRaises(RuntimeError):m.assert_rejection(r,reason)
+ def test_wrong_target_supported_error_before_transaction(self):
+  for name in ('forward.sql','rollback.sql'):
+   source=(m.ROOT/name).read_text();prefix=source[:source.index('BEGIN;')]
+   self.assertIn('\\set ON_ERROR_STOP on',prefix)
+   self.assertIn("RAISE EXCEPTION USING MESSAGE='Wrong fixture target/executor/version';",prefix)
+   self.assertNotIn('\\quit',prefix);self.assertNotIn('GRANT ',prefix)
+  transport=m.Fixture.__new__(m.Fixture);transport.base=[m.DOCKER,'--host',m.ENDPOINT,'--config','/private'];transport.cid='b'*64
+  self.assertIn('VERBOSITY=terse',transport.psql_args())
+ def test_both_wrong_target_scripts_and_state_verification(self):
   reason='Wrong fixture target/executor/version'
-  m.assert_rejection(m.Result(3,(reason+'\n').encode(),b''),reason)
-  with self.assertRaises(RuntimeError):m.assert_rejection(m.Result(3,b'',b'ERROR: missing DB'),reason)
+  for name in ('forward.sql','rollback.sql'):
+   f=m.Fixture.__new__(m.Fixture);f.sql_bytes={name:b'fixture'}
+   with patch.object(f,'snapshot',side_effect=[{'acl':['grant']},{'acl':['grant']}]) as snapshot,patch.object(f,'verify_server'),patch.object(f,'raw',return_value=m.Result(3,b'',('ERROR:  '+reason+'\n').encode())) as raw:
+    f.rejected(name,reason,database='postgres');self.assertEqual(snapshot.call_count,2)
+    raw.assert_called_once_with(b'fixture',database='postgres')
+   with patch.object(f,'snapshot',side_effect=[{'acl':['grant']},{'acl':[]}]),patch.object(f,'verify_server'),patch.object(f,'raw',return_value=m.Result(3,b'',('ERROR:  '+reason+'\n').encode())):
+    with self.assertRaisesRegex(RuntimeError,'changed state'):f.rejected(name,reason,database='postgres')
+ def test_legacy_false_vote_exit_zero_is_rejected(self):
+  # Simulates the retained PG17 behaviour; this peer is not a database proof.
+  with self.assertRaisesRegex(RuntimeError,'diagnostic not safely refused'):
+   self.child("import sys;print('WARNING: synthetic diagnostic',flush=True);print('ACL_COMMIT_GATE_READY',flush=True);v=input();print('\\\\quit: extra argument \"4\" ignored',flush=True);sys.exit(0)",gate=True)
  def test_rejection_requires_unchanged_snapshot(self):
   f=m.Fixture.__new__(m.Fixture);f.sql_bytes={'forward.sql':b'fixture'}
   reason='Pre-action metadata/effective-privilege drift; abort'
-  with patch.object(f,'snapshot',side_effect=[{'a':1},{'a':2}]),patch.object(f,'verify_server'),patch.object(f,'raw',return_value=m.Result(3,b'',('ERROR: '+reason).encode())):
+  with patch.object(f,'snapshot',side_effect=[{'a':1},{'a':2}]),patch.object(f,'verify_server'),patch.object(f,'raw',return_value=m.Result(3,b'',('ERROR:  '+reason+'\n').encode())):
    with self.assertRaisesRegex(RuntimeError,'changed state'):f.rejected('forward.sql',reason)
- def test_reviewed_fixture_action_bodies_unchanged(self):
-  # CI contains no production-host SQL; compare the approved shared body hashes.
-  expected={'forward.sql':'74cf66400387953bd490fc6ede72ef5804df93e060a51b0d70962bba4f8480c2','rollback.sql':'1fe27da0436cd716bb5152b756815d405c704b8d63640abb2de98ddf83cc599f'}
+ def test_refusal_locus_is_frozen_statement_end(self):
+  for name in ('forward.sql','rollback.sql'):
+   data=(m.ROOT/name).read_bytes();path=m.SOCKET+'/home-client-'+'a'*32+'-1-'+name
+   locus=m.commit_refusal_locus(path,data)
+   self.assertEqual(locus,(path,data.splitlines().index(b'END $commit_refused$;')+1))
+   with self.assertRaises(RuntimeError):m.commit_refusal_locus('/arbitrary.sql',data)
+   with self.assertRaises(RuntimeError):m.commit_refusal_locus(path,data+b'END $commit_refused$;\n')
+   with self.assertRaises(RuntimeError):m.commit_refusal_locus(path,data.replace(b'END $commit_refused$;',b''))
+ def test_action_binds_actual_staged_path_and_frozen_line_in_receipt(self):
+  for name in ('forward.sql','rollback.sql'):
+   f=m.Fixture.__new__(m.Fixture);data=(m.ROOT/name).read_bytes()
+   f.sql_bytes={name:data};f.hashes={name:m.digest(data)};f.nonce='a'*32;f.cid='b'*64;f.sequence=5;f.env={}
+   path=m.SOCKET+'/home-client-'+f.nonce+'-5-'+name;locus=m.commit_refusal_locus(path,data)
+   output=m.GATE+b'\n'+('psql:'+path+':'+str(locus[1])+': ERROR:  Fixture commit gate refused; transaction rolled back\n').encode()
+   def execute(argv,env,deadline,**kwargs):
+    self.assertEqual(argv,['fixed-psql','-f',path]);self.assertTrue(kwargs['refuse']);self.assertTrue(kwargs['gate'])
+    return m.Result(3,output,b'',1,('false',))
+   with tempfile.TemporaryDirectory() as directory:
+    f.record_dir=pathlib.Path(directory)
+    with patch.object(f,'verify_server'),patch.object(f,'docker',return_value=m.Result(0,data,b'')),patch.object(f,'image_command',side_effect=[m.Result(0,b'',b''),m.Result(0,(m.digest(data)+'  '+path+'\n').encode(),b'')]),patch.object(f,'psql_args',return_value=['fixed-psql']),patch.object(f,'end',return_value=time.monotonic()+2),patch.object(m,'run_bounded',side_effect=execute):
+     result=f.action(name,refuse=True);self.assertEqual(result.locus,locus);m.assert_commit_refusal(result)
+    receipt=json.loads(next(f.record_dir.glob('006-refused-*.json')).read_text())
+    self.assertEqual(receipt['locus'],list(locus));self.assertEqual(receipt['sql_sha256'],m.digest(data))
+ def test_exact_pg17_diagnostic_spacing_and_locus(self):
+  reason='Wrong fixture target/executor/version'
+  for error in [('ERROR: '+reason+'\n').encode(),('ERROR:   '+reason+'\n').encode(),('psql:file.sql:1: ERROR:  '+reason+'\n').encode()]:
+   with self.assertRaises(RuntimeError):m.assert_rejection(m.Result(3,b'',error),reason)
+  locus=(m.SOCKET+'/home-client-'+'a'*32+'-1-forward.sql',117)
+  exact=m.GATE+b'\n'+('psql:'+locus[0]+':117: ERROR:  Fixture commit gate refused; transaction rolled back\n').encode()
+  for output in [exact.replace(b'ERROR:  ',b'ERROR: '),exact.replace(b':117:',b':118:'),exact.replace(b'-1-forward.sql:',b'-2-forward.sql:'),exact.replace(b'psql:',b''),exact+b'NOTICE: unexpected\n']:
+   with self.assertRaises(RuntimeError):m.assert_commit_refusal(m.Result(3,output,b'',1,('false',),locus))
+  for bad in [(),('/arbitrary.sql',117),(locus[0],0),(locus[0],True)]:
+   with self.assertRaises(RuntimeError):m.assert_commit_refusal(m.Result(3,exact,b'',1,('false',),bad))
+ def test_reviewed_permission_action_bodies_unchanged(self):
+  expected={'forward.sql': '6761480cf23c8eb75d0ef156906a009827c3efe33a34dff92c4673bfb0efc535', 'rollback.sql': '2cec859279384b70fc66dc72e892f4995d94c1ce39d6f86e16a3ce03352198ac'}
   for name,want in expected.items():
    data=(m.ROOT/name).read_bytes()
-   self.assertEqual(m.digest(data[data.index(b'BEGIN;'):]),want)
+   self.assertEqual(m.digest(data[data.index(b'BEGIN;'):data.index(b'\\echo '+m.GATE)]),want)
+ def test_reviewed_corrected_full_action_body_hashes(self):
+  expected={'forward.sql': 'e872bc3caf2808539fb088a2800fcdffddd031a8ffa06b8fdd7bc5f2e1051e2d', 'rollback.sql': '4bf6b1c44ecbecc1fbe2e8eb08d5fb29f9b681fd28621394dceff1122a31714b'}
+  for name,want in expected.items():
+   data=(m.ROOT/name).read_bytes();self.assertEqual(m.digest(data[data.index(b'BEGIN;'):]),want)
+ def test_commit_refusal_exact_result(self):
+  locus=(m.SOCKET+'/home-client-'+'a'*32+'-1-forward.sql',117)
+  output=m.GATE+b'\n'+('psql:'+locus[0]+':117: ERROR:  Fixture commit gate refused; transaction rolled back\n').encode()
+  m.assert_commit_refusal(m.Result(3,output,b'',1,('false',),locus))
+  for result in [m.Result(0,output,b'',1,('false',),locus),m.Result(4,output,b'',1,('false',),locus),m.Result(3,output,b'',1,('true',),locus),m.Result(3,output,b'',0,('false',),locus),m.Result(3,output+b'NOTICE: unexpected\n',b'',1,('false',),locus),m.Result(3,output,b'extra',1,('false',),locus)]:
+   with self.subTest(result=result),self.assertRaises(RuntimeError):m.assert_commit_refusal(result)
+ def test_refusal_rollback_before_error_source(self):
+  for name in ('forward.sql','rollback.sql'):
+   data=(m.ROOT/name).read_bytes();m.validate_gate_source(data)
+   self.assertNotIn(b'\\quit',data)
+   tail=data[data.index(b'\\echo '+m.GATE):]
+   self.assertLess(tail.index(b'ROLLBACK;'),tail.index(b'RAISE EXCEPTION'))
+   self.assertIn(b"\\prompt '' acl_commit_gate",tail)
+ def test_refused_action_preserves_state_and_requires_no_idle_transaction(self):
+  locus=(m.SOCKET+'/home-client-'+'a'*32+'-1-forward.sql',117)
+  output=m.GATE+b'\n'+('psql:'+locus[0]+':117: ERROR:  Fixture commit gate refused; transaction rolled back\n').encode()
+  for name in ('forward.sql','rollback.sql'):
+   f=m.Fixture.__new__(m.Fixture)
+   with patch.object(f,'snapshot',side_effect=[{'acl':['a']},{'acl':['a']}]),patch.object(f,'action',return_value=m.Result(3,output,b'',1,('false',),locus)) as action,patch.object(f,'raw',return_value=m.Result(0,b'0\n',b'')) as raw:
+    f.refused_action(name);action.assert_called_once_with(name,refuse=True);self.assertIn(b'idle in transaction',raw.call_args[0][0])
+   with patch.object(f,'snapshot',side_effect=[{'acl':['a']},{'acl':['b']}]),patch.object(f,'action',return_value=m.Result(3,output,b'',1,('false',),locus)):
+    with self.assertRaisesRegex(RuntimeError,'changed state'):f.refused_action(name)
+   with patch.object(f,'snapshot',side_effect=[{'acl':['a']},{'acl':['a']}]),patch.object(f,'action',return_value=m.Result(3,output,b'',1,('false',),locus)),patch.object(f,'raw',return_value=m.Result(0,b'1\n',b'')):
+    with self.assertRaisesRegex(RuntimeError,'idle transaction'):f.refused_action(name)
+ def test_forced_false_vote_only(self):
+  with tempfile.TemporaryDirectory() as home:
+   locus=(m.SOCKET+'/home-client-'+'a'*32+'-1-forward.sql',117)
+   diagnostic='psql:'+locus[0]+':117: ERROR:  Fixture commit gate refused; transaction rolled back'
+   source="import sys;print('ACL_COMMIT_GATE_READY',flush=True);v=input();print("+repr(diagnostic)+",flush=True);sys.exit(3 if v=='false' else 0)"
+   r=m.run_bounded([sys.executable,'-I','-c',source],m.clean_environment(home),time.monotonic()+2,gate=True,refuse=True)
+   m.assert_commit_refusal(m.dataclasses.replace(r,locus=locus))
+   with self.assertRaises(RuntimeError):m.run_bounded([],{},time.monotonic()+2,refuse=True)
+   with self.assertRaises(RuntimeError):m.run_bounded([],{},time.monotonic()+2,gate=True,refuse='true')
  def test_fixture_default_owner_entries(self):
   s=(m.ROOT/'bootstrap.sql').read_text()
   for privilege,kind in [('ALL','TABLES'),('ALL','SEQUENCES'),('EXECUTE','FUNCTIONS')]:

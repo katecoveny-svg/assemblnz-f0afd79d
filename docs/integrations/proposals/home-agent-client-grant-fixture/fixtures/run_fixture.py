@@ -28,7 +28,7 @@ def digest(data):return hashlib.sha256(data).hexdigest()
 def validate_gate_source(data):
  require(data.count(b'\\echo '+GATE+b'\n')==1,'missing/duplicate immutable commit gate')
  require(data.count(b'\\prompt ')==1 and data.count(b'\\if :acl_commit_gate\n')==1,'missing/duplicate immutable prompt')
- require(data.endswith(b'\\if :acl_commit_gate\nCOMMIT;\n\\else\nROLLBACK;\n\\quit 4\n\\endif\n'),'unexpected immutable commit tail')
+ require(data.endswith(b"\\prompt '' acl_commit_gate\n\\if :acl_commit_gate\nCOMMIT;\n\\else\nROLLBACK;\nDO $commit_refused$ BEGIN\n RAISE EXCEPTION USING MESSAGE='Fixture commit gate refused; transaction rolled back';\nEND $commit_refused$;\n\\endif\n"),'unexpected immutable commit tail')
 def verify_inspection(meta,cid,owner):
  require(re.fullmatch('[0-9a-f]{64}',cid or '') is not None,'invalid full container ID')
  require(meta.get('Id')==cid and meta.get('Name')=='/'+owner['name'],'container identity mismatch')
@@ -47,14 +47,15 @@ def verify_inspection(meta,cid,owner):
  require(h.get('Memory')==256*1024*1024 and h.get('NanoCpus')==1000000000 and h.get('PidsLimit')==128,'resource bounds mismatch')
 @dataclasses.dataclass
 class Result:
- code:int; stdout:bytes; stderr:bytes; gates:int=0; votes:tuple=()
+ code:int; stdout:bytes; stderr:bytes; gates:int=0; votes:tuple=(); locus:tuple=()
 def terminate(proc):
  if proc.poll() is None:
   os.killpg(proc.pid,signal.SIGTERM)
   try:proc.wait(timeout=2)
   except subprocess.TimeoutExpired:os.killpg(proc.pid,signal.SIGKILL);proc.wait(timeout=2)
-def run_bounded(argv,env,deadline,input_data=None,gate=False,limit=OUTPUT_LIMIT):
+def run_bounded(argv,env,deadline,input_data=None,gate=False,limit=OUTPUT_LIMIT,refuse=False):
  """Selector stdin/stdout/stderr, absolute deadline/output cap, finally-owned process cleanup."""
+ require(type(refuse) is bool and (not refuse or gate),'closed refusal mode requires gate')
  require(deadline>time.monotonic(),'operation deadline exhausted')
  p=subprocess.Popen(argv,env=env,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.STDOUT if gate else subprocess.PIPE,start_new_session=True,bufsize=0)
  sel=selectors.DefaultSelector();out=bytearray();err=bytearray();buf=bytearray()
@@ -92,7 +93,7 @@ def run_bounded(argv,env,deadline,input_data=None,gate=False,limit=OUTPUT_LIMIT)
       if line==GATE:gates+=1;marker=True
    if marker:
     require(gates==1 and not votes,'duplicate runtime commit gate')
-    vote=b'false\n' if diagnostic else b'true\n';votes.append(vote.decode().strip());pending.extend(vote)
+    vote=b'false\n' if diagnostic or refuse else b'true\n';votes.append(vote.decode().strip());pending.extend(vote)
     if p.stdin not in [k.fileobj for k in sel.get_map().values()]:sel.register(p.stdin,selectors.EVENT_WRITE,'in')
    if p.poll() is not None and pending:
     pending.clear()
@@ -166,7 +167,7 @@ class Fixture:
   return self.base+['exec','--user','postgres','-i',self.cid,'/usr/bin/env','-i','PATH=/usr/bin:/bin','HOME=/tmp','PGAPPNAME=home-client-fixture','PGOPTIONS=-c statement_timeout=5000 -c lock_timeout=3000',PSQL,'-X','-qAt','-v','ON_ERROR_STOP=1','-v','VERBOSITY=terse','-h',SOCKET,'-p','5432','-U',user,'-d',database]
  def retain(self,phase,data,r):
   self.sequence+=1
-  (self.record_dir/('%03d-%s.json'%(self.sequence,phase))).write_text(json.dumps({'nonce':self.nonce,'container_id':self.cid,'sql_sha256':digest(data),'returncode':r.code,'stdout':r.stdout.decode(errors='replace'),'stderr':r.stderr.decode(errors='replace'),'gates':r.gates,'votes':r.votes},indent=2))
+  (self.record_dir/('%03d-%s.json'%(self.sequence,phase))).write_text(json.dumps({'nonce':self.nonce,'container_id':self.cid,'sql_sha256':digest(data),'returncode':r.code,'stdout':r.stdout.decode(errors='replace'),'stderr':r.stderr.decode(errors='replace'),'gates':r.gates,'votes':r.votes,'locus':r.locus},indent=2))
  def raw(self,data,user='postgres',database='acl_fixture'):
   self.verify();r=run_bounded(self.psql_args(user,database),self.env,self.end(8),data);self.retain('query',data,r);return r
  def create(self):
@@ -223,15 +224,22 @@ class Fixture:
   require(self.checked(self.image_command(['/usr/bin/readlink','-e','/proc/1/exe']),'PID1').decode().strip()==POSTGRES,'server process changed')
   require(self.checked(self.raw(b'SELECT nonce FROM fixture_identity.marker;'),'nonce').decode().strip()==self.nonce,'instance nonce mismatch')
   require(self.server_identity()==self.identity,'server instance changed')
- def action(self,name):
+ def action(self,name,refuse=False):
   data=self.sql_bytes[name];validate_gate_source(data);self.verify_server()
-  path=SOCKET+'/home-client-'+self.nonce+'-'+name
+  path=SOCKET+'/home-client-'+self.nonce+'-'+str(self.sequence)+'-'+name
   r=self.docker(['exec','--user','postgres','-i',self.cid,'/usr/bin/env','-i','PATH=/usr/bin:/bin','HOME=/tmp','/usr/bin/tee',path],data)
   require(self.checked(r,'SQL transfer')==data,'SQL transfer mismatch')
   self.checked(self.image_command(['/usr/bin/chmod','0444',path]),'SQL mode')
   sha=self.checked(self.image_command(['/usr/bin/sha256sum',path]),'SQL hash').decode().split()[0]
   require(sha==self.hashes[name],'frozen SQL bytes changed')
-  r=run_bounded(self.psql_args()+['-f',path],self.env,self.end(35),gate=True);self.retain(name,data,r);return r
+  r=run_bounded(self.psql_args()+['-f',path],self.env,self.end(35),gate=True,refuse=refuse)
+  r=dataclasses.replace(r,locus=commit_refusal_locus(path,data));self.retain(('refused-' if refuse else '')+name,data,r);return r
+ def refused_action(self,name):
+  before=self.snapshot();r=self.action(name,refuse=True);assert_commit_refusal(r)
+  require(self.snapshot()==before,'commit refusal changed state')
+  sql=b"SELECT count(*) FROM pg_stat_activity WHERE datname='acl_fixture' AND pid<>pg_backend_pid() AND state LIKE 'idle in transaction%';"
+  require(self.checked(self.raw(sql),'refusal transaction evidence')==b'0\n','commit refusal left idle transaction')
+  return r
  def snapshot(self):
   data=self.sql_bytes['forward.sql'];start=data.index(b'CREATE FUNCTION pg_temp.home_acl_snapshot()')
   end=data.index(b'$snapshot$;',start)+len(b'$snapshot$;')
@@ -248,11 +256,18 @@ class Fixture:
    if self.record.exists():recover_cleanup(self.owner,self.record_dir,self.env,self.base)
   finally:self.home.cleanup()
 def assert_rejection(r,reason):
- if reason=='Wrong fixture target/executor/version':
-  require(r.code==3 and r.stdout.decode().strip()==reason and not r.stderr,'wrong target rejection reason mismatch')
- else:
-  exact=re.fullmatch(r'ERROR:\s+'+re.escape(reason)+r'\s*',r.stderr.decode())
-  require(r.code==3 and exact is not None,'SQL rejection reason mismatch')
+ expected=('ERROR:  '+reason+'\n').encode()
+ require(r.code==3 and r.stdout==b'' and r.stderr==expected and r.gates==0 and r.votes==() and r.locus==(),'SQL rejection reason mismatch')
+def commit_refusal_locus(path,data):
+ require(isinstance(path,str) and re.fullmatch(re.escape(SOCKET)+r'/home-client-[0-9a-f]{32}-[0-9]+-(forward|rollback)\.sql',path) is not None,'unapproved fixture file locus')
+ lines=data.splitlines();require(lines.count(b'END $commit_refused$;')==1,'missing/duplicate refusal statement locus')
+ return (path,lines.index(b'END $commit_refused$;')+1)
+def assert_commit_refusal(r):
+ require(isinstance(r.locus,tuple) and len(r.locus)==2,'missing reviewed refusal locus')
+ path,line=r.locus
+ require(isinstance(path,str) and re.fullmatch(re.escape(SOCKET)+r'/home-client-[0-9a-f]{32}-[0-9]+-(forward|rollback)\.sql',path) is not None and type(line) is int and line>0,'invalid reviewed refusal locus')
+ expected=GATE+b'\n'+('psql:'+path+':'+str(line)+': ERROR:  Fixture commit gate refused; transaction rolled back\n').encode()
+ require(r.code==3 and r.stdout==expected and r.stderr==b'' and r.gates==1 and r.votes==('false',),'commit refusal reason/state mismatch')
 def prove(f):
  f.create();require(f.snapshot()==json.loads((ROOT.parent/'baseline.json').read_text()),'bootstrap baseline mismatch')
  def sql(n):f.checked(f.raw(f.sql_bytes[n]),n)
@@ -260,9 +275,12 @@ def prove(f):
  def action(n):
   r=f.action(n);require(r.code==0 and not r.stderr and r.votes==('true',),'unclean action')
  reason='Pre-action metadata/effective-privilege drift; abort'
- f.rejected('forward.sql','Wrong fixture target/executor/version',database='postgres')
+ for name in ('forward.sql','rollback.sql'):
+  f.rejected(name,'Wrong fixture target/executor/version',database='postgres')
+ f.refused_action('forward.sql')
  sql('service-check.sql');action('forward.sql');sql('client-denial.sql');sql('service-check.sql')
  require(f.snapshot()==json.loads((ROOT.parent/'poststate.json').read_text()),'poststate mismatch')
+ f.refused_action('rollback.sql')
  mutate('GRANT SELECT ON public.home_agent_log TO anon;');f.rejected('rollback.sql',reason)
  mutate('REVOKE SELECT ON public.home_agent_log FROM anon;');action('rollback.sql');sql('service-check.sql')
  for add,remove in [('GRANT SELECT ON public.home_agent_log TO anon WITH GRANT OPTION;','REVOKE GRANT OPTION FOR SELECT ON public.home_agent_log FROM anon;'),('GRANT service_role TO anon WITH INHERIT TRUE, SET TRUE;','REVOKE service_role FROM anon;'),('GRANT SELECT ON public.home_agent_log TO service_role WITH GRANT OPTION;','REVOKE GRANT OPTION FOR SELECT ON public.home_agent_log FROM service_role;')]:

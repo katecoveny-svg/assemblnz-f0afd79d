@@ -4,8 +4,9 @@ SELECT :'HOST'='/var/run/postgresql' AND :'DBNAME'='acl_fixture'
  AND current_setting('server_version_num')::integer>=170000 AS target_valid \gset
 \if :target_valid
 \else
-\echo Wrong fixture target/executor/version
-\quit 3
+DO $wrong_target$ BEGIN
+ RAISE EXCEPTION USING MESSAGE='Wrong fixture target/executor/version';
+END $wrong_target$;
 \endif
 BEGIN;
 SET LOCAL lock_timeout='5s';
@@ -105,10 +106,12 @@ $assert$;
 
 DROP FUNCTION pg_temp.home_acl_snapshot();
 \echo ACL_COMMIT_GATE_READY
-\prompt 'Approval gate: ' acl_commit_gate
+\prompt '' acl_commit_gate
 \if :acl_commit_gate
 COMMIT;
 \else
 ROLLBACK;
-\quit 4
+DO $commit_refused$ BEGIN
+ RAISE EXCEPTION USING MESSAGE='Fixture commit gate refused; transaction rolled back';
+END $commit_refused$;
 \endif
