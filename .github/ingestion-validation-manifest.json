@@ -11,6 +11,11 @@
       "git_blob": "ced0914d3a97a6d79082daf93180be7010170c74",
       "bytes": 11273
     },
+    ".github/workflows/home-agent-client-grant-sql-validation.yml": {
+      "sha256": "773fb78765b47b6cb661e012ed3d30051d2bb622b992fb4844574a89f4e158d8",
+      "git_blob": "8da347ccc50da54feecea8c56462fce2eb8a39bb",
+      "bytes": 13399
+    },
     "docs/integrations/ingestion-audit-20261003.md": {
       "sha256": "a2980f1099d8a5041c357d5f37e25eaa2bd51fecd8b50ef7cdbe20aa63855334",
       "git_blob": "2def48cccd9495ee4935986a843dc68a5e35bde3",
@@ -50,6 +55,61 @@
       "sha256": "fc9f89eabdbdd3953db59a7c262421709f29d4fa56f0173651c0606daf65554f",
       "git_blob": "9d68a7a0ca359984ec6e9a2512e2a3af8d3473aa",
       "bytes": 14845
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/baseline.json": {
+      "sha256": "5a05f3808d1a3e55ce0df07566da2784bf7e14e883ff894138830838ea30ed22",
+      "git_blob": "50db303fb24fb79eaf68bb9591d0a7503a59f961",
+      "bytes": 7944
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/bootstrap.sql": {
+      "sha256": "fcf817ded226a5a81d83d6d7c34956981109034c1229f968c6770cc218d54aef",
+      "git_blob": "c1322f588b84d3a7814da6df43cac65b61f607b8",
+      "bytes": 2552
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/cleanup_owned.py": {
+      "sha256": "982583de98f02ee615f9403a475f8b89de225042934e2ed3ae717120bb6c13fb",
+      "git_blob": "d368b0e49b803b345818651111dbe7210640c9e7",
+      "bytes": 1300
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/client-denial.sql": {
+      "sha256": "5a78b95a1f9fd3376cced14b99b1112403690bffdf46b18db9f60b0fdca95b8e",
+      "git_blob": "693595be28527a6916bc88e19587a4f904628571",
+      "bytes": 1766
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/forward.sql": {
+      "sha256": "1f3a4ea52fdb979b85534e58b7cd9716b06ec13b4575f8c586fdd5ed1321659f",
+      "git_blob": "0f5f8aaca2131f39f1beb1a96bd0d6264dd88720",
+      "bytes": 17649
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/rollback.sql": {
+      "sha256": "43c15e78eaad43d32b9e737792d21a2573b1fac40a6a4470f5c996e93148c227",
+      "git_blob": "bb8aba15ea3251c21991f8ea2f937b52c249f525",
+      "bytes": 17781
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/run-owned-fixture.sh": {
+      "sha256": "88ebabf615cd1c0f931fb0064014a14a5d5ed032e199c2c670cef5b814e3732a",
+      "git_blob": "2206d028fa84a589819a40998bca9742840644a6",
+      "bytes": 1161
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/run_fixture.py": {
+      "sha256": "aee23272eb48edafd3a7d2a74e88ac788bce859f66074c7891d06f74cbbe4c47",
+      "git_blob": "9782ad57227215083601b8591f1976d2a9272055",
+      "bytes": 20190
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/service-check.sql": {
+      "sha256": "96ad03cdb228de914aa36b497bbd6e64bbb3b3785cdf3c4c67cfbbee509fc37f",
+      "git_blob": "a611c48cad3797d80c3938b543c4a88b602686f9",
+      "bytes": 849
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/test_offline.py": {
+      "sha256": "e2ff1c63bd493c3f7e77cf88bbfeae3f64b72e1c1c1ca0e53579e32c51dc1b10",
+      "git_blob": "741b4f5dea454fa410299027445c1eaf16534df5",
+      "bytes": 11024
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/poststate.json": {
+      "sha256": "fa2b591fc5abf3e67e4028d8ed1d8cfccdbfee39a81d332168604370c2d054ad",
+      "git_blob": "a5831fda199a109c9fb440507c8850e428a24180",
+      "bytes": 7830
     },
     "supabase/functions/_shared/opportunity-envelope.ts": {
       "sha256": "bf404578afa41f9d258ea8a9040c22e1d13315c1ec233b6ed34e4e004b3549a4",
@@ -245,6 +305,7 @@
   "allowed_changed_paths": [
     ".github/ingestion-validation-manifest.json",
     ".github/workflows/atomic-ingestion-sql-validation.yml",
+    ".github/workflows/home-agent-client-grant-sql-validation.yml",
     ".github/workflows/rss-adapter-validation.yml",
     "docs/integrations/ingestion-audit-20261003.md",
     "docs/integrations/ingestion-health-20261003.json",
@@ -254,6 +315,17 @@
     "docs/integrations/proposals/atomic-ingestion-finalization.sql",
     "docs/integrations/proposals/atomic-postgres-harness.py",
     "docs/integrations/proposals/atomic-postgres-preflight.test.py",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/baseline.json",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/bootstrap.sql",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/cleanup_owned.py",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/client-denial.sql",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/forward.sql",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/rollback.sql",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/run-owned-fixture.sh",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/run_fixture.py",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/service-check.sql",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/test_offline.py",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/poststate.json",
     "supabase/functions/adapter-html/challenge.test.ts",
     "supabase/functions/adapter-html/challenge.ts",
     "supabase/functions/adapter-html/durability.ts",
@@ -295,5 +367,12 @@
     ],
     "reason": "TS2367: read mutable fixture success timestamp through explicit string-returning helper; runtime assertion unchanged",
     "adapter_runtime_v2_unchanged": true
+  },
+  "client_grant_fixture_proposal": {
+    "expected_parent": "05fd171592919b9eff83ca4fc3fc0ed7d238cad8",
+    "source_packet_sha256": "bad5967394bc9700b29d56a2a88ad91e5d6f0126408e37f6b3e8d8e1ab475804",
+    "review_scope": "only bounded synthetic database test proposal; no production apply SQL/runner",
+    "production_adapters_unchanged": true,
+    "production_sql_and_migration_history_unchanged": true
   }
 }

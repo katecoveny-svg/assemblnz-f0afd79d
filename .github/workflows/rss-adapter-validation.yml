@@ -64,7 +64,7 @@ jobs:
           const changedPaths = (base, head) => git('diff', '--no-renames', '--name-only', '-z', base, head).split('\0').filter(Boolean);
           const actual = git('rev-parse', 'HEAD').trim();
           const expected = process.env.EXPECTED_HEAD;
-          const approvedManifestSha256 = '3b1b39971e1f724c7d7a7f8e272afc141f6f6caf96f1fcc3eafbc117904783e5';
+          const approvedManifestSha256 = '37ae62921dc0dcb202d3e0b46175ae52e8ed2517cb25cf0ff54b024fc886d837';
           const manifestPath = '.github/ingestion-validation-manifest.json';
           const dir = path.join(process.env.RUNNER_TEMP, 'ingestion-evidence', process.env.ADAPTER);
           fs.mkdirSync(dir, {recursive: true});
