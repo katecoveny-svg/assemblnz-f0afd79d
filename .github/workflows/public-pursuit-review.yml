@@ -16,6 +16,10 @@ on:
       - 'components/site/pursuit/**'
       - 'scripts/public-pursuit-browser.py'
       - '.github/workflows/public-pursuit-review.yml'
+      - 'components/client-hub-migration/original/app/hub/concept-studio.tsx'
+      - 'components/private-showpiece/**'
+      - 'lib/private-showpiece/**'
+      - 'scripts/studio-ci/**'
   push:
     branches: ['feat/pursuit-live-canvas-20260918']
   workflow_dispatch:
@@ -27,10 +31,14 @@ concurrency:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 22
+    timeout-minutes: 30
+    env:
+      NODE_OPTIONS: --max-old-space-size=6144
+      NEXT_TELEMETRY_DISABLED: '1'
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
       - uses: pnpm/action-setup@v4
         with:
@@ -47,16 +55,39 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm test lib/pursuit lib/creative/generate.test.ts app/api/pursuit/research/route.test.ts app/api/creative/image/route.test.ts lib/product-destinations.test.ts lib/public-nav-allowlist.test.ts lib/auth/public-entry.test.ts components/site/public-company-pages.test.ts lib/pursuit/outreach.test.ts lib/pursuit/public-format.test.ts lib/pursuit/public-response.test.ts lib/pursuit/public-contract.test.ts lib/pursuit/pitch-export.test.ts components/site/assembl-the-work/hero-resilience.test.ts
       - run: pnpm exec eslint lib/pursuit/direct-sources.ts lib/pursuit/direct-sources.test.ts lib/pursuit/direct-source-brief.ts lib/pursuit/direct-source-brief.test.ts lib/pursuit/public-cost-admission.ts lib/pursuit/public-cost-admission.test.ts lib/pursuit/public-contract.ts lib/pursuit/public-attempt.ts lib/pursuit/public-store.test.ts lib/pursuit/pitch-export.test.ts lib/creative/generate.ts lib/creative/generate.test.ts components/creative-studio/CreativeStudioShell.tsx components/creative-studio/BrandImageMaker.tsx components/site/pursuit/useResearchAvailability.ts components/site/pursuit/PursuitCanvasHero.tsx components/site/pursuit/WebsiteOutreach.tsx lib/pursuit/outreach.ts lib/pursuit/outreach-prompt.ts lib/pursuit/outreach.test.ts components/site/pursuit/LivePursuitCanvas.tsx components/site/pursuit/PursuitLanding.tsx lib/pursuit/pitch-export.ts lib/pursuit/public-format.ts lib/pursuit/public-response.ts lib/pursuit/public-research.ts lib/pursuit/public-store.ts app/api/knowledge app/api/pursuit/research
-      - name: Production build with existing brand guards
+      - name: Private Studio synthetic unit and handler regressions
+        run: pnpm exec vitest run --configLoader runner --config scripts/studio-ci/vitest.config.mjs
+      - name: Prepare unshipped hosted-CI Studio fixture
+        run: |
+          mkdir -p visual-evidence/studio-ci
+          node scripts/studio-ci/prepare.mjs | tee visual-evidence/studio-ci/generated-fixture.json
+      - name: Production build with existing brand guards (CI fixture included; never deployed)
         run: pnpm build
       - run: pip install playwright==1.55.0 && playwright install --with-deps chromium
-      - run: |
+      - name: Public regression and private Studio synthetic browser proof on one build
+        shell: bash
+        run: |
+          set -euo pipefail
           pnpm start > /tmp/assembl-public.log 2>&1 &
-          for i in $(seq 1 45); do curl -sf http://127.0.0.1:3000/ >/dev/null && break; sleep 2; done
-      - run: python scripts/public-pursuit-browser.py
+          server=$!
+          trap 'kill "$server" || true' EXIT
+          ready=0
+          for i in $(seq 1 45); do
+            if curl -sf http://127.0.0.1:3000/ >/dev/null; then ready=1; break; fi
+            sleep 2
+          done
+          test "$ready" = 1
+          python scripts/public-pursuit-browser.py
+          python scripts/studio-ci/browser.py
+      - name: Remove generated CI fixture sources
+        if: always()
+        run: node scripts/studio-ci/prepare.mjs --clean
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: public-pursuit-review
-          path: visual-evidence/public-pursuit/
+          path: |
+            visual-evidence/public-pursuit/
+            visual-evidence/studio-ci/
+            /tmp/assembl-public.log
           retention-days: 14
