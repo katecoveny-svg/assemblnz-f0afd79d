@@ -45,7 +45,7 @@ export function applyStudioDirection(h:Hub,comparison:StudioComparison,id:string
 export type StudioFirstSaveEvidence={fromWorkspaceKey:string;currentWorkspaceKey:string;startedEpoch:number;currentEpoch:number;existingId?:string;acknowledgedId:string;acknowledgedRevision:number;submittedHub:Hub;acknowledgedHub:Hub};
 /** Only a confirmed first save of this still-selected fresh workspace changes checkpoint binding. */
 export function promoteStudioCheckpoints(history:StudioCheckpoint[],e:StudioFirstSaveEvidence):StudioCheckpoint[]{
- if(e.existingId||!e.fromWorkspaceKey.startsWith('fresh:')||e.currentWorkspaceKey!==e.fromWorkspaceKey||e.startedEpoch!==e.currentEpoch||e.acknowledgedRevision!==1||!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(e.acknowledgedId))return history;
+ if(e.existingId||!e.fromWorkspaceKey.startsWith('fresh:')||e.currentWorkspaceKey!==e.fromWorkspaceKey||e.acknowledgedRevision!==1||!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(e.acknowledgedId))return history;
  const acknowledged=hubSchema.safeParse(e.acknowledgedHub);if(!acknowledged.success||studioBase(acknowledged.data)!==studioBase(e.submittedHub))return history;
  return history.map(c=>c.workspaceKey===e.fromWorkspaceKey?{...c,workspaceKey:`hub:${e.acknowledgedId}`}:c);
 }

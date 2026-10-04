@@ -6,6 +6,8 @@ import {hubSchema} from '@/components/client-hub-migration/original/lib/pursuit-
 import {OwnerSaveFlow} from './owner-save-flow';
 const id='893f40dc-2b51-4f10-bcfe-91fa6e952f32';
 describe('manual owner Hub save dispatch ledger (synthetic, no account writes)',()=>{
+ it('explicit replay uses immutable captured UUID/revision0/payload and cannot replay concurrently or without capture',()=>{const flow=new OwnerSaveFlow(),hub=emptyOwnerHub(),attempt=flow.begin('fresh:fixture',id,0,hub);flow.uncertain(attempt);hub.name='Newer edits';const replay=flow.retryCapturedCreate('fresh:fixture');expect(replay).toBe(attempt);expect(replay.payload.name).not.toBe(hub.name);expect(Object.isFrozen(replay.payload.design.frame.content)).toBe(true);expect(()=>flow.retryCapturedCreate('fresh:fixture')).toThrow();expect(()=>flow.retryCapturedCreate('fresh:missing')).toThrow();flow.uncertain(attempt);expect(flow.retryCapturedCreate('fresh:fixture')).toBe(attempt);});
+
  it('rejects exhausted, fractional and out-of-range revisions before reserving or dispatching',()=>{
   const flow=new OwnerSaveFlow(),hub=emptyOwnerHub();
   for(const revision of [-1,0.5,2147483647,2147483648,Number.NaN])expect(()=>flow.begin('hub:fixture',id,revision,hub)).toThrow('invalid or exhausted');
