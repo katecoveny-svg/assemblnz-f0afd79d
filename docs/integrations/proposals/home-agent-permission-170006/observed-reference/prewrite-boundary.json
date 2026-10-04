@@ -1,0 +1,152 @@
+{
+  "boundary": "exact stock auth base tables; no public base relations or Hub studio_private schema",
+  "stock_base_tables": [
+    {
+      "schema": "auth",
+      "name": "audit_log_entries",
+      "kind": "r",
+      "owner": "supabase_auth_admin"
+    },
+    {
+      "schema": "auth",
+      "name": "instances",
+      "kind": "r",
+      "owner": "supabase_auth_admin"
+    },
+    {
+      "schema": "auth",
+      "name": "refresh_tokens",
+      "kind": "r",
+      "owner": "supabase_auth_admin"
+    },
+    {
+      "schema": "auth",
+      "name": "schema_migrations",
+      "kind": "r",
+      "owner": "supabase_auth_admin"
+    },
+    {
+      "schema": "auth",
+      "name": "users",
+      "kind": "r",
+      "owner": "supabase_auth_admin"
+    }
+  ],
+  "other_relations_observation_only": [
+    {
+      "schema": "auth",
+      "name": "audit_log_entries_pkey",
+      "kind": "i",
+      "owner": "supabase_auth_admin"
+    },
+    {
+      "schema": "auth",
+      "name": "audit_logs_instance_id_idx",
+      "kind": "i",
+      "owner": "supabase_auth_admin"
+    },
+    {
+      "schema": "auth",
+      "name": "instances_pkey",
+      "kind": "i",
+      "owner": "supabase_auth_admin"
+    },
+    {
+      "schema": "auth",
+      "name": "refresh_tokens_id_seq",
+      "kind": "S",
+      "owner": "supabase_auth_admin"
+    },
+    {
+      "schema": "auth",
+      "name": "refresh_tokens_instance_id_idx",
+      "kind": "i",
+      "owner": "supabase_auth_admin"
+    },
+    {
+      "schema": "auth",
+      "name": "refresh_tokens_instance_id_user_id_idx",
+      "kind": "i",
+      "owner": "supabase_auth_admin"
+    },
+    {
+      "schema": "auth",
+      "name": "refresh_tokens_pkey",
+      "kind": "i",
+      "owner": "supabase_auth_admin"
+    },
+    {
+      "schema": "auth",
+      "name": "refresh_tokens_token_idx",
+      "kind": "i",
+      "owner": "supabase_auth_admin"
+    },
+    {
+      "schema": "auth",
+      "name": "schema_migrations_pkey",
+      "kind": "i",
+      "owner": "supabase_auth_admin"
+    },
+    {
+      "schema": "auth",
+      "name": "users_email_key",
+      "kind": "i",
+      "owner": "supabase_auth_admin"
+    },
+    {
+      "schema": "auth",
+      "name": "users_instance_id_email_idx",
+      "kind": "i",
+      "owner": "supabase_auth_admin"
+    },
+    {
+      "schema": "auth",
+      "name": "users_instance_id_idx",
+      "kind": "i",
+      "owner": "supabase_auth_admin"
+    },
+    {
+      "schema": "auth",
+      "name": "users_pkey",
+      "kind": "i",
+      "owner": "supabase_auth_admin"
+    },
+    {
+      "schema": "extensions",
+      "name": "pg_stat_statements",
+      "kind": "v",
+      "owner": "supabase_admin"
+    },
+    {
+      "schema": "extensions",
+      "name": "pg_stat_statements_info",
+      "kind": "v",
+      "owner": "supabase_admin"
+    },
+    {
+      "schema": "vault",
+      "name": "decrypted_secrets",
+      "kind": "v",
+      "owner": "supabase_admin"
+    },
+    {
+      "schema": "vault",
+      "name": "secrets",
+      "kind": "r",
+      "owner": "supabase_admin"
+    },
+    {
+      "schema": "vault",
+      "name": "secrets_name_idx",
+      "kind": "i",
+      "owner": "supabase_admin"
+    },
+    {
+      "schema": "vault",
+      "name": "secrets_pkey",
+      "kind": "i",
+      "owner": "supabase_admin"
+    }
+  ],
+  "complete_schema_or_permission_parity_proven": false
+}

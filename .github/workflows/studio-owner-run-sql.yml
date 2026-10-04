@@ -1,10 +1,9 @@
-# REVIEW ONLY. Share/reuse this single discovery job with Hub owner; not published.
-name: Hub shared 17.6 pre-write image discovery
+name: Isolated PostgreSQL 17.6 permission proof
 on:
   workflow_dispatch:
     inputs:
       reviewed_sha:
-        description: Exact reviewed sole-parent candidate commit
+        description: Exact independently reviewed candidate commit
         required: true
         type: string
 permissions:
@@ -15,44 +14,64 @@ concurrency:
 jobs:
   isolated-sql:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 8
     env:
-      EXPECTED_PARENT: 4abfb75031bc937afc6c2390b18f6269b04ccf29
+      EXPECTED_PARENT: d0ea3112d62d93fed401e5c1b0178db0ac60357e
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           ref: ${{ inputs.reviewed_sha }}
           fetch-depth: 2
           persist-credentials: false
-      - name: Exact attempt and sole parent guard
-        shell: bash
+      - name: Exact head, parent, attempt and immutable source guard
         env:
           REVIEWED_SHA: ${{ inputs.reviewed_sha }}
+        shell: bash
         run: |
           set -euo pipefail
           test "$GITHUB_RUN_ATTEMPT" = 1
           test "$GITHUB_SHA" = "$REVIEWED_SHA"
           test "$(git rev-parse HEAD)" = "$REVIEWED_SHA"
           test "$(git rev-list --parents -n 1 HEAD)" = "$REVIEWED_SHA $EXPECTED_PARENT"
-          echo 'a0671ea32a02e78fb164a9dd2b2f984c907a51a8dd3e84dc9795fadbc53e27f1  docs/integrations/proposals/postgres-170006-discovery/INPUT-SHA256SUMS' | sha256sum --check --strict
-          sha256sum --check --strict docs/integrations/proposals/postgres-170006-discovery/INPUT-SHA256SUMS
-      - name: One owned immutable-image discovery
+          git diff-tree --no-commit-id --name-status -r HEAD > "$RUNNER_TEMP/permission-path-status.txt"
+          echo '81b35aa591a1f6c54d48e15e2650bbeabc9e6f679894349a88593e9fd78ceda1  '"$RUNNER_TEMP/permission-path-status.txt" | sha256sum --check --strict
+          echo 'd9ee082a8d91374239b774d9e7d5fe1cd7a4945c01603f812e7f739851e44002  docs/integrations/proposals/home-agent-permission-170006/INPUT-SHA256SUMS' | sha256sum --check --strict
+          sha256sum --check --strict docs/integrations/proposals/home-agent-permission-170006/INPUT-SHA256SUMS
+      - name: Offline reviewed contract checks
+        working-directory: docs/integrations/proposals/home-agent-permission-170006
         shell: bash
         run: |
           set -euo pipefail
-          timeout --signal=TERM --kill-after=5s 420s python3 docs/integrations/proposals/postgres-170006-discovery/discover.py
+          timeout --signal=TERM --kill-after=5s 30s python3 -m unittest discover -v
+          timeout --signal=TERM --kill-after=5s 30s python3 -O -m unittest discover -v
+      - name: Provision only the reviewed immutable image
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -d -m 700 "$RUNNER_TEMP/permission-docker-config"
+          timeout --signal=TERM --kill-after=10s 180s env -i PATH=/usr/bin:/bin HOME="$RUNNER_TEMP/permission-docker-config" DOCKER_CONFIG="$RUNNER_TEMP/permission-docker-config" /usr/bin/docker --host unix:///var/run/docker.sock --config "$RUNNER_TEMP/permission-docker-config" pull --platform linux/amd64 public.ecr.aws/supabase/postgres@sha256:2f907f53ca8d59b4a620cdcbefe21854046f5409b20e96887e2fa2289c902bdb
+          timeout --signal=TERM --kill-after=5s 10s env -i PATH=/usr/bin:/bin HOME="$RUNNER_TEMP/permission-docker-config" /usr/bin/docker --host unix:///var/run/docker.sock --config "$RUNNER_TEMP/permission-docker-config" image inspect --format '{{.Id}} {{.Architecture}} {{.Os}}' public.ecr.aws/supabase/postgres@sha256:2f907f53ca8d59b4a620cdcbefe21854046f5409b20e96887e2fa2289c902bdb > "$RUNNER_TEMP/permission-image-identity.txt"
+          test "$(cat "$RUNNER_TEMP/permission-image-identity.txt")" = 'sha256:2b35381bd3f617b535b605f185d4aebf314f2e3d13710f88c737bc0aca06c047 amd64 linux'
+      - name: One bounded owned no-prompt permission proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=10s 150s python3 docs/integrations/proposals/home-agent-permission-170006/execute_bound.py
       - name: Independent owned-container cleanup
         if: always()
         shell: bash
         run: |
           set -euo pipefail
-          test -f "$RUNNER_TEMP/postgres-170006-discovery/owner.json" || exit 0
-          echo '44aadb01a5642e0620c629645350b4613de35fd7259f584cd2d144ef43850d1f  docs/integrations/proposals/postgres-170006-discovery/discover.py' | sha256sum --check --strict
-          timeout --signal=TERM --kill-after=5s 40s python3 docs/integrations/proposals/postgres-170006-discovery/discover.py --cleanup-only
+          echo '982583de98f02ee615f9403a475f8b89de225042934e2ed3ae717120bb6c13fb  docs/integrations/proposals/home-agent-permission-170006/owned-fixture/cleanup_owned.py' | sha256sum --check --strict
+          echo 'e81a153d01a501a179d6f181d8587a53540a33890ed85a0e84731f8d326fc641  docs/integrations/proposals/home-agent-permission-170006/owned-fixture/run_fixture.py' | sha256sum --check --strict
+          timeout --signal=TERM --kill-after=5s 30s python3 docs/integrations/proposals/home-agent-permission-170006/owned-fixture/cleanup_owned.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: postgres-170006-discovery-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/postgres-170006-discovery
+          name: permission-170006-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/home-agent-client-grant-proof
+            ${{ runner.temp }}/permission-image-identity.txt
+            ${{ runner.temp }}/permission-path-status.txt
           if-no-files-found: error
           retention-days: 7
