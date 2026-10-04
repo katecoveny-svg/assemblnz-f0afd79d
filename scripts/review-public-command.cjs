@@ -14,6 +14,16 @@ const signatures = {
   '/contact': { title: 'Contact assembl | Discuss your project', h1: 'What would you like to make?' },
 };
 
+// Navigation readiness is bounded and requires the actual destination, not its URL alone.
+const waitForSignature = async (page, destination) => page.waitForFunction(signature => {
+  if (document.title !== signature.title) return false;
+  const canonical = document.querySelector('link[rel="canonical"]')?.getAttribute('href');
+  if (!canonical || new URL(canonical, location.href).pathname !== signature.destination) return false;
+  if (signature.h1) return document.querySelector('h1')?.innerText.replace(/\s+/g, ' ').trim() === signature.h1;
+  const shell = document.querySelector(signature.selector);
+  return Boolean(shell && shell.getClientRects().length && getComputedStyle(shell).display !== 'none' && getComputedStyle(shell).visibility !== 'hidden');
+}, { ...signatures[destination], destination }, { timeout: 30000 });
+
 // Hold deferred callbacks to reproduce close/reopen races deterministically.
 const holdDismissTimers = async page => page.evaluate(() => {
   const set = window.setTimeout; const clear = window.clearTimeout;
@@ -45,14 +55,27 @@ const releaseDismissTimers = async (page, ids = null) => page.evaluate(ids => {
   const report = { origin, rows, noCssInjection: true };
   try {
     for (const width of [375, 1440]) {
-      const context = await browser.newContext({ viewport: { width, height: 900 } });
+      const context = await browser.newContext({ viewport: { width, height: 900 }, reducedMotion: 'no-preference' });
+      // Observe the real SSR-still -> hydrated motion transition; do not fake WebGL.
+      await context.addInitScript(() => {
+        window.__commandNormalMotionSeen = false;
+        new MutationObserver(records => {
+          for (const record of records) {
+            if (record.target instanceof HTMLButtonElement && record.target.closest('section[data-chapter]') &&
+              (record.target.getAttribute('aria-label') === 'Pause scene motion' || record.oldValue === 'Pause scene motion')) {
+              window.__commandNormalMotionSeen = true;
+            }
+          }
+        }).observe(document, { subtree: true, attributes: true, attributeFilter: ['aria-label'], attributeOldValue: true });
+      });
       await context.route('**/*', route => {
         const request = route.request();
         return request.method() !== 'GET' || new URL(request.url()).pathname.startsWith('/api/')
           ? route.abort() : route.continue();
       });
       const page = await context.newPage();
-      const row = { width, destinations: [] };
+      const row = { width, destinations: [], pageErrors: [] };
+      page.on('pageerror', error => row.pageErrors.push(error.message));
       rows.push(row);
       try {
         await page.goto(origin + '/contact', { waitUntil: 'networkidle' });
@@ -177,6 +200,7 @@ const releaseDismissTimers = async (page, ids = null) => page.evaluate(ids => {
           await page.waitForTimeout(50); // Include Radix's deferred unmount focus callback.
           assert.equal(await page.evaluate(() => window.__commandOldOpenerFocusCalls), 0, 'Navigation never restores the old page opener');
           const signature = signatures[destination];
+          await waitForSignature(page, destination);
           assert.equal(await page.title(), signature.title);
           if (signature.h1) assert.equal((await page.locator('h1').first().innerText()).replace(/\s+/g, ' ').trim(), signature.h1);
           else assert.equal(await page.locator(signature.selector).count(), 1);
@@ -187,7 +211,12 @@ const releaseDismissTimers = async (page, ids = null) => page.evaluate(ids => {
         assert.equal(response.status(), 308);
         assert.equal(new URL(response.headers().location, origin).pathname, '/');
         await page.goto(origin + '/evidence-pack', { waitUntil: 'networkidle' });
+        await waitForSignature(page, '/');
         await page.evaluate(() => document.fonts.ready);
+        await open('Control+k');
+        await page.keyboard.press('Escape');
+        await closed();
+        await page.waitForFunction(() => window.__commandNormalMotionSeen === true, null, { timeout: 30000 });
         assert.equal(new URL(page.url()).pathname, '/');
         assert.equal((await page.locator('h1').first().innerText()).replace(/\s+/g, ' ').trim(), 'Agentic AI solutions, assembled for your business.');
         assert.equal(await page.getByRole('navigation', { name: 'Primary', exact: true }).count(), 1);
@@ -219,6 +248,7 @@ const releaseDismissTimers = async (page, ids = null) => page.evaluate(ids => {
         // on whether this runner happens to have a working GPU.
         await page.emulateMedia({ reducedMotion: 'reduce' });
         await page.goto(origin + '/evidence-pack', { waitUntil: 'networkidle' });
+        await waitForSignature(page, '/');
         await still.waitFor();
         assert(await still.isDisabled());
         assert.equal(new URL(page.url()).pathname, '/');
@@ -230,16 +260,27 @@ const releaseDismissTimers = async (page, ids = null) => page.evaluate(ids => {
         await closed();
         await page.screenshot({ path: `${output}/static-redirect-home-${width}.png` });
         row.redirect = { status: response.status(), finalPath: '/', onePrimaryNav: true, noWatchFrame: true,
-          sceneMotion, reducedStaticVerified: true, hydratedCommandControl: true };
+          sceneMotion, normalHydrationTransitionVerified: true, reducedStaticVerified: true, hydratedCommandControl: true };
+        row.interactionsPassed = true;
+        if (row.pageErrors.length) {
+          row.pageErrorsRequireReview = true;
+          throw new Error('Browser page errors require review: ' + row.pageErrors.join(' | '));
+        }
         row.passed = true;
       } catch (error) {
         row.error = error.message;
+        row.pageAtFailure = { pathname: new URL(page.url()).pathname, title: await page.title(), text: (await page.locator('body').innerText()).slice(0,500) };
         row.dialogAtFailure = await page.locator('[role="dialog"]').evaluateAll(elements => elements.map(element => ({ state: element.getAttribute('data-state'), text: element.textContent?.slice(0,160) })));
         await page.screenshot({ path: `${output}/failure-${width}.png` }).catch(() => {});
         throw error;
       } finally {
         await context.close();
       }
+    }
+    const capturedErrors = rows.flatMap(row => row.pageErrors);
+    if (capturedErrors.length) {
+      report.pageErrorsRequireReview = true;
+      throw new Error('Captured browser page errors require review: ' + capturedErrors.join(' | '));
     }
   } finally {
     fs.writeFileSync(`${output}/results.json`, JSON.stringify(report, null, 2));
