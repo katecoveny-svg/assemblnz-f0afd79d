@@ -1,4 +1,3 @@
--- NOT APPROVED. ACL correction only; no run-expiry policy change.
 -- REVIEW/TEST ONLY. Do not apply automatically or replay migration backlog.
 -- New pilot rows alone get body expiry. Existing rows remain NULL and are never
 -- swept by this cleanup. These policy changes are proposal-only approval items.
@@ -20,14 +19,14 @@ create table public.do_personal_storage_enrolment (
  singleton boolean not null default true unique check(singleton)
 );
 alter table public.do_personal_storage_enrolment enable row level security;
-revoke all on public.do_personal_storage_enrolment from public,anon,authenticated,service_role;
+revoke all on public.do_personal_storage_enrolment from public,anon,authenticated;
 grant select,insert,update,delete on public.do_personal_storage_enrolment to service_role;
 create table public.do_personal_storage_maintenance (
  id boolean primary key default true check(id),last_attempt_at timestamptz,last_completed_at timestamptz,
  status text check(status in ('completed','backlog','deadline','failed')),purged integer not null default 0 check(purged between 0 and 300)
 );
 alter table public.do_personal_storage_maintenance enable row level security;
-revoke all on public.do_personal_storage_maintenance from public,anon,authenticated,service_role;
+revoke all on public.do_personal_storage_maintenance from public,anon,authenticated;
 grant select,insert,update on public.do_personal_storage_maintenance to service_role;
 insert into public.do_personal_storage_maintenance(id) values(true);
 
@@ -39,7 +38,7 @@ create table public.do_personal_storage_requests (
  primary key(owner_id,request_id)
 );
 alter table public.do_personal_storage_requests enable row level security;
-revoke all on public.do_personal_storage_requests from public,anon,authenticated,service_role;
+revoke all on public.do_personal_storage_requests from public,anon,authenticated;
 grant select,insert on public.do_personal_storage_requests to service_role;
 create function public.do_personal_storage_ready(p_owner uuid) returns boolean
 language sql security invoker set search_path='' as $$
@@ -97,7 +96,7 @@ begin
  if not public.do_personal_storage_ready(p_owner) then raise exception 'storage_unavailable'; end if;
  return v_id;
 end $$;
-revoke all on function public.do_personal_storage_ready(uuid),public.do_personal_save_paused(uuid,uuid,text,text,text,text,integer,integer) from public,anon,authenticated,service_role;
+revoke all on function public.do_personal_storage_ready(uuid),public.do_personal_save_paused(uuid,uuid,text,text,text,text,integer,integer) from public,anon,authenticated;
 grant execute on function public.do_personal_storage_ready(uuid),public.do_personal_save_paused(uuid,uuid,text,text,text,text,integer,integer) to service_role;
 
 -- Cleanup is independent of enrolment/collection and never touches NULL legacy expiry.
@@ -126,5 +125,5 @@ language sql security invoker set search_path='' as $$
  'oldestOverdueAt',(select min(storage_body_expires_at) from public.do_personal_responsibilities where storage_body_expires_at<=clock_timestamp()))
  from public.do_personal_storage_maintenance m where id=true
 $$;
-revoke all on function public.do_personal_storage_expire_batch(integer),public.do_personal_storage_record_maintenance(text,integer,timestamptz),public.do_personal_storage_maintenance_health() from public,anon,authenticated,service_role;
+revoke all on function public.do_personal_storage_expire_batch(integer),public.do_personal_storage_record_maintenance(text,integer,timestamptz),public.do_personal_storage_maintenance_health() from public,anon,authenticated;
 grant execute on function public.do_personal_storage_expire_batch(integer),public.do_personal_storage_record_maintenance(text,integer,timestamptz),public.do_personal_storage_maintenance_health() to service_role;
