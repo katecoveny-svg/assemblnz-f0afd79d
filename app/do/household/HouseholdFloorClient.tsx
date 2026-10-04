@@ -34,7 +34,6 @@ import {
   type DoConnectorStatus,
 } from '@/apps/do/shared/do-connectors';
 
-import { DoTaskPanel } from '@/components/do/DoTaskPanel';
 import styles from './household.module.css';
 
 type Tab = 'board' | 'seats' | 'customise' | 'browser' | 'connectors';
@@ -75,10 +74,9 @@ export function HouseholdFloorClient({
       return;
     }
     if (initialPrivate) {
-      // Public site must not offer an owner-private install door. Real household
-      // context does not ship in the web bundle; use the scrubbed public template.
+      // Public site must not offer an owner-private install door.
       setMessage(
-        'Owner-private install is not available on the public site. Install the scrubbed public Household Floor template instead.',
+        'This public page only offers the sample household template. Install it below to try the floor.',
       );
     }
   }, [initialPrivate]);
@@ -120,17 +118,11 @@ export function HouseholdFloorClient({
     setBusy(true);
     try {
       const next = installHouseholdFloor({ template: PUBLIC_HOUSEHOLD_FLOOR_TEMPLATE });
-      persist(next, 'Public Household Floor installed on this device. Customise it, then run the evening board.');
+      persist(next, 'Sample Household Floor installed on this device. Customise it, then run the evening board.');
       setTab('board');
     } finally {
       setBusy(false);
     }
-  }
-
-  function refusePrivateInstall() {
-    setMessage(
-      'Owner-private install is closed on the public site. Use the scrubbed public template — personal household context does not ship in this web app.',
-    );
   }
 
   async function runEveningBoard() {
@@ -218,7 +210,7 @@ export function HouseholdFloorClient({
   function resetFloor() {
     clearLocalHouseholdFloor();
     setFloor(null);
-    setMessage('Cleared this device’s Household Floor. Install the public template to share tonight.');
+    setMessage('Cleared this device’s Household Floor. Install the sample template to start again.');
   }
 
   const shareText = floor && floor.visibility === 'public_template'
@@ -231,7 +223,7 @@ export function HouseholdFloorClient({
         <div className={styles.brand}>
           <Link href="/do" className={styles.wordmark}>DO</Link>
           <span>household floor</span>
-          <span className={styles.chip}>{floor?.visibility === 'owner_private' ? 'owner private' : 'public template'}</span>
+          <span className={styles.chip}>{floor?.visibility === 'owner_private' ? 'private' : 'sample'}</span>
         </div>
         <div className={styles.headerActions}>
           <Link href="/do/office">Office</Link>
@@ -258,7 +250,7 @@ export function HouseholdFloorClient({
             <div className={styles.ctaRow}>
               {!floor ? (
                 <button type="button" className={styles.cta} disabled={busy} onClick={installPublic}>
-                  Install public template
+                  Install sample template
                 </button>
               ) : (
                 <button type="button" className={styles.cta} disabled={busy} onClick={() => void runEveningBoard()}>
@@ -271,43 +263,25 @@ export function HouseholdFloorClient({
                 </button>
               ) : null}
               <button type="button" className={styles.secondaryCta} onClick={() => setShareOpen(true)} disabled={!floor || floor.visibility !== 'public_template'}>
-                Share tonight
+                Share sample
               </button>
             </div>
             <p className={styles.status} role="status">{message}</p>
           </div>
         </section>
 
-        <DoTaskPanel boardId="household-floor" title="Household Floor to-do" />
-
         {!floor ? (
           <section className={styles.installGrid}>
             <article className={styles.templateCard} data-shareable="true">
               <div className={styles.cardMark}>⌂</div>
               <h2>Household Floor</h2>
-              <p>Scrubbed public competition template — fictional Avery / Quinn / Harper household. Safe to offer extensively tonight.</p>
+              <p>Sample household: fictional family. Drafts only.</p>
               <ul>
                 <li>Seats SCHOOL → DESK</li>
-                <li>SchoolBridge-style demo portals</li>
+                <li>Demo school portals</li>
                 <li>Bins Thursday · bus morning · fridge kitchen</li>
               </ul>
               <button type="button" disabled={busy} onClick={installPublic}>Install &amp; customise</button>
-            </article>
-            <article className={styles.templateCard} data-shareable="false">
-              <div className={styles.cardMark}>◎</div>
-              <h2>Owner mode</h2>
-              <p>
-                Personal household context does not ship in this public web app.
-                Use the scrubbed public template above. Owner-private seeds stay off the public site.
-              </p>
-              <ul>
-                <li>No private install on assembl.co.nz</li>
-                <li>Public template is drafts-only</li>
-                <li>{initialPrivate ? 'Private URL path refused here' : 'Demo-safe share path'}</li>
-              </ul>
-              <button type="button" className={styles.danger} disabled={busy} onClick={refusePrivateInstall}>
-                Private install unavailable
-              </button>
             </article>
           </section>
         ) : (
@@ -401,7 +375,7 @@ export function HouseholdFloorClient({
                 <div className={styles.browserHero}>
                   <h2>Connectors for this DO</h2>
                   <p>
-                    Declared Pipedream Connect apps — no tokens in the template.
+                    Declared connections for this DO — no tokens in the template.
                     Gmail is optional for school mail (readonly). Drafts only; never auto-send.
                   </p>
                 </div>
@@ -424,7 +398,7 @@ export function HouseholdFloorClient({
                         ) : row.state === 'sign_in' ? (
                           <a className={styles.cta} href="/login?redirect=%2Fdo%2Fhousehold">Sign in to connect</a>
                         ) : row.state === 'setup_needed' ? (
-                          <span className={styles.meta}>Platform setup needed (Pipedream / DO_GMAIL_OAUTH_APP_ID).</span>
+                          <span className={styles.meta}>Platform setup needed before this connection can open.</span>
                         ) : (
                           <button
                             type="button"
@@ -449,7 +423,7 @@ export function HouseholdFloorClient({
                 <div className={styles.browserHero} style={{ marginTop: 28 }}>
                   <h2>MCP tool allowlist</h2>
                   <p>
-                    Cursor IDE MCP plugins do not flow into this DO. Tools only run when declared here and called through the DO MCP gateway (Composio primary · Zapier long-tail · Treg data APIs · Pipedream for first-party Gmail).
+                    Tools only run when declared here and called through the DO gateway. Missing credentials stay honest — nothing is faked live.
                   </p>
                 </div>
                 <div className={styles.cardStack}>
@@ -468,7 +442,7 @@ export function HouseholdFloorClient({
                   ))}
                 </div>
                 <p className={styles.honesty}>
-                  Pipedream Connect remains for first-party Gmail. Marketplace “heaps of APIs” = Composio → Zapier → Treg via DO MCP — never fake live access when env is missing.
+                  Connections stay review-first. Missing setup is shown as unavailable — never as a fake live link.
                 </p>
               </section>
             ) : null}
@@ -534,7 +508,7 @@ export function HouseholdFloorClient({
                 </div>
                 <ol className={styles.steps}>
                   <li>Download the extension ZIP and Load unpacked in Chrome.</li>
-                  <li>Open a SchoolBridge / Council / AT tab (catalog hosts below).</li>
+                  <li>Open a demo school, council or AT tab (catalog hosts below).</li>
                   <li>Side panel → <strong>Capture page for this DO</strong> (consent checkbox required).</li>
                   <li>Optional screenshot via visible tab — reviewed before use.</li>
                   <li>Receipt lands on Needs you. Drafts stay drafts until you approve.</li>
@@ -571,11 +545,11 @@ export function HouseholdFloorClient({
         )}
 
         <section className={styles.honestyBand}>
-          <p className={styles.eyebrow}>product honesty</p>
-          <h2>Save to Office ≠ a running agent</h2>
+          <p className={styles.eyebrow}>how this works</p>
+          <h2>Plans stay plans until you run them</h2>
           <p>
-            Builder “save to office” stores an accepted plan with a <code>job_accepted</code> receipt — it does not start Household Floor.
-            Path for tonight: install this public template → customise → install extension → place DO → run evening board → work the Needs you pile.
+            Saving a Builder plan to Office stores the plan only — it does not start Household Floor.
+            To try this sample: install the template → customise → install the extension → place DO → run the evening board → work the Needs you pile.
           </p>
         </section>
       </main>
@@ -583,8 +557,8 @@ export function HouseholdFloorClient({
       {shareOpen && floor?.visibility === 'public_template' ? (
         <div className={styles.shareModal} role="dialog" aria-modal="true" aria-label="Share Household Floor">
           <div className={styles.shareCard}>
-            <h2>Share the public template</h2>
-            <p>Copy this link. Do not share an owner-private seed or screenshots with real household details.</p>
+            <h2>Share the sample</h2>
+            <p>Copy this link. This page shares the sample household only — drafts stay drafts.</p>
             <textarea readOnly value={shareText} rows={4} />
             <div className={styles.ctaRow}>
               <button

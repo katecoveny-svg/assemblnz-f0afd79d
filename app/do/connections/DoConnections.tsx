@@ -298,7 +298,7 @@ export function ConnectionsView({ state, mcp, busy, message, technicalError, hub
                     <div className={styles.included} style={{ marginTop: 12 }}>No Hub toolkits attached yet.</div>
                   )}
                   <div className={styles.included} style={{ marginTop: 12 }}>
-                    Lookalikes (not Hub): {mcp.mcpMarketHub.lookalikes.map((l) => l.name).join(', ')} — see DO-MCP-MARKET-HUB.md
+                    Related directories (not Hub): {mcp.mcpMarketHub.lookalikes.map((l) => l.name).join(', ')}. These stay separate from attached Hub toolkits.
                   </div>
                 </article>
               </>
@@ -383,7 +383,7 @@ export function ConnectionsView({ state, mcp, busy, message, technicalError, hub
 
 
 
-      <section className={styles.boundary}><strong>Cursor MCP ≠ DO MCP.</strong><p>IDE plugins do not become customer DO tools. Four layers: Hub discovers/packs · Composio/Zapier/Treg execute · Pipedream first-party OAuth · NZ Live domain data. Hub is not an execute gateway.</p></section>
+      <section className={styles.boundary}><strong>Browser tools stay separate from DO tools.</strong><p>Tools you connect for yourself in an IDE do not become customer DO tools. DO only runs connections that are declared and approved for a specific job.</p></section>
       </details>
     </main>
   </div>;
