@@ -83,6 +83,15 @@ def execute(args,seconds=10,deadline=None):
  require(meta['Labels']['assembl.discovery.nonce']==nonce and not meta['Binds'] and not meta['Ports'], "Discovery invariant: meta['Labels']['assembl.discovery.nonce']==nonce and not meta['Binds'] and not meta['Ports']")
  return run(['exec','--user','postgres',cid,'/usr/bin/env','-i','PATH=/usr/lib/postgresql/17/bin:/usr/local/bin:/usr/bin:/bin','HOME=/tmp']+args,seconds,deadline)
 
+def resolve_executable(path):
+ require(re.fullmatch('/[A-Za-z0-9_./-]+',path), 'Invalid executable input path')
+ # BusyBox readlink supports -f, not GNU -e. -f alone may allow a missing leaf.
+ resolved=execute(['/usr/bin/readlink','-f',path]).strip()
+ require(re.fullmatch('/[A-Za-z0-9_./-]+',resolved), 'Invalid resolved executable path')
+ # test -f enforces existence AND a regular file; test -x checks access as postgres.
+ execute(['/bin/sh','-c','test -f "$1" && test -x "$1"','discovery-file-check',resolved])
+ return resolved
+
 def cleanup():
  global receipt_namespace,cleanup_evidence_mode,cleanup_evidence_errors,cleanup_memory_receipts,cleanup_memory_report
  cleanup_evidence_mode=True;cleanup_evidence_errors=[];cleanup_memory_receipts=[];cleanup_memory_report=None
@@ -166,17 +175,18 @@ def main():
   for binary in ['postgres','initdb','pg_ctl','psql','pg_config']:
    path=execute(['/bin/sh','-c','command -v '+binary]).strip()
    require(re.fullmatch('/[A-Za-z0-9_./-]+',path), "Discovery invariant: re.fullmatch('/[A-Za-z0-9_./-]+',path)")
-   resolved=execute(['/usr/bin/readlink','-e',path]).strip()
-   require(re.fullmatch('/[A-Za-z0-9_./-]+',resolved), "Discovery invariant: re.fullmatch('/[A-Za-z0-9_./-]+',resolved)")
+   resolved=resolve_executable(path)
    sha=execute(['/usr/bin/sha256sum',resolved]).split()[0]
    require(re.fullmatch('[a-f0-9]{64}',sha), "Discovery invariant: re.fullmatch('[a-f0-9]{64}',sha)")
    version=execute([resolved,'--version']).strip()
    paths[binary]={'path':resolved,'sha256':sha,'version':version}
   for entry in json.loads(entrypoint) or []:
    if not entry.startswith('-') and re.fullmatch('[A-Za-z0-9_./-]+',entry):
-    resolved=execute(['/bin/sh','-c','command -v '+entry]).strip()
-    require(re.fullmatch('/[A-Za-z0-9_./-]+',resolved), "Discovery invariant: re.fullmatch('/[A-Za-z0-9_./-]+',resolved)")
-    paths['entrypoint:'+entry]={'path':resolved,'sha256':execute(['/usr/bin/sha256sum',resolved]).split()[0],'executed':False}
+    path=execute(['/bin/sh','-c','command -v '+entry]).strip()
+    resolved=resolve_executable(path)
+    sha=execute(['/usr/bin/sha256sum',resolved]).split()[0]
+    require(re.fullmatch('[a-f0-9]{64}',sha), 'Invalid entrypoint SHA256')
+    paths['entrypoint:'+entry]={'path':resolved,'sha256':sha,'executed':False}
   require(re.search(r'\b17\.6\b',paths['postgres']['version']) and re.search(r'\b17\.6\b',paths['psql']['version']), "Discovery invariant: re.search(r'\\b17\\.6\\b',paths['postgres']['version']) and re.search(r'\\b17\\.6\\b',paths['psql']['version'])")
   (OUT/'executables.json').write_text(json.dumps(paths,indent=2)+'\n')
   # Shared Hub .111 startup profile; stop strictly before the first synthetic CREATE SCHEMA.
