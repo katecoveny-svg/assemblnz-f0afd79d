@@ -3,9 +3,11 @@ import { REVIEW, HERO, HOME_META, POSITIONING, NAV, PRODUCTS, START } from './co
 
 describe('assembl-the-work homepage copy', () => {
   it('keeps the company offer broad and avoids retired slogans', () => {
-    expect(HERO.headline).toBe('Assemble useful work.');
-    expect(HERO.subhead).toBe('We bring strategy, design and AI together to help businesses find opportunities, create better customer experiences and get useful work done.');
+    expect(HERO.headline).toBe('Agentic AI solutions, assembled for your business.');
+    expect(HERO.subhead).toBe('We bring strategy, design and AI agents together to build complete business journeys: finding opportunities, creating better customer experiences and getting useful work done.');
     expect(HOME_META.description).toBe(HERO.subhead);
+    expect(POSITIONING.newZealand).toBe('Built for all New Zealand businesses.');
+    expect(POSITIONING.businessScale).toContain('SME and enterprise solutions');
     expect(POSITIONING.company).toBe(HERO.subhead);
     expect(HERO.loopLine).toBe('Start with one product. Bring them together when the work calls for it.');
     expect(HERO.loopLine.toLowerCase()).not.toContain('keep it');
@@ -19,10 +21,10 @@ describe('assembl-the-work homepage copy', () => {
   });
 
   it('avoids bare AI and banned slop in public labels', () => {
-    // Kate explicitly approved AI in this exact company sentence.
+    // Kate explicitly approved AI in the company headline and explanation.
     // All other public labels retain the bare-AI guard.
     const blob = JSON.stringify({ REVIEW, HERO, PRODUCTS, START }, (_key, value) =>
-      value === POSITIONING.company ? '[approved company explanation]' : value).toLowerCase();
+      value === POSITIONING.company || value === HERO.headline ? '[approved company explanation]' : value).toLowerCase();
     expect(blob).not.toMatch(/\bai\b/);
     expect(blob).not.toContain('seamless');
     expect(blob).not.toContain('quietly');

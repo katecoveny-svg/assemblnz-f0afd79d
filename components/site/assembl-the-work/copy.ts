@@ -1,13 +1,15 @@
 /** Public homepage positioning. Product demonstrations are labelled at their entry points. */
 export const POSITIONING = {
-  company: 'We bring strategy, design and AI together to help businesses find opportunities, create better customer experiences and get useful work done.',
+  company: 'We bring strategy, design and AI agents together to build complete business journeys: finding opportunities, creating better customer experiences and getting useful work done.',
+  newZealand: 'Built for all New Zealand businesses.',
+  businessScale: 'SME and enterprise solutions, shaped around your business, your customers and the outcome you need.',
   pursuit: 'Pursuit researches business signals and opportunities, with the reasons and sources attached.',
   do: 'DO is your portable personal agent. It helps assemble useful work from the context you bring: a draft, a plan or a next step to review.',
   studio: 'Studio helps turn a brief into working software, demonstrations, pitches and customer experiences.',
 } as const;
 
 export const HOME_META = {
-  title: 'assembl | Strategy, design and AI for useful work',
+  title: 'assembl | Agentic AI solutions for your business',
   description: POSITIONING.company,
 } as const;
 
@@ -30,7 +32,7 @@ export const NAV = {
 
 export const HERO = {
   brand: POSITIONING.company,
-  headline: 'Assemble useful work.',
+  headline: 'Agentic AI solutions, assembled for your business.',
   subhead: POSITIONING.company,
   body: POSITIONING.company,
   explanation: `${POSITIONING.pursuit} ${POSITIONING.do} ${POSITIONING.studio}`,

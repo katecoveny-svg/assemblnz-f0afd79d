@@ -68,8 +68,8 @@ async function verifyFunctionalMark(page, root, label) {
     page.on('pageerror', error => errors.push(page.url() + ": " + error.message));
     const visit = async path => { const response = await page.goto(origin + path, { waitUntil: 'networkidle' }); assert.ok(response?.ok(), path); await page.evaluate(() => document.fonts.ready); return response; };
     await visit('/');
-    await page.getByRole('heading', { name: 'Assemble useful work.', level: 1, exact: true }).waitFor();
-    check('homepage has one assembl invitation', await page.getByRole('heading', { name: 'Assemble useful work.', level: 1, exact: true }).count() === 1);
+    await page.getByRole('heading', { name: 'Agentic AI solutions, assembled for your business.', level: 1, exact: true }).waitFor();
+    check('homepage has one assembl invitation', await page.getByRole('heading', { name: 'Agentic AI solutions, assembled for your business.', level: 1, exact: true }).count() === 1);
     check('Open DO goes directly to the product', await page.getByRole('link', { name: 'Open DO', exact: true }).first().getAttribute('href') === '/do');
     await page.waitForFunction(() => document.querySelector('[data-chapter][data-static="true"]'));
     check('reduced-motion homepage has a static scene and complete work loop', await page.locator('[data-world="atelier"] canvas').count() === 0 && await page.getByLabel('The complete work loop', { exact: true }).isVisible());

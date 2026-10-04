@@ -1,3 +1,4 @@
+import { HOME_META } from '@/components/site/assembl-the-work/copy';
 import localFont from 'next/font/local';
 import type { Metadata } from 'next';
 import { IBM_Plex_Mono, Instrument_Sans } from 'next/font/google';
@@ -62,17 +63,17 @@ const archivoBlack = localFont({
 });
 
 const CURRENT_DESCRIPTION =
-  'Business intelligence, strategy and software from assembl. Specialist agents help prepare useful work, customer experiences, demos and proposals.';
+  HOME_META.description;
 
 export const metadata: Metadata = {
   title: {
-    default: 'assembl | Business intelligence, agents and useful work',
+    default: HOME_META.title,
     template: '%s · assembl',
   },
   description: CURRENT_DESCRIPTION,
   metadataBase: new URL('https://www.assembl.co.nz'),
   openGraph: {
-    title: 'assembl | Business intelligence, agents and useful work',
+    title: HOME_META.title,
     description: CURRENT_DESCRIPTION,
     type: 'website',
     locale: 'en_NZ',
@@ -81,7 +82,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'assembl | Business intelligence, agents and useful work',
+    title: HOME_META.title,
     description: CURRENT_DESCRIPTION,
   },
   icons: {

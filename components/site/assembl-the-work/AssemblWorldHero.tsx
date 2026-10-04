@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { AssemblGlassMark } from '@/components/site/AssemblGlassMark';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowDown, ArrowRight, ArrowUpRight, Camera, Mic, NotebookPen, Pause, Play } from 'lucide-react';
-import { HERO, PRODUCTS } from './copy';
+import { HERO, POSITIONING, PRODUCTS } from './copy';
 
-const [headlineLead, ...headlineRest] = HERO.headline.split(' ');
+const [headlineLead, headlineRest] = HERO.headline.split(', ');
 import { WorldAtelierStage, useAtelierMotionGate, useAtelierVisibility } from './WorldAtelierStage';
 import styles from './assembl-world-hero.module.css';
 
@@ -70,7 +70,7 @@ export function AssemblWorldHero({ preview = false, showSummary = true }: { prev
           </button>
         </header>
         <div className={styles.copy}>
-          <h1 id="atw-hero-title"><span>{headlineLead}</span><span>{headlineRest.join(' ')}</span></h1>
+          <h1 id="atw-hero-title"><span>{headlineLead}, </span><span>{headlineRest}</span></h1>
           <div className={styles.actions}><Link className={styles.pill} href="/contact?product=system">Discuss your project <ArrowRight size={20} aria-hidden="true" /></Link><Link className={styles.link} href="/do">Open DO <ArrowDown size={16} aria-hidden="true" /></Link></div>
         </div>
         <aside className={styles.chapter} aria-label="The work, step by step">
@@ -83,6 +83,7 @@ export function AssemblWorldHero({ preview = false, showSummary = true }: { prev
     </section>
     {showSummary && <section className={styles.companyIntro} aria-label="The complete work loop">
       <p className={styles.companyCopy}>{HERO.subhead}</p>
+      <p className={styles.nzStrapline}>{POSITIONING.newZealand}</p>
       <div className={styles.productIntro} aria-label="What each product does">{PRODUCTS.items.map(product => <Link key={product.id} href={product.href}><span>{product.name}<ArrowUpRight size={18} aria-hidden="true" /></span><p>{product.body}</p></Link>)}</div>
       <Link className={styles.workflow} href="/do" aria-label="Open DO: photo, talk or notes into useful work"><span><Camera size={22} aria-hidden="true" />Photo</span><span><Mic size={22} aria-hidden="true" />Talk</span><span><NotebookPen size={22} aria-hidden="true" />Notes</span><ArrowRight size={20} aria-hidden="true" /><span>Useful work</span></Link>
     </section>}
