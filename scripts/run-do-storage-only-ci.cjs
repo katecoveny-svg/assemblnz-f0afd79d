@@ -36,6 +36,21 @@ assert.equal(negative.status,3,'Original must fail SQL assertion, not transport'
 assert.match(negative.stderr,/ERROR:\s+ACL_EXCESS_SERVICE_REQUEST_UPDATE(?:\r?\n|$)/,'Wrong original-control failure');
 process.stdout.write(negative.stderr);console.log('EXPECTED_FAIL original ACL_EXCESS_SERVICE_REQUEST_UPDATE');
 process.stdout.write(sql(read(aclFile)));console.log('PASS corrected complete effective ACL matrix and actual denials');
+// Separately proposed Auth dependency: reproduce production denial, then test private bridge.
+const bridgeFile='docs/do-personal/storage-only-auth-bridge-proposal.sql';
+assert.equal(crypto.createHash('sha256').update(fs.readFileSync(bridgeFile)).digest('hex'),'fda47111b1a6a20f3c3df29b7b10652cadb169eb4566edaa1e08699a5f3f22af');
+process.stdout.write(sql(read('docs/do-personal/storage-only-auth-precheck.sql')));console.log('PASS specific Auth SELECT denial before helper');
+install(bridgeFile,correctedDB);
+for(const file of ['docs/do-personal/storage-only-auth-bridge-proof.sql','docs/do-personal/storage-only-auth-hosted-proof.sql']){process.stdout.write(sql(read(file)));console.log('PASS '+file);}
+// Reassert unchanged public matrix and no direct Auth grants AFTER helper caller tests.
+process.stdout.write(sql(read(aclFile)));console.log('PASS unchanged public matrix after helper');
+process.stdout.write(sql(`do $$ begin
+ if has_column_privilege('service_role','auth.users','id','SELECT') or has_column_privilege('service_role','auth.users','is_anonymous','SELECT') then raise exception 'auth_grant_expanded_after_testing'; end if;
+ if has_schema_privilege('anon','do_personal_auth_private','USAGE') or has_schema_privilege('authenticated','do_personal_auth_private','USAGE') or has_schema_privilege('service_role','do_personal_auth_private','CREATE') then raise exception 'private_schema_acl_changed_after_testing'; end if;
+ if not has_function_privilege('service_role','do_personal_auth_private.enrolled_owner_is_nonanonymous(uuid)','EXECUTE') or has_function_privilege('anon','do_personal_auth_private.enrolled_owner_is_nonanonymous(uuid)','EXECUTE') or has_function_privilege('authenticated','do_personal_auth_private.enrolled_owner_is_nonanonymous(uuid)','EXECUTE') then raise exception 'helper_acl_changed_after_testing'; end if;
+end $$;
+select jsonb_build_object('schema',n.nspname,'owner',pg_get_userbyid(n.nspowner),'acl',n.nspacl::text,'helper_owner',pg_get_userbyid(p.proowner),'helper_definer',p.prosecdef,'helper_config',p.proconfig,'helper_acl',p.proacl::text,'direct_auth_id',has_column_privilege('service_role','auth.users','id','SELECT'),'direct_auth_anonymous',has_column_privilege('service_role','auth.users','is_anonymous','SELECT')) from pg_namespace n join pg_proc p on p.pronamespace=n.oid where n.nspname='do_personal_auth_private' and p.proname='enrolled_owner_is_nonanonymous';`));
+
 for(const file of ['docs/do-personal/storage-only-proof.sql','docs/do-personal/storage-only-role-proof.sql','docs/do-personal/storage-only-ci-edges.sql']){process.stdout.write(sql(read(file)));console.log('PASS '+file);}
 // Existing subsequent workflow steps use corrected DB; no changes to race/restart/cancel scripts.
 sql(`insert into auth.users(id,is_anonymous) values('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',false),('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',false),('cccccccc-cccc-4ccc-8ccc-cccccccccccc',true);
