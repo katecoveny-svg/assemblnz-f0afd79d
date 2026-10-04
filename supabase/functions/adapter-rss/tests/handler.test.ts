@@ -1,4 +1,4 @@
-import { source, writes } from "./supabase-stub.ts";
+import { rpcState, source, writes } from "./supabase-stub.ts";
 
 function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(message);
@@ -19,23 +19,35 @@ Deno.test("actual handler rejects blocked poll without marking stale data curren
     ));
     await import("../index.ts");
     assert(handler, "entrypoint must register its handler");
-    const response = await handler(new Request("https://example.org/adapter-rss", {
-      method: "POST", body: JSON.stringify({ source_id: source.id }),
-    }));
-    assert(response.status === 500, "blocked poll must fail");
-    assert((await response.json()).ok === false, "response must not claim success");
-    assert(source.status === "error", "recent check must leave health in error");
-    assert(source.last_successful_fetch === "2026-09-13T22:50:03.788Z", "last success must remain intact");
-    assert(source.last_updated_at === "2026-09-13T22:50:03.788Z", "document freshness must remain intact");
-    const sourceWrite = writes.find((entry) => entry.table === "kb_sources");
-    assert(sourceWrite?.values.last_checked_at, "attempt timestamp must still be recorded");
-    assert(!writes.some((entry) => entry.table === "kb_documents" || entry.table === "kb_changes"), "challenge must never become a document");
-    const finishedRun = writes.find((entry) => entry.table === "kb_source_runs" && entry.values.finished_at);
-    assert(finishedRun?.values.status === "error", "reliability trigger must receive an error run");
-    const error = finishedRun.values.error as Record<string, unknown>;
-    assert(error.code === "feed_upstream_blocked", "run must identify upstream blocking");
-    assert(error.http_status === 200 && error.content_type === "text/html", "run must retain safe format diagnostics");
-    assert(!JSON.stringify(writes).includes("private"), "challenge token must not enter telemetry");
+    for (const counterMode of ["ok", "missing_rpc", "transport_error", "status_zero"]) {
+      writes.length = 0;
+      rpcState.returnedError = counterMode === "missing_rpc";
+      rpcState.throws = counterMode === "transport_error";
+      rpcState.statusZero = counterMode === "status_zero";
+      const response = await handler(new Request("https://example.org/adapter-rss", {
+        method: "POST", body: JSON.stringify({ source_id: source.id }),
+      }));
+      assert(response.status === 500, "blocked poll must fail");
+      assert((await response.json()).ok === false, "response must not claim success");
+      assert(source.status === "error", "recent check must leave health in error");
+      assert(source.last_successful_fetch === "2026-09-13T22:50:03.788Z", "last success must remain intact");
+      assert(source.last_updated_at === "2026-09-13T22:50:03.788Z", "document freshness must remain intact");
+      const sourceWrite = writes.find((entry) => entry.table === "kb_sources");
+      assert(sourceWrite?.values.last_checked_at, "attempt timestamp must still be recorded");
+      assert(!writes.some((entry) => entry.table === "kb_documents" || entry.table === "kb_changes"), "challenge must never become a document");
+      if (["transport_error", "status_zero"].includes(counterMode)) {
+        assert(!writes.some((entry) => entry.table === "kb_source_runs" && entry.values.finished_at), "unknown counter ACK must stop subsequent writes");
+        continue;
+      }
+      const finishedRun = writes.find((entry) => entry.table === "kb_source_runs" && entry.values.finished_at);
+      assert(finishedRun?.values.status === "error", "reliability trigger must receive an error run");
+      const error = finishedRun.values.error as Record<string, unknown>;
+      assert(error.code === "feed_upstream_blocked", "run must identify upstream blocking");
+      assert(error.failure_counter_status === (counterMode === "ok" ? "updated" : "unavailable"), "counter availability must be truthful");
+      assert(!writes.some((entry) => entry.table === "kb_sources" && "consecutive_failures" in entry.values), "missing counter must not be replaced with a fabricated count");
+      assert(error.http_status === 200 && error.content_type === "text/html", "run must retain safe format diagnostics");
+      assert(!JSON.stringify(writes).includes("private"), "challenge token must not enter telemetry");
+    }
   } finally {
     Deno.serve = originalServe;
     Deno.env.get = originalEnvGet;

@@ -1,0 +1,159 @@
+# UNMOUNTED REVIEW ONLY. Not in .github/workflows. No run authorized.
+name: Unapplied atomic ingestion disposable SQL proof
+on:
+  pull_request:
+    types: [synchronize]
+    branches: [main]
+    paths:
+      - '.github/workflows/atomic-ingestion-sql-validation.yml'
+      - 'docs/integrations/proposals/atomic-ingestion-finalization.sql'
+      - 'docs/integrations/proposals/atomic-ingestion-finalization.md'
+      - 'docs/integrations/proposals/atomic-ingestion-finalization-tests.sql'
+      - 'docs/integrations/proposals/atomic-contract-model.test.mjs'
+      - 'docs/integrations/proposals/atomic-postgres-harness.py'
+      - 'docs/integrations/proposals/atomic-postgres-preflight.test.py'
+permissions:
+  contents: read
+concurrency:
+  group: atomic-ingestion-proof-${{ github.run_id }}-${{ github.run_attempt }}
+  cancel-in-progress: false
+jobs:
+  disposable-sql:
+    if: >-
+      github.run_attempt == 1 &&
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.number == 1497 &&
+      github.repository == 'katecoveny-svg/assemblnz-f0afd79d' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'audit/ingestion-health-20261003'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Validate exact event head and prepare evidence directory
+        env:
+          REVIEWED_HEAD: ${{ github.event.pull_request.head.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$REVIEWED_HEAD" =~ ^[0-9a-f]{40}$ ]]
+          mkdir -p "$RUNNER_TEMP/atomic-ingestion-proof"
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /docs/integrations/proposals/atomic-ingestion-finalization.sql
+            /docs/integrations/proposals/atomic-ingestion-finalization.md
+            /docs/integrations/proposals/atomic-ingestion-finalization-tests.sql
+            /docs/integrations/proposals/atomic-contract-model.test.mjs
+            /docs/integrations/proposals/atomic-postgres-harness.py
+            /docs/integrations/proposals/atomic-postgres-preflight.test.py
+      - name: Verify exact reviewed checkout and file bytes
+        env:
+          REVIEWED_HEAD: ${{ github.event.pull_request.head.sha }}
+          EXPECTED_PARENT: caf25dcaf4af77dfcff334e75f4438be1563f2bb
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$REVIEWED_HEAD"
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib,subprocess
+          head=os.environ['REVIEWED_HEAD'];parent=os.environ['EXPECTED_PARENT']
+          if os.environ['RUN_ATTEMPT']!='1':raise RuntimeError('one-run approval does not cover reruns')
+          parents=subprocess.check_output(['git','rev-list','--parents','-n','1',head],text=True).strip().split()
+          if parents!=[head,parent]:raise RuntimeError('unapproved publication parent; future pushes cannot inherit approval')
+          expected_transition={'docs/integrations/proposals/atomic-postgres-harness.py': 'M', 'docs/integrations/proposals/atomic-postgres-preflight.test.py': 'A', '.github/workflows/atomic-ingestion-sql-validation.yml': 'M', '.github/ingestion-validation-manifest.json': 'M', '.github/workflows/rss-adapter-validation.yml': 'M'}
+          fields=subprocess.check_output(['git','diff','--no-renames','--name-status','-z',parent,head]).split(b'\0')
+          if fields[-1:]!=[b''] or len(fields[:-1])%2:raise RuntimeError('malformed transition')
+          actual_transition={fields[i+1].decode():fields[i].decode() for i in range(0,len(fields)-1,2)}
+          if len(actual_transition)*2!=len(fields)-1 or actual_transition!=expected_transition:raise RuntimeError('unapproved publication transition')
+          for name in expected_transition:
+              mode=subprocess.check_output(['git','ls-tree',head,'--',name],text=True)
+              if not mode.startswith('100644 blob '):raise RuntimeError('unexpected transition mode')
+          expected={'docs/integrations/proposals/atomic-contract-model.test.mjs': '72daaa913bba1f4491c616d99aecff9f20cfb21c9c08330d6e2dd299ab25376c', 'docs/integrations/proposals/atomic-ingestion-finalization-tests.sql': '6121d900ad890ac9fc51e13687570182778da9993824a9fceeaa0348208b2c51', 'docs/integrations/proposals/atomic-ingestion-finalization.md': '9e2d109822e717620a2549d6bc2a8a3763f55417937f6d8199e52200a8297872', 'docs/integrations/proposals/atomic-ingestion-finalization.sql': 'd279822428858598341cbca6ba610439e88e84a277a7ee284be42d4347639d0c', 'docs/integrations/proposals/atomic-postgres-harness.py': '2094b2230c63e286a098cff155b6f4532813137fc78891250474d22682abf11c', 'docs/integrations/proposals/atomic-postgres-preflight.test.py': 'fc9f89eabdbdd3953db59a7c262421709f29d4fa56f0173651c0606daf65554f'}
+          root=pathlib.Path('docs/integrations/proposals')
+          actual={str(p) for p in root.iterdir() if p.is_file()}
+          if actual!=set(expected):raise RuntimeError('unexpected/missing sparse fixture files')
+          for name,want in expected.items():
+              p=pathlib.Path(name)
+              if p.is_symlink() or not p.is_file() or hashlib.sha256(p.read_bytes()).hexdigest()!=want:raise RuntimeError('reviewed byte mismatch: '+name)
+          evidence=pathlib.Path(os.environ['RUNNER_TEMP'])/'atomic-ingestion-proof'
+          (evidence/'integrity.json').write_text(json.dumps({'head':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'files':expected,'expected_parent':parent,'run_attempt':1,'transition':actual_transition},indent=2))
+          PY
+      - name: Offline diagnostic and image preflight source fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 docs/integrations/proposals/atomic-postgres-harness.py --offline-contract
+          python3 -O docs/integrations/proposals/atomic-postgres-harness.py --offline-contract
+          python3 docs/integrations/proposals/atomic-postgres-preflight.test.py
+          python3 -O docs/integrations/proposals/atomic-postgres-preflight.test.py
+      - name: Provision only pinned official PostgreSQL image
+        shell: bash
+        run: |
+          set -euo pipefail
+          proof_dir="$RUNNER_TEMP/atomic-ingestion-proof"
+          docker_config="$proof_dir/docker-config"
+          mkdir -p "$docker_config"
+          image='postgres:17.11-bookworm@sha256:639ab7ceb90e13123085b741fb31ef493fba25463002f6da665352e7b534b652'
+          timeout --signal=TERM --kill-after=10s 180s env -i PATH=/usr/bin:/bin HOME="$docker_config" DOCKER_CONFIG="$docker_config" \
+            /usr/bin/docker --host unix:///var/run/docker.sock --config "$docker_config" pull "$image" \
+            > "$proof_dir/image-pull.log" 2>&1
+          env -i PATH=/usr/bin:/bin HOME="$docker_config" DOCKER_CONFIG="$docker_config" \
+            /usr/bin/docker --host unix:///var/run/docker.sock --config "$docker_config" image inspect "$image" \
+            > "$proof_dir/image-inspect.json"
+      - name: Bounded owned network-none fixed-socket transaction proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          proof_dir="$RUNNER_TEMP/atomic-ingestion-proof"
+          # Harness records full container ID/run/attempt/nonce BEFORE starting SQL.
+          timeout --signal=TERM --kill-after=10s 150s \
+            python3 docs/integrations/proposals/atomic-postgres-harness.py --owned-fixture-proof \
+            > "$proof_dir/proof.json" 2> "$proof_dir/proof.stderr.log"
+      - name: Always remove only this run's recorded owned fixture
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=5s 30s python3 - <<'PY'
+          import json,os,pathlib,re,subprocess,tempfile
+          directory=pathlib.Path(os.environ['RUNNER_TEMP'])/'atomic-ingestion-proof'
+          directory.mkdir(exist_ok=True)
+          record=directory/'owner.json';report=directory/'cleanup.json'
+          if not record.exists():
+              report.write_text(json.dumps({'state':'no_container_ownership_record','removed':False}));raise SystemExit(0)
+          owner=json.loads(record.read_text())
+          if owner['run_id']!=os.environ['GITHUB_RUN_ID'] or owner['attempt']!=os.environ['GITHUB_RUN_ATTEMPT'] or not re.fullmatch('[0-9a-f]{32}',owner['nonce']):raise RuntimeError('cleanup run ownership mismatch')
+          expected_name='assembl-atomic-'+owner['nonce']
+          if owner['name']!=expected_name:raise RuntimeError('cleanup name mismatch')
+          cid=owner.get('container_id')
+          if cid is not None and not re.fullmatch('[0-9a-f]{64}',cid):raise RuntimeError('cleanup container identity invalid')
+          with tempfile.TemporaryDirectory(prefix='atomic-cleanup-config-') as home:
+              env={'PATH':'/usr/bin:/bin','HOME':home,'DOCKER_CONFIG':home}
+              base=['/usr/bin/docker','--host','unix:///var/run/docker.sock','--config',home]
+              # Exact named inspect handles SIGKILL between create and writing returned ID.
+              inspection=subprocess.run(base+['inspect',cid or expected_name],env=env,text=True,capture_output=True,timeout=8)
+              if inspection.returncode:
+                  # A failed daemon/permission/timeout is not proof that cleanup succeeded.
+                  missing='No such object: '+(cid or expected_name)
+                  if inspection.stderr.strip()!='Error: '+missing:raise RuntimeError('cleanup inspection failed: '+inspection.stderr)
+                  report.write_text(json.dumps({'state':'owned_container_already_absent','removed':False}));raise SystemExit(0)
+              meta=json.loads(inspection.stdout)[0];labels=meta.get('Config',{}).get('Labels',{})
+              if (cid is not None and meta['Id']!=cid) or meta['Name']!='/'+expected_name or meta['Image']!=owner['image_id']:raise RuntimeError('cleanup instance mismatch')
+              if labels.get('assembl.atomic.nonce')!=owner['nonce'] or labels.get('assembl.atomic.run')!=owner['run_id'] or labels.get('assembl.atomic.attempt')!=owner['attempt']:raise RuntimeError('cleanup resource ownership mismatch')
+              result=subprocess.run(base+['rm','--force','--volumes',meta['Id']],env=env,text=True,capture_output=True,timeout=10)
+              report.write_text(json.dumps({'container_id':meta['Id'],'state':'removed' if result.returncode==0 else 'cleanup_failed','returncode':result.returncode,'stderr':result.stderr},indent=2))
+              if result.returncode:raise RuntimeError('owned cleanup failed')
+          PY
+      - name: Retain exact-head evidence including failures and cleanup outcome
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: atomic-ingestion-proof-${{ github.run_id }}-${{ github.run_attempt }}-${{ github.event.pull_request.head.sha }}
+          path: ${{ runner.temp }}/atomic-ingestion-proof/
+          if-no-files-found: error
+          retention-days: 14
