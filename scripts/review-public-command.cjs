@@ -172,7 +172,8 @@ const releaseDismissTimers = async (page, ids = null) => page.evaluate(ids => {
           await page.keyboard.press('Enter');
           await page.waitForURL(url => url.pathname === destination);
           await page.waitForLoadState('networkidle');
-          assert.equal(await dialog.count(), 0, 'Selection dismisses before navigating');
+          await dialog.waitFor({ state: 'detached' });
+          assert.equal(await dialog.count(), 0, 'Selection dismisses the palette');
           await page.waitForTimeout(50); // Include Radix's deferred unmount focus callback.
           assert.equal(await page.evaluate(() => window.__commandOldOpenerFocusCalls), 0, 'Navigation never restores the old page opener');
           const signature = signatures[destination];
@@ -233,6 +234,7 @@ const releaseDismissTimers = async (page, ids = null) => page.evaluate(ids => {
         row.passed = true;
       } catch (error) {
         row.error = error.message;
+        row.dialogAtFailure = await page.locator('[role="dialog"]').evaluateAll(elements => elements.map(element => ({ state: element.getAttribute('data-state'), text: element.textContent?.slice(0,160) })));
         await page.screenshot({ path: `${output}/failure-${width}.png` }).catch(() => {});
         throw error;
       } finally {
