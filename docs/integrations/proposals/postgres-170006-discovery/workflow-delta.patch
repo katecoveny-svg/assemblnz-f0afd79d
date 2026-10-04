@@ -1,0 +1,92 @@
+--- a/.github/workflows/studio-owner-run-sql.yml
++++ b/.github/workflows/studio-owner-run-sql.yml
+@@ -1,41 +1,58 @@
+-name: Unactivated private Studio run SQL proof
++# REVIEW ONLY. Share/reuse this single discovery job with Hub owner; not published.
++name: Hub shared 17.6 pre-write image discovery
+ on:
+   workflow_dispatch:
+-  pull_request:
+-    paths:
+-      - 'lib/client-hub-migration/owner-run-*'
+-      - 'docs/migration-review/owner-run-*'
+-      - 'docs/migration-review/owner-schema-proposal.sql'
+-      - 'scripts/migration-review/synthetic-owner-payload.json'
+-      - 'scripts/test-studio-owner-run-sql.cjs'
+-      - '.github/workflows/studio-owner-run-sql.yml'
++    inputs:
++      reviewed_sha:
++        description: Exact reviewed sole-parent candidate commit
++        required: true
++        type: string
+ permissions:
+   contents: read
++concurrency:
++  group: studio-owner-run-sql-isolated
++  cancel-in-progress: false
+ jobs:
+   isolated-sql:
+     runs-on: ubuntu-latest
+     timeout-minutes: 10
+-    services:
+-      postgres:
+-        # PostgreSQL17.6 extension-bearing baseline reported clean for denial tests.
+-        # CI fixture only. No production credentials or project connection.
+-        image: public.ecr.aws/supabase/postgres:17.6.1.071
++    env:
++      EXPECTED_PARENT: 33f88c57b6b4bac707d1f93203759092f39af7f1
++    steps:
++      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
++        with:
++          ref: ${{ inputs.reviewed_sha }}
++          fetch-depth: 2
++          persist-credentials: false
++      - name: Exact attempt and sole parent guard
++        shell: bash
+         env:
+-          POSTGRES_PASSWORD: fictional-studio-run-only
+-          POSTGRES_DB: studio_run_proof
+-        ports:
+-          - 55440:5432
+-        options: >-
+-          --health-cmd "pg_isready -U supabase_admin -d studio_run_proof"
+-          --health-interval 5s --health-timeout 5s --health-retries 12
+-    steps:
+-      - uses: actions/checkout@v4
+-      - uses: actions/setup-node@v4
++          REVIEWED_SHA: ${{ inputs.reviewed_sha }}
++        run: |
++          set -euo pipefail
++          test "$GITHUB_RUN_ATTEMPT" = 1
++          test "$GITHUB_SHA" = "$REVIEWED_SHA"
++          test "$(git rev-parse HEAD)" = "$REVIEWED_SHA"
++          test "$(git rev-list --parents -n 1 HEAD)" = "$REVIEWED_SHA $EXPECTED_PARENT"
++          echo '72c7d332c14af36605ecccc122d10062bee1f11823e3e07ef1c3b2f6b0ed9886  docs/integrations/proposals/postgres-170006-discovery/INPUT-SHA256SUMS' | sha256sum --check --strict
++          sha256sum --check --strict docs/integrations/proposals/postgres-170006-discovery/INPUT-SHA256SUMS
++      - name: One owned immutable-image discovery
++        shell: bash
++        run: |
++          set -euo pipefail
++          timeout --signal=TERM --kill-after=5s 420s python3 docs/integrations/proposals/postgres-170006-discovery/discover.py
++      - name: Independent owned-container cleanup
++        if: always()
++        shell: bash
++        run: |
++          set -euo pipefail
++          test -f "$RUNNER_TEMP/postgres-170006-discovery/owner.json" || exit 0
++          echo '1b8ec31c208e9496c6f7791f7c49943a37f80ee095bd5ab0ca395432af31edbf  docs/integrations/proposals/postgres-170006-discovery/discover.py' | sha256sum --check --strict
++          timeout --signal=TERM --kill-after=5s 40s python3 docs/integrations/proposals/postgres-170006-discovery/discover.py --cleanup-only
++      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
++        if: always()
+         with:
+-          node-version: 24
+-      - name: Install isolated SQL test driver
+-        run: npm install --prefix /tmp/studio-run-sql-proof --no-save pg@8.16.3
+-      - name: Actual synthetic SQL atomicity and RLS checks
+-        env:
+-          STUDIO_RUN_PG_MODULE: /tmp/studio-run-sql-proof/node_modules/pg
+-        run: node scripts/test-studio-owner-run-sql.cjs
++          name: postgres-170006-discovery-${{ github.run_id }}-${{ github.run_attempt }}
++          path: ${{ runner.temp }}/postgres-170006-discovery
++          if-no-files-found: error
++          retention-days: 7

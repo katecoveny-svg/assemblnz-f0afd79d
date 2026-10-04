@@ -1,0 +1,20 @@
+{
+  "DISPATCH-PLAN.md": "35b985085ef61f6334f2efb48566a247980692cd552447cb4b57511aa95a0d1c",
+  "INPUT-SHA256SUMS": "72c7d332c14af36605ecccc122d10062bee1f11823e3e07ef1c3b2f6b0ed9886",
+  "REVIEW.md": "cc0f61b448dc242a590a014eaf1b6001c7c3f302737a527b940fe58b575f67af",
+  "base-evidence.json": "5d7d64ec89d87e4803826ef3c2993ae1b787926cd014f376a241984d0ab4fd5a",
+  "base-workflow-response.json": "aee3179f155feb70c47703b5477235aa2d6f3b3386916665a39c49dcb61db719",
+  "base-workflow.yml": "42f573912b17a84b46690bb150f35433ea01adcd2c2afe598680d35fb039a46b",
+  "binding-digests.json": "17711539579541685db870bd00b415381f900b88f94f1c48eef8cde0b84728bf",
+  "compile-receipt.json": "6e31a57a80d314d3066a9325942ca20e38167317f69a7846cb80a6961967a234",
+  "discover.py": "1b8ec31c208e9496c6f7791f7c49943a37f80ee095bd5ab0ca395432af31edbf",
+  "normal.stderr.log": "6974ca8b87d801f81372c2359b048f8433a52454fe114e66d4d0091ddeb545db",
+  "normal.stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "optimized.stderr.log": "cf4398840edee2114488a7ad914e4f9f572c9afd156b08f985059c5bf174cb2e",
+  "optimized.stdout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "test_cleanup.py": "03f8ba1613cd359f8d5d834606e46f4b83ebcdcbcb5efc887c751c2a528be4bd",
+  "test_disk_failure.py": "b80516da7b91cb49854f0fe6376d7ce5261c42d5751300fc3692ba00e69d9fec",
+  "test_reliability.py": "1c4d78c0489cf72fa708bc1bd1cb575a4321a55e272b857aae5fcd5138b73a10",
+  "workflow-delta.patch": "0c5bbea3cfaa90d9fcf9382375165a1086c101697fb9d60363574c35273bd19b",
+  "workflow-proposal.yml": "c8f3e1baf0ff14a9f6da48abc03ad7ad7c50e1c584d1345eaeb061d253cf8ffb"
+}
