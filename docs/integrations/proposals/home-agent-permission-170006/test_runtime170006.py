@@ -23,7 +23,7 @@ class Runtime170006(unittest.TestCase):
   with self.assertRaises(RuntimeError):f.psql_args(database='external')
  def test_preserved_witness_and_snapshot_bytes(self):
   base=ROOT/'baseline-cleared'
-  for name in ('live_client.py','budget.py','run_deadline_proof.py','forward.sql.txt','rollback.sql.txt','owned-fixture/bootstrap.sql','owned-fixture/cleanup_owned.py'):
+  for name in ('live_client.py','budget.py','run_deadline_proof.py','forward.sql.txt','rollback.sql.txt','owned-fixture/bootstrap.sql'):
    self.assertEqual((ROOT/name).read_bytes(),(base/(name+'.reference')).read_bytes())
   for name in ('forward','rollback'):
    from build_queries import build

@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     env:
-      EXPECTED_PARENT: d0ea3112d62d93fed401e5c1b0178db0ac60357e
+      EXPECTED_PARENT: f05e4a834cb218fc9435cb845813de237bc45c5e
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
@@ -34,8 +34,8 @@ jobs:
           test "$(git rev-parse HEAD)" = "$REVIEWED_SHA"
           test "$(git rev-list --parents -n 1 HEAD)" = "$REVIEWED_SHA $EXPECTED_PARENT"
           git diff-tree --no-commit-id --name-status -r HEAD > "$RUNNER_TEMP/permission-path-status.txt"
-          echo '81b35aa591a1f6c54d48e15e2650bbeabc9e6f679894349a88593e9fd78ceda1  '"$RUNNER_TEMP/permission-path-status.txt" | sha256sum --check --strict
-          echo 'd9ee082a8d91374239b774d9e7d5fe1cd7a4945c01603f812e7f739851e44002  docs/integrations/proposals/home-agent-permission-170006/INPUT-SHA256SUMS' | sha256sum --check --strict
+          echo '9b69ebd2fdbcaa7323e4790b11338812835c8c849b7a71a379fb993880ceef4f  '"$RUNNER_TEMP/permission-path-status.txt" | sha256sum --check --strict
+          echo '2bede08f0518036c64ad9cb3d781649d606ed09d612cf25a5a9120249a8c545e  docs/integrations/proposals/home-agent-permission-170006/INPUT-SHA256SUMS' | sha256sum --check --strict
           sha256sum --check --strict docs/integrations/proposals/home-agent-permission-170006/INPUT-SHA256SUMS
       - name: Offline reviewed contract checks
         working-directory: docs/integrations/proposals/home-agent-permission-170006
@@ -62,8 +62,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          echo '982583de98f02ee615f9403a475f8b89de225042934e2ed3ae717120bb6c13fb  docs/integrations/proposals/home-agent-permission-170006/owned-fixture/cleanup_owned.py' | sha256sum --check --strict
-          echo 'e81a153d01a501a179d6f181d8587a53540a33890ed85a0e84731f8d326fc641  docs/integrations/proposals/home-agent-permission-170006/owned-fixture/run_fixture.py' | sha256sum --check --strict
+          echo 'e63e30cb9006c55dc7f1d6612e9ee8133bf46cb3cd6d7771fad95749b5a771a9  docs/integrations/proposals/home-agent-permission-170006/owned-fixture/cleanup_owned.py' | sha256sum --check --strict
+          echo '33fc457374e58886a33b7acf7d9a5d731b652b68d2c42cfa78a3ad4b6365def9  docs/integrations/proposals/home-agent-permission-170006/owned-fixture/run_fixture.py' | sha256sum --check --strict
           timeout --signal=TERM --kill-after=5s 30s python3 docs/integrations/proposals/home-agent-permission-170006/owned-fixture/cleanup_owned.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()

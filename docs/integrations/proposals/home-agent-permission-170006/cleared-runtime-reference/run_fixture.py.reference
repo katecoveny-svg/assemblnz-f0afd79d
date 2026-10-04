@@ -51,26 +51,18 @@ def verify_inspection(meta,cid,owner):
 @dataclasses.dataclass
 class Result:
  code:int; stdout:bytes; stderr:bytes; gates:int=0; votes:tuple=(); locus:tuple=()
-def terminate(proc,deadline=None):
+def terminate(proc):
  if proc.poll() is None:
-  # Termination and reap consume the SAME absolute operation budget as I/O.
-  end=time.monotonic()+4 if deadline is None else deadline
   os.killpg(proc.pid,signal.SIGTERM)
-  remaining=max(0,end-time.monotonic())
-  try:proc.wait(timeout=min(2,remaining/2))
-  except subprocess.TimeoutExpired:
-   os.killpg(proc.pid,signal.SIGKILL)
-   proc.wait(timeout=max(0,end-time.monotonic()))
+  try:proc.wait(timeout=2)
+  except subprocess.TimeoutExpired:os.killpg(proc.pid,signal.SIGKILL);proc.wait(timeout=2)
 def run_bounded(argv,env,deadline,input_data=None,gate=False,limit=OUTPUT_LIMIT,refuse=False):
  """Selector stdin/stdout/stderr, absolute deadline/output cap, finally-owned process cleanup."""
  require(type(refuse) is bool and (not refuse or gate),'closed refusal mode requires gate')
- started=time.monotonic()
- require(deadline>started,'operation deadline exhausted')
- # Reserve up to two seconds INSIDE this command for TERM/KILL/reap.
- execution_end=deadline-min(2,(deadline-started)/2)
+ require(deadline>time.monotonic(),'operation deadline exhausted')
  p=subprocess.Popen(argv,env=env,stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.STDOUT if gate else subprocess.PIPE,start_new_session=True,bufsize=0)
  sel=selectors.DefaultSelector();out=bytearray();err=bytearray();buf=bytearray()
- pending=bytearray(input_data or b'');gates=0;votes=[];diagnostic=False;primary_error=None
+ pending=bytearray(input_data or b'');gates=0;votes=[];diagnostic=False
  try:
   for stream,label in [(p.stdout,'out'),(p.stderr,'err')]:
    if stream is not None:os.set_blocking(stream.fileno(),False);sel.register(stream,selectors.EVENT_READ,label)
@@ -78,7 +70,7 @@ def run_bounded(argv,env,deadline,input_data=None,gate=False,limit=OUTPUT_LIMIT,
   if pending:sel.register(p.stdin,selectors.EVENT_WRITE,'in')
   elif not gate:p.stdin.close()
   while sel.get_map() or p.poll() is None:
-   remaining=execution_end-time.monotonic()
+   remaining=deadline-time.monotonic()
    if remaining<=0:raise TimeoutError('bounded output/process deadline')
    marker=False
    for key,mask in sel.select(min(.05,remaining)):
@@ -94,9 +86,8 @@ def run_bounded(argv,env,deadline,input_data=None,gate=False,limit=OUTPUT_LIMIT,
     try:chunk=os.read(stream.fileno(),65536)
     except BlockingIOError:continue
     if not chunk:sel.unregister(stream);continue
-    available=max(0,limit-len(out)-len(err))
-    (out if key.data=='out' else err).extend(chunk[:available])
-    if len(chunk)>available:raise RuntimeError('bounded output limit')
+    (out if key.data=='out' else err).extend(chunk)
+    if len(out)+len(err)>limit:raise RuntimeError('bounded output limit')
     if gate:
      buf.extend(chunk)
      if any(x in buf for x in (b'WARNING:',b'NOTICE:',b'ERROR:',b'FATAL:',b'psql:')):diagnostic=True
@@ -113,89 +104,35 @@ def run_bounded(argv,env,deadline,input_data=None,gate=False,limit=OUTPUT_LIMIT,
      try:sel.unregister(p.stdin)
      except KeyError:pass
      p.stdin.close()
-  require(time.monotonic()<execution_end,'late command completion')
   if gate:
    require(gates==1,'missing runtime commit gate')
    require(not diagnostic or (votes==['false'] and p.returncode!=0),'diagnostic not safely refused')
   return Result(p.returncode,bytes(out),bytes(err),gates,tuple(votes))
- except BaseException as error:
-  primary_error=error
-  error.bounded_result=Result(p.poll(),bytes(out),bytes(err),gates,tuple(votes))
-  raise
  finally:
-  cleanup_error=None
-  try:terminate(p,deadline)
-  except BaseException as error:cleanup_error=error
-  finally:
-   # Every close is attempted even if terminate, selector, or another close fails.
-   closers=[sel.close]+[stream.close for stream in (p.stdin,p.stdout,p.stderr) if stream is not None and not stream.closed]
-   for close in closers:
-    try:close()
-    except BaseException as error:
-     if cleanup_error is None:cleanup_error=error
-  if cleanup_error is not None:
-   cleanup_error.bounded_result=Result(p.returncode,bytes(out),bytes(err),gates,tuple(votes))
-   cleanup_error.primary_fault=type(primary_error).__name__ if primary_error else None
-   raise cleanup_error
-
-def command_receipt(args,result=None,error=None):
- if result is None and error is not None:result=getattr(error,'bounded_result',None)
- data={'command_sha256':digest(json.dumps(args).encode()),'operation':args[0] if args else None,'returncode':None,'stdout':'','stderr':'','partial':error is not None,'fault':type(error).__name__ if error else None,'primary_fault':getattr(error,'primary_fault',None)}
- if result is not None:
-  data.update(returncode=result.code,stdout=result.stdout.decode(errors='replace'),stderr=result.stderr.decode(errors='replace'))
- # Full inspection contains Config.Env. Retain only ownership/isolation metadata.
- if (args[:1]==['inspect'] or args[:2]==['image','inspect']) and '--format' not in args and data['stdout']:
-  try:
-   if data['partial']:raise ValueError('partial full inspection withheld')
-   rows=json.loads(data['stdout'])
-   data['stdout']=json.dumps([{'Id':row.get('Id'),'Name':row.get('Name'),'Image':row.get('Image'),'State':row.get('State'),'Labels':row.get('Config',{}).get('Labels'),'HostConfig':{key:row.get('HostConfig',{}).get(key) for key in ('NetworkMode','PortBindings','Binds','Tmpfs','Memory','NanoCpus','PidsLimit')}} for row in rows])
-  except (ValueError,TypeError,AttributeError):data['stdout']='[unparseable full inspection withheld]'
- return data
-
-def recover_cleanup(owner,directory,env,base,phase='cleanup-final'):
- """Diagnostics/evidence failures cannot prevent verified removal and absence."""
- require(phase in ('cleanup-final','cleanup-independent'),'closed cleanup phase')
+  terminate(p);sel.close()
+  for stream in (p.stdin,p.stdout,p.stderr):
+   if stream is not None and not stream.closed:stream.close()
+def recover_cleanup(owner,directory,env,base):
+ """Reuse exact-name/full-ID recovery from atomic workflow, with bounded absence confirmation."""
  deadline=time.monotonic()+30
  require(re.fullmatch('[0-9a-f]{32}',owner['nonce']) is not None,'cleanup nonce invalid')
  require(owner['name']=='assembl-home-client-'+owner['nonce'] and owner['image_id']==IMAGE_ID,'cleanup record mismatch')
  for field in ('run_id','attempt'):require(re.fullmatch('[0-9]+',owner[field]) is not None,'cleanup CI identity invalid')
  cid=owner.get('container_id');require(cid is None or re.fullmatch('[0-9a-f]{64}',cid) is not None,'cleanup ID invalid')
- target=cid or owner['name'];report={'state':'unresolved','nonce':owner['nonce'],'removed':False,'evidence_failures':[],'diagnostic_failures':[]};receipts=[]
- def call(label,args,seconds,limit=OUTPUT_LIMIT,diagnostic=False):
-  result=None;error=None
-  try:
-   end=min(deadline-20 if diagnostic else deadline,time.monotonic()+seconds)
-   result=run_bounded(base+args,env,end,limit=limit);return result
-  except BaseException as failure:error=failure;raise
-  finally:receipts.append((label,command_receipt(args,result,error)))
+ target=cid or owner['name'];report={'state':'unresolved','nonce':owner['nonce'],'removed':False}
  try:
-  r=call('ownership',['inspect',target],8)
+  r=run_bounded(base+['inspect',target],env,min(deadline,time.monotonic()+8))
   if r.code:
    require(r.stderr.decode().strip()=='Error: No such object: '+target,'cleanup inspection failed, not absent')
    report['state']='owned_container_already_absent';return report
   meta=json.loads(r.stdout)[0];verified=meta.get('Id')
   require(cid is None or verified==cid,'cleanup ID mismatch');verify_inspection(meta,verified,owner)
-  # Exact owned container only; at most two seconds total, preserve twenty for disposal.
-  diagnostic_end=min(deadline-20,time.monotonic()+2)
-  for label,args in [('startup-logs',['logs',verified]),('terminal-state',['inspect','--format','{{json .State}}',verified])]:
-   try:
-    result=call(label,args,max(0,min(1,diagnostic_end-time.monotonic())),65536,True)
-    if result.code:report['diagnostic_failures'].append({'operation':label,'code':result.code})
-   except BaseException as error:report['diagnostic_failures'].append({'operation':label,'type':type(error).__name__})
-  r=call('remove',['rm','--force','--volumes',verified],10)
+  r=run_bounded(base+['rm','--force','--volumes',verified],env,min(deadline,time.monotonic()+10))
   require(r.code==0 and not r.stderr,'owned cleanup remove failed')
-  absent=call('absence',['inspect',verified],8)
+  absent=run_bounded(base+['inspect',verified],env,min(deadline,time.monotonic()+8))
   require(absent.code!=0 and absent.stderr.decode().strip()=='Error: No such object: '+verified,'cleanup absence not confirmed')
   report.update(state='removed',removed=True,container_id=verified);return report
- finally:
-  # All durable writes occur AFTER disposal attempts. Keep first and independent records distinct.
-  for label,data in receipts:
-   try:(directory/(phase+'-'+label+'.json')).write_text(json.dumps(data,indent=2))
-   except BaseException as error:report['evidence_failures'].append({'file':phase+'-'+label+'.json','type':type(error).__name__})
-  try:(directory/(phase+'-report.json')).write_text(json.dumps(report,indent=2))
-  except BaseException as error:report['evidence_failures'].append({'file':phase+'-report.json','type':type(error).__name__})
-  if report['evidence_failures']:raise RuntimeError('cleanup evidence persistence failed AFTER disposal attempt: '+json.dumps(report))
-  if report['diagnostic_failures']:raise RuntimeError('cleanup diagnostics incomplete AFTER disposal attempt: '+json.dumps(report))
+ finally:(directory/'cleanup.json').write_text(json.dumps(report,indent=2))
 class Fixture:
  def __init__(self):
   require(sys.platform=='linux' and os.environ.get('GITHUB_ACTIONS')=='true','separately approved ephemeral Linux CI runner required')
@@ -213,15 +150,7 @@ class Fixture:
   atexit.register(self.close)
  def end(self,seconds):
   end=min(self.deadline,time.monotonic()+seconds);require(end>time.monotonic(),'whole-run deadline exhausted');return end
- def docker(self,args,data=None,seconds=10):
-  result=None;error=None
-  try:
-   result=run_bounded(self.base+args,self.env,self.end(seconds),data);return result
-  except BaseException as failure:error=failure;raise
-  finally:
-   self.sequence+=1
-   receipt=command_receipt(args,result,error);receipt.update(nonce=self.nonce,container_id=self.cid)
-   (self.record_dir/('%03d-command.json'%self.sequence)).write_text(json.dumps(receipt,indent=2))
+ def docker(self,args,data=None,seconds=10):return run_bounded(self.base+args,self.env,self.end(seconds),data)
  def checked(self,r,label):
   require(r.code==0 and not r.stderr,label+' failed/diagnostic');return r.stdout
  def save(self):
