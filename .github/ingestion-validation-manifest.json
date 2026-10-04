@@ -12,9 +12,9 @@
       "bytes": 11273
     },
     ".github/workflows/home-agent-client-grant-sql-validation.yml": {
-      "sha256": "773fb78765b47b6cb661e012ed3d30051d2bb622b992fb4844574a89f4e158d8",
-      "git_blob": "8da347ccc50da54feecea8c56462fce2eb8a39bb",
-      "bytes": 13399
+      "sha256": "add8e3a2f78a7cc493af90cbda4dbedb08d9976e4a8a64e6b28bdfdbeef0dc1d",
+      "git_blob": "dc21ecc7505e0ff4faa50d64c4ff3f2a13683608",
+      "bytes": 12582
     },
     "docs/integrations/ingestion-audit-20261003.md": {
       "sha256": "a2980f1099d8a5041c357d5f37e25eaa2bd51fecd8b50ef7cdbe20aa63855334",
@@ -92,9 +92,9 @@
       "bytes": 1161
     },
     "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/run_fixture.py": {
-      "sha256": "aee23272eb48edafd3a7d2a74e88ac788bce859f66074c7891d06f74cbbe4c47",
-      "git_blob": "9782ad57227215083601b8591f1976d2a9272055",
-      "bytes": 20190
+      "sha256": "9cfe2cf07ba35716bea172956a3819075843bddbbf9c3c152bacc0254644fb5f",
+      "git_blob": "57f016362841cd71d313d857519b4904728309bf",
+      "bytes": 22196
     },
     "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/service-check.sql": {
       "sha256": "96ad03cdb228de914aa36b497bbd6e64bbb3b3785cdf3c4c67cfbbee509fc37f",
@@ -102,9 +102,9 @@
       "bytes": 849
     },
     "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/test_offline.py": {
-      "sha256": "e2ff1c63bd493c3f7e77cf88bbfeae3f64b72e1c1c1ca0e53579e32c51dc1b10",
-      "git_blob": "741b4f5dea454fa410299027445c1eaf16534df5",
-      "bytes": 11024
+      "sha256": "ba4e3657afacd4e6e37ae3fd0411fd46f7ef1dcdb3e2c97bb3441e92c5cb2062",
+      "git_blob": "0c7a550bcd12e307c34da8c35663170a3f670e16",
+      "bytes": 13489
     },
     "docs/integrations/proposals/home-agent-client-grant-fixture/poststate.json": {
       "sha256": "fa2b591fc5abf3e67e4028d8ed1d8cfccdbfee39a81d332168604370c2d054ad",
@@ -369,10 +369,15 @@
     "adapter_runtime_v2_unchanged": true
   },
   "client_grant_fixture_proposal": {
-    "expected_parent": "05fd171592919b9eff83ca4fc3fc0ed7d238cad8",
+    "expected_parent": "ecd301f02453bc03650793120c4365368f4c7311",
     "source_packet_sha256": "bad5967394bc9700b29d56a2a88ad91e5d6f0126408e37f6b3e8d8e1ab475804",
     "review_scope": "only bounded synthetic database test proposal; no production apply SQL/runner",
     "production_adapters_unchanged": true,
-    "production_sql_and_migration_history_unchanged": true
+    "production_sql_and_migration_history_unchanged": true,
+    "fixture_locale_correction": {
+      "initdb_args": "--lc-collate=C --encoding=UTF8",
+      "evidence": "actual cluster and fixture database collation, ctype, encoding and provider retained before baseline comparison",
+      "strict_snapshot_equality_unchanged": true
+    }
   }
 }

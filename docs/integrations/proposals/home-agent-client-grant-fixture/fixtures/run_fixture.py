@@ -7,9 +7,22 @@ IMAGE='postgres:17.11-bookworm@sha256:639ab7ceb90e13123085b741fb31ef493fba254630
 IMAGE_ID='sha256:248efd5e58cd743f2a0e0daec8ea4649e5580145ec2a12e2345bc710d4a77201'
 PACKAGED_VERSION='17.11-1.pgdg12+2'
 IMAGE_FILES={PSQL:'92479a999b7227713c648475b20b2b870cc7b06ccd4fde429fc696045dd4f146',PGREADY:'10557978eac2173ef7ea9bed2e34fa44ecd30a9f9d4a3eca8c7b782a7eced107',POSTGRES:'f7d05a9a444dc63d93f6b6e329d31eaebae809e85c8479b5072d8aff595303ed','/usr/local/bin/docker-entrypoint.sh':'9c440299ae04a0a79d55b8bf03307036d890a40979d2fb698073c9050d4b20a5'}
+INITDB_ARGS='--lc-collate=C --encoding=UTF8'
 GATE=b'ACL_COMMIT_GATE_READY'; OUTPUT_LIMIT=1024*1024
 def require(value,message):
  if not value:raise RuntimeError(message)
+def validate_locale(rows,phase,cluster=None):
+ require(phase in ('cluster','fixture'),'unapproved locale evidence phase')
+ names=('postgres','template0','template1') if phase=='cluster' else ('acl_fixture','postgres','template0','template1')
+ require(isinstance(rows,list) and len(rows)==len(names),'locale database count mismatch')
+ require(all(isinstance(x,dict) and set(x)=={'database','collate','ctype','encoding','provider'} for x in rows),'locale evidence shape mismatch')
+ require([x['database'] for x in rows]==list(names),'locale database identity/order mismatch')
+ require(all(x['collate']=='C' and x['encoding']=='UTF8' and x['provider']=='c' and isinstance(x['ctype'],str) and x['ctype'] for x in rows),'fixture locale/encoding/provider mismatch')
+ require(len({x['ctype'] for x in rows})==1,'fixture ctype inheritance mismatch')
+ if phase=='fixture':
+  validate_locale(cluster,'cluster')
+  require(rows[1:]==cluster and rows[0]['ctype']==cluster[2]['ctype'],'fixture locale inheritance changed')
+ return rows
 def clean_environment(home):return {'PATH':'/usr/bin:/bin','HOME':home,'DOCKER_CONFIG':home}
 def digest(data):return hashlib.sha256(data).hexdigest()
 def validate_gate_source(data):
@@ -162,7 +175,7 @@ class Fixture:
   require(IMAGE.split('@')[1] in [x.split('@')[-1] for x in image.get('RepoDigests',[])],'image digest mismatch')
   require(image.get('Config',{}).get('Entrypoint')==['docker-entrypoint.sh'] and image['Config'].get('Cmd')==['postgres'],'image startup mismatch')
   self.save()
-  r=self.docker(['create','--pull=never','--name',self.owner['name'],'--network','none','--label','assembl.atomic.nonce='+self.nonce,'--label','assembl.atomic.run='+self.owner['run_id'],'--label','assembl.atomic.attempt='+self.owner['attempt'],'--tmpfs','/var/lib/postgresql/data:rw,size=128m','--tmpfs',SOCKET+':rw,size=8m','--memory','256m','--cpus','1','--pids-limit','128','--env','POSTGRES_DB=postgres','--env','POSTGRES_USER=fixture_admin','--env','POSTGRES_HOST_AUTH_METHOD=trust',IMAGE,'postgres','-c','listen_addresses=','-c','unix_socket_directories='+SOCKET])
+  r=self.docker(['create','--pull=never','--name',self.owner['name'],'--network','none','--label','assembl.atomic.nonce='+self.nonce,'--label','assembl.atomic.run='+self.owner['run_id'],'--label','assembl.atomic.attempt='+self.owner['attempt'],'--tmpfs','/var/lib/postgresql/data:rw,size=128m','--tmpfs',SOCKET+':rw,size=8m','--memory','256m','--cpus','1','--pids-limit','128','--env','POSTGRES_DB=postgres','--env','POSTGRES_USER=fixture_admin','--env','POSTGRES_HOST_AUTH_METHOD=trust','--env','POSTGRES_INITDB_ARGS='+INITDB_ARGS,IMAGE,'postgres','-c','listen_addresses=','-c','unix_socket_directories='+SOCKET])
   self.cid=self.checked(r,'create').decode().strip();require(re.fullmatch('[0-9a-f]{64}',self.cid) is not None,'invalid create ack')
   self.owner['container_id']=self.cid;self.save();self.verify();self.checked(self.docker(['start',self.cid]),'start')
   self.preflight();end=self.end(30)
@@ -178,9 +191,18 @@ class Fixture:
   else:raise TimeoutError('final PID1 readiness deadline')
   self.identity=self.server_identity()
   require(self.identity['database']=='postgres' and self.identity['user']=='fixture_admin' and self.identity['address'] is None and self.identity['version']=='170011' and self.identity['data_directory']=='/var/lib/postgresql/data','unexpected fixture identity')
+  self.cluster_locale=self.capture_locale('cluster')
   self.checked(self.raw(self.sql_bytes['bootstrap.sql'],'fixture_admin','postgres'),'bootstrap')
   marker=("CREATE SCHEMA fixture_identity; CREATE TABLE fixture_identity.marker(nonce text PRIMARY KEY); INSERT INTO fixture_identity.marker VALUES('"+self.nonce+"'); GRANT USAGE ON SCHEMA fixture_identity TO postgres; GRANT SELECT ON fixture_identity.marker TO postgres;").encode()
   self.checked(self.raw(marker,'fixture_admin','acl_fixture'),'nonce marker')
+  self.capture_locale('fixture')
+ def capture_locale(self,phase):
+  require(phase in ('cluster','fixture'),'unapproved locale evidence phase')
+  names="'postgres','template0','template1'" if phase=='cluster' else "'acl_fixture','postgres','template0','template1'"
+  sql=("SELECT json_agg(json_build_object('database',datname::text,'collate',datcollate,'ctype',datctype,'encoding',pg_encoding_to_char(encoding),'provider',datlocprovider::text) ORDER BY datname::text COLLATE \"C\") FROM pg_database WHERE datname IN ("+names+");").encode()
+  rows=json.loads(self.checked(self.raw(sql,'fixture_admin','postgres'),'locale evidence'))
+  (self.record_dir/('locale-'+phase+'.json')).write_text(json.dumps({'phase':phase,'initdb_args':INITDB_ARGS,'databases':rows},indent=2))
+  return validate_locale(rows,phase,getattr(self,'cluster_locale',None))
  def preflight(self):
   require(self.checked(self.image_command(['/usr/bin/readlink','-e',PSQL]),'psql path').decode().strip()==PSQL,'packaged psql required')
   actual={}

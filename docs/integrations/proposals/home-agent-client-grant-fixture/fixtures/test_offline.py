@@ -4,6 +4,43 @@ import copy,json,os,pathlib,sys,tempfile,time,unittest
 from unittest.mock import patch
 import run_fixture as m
 class Offline(unittest.TestCase):
+ def locale_rows(self,fixture=False):
+  names=['postgres','template0','template1']
+  if fixture:names.insert(0,'acl_fixture')
+  return [dict(database=n,collate='C',ctype='en_US.utf8',encoding='UTF8',provider='c') for n in names]
+ def test_locale_contract(self):
+  cluster=self.locale_rows(); fixture=self.locale_rows(True)
+  self.assertEqual(m.validate_locale(cluster,'cluster'),cluster)
+  self.assertEqual(m.validate_locale(fixture,'fixture',cluster),fixture)
+  for field,value in [('collate','en_US.utf8'),('encoding','SQL_ASCII'),('provider','i'),('ctype','')]:
+   rows=copy.deepcopy(fixture);rows[0][field]=value
+   with self.subTest(field=field),self.assertRaises(RuntimeError):m.validate_locale(rows,'fixture',cluster)
+  for rows in [fixture[:-1],fixture+[fixture[0]],list(reversed(fixture)),None]:
+   with self.subTest(rows=rows),self.assertRaises(RuntimeError):m.validate_locale(rows,'fixture',cluster)
+  with self.assertRaises(RuntimeError):m.validate_locale(cluster,'unknown')
+  rows=copy.deepcopy(fixture);rows[0]['ctype']='other'
+  with self.assertRaises(RuntimeError):m.validate_locale(rows,'fixture',cluster)
+  rows=copy.deepcopy(fixture)
+  for row in rows:row['ctype']='other'
+  with self.assertRaises(RuntimeError):m.validate_locale(rows,'fixture',cluster)
+ def test_locale_capture_retained_before_rejection(self):
+  with tempfile.TemporaryDirectory() as directory:
+   f=object.__new__(m.Fixture);f.record_dir=pathlib.Path(directory)
+   wrong=self.locale_rows();wrong[0]['encoding']='SQL_ASCII'
+   f.raw=lambda *args:m.Result(0,json.dumps(wrong).encode(),b'')
+   with self.assertRaises(RuntimeError):f.capture_locale('cluster')
+   evidence=json.loads((f.record_dir/'locale-cluster.json').read_text())
+   self.assertEqual(evidence['databases'],wrong)
+   self.assertEqual(evidence['initdb_args'],'--lc-collate=C --encoding=UTF8')
+ def test_locale_capture_closed_names(self):
+  f=object.__new__(m.Fixture)
+  with self.assertRaises(RuntimeError):f.capture_locale('arbitrary_database')
+ def test_initialization_and_capture_order(self):
+  source=(m.ROOT/'run_fixture.py').read_text()
+  self.assertIn("'--env','POSTGRES_INITDB_ARGS='+INITDB_ARGS",source)
+  create=source[source.index(' def create(self):'):source.index(' def preflight(self):')]
+  self.assertLess(create.index("self.capture_locale('cluster')"),create.index("self.sql_bytes['bootstrap.sql']"))
+  self.assertLess(create.index("'nonce marker'"),create.index("self.capture_locale('fixture')"))
  def owner(self,cid=None):
   return {'nonce':'a'*32,'name':'assembl-home-client-'+'a'*32,'run_id':'37160214912','attempt':'1','image_id':m.IMAGE_ID,'container_id':cid}
  def meta(self):
