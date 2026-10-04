@@ -39,7 +39,7 @@ const path = require('node:path');
           });
           Object.assign(record, geometry, { stage: 'geometry' });
           persist();
-          assert.equal(geometry.h1, 'Assemble useful work.');
+          assert.equal(geometry.h1, 'Agentic AI solutions, assembled for your business.');
           assert.equal(geometry.overflow, false);
           assert.equal(geometry.video, false);
           for (const target of geometry.targets) {
