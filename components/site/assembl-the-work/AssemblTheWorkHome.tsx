@@ -9,7 +9,7 @@ import { DoFilm } from '@/components/do/DoFilm';
 import { LivingBrief } from './ImmersiveExperience';
 const LivePursuitCanvas = dynamic(() => import('../pursuit/LivePursuitCanvas').then(module => module.LivePursuitCanvas));
 import { PRODUCT_DESTINATIONS } from '@/lib/product-destinations';
-import { PRODUCTS } from './copy';
+import { POSITIONING, PRODUCTS } from './copy';
 import { FluidField } from '../craft/FluidField';
 import { HomeLiveData } from '../HomeLiveData';
 import '../craft/fluid-type.css';
@@ -29,7 +29,7 @@ export function AssemblTheWorkHome({ preview = false }: { preview?: boolean }) {
     <AssemblWorldHero preview={preview} />
     {!preview && <div id="home-do-assistant-slot" />}
     <section id="products" className="refined-products" aria-labelledby="products-title">
-      <header><p className="atw-kicker">Forward-deployed engineering</p><h2 id="products-title">What we can deliver</h2><p>Customer journey maps and service blueprints. Business cases and delivery plans. CX, UX and UI design. Working software, integrations and AI workflows. Interactive demos, proposals and pitches. People review decisions and approve consequential actions.</p></header>
+      <header><p className="atw-kicker">Forward-deployed engineering</p><h2 id="products-title">What we can deliver</h2><p>Customer journey maps and service blueprints. Business cases and delivery plans. CX, UX and UI design. Working software, integrations and AI workflows. Interactive demos, proposals and pitches. People review decisions and approve consequential actions.</p><p>{POSITIONING.businessScale}</p></header>
       <div className="refined-product-grid">{PRODUCTS.items.map((product, index) => <Link href={product.href} key={product.id} className="refined-product" data-product={product.id}>
         <div className="refined-product-art" aria-hidden="true"><span className="refined-shape" /><span className="refined-shape" /><span className="refined-shape" /><small>0{index + 1}</small><strong>{product.verb.split(' · ')[1]}</strong></div>
         <div className="refined-product-copy"><h3>{product.name}<ArrowUpRight size={22} /></h3><p>{product.body}</p><span>{product.id === 'do' ? 'Open DO' : `Explore ${product.name}`} <ArrowUpRight size={16} /></span></div>

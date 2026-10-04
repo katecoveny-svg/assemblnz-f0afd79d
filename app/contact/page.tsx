@@ -7,11 +7,11 @@ import styles from './contact.module.css';
 import company from '@/components/public/company-pages.module.css';
 
 export const metadata: Metadata = {
-  title: { absolute: "Contact assembl | Bring a brief" },
+  title: { absolute: "Contact assembl | Discuss your project" },
   description: "Bring assembl a brief for strategy, design, software or customer experiences. Agree the outcome and the first useful piece of work.",
   alternates: { canonical: "/contact" },
-  openGraph: { title: "Contact assembl | Bring a brief", description: "Bring assembl a brief for strategy, design, software or customer experiences. Agree the outcome and the first useful piece of work.", url: "https://www.assembl.co.nz/contact", type: 'website', locale: 'en_NZ', siteName: 'assembl' },
-  twitter: { card: 'summary_large_image', title: "Contact assembl | Bring a brief", description: "Bring assembl a brief for strategy, design, software or customer experiences. Agree the outcome and the first useful piece of work." },
+  openGraph: { title: "Contact assembl | Discuss your project", description: "Bring assembl a brief for strategy, design, software or customer experiences. Agree the outcome and the first useful piece of work.", url: "https://www.assembl.co.nz/contact", type: 'website', locale: 'en_NZ', siteName: 'assembl' },
+  twitter: { card: 'summary_large_image', title: "Contact assembl | Discuss your project", description: "Bring assembl a brief for strategy, design, software or customer experiences. Agree the outcome and the first useful piece of work." },
 };
 
 export default async function ContactPage({searchParams}:{searchParams:Promise<{product?:string}>}) {
@@ -21,16 +21,16 @@ export default async function ContactPage({searchParams}:{searchParams:Promise<{
     <div className={`${publicStyles.page} ${company.page}`}>
       <section className={`${publicStyles.hero} ${styles.hero}`}>
         <div>
-            <p className={publicStyles.eyebrow}>get in touch · one useful conversation</p>
-            <h1>Let&apos;s<br /><em>talk.</em></h1>
+            <p className={publicStyles.eyebrow}>Your project</p>
+            <h1>What would you<br /><em>like to make?</em></h1>
             <p className={publicStyles.lede}>
-              Bring a brief for strategy, design, software or a customer experience. Tell us the outcome you need; we’ll work out the first useful piece together.
+              Tell us what you’re working on and where you need help. We bring strategy, design and AI together to find opportunities, create better customer experiences and get useful work done.
             </p>
         </div>
         <aside className={publicStyles.heroAside} aria-label="Contact expectations">
-          <div className={publicStyles.heroFact}><span>01</span><div><strong>Tell us the job</strong><p>The opportunity, customer experience or piece of work you want to improve.</p></div></div>
-          <div className={publicStyles.heroFact}><span>02</span><div><strong>We reply ourselves</strong><p>A person reads every enquiry and responds within one working day.</p></div></div>
-          <div className={publicStyles.heroFact}><span>03</span><div><strong>No hard sell</strong><p>We will say plainly whether assembl fits the work and what the next step would be.</p></div></div>
+          <div className={publicStyles.heroFact}><span>01</span><div><strong>Start with the project</strong><p>A business opportunity, customer experience, website, product or idea.</p></div></div>
+          <div className={publicStyles.heroFact}><span>02</span><div><strong>Bring what you have</strong><p>A few sentences are enough. Add a brief or link if it helps.</p></div></div>
+          <div className={publicStyles.heroFact}><span>03</span><div><strong>Work out the next step</strong><p>We’ll discuss the outcome, scope and what to make first.</p></div></div>
         </aside>
       </section>
 
@@ -100,8 +100,8 @@ function ContactCard({
         <div
           className="flex h-10 w-10 flex-shrink-0 items-center justify-center"
           style={{
-            background: '#252d31',
-            border: '1px solid #252d31',
+            background: '#240B21',
+            border: '1px solid #240B21',
           }}
         >
           <Icon

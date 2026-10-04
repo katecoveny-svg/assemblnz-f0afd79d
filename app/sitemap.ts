@@ -23,7 +23,6 @@ const CORE_PATHS = [
   '/ad-studio',
   // Existing public guides and supporting product surfaces.
   '/about',
-  '/pricing',
   '/ai-use',
   '/contact',
   '/data',

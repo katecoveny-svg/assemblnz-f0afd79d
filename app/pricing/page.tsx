@@ -8,6 +8,9 @@ import '../cine.css';
  */
 
 export const metadata: Metadata = {
+  // Keep the commercial terms available to visitors without promoting this
+  // offer as the company description in search results.
+  robots: { index: false, follow: true },
   title: 'assembl · pricing',
   description: 'Current assembl install-and-run pricing. Start with one useful job, keep the work permissioned, and add more only when it earns its place.',
   alternates: { canonical: '/pricing' },

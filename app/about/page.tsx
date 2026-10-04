@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { POSITIONING } from '@/components/site/assembl-the-work/copy';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { GlowDoWidget } from '@/components/site/assembl-the-work/GlowDoWidget';
@@ -6,11 +7,11 @@ import styles from '@/components/public/public-pages.module.css';
 import company from '@/components/public/company-pages.module.css';
 
 export const metadata: Metadata = {
-  title: { absolute: "About assembl | Intelligence, strategy and software" },
-  description: "Business intelligence, strategy and software from assembl in Aotearoa New Zealand. Research opportunities, prepare useful work and develop customer experiences.",
+  title: { absolute: "About assembl | Agentic AI solutions for your business" },
+  description: "Agentic AI solutions for New Zealand businesses. We bring strategy, design and AI agents together to build complete business journeys.",
   alternates: { canonical: "/about" },
-  openGraph: { title: "About assembl | Intelligence, strategy and software", description: "Business intelligence, strategy and software from assembl in Aotearoa New Zealand. Research opportunities, prepare useful work and develop customer experiences.", url: "https://www.assembl.co.nz/about", type: 'website', locale: 'en_NZ', siteName: 'assembl' },
-  twitter: { card: 'summary_large_image', title: "About assembl | Intelligence, strategy and software", description: "Business intelligence, strategy and software from assembl in Aotearoa New Zealand. Research opportunities, prepare useful work and develop customer experiences." },
+  openGraph: { title: "About assembl | Agentic AI solutions for your business", description: "Agentic AI solutions for New Zealand businesses. We bring strategy, design and AI agents together to build complete business journeys.", url: "https://www.assembl.co.nz/about", type: 'website', locale: 'en_NZ', siteName: 'assembl' },
+  twitter: { card: 'summary_large_image', title: "About assembl | Agentic AI solutions for your business", description: "Agentic AI solutions for New Zealand businesses. We bring strategy, design and AI agents together to build complete business journeys." },
 };
 
 const products = [
@@ -37,8 +38,9 @@ export default function AboutPage() {
     <section className={styles.hero}>
       <div>
         <p className={styles.eyebrow}>assembl / Aotearoa New Zealand</p>
-        <h1>Good thinking.<br />Useful work.</h1>
-        <p className={styles.lede}>assembl brings business intelligence, strategy and software together. Specialist agents help research, draft and build. People review important decisions and approve consequential actions.</p>
+        <h1>Solutions for your business.<br />Assembled around you.</h1>
+        <p className={styles.lede}>{POSITIONING.company}</p>
+        <p>{POSITIONING.newZealand}</p>
       </div>
       <aside className={styles.heroAside} aria-label="Three connected products">
         {products.map((product, i) => (
@@ -59,6 +61,7 @@ export default function AboutPage() {
       <p className={styles.eyebrow}>One connected system</p>
       <h2>Agree the outcome.<br />Assemble the work.</h2>
       <p className={styles.lede}>Pursuit finds what is worth doing. DO moves the work forward. Studio makes the result tangible. The shared operating layer keeps context, tools, permissions, evidence and learning connected underneath.</p>
+      <p>{POSITIONING.businessScale}</p>
       <p>Commission a customer journey map, service blueprint, CX, UX or UI design, business case, strategic recommendation, working software, demo, proposal or pitch. Agree the scope and the first useful result.</p>
       <p>Customer journeys, useful waits, loyalty, rewards and sponsorship are capabilities inside this system. They belong where they improve the outcome, not as the definition of the company.</p>
       <p>Preparation is labelled as preparation. A preview is not a live integration. Consequential actions require the appropriate authority, and completed actions should leave evidence.</p>

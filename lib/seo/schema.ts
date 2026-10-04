@@ -1,4 +1,5 @@
 /** Canonical schema.org / JSON-LD for the current assembl product system. */
+import { POSITIONING } from '@/components/site/assembl-the-work/copy';
 
 export const SITE_URL = 'https://www.assembl.co.nz';
 export const ORG_ID = `${SITE_URL}/#organization`;
@@ -21,8 +22,7 @@ export function organizationNode(): Json {
     url: SITE_URL,
     logo: { '@type': 'ImageObject', url: LOGO, width: 512, height: 512 },
     image: OG_IMAGE,
-    description:
-      'assembl brings business intelligence, strategy and software together to make useful work and customer experiences. Pursuit researches opportunities, DO helps prepare personal and work tasks, and Studio develops software, demonstrations, pitches and customer experiences.',
+    description: POSITIONING.company,
     knowsAbout: [
       'business intelligence and strategy',
       'service design and customer experiences',
