@@ -72,6 +72,8 @@ jobs:
           printf '%s\n' "$RUNNER_TEMP/do-storage-proof-bin" >> "$GITHUB_PATH"
       - name: Fresh approved role/helper baseline, serial and actual-role proofs
         run: node scripts/run-do-storage-only-ci.cjs
+      - name: Exact combined wrapper predicate and mid-DDL rollback proof
+        run: node scripts/run-do-storage-only-combined-proof.cjs
       - name: Proven separate-connection lock races and actual restart recovery
         run: node scripts/test-do-storage-only-races.cjs
       - name: Cancel one proven blocked synthetic request and verify transaction rollback
