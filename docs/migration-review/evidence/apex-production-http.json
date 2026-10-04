@@ -1,0 +1,167 @@
+{
+  "mode": "production, review flag 1, owner flag 0, no cookies",
+  "tests": [
+    {
+      "host": "assembl.co.nz",
+      "path": "/review/client-hub",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "location": null,
+      "fixture_marker_present": false
+    },
+    {
+      "host": "assembl.co.nz",
+      "path": "/review/client-hub?layout=owner",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "location": null,
+      "fixture_marker_present": false
+    },
+    {
+      "host": "assembl.co.nz",
+      "path": "/review/client-hub?example=airnz",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "location": null,
+      "fixture_marker_present": false
+    },
+    {
+      "host": "assembl.co.nz",
+      "path": "/review/client-hub?example=pwc",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "location": null,
+      "fixture_marker_present": false
+    },
+    {
+      "host": "assembl.co.nz",
+      "path": "/review/client-hub?example=deloitte",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "location": null,
+      "fixture_marker_present": false
+    },
+    {
+      "host": "assembl.co.nz",
+      "path": "/studio/workspace",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "location": null,
+      "fixture_marker_present": false
+    },
+    {
+      "host": "assembl.co.nz",
+      "path": "/api/studio/owner-hubs",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "location": null,
+      "fixture_marker_present": false
+    },
+    {
+      "host": "assembl.co.nz",
+      "path": "/login?redirect=%2Fstudio%2Fworkspace",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "location": null,
+      "fixture_marker_present": false
+    },
+    {
+      "host": "assembl.co.nz",
+      "path": "/login?redirect=%2Fstudio%2Funrelated",
+      "status": 302,
+      "expected": 302,
+      "pass": true,
+      "location": "/",
+      "fixture_marker_present": false
+    },
+    {
+      "host": "www.assembl.co.nz",
+      "path": "/review/client-hub",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "location": null,
+      "fixture_marker_present": false
+    },
+    {
+      "host": "www.assembl.co.nz",
+      "path": "/review/client-hub?layout=owner",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "location": null,
+      "fixture_marker_present": false
+    },
+    {
+      "host": "www.assembl.co.nz",
+      "path": "/review/client-hub?example=airnz",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "location": null,
+      "fixture_marker_present": false
+    },
+    {
+      "host": "www.assembl.co.nz",
+      "path": "/review/client-hub?example=pwc",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "location": null,
+      "fixture_marker_present": false
+    },
+    {
+      "host": "www.assembl.co.nz",
+      "path": "/review/client-hub?example=deloitte",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "location": null,
+      "fixture_marker_present": false
+    },
+    {
+      "host": "www.assembl.co.nz",
+      "path": "/studio/workspace",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "location": null,
+      "fixture_marker_present": false
+    },
+    {
+      "host": "www.assembl.co.nz",
+      "path": "/api/studio/owner-hubs",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "location": null,
+      "fixture_marker_present": false
+    },
+    {
+      "host": "www.assembl.co.nz",
+      "path": "/login?redirect=%2Fstudio%2Fworkspace",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "location": null,
+      "fixture_marker_present": false
+    },
+    {
+      "host": "www.assembl.co.nz",
+      "path": "/login?redirect=%2Fstudio%2Funrelated",
+      "status": 302,
+      "expected": 302,
+      "pass": true,
+      "location": "/",
+      "fixture_marker_present": false
+    }
+  ]
+}

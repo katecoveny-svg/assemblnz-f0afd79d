@@ -364,10 +364,8 @@ export function DoCanvas(p: Props) {
               Current page · extension required
             </button>
             <button
-              onClick={() => {
-                const vision = document.getElementById(
-                  "do-vision-context",
-                ) as HTMLDetailsElement | null;
+              onClick={(event) => {
+                const vision = (event.currentTarget.closest(".dob")?.querySelector("[data-do-vision-context]") ?? document.getElementById("do-vision-context")) as HTMLDetailsElement | null;
                 if (vision) {
                   vision.open = true;
                   vision.scrollIntoView({ behavior: "auto", block: "start" });

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "assembl-nz-freight",
+  "version": "0.1.0",
+  "description": "Prepare a non-identifying NZ sea-container evidence checklist and retrieve exact public Customs tariff and FX references.",
+  "author": {
+    "name": "assembl"
+  },
+  "keywords": [
+    "New Zealand",
+    "freight",
+    "evidence preparation"
+  ]
+}

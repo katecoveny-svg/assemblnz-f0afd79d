@@ -1,6 +1,8 @@
+import localFont from 'next/font/local';
+import { airNzLockup as cormorant } from '@/lib/fonts/customer-lockups';
 import type { ReactNode } from 'react';
 import type { Metadata } from 'next';
-import { Inter_Tight, Fraunces, Cormorant_Garamond } from 'next/font/google';
+
 import rootStyles from '../dash/airnz.module.css';
 import ops from './ops.module.css';
 import { OpsSidebar } from '@/components/customers/air-nz/ops-chrome';
@@ -21,28 +23,35 @@ import { getBrandConfig } from '@/lib/brand/configs';
  * CONCEPT / DEMO ONLY — mocked data, no live Air NZ / Koru / Airpoints calls.
  */
 
-const interTight = Inter_Tight({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+const interTight = localFont({
+  src: [
+    { path: '../../../../lib/fonts/assets/inter-tight-normal.woff2', weight: '400', style: 'normal' },
+    { path: '../../../../lib/fonts/assets/inter-tight-normal.woff2', weight: '500', style: 'normal' },
+    { path: '../../../../lib/fonts/assets/inter-tight-normal.woff2', weight: '600', style: 'normal' },
+    { path: '../../../../lib/fonts/assets/inter-tight-normal.woff2', weight: '700', style: 'normal' },
+  ],
+  style: 'normal',
   variable: '--airnz-body',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Inter Tight Build Fallback'],
 });
 
-const fraunces = Fraunces({
-  subsets: ['latin'],
-  weight: ['500', '600', '900'],
-  style: ['italic', 'normal'],
+const fraunces = localFont({
+  src: [
+    { path: '../../../../lib/fonts/assets/fraunces-italic.woff2', weight: '500', style: 'italic' },
+    { path: '../../../../lib/fonts/assets/fraunces-italic.woff2', weight: '600', style: 'italic' },
+    { path: '../../../../lib/fonts/assets/fraunces-italic.woff2', weight: '900', style: 'italic' },
+    { path: '../../../../lib/fonts/assets/fraunces-normal.woff2', weight: '500', style: 'normal' },
+    { path: '../../../../lib/fonts/assets/fraunces-normal.woff2', weight: '600', style: 'normal' },
+    { path: '../../../../lib/fonts/assets/fraunces-normal.woff2', weight: '900', style: 'normal' },
+  ],
   variable: '--airnz-display',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Fraunces Build Fallback'],
 });
 
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['500', '600'],
-  style: ['normal'],
-  variable: '--airnz-lockup',
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: 'Air New Zealand × Dash — Partner Operations (concept)',

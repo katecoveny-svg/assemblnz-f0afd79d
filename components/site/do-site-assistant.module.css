@@ -1,0 +1,8 @@
+.widget{position:fixed;right:20px;bottom:20px;z-index:60;font-family:var(--font-sans);color:#240B21}.trigger{border:1px solid #240B21;background:#240B21;color:#FFFDFB;border-radius:999px;padding:14px 22px;font:inherit;cursor:pointer;float:right}.panel{width:min(440px,calc(100vw - 32px));max-height:calc(100dvh - 110px);overflow:auto;margin-bottom:12px;padding:20px;background:#FFFDFB;border:1px solid #EAC8DF;border-radius:24px;box-shadow:0 12px 44px #240b2120}.panel header{display:flex;justify-content:space-between;align-items:center}.panel header button{background:transparent;border:0;color:inherit;cursor:pointer}.panel>p{font-size:14px;line-height:1.5}.panel a{color:inherit}@media(max-width:500px){.widget{right:16px;bottom:16px}.panel{padding:16px}}
+
+/* On the phone homepage, the existing DO control occupies its own space. */
+@media(max-width:650px){
+ .widget[data-home-inline]{position:relative;inset:auto;z-index:11;margin:24px 20px 0;display:flex;flex-direction:column;align-items:flex-end}
+ .widget[data-home-inline] .trigger{float:none;min-height:44px}
+ .widget[data-home-inline] .panel{width:100%;max-height:none}
+}

@@ -11,7 +11,7 @@
  * when the visitor is on a `/do` route.
  */
 
-export const DO_SW_VERSION = 'do-v1';
+export const DO_SW_VERSION = 'do-v2';
 
 const OFFLINE_SHELL = `<!doctype html>
 <html lang="en-NZ">
@@ -62,8 +62,7 @@ self.addEventListener('install', (event) => {
     (async () => {
       try {
         const cache = await caches.open(CACHE);
-        const res = await fetch('/do', { credentials: 'same-origin' });
-        if (res.ok) await cache.put('/do', res);
+        await cache.put('/do-offline', new Response(OFFLINE, { headers: { 'Content-Type': 'text/html; charset=utf-8' } }));
       } catch {
         /* install while offline — runtime fallback covers it */
       }
@@ -146,20 +145,14 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // DO navigations: network-first, then cached /do, then offline shell.
+  // DO navigations stay network-only. Never persist account HTML or replay it offline.
   if (req.mode === 'navigate' && inDoScope(url)) {
     event.respondWith(
       (async () => {
         try {
           const res = await fetch(req);
-          if (res.ok && (url.pathname === '/do' || url.pathname === '/do/')) {
-            const cache = await caches.open(CACHE);
-            cache.put('/do', res.clone()).catch(() => undefined);
-          }
           return res;
         } catch {
-          const cached = await caches.match('/do');
-          if (cached) return cached;
           return new Response(OFFLINE, {
             status: 200,
             headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' },

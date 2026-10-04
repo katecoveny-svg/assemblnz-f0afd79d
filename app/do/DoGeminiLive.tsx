@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
+import type { PersonalDoProfile } from "@/apps/do/personal/profile";
+import { appendVoiceTranscript, voiceTranscriptForReview, type DoVoiceTranscriptEntry } from "@/apps/do/shared/gemini-live-session";
 import type { LiveConnectConfig, LiveServerMessage } from "@google/genai";
 import {
   DO_VOICE_VOICES,
@@ -19,6 +21,7 @@ type Session = {
   sources: Set<AudioBufferSourceNode>;
   nextAudio: number;
   ready: boolean;
+  muted: boolean;
   request: AbortController;
   deadline?: ReturnType<typeof setTimeout>;
   setupTimer?: ReturnType<typeof setTimeout>;
@@ -92,11 +95,20 @@ function destroy(s: Session | null) {
 export function DoGeminiLive({
   context = "",
   onDraft,
+  profile,
+  draftTarget = "task",
 }: {
   context?: string;
   onDraft?: (text: string) => boolean;
+  profile?: PersonalDoProfile;
+  draftTarget?: "task" | "responsibility";
 }) {
   const active = useRef<Session | null>(null);
+  const availabilityRequest = useRef<AbortController | null>(null);
+  const transcriptRef = useRef<DoVoiceTranscriptEntry[]>([]);
+  const draftId = useId();
+  const reviewApplied = useRef(false);
+  const displayName = profile?.displayName ?? "DO";
   const [availability, setAvailability] = useState<DoVoiceAvailability | null>(
     null,
   );
@@ -104,80 +116,87 @@ export function DoGeminiLive({
     "idle" | "starting" | "listening" | "working"
   >("idle");
   const [expanded, setExpanded] = useState(false);
-  const [consent, setConsent] = useState(false);
+  const [consentFor, setConsentFor] = useState<string | null>(null);
   const [includeContext, setIncludeContext] = useState(false);
   const [mode, setMode] = useState<DoVoiceMode>("standard");
   const [voiceName, setVoiceName] =
     useState<(typeof DO_VOICE_VOICES)[number]>("Kore");
   const [notice, setNotice] = useState("");
-  const [transcript, setTranscript] = useState<{ who: string; text: string }[]>(
-    [],
-  );
-  const [draft, setDraft] = useState("");
+  const [availabilityError, setAvailabilityError] = useState(false);
+  const [muted, setMuted] = useState(false);
+  const [transcript, setTranscript] = useState<DoVoiceTranscriptEntry[]>([]);
+  const [draft, setDraft] = useState<string | null>(null);
+  const [preparedBrief, setPreparedBrief] = useState("");
+  // Any change to the reviewed disclosure invalidates its previous consent.
+  const consentScope = JSON.stringify([profile ?? null, mode, profile?.voiceName ?? voiceName, includeContext, includeContext ? context.slice(0, 6000) : ""]);
+  const consent = consentFor === consentScope;
   const live = state !== "idle";
 
-  async function refresh() {
+  const refresh = useCallback(async () => {
+    availabilityRequest.current?.abort();
+    const request = new AbortController();
+    availabilityRequest.current = request;
     try {
-      const response = await fetch("/api/do/live-token");
-      if (response.ok) setAvailability(await response.json());
+      const response = await fetch("/api/do/live-token", { signal: request.signal });
+      if (!response.ok) throw new Error("availability_unchecked");
+      const value = await response.json();
+      if (request.signal.aborted) return;
+      setAvailability(value);
+      setAvailabilityError(false);
     } catch {
-      /* The start request also checks availability. */
+      if (!request.signal.aborted) {
+        setAvailability(null);
+        setAvailabilityError(true);
+      }
     }
-  }
-  function end(message = "Voice ended. Your microphone is off.") {
+  }, []);
+  const end = useCallback((message = "Call ended. Your microphone is off.") => {
     const session = active.current;
     active.current = null;
     destroy(session);
     setState("idle");
+    setMuted(false);
+    setConsentFor(null);
     setNotice(message);
     void refresh();
-  }
+  }, [refresh]);
   useEffect(() => {
-    const request = new AbortController();
-    void fetch("/api/do/live-token", { signal: request.signal })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((value) => {
-        if (!request.signal.aborted && value) setAvailability(value);
-      })
-      .catch(() => {});
+    const initialCheck = window.setTimeout(() => void refresh(), 0);
     const onHidden = () => {
-      if (!document.hidden || !active.current) return;
-      const session = active.current;
-      active.current = null;
-      destroy(session);
-      setState("idle");
-      setNotice(
-        "Voice paused because this page was hidden. Your microphone is off.",
-      );
+      if (document.hidden && active.current)
+        end("Call ended because this page was hidden. Your microphone is off.");
     };
     document.addEventListener("visibilitychange", onHidden);
     return () => {
-      request.abort();
+      window.clearTimeout(initialCheck);
+      availabilityRequest.current?.abort();
       document.removeEventListener("visibilitychange", onHidden);
       const session = active.current;
       active.current = null;
       destroy(session);
     };
-  }, []);
+  }, [refresh, end]);
   function append(who: string, text: string) {
     if (!text) return;
-    setTranscript((old) => {
-      const entries = [...old];
-      const previous = entries.at(-1);
-      if (previous?.who === who)
-        entries[entries.length - 1] = {
-          who,
-          text: (previous.text + text).slice(-4000),
-        };
-      else entries.push({ who, text: text.slice(-4000) });
-      return entries.slice(-20);
-    });
+    const entries = appendVoiceTranscript(transcriptRef.current, who, text);
+    transcriptRef.current = entries;
+    setTranscript(entries);
+  }
+  function toggleMute() {
+    const session = active.current;
+    if (!session?.ready) return;
+    session.muted = !session.muted;
+    session.stream?.getAudioTracks().forEach((track) => { track.enabled = !session.muted; });
+    setMuted(session.muted);
+    if (session.muted && session.ws?.readyState === WebSocket.OPEN)
+      session.ws.send(JSON.stringify({ realtimeInput: { audioStreamEnd: true } }));
   }
   async function start() {
-    if (active.current || !consent) return;
+    if (active.current || !consent || !availability?.enabled || !availability.configured || !availability.signedIn || !availability.remaining) return;
     const s: Session = {
       request: new AbortController(),
       ready: false,
+      muted: false,
       sources: new Set(),
       tools: new Map(),
       nextAudio: 0,
@@ -187,10 +206,14 @@ export function DoGeminiLive({
     const current = () => active.current === s;
     setState("starting");
     setNotice("Choose microphone access to start.");
+    transcriptRef.current = [];
     setTranscript([]);
-    setDraft("");
+    setPreparedBrief("");
+    setMuted(false);
     const reviewedContext = includeContext ? context.slice(0, 6000) : "";
     try {
+      if (!navigator.mediaDevices?.getUserMedia || !window.AudioContext)
+        throw new Error("Calling needs microphone support in a secure browser. You can still type to DO.");
       const media = await navigator.mediaDevices.getUserMedia({
         audio: { echoCancellation: true, noiseSuppression: true },
         video: false,
@@ -211,7 +234,7 @@ export function DoGeminiLive({
       const response = await fetch("/api/do/live-token", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mode, voiceName, consent: true }),
+        body: JSON.stringify({ mode, voiceName: profile?.voiceName ?? voiceName, consent: true, ...(profile ? { includeProfile: true, profileUpdatedAt: profile.updatedAt } : {}) }),
         signal: s.request.signal,
       });
       const issued = (await response.json()) as IssuedSession & {
@@ -300,7 +323,7 @@ export function DoGeminiLive({
                 end("The connection fell behind. Your microphone is off. Please start again.");
                 return;
               }
-              if (current() && s.ready && ws.readyState === WebSocket.OPEN)
+              if (current() && s.ready && !s.muted && ws.readyState === WebSocket.OPEN)
                 ws.send(
                   JSON.stringify({
                     realtimeInput: {
@@ -347,7 +370,7 @@ export function DoGeminiLive({
           )
             setState("listening");
           append("You", content?.inputTranscription?.text || "");
-          append("DO", content?.outputTranscription?.text || "");
+          append(displayName, content?.outputTranscription?.text || "");
           for (const part of content?.modelTurn?.parts ?? [])
             if (
               part.inlineData?.data &&
@@ -361,8 +384,9 @@ export function DoGeminiLive({
             const request = new AbortController();
             s.tools.set(call.id, request);
             let output: Record<string, unknown>;
+            const callNumber = ++s.calls;
             try {
-              if (call.name !== "compile_do_agent" || ++s.calls > 8)
+              if (call.name !== "compile_do_agent" || callNumber > 8)
                 throw new Error(
                   "This session can only prepare a small number of DO briefs.",
                 );
@@ -391,8 +415,8 @@ export function DoGeminiLive({
                 active: false,
                 approvalPolicy: "prepare-only",
               };
-              if (current() && !request.signal.aborted)
-                setDraft(String(data.spec?.brief || brief).slice(0, 6000));
+              if (current() && !request.signal.aborted && callNumber === s.calls)
+                setPreparedBrief(String(data.spec?.brief || brief).slice(0, 6000));
             } catch {
               output = {
                 error: "The brief was not prepared. No action happened.",
@@ -449,52 +473,64 @@ export function DoGeminiLive({
     }
   }
   const ready = availability?.enabled && availability.configured;
-  const availabilityNotice = !availability
-    ? "Checking voice availability…"
-    : !ready
-      ? "Live voice is not available here yet."
-      : availability.remaining === null && availability.signedIn
-        ? "Your voice allowance could not be checked. Try again in a moment."
-        : "Talk through the work and bring a reviewed brief into your DO.";
+  const availabilityNotice = availabilityError
+    ? "Call availability could not be checked. Try checking again."
+    : !availability
+      ? "Checking call availability…"
+      : !ready
+        ? "Live calling is not available here yet. You can still type to your DO."
+        : !availability.signedIn
+          ? "Sign in to call your DO."
+          : availability.remaining === null
+            ? "Your call allowance could not be checked. Try again in a moment."
+            : availability.remaining === 0
+              ? "You have used today's three calls. You can call again tomorrow."
+              : "Talk through the work, then review anything you want to keep.";
   return (
-    <section className="do-live-panel" aria-label="Talk to DO">
+    <section className="do-live-panel" aria-label={`Call ${displayName}`}>
       <div className="do-live-dock">
         <div>
           <span className="do-small-label">LIVE VOICE</span>
           <strong>
             {state === "working"
-              ? "DO is preparing your next step."
-              : "Say it. Let DO help."}
+              ? `${displayName} is preparing your next step.`
+              : profile ? `Call ${displayName}` : "Say it. Let DO help."}
           </strong>
           <p role="status">{notice || availabilityNotice}</p>
+          {profile && <p>{profile.voiceName} voice · your {profile.updatedAt ? "saved" : "default"} conversation style</p>}
         </div>
         {live ? (
-          <button type="button" onClick={() => end()}>
-            {state === "starting" ? "Cancel voice" : "End voice"}
-          </button>
+          <div className="do-live-controls">
+            {state !== "starting" && <button type="button" aria-pressed={muted} onClick={toggleMute}>{muted ? "Unmute microphone" : "Mute microphone"}</button>}
+            <button type="button" onClick={() => end()}>
+              {state === "starting" ? "Cancel call" : "End call"}
+            </button>
+          </div>
         ) : availability && !availability.signedIn ? (
-          <Link href="/login?redirect=%2Fdo%3Fopen%3D1">Sign in for voice</Link>
+          <Link href={draftTarget === "responsibility" ? "/login?redirect=%2Fdo%2Fpersonal" : "/login?redirect=%2Fdo%3Fopen%3D1"}>Sign in to call</Link>
         ) : (
           <button
             type="button"
             onClick={() => {
               setExpanded(!expanded);
-              if (!ready) {
-                void refresh();
-                setNotice("Live voice is not available here yet.");
-              }
+              setConsentFor(null);
+              setNotice("");
+              void refresh();
             }}
           >
-            {expanded ? "Close voice options" : "Talk to DO"}
+            {expanded ? "Close call options" : `Call ${displayName}`}
           </button>
         )}
       </div>
       {expanded && !live && (
         <div className="do-live-options">
+          <p>{availabilityNotice}</p>
+          {(availabilityError || availability?.remaining === null) && <button type="button" onClick={() => void refresh()}>Check call availability</button>}
           <div className="do-live-choice">
             <label>
               Conversation
               <select
+                aria-label="Conversation"
                 value={mode}
                 onChange={(e) => setMode(e.target.value as DoVoiceMode)}
               >
@@ -505,7 +541,9 @@ export function DoGeminiLive({
             <label>
               Voice
               <select
-                value={voiceName}
+                aria-label="Voice"
+                disabled={Boolean(profile)}
+                value={profile?.voiceName ?? voiceName}
                 onChange={(e) =>
                   setVoiceName(e.target.value as typeof voiceName)
                 }
@@ -516,6 +554,13 @@ export function DoGeminiLive({
               </select>
             </label>
           </div>
+          {profile && <details className="do-live-profile">
+            <summary>Profile shared for this call</summary>
+            <p>Name: {profile.displayName} · voice: {profile.voiceName}</p>
+            <p>Tone: {profile.tone} · replies: {profile.responseLength} · initiative: {profile.initiative.replaceAll("_", " ")}</p>
+            <p className="do-live-context">{profile.preferences || "No extra preferences saved."}</p>
+            <p>Save a profile to choose a different name or voice.</p>
+          </details>}
           {context.trim() && (
             <>
               <label className="do-live-consent">
@@ -535,16 +580,17 @@ export function DoGeminiLive({
             <input
               type="checkbox"
               checked={consent}
-              onChange={(e) => setConsent(e.target.checked)}
+              onChange={(e) => setConsentFor(e.target.checked ? consentScope : null)}
             />
-            Use my microphone with Google Gemini for this conversation. Sharing
-            stops when I end voice or leave this page.
+            Use my microphone with Google Gemini for this call{profile ? ", and share the DO name, voice, conversation style and preferences shown above" : ""}. Sharing
+            stops when I end the call or leave this page.
           </label>
           <p>
             {availability?.remaining ?? "—"} of {availability?.dailyLimit ?? 3}{" "}
             daily five-minute conversations available. DO does not save this
-            conversation automatically.
+            conversation automatically. Google processes the shared audio and text under its own data terms.
           </p>
+          <p>Calls can discuss and prepare drafts. Saving a responsibility needs separate review and permission.</p>
           <button
             type="button"
             disabled={
@@ -555,7 +601,7 @@ export function DoGeminiLive({
             }
             onClick={() => void start()}
           >
-            Start voice
+            Start call
           </button>
         </div>
       )}
@@ -563,9 +609,11 @@ export function DoGeminiLive({
         <p className="do-live-state" role="status">
           {state === "starting"
             ? "Connecting…"
-            : state === "working"
-              ? "Preparing · you can keep talking"
-              : "Microphone on · listening"}
+            : muted
+              ? "Microphone muted · you can still listen"
+              : state === "working"
+                ? "Preparing · you can keep talking"
+                : "Microphone on · listening"}
         </p>
       )}
       {transcript.length > 0 && (
@@ -576,16 +624,26 @@ export function DoGeminiLive({
               <strong>{entry.who}</strong> {entry.text}
             </p>
           ))}
-          <button type="button" onClick={() => setTranscript([])}>
+          <button type="button" disabled={draft !== null} onClick={() => {
+            const review = voiceTranscriptForReview(transcriptRef.current);
+            reviewApplied.current = false;
+            setDraft(review.text);
+            setNotice(review.shortened ? "The latest 6,000 characters are ready to edit. The full transcript is still above." : "Edit the transcript below. Nothing is saved or started until you choose it in your workspace.");
+          }}>Review transcript for {draftTarget === "responsibility" ? "a responsibility" : "my DO"}</button>
+          <button type="button" onClick={() => { transcriptRef.current = []; setTranscript([]); }}>
             Clear transcript
           </button>
         </details>
       )}
-      {draft && (
+      {preparedBrief && <div className="do-live-draft">
+        <p>{displayName} prepared a brief. Review it before keeping anything.</p>
+        <button type="button" disabled={draft !== null} onClick={() => { reviewApplied.current = false; setDraft(preparedBrief); setPreparedBrief(""); }}>Review prepared brief</button>
+      </div>}
+      {draft !== null && (
         <div className="do-live-draft">
-          <label htmlFor="do-voice-draft">Review the brief DO prepared</label>
+          <label htmlFor={draftId}>Review and edit your call notes</label>
           <textarea
-            id="do-voice-draft"
+            id={draftId}
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
             maxLength={6000}
@@ -596,20 +654,27 @@ export function DoGeminiLive({
               type="button"
               disabled={!draft.trim()}
               onClick={() => {
+                if (reviewApplied.current || !draft.trim()) return;
+                reviewApplied.current = true;
                 if (onDraft(draft.trim())) {
-                  setDraft("");
+                  if (active.current) end();
+                  setDraft(null);
                   setNotice(
-                    "Your reviewed voice brief is in the task. Review it before running.",
+                    draftTarget === "responsibility" ? "Your reviewed call notes are in the responsibility editor. Review them and give separate permission before saving or starting." : "Your reviewed voice brief is in the task. Review it before running.",
                   );
-                } else
+                } else {
+                  reviewApplied.current = false;
                   setNotice(
-                    "Your task is full. Shorten its context before adding this brief. Your draft is still here.",
+                    "The editor could not accept these notes yet. Shorten them or finish the open edit. Your call notes are still here.",
                   );
+                }
               }}
             >
-              Add reviewed brief to my DO
+              {draftTarget === "responsibility" ? "Use reviewed notes in a responsibility" : "Add reviewed brief to my DO"}
             </button>
           )}
+          {!onDraft && draftTarget === "responsibility" && <p>You can review this here. Add a responsibility once cloud preparation is available and you have space.</p>}
+          <button type="button" onClick={() => setDraft(null)}>Discard these notes</button>
         </div>
       )}
     </section>

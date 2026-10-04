@@ -15,6 +15,13 @@ export default function McpDocsPage() {
           Assembl MCP lets authorised tools such as ChatGPT or Codex read work and proof, create proposed internal work, and place drafts into the human approval queue. MCP does not bypass the Assembl runtime, permissions, approvals or evidence ledger.
         </p>
 
+        <section className="mt-10 rounded-3xl bg-[#F5F1F2] p-6 text-[#240B21]">
+          <h2 className="text-xl font-semibold">DO Enquiries · private pilot</h2>
+          <p className="mt-3 text-sm leading-6">Open DO → Enquiries, sign in with your verified founder account, and enable enquiry plugin access. Then connect <code className="break-all">https://www.assembl.co.nz/api/mcp</code> through your client’s OAuth flow. The endpoint uses Assembl sign-in; Sign in with ChatGPT is a separate partner integration.</p>
+          <p className="mt-3 text-sm leading-6">The tools are <strong>list_enquiries</strong>, <strong>get_enquiry_evidence</strong> and <strong>prepare_enquiry_reply</strong>. They prepare work and return evidence and approval links. Review and approve sending on the signed-in Assembl page.</p>
+          <p className="mt-3 text-sm leading-6">Your OAuth server and client registration must be configured before connecting. This pilot is not a published directory listing. Revoke enquiry plugin access on the Enquiries page whenever you need to.</p>
+        </section>
+
         <section className="mt-10 rounded-3xl border border-black/10 bg-white p-6">
           <h2 className="text-xl font-semibold">Current tools</h2>
           <ul className="mt-4 space-y-3 text-sm leading-6">

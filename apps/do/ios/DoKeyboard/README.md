@@ -1,53 +1,17 @@
-# DO Keyboard (iOS) — compiling-ready stub
+# DO Keyboard: offline development foundation
 
-Swift **Keyboard Extension** scaffold for assembl DO. Not App Store–ready; Linux CI cannot build this. Open in Xcode on a Mac.
+This is source, not an installed keyboard or a tested App Store build. UIKit cannot be compiled in this Linux environment.
 
-## What it does (intended)
+The existing scaffold has been replaced with ordinary letter/number input, shift, space, delete, return and next-keyboard controls. **DO · review text** explicitly reads the selection or limited nearby field text and shows up to 2,000 characters. **Insert reviewed text** inserts only after a second tap. This may replace a selection or duplicate nearby text at the cursor: review before inserting. Moving the selection, editing or leaving clears the review.
 
-- ✦ key + template strip: **Watch / Brief / Slop-check / Mitre brief**
-- On ✦: send selection or clipboard (+ optional host bundle id) to DO compile API
-- Default API base: `http://localhost:3000` (Debug) or your deployed origin
+No clipboard access, private host-bundle lookup, microphone, API call, telemetry or storage. Full Access is disabled and unnecessary. This is an offline context-review foundation, not model-backed rewriting or an execution agent.
 
-## Open in Xcode
+## Device build
 
-1. Create an iOS App + Keyboard Extension target named `DoKeyboard` (or open this folder once wired into an `.xcodeproj`)
-2. Copy sources under `DoKeyboard/` into the Keyboard Extension target
-3. Enable **RequestsOpenAccess** in `Info.plist` (Full Access) — required for network compile calls
-4. Run on simulator/device → Settings → General → Keyboard → Keyboards → Add **DO** → Allow Full Access
+Create an iOS application target in Xcode and a Custom Keyboard Extension target. Add these Swift files and Info.plist to the extension, set the principal class, sign both targets with your development team and run on an authorised iPhone. Add DO in Settings → General → Keyboard → Keyboards. Test Globe switching, secure-field fallback, selections, cursor movement, insertion and rotation in several apps. App Store/TestFlight distribution needs signing, a useful containing app, privacy disclosures and review; none has been completed here.
 
-## Full Access trust warning
+## Next boundary
 
-Apple requires **Full Access** for a keyboard to use the network. Tell users plainly:
+Add a native companion with scoped authentication and revocation before connecting cloud preparation. Do not impersonate a browser by changing Origin headers or put provider secrets in the extension. Show exact context and task, require per-request permission, validate success/error responses and retain a separate explicit insertion step. Provider responses cannot send messages. Keep all normal typing available without Full Access. Do not attempt to launch other apps from a keyboard action.
 
-> DO Keyboard needs Full Access only to call your assembl DO API with the text you choose. It does not keylog. You can revoke Full Access anytime in Settings.
-
-## Configure API base
-
-Edit `DoKeyboardConfig.swift` → `apiBaseURL`.
-
-```
-POST {apiBase}/api/do/message
-{ "surface": "keyboard", "brief": "…", "selection": "…", "hostBundleId": "…" }
-```
-
-Or compile directly:
-
-```
-POST {apiBase}/api/do/agents/compile
-{ "brief": "…", "page": { "url": "keyboard://…", "title": "…", "selectedText": "…" }, "templateId": "…" }
-```
-
-## Template strip ids
-
-| Key | templateId |
-|-----|------------|
-| Watch | `price-watcher` |
-| Brief | `prepare-bid-brief` |
-| Slop-check | `clear-writing-watch` |
-| Mitre brief | `mitre10-sap-rfp-brief` |
-
-## Related
-
-- Android IME: `apps/do/android/DoIme/`
-- Web keyboard preview plate: `/do`
-- Home widget stub: `DoNeedsYouWidget/`
+Primary constraints: https://developer.apple.com/app-store/review/guidelines/#extensions and https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/CustomKeyboard.html

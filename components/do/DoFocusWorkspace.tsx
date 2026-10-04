@@ -9,12 +9,13 @@ import { DoVision } from '@/app/do/DoVision';
 import { DoWorkspace } from '@/app/do/DoWorkspace';
 import { DoProductFrame, useDoEmbeddedSurface } from './DoProductFrame';
 import styles from './do-product-focus.module.css';
-import { DoPresence } from './DoPresence';
+import { DoGlassHero } from './DoGlassHero';
 import type { DoTask } from '@/apps/do/shared/preparation';
 
 type Mode = 'write' | 'talk' | 'look' | 'build';
 export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTask }) {
   const [mode, setMode] = useState<Mode>('write');
+  const [builderOpened, setBuilderOpened] = useState(false);
   const [context, setContext] = useState('');
   const [offeredContext, setOfferedContext] = useState<{ text: string; id: number }>();
   const embedded = useDoEmbeddedSurface();
@@ -25,40 +26,47 @@ export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTa
     const frame = requestAnimationFrame(() => setMode(tool));
     return () => cancelAnimationFrame(frame);
   }, []);
+  useEffect(() => {
+    // The portable D returns to this mounted editor rather than nesting another workspace.
+    const focus = () => setMode('write');
+    const image = () => { if (new URLSearchParams(location.search).get('nativeReview') === '1') setMode('look'); };
+    window.addEventListener('assembl:do-focus', focus);
+    window.addEventListener('assembl:do-focus-image', image);
+    return () => { window.removeEventListener('assembl:do-focus', focus); window.removeEventListener('assembl:do-focus-image', image); };
+  }, []);
   function acceptContext(text: string) {
     if (!text.trim() || text.length > 12000) return false;
     setOfferedContext({ text, id: Date.now() }); setMode('write'); return true;
   }
-  return <DoProductFrame product="your workspace">
-    <section className={`${styles.hero} ${styles.workspaceHero}`}>
+  return <DoProductFrame product="Writing & capture">
+    <section className={`${styles.hero} ${styles.workspaceHero}`} data-embedded={embedded || undefined}>
       <div className={styles.workspaceIntro}>
-      <p className={styles.kicker}>A LITTLE HELP, RIGHT HERE</p>
-      <h1>What needs doing?</h1>
-      <p>Bring the context. Choose a task. Leave with something useful.</p>
-      </div><DoPresence />
+      <h1>What would you like done?</h1>
+      <p>A photo, your voice or a note.</p>
+      </div><DoGlassHero embedded={embedded} />
     </section>
     <div className={styles.workspace}>
       <nav className={styles.workspaceModes} aria-label="Ways to work with DO">
-        <button aria-pressed={mode === 'write'} onClick={() => setMode('write')}><FileText size={15} />Write</button>
-        <button aria-pressed={mode === 'talk'} onClick={() => setMode('talk')}><Mic size={15} />Talk</button>
-        <button aria-pressed={mode === 'look'} onClick={() => setMode('look')}><Eye size={15} />Look</button>
+        <button aria-pressed={mode === 'write'} onClick={() => setMode('write')}><FileText size={15} />Notes</button>
+        <button aria-pressed={mode === 'talk'} onClick={() => setMode('talk')}><Mic size={15} />Voice</button>
+        <button aria-pressed={mode === 'look'} onClick={() => setMode('look')}><Eye size={15} />Photo</button>
         <Link href="/do/meetings" target={embedded ? '_blank' : undefined} rel={embedded ? 'noopener noreferrer' : undefined}><AudioLines size={15} />Meet</Link>
       </nav>
-      <div hidden={mode !== 'write'}><DoTextWorkspace embedded={embedded} initialTask={initialTask} focus offeredContext={offeredContext} onSourceChange={setContext} /></div>
+      <div hidden={mode !== 'write'}><DoTextWorkspace embedded={embedded} initialTask={initialTask} focus offeredContext={offeredContext} onSourceChange={setContext} onNativeReveal={() => setMode('write')} /></div>
       {embedded && (mode === 'talk' || mode === 'look') ? <section className={styles.toolSurface} aria-label="Open this tool in a full window">
         <h2>{mode === 'talk' ? 'A conversation with DO.' : 'Show DO what you mean.'}</h2>
         <p className={styles.help}>Open this tool in its own window for sign-in and device permissions. Your draft stays here. No source text is transferred automatically.</p>
         <Link className={styles.primary} style={{ color: '#FFFDFB', textDecoration: 'none' }} href={`/do/widget?tool=${mode}`} target="_blank" rel="noopener noreferrer">{mode === 'talk' ? 'Open voice in a full window' : 'Open vision in a full window'}</Link>
       </section> : <>
         {mode === 'talk' && <div className={styles.toolSurface}><DoGeminiLive context={context} onDraft={acceptContext} /></div>}
-        {mode === 'look' && <section className={styles.toolSurface} aria-label="Show DO an image"><DoVision onUse={acceptContext} /></section>}
+        <section hidden={mode !== 'look'} className={styles.toolSurface} aria-label="Show DO an image"><DoVision active={mode === 'look'} onUse={acceptContext} /></section>
       </>}
       <details className={styles.secondaryDetails} onToggle={e => { if (!e.currentTarget.open && mode === 'build') setMode('write'); }}>
         <summary><Settings2 size={13} aria-hidden="true" style={{ display: 'inline', marginRight: 8 }} />Build or customise a DO</summary>
         <p>Templates, appearance and the advanced builder. Your writing draft stays in this page.</p>
-        <button className={styles.textButton} onClick={() => setMode(mode === 'build' ? 'write' : 'build')}>{mode === 'build' ? 'Back to writing' : 'Open the builder'}</button>
+        <button className={styles.textButton} onClick={() => { setBuilderOpened(true); setMode(mode === 'build' ? 'write' : 'build'); }}>{mode === 'build' ? 'Back to writing' : 'Open the builder'}</button>
       </details>
-      {mode === 'build' && <section className={styles.toolSurface}><DoWorkspace embedded /></section>}
+      {builderOpened && <section hidden={mode !== 'build'} className={styles.toolSurface} aria-label="DO builder workspace"><DoWorkspace embedded active={mode === 'build'} /></section>}
       <p className={styles.privacyNote}>Nothing runs just because you open a tool. You choose what to share.</p>
     </div>
   </DoProductFrame>;

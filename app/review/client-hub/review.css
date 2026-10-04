@@ -1,0 +1,82 @@
+.client-hub-migration-review { --font-sans: var(--font-body); font-family: var(--font-body), sans-serif; }
+.migration-boundary { background: #240B21; color: #FFFDFB; padding: 14px 24px; font-family: var(--font-body), sans-serif; font-size: 13px; position: relative; z-index: 50; }
+.migration-boundary strong { display: block; margin-bottom: 4px; }
+.client-hub-migration-review .cs-shell { font-family: var(--font-body), sans-serif; }
+@media (max-width: 600px) { .migration-boundary { padding: 12px 16px; } }
+.client-hub-migration-review .ep-hero { border-radius: 20px; padding: 12px; gap: 12px; }
+.client-hub-migration-review .ep-hero-visual,
+.client-hub-migration-review .ep-hero-agent,
+.client-hub-migration-review .cs-brief,
+.client-hub-migration-review .cs-inspiration { border-radius: 14px; overflow: hidden; }
+.client-hub-migration-review .cs-launch { border-radius: 20px; gap: 12px; padding: 12px; background: #F5F1F2; }
+.client-hub-migration-review .ep-hero-visual > img,
+.client-hub-migration-review .cs-inspiration > img { object-fit: cover; object-position: 50% 50%; border-radius: inherit; }
+.client-hub-migration-review .cs-art-label { border-radius: 9px; background: #FFFDFB; color: #240B21; max-width: calc(100% - 36px); line-height: 1.5; padding: 10px 12px; }
+.client-hub-migration-review .context-visual-prompt { position: relative; display: grid; align-items: center; min-height: 480px; height: 100%; padding: 120px 32px 140px; background: #F5F1F2; color: #240B21; isolation: isolate; }
+.client-hub-migration-review .context-visual-prompt > div:last-child { position: relative; z-index: 1; max-width: 330px; padding: 24px; border: 1px solid #DDD1D5; background: #FFFDFB; border-radius: 16px; }
+.client-hub-migration-review .context-visual-prompt strong { display: block; font-size: 22px; margin-top: 12px; line-height: 1.25; }
+.client-hub-migration-review .context-visual-prompt p { font-size: 14px; line-height: 1.6; margin: 12px 0 18px; }
+.client-hub-migration-review .context-visual-shapes { position: absolute; inset: 28px; z-index: -1; opacity: .55; }
+.client-hub-migration-review .context-visual-shapes span { position: absolute; width: 140px; height: 140px; border-radius: 24px; border: 1px solid #916A70; background: #F5F1F2; }
+.client-hub-migration-review .context-visual-shapes span:nth-child(1) { right: 0; top: 40px; transform: rotate(8deg); }
+.client-hub-migration-review .context-visual-shapes span:nth-child(2) { right: 70px; top: 140px; background: #FFFDFB; transform: rotate(-8deg); }
+.client-hub-migration-review .context-visual-shapes span:nth-child(3) { right: 12px; bottom: 55px; width: 90px; height: 90px; }
+.client-hub-migration-review .ep-hero-visual:has(.context-visual-prompt) .ep-hero-caption { color: #240B21; background: #FFFDFB; padding: 16px; border-radius: 12px; left: 24px; right: 24px; bottom: 24px; }
+.client-hub-migration-review .ep-hero-visual:has(.context-visual-prompt)::after,
+.client-hub-migration-review .cs-inspiration:has(.context-visual-prompt)::after { display: none; }
+.client-hub-migration-review .cs-inspiration:has(.context-visual-prompt) .cs-inspiration-caption { background: #FFFDFB; color: #240B21; padding: 16px; border-radius: 12px; left: 20px; right: 20px; bottom: 20px; }
+.client-hub-migration-review .cs-inspiration:has(.context-visual-prompt) .cs-inspiration-caption p { color: #654A4E; }
+.client-hub-migration-review .context-visual-compact { display: flex; gap: 10px; justify-content: center; min-height: 0; height: 100%; padding: 12px; border-radius: 10px; font-size: 11px; }
+.client-hub-migration-review .ib-node > .context-visual-compact { height: 72px; border-radius: 0; }
+@media (max-width: 600px) {
+  .client-hub-migration-review .cs-launch,
+  .client-hub-migration-review .ep-hero { padding: 8px; gap: 8px; }
+  .client-hub-migration-review .context-visual-prompt { padding: 110px 18px 140px; min-height: 560px; }
+  .client-hub-migration-review .context-visual-prompt > div:last-child { padding: 18px; }
+  .client-hub-migration-review .ep-hero-visual:has(.context-visual-prompt) .ep-hero-caption { left: 14px; right: 14px; bottom: 14px; }
+  .client-hub-migration-review .cs-top { flex-wrap: wrap; gap: 14px; padding: 20px 16px; }
+  .client-hub-migration-review .cs-top .cs-company-wordmark { max-width: 100%; overflow-wrap: anywhere; }
+  .client-hub-migration-review .cs-top-actions { order: 1; flex-basis: 100%; max-width: 100%; flex-wrap: wrap; gap: 8px; }
+  .client-hub-migration-review .cs-top-actions button { min-width: 0; font-size: 11px; }
+  .client-hub-migration-review .cs-top-context { order: 2; flex-basis: 100%; width: 100%; min-width: 0; }
+  .client-hub-migration-review .cs-rail { flex-wrap: wrap; gap: 12px; padding: 16px; }
+  .client-hub-migration-review .cs-rail-label { max-width: 140px; }
+  .client-hub-migration-review .cs-rail nav { order: 1; flex: 1 0 100%; min-width: 0; max-width: 100%; overflow-x: auto; padding-bottom: 4px; gap: 14px; }
+  .client-hub-migration-review .cs-rail nav button { flex: none; }
+  .client-hub-migration-review .cs-intel { order: 0; margin-left: auto; flex: none; max-width: 100%; }
+}
+/* Prompt controls and the original caption must occupy separate layout space. */
+.client-hub-migration-review .ep-hero-visual:has(> .context-visual-prompt),
+.client-hub-migration-review .cs-inspiration:has(> .context-visual-prompt) { display: flex; flex-direction: column; }
+.client-hub-migration-review .ep-hero-visual > .context-visual-prompt,
+.client-hub-migration-review .cs-inspiration > .context-visual-prompt { flex: 1; height: auto; min-height: 0; padding: 110px 24px 28px; }
+.client-hub-migration-review .ep-hero-visual:has(.context-visual-prompt) .ep-hero-caption,
+.client-hub-migration-review .cs-inspiration:has(.context-visual-prompt) .cs-inspiration-caption { position: relative; left: auto; right: auto; bottom: auto; margin: 0 20px 20px; }
+.client-hub-migration-review .ep-hero-visual:has(> .context-visual-prompt) { background: #F5F1F2; }
+/* The activated owner path starts at work, keeping one contextual visual. */
+.client-hub-migration-review .cs[data-owner-workspace] .cs-content { padding-top: 24px; }
+.client-hub-migration-review .cs[data-owner-workspace] .ep-brief-heading { margin: 20px 0; }
+.client-hub-migration-review .cs[data-owner-workspace] .ep-brief-heading h1 { font-size: 32px; }
+.client-hub-migration-review .cs[data-owner-workspace] .context-visual-prompt { padding: 72px 24px 28px; }
+.client-hub-migration-review .cs[data-owner-workspace] .cs-inspiration .cs-art-label { top: 14px; bottom: auto; }
+.client-hub-migration-review .cs[data-owner-workspace] .cs-top-actions button[aria-label="My concepts"],
+.client-hub-migration-review .cs[data-owner-workspace] .cs-top-context .cs-text { display: inline-flex; }
+.client-hub-migration-review .interview-start { margin: 24px 0 0; padding-top: 22px; border-top: 1px solid #e4dce0; }
+.client-hub-migration-review .interview-start h2 { font-size: 22px; }
+.client-hub-migration-review .interview-start p { font-size: 13px; margin: 8px 0 14px; }
+.client-hub-migration-review .interview-cards { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; }
+.client-hub-migration-review .interview-cards button { border: 1px solid #dfd1d8; border-radius: 16px; padding: 18px; text-align: left; background: #FFFDFB; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 72px; }
+.client-hub-migration-review .interview-visual { padding: 56px 28px 28px; display: grid; gap: 12px; align-content: center; min-height: 100%; background: #F5F1F2; }
+.client-hub-migration-review .interview-visual>div { display: flex; align-items: center; gap: 18px; padding: 24px; background: #FFFDFB; border: 1px solid #dfd1d8; border-radius: 18px; }
+.client-hub-migration-review .interview-visual>svg { margin: auto; color: #916A70; }
+.client-hub-migration-review .interview-visual p { font-size: 13px; margin-top: 6px; }
+.client-hub-migration-review .cs-inspiration>img[src$=".svg"] { object-fit: contain; padding: 16px; background: #F5F1F2; }
+.client-hub-migration-review .ib-pick-image img[src$=".svg"],
+.client-hub-migration-review .ib-node-image[src$=".svg"] { object-fit: contain; background: #F5F1F2; }
+@media(max-width:650px){.client-hub-migration-review .interview-cards { grid-template-columns: 1fr; }.client-hub-migration-review .interview-visual { padding: 64px 20px 24px; }}
+/* Preserve readable action-panel contrast against inherited app text rules. */
+.client-hub-migration-review .ib-form h3 { color: #FFFDFB; }
+.client-hub-migration-review .ib-form .ib-form-button { color: #230B23; background: #FFFDFB; border: 1px solid #DFD1D8; }
+
+/* Embedded controls own their scroll space; global chrome must not cover them. */
+body:has(.client-hub-migration-review) > .relative > nav[aria-label="Primary"] { position: relative; top: auto; }

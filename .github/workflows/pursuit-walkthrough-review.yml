@@ -1,0 +1,55 @@
+name: Pursuit walkthrough review
+on:
+  pull_request:
+    paths:
+      - 'components/site/pursuit/PursuitWalkthrough.tsx'
+      - 'components/site/pursuit/pursuit-examples.ts'
+      - 'components/site/pursuit/pursuit-walkthrough.module.css'
+      - 'components/site/pursuit/PursuitRecordedRun.tsx'
+      - 'components/site/pursuit/pursuit-recorded-run.module.css'
+      - 'public/videos/pursuit/**'
+      - 'components/site/pursuit/LivePursuitCanvas.tsx'
+      - 'components/site/assembl-the-work/AssemblTheWorkHome.tsx'
+      - 'components/site/assembl-the-work/AssemblWorldHero.tsx'
+      - 'components/site/assembl-the-work/WorldAtelierStage.tsx'
+      - 'scripts/pursuit-walkthrough-browser.py'
+      - '.github/workflows/pursuit-walkthrough-review.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pursuit-walkthrough-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @assembl/canvas build
+      - run: pnpm typecheck
+      - run: pnpm exec eslint components/site/pursuit/pursuit-examples.ts components/site/pursuit/PursuitWalkthrough.tsx components/site/pursuit/PursuitRecordedRun.tsx components/site/pursuit/LivePursuitCanvas.tsx components/site/assembl-the-work/AssemblTheWorkHome.tsx components/site/assembl-the-work/AssemblWorldHero.tsx components/site/assembl-the-work/WorldAtelierStage.tsx
+      - run: pnpm test lib/pursuit/outreach.test.ts lib/pursuit/pitch-export.test.ts components/site/assembl-the-work/hero-resilience.test.ts
+      - run: pnpm build
+      - run: pip install playwright==1.55.0 && playwright install --with-deps chromium
+      - run: |
+          pnpm start > /tmp/pursuit-walkthrough.log 2>&1 &
+          for i in $(seq 1 45); do curl -sf http://127.0.0.1:3000/ >/dev/null && break; sleep 2; done
+      - run: python scripts/pursuit-walkthrough-browser.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pursuit-walkthrough-proof
+          path: visual-evidence/pursuit-walkthrough/

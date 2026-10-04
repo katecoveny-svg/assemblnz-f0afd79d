@@ -1,6 +1,6 @@
 # assembl — current operating state
 
-**Last verified:** 17 September 2026  
+**Last verified:** 30 September 2026 (Personal DO/homepage audit; other sections retain their dated scope)
 **Status:** current working context  
 **Update rule:** refresh from merged work and accepted decisions; do not rewrite stable canon casually.
 
@@ -10,7 +10,15 @@ It is intentionally shorter and more changeable than the long-term strategy docu
 
 ## current shape
 
-**Visual direction (21 Sep 2026, accepted brief; implementation in review):** Kate asked for much stronger typography, glow, scroll parallax and motion across the homepage product sections and working DO UI, referencing Pasticcino/Monogrid and Kononenko Group. Preserve the existing walkthroughs she likes and exact approved platform wording. Use the plum/rose canon and canonical DO identity. The review implementation layers product compositions, a task launcher and shared DO surfaces onto the Bills foundation; it does not establish live bank connectivity or production deployment. See `docs/ASSEMBL-VISUAL-CRAFT-20260921.md`.
+**30 Sep continuity audit and refinement:** main `ca4ef4afb6d31c3af7b6bf7680de8588a74cab23` contains merged Personal DO PRs #1418–#1421. Profiles exist in production. The cron heartbeat remains unverified and runtime logs show 401 responses; do not market this as proven always-on. The current delivery simplifies the homepage/DO entry and adds explicit private, revision-checked checklist snapshots. Native iOS #1417 remains draft. See `docs/ASSEMBL-DELIVERY-AUDIT-20260930.md` for the built/missing matrix and proof; deployment of this refinement is recorded in its PR.
+
+**30 Sep Personal DO implementation:** `feat/do-personal-20260930` adds private ongoing responsibilities, explicit saved context, seven-day background preparation permission and daily cloud draft checks. The additive database migration is applied with empty tables; no user was enrolled. Code deployment and live owner/provider proof remain separate. See `docs/DO-PERSONAL-20260930.md`.
+
+**30 Sep 2026 mobile pass:** PR #1415 is verified merged at `d26657410cee4ba3f1c3b913cbb6358933acd876`; its older review label below is historical. The new `feat/do-mobile-rollup-20260930` branch adds DO editorial imagery and phone viewport handling to the shared companion. Kate authorised push/merge after checks. The iOS keyboard remains offline development source, not an installable cloud agent. See `docs/DO-MOBILE-20260930.md`.
+
+**28 Sep 2026 review branch, not a production claim:** `feat/do-meeting-studio-muse-20260928` extends Meeting DO with a local closing check and reviewed work pack, adds shared image-framing controls to the Assembl maker, and refines public Studio with generated art and an opt-in tour through the existing 3D atelier. Base main was verified at `82070f3825728ae7a88affc54062ce34b42cca8b`; older review labels below are historical and not a fresh merge audit. Separate hosted private `/studios` and `/agency` source was unavailable. Muse findings support testing a paid, one-task integration pilot; pricing and strategy remain recommendations, and no connector acceptance or partnership is established. See `docs/DO-STUDIO-MUSE-20260928.md`.
+
+**Historical visual direction (21 Sep 2026; personal DO superseded by selected assembled plum glass on 2 Oct):** Kate asked for much stronger typography, glow, scroll parallax and motion across the homepage product sections and working DO UI, referencing Pasticcino/Monogrid and Kononenko Group. Preserve the existing walkthroughs she likes and exact approved platform wording. Use the plum/rose canon and canonical DO identity. The review implementation layers product compositions, a task launcher and shared DO surfaces onto the Bills foundation; it does not establish live bank connectivity or production deployment. See `docs/ASSEMBL-VISUAL-CRAFT-20260921.md`.
 
 **Public positioning (21 Sep 2026):** Kate supplied the homepage/outreach explanation: “assembl is a platform that turns live business signals into governed agentic work.” Pursuit finds meaningful changes and opportunities; DO assembles context, agents, tools and permissions with human approval for consequential steps and evidence; Studio creates demonstrations, proposals and customer experiences. Exact approved wording is in `docs/assembl-copy-standard.md`. This updates the public explanation, not the runtime status of every capability below.
 
@@ -18,13 +26,13 @@ assembl is becoming an **intelligence-powered software factory for finding, doin
 
 Working company shorthand:
 
-> **assembl the work.**
+> **Assemble useful work.**
 >
-> **find it. DO it. show it.**
+> **Business intelligence. Strategy. Software.**
 
 Commercially, Pursuit, DO and Studio can stand alone or connect:
 
-> **use one. connect two. run the whole loop.**
+> **Start with one product. Bring them together when the work calls for it.**
 
 ### PURSUIT — find the work
 
@@ -222,11 +230,12 @@ Principle:
 ## brand state — do not drift
 
 Canonical company brand: `docs/assembl-brand-system.md`.
-Operational design guide: `DESIGN.md`.
+Operational design guide: `DESIGN.md`. Kate’s exact glass lowercase company a and uppercase DO D-dot are locked as primary across company and DO; originals/Library IDs/hashes are in `public/brand/canonical/glass-v1/manifest.json`, shared via `GlassIdentity`. Visible light-field text is #492B3E; #240B21 remains a dark/action accent. Do not restore the earlier reconstructed meshes, opaque vector primaries or dark scrim. DO07 and the earlier wider rollout are released; the new daylight correction is held locally for review, not published. Native package application/installed proof remain separate.
 
-Use:
+Company surfaces use:
 
-- Deep plum `#240B21`;
+- Visible light-field ink `#492B3E`;
+- Deep plum `#240B21` for dark fields/action fills;
 - Muted plum `#654A4E`;
 - Dusty rose `#916A70`;
 - Chalk `#F5F1F2`;
@@ -285,3 +294,5 @@ At the end of a meaningful workday:
 4. update stable canon only when a durable decision changed;
 5. register reusable capabilities, decisions and learnings in the Factory docs;
 6. never let an automated process silently rewrite brand or product canon.
+
+**2 October glass identity:** DO07 merged in PR1463 (`d568e6c4`) and was verified live with the 69 KB artwork and 256 production-built fictional browser checks. The earlier wider PR1471 rollout was merged externally; root verified production on main `9c3544f5`. Kate subsequently rejected its dark/mobile composition and reconstructed marks, locking the exact supplied glass originals as primary. DO08 daylight correction is local, unpushed review work: compact phone header, #492B3E ink, exact artwork planes inside the real moving room and a fictional notice using the existing local checklist handler. This does not claim exact modular glass geometry, authorised signed-in preview, real-device Safari or installed-native parity. Useful Pursuit demo, copy strategy and portable-native owners retain their boundaries.

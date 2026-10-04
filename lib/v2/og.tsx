@@ -48,10 +48,12 @@ export async function v2OgImage({
   eyebrow,
   headline,
   sub,
+  identityArt,
 }: {
   eyebrow: string;
   headline: string;
   sub?: string;
+  identityArt?: string;
 }) {
   const text = `${headline}assembl${sub ?? ''}${eyebrow}`;
   const instrument = await loadGoogleFont('Instrument Sans', '600', text);
@@ -86,7 +88,10 @@ export async function v2OgImage({
           }}
         />
 
-        {PIECES.map(([x, y, w, h], i) => (
+        {identityArt ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={identityArt} width={470} height={314} alt="" style={{ position: 'absolute', right: 0, top: 145 }} />
+        ) : PIECES.map(([x, y, w, h], i) => (
           <div
             key={i}
             style={{
@@ -123,9 +128,9 @@ export async function v2OgImage({
         <div
           style={{
             display: 'flex',
-            maxWidth: 875,
+            maxWidth: identityArt ? 650 : 875,
             fontFamily: instrument ? 'Instrument Sans' : 'sans-serif',
-            fontSize: 86,
+            fontSize: identityArt ? 76 : 86,
             lineHeight: 0.98,
             letterSpacing: '-0.055em',
             color: DEEP_PLUM,
@@ -147,7 +152,7 @@ export async function v2OgImage({
           <div
             style={{
               display: 'flex',
-              maxWidth: 760,
+              maxWidth: identityArt ? 650 : 760,
               fontSize: 23,
               lineHeight: 1.35,
               color: MUTED_PLUM,

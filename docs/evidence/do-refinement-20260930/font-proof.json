@@ -1,0 +1,10 @@
+{
+  "version": "4.001",
+  "originalSha256": "b20b7d9626dd956b2c5e558692ad328b1f19e3275e2782db4fa07670d83f35e0",
+  "woff2Sha256": "a3fd727a0ed7db3c7a15d933e89a3ad7784fd25bbd5dcc41e9dd597b479d9e87",
+  "identicalCharacterMap": true,
+  "identicalHorizontalMetrics": true,
+  "identicalWeightAxis": true,
+  "maoriMacronsPresent": true,
+  "source": "https://github.com/google/fonts/tree/main/ofl/cormorantgaramond"
+}

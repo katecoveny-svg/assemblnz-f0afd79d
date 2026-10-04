@@ -21,18 +21,14 @@ export class DoTrialError extends Error {
   constructor(public code: 'trial_exhausted' | 'trial_unavailable') {
     super(
       code === 'trial_exhausted'
-        ? 'Your free DO sandbox tasks on this network are used. Sign in for unlimited prepare, or enquire to continue.'
+        ? 'Your free DO sandbox tasks on this network are used. This network allowance is used. DO text preparation requires separately configured access and usage limits.'
         : 'The free-task allowance cannot be checked right now. Please try again later.',
     );
   }
 }
 
 export type ReserveDoTrialOptions = {
-  /**
-   * Signed-in DO owner id. When set, the network trial is bypassed —
-   * Assembl users get unlimited prepare. Anonymous callers keep the
-   * shared per-network sandbox quota (DO_TRIAL_LIMIT, default 3).
-   */
+  /** Identity hint only; sign-in never grants unlimited provider use. */
   signedInOwnerId?: string | null;
 };
 
@@ -42,24 +38,8 @@ function identity(ip: string) {
   return 'do-network:' + createHmac('sha256', secret).update(`do-trial:${ip}`).digest('hex');
 }
 
-/**
- * Product rule:
- * - Public / anonymous sandbox → N free tasks per network IP (default 3)
- * - Signed-in Assembl DO owner → unlimited (skip reserve)
- *
- * Ops mid-demo reset (optional):
- *   DELETE FROM agent_chat_sessions
- *   WHERE anon_id = 'do-network:<hmac>' AND agent_slug LIKE 'do-trial-%';
- * Identity is HMAC of IP with service role — never store raw IPs.
- */
-export async function reserveDoTrial(ip: string, opts: ReserveDoTrialOptions = {}) {
-  if (opts.signedInOwnerId) {
-    return {
-      release: async () => {},
-      bypassed: true as const,
-      reason: 'signed_in_owner' as const,
-    };
-  }
+/** Legacy separately staged search/vision adapter allowance. Text reasoning uses durable owner admission. */
+export async function reserveDoTrial(ip: string, _opts: ReserveDoTrialOptions = {}) {
   const limit = doAnonTrialLimit();
   try {
     const anonId = identity(ip);
@@ -75,7 +55,8 @@ export async function reserveDoTrial(ip: string, opts: ReserveDoTrialOptions = {
       if (!error) {
         return {
           release: async () => {
-            await db.from('agent_chat_sessions').delete().eq('id', id).eq('anon_id', anonId);
+            const { error } = await db.from('agent_chat_sessions').delete().eq('id', id).eq('anon_id', anonId);
+            if (error) throw new DoTrialError('trial_unavailable');
           },
           bypassed: false as const,
         };
@@ -88,16 +69,8 @@ export async function reserveDoTrial(ip: string, opts: ReserveDoTrialOptions = {
   }
 }
 
-export async function readDoTrial(ip: string, opts: ReserveDoTrialOptions = {}) {
+export async function readDoTrial(ip: string, _opts: ReserveDoTrialOptions = {}) {
   const limit = doAnonTrialLimit();
-  if (opts.signedInOwnerId) {
-    return {
-      remaining: null as number | null,
-      limit,
-      bypassed: true as const,
-      mode: 'signed_in_unlimited' as const,
-    };
-  }
   try {
     const { count, error } = await getServiceClient()
       .from('agent_chat_sessions')

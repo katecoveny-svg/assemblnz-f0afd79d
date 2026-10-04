@@ -65,11 +65,11 @@ export function V2Nav({ current }: { current?: string }) {
         ))}
       </div>
       <div className={styles.navUtilities}>
-        <Link href="/login?redirect=%2Fdo%2Fmeetings" className={`${styles.navLink} ${styles.navSignIn}`}>
+        <Link href="/login?redirect=%2Fdo" className={`${styles.navLink} ${styles.navSignIn}`}>
           sign in
         </Link>
         <Link href="/do" className={styles.navCta}>
-          Try DO
+          Open DO
           <span aria-hidden style={{ fontSize: 14, lineHeight: 1 }}>
             ↗
           </span>

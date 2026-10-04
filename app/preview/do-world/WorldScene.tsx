@@ -2,7 +2,7 @@
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState, type RefObject } from 'react';
-import { RoundedBox } from '@react-three/drei/core/RoundedBox';
+import { CanonicalGlassSceneArtwork } from '@/components/brand/CanonicalGlassSceneArtwork';
 import { useGLTF } from '@react-three/drei/core/Gltf';
 import { Environment } from '@react-three/drei/core/Environment';
 import { Lightformer } from '@react-three/drei/core/Lightformer';
@@ -11,11 +11,9 @@ import {
   BackSide,
   CatmullRomCurve3,
   Color,
-  ExtrudeGeometry,
   MathUtils,
   Mesh,
   MeshStandardMaterial,
-  Shape,
   SRGBColorSpace,
   Vector3,
   type Object3D,
@@ -32,7 +30,7 @@ const FOG = '#F2F0EF';
 /** Dusty rose — Identity glow + seating accents only (not cool violet). */
 const ROSE = '#916A70';
 const ROSE_WARM = '#c4a098';
-const PLUM_BODY = '#240B21';
+const PLUM_BODY = '#E8DDE3';
 const CHALK = '#F5F1F2';
 const PAPER = '#FFFDFB';
 /** Soft natural key through the glazing — warm daylight, not rose-opal flood. */
@@ -63,92 +61,10 @@ function chapterPath(t: number) {
 function Identity() {
   const { size } = useThree();
   const compact = size.width < 600;
-  // Shared DoMark contour as a solid extruded plaque (reliable vs tube CurvePath).
-  const geometry = useMemo(() => {
-    const shape = new Shape();
-    // DoMark path in a 64×64 viewBox, centered and scaled to ~1 unit.
-    const p = (x: number, y: number) => [(x - 32) / 28, (32 - y) / 28] as [number, number];
-    const [x0, y0] = p(16, 12);
-    shape.moveTo(x0, y0);
-    shape.lineTo(...p(29, 12));
-    shape.bezierCurveTo(...p(44, 12), ...p(52, 20), ...p(52, 32));
-    shape.bezierCurveTo(...p(52, 44), ...p(44, 52), ...p(29, 52));
-    shape.lineTo(...p(16, 52));
-    shape.closePath();
-    // Inner hole so the D reads as a contour, not a filled slab.
-    const hole = new Shape();
-    const h = (x: number, y: number) => [(x - 32) / 28, (32 - y) / 28] as [number, number];
-    hole.moveTo(...h(22, 20));
-    hole.lineTo(...h(29, 20));
-    hole.bezierCurveTo(...h(38, 20), ...h(42, 24), ...h(42, 32));
-    hole.bezierCurveTo(...h(42, 40), ...h(38, 44), ...h(29, 44));
-    hole.lineTo(...h(22, 44));
-    hole.closePath();
-    shape.holes.push(hole);
-    const geom = new ExtrudeGeometry(shape, {
-      depth: 0.22,
-      bevelEnabled: true,
-      bevelThickness: 0.04,
-      bevelSize: 0.035,
-      bevelSegments: 3,
-      curveSegments: 24,
-    });
-    geom.center();
-    return geom;
-  }, []);
-
-  return (
-    <group
-      // Hang above the workshop table, centered in the DO chapter frame.
-      position={[compact ? 2.15 : 2.05, compact ? 3.35 : 2.55, compact ? -13.6 : -13.35]}
-      scale={compact ? 1.15 : 1.45}
-      rotation={[0.06, -0.38, 0]}
-    >
-      <RoundedBox args={[2.35, 2.35, 0.42]} radius={0.48} smoothness={6} castShadow receiveShadow>
-        <meshPhysicalMaterial
-          color={PLUM_BODY}
-          metalness={0.38}
-          roughness={0.28}
-          clearcoat={1}
-          clearcoatRoughness={0.14}
-          reflectivity={0.5}
-          envMapIntensity={0.9}
-        />
-      </RoundedBox>
-      <mesh geometry={geometry} position={[0, 0, 0.28]} castShadow>
-        <meshStandardMaterial
-          color={CHALK}
-          emissive={ROSE}
-          emissiveIntensity={0.85}
-          roughness={0.32}
-          metalness={0.28}
-        />
-      </mesh>
-      <mesh position={[0.02, 0, 0.42]}>
-        <sphereGeometry args={[0.13, 28, 18]} />
-        <meshStandardMaterial
-          color={ROSE}
-          emissive={ROSE}
-          emissiveIntensity={1.1}
-          roughness={0.28}
-          metalness={0.2}
-        />
-      </mesh>
-      {/* Rose glow stays LOCAL to the Identity D — never a room wash. */}
-      <pointLight position={[0.15, 0.1, 1.2]} color={ROSE} intensity={3.2} distance={4.2} decay={2} />
-      <pointLight position={[-0.9, 0.5, 0.7]} color={ROSE_WARM} intensity={1.4} distance={3.2} decay={2} />
-      <spotLight
-        position={[0.5, 1.4, 2.4]}
-        angle={0.42}
-        penumbra={0.75}
-        intensity={10}
-        color={ROSE}
-        distance={6.5}
-        decay={2}
-        castShadow={false}
-      />
-    </group>
-  );
+  return <>
+    <CanonicalGlassSceneArtwork kind="do" position={[compact ? 2.65 : 2.05, compact ? 3.35 : 2.55, compact ? -13.6 : -13.35]} rotation={[0.06, -0.38, 0]} scale={compact ? .72 : 1.45} />
+    <CanonicalGlassSceneArtwork kind="assembl" position={[-5.4, 2.6, -7.2]} rotation={[0, 0.42, 0]} scale={compact ? 1.5 : 1.7} />
+  </>;
 }
 
 function Architecture({ onReady }: { onReady: (ready: boolean) => void }) {
@@ -245,14 +161,22 @@ function Architecture({ onReady }: { onReady: (ready: boolean) => void }) {
             material.emissiveIntensity = 0;
           }
         }
-        // Soften walnut / fabric; keep authored rose wool + plum felt as intentional accents.
+        // Keep the authored curved architecture; grade its finishes to the
+        // approved family instead of treating old linear GLB colours as hexes.
+        else if (name.includes('bronze')) {
+          material.color = new Color('#654A4E');
+          material.metalness = 0.28;
+          material.roughness = 0.3;
+        }
+        // Soften walnut / fabric and retain the original material identities.
         else if (name.includes('walnut')) {
           material.roughness = Math.min(material.roughness, 0.34);
           material.envMapIntensity = 1.0;
         } else if (name.includes('linen') || name.includes('wool') || name.includes('felt')) {
           material.roughness = Math.max(material.roughness, 0.82);
           material.envMapIntensity = 0.65;
-          // Do not remap rose/plum furniture albedos — accents stay intentional.
+          if (name.includes('felt')) material.color = new Color(PLUM_BODY);
+          else if (name.includes('wool')) material.color = new Color(ROSE);
         } else if (material.emissiveIntensity > 0.01) {
           // Any leftover cove/lamp emissives → warm paper, not rose flood.
           material.emissive = new Color(DAYLIGHT);
@@ -323,6 +247,10 @@ function Room({ onReady }: { onReady: (ready: boolean) => void }) {
         <Identity />
       </Suspense>
       <Environment resolution={256} frames={1} environmentIntensity={0.72}>
+        {/* Broad paper fill prevents unlit black bands in the glass environment. */}
+        <Lightformer form="sphere" scale={40} color={PAPER} intensity={0.2} />
+        <Lightformer position={[2,4,4]} scale={[.35,8,1]} color={PAPER} intensity={5} />
+        <Lightformer position={[-4,4,-2]} rotation={[0,Math.PI/3,0]} scale={[.28,9,1]} color={PAPER} intensity={4} />
         {/* Waitematā window elevation — soft daylight bounce into the room. */}
         <Lightformer
           position={[-12, 4, -8]}
@@ -405,10 +333,12 @@ function Room({ onReady }: { onReady: (ready: boolean) => void }) {
 
 function Journey({
   progress,
+  playhead,
   paused,
   reduced,
 }: {
   progress: RefObject<number>;
+  playhead?: number;
   paused: boolean;
   reduced: boolean;
 }) {
@@ -416,6 +346,9 @@ function Journey({
   const look = useRef(new Vector3());
   const { size, camera, invalidate } = useThree();
   const compact = size.width < 600;
+
+  // A timed or manually scrubbed tour wakes the demand renderer without scroll.
+  useEffect(() => { invalidate(); }, [playhead, invalidate]);
 
   // Eye-level walkthrough (~1.72–1.88 m). DO dwell frames the D sculpture at z≈-15.
   // Mobile path stays closer to centreline and slightly lower for 375 framing.
@@ -507,7 +440,7 @@ function Journey({
     gaze.getPoint(t, target);
     look.current.lerp(
       target,
-      paused && !reduced ? 1 : reduced ? 1 : 1 - Math.exp(-Math.min(delta, 0.05) * 3.2),
+      paused && !reduced ? 0 : reduced ? 1 : 1 - Math.exp(-Math.min(delta, 0.05) * 3.2),
     );
     camera.lookAt(look.current);
     if ((!paused || reduced) && Math.abs(desired - current.current) > 0.00008) invalidate();
@@ -528,6 +461,7 @@ function ContextHealth({ onLost }: { onLost: () => void }) {
 
 export default function WorldScene(props: {
   progress: RefObject<number>;
+  playhead?: number;
   paused: boolean;
   reduced?: boolean;
   onReady?: (ready: boolean) => void;
@@ -557,12 +491,14 @@ export default function WorldScene(props: {
       dpr={[1, 1.5]}
       gl={{
         antialias: true,
+        localClippingEnabled: true,
         powerPreference: 'high-performance',
         toneMapping: ACESFilmicToneMapping,
         toneMappingExposure: 1.32,
         outputColorSpace: SRGBColorSpace,
       }}
       onCreated={({ gl, invalidate }) => {
+        gl.localClippingEnabled = true;
         gl.toneMapping = ACESFilmicToneMapping;
         gl.toneMappingExposure = 1.32;
         gl.outputColorSpace = SRGBColorSpace;
@@ -577,6 +513,7 @@ export default function WorldScene(props: {
       <Room onReady={markReady} />
       <Journey
         progress={props.progress}
+        playhead={props.playhead}
         paused={props.paused}
         reduced={Boolean(props.reduced)}
       />

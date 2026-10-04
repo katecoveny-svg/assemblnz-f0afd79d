@@ -1,0 +1,38 @@
+name: Inactive EA coordination SQL proof
+on:
+  pull_request:
+    paths:
+      - 'apps/do/coordination/**'
+      - 'app/api/do/coordination/**'
+      - 'docs/do-coordination/**'
+      - 'scripts/test-do-ea-sql.cjs'
+      - '.github/workflows/do-ea-coordination-sql.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  isolated-sql:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: fictional-ea-test-only
+          POSTGRES_DB: ea_proof
+        ports:
+          - 55439:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d ea_proof"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install isolated PostgreSQL driver
+        run: npm install --prefix /tmp/ea-sql-proof --no-save pg@8.16.3
+      - name: Two-owner synthetic authenticated sessions against PostgreSQL 17
+        env:
+          DO_EA_PG_MODULE: /tmp/ea-sql-proof/node_modules/pg
+        run: node scripts/test-do-ea-sql.cjs

@@ -23,7 +23,6 @@ const CORE_PATHS = [
   '/ad-studio',
   // Existing public guides and supporting product surfaces.
   '/about',
-  '/pricing',
   '/ai-use',
   '/contact',
   '/data',
@@ -48,11 +47,8 @@ const CORE_PATHS = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
-
   const core: MetadataRoute.Sitemap = CORE_PATHS.map((path) => ({
     url: `${BASE}${path}`,
-    lastModified,
     changeFrequency: 'weekly',
     priority:
       path === ''

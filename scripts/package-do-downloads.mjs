@@ -8,7 +8,7 @@ const VERSION = '1.7.0';
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outDir = path.join(root, 'public/do/downloads');
 const extensionRoot = path.join(root, 'apps/do/extension');
-const macosRoot = path.join(root, 'apps/do/macos');
+const MACOS_ROOT = path.join(root, 'apps/do/macos');
 const EXTENSION_FILES = [
   'manifest.json',
   'background.js',
@@ -50,9 +50,9 @@ if (process.argv.includes('--extension-only')) {
   process.exit(0);
 }
 const macos = new JSZip();
-await addDir(macos, macosRoot, 'macos');
+await addDir(macos, MACOS_ROOT, 'macos');
 for (const size of [192, 512]) {
-  macos.file(`macos/resources/do-${size}.png`, await readFile(path.join(root, `public/do/icons/do-${size}.png`)));
+  macos.file(`macos/resources/do-${size}.png`, await readFile(path.join(MACOS_ROOT, `resources/do-${size}.png`)));
 }
 macos.file('README.md', `# DO for Mac · development source · v${VERSION}\n\nNo notarised public installer. On a Mac with Xcode Command Line Tools: cd macos && bash build.sh ~/Desktop/do-mac-build. Source includes required icon resources. Review macOS microphone/Accessibility prompts yourself.\nhttps://www.assembl.co.nz/do/install#mac\n`);
 const macosBuf = await macos.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' });

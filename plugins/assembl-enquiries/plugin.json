@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "assembl-enquiries",
+  "version": "0.1.0",
+  "description": "Prepare enquiry replies for human approval and inspect job status, evidence and outcomes in your private assembl account.",
+  "author": { "name": "assembl", "url": "https://www.assembl.co.nz" },
+  "homepage": "https://www.assembl.co.nz/do/enquiries",
+  "repository": "https://github.com/katecoveny-svg/assemblnz-f0afd79d",
+  "license": "Apache-2.0",
+  "keywords": ["enquiries", "approvals", "evidence"]
+}

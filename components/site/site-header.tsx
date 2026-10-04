@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore, type CSSProperties } from "react";
 import { Menu, Search, X } from "lucide-react";
 import { nav, navCta } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
+import { AssemblGlassMark } from "@/components/site/AssemblGlassMark";
 import { AssemblWordmark } from "@/components/site/AssemblWordmark";
 
 const PROOF_LINE = "Agents prepare. You decide.";
@@ -192,17 +193,17 @@ export function SiteHeader() {
 
   return (
     <header
-      className="sticky top-0 z-40 w-full border-b border-[#E7E4DA] bg-[rgba(251,250,246,0.78)] backdrop-blur-xl"
-      style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
+      className="sticky top-0 z-40 w-full border-b border-[#240B2120] bg-[rgba(255,253,251,0.78)] backdrop-blur-xl"
+      style={{ paddingTop: "env(safe-area-inset-top, 0px)", "--text-primary": "#240B21", "--text-secondary": "#654A4E" } as CSSProperties}
     >
       <div className="flex h-[72px] w-full max-w-none items-center justify-between gap-3 px-5 md:gap-4 md:px-8 xl:px-12 2xl:px-20">
         <div className="flex min-w-0 items-baseline gap-3">
           <Link
             href="/"
             aria-label="assembl — home"
-            className="shrink-0 rounded-sm text-[31px] leading-none tracking-[-0.03em] text-[color:var(--text-primary)] transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 xl:text-[36px]"
+            className="inline-flex items-center gap-2 shrink-0 rounded-sm text-[31px] leading-none tracking-[-0.03em] text-[color:var(--text-primary)] transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 xl:text-[36px]"
           >
-            <AssemblWordmark />
+            <AssemblGlassMark size={30} /><AssemblWordmark />
           </Link>
           <span className="hidden whitespace-nowrap font-mono text-[12px] font-light uppercase tracking-[0.18em] text-[color:var(--text-secondary)] 2xl:inline">
             {PROOF_LINE}
@@ -247,7 +248,7 @@ export function SiteHeader() {
             onClick={openCommandPalette}
             aria-haspopup="dialog"
             title={isMac ? "Search (⌘K)" : "Search (Ctrl K)"}
-            className="hidden items-center gap-2 rounded-full border border-[rgba(35,33,31,0.14)] bg-white/45 px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.08em] text-[color:var(--text-secondary)] transition hover:-translate-y-0.5 hover:border-[color:var(--assembl-pounamu)] hover:text-[color:var(--text-primary)] focus-visible:-translate-y-0.5 focus-visible:border-[color:var(--assembl-pounamu)] focus-visible:text-[color:var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 active:translate-y-0 lg:inline-flex"
+            className="hidden items-center gap-2 rounded-full border border-[rgba(35,33,31,0.14)] bg-white/45 px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.08em] text-[color:var(--text-secondary)] transition hover:-translate-y-0.5 hover:border-[color:var(--assembl-dusty-rose)] hover:text-[color:var(--text-primary)] focus-visible:-translate-y-0.5 focus-visible:border-[color:var(--assembl-dusty-rose)] focus-visible:text-[color:var(--text-primary)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2 active:translate-y-0 lg:inline-flex"
           >
             <Search className="h-3.5 w-3.5" aria-hidden />
             <span>Search</span>
@@ -300,10 +301,10 @@ export function SiteHeader() {
             <Link
               href="/"
               aria-label="assembl — home"
-              className="rounded-sm text-[30px] leading-none tracking-[-0.03em] text-[color:var(--text-primary)] transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
+              className="inline-flex items-center gap-2 rounded-sm text-[30px] leading-none tracking-[-0.03em] text-[color:var(--text-primary)] transition-opacity hover:opacity-80 focus-visible:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
               onClick={() => setMobileNavOpen(false)}
             >
-              <AssemblWordmark />
+              <AssemblGlassMark size={30} /><AssemblWordmark />
             </Link>
             <button
               type="button"

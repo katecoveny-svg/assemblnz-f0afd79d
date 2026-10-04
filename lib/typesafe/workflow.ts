@@ -1,3 +1,4 @@
+import { DO_TEXT_PROVIDER_CONSENT_VERSION } from '@/apps/do/shared/provider-consent';
 import type { PilotInput, PilotResult } from './core';
 import type { DoPreparationInput, DoPreparedDraft } from '@/apps/do/shared/preparation';
 
@@ -17,11 +18,11 @@ export type WorkflowDependencies = {
   prepare: (input: DoPreparationInput, signal?: AbortSignal) => Promise<DoPreparedDraft>;
 };
 export class DoWorkflowConsentError extends Error {
-  constructor() { super('Confirm that DO may use this context with its preparation providers for this request.'); }
+  constructor() { super('Confirm that DO may use this context with OpenAI (GPT-6 Astra) and TypeSafe for this request.'); }
 }
 export function requireDoWorkflowConsent(raw: unknown): void {
   if (!raw || typeof raw !== 'object' || Array.isArray(raw) ||
-      (raw as Record<string, unknown>).shareWithDo !== true) throw new DoWorkflowConsentError();
+      ((raw as Record<string, unknown>).shareWithDo !== true || (raw as Record<string, unknown>).providerConsentVersion !== DO_TEXT_PROVIDER_CONSENT_VERSION)) throw new DoWorkflowConsentError();
 }
 
 /** The caller must supply the server's own evaluation, never a client-posted decision. */
@@ -33,7 +34,7 @@ export function preparationForDecision(input: PilotInput, pilot: PilotResult): D
   if (!task) return null;
   return {
     task, brief: input.intent, source: input.page.text,
-    sourceTitle: input.page.title.slice(0, 160), sourceUrl: input.page.url, consent: true,
+    providerConsentVersion: DO_TEXT_PROVIDER_CONSENT_VERSION, sourceTitle: input.page.title.slice(0, 160), sourceUrl: input.page.url, consent: true,
   };
 }
 const result = (state: DoWorkflowResult['state'], message: string, draft: DoPreparedDraft | null = null): DoWorkflowResult => ({

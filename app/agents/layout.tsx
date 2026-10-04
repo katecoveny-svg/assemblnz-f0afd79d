@@ -1,5 +1,7 @@
+import localFont from 'next/font/local';
+import { preserveSingleFontStyle } from '@/lib/fonts/local-font-metadata';
 import type { ReactNode } from 'react';
-import { Lato, Space_Mono } from 'next/font/google';
+
 
 /**
  * Agent marketplace shell — scopes the Dash brand type system (locked
@@ -12,19 +14,30 @@ import { Lato, Space_Mono } from 'next/font/google';
  * The global SiteHeader/Footer are suppressed on /agents (see isAgentMarketplace
  * in site-header).
  */
-const lato = Lato({
-  subsets: ['latin'],
-  weight: ['400', '700', '900'],
+const latoLocal = localFont({
+  src: [
+    { path: '../../lib/fonts/assets/lato-normal-400.ttf', weight: '400', style: 'normal' },
+    { path: '../../lib/fonts/assets/lato-normal-700.ttf', weight: '700', style: 'normal' },
+    { path: '../../lib/fonts/assets/lato-normal-900.ttf', weight: '900', style: 'normal' },
+  ],
   variable: '--mk-display',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Lato Build Fallback'],
 });
+const lato = preserveSingleFontStyle(latoLocal, 'normal');
 
-const spaceMono = Space_Mono({
-  subsets: ['latin'],
-  weight: ['400', '700'],
+const spaceMonoLocal = localFont({
+  src: [
+    { path: '../../lib/fonts/assets/space-mono-normal-400.woff2', weight: '400', style: 'normal' },
+    { path: '../../lib/fonts/assets/space-mono-normal-700.woff2', weight: '700', style: 'normal' },
+  ],
   variable: '--mk-mono',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Space Mono Build Fallback'],
 });
+const spaceMono = preserveSingleFontStyle(spaceMonoLocal, 'normal');
 
 export default function AgentsLayout({ children }: { children: ReactNode }) {
   return <div className={`${lato.variable} ${spaceMono.variable}`}>{children}</div>;

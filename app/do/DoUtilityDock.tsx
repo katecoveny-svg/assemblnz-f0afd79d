@@ -11,13 +11,13 @@ const DO_PUBLIC_PATH = '/do';
 
 export function DoUtilityDock() {
   const pathname = usePathname();
-  const focused = [DO_PUBLIC_PATH, '/do/widget', '/do/meetings', '/do/object'].includes(pathname);
+  const focused = [DO_PUBLIC_PATH, '/do/personal', '/do/widget', '/do/meetings', '/do/enquiries', '/do/object', '/do/install', '/do/bills', '/do/bills/compare'].includes(pathname);
   return (
     <>
-      <GlowDoWidget />
+      {!focused && <GlowDoWidget />}
       {!focused && <nav className="do-utility-dock" aria-label="DO workspace shortcuts">
         <Link href="/do">DO home</Link>
-        <Link href="/">assembl</Link>
+        <Link href="/legal/privacy">Privacy</Link>
       </nav>}
     </>
   );

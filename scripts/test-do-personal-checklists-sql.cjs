@@ -1,0 +1,30 @@
+// Local PostgreSQL proof only; never inserts production user data.
+const { PGlite } = require(process.env.ASSEMBL_PGLITE_MODULE || '/tmp/assembl-personal-sql/node_modules/@electric-sql/pglite');
+const fs=require('node:fs'),assert=require('node:assert/strict');
+(async()=>{
+ const db=new PGlite();let checks=0;const check=(name,value)=>{assert.ok(value,name);checks++;console.log('PASS '+name)};
+ await db.exec(`create role anon; create role authenticated; create role service_role bypassrls;
+ create schema auth; create table auth.users(id uuid primary key,is_anonymous boolean default false);
+ create function auth.uid() returns uuid language sql as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
+ create function auth.jwt() returns jsonb language sql as $$select coalesce(nullif(current_setting('request.jwt.claims',true),''),'{}')::jsonb$$;
+ grant usage on schema auth to authenticated,service_role;grant select on auth.users to service_role;`);
+ await db.exec(fs.readFileSync('supabase/migrations/20260930063926_do_personal_checklist_cloud.sql','utf8'));
+ const a='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',b='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',guest='cccccccc-cccc-4ccc-8ccc-cccccccccccc';
+ await db.query('insert into auth.users values ($1,false),($2,false),($3,true)',[a,b,guest]);
+ const save=async(owner,plans,revision)=>(await db.query('select public.do_personal_save_checklists($1,$2::jsonb,$3) as saved',[owner,JSON.stringify(plans),revision])).rows[0].saved;
+ await db.exec('set role service_role');
+ const first=await save(a,[{fictional:'local SQL fixture'}],0);check('first save returns revision and timestamp',first.revision===1&&!!first.savedAt);
+ await save(b,[],0);await assert.rejects(()=>save(a,[],0),/checklist_conflict/);check('stale revision cannot overwrite',true);
+ const cleared=await save(a,[],1);check('removal retains revision tombstone',cleared.revision===2&&cleared.plans.length===0);
+ await assert.rejects(()=>save(a,[{}],1),/checklist_conflict/);check('stale device cannot resurrect removed collection',true);
+ await assert.rejects(()=>save(guest,[],0),/checklist_owner_required/);check('anonymous owner rejected',true);
+ await assert.rejects(()=>save(a,Array(31).fill({}),2));check('SQL bounds collection size',true);
+ await db.exec('reset role; set role authenticated');await db.query("select set_config('request.jwt.claim.sub',$1,false)",[a]);
+ check('RLS reads only current owner',(await db.query('select owner_id from public.do_personal_checklists')).rows.every(r=>r.owner_id===a));
+ await assert.rejects(()=>save(a,[],2),/permission denied/);check('client cannot call service RPC',true);
+ await assert.rejects(()=>db.query('update public.do_personal_checklists set plans=\'[]\''),/permission denied/);check('client cannot bypass validation by direct update',true);
+ await db.query("select set_config('request.jwt.claims',$1,false)",['{"is_anonymous":true}']);check('anonymous JWT cannot read saved collection',(await db.query('select * from public.do_personal_checklists')).rows.length===0);
+ await db.exec('reset role;set role anon');await assert.rejects(()=>db.query('select * from public.do_personal_checklists'),/permission denied/);check('public cannot read',true);
+ await db.exec('reset role');await db.query('delete from auth.users where id=$1',[a]);check('account deletion removes its snapshot',(await db.query('select * from public.do_personal_checklists where owner_id=$1',[a])).rows.length===0);
+ await db.close();console.log(`${checks} SQL checks passed`);
+})().catch(e=>{console.error(e);process.exitCode=1});

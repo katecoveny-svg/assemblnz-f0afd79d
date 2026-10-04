@@ -4,7 +4,9 @@
 >
 > Canonical visual tokens and identity live in `docs/assembl-brand-system.md`. Public language rules live in `docs/assembl-copy-standard.md`. If this file conflicts with either, the canonical documents win.
 
-**Last updated:** 17 September 2026
+**Last updated:** 2 October 2026
+
+Kate’s latest direction locks the exact supplied glass company a and DO D-dot as primary across company and DO surfaces. Use `public/brand/canonical/glass-v1/manifest.json` and `GlassIdentity`; light-field text uses visible plum `#492B3E`, with #240B21 retained for dark fields/actions. The earlier reconstructed meshes, opaque primary controls and dark overlay are superseded. Daylight runtime corrections remain in local review, not yet published. Historical root guides and old skills are not alternate instructions. Company wordmark: lowercase `assembl`; company letter mark: lowercase `a`; DO: uppercase D with its inner dot.
 
 ## 1. design principle
 
@@ -24,7 +26,8 @@ Use the current company palette:
 
 | Token | Hex | Use |
 |---|---|---|
-| Deep plum | `#240B21` | Primary type, dark fields, product identity, proof frame |
+| Visible plum ink | `#492B3E` | Headlines/body/navigation/controls on light fields |
+| Deep plum | `#240B21` | Dark fields, action fills and product-stage accents |
 | Muted plum | `#654A4E` | Supporting fields and large secondary surfaces |
 | Dusty rose | `#916A70` | State, progress, permission, focus and active detail |
 | Chalk | `#F5F1F2` | Pale secondary surface |
@@ -107,11 +110,11 @@ At 375px wide, the interface must still make the proposition, primary action and
 
 DO is always written `DO`, never `DOO`.
 
-The canonical DO symbol is implemented in `components/do/DoMark.tsx`: a glowing D with the small luminous o/dot inside.
+The canonical DO symbol is the user-locked glass D with plum left-and-bottom spine, lilac upper curve, rose lower curve, visible joins and interior rose dot. Use `components/brand/GlassIdentity.tsx` and the source manifest. `DoMark` is earlier compatibility code, not a competing primary logo.
 
 Rules:
 
-- preserve the deep-plum body and warm rose glow;
+- preserve the locked glass silhouette/material/joins and D-dot; use faithful source-derived tiny icons rather than substituting the older stroke/font outline;
 - this approved identity is the exception to the general ban on generic orbs;
 - do not replace it with an unrelated sphere, chatbot face or mascot;
 - keep its behaviour calm and legible;
@@ -215,9 +218,9 @@ Use short, concrete New Zealand English.
 
 Current company architecture can be expressed as:
 
-> **assembl the work.**
+> **Assemble useful work.**
 >
-> **find it. DO it. show it.**
+> **Business intelligence. Strategy. Software.**
 
 Product labels:
 
@@ -334,3 +337,7 @@ The standard is not “looks like AI”.
 The standard is:
 
 > **clear enough to understand, beautiful enough to remember, truthful enough to trust.**
+
+## Locked glass identity and daylight review · 2 October 2026
+
+Keep the immersive real-room camera journey and use the exact locked glass originals as primary marks everywhere. The local corrected scene uses artwork planes inside real 3D architecture; it does not claim an exact glass mesh or modular assembly animation. Reject approximate extruded-glyph replacements that fail reference quality. Tiny-icon legibility derivatives must retain the locked silhouette/material colours and D-dot. Preserve mobile motion, accessible 44×44px pause/resume, readable scene status, complete reduced-motion/no-WebGL/no-JS views and demand rendering. Use light local text treatment with #492B3E ink, not the rejected dark overlay or stacked phone pills. See `docs/assembl-brand-system.md`; native package/installed proof stays with its owner. The earlier PR1471 implementation is live, while this correction remains local and unpublished.

@@ -1,6 +1,6 @@
 /** Owned, published Assembl product knowledge. Never imports private client or clinical tables. */
-export const PUBLIC_KNOWLEDGE_VERSION = '2026-09-22';
-export const ASSEMBL_PUBLIC_OFFER = 'assembl is a platform that turns live business signals into governed agentic work. Pursuit researches the opportunity, DO prepares the task, and Studio makes the demonstrator, site, image or campaign. People review the proposed work before it is sent or published.';
+export const PUBLIC_KNOWLEDGE_VERSION = '2026-10-02';
+export const ASSEMBL_PUBLIC_OFFER = 'assembl works alongside teams to improve services, customer experiences and processes, and build useful software, agents and creative work. Pursuit researches opportunities, DO prepares bounded work, and Studio makes ideas tangible in demonstrators, sites, visuals and campaigns. Human review and permissions are delivery controls across this work.';
 export const PUBLIC_KNOWLEDGE = [
   { id:'platform', title:'Assembl: current platform and offer', url:'https://www.assembl.co.nz/', text:ASSEMBL_PUBLIC_OFFER + ' This current owned description takes precedence over older search snippets. Do not repeat retired pilot pricing, NZ-hosting guarantees or blanket legal-compliance claims.' },
   { id:'pursuit', title:'Pursuit: research and opportunity briefs', url:'https://www.assembl.co.nz/pursuit', text:'Pursuit brings company signals, source evidence and business context into an opportunity brief. It supports buyer research, tenders and client-specific demonstrators. A proposed angle is a hypothesis, not proof of demand. Private client hubs require separate sign-in.' },

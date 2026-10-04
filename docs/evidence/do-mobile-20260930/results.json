@@ -1,0 +1,24 @@
+{
+  "checks": [
+    "DO desktop fits",
+    "Editorial art loads",
+    "DO 375px fits",
+    "Workspace 375px fits",
+    "Phone editor avoids auto zoom",
+    "Mode switch preserves writing",
+    "Workspace 320px fits",
+    "Workspace landscape fits",
+    "Keyboard release status is honest",
+    "Tap opens companion",
+    "Touch drag moves launcher",
+    "Companion stays in keyboard viewport",
+    "Reset keeps header reachable",
+    "Touch context requires review",
+    "Only chosen text reaches review",
+    "Minimise retains workspace frame",
+    "Reduced motion removes editorial transition",
+    "No page runtime errors"
+  ],
+  "errors": [],
+  "nativeDeviceTested": false
+}

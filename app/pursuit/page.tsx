@@ -6,16 +6,11 @@ import { PRODUCT_DESTINATIONS } from '@/lib/product-destinations';
 import { PURSUIT_AGENT_BRIEF } from '@/lib/pursuit/agent-brief';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Pursuit · find it. · assembl' },
-  description:
-    'Research what policy, business records and public announcements could mean for your next piece of work. Review the evidence and prepare a proposal.',
-  alternates: { canonical: '/pursuit' },
-  openGraph: {
-    title: 'Pursuit · find it. · assembl',
-    description:
-      'Add your website, review relevant businesses and edit a first message with its sources.',
-    url: `${SITE_URL}/pursuit`,
-  },
+  title: { absolute: "Pursuit by assembl | Research the opportunity" },
+  description: "Research companies, business signals and opportunities with Pursuit. Review the sources and prepare a brief or proposal for your next move.",
+  alternates: { canonical: "/pursuit" },
+  openGraph: { title: "Pursuit by assembl | Research the opportunity", description: "Research companies, business signals and opportunities with Pursuit. Review the sources and prepare a brief or proposal for your next move.", url: "https://www.assembl.co.nz/pursuit", type: 'website', locale: 'en_NZ', siteName: 'assembl' },
+  twitter: { card: 'summary_large_image', title: "Pursuit by assembl | Research the opportunity", description: "Research companies, business signals and opportunities with Pursuit. Review the sources and prepare a brief or proposal for your next move." },
 };
 
 const pursuitNode = {

@@ -1,4 +1,6 @@
-import { reserveDoTrial, DoTrialError } from '@/apps/do/shared/trial';
+import { z } from 'zod';
+import { PilotError } from '@/lib/typesafe/core';
+import { DO_TEXT_PROVIDER_CONSENT_VERSION } from '@/apps/do/shared/provider-consent';
 import { preparationInputSchema } from '@/apps/do/shared/preparation';
 import { DoPreparationError, prepareDoDraft } from '@/apps/do/shared/preparation-server';
 import { admitDoRequest, allowedDoOrigin, doHeaders, readDoJson } from '@/apps/do/shared/http';
@@ -19,25 +21,32 @@ export async function POST(request: Request) {
     const tooLarge = error instanceof Error && error.message === 'too_large';
     return json({ error: tooLarge ? 'too_large' : 'invalid_request', message: tooLarge ? 'This text is too long. Use an excerpt of up to 12,000 characters.' : 'Send a valid JSON preparation request.' }, tooLarge ? 413 : 400);
   }
-  const parsed = preparationInputSchema.safeParse(raw);
+  const expected = z.object({ nativeExpectedOwner: z.string().uuid().optional() }).safeParse(raw);
+  if (!expected.success) return json({ error: 'invalid_native_recipient', message: 'Check this app’s recipient again.' }, 400);
+  const preparationRaw = { ...(raw as Record<string, unknown>) };
+  delete preparationRaw.nativeExpectedOwner;
+  const parsed = preparationInputSchema.safeParse(preparationRaw);
   if (!parsed.success) return json({ error: 'invalid_input', message: parsed.error.issues[0]?.message || 'Check the preparation fields.' }, 400);
+  let owner = await doOwner();
+  if (expected.data.nativeExpectedOwner && expected.data.nativeExpectedOwner !== owner?.id) return json({ error: 'native_recipient_changed', message: 'The signed-in recipient changed. Review this text again.' }, 409);
   const ip = chatClientIp(request.headers);
   if (!admitDoRequest(ip)) { headers.set('Retry-After', '60'); return json({ error: 'rate_limited', message: 'Please wait a minute before preparing another draft.' }, 429); }
   if (parsed.data.task !== 'extract') {
     const rate = await checkChatRateLimit(ip, 'do-preparation');
     if (!rate.allowed) { headers.set('Retry-After', '600'); return json({ error: 'rate_limited', message: 'You have reached the preparation limit for now. Please try again in ten minutes.' }, 429); }
   }
-  const owner = await doOwner();
-  let reservation: Awaited<ReturnType<typeof reserveDoTrial>>;
-  try { reservation = await reserveDoTrial(ip, { signedInOwnerId: owner?.id }); }
-  catch (error) { const e = error as DoTrialError; return json({ error: e.code, message: e.message }, e.code === 'trial_exhausted' ? 402 : 503); }
+  if (parsed.data.task !== 'extract' && (!owner || parsed.data.providerConsentVersion !== DO_TEXT_PROVIDER_CONSENT_VERSION)) return json({ error: owner ? 'provider_consent_required' : 'sign_in_required', message: owner ? 'Confirm OpenAI and TypeSafe for this draft.' : 'Sign in before preparing a draft. Exact extraction remains available.' }, owner ? 400 : 401);
+  if (expected.data.nativeExpectedOwner) {
+    owner = await doOwner(); // Rate-limit/auth awaits cannot make an old recipient authoritative.
+    if (expected.data.nativeExpectedOwner !== owner?.id) return json({ error: 'native_recipient_changed', message: 'The signed-in recipient changed. Review this text again.' }, 409);
+  }
   try {
     return json({
-      draft: await prepareDoDraft(parsed.data, request.signal),
-      trialBypassed: Boolean(reservation.bypassed),
+      draft: await prepareDoDraft(parsed.data, request.signal, undefined, owner ? { ownerId: owner.id, requestId: request.headers.get('Idempotency-Key') ?? undefined } : undefined),
+      trialBypassed: false,
     }, 200);
   } catch (error) {
-    await reservation.release().catch(() => {});
+    if (error instanceof PilotError) return json({ error: error.code, message: error.message }, error.status);
     if (error instanceof DoPreparationError) return json({ error: error.code, message: error.message }, 503);
     return json({ error: 'preparation_failed', message: 'DO could not finish this preparation. Your text is still in the editor. Please try again.' }, 503);
   }

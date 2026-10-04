@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-18",
+  "updated_at": "2026-09-30",
   "purpose": "Canonical routing manifest for Assembl agents, coding harnesses and DO runtimes. This file points to truth; it does not duplicate full context.",
   "entrypoints": {
     "human_or_coding_agent": [
@@ -53,16 +53,16 @@
     }
   },
   "product_structure": {
-    "pursuit": "find the work — signals, friction, opportunities, buyers, tenders and evidence",
-    "do": "do the work — portable bounded execution with permissions, verification and receipts",
-    "show": "show the possibility — Studio proof, demonstrators, journeys, creative, campaigns, websites and tender artefacts",
+    "pursuit": "find the work \u2014 signals, friction, opportunities, buyers, tenders and evidence",
+    "do": "do the work \u2014 portable bounded execution with permissions, verification and receipts",
+    "show": "show the possibility \u2014 Studio proof, demonstrators, journeys, creative, campaigns, websites and tender artefacts",
     "factory": "shared context, primitives, agents, skills, connectors, design, tests, evals and learning",
     "proof": "evidence and outcomes feeding back into Pursuit and the Factory"
   },
   "company_shorthand": {
-    "master": "assembl the work.",
-    "products": "find it. DO it. show it.",
-    "commercial": "use one. connect two. run the whole loop."
+    "master": "Assemble useful work.",
+    "products": "Business intelligence. Strategy. Software.",
+    "commercial": "Start with one product. Bring them together when the work calls for it."
   },
   "brand_snapshot": {
     "wordmark": "assembl",
@@ -71,7 +71,8 @@
       "muted_plum": "#654A4E",
       "dusty_rose": "#916A70",
       "chalk": "#F5F1F2",
-      "paper": "#FFFDFB"
+      "paper": "#FFFDFB",
+      "ink": "#492B3E"
     },
     "fonts": {
       "primary": "Instrument Sans",
@@ -79,8 +80,8 @@
     },
     "visual_grammar": "things gather, organise and move with purpose until a useful whole is visible",
     "modes": [
-      "brand/narrative assembly — premium aerial/top-down collective movement",
-      "product/proof assembly — recognisable inputs become a reviewable output with permission and evidence"
+      "brand/narrative assembly \u2014 premium aerial/top-down collective movement",
+      "product/proof assembly \u2014 recognisable inputs become a reviewable output with permission and evidence"
     ],
     "forbidden_company_directions": [
       "Cormorant-led company branding",
@@ -92,7 +93,22 @@
       "robot/chatbot imagery",
       "generic neon AI gradients"
     ],
-    "note": "Named client demonstrators may retain verified client-specific brand systems. Legacy surfaces are not company-brand precedent."
+    "note": "Named client demonstrators may retain verified client-specific brand systems. Legacy surfaces are not company-brand precedent.",
+    "do_daylight_scope": "Historical entry-object treatment; not a competing primary identity. Latest locked glass contract and light #492B3E ink are canonical in docs/assembl-brand-system.md.",
+    "do_assembled_glass_scope": {
+      "status": "Exact company/DO glass identities locked 2 October; DO07 and earlier PR1471 rollout released; daylight correction held in local review",
+      "token_source": "lib/brand/do-identity.ts",
+      "hero": "Exact locked static glass art; current real-room scene uses artwork planes, not exact glass mesh parity",
+      "identity": "Exact lowercase glass company a and uppercase glass D-dot; source-derived tiny derivatives preserve silhouette/material colours/dot",
+      "asset_manifest": "public/brand/canonical/glass-v1/manifest.json",
+      "primary_component": "components/brand/GlassIdentity.tsx",
+      "native_status": "Matching source exports require portable-owner application and installed proof; generators are web-only"
+    },
+    "do_daylight_accents": {
+      "lilac": "#DAD2F4",
+      "petal": "#EAC8DF",
+      "blush": "#F5E4E7"
+    }
   },
   "precedence": [
     "current explicit task/user instruction",

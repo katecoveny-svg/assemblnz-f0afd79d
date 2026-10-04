@@ -41,11 +41,11 @@ describe('Franklin real 3D homepage', () => {
   });
   it('keeps the headline and three public paths in readable HTML', () => {
     const html=renderToStaticMarkup(createElement(AssemblWorldHero));
-    expect(html).toContain('data-world="franklin"');
+    expect(html).toContain('data-world="atelier"');
     expect(html).toContain('assembl');expect(html).toContain('the work.');
-    expect(html).toContain(FRANKLIN_ASSETS.poster);expect(html).toContain(FRANKLIN_ASSETS.mobilePoster);
+    expect(html).toContain('/do/world/atelier-glass-poster.webp');
     for(const href of ['/pursuit','/do','/creative-studio'])expect(html).toContain(`href="${href}"`);
-    expect(html).toContain('The complete work loop');
+    expect(html).toContain('The work, step by step');
     expect(html).not.toContain('https://assembl-pursuit');
     expect(html).not.toContain('from insight to impact');
   });

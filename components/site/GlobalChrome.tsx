@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { V2Nav } from '@/components/v2/V2Chrome';
 import { V2Footer } from '@/components/v2/V2Footer';
+import { ContactHeader, ContactFooter } from '@/components/site/ContactChrome';
 import { isDashMicrosite, isAgentMarketplace, isAtlas, isEcho, isAuthSurface, isAdminHub, isCustomerWorkspace, isAlphassembl, isAssemblBills, isStandaloneHealth, isMotionStudio, isCreativeStudio, isStudio, isBuildAnAgent, isLab } from '@/components/site/site-header';
 
 // These public pages supply their own complete navigation and footer.
@@ -19,10 +20,12 @@ function shipsOwnChrome(pathname: string | null): boolean {
 export function GlobalNav() {
   const pathname = usePathname();
   if (shipsOwnChrome(pathname)) return null;
+  if ((pathname === '/contact' || pathname === '/about')) return <ContactHeader />;
   return <V2Nav current={pathname ?? undefined} />;
 }
 export function GlobalFooter() {
   const pathname = usePathname();
   if (shipsOwnChrome(pathname)) return null;
+  if ((pathname === '/contact' || pathname === '/about')) return <ContactFooter />;
   return <V2Footer />;
 }

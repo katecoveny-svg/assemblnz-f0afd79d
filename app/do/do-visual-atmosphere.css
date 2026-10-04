@@ -1,39 +1,14 @@
 /* DO visual atmosphere — shared across every /do surface. Presentation only. */
 .do-app-shell{
-  --do-atmo-plum:#240B21;
-  --do-atmo-rose:#916A70;
-  --do-atmo-mist:#D6A5BD;
-  --do-atmo-paper:#FFFDFB;
-  position:relative;
-  min-height:100dvh;
-  isolation:isolate;
-  background:#F5F1F2;
+  --do-atmo-plum:#240B21;--do-atmo-rose:#916A70;--do-atmo-paper:#FFFDFB;
+  position:relative;min-height:100dvh;isolation:isolate;
+  color:#240B21;font-family:var(--font-body),'Instrument Sans',sans-serif;
+  /* The app field is paper; lilac and rose belong to the locked glass and accents. */
+  background:var(--do-atmo-paper);
 }
-.do-app-shell::before,
-.do-app-shell::after{
-  content:"";
-  position:fixed;
-  pointer-events:none;
-  z-index:0;
-  border-radius:50%;
-  filter:blur(70px);
-  opacity:.34;
-  mix-blend-mode:multiply;
-  transform:translate3d(0,0,0);
-}
-.do-app-shell::before{
-  width:42vw;height:42vw;min-width:280px;min-height:280px;
-  top:-14vw;right:-8vw;
-  background:radial-gradient(circle at 35% 35%,#D6A5BD 0%,#916A70 28%,transparent 68%);
-  animation:do-atmo-drift-a 16s ease-in-out infinite alternate;
-}
-.do-app-shell::after{
-  width:36vw;height:36vw;min-width:240px;min-height:240px;
-  left:-12vw;bottom:-10vw;
-  background:radial-gradient(circle at 60% 40%,#654A4E 0%,#916A70 24%,transparent 68%);
-  opacity:.18;
-  animation:do-atmo-drift-b 20s ease-in-out infinite alternate;
-}
+/* Light belongs to the app surface; controls keep opaque paper backing. */
+.do-app-shell::before,.do-app-shell::after{content:none}
+.do-app-shell h1,.do-app-shell h2,.do-app-shell h3,.do-app-shell button,.do-app-shell input,.do-app-shell textarea,.do-app-shell select{font-family:var(--font-body),'Instrument Sans',sans-serif}
 .do-app-shell> *{position:relative;z-index:1}
 
 .do-app-shell .do-craft,
@@ -131,3 +106,15 @@
   .do-app-shell::before{width:80vw;height:80vw;top:-20vw;right:-25vw;opacity:.28}
   .do-app-shell::after{width:65vw;height:65vw;left:-28vw;bottom:-18vw}
 }
+
+.do-app-shell :is(p,span,small,label,summary,a,li,dt,dd,pre){font-family:var(--font-body),'Instrument Sans',sans-serif}
+
+.do-app-shell>main,.do-app-shell .do-craft{background:transparent}
+
+/* The reviewed personal DO direction opts out of the old rose atmosphere. */
+.do-app-shell:has([data-do-identity="assembled-glass"]){background:transparent}
+.do-app-shell [data-do-identity="assembled-glass"] [class*="panel"]:hover,
+.do-app-shell [data-do-identity="assembled-glass"] [class*="card"]:hover,
+.do-app-shell [data-do-identity="assembled-glass"] [class*="document"]:hover{transform:none;box-shadow:0 14px 36px color-mix(in srgb, var(--do-ink) 4.31%, transparent);border-color:var(--do-chalk)}
+.do-app-shell [data-do-identity="assembled-glass"] [class*="primary"]::after,
+.do-app-shell [data-do-identity="assembled-glass"] [class*="Primary"]::after{content:none}

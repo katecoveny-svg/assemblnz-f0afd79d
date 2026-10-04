@@ -1,4 +1,5 @@
 /** Canonical schema.org / JSON-LD for the current assembl product system. */
+import { POSITIONING } from '@/components/site/assembl-the-work/copy';
 
 export const SITE_URL = 'https://www.assembl.co.nz';
 export const ORG_ID = `${SITE_URL}/#organization`;
@@ -21,19 +22,17 @@ export function organizationNode(): Json {
     url: SITE_URL,
     logo: { '@type': 'ImageObject', url: LOGO, width: 512, height: 512 },
     image: OG_IMAGE,
-    description:
-      'assembl is a New Zealand software company building one connected system for finding, doing and showing valuable work. Pursuit turns signals into evidence-backed opportunities, DO is the portable multi-model agent execution layer, and Studio turns work into demonstrations, creative and commercial proof. The shared Factory carries context, connectors, permissions, evidence and learning across the system.',
-    slogan: 'Find it. DO it. Show it.',
+    description: POSITIONING.company,
     knowsAbout: [
-      'AI agents for work',
-      'agentic workflows',
-      'multi-model agent orchestration',
-      'AI developer tools',
-      'agent connectors and permissions',
-      'human-approved AI workflows',
-      'agent evaluations and evidence',
-      'agentic customer journeys',
-      'AI adoption for New Zealand businesses',
+      'business intelligence and strategy',
+      'service design and customer experiences',
+      'customer journey mapping',
+      'CX, UX and UI design',
+      'process and workflow improvement',
+      'software development and integrations',
+      'agents and human-reviewed AI workflows',
+      'interactive demonstrations and creative work',
+      'proposals, pitches and campaigns',
     ],
     foundingLocation: { '@type': 'Place', name: 'New Zealand' },
     areaServed: [
@@ -41,7 +40,6 @@ export function organizationNode(): Json {
       { '@type': 'City', name: 'Auckland' },
     ],
     knowsLanguage: ['en-NZ'],
-    founder: { '@id': PERSON_ID },
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer support',
@@ -85,16 +83,14 @@ export function softwareApplicationNode(): Json {
     operatingSystem: 'Web, macOS, browser',
     url: `${SITE_URL}/do`,
     description:
-      'DO is assembl’s portable agent execution layer. It keeps agent identity, context, tools, permissions and evidence stable while the underlying model can change for coding, research, voice, vision or creative work.',
+      'DO is a portable personal agent that helps assemble useful work. Ask questions, prepare replies, organise tasks and review drafts. Use DO on its own or as part of assembl. Available context and actions depend on the surface and connections you choose.',
     publisher: { '@id': ORG_ID },
     featureList: [
-      'portable specialist agents',
-      'multi-model routing',
-      'capability-based connectors',
-      'human approval boundaries',
-      'evidence and receipts',
-      'Builderdoo software-building agent',
-      'DO Office coordination surface',
+      'questions and draft replies',
+      'plans and task lists',
+      'reviewed source context',
+      'explicit provider consent',
+      'review before consequential action',
     ],
   };
 }

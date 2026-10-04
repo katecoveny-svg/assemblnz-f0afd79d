@@ -1,0 +1,27 @@
+name: Build decision policy
+on:
+  pull_request:
+    paths:
+      - 'scripts/vercel-ignore-build*'
+      - 'docs/build-cost-workflow.md'
+      - '.github/workflows/build-decision-tests.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/vercel-ignore-build*'
+      - '.github/workflows/build-decision-tests.yml'
+permissions:
+  contents: read
+concurrency:
+  group: build-decision-policy-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+jobs:
+  decisions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: node --test scripts/vercel-ignore-build.test.mjs

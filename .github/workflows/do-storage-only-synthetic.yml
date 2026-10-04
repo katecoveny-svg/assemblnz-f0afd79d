@@ -1,0 +1,88 @@
+name: DO storage-only synthetic SQL proof
+on:
+  pull_request:
+    paths:
+      - 'apps/do/personal/contract*'
+      - 'apps/do/personal/service*'
+      - 'apps/do/personal/storage-only.test.ts'
+      - 'app/api/do/personal/route*'
+      - 'app/do/personal/PersonalDo*'
+      - 'docs/do-personal/storage-only-*.sql'
+      - 'scripts/*do-storage-only*'
+      - 'supabase/migrations/20260929213918_do_personal_responsibilities.sql'
+      - '.github/workflows/do-storage-only-synthetic.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: do-storage-only-synthetic-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  synthetic-postgres:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    env:
+      DO_STORAGE_PROOF_ALLOWED: synthetic_disposable_only
+      DO_STORAGE_PROOF_URL: postgresql://postgres:fictional-storage-proof-only@127.0.0.1:55437/do_storage_proof
+      DO_STORAGE_PROOF_RESTART: 'true'
+      DO_PERSONAL_RESPONSIBILITY_STORAGE_ENABLED: 'false'
+      DO_PERSONAL_RESPONSIBILITY_PURGE_ENABLED: 'false'
+      DO_PROVIDER_MEMORY_ENABLED: 'false'
+      DO_MEMORY_PILOT_PREPARATION_ENABLED: 'false'
+      PERSONAL_DO_CONSUMER_ENABLED: 'false'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # official v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /.github/workflows/do-storage-only-synthetic.yml
+            /docs/do-personal/storage-only-*.sql
+            /scripts/*do-storage-only*
+            /supabase/migrations/20260929213918_do_personal_responsibilities.sql
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # official v4
+        with:
+          node-version: '24'
+      - name: Start one network-isolated disposable PostgreSQL 17.11
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker run --detach --name do-storage-proof-task11 --network none \
+            --label assembl.synthetic-proof=do-storage-only \
+            --label "assembl.proof.run=$GITHUB_RUN_ID" \
+            --env POSTGRES_DB=do_storage_proof \
+            --env POSTGRES_PASSWORD=fictional-storage-proof-only \
+            --health-cmd 'pg_isready -U postgres -d do_storage_proof' \
+            --health-interval 1s --health-timeout 3s --health-retries 30 \
+            postgres:17.11-bookworm@sha256:639ab7ceb90e13123085b741fb31ef493fba25463002f6da665352e7b534b652
+          ready=false
+          for attempt in {1..30}; do
+            if docker exec do-storage-proof-task11 sh -c 'test "$(cat /proc/1/comm)" = postgres' && \
+              docker exec do-storage-proof-task11 pg_isready -U postgres -d do_storage_proof; then
+              ready=true
+              break
+            fi
+            sleep 1
+          done
+          test "$ready" = true
+          mkdir -p "$RUNNER_TEMP/do-storage-proof-bin"
+          cp scripts/do-storage-only-psql.sh "$RUNNER_TEMP/do-storage-proof-bin/psql"
+          chmod 700 "$RUNNER_TEMP/do-storage-proof-bin/psql"
+          printf '%s\n' "$RUNNER_TEMP/do-storage-proof-bin" >> "$GITHUB_PATH"
+      - name: Fresh approved role/helper baseline, serial and actual-role proofs
+        run: node scripts/run-do-storage-only-ci.cjs
+      - name: Proven separate-connection lock races and actual restart recovery
+        run: node scripts/test-do-storage-only-races.cjs
+      - name: Cancel one proven blocked synthetic request and verify transaction rollback
+        run: node scripts/test-do-storage-only-cancel-ci.cjs
+      - name: Remove only this run's labelled container and anonymous data volume
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if docker inspect do-storage-proof-task11 >/dev/null 2>&1; then
+            test "$(docker inspect --format '{{ index .Config.Labels "assembl.synthetic-proof" }}' do-storage-proof-task11)" = do-storage-only
+            test "$(docker inspect --format '{{ index .Config.Labels "assembl.proof.run" }}' do-storage-proof-task11)" = "$GITHUB_RUN_ID"
+            docker rm --force --volumes do-storage-proof-task11
+          fi

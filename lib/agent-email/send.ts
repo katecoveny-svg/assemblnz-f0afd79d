@@ -29,26 +29,28 @@ export type SendAgentEmailInput = {
   body: string;
   /** Existing thread to append the outbound message to. */
   threadId?: string;
+  /** Bound a request; an interrupted send is ambiguous, never safe to retry automatically. */
+  timeoutMs?: number;
 };
 
 export type SendAgentEmailResult =
   | { ok: true; agentEmail: string; messageId?: string }
-  | { ok: false; error: string };
+  | { ok: false; error: string; definitiveRejection?: boolean };
 
 export async function sendAgentEmail(input: SendAgentEmailInput): Promise<SendAgentEmailResult> {
   const agentEmail = agentEmailAddress(input.agentSlug);
   if (!agentEmail) {
-    return { ok: false, error: `Agent "${input.agentSlug}" has no email inbox.` };
+    return { ok: false, error: `Agent "${input.agentSlug}" has no email inbox.`, definitiveRejection: true };
   }
 
   const brevoKey = process.env.BREVO_API_KEY;
   if (!brevoKey) {
-    return { ok: false, error: 'BREVO_API_KEY is not configured.' };
+    return { ok: false, error: 'BREVO_API_KEY is not configured.', definitiveRejection: true };
   }
 
   const to = input.toEmail.trim();
   if (!to || !to.includes('@')) {
-    return { ok: false, error: 'A valid recipient email is required.' };
+    return { ok: false, error: 'A valid recipient email is required.', definitiveRejection: true };
   }
 
   const subject = input.subject.trim() || `Reply from ${input.agentName}`;
@@ -60,6 +62,7 @@ export async function sendAgentEmail(input: SendAgentEmailInput): Promise<SendAg
     const res = await fetch(BREVO_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'api-key': brevoKey },
+      signal: AbortSignal.timeout(input.timeoutMs ?? 20_000),
       body: JSON.stringify({
         sender: { name: input.agentName, email: agentEmail },
         replyTo: { name: input.agentName, email: agentEmail },
@@ -71,7 +74,7 @@ export async function sendAgentEmail(input: SendAgentEmailInput): Promise<SendAg
     });
     const data = (await res.json().catch(() => ({}))) as { messageId?: string; message?: string };
     if (!res.ok) {
-      return { ok: false, error: data?.message || `Brevo send failed (${res.status}).` };
+      return { ok: false, error: data?.message || `Brevo send failed (${res.status}).`, definitiveRejection: res.status >= 400 && res.status < 500 && res.status !== 408 };
     }
     brevoMessageId = data?.messageId;
   } catch (err) {

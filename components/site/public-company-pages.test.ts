@@ -15,7 +15,9 @@ vi.mock('./cinematic/CinematicSubpage', () => ({ CinematicSubpage: ({ spec }: { 
 describe('current public company surfaces', () => {
   it('gives Studio visual work visitors can actually open', () => {
     const html = renderToStaticMarkup(createElement(ProductLanding, { product: 'studio' }));
-    expect(html).toContain('See the possibilities');
+    expect(html).toContain('Give the idea');
+    expect(html).toContain('href="#studio-work"');
+    expect(html).toContain('Still view · reduced motion is on');
     expect(html).toContain('/preview/do-world');
     expect(html).toContain('/creative-studio/assembl');
     expect(html).not.toContain('/do/meetings');

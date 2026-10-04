@@ -114,9 +114,9 @@ export function BillsWorkspace() {
     <div className={styles.page}>
       <section className={styles.hero} aria-labelledby="bills-title">
         <div className={styles.heroCopy}>
-        <p className={styles.kicker}>DO BILLS · LESS ADMIN, MORE MAHI.</p>
-        <h1 id="bills-title">Know what’s coming.<br />Get the next step ready.</h1>
-        <p>Find recurring payments, check bill dates and prepare the questions worth asking.</p>
+        <p className={styles.kicker}>DO BILLS</p>
+        <h1 id="bills-title">Bills</h1>
+        <p>Check payments and dates from an example or your CSV.</p>
         <Link className={styles.textLink} href="/do/bills/compare">Compare a bill against current offers ↗</Link>
         </div><DoPresence className={styles.heroPresence} working={busy} />
       </section>
@@ -124,7 +124,7 @@ export function BillsWorkspace() {
       <section className={styles.sourcePanel} aria-labelledby="source-title">
         <div className={styles.sectionHead}>
           <div><p className={styles.kicker}>{demo ? 'FICTIONAL HOUSEHOLD' : 'YOUR RECORDS · THIS PAGE ONLY'}</p>
-            <h2 id="source-title">{demo ? 'Try the example.' : 'Your bill check.'}</h2></div>
+            <h2 id="source-title">{demo ? 'Example bills' : 'My bills'}</h2></div>
           <span className={styles.badge}>No bank connected</span>
         </div>
         <p>{demo ? 'All names, transactions and invoices below are fictional. Explore the complete draft-and-review flow.' : 'CSV rows and checked bills stay in this open page. Download any draft you want to keep before leaving or refreshing.'}</p>
@@ -158,7 +158,7 @@ export function BillsWorkspace() {
 
       <div className={styles.columns}>
         <section aria-labelledby="recurring-title">
-          <div className={styles.sectionHead}><div><p className={styles.kicker}>01 · FIND</p><h2 id="recurring-title">Payments to look at.</h2></div></div>
+          <div className={styles.sectionHead}><div><p className={styles.kicker}>01 · FIND</p><h2 id="recurring-title">Recurring payments</h2></div></div>
           <p className={styles.small}>Candidates from the supplied records. Check the merchant, service and usage before deciding a charge is wrong.</p>
           {recurring.length === 0 && <div className={styles.empty}>No recurring pattern found. Add at least three payments to the same merchant, or add a checked bill.</div>}
           <div className={styles.cards}>{recurring.map(payment => <article key={payment.id} className={styles.card}>
@@ -173,7 +173,7 @@ export function BillsWorkspace() {
         </section>
 
         <section aria-labelledby="calendar-title">
-          <div className={styles.sectionHead}><div><p className={styles.kicker}>02 · CHECK</p><h2 id="calendar-title">Dates from the bill.</h2></div></div>
+          <div className={styles.sectionHead}><div><p className={styles.kicker}>02 · CHECK</p><h2 id="calendar-title">Bill dates</h2></div></div>
           <p className={styles.small}>Dates come from checked invoices or renewal notices. Transaction timing is never used as a due date.</p>
           {invoices.length === 0 && <div className={styles.empty}>No checked bills yet. Add details from an actual invoice or notice below.</div>}
           <div className={styles.cards}>{[...invoices].sort((a, b) => (a.dueOn || '9999').localeCompare(b.dueOn || '9999')).map(invoice => <article key={invoice.id} className={styles.card}>
@@ -210,7 +210,7 @@ export function BillsWorkspace() {
 
       <section ref={draftRef} tabIndex={-1} className={styles.draftPanel} aria-labelledby="draft-title">
         <p className={styles.kicker}>03 · PREPARE → REVIEW → KEEP THE EVIDENCE</p>
-        <h2 id="draft-title">{draft ? draft.title : 'A useful next step, ready to check.'}</h2>
+        <h2 id="draft-title">{draft ? draft.title : 'Draft a reply'}</h2>
         {draft ? <>
           <p>{draft.mode === 'demo' ? 'Fictional example draft. ' : ''}Nothing has been sent. Preparing another enquiry replaces this draft; download it first if you want to keep it.</p>
           <label className={styles.draftLabel}>Edit your enquiry<textarea rows={12} maxLength={12000} disabled={busy} value={draft.text} onChange={event => setDraft(editFinancialDraft(draft, event.target.value))} /></label>

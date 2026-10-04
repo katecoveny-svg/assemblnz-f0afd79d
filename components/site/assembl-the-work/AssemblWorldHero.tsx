@@ -2,19 +2,22 @@
 
 /** The accepted WorldAtelierStage, with a readable HTML layer and chapter controls. */
 import Link from 'next/link';
+import { AssemblGlassMark } from '@/components/site/AssemblGlassMark';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ArrowDown, ArrowRight, ArrowUpRight, Pause, Play } from 'lucide-react';
-import { HERO } from './copy';
+import { ArrowDown, ArrowRight, ArrowUpRight, Camera, Mic, NotebookPen, Pause, Play } from 'lucide-react';
+import { HERO, POSITIONING, PRODUCTS } from './copy';
+
+const [headlineLead, headlineRest] = HERO.headline.split(', ');
 import { WorldAtelierStage, useAtelierMotionGate, useAtelierVisibility } from './WorldAtelierStage';
 import styles from './assembl-world-hero.module.css';
 
 const chapters = [
-  { product: 'Pursuit', verb: 'find it.', input: 'A signal. A source. A question.', output: 'An opportunity worth reviewing.', href: '/pursuit', action: 'Explore Pursuit' },
-  { product: 'DO', verb: 'DO it.', input: 'Context, tools and permission for a bounded job.', output: 'Prepared work with the next action clear.', href: '/do', action: 'Open DO' },
-  { product: 'Studio', verb: 'show it.', input: 'A brief. An idea. A piece of work.', output: 'Something people can see, try and understand.', href: '/creative-studio', action: 'Explore Studio' },
+  { product: 'Pursuit', verb: 'Find.', output: 'Find the opportunity.', href: '/pursuit', action: 'Explore Pursuit' },
+  { product: 'DO', verb: 'DO.', output: 'Your personal agent for getting things done.', href: '/do', action: 'Open DO' },
+  { product: 'Studio', verb: 'Show.', output: 'Show what’s possible.', href: '/creative-studio', action: 'Explore Studio' },
 ] as const;
 
-export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
+export function AssemblWorldHero({ preview = false, showSummary = true }: { preview?: boolean; showSummary?: boolean }) {
   const progress = useRef(0);
   const rail = useRef<HTMLElement>(null);
   const [paused, setPaused] = useState(false);
@@ -54,31 +57,36 @@ export function AssemblWorldHero({ preview = false }: { preview?: boolean }) {
   };
   const current = chapters[chapter];
   return (
+    <>
     <section ref={rail} className={styles.rail} aria-labelledby="atw-hero-title" data-preview={preview || undefined} data-static={reduced || failed || undefined} data-chapter={chapter}>
       <div className={styles.frame}>
         <WorldAtelierStage progress={progress} paused={paused} reduced={reduced} visible={visible} failed={failed} onReady={setSceneReady} onFailure={onFailure} priority />
         <div className={styles.scrim} aria-hidden="true" />
         <header className={styles.nav}>
-          <Link className={styles.wordmark} href="/" aria-label="assembl home">assembl</Link>
+          <Link className={styles.wordmark} href="/" aria-label="assembl home"><AssemblGlassMark size={36} /><span>assembl</span></Link>
           <nav aria-label="Primary"><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio">Studio</Link></nav>
-          <button type="button" className={styles.motion} onClick={() => setPaused(v => !v)} disabled={reduced || failed} aria-pressed={paused} aria-label={paused ? 'Resume scene motion' : 'Pause scene motion'}>
+          <button type="button" className={styles.motion} onClick={() => setPaused(v => !v)} disabled={reduced || failed} aria-pressed={paused} aria-label={reduced || failed ? 'Still view; scene motion unavailable' : paused ? 'Resume scene motion' : 'Pause scene motion'} title={reduced || failed ? 'Still view' : paused ? 'Resume scene motion' : 'Pause scene motion'}>
             {paused || reduced ? <Play size={13} aria-hidden="true" /> : <Pause size={13} aria-hidden="true" />}{reduced || failed ? 'Still view' : paused ? 'Resume' : 'Pause'}
           </button>
         </header>
         <div className={styles.copy}>
-          <p className={styles.overline}>GOOD WORK COMES TOGETHER.</p>
-          <h1 id="atw-hero-title">assembl <br />the work.</h1>
-          <p className={styles.sub}>{HERO.subhead}</p><p className={styles.body}>{HERO.body}</p>
-          <div className={styles.actions}><a className={styles.pill} href="#products">See the whole system <ArrowRight size={20} aria-hidden="true" /></a><Link className={styles.link} href="/do">Open DO <ArrowDown size={16} aria-hidden="true" /></Link></div>
+          <h1 id="atw-hero-title"><span>{headlineLead}, </span><span>{headlineRest}</span></h1>
+          <div className={styles.actions}><Link className={styles.pill} href="/contact?product=system">Discuss your project <ArrowRight size={20} aria-hidden="true" /></Link><Link className={styles.link} href="/do">Open DO <ArrowDown size={16} aria-hidden="true" /></Link></div>
         </div>
         <aside className={styles.chapter} aria-label="The work, step by step">
+          <p className={styles.honesty}>Interactive demo</p>
           <div className={styles.chapterSteps} aria-label="Choose a scene chapter">{chapters.map((item,index) => <button type="button" key={item.product} onClick={() => jump(index)} aria-label={`View ${item.product} scene`} aria-pressed={chapter === index} data-active={chapter === index}><small>0{index + 1}</small><span>{item.product}</span></button>)}</div>
-          <div className={styles.chapterBody}><span className={styles.chapterLabel}>{current.product}</span><h2>{current.verb}</h2><p>{current.input}<br /><strong>{current.output}</strong></p><Link href={current.href}>{current.action}<ArrowUpRight size={16} aria-hidden="true" /></Link></div>
+          <div className={styles.chapterBody}><span className={styles.chapterLabel}>{current.product}</span><h2>{current.verb}</h2><p>{current.output}</p><Link href={current.href}>{current.action}<ArrowUpRight size={16} aria-hidden="true" /></Link></div>
         </aside>
-        <div className={styles.job} id="do-input"><p className={styles.jobNote}>Start with <Link href="/pursuit">Pursuit</Link>, <Link href="/do">DO</Link> or <Link href="/creative-studio">Studio</Link>. Connect them when the work needs the full loop.</p></div>
-        <p className={styles.honesty}>{failed ? 'Still view. ' : reduced ? '' : 'Scroll or choose a chapter. '}An imagined workspace, not live agent activity.</p>
+        <div className={styles.job} id="do-input"><p className={styles.jobNote}>Start with <Link href="/pursuit">Pursuit</Link>, <Link href="/do">DO</Link> or <Link href="/creative-studio">Studio</Link>. Use them together when the work calls for it.</p></div>
       </div>
-      <div className={styles.stillSummary} aria-label="The complete work loop">{chapters.map(item => <article key={item.product}><span>{item.product}</span><h2>{item.verb}</h2><p>{item.input}</p><p>{item.output}</p><Link href={item.href}>{item.action}<ArrowUpRight size={16} aria-hidden="true" /></Link></article>)}</div>
     </section>
+    {showSummary && <section className={styles.companyIntro} aria-label="The complete work loop">
+      <p className={styles.companyCopy}>{HERO.subhead}</p>
+      <p className={styles.nzStrapline}>{POSITIONING.newZealand}</p>
+      <div className={styles.productIntro} aria-label="What each product does">{PRODUCTS.items.map(product => <Link key={product.id} href={product.href}><span>{product.name}<ArrowUpRight size={18} aria-hidden="true" /></span><p>{product.body}</p></Link>)}</div>
+      <Link className={styles.workflow} href="/do" aria-label="Open DO: photo, talk or notes into useful work"><span><Camera size={22} aria-hidden="true" />Photo</span><span><Mic size={22} aria-hidden="true" />Talk</span><span><NotebookPen size={22} aria-hidden="true" />Notes</span><ArrowRight size={20} aria-hidden="true" /><span>Useful work</span></Link>
+    </section>}
+    </>
   );
 }

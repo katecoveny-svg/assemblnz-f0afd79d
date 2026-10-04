@@ -1,0 +1,12 @@
+{
+  "name": "@assembl/mcp-nz-evidence",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Unpublished stateless freight and redacted RFI MCP candidate",
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.0.0",
+    "zod": "4.4.3",
+    "saxes": "6.0.0"
+  }
+}

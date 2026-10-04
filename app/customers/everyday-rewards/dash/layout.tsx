@@ -1,30 +1,49 @@
+import { preserveSingleFontStyle } from '@/lib/fonts/local-font-metadata';
+import localFont from 'next/font/local';
 import type { Metadata } from 'next';
-import { Roboto, Cormorant_Garamond, Space_Mono } from 'next/font/google';
+
 import { EdrShell } from '@/components/customers/everyday-rewards/EdrShell';
 
 // Everyday Rewards uses Roboto. assembl side of the lockup uses Cormorant
 // Garamond (display) + Space Mono (labels). All scoped to this subtree.
-const roboto = Roboto({
-  subsets: ['latin'],
-  weight: ['400', '500', '700', '900'],
+const robotoLocal = localFont({
+  src: [
+    { path: '../../../../lib/fonts/assets/roboto-normal.woff2', weight: '400', style: 'normal' },
+    { path: '../../../../lib/fonts/assets/roboto-normal.woff2', weight: '500', style: 'normal' },
+    { path: '../../../../lib/fonts/assets/roboto-normal.woff2', weight: '700', style: 'normal' },
+    { path: '../../../../lib/fonts/assets/roboto-normal.woff2', weight: '900', style: 'normal' },
+  ],
   variable: '--edr-body',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Roboto Build Fallback'],
 });
+const roboto = preserveSingleFontStyle(robotoLocal, 'normal');
 
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['500', '600'],
-  style: ['normal', 'italic'],
+const cormorant = localFont({
+  src: [
+    { path: '../../../../lib/fonts/assets/cormorant-garamond-normal.woff2', weight: '500', style: 'normal' },
+    { path: '../../../../lib/fonts/assets/cormorant-garamond-normal.woff2', weight: '600', style: 'normal' },
+    { path: '../../../../lib/fonts/assets/cormorant-garamond-italic.woff2', weight: '500', style: 'italic' },
+    { path: '../../../../lib/fonts/assets/cormorant-garamond-italic.woff2', weight: '600', style: 'italic' },
+  ],
   variable: '--edr-display',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Cormorant Garamond Build Fallback'],
 });
 
-const spaceMono = Space_Mono({
-  subsets: ['latin'],
-  weight: ['400', '700'],
+const spaceMonoLocal = localFont({
+  src: [
+    { path: '../../../../lib/fonts/assets/space-mono-normal-400.woff2', weight: '400', style: 'normal' },
+    { path: '../../../../lib/fonts/assets/space-mono-normal-700.woff2', weight: '700', style: 'normal' },
+  ],
   variable: '--edr-mono',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Space Mono Build Fallback'],
 });
+const spaceMono = preserveSingleFontStyle(spaceMonoLocal, 'normal');
 
 export const metadata: Metadata = {
   title: 'Everyday Rewards × assembl — attribution pilot (concept)',
