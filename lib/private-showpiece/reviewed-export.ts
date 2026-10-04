@@ -1,3 +1,4 @@
+import {selectedFactualSources} from './creative-references';
 import {z} from 'zod';
 import {hubSchema,type Hub} from '@/components/client-hub-migration/original/lib/pursuit-hub';
 import {nodeIds,nodeNames} from '@/components/client-hub-migration/original/lib/creative';
@@ -19,7 +20,7 @@ function safeSourceUrl(raw:string){
 /** Presentation allowlist only. Binding/owner/private context never enters this object. */
 export function exportPresentation(h:Hub,audience:ExportAudience){
  const hub=hubSchema.parse(h),selectedAudience=exportAudienceSchema.parse(audience),visual=hubArtworkPolicy(hub);
- return {format:'assembl-presentation-draft-v1' as const,status:'Draft; local byte review does not approve sending or publication.',company:hub.buyer,presentedBy:hub.seller,intendedAudience:selectedAudience,story:{...hub.design.frame.content},selectedSources:hub.sources.filter(s=>s.include&&s.status==='source').map(s=>({title:s.title,url:safeSourceUrl(s.url),claim:s.claim,status:'Selected public reference; not independently verified.'})),visual:{included:false,note:visual.label+'; artwork is not embedded in this export.'}};
+ return {format:'assembl-presentation-draft-v1' as const,status:'Draft; local byte review does not approve sending or publication.',company:hub.buyer,presentedBy:hub.seller,intendedAudience:selectedAudience,story:{...hub.design.frame.content},selectedSources:selectedFactualSources(hub).map(s=>({title:s.title,url:safeSourceUrl(s.url),claim:s.claim,status:'Selected public reference; not independently verified.'})),visual:{included:false,note:visual.label+'; artwork is not embedded in this export.'}};
 }
 const jsonEscaped=(value:unknown)=>JSON.stringify(value,null,2).replace(/[<>&\u007f-\u009f\u2028\u2029\u202a-\u202e\u2066-\u2069]/g,c=>`\\u${c.charCodeAt(0).toString(16).padStart(4,'0')}`);
 function literalLines(value:string){return literalContentText(value).replace(/[\u0080-\u009f\u2028\u2029]/g,c=>`\\u${c.charCodeAt(0).toString(16).padStart(4,'0')}`).replace(/[\ud800-\udfff]/gu,c=>`\\u${c.charCodeAt(0).toString(16).padStart(4,'0')}`).split('\n').map(line=>'| '+line).join('\n');}

@@ -22,6 +22,13 @@ export class OwnerSaveFlow {
  uncertain(attempt:SaveAttempt){if(this.attempts.get(attempt.workspaceKey)?.attempt===attempt)this.attempts.set(attempt.workspaceKey,{attempt,state:'uncertain'});}
  rejected(attempt:SaveAttempt){if(this.attempts.get(attempt.workspaceKey)?.attempt===attempt)this.attempts.delete(attempt.workspaceKey);}
  pending(workspaceKey:string){return this.attempts.get(workspaceKey);}
+ /** Explicit accepted server reopen supersedes only the captured uncertain update. */
+ acceptReopen(attempt:SaveAttempt,item:HubRecord){
+  const pending=this.attempts.get(attempt.workspaceKey);
+  if(!pending||pending.attempt!==attempt||pending.state!=='uncertain'||attempt.revision<1||attempt.workspaceKey!==`hub:${item.id}`||attempt.id!==item.id||!Number.isInteger(item.revision)||item.revision<attempt.revision||item.revision>ownerRevisionMax)return false;
+  hubSchema.parse(item.payload);this.attempts.delete(attempt.workspaceKey);return true;
+ }
+
  /** User-invoked only: stable create identity and immutable original payload, never current editor state. */
  retryCapturedCreate(workspaceKey:string):SaveAttempt{
   const pending=this.attempts.get(workspaceKey);

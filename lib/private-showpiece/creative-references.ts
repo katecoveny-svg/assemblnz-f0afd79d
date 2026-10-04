@@ -25,3 +25,7 @@ export function creativeReferenceIssue(hub:Hub){try{const refs=readCreativeRefer
 
 /** Selected creative provenance is never promoted into factual evidence, even when a binding needs repair. */
 export function creativeReferenceSourceIds(hub:Hub):string[]{try{const packet=JSON.parse(hub.engine?.researchPacket||'{}');return Array.isArray(packet?.agencyCreativeReferences)?packet.agencyCreativeReferences.flatMap((ref:unknown)=>ref&&typeof ref==='object'&&'sourceId' in ref&&typeof ref.sourceId==='string'?[ref.sourceId]:[]):[];}catch{return [];}}
+
+/** Factual presentation projection; creative bindings remain quarantined even after a row status edit. */
+export function selectedFactualSources(hub:Hub){const ids=new Set(creativeReferenceSourceIds(hub));return hub.sources.filter(s=>s.include&&s.status==='source'&&!ids.has(s.id)&&!s.claim.startsWith(creativePrefix));}
+export function factualPresentationHub(hub:Hub):Hub{return {...hub,sources:selectedFactualSources(hub)};}

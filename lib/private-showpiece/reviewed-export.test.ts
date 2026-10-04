@@ -1,3 +1,5 @@
+import {factualPresentationHub,creativePrefix} from './creative-references';
+import {buyerHtml} from '@/components/client-hub-migration/original/lib/pursuit-hub';
 import {describe,it,expect} from 'vitest';
 import {emptyOwnerHub} from '@/lib/client-hub-migration/owner-policy';
 import {previewReviewedExport,admitReviewedExport,exportPresentation,type ExportAudience} from './reviewed-export';
@@ -14,3 +16,5 @@ describe('reviewed local presentation exports',()=>{
  it('rejects separator/C1-bearing source URLs before any export bytes are proposed',async()=>{for(const c of ['\u0085','\u009f','\u2028','\u2029']){const h=hub();h.sources[0].url='https://company.co.nz/path'+c+'FORGED';await expect(previewReviewedExport(h,scope,audience,'text')).rejects.toThrow('control characters');}});
 
 });
+
+it('quarantines status-edited creative references in exports and iframe projection without changing the Hub',async()=>{const h=hub();h.sources.push({...h.sources[0],id:'creative-bound',title:'CREATIVE_TITLE_SENTINEL',claim:'CREATIVE_CLAIM_SENTINEL',url:'https://creative.co.nz/'});h.sources.push({...h.sources[0],id:'prefix-only',title:'PREFIX_TITLE_SENTINEL',claim:creativePrefix+'Creative supplied extract'});h.engine!.researchPacket=JSON.stringify({agencyCreativeReferences:[{sourceId:'creative-bound'}]});const before=JSON.stringify(h);for(const format of ['text','json'] as const){const p=await previewReviewedExport(h,scope,audience,format);expect(p.content).not.toContain('CREATIVE_TITLE_SENTINEL');expect(p.content).not.toContain('PREFIX_TITLE_SENTINEL');expect(p.content).toContain('FICTIONAL selected public page');}const projected=factualPresentationHub(h);expect(projected.sources.map(s=>s.id)).toEqual(['HIDDEN_SOURCE_ID']);const html=buyerHtml(projected);expect(html).not.toContain('CREATIVE_CLAIM_SENTINEL');expect(html).not.toContain('PREFIX_TITLE_SENTINEL');expect(JSON.stringify(h)).toBe(before);});

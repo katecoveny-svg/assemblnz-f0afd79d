@@ -3,7 +3,7 @@ import {emptyOwnerHub} from '@/lib/client-hub-migration/owner-policy';
 import {newOwnerIdea} from '@/lib/client-hub-migration/owner-idea';
 import {newIdeaBoard} from '@/components/client-hub-migration/original/lib/idea-board';
 import {hubSchema} from '@/components/client-hub-migration/original/lib/pursuit-hub';
-import {OwnerSaveFlow} from './owner-save-flow';
+import {OwnerSaveFlow,awaitOwnerSaveResponse} from './owner-save-flow';
 const id='893f40dc-2b51-4f10-bcfe-91fa6e952f32';
 describe('manual owner Hub save dispatch ledger (synthetic, no account writes)',()=>{
  it('explicit replay uses immutable captured UUID/revision0/payload and cannot replay concurrently or without capture',()=>{const flow=new OwnerSaveFlow(),hub=emptyOwnerHub(),attempt=flow.begin('fresh:fixture',id,0,hub);flow.uncertain(attempt);hub.name='Newer edits';const replay=flow.retryCapturedCreate('fresh:fixture');expect(replay).toBe(attempt);expect(replay.payload.name).not.toBe(hub.name);expect(Object.isFrozen(replay.payload.design.frame.content)).toBe(true);expect(()=>flow.retryCapturedCreate('fresh:fixture')).toThrow();expect(()=>flow.retryCapturedCreate('fresh:missing')).toThrow();flow.uncertain(attempt);expect(flow.retryCapturedCreate('fresh:fixture')).toBe(attempt);});
@@ -61,3 +61,6 @@ describe('manual owner Hub save dispatch ledger (synthetic, no account writes)',
   expect(()=>flow.acknowledge(old,{id,revision:1,updatedAt:1,payload:hub})).toThrow('current');
  });
 });
+
+it('explicit reopen clears only the exact uncertain update, preserving unrelated and newer reservations',()=>{const f=new OwnerSaveFlow(),h=emptyOwnerHub(),key=`hub:${id}`,a=f.begin(key,id,1,h),other=f.begin('hub:other',id,1,h);f.uncertain(a);const item={id,revision:2,updatedAt:1,payload:h};expect(f.acceptReopen(a,item)).toBe(true);expect(f.pending('hub:other')?.attempt).toBe(other);const newer=f.begin(key,id,2,h);f.uncertain(newer);expect(f.acceptReopen(a,item)).toBe(false);expect(f.pending(key)?.attempt).toBe(newer);expect(f.acceptReopen(newer,{...item,id:'other'})).toBe(false);expect(f.acceptReopen(newer,item)).toBe(true);expect(f.begin(key,id,2,h).revision).toBe(2);});
+it('bounds complete GET and body read; a late body cannot adopt or release uncertain state',async()=>{const f=new OwnerSaveFlow(),h=emptyOwnerHub(),a=f.begin(`hub:${id}`,id,1,h);f.uncertain(a);let finish!:(value:unknown)=>void;const body=new Promise(resolve=>{finish=resolve;});let adopted=false;await expect(awaitOwnerSaveResponse((async()=>{await Promise.resolve();return await body;})(),5).then(()=>{adopted=true;})).rejects.toThrow('timed out');finish({id,revision:2,payload:h});await Promise.resolve();expect(adopted).toBe(false);expect(f.pending(a.workspaceKey)?.attempt).toBe(a);});
