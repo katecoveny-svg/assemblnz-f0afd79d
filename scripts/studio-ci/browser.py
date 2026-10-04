@@ -164,13 +164,19 @@ async def legacy_export(page,width):
         async with page.expect_download() as pending:await page.get_by_role('button',name='Download reviewed draft',exact=True).click()
         download=await pending.value;path=OUT/f'presentation-{width}.{format}';await download.save_as(path)
         assert path.read_text()==text
-    # Current Hub change invalidates the reviewed bytes.
+    before_edit=await backup(page,f'legacy-before-edit-{width}.json')
+    assert before_edit['engine']['concepts'][0]['title']=='FICTIONAL preserved legacy idea'
+    assert before_edit['engine']['brief']==original and before_edit['privateNotes']=='PRIVATE_BACKUP_SENTINEL'
+    assert any(s['id']=='creative-bound' for s in before_edit['sources'])
+    # Current Hub change invalidates reviewed bytes and synchronizes the selected concept title.
     await page.get_by_label('Section headline',exact=True).fill('FICTIONAL edited after preview')
     assert await page.get_by_role('button',name='Download reviewed draft',exact=True).count()==0
     saved=await backup(page,f'legacy-full-{width}.json')
     assert saved['engine']['brief']==original and saved['privateNotes']=='PRIVATE_BACKUP_SENTINEL'
     assert any(s['id']=='creative-bound' for s in saved['sources'])
-    assert saved['engine']['concepts'][0]['title']=='FICTIONAL preserved legacy idea'
+    assert saved['engine']['concepts'][0]['title']=='FICTIONAL edited after preview'
+    assert saved['engine']['board']==before_edit['engine']['board']
+    assert saved['sources']==before_edit['sources']
     await record(page,f'legacy-export-quarantine-{width}')
 async def interrupted(page):
     await page.evaluate('(id)=>window.__studioCi.seed(id,"legacy")',ID)

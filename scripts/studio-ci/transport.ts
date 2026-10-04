@@ -17,6 +17,7 @@ function control():Control{
   h.engine={...h.engine!,brief:'FICTIONAL original long brief '+'x'.repeat(4700),concepts:[idea],selected:idea.id,board:newIdeaBoard(idea.id,[])};
   h.sources=[{id:'factual',title:'FICTIONAL factual reference',url:'https://example.org/factual',claim:'FICTIONAL supplied public fact',status:'source',include:true,checked:'Unverified CI fixture'}];
   if(kind==='quarantine'){h.sources.push({...h.sources[0],id:'creative-bound',title:'CREATIVE_TITLE_SENTINEL',claim:'CREATIVE_CLAIM_SENTINEL',url:'https://example.org/creative'});h.engine.researchPacket=JSON.stringify({agencyCreativeReferences:[{sourceId:'creative-bound'}]});}
+  idea.evidenceIds=kind==='quarantine'?['factual','creative-bound']:['factual'];
   const payload=hubSchema.parse(h);store([...records().filter(r=>r.id!==id),{id,revision:1,updatedAt:1,payload}]);
  }};window.__studioCi=value;return value;
 }
