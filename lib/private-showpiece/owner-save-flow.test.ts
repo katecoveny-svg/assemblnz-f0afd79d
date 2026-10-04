@@ -6,6 +6,13 @@ import {hubSchema} from '@/components/client-hub-migration/original/lib/pursuit-
 import {OwnerSaveFlow} from './owner-save-flow';
 const id='893f40dc-2b51-4f10-bcfe-91fa6e952f32';
 describe('manual owner Hub save dispatch ledger (synthetic, no account writes)',()=>{
+ it('rejects exhausted, fractional and out-of-range revisions before reserving or dispatching',()=>{
+  const flow=new OwnerSaveFlow(),hub=emptyOwnerHub();
+  for(const revision of [-1,0.5,2147483647,2147483648,Number.NaN])expect(()=>flow.begin('hub:fixture',id,revision,hub)).toThrow('invalid or exhausted');
+  expect(flow.pending('hub:fixture')).toBeUndefined();
+  const attempt=flow.begin('hub:fixture',id,2147483646,hub);
+  expect(flow.acknowledge(attempt,{id,revision:2147483647,updatedAt:1,payload:hub}).revision).toBe(2147483647);
+ });
  it('roundtrips full original brief, draggable canvas, pitch, evidence and unrelated context',()=>{
   const hub=emptyOwnerHub(),idea=newOwnerIdea(hub),board=newIdeaBoard(idea.id,['public-source']);
   board.nodes[0]={...board.nodes[0],x:123,y:234,note:'Fictional owner canvas note'};

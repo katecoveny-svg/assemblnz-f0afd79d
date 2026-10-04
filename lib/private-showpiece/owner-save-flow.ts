@@ -2,10 +2,12 @@ import {hubSchema,type Hub,type HubRecord} from '@/components/client-hub-migrati
 import {validateStudioSaveAcknowledgement} from './section-controls';
 
 export type SaveAttempt={workspaceKey:string;startedEpoch:number;id?:string;revision:number;payload:Hub};
+export const ownerRevisionMax=2147483647;
 /** Tab-scoped dispatch ledger; never account storage or an authentication grant. */
 export class OwnerSaveFlow {
  private attempts=new Map<string,{attempt:SaveAttempt;state:'saving'|'uncertain'}>();
  begin(workspaceKey:string,id:string|undefined,revision:number,payload:Hub,startedEpoch=0):SaveAttempt {
+  if(!Number.isInteger(revision)||revision<0||revision>=ownerRevisionMax)throw Error('Saved revision is invalid or exhausted. Export your retained edits; no save was sent.');
   if(this.attempts.has(workspaceKey))throw Error('A save is pending or uncertain. Reconcile through saved projects before saving again.');
   const attempt={workspaceKey,startedEpoch,id,revision,payload:hubSchema.parse(structuredClone(payload))};
   this.attempts.set(workspaceKey,{attempt,state:'saving'});return attempt;
@@ -15,6 +17,7 @@ export class OwnerSaveFlow {
  pending(workspaceKey:string){return this.attempts.get(workspaceKey);}
  acknowledge(attempt:SaveAttempt,item:HubRecord){
   if(this.attempts.get(attempt.workspaceKey)?.attempt!==attempt)throw Error('Save attempt is no longer current.');
+  if(item.revision>ownerRevisionMax)throw Error('Save acknowledgement revision exceeds the owner storage bound.');
   validateStudioSaveAcknowledgement(item,attempt.payload,attempt.id,attempt.revision);
   this.attempts.delete(attempt.workspaceKey);return item;
  }
