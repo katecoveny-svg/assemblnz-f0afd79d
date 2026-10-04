@@ -6,4 +6,4 @@
 .header .open{gap:12px;border:1px solid #240b212b;border-radius:28px;padding:0 18px;font-size:14px}
 .header a:focus-visible,.footer a:focus-visible{outline:3px solid #916a70;outline-offset:4px;border-radius:8px}
 .footer{border-top:1px solid #240b2118;border-bottom:0;padding-block:28px;background:#f5f1f2}
-@media(max-width:620px){.header{gap:8px 16px}.header nav{order:3;flex-basis:100%;gap:24px}.header .open{margin-left:auto}.footer nav{gap:8px 18px}}
+@media(max-width:620px){.header{gap:8px 16px}.header nav{order:3;flex-basis:100%;gap:24px}.header .open{margin-left:auto}.footer{padding-bottom:calc(88px + env(safe-area-inset-bottom,0px))}.footer nav{gap:8px 18px}}
