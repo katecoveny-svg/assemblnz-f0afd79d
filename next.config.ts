@@ -73,6 +73,8 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // Retired public evidence overview: navigate home so its own chrome wins.
+      { source: '/evidence-pack', destination: '/', permanent: true },
       // Retired public Business Genome / Living Site demos (22 Sep 2026).
       // Exact company/demo routes only; customer and admin workspaces stay intact.
       { source: "/genome", destination: "/do", permanent: true },
