@@ -58,7 +58,7 @@ class ExecutableCapture(unittest.TestCase):
   f.close.assert_called_once_with()
  def test_current_reviewed_permission_runtime_hash(self):
   path=pathlib.Path(__file__).parent/'owned-fixture/run_fixture.py'
-  self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),'ce16921d9922d038f3e7825d483a882b58cd9d144c9d39966d1c8199c4f62e9b')
+  self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),'dee5f94ce134febb6f9ee8530bde0f8766ccc4fb025f79577493fb054171ae84')
  def test_sql_and_libpq_construction_fail_even_if_interception_misses(self):
   f=module.Capture.__new__(module.Capture)
   with self.assertRaisesRegex(RuntimeError,'forbids all SQL'):f.raw(b'SELECT 1;')

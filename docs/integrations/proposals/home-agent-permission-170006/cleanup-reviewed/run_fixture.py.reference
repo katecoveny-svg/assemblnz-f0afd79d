@@ -158,24 +158,18 @@ def recover_cleanup(owner,directory,env,base,phase='cleanup-final'):
  """Diagnostics/evidence failures cannot prevent verified removal and absence."""
  require(phase in ('cleanup-final','cleanup-independent'),'closed cleanup phase')
  deadline=time.monotonic()+30
- primary_failure=sys.exc_info()[1]
  require(re.fullmatch('[0-9a-f]{32}',owner['nonce']) is not None,'cleanup nonce invalid')
  require(owner['name']=='assembl-home-client-'+owner['nonce'] and owner['image_id']==IMAGE_ID,'cleanup record mismatch')
  for field in ('run_id','attempt'):require(re.fullmatch('[0-9]+',owner[field]) is not None,'cleanup CI identity invalid')
  cid=owner.get('container_id');require(cid is None or re.fullmatch('[0-9a-f]{64}',cid) is not None,'cleanup ID invalid')
- target=cid or owner['name'];report={'state':'unresolved','nonce':owner['nonce'],'removed':False,'evidence_failures':[],'diagnostic_failures':[],'primary_failure_type':type(primary_failure).__name__ if primary_failure is not None else None};receipts=[]
+ target=cid or owner['name'];report={'state':'unresolved','nonce':owner['nonce'],'removed':False,'evidence_failures':[],'diagnostic_failures':[]};receipts=[]
  def call(label,args,seconds,limit=OUTPUT_LIMIT,diagnostic=False):
   result=None;error=None
   try:
    end=min(deadline-20 if diagnostic else deadline,time.monotonic()+seconds)
    result=run_bounded(base+args,env,end,limit=limit);return result
   except BaseException as failure:error=failure;raise
-  finally:
-   data=command_receipt(args,result,error)
-   if label=='startup-logs':
-    partial_result=result if result is not None else getattr(error,'bounded_result',None)
-    data.update(collection_scope='terminal_diagnostic_tail',requested_tail_lines=80,full_history_requested=False,full_history_complete=False,omitted_history_count=None,history_omission_possible=True,aggregate_byte_cap=65536,stdout_bytes=len(partial_result.stdout) if partial_result is not None else 0,stderr_bytes=len(partial_result.stderr) if partial_result is not None else 0,capture_complete=error is None and result is not None and result.code==0)
-   receipts.append((label,data))
+  finally:receipts.append((label,command_receipt(args,result,error)))
  try:
   r=call('ownership',['inspect',target],8)
   if r.code:
@@ -185,7 +179,7 @@ def recover_cleanup(owner,directory,env,base,phase='cleanup-final'):
   require(cid is None or verified==cid,'cleanup ID mismatch');verify_inspection(meta,verified,owner)
   # Exact owned container only; at most two seconds total, preserve twenty for disposal.
   diagnostic_end=min(deadline-20,time.monotonic()+2)
-  for label,args in [('startup-logs',['logs','--tail','80',verified]),('terminal-state',['inspect','--format','{{json .State}}',verified])]:
+  for label,args in [('startup-logs',['logs',verified]),('terminal-state',['inspect','--format','{{json .State}}',verified])]:
    try:
     result=call(label,args,max(0,min(1,diagnostic_end-time.monotonic())),65536,True)
     if result.code:report['diagnostic_failures'].append({'operation':label,'code':result.code})
