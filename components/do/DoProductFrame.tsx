@@ -37,7 +37,9 @@ export function DoProductFrame({ product, children }: {
           <Link href="/do/meetings" {...linkProps}>Meeting notes</Link>
           <Link href="/do/enquiries" {...linkProps}>Enquiry replies · private pilot</Link>
           <Link href="/do/bills" {...linkProps}>Bills · examples and CSV</Link>
-                    <Link href={`/login?redirect=${encodeURIComponent(doReturnPath(pathname || "/do", query))}`} {...linkProps}>Sign in</Link>
+          <Link href="/do/builder" {...linkProps}>Builder · prepare a plan</Link>
+          <Link href="/do/household" {...linkProps}>Household · sample family floor</Link>
+          <Link href={`/login?redirect=${encodeURIComponent(doReturnPath(pathname || "/do", query))}`} {...linkProps}>Sign in</Link>
           <Link href="/do/install" {...linkProps}>Install DO</Link>
           {!embedded && <DoInstallPwaCta compact />}
         </div>
