@@ -3,6 +3,7 @@ import os,sys,pathlib,tempfile,subprocess,time,json,hashlib,uuid,re,signal,selec
 IMAGE='public.ecr.aws/supabase/postgres@sha256:2f907f53ca8d59b4a620cdcbefe21854046f5409b20e96887e2fa2289c902bdb'
 CONFIG='sha256:2b35381bd3f617b535b605f185d4aebf314f2e3d13710f88c737bc0aca06c047'
 DOCKER='/usr/bin/docker';ENDPOINT='unix:///var/run/docker.sock'
+FIXTURE_PASSWORD='fictional-studio-run-only'
 OUT=pathlib.Path(os.environ.get('RUNNER_TEMP',''))/'postgres-170006-discovery'
 OUT.mkdir(exist_ok=True);end=time.monotonic()+360;sequence=0;receipt_namespace="discovery"
 home=tempfile.TemporaryDirectory(prefix='pg-discovery-config-')
@@ -10,6 +11,11 @@ env={'PATH':'/usr/bin:/bin','HOME':home.name,'DOCKER_CONFIG':home.name}
 BASE=[DOCKER,'--host',ENDPOINT,'--config',home.name]
 nonce=uuid.uuid4().hex;name='assembl-pg-discovery-'+nonce;cid=None
 owner={'nonce':nonce,'name':name,'container_id':None,'image':IMAGE,'config':CONFIG,'run_id':os.environ.get('GITHUB_RUN_ID'),'attempt':os.environ.get('GITHUB_RUN_ATTEMPT'),'create_state':'not_started','removal_confirmed':False}
+
+class CommandFailure(RuntimeError):
+ def __init__(self,code,command,stdout,stderr):
+  super().__init__('Docker command failed (exit %s); retained receipt'%code)
+  self.code=code;self.command=command;self.stdout=stdout;self.stderr=stderr
 
 def require(condition,message):
  if not condition:raise RuntimeError(message)
@@ -54,7 +60,7 @@ def run(args,seconds=10,deadline=None,both=False):
      if len(chunk)>available:raise RuntimeError('output cap')
   if time.monotonic()>=limit:raise TimeoutError('late Docker completion')
   complete=True
-  if p.returncode:raise RuntimeError('Docker command failed; retained receipt')
+  if p.returncode:raise CommandFailure(p.returncode,args,out.decode(errors='replace'),err.decode(errors='replace'))
   return out.decode(errors='replace')+err.decode(errors='replace') if both else out.decode(errors='replace')
  except BaseException as error:
   fault={'type':type(error).__name__,'message':str(error)};raise
@@ -77,11 +83,55 @@ def inspection(target,deadline=None):
  fmt='{'+','.join('"'+k+'":{{json '+v+'}}' for k,v in fields.items())+'}'
  return json.loads(run(['inspect','--format',fmt,target],deadline=deadline))
 
-def execute(args,seconds=10,deadline=None):
+def execute(args,seconds=10,deadline=None,fixture_client=False):
  meta=inspection(cid,deadline)
  require(meta['Id']==cid and meta['Image']==CONFIG and meta['NetworkMode']=='none', "Discovery invariant: meta['Id']==cid and meta['Image']==CONFIG and meta['NetworkMode']=='none'")
  require(meta['Labels']['assembl.discovery.nonce']==nonce and not meta['Binds'] and not meta['Ports'], "Discovery invariant: meta['Labels']['assembl.discovery.nonce']==nonce and not meta['Binds'] and not meta['Ports']")
- return run(['exec','--user','postgres',cid,'/usr/bin/env','-i','PATH=/usr/lib/postgresql/17/bin:/usr/local/bin:/usr/bin:/bin','HOME=/tmp']+args,seconds,deadline)
+ client_env=['PGPASSWORD='+FIXTURE_PASSWORD,'PGCONNECT_TIMEOUT=3','PGAPPNAME=assembl-discovery'] if fixture_client else []
+ return run(['exec','--user','postgres',cid,'/usr/bin/env','-i','PATH=/usr/lib/postgresql/17/bin:/usr/local/bin:/usr/bin:/bin','HOME=/tmp']+client_env+args,seconds,deadline)
+
+def fixture_query(psql_path,sql,seconds=10,deadline=None):
+ return execute([psql_path,'-w','-X','-qAt','-v','ON_ERROR_STOP=1','-h','/var/run/postgresql','-p','5432','-U','supabase_admin','-d','studio_run_proof','-c',sql],seconds,deadline,fixture_client=True)
+
+def transient_startup(error,psql_path):
+ # Retry only a captured libpq connection failure from this exact readiness command.
+ if error.code!=2 or error.command[:1]!=['exec'] or psql_path not in error.command or error.command[-2:]!=['-c','SELECT 1;']:return False
+ text=error.stderr.lower()
+ if any(marker in text for marker in ('no password supplied','password authentication failed','peer authentication failed','no pg_hba.conf entry','authentication failed')):return False
+ return any(marker in text for marker in ('no such file or directory','connection refused','the database system is starting up','the database system is shutting down','the database system is in recovery mode'))
+
+def wait_ready(psql_path):
+ ready_end=min(end,time.monotonic()+60)
+ while time.monotonic()<ready_end:
+  try:
+   result=fixture_query(psql_path,'SELECT 1;',5,ready_end)
+   require(result.strip()=='1','Unexpected readiness SELECT result')
+   return
+  except CommandFailure as error:
+   if not transient_startup(error,psql_path):raise
+   remaining=ready_end-time.monotonic()
+   if remaining<=0:raise TimeoutError('shared startup readiness deadline') from error
+   time.sleep(min(1.0,remaining))
+ raise TimeoutError('shared startup readiness deadline')
+
+def stock_prewrite_boundary(inventory,public_auth_tables):
+ # Exact stock base-table identities/owners from the pinned image's retained auth bootstrap.
+ expected=[('auth',name,'r','supabase_auth_admin') for name in ('audit_log_entries','instances','refresh_tokens','schema_migrations','users')]
+ require(isinstance(inventory,dict) and isinstance(inventory.get('schemas'),list) and all(isinstance(name,str) for name in inventory['schemas']) and isinstance(inventory.get('relations'),list),'Malformed catalog inventory')
+ relations=inventory['relations']
+ require(all(isinstance(row,dict) and all(isinstance(row.get(key),str) for key in ('schema','name','kind','owner')) for row in relations),'Malformed relation inventory')
+ base=[(row['schema'],row['name'],row['kind'],row['owner']) for row in relations if row['schema'] in ('public','auth') and row['kind'] in ('r','p','v','m','f')]
+ require(sorted(base)==expected and type(public_auth_tables) is int and public_auth_tables==5,'Stock public/auth base-table boundary differs from pinned bootstrap')
+ require(not any(row['schema']=='public' for row in relations),'Public application relations must be absent')
+ stock_indexes={'users_pkey','users_id_key','users_email_key','users_instance_id_email_idx','users_instance_id_idx','refresh_tokens_pkey','refresh_tokens_instance_id_idx','refresh_tokens_instance_id_user_id_idx','refresh_tokens_token_idx','instances_pkey','audit_log_entries_pkey','audit_logs_instance_id_idx','schema_migrations_pkey'}
+ for row in relations:
+  if row['schema']=='auth' and row['kind'] in ('i','I','S'):
+   require(row['owner']=='supabase_auth_admin' and ((row['kind']=='i' and row['name'] in stock_indexes) or (row['kind']=='S' and row['name']=='refresh_tokens_id_seq')),'Auth supporting relation differs from pinned bootstrap')
+ require('studio_private' not in inventory['schemas'] and not any(row['schema']=='studio_private' for row in relations),'Hub studio_private must be absent before application SQL')
+ return {'boundary':'exact stock auth base tables; no public base relations or Hub studio_private schema',
+ 'stock_base_tables':[{'schema':schema,'name':name,'kind':kind,'owner':owner} for schema,name,kind,owner in expected],
+ 'other_relations_observation_only':[row for row in relations if (row['schema'],row['name'],row['kind'],row['owner']) not in expected],
+ 'complete_schema_or_permission_parity_proven':False}
 
 def resolve_executable(path):
  require(re.fullmatch('/[A-Za-z0-9_./-]+',path), 'Invalid executable input path')
@@ -166,7 +216,7 @@ def main():
   (OUT/'image-entrypoint.json').write_text(entrypoint+'\n')
   (OUT/'image-identity.json').write_text(json.dumps({'reference':IMAGE,'runtime_image_identity':identity},indent=2)+'\n')
   owner['create_state']='pending';save_owner()
-  cid=run(['create','--pull=never','--platform','linux/amd64','--name',name,'--network','none','--label','assembl.discovery.nonce='+nonce,'--tmpfs','/var/lib/postgresql/data:rw,size=1g','--tmpfs','/var/run/postgresql:rw,size=8m','--memory','2g','--cpus','2','--pids-limit','128','--env','POSTGRES_PASSWORD=fictional-studio-run-only','--env','POSTGRES_DB=studio_run_proof',IMAGE]).strip()
+  cid=run(['create','--pull=never','--platform','linux/amd64','--name',name,'--network','none','--label','assembl.discovery.nonce='+nonce,'--tmpfs','/var/lib/postgresql/data:rw,size=1g','--tmpfs','/var/run/postgresql:rw,size=8m','--memory','2g','--cpus','2','--pids-limit','128','--env','POSTGRES_PASSWORD='+FIXTURE_PASSWORD,'--env','POSTGRES_DB=studio_run_proof',IMAGE]).strip()
   require(re.fullmatch('[a-f0-9]{64}',cid), "Discovery invariant: re.fullmatch('[a-f0-9]{64}',cid)")
   owner['container_id']=cid;owner['create_state']='acknowledged';save_owner()
   run(['start',cid])
@@ -190,21 +240,14 @@ def main():
   require(re.search(r'\b17\.6\b',paths['postgres']['version']) and re.search(r'\b17\.6\b',paths['psql']['version']), "Discovery invariant: re.search(r'\\b17\\.6\\b',paths['postgres']['version']) and re.search(r'\\b17\\.6\\b',paths['psql']['version'])")
   (OUT/'executables.json').write_text(json.dumps(paths,indent=2)+'\n')
   # Shared Hub .111 startup profile; stop strictly before the first synthetic CREATE SCHEMA.
-  ready_end=min(end,time.monotonic()+60)
-  while time.monotonic()<ready_end:
-   # One bounded, catalog-only psql connection attempt; failed attempts retained and never writes.
-   try:
-    execute([paths['psql']['path'],'-X','-qAt','-v','ON_ERROR_STOP=1','-h','/var/run/postgresql','-U','supabase_admin','-d','studio_run_proof','-c','SELECT 1;'],5,ready_end)
-    break
-   except RuntimeError:
-    if time.monotonic()>=ready_end:raise
-    time.sleep(min(.1,max(0,ready_end-time.monotonic())))
-  else:raise TimeoutError('shared startup readiness deadline')
-  sql="SELECT json_build_object('database',current_database(),'user',current_user,'session_user',session_user,'server_version_num',current_setting('server_version_num'),'encoding',current_setting('server_encoding'),'locale',(SELECT json_build_object('provider',datlocprovider,'collate',datcollate,'ctype',datctype,'icu_locale',datlocale,'version',datcollversion) FROM pg_catalog.pg_database WHERE datname=current_database()),'timeouts',(SELECT json_object_agg(name,setting) FROM pg_catalog.pg_settings WHERE name IN ('statement_timeout','lock_timeout','idle_in_transaction_session_timeout','transaction_timeout')),'jsonschema_available',(SELECT count(*) FROM pg_catalog.pg_available_extension_versions WHERE name='pg_jsonschema' AND version='0.3.3'),'jsonschema_installed',(SELECT count(*) FROM pg_catalog.pg_extension WHERE extname='pg_jsonschema'),'public_auth_tables',(SELECT count(*) FROM pg_catalog.pg_tables WHERE schemaname IN ('public','auth')));"
-  data=json.loads(execute([paths['psql']['path'],'-X','-qAt','-v','ON_ERROR_STOP=1','-h','/var/run/postgresql','-U','supabase_admin','-d','studio_run_proof','-c',sql]))
-  require(data['server_version_num']=='170006' and data['database']=='studio_run_proof' and data['user']=='supabase_admin', "Discovery invariant: data['server_version_num']=='170006' and data['database']=='studio_run_proof' and data['user']=='supabase_admin'")
-  require(data['jsonschema_available']==1 and data['jsonschema_installed']==0 and data['public_auth_tables']==0, "Discovery invariant: data['jsonschema_available']==1 and data['jsonschema_installed']==0 and data['public_auth_tables']==0")
+  wait_ready(paths['psql']['path'])
+  sql="SELECT json_build_object('database',current_database(),'user',current_user,'session_user',session_user,'server_version_num',current_setting('server_version_num'),'encoding',current_setting('server_encoding'),'locale',(SELECT json_build_object('provider',datlocprovider,'collate',datcollate,'ctype',datctype,'icu_locale',datlocale,'version',datcollversion) FROM pg_catalog.pg_database WHERE datname=current_database()),'timeouts',(SELECT json_object_agg(name,setting) FROM pg_catalog.pg_settings WHERE name IN ('statement_timeout','lock_timeout','idle_in_transaction_session_timeout','transaction_timeout')),'jsonschema_available',(SELECT count(*) FROM pg_catalog.pg_available_extension_versions WHERE name='pg_jsonschema' AND version='0.3.3'),'jsonschema_installed',(SELECT count(*) FROM pg_catalog.pg_extension WHERE extname='pg_jsonschema'),'public_auth_tables',(SELECT count(*) FROM pg_catalog.pg_tables WHERE schemaname IN ('public','auth')), 'catalog_inventory',json_build_object('schemas',(SELECT COALESCE(json_agg(nspname ORDER BY nspname COLLATE \"C\"),'[]'::json) FROM pg_catalog.pg_namespace WHERE nspname !~ '^pg_' AND nspname<>'information_schema'),'relations',(SELECT COALESCE(json_agg(json_build_object('schema',n.nspname,'name',c.relname,'kind',c.relkind,'owner',pg_catalog.pg_get_userbyid(c.relowner)) ORDER BY n.nspname COLLATE \"C\",c.relname COLLATE \"C\",c.relkind),'[]'::json) FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname !~ '^pg_' AND n.nspname<>'information_schema' AND c.relkind IN ('r','p','v','m','f','S','i','I'))));"
+  data=json.loads(fixture_query(paths['psql']['path'],sql))
   (OUT/'runtime-metadata.json').write_text(json.dumps(data,indent=2)+'\n')
+  require(data['server_version_num']=='170006' and data['database']=='studio_run_proof' and data['user']=='supabase_admin', "Discovery invariant: data['server_version_num']=='170006' and data['database']=='studio_run_proof' and data['user']=='supabase_admin'")
+  require(data['jsonschema_available']==1 and data['jsonschema_installed']==0, 'Pinned jsonschema availability/install boundary differs')
+  boundary=stock_prewrite_boundary(data['catalog_inventory'],data['public_auth_tables'])
+  (OUT/'prewrite-boundary.json').write_text(json.dumps(boundary,indent=2)+'\n')
   logs=run(['logs',cid],both=True);(OUT/'postgres.log').write_text(logs)
   state=json.loads(run(['inspect','--format','{{json .State}}',cid]))
   restarts=run(['inspect','--format','{{.RestartCount}}',cid]).strip()
