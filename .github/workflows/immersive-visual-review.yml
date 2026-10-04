@@ -6,6 +6,9 @@ on:
       - '.github/workflows/immersive-visual-review.yml'
       - 'scripts/immersive-browser-audit.py'
       - 'scripts/homepage-mobile-boundary-check.cjs'
+      - 'scripts/review-contact-footer.cjs'
+      - 'components/site/ContactChrome.tsx'
+      - 'components/site/contact-chrome.module.css'
       - 'components/site/assembl-the-work/**'
       - 'components/site/pursuit/**'
       - 'components/site/GlobalChrome.tsx'
@@ -54,12 +57,15 @@ jobs:
           EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
           HOMEPAGE_URL: http://127.0.0.1:3000
           HOMEPAGE_RESULTS: visual-evidence/homepage-copy/boundary-results.json
+          REVIEW_ORIGIN: http://127.0.0.1:3000
+          REVIEW_OUTPUT: visual-evidence/contact-footer
         run: |
           test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
           mkdir -p visual-evidence/homepage-copy
           export PLAYWRIGHT_MODULE="$(python -c 'import pathlib, playwright; print(pathlib.Path(playwright.__file__).parent / "driver" / "package")')"
           export CHROMIUM_PATH="$(python -c 'from playwright.sync_api import sync_playwright; p = sync_playwright().start(); print(p.chromium.executable_path); p.stop()')"
           node scripts/homepage-mobile-boundary-check.cjs
+          node scripts/review-contact-footer.cjs
       - name: Exercise local interactions and capture phone and desktop evidence
         run: python scripts/immersive-browser-audit.py --local
       - uses: actions/upload-artifact@v4
