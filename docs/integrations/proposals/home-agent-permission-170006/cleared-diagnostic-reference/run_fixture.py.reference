@@ -255,7 +255,7 @@ class Fixture:
   self.owner['container_id']=self.cid;self.save();self.verify();self.checked(self.docker(['start',self.cid]),'start')
   self.preflight();end=self.end(30)
   while time.monotonic()<end:
-   comm=self.checked(self.image_command(['/bin/sh','-c',"IFS= read -r fixture_comm < /proc/1/comm && printf '%s\\n' \"$fixture_comm\""]),'PID1').decode().strip()
+   comm=self.checked(self.image_command(['/usr/bin/cat','/proc/1/comm']),'PID1').decode().strip()
    require(comm in ('sh','postgres'),'unexpected PID1')
    if comm=='postgres':
     require(self.checked(self.image_command(['/usr/bin/readlink','-f','/proc/1/exe']),'PID1 path').decode().strip()==POSTGRES,'unexpected final executable')
