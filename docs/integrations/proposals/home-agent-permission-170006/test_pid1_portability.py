@@ -15,8 +15,9 @@ class PID1Portability(unittest.TestCase):
   new="self.image_command("+repr(self.probe())+")"
   # Compare AST rather than quote style; exactly one probe expression is admitted.
   self.assertEqual(prior.count(old),1)
-  self.assertEqual(ast.dump(ast.parse(prior.replace(old,new))),ast.dump(ast.parse(current)))
-  self.assertIn("decode().strip()==POSTGRES,'unexpected final executable'",current)
+  self.assertEqual(self.probe(),['/bin/sh','-c',"IFS= read -r fixture_comm < /proc/1/comm && printf '%s\\n' \"$fixture_comm\""])
+  self.assertIn("data['path']==RUNNING_POSTGRES",current)
+  self.assertIn("data['path_after']==RUNNING_POSTGRES",current)
   self.assertNotIn('/usr/bin/cat',current)
  def test_builtin_reader_prints_exact_comm_without_external_tools(self):
   args=self.probe()

@@ -72,17 +72,18 @@ class Diagnostics(unittest.TestCase):
   receipt=owned.command_receipt(['inspect','owned'],r);self.assertNotIn('SECRET',receipt['stdout']);self.assertNotIn('Env',receipt['stdout'])
  def test_startup_and_permission_sources_unchanged(self):
   root=pathlib.Path(__file__).parent
-  before=ast.parse((root/'cleared-diagnostic-reference/run_fixture.py.reference').read_text())
+  before=ast.parse((root/'verified-running-identity/previous-run_fixture.py.reference').read_text())
   after=ast.parse((root/'owned-fixture/run_fixture.py').read_text())
   def methods(tree):
    fixture=next(n for n in tree.body if isinstance(n,ast.ClassDef) and n.name=='Fixture')
    return {n.name:ast.dump(n) for n in fixture.body if isinstance(n,ast.FunctionDef)}
   old,new=methods(before),methods(after)
   for name in old:
-   if name!='create':self.assertEqual(old[name],new[name],name)
+   if name not in ('create','verify_server'):self.assertEqual(old[name],new[name],name)
   prior=None
   for tree in (before,after):
    constants={n.targets[0].id:ast.dump(n.value) for n in tree.body if isinstance(n,ast.Assign) and isinstance(n.targets[0],ast.Name)}
    if prior is None:prior=constants
-   else:self.assertEqual(prior,constants)
+   else:
+    self.assertEqual(prior,{k:v for k,v in constants.items() if k not in ('RUNNING_POSTGRES','RUNNING_POSTGRES_SHA256')})
 if __name__=='__main__':unittest.main()

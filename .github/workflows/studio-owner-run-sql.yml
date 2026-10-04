@@ -1,4 +1,4 @@
-name: Isolated PostgreSQL 17.6 PID1 executable capture
+name: Isolated PostgreSQL 17.6 permission proof with measured identity
 on:
   workflow_dispatch:
     inputs:
@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     env:
-      EXPECTED_PARENT: 9bd65c00d4dd01a297758640462f1cf61f097a97
+      EXPECTED_PARENT: b779734f7a150e4fb0cfce6ca7499ecb3a75bd05
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
@@ -34,8 +34,8 @@ jobs:
           test "$(git rev-parse HEAD)" = "$REVIEWED_SHA"
           test "$(git rev-list --parents -n 1 HEAD)" = "$REVIEWED_SHA $EXPECTED_PARENT"
           git diff-tree --no-commit-id --name-status -r HEAD > "$RUNNER_TEMP/permission-path-status.txt"
-          echo '3324185009fd974c399b0139508538a5515694b908ef718c84db94efb0ed41f7  '"$RUNNER_TEMP/permission-path-status.txt" | sha256sum --check --strict
-          echo 'a373c7f146e10ba4dc128d910a36c1c7797f48017be2cc665dfdb165e1495d9a  docs/integrations/proposals/home-agent-permission-170006/INPUT-SHA256SUMS' | sha256sum --check --strict
+          echo 'a11ad764c08d0c9f53d4e6a16abb0e9f72036f4885da4ada1037a9072bdb031c  '"$RUNNER_TEMP/permission-path-status.txt" | sha256sum --check --strict
+          echo '60d85dfccfcfee8d97d811bf4b4647976e37e4e69251d9c2e9bb599957158b03  docs/integrations/proposals/home-agent-permission-170006/INPUT-SHA256SUMS' | sha256sum --check --strict
           sha256sum --check --strict docs/integrations/proposals/home-agent-permission-170006/INPUT-SHA256SUMS
       - name: Offline reviewed contract checks
         working-directory: docs/integrations/proposals/home-agent-permission-170006
@@ -52,23 +52,23 @@ jobs:
           timeout --signal=TERM --kill-after=10s 180s env -i PATH=/usr/bin:/bin HOME="$RUNNER_TEMP/permission-docker-config" DOCKER_CONFIG="$RUNNER_TEMP/permission-docker-config" /usr/bin/docker --host unix:///var/run/docker.sock --config "$RUNNER_TEMP/permission-docker-config" pull --platform linux/amd64 public.ecr.aws/supabase/postgres@sha256:2f907f53ca8d59b4a620cdcbefe21854046f5409b20e96887e2fa2289c902bdb
           timeout --signal=TERM --kill-after=5s 10s env -i PATH=/usr/bin:/bin HOME="$RUNNER_TEMP/permission-docker-config" /usr/bin/docker --host unix:///var/run/docker.sock --config "$RUNNER_TEMP/permission-docker-config" image inspect --format '{{.Id}} {{.Architecture}} {{.Os}}' public.ecr.aws/supabase/postgres@sha256:2f907f53ca8d59b4a620cdcbefe21854046f5409b20e96887e2fa2289c902bdb > "$RUNNER_TEMP/permission-image-identity.txt"
           test "$(cat "$RUNNER_TEMP/permission-image-identity.txt")" = 'sha256:2b35381bd3f617b535b605f185d4aebf314f2e3d13710f88c737bc0aca06c047 amd64 linux'
-      - name: Bounded owned executable capture only; no SQL admission
+      - name: One bounded owned permission proof after measured identity
         shell: bash
         run: |
           set -euo pipefail
-          timeout --signal=TERM --kill-after=10s 150s python3 docs/integrations/proposals/home-agent-permission-170006/capture_pid1_identity.py
+          timeout --signal=TERM --kill-after=10s 150s python3 docs/integrations/proposals/home-agent-permission-170006/execute_bound.py
       - name: Independent owned-container cleanup
         if: always()
         shell: bash
         run: |
           set -euo pipefail
           echo 'e63e30cb9006c55dc7f1d6612e9ee8133bf46cb3cd6d7771fad95749b5a771a9  docs/integrations/proposals/home-agent-permission-170006/owned-fixture/cleanup_owned.py' | sha256sum --check --strict
-          echo '28864dcbdbab09f185e8f8cec5db12d6532aec45e18c05328838c64a029a6ca2  docs/integrations/proposals/home-agent-permission-170006/owned-fixture/run_fixture.py' | sha256sum --check --strict
+          echo 'ce16921d9922d038f3e7825d483a882b58cd9d144c9d39966d1c8199c4f62e9b  docs/integrations/proposals/home-agent-permission-170006/owned-fixture/run_fixture.py' | sha256sum --check --strict
           timeout --signal=TERM --kill-after=5s 30s python3 docs/integrations/proposals/home-agent-permission-170006/owned-fixture/cleanup_owned.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: pid1-executable-capture-${{ github.run_id }}-${{ github.run_attempt }}
+          name: permission-170006-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             ${{ runner.temp }}/home-agent-client-grant-proof
             ${{ runner.temp }}/permission-image-identity.txt

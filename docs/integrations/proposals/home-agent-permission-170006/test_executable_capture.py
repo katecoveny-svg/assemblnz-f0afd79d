@@ -56,9 +56,9 @@ class ExecutableCapture(unittest.TestCase):
   f=Mock();f.create.side_effect=module.CapturedBeforeAdmission()
   with patch.object(module,'Capture',return_value=f),patch.object(sys,'argv',['capture_pid1_identity.py']),patch.object(module.signal,'signal'),redirect_stdout(io.StringIO()):module.main()
   f.close.assert_called_once_with()
- def test_settled_runtime_unchanged(self):
+ def test_current_reviewed_permission_runtime_hash(self):
   path=pathlib.Path(__file__).parent/'owned-fixture/run_fixture.py'
-  self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),'28864dcbdbab09f185e8f8cec5db12d6532aec45e18c05328838c64a029a6ca2')
+  self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),'ce16921d9922d038f3e7825d483a882b58cd9d144c9d39966d1c8199c4f62e9b')
  def test_sql_and_libpq_construction_fail_even_if_interception_misses(self):
   f=module.Capture.__new__(module.Capture)
   with self.assertRaisesRegex(RuntimeError,'forbids all SQL'):f.raw(b'SELECT 1;')

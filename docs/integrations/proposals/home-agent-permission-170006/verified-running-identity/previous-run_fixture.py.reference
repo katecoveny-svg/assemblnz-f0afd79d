@@ -1,5 +1,5 @@
 """UNRUN fixture. Only offline tests authorised. Fixed reviewed atomic transport patterns."""
-import contextlib,atexit,dataclasses,hashlib,json,os,pathlib,re,selectors,signal,subprocess,sys,tempfile,time,uuid
+import atexit,dataclasses,hashlib,json,os,pathlib,re,selectors,signal,subprocess,sys,tempfile,time,uuid
 ROOT=pathlib.Path(__file__).resolve().parent
 DOCKER='/usr/bin/docker'; ENDPOINT='unix:///var/run/docker.sock'; SOCKET='/var/run/postgresql'
 PSQL='/nix/store/d43fya852vmrp5hws2lrw47ccq1ngakz-postgresql-17.6/bin/psql'; POSTGRES='/nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/postgres'; INITDB='/nix/store/d43fya852vmrp5hws2lrw47ccq1ngakz-postgresql-17.6/bin/initdb'
@@ -7,8 +7,6 @@ IMAGE='public.ecr.aws/supabase/postgres@sha256:2f907f53ca8d59b4a620cdcbefe218540
 IMAGE_ID='sha256:2b35381bd3f617b535b605f185d4aebf314f2e3d13710f88c737bc0aca06c047'
 IMAGE_FILES={'/nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/postgres': '8715bc53fbabb3ac38f4f1280898b37bb2d22b29463be5df981a78053084651e', '/nix/store/d43fya852vmrp5hws2lrw47ccq1ngakz-postgresql-17.6/bin/initdb': '57181f0d2107050d623c226bab3a7551248c505f4b16f5b8af1c178c0adf5c12', '/nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/pg_ctl': '67324d686560b4d7bc5f271dab31274bcd5714a5926dfd58481e8d2e54478abb', '/nix/store/d43fya852vmrp5hws2lrw47ccq1ngakz-postgresql-17.6/bin/psql': '96577e53f4c3558b7f27c5747b533bc7180a4b22a232e8a71af7724257d7efcc', '/nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/pg_config': 'f07cdd70c924ff2c3a6c4e637b0829f9ffd686b190f513be4067432146135a3e', '/usr/local/bin/docker-entrypoint.sh': '1a6ff568c79cb847cffc4172b22a1f501cef05001b0b09751f48323683fb64a2'}
 TOOL_VERSIONS={'/nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/postgres': 'postgres (PostgreSQL) 17.6', '/nix/store/d43fya852vmrp5hws2lrw47ccq1ngakz-postgresql-17.6/bin/initdb': 'initdb (PostgreSQL) 17.6', '/nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/pg_ctl': 'pg_ctl (PostgreSQL) 17.6', '/nix/store/d43fya852vmrp5hws2lrw47ccq1ngakz-postgresql-17.6/bin/psql': 'psql (PostgreSQL) 17.6', '/nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/pg_config': 'PostgreSQL 17.6'}
-RUNNING_POSTGRES='/nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/.postgres-wrapped'
-RUNNING_POSTGRES_SHA256='3794a95bd1c4b8224bb7b0af1aa5ff5f0ed16e61dd911fc82a1249739c7f4463'
 INITDB_ARGS='--encoding=UTF8 --locale=en_US.UTF-8 --locale-provider=icu --icu-locale=en-US'
 STARTUP_SCRIPT="set -eu\ntest -f /nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/postgres && test -x /nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/postgres\ntest -f /nix/store/d43fya852vmrp5hws2lrw47ccq1ngakz-postgresql-17.6/bin/initdb && test -x /nix/store/d43fya852vmrp5hws2lrw47ccq1ngakz-postgresql-17.6/bin/initdb\ntest -f /nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/pg_ctl && test -x /nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/pg_ctl\ntest -f /nix/store/d43fya852vmrp5hws2lrw47ccq1ngakz-postgresql-17.6/bin/psql && test -x /nix/store/d43fya852vmrp5hws2lrw47ccq1ngakz-postgresql-17.6/bin/psql\ntest -f /nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/pg_config && test -x /nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/pg_config\ntest -f /usr/local/bin/docker-entrypoint.sh && test -x /usr/local/bin/docker-entrypoint.sh\nprintf '%s\\n' '8715bc53fbabb3ac38f4f1280898b37bb2d22b29463be5df981a78053084651e  /nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/postgres' '57181f0d2107050d623c226bab3a7551248c505f4b16f5b8af1c178c0adf5c12  /nix/store/d43fya852vmrp5hws2lrw47ccq1ngakz-postgresql-17.6/bin/initdb' '67324d686560b4d7bc5f271dab31274bcd5714a5926dfd58481e8d2e54478abb  /nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/pg_ctl' '96577e53f4c3558b7f27c5747b533bc7180a4b22a232e8a71af7724257d7efcc  /nix/store/d43fya852vmrp5hws2lrw47ccq1ngakz-postgresql-17.6/bin/psql' 'f07cdd70c924ff2c3a6c4e637b0829f9ffd686b190f513be4067432146135a3e  /nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/pg_config' '1a6ff568c79cb847cffc4172b22a1f501cef05001b0b09751f48323683fb64a2  /usr/local/bin/docker-entrypoint.sh' | /usr/bin/sha256sum -c -\n/nix/store/d43fya852vmrp5hws2lrw47ccq1ngakz-postgresql-17.6/bin/initdb -D /var/lib/postgresql/data/acl -U fixture_admin -A trust --encoding=UTF8 --locale=en_US.UTF-8 --locale-provider=icu --icu-locale=en-US\nexec /nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/postgres -D /var/lib/postgresql/data/acl -c listen_addresses= -c unix_socket_directories=/var/run/postgresql\n"
 GATE=b'ACL_COMMIT_GATE_READY'; OUTPUT_LIMIT=1024*1024
@@ -198,20 +196,6 @@ def recover_cleanup(owner,directory,env,base,phase='cleanup-final'):
   except BaseException as error:report['evidence_failures'].append({'file':phase+'-report.json','type':type(error).__name__})
   if report['evidence_failures']:raise RuntimeError('cleanup evidence persistence failed AFTER disposal attempt: '+json.dumps(report))
   if report['diagnostic_failures']:raise RuntimeError('cleanup diagnostics incomplete AFTER disposal attempt: '+json.dumps(report))
-def validate_running_identity(data,anchor=None):
- require(data['launcher_path']==POSTGRES and data['launcher_sha256']==IMAGE_FILES[POSTGRES],'pinned launcher identity mismatch')
- for suffix in ('','_after'):
-  require(data['path'+suffix]==RUNNING_POSTGRES,'unexpected running executable path')
-  require(data['file_sha256'+suffix]==RUNNING_POSTGRES_SHA256 and data['proc_sha256'+suffix]==RUNNING_POSTGRES_SHA256,'unexpected running executable bytes')
- states=[data['state'],data['state_after']]
- for state in states:
-  require(state['running'] is True and state['oom_killed'] is False and state['restarts']==0,'unexpected owned process lifecycle')
-  require(type(state['pid']) is int and state['pid']>0 and isinstance(state['started_at'],str) and state['started_at'],'missing PID1 process anchor')
- current=(states[0]['pid'],states[0]['started_at'])
- require(current==(states[1]['pid'],states[1]['started_at']),'PID1 process changed during measurement')
- require(anchor is None or current==anchor,'PID1 process changed after admission')
- # Comm is retained for diagnosis and contributes no admission decision.
- return current
 class Fixture:
  def __init__(self):
   require(sys.platform=='linux' and os.environ.get('GITHUB_ACTIONS')=='true','separately approved ephemeral Linux CI runner required')
@@ -260,36 +244,6 @@ class Fixture:
   (self.record_dir/('%03d-%s.json'%(self.sequence,phase))).write_text(json.dumps({'nonce':self.nonce,'container_id':self.cid,'sql_sha256':digest(data),'returncode':r.code,'stdout':r.stdout.decode(errors='replace'),'stderr':r.stderr.decode(errors='replace'),'gates':r.gates,'votes':r.votes,'locus':r.locus},indent=2))
  def raw(self,data,user='postgres',database='acl_fixture'):
   self.verify();r=run_bounded(self.psql_args(user,database),self.env,self.end(8),data);self.retain('query',data,r);return r
- def check_postgres_identity(self):
-  # One shared check for create and verify_server; nested work never borrows cleanup reserve.
-  phase=self.budget.phase(8) if hasattr(self,'budget') else contextlib.nullcontext()
-  with phase:
-   data={}
-   def path(target):return self.checked(self.image_command(['/usr/bin/readlink','-f',target]),'running path').decode().strip()
-   def sha(target):
-    value=self.checked(self.image_command(['/usr/bin/sha256sum',target]),'running hash').decode()
-    match=re.fullmatch(r'([0-9a-f]{64})  '+re.escape(target)+r'\n',value)
-    require(match is not None,'malformed running identity hash');return match.group(1)
-   def state():
-    meta=self.verify();value=meta.get('State',{})
-    return {'running':value.get('Running'),'oom_killed':value.get('OOMKilled'),'restarts':meta.get('RestartCount'),'pid':value.get('Pid'),'started_at':value.get('StartedAt')}
-   try:
-    data['state']=state()
-    data['launcher_path']=path(POSTGRES);require(data['launcher_path']==POSTGRES,'pinned launcher path changed')
-    data['launcher_sha256']=sha(POSTGRES)
-    data['path']=path('/proc/1/exe');require(data['path']==RUNNING_POSTGRES,'unexpected running executable path')
-    data['file_sha256']=sha(RUNNING_POSTGRES);data['proc_sha256']=sha('/proc/1/exe')
-    comm=self.image_command(['/bin/sh','-c',"IFS= read -r fixture_comm < /proc/1/comm && printf '%s\\n' \"$fixture_comm\""])
-    data['comm_diagnostic']={'code':comm.code,'stdout':comm.stdout.decode(errors='replace'),'stderr':comm.stderr.decode(errors='replace')}
-    data['path_after']=path('/proc/1/exe');require(data['path_after']==RUNNING_POSTGRES,'unexpected running executable path after measurement')
-    data['file_sha256_after']=sha(RUNNING_POSTGRES);data['proc_sha256_after']=sha('/proc/1/exe');data['state_after']=state()
-    anchor=validate_running_identity(data,getattr(self,'pid1_anchor',None))
-    data['identity_checks_matched']=True
-   finally:
-    self.sequence+=1
-    (self.record_dir/('%03d-running-identity.json'%self.sequence)).write_text(json.dumps(data,indent=2))
-  self.pid1_anchor=anchor
-  return data
  def create(self):
   image=json.loads(self.checked(self.docker(['image','inspect',IMAGE]),'pre-provisioned image'))[0]
   require(image['Id']==IMAGE_ID and image.get('Architecture')=='amd64' and image.get('Os')=='linux','image identity/platform mismatch')
@@ -299,23 +253,19 @@ class Fixture:
   r=self.docker(['create','--pull=never','--platform','linux/amd64','--user','postgres','--entrypoint','/bin/sh','--name',self.owner['name'],'--network','none','--label','assembl.atomic.nonce='+self.nonce,'--label','assembl.atomic.run='+self.owner['run_id'],'--label','assembl.atomic.attempt='+self.owner['attempt'],'--tmpfs','/var/lib/postgresql/data:rw,size=128m,mode=1777','--tmpfs',SOCKET+':rw,size=8m,mode=1777','--memory','256m','--cpus','1','--pids-limit','128',IMAGE,'-c',STARTUP_SCRIPT])
   self.cid=self.checked(r,'create').decode().strip();require(re.fullmatch('[0-9a-f]{64}',self.cid) is not None,'invalid create ack')
   self.owner['container_id']=self.cid;self.save();self.verify();self.checked(self.docker(['start',self.cid]),'start')
-  self.preflight()
-  phase=self.budget.phase(30) if hasattr(self,'budget') else contextlib.nullcontext(self.end(30))
-  with phase as end:
-   while time.monotonic()<end:
-    logs=self.docker(['logs',self.cid],seconds=min(1,max(0,end-time.monotonic())))
-    require(logs.code==0,'startup log probe failed')
-    if b'database system is ready to accept connections' in logs.stdout+logs.stderr:
-     self.check_postgres_identity()
-     ready=self.raw(b'SELECT 1;','fixture_admin','postgres')
-     if ready.code==0:
-      require(ready.stdout==b'1\n' and not ready.stderr,'unexpected readiness result')
-      require(time.monotonic()<end,'late startup readiness');break
-     require(ready.code==2 and not ready.stdout and any(x in ready.stderr for x in (b'No such file or directory',b'Connection refused',b'the database system is starting up')) and not any(x in ready.stderr for x in (b'password',b'authentication',b'pg_hba')),'unclassified readiness failure')
-    time.sleep(min(.1,max(0,end-time.monotonic())))
-   else:raise TimeoutError('final PID1 readiness deadline')
+  self.preflight();end=self.end(30)
+  while time.monotonic()<end:
+   comm=self.checked(self.image_command(['/bin/sh','-c',"IFS= read -r fixture_comm < /proc/1/comm && printf '%s\\n' \"$fixture_comm\""]),'PID1').decode().strip()
+   require(comm in ('sh','postgres'),'unexpected PID1')
+   if comm=='postgres':
+    require(self.checked(self.image_command(['/usr/bin/readlink','-f','/proc/1/exe']),'PID1 path').decode().strip()==POSTGRES,'unexpected final executable')
+    ready=self.raw(b'SELECT 1;','fixture_admin','postgres')
+    if ready.code==0:
+     require(ready.stdout==b'1\n' and not ready.stderr,'unexpected readiness result');break
+    require(ready.code==2 and not ready.stdout and any(x in ready.stderr for x in (b'No such file or directory',b'Connection refused',b'the database system is starting up')) and not any(x in ready.stderr for x in (b'password',b'authentication',b'pg_hba')),'unclassified readiness failure')
+   time.sleep(min(.1,max(0,end-time.monotonic())))
+  else:raise TimeoutError('final PID1 readiness deadline')
   self.identity=self.server_identity()
-  self.check_postgres_identity()
   require(self.identity['database']=='postgres' and self.identity['user']=='fixture_admin' and self.identity['address'] is None and self.identity['version']=='170006' and self.identity['data_directory']=='/var/lib/postgresql/data/acl','unexpected fixture identity')
   self.cluster_locale=self.capture_locale('cluster')
   stock=self.checked(self.raw(b"SELECT count(*) FROM pg_catalog.pg_class c JOIN pg_catalog.pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname IN ('public','auth');",'fixture_admin','postgres'),'scratch prewrite catalog')
@@ -348,7 +298,7 @@ class Fixture:
   return json.loads(self.checked(self.raw(sql,'fixture_admin','postgres'),'identity'))
  def verify_server(self):
   self.verify()
-  self.check_postgres_identity()
+  require(self.checked(self.image_command(['/usr/bin/readlink','-f','/proc/1/exe']),'PID1').decode().strip()==POSTGRES,'server process changed')
   require(self.checked(self.raw(b'SELECT nonce FROM fixture_identity.marker;'),'nonce').decode().strip()==self.nonce,'instance nonce mismatch')
   require(self.server_identity()==self.identity,'server instance changed')
  def action(self,name,refuse=False):

@@ -1,0 +1,37 @@
+{
+  "scope": "capture only; no identity admission or permission SQL",
+  "image": "public.ecr.aws/supabase/postgres@sha256:2f907f53ca8d59b4a620cdcbefe21854046f5409b20e96887e2fa2289c902bdb",
+  "declared_path": "/nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/postgres",
+  "wrapper_relationship_admitted": false,
+  "ready_log_observed": true,
+  "pid1_executable_path": "/nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/.postgres-wrapped",
+  "pid1_executable_sha256": "3794a95bd1c4b8224bb7b0af1aa5ff5f0ed16e61dd911fc82a1249739c7f4463",
+  "pid1_running_executable_sha256": "3794a95bd1c4b8224bb7b0af1aa5ff5f0ed16e61dd911fc82a1249739c7f4463",
+  "declared_resolved_path": "/nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/postgres",
+  "declared_sha256": "8715bc53fbabb3ac38f4f1280898b37bb2d22b29463be5df981a78053084651e",
+  "pid1_comm_result": {
+    "code": 0,
+    "stdout": ".postgres-wrapp\n",
+    "stderr": ""
+  },
+  "declared_wrapper_result": {
+    "code": 0,
+    "stdout": "#! /nix/store/lw117lsr8d585xs63kx5k233impyrq7q-bash-5.3p3/bin/bash -e\nexport NIX_PGLIBDIR='/nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/lib'\nexec -a \"$0\" \"/nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/.postgres-wrapped\"  \"$@\" \n",
+    "stderr": "",
+    "copied_sha256": "8715bc53fbabb3ac38f4f1280898b37bb2d22b29463be5df981a78053084651e"
+  },
+  "actual_path_mentioned_in_wrapper": true,
+  "launcher_chain": [
+    {
+      "from": "/nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/postgres",
+      "literal_exec_target": "/nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/.postgres-wrapped",
+      "target_resolved": "/nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/.postgres-wrapped",
+      "target_sha256": "3794a95bd1c4b8224bb7b0af1aa5ff5f0ed16e61dd911fc82a1249739c7f4463"
+    }
+  ],
+  "launcher_chain_reaches_observed_executable": true,
+  "pid1_executable_path_after_capture": "/nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/.postgres-wrapped",
+  "pid1_executable_sha256_after_capture": "3794a95bd1c4b8224bb7b0af1aa5ff5f0ed16e61dd911fc82a1249739c7f4463",
+  "pid1_running_executable_sha256_after_capture": "3794a95bd1c4b8224bb7b0af1aa5ff5f0ed16e61dd911fc82a1249739c7f4463",
+  "capture_complete": true
+}
