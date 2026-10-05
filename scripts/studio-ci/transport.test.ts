@@ -1,0 +1,15 @@
+import {beforeEach,afterEach,describe,it,expect,vi} from 'vitest';
+import {emptyOwnerHub} from '@/lib/client-hub-migration/owner-policy';
+import {migrationFetch} from './transport';
+import {buyerHtml} from '@/components/client-hub-migration/original/lib/pursuit-hub';
+import {factualPresentationHub} from '@/lib/private-showpiece/creative-references';
+const id='00000000-0000-4000-8000-000000000011';
+beforeEach(()=>{const data=new Map<string,string>();vi.stubGlobal('window',{});vi.stubGlobal('location',{origin:'http://localhost:3000'});vi.stubGlobal('sessionStorage',{getItem:(k:string)=>data.get(k)||null,setItem:(k:string,v:string)=>data.set(k,v)});});
+afterEach(()=>vi.unstubAllGlobals());
+function save(payload=emptyOwnerHub(),revision=0){return migrationFetch('/api/hub',{method:'POST',body:JSON.stringify({id,revision,payload})});}
+describe('CI-only synthetic transport, no backend/provider evidence',()=>{
+ it('rejects external and unsupported requests without native fetch',async()=>{const native=vi.fn();vi.stubGlobal('fetch',native);expect((await migrationFetch('https://example.org/api/hub')).status).toBe(503);expect((await migrationFetch('/api/provider')).status).toBe(503);expect(native).not.toHaveBeenCalled();});
+ it('reconciles the exact lost create and rejects different payload or stale CAS',async()=>{await migrationFetch('/api/hub');window.__studioCi!.mode='lost';expect((await save()).status).toBe(503);window.__studioCi!.mode='ack';expect((await (await save()).json()).item.revision).toBe(1);expect(window.__studioCi!.records()).toHaveLength(1);expect((await save({...emptyOwnerHub(),name:'Different frozen payload'})).status).toBe(409);expect((await (await save(emptyOwnerHub(),1)).json()).item.revision).toBe(2);expect((await save(emptyOwnerHub(),1)).status).toBe(409);});
+ it('missing mode does not fabricate a row; explicit retry can later create',async()=>{await migrationFetch('/api/hub');window.__studioCi!.mode='missing';expect((await save()).status).toBe(503);expect((await migrationFetch('/api/hub?id='+id)).status).toBe(404);window.__studioCi!.mode='ack';expect((await save()).status).toBe(200);});
+ it('seeds a full legacy Hub and holds a response body until explicit synthetic release',async()=>{await migrationFetch('/api/hub');window.__studioCi!.seed(id,'quarantine');window.__studioCi!.mode='hang-body';const response=await migrationFetch('/api/hub?id='+id);let finished=false;const reading=response.json().then(value=>{finished=true;return value;});await Promise.resolve();expect(finished).toBe(false);window.__studioCi!.release!();const value=await reading;expect(value.item.payload.engine.brief.length).toBeGreaterThan(4700);expect(value.item.payload.privateNotes).toBe('PRIVATE_BACKUP_SENTINEL');expect(value.item.payload.sources[1].status).toBe('source');expect(value.item.payload.engine.concepts[0].evidenceIds).toEqual(['factual','creative-bound']);const html=buyerHtml(factualPresentationHub(value.item.payload));expect(html).toContain('FICTIONAL factual reference');expect(html).not.toContain('CREATIVE_TITLE_SENTINEL');expect(html).not.toContain('CREATIVE_CLAIM_SENTINEL');});
+});
