@@ -1,0 +1,29 @@
+--- a/.github/workflows/studio-owner-run-sql.yml
++++ b/.github/workflows/studio-owner-run-sql.yml
+@@ -17,7 +17,7 @@
+     runs-on: ubuntu-latest
+     timeout-minutes: 10
+     env:
+-      EXPECTED_PARENT: 33f88c57b6b4bac707d1f93203759092f39af7f1
++      EXPECTED_PARENT: 93327b541749c3d458a1d433782ac0334d5b64bb
+     steps:
+       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+         with:
+@@ -34,7 +34,7 @@
+           test "$GITHUB_SHA" = "$REVIEWED_SHA"
+           test "$(git rev-parse HEAD)" = "$REVIEWED_SHA"
+           test "$(git rev-list --parents -n 1 HEAD)" = "$REVIEWED_SHA $EXPECTED_PARENT"
+-          echo '72c7d332c14af36605ecccc122d10062bee1f11823e3e07ef1c3b2f6b0ed9886  docs/integrations/proposals/postgres-170006-discovery/INPUT-SHA256SUMS' | sha256sum --check --strict
++          echo 'ccd4cd49775b236591590b74487591371c3faf0d0feaa9aba9ec78d26922ae2a  docs/integrations/proposals/postgres-170006-discovery/INPUT-SHA256SUMS' | sha256sum --check --strict
+           sha256sum --check --strict docs/integrations/proposals/postgres-170006-discovery/INPUT-SHA256SUMS
+       - name: One owned immutable-image discovery
+         shell: bash
+@@ -47,7 +47,7 @@
+         run: |
+           set -euo pipefail
+           test -f "$RUNNER_TEMP/postgres-170006-discovery/owner.json" || exit 0
+-          echo '1b8ec31c208e9496c6f7791f7c49943a37f80ee095bd5ab0ca395432af31edbf  docs/integrations/proposals/postgres-170006-discovery/discover.py' | sha256sum --check --strict
++          echo '84ca482837ac88010f1fa1ed013c5a5e9312e2b103ef029c99e38a1f874d5a0a  docs/integrations/proposals/postgres-170006-discovery/discover.py' | sha256sum --check --strict
+           timeout --signal=TERM --kill-after=5s 40s python3 docs/integrations/proposals/postgres-170006-discovery/discover.py --cleanup-only
+       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+         if: always()

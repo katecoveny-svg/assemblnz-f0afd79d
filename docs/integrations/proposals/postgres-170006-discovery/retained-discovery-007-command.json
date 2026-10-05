@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "exec",
+    "--user",
+    "postgres",
+    "9ffc1aed9baa12a5fb0dabf1664c6aebbb05664c103ec949f0a655ac33a2c65c",
+    "/usr/bin/env",
+    "-i",
+    "PATH=/usr/lib/postgresql/17/bin:/usr/local/bin:/usr/bin:/bin",
+    "HOME=/tmp",
+    "/bin/sh",
+    "-c",
+    "command -v postgres"
+  ],
+  "code": 0,
+  "complete": true,
+  "fault": null,
+  "stdout": "/usr/bin/postgres\n",
+  "stderr": "",
+  "cap_bytes": 4194304,
+  "retained_bytes": 18
+}

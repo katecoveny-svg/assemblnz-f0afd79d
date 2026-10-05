@@ -1,0 +1,32 @@
+{
+  "postgres": {
+    "path": "/nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/postgres",
+    "sha256": "8715bc53fbabb3ac38f4f1280898b37bb2d22b29463be5df981a78053084651e",
+    "version": "postgres (PostgreSQL) 17.6"
+  },
+  "initdb": {
+    "path": "/nix/store/d43fya852vmrp5hws2lrw47ccq1ngakz-postgresql-17.6/bin/initdb",
+    "sha256": "57181f0d2107050d623c226bab3a7551248c505f4b16f5b8af1c178c0adf5c12",
+    "version": "initdb (PostgreSQL) 17.6"
+  },
+  "pg_ctl": {
+    "path": "/nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/pg_ctl",
+    "sha256": "67324d686560b4d7bc5f271dab31274bcd5714a5926dfd58481e8d2e54478abb",
+    "version": "pg_ctl (PostgreSQL) 17.6"
+  },
+  "psql": {
+    "path": "/nix/store/d43fya852vmrp5hws2lrw47ccq1ngakz-postgresql-17.6/bin/psql",
+    "sha256": "96577e53f4c3558b7f27c5747b533bc7180a4b22a232e8a71af7724257d7efcc",
+    "version": "psql (PostgreSQL) 17.6"
+  },
+  "pg_config": {
+    "path": "/nix/store/pja770l8zzmjw7mbsgbmhsv1y6dx5kz5-postgresql-and-plugins-17.6/bin/pg_config",
+    "sha256": "f07cdd70c924ff2c3a6c4e637b0829f9ffd686b190f513be4067432146135a3e",
+    "version": "PostgreSQL 17.6"
+  },
+  "entrypoint:docker-entrypoint.sh": {
+    "path": "/usr/local/bin/docker-entrypoint.sh",
+    "sha256": "1a6ff568c79cb847cffc4172b22a1f501cef05001b0b09751f48323683fb64a2",
+    "executed": false
+  }
+}

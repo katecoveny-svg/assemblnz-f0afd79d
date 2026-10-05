@@ -1,41 +1,77 @@
-name: Unactivated private Studio run SQL proof
+name: Isolated PostgreSQL 17.6 permission proof with measured identity
 on:
   workflow_dispatch:
-  pull_request:
-    paths:
-      - 'lib/client-hub-migration/owner-run-*'
-      - 'docs/migration-review/owner-run-*'
-      - 'docs/migration-review/owner-schema-proposal.sql'
-      - 'scripts/migration-review/synthetic-owner-payload.json'
-      - 'scripts/test-studio-owner-run-sql.cjs'
-      - '.github/workflows/studio-owner-run-sql.yml'
+    inputs:
+      reviewed_sha:
+        description: Exact independently reviewed candidate commit
+        required: true
+        type: string
 permissions:
   contents: read
+concurrency:
+  group: studio-owner-run-sql-isolated
+  cancel-in-progress: false
 jobs:
   isolated-sql:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-    services:
-      postgres:
-        # PostgreSQL17.6 extension-bearing baseline reported clean for denial tests.
-        # CI fixture only. No production credentials or project connection.
-        image: public.ecr.aws/supabase/postgres:17.6.1.071
-        env:
-          POSTGRES_PASSWORD: fictional-studio-run-only
-          POSTGRES_DB: studio_run_proof
-        ports:
-          - 55440:5432
-        options: >-
-          --health-cmd "pg_isready -U supabase_admin -d studio_run_proof"
-          --health-interval 5s --health-timeout 5s --health-retries 12
+    timeout-minutes: 8
+    env:
+      EXPECTED_PARENT: 86eebc496a6920ff5fe3f569e431dfbc5aefe2bf
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
-          node-version: 24
-      - name: Install isolated SQL test driver
-        run: npm install --prefix /tmp/studio-run-sql-proof --no-save pg@8.16.3
-      - name: Actual synthetic SQL atomicity and RLS checks
+          ref: ${{ inputs.reviewed_sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Exact head, parent, attempt and immutable source guard
         env:
-          STUDIO_RUN_PG_MODULE: /tmp/studio-run-sql-proof/node_modules/pg
-        run: node scripts/test-studio-owner-run-sql.cjs
+          REVIEWED_SHA: ${{ inputs.reviewed_sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          test "$GITHUB_SHA" = "$REVIEWED_SHA"
+          test "$(git rev-parse HEAD)" = "$REVIEWED_SHA"
+          test "$(git rev-list --parents -n 1 HEAD)" = "$REVIEWED_SHA $EXPECTED_PARENT"
+          git diff-tree --no-commit-id --name-status -r HEAD > "$RUNNER_TEMP/permission-path-status.txt"
+          echo '3370ecb29bf292f077ad250fd246ce454cc69201a946fdc2a7842bce46ebf5bd  '"$RUNNER_TEMP/permission-path-status.txt" | sha256sum --check --strict
+          echo '2108460b45be6e235ff896e943ba0a25cf0f193e88575a4e6f3e34e43b8f3190  docs/integrations/proposals/home-agent-permission-170006/INPUT-SHA256SUMS' | sha256sum --check --strict
+          sha256sum --check --strict docs/integrations/proposals/home-agent-permission-170006/INPUT-SHA256SUMS
+      - name: Offline reviewed contract checks
+        working-directory: docs/integrations/proposals/home-agent-permission-170006
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=5s 30s python3 -m unittest discover -v
+          timeout --signal=TERM --kill-after=5s 30s python3 -O -m unittest discover -v
+      - name: Provision only the reviewed immutable image
+        shell: bash
+        run: |
+          set -euo pipefail
+          install -d -m 700 "$RUNNER_TEMP/permission-docker-config"
+          timeout --signal=TERM --kill-after=10s 180s env -i PATH=/usr/bin:/bin HOME="$RUNNER_TEMP/permission-docker-config" DOCKER_CONFIG="$RUNNER_TEMP/permission-docker-config" /usr/bin/docker --host unix:///var/run/docker.sock --config "$RUNNER_TEMP/permission-docker-config" pull --platform linux/amd64 public.ecr.aws/supabase/postgres@sha256:2f907f53ca8d59b4a620cdcbefe21854046f5409b20e96887e2fa2289c902bdb
+          timeout --signal=TERM --kill-after=5s 10s env -i PATH=/usr/bin:/bin HOME="$RUNNER_TEMP/permission-docker-config" /usr/bin/docker --host unix:///var/run/docker.sock --config "$RUNNER_TEMP/permission-docker-config" image inspect --format '{{.Id}} {{.Architecture}} {{.Os}}' public.ecr.aws/supabase/postgres@sha256:2f907f53ca8d59b4a620cdcbefe21854046f5409b20e96887e2fa2289c902bdb > "$RUNNER_TEMP/permission-image-identity.txt"
+          test "$(cat "$RUNNER_TEMP/permission-image-identity.txt")" = 'sha256:2b35381bd3f617b535b605f185d4aebf314f2e3d13710f88c737bc0aca06c047 amd64 linux'
+      - name: One bounded owned permission proof after measured identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=10s 150s python3 docs/integrations/proposals/home-agent-permission-170006/execute_bound.py
+      - name: Independent owned-container cleanup
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo 'e63e30cb9006c55dc7f1d6612e9ee8133bf46cb3cd6d7771fad95749b5a771a9  docs/integrations/proposals/home-agent-permission-170006/owned-fixture/cleanup_owned.py' | sha256sum --check --strict
+          echo 'dee5f94ce134febb6f9ee8530bde0f8766ccc4fb025f79577493fb054171ae84  docs/integrations/proposals/home-agent-permission-170006/owned-fixture/run_fixture.py' | sha256sum --check --strict
+          timeout --signal=TERM --kill-after=5s 30s python3 docs/integrations/proposals/home-agent-permission-170006/owned-fixture/cleanup_owned.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: permission-170006-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/home-agent-client-grant-proof
+            ${{ runner.temp }}/permission-image-identity.txt
+            ${{ runner.temp }}/permission-path-status.txt
+          if-no-files-found: error
+          retention-days: 7

@@ -1,0 +1,22 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Action completed."
+    }
+  ],
+  "structuredContent": {
+    "content": "name: Unactivated private Studio run SQL proof\non:\n  workflow_dispatch:\n  pull_request:\n    paths:\n      - 'lib/client-hub-migration/owner-run-*'\n      - 'docs/migration-review/owner-run-*'\n      - 'docs/migration-review/owner-schema-proposal.sql'\n      - 'scripts/migration-review/synthetic-owner-payload.json'\n      - 'scripts/test-studio-owner-run-sql.cjs'\n      - '.github/workflows/studio-owner-run-sql.yml'\npermissions:\n  contents: read\njobs:\n  isolated-sql:\n    runs-on: ubuntu-latest\n    timeout-minutes: 10\n    services:\n      postgres:\n        # PostgreSQL17.6 extension-bearing baseline reported clean for denial tests.\n        # CI fixture only. No production credentials or project connection.\n        image: public.ecr.aws/supabase/postgres:17.6.1.071\n        env:\n          POSTGRES_PASSWORD: fictional-studio-run-only\n          POSTGRES_DB: studio_run_proof\n        ports:\n          - 55440:5432\n        options: >-\n          --health-cmd \"pg_isready -U supabase_admin -d studio_run_proof\"\n          --health-interval 5s --health-timeout 5s --health-retries 12\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: 24\n      - name: Install isolated SQL test driver\n        run: npm install --prefix /tmp/studio-run-sql-proof --no-save pg@8.16.3\n      - name: Actual synthetic SQL atomicity and RLS checks\n        env:\n          STUDIO_RUN_PG_MODULE: /tmp/studio-run-sql-proof/node_modules/pg\n        run: node scripts/test-studio-owner-run-sql.cjs\n",
+    "title": "studio-owner-run-sql.yml",
+    "modified_date": "2026-10-02T09:21:22Z",
+    "url": "https://github.com/katecoveny-svg/assemblnz-f0afd79d/blob/33f88c57b6b4bac707d1f93203759092f39af7f1/.github/workflows/studio-owner-run-sql.yml",
+    "display_url": "https://github.com/katecoveny-svg/assemblnz-f0afd79d/blob/33f88c57b6b4bac707d1f93203759092f39af7f1/.github/workflows/studio-owner-run-sql.yml",
+    "display_title": "studio-owner-run-sql.yml",
+    "structuredContent": {
+      "title": "studio-owner-run-sql.yml",
+      "content": "name: Unactivated private Studio run SQL proof\non:\n  workflow_dispatch:\n  pull_request:\n    paths:\n      - 'lib/client-hub-migration/owner-run-*'\n      - 'docs/migration-review/owner-run-*'\n      - 'docs/migration-review/owner-schema-proposal.sql'\n      - 'scripts/migration-review/synthetic-owner-payload.json'\n      - 'scripts/test-studio-owner-run-sql.cjs'\n      - '.github/workflows/studio-owner-run-sql.yml'\npermissions:\n  contents: read\njobs:\n  isolated-sql:\n    runs-on: ubuntu-latest\n    timeout-minutes: 10\n    services:\n      postgres:\n        # PostgreSQL17.6 extension-bearing baseline reported clean for denial tests.\n        # CI fixture only. No production credentials or project connection.\n        image: public.ecr.aws/supabase/postgres:17.6.1.071\n        env:\n          POSTGRES_PASSWORD: fictional-studio-run-only\n          POSTGRES_DB: studio_run_proof\n        ports:\n          - 55440:5432\n        options: >-\n          --health-cmd \"pg_isready -U supabase_admin -d studio_run_proof\"\n          --health-interval 5s --health-timeout 5s --health-retries 12\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-node@v4\n        with:\n          node-version: 24\n      - name: Install isolated SQL test driver\n        run: npm install --prefix /tmp/studio-run-sql-proof --no-save pg@8.16.3\n      - name: Actual synthetic SQL atomicity and RLS checks\n        env:\n          STUDIO_RUN_PG_MODULE: /tmp/studio-run-sql-proof/node_modules/pg\n        run: node scripts/test-studio-owner-run-sql.cjs\n",
+      "display_url": "https://github.com/katecoveny-svg/assemblnz-f0afd79d/blob/33f88c57b6b4bac707d1f93203759092f39af7f1/.github/workflows/studio-owner-run-sql.yml"
+    }
+  },
+  "isError": false
+}

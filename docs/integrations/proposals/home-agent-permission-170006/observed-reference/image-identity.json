@@ -1,0 +1,4 @@
+{
+  "reference": "public.ecr.aws/supabase/postgres@sha256:2f907f53ca8d59b4a620cdcbefe21854046f5409b20e96887e2fa2289c902bdb",
+  "runtime_image_identity": "sha256:2b35381bd3f617b535b605f185d4aebf314f2e3d13710f88c737bc0aca06c047 amd64 linux"
+}

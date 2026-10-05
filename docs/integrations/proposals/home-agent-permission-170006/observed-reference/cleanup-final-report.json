@@ -1,0 +1,12 @@
+{
+  "nonce": "5037e9dd2e9b4be1a79cbffb50011a56",
+  "container_id": "83b3e5fc699cf3a20627fd2aa936b4ee510d7291950306b8b3c8b14f36a4aa8d",
+  "state": "removed_and_absent",
+  "name_observations": [
+    {
+      "time_monotonic": 66.799246082,
+      "container_id": "83b3e5fc699cf3a20627fd2aa936b4ee510d7291950306b8b3c8b14f36a4aa8d"
+    }
+  ],
+  "evidence_failures": []
+}
