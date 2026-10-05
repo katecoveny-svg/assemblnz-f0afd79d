@@ -352,7 +352,7 @@ export function PersonalDo() {
       <header className={styles.nav}>
         <DoBrand finish="glass" />
         <nav aria-label="DO" className={styles.navActions}>
-          <details className={styles.more}><summary>More <Plus size={15} /></summary><nav aria-label="More DO tools"><Link href="/do/widget">Write, talk or look</Link><Link href="/do/meetings">Meeting notes · sign in</Link><Link href="/do/bills">Bills · examples and CSV</Link><Link href="/do/install">Install DO</Link><Link href="/legal/privacy">Privacy</Link></nav></details>
+          <details className={styles.more}><summary>More <Plus size={15} /></summary><nav aria-label="More DO tools"><Link href="/do/widget">Write, talk or look</Link><Link href="/do/meetings">Meeting notes · sign in</Link><Link href="/do/bills">Bills · examples and CSV</Link><Link href="/do/builder">Builder · prepare a plan</Link><Link href="/do/household">Household · sample family floor</Link><Link href="/do/install">Install DO</Link><Link href="/legal/privacy">Privacy</Link></nav></details>
           <Link className={styles.phoneLink} href="/do/install#phone">Install DO <ArrowUpRight size={14} /></Link>
           {access === "ready" && workspaceKey
             ? <PersonalDoSettings key={workspaceKey} compact triggerRef={settingsButton} onProfileChange={setPersonalProfile} />

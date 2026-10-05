@@ -5,7 +5,7 @@ import { TasksClient } from './TasksClient';
 export const metadata: Metadata = {
   title: { absolute: 'DO tasks · assembl' },
   description:
-    'Optional rollup of per-DO to-do lists. Primary lists live on each DO surface. Saved on your device or signed-in owner — not synced to Linear.app.',
+    'Optional rollup of per-DO to-do lists. Primary lists live on each DO surface. Saved on your device or signed-in account.',
   alternates: { canonical: '/do/tasks' },
   robots: { index: false, follow: false },
 };

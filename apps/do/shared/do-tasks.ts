@@ -2,7 +2,7 @@
  * Per-DO in-product task lists (v0).
  *
  * One board per DO / workstream. Persist in localStorage keyed by signed-in
- * owner id when available, otherwise `device`. Not Linear.app sync and not
+ * owner id when available, otherwise `device`. Local device/account lists — not
  * Office/Builder durable jobs (`do_agents`) — those track execution receipts;
  * these lists track honest human TODOs on each DO surface.
  */
@@ -50,7 +50,7 @@ export const DO_TASK_STATUS_ORDER: DoTaskStatus[] = [
 ];
 
 export const DO_TASK_STATUS_LABEL: Record<DoTaskStatus, string> = {
-  backlog: 'Backlog',
+  backlog: 'Later',
   todo: 'Todo',
   doing: 'In progress',
   blocked: 'Blocked',
@@ -58,9 +58,9 @@ export const DO_TASK_STATUS_LABEL: Record<DoTaskStatus, string> = {
 };
 
 export const DO_TASK_PRIORITY_LABEL: Record<DoTaskPriority, string> = {
-  p0: 'P0',
-  p1: 'P1',
-  p2: 'P2',
+  p0: 'High',
+  p1: 'Medium',
+  p2: 'Low',
 };
 
 const SEED_AT = '2026-09-16T08:00:00.000Z';
@@ -173,7 +173,7 @@ export const DO_TASK_SEED_BOARDS: DoTaskBoard[] = [
         'Polish public shareable Household Floor template',
         'doing',
         'p0',
-        'Scrubbed public template should install cleanly and stay drafts-only for send.',
+        'Sample template should install cleanly and stay drafts-only for send.',
         '/do/household',
       ),
       task(

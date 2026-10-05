@@ -1,7 +1,7 @@
 /**
  * Household Floor templates.
  *
- * - public_household_floor: scrubbed fictional demo — share tonight
+ * - public_household_floor: fictional demo sample — shareable
  * - owner_private_household_floor: owner-personal seed — NOT for public share
  */
 
@@ -23,7 +23,7 @@ const SEATS: HouseholdSeat[] = [
     id: 'SCHOOL',
     title: 'School',
     summary: 'Read notices, timetables and forms from school portals. Draft replies only.',
-    sources: ['SchoolBridge portals (owner browser)', 'pasted newsletter', 'Gmail school admin when connected'],
+    sources: ['demo school portals (owner browser)', 'pasted newsletter', 'Gmail school admin when connected'],
     canDoWithoutAsking: [
       'Open consented school portal URL in owner-browser seat',
       'Extract dates, forms and bag items from reviewed page text',
