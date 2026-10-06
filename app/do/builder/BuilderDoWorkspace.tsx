@@ -27,9 +27,9 @@ type SavedJob = PlannedResponse & {
 };
 
 const EXAMPLES = [
-  'Build the next usable version of DO Office with a real usage rail and Builder DO entry point.',
-  'Audit the current public Assembl shell for brand drift and fix only active company surfaces.',
-  'Create a visual Creative Director DO that can brief, critique and route image, video, web and 3D work.',
+  'Sample: build a one-page site for a fictional café with menu, hours and a contact form.',
+  'Sample: plan a household weekend away with a packing list, shopping notes and a simple itinerary.',
+  'Sample: rewrite a trades quote email so a household customer can compare two options clearly.',
 ];
 
 const LOCAL_QUEUE_KEY = 'assembl-builderdoo-jobs-v1';
@@ -176,7 +176,7 @@ export function BuilderDoWorkspace() {
         setQueue(next);
         try { writeLocalQueue(next); } catch { /* ignore */ }
         setActiveReceipt(null);
-        setMessage('Signed out — saved on this device only. Sign in to reopen this job on another device with a real acceptance receipt.');
+        setMessage('Signed out — saved on this device only. Sign in to reopen this job on another device.');
         return;
       }
 
@@ -199,8 +199,8 @@ export function BuilderDoWorkspace() {
         writeLocalQueue(next.map(({ receipt: _receipt, ...rest }) => rest));
       } catch { /* local mirror is optional */ }
       setMessage(saved.receipt
-        ? `${saved.receipt.title}. ${saved.receipt.summary} Next: open Office to see the accepted plan, or go to Household Floor to run a living DO — save ≠ running.`
-        : 'Saved to your Office workspace. No build has started. Save to Office is not a running agent.');
+        ? `${saved.receipt.summary} Open Office to review the saved plan, or Household Floor to run a living DO. Saving does not start a build.`
+        : 'Saved to your Office workspace. The plan is stored only. No build has started.');
     } catch (error) {
       setMessage(error instanceof Error ? error.message : 'Could not save this Builder job.');
     } finally {
@@ -219,7 +219,7 @@ export function BuilderDoWorkspace() {
     setActiveReceipt(item.receipt ?? null);
 
     if (!item.durable) {
-      setMessage('Opened a device-local job. Sign in and save again to attach an Office receipt.');
+      setMessage('Opened a job saved on this device. Sign in and save again to keep it in your Office workspace.');
       return;
     }
 
@@ -227,11 +227,11 @@ export function BuilderDoWorkspace() {
       const response = await fetch(`/api/do/builder/jobs/${item.job.id}`, { method: 'GET', credentials: 'same-origin' });
       if (response.status === 401) {
         setSignedIn(false);
-        setMessage('Sign in to reopen durable jobs from another device.');
+        setMessage('Sign in to reopen saved jobs from another device.');
         return;
       }
       if (!response.ok) {
-        setMessage('Could not refresh this durable job. Showing the last known plan.');
+        setMessage('Could not refresh this saved job. Showing the last known plan.');
         return;
       }
       const data = await response.json() as SavedJob & { receipts?: JobReceipt[] };
@@ -243,9 +243,11 @@ export function BuilderDoWorkspace() {
       setPlan(refreshed);
       const receipt = data.receipts?.find((entry) => entry.kind === 'job_accepted') ?? data.receipts?.[0] ?? null;
       setActiveReceipt(receipt);
-      setMessage(receipt ? `Reopened with receipt: ${receipt.title}` : 'Reopened durable Builder job from your Office workspace.');
+      setMessage(receipt
+        ? `Reopened from your Office workspace. ${receipt.summary}`
+        : 'Reopened saved Builder job from your Office workspace.');
     } catch {
-      setMessage('Could not refresh this durable job. Showing the last known plan.');
+      setMessage('Could not refresh this saved job. Showing the last known plan.');
     }
   }
 
@@ -261,7 +263,7 @@ export function BuilderDoWorkspace() {
     if (!plan) return;
     try {
       await navigator.clipboard.writeText(handoffText(plan));
-      setMessage('Builder handoff copied. Paste it into any repo-capable agent harness.');
+      setMessage('Builder handoff copied. Paste it into your coding agent.');
     } catch {
       setMessage('Clipboard access was unavailable. The handoff is shown below for manual copy.');
     }
@@ -291,7 +293,7 @@ export function BuilderDoWorkspace() {
             <h1>tell it what<br />needs to exist.</h1>
           </div>
           <p className={styles.heroCopy}>
-            Describe what you want to build. Review the plan, then save it to Office for a <strong>job_accepted</strong> receipt — that stores the plan only; it does not start a running agent or Household Floor. For a living family DO: install Household Floor, place the extension, run the evening board.
+            Describe what you want to build. Review the plan, then save it to Office. Saving stores the plan only. It does not start a running agent. For a living family DO, open Household Floor, install the browser extension and run the evening board.
           </p>
         </section>
 
@@ -337,7 +339,7 @@ export function BuilderDoWorkspace() {
             <div><h3>done when</h3>{plan.job.definitionOfDone.map((item) => <p key={item}>✓ {item}</p>)}</div>
             <div><h3>proof</h3>{plan.job.proof.map((item) => <p key={item}>↳ {item}</p>)}</div>
           </div>
-          {activeReceipt ? <div className={styles.boundary}><span>office receipt · {activeReceipt.kind}</span><p>{activeReceipt.title} — {activeReceipt.summary}</p><p>Save to Office ≠ running agent. Living path: <a href="/do/household">Household Floor</a> · <a href="/api/do/download?format=extension">install extension</a> · place DO · run evening board.</p></div> : null}
+          {activeReceipt ? <div className={styles.boundary}><span>saved plan</span><p>{activeReceipt.summary}</p><p>Saving the plan does not start a build. To run a living family DO: <a href="/do/household">Household Floor</a> · <a href="/api/do/download?format=extension">install extension</a> · place DO · run evening board.</p></div> : null}
           <div className={styles.actions}>
             <button type="button" onClick={() => void saveJob()} disabled={busy}>{signedIn === false ? 'save on this device' : 'save to office'}</button>
             <button type="button" onClick={downloadHandoff}>download build handoff</button>
@@ -352,7 +354,7 @@ export function BuilderDoWorkspace() {
             <span>03</span>
             <div>
               <strong>work queue</strong>
-              <p>{signedIn ? 'Durable Office jobs reopen across devices. Device-local jobs remain until you save while signed in.' : 'Sign in to keep jobs in your Office workspace. Until then, saves stay on this device.'}</p>
+              <p>{signedIn ? 'Jobs saved to Office reopen across devices. Jobs saved on this device stay here until you sign in and save again.' : 'Sign in to keep jobs in your Office workspace. Until then, saves stay on this device.'}</p>
             </div>
           </div>
           {queue.length ? <div className={styles.queueGrid}>{queue.map((item) => <button key={item.job.id} type="button" onClick={() => void openSavedJob(item)}><span>{item.durable ? `${item.job.status} · office` : item.job.status}</span><strong>{item.job.title}</strong><small>{new Date(item.savedAt).toLocaleString('en-NZ', { dateStyle: 'medium', timeStyle: 'short' })}</small></button>)}</div> : <div className={styles.empty}><strong>no saved jobs yet</strong><p>Plan your first build, inspect it, then save it here.</p></div>}
