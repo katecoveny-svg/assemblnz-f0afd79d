@@ -27,5 +27,10 @@
       "destination": "/echo-dashboard.html",
       "permanent": false
     }
-  ]
+  ],
+  "git": {
+    "deploymentEnabled": {
+      "codex/assembl-rebuild-20261012": false
+    }
+  }
 }
