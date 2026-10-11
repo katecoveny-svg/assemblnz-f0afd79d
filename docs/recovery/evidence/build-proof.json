@@ -1,0 +1,15 @@
+{
+  "sourceCommit": "0c14c0a7bee4cb5334482ebffded48c961c922e0",
+  "command": "NEXT_TELEMETRY_DISABLED=1 NODE_OPTIONS=--max-old-space-size=6144 npx --yes pnpm@9.15.9 build",
+  "exitCode": 0,
+  "compileSeconds": 60,
+  "typecheckSeconds": 76,
+  "staticPages": 206,
+  "staticGenerationSeconds": 94,
+  "focusedTypeScriptTests": 45,
+  "pythonTests": 16,
+  "targetedEslint": "passed",
+  "macronGuard": "passed",
+  "brandGuard": "passed",
+  "deployed": false
+}
