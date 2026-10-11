@@ -1,1 +1,30 @@
-{"items":[],"accentReview":"pending","note":"No regenerated sample evidence has been committed yet."}
+{
+  "items": [
+    {
+      "preset": "warm",
+      "duration": 8.72,
+      "sha256": "63036b257abe72e475560cac4e132978403aa30a58c2509903037635fd72b3de",
+      "generationSeconds": 185.655,
+      "bytes": 418604
+    },
+    {
+      "preset": "clear",
+      "duration": 8.24,
+      "sha256": "08550e20517581f3003c4f6cfa9521d085e6ff848223e51f19dbea8e901e6833",
+      "generationSeconds": 73.175,
+      "bytes": 395564
+    },
+    {
+      "preset": "bright",
+      "duration": 8.16,
+      "sha256": "c380dbea65a506272a269b96963a09f1ccd30edf16169116dbac01e058660a49",
+      "generationSeconds": 59.423,
+      "bytes": 391724
+    }
+  ],
+  "accentReview": "pending",
+  "script": "Hello, you've reached assembl. Let's find a time that works for you. Would Thursday afternoon suit, or would you prefer Friday morning?",
+  "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "revision": "5ecdb67327fd37bb2e042aab12ff7391903235d3",
+  "runtime": "CPU BF16; Linux seccomp egress guard"
+}
