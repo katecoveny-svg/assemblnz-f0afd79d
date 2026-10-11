@@ -1,0 +1,7 @@
+# Python 3.12. Install the CPU torch wheels separately as documented.
+qwen-tts==0.1.1
+transformers==4.57.3
+fastapi==0.115.12
+uvicorn==0.34.2
+httpx==0.28.1
+pytest==8.3.5

@@ -35,6 +35,8 @@ export function DoProductFrame({ product, children }: {
           <Link href="/do" {...linkProps}>Back to DO</Link>
           <Link href="/do/widget" {...linkProps}>Write, talk or look</Link>
           <Link href="/do/meetings" {...linkProps}>Meeting notes</Link>
+          <Link href="/do/messages" {...linkProps}>Conversations and replies</Link>
+          <Link href="/creative-studio/voices" {...linkProps}>Voice studio</Link>
           <Link href="/do/enquiries" {...linkProps}>Enquiry replies · private pilot</Link>
           <Link href="/do/bills" {...linkProps}>Bills · examples and CSV</Link>
           <Link href="/do/builder" {...linkProps}>Builder · prepare a plan</Link>

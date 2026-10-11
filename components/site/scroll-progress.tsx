@@ -17,7 +17,7 @@ export function ScrollProgress() {
   });
 
   // Splash and public DO ship their own chrome — no global progress line there.
-  if (pathname === '/' || pathname === '/do' || pathname?.startsWith('/do/')) {
+  if (pathname === '/' || pathname === '/do' || pathname?.startsWith('/do/') || pathname === '/creative-studio/voices') {
     return null;
   }
 

@@ -47,5 +47,5 @@ export function isDoReturn(raw: string | null): boolean {
 
 /** Only the canonical owner workspace participates in its same-host sign-in flow. */
 export function isStudioOwnerReturn(raw: string | null): boolean {
-  return safeReturnPath(raw, '') === '/studio/workspace';
+  return ['/studio/workspace', '/creative-studio/voices'].includes(safeReturnPath(raw, ''));
 }

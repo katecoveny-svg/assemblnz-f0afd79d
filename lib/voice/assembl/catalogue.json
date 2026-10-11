@@ -1,0 +1,29 @@
+{
+  "model": "Qwen/Qwen3-TTS-12Hz-1.7B-VoiceDesign",
+  "revision": "5ecdb67327fd37bb2e042aab12ff7391903235d3",
+  "language": "en-NZ",
+  "accentReview": "pending",
+  "presets": [
+    {
+      "id": "warm",
+      "name": "Warm",
+      "description": "Warm, conversational adult voice.",
+      "seed": 42,
+      "instruction": "An original adult female voice speaking natural New Zealand English, with a warm relaxed tone, clear words and a gentle conversational pace. Use a New Zealand accent rather than American or Australian English. Do not imitate a real person."
+    },
+    {
+      "id": "clear",
+      "name": "Clear",
+      "description": "Steady, direct adult voice.",
+      "seed": 43,
+      "instruction": "An original adult male voice speaking natural New Zealand English, with a steady grounded tone, clear articulation and a calm helpful pace. Use a New Zealand accent rather than American or Australian English. Do not imitate a real person."
+    },
+    {
+      "id": "bright",
+      "name": "Bright",
+      "description": "Bright, expressive adult voice.",
+      "seed": 44,
+      "instruction": "An original adult female voice speaking natural New Zealand English, with a bright expressive tone and an easy friendly pace. Use a New Zealand accent rather than American or Australian English. Do not imitate a real person."
+    }
+  ]
+}
