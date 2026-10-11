@@ -9,6 +9,14 @@ import styles from './voices.module.css';
 const examples=sampleData.items as {preset:VoicePreset;duration:number;sha256:string}[];
 const active=(j:VoiceJob|null)=>!!j&&['queued','generating'].includes(j.state);
 async function responseMessage(response:Response,fallback:string){const data=await response.json().catch(()=>null);return typeof data?.message==='string'?data.message:fallback;}
+async function serviceAvailability():Promise<{value:'ready'|'signin'|'unavailable';message:string}>{
+  try {
+    const r=await fetch('/api/creative/voices',{cache:'no-store',signal:AbortSignal.timeout(20000)});
+    if(r.status===401)return {value:'signin',message:'Sign in with your assembl account to generate a script.'};
+    if(!r.ok)return {value:'unavailable',message:await responseMessage(r,'Voice generation is unavailable. Your script stays here.')};
+    return {value:'ready',message:'The voice service is reachable. Choose the options you want to generate.'};
+  }catch{return {value:'unavailable',message:'Could not reach the voice service. Your script stays here.'};}
+}
 export function VoiceStudio(){
   const [text,setText]=useState(sampleScript);
   const [selected,setSelected]=useState<VoicePreset[]>(['warm','clear','bright']);
@@ -17,23 +25,17 @@ export function VoiceStudio(){
   const [status,setStatus]=useState('Checking voice generation availability…');
   const [job,setJob]=useState<VoiceJob|null>(null);
   const [busy,setBusy]=useState(false);
+  const [retry,setRetry]=useState(0);
+  const jobId=job?.id; const jobState=job?.state;
   const root=useRef<HTMLElement>(null);
-  const check=async()=>{
-    setAvailability('checking');
-    try{
-      const r=await fetch('/api/creative/voices',{cache:'no-store',signal:AbortSignal.timeout(20000)});
-      if(r.status===401){setAvailability('signin');setStatus('Sign in with your assembl account to generate a script.');}
-      else if(!r.ok){setAvailability('unavailable');setStatus(await responseMessage(r,'Voice generation is unavailable. Your script stays here.'));}
-      else{setAvailability('ready');setStatus('The voice service is reachable. Choose the options you want to generate.');}
-    }catch{setAvailability('unavailable');setStatus('Could not reach the voice service. Your script stays here.');}
-  };
-  useEffect(()=>{void check();},[]);
+  const check=async()=>{const result=await serviceAvailability();setAvailability(result.value);setStatus(result.message);};
+  useEffect(()=>{let mounted=true;void serviceAvailability().then(result=>{if(mounted){setAvailability(result.value);setStatus(result.message);}});return()=>{mounted=false;};},[]);
   useEffect(()=>{
-    if(!job||!active(job))return;
+    if(!jobId||!jobState||!['queued','generating'].includes(jobState))return;
     const controller=new AbortController();let timer:ReturnType<typeof setTimeout>;let failures=0;
     const poll=async()=>{
       try{
-        const r=await fetch('/api/creative/voices/'+job.id,{cache:'no-store',signal:controller.signal});
+        const r=await fetch('/api/creative/voices/'+jobId,{cache:'no-store',signal:controller.signal});
         if(!r.ok)throw Error(await responseMessage(r,'Could not refresh this job.'));
         const next=voiceJobSchema.parse(await r.json());
         if(controller.signal.aborted)return;
@@ -48,7 +50,7 @@ export function VoiceStudio(){
     };
     timer=setTimeout(poll,1200);
     return()=>{controller.abort();clearTimeout(timer);};
-  },[job?.id,job?.state]);
+  },[jobId,jobState,retry]);
   const generate=async()=>{
     if(busy||active(job))return;
     setBusy(true);
@@ -91,6 +93,7 @@ export function VoiceStudio(){
       {job?<div className={styles.job}><div className={styles.jobHeading}><span>{job.state==='ready'?<Check size={20} aria-hidden="true"/>:<Mic2 size={20} aria-hidden="true"/>}{job.state==='ready'?'Ready to listen':job.state==='failed'?'Generation failed':job.state==='queued'?'Waiting for the worker':'Making your voices'}</span><button type="button" disabled={busy} onClick={()=>void remove()} aria-label="Remove temporary voice job"><Trash2 size={18} aria-hidden="true"/></button></div>
         <p className={styles.transcript}>{job.text}</p>
         {job.state==='ready'&&job.outputs.map(o=><article className={styles.audioRow} key={o.preset}><h3>{voicePresets.find(p=>p.id===o.preset)?.name}</h3><audio controls preload="none" aria-label={o.preset+' generated voice'} src={'/api/creative/voices/'+job.id+'/audio/'+o.preset} onPlay={e=>pauseOthers(e.currentTarget)}/><a download={'assembl-'+o.preset+'.wav'} href={'/api/creative/voices/'+job.id+'/audio/'+o.preset}>Download WAV · {o.duration.toFixed(1)}s</a></article>)}
+        {active(job)&&<button type="button" onClick={()=>setRetry(v=>v+1)}>Check job again</button>}
         <p className={styles.hint}>Temporary job expires {new Date(job.expiresAt).toLocaleTimeString('en-NZ',{hour:'numeric',minute:'2-digit'})}. Download any audio you want to keep.</p>
       </div>:<div className={styles.empty}><GlassIdentity kind="assembl" size={112}/><p>Your script becomes something you can hear.</p><span>Generated audio will appear here.</span></div>}
       {examples.length>0&&<details className={styles.examples}><summary>Listen to generated examples</summary><p className={styles.transcript}>{sampleScript}</p>{examples.map(o=><article key={o.preset} className={styles.audioRow}><h3>{voicePresets.find(p=>p.id===o.preset)?.name}</h3><audio controls preload="none" aria-label={o.preset+' example voice'} src={'/do/voice/assembl/'+o.preset+'.wav'} onPlay={e=>pauseOthers(e.currentTarget)}/><a download href={'/do/voice/assembl/'+o.preset+'.wav'}>Download example</a></article>)}</details>}
