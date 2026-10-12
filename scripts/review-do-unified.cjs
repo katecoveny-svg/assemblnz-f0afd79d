@@ -270,7 +270,11 @@ async function verifyFunctionalMark(page, root, label) {
         const response = await clean.goto(origin + path, { waitUntil: 'networkidle' });
         check(`standalone DO route ${path} responds at ${width}px`, response?.ok());
         const destinations = await clean.locator('a[href]').evaluateAll(nodes => nodes.map(node => new URL(node.href).pathname));
-        check(`no cross-product links on ${path} at ${width}px`, destinations.every(path => !/^\/(pursuit|creative-studio|hub|hubs|customers)(\/|$)/.test(path)));
+        // Existing main DoProductFrame intentionally exposes voice setup inside More DO tools.
+        // Review this exact shared sub-tool while continuing to reject other product doors.
+        const voiceSetup = clean.locator('a[href="/creative-studio/voices"]');
+        if (await voiceSetup.count()) check(`voice setup stays inside More DO tools on ${path} at ${width}px`, await voiceSetup.count() === 1 && await voiceSetup.evaluate(el => Boolean(el.closest('details')?.querySelector('summary[aria-label="More DO tools"]'))));
+        check(`no unrelated cross-product links on ${path} at ${width}px`, destinations.every(destination => destination === '/creative-studio/voices' || !/^\/(pursuit|creative-studio|hub|hubs|customers)(\/|$)/.test(destination)));
         check(`no horizontal overflow on ${path} at ${width}px`, await clean.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
         if (path === '/do' || path === '/do/bills') {
           await clean.evaluate(() => document.fonts.ready);
