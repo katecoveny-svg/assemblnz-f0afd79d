@@ -11,7 +11,7 @@ const DO_PUBLIC_PATH = '/do';
 
 export function DoUtilityDock() {
   const pathname = usePathname();
-  const focused = [DO_PUBLIC_PATH, '/do/personal', '/do/widget', '/do/meetings', '/do/messages', '/do/enquiries', '/do/object', '/do/install', '/do/bills', '/do/bills/compare'].includes(pathname);
+  const focused = [DO_PUBLIC_PATH, '/do/personal', '/do/widget', '/do/meetings', '/do/messages', '/do/enquiries', '/do/object', '/do/install', '/do/bills', '/do/bills/compare', '/do/shop', '/do/travel'].includes(pathname);
   return (
     <>
       {!focused && <GlowDoWidget />}
