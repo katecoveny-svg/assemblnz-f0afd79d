@@ -6,34 +6,27 @@ const origin = process.env.ASSEMBL_REVIEW_ORIGIN || 'http://127.0.0.1:3117';
 const out = process.env.ASSEMBL_REVIEW_OUTPUT || '/tmp/personal-do-proof/unified';
 const checks = [], links = [], errors = [];
 const check = (name, condition) => { assert.ok(condition, name); checks.push(name); console.log('PASS ' + name); };
-const functionalAsset = '/brand/canonical/do-vector-v1/DO-D-mono.svg';
+const functionalAsset = '/brand/do-glass-D-transparent.png?v=cutout1';
 const checkedAssets = new Set();
 async function verifyFunctionalMark(page, root, label) {
   const mark = root.locator('[data-do-functional-mark] svg');
   await mark.waitFor({ state: 'visible' });
   check(`${label}: one decorative functional SVG with canonical viewBox`, await mark.count() === 1
-    && await mark.getAttribute('viewBox') === '0 0 960 1040'
+    && await mark.getAttribute('viewBox') === '0 0 1254 1254'
     && await mark.getAttribute('aria-hidden') === 'true'
     && await mark.getAttribute('focusable') === 'false');
-  check(`${label}: canonical asset supplies the alpha mask`, await mark.evaluate((svg, asset) => {
-    const masks = svg.querySelectorAll('mask'), images = svg.querySelectorAll('image'), rects = svg.querySelectorAll('rect');
-    const mask = masks[0], image = images[0], rect = rects[0];
-    return masks.length === 1 && images.length === 1 && rects.length === 1
-      && mask.id.startsWith('do-functional-') && mask.id.length > 'do-functional-'.length
-      && getComputedStyle(mask).maskType === 'alpha'
-      && mask.getAttribute('maskUnits') === 'userSpaceOnUse'
-      && image.getAttribute('href') === asset && image.getAttribute('width') === '960' && image.getAttribute('height') === '1040'
-      && rect.getAttribute('mask') === `url(#${mask.id})` && rect.getAttribute('fill') === 'currentColor';
+  check(`${label}: canonical artwork is displayed without colour masking or reconstructed paths`, await mark.evaluate((svg, asset) => {
+    const images = svg.querySelectorAll('image');
+    return images.length === 1 && svg.querySelectorAll('mask,path,rect').length === 0
+      && images[0].getAttribute('href') === asset
+      && images[0].getAttribute('width') === '1254' && images[0].getAttribute('height') === '1254';
   }, functionalAsset));
-  const ids = await page.locator('mask[id^="do-functional-"]').evaluateAll(nodes => nodes.map(node => node.id));
-  check(`${label}: all functional mask IDs on the page are unique`, ids.length > 0 && ids.length === new Set(ids).size);
   const assetURL = new URL(functionalAsset, page.url()).href;
   if (!checkedAssets.has(assetURL)) {
     const response = await page.request.get(assetURL);
-    check(`${label}: canonical SVG asset is served`, response.ok() && /image\/svg\+xml/.test(response.headers()['content-type'] || ''));
+    check(`${label}: canonical PNG asset is served`, response.ok() && /image\/png/.test(response.headers()['content-type'] || ''));
     const source = await response.body();
-    check(`${label}: exact two-path D/counter/bead master`, require('node:crypto').createHash('sha256').update(source).digest('hex') === '5225a6b6452ac667e179abc732319f9127909d37a9ea967e6effa0a87bc02f0e'
-      && (source.toString().match(/<path\b/g) || []).length === 2 && source.toString().includes('viewBox="0 0 960 1040"'));
+    check(`${label}: exact locked glass D artwork`, require('node:crypto').createHash('sha256').update(source).digest('hex') === '1ac1808b169b631eb2a5cb3066a3935cfcea3f6bb4abf111822b9a74e5289091');
     checkedAssets.add(assetURL);
   }
   const decoded = await mark.evaluate(async svg => {
@@ -42,21 +35,19 @@ async function verifyFunctionalMark(page, root, label) {
     try { await image.decode(); } catch { return { loaded: false }; }
     return { loaded: image.complete, width: image.naturalWidth, height: image.naturalHeight };
   });
-  check(`${label}: browser decodes the canonical SVG at the master aspect`, decoded.loaded && decoded.width > 0 && decoded.height > 0
-    && Math.abs(decoded.width / decoded.height - 960 / 1040) < 0.005);
+  check(`${label}: browser decodes the canonical glass artwork at the master dimensions`, decoded.loaded && decoded.width === 1254 && decoded.height === 1254);
   // Inspect actual browser paint, not a rasterisation of the master alone.
   const screenshot = await mark.screenshot({ animations: 'disabled' });
   const { data: pixels, info } = await require('sharp')(screenshot).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-  const scale = Math.min(info.width / 960, info.height / 1040);
+  const scale = Math.min(info.width / 1254, info.height / 1254);
   const sample = (x, y) => {
-    const px = Math.min(info.width - 1, Math.max(0, Math.floor((info.width - 960 * scale) / 2 + x * scale)));
-    const py = Math.min(info.height - 1, Math.max(0, Math.floor((info.height - 1040 * scale) / 2 + y * scale)));
+    const px = Math.min(info.width - 1, Math.max(0, Math.floor((info.width - 1254 * scale) / 2 + x * scale)));
+    const py = Math.min(info.height - 1, Math.max(0, Math.floor((info.height - 1254 * scale) / 2 + y * scale)));
     return [...pixels.subarray((py * info.width + px) * info.channels, (py * info.width + px) * info.channels + 3)];
   };
-  const outside = sample(8, 8), counter = sample(400, 270), body = sample(128, 559), bead = sample(442, 559);
+  const outside = sample(20, 20), counter = sample(500, 420), body = sample(280, 640), bead = sample(640, 660);
   const distance = (a, b) => Math.max(...a.map((value, index) => Math.abs(value - b[index])));
-  check(`${label}: tight screenshot paints the D and bead with an open counter and background`, distance(body, bead) <= 18
-    && distance(outside, counter) <= 18 && distance(body, outside) >= 60 && distance(bead, counter) >= 60);
+  check(`${label}: tight screenshot paints the D and bead with an open counter and background`, distance(outside, counter) <= 24 && distance(body, outside) >= 30 && distance(bead, counter) >= 20);
   fs.writeFileSync(out + '/mark-' + label.replace(/[^a-z0-9]+/gi, '-') + '.png', screenshot);
 }
 (async () => {

@@ -1,5 +1,3 @@
-import { useId } from 'react';
-
 export const DO_FUNCTIONAL_MARK_ASSET = '/brand/canonical/do-vector-v1/DO-D-mono.svg';
 
 /** Legacy dimensional presence geometry: retained unchanged for existing scenes. */
@@ -10,16 +8,10 @@ export function DoMark({
 }: {
   character?: "symbol" | "franklin";
 }) {
-  const maskId = `do-functional-${useId().replaceAll(':', '')}`;
   return (
-    <svg viewBox={character === "symbol" ? "0 0 960 1040" : "0 0 64 64"} aria-hidden="true" focusable="false">
+    <svg viewBox={character === "symbol" ? "0 0 1254 1254" : "0 0 64 64"} aria-hidden="true" focusable="false">
       {character === "symbol" ? (
-        <>
-          <defs><mask id={maskId} maskUnits="userSpaceOnUse" x="0" y="0" width="960" height="1040" style={{maskType:'alpha'}}>
-            <image href={DO_FUNCTIONAL_MARK_ASSET} x="0" y="0" width="960" height="1040" />
-          </mask></defs>
-          <rect width="960" height="1040" fill="currentColor" mask={`url(#${maskId})`} />
-        </>
+        <image href="/brand/do-glass-D-transparent.png?v=cutout1" width="1254" height="1254" />
       ) : (
         <>
           <path

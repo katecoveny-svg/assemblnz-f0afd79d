@@ -30,12 +30,15 @@ describe('Personal DO visual entry', () => {
     expect(html).toContain('Paste a notice');
     expect(html).not.toContain('Guest work stays on this page');
   });
-  it('renders distinct SVG definition IDs for multiple decorative DO identities', () => {
+  it('renders multiple decorative identities from the exact glass artwork without SVG ID collisions', () => {
     const html = renderToStaticMarkup(createElement(Fragment, null, createElement(PersonalDoCharacter, { avatar: 'bloom' }), createElement(PersonalDoCharacter, { avatar: 'pebble' })));
-    const ids = [...html.matchAll(/ id="([^"]+)"/g)].map(match => match[1]);
-    expect(ids.length).toBeGreaterThan(5);
-    expect(new Set(ids).size).toBe(ids.length);
-    expect(html).toContain('M16 12H29C44 12 52 20 52 32S44 52 29 52H16Z');
-    expect(html.match(/aria-hidden="true"/g)).toHaveLength(4);
+    expect(html.match(/data-glass-identity="do"/g)).toHaveLength(2);
+    expect(html.match(/src="\/brand\/do-glass-D-transparent.png\?v=cutout1"/g)).toHaveLength(2);
+    expect(html.match(/alt=""/g)).toHaveLength(2);
+    expect(html).not.toContain('<svg');
+    expect(html).not.toContain('url(#');
+    expect(html.match(/aria-hidden="true"/g)).toHaveLength(6);
+    expect(html).toContain('data-finish="plum"');
+    expect(html).toContain('data-finish="paper"');
   });
 });
