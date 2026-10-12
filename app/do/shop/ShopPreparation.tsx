@@ -30,7 +30,7 @@ export default function ShopPreparation() {
       const provenance = next.basket.filter(l => l.offer).map(l => ({ id: l.offer!.id, runId, kind: 'catalogue' as const, label: l.offer!.product, detail: `${l.offer!.source} · ${l.offer!.store} · ${l.offer!.variant} · expires ${l.offer!.expiresAt}`, sourceRef: l.offer!.id, createdAt: l.offer!.observedAt }));
       preparedRevision.current = revision; setPlan(next); setRun(prepareRun(identity, { revision, digest: next.digest }, provenance, null, now)); setError('');
     }
-    catch (e) { setError(e instanceof Error ? e.message : 'Preparation failed'); setEvents(prev => settleRewards(prev, identity, false)); }
+    catch (e) { setError(e instanceof Error ? e.message : 'Preparation failed'); } // Recoverable input errors leave completed optional activity pending.
     finally { lock.current = false; }
   }
   function finish() {

@@ -128,6 +128,13 @@ async function verifyFunctionalMark(page, root, label) {
           check('Shop retry cannot revive declined preparation', !(await clean.getByRole('button', { name: 'Save prepared receipt', exact: true }).isEnabled()));
           await clean.getByRole('button', { name: 'Start new revision', exact: true }).click();
           await clean.getByRole('button', { name: 'Prepare sample basket', exact: true }).click();
+          await clean.getByLabel('I chose to use pantry stock first').check();
+          await clean.getByRole('button', { name: 'Record optional activity', exact: true }).click();
+          await clean.getByLabel('Budget (NZD)', { exact: true }).fill('0');
+          await clean.getByRole('button', { name: 'Prepare sample basket', exact: true }).click();
+          await clean.getByLabel('Budget (NZD)', { exact: true }).fill('60');
+          await clean.getByRole('button', { name: 'Prepare sample basket', exact: true }).click();
+          check('Recoverable Shop validation preserves pending simulated utility', (await clean.locator('body').innerText()).includes('Simulated reward pending'));
           await clean.getByLabel('I reviewed quantities, substitutions, leftovers, allergen limits and uncertain fees/weights').check();
           await clean.getByRole('button', { name: 'Save prepared receipt', exact: true }).dblclick();
           check('Shop duplicate clicks leave one prepared receipt', await clean.getByRole('heading', { name: 'Prepared — nothing ordered', exact: true }).count() === 1);

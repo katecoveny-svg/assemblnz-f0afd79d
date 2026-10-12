@@ -2,8 +2,8 @@
 import { useRef, useState } from 'react';
 import Link from 'next/link';
 import { GlassIdentity } from '@/components/brand/GlassIdentity';
-import { manualFields, manualIssues, type ManualFlight } from '@/lib/do/travel/manual-input';
-import { acknowledgeTravel, prepareReviewedTravel, travelTimeline, type FlightInput, type TravelDraft } from '@/lib/do/travel/preparation';
+import { manualFields, manualIssues, projectManualFlight, type ManualFlight } from '@/lib/do/travel/manual-input';
+import { acknowledgeTravel, prepareReviewedTravel, travelTimeline, type TravelDraft } from '@/lib/do/travel/preparation';
 import { budgetSummary, declineRun, preparationRunId, prepareRun, reviewRun, runReceipt, type PreparationRun, type PreparedReceipt } from '@/lib/do/preparation/contracts';
 import { PreparationState } from '@/components/do/preparation/PreparationState';
 import '../preparation.css';
@@ -37,7 +37,7 @@ export default function TravelPreparation() {
       const allowance = budgetSummary({ currency: 'NZD', limitMinor: Math.round(budget * 100), feeMinor: null }, [Math.round(flightEstimate * 100), Math.round(hotelEstimate * nights * 100)]);
       if (allowance.exceedsBudget) throw new Error('Correct the NZD estimates, nights or budget before preparing');
       const now = new Date().toISOString();
-      const segment: FlightInput = { marketingFlight: flight.marketingFlight.trim().toUpperCase(), operatingFlight: flight.operatingFlight.trim().toUpperCase(), origin: flight.origin.trim().toUpperCase(), destination: flight.destination.trim().toUpperCase(), departure: { local: flight['departure.local'], offset: flight['departure.offset'], zone: flight['departure.zone'] }, arrival: { local: flight['arrival.local'], offset: flight['arrival.offset'], zone: flight['arrival.zone'] } };
+      const segment = projectManualFlight(flight);
       setDraft(prepareReviewedTravel({ source: { id: 'sample-manual-itinerary', kind: 'user_manual', observedAt: now, verifiedAt: now, expiresAt: new Date(Date.parse(now) + 86400000).toISOString() }, flights: [segment] }, { responsibilityId: 'fictional-traveller', runId: 'travel-session', revision, completedAt: now }));
       preparedRevision.current = revision;
       setRun(prepareRun(identity, value, [{ id: 'manual-flight', runId: preparationRunId(identity), kind: 'assumption', label: 'Manually entered itinerary', detail: 'Provider verification, flight status and fees unknown', sourceRef: 'manual-flight-entry', createdAt: now }], null, now)); setError('');

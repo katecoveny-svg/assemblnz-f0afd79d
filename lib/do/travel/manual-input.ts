@@ -7,7 +7,7 @@ export type ManualFlight = Record<ManualField, string>;
 export type ManualIssue = { segment: number; field: ManualField | 'segment'; message: string };
 export const emptyManualFlight = (): ManualFlight => Object.fromEntries(manualFields.map(f => [f, ''])) as ManualFlight;
 
-function project(f: ManualFlight): FlightInput {
+export function projectManualFlight(f: ManualFlight): FlightInput {
   return { marketingFlight: f.marketingFlight.trim().toUpperCase(), operatingFlight: f.operatingFlight.trim().toUpperCase(),
     origin: f.origin.trim().toUpperCase(), destination: f.destination.trim().toUpperCase(),
     departure: { local: f['departure.local'].trim(), offset: f['departure.offset'].trim(), zone: f['departure.zone'].trim() },
@@ -22,7 +22,7 @@ export function manualIssues(flight: ManualFlight, segment = 0): ManualIssue[] {
     if (typeof value !== 'string' || value.length > 80 || !value.trim()) issues.push({ segment, field, message: 'Enter and review this field.' });
   }
   if (issues.length) return issues;
-  const f = project(flight);
+  const f = projectManualFlight(flight);
   for (const field of ['marketingFlight', 'operatingFlight'] as const) if (!/^[A-Z0-9]{2,3}\d{1,4}$/.test(f[field])) issues.push({ segment, field, message: 'Enter the airline code and flight number; confirm the operating flight.' });
   for (const field of ['origin', 'destination'] as const) if (!/^[A-Z]{3}$/.test(f[field])) issues.push({ segment, field, message: 'Enter a three-letter airport code.' });
   for (const end of ['departure', 'arrival'] as const) {
@@ -76,7 +76,7 @@ export function createManualTravelSession(contextKey: string) {
       try {
         return prepareReviewedTravel({ source: { id: `manual-${completion.runId}`, kind: 'user_manual',
           observedAt: completion.completedAt, verifiedAt: completion.completedAt,
-          expiresAt: new Date(completed + 24 * 3600000).toISOString() }, flights: flights.map(project) }, completion);
+          expiresAt: new Date(completed + 24 * 3600000).toISOString() }, flights: flights.map(projectManualFlight) }, completion);
       } catch { throw new Error('Itinerary validation failed; check segments and completion identity.'); }
     },
     switchContext(nextContext: string) { if (nextContext !== context) { context = nextContext; clear(); } },
