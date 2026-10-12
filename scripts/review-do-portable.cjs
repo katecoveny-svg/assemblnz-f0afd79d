@@ -71,7 +71,9 @@ const fixture = `<!doctype html><meta name="viewport" content="width=device-widt
     await page.locator('.dock').tap();
     check('Reset keeps controls reachable', (await panel.boundingBox()).y === 8);
     await page.evaluate(() => { delete window.visualViewport; dispatchEvent(new Event('resize')); });
-    await page.locator('.tools button').first().tap(); await page.locator('#brief').tap();
+    await page.getByRole('button', { name: 'Point at an area', exact: true }).tap();
+    check('Explicit Point closes workspace and reveals the page picker', !(await panel.isVisible()) && await page.locator('.picker-bar').isVisible());
+    await page.locator('#brief').tap();
     check('Pointing requires local text review', await page.locator('.review').isVisible() && (await page.locator('.review textarea').inputValue()).startsWith('Fictional fixture:'));
     await page.screenshot({ path: out + '/portable-context-mobile-fixture.png', animations: 'disabled' });
     await page.locator('.close').tap();

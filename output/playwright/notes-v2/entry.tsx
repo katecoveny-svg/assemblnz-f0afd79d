@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import { DEFAULT_PERSONAL_DO_PROFILE } from '../../../apps/do/personal/profile';
 import { DoFocusWorkspace } from '../../../components/do/DoFocusWorkspace';
 import personalStyles from '../../../app/do/personal/personal.module.css';
 import { LifeAdmin } from '../../../app/do/personal/LifeAdmin';
 let mode = 'ended'; let calls = 0; let release: (() => void) | null = null; let signal: AbortSignal | null = null;
 Object.assign(window, { synthetic: { setMode(value: string) { mode = value; }, get count() { return calls; }, get aborted() { return signal?.aborted ?? false; }, release() { release?.(); release = null; } } });
 window.fetch = async (input, options) => {
+  // Explicitly ready navigation metadata only; the voice surface is a no-media stub.
+  if ((options?.method ?? 'GET') === 'GET' && String(input) === '/api/do/live-token') return Response.json({ enabled: true, configured: true, signedIn: true, remaining: 2 });
+  if ((options?.method ?? 'GET') === 'GET' && String(input) === '/api/do/personal/profile') return Response.json({ saved: false, profile: DEFAULT_PERSONAL_DO_PROFILE });
   if (String(input) === '/api/do/runtime') return Response.json({ trial: { remaining: 3, limit: 3 } });
   if (!String(input).includes('/api/do/vision')) throw new Error('All unrelated providers blocked by harness.');
   calls++; signal = options?.signal ?? null;

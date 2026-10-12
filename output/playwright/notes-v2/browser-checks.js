@@ -64,8 +64,8 @@ async page => {
   await page.locator('summary').filter({ hasText: /^Photo$/ }).first().click();
   await upload();
   await notes().getByRole('textbox', { name: /Page 1 text/ }).fill('Focus synthetic correction.');
-  await page.getByRole('button', { name: 'Notes', exact: true }).click();
-  await page.getByRole('button', { name: 'Voice', exact: true }).click();
+  await page.getByRole('button', { name: 'Write', exact: true }).click();
+  await page.getByRole('button', { name: 'Talk', exact: true }).click();
   await page.getByRole('button', { name: 'Photo', exact: true }).click();
   ensure((await notes().getByRole('textbox', { name: /Page 1 text/ }).inputValue()).includes('Focus synthetic correction'), 'Focus switch regression');
   const look = page.getByRole('region', { name: 'Show DO an image', exact: true });

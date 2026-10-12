@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import sharp from 'sharp';
 import postcss from 'postcss';
@@ -31,7 +32,8 @@ describe('DO readable controls and tiny identity', () => {
     const layout = readFileSync('app/do/layout.tsx', 'utf8');
     expect(layout).toContain('do-16.png?v=glass-v1'); expect(layout).toContain('do-32.png?v=glass-v1');
     const manifest = JSON.parse(readFileSync('public/do/manifest.webmanifest', 'utf8'));
-    expect(manifest.icons.every((icon: { src: string }) => icon.src.endsWith('?v=glass-v1'))).toBe(true);
+    const stamp = 'glass-v1-' + createHash('sha256').update(readFileSync('public/do/icons/do-512.png')).digest('hex').slice(0, 12);
+    expect(manifest.icons.every((icon: { src: string }) => icon.src.endsWith('?v=' + stamp))).toBe(true);
   });
   it('tiny D and dot remain distinguishable against the canvas', () => {
     expect(contrast(colours.plum, colours.chalk)).toBeGreaterThanOrEqual(3);

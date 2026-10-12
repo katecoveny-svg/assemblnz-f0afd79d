@@ -1,5 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { DEFAULT_PERSONAL_DO_PROFILE } from '../../../apps/do/personal/profile';
 import { DoFocusWorkspace } from '../../../components/do/DoFocusWorkspace';
 // Synthetic response controller. Never use this harness for live providers.
 let mode = 'ended';
@@ -13,6 +14,9 @@ Object.assign(window, {
   },
 });
 window.fetch = async (input, options) => {
+  // Explicitly ready navigation metadata only; the voice surface is a no-media stub.
+  if ((options?.method ?? 'GET') === 'GET' && String(input) === '/api/do/live-token') return Response.json({ enabled: true, configured: true, signedIn: true, remaining: 2 });
+  if ((options?.method ?? 'GET') === 'GET' && String(input) === '/api/do/personal/profile') return Response.json({ saved: false, profile: DEFAULT_PERSONAL_DO_PROFILE });
   if (!String(input).includes('/api/do/vision')) throw new Error('Synthetic harness blocks all other fetches.');
   count++;
   const request = JSON.parse(String(options?.body));

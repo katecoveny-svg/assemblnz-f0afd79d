@@ -11,6 +11,22 @@ private enum CompanionPreference {
     static let orbVisible = "do.companion.orb.visible"
 }
 
+enum CompanionEntry: String { case write, talk }
+enum CompanionTalkState: String {
+    case checking, unavailable, signIn = "sign-in", allowance, ready, unchecked
+    var canOpen: Bool { self == .ready }
+    var message: String {
+        switch self {
+        case .checking: return "Checking Talk availability…"
+        case .unavailable: return "Live conversation with DO is not available here yet."
+        case .signIn: return "Sign in in this workspace to use Talk."
+        case .allowance: return "Today’s Talk allowance has been used."
+        case .ready: return "Talk opens microphone consent. It does not start a call."
+        case .unchecked: return "Talk availability could not be checked. Open Write and retry."
+        }
+    }
+}
+
 #if DO_WIDGET_FIXTURE
 // Compiled only into the isolated test executable, never the shipped build.
 enum FictionalSelection { case text(String), denied, unavailable, secure, unknownSecurity }
@@ -22,6 +38,8 @@ struct FictionalCapture {
     var offers: [String] = []
     var selectionReads = 0
     var clipboardReads = 0
+    var entries: [CompanionEntry] = []
+    var talkState: CompanionTalkState = .unavailable
 }
 #endif
 
@@ -30,6 +48,9 @@ final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WK
     @Published var review = "" { didSet { destinationChecked = false; nativeReview.edit(review) } }
     @Published var reviewVisible = false
     @Published var workspaceNotice = ""
+    @Published var talkState: CompanionTalkState = .checking
+    private var entryGeneration = 0
+    private var pendingEntry: CompanionEntry?
     @Published var targetName = "your app"
     @Published var destinationChecked = false
     var target: NSRunningApplication?
@@ -76,6 +97,57 @@ final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WK
             name: NSWorkspace.didActivateApplicationNotification,
             object: nil
         )
+#endif
+    }
+
+    // Navigation/focus only. Reuse the same WKWebView and its existing account boundary.
+    func enterWorkspace(_ entry: CompanionEntry) {
+        guard entry == .write || talkState.canOpen else { workspaceNotice = talkState.message; return }
+        pendingEntry = entry
+#if DO_WIDGET_FIXTURE
+        if !NativeReviewClient.allowed(fictional.destination) { open("/do/widget") }
+        deliverEntry()
+#else
+        if NativeReviewClient.allowed(web.url) { deliverEntry() } else { open("/do/widget") }
+#endif
+    }
+
+    private func deliverEntry() {
+        guard let entry = pendingEntry else { return }
+        pendingEntry = nil
+#if DO_WIDGET_FIXTURE
+        fictional.entries.append(entry)
+#else
+        guard NativeReviewClient.allowed(web.url) else { workspaceNotice = "Open Write in the DO workspace and retry."; return }
+        let generation = entryGeneration
+        web.callAsyncJavaScript("""
+          if (!window.assemblDoCompanionEntry) {
+            await new Promise(resolve => {
+              const ready = () => { clearTimeout(timer); resolve(); };
+              const timer = setTimeout(() => { window.removeEventListener('assembl:do-entry-ready', ready); resolve(); }, 8000);
+              window.addEventListener('assembl:do-entry-ready', ready, {once:true});
+            });
+          }
+          return window.assemblDoCompanionEntry?.enter(entry) === true;
+          """, arguments: ["entry": entry.rawValue], in: nil, in: .page) { [weak self] result in
+            guard let self, generation == self.entryGeneration else { return }
+            if case .success(let accepted) = result, accepted as? Bool == true { self.workspaceNotice = "" }
+            else { self.workspaceNotice = "This entry is not ready. Your draft stays here; choose Write to retry." }
+        }
+#endif
+    }
+
+    func refreshTalkReadiness() {
+#if DO_WIDGET_FIXTURE
+        talkState = fictional.talkState
+#else
+        guard NativeReviewClient.allowed(web.url) else { talkState = .unchecked; return }
+        let generation = entryGeneration
+        web.callAsyncJavaScript("return await window.assemblDoCompanionEntry?.refresh() ?? 'unchecked';", arguments: [:], in: nil, in: .page) { [weak self] result in
+            guard let self, generation == self.entryGeneration else { return }
+            if case .success(let value) = result, let raw = value as? String, let state = CompanionTalkState(rawValue: raw) { self.talkState = state }
+            else { self.talkState = .unchecked }
+        }
 #endif
     }
 
@@ -249,8 +321,9 @@ final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WK
 #endif
     }
 
-    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) { nativeReview.navigate() }
-    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) { nativeReview.navigate() }
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) { nativeReview.navigate(); entryGeneration += 1; talkState = .checking }
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) { deliverEntry(); refreshTalkReadiness() }
+    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) { nativeReview.navigate(); entryGeneration += 1; pendingEntry = nil; talkState = .unchecked }
 
     func webView(
         _ webView: WKWebView,
@@ -440,28 +513,47 @@ final class DraggableOrbView: NSHostingView<Orb> {
     }
 }
 
+private enum CompanionTypeface {
+    static func text(_ size: CGFloat, weight: Font.Weight = .regular) -> Font {
+        // Use the canonical typeface when available, without installing or registering fonts.
+        if NSFont(name: "Instrument Sans", size: size) != nil { return .custom("Instrument Sans", size: size).weight(weight) }
+        return .system(size: size, weight: weight)
+    }
+}
+
 struct QuickActions: View {
+    @ObservedObject var model: CompanionModel
+    let write: () -> Void
+    let talk: () -> Void
     let selectText: () -> Void
     let reviewClipboard: () -> Void
     let openWorkspace: () -> Void
     let cancel: () -> Void
-    private let plum = Color(red: 0.14, green: 0.04, blue: 0.13)
+    private let plum = Color(red: 0.286, green: 0.169, blue: 0.243)
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Bring something to DO").font(.headline)
-            Text("Choose the text. Review it before using it.")
-                .font(.subheadline).foregroundColor(plum.opacity(0.75))
-            Button("Review selected text", action: selectText)
-                .help("Uses existing Accessibility permission. No permission is requested here.")
-            Button("Review clipboard", action: reviewClipboard)
-                .help("Reads copied text only after this click.")
+            Text("DO by assembl").font(CompanionTypeface.text(16, weight: .medium))
+            HStack {
+                Button("Write", action: write).buttonStyle(.borderedProminent)
+                Button("Talk", action: talk).disabled(!model.talkState.canOpen)
+            }
+            Text("Type, or use device dictation in Write.").font(CompanionTypeface.text(12))
+            Text(model.talkState.message).font(CompanionTypeface.text(12)).fixedSize(horizontal: false, vertical: true)
+            Button("Check Talk") { model.refreshTalkReadiness() }
             Divider()
-            Button("Open workspace", action: openWorkspace)
+            DisclosureGroup("Bring context") {
+                Button("Review selected text", action: selectText)
+                    .help("Uses existing Accessibility permission. No permission is requested here.")
+                Button("Review clipboard", action: reviewClipboard)
+                    .help("Reads copied text only after this click.")
+                Button("Open workspace", action: openWorkspace)
+            }
             Button("Cancel", action: cancel)
             Text("No text is read by opening this menu. Nothing is sent.")
-                .font(.caption).foregroundColor(plum.opacity(0.75))
+                .font(CompanionTypeface.text(12)).foregroundColor(plum.opacity(0.75))
         }
+        .font(CompanionTypeface.text(13))
         .buttonStyle(.bordered)
         .tint(Color(red: 0.40, green: 0.29, blue: 0.31))
         .foregroundColor(plum)
@@ -632,6 +724,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         }
     }
 
+    private func showEntry(_ entry: CompanionEntry) {
+        quickActions.performClose(nil)
+        showWorkspace()
+        workspace.makeFirstResponder(model.web)
+        model.enterWorkspace(entry)
+    }
+
     @objc func showWorkspace() {
         quickActions.performClose(nil)
         workspace.makeKeyAndOrderFront(nil)
@@ -658,7 +757,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelegate {
         quickActions.delegate = self
         returnFocusToOrb = false
         quickActions.behavior = .transient
+        model.refreshTalkReadiness()
         quickActions.contentViewController = NSHostingController(rootView: QuickActions(
+            model: model,
+            write: { [weak self] in self?.showEntry(.write) },
+            talk: { [weak self] in self?.showEntry(.talk) },
             selectText: { [weak self] in self?.reviewFromOrb(clipboard: false) },
             reviewClipboard: { [weak self] in self?.reviewFromOrb(clipboard: true) },
             openWorkspace: { [weak self] in self?.showWorkspace() },
