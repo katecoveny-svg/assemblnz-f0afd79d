@@ -8,6 +8,7 @@ beforeEach(()=>{vi.clearAllMocks();fixture.exchange.mockResolvedValue({error:nul
 it('completes a fictional same-browser callback without changing return origin',async()=>{
   const response=await GET(new NextRequest('https://www.assembl.co.nz/auth/callback?code=fictional-code&next=%2Fdo%2Fwidget&remember=1'));
   expect(response.headers.get('location')).toBe('https://www.assembl.co.nz/do/widget');
+  expect(response.headers.get('cache-control')).toBe('private, no-store');
   expect(fixture.set.mock.invocationCallOrder[0]).toBeLessThan(fixture.exchange.mock.invocationCallOrder[0]);
 });
 it('returns interrupted/missing verifier flow to login without granting access',async()=>{

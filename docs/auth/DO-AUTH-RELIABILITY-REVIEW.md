@@ -37,9 +37,13 @@ Before enabling Apple, the owner must approve: Sign in with Apple App ID/Service
 
 Primary docs: [SSR session guide](https://supabase.com/docs/guides/auth/server-side/advanced-guide), [Google](https://supabase.com/docs/guides/auth/social-login/auth-google), [Apple](https://supabase.com/docs/guides/auth/social-login/auth-apple), [identity linking](https://supabase.com/docs/guides/auth/auth-identity-linking).
 
+## Preview access and final review
+
+Vercel deployment dpl_C1gBwULhUpCovw889H7bSLhC9tyj was READY for original head 3aae479a32bb15269f182f7f49faaa81f76a19e8. It is protected: anonymous browser navigation reached Vercel login. Automatic approval review rejected the protected fetch because it creates/reuses a temporary authentication-bypass link; no workaround or protection setting change was performed. Full preview flow inspection requires explicit approval for a temporary bypass scoped to this preview. CI validation and local checks can continue without that approval. Follow-up review adds explicit private/no-store on callback/logout outcomes, announced error states, and correctly described password guidance.
+
 ## Verification
 
-34 focused tests in 9 files pass with fictional sessions. Repository lint and changed-source ESLint pass. Typecheck passes with the complete existing staging dependencies. A clean Playwright browser switches from email-link to password form; 375×812 pixels were inspected and show the password field, remember checkbox and switch-back control without horizontal overflow. No credential entered and no actual signed-in close/reopen tested. Build status is recorded in the PR.
+37 focused tests in 11 files pass with fictional sessions. Repository lint and changed-source ESLint pass. Typecheck passes with the complete existing staging dependencies. A clean Playwright browser switches from email-link to password form; 375×812 pixels were inspected and show the password field, remember checkbox and switch-back control without horizontal overflow. No credential entered and no actual signed-in close/reopen tested. Build status is recorded in the PR.
 
 ## Rollout acceptance
 

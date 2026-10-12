@@ -184,7 +184,7 @@ export function LoginForm({
   );
 
   const errorBlock = error && (
-    <p className="mt-4 rounded-card border border-[rgba(180,40,40,0.25)] bg-[rgba(180,40,40,0.06)] p-3 font-mono text-xs text-[#7A1F1F]">
+    <p role="alert" className="mt-4 rounded-card border border-[rgba(180,40,40,0.25)] bg-[rgba(180,40,40,0.06)] p-3 font-mono text-xs text-[#7A1F1F]">
       {error}
     </p>
   );
@@ -211,11 +211,13 @@ export function LoginForm({
           />
         </label>
 
-        <label className="mt-4 block">
-          <span className={labelClass}>Password</span>
-          <p className="mt-2 text-xs">Use a password you previously set for your assembl account. Signing in by email link does not create a password.</p>
+        <div className="mt-4 block">
+          <label htmlFor="assembl-login-password" className={labelClass}>Password</label>
+          <p id="assembl-password-guidance" className="mt-2 text-xs">Use a password you previously set for your assembl account. Signing in by email link does not create a password.</p>
           <input
             type="password"
+            id="assembl-login-password"
+            aria-describedby="assembl-password-guidance"
             name="password"
             required
             value={password}
@@ -224,7 +226,7 @@ export function LoginForm({
             className={inputClass}
             placeholder="your password"
           />
-        </label>
+        </div>
 
         {errorBlock}
 

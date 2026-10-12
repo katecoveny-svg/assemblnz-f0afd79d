@@ -8,6 +8,7 @@ beforeEach(()=>{vi.clearAllMocks();fixture.verify.mockResolvedValue({error:null}
 it('OTP confirmation can run without an originating-browser verifier and applies explicit preference first',async()=>{
   const response=await GET(new NextRequest('https://www.assembl.co.nz/auth/confirm?token_hash=fictional-hash&type=magiclink&next=%2Fdo%2Fwidget&remember=0'));
   expect(response.headers.get('location')).toBe('https://www.assembl.co.nz/do/widget');
+  expect(response.headers.get('cache-control')).toBe('private, no-store');
   expect(fixture.exchange).not.toHaveBeenCalled();
   expect(fixture.set).toHaveBeenCalledWith('assembl-remember','0',expect.any(Object));
   expect(fixture.set.mock.invocationCallOrder[0]).toBeLessThan(fixture.verify.mock.invocationCallOrder[0]);
