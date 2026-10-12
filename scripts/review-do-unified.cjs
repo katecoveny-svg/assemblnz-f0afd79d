@@ -118,7 +118,7 @@ async function verifyFunctionalMark(page, root, label) {
       if (path === '/do?task=plan') check(`${path} retains task`, final.pathname === '/do/widget' && final.searchParams.get('task') === 'plan');
       if (path === '/do/shop' || path === '/do/travel') {
         check(`${path} retains its distinct preparation surface`, final.pathname === path);
-        check(`${path} labels session-only preparation`, (await clean.locator('body').innerText()).includes('session only'));
+        check(`${path} labels session-only preparation`, (await clean.locator('body').innerText()).toLowerCase().includes('session only'));
         if (path === '/do/shop') {
           await clean.getByLabel('I reviewed every pantry quantity').check();
           await clean.getByRole('button', { name: 'Prepare sample basket', exact: true }).dblclick();
