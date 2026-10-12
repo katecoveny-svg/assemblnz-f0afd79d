@@ -31,8 +31,8 @@ The rewarded wait is the genuine **human basket-review wait**, not a simulated p
 ## Proof
 
 - 67 tests across seven journey/Shop/Travel files pass; new tests cover unit conversion/mismatch, recipe scaling, pantry deducted once, pack rounding/leftovers, duplicate pantry, unknown/excluded allergens, stale offers, currency/stock/budget, variable weight/unknown fees, material review edits, reward replay/owner isolation/failure and zero fixture fetch calls.
-- Typecheck passes. Focused changed-file eslint and standard narrow lint pass. Repository-wide lint fails with 1,412 existing problems (1,170 errors / 242 warnings); changed-file lint is clean.
-- Journey eval and brand/macron guards recorded separately in the preserved evidence logs.
+- Final production build passes, including both preview routes. Typecheck passes. Focused changed-file eslint and standard narrow lint pass. Repository-wide lint fails with 1,412 existing problems (1,170 errors / 242 warnings); changed-file lint is clean.
+- Journey eval passes 36/36 scenarios, with no critical failure; brand and macron guards pass. Logs are preserved in the task evidence folder.
 - Actual user Chrome extension used, not an assumed browser. Shop and Travel screenshots inspected at 375px and desktop (1280px). Document width equals viewport width; the wide basket table scrolls inside its own container.
 - Shop pantry review → prepare → optional activity → review → receipt verified; then budget edit removes basket review/receipt. Pending simulated reward settles once with evidence. Fresh reload → double-click prepare → double-click receipt without engagement yields exactly one prepared receipt.
 - Travel prepare → timezone timeline → review → receipt verified at 375px; allowance edit removes review/receipt. Booking remains disabled.
