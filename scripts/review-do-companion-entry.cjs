@@ -46,7 +46,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   await page.waitForFunction(()=>document.querySelector('#do-talk-readiness')?.textContent.includes('preferences could not'));
   check('unchecked saved preferences keep Talk disabled',await page.getByRole('button',{name:'Talk',exact:true}).isDisabled());
   profileFailure=false;await page.getByRole('button',{name:'Check Talk',exact:true}).click();
-  await page.waitForFunction(()=>window.assemblDoCompanionEntry.readiness()==='ready');
+  await page.waitForFunction(()=>window.assemblDoCompanionEntry?.readiness()==='ready');
   await page.getByRole('button',{name:'Talk',exact:true}).click();
   await page.getByRole('button',{name:'Back to Write',exact:true}).waitFor({state:'visible'});
   check('Talk opens real existing conversation controls with reviewed profile',await page.locator('.do-live-panel').count()===1 && (await page.locator('body').textContent()).includes('Fictional Alex'));
@@ -54,7 +54,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   await page.screenshot({animations:'disabled',path:out+'/talk-consent-375.png',fullPage:false});
   const talkPanel=await page.locator('.do-live-panel').elementHandle();
   remaining=0;profileFailure=true;await page.getByRole('button',{name:'Check Talk',exact:true}).click();
-  await page.waitForFunction(()=>window.assemblDoCompanionEntry.readiness()==='allowance');
+  await page.waitForFunction(()=>window.assemblDoCompanionEntry?.readiness()==='allowance');
   check('readiness refresh preserves the admitted Talk panel and reviewed profile',await talkPanel.evaluate(e=>e===document.querySelector('.do-live-panel'))&&(await page.locator('body').textContent()).includes('Fictional Alex'));
   await page.getByRole('button',{name:'Back to Write',exact:true}).click();
   await page.waitForFunction(()=>document.activeElement?.id==='do-source');
@@ -63,10 +63,10 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   await page.setViewportSize({width:1440,height:1000});await page.screenshot({animations:'disabled',path:out+'/write-1440.png',fullPage:false});
   ready=false;remaining=2;profileFailure=false;
   await page.goto(origin+'/do/widget?entry=talk');
-  await page.waitForFunction(()=>window.assemblDoCompanionEntry.readiness()==='unavailable');
+  await page.waitForFunction(()=>window.assemblDoCompanionEntry?.readiness()==='unavailable');
   await page.getByRole('button',{name:'Write',exact:true}).click();
   ready=true;await page.getByRole('button',{name:'Check Talk',exact:true}).click();
-  await page.waitForFunction(()=>window.assemblDoCompanionEntry.readiness()==='ready');
+  await page.waitForFunction(()=>window.assemblDoCompanionEntry?.readiness()==='ready');
   check('choosing Write cancels a queued Talk request',await page.locator('.do-live-panel').count()===0&&await page.getByRole('button',{name:'Write',exact:true}).getAttribute('aria-pressed')==='true');
   await page.goto(origin+'/entry-fixture');
   await page.getByRole('button',{name:'Open DO. Drag to move or use Alt and arrow keys.',exact:true}).click();
