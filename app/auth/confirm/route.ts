@@ -1,3 +1,4 @@
+import { resolveRememberParam } from '@/lib/auth/remember';
 import { privateAuthRedirect } from '@/lib/auth/response';
 import { cookies } from 'next/headers';
 import { type NextRequest } from 'next/server';
@@ -13,7 +14,7 @@ import { resolveAuthReturn } from '@/lib/auth/redirect';
  * run before verifyOtp so the session cookies pick up the chosen lifetime.
  */
 async function applyRememberParam(url: URL) {
-  const remember = url.searchParams.get('remember');
+  const remember = resolveRememberParam(url);
   if (remember !== '1' && remember !== '0') return;
   const cookieStore = await cookies();
   cookieStore.set(REMEMBER_COOKIE, remember, rememberCookieOptions(remember === '1'));

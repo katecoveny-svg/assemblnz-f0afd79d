@@ -1,3 +1,4 @@
+import { resolveRememberParam } from '@/lib/auth/remember';
 import { privateAuthRedirect } from '@/lib/auth/response';
 import { cookies } from 'next/headers';
 import { type NextRequest } from 'next/server';
@@ -30,7 +31,7 @@ export async function GET(request: NextRequest) {
 
   // Honour an explicit "stay signed in" choice carried on the link, before any
   // session cookies are written.
-  const rememberParam = url.searchParams.get('remember');
+  const rememberParam = resolveRememberParam(url);
   if (rememberParam === '1' || rememberParam === '0') {
     const cookieStore = await cookies();
     cookieStore.set(REMEMBER_COOKIE, rememberParam, rememberCookieOptions(rememberParam === '1'));

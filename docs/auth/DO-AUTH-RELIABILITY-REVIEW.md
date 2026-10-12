@@ -7,6 +7,7 @@ Base: current `origin/main` 3b036cb97 (Gemini resampling PR1518), including Writ
 - `tuneAuthCookieOptions` overwrote Supabase's `maxAge=0` deletion with 90 days or 24 hours. This can retain empty/obsolete auth chunks through logout and token chunk rotation. Preserve deletion as issued; do not extend expiry.
 - DO login rendered the form without validating an existing account session. A valid persistent cookie could therefore still lead to another sign-in request. Validate via server `getUser`; skip login only for a real, non-anonymous user without error.
 - Middleware discarded auth cookie mutations when returning a new protected-route redirect. It also ignored Supabase SSR's refresh cache headers. Preserve deletion/refresh cookie updates and private cache headers on the returned response.
+- Older nested confirmation templates could carry `remember=1` only inside the trusted nested callback URL. The receiving handler previously read only the outer URL, losing the explicit choice when that browser had no preference cookie. Resolve only explicit flags on trusted assembl auth paths; outer opt-out wins; unknown hosts/ordinary return URLs grant no remembered lifetime.
 - Interrupted login requests had no recovery message or duplicate-submit guard. The reused form handles interruptions, send throttling and allows password selection after requesting an email link.
 
 Auth-only changes reused from 2338edb552056ad4ba9b22c04c9063733c391cf6, an ancestor of `codex/do-auth-preparation-staging` at 51bc22da1. The separately reported `codex/do-auth-memory-reliability`/e3f1fddd3 was absent in both local object checks and remote branch fetch. No preparation/schema changes were imported.
@@ -43,7 +44,7 @@ Vercel deployment dpl_C1gBwULhUpCovw889H7bSLhC9tyj was READY for original head 3
 
 ## Verification
 
-37 focused tests in 11 files pass with fictional sessions. Repository lint and changed-source ESLint pass. Typecheck passes with the complete existing staging dependencies. A clean Playwright browser switches from email-link to password form; 375×812 pixels were inspected and show the password field, remember checkbox and switch-back control without horizontal overflow. No credential entered and no actual signed-in close/reopen tested. Build status is recorded in the PR.
+40 focused tests in 12 files pass with fictional sessions. Repository lint and changed-source ESLint pass. Typecheck passes with the complete existing staging dependencies. A clean Playwright browser switches from email-link to password form; 375×812 pixels were inspected and show the password field, remember checkbox and switch-back control without horizontal overflow. No credential entered and no actual signed-in close/reopen tested. Build status is recorded in the PR.
 
 ## Rollout acceptance
 
