@@ -9,7 +9,7 @@ const checks=[];
 const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('PASS '+name);};
 (async()=>{
  fs.mkdirSync(out,{recursive:true});
- const browser=await chromium.launch({channel:'chrome',headless:true});
+ const browser=await chromium.launch({headless:true,...(process.env.ASSEMBL_CHROMIUM_PATH?{executablePath:process.env.ASSEMBL_CHROMIUM_PATH}:{channel:'chrome'})});
  const context=await browser.newContext({viewport:{width:375,height:812},serviceWorkers:'block'});
  let ready=false; let profileFailure=false; const posts=[]; const foreign=[];const errors=[];
  await context.addInitScript(()=>{

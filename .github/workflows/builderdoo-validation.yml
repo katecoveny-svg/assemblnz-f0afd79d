@@ -136,8 +136,10 @@ jobs:
           refinement_status=$?
           ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/unified node scripts/review-do-unified.cjs
           unified_status=$?
+          ASSEMBL_REVIEW_ORIGIN=http://localhost:3117 ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/companion-entry node scripts/review-do-companion-entry.cjs
+          entry_status=$?
           set -e
-          test "$header_status" -eq 0 && test "$settings_status" -eq 0 && test "$calls_status" -eq 0 && test "$portable_status" -eq 0 && test "$assistant_status" -eq 0 && test "$site_status" -eq 0 && test "$refinement_status" -eq 0 && test "$unified_status" -eq 0
+          test "$header_status" -eq 0 && test "$settings_status" -eq 0 && test "$calls_status" -eq 0 && test "$portable_status" -eq 0 && test "$assistant_status" -eq 0 && test "$site_status" -eq 0 && test "$refinement_status" -eq 0 && test "$unified_status" -eq 0 && test "$entry_status" -eq 0
       - uses: actions/upload-artifact@v4
         if: always()
         with:
