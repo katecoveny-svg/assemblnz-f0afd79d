@@ -1,5 +1,7 @@
+import { resolveRememberParam } from '@/lib/auth/remember';
+import { privateAuthRedirect } from '@/lib/auth/response';
 import { cookies } from 'next/headers';
-import { NextResponse, type NextRequest } from 'next/server';
+import { type NextRequest } from 'next/server';
 import type { EmailOtpType } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/server';
 import { REMEMBER_COOKIE, rememberCookieOptions } from '@/lib/supabase/session-policy';
@@ -12,7 +14,7 @@ import { resolveAuthReturn } from '@/lib/auth/redirect';
  * run before verifyOtp so the session cookies pick up the chosen lifetime.
  */
 async function applyRememberParam(url: URL) {
-  const remember = url.searchParams.get('remember');
+  const remember = resolveRememberParam(url);
   if (remember !== '1' && remember !== '0') return;
   const cookieStore = await cookies();
   cookieStore.set(REMEMBER_COOKIE, remember, rememberCookieOptions(remember === '1'));
@@ -48,12 +50,12 @@ export async function GET(request: NextRequest) {
     const supabase = await createClient();
     const { error } = await supabase.auth.verifyOtp({ type, token_hash });
     if (!error) {
-      return NextResponse.redirect(new URL(next, url.origin));
+      return privateAuthRedirect(new URL(next, url.origin));
     }
     const loginUrl = new URL('/login', url.origin);
     loginUrl.searchParams.set('redirect', next);
     loginUrl.searchParams.set('error', error.message);
-    return NextResponse.redirect(loginUrl);
+    return privateAuthRedirect(loginUrl);
   }
 
   // Fallback: if the Supabase email template emits a default PKCE `?code=`
@@ -64,16 +66,16 @@ export async function GET(request: NextRequest) {
     const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      return NextResponse.redirect(new URL(next, url.origin));
+      return privateAuthRedirect(new URL(next, url.origin));
     }
     const loginUrl = new URL('/login', url.origin);
     loginUrl.searchParams.set('redirect', next);
     loginUrl.searchParams.set('error', error.message);
-    return NextResponse.redirect(loginUrl);
+    return privateAuthRedirect(loginUrl);
   }
 
   const loginUrl = new URL('/login', url.origin);
   loginUrl.searchParams.set('redirect', next);
   loginUrl.searchParams.set('error', 'Missing or invalid confirmation parameters.');
-  return NextResponse.redirect(loginUrl);
+  return privateAuthRedirect(loginUrl);
 }

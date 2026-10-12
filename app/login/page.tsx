@@ -1,3 +1,6 @@
+import { getReadyAuthProviders } from '@/lib/auth/providers';
+import { redirect } from 'next/navigation';
+import { createClient } from '@/lib/supabase/server';
 import type { Metadata } from "next";
 import Link from "next/link";
 import { DoPresence } from "@/components/do/DoPresence";
@@ -31,6 +34,14 @@ export default async function LoginPage({
     process.env.NEXT_PUBLIC_SUPABASE_URL &&
       process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
   );
+
+  if (envConfigured && forDo) {
+    const client = await createClient();
+    const { data, error } = await client.auth.getUser();
+    if (!error && data.user && !data.user.is_anonymous) redirect(redirectTo);
+  }
+
+  const providers = envConfigured ? await getReadyAuthProviders() : { google: false, apple: false };
 
   return (
     <section
@@ -72,7 +83,9 @@ export default async function LoginPage({
             </h1>
             {forDo && (
               <p className="mt-4 text-sm leading-relaxed text-[#654A4E]">
-                Use your assembl account, or enter your email to create one.
+                {new URLSearchParams(redirectTo.split('?')[1] || '').get('nativeReview') === '1'
+                  ? 'Sign in inside this app with your existing password. Browser sign-in is separate; emailed links open your browser.'
+                  : 'Use your assembl account, or enter your email to create one.'}
               </p>
             )}
           </div>
@@ -95,7 +108,7 @@ export default async function LoginPage({
                 </p>
               </div>
             ) : (
-              <LoginForm
+              <LoginForm providers={providers}
                 redirectTo={redirectTo}
                 sent={sp.sent === "1"}
                 errorMsg={typeof sp.error === "string" ? sp.error : null}

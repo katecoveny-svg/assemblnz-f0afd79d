@@ -36,12 +36,13 @@ export async function updateSession(request: NextRequest) {
       getAll() {
         return request.cookies.getAll();
       },
-      setAll(cookiesToSet) {
+      setAll(cookiesToSet, headers) {
         // "Stay signed in on this device" — keep the refreshed session cookies
         // on the same lifetime the visitor chose at sign-in.
         const remember = isRemembered(request.cookies.get(REMEMBER_COOKIE)?.value);
         cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
         response = NextResponse.next({ request });
+        Object.entries(headers ?? {}).forEach(([name, value]) => response.headers.set(name, value));
         cookiesToSet.forEach(({ name, value, options }) =>
           response.cookies.set(name, value, tuneAuthCookieOptions(name, options ?? {}, remember)),
         );
@@ -58,7 +59,12 @@ export async function updateSession(request: NextRequest) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = '/login';
     loginUrl.searchParams.set('redirect', request.nextUrl.pathname);
-    return NextResponse.redirect(loginUrl);
+    const redirect = NextResponse.redirect(loginUrl);
+    response.cookies.getAll().forEach(cookie => redirect.cookies.set(cookie));
+    response.headers.forEach((value, name) => {
+      if (['cache-control', 'expires', 'pragma'].includes(name)) redirect.headers.set(name, value);
+    });
+    return redirect;
   }
 
   return response;

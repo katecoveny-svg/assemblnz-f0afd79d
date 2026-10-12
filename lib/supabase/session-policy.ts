@@ -17,10 +17,7 @@
  * stamp the matching `maxAge` onto the Supabase auth cookies as they roll
  * forward, so the lifetime sticks across the whole session, not just at login.
  *
- * Note: the *upper bound* on a remembered session is also governed by the
- * Supabase project's refresh-token expiry (Dashboard → Auth → Sessions). Set
- * that to 90 days so the silent refresh keeps working for the full window —
- * see the PR description for the dashboard go-live steps.
+ * Cookie persistence does not override server-side session expiry or revocation.
  */
 
 export const REMEMBER_COOKIE = 'assembl-remember';
@@ -63,7 +60,8 @@ export function tuneAuthCookieOptions<T extends { maxAge?: number }>(
     name.includes('-auth-token') &&
     !name.includes('code-verifier');
 
-  if (!isSupabaseAuthCookie) return options;
+  // Sign-out/rotation removes chunks with maxAge=0. Never resurrect a deletion.
+  if (!isSupabaseAuthCookie || options.maxAge === 0) return options;
 
   return {
     ...options,

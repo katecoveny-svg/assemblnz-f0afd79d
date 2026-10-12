@@ -21,6 +21,7 @@ on:
       - 'lib/connectors/pipedream.ts'
       - 'lib/connectors/pipedream.test.ts'
       - 'lib/auth/**'
+      - 'lib/supabase/**'
       - 'app/login/**'
       - 'app/auth/**'
       - 'middleware.ts'
@@ -73,6 +74,8 @@ jobs:
         run: pnpm typecheck
       - name: DO core unit tests
         run: pnpm test apps/do/coordination apps/do/shared apps/do/personal apps/do/services/family.test.ts apps/do/services/family-server.test.ts app/api/do app/do/personal lib/do/nz-public-data.test.ts lib/do/nz-local-updates.test.ts lib/do/do-pwa.test.ts lib/do/availability lib/do/travel lib/typesafe lib/os/improvement.test.ts lib/os/routing.test.ts lib/connectors/pipedream.test.ts
+      - name: Authentication cookie, callback, login and provider regressions
+        run: pnpm exec vitest run app/login app/auth lib/supabase lib/auth/origin.test.ts lib/auth/do-entry.test.ts lib/auth/providers.test.ts lib/auth/remember.test.ts
       - name: DO paper field and locked identity contracts
         run: pnpm exec vitest run lib/brand/do-identity.test.ts
       - name: Photo notes and privacy session contracts (synthetic tests)

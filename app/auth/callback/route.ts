@@ -1,5 +1,7 @@
+import { resolveRememberParam } from '@/lib/auth/remember';
+import { privateAuthRedirect } from '@/lib/auth/response';
 import { cookies } from 'next/headers';
-import { NextResponse, type NextRequest } from 'next/server';
+import { type NextRequest } from 'next/server';
 import type { EmailOtpType } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/server';
 import { REMEMBER_COOKIE, rememberCookieOptions } from '@/lib/supabase/session-policy';
@@ -29,7 +31,7 @@ export async function GET(request: NextRequest) {
 
   // Honour an explicit "stay signed in" choice carried on the link, before any
   // session cookies are written.
-  const rememberParam = url.searchParams.get('remember');
+  const rememberParam = resolveRememberParam(url);
   if (rememberParam === '1' || rememberParam === '0') {
     const cookieStore = await cookies();
     cookieStore.set(REMEMBER_COOKIE, rememberParam, rememberCookieOptions(rememberParam === '1'));
@@ -40,27 +42,27 @@ export async function GET(request: NextRequest) {
   if (token_hash && type) {
     const { error } = await supabase.auth.verifyOtp({ type, token_hash });
     if (!error) {
-      return NextResponse.redirect(new URL(next, url.origin));
+      return privateAuthRedirect(new URL(next, url.origin));
     }
     const loginUrl = new URL('/login', url.origin);
     loginUrl.searchParams.set('redirect', next);
     loginUrl.searchParams.set('error', error.message);
-    return NextResponse.redirect(loginUrl);
+    return privateAuthRedirect(loginUrl);
   }
 
   if (code) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      return NextResponse.redirect(new URL(next, url.origin));
+      return privateAuthRedirect(new URL(next, url.origin));
     }
     const loginUrl = new URL('/login', url.origin);
     loginUrl.searchParams.set('redirect', next);
     loginUrl.searchParams.set('error', error.message);
-    return NextResponse.redirect(loginUrl);
+    return privateAuthRedirect(loginUrl);
   }
 
   const loginUrl = new URL('/login', url.origin);
   loginUrl.searchParams.set('redirect', next);
   loginUrl.searchParams.set('error', 'Missing auth code in callback.');
-  return NextResponse.redirect(loginUrl);
+  return privateAuthRedirect(loginUrl);
 }
