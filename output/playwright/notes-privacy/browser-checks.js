@@ -46,7 +46,7 @@ async page => {
   await page.getByRole('region',{name:'DO builder workspace',exact:true}).locator('summary').filter({hasText:/^Photo$/}).first().click();
   await add();
   await page.evaluate(b=>window.privacy.event(b),b);
-  await page.getByRole('button',{name:'Notes',exact:true}).waitFor();
+  await page.getByRole('button',{name:'Write',exact:true}).waitFor();
   await page.getByText('Build or customise a DO',{exact:true}).click();
   await page.getByRole('button',{name:'Open the builder',exact:true}).click();
   await page.getByRole('region',{name:'DO builder workspace',exact:true}).locator('summary').filter({hasText:/^Photo$/}).first().click();

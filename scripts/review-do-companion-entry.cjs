@@ -11,7 +11,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
  fs.mkdirSync(out,{recursive:true});
  const browser=await chromium.launch({headless:true,...(process.env.ASSEMBL_CHROMIUM_PATH?{executablePath:process.env.ASSEMBL_CHROMIUM_PATH}:{channel:'chrome'})});
  const context=await browser.newContext({viewport:{width:375,height:812},serviceWorkers:'block'});
- let ready=false; let profileFailure=false; const posts=[]; const foreign=[];const errors=[];
+ let ready=false; let remaining=2; let profileFailure=false; const posts=[]; const foreign=[];const errors=[];
  await context.addInitScript(()=>{
   window.__entryMicReads=0;window.__entrySpeech=0;
   navigator.mediaDevices.getUserMedia=async()=>{window.__entryMicReads++;throw new Error('Synthetic test: microphone disabled');};
@@ -23,7 +23,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   if(route.request().method()!=='GET'){posts.push(url.pathname);return route.abort();}
   if(url.pathname==='/api/do/personal')return route.fulfill({json:{workspaceKey:'10000000-0000-4000-8000-000000000001'}});
   if(url.pathname==='/api/do/runtime')return route.fulfill({json:{signedIn:true,availability:{available:false}}});
-  if(url.pathname==='/api/do/live-token')return route.fulfill({json:{enabled:ready,configured:ready,signedIn:true,remaining:2,dailyLimit:20,sessionSeconds:300,model:'fictional'}});
+  if(url.pathname==='/api/do/live-token')return route.fulfill({json:{enabled:ready,configured:ready,signedIn:true,remaining,dailyLimit:20,sessionSeconds:300,model:'fictional'}});
   if(url.pathname==='/api/do/personal/profile')return route.fulfill({status:profileFailure?503:200,json:profileFailure?{}:{saved:true,profile:{displayName:'Fictional Alex',avatar:'bloom',tone:'warm',responseLength:'brief',initiative:'on_request',preferences:'Fictional reviewed style',voiceName:'Aoede',onboardingCompleted:true,updatedAt:'2026-10-12T00:00:00Z'}}});
   if(url.pathname==='/entry-fixture')return route.fulfill({contentType:'text/html',body:'<!doctype html><title>Fictional companion host</title><p>Fictional practice note.</p><script src="/api/do/widget" defer></script>'});
   return route.continue();
@@ -52,11 +52,22 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   check('Talk opens real existing conversation controls with reviewed profile',await page.locator('.do-live-panel').count()===1 && (await page.locator('body').textContent()).includes('Fictional Alex'));
   check('opening Talk starts neither microphone nor speech playback',await page.evaluate(()=>window.__entryMicReads===0&&window.__entrySpeech===0)&&posts.length===0);
   await page.screenshot({animations:'disabled',path:out+'/talk-consent-375.png',fullPage:false});
+  const talkPanel=await page.locator('.do-live-panel').elementHandle();
+  remaining=0;profileFailure=true;await page.getByRole('button',{name:'Check Talk',exact:true}).click();
+  await page.waitForFunction(()=>window.assemblDoCompanionEntry.readiness()==='allowance');
+  check('readiness refresh preserves the admitted Talk panel and reviewed profile',await talkPanel.evaluate(e=>e===document.querySelector('.do-live-panel'))&&(await page.locator('body').textContent()).includes('Fictional Alex'));
   await page.getByRole('button',{name:'Back to Write',exact:true}).click();
   await page.waitForFunction(()=>document.activeElement?.id==='do-source');
   check('Back to Write preserves text and editor identity',await page.locator('#do-source').inputValue()==='Fictional note: prepare the Friday outline.'&&await editor.evaluate(e=>e===document.querySelector('#do-source')));
   check('phone has no horizontal overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await page.setViewportSize({width:1440,height:1000});await page.screenshot({animations:'disabled',path:out+'/write-1440.png',fullPage:false});
+  ready=false;remaining=2;profileFailure=false;
+  await page.goto(origin+'/do/widget?entry=talk');
+  await page.waitForFunction(()=>window.assemblDoCompanionEntry.readiness()==='unavailable');
+  await page.getByRole('button',{name:'Write',exact:true}).click();
+  ready=true;await page.getByRole('button',{name:'Check Talk',exact:true}).click();
+  await page.waitForFunction(()=>window.assemblDoCompanionEntry.readiness()==='ready');
+  check('choosing Write cancels a queued Talk request',await page.locator('.do-live-panel').count()===0&&await page.getByRole('button',{name:'Write',exact:true}).getAttribute('aria-pressed')==='true');
   await page.goto(origin+'/entry-fixture');
   await page.getByRole('button',{name:'Open DO. Drag to move or use Alt and arrow keys.',exact:true}).click();
   const iframe=page.frameLocator('iframe[title="DO — prepare and review"]');
