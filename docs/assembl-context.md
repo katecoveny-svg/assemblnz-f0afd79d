@@ -2,7 +2,7 @@
 
 > Canonical company and product strategy. For the latest working state, read `docs/context/CURRENT.md` first. Public copy follows `docs/assembl-copy-standard.md`. Visual work follows `docs/assembl-brand-system.md` and root `DESIGN.md`.
 
-**Last strategy refresh:** 17 September 2026
+**Last strategy refresh:** 13 October 2026 (accepted DO interaction, continuity and grocery-first direction; earlier architecture retained)
 
 ## what assembl is
 
@@ -78,6 +78,18 @@ DO should:
 DO should answer:
 
 > **can Assembl actually complete the useful work?**
+
+#### Accepted DO interaction and continuity direction — 13 October 2026
+
+The core DO should be compact and immediately useful. **Write** means type or dictate into the same task/conversation. **Talk** means the user speaking with DO and hearing DO reply. Talk is not an automatic phone call, meeting recording or permission to contact another person. Explicit business phone calls are a separate capability with their own recipient, purpose, data-sharing, recording and action approvals.
+
+The intended experience uses the same verified account, conversation and deliberately approved preferences across Mac, browser, Shop and Travel. Shared identity, constraints, budgets, versioned approval, preparation, evidence and receipts support distinct Shop and Travel experiences. This is an acceptance goal, not a claim that cross-device continuity, generated conversational voice or durable recall is already proven. Read the current-state matrix before describing availability.
+
+Product memory must be opt-in and bound to the verified account and stated purpose. Show exactly what is proposed for saving, recipients/provider use and retention; let the user review, edit, disable and delete it. Cross-account isolation, expiry, deletion, sign-out, restoration and failure behavior require proof. Browser-local drafts/defaults are a separate, clearly labelled storage class and must never silently stand in for failed cloud storage. Product/company direction belongs in this public repository; private user memory belongs only in its consented storage boundary. No credentials, tokens, personal health or private family information belong in repo context.
+
+Sequence delivery around one dependable **grocery journey first**, then one travel journey using the shared foundations. Woolworths is the first grocery partnership target; Foodstuffs outreach remains deferred by user preference. Existing authorised retailer access is needed for live stock, prices, cart and checkout. Do not scrape or invent access to close that gap. A Shopify retailer is only a potential approved fallback, not an existing partner.
+
+Optional utility or sponsored reward choices may help during a real task wait. Never manufacture a delay, make rewards mandatory, invent point rates/credit or imply issuance without provider evidence. Client-branded public demonstrations illustrate a proposal; they establish neither endorsement nor operational integration. Preserve strong existing scenes and domain behavior rather than creating competing flagships or replacing them with generic cards.
 
 #### DO Action Cloud
 
@@ -170,6 +182,12 @@ Factory loop:
 `SELECT → ISOLATE → BUILD → PROVE → REVIEW → SHIP-READY → COMPOUND`
 
 Every substantial build should leave behind something reusable: a primitive, skill, test/eval, connector, design pattern, piece of canonical knowledge or durable lesson.
+
+### Connect and outcome concepts
+
+**Connect** is the intended normalized API/MCP capability layer across agents, supported by Factory primitives. It does not mean every listed provider is connected or every endpoint is production-ready. Keep permissions, source, budget, failure and receipt contracts attached to each callable capability.
+
+**Fill** (cancellation/waitlist utility) and **Reactivate** (useful reactivation of existing opportunities or relationships) are outcome concepts. Pursuit can discover relevant work; Studio can make the proposal tangible; DO can execute only the bounded supported actions. Neither concept is a shipped product or permission to contact people, scrape sources, book or spend.
 
 ## proof and learning
 

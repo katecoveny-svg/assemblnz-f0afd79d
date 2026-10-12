@@ -3,7 +3,7 @@
 Use this file to decide what context to load. The goal is one coherent source of truth without loading the entire company history into every task.
 
 Machine-readable routing: `config/context-manifest.json`.  
-Fast-moving working context: `docs/context/CURRENT.md`.
+Fast-moving working context: `docs/context/CURRENT.md`. Its 13 October matrix distinguishes merged/deployed evidence from local work and records owners and next verification gates. The [dated Claude handoff](handoffs/2026-10-13-claude-handoff.md) is supporting reference only; latest explicit direction and fresh target evidence take precedence.
 
 ## precedence
 
