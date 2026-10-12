@@ -109,13 +109,47 @@ async function verifyFunctionalMark(page, root, label) {
     check('cancel keeps the same local work', await page.locator('#personal-do-result').isVisible());
     // Fresh tab avoids accepting the browser's unsaved-work warning in test cleanup.
     const clean = await context.newPage(); clean.on('pageerror', e => errors.push(clean.url() + ": " + e.message));
-    for (const path of ['/', '/do', '/do/personal', '/do?open=1', '/do?task=plan', '/do/widget?task=rewrite', '/do/widget?tool=look', '/do/meetings', '/do/bills', '/do/enquiries', '/do/install', '/do/install#chrome', '/do/billing', '/do/share', '/do/live', '/do/travel', '/about', '/contact', '/pursuit', '/creative-studio', '/legal/privacy', '/login?redirect=%2Fdo']) {
+    for (const path of ['/', '/do', '/do/personal', '/do?open=1', '/do?task=plan', '/do/widget?task=rewrite', '/do/widget?tool=look', '/do/meetings', '/do/bills', '/do/enquiries', '/do/install', '/do/install#chrome', '/do/billing', '/do/share', '/do/live', '/do/shop', '/do/travel', '/about', '/contact', '/pursuit', '/creative-studio', '/legal/privacy', '/login?redirect=%2Fdo']) {
       await clean.goto('about:blank'); // Force an HTTP navigation even for same-page hash routes.
       const response = await clean.goto(origin + path, { waitUntil: 'networkidle' });
       const title = await clean.title(); const final = new URL(clean.url());
       links.push({ path, status: response.status(), final: final.pathname + final.search + final.hash, title });
       check(`route ${path}`, response.ok());
-      if (path === '/do?task=plan' || path === '/do/travel') check(`${path} retains task`, final.pathname === '/do/widget' && final.searchParams.get('task') === 'plan');
+      if (path === '/do?task=plan') check(`${path} retains task`, final.pathname === '/do/widget' && final.searchParams.get('task') === 'plan');
+      if (path === '/do/shop' || path === '/do/travel') {
+        check(`${path} retains its distinct preparation surface`, final.pathname === path);
+        check(`${path} labels session-only preparation`, (await clean.locator('body').innerText()).toLowerCase().includes('session only'));
+        if (path === '/do/shop') {
+          await clean.getByLabel('I reviewed every pantry quantity').check();
+          await clean.getByRole('button', { name: 'Prepare sample basket', exact: true }).dblclick();
+          await clean.getByLabel('I reviewed quantities, substitutions, leftovers, allergen limits and uncertain fees/weights').check();
+          await clean.getByRole('button', { name: 'Decline preparation', exact: true }).click();
+          await clean.getByRole('button', { name: 'Prepare sample basket', exact: true }).click();
+          check('Shop retry cannot revive declined preparation', !(await clean.getByRole('button', { name: 'Save prepared receipt', exact: true }).isEnabled()));
+          await clean.getByRole('button', { name: 'Start new revision', exact: true }).click();
+          await clean.getByRole('button', { name: 'Prepare sample basket', exact: true }).click();
+          await clean.getByLabel('I chose to use pantry stock first').check();
+          await clean.getByRole('button', { name: 'Record optional activity', exact: true }).click();
+          await clean.getByLabel('Budget (NZD)', { exact: true }).fill('0');
+          await clean.getByRole('button', { name: 'Prepare sample basket', exact: true }).click();
+          await clean.getByLabel('Budget (NZD)', { exact: true }).fill('60');
+          await clean.getByRole('button', { name: 'Prepare sample basket', exact: true }).click();
+          check('Recoverable Shop validation preserves pending simulated utility', (await clean.locator('body').innerText()).includes('Simulated reward pending'));
+          await clean.getByLabel('I reviewed quantities, substitutions, leftovers, allergen limits and uncertain fees/weights').check();
+          await clean.getByRole('button', { name: 'Save prepared receipt', exact: true }).dblclick();
+          check('Shop duplicate clicks leave one prepared receipt', await clean.getByRole('heading', { name: 'Prepared — nothing ordered', exact: true }).count() === 1);
+          await clean.getByLabel('Budget (NZD)', { exact: true }).fill('65');
+          check('Shop edit removes stale receipt', await clean.getByRole('heading', { name: 'Prepared — nothing ordered', exact: true }).count() === 0);
+        } else {
+          await clean.getByRole('button', { name: 'Prepare itinerary', exact: true }).dblclick();
+          await clean.getByLabel('I reviewed every itinerary field, estimate and unknown fee').check();
+          await clean.getByRole('button', { name: 'Save prepared receipt', exact: true }).dblclick();
+          check('Travel duplicate clicks leave one prepared receipt', await clean.getByRole('heading', { name: 'Prepared — nothing booked', exact: true }).count() === 1);
+          await clean.getByLabel('Budget (NZD)', { exact: true }).fill('550');
+          check('Travel edit removes stale receipt', await clean.getByRole('heading', { name: 'Prepared — nothing booked', exact: true }).count() === 0);
+        }
+        check(`${path} has no horizontal overflow`, await clean.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      }
     }
     await clean.goto(origin + '/login?redirect=%2Fdo', { waitUntil: 'networkidle' });
     check('ordinary login retains the DO return destination', new URL(clean.url()).pathname === '/login' && new URL(clean.url()).searchParams.get('redirect') === '/do' && await clean.getByRole('heading', { name: 'Sign in to DO', exact: true }).isVisible());
@@ -236,7 +270,11 @@ async function verifyFunctionalMark(page, root, label) {
         const response = await clean.goto(origin + path, { waitUntil: 'networkidle' });
         check(`standalone DO route ${path} responds at ${width}px`, response?.ok());
         const destinations = await clean.locator('a[href]').evaluateAll(nodes => nodes.map(node => new URL(node.href).pathname));
-        check(`no cross-product links on ${path} at ${width}px`, destinations.every(path => !/^\/(pursuit|creative-studio|hub|hubs|customers)(\/|$)/.test(path)));
+        // Existing main DoProductFrame intentionally exposes voice setup inside More DO tools.
+        // Review this exact shared sub-tool while continuing to reject other product doors.
+        const voiceSetup = clean.locator('a[href="/creative-studio/voices"]');
+        if (await voiceSetup.count()) check(`voice setup stays inside More DO tools on ${path} at ${width}px`, await voiceSetup.count() === 1 && await voiceSetup.evaluate(el => Boolean(el.closest('details')?.querySelector('summary[aria-label="More DO tools"]'))));
+        check(`no unrelated cross-product links on ${path} at ${width}px`, destinations.every(destination => destination === '/creative-studio/voices' || !/^\/(pursuit|creative-studio|hub|hubs|customers)(\/|$)/.test(destination)));
         check(`no horizontal overflow on ${path} at ${width}px`, await clean.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
         if (path === '/do' || path === '/do/bills') {
           await clean.evaluate(() => document.fonts.ready);

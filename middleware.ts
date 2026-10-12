@@ -902,6 +902,12 @@ export async function middleware(request: NextRequest) {
     );
   }
 
+  // Public, fictional preparation fixtures consume no owner session or provider access.
+  // Keep them isolated from auth refresh; authenticated persistence is a separate adapter.
+  if (request.nextUrl.pathname === '/do/shop' || request.nextUrl.pathname === '/do/travel') {
+    request.headers.set('x-pathname', request.nextUrl.pathname);
+    return NextResponse.next({ request });
+  }
   return await updateSession(request);
 }
 

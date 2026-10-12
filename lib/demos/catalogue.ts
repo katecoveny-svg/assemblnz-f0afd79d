@@ -16,7 +16,9 @@
  */
 
 export type Demo = {
-  slug: string;                 // the pages.dev subdomain
+  slug: string;                 // stable catalogue identity / legacy Pages subdomain
+  canonicalTarget?: string;     // explicit independently hosted current destination
+  verification?: { observedAt: string; access: 'public' | 'gated' | 'unverified'; behavior: string; readiness: string };
   company: string;
   sector: string;
   kind: 'named' | 'demonstrator';
@@ -35,34 +37,36 @@ export type Demo = {
   tier: 'now' | 'next' | 'exhibit' | 'parked';
 };
 
-export const url = (slug: string) => `https://assembling-${slug}.pages.dev`;
+/** Strings retain legacy URL behavior; explicit object targets select the canonical host. */
+export function url(target: string | Pick<Demo, 'slug' | 'canonicalTarget'>): string {
+  if (typeof target === 'string') return `https://assembling-${target}.pages.dev`;
+  if (!target.canonicalTarget) return `https://assembling-${target.slug}.pages.dev`;
+  const destination = new URL(target.canonicalTarget);
+  if (destination.protocol !== 'https:' || destination.username || destination.password) throw new Error('Canonical demo target must be a public HTTPS URL');
+  return destination.href;
+}
 
 export const DEMOS: Demo[] = [
   {
     slug: 'everyday-rewards', tier: 'now',
-    company: 'Everyday Rewards (flagship)',
-    sector: 'loyalty · grocery',
-    kind: 'named',
-    wedge:
-      'One connected journey: photograph the fridge, the wait drafts the week, a person signs the send — every spinner a place to earn.',
-    showpiece:
-      'The interactive phone. Use the demo fridge (real opus-5 vision on a bundled photo) or your own; the 3D fridge hands items to the basket as the app reads; remove a basket row and it flies back; sign and the Mana Receipt itemises the visit.',
-    has: { waits: true, accept: true, scratch: false, agent: true },
-  },
-  {
-    slug: 'woolworths-rewards', tier: 'next',
-    company: 'Woolworths NZ · Everyday Rewards',
-    sector: 'Grocery + loyalty',
-    kind: 'named',
-    wedge:
-      'Woolworths shipped Olive, Snap & Shop and Smart Baskets in Australia on 29 June 2026 — and the release never mentions Everyday Rewards. New Zealand has neither. The agent and the loyalty programme are separate builds.',
-    showpiece:
-      'The shop assembles itself when you press play: the list arrives already written from purchase history, the missing weekly item is flagged, a substitution is asked rather than decided, a supplier-funded slot appears labelled as funded, and then it stops with nothing ordered. Plus an honest split between what can start Monday and what has to be built.',
+    canonicalTarget: 'https://assembl-concept-studio.katecoveny.chatgpt.site/everyday-rewards',
+    company: 'Woolworths NZ · Everyday Rewards concept',
+    sector: 'Grocery + loyalty', kind: 'named',
+    wedge: 'Start with the fridge, review ingredients, prepare meals and a shopping list. Useful optional reward choices sit beside the task.',
+    showpiece: 'Public independently hosted concept with a labelled sample shopping journey, sample NZD prices and simulated rewards. No retailer account, live pricing, checkout or actual points are connected.',
+    caution: 'Not production-ready. Following the user’s secret update, real OpenAI gpt-6-astra chat and fridge-photo tests passed on 12 October. The earlier credential-blocked audit is historical. Retail catalogue, prices and rewards remain simulated; no live Woolworths connection or agreed rewards funding/issuance.',
+    verification: {
+      observedAt: '2026-10-12', access: 'public',
+      behavior: 'Public page loaded in Chrome. Independently verified real OpenAI gpt-6-astra chat prepared a three-dinner brief under NZ$40; Apply updated the planner. A stock fridge photo returned tomatoes, carrots, cheese and uncertain milk; reviewer removed milk and applied the remaining ingredients before generating the sample basket.',
+      readiness: 'Real chat and fridge-photo provider behavior verified after the user’s secret update. Earlier 12 October credential-blocked audit retained as historical evidence. Retail catalogue, prices and rewards simulated; no retailer checkout or Everyday Rewards account connection. Independently hosted; repository changes do not update this Site.',
+    },
     superseded: [
-      { slug: 'concept', note: 'the "concept for Oliver" build — richer chrome, but no tier split and no researched concepts' },
-      { slug: 'woolworths-cine', note: 'the earliest single-screen version' },
+      { slug: 'everyday-rewards', note: 'previous fridge-to-basket flagship; preserved reference, not the current primary link' },
+      { slug: 'woolworths-rewards', note: 'older assembled shopping/loyalty concept; preserved reference' },
+      { slug: 'concept', note: 'the historical concept for Oliver; preserved reference' },
+      { slug: 'woolworths-cine', note: 'the earliest cinematic single-screen version; preserved reference' },
     ],
-    has: { waits: true, accept: true, scratch: true, agent: true },
+    has: { waits: true, accept: true, scratch: false, agent: true },
   },
   {
     slug: 'ryman-family', tier: 'next',
@@ -272,5 +276,5 @@ export const DEMOS: Demo[] = [
 
 /** Every superseded slug, so the page can list what NOT to send. */
 export const SUPERSEDED = DEMOS.flatMap((d) =>
-  (d.superseded ?? []).map((s) => ({ ...s, replacedBy: d.slug, company: d.company })),
+  (d.superseded ?? []).map((s) => ({ ...s, replacedBy: d.slug, replacedByTarget: url(d), company: d.company })),
 );
