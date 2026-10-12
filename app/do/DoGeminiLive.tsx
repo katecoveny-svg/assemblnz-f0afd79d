@@ -329,7 +329,7 @@ export function DoGeminiLive({
                     realtimeInput: {
                       audio: {
                         data: toBase64(e.data),
-                        mimeType: `audio/pcm;rate=${input.sampleRate}`,
+                        mimeType: "audio/pcm;rate=16000",
                       },
                     },
                   }),
