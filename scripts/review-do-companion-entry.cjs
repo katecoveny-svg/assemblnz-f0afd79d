@@ -40,7 +40,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   await page.waitForFunction(()=>document.querySelector('#do-talk-readiness')?.textContent.includes('not available'));
   check('unavailable Talk is disabled',await page.getByRole('button',{name:'Talk',exact:true}).isDisabled());
   check('native navigation cannot bypass unavailable Talk',await page.evaluate(()=>window.assemblDoCompanionEntry.enter('talk'))===false);
-  await page.screenshot({path:out+'/write-unavailable-375.png',fullPage:false});
+  await page.screenshot({animations:'disabled',path:out+'/write-unavailable-375.png',fullPage:false});
   ready=true;profileFailure=true;
   await page.getByRole('button',{name:'Check Talk',exact:true}).click();
   await page.waitForFunction(()=>document.querySelector('#do-talk-readiness')?.textContent.includes('preferences could not'));
@@ -51,12 +51,12 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   await page.getByRole('button',{name:'Back to Write',exact:true}).waitFor({state:'visible'});
   check('Talk opens real existing conversation controls with reviewed profile',await page.locator('.do-live-panel').count()===1 && (await page.locator('body').textContent()).includes('Fictional Alex'));
   check('opening Talk starts neither microphone nor speech playback',await page.evaluate(()=>window.__entryMicReads===0&&window.__entrySpeech===0)&&posts.length===0);
-  await page.screenshot({path:out+'/talk-consent-375.png',fullPage:false});
+  await page.screenshot({animations:'disabled',path:out+'/talk-consent-375.png',fullPage:false});
   await page.getByRole('button',{name:'Back to Write',exact:true}).click();
   await page.waitForFunction(()=>document.activeElement?.id==='do-source');
   check('Back to Write preserves text and editor identity',await page.locator('#do-source').inputValue()==='Fictional note: prepare the Friday outline.'&&await editor.evaluate(e=>e===document.querySelector('#do-source')));
   check('phone has no horizontal overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
-  await page.setViewportSize({width:1440,height:1000});await page.screenshot({path:out+'/write-1440.png',fullPage:false});
+  await page.setViewportSize({width:1440,height:1000});await page.screenshot({animations:'disabled',path:out+'/write-1440.png',fullPage:false});
   await page.goto(origin+'/entry-fixture');
   await page.getByRole('button',{name:'Open DO. Drag to move or use Alt and arrow keys.',exact:true}).click();
   const iframe=page.frameLocator('iframe[title="DO — prepare and review"]');
@@ -71,7 +71,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   check('close returns keyboard focus to the launcher',await page.getByRole('button',{name:'Open DO. Drag to move or use Alt and arrow keys.',exact:true}).evaluate(e=>e.getRootNode().activeElement===e));
   await page.getByRole('button',{name:'Open DO. Drag to move or use Alt and arrow keys.',exact:true}).click();
   check('reopening preserves the iframe draft',await iframe.locator('#do-source').inputValue()==='Fictional embedded note.');
-  await page.screenshot({path:out+'/embedded-1440.png',fullPage:false});
+  await page.screenshot({animations:'disabled',path:out+'/embedded-1440.png',fullPage:false});
   check('no provider POST, foreign traffic or runtime errors',posts.length===0&&foreign.length===0&&errors.length===0);
   fs.writeFileSync(out+'/report.json',JSON.stringify({checks,posts,foreign,errors,scope:'Synthetic UI navigation; no live voice session or installed app changed.'},null,2));
  } catch(error) {fs.writeFileSync(out+'/failure.json',JSON.stringify({checks,posts,foreign,errors,message:error.message},null,2));throw error;} finally {await context.close();await browser.close();}
