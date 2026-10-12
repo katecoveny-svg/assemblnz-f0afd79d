@@ -2,6 +2,7 @@
 
 import { useActionState } from 'react';
 import { submitDemosGate } from './gate-action';
+import { GlassIdentity } from '@/components/brand/GlassIdentity';
 import type { DemosGateState } from './gate-shared';
 
 /**
@@ -15,17 +16,17 @@ export function DemosGate() {
   );
 
   return (
-    <main className="dm">
+    <div className="dm">
       <div className="dm-wrap" style={{ maxWidth: 560 }}>
         <header className="dm-head" style={{ marginBottom: 28 }}>
-          <p className="dm-kick">assembl · internal · not indexed</p>
+          <GlassIdentity kind="assembl" size={48} /><p className="dm-kick">assembl · internal · not indexed</p>
           <h1>
             The concept fleet.<br />
             <span className="dm-metal">One word to enter.</span>
           </h1>
           <p className="dm-lede">
             This index is the studio&rsquo;s playbook &mdash; wedges, cautions, superseded links.
-            The concept pages themselves stay open; only this list is behind the word.
+            Each destination has its own access rules; this list remains behind the word.
           </p>
         </header>
         <form action={action} style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
@@ -41,10 +42,10 @@ export function DemosGate() {
               fontSize: 15,
               padding: '13px 16px',
               borderRadius: 12,
-              border: '1px solid rgba(255,255,255,.22)',
-              background: 'rgba(255,255,255,.06)',
+              border: '1px solid #916A70',
+              background: '#FFFDFB',
               color: 'inherit',
-              outline: 'none',
+
             }}
           />
           <button
@@ -58,8 +59,8 @@ export function DemosGate() {
               borderRadius: 12,
               border: 0,
               cursor: 'pointer',
-              background: '#BFA37A',
-              color: '#141310',
+              background: '#240B21',
+              color: '#FFFDFB',
               opacity: pending ? 0.6 : 1,
             }}
           >
@@ -67,9 +68,9 @@ export function DemosGate() {
           </button>
         </form>
         {state.status === 'error' && (
-          <p style={{ marginTop: 14, fontSize: 14, color: '#E2756B' }}>{state.message}</p>
+          <p style={{ marginTop: 14, fontSize: 14, color: '#492B3E' }}>{state.message}</p>
         )}
       </div>
-    </main>
+    </div>
   );
 }
