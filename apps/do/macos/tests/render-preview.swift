@@ -28,3 +28,8 @@ reviewModel.reviewVisible=true
 reviewModel.nativeReview.checkRecipient()
 render(ContextReview(model:reviewModel),608,520,"output/native-preview/context-review.png")
 print("offscreenSourceRendered=true; visibleWindows=0; privateCapture=false")
+
+model.fictional.talkState = .unavailable; model.refreshTalkReadiness()
+render(QuickActions(model:model,write:{},talk:{},selectText:{},reviewClipboard:{},openWorkspace:{},cancel:{}),300,340,"output/native-preview/entries-unavailable.png")
+model.fictional.talkState = .ready; model.refreshTalkReadiness()
+render(QuickActions(model:model,write:{},talk:{},selectText:{},reviewClipboard:{},openWorkspace:{},cancel:{}),300,340,"output/native-preview/entries-ready.png")

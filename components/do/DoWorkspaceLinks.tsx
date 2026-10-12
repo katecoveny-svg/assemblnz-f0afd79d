@@ -5,6 +5,8 @@ import { useSyncExternalStore } from 'react';
 const subscribe = () => () => {};
 const isEmbedded = () => window.self !== window.top;
 const links = [
+  ['Write', '/do/widget?entry=write'],
+  ['Talk · check availability', '/do/widget?entry=talk'],
   ['Meeting notes', '/do/meetings'],
   ['TypeSafe + DO', '/do/typesafe'],
   ['Sign in', '/login?redirect=%2Fdo%2Fwidget'],

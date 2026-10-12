@@ -33,7 +33,7 @@ async function readRuntime(signal?: AbortSignal): Promise<RuntimeStatus> {
   return response.json();
 }
 
-export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embedded = false, onSettled, focus = false, offeredContext, onSourceChange, onNativeReveal }: { initialBrief?: string; initialTask?: DoTask; embedded?: boolean; onSettled?: () => void; focus?: boolean; offeredContext?: { text: string; id: number }; onSourceChange?: (value: string) => void; onNativeReveal?: () => void }) {
+export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embedded = false, onSettled, focus = false, focusRequest = 0, offeredContext, onSourceChange, onNativeReveal }: { initialBrief?: string; initialTask?: DoTask; embedded?: boolean; onSettled?: () => void; focus?: boolean; focusRequest?: number; offeredContext?: { text: string; id: number }; onSourceChange?: (value: string) => void; onNativeReveal?: () => void }) {
   const [task, setTask] = useState<DoTask>(initialTask);
   const [source, setSourceState] = useState(initialBrief);
   const editorRevision = useRef(0);
@@ -58,6 +58,12 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
   const [briefForDraft, setBriefForDraft] = useState('');
   const abort = useRef<AbortController | null>(null);
   const resultRef = useRef<HTMLElement>(null);
+  const sourceRef = useRef<HTMLTextAreaElement>(null);
+  useEffect(() => {
+    if (!focusRequest) return;
+    const frame = requestAnimationFrame(() => { const editor = sourceRef.current; if (editor && !editor.disabled && !editor.closest('[hidden]')) editor.focus(); });
+    return () => cancelAnimationFrame(frame);
+  }, [focusRequest]);
   const currentDraft = useRef(draft);
   const reviewGeneration = useRef(0);
   useLayoutEffect(() => { currentDraft.current = draft; });
@@ -203,7 +209,8 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
     <form onSubmit={prepare} className="do-preparation-form">
       {focus ? <label className="do-focus-task">What should DO prepare?<select aria-label="Task" value={task} disabled={busy} onChange={e => { editorRevision.current++; setTask(e.target.value as DoTask); setConsent(false); }}>{DO_TASKS.map(option => <option value={option.id} key={option.id}>{option.title}</option>)}</select></label> : <fieldset className="do-task-picker" disabled={busy}><legend>Choose your agent</legend>{DO_TASKS.map(option => <label key={option.id} className={task === option.id ? 'is-selected' : ''}><input type="radio" name="do-task" value={option.id} checked={task === option.id} onChange={() => { editorRevision.current++; setTask(option.id); setConsent(false); }} /><span className="do-task-glyph" aria-hidden>{option.glyph}</span><span><strong>{option.title}</strong><small>{option.description}</small></span></label>)}</fieldset>}
       <div className="do-field-head"><label htmlFor="do-source">Text DO can use</label><span>{source.length.toLocaleString()} / 12,000</span></div>
-      <textarea id="do-source" value={source} maxLength={DO_SOURCE_LIMIT} rows={7} required disabled={busy} onChange={event => { setSource(event.target.value); setConsent(false); }} placeholder="Paste a notice, brief, quote or the part of a page you want to work with…" />
+      <textarea ref={sourceRef} id="do-source" value={source} maxLength={DO_SOURCE_LIMIT} rows={7} required disabled={busy} onChange={event => { setSource(event.target.value); setConsent(false); }} placeholder="Paste a notice, brief, quote or the part of a page you want to work with…" />
+      {focus && <p className="do-review-note">Type here, or use your device’s dictation if enabled. Nothing is sent until you choose to prepare it.</p>}
       {!focus && <div className="do-example-row"><span>Try with sample text:</span>{EXAMPLES.map((example, index) => <button key={example.title} type="button" disabled={busy} onClick={() => { setSource(example.text); setSourceTitle(example.title); setSourceUrl(''); setBrief(''); setConsent(false); setTask(index === 0 ? 'reply' : index === 1 ? 'brief' : 'compare'); }}>{index === 0 ? 'A message' : index === 1 ? 'School notice' : 'Two quotes'}</button>)}</div>}
       <details className="do-source-details"><summary>Add a source label or instructions</summary><label htmlFor="do-source-title">Source label</label><input id="do-source-title" value={sourceTitle} maxLength={160} disabled={busy} onChange={event => { editorRevision.current++; setSourceTitle(event.target.value); setConsent(false); }} placeholder="For example, September supplier quotes" /><label htmlFor="do-source-url">Source link, if useful</label><input id="do-source-url" type="url" value={sourceUrl} maxLength={2_000} disabled={busy} onChange={event => { editorRevision.current++; setSourceUrl(event.target.value); setConsent(false); }} placeholder="https://…" /><p>Links are recorded as references. Paste the text you want used; DO does not open these pages.</p><label htmlFor="do-brief">Anything to focus on?</label><textarea id="do-brief" value={brief} maxLength={DO_BRIEF_LIMIT} rows={3} disabled={busy} onChange={event => { editorRevision.current++; setBrief(event.target.value); setConsent(false); }} placeholder="For example, prepare this for Jamie and flag anything we need to confirm." /></details>
       <label className="do-consent"><input type="checkbox" checked={consent} disabled={busy} onChange={event => { editorRevision.current++; setConsent(event.target.checked); }} /><span>Use this text for this preparation.<small>{task === 'extract' ? 'assembl will extract exact matches from the text.' : 'The text and instructions go to OpenAI (GPT-6 Astra) and TypeSafe after this confirmation.'} {nativeOrigin ? 'This app review session is not saved or synced.' : 'Saving a copy on this device is a separate choice.'}</small></span></label>

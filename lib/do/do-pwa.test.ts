@@ -34,6 +34,7 @@ describe('DO PWA', () => {
   it('locks the public DO manifest for installability', () => {
     const raw = readFileSync(join(process.cwd(), 'public/do/manifest.webmanifest'), 'utf8');
     const manifest = JSON.parse(raw) as {
+      id: string;
       name: string;
       short_name: string;
       start_url: string;
@@ -44,6 +45,7 @@ describe('DO PWA', () => {
       icons: { purpose: string; sizes: string }[];
       shortcuts: { url: string }[];
     };
+    expect(manifest.id).toBe('/do');
     expect(manifest.name).toBe('DO by assembl');
     expect(manifest.short_name).toBe('DO');
     expect(manifest.start_url).toBe('/do/personal');
@@ -57,7 +59,8 @@ describe('DO PWA', () => {
     expect(urls).toEqual(
       expect.arrayContaining([
         '/do/personal',
-        '/do/widget',
+        '/do/widget?entry=write',
+        '/do/widget?entry=talk',
         '/do/meetings?phone=1',
       ]),
     );

@@ -33,7 +33,8 @@ export function DoProductFrame({ product, children }: {
         <div className={styles.menuPanel}>
           <p className={styles.kicker}>YOUR WORKSPACE</p>
           <Link href="/do" {...linkProps}>Back to DO</Link>
-          <Link href="/do/widget" {...linkProps}>Write, talk or look</Link>
+          <Link href="/do/widget?entry=write" {...linkProps}>Write · type or device dictation</Link>
+          <Link href="/do/widget?entry=talk" {...linkProps}>Talk · check live conversation</Link>
           <Link href="/do/meetings" {...linkProps}>Meeting notes</Link>
           <Link href="/do/messages" {...linkProps}>Conversations and replies</Link>
           <Link href="/creative-studio/voices" {...linkProps}>Voice studio</Link>

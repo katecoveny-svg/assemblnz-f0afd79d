@@ -4,6 +4,18 @@ application.setActivationPolicy(.prohibited)
 var checks: [String] = []
 func check(_ label: String, _ ok: Bool) { if !ok { fatalError(label) }; checks.append(label) }
 let model = CompanionModel()
+let originalWebView = model.web
+let originalSelectionReads = model.fictional.selectionReads
+let originalClipboardReads = model.fictional.clipboardReads
+model.enterWorkspace(.write); model.enterWorkspace(.write)
+check("repeated Write reuses one workspace instance", model.web === originalWebView && model.fictional.entries == [.write, .write])
+check("Write opens no capture or provider action", model.fictional.selectionReads == originalSelectionReads && model.fictional.clipboardReads == originalClipboardReads && model.fictional.offers.isEmpty)
+model.fictional.talkState = .unavailable; model.refreshTalkReadiness(); model.enterWorkspace(.talk)
+check("unavailable Talk cannot enter conversation", model.fictional.entries.count == 2 && !model.talkState.canOpen)
+for state: CompanionTalkState in [.checking, .signIn, .allowance, .unchecked] { model.fictional.talkState = state; model.refreshTalkReadiness(); model.enterWorkspace(.talk) }
+check("unchecked account and allowance states fail closed", model.fictional.entries.count == 2)
+model.fictional.talkState = .ready; model.refreshTalkReadiness(); model.enterWorkspace(.talk)
+check("ready Talk is navigation only in the same workspace", model.web === originalWebView && model.fictional.entries.last == .talk && model.fictional.selectionReads == originalSelectionReads && model.fictional.clipboardReads == originalClipboardReads && model.fictional.offers.isEmpty)
 model.fictional.selection = .text("Fictional selected note")
 model.captureSelection()
 check("selected text is local review only", model.review == "Fictional selected note" && model.fictional.offers.isEmpty)
