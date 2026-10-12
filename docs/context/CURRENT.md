@@ -1,12 +1,61 @@
 # assembl — current operating state
 
-**Last verified:** 30 September 2026 (Personal DO/homepage audit; other sections retain their dated scope)
+**Last verified:** 13 October 2026, 10:35 NZDT / 12 October 21:35 UTC (scoped release/coordination refresh below; older sections retain their original dated scope)
 **Status:** current working context  
 **Update rule:** refresh from merged work and accepted decisions; do not rewrite stable canon casually.
 
 This file answers: **where is assembl at right now?**
 
 It is intentionally shorter and more changeable than the long-term strategy documents.
+
+## 13 October delivery and coordination baseline
+
+This section is the current, scoped delivery record. Durable direction is in [assembl context](../assembl-context.md#accepted-do-interaction-and-continuity-direction--13-october-2026); visual authority remains [the brand system](../assembl-brand-system.md) and [DESIGN.md](../../DESIGN.md). The [Claude handoff snapshot](handoffs/2026-10-13-claude-handoff.md) ends at **10:18 NZDT**. Its earlier open-release/failed-deployment labels are superseded only where the fresh evidence below establishes a newer result. It does not grant new approval or make other historical checks current.
+
+### Verified release versus local and reported work
+
+| Area | State/version and evidence | What is not established |
+|---|---|---|
+| Shop / Travel | [PR #1513](https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1513) merged at `b66c203cbe2d7764f83c893a511e8692f0aa197b`. Release deployment `dpl_5vw6hWfnYRi4tgZGLS6KjV5fPXVE` was READY. Actual Chrome previously verified desktop and 375px preparation, reviewed receipts, repeated clicks and material-edit invalidation. | Planning/review only: fictional/session-only Shop offers and manually entered Travel estimates. No verified live retailer catalogue/stock/cart/order/reward issuance or flight/hotel search/booking. Receipts say **prepared**, not ordered/booked. |
+| Latest main / glass DO release | Fresh Git fetch and [PR #1514](https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1514) confirm merged **21:31:54 UTC / 10:31:54 NZDT**. Reviewed head `15163d2686c6bf8ded81475c9c5634de47f351b3`; main merge `6b06933464a4137a5e117ee9140b1069ed2f574d`. Vercel `dpl_9pntuWpdC4n31K1M3s5aeehXZoER` is **READY, production**, on that exact SHA. Exact-head Vercel status and DO core workflow [38310114073](https://github.com/katecoveny-svg/assemblnz-f0afd79d/actions/runs/38310114073) passed; coordinator records 1,527 core tests/build/full browser proof, live HTTP 200 and canonical asset hash/bundle verification. Scope: exact canonical glass D and flatter 48px sign-in controls, seven files. | No auth, memory or voice change. Preview pixels and CI screenshots were checked; final production pixels were not recaptured after browser disconnect. READY/HTTP/asset evidence is not complete installed-interface or sign-in proof. |
+| Auth reliability | Local `codex/do-auth-memory-reliability`, source `e3f1fddd3`; snapshot reports 72 tests plus types/lint. Not merged by the above releases. | Repeated sign-in root cause, native WKWebView/browser-cookie continuity and cross-device session recovery remain unverified. |
+| Combined account/preparation | Local-only `codex/do-auth-preparation-staging`, `51bc22da1b5b3b840670931169e41240c4774363`. Recorded local proof: 35 embedded SQL checks, 100 focused tests, typecheck/scoped lint/build. Licensed-feed and Duffel adapters are **unwired**; browser defaults are explicit account-scoped local storage. | Not hosted Auth/PostgREST proof or durable cloud recall. Preview shares production Supabase; isolated staging is required. Personal/provider cloud-memory flags remain OFF and reviewed memory schema/RPC/cleanup proposals remain unapplied. No silent browser fallback. |
+| Sign-in email | **One authorised test delivered at 10:09:50 NZDT on 13 October** and user confirmed receipt, as recorded in the handoff/coordinator evidence. | Link was not clicked; callback/authentication untested. Earlier failures are not explained. No SMTP change or complete sign-in fix is established. Coordinator now verifies the magic-link template replacement was saved and reloaded: exact glass D with plum/rose/chalk; subject and link expression unchanged. Public image is HTTP 200 PNG, 1254×1254. Supabase sandbox preview image fails for an unknown reason; no newly branded inbox-render test yet. |
+| Native / installed identity | Coordinator inspected the actual widget screenshot: glass DO above a sprout pet, no green A and no Write/Call controls. Running native DO.app v0.4.0 floating PNG is byte-identical to canonical artwork. Existing actions: Review selected text, Review clipboard, Open workspace with `nativeReview=1`. | Compact Write/Talk is next functional work, not present in this screenshot. Separate Chrome PWA still has the old icon and its refresh is blocked by app-management policy; do not retry or bypass that policy. Matching native artwork does not establish voice, account continuity or every installed surface. |
+| Voice | Local `codex/assembl-owned-voice-phone-avatar-review`, `a559fc7b638e7f73969bbad8b30cb0d973a4c96f`. At 10:18 NZDT, official CPU runtime/pinned model installation and one bounded local test were authorised and reported in progress. Three existing warm/clear/bright recordings are previews. | No new generated reply/audio, latency, Māori pronunciation, conversational Talk or phone-service success verified. Do not use ElevenLabs or assume later installation success. No paid infrastructure or new access implied. |
+| Woolworths concept | Separate hosted [Everyday Rewards concept](https://assembl-concept-studio.katecoveny.chatgpt.site/everyday-rewards): handoff identifies published v13; independently tested model chat and consented sample-fridge photo path. Saved v14 quieter chapter is not recorded deployed. | Main Shop has not inherited those APIs. Products/prices/rewards/checkout remain simulated; no retailer endorsement/access or durable model-spend cap. Anthropic prepared/inactive; no silent provider switch. |
+| Other programmes | Handoff records PowerPass v5 public; Contact v3 private with deterministic checks but visual QA blocked by its authorised sign-in boundary; Z private destination unchanged and consolidation outstanding. | Neither publication nor thumbnails prove complete live supplier/device integration. Contact private interaction and 375px checks remain open; do not expand sharing for QA. |
+
+**Known baseline test issue:** the combined local branch's broader run recorded 1,686 passing tests, two skipped and one pre-existing literal `/do/enquiries` source assertion failure in `lib/do/public-do-specialists.test.ts`, reproduced on the released branch. Relevant release checks passed; never call the full suite clean. The earlier Bills voice-menu browser expectation was separately reviewed against unchanged main and positively scoped; it is not a blanket waiver for tests.
+
+### Owner coordination and next proof
+
+| Slice | Current owner boundary | Next evidence before a stronger claim |
+|---|---|---|
+| Product context / this document | Docs-only review branch; preserve AGENTS, Claude bootstrap and existing canon. Coordinator reviews before main merge. | Fresh main/PR/deployment references, coordinator evidence above, source provenance, nonsecret/link checks and context-health. No app-memory activation or auth-code edits. |
+| Shop / Travel / account staging | Preparation owner works in the isolated local staging branch; do not reset/import its unreviewed code into brand or voice worktrees. | Approved isolated database and exact config/SQL, real two-account/anonymous/session/callback/expiry/delete proof, monitored cleanup and restore boundaries. Then authorised grocery feed/cart, followed by one travel search/review/provider handoff and servicing proof. |
+| Web glass identity / installed interfaces | PR #1514 is merged; native PNG/widget evidence is recorded above. Separate PWA refresh remains policy-blocked. No shared branding/auth-file edits without coordination. | Final production pixels and remaining installed PWA/widget interaction/font evidence. Preserve the existing policy block; do not infer PWA refresh from native PNG proof. |
+| Sign-in email | Separate email-branding owner has saved/reloaded the exact template; preserve subject/link expression, security and delivery settings. | New authorised inbox render of the branded template; diagnose sandbox preview-image failure separately. Successful callback only after explicit link use. Never put sign-in links, tokens or recipient-private material in repo evidence. |
+| Voice | Voice owner and its existing worktree; preserve the authorised CPU/model bounds (3 CPUs, 6 GiB, 8 GiB host-disk reserve, offline inference). No disk cleanup or runtime installation in the context slice. | Installation result, one actual generated clip, cancellation/latency/intelligibility/resource proof, then integrated Write/Talk continuity. Phone calls need a separate explicit flow. |
+
+### Evidence checklist for the next agent
+
+- Read AGENTS, this matrix and the task-specific canon before editing; current explicit user instructions outrank the dated handoff.
+- Record target repo/site/native surface, exact branch/commit or Site version, UTC plus NZDT check time, access classification and owner. Recheck live state; do not reuse this table as a timeless deployment certificate.
+- Label **agreed direction**, **local implemented/tested**, **preview deployed**, **production deployed**, **runtime verified**, **simulated**, **prepared**, and **externally completed** separately. State the specific outcome that was tested.
+- Confirm existing uncommitted work and overlapping owners before changing shared shell, auth, voice, identity or icons. No resets, force pushes, copying unreviewed changes or unrequested merge/deploy.
+- For UI work, prove the complete journey, including failure/decline/retry/edit/review/receipt, actual desktop and 375px interaction, keyboard/focus/reduced motion where relevant. A screenshot/build alone is insufficient.
+- For cloud memory, prove consent/purpose/account scope/retention/edit/delete and real storage isolation; test sign-out, unavailable storage and restoration. Keep collection/provider flags off until the reviewed gates pass.
+- Keep this public company/product context free of private user memories, health/family information, credentials, session tokens, auth links and raw captures. Do not copy secrets into code, docs, screenshots or exports.
+- Update this current-state section from new evidence; update durable direction in `docs/assembl-context.md`, not a competing Claude memory file.
+
+### Handoff provenance
+
+[Assembl Claude handoff, 13 October 2026](handoffs/2026-10-13-claude-handoff.md) was materialized through the supported Library transfer onto the consumer Mac, not assumed from a cloud filesystem path. Local bytes verified: **29,227**; SHA-256 **`2f11c8999f0477ab0324a2ca7ddecbfed02c8b8c4e09c8b391b0996d9556cda0`**. The repository copy retains the exact snapshot bytes. It is a supporting dated reference; this matrix records newer verified release evidence, and the compact Write/Talk direction comes from the user's later explicit brief. See [reference rules](handoffs/README.md).
+
+## Earlier dated operating context
+
+The sections below are retained for provenance and unaffected product detail. Their dates and original scope matter; the 13 October matrix supersedes overlapping delivery claims, without upgrading unrelated capabilities.
 
 ## current shape
 

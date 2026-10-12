@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-09-30",
+  "updated_at": "2026-10-13",
   "purpose": "Canonical routing manifest for Assembl agents, coding harnesses and DO runtimes. This file points to truth; it does not duplicate full context.",
   "entrypoints": {
     "human_or_coding_agent": [

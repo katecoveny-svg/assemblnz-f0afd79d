@@ -6,6 +6,8 @@ Start with [`START_HERE.md`](./START_HERE.md), then use [`docs/context/README.md
 
 Do **not** preload every strategy, research or historical file. Repository context should be routed, not dumped.
 
+For the agreed product direction and delivery baseline, read [`docs/assembl-context.md`](./docs/assembl-context.md) and the dated evidence/owner table in [`docs/context/CURRENT.md`](./docs/context/CURRENT.md). The [13 October Claude handoff](./docs/context/handoffs/2026-10-13-claude-handoff.md) is supporting history, not a second canon or new authority. Repository product context is public and nonsecret; never put private user memory, credentials or session material here.
+
 ## 1. instruction precedence
 
 When instructions conflict:
