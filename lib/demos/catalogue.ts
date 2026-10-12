@@ -54,11 +54,11 @@ export const DEMOS: Demo[] = [
     sector: 'Grocery + loyalty', kind: 'named',
     wedge: 'Start with the fridge, review ingredients, prepare meals and a shopping list. Useful optional reward choices sit beside the task.',
     showpiece: 'Public independently hosted concept with a labelled sample shopping journey, sample NZD prices and simulated rewards. No retailer account, live pricing, checkout or actual points are connected.',
-    caution: 'Not production-ready. The 12 October audit found live provider requests credential-blocked. A subsequent browser check shows “connection configured” on the page; successful live provider behavior was not reverified. No agreed rewards funding or issuance.',
+    caution: 'Not production-ready. Following the user’s secret update, real OpenAI gpt-6-astra chat and fridge-photo tests passed on 12 October. The earlier credential-blocked audit is historical. Retail catalogue, prices and rewards remain simulated; no live Woolworths connection or agreed rewards funding/issuance.',
     verification: {
       observedAt: '2026-10-12', access: 'public',
-      behavior: 'Public page loaded in Chrome. Sample prices and rewards are disclosed; retailer checkout and Everyday Rewards accounts are not connected.',
-      readiness: 'Live provider credential-blocked at audit; page now claims configured, provider success unverified. Independently hosted; repository changes do not update this Site.',
+      behavior: 'Public page loaded in Chrome. Independently verified real OpenAI gpt-6-astra chat prepared a three-dinner brief under NZ$40; Apply updated the planner. A stock fridge photo returned tomatoes, carrots, cheese and uncertain milk; reviewer removed milk and applied the remaining ingredients before generating the sample basket.',
+      readiness: 'Real chat and fridge-photo provider behavior verified after the user’s secret update. Earlier 12 October credential-blocked audit retained as historical evidence. Retail catalogue, prices and rewards simulated; no retailer checkout or Everyday Rewards account connection. Independently hosted; repository changes do not update this Site.',
     },
     superseded: [
       { slug: 'everyday-rewards', note: 'previous fridge-to-basket flagship; preserved reference, not the current primary link' },
@@ -66,7 +66,7 @@ export const DEMOS: Demo[] = [
       { slug: 'concept', note: 'the historical concept for Oliver; preserved reference' },
       { slug: 'woolworths-cine', note: 'the earliest cinematic single-screen version; preserved reference' },
     ],
-    has: { waits: true, accept: true, scratch: false, agent: false },
+    has: { waits: true, accept: true, scratch: false, agent: true },
   },
   {
     slug: 'ryman-family', tier: 'next',

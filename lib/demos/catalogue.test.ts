@@ -14,7 +14,11 @@ describe('canonical discovery with preserved references', () => {
     expect(woolworths[0].verification).toMatchObject({ observedAt: '2026-10-12', access: 'public' });
     expect(woolworths[0].caution).toContain('credential-blocked');
     expect(woolworths[0].caution).toContain('Not production-ready');
-    expect(woolworths[0].has.agent).toBe(false);
+    expect(woolworths[0].has.agent).toBe(true);
+    expect(woolworths[0].verification?.readiness).toContain('provider behavior verified');
+    expect(woolworths[0].verification?.behavior).toContain('reviewer removed milk');
+    expect(woolworths[0].caution).toContain('remain simulated');
+    expect(woolworths[0].verification?.readiness).not.toContain('provider success unverified');
   });
   it('keeps earlier links as references and points each to the explicit canonical replacement', () => {
     for (const slug of ['everyday-rewards', 'woolworths-rewards', 'concept', 'woolworths-cine']) {
