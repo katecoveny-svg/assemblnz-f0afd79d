@@ -129,7 +129,7 @@ final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WK
             });
           }
           return window.assemblDoCompanionEntry?.enter(entry) === true;
-          """, arguments: ["entry": entry.rawValue], in: nil, contentWorld: .page) { [weak self] result in
+          """, arguments: ["entry": entry.rawValue], in: nil, in: .page) { [weak self] result in
             guard let self, generation == self.entryGeneration else { return }
             if case .success(let accepted) = result, accepted as? Bool == true { self.workspaceNotice = "" }
             else { self.workspaceNotice = "This entry is not ready. Your draft stays here; choose Write to retry." }
@@ -143,7 +143,7 @@ final class CompanionModel: NSObject, ObservableObject, WKNavigationDelegate, WK
 #else
         guard NativeReviewClient.allowed(web.url) else { talkState = .unchecked; return }
         let generation = entryGeneration
-        web.callAsyncJavaScript("return await window.assemblDoCompanionEntry?.refresh() ?? 'unchecked';", arguments: [:], in: nil, contentWorld: .page) { [weak self] result in
+        web.callAsyncJavaScript("return await window.assemblDoCompanionEntry?.refresh() ?? 'unchecked';", arguments: [:], in: nil, in: .page) { [weak self] result in
             guard let self, generation == self.entryGeneration else { return }
             if case .success(let value) = result, let raw = value as? String, let state = CompanionTalkState(rawValue: raw) { self.talkState = state }
             else { self.talkState = .unchecked }

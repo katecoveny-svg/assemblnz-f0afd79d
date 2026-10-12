@@ -183,7 +183,7 @@ describe('portable DO companion', () => {
   });
   it('previews pointed text locally, intercepts the page click and requires a second review action to hand it to DO', () => {
     const s = setup(); s.window.assemblDo.open();
-    s.find('tools').children[0].handlers.click(click);
+    s.find('tools').children.find(button => button.textContent === 'Point at an area')!.handlers.click(click);
     expect(s.query).not.toHaveBeenCalled();
     s.documentListeners.pointermove({ clientX: 30, clientY: 30 }); s.flush();
     expect(s.find('picker-preview').textContent).toBe(s.area.textContent);
