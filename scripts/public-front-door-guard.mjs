@@ -30,17 +30,22 @@ const checks = [
   ['apps/do/shared/distribution.ts', /COMPANION_POSITION_KEY/],
   ['apps/do/shared/distribution.ts', /draggable\(launch,launch\)/],
   ['components/do/DoMark.tsx', /DO_FUNCTIONAL_MARK_ASSET = '\/brand\/canonical\/do-vector-v1\/DO-D-mono\.svg'/],
-  ['components/do/DoMark.tsx', /<image href=\{DO_FUNCTIONAL_MARK_ASSET\}/],
-  ['components/do/DoMark.tsx', /maskType:'alpha'/],
+  ['components/do/DoMark.tsx', /<image href="\/brand\/do-glass-D-transparent\.png\?v=cutout1"/],
+  ['components/do/DoPresence.tsx', /<GlassIdentity kind="do" size=\{pixels\}/],
+  ['components/brand/GlassIdentity.tsx', /src="\/brand\/do-glass-D-transparent\.png\?v=cutout1"/],
 ];
 for (const [path, pattern] of checks) {
   if (!pattern.test(read(path))) errors.push(`${path}: the accepted front-door feature is missing (${pattern})`);
 }
 
-// The functional vector keeps the exact reviewed D/counter/bead master.
+// Preserve the compatibility vector, but primary controls use the locked glass artwork.
 const doVectorPath = 'public/brand/canonical/do-vector-v1/DO-D-mono.svg';
 if (!existsSync(doVectorPath) || createHash('sha256').update(readFileSync(doVectorPath)).digest('hex') !== '5225a6b6452ac667e179abc732319f9127909d37a9ea967e6effa0a87bc02f0e') {
   errors.push(`${doVectorPath}: missing or changed reviewed functional D master`);
+}
+const doGlassPath = 'public/brand/do-glass-D-transparent.png';
+if (!existsSync(doGlassPath) || createHash('sha256').update(readFileSync(doGlassPath)).digest('hex') !== '1ac1808b169b631eb2a5cb3066a3935cfcea3f6bb4abf111822b9a74e5289091') {
+  errors.push(`${doGlassPath}: missing or changed locked glass D artwork`);
 }
 
 // Homepage spatial hero: dual-accept legacy company DoSpatialScene OR WorldScene fly-through.
