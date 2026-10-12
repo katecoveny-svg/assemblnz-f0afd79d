@@ -36,6 +36,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   const editor=await page.locator('#do-source').elementHandle();
   await page.locator('#do-source').fill('Fictional note: prepare the Friday outline.');
   await page.getByRole('button',{name:'Write',exact:true}).click();
+  await page.waitForFunction(()=>document.activeElement?.id==='do-source');
   check('Write returns focus to the same editor',await editor.evaluate(e=>e===document.querySelector('#do-source')&&document.activeElement===e));
   await page.waitForFunction(()=>document.querySelector('#do-talk-readiness')?.textContent.includes('not available'));
   check('unavailable Talk is disabled',await page.getByRole('button',{name:'Talk',exact:true}).isDisabled());
