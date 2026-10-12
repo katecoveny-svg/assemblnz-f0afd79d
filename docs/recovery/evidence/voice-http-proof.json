@@ -1,0 +1,14 @@
+{
+  "engine": "real pinned Qwen model on CPU",
+  "network": "HTTP over loopback; inference egress denied",
+  "elapsedSeconds": 55.667,
+  "bytes": 188204,
+  "duration": 3.92,
+  "sha256": "878ff7c718bb0caaf0889f822c8cbbba81a7894d2cffc9876c3680bd92beaeb9",
+  "unauthenticatedRejected": true,
+  "otherOwnerRejected": true,
+  "downloadVerified": true,
+  "deleteVerified": true,
+  "liveSupabaseSession": false,
+  "accentReview": "pending"
+}

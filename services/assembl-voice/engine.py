@@ -32,9 +32,12 @@ class VoiceEngine:
         import numpy as np
         from transformers import StoppingCriteria, StoppingCriteriaList
         started = time.monotonic()
+        timed_out = False
         class Stop(StoppingCriteria):
             def __call__(self, input_ids, scores, **kwargs):
-                return cancelled.is_set() or time.monotonic() - started > 240
+                nonlocal timed_out
+                timed_out = time.monotonic() - started > 240
+                return cancelled.is_set() or timed_out
         spec = PRESETS[preset]
         self.torch.manual_seed(spec["seed"])
         with self.torch.inference_mode():
@@ -42,7 +45,7 @@ class VoiceEngine:
                 text=text, language="English", instruct=spec["instruction"],
                 max_new_tokens=375, stopping_criteria=StoppingCriteriaList([Stop()]),
             )
-        if cancelled.is_set() or time.monotonic() - started > 245:
+        if cancelled.is_set() or timed_out or time.monotonic() - started > 240:
             raise RuntimeError("generation stopped")
         audio = np.asarray(wavs[0], dtype=np.float32).reshape(-1)
         if rate != 24000 or not 0.2 <= len(audio) / rate <= 40 or not np.isfinite(audio).all() or float(np.max(np.abs(audio))) < 0.001:

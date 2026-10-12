@@ -1,0 +1,64 @@
+{
+  "base": "http://localhost:3101",
+  "checks": [
+    {
+      "route": "/do/messages",
+      "width": 375,
+      "overflow": false,
+      "violations": [],
+      "font": "\"Instrument Sans\", \"Instrument Sans Fallback\", \"Instrument Sans\", sans-serif"
+    },
+    {
+      "route": "/do/messages",
+      "width": 768,
+      "overflow": false,
+      "violations": [],
+      "font": "\"Instrument Sans\", \"Instrument Sans Fallback\", \"Instrument Sans\", sans-serif"
+    },
+    {
+      "route": "/do/messages",
+      "width": 1440,
+      "overflow": false,
+      "violations": [],
+      "font": "\"Instrument Sans\", \"Instrument Sans Fallback\", \"Instrument Sans\", sans-serif"
+    },
+    {
+      "route": "/creative-studio/voices",
+      "width": 375,
+      "overflow": false,
+      "violations": [],
+      "font": "\"Instrument Sans\", \"Instrument Sans Fallback\", \"Cormorant Garamond\", Georgia, serif"
+    },
+    {
+      "route": "/creative-studio/voices",
+      "width": 768,
+      "overflow": false,
+      "violations": [],
+      "font": "\"Instrument Sans\", \"Instrument Sans Fallback\", \"Cormorant Garamond\", Georgia, serif"
+    },
+    {
+      "route": "/creative-studio/voices",
+      "width": 1440,
+      "overflow": false,
+      "violations": [],
+      "font": "\"Instrument Sans\", \"Instrument Sans Fallback\", \"Cormorant Garamond\", Georgia, serif"
+    },
+    {
+      "flow": "messages",
+      "literalCandidates": true,
+      "privateExclusion": true,
+      "reviewInvalidation": true,
+      "threadIsolation": true,
+      "storageRoundtrip": true
+    },
+    {
+      "flow": "voice-controlled-owner",
+      "consent": true,
+      "submission": true,
+      "realWavPlayback": true,
+      "deletion": true,
+      "liveSupabaseSession": false
+    }
+  ],
+  "errors": []
+}

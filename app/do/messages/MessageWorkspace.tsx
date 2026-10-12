@@ -52,15 +52,15 @@ export function MessageWorkspace() {
     <div className={styles.columns}><section className={styles.composer} aria-labelledby="conversation-heading">
       <h2 id="conversation-heading">The conversation</h2>
       <label>Conversation name<input maxLength={100} value={current.title} onChange={e => update({title:e.target.value})} /></label>
-      <label>Paste the useful messages<textarea rows={6} maxLength={8000} value={current.source} onChange={e => update({source:e.target.value})} placeholder="Paste the part you want to work on." /></label>
+      <label>Paste the useful messages<textarea aria-label="Paste the useful messages" rows={6} maxLength={8000} value={current.source} onChange={e => update({source:e.target.value})} placeholder="Paste the part you want to work on." /></label>
       <p className={styles.hint}>Stays in this tab unless you save or export a backup. DO cannot read your inbox.</p>
       <div className={styles.actions}><button type="button" className={styles.primary} disabled={!current.source.trim()} onClick={() => {
         if(current.actions.length) {setStatus('Remove existing steps before extracting again. Your work is unchanged.');return;}
         const actions=candidateActions(current.source); update({actions});
         setStatus(actions.length ? 'Candidate lines copied from your messages. Check wording, owners and dates.' : 'No request lines found. Add a next step yourself.');
       }}>Find possible next steps</button><button type="button" disabled={!!current.source} onClick={() => update({source:EXAMPLE_SOURCE,title:'Fictional example'})}>Try an example</button></div>
-      <details><summary>Private notes</summary><label>Only for you<textarea rows={3} maxLength={2000} value={current.notes} onChange={e => update({notes:e.target.value})} /></label><p className={styles.hint}>Excluded from replies and calendar files. Included in your private backup.</p></details>
-      <label>Your reply<textarea rows={5} maxLength={4000} value={current.reply} onChange={e => update({reply:e.target.value})} placeholder="Write or paste the reply you want to send." /></label>
+      <details><summary>Private notes</summary><label>Only for you<textarea aria-label="Only for you" rows={3} maxLength={2000} value={current.notes} onChange={e => update({notes:e.target.value})} /></label><p className={styles.hint}>Excluded from replies and calendar files. Included in your private backup.</p></details>
+      <label>Your reply<textarea aria-label="Your reply" rows={5} maxLength={4000} value={current.reply} onChange={e => update({reply:e.target.value})} placeholder="Write or paste the reply you want to send." /></label>
     </section><section className={styles.work} aria-labelledby="steps-heading">
       <div className={styles.sectionHeading}><h2 id="steps-heading">Next steps</h2><span>{current.actions.filter(a=>a.done).length}/{current.actions.length} checked</span></div>
       {!current.actions.length && <p className={styles.empty}>A clear next step starts here. Add one yourself or find possible steps in the conversation.</p>}
@@ -80,7 +80,7 @@ export function MessageWorkspace() {
       <button type="button" disabled={current.actions.length>=12} onClick={()=>update({actions:[...current.actions,{id:crypto.randomUUID(),title:'',owner:'',due:'',done:false,share:false}]})}><Plus size={16} aria-hidden="true" /> Add a next step</button>
     </section></div>
     <section className={styles.review} aria-labelledby="review-heading"><div><h2 id="review-heading">Only this leaves DO.</h2><p>Check the exact reply below. Your original messages and private notes stay out of it.</p></div><div>
-      <label>Ready to share<textarea readOnly rows={5} value={preview} placeholder="Your reply and selected next steps appear here." /></label>
+      <label>Ready to share<textarea aria-label="Ready to share" readOnly rows={5} value={preview} placeholder="Your reply and selected next steps appear here." /></label>
       <label className={styles.check}><input type="checkbox" checked={canShare(current)} disabled={!preview.trim()} onChange={e=>setWorkspace(w=>({...w,conversations:w.conversations.map(c=>c.id===current.id?{...c,reviewedRevision:e.target.checked?c.revision:null}:c)}))} /> I’ve reviewed this exact reply</label>
       <div className={styles.actions}><button type="button" className={styles.primary} disabled={!canShare(current)||busy} onClick={()=>void handoff('share')}><Share2 size={16} aria-hidden="true" /> Share reply</button><button type="button" disabled={!canShare(current)||busy} onClick={()=>void handoff('copy')}><Copy size={16} aria-hidden="true" /> Copy</button><button type="button" disabled={!canShare(current)} onClick={()=>attempt(()=>download(reviewedText(current),'do-reply.txt'),'Reviewed reply downloaded. Nothing has been sent.')}>Download reply</button></div>
       <p className={styles.hint}>Your chosen app handles sending. DO does not confirm delivery.</p>

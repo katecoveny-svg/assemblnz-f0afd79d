@@ -1,9 +1,9 @@
 # Mockup to working website · Codex
 
 ## Setup
-Run `bash scripts/setup-design-tools.sh` from a checkout. Official Impeccable 4.5.2 installs into `.agents/skills/impeccable` and writes `.codex/hooks.json`; its engine is 0.1.14. REA 6.4.0 is available through the pinned npm CLI. Neither needs a speech-provider account. Reload Codex and invoke `$impeccable`. Project hook trust may need approval in the user's Codex /hooks UI; files alone do not establish an active hook.
+Run `bash scripts/setup-design-tools.sh` from a checkout. Official Impeccable 4.5.2 installs into `.agents/skills/impeccable` and writes `.codex/hooks.json`; the bundled engine version file is 0.1.14 (the executable reports 4.0.0). REA 6.4.0 is available through the pinned npm CLI. Neither needs a speech-provider account. Reload Codex and invoke `$impeccable`. Project hook trust may need approval in the user's Codex /hooks UI; files alone do not establish an active hook.
 
-The installer was exercised in the recovery workspace. That workspace reset again while uploading the full distribution. This small, pinned bootstrap is the durable installation record. Re-run it after any fresh checkout. Do not copy generated engine binaries or caches into source control.
+The official installer was exercised again after the workspace reset. The complete text skill distribution, reference files, license and Codex hook configuration are now committed. The platform-specific binary remains ignored; the launcher provisions it when needed. The pinned bootstrap also restores the installation after a fresh checkout. No assertion is made that this ChatGPT session has activated the Codex hooks.
 
 Official sources checked 12 October 2026 NZ:
 - https://impeccable.style/tutorials/getting-started/
