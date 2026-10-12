@@ -1,6 +1,7 @@
-.presence{--presence-size:180px;display:inline-grid;place-items:center;width:var(--presence-size);height:var(--presence-size);flex-shrink:0;pointer-events:none}
+.presence{--presence-size:180px;display:inline-grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);place-items:center;width:var(--presence-size);height:var(--presence-size);flex-shrink:0;pointer-events:none}
 .presence[data-size=small]{--presence-size:48px}.presence[data-size=large]{--presence-size:240px}
 .sculpture{display:block;width:100%;height:100%;filter:drop-shadow(0 8px 8px #240b2114);transition:transform 300ms ease}
+.sculpture>[data-glass-identity]{width:100%!important;height:100%!important}
 .presence[data-size=small] .sculpture{filter:none}
 @media(prefers-reduced-motion:no-preference){.presence[data-working] .sculpture{transform:translateY(-2px)}}
 @media(prefers-reduced-motion:reduce){.sculpture{transition:none}}
