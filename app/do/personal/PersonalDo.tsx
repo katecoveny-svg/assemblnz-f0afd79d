@@ -23,6 +23,7 @@ import { DoPresence } from "@/components/do/DoPresence";
 import { DoShareButton } from "@/components/do/DoShareButton";
 import { DoReadAloud } from "@/components/do/DoReadAloud";
 import { reviewShoppingHandoff, type ShoppingVoiceDraft } from "@/lib/do/shop/voice-handoff";
+import { BrowserTaskReview } from "@/components/do/browser/BrowserTaskReview";
 import ShopJourney from "@/app/do/shop/ShopJourney";
 import { MailWorkspace } from "@/app/do/mail/MailWorkspace";
 import { createMailHandoffReceiver, type ReviewedMailHandoff } from "@/apps/do/mail/review";
@@ -80,6 +81,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
     "loading" | "signed-out" | "ready" | "error"
   >("loading");
   const [notice, setNotice] = useState("");
+  const [browserDraft, setBrowserDraft] = useState<{ owner: string; text: string; id: string } | null>(null);
   const [shoppingDraft, setShoppingDraft] = useState<ShoppingVoiceDraft | null>(null);
   const [shoppingOpen, setShoppingOpen] = useState(false);
   const [mailDraft, setMailDraft] = useState<ReviewedMailHandoff | null>(null);
@@ -122,7 +124,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
       if (!scope) throw new Error("Account identity unavailable.");
       verifiedScope = scope;
       if (lastVerifiedOwner.current !== scope) {
-        setShoppingDraft(null); setShoppingOpen(false); setMailDraft(null); mailDraftRef.current = null; mailReceiver.current = null;
+        setBrowserDraft(null); setShoppingDraft(null); setShoppingOpen(false); setMailDraft(null); mailDraftRef.current = null; mailReceiver.current = null;
         if (workspaceRef.current !== null) setSharedIntake(undefined);
         setAssistantWork({ dirty: false, exportText: "" }); setAssistantWorking(false);
         setPersonalProfile(null);
@@ -153,7 +155,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
       // An authenticated storage error includes a verified scope; network or
       // malformed identity errors cannot safely reuse a previous person's UI.
       setPersonalProfile(null);
-      if (!verifiedScope) { setShoppingDraft(null); setShoppingOpen(false); setMailDraft(null); mailDraftRef.current = null; mailReceiver.current = null; workspaceRef.current = null; setWorkspaceKey(null); setSharedIntake(undefined); setConsent(false); setAssistantWork({ dirty: false, exportText: "" }); setAssistantWorking(false); }
+      if (!verifiedScope) { setBrowserDraft(null); setShoppingDraft(null); setShoppingOpen(false); setMailDraft(null); mailDraftRef.current = null; mailReceiver.current = null; workspaceRef.current = null; setWorkspaceKey(null); setSharedIntake(undefined); setConsent(false); setAssistantWork({ dirty: false, exportText: "" }); setAssistantWorking(false); }
       setAccess("error");
       setState(null);
       setNotice(
@@ -178,7 +180,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
         if (shouldRevalidatePersonalOwner(_event, workspaceRef.current, hintedScope)) {
           loadRequest.current?.abort();
           workspaceRef.current = null;
-          setShoppingDraft(null); setShoppingOpen(false); setMailDraft(null); mailDraftRef.current = null; mailReceiver.current = null;
+          setBrowserDraft(null); setShoppingDraft(null); setShoppingOpen(false); setMailDraft(null); mailDraftRef.current = null; mailReceiver.current = null;
           setWorkspaceKey(null); setState(null); setPersonalProfile(null); setAssistantWork({ dirty: false, exportText: "" }); setAssistantWorking(false);
           setSharedIntake(undefined); setConsent(false);
           // The event only invalidates. The server verifies the new owner.
@@ -202,14 +204,14 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
     else leaveDialog.current?.close();
   }, [leavingHref]);
   useEffect(() => {
-    if (!(workspaceKey === "guest" && guestDirty) && !shoppingDraft && !mailDraft) return;
+    if (!(workspaceKey === "guest" && guestDirty) && !shoppingDraft && !mailDraft && !browserDraft) return;
     const warn = (event: BeforeUnloadEvent) => {
       if (approvedLeave.current) return;
       event.preventDefault(); event.returnValue = "";
     };
     window.addEventListener("beforeunload", warn);
     return () => window.removeEventListener("beforeunload", warn);
-  }, [workspaceKey, guestDirty, shoppingDraft, mailDraft]);
+  }, [workspaceKey, guestDirty, shoppingDraft, mailDraft, browserDraft]);
   function openEditor(
     item?: Responsibility,
     starter?: (typeof PERSONAL_STARTERS)[number],
@@ -348,6 +350,11 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
     requestAnimationFrame(() => document.getElementById("personal-mail")?.scrollIntoView({ block: "start" }));
     return true;
   }
+  function openBrowserDraft(text: string) {
+    if (!workspaceKey || workspaceKey === 'guest' || workspaceKey !== workspaceRef.current || browserDraft || !text.trim() || text.length > 6000) return false;
+    setBrowserDraft({ owner: workspaceKey, text: text.trim(), id: crypto.randomUUID() });
+    return true;
+  }
   function openShoppingDraft(text: string) {
     const draft = reviewShoppingHandoff(workspaceKey, workspaceRef.current, shoppingDraft, text);
     if (!draft) return false;
@@ -375,7 +382,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
     state?.runs.filter((r) => r.status === "needs_review").length ?? 0;
   return (
     <main className={styles.page} style={doIdentityStyle} data-do-identity="assembled-glass" onClickCapture={event => {
-      if ((!(workspaceKey === "guest" && guestDirty) && !shoppingDraft && !mailDraft) || !(event.target instanceof Element)) return;
+      if ((!(workspaceKey === "guest" && guestDirty) && !shoppingDraft && !mailDraft && !browserDraft) || !(event.target instanceof Element)) return;
       const link = event.target.closest<HTMLAnchorElement>("a[href]");
       if (!link || link.target === "_blank" || link.download) return;
       const destination = new URL(link.href, window.location.href);
@@ -409,7 +416,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
           Try loading again <RefreshCw size={16} />
         </button>
       )}
-      {workspaceKey && <LifeAdmin key={workspaceKey} assistant={<PersonalDoAssistant key={workspaceKey} returnTo={context === "household" ? "/do/household" : "/do"} profile={personalProfile ?? undefined} onWorkingChange={setAssistantWorking} onWorkChange={setAssistantWork} />} assistantWork={assistantWork} assistantWorking={assistantWorking} profile={personalProfile} onCustomise={access === "ready" ? () => settingsButton.current?.click() : undefined} storageScope={workspaceKey} intake={sharedIntake} onGuestWorkChange={setGuestDirty} onIntakeAccepted={id => { try { acceptDoShare(window.sessionStorage, id); } catch { /* Storage may be unavailable. */ } }} onTalk={() => { setCallOpen(true); requestAnimationFrame(() => document.getElementById("personal-do-call")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" })); }} />}
+      {workspaceKey && <LifeAdmin key={workspaceKey} assistant={<PersonalDoAssistant key={workspaceKey} returnTo={context === "household" ? "/do/household" : "/do"} profile={personalProfile ?? undefined} onBrowserDraft={openBrowserDraft} onWorkingChange={setAssistantWorking} onWorkChange={setAssistantWork} />} assistantWork={assistantWork} assistantWorking={assistantWorking} profile={personalProfile} onCustomise={access === "ready" ? () => settingsButton.current?.click() : undefined} storageScope={workspaceKey} intake={sharedIntake} onGuestWorkChange={setGuestDirty} onIntakeAccepted={id => { try { acceptDoShare(window.sessionStorage, id); } catch { /* Storage may be unavailable. */ } }} onTalk={() => { setCallOpen(true); requestAnimationFrame(() => document.getElementById("personal-do-call")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" })); }} />}
       {workspaceKey && callOpen && <div id="personal-do-call" className={styles.call}>
         <div className={styles.callHeading}><p className={styles.eyebrow}>VOICE</p><a href="#life-admin">Back to my workspace ↑</a></div>
         <DoGeminiLive
@@ -435,6 +442,8 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
         </div>
         <div hidden={!shoppingOpen}><ShopJourney key={workspaceKey} embedded expectedWorkspace={workspaceKey} initialBrief={shoppingDraft.text} /></div>
       </section>}
+      {workspaceKey && browserDraft?.owner === workspaceKey && <section aria-label="Reviewed browser task"><button type="button" onClick={() => setBrowserDraft(null)}>Close browser task and disconnect</button><BrowserTaskReview key={browserDraft.id} expectedWorkspace={workspaceKey} initialBrief={browserDraft.text} /></section>}
+      {workspaceKey && shoppingDraft?.owner === workspaceKey && !browserDraft && <button type="button" onClick={() => openBrowserDraft(shoppingDraft.text)}>Review this shopping brief as a browser task</button>}
       {workspaceKey && <DoLocalInformation storageScope={workspaceKey} />}
       {access === "ready" && state && (
         <details className={styles.ongoing}>
@@ -749,9 +758,9 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
         <section className={styles.editor}>
           <p className={styles.eyebrow}>KEEP YOUR WORK BEFORE YOU GO</p>
           <h2 id="guest-leave-title">Your unsaved work is in this page.</h2>
-          <p>{mailDraft ? "Your mail review and task draft will close. Stay to finish reviewing or copy your work." : shoppingDraft ? "Your shopping plan will close. Stay and copy the list or keep it as a task first." : "Signing in or leaving starts a fresh workspace. Stay and use Download all guest work to keep a copy first. You can paste it back into your signed-in workspace."}</p>
+          <p>{browserDraft ? "Your browser review will close and disconnect. An edit already in flight may still finish; check the selected tab." : mailDraft ? "Your mail review and task draft will close. Stay to finish reviewing or copy your work." : shoppingDraft ? "Your shopping plan will close. Stay and copy the list or keep it as a task first." : "Signing in or leaving starts a fresh workspace. Stay and use Download all guest work to keep a copy first. You can paste it back into your signed-in workspace."}</p>
           <div className={styles.actions}>
-            <button type="button" onClick={() => { setLeavingHref(null); setNotice(mailDraft ? "Return to your mail review to finish or copy your task draft." : shoppingDraft ? "Return to your shopping plan to copy or keep the list." : "Use Download all guest work above your checklist before signing in."); }}>Stay and keep my work</button>
+            <button type="button" onClick={() => { setLeavingHref(null); setNotice(browserDraft ? "Return to your browser review to finish or disconnect." : mailDraft ? "Return to your mail review to finish or copy your task draft." : shoppingDraft ? "Return to your shopping plan to copy or keep the list." : "Use Download all guest work above your checklist before signing in."); }}>Stay and keep my work</button>
             <button type="button" onClick={() => { approvedLeave.current = true; window.location.assign(leavingHref); }}>Leave without this work</button>
           </div>
         </section>
