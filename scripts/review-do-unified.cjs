@@ -220,43 +220,29 @@ async function verifyFunctionalMark(page, root, label) {
     // The company scene is distinct from DO's product identity renderer.
     await clean.setViewportSize({ width: 1440, height: 1000 }); await clean.emulateMedia({ reducedMotion: 'no-preference' });
     await clean.reload({ waitUntil: 'networkidle' });
-    const scene = clean.locator('[data-world="atelier"]');
-    await clean.waitForFunction(() => document.querySelector('[data-world="atelier"][data-scene-ready="true"] canvas'), null, { timeout: 15000 });
-    const renderer = 'assembl-world-3d';
-    check('normal motion renders the actual assembl scene', await scene.locator('canvas').isVisible());
-    for (const [index, product] of ['Pursuit', 'DO', 'Studio'].entries()) {
-      await clean.getByRole('button', { name: `View ${product} scene`, exact: true }).click();
-      await clean.waitForFunction(index => document.querySelector('[data-chapter]')?.getAttribute('data-chapter') === String(index), index);
-      check(`${product} chapter is selectable`, await clean.getByRole('button', { name: `View ${product} scene`, exact: true }).getAttribute('aria-pressed') === 'true');
-    }
-    await clean.getByRole('button', { name: 'Pause scene motion', exact: true }).click();
-    check('scene pause is explicit', await clean.getByRole('button', { name: 'Resume scene motion', exact: true }).getAttribute('aria-pressed') === 'true');
+    const scene = clean.locator('.direction-4c');
+    const renderer = 'direction-4c-tide';
+    await clean.waitForFunction(() => document.querySelector('.direction-4c[data-ready="true"] canvas'), null, { timeout: 15000 });
+    check('normal motion renders the supplied tide canvas', await scene.locator('canvas').isVisible());
+    await clean.getByRole('button', { name: 'Pause motion', exact: true }).click();
+    check('scene pause is explicit', await clean.getByRole('button', { name: 'Play motion', exact: true }).getAttribute('aria-pressed') === 'true');
+    await clean.evaluate(() => scrollTo({ top: innerHeight, behavior: 'instant' }));
+    check('paused parallax stays reset during scrolling', await clean.locator('[data-par]').evaluateAll(nodes => nodes.every(el => el.style.transform === 'none')));
     await clean.screenshot({ path: out + '/07-home-motion.png', animations: 'disabled', timeout: 60000 });
-    await clean.getByRole('button', { name: 'Resume scene motion', exact: true }).click();
-    check('scene resumes explicitly', await clean.getByRole('button', { name: 'Pause scene motion', exact: true }).getAttribute('aria-pressed') === 'false');
-    await clean.evaluate(() => {
-      const rail = document.querySelector('[data-chapter]');
-      if (!rail) throw new Error('Missing assembl scene rail');
-      scrollTo({ top: scrollY + rail.getBoundingClientRect().bottom + 1, behavior: 'instant' });
-    });
-    check('scene rail is offscreen before renderer teardown', await clean.locator('[data-chapter]').evaluate(el => el.getBoundingClientRect().bottom <= 0));
-    await clean.waitForFunction(() => !document.querySelector('[data-world="atelier"] canvas'));
-    check('offscreen scene releases its renderer', await scene.locator('canvas').count() === 0);
-    await clean.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
-    await clean.waitForFunction(() => document.querySelector('[data-world="atelier"][data-scene-ready="true"] canvas'));
-    check('scene returns after offscreen teardown', await scene.locator('canvas').isVisible());
+    await clean.getByRole('button', { name: 'Play motion', exact: true }).click();
+    check('scene resumes explicitly', await clean.getByRole('button', { name: 'Pause motion', exact: true }).getAttribute('aria-pressed') === 'false');
     await clean.emulateMedia({ reducedMotion: 'reduce' });
-    await clean.waitForFunction(() => document.querySelector('[data-chapter][data-static="true"]') && !document.querySelector('[data-world="atelier"] canvas'));
-    check('reduced motion retains the complete work loop', await clean.getByLabel('The complete work loop', { exact: true }).isVisible());
+    await clean.waitForFunction(() => !document.querySelector('.direction-4c[data-ready]') && getComputedStyle(document.querySelector('.direction-4c canvas')).display === 'none');
+    check('dynamic reduced motion retains readable content', await clean.locator('[data-ref="msgRef"]').isVisible() && await clean.getByRole('link', { name: 'Open DO', exact: true }).isVisible());
     await clean.emulateMedia({ reducedMotion: 'no-preference' });
-    await clean.waitForFunction(() => document.querySelector('[data-world="atelier"][data-scene-ready="true"] canvas'));
+    await clean.waitForFunction(() => document.querySelector('.direction-4c[data-ready="true"]'));
     check('scene returns after reduced-motion preference changes', await scene.locator('canvas').isVisible());
     const fallback = await context.newPage();
     await fallback.addInitScript(() => { const original = HTMLCanvasElement.prototype.getContext; HTMLCanvasElement.prototype.getContext = function(type, ...args) { if (String(type).startsWith('webgl')) return null; return original.call(this, type, ...args); }; });
     await fallback.emulateMedia({ reducedMotion: 'no-preference' });
     await fallback.goto(origin + '/', { waitUntil: 'networkidle' });
-    await fallback.waitForFunction(() => document.querySelector('[data-chapter][data-static="true"]'));
-    check('WebGL unavailable keeps the visible scene poster and complete work loop', await fallback.locator('[data-world="atelier"] img').last().evaluate(img => img.complete && img.naturalWidth > 0) && await fallback.getByLabel('The complete work loop', { exact: true }).isVisible() && await fallback.getByRole('link', { name: 'Open DO', exact: true }).first().isVisible());
+    await fallback.waitForFunction(() => document.querySelector('.direction-4c[data-static="true"]'));
+    check('WebGL unavailable keeps readable content and product links', await fallback.locator('[data-ref="msgRef"]').isVisible() && await fallback.getByRole('link', { name: 'Open DO', exact: true }).isVisible() && await fallback.locator('.direction-4c canvas').evaluate(el => getComputedStyle(el).display === 'none'));
     await fallback.screenshot({ path: out + '/08-webgl-fallback.png', animations: 'disabled', timeout: 60000 });
     await fallback.close();
     await clean.emulateMedia({ reducedMotion: 'reduce' });
