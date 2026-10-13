@@ -1,0 +1,42 @@
+{
+  "display": "flex",
+  "width": 288,
+  "scrollWidth": 524,
+  "rect": {
+    "x": 909.625,
+    "y": 74,
+    "width": 290,
+    "height": 650,
+    "top": 74,
+    "right": 1199.625,
+    "bottom": 724,
+    "left": 909.625
+  },
+  "children": [
+    {
+      "text": "My DO",
+      "width": 49.578125,
+      "x": 887.625
+    },
+    {
+      "text": "Open capture workspace",
+      "width": 97.21875,
+      "x": 961.203125
+    },
+    {
+      "text": "Tools & examples ＋Specialist tools and s",
+      "width": 119.984375,
+      "x": 1082.421875
+    },
+    {
+      "text": "Install DO",
+      "width": 66,
+      "x": 1226.40625
+    },
+    {
+      "text": "Privacy",
+      "width": 74.71875,
+      "x": 1316.40625
+    }
+  ]
+}

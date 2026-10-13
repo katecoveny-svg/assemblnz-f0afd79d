@@ -75,7 +75,7 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
       - name: DO core unit tests
-        run: pnpm test apps/do/coordination apps/do/shared apps/do/personal apps/do/services/family.test.ts apps/do/services/family-server.test.ts app/api/do app/do/personal lib/do/nz-public-data.test.ts lib/do/nz-local-updates.test.ts lib/do/do-pwa.test.ts lib/do/availability lib/do/travel lib/typesafe lib/os/improvement.test.ts lib/os/routing.test.ts lib/connectors/pipedream.test.ts
+        run: pnpm test apps/do/coordination apps/do/shared apps/do/personal apps/do/services/family.test.ts apps/do/services/family-server.test.ts app/api/do app/do/personal lib/do/public-do-specialists.test.ts lib/do/nz-public-data.test.ts lib/do/nz-local-updates.test.ts lib/do/do-pwa.test.ts lib/do/availability lib/do/travel lib/typesafe lib/os/improvement.test.ts lib/os/routing.test.ts lib/connectors/pipedream.test.ts
       - name: Authentication cookie, callback, login and provider regressions
         run: pnpm exec vitest run app/login app/auth lib/supabase lib/auth/origin.test.ts lib/auth/do-entry.test.ts lib/auth/providers.test.ts lib/auth/remember.test.ts
       - name: Voice lifecycle scoped lint
@@ -149,8 +149,10 @@ jobs:
           entry_status=$?
           ASSEMBL_REVIEW_ORIGIN=http://localhost:3117 ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/entry-chrome node scripts/review-do-entry-chrome.cjs
           chrome_status=$?
+          ASSEMBL_REVIEW_ORIGIN=http://localhost:3117 ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/more-capabilities node scripts/review-do-more-capabilities.cjs
+          more_status=$?
           set -e
-          test "$voice_status" -eq 0 && test "$header_status" -eq 0 && test "$settings_status" -eq 0 && test "$calls_status" -eq 0 && test "$portable_status" -eq 0 && test "$assistant_status" -eq 0 && test "$site_status" -eq 0 && test "$refinement_status" -eq 0 && test "$unified_status" -eq 0 && test "$entry_status" -eq 0 && test "$chrome_status" -eq 0
+          test "$voice_status" -eq 0 && test "$header_status" -eq 0 && test "$settings_status" -eq 0 && test "$calls_status" -eq 0 && test "$portable_status" -eq 0 && test "$assistant_status" -eq 0 && test "$site_status" -eq 0 && test "$refinement_status" -eq 0 && test "$unified_status" -eq 0 && test "$entry_status" -eq 0 && test "$chrome_status" -eq 0 && test "$more_status" -eq 0
       - uses: actions/upload-artifact@v4
         if: always()
         with:

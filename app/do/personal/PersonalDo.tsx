@@ -13,8 +13,6 @@ import {
   Check,
   Clock3,
   ChevronDown,
-  HeartHandshake,
-  CloudSun,
   Pause,
   Plus,
   RefreshCw,
@@ -29,8 +27,7 @@ import type { PersonalDoProfile } from "@/apps/do/personal/profile";
 import { PersonalDoSettings } from "./PersonalDoSettings";
 import { LifeAdmin } from "./LifeAdmin";
 import { PersonalDoAssistant, type PersonalAssistantWork } from "./PersonalDoAssistant";
-import { NzCareNavigation } from "./NzCareNavigation";
-import { LifeAdminLocalUpdates } from "./LifeAdminLocalUpdates";
+import { DoLocalInformation } from '@/components/do/DoLocalInformation';
 import { acceptDoShare, readDoShareForWorkspace, doShareText } from "@/apps/do/shared/share-intake";
 import { createClient as createBrowserClient } from "@/lib/supabase/client";
 import { replacePersonalLoad, shouldRevalidatePersonalOwner } from "@/apps/do/personal/session";
@@ -382,13 +379,7 @@ export function PersonalDo() {
           onDraft={state?.worker.configured && state.responsibilities.length < 5 ? keepCallDraft : undefined}
         />
       </div>}
-      {workspaceKey && <section className={styles.around} aria-labelledby="around-you-title">
-        <div className={styles.aroundHeading}><p className={styles.eyebrow}>NEW ZEALAND</p><h2 id="around-you-title">Local information</h2></div>
-        <div className={styles.aroundGrid}>
-          <details className={styles.aroundPanel}><summary><HeartHandshake size={23} /><span><strong>Care, health & later life</strong><small>Support, appointments and the right place to ask</small></span><Plus size={19} /></summary><NzCareNavigation storageScope={workspaceKey} /></details>
-          <details className={styles.aroundPanel}><summary><CloudSun size={23} /><span><strong>Weather & public updates</strong><small>Check the conditions before your next step</small></span><Plus size={19} /></summary><LifeAdminLocalUpdates key={workspaceKey} /></details>
-        </div>
-      </section>}
+      {workspaceKey && <DoLocalInformation storageScope={workspaceKey} />}
       {access === "ready" && state && (
         <details className={styles.ongoing}>
           <summary><span><span className={styles.eyebrow}>SAVED NOTES</span><strong>Ongoing responsibilities</strong></span><span className={styles.ongoingCount}>{needsReview ? `${needsReview} to review` : `${state.responsibilities.length} saved`} <ChevronDown size={20} /></span></summary>
