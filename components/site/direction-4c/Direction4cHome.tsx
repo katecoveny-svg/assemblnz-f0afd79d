@@ -121,6 +121,13 @@ export function Direction4cHome() {
       root.toggleAttribute('data-paused', paused || media.matches);
       world?.setPaused(paused || media.matches || document.hidden);
       if (!playbackGate.allowed()) { video.pause(); stopReveal?.(); stopReveal = undefined; }
+      if (paused && !mobile.matches) {
+        // Finish a visible text fade before freezing it; never strand reading at partial opacity.
+        for (const name of ['kickRef', 'cueRef', 'subRef', 'msgRef', 'markRef']) {
+          const el = ref(name);
+          if (el && Number(el.style.opacity || '1') > 0) set(name, 1);
+        }
+      }
       playbackListeners.forEach(listener => listener());
       if (initialized && playbackGate.allowed() && video.paused) void recover();
       // Engine has a document-wide pause switch; contain it to this page.
@@ -132,7 +139,7 @@ export function Direction4cHome() {
     const tick = () => {
       if (disposed || media.matches || !world?.api) return;
       frame = requestAnimationFrame(tick);
-      if (document.hidden) return;
+      if (paused || document.hidden) return;
       const hero = ref('heroRef');
       if (hero) {
         const rect = hero.getBoundingClientRect();

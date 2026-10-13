@@ -122,7 +122,10 @@ async function controllerFixture() {
   const documentEvents = new Map<string, () => void>();
   const button = { setAttribute: vi.fn(), addEventListener: (name: string, fn: () => void) => buttonEvents.set(name, fn), removeEventListener: (name: string) => buttonEvents.delete(name), textContent: '', disabled: false };
   const canvas = { addEventListener: vi.fn(), removeEventListener: vi.fn() };
-  const root = { dataset: {} as Record<string, string>, toggleAttribute: vi.fn(), querySelectorAll: () => [], querySelector: (selector: string) => selector === '[data-coastal-video]' ? video : selector === '[data-pause]' ? button : selector.includes('canvasRef') ? canvas : null };
+  const copy = Object.fromEntries(['kickRef', 'cueRef', 'subRef', 'msgRef', 'markRef'].map(name => [name, { style: { opacity: '0', visibility: 'hidden', transform: '' } }]));
+  let heroTop = 0;
+  const hero = { getBoundingClientRect: () => ({ top: heroTop, height: 2560 }) };
+  const root = { dataset: {} as Record<string, string>, toggleAttribute: vi.fn(), querySelectorAll: () => [], querySelector: (selector: string) => selector === '[data-coastal-video]' ? video : selector === '[data-pause]' ? button : selector.includes('canvasRef') ? canvas : selector.includes('heroRef') ? hero : copy[selector.match(/data-ref="([^"]+)"/)?.[1] ?? ''] ?? null };
   const video = { canPlayType: () => 'probably', readyState: 2, videoWidth: 1280, paused: true, muted: false, playsInline: false, preload: '', duration: 24, currentTime: 0, seeking: false, src: '', play: vi.fn(async () => { video.paused = false; }), pause: vi.fn(() => { video.paused = true; }), load: vi.fn(), removeAttribute: vi.fn(), addEventListener: (name: string, fn: () => void) => { if (!videoListeners.has(name)) videoListeners.set(name, new Set()); videoListeners.get(name)!.add(fn); videoEvents.set(name, () => [...(videoListeners.get(name) ?? [])].forEach(listener => listener())); }, removeEventListener: (name: string, fn: () => void) => { videoListeners.get(name)?.delete(fn); if (!videoListeners.get(name)?.size) videoEvents.delete(name); } };
   let resolveAttach!: () => void;
   const world = { ready: new Promise<void>(resolve => { resolveAttach = resolve; }), api: { setKnock: vi.fn(), setArrive: vi.fn(), setLit: vi.fn(), pulse: vi.fn() }, setPaused: vi.fn(), dispose: vi.fn() };
@@ -143,7 +146,7 @@ async function controllerFixture() {
   });
   exported.Direction4cHome!();
   for (let n = 0; n < 16; n++) await Promise.resolve();
-  return { attach, world, root, video, videoEvents, frames, resolveAttach, cleanup, media, preference, mobile, resize, button, buttonEvents, documentEvents, pageDocument, flush: async () => { for (let n = 0; n < 16; n++) await Promise.resolve(); } };
+  return { copy, moveHero: (top: number) => { heroTop = top; }, advanceFrame: () => { const entry = [...frames.entries()].at(-1); if (entry) { frames.delete(entry[0]); entry[1](); } }, attach, world, root, video, videoEvents, frames, resolveAttach, cleanup, media, preference, mobile, resize, button, buttonEvents, documentEvents, pageDocument, flush: async () => { for (let n = 0; n < 16; n++) await Promise.resolve(); } };
 }
 it('disposes an attach that resolves after media failure without restarting frames or seeking video', async () => {
   const { attach, world, root, video, videoEvents, frames, resolveAttach, cleanup, flush } = await controllerFixture();
@@ -264,5 +267,22 @@ it('keeps the retry control accurate after failure and visibility changes', asyn
   f.pageDocument.hidden = false; f.documentEvents.get('visibilitychange')!();
   expect(f.button.textContent).toBe('Play motion');
   expect(f.button.setAttribute).toHaveBeenLastCalledWith('aria-pressed', 'true');
+  f.cleanup();
+});
+
+it('finishes visible desktop copy fades and freezes them through paused scrolling', async () => {
+  const f = await controllerFixture(); f.resolveAttach(); await f.flush();
+  f.moveHero(-1300); f.advanceFrame();
+  expect(Number(f.copy.msgRef.style.opacity)).toBeGreaterThan(0);
+  expect(Number(f.copy.msgRef.style.opacity)).toBeLessThan(1);
+  f.buttonEvents.get('click')!();
+  expect(f.copy.msgRef.style.opacity).toBe('1.000');
+  const frozen = JSON.stringify(f.copy);
+  for (const top of [0, -700, -1500, -1800]) {
+    f.moveHero(top); f.advanceFrame();
+    expect(JSON.stringify(f.copy)).toBe(frozen);
+  }
+  f.buttonEvents.get('click')!(); f.moveHero(0); f.advanceFrame();
+  expect(f.copy.msgRef.style.opacity).toBe('0.000');
   f.cleanup();
 });
