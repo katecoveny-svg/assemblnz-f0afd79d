@@ -82,3 +82,7 @@ Remove the `SchoolBriefing` import/mount and synthetic route to hide the feature
 ## Historical evidence follow-up
 
 Conflicting baseline versions now have no authoritative single `before` value. `priorEvidence` retains distinct source IDs, URLs, pages and exact rows; the expanded source review renders each earlier row alongside current variants. The fictional baseline-only conflict has 20 and 21 October in separate earlier PDFs and just one current notice. Review stays blocked until the conflict is resolved. The baseline PDF is supplied fiction, not persisted inbox history.
+
+## Agenda staging follow-up
+
+See [Private-pilot staging](./PRIVATE-PILOT-STAGING.md) for the daily/weekly fictional agenda, closed authenticated endpoint, tested server port, verified-scope requirements and exact durable school-history adapter gap. This slice does not activate the pilot or add a browser history store.

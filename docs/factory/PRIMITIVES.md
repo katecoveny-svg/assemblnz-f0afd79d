@@ -195,6 +195,10 @@ Extends Family DO selected-sender validation, HouseholdPerson type and reviewed-
 
 Extends the existing fictional Pursuit examples and extracts the browser-only motion renderer into `lib/studio/motion-video.ts`, retaining the private Studio compatibility import. Creates `lib/studio/public-project.ts`: strict bounded, text-only versioned project import/export. `/pursuit/studio` is an anonymous local brief → four scenes → playable export workflow. No private content, provider calls, cloud persistence, cloning or avatars. Caption cues follow scenes, not speech. Tests and production-browser proof: `docs/PUBLIC-PURSUIT-STUDIO.md`; deployment remains a separate review gate.
 
+### School agenda projection and closed pilot port
+
+`apps/do/school/agenda.ts` extends the existing school evidence primitive with Auckland civil-day/week windows, explicit calendar event links, start-time conflicts and snapshot-bound draft review. `apps/do/school/staging.ts` reuses owner/CAS, connector input, digest and source contracts behind an unbound server port; `/api/do/family/school-pilot` remains closed. No parallel browser storage, live reader, job or writer. [Pilot adapter and consent gates](../do-school/PRIVATE-PILOT-STAGING.md).
+
 ### DO entry capability presentation (review draft, 13 October)
 
 - **Creates:** `apps/do/shared/entry-capabilities.ts` and `DoCapabilityIdeas` for one presentation catalog across Personal DO and the hosted widget used by the browser/Mac companions. These are draft ideas and labelled routes, not execution permissions or a new agent runtime.
