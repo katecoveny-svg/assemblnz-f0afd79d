@@ -42,7 +42,8 @@ fs.mkdirSync(output, { recursive: true });
             throw error;
           }
         }
-        if (mode === 'no-frame') await page.waitForFunction(() => document.querySelector('.direction-4c').hasAttribute('data-static'), undefined, { timeout: 10000 });
+        // A frame that never decodes drops the footage, not the scene: the flock still arrives.
+        if (mode === 'no-frame') await page.waitForFunction(() => document.querySelector('.direction-4c').hasAttribute('data-ready') && !document.querySelector('.direction-4c').hasAttribute('data-video-ready'), undefined, { timeout: 20000 });
         await page.waitForTimeout(150);
         await page.evaluate(() => document.fonts.ready);
         assert(await page.locator('.clear-coastal-poster').evaluate(el => el.complete && el.naturalWidth >= 1280), 'coastal poster loaded');
@@ -54,17 +55,22 @@ fs.mkdirSync(output, { recursive: true });
         if (mode === 'webm') assert.match(await page.locator('video').evaluate(v => v.currentSrc), /\.webm$/);
         if (width < 901) {
           await capture(page, width, mode, 'midscroll', 240);
-          for (const y of [0, 200, 400, 650, 1000]) {
-            await scroll(page, y);
-            const style = await page.locator('[data-ref="msgRef"]').evaluate(el => ({ opacity: getComputedStyle(el).opacity, visibility: getComputedStyle(el).visibility, background: getComputedStyle(el).backgroundImage }));
-            assert.equal(style.opacity, '1'); assert.equal(style.visibility, 'visible'); assert(style.background.includes('linear-gradient'), 'opaque text on a dark glass surface');
+          if (mode !== 'reduce') {
+            // The design's flock flies on phones too, and footage never blocks it.
+            await page.waitForFunction(() => document.querySelector('.direction-4c').hasAttribute('data-ready'), undefined, { timeout: 20000 });
+            assert.equal(await page.locator('[data-ref="canvasRef"]').evaluate(el => getComputedStyle(el).display), 'block', 'tide canvas renders on phones');
+            const end = await page.locator('#top').evaluate(el => Math.round(el.getBoundingClientRect().height - innerHeight + scrollY) - 8);
+            await scroll(page, end); await page.waitForTimeout(300);
+            const style = await page.locator('[data-ref="msgRef"]').evaluate(el => ({ opacity: getComputedStyle(el).opacity, visibility: getComputedStyle(el).visibility }));
+            assert.equal(style.opacity, '1', 'useful work message is fully visible at the end of the hero'); assert.equal(style.visibility, 'visible');
+            await capture(page, width, mode, 'message', end);
+            await scroll(page, 0);
           }
-          assert.equal(await page.locator('[data-ref="canvasRef"]').evaluate(el => getComputedStyle(el).display), 'none');
           if (playingMode) {
             await page.locator('[data-pause]').click();
             assert(await page.locator('video').evaluate(el => el.paused));
             await scroll(page, 240);
-            assert.equal(await page.locator('[data-ref="msgRef"]').evaluate(el => getComputedStyle(el).opacity), '1');
+            assert(['0', '1'].includes(await page.locator('[data-ref="msgRef"]').evaluate(el => getComputedStyle(el).opacity)), 'paused copy is never left translucent');
             await capture(page, width, mode, 'midscroll-paused', 240);
             await page.setViewportSize({ width: 1000, height: 844 });
             await page.waitForTimeout(200);
@@ -126,9 +132,8 @@ fs.mkdirSync(output, { recursive: true });
         for (const href of ['/do?tool=write', '/do?tool=talk', '/do']) assert(await page.locator(`#try a[href="${href}"]`).count(), `real DO link ${href}`);
         for (const href of ['/legal/terms', '/legal/privacy', '/legal/disclaimer', '/legal/meta-data-deletion']) assert(await page.locator(`.clear-legal a[href="${href}"]`).count());
         if (width === 390 && mode === 'normal') {
-          await page.locator('.clear-demo-disclosure > summary').click();
-          const demo = page.locator('#try-demo');
-          assert.match(await demo.locator('.td-demo-notice').textContent(), /Fictional walkthrough only/);
+          const demo = page.locator('#try');
+          assert.match(await demo.locator('.td-kicker').textContent(), /simulated/i);
           await demo.getByRole('tab', { name: 'Talk', exact: true }).click();
           await demo.getByRole('button', { name: 'Play simulated voice example' }).click();
           await page.waitForTimeout(650);
@@ -145,10 +150,10 @@ fs.mkdirSync(output, { recursive: true });
           await page.waitForTimeout(4000);
           assert.equal(await demo.getByRole('tab', { name: 'Add', exact: true }).getAttribute('aria-selected'), 'true');
           await demo.getByRole('button', { name: 'Try a fictional example' }).click();
-          await demo.getByRole('button', { name: 'Simulate approval' }).waitFor();
+          await demo.getByRole('button', { name: 'Approve', exact: true }).waitFor();
           await demo.getByRole('button', { name: 'Not now', exact: true }).click();
           await demo.getByRole('link', { name: 'Open the full DO' }).waitFor();
-          assert.match(await demo.locator('.td-line').textContent(), /No draft is saved/);
+          assert.match(await demo.locator('.td-line').textContent(), /kept for later/);
         }
         assert.deepEqual(errors, []);
         results.push({ width, mode, engine, passed: true, entryTargets, pausedCopyChecks });

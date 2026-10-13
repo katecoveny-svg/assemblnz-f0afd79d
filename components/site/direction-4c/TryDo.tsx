@@ -26,7 +26,7 @@ const SCENARIOS: Record<JobKey, Scenario> = {
 const EXAMPLES = ['Prepare a reply to my property manager', 'Turn Tuesday’s meeting into notes', 'Sort the school newsletter'];
 const MORE_JOBS: [string, string][] = [['Turn a meeting into notes', 'Turn Tuesday’s meeting into notes'], ['Sort a school notice', 'Sort the school newsletter'], ['Draft a reply', 'Prepare a reply to my property manager']];
 const STEP_LABELS = ['know', 'prepare', 'permit', 'do', 'verify', 'receipt'];
-const STATUS = ['DEMO · READING', 'DEMO · PREPARING', 'SIMULATED APPROVAL', 'DOING · SIMULATED', 'DEMO · CHECKING', 'SIMULATED RECEIPT', 'DEMO · NOT NOW'];
+const STATUS = ['READING', 'PREPARING', 'WAITING FOR YOUR YES', 'DOING · SIMULATED', 'CHECKING', 'DONE · RECEIPT', 'KEPT AS A DRAFT'];
 // Step n advances to the next step after a pause; step 2 waits for Approve / Not now.
 const AUTO_ADVANCE: Partial<Record<number, [number, number]>> = { 0: [1100, 1], 1: [1500, 2], 3: [1100, 4], 4: [1000, 5] };
 const PARKED = 6, DONE = 5;
@@ -169,7 +169,7 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
   const lines = !scenario ? [] : job?.key === 'writing'
     ? [scenario.lines[0], voice === 'Warm' ? 'A warm, clear draft, ready for you to edit.' : 'A plain, clear draft, ready for you to edit.', '', scenario.lines[3], scenario.lines[4]]
     : scenario.lines;
-  const line = !scenario ? '' : step === 2 ? scenario.ask : parked ? 'This example is paused. No draft is saved.' : done ? 'Example complete. This is a fictional receipt.' : lines[step] ?? '';
+  const line = !scenario ? '' : step === 2 ? scenario.ask : parked ? 'Nothing was changed. The draft is kept for later.' : done ? 'Done. Here is the receipt.' : lines[step] ?? '';
   const receipt: [string, string][] = scenario && job ? [
     ['job', scenario.title || job.text],
     ['used', scenario.used],
@@ -179,10 +179,9 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
   const panelId = `${uid}-panel`;
 
   return (
-    <section id="try-demo" data-sec="" data-screen-label="Try DO" className="td-section" aria-labelledby={`${uid}-title`}>
+    <section id="try" data-form="5" data-sec="" data-screen-label="Try DO" className="td-section" aria-labelledby={`${uid}-title`}>
       <div className="td-wrap">
-        <p className="td-kicker">DO walkthrough · simulated</p>
-        <p className="td-demo-notice">Fictional walkthrough only. No accounts, microphone or files are accessed. Nothing is saved, sent or booked. Use the links above to work in DO.</p>
+        <p data-scramble="" className="td-kicker">try DO · simulated</p>
         <div data-rv="0">
           <div ref={cardRef} className="td-card">
             <div aria-hidden="true" className="td-glow" />
@@ -222,7 +221,7 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
                 </div>
                 <p className="td-lock-note">
                   <svg viewBox="0 0 24 24" aria-hidden="true" className="td-icon td-icon-16 td-lock"><rect width="18" height="11" x="3" y="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
-                  This example includes a review step. Real DO tools have their own permissions and review requirements.
+                  DO always asks before anything sends, books or spends. This one stays on.
                 </p>
               </div>
             )}
@@ -230,7 +229,7 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
             {!scenario && (
               <>
                 <h3 id={`${uid}-title`} className="td-title">What would you like <span className="td-accent">done?</span></h3>
-                <p className="td-sub">Explore a fictional example of the review steps.</p>
+                <p className="td-sub">Bring a question, a plan or the thing on your mind.</p>
                 <div role="tablist" aria-label="How to ask DO" className="td-tabs">
                   {MODES.map(([key, label], i) => (
                     <button
@@ -275,7 +274,7 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
                         <span className="td-review">
                           <span aria-hidden="true" className="td-switch"><i /></span>Review drafts before sharing
                         </span>
-                        <button type="button" className="td-start" disabled={!text.trim()} onClick={() => start()}>Run example<Arrow /></button>
+                        <button type="button" className="td-start" disabled={!text.trim()} onClick={() => start()}>Start<Arrow /></button>
                       </div>
                     </div>
                   )}
@@ -285,7 +284,7 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
                         {listening && <span aria-hidden="true" className="td-mic-ring" />}
                         <svg viewBox="0 0 24 24" aria-hidden="true" className="td-icon td-icon-26"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" /><path d="M19 10v2a7 7 0 0 1-14 0v-2" /><path d="M12 19v3" /></svg>
                       </button>
-                      <p aria-live="polite" className="td-talk-line">{listening ? heard || 'Playing example…' : 'Play a fictional voice example. Your microphone is not used.'}</p>
+                      <p aria-live="polite" className="td-talk-line">{listening ? heard || 'Listening…' : 'Tap the microphone and say what you would like done. Simulated: your microphone is not used.'}</p>
                       <p className="td-mono td-note">voice is simulated on this page</p>
                     </div>
                   )}
@@ -353,7 +352,7 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
                 <p aria-live="polite" className="td-line">{line}</p>
                 {step === 2 && (
                   <div className="td-actions">
-                    <button type="button" className="td-approve" onClick={approve}>Simulate approval</button>
+                    <button type="button" className="td-approve" onClick={approve}>Approve</button>
                     <button type="button" className="td-park" onClick={park}>Not now</button>
                   </div>
                 )}
@@ -372,6 +371,14 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
             )}
           </div>
         </div>
+        <nav aria-label="Start in DO" className="td-entry">
+          <p className="td-entry-lead">Ready for the real thing? Sign-in and permissions apply to the tools you choose.</p>
+          <div className="clear-do-actions">
+            <Link href="/do?tool=write">Write in DO <Arrow /></Link>
+            <Link href="/do?tool=talk">Talk in DO <Arrow /></Link>
+            <Link href="/do">Add something in DO <Arrow /></Link>
+          </div>
+        </nav>
       </div>
     </section>
   );
