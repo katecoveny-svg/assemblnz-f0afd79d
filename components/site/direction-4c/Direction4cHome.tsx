@@ -45,8 +45,10 @@ function Static({ html }: { html: string }) {
 function revealText(root: HTMLElement): () => void {
   const timers: number[] = [];
   const words = (el: Element) => Array.from(el.querySelectorAll<HTMLElement>('[data-w]'));
+  // The real copy is captured before any decode runs, so cleanup can restore it mid-scramble.
+  const kickers = new Map<HTMLElement, string>(Array.from(root.querySelectorAll<HTMLElement>('[data-scramble]'), el => [el, el.textContent ?? '']));
   const scramble = (el: HTMLElement) => {
-    const final = el.textContent ?? '', n = final.length, pool = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    const final = kickers.get(el) ?? el.textContent ?? '', n = final.length, pool = 'abcdefghijklmnopqrstuvwxyz0123456789';
     let frame = 0;
     const id = window.setInterval(() => {
       frame++;
@@ -75,11 +77,12 @@ function revealText(root: HTMLElement): () => void {
     words(el).forEach(w => { w.style.opacity = '0'; w.style.transform = 'translateY(.45em) rotate(4deg)'; w.style.transformOrigin = '0 100%'; w.style.filter = 'blur(14px)'; });
     io.observe(el);
   });
-  root.querySelectorAll('[data-scramble]').forEach(el => io.observe(el));
+  kickers.forEach((_, el) => io.observe(el));
   return () => {
     io.disconnect();
     timers.forEach(id => clearInterval(id));
     split.forEach(el => words(el).forEach(w => { w.style.transition = 'none'; show(w); }));
+    kickers.forEach((text, el) => { el.textContent = text; });
   };
 }
 

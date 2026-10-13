@@ -187,3 +187,36 @@ it('cancels delayed font initialization before allocating a WebGL renderer', asy
   await expect(pending).rejects.toMatchObject({ name: 'AbortError' });
   expect(renderer).not.toHaveBeenCalled();
 });
+
+// Run the shipping reveal helper against a stub DOM: a decode interrupted by cleanup
+// (renderer lost, reduced motion) must leave the real copy, not random letters.
+async function revealFixture() {
+  const { transpileModule, ModuleKind } = await import('typescript');
+  const component = readFileSync('components/site/direction-4c/Direction4cHome.tsx', 'utf8');
+  const snippet = component.slice(component.indexOf('function revealText('), component.indexOf('export function Direction4cHome'));
+  const js = transpileModule(snippet + '\nrevealText;', { compilerOptions: { module: ModuleKind.CommonJS } }).outputText;
+  const kicker = { textContent: 'evidence · why it is built this way', hasAttribute: (name: string) => name === 'data-scramble', querySelectorAll: () => [] };
+  const root = { hasAttribute: () => false, querySelectorAll: (selector: string) => selector === '[data-scramble]' ? [kicker] : [] };
+  const intervals = new Map<number, () => void>();
+  const cleared = new Set<number>();
+  const observers: Array<{ fire(): void }> = [];
+  const context = {
+    IntersectionObserver: class { cb: (entries: unknown[]) => void; constructor(cb: (entries: unknown[]) => void) { this.cb = cb; observers.push({ fire: () => cb([{ isIntersecting: true, target: kicker }]) }); } observe() {} unobserve() {} disconnect() {} },
+    window: { setInterval: (fn: () => void) => { intervals.set(intervals.size + 1, fn); return intervals.size; } },
+    clearInterval: (id: number) => cleared.add(id),
+  };
+  const revealText = runInNewContext(js, context);
+  return { revealText: () => revealText(root) as () => void, kicker, intervals, cleared, fire: () => observers.at(-1)!.fire(), tick: (n: number) => { for (let i = 0; i < n; i++) intervals.get(intervals.size)!(); } };
+}
+it('restores kicker copy when a decode is interrupted and decodes cleanly on restart', async () => {
+  const f = await revealFixture();
+  const original = f.kicker.textContent;
+  const cleanup = f.revealText();
+  f.fire(); f.tick(3);
+  expect(f.kicker.textContent).not.toBe(original);
+  cleanup();
+  expect(f.kicker.textContent).toBe(original);
+  expect(f.cleared.has(1)).toBe(true);
+  f.revealText(); f.fire(); f.tick(16);
+  expect(f.kicker.textContent).toBe(original);
+});
