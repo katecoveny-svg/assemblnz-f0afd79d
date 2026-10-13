@@ -24,7 +24,7 @@ export function accountReadiness(accounts: ConnectedAccount[], owner: Owner, con
   return accounts.filter(a => owned(a, owner) && ['gmail', 'microsoft_outlook'].includes(a.app?.name_slug ?? '') && accounts.filter(other => other.id === a.id).length === 1)
     .slice(0, 50).map(a => ({
       id: a.id, provider: a.app!.name_slug as MailAccount['provider'], label: (a.name || a.app?.name || 'Mail account').slice(0, 160),
-      state: a.app?.name_slug === 'microsoft_outlook' ? 'outlook_read_unverified' : !a.healthy ? 'reconnect' : !configured ? 'setup_needed' : 'read_available_unverified',
+      state: a.app?.name_slug === 'microsoft_outlook' ? 'outlook_read_unverified' : a.healthy !== true ? 'reconnect' : !configured ? 'setup_needed' : 'read_available_unverified',
       scopeVerified: false,
     }));
 }

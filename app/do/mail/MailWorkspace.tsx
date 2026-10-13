@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useWritingOwner } from '@/apps/do/shared/use-writing-owner';
 import { MAIL_READ_CONSENT, correspondenceTask, mailSearch, type MailDraft, type MailReadiness } from '@/apps/do/mail/contract';
@@ -17,6 +17,8 @@ export function MailWorkspace({ expectedOwner, initialTask }: { expectedOwner?: 
 
 /** Shared text/voice destination. initialTask is reviewed in-memory text, never consent. */
 export function MailReview({ ownerId, initialTask = '' }: { ownerId: string; initialTask?: string }) {
+  const accountControl = useId();
+  const timeControl = useId();
   const [readiness, setReadiness] = useState<MailReadiness | null>(null);
   const [accountId, setAccountId] = useState('');
   const [terms, setTerms] = useState('');
@@ -60,16 +62,16 @@ export function MailReview({ ownerId, initialTask = '' }: { ownerId: string; ini
   return <section className={styles.review} aria-label="Mail review">
     {initialTask && <aside><strong>Reviewed request</strong><p>{initialTask}</p><p>Choose the account and search words below. This request has not granted mail access.</p></aside>}
     <p>Mail passes through Pipedream and assembl to this review. No model receives it. Nothing is sent, scheduled or saved; closing or rechecking this workspace clears it.</p>
-    <label>Mail account<select value={accountId} disabled={busy} onChange={event => { invalidate(); setAccountId(event.target.value); }}>
+    <label htmlFor={accountControl}>Mail account</label><select id={accountControl} value={accountId} disabled={busy} onChange={event => { invalidate(); setAccountId(event.target.value); }}>
       <option value="">Choose an account</option>
       {readiness?.accounts.map(account => <option key={account.id} value={account.id} disabled={account.state !== 'read_available_unverified'}>{account.label} · {account.id} · {account.state === 'outlook_read_unverified' ? 'Outlook read setup unverified' : account.state === 'read_available_unverified' ? 'Gmail · grant unverified' : account.state.replaceAll('_', ' ')}</option>)}
-    </select></label>
+    </select>
     {readiness && !readiness.accountsAvailable && <p role="status">Account metadata is unavailable.</p>}
     {readiness && !readiness.accounts.length && readiness.accountsAvailable && <p>No mail accounts found. <Link href="/do/connections">Review connections</Link>.</p>}
     <p className={styles.evidence}>Readiness checks account metadata only. Actual scopes and mailbox access are unverified. Outlook reading stays unavailable until delegated Mail.Read is verified.</p>
     <label>Search words or correspondent address<input value={terms} maxLength={100} disabled={busy} onChange={event => { invalidate(); setTerms(event.target.value); }} placeholder="e.g. Example Clinic" /></label>
     <p>Type here, or use your device’s dictation if enabled. Review the words before searching.</p>
-    <label>Time range<select value={days} disabled={busy} onChange={event => { invalidate(); setDays(Number(event.target.value) as 7 | 14 | 30); }}><option value={7}>Last 7 days</option><option value={14}>Last 14 days</option><option value={30}>Last 30 days</option></select></label>
+    <label htmlFor={timeControl}>Time range</label><select id={timeControl} value={days} disabled={busy} onChange={event => { invalidate(); setDays(Number(event.target.value) as 7 | 14 | 30); }}><option value={7}>Last 7 days</option><option value={14}>Last 14 days</option><option value={30}>Last 30 days</option></select>
     <label className={styles.check}><input type="checkbox" checked={consent} disabled={!available || busy} onChange={event => setConsent(event.target.checked)} />Allow DO to search this account and show up to 10 matching message previews. I can select up to 3 to read. Attachments are excluded.</label>
     <div className={styles.actions}><button disabled={!available || !consent || busy || Boolean(task.trim())} onClick={() => void run('search')}>Find correspondence</button>{busy && <button onClick={() => { session.current.cancel(); setBusy(false); setSelected([]); setConsent(false); setNotice('Cancelled. Any late result will be discarded.'); }}>Cancel</button>}</div>
     {busy && <p role="status">Reading the selected account…</p>}

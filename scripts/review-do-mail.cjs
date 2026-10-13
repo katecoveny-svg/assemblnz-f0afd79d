@@ -7,7 +7,7 @@ const output = process.env.ASSEMBL_REVIEW_OUTPUT || 'output/playwright/do-mail';
 const ownerA = '11111111-1111-4111-8111-111111111111';
 const ownerB = '22222222-2222-4222-8222-222222222222';
 const checks = [];
-const check = (name, value) => { assert.ok(value, name); checks.push(name); };
+const check = (name, value) => { assert.ok(value, name); checks.push(name); console.log('PASS ' + name); };
 (async () => {
   fs.mkdirSync(output, { recursive: true });
   const browser = await chromium.launch({ headless: true });
@@ -59,13 +59,16 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); };
     }
     owner = ownerB;
     await page.evaluate(() => window.dispatchEvent(new Event('assembl:do-writing-owner-changed')));
+    await page.waitForFunction(() => document.querySelector('select')?.value === '');
     await page.getByLabel('Mail account', { exact: true }).waitFor();
     check('Owner switch clears selected account, source and draft', await page.getByLabel('Mail account', { exact: true }).inputValue() === '' && await page.getByLabel('Task draft · unsent').inputValue() === '' && await page.locator('pre').count() === 0);
     await page.getByLabel('Mail account', { exact: true }).selectOption('gmail_two');
     await page.getByLabel('Search words or correspondent address').fill('Example Clinic');
     await page.getByRole('checkbox', { name: /Allow DO to search/ }).check();
     delay = true;
+    const pendingRead = page.waitForRequest(request => request.url().endsWith('/api/do/mail') && request.method() === 'POST');
     await page.getByRole('button', { name: 'Find correspondence' }).click();
+    await pendingRead;
     await page.getByRole('button', { name: 'Cancel', exact: true }).click();
     release();
     await page.getByText('Cancelled. Any late result will be discarded.').waitFor();
@@ -75,5 +78,9 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); };
     check('No browser runtime error', errors.length === 0);
     fs.writeFileSync(`${output}/proof.json`, JSON.stringify({ checks, externalBlocked: external, errors }, null, 2));
     console.log(JSON.stringify({ checks }));
+  } catch (error) {
+    await page.screenshot({ path: `${output}/failure.png`, fullPage: true }).catch(() => {});
+    fs.writeFileSync(`${output}/failure.json`, JSON.stringify({ checks, errors, url: page.url(), body: await page.locator('body').innerText().catch(() => ''), error: String(error) }, null, 2));
+    throw error;
   } finally { release(); await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });
