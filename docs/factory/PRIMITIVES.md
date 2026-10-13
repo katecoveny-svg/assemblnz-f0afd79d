@@ -1,5 +1,14 @@
 # assembl primitive registry
 
+### Personal DO bounded mail review (review build)
+
+Extends verified owner, Pipedream account ownership, Gmail decoding and writing-owner
+invalidation with `apps/do/mail/`, `/api/do/mail` and `/do/mail`. Explicit account,
+literal bounded search, source/account evidence, cancellation and in-memory reviewed
+task drafts; no model, mailbox writes or persistent state. Outlook reading fails
+closed pending verified delegated Mail.Read. Reusable text/voice handoff carries no
+consent. Synthetic tests, setup steps and limits: [Personal mail read](../DO-PERSONAL-MAIL-READ.md).
+
 A primitive is a reusable capability that makes later products faster, safer or better.
 
 Do not extract something merely because it might be reused. Prefer extraction after a second real use or when the mechanic is clearly cross-product infrastructure.

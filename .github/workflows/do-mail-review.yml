@@ -1,0 +1,51 @@
+name: Personal DO mail review
+on:
+  pull_request:
+    paths: ['apps/do/mail/**', 'app/do/mail/**', 'app/api/do/mail/**', 'lib/connectors/personal-mail.test.ts', 'lib/connectors/pipedream.ts', 'scripts/review-do-mail.cjs', '.github/workflows/do-mail-review.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: do-mail-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      NODE_OPTIONS: --max-old-space-size=6144
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with: {version: 9.15.9, run_install: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24, cache: pnpm}
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @assembl/canvas build
+      - run: pnpm typecheck
+      - run: pnpm exec eslint apps/do/mail app/do/mail app/api/do/mail lib/connectors/personal-mail.test.ts lib/connectors/pipedream.ts app/do/connections/DoConnections.tsx --max-warnings=0
+      - run: pnpm exec vitest run apps/do/mail app/api/do/mail lib/connectors/personal-mail.test.ts apps/do/services/gmail-ownership.test.ts lib/connectors/pipedream.test.ts app/do/connections --maxWorkers=2
+      - run: pnpm build
+      - name: Synthetic browser proof, no live mail or providers
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --prefix "$RUNNER_TEMP/mail-browser" playwright@1.56.1
+          "$RUNNER_TEMP/mail-browser/node_modules/.bin/playwright" install --with-deps chromium
+          pnpm start > /tmp/do-mail-server.log 2>&1 &
+          server=$!
+          trap 'kill "$server" || true' EXIT
+          for i in $(seq 1 40); do curl -sf http://127.0.0.1:3000/do/mail >/dev/null && break; sleep 2; done
+          ASSEMBL_PLAYWRIGHT_MODULE="$RUNNER_TEMP/mail-browser/node_modules/playwright" node scripts/review-do-mail.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: personal-do-mail-proof
+          path: |
+            output/playwright/do-mail/
+            /tmp/do-mail-server.log
+          retention-days: 14
