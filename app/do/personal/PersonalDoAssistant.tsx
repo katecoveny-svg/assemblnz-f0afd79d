@@ -24,7 +24,7 @@ function lastExchange(turns: ConversationTurn[]): PersonalAssistantInput['histor
 
 /** Mount with the verified owner scope as the React key; never persist conversation across accounts. */
 export type PersonalAssistantWork = { dirty: boolean; exportText: string };
-export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, returnTo = "/do" }: { returnTo?: "/do" | "/do/household"; profile?: PersonalDoProfile; onWorkingChange?: (working: boolean) => void; onWorkChange?: (work: PersonalAssistantWork) => void }) {
+export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, onBrowserDraft, returnTo = "/do" }: { onBrowserDraft?: (text: string) => boolean; returnTo?: "/do" | "/do/household"; profile?: PersonalDoProfile; onWorkingChange?: (working: boolean) => void; onWorkChange?: (work: PersonalAssistantWork) => void }) {
   const [message, setMessage] = useState('');
   const [context, setContext] = useState('');
   const [consent, setConsent] = useState(false);
@@ -235,6 +235,7 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, re
         {profile && <label><input type="checkbox" checked={useSavedStyle} disabled={working} onChange={event => { setUseSavedStyle(event.target.checked); setConsent(false); }} /><span>Also use my saved tone and wording preferences with OpenAI</span></label>}
         {kept.storage === 'account' && <label><input type="checkbox" checked={keep} disabled={working} onChange={event => setKeep(event.target.checked)} /><span>Keep this conversation on my account so I can pick it up on any device<small>{CONVERSATION_NOTICE}</small></span></label>}
       </div>}
+      {onBrowserDraft && <button type="button" disabled={working || !message.trim()} onClick={() => { if (onBrowserDraft(message.trim())) setNotice('Browser task opened for review. Nothing has been read or changed.'); }}>Review this as a browser task</button>}
     </form>
     {!result && !transcript.length && kept.records.length > 0 && <div className={styles.keptList}>
       <h3>Pick up where you left off</h3>

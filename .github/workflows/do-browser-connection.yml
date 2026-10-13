@@ -1,0 +1,39 @@
+name: DO browser connection proof
+on:
+  pull_request:
+    paths: ['apps/do/browser/**', 'apps/do/extension/**', 'components/do/browser/**', 'app/do/personal/**', 'test/fixtures/do-browser-connection/**', 'scripts/*do-browser-connection*', '.github/workflows/do-browser-connection.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: do-browser-connection-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with: {version: 9.15.9, run_install: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24, cache: pnpm}
+      - run: pnpm install --frozen-lockfile
+      - run: node scripts/build-do-browser-connection.mjs && git diff --exit-code apps/do/extension/browser-task-core.js
+      - run: pnpm exec vitest run apps/do/browser app/api/do/browser-actions --maxWorkers=2
+      - name: Synthetic browser proof; Chrome transport simulated
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --prefix "$RUNNER_TEMP/connection-browser" playwright@1.55.0
+          "$RUNNER_TEMP/connection-browser/node_modules/.bin/playwright" install --with-deps chromium
+          ASSEMBL_PLAYWRIGHT_MODULE="$RUNNER_TEMP/connection-browser/node_modules/playwright" node scripts/review-do-browser-connection.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-connection-synthetic-proof
+          path: output/playwright/browser-connection/
+          retention-days: 14
