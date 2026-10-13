@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "integrity": "Versioned snapshot; not signed or tamper-proof",
+  "id": "4df353e0-ee3c-4140-9d12-1bac347cd620",
+  "revision": 1,
+  "reviewedAt": "2026-10-13T04:06:02.968Z",
+  "reviewer": {
+    "id": "test-reviewer-robin",
+    "name": "Robin — fictional test reviewer",
+    "mode": "test"
+  },
+  "action": "approve",
+  "identityAssurance": "test-only",
+  "externalAction": "none",
+  "brief": {
+    "title": "Should we investigate the workshop?",
+    "statements": [
+      {
+        "id": "source-quote",
+        "kind": "quotation",
+        "text": "The fictional research workshop accepts expressions of interest until 30 November 2026.",
+        "citations": [
+          "aa4ee858-876b-480f-86c8-abac99576dab"
+        ]
+      },
+      {
+        "id": "interpretation",
+        "kind": "inference",
+        "text": "Preparing an outline could help the team assess the workshop.",
+        "citations": [
+          "aa4ee858-876b-480f-86c8-abac99576dab"
+        ]
+      },
+      {
+        "id": "assumption",
+        "kind": "assumption",
+        "text": "Staff availability has not been checked.",
+        "citations": []
+      },
+      {
+        "id": "decision",
+        "kind": "proposed_decision",
+        "text": "Prepare an internal workshop outline for discussion.",
+        "citations": [
+          "aa4ee858-876b-480f-86c8-abac99576dab"
+        ]
+      }
+    ],
+    "nextAction": "Review the source and decide whether to prepare an internal outline. No submission or message is authorised.",
+    "commitments": []
+  },
+  "evidence": {
+    "id": "c998cc94-e2c7-4196-9696-9163524cf7e9",
+    "agentId": "evidence-research",
+    "summary": "Should we investigate the workshop?",
+    "why": "Review the source and decide whether to prepare an internal outline. No submission or message is authorised.",
+    "createdAt": "2026-10-13T04:06:02.968Z",
+    "sources": [
+      {
+        "id": "aa4ee858-876b-480f-86c8-abac99576dab",
+        "kind": "fixture",
+        "label": "Fictional Harbour Research Fund notice",
+        "url": "https://harbour-institute.invalid/research",
+        "excerpt": "The fictional research workshop accepts expressions of interest until 30 November 2026.",
+        "capturedAt": "2026-10-13T04:06:02.869Z"
+      }
+    ]
+  },
+  "sourceVersions": [
+    {
+      "id": "aa4ee858-876b-480f-86c8-abac99576dab",
+      "sourceId": "research",
+      "label": "Fictional Harbour Research Fund notice",
+      "url": "https://harbour-institute.invalid/research",
+      "observedAt": "2026-10-13T04:06:02.869Z",
+      "expiresAt": "2026-10-14T04:06:02.869Z",
+      "text": "The fictional research workshop accepts expressions of interest until 30 November 2026.",
+      "permission": "synthetic",
+      "topic": "workshop deadline",
+      "value": "baseline"
+    }
+  ],
+  "currentSourceVersionIds": [
+    "aa4ee858-876b-480f-86c8-abac99576dab"
+  ],
+  "decisionStatus": "test-approved",
+  "confirmedCommitmentIds": [],
+  "unresolvedCommitments": []
+}

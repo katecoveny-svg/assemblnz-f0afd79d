@@ -1,0 +1,22 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//assembl//Meeting DO//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:22c975e6-5fd0-45df-a115-ca959328b913@assembl.co.nz
+DTSTAMP:20261013T040603Z
+DTSTART:20261120T090000Z
+DTEND:20261120T093000Z
+SUMMARY:Review unresolved workshop commitments
+DESCRIPTION:Next meeting agenda\n\nQuestions to resolve\nUnconfirmed: Prepa
+ re a workshop outline\; proposed owner Alex — fictional reviewer-confirm
+ ed owner\; proposed deadline 20 November 2026\nConfirm decisions and curre
+ nt evidence revision 26.\n\nConfirm decisions\, owners and dates before cl
+ osing.
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:Meeting follow-up
+END:VALARM
+END:VEVENT
+END:VCALENDAR

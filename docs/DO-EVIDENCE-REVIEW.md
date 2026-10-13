@@ -52,3 +52,12 @@ The local draft survived the Mac restart. Refreshed `origin/main` remains `a513d
 - Desktop/375px browser verification and full typecheck/build remain pending. The previous attempt ended during the host disk/service failure; heavy runs are held until the UI owner confirms adequate capacity. This is a backup/review draft, not ship-ready proof.
 
 Source-provenance follow-up: raw source validation no longer trims text. Only duplicate comparison normalises whitespace, and the status explicitly labels this. Equality tests cover leading/trailing spaces and newlines through storage, brief quotations and exported receipt JSON. The Evidence suite is included in DO core CI. Final runtime/build status is recorded on PR #1536 and supersedes the recovery checkpoint above.
+
+
+## Browser and type verification
+
+On the final application code: full TypeScript checking passes; 21 focused tests and scoped ESLint pass. The actual `/do/evidence` development route passed 1440px desktop and 375px mobile workflows with no page errors or horizontal overflow. Proof is committed under `output/playwright/evidence-review/`: screenshots, exact-source JSON receipts, separate-event ICS files and `results.json`. The browser script also verifies whitespace-preserving ordinary typing; it sets caret position explicitly to avoid platform-specific End-key behavior.
+
+Independent visual review passed the bounded development preview: inherited DO frame, synthetic/test-only labels, mobile stacking and stale-source approval blocking. This is not native-device proof or a full accessibility audit (keyboard coverage is a smoke check).
+
+One local production build was stopped after stalling without progress; no successful local production-build claim is made. The PR's exact-head hosted build/CI status is the production-build evidence. No second full local build, cleanup, merge or deployment command was run. Screenshot copies were explicitly requested for Library.
