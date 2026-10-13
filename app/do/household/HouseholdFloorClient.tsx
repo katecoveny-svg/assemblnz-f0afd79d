@@ -196,7 +196,7 @@ export function HouseholdFloorClient({
       });
       const data = await response.json() as { url?: string; message?: string };
       if (response.status === 401) {
-        window.location.assign('/login?redirect=%2Fdo%2Fhousehold');
+        window.location.assign('/login?redirect=%2Fdo%2Fhousehold%3Fview%3Dsample');
         return;
       }
       if (!response.ok || !data.url) throw new Error(data.message || 'Connection unavailable.');
@@ -396,7 +396,7 @@ export function HouseholdFloorClient({
                         {row.state === 'connected' ? (
                           <span className={styles.meta}>Linked{row.accountLabel ? ` · ${row.accountLabel}` : ''}. Authority: {row.authority}.</span>
                         ) : row.state === 'sign_in' ? (
-                          <a className={styles.cta} href="/login?redirect=%2Fdo%2Fhousehold">Sign in to connect</a>
+                          <a className={styles.cta} href="/login?redirect=%2Fdo%2Fhousehold%3Fview%3Dsample">Sign in to connect</a>
                         ) : row.state === 'setup_needed' ? (
                           <span className={styles.meta}>Platform setup needed before this connection can open.</span>
                         ) : (
