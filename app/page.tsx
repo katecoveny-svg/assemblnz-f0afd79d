@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import { AssemblTheWorkHome } from '@/components/site/assembl-the-work/AssemblTheWorkHome';
+import { Direction4cHome } from '@/components/site/direction-4c/Direction4cHome';
 import { HOME_META } from '@/components/site/assembl-the-work/copy';
 
-// Approved public homepage. CinematicJourneyHome remains in-tree for rollback.
+// Direction 4c review implementation. AssemblTheWorkHome remains in-tree for rollback.
 
 export const metadata: Metadata = {
   title: { absolute: HOME_META.title },
@@ -24,5 +24,5 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return <AssemblTheWorkHome />;
+  return <Direction4cHome />;
 }

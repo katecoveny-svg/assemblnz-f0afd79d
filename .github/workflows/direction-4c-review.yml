@@ -1,0 +1,38 @@
+name: Direction 4c homepage review
+on:
+  pull_request:
+    paths:
+      - 'components/site/direction-4c/**'
+      - 'public/direction-4c/**'
+      - 'app/page.tsx'
+      - '.github/workflows/direction-4c-review.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: direction-4c-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      NODE_OPTIONS: --max-old-space-size=6144
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @assembl/canvas build
+      - run: pnpm typecheck
+      - run: pnpm exec eslint components/site/direction-4c app/page.tsx --max-warnings=0
+      - run: pnpm exec vitest run lib/do/navigation.test.ts components/site/direction-4c/motion.test.ts
+      - run: pnpm lint:macrons
+      - run: pnpm build
