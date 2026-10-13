@@ -64,6 +64,12 @@
       "description": "Notes, plans and drafts for everyday jobs."
     },
     {
+      "name": "Ask DO",
+      "short_name": "Ask",
+      "url": "/do/ask",
+      "description": "Say or type what you would like done. DO shows it for review first."
+    },
+    {
       "name": "Write with DO",
       "short_name": "Write",
       "url": "/do/widget?entry=write",
