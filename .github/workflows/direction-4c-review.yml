@@ -7,6 +7,7 @@ on:
       - 'app/page.tsx'
       - 'scripts/direction-4c-mobile-proof.cjs'
       - 'scripts/homepage-scroll-canvas-proof.cjs'
+      - 'scripts/homepage-startup-proof.cjs'
       - '.github/workflows/direction-4c-review.yml'
   workflow_dispatch:
 permissions:
@@ -53,6 +54,8 @@ jobs:
           PROOF_BROWSER=webkit node scripts/direction-4c-mobile-proof.cjs || result=1
           PROOF_BROWSER=chromium PROOF_CHANNEL=chrome node scripts/homepage-scroll-canvas-proof.cjs || result=1
           PROOF_BROWSER=webkit node scripts/homepage-scroll-canvas-proof.cjs || result=1
+          PROOF_ASSERT=1 PROOF_BROWSER=chromium PROOF_CHANNEL=chrome node scripts/homepage-startup-proof.cjs || result=1
+          PROOF_ASSERT=1 PROOF_BROWSER=webkit node scripts/homepage-startup-proof.cjs || result=1
           exit "$result"
       - uses: actions/upload-artifact@v4
         if: always()
@@ -61,3 +64,4 @@ jobs:
           path: |
             output/playwright/mobile-recovery
             output/playwright/homepage-regression
+            output/playwright/startup

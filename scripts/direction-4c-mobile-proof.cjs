@@ -14,7 +14,7 @@ fs.mkdirSync(output, { recursive: true });
   const capture = async (page, width, mode, label, y) => {
     await scroll(page, y);
     const file = `${engine}-${width}-${mode}-${label}.jpg`;
-    const state = await page.evaluate(() => { const v = document.querySelector('[data-coastal-video]'); return { scrollY, currentTime: v.currentTime, source: v.currentSrc || v.src, readyState: v.readyState, paused: v.paused, videoReady: document.querySelector('.direction-4c').dataset.videoReady || null, posterVisible: getComputedStyle(v).opacity === '0' }; });
+    const state = await page.evaluate(() => { const v = document.querySelector('[data-coastal-video]'); return { scrollY, currentTime: v.currentTime, source: v.currentSrc || v.src, readyState: v.readyState, paused: v.paused, videoReady: document.querySelector('.direction-4c').dataset.videoReady || null, rawVideoVisible: getComputedStyle(v).opacity !== '0' }; });
     await page.screenshot({ path: `${output}/${file}`, type: 'jpeg', quality: 85 });
     captures.push({ file, width, mode, ...state });
     fs.writeFileSync(`${output}/${engine}-captures.json`, JSON.stringify(captures, null, 2));
@@ -82,7 +82,8 @@ fs.mkdirSync(output, { recursive: true });
             await page.waitForFunction(() => !document.querySelector('video').paused);
             await page.waitForFunction(() => document.querySelector('.direction-4c').dataset.videoReady === 'true');
             await page.locator('video').evaluate(el => el.dispatchEvent(new Event('stalled')));
-            assert.equal(await page.locator('video').evaluate(el => getComputedStyle(el).opacity), '1', 'buffered stall preserves visible footage');
+            assert.equal(await page.locator('.direction-4c').getAttribute('data-video-ready'), 'true', 'buffered stall preserves the canvas video source');
+            assert.equal(await page.locator('video').evaluate(el => getComputedStyle(el).opacity), '0', 'raw footage stays behind the composed scene');
             const waitingHidden = await page.locator('video').evaluate(el => {
               el.dispatchEvent(new Event('waiting'));
               return !document.querySelector('.direction-4c').hasAttribute('data-video-ready');
