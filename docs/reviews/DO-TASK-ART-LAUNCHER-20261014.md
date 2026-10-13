@@ -1,0 +1,25 @@
+# DO task scenes and Ask DO launcher
+
+UI-only review on `codex/do-task-art-launcher`, based on main `8d8512139`.
+
+Uses the exact locked glass D via `GlassIdentity`, extends shared task ideas with original static SVG scenes, and aligns the hosted portable source with Write / Speak navigation. Groceries, messages, travel, school, daily briefing, bills, pets, car and home share paper, plum, rose and restrained reflective materials. Scene art is decorative; state and links stay HTML. SVG arrows replace text arrows in the scoped task/portable flow. About's duplicate portable mount is removed so the global Ask DO launcher has one owner.
+
+Write opens/focuses the existing draft. Speak opens the existing full-window availability gate; it does not start audio or transfer draft text. Draft-loss confirmation, account invalidation, source review, capture sandbox and provider consent are unchanged. No installed extension/native update, permission change, production configuration, SQL or external action is included. No grocery model or homepage startup transition files changed.
+
+## Evidence
+
+- Local focused entry/portable/hydration tests passed. After hosted CI exposed an SVG-fixture/source-mirror mismatch, the fixture gained `createElementNS` and `apps/do/extension/floating.js` was regenerated through the existing generator. All 27 focused floating/entry/portable tests pass; this is source parity, not an installed update.
+- Changed-file ESLint, brand guard and macron guard passed.
+- Actual `/about` panel reviewed at 390px and desktop 1440px; 375px overflow check passed; reduced-motion exercised. Original groceries/email/travel scenes and school/briefing rows inspected.
+- Write focus, school starter population and declined draft-close preservation exercised. Speak destination inspected only: voice service is not established by UI proof.
+- Local screenshots: `output/playwright/mobile-scenes.png`, `mobile-school-briefing.png`, `desktop-panel.png`.
+- Local unsigned provider request correctly returns 401. `/do/widget` returns the existing workspace-verification failure when local session configuration is unavailable; no guard was bypassed. Hosted browser proof uses the actual signed-out public panel.
+- Hosted workflow `do-task-art-review.yml` runs full typecheck, DO core/entry/personal tests, scoped lint, macron guard, guarded production build and browser proof at 375/390/1440px. Its `do-task-art-proof` artifact contains screenshots and a structured report.
+
+Reversal: revert this PR. No migrations, stored-data changes or asset deletion.
+
+## Post-merge browser foundation parity
+
+Fresh main `f06c99c17` already contains externally merged artwork PR #1572 and browser foundation #1561 (`b5c03f298`). The successor refresh uses `apps/do/shared/distribution-versions.json` through the existing generator to package **1.8.0**, preserving the browser capability source, manifest and permissions. The old 1.7 archive is not the current distribution. The portable accessible name now begins “Ask DO” to include the visible label. Shared source and generated `floating.js` remain byte-for-byte paired. This is package/source review, never an installed-extension update.
+
+Integrated local download/source parity, floating, browser executor and portable contract suites pass (64 tests). The successor hosted checks remain the release gate.

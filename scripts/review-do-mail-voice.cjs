@@ -21,7 +21,7 @@ const check = (label, result) => { assert.ok(result,label); checks.push(label); 
   if(url.origin!==origin)return route.abort();
   if(!url.pathname.startsWith('/api/'))return route.continue();
   if(req.method()!=='GET')writes.push(url.pathname);
-  if(url.pathname==='/api/do/mail')return route.fulfill({json:{ownerId:owner,metadataOnly:true,mailboxRead:false,accountsAvailable:true,accounts:[{id:'gmail_two',label:'Fictional admin',provider:'gmail',state:'read_available_unverified',scopeVerified:false}]}});
+  if(url.pathname==='/api/do/mail')return route.fulfill({json:{ownerId:owner,metadataOnly:true,mailboxRead:false,accountsAvailable:true,accounts:[{id:'gmail_two',label:'Fictional admin',provider:'gmail',state:'gmail_read_unverified',scopeVerified:false}]}});
   if(url.pathname==='/api/do/personal')return route.fulfill({json:{workspaceKey:owner,responsibilities:[],runs:[],worker:{configured:false,lastSeenAt:null}}});
   if(url.pathname==='/api/do/session'){if(delaySession){pendingSessions.push({route,owner});return;}return route.fulfill({json:{workspaceKey:owner}});}
   if(url.pathname==='/api/do/personal/profile')return route.fulfill({json:{profile,saved:true}});

@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { POSITIONING } from '@/components/site/assembl-the-work/copy';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
-import { GlowDoWidget } from '@/components/site/assembl-the-work/GlowDoWidget';
 import styles from '@/components/public/public-pages.module.css';
 import company from '@/components/public/company-pages.module.css';
 
@@ -34,7 +33,6 @@ const products = [
 
 export default function AboutPage() {
   return <div className={`${styles.page} ${company.page}`}>
-    <GlowDoWidget />
     <section className={styles.hero}>
       <div>
         <p className={styles.eyebrow}>assembl / Aotearoa New Zealand</p>

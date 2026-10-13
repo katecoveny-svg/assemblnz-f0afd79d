@@ -1,18 +1,24 @@
 <!doctype html>
-<html lang="en-NZ"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Take DO with you</title><link rel="stylesheet" href="portable.css"></head>
+<html lang="en-NZ"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DO alongside your work</title><link rel="stylesheet" href="portable.css"></head>
 <body class="do-portable-page">
-<header><a href="sidepanel.html">← Back to the side panel</a><span>assembl</span></header>
+<header><strong><img src="icons/do-glass.webp" width="48" height="48" alt="">DO <small>by assembl</small></strong><a href="sidepanel.html">More tools</a></header>
 <main class="do-portable">
-<p class="eyebrow">DO · ALONGSIDE YOUR WORK</p><h1>your little<br>work companion.</h1>
-<p>Place DO on the page you are working in. Move it, point to an area, then review the context before asking it to work.</p>
-<div class="portable-actions">
-<button type="button" id="place-do">Place DO on this tab</button>
-<button type="button" data-portable-mode="workspace">Open DO workspace ↗</button>
-<button type="button" data-portable-mode="workspace" data-portable-selection="true">Bring selected text ↗</button>
-<button type="button" data-portable-mode="meeting">Record a meeting ↗</button>
-<button type="button" data-portable-mode="typesafe">TypeSafe + DO ↗</button>
+<h1>What would you<br>like done?</h1>
+<p>Bring a question, a plan or the thing on your mind.</p>
+<div class="entry-actions" aria-label="Choose how to start">
+<button type="button" data-portable-mode="write">Write</button>
+<button type="button" data-portable-mode="talk">Talk</button>
+<button type="button" data-portable-mode="add">Add</button>
 </div>
-<p id="portable-status" role="status">Nothing is captured or recorded until you choose it. Provider use needs separate consent in DO.</p>
-<details><summary>What travels with me?</summary><p>The floating workspace can read an area only after you choose Point at an area and click. Hover previews stay on the page. Forms and marked private areas are excluded. Moving DO never starts capture. The separate browser window uses your normal Assembl session. An explicitly selected text excerpt can be placed in the draft editor for review. This is not a background agent, cross-device job sync or permission to act.</p><p>Sites that block embedded workspaces can use Open DO workspace and copy/paste instead. Share a screen takes one snapshot you can review. Drag the browser window by its title bar. It is not an always-on-top native overlay. Voice and meetings ask for microphone access on the first-party page.</p></details>
-<a class="install" href="https://www.assembl.co.nz/do/install" target="_blank" rel="noreferrer">Mac and phone installation guide →</a>
-</main><script src="portable-launcher.js"></script></body></html>
+<p id="portable-status" role="status">Open your DO workspace. You choose what to share.</p>
+<section class="connection" aria-label="Browser shopping"><h2>Browser shopping</h2><p id="browser-capability">Browser shopping is not connected. You can prepare a shopping list.</p><p class="portable-note">Phone commands need an approved paired browser online. Checkout, payment and sign-in stay with you.</p></section>
+<details><summary>Use this page with DO</summary><div class="portable-actions">
+<button type="button" id="place-do">Place DO on this tab</button>
+<button type="button" data-portable-mode="workspace" data-portable-selection="true">Bring selected text</button>
+<button type="button" data-portable-mode="workspace">Open draft workspace</button>
+<button type="button" data-portable-mode="meeting">Record a meeting</button>
+<button type="button" data-portable-mode="typesafe">TypeSafe + DO</button>
+</div><p>Nothing is captured or recorded until you choose it. Provider use needs separate consent in DO.</p></details>
+<details><summary>What travels with me?</summary><p>Write, Talk and Add open the same first-party workspace using your normal Assembl session. Talk opens microphone consent; it does not start listening. Add opens the image review. Selected text stays a draft until you review it.</p><p>Moving the floating DO shares nothing. Point at an area reads only the area you choose; forms and marked private areas are excluded. Use the separate workspace on sites that block embedded workspaces. This companion has no connected retailer cart or cross-device browser pairing.</p></details>
+<a class="install" href="https://www.assembl.co.nz/do/install" target="_blank" rel="noreferrer">Mac and phone installation guide</a>
+</main><script src="browser-capability.js"></script><script src="portable-launcher.js"></script></body></html>

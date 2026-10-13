@@ -148,8 +148,8 @@ function makeMask() {
 
 const FS_VS = `varying vec2 vUv; void main(){ vUv = position.xy*0.5 + 0.5; gl_Position = vec4(position.xy, 0.0, 1.0); }`;
 const PLATE_FS = `varying vec2 vUv;
-uniform sampler2D tPlate, tMask, tBevel, tTint;
-uniform float uHas, uAspect, uPlateAspect, uZoom, uExp, uCon, uSat, uSplit, uDuo, uVig, uKW, uKA, uKS, uKOn, uKLine, uKBase, uGlass, uTime, uAur, uStar, uPaua;
+uniform sampler2D tPlate, tPoster, tMask, tBevel, tTint;
+uniform float uHas, uPosterAspect, uPlateMix, uAspect, uPlateAspect, uZoom, uExp, uCon, uSat, uSplit, uDuo, uVig, uKW, uKA, uKS, uKOn, uKLine, uKBase, uGlass, uTime, uAur, uStar, uPaua;
 uniform vec2 uPtr, uRes, uKC, uKAnchor, uBT; uniform vec3 uSh, uHi, uField;
 vec3 sl(vec3 b, vec3 s){ return mix(2.0*b*s + b*b*(1.0 - 2.0*s), sqrt(max(b, 0.0))*(2.0*s - 1.0) + 2.0*b*(1.0 - s), step(0.5, s)); }
 vec3 dusk(vec2 uv){
@@ -168,8 +168,13 @@ vec3 grade(vec3 c){
   c = mix(c, sl(c, mix(uSh, uHi, smoothstep(0.1, 0.9, l))), uSplit);
   return mix(c, mix(vec3(0.141, 0.043, 0.129), vec3(1.0, 0.99, 0.985), smoothstep(0.04, 0.96, l)), uDuo);
 }
-vec2 puv(vec2 v){ vec2 u = v - 0.5; float ra = uAspect/uPlateAspect; if (ra > 1.0) u.y /= ra; else u.x *= ra; return u/uZoom + 0.5 + uPtr*vec2(-0.006, 0.004); }
-vec3 src(vec2 v){ return uHas > 0.5 ? texture2D(tPlate, puv(v)).rgb : dusk(v); }
+vec2 plateUv(vec2 v, float aspect){ vec2 u = v - 0.5; float ra = uAspect/aspect; if (ra > 1.0) u.y /= ra; else u.x *= ra; return u/uZoom + 0.5 + uPtr*vec2(-0.006, 0.004); }
+vec3 src(vec2 v){
+  if (uHas < 0.5) return dusk(v);
+  vec3 c = texture2D(tPlate, plateUv(v, uPlateAspect)).rgb;
+  if (uPlateMix < 1.0) c = mix(texture2D(tPoster, plateUv(v, uPosterAspect)).rgb, c, uPlateMix);
+  return c;
+}
 float caustic(vec2 p, float t){
   for (int i = 0; i < 3; i++) p += 0.55*vec2(sin(p.y*1.6 + t*0.8 + float(i)*1.7), cos(p.x*1.4 - t*0.6 + float(i)*2.3));
   return pow(1.0 - abs(sin(p.x*2.1)*sin(p.y*2.1)), 10.0);
@@ -393,6 +398,18 @@ void main(){
 async function mount(canvas, opts = {}) {
   try { await Promise.race([document.fonts.load(`600 200px ${FONT}`), new Promise(r => setTimeout(r, 1500))]); } catch (e) { /* system font fallback */ }
   if (opts.signal?.aborted) throw new DOMException("Scene cancelled", "AbortError");
+  // Decode the intrinsic-size poster before exposing a canvas; never flash dusk while it loads.
+  const poster = opts.poster ? new Image() : null;
+  if (poster) {
+    poster.src = opts.poster.currentSrc || opts.poster.src;
+    let deadline;
+    try {
+      await Promise.race([poster.decode(), new Promise((_, reject) => { deadline = setTimeout(() => reject(new Error('Poster unavailable')), 3000); })]);
+    } catch {
+      // Both media sources may fail: retain the intentional procedural/flock fallback.
+    } finally { clearTimeout(deadline); }
+    if (opts.signal?.aborted) throw new DOMException("Scene cancelled", "AbortError");
+  }
   THREE = window.THREE;
   const SLOTS = (opts.slots || DEFAULT_SLOTS).filter(n => SHAPES[n]).map(n => [n, ...SHAPES[n]]);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches, narrow0 = innerWidth < 900;
@@ -409,7 +426,7 @@ async function mount(canvas, opts = {}) {
   let toneT = toneOf(opts.tone);
   const T = JSON.parse(JSON.stringify(toneT));
   const G = { uTime: { value: 0 }, uPtr: { value: new THREE.Vector2() }, uLit: { value: 0 }, uPulse: { value: 0 }, uGlow: { value: T.glow }, uHaze: { value: new THREE.Vector3(...T.haze) }, uL: { value: new THREE.Vector3(-0.4, 0.3, -0.86).normalize() } };
-  const PL = { tPlate: { value: null }, tMask: { value: null }, uHas: { value: 0 }, uAspect: { value: 1 }, uPlateAspect: { value: 16 / 9 }, uZoom: { value: 1.05 }, uPtr: G.uPtr, uRes: { value: new THREE.Vector2(2, 2) },
+  const PL = { tPoster: { value: null }, uPosterAspect: { value: 16 / 9 }, uPlateMix: { value: 1 }, tPlate: { value: null }, tMask: { value: null }, uHas: { value: 0 }, uAspect: { value: 1 }, uPlateAspect: { value: 16 / 9 }, uZoom: { value: 1.05 }, uPtr: G.uPtr, uRes: { value: new THREE.Vector2(2, 2) },
     uExp: { value: 1 }, uCon: { value: 1 }, uSat: { value: 1 }, uSplit: { value: 0 }, uDuo: { value: 0 }, uVig: { value: 0 }, uSh: { value: new THREE.Vector3(0.5, 0.5, 0.5) }, uHi: { value: new THREE.Vector3(0.5, 0.5, 0.5) }, uField: { value: new THREE.Vector3(0.105, 0.032, 0.095) },
     uKC: { value: new THREE.Vector2() }, uKAnchor: { value: new THREE.Vector2(0.5, 0.5) }, uKW: { value: 1 }, uKA: { value: 3.6 }, uKS: { value: 1 }, uKOn: { value: 0 }, uKLine: { value: opts.outline === false ? 0 : typeof opts.outline === 'number' ? opts.outline : 1 },
     tBevel: { value: null }, tTint: { value: null }, uBT: { value: new THREE.Vector2(0.001, 0.001) }, uKBase: { value: 0.08 }, uGlass: { value: opts.glass === false ? 0 : 1 }, uTime: G.uTime, uAur: { value: 0 }, uStar: { value: 0 }, uPaua: { value: 0 } };
@@ -419,10 +436,9 @@ async function mount(canvas, opts = {}) {
   if (plate) { plateTex = new THREE.VideoTexture(plate); PL.tPlate.value = plateTex; plate.addEventListener('seeked', mark); plate.addEventListener('loadeddata', mark); }
   // A detached image retains intrinsic dimensions; the CSS-sized DOM image can
   // allocate a smaller GPU texture than its decoded pixels in Three's upload path.
-  const poster = opts.poster ? new Image() : null;
-  if (poster) poster.src = opts.poster.currentSrc || opts.poster.src;
   const posterTex = poster ? new THREE.Texture(poster) : null;
-  let posterUploaded = false;
+  const hasPoster = () => poster && poster.complete && poster.naturalWidth;
+  let posterUploaded = false, videoBlend = 1;
   const mask = opts.knock === false ? null : makeMask();
   if (mask) { PL.tMask.value = mask.tex; PL.tBevel.value = mask.bevel; PL.tTint.value = mask.tint; PL.uBT.value.set(...mask.texel); PL.uKBase.value = mask.base; PL.uKA.value = mask.aspect; PL.uKAnchor.value.set(mask.ax, mask.ay); PL.uKOn.value = 1; }
   const sky = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({ uniforms: PL, vertexShader: FS_VS, fragmentShader: PLATE_FS, depthWrite: false, depthTest: false }));
@@ -566,6 +582,14 @@ async function mount(canvas, opts = {}) {
     (!opts.plateReady || opts.plateReady()) ? plateTex :
     poster && poster.complete && poster.naturalWidth ? posterTex : null;
   const paint = texture => {
+    if (hasPoster() && !posterUploaded) {
+      posterTex.needsUpdate = true; PL.tPoster.value = posterTex;
+      PL.uPosterAspect.value = poster.naturalWidth / poster.naturalHeight; posterUploaded = true;
+    }
+    const previous = PL.tPlate.value;
+    if (texture === plateTex && previous === posterTex && hasPoster()) videoBlend = 0;
+    if (texture !== plateTex) videoBlend = 1; // Failure immediately discards the stale video.
+    PL.uPlateMix.value = videoBlend;
     PL.tPlate.value = texture;
     PL.uHas.value = texture ? 1 : 0;
     if (texture === plateTex && texture) {
@@ -573,7 +597,6 @@ async function mount(canvas, opts = {}) {
       if (plateDirty || !plate.paused) { plateTex.needsUpdate = true; plateDirty = false; }
     } else if (texture === posterTex && texture) {
       PL.uPlateAspect.value = poster.naturalWidth / poster.naturalHeight;
-      if (!posterUploaded) { posterTex.needsUpdate = true; posterUploaded = true; }
     }
     renderer.setRenderTarget(rtScene); renderer.render(scene, camera);
     pass(bright, rtA);
@@ -591,6 +614,7 @@ async function mount(canvas, opts = {}) {
       return;
     }
     if (!reduced) t += dt;
+    videoBlend = reduced ? 1 : Math.min(1, videoBlend + dt / .6);
     const fPrev = fC;
     fC = reduced ? fT : fC + (fT - fC) * (1 - Math.exp(-dt * 1.8));
     litC += (lit - litC) * 0.06; pulse = Math.max(0, pulse - dt * 0.8);

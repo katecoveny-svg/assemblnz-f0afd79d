@@ -1,4 +1,5 @@
 import 'server-only';
+import { verifyPersonalMailGrant, verifiedMailGrant, type MailGrantVerifier } from './capability';
 import { z } from 'zod';
 import { accountOwner, doConnectorConfigured, doPersonalMailRead, listConnectedAccounts, type ConnectedAccount } from '@/lib/connectors/pipedream';
 import { decodeGmail, type GmailPayload } from '@/apps/do/services/family';
@@ -9,11 +10,12 @@ export class MailError extends Error {
 }
 type Owner = { id: string; externalId: string };
 export type MailPorts = {
+  verifyGrant: MailGrantVerifier;
   accounts: typeof listConnectedAccounts;
   read: typeof doPersonalMailRead;
   configured: typeof doConnectorConfigured;
 };
-const ports: MailPorts = { accounts: listConnectedAccounts, read: doPersonalMailRead, configured: doConnectorConfigured };
+const ports: MailPorts = { verifyGrant: verifyPersonalMailGrant, accounts: listConnectedAccounts, read: doPersonalMailRead, configured: doConnectorConfigured };
 const owned = (a: ConnectedAccount, owner: Owner) => accountOwner(a) === owner.externalId &&
   (!a.external_user_id || a.external_user_id === owner.externalId) && (!a.external_id || a.external_id === owner.externalId);
 function verifyOwner(owner: Owner) {
@@ -24,19 +26,30 @@ export function accountReadiness(accounts: ConnectedAccount[], owner: Owner, con
   return accounts.filter(a => owned(a, owner) && ['gmail', 'microsoft_outlook'].includes(a.app?.name_slug ?? '') && accounts.filter(other => other.id === a.id).length === 1)
     .slice(0, 50).map(a => ({
       id: a.id, provider: a.app!.name_slug as MailAccount['provider'], label: (a.name || a.app?.name || 'Mail account').slice(0, 160),
-      state: a.app?.name_slug === 'microsoft_outlook' ? 'outlook_read_unverified' : !a.healthy ? 'reconnect' : !configured ? 'setup_needed' : 'read_available_unverified',
+      state: a.app?.name_slug === 'microsoft_outlook' ? 'outlook_read_unverified' : a.healthy !== true ? 'reconnect' : !configured ? 'setup_needed' : 'gmail_read_unverified',
       scopeVerified: false,
     }));
 }
 export async function mailReadiness(owner: Owner, signal: AbortSignal, dependencies = ports): Promise<MailReadiness> {
   verifyOwner(owner); signal.throwIfAborted();
+  const gmailConfigured = dependencies.configured('gmail');
+  const base = { ownerId: owner.id, metadataOnly: true as const, mailboxRead: false as const, gmailConfigured, outlookReadVerified: false as const };
+  // A missing provider configuration is unknown readiness, not an empty mailbox/account list.
+  if (!gmailConfigured && !dependencies.configured('microsoft_outlook')) return { ...base, accounts: [], accountsAvailable: false };
   try {
     const accounts = await dependencies.accounts(owner.externalId, signal);
     signal.throwIfAborted();
-    return { ownerId: owner.id, accounts: accountReadiness(accounts, owner, dependencies.configured('gmail')), metadataOnly: true, mailboxRead: false, accountsAvailable: true };
+    const ready = accountReadiness(accounts, owner, gmailConfigured);
+    for (const account of ready) {
+      if (account.state !== 'gmail_read_unverified') continue;
+      const grant = await dependencies.verifyGrant(owner.externalId, account.id, signal);
+      if (verifiedMailGrant(grant, owner.externalId, account.id)) { account.state = 'read_available'; account.scopeVerified = true; }
+      signal.throwIfAborted();
+    }
+    return { ...base, accounts: ready, accountsAvailable: true };
   } catch {
     signal.throwIfAborted();
-    return { ownerId: owner.id, accounts: [], metadataOnly: true, mailboxRead: false, accountsAvailable: false };
+    return { ...base, accounts: [], accountsAvailable: false };
   }
 }
 
@@ -66,6 +79,7 @@ export async function readMail(raw: unknown, owner: Owner, signal: AbortSignal, 
     if (matches[0].app?.name_slug === 'microsoft_outlook') throw new MailError('outlook_read_unverified', 503);
     if (matches[0].app?.name_slug !== 'gmail' || matches[0].healthy !== true) throw new MailError('account_unavailable', 403);
     if (!dependencies.configured('gmail')) throw new MailError('setup_needed', 503);
+    if (!verifiedMailGrant(await dependencies.verifyGrant(owner.externalId, request.search.accountId, signal), owner.externalId, request.search.accountId)) throw new MailError('gmail_read_unverified', 503);
     signal.throwIfAborted();
     return matches[0];
   };
