@@ -39,10 +39,11 @@ export async function executeReviewedCart(input: {
   if (adapter.mode !== 'controlled_fixture' || proposal.scope.origin !== 'http://127.0.0.1:4198') throw new Error('Live retailer adapter unavailable');
   const digest = await proposalDigest(proposal);
   async function authority() {
+    const connected = await store.isConnected(input.ownerId, proposal.scope);
     const a = await store.getApproval(input.ownerId, input.approvalId);
     if (!input.ownerId || !a || a.id !== input.approvalId || a.ownerId !== input.ownerId || a.revoked || a.expiresAt <= now() || proposal.expiresAt <= now() || proposal.expiresAt > now() + 300000
       || a.actionId !== proposal.actionId || a.revision !== proposal.revision || a.digest !== digest || !same(a.scope, proposal.scope)
-      || !await store.isConnected(input.ownerId, proposal.scope)) throw new Error('Approval or connection unavailable');
+      || !connected) throw new Error('Approval or connection unavailable');
   }
   await authority();
   let observed = cartObservation.parse(await adapter.observe());

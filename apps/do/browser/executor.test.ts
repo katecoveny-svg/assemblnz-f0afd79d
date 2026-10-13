@@ -110,3 +110,13 @@ it.each(['revoked', 'expired', 'offline'])('stops before effects when %s during 
   expect(receipt.items.map(i => i.status)).toEqual(['not_attempted', 'not_attempted']);
   expect(f.adapter.setQuantity).not.toHaveBeenCalled();
 });
+
+it('checks expiry after the asynchronous connection lookup immediately before effects', async () => {
+  const f = await fixture(); let connections = 0;
+  f.store.isConnected = vi.fn(async () => {
+    if (++connections === 3) f.tick(5000);
+    return true;
+  });
+  expect((await f.run()).items.map(i => i.status)).toEqual(['not_attempted', 'not_attempted']);
+  expect(f.adapter.setQuantity).not.toHaveBeenCalled();
+});
