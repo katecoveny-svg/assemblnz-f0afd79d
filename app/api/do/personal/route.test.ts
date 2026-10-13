@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 vi.mock('@/apps/do/enquiries/service', () => ({ prepareEnquiryFollowups: vi.fn().mockResolvedValue(0) }));
+vi.mock('@/apps/do/personal/memory-maintenance-server', () => ({ maintainPersonalMemory: vi.fn().mockRejectedValue(new Error('Synthetic cleanup outage')) }));
 vi.mock("@/apps/do/services/owner", async (original) => ({
   ...(await original<typeof import("@/apps/do/services/owner")>()),
   doOwner: vi.fn(),
@@ -13,6 +14,7 @@ vi.mock("@/apps/do/personal/service", () => ({
   personalHeartbeat: vi.fn(),
   personalWorkerConfigured: vi.fn().mockReturnValue(true),
   personalWorkerMode: vi.fn().mockReturnValue('worksheet'),
+  maintainPersonalResponsibilityStorage: vi.fn().mockResolvedValue({ configured: false }),
   schedulePersonal: vi.fn(),
 }));
 import { doOwner } from "@/apps/do/services/owner";
@@ -144,7 +146,8 @@ describe("Personal DO HTTP boundaries", () => {
         headers: { authorization: "Bearer test-secret" },
       }),
     );
-    expect(await response.json()).toEqual({ claimed: 3, published: 3, followupsPrepared: 0, personal: { status: 'enabled', mode: 'worksheet' } });
+    // A cleanup outage is reported, never allowed to fail the worker tick.
+    expect(await response.json()).toEqual({ claimed: 3, published: 3, followupsPrepared: 0, maintenance: { responsibilities: { configured: false }, memory: { configured: true, failed: true } }, personal: { status: 'enabled', mode: 'worksheet' } });
     expect(personalHeartbeat).toHaveBeenCalledOnce();
     expect(runPersonal).toHaveBeenCalledTimes(3);
     vi.unstubAllEnvs();
