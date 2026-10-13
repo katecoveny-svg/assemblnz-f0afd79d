@@ -9,6 +9,7 @@ const fs = require('node:fs');
   for (const width of [1440, 375]) {
     const page = await browser.newPage({ viewport: { width, height: 1000 }, reducedMotion: 'reduce' });
     page.on('dialog', async dialog => { assert(dialog.message().includes('Replace the current edited draft')); await dialog.accept(); });
+    await page.clock.install({ time: new Date() });
     const errors = []; page.on('pageerror', error => errors.push(error.message));
     await page.route('**/api/**', route => route.abort()); // No provider calls or production writes.
     await page.goto((process.env.EVIDENCE_REVIEW_ORIGIN || 'http://127.0.0.1:3020') + '/do/evidence', { timeout: 180000 });
@@ -54,8 +55,15 @@ const fs = require('node:fs');
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
     await page.keyboard.press('Tab');
     assert(await page.evaluate(() => document.activeElement !== document.body));
+    const receiptCount = await page.getByRole('button', { name: /Download revision .* receipt/ }).count();
+    await page.clock.fastForward(25 * 60 * 60 * 1000);
+    await click('Check source freshness now');
+    assert.equal(await page.locator('[data-evidence-freshness]').getAttribute('data-evidence-freshness'), 'expired');
+    assert(await page.getByText('Recorded approval is a historical snapshot. It does not prove current source freshness.').isVisible());
+    assert.equal(await page.getByRole('button', { name: /Download revision .* receipt/ }).count(), receiptCount);
+    await page.getByRole('heading', { name: 'Named human review', exact: true }).locator('..').screenshot({ path: `${out}/expired-approval-${width}.png` });
     assert.deepEqual(errors, []);
-    results.push({ width, receipt: 'exact versions', stale: 'blocked', conflict: 'blocked', newEvidence: 'invalidated', meeting: 'unconfirmed commitments exported', overflow: false, pageErrors: errors });
+    results.push({ width, receipt: 'exact versions', stale: 'blocked', conflict: 'blocked', newEvidence: 'invalidated', meeting: 'unconfirmed commitments exported', approvalAfterExpiry: 'historical receipt retained; current freshness expired', overflow: false, pageErrors: errors });
     await page.close();
   }
   fs.writeFileSync(`${out}/results.json`, JSON.stringify(results, null, 2));

@@ -6,6 +6,7 @@
     "conflict": "blocked",
     "newEvidence": "invalidated",
     "meeting": "unconfirmed commitments exported",
+    "approvalAfterExpiry": "historical receipt retained; current freshness expired",
     "overflow": false,
     "pageErrors": []
   },
@@ -16,6 +17,7 @@
     "conflict": "blocked",
     "newEvidence": "invalidated",
     "meeting": "unconfirmed commitments exported",
+    "approvalAfterExpiry": "historical receipt retained; current freshness expired",
     "overflow": false,
     "pageErrors": []
   }

@@ -61,3 +61,8 @@ On the final application code: full TypeScript checking passes; 21 focused tests
 Independent visual review passed the bounded development preview: inherited DO frame, synthetic/test-only labels, mobile stacking and stale-source approval blocking. This is not native-device proof or a full accessibility audit (keyboard coverage is a smoke check).
 
 One local production build was stopped after stalling without progress; no successful local production-build claim is made. The PR's exact-head hosted build/CI status is the production-build evidence. No second full local build, cleanup, merge or deployment command was run. Screenshot copies were explicitly requested for Library.
+
+
+## Historical approval and present freshness
+
+Duplicate confirmed commitment IDs are rejected before receipt creation, so confirmation counts cannot be inflated. Approval and exported receipts are explicitly historical snapshots: they describe a review at a recorded time, not present source freshness. The workspace separately checks current source expiry on render, every minute, on window focus and on an explicit refresh button. It shows the check timestamp and does not imply refetching. At the expiry boundary, the status becomes expired and requests fresh evidence/review while preserving all historical receipts. Tests advance the clock through that boundary and verify byte-identical receipt exports.

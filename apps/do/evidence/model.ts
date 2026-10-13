@@ -39,6 +39,14 @@ export type ReviewState = {
 export function latestSources(state: Pick<ReviewState, 'versions'>): Snapshot[] {
   return [...new Map(state.versions.map(s => [s.sourceId, s])).values()];
 }
+/** Present-day freshness is separate from the immutable historical review. */
+export function currentFreshness(state: Pick<ReviewState, 'versions'>, now: string) {
+  const sources = latestSources(state);
+  if (!timestamp.safeParse(now).success || !sources.length) return { status: 'unknown' as const, checkedAt: now };
+  if (sources.some(s => Date.parse(s.observedAt) > Date.parse(now))) return { status: 'future' as const, checkedAt: now };
+  if (sources.some(s => Date.parse(s.expiresAt) <= Date.parse(now))) return { status: 'expired' as const, checkedAt: now };
+  return { status: 'within-window' as const, checkedAt: now };
+}
 export function issues(state: ReviewState, now: string): string[] {
   const latest = latestSources(state);
   const errors: string[] = [];
@@ -96,6 +104,7 @@ export function review(state: ReviewState, actor: Actor, revision: number, actio
   if (state.review) throw new Error('This revision has already been reviewed.');
   if (action === 'approve' && issues(state, now).length) throw new Error(issues(state, now).join(' '));
   if (action === 'decline' && confirmedCommitmentIds.length) throw new Error('Declined commitments cannot be confirmed.');
+  if (new Set(confirmedCommitmentIds).size !== confirmedCommitmentIds.length) throw new Error('Duplicate confirmed commitment IDs.');
   if (confirmedCommitmentIds.some(id => !state.brief.commitments.some(c => c.id === id))) throw new Error('Unknown commitment.');
   const current = latestSources(state);
   // Declines can reference superseded evidence: retain every observed version.
@@ -115,5 +124,5 @@ export function pursuitProvenance(source: Snapshot): EvidenceSource {
   return { url: source.url, title: source.label, retrievedAt: source.observedAt, expiresAt: source.expiresAt };
 }
 export function exportReceipt(receipt: Receipt): string {
-  return JSON.stringify({ schemaVersion: 1, integrity: 'Versioned snapshot; not signed or tamper-proof', ...receipt }, null, 2);
+  return JSON.stringify({ schemaVersion: 1, reviewScope: 'Historical review snapshot; not proof of current source freshness', integrity: 'Versioned snapshot; not signed or tamper-proof', ...receipt }, null, 2);
 }

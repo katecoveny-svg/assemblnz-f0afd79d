@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { buildBrief, example, source, TEST_REVIEWER as actor } from './fixtures';
-import { editBrief, exportReceipt, ingest, issues, pursuitProvenance, review } from './model';
+import { currentFreshness, editBrief, exportReceipt, ingest, issues, pursuitProvenance, review } from './model';
 const now = '2026-10-13T16:00:00.000Z';
 const later = '2026-10-13T17:00:00.000Z';
 describe('shared Evidence review boundary', () => {
@@ -113,6 +113,25 @@ describe('shared Evidence review boundary', () => {
     const duplicate = ingest(prepared, source('research', '2026-10-13T18:00:00.000Z', 'Workshop notice. Draft only.'), actor, 3, '2026-10-13T18:00:00.000Z');
     expect(duplicate.change).toContain('after whitespace normalisation');
     expect(duplicate.state.versions[1].text).toBe(raw);
+  });
+
+  it('rejects duplicate confirmations without inflating receipt counts', () => {
+    const s = example('meeting', now);
+    expect(() => review(s, actor, 1, 'approve', ['outline', 'outline'], now)).toThrow('Duplicate confirmed');
+    expect(s.receipts).toHaveLength(0);
+    expect(review(s, actor, 1, 'approve', ['outline'], now).review!.confirmedCommitmentIds).toEqual(['outline']);
+  });
+  it('marks current freshness expired at the boundary without changing historical approval', () => {
+    const reviewed = review(example('research', now), actor, 1, 'approve', [], now);
+    const original = exportReceipt(reviewed.review!);
+    expect(currentFreshness(reviewed, now).status).toBe('within-window');
+    const expiry = reviewed.versions[0].expiresAt;
+    expect(currentFreshness(reviewed, new Date(Date.parse(expiry) - 1).toISOString()).status).toBe('within-window');
+    expect(currentFreshness(reviewed, expiry).status).toBe('expired');
+    expect(issues(reviewed, expiry).join()).toContain('Stale source');
+    expect(exportReceipt(reviewed.review!)).toBe(original);
+    expect(JSON.parse(original).reviewScope).toContain('Historical review snapshot');
+    expect(reviewed.receipts).toHaveLength(1);
   });
 
 });
