@@ -62,7 +62,7 @@ async function journey(browser, viewport, name, syncEnabled) {
   await page.getByLabel('Supermarket').selectOption('new-world');
   check(`${name}: switching supermarket switches every link`, (await links.first().getAttribute('href')).startsWith('https://www.newworld.co.nz/'));
   const keep = page.getByRole('button', { name: 'Keep as a DO task' });
-  if (syncEnabled) { await keep.click(); await page.getByText('Kept as a DO task on your account.').waitFor(); check(`${name}: list is kept as a task through the continuity contract`, kept.length === 1 && kept[0].action === 'save' && kept[0].request.startsWith('Shopping list · New World')); }
+  if (syncEnabled) { await keep.click(); await page.getByText('List text kept as a DO task.').waitFor(); check(`${name}: list is kept as a task through the continuity contract`, kept.length === 1 && kept[0].action === 'save' && kept[0].request.startsWith('Shopping list · New World')); }
   else check(`${name}: keeping is disabled when signed out, with a reason`, await keep.isDisabled());
   await page.getByRole('checkbox', { name: 'I checked the quantities, swaps and allergen flags' }).check();
   await page.getByRole('button', { name: 'Save a prepared receipt' }).click();
