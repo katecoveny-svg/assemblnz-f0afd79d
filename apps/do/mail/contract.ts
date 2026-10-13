@@ -24,7 +24,7 @@ export const mailRequest = z.object({
   }
 });
 export type MailRequest = z.infer<typeof mailRequest>;
-export type MailAccount = { id: string; provider: 'gmail' | 'microsoft_outlook'; label: string; state: 'read_available_unverified' | 'reconnect' | 'setup_needed' | 'outlook_read_unverified'; scopeVerified: false };
+export type MailAccount = { id: string; provider: 'gmail' | 'microsoft_outlook'; label: string; state: 'read_available' | 'gmail_read_unverified' | 'reconnect' | 'setup_needed' | 'outlook_read_unverified'; scopeVerified: boolean };
 export type MailSource = {
   key: string; accountId: string; accountLabel: string; provider: 'gmail'; messageId: string;
   subject: string; from: string; date: string; text: string; truncated: boolean;
@@ -35,7 +35,7 @@ export type MailDraft = {
   operation: 'search' | 'read'; sources: MailSource[]; moreAvailable: boolean;
   checkedAt: string; stored: false; modelUsed: false;
 };
-export type MailReadiness = { ownerId: string; accounts: MailAccount[]; metadataOnly: true; mailboxRead: false; accountsAvailable: boolean };
+export type MailReadiness = { ownerId: string; accounts: MailAccount[]; metadataOnly: true; mailboxRead: false; accountsAvailable: boolean; gmailConfigured: boolean; outlookReadVerified: false };
 
 export function gmailSearchQuery(search: z.infer<typeof mailSearch>): string {
   const parsed = mailSearch.parse(search);
