@@ -25,7 +25,7 @@ export default function SavedBoard() {
   const dialog = useRef<HTMLDialogElement>(null); const opener = useRef<HTMLElement | null>(null);
   const fileGeneration = useRef(0);
   const visible = searchSaved(items, query, kind);
-  const dirty = items.some(item => !item.fictional) || Boolean(editor?.title || editor?.text || image);
+  const dirty = items.some(item => !item.fictional) || Boolean(editor?.title || editor?.text || editor?.sourceUrl || editor?.tags.some(Boolean) || image);
   const modalOpen = Boolean(editor || selected);
   useEffect(() => {
     if (modalOpen) { opener.current = document.activeElement as HTMLElement; dialog.current?.showModal(); }

@@ -1,4 +1,4 @@
-/** Explicit file selection only. Decode locally, strip metadata by re-encoding, bound memory. */
+/** Explicit file selection only. Decode locally, strip metadata by re-encoding. Post-decode dimensions do not bound peak decoder memory. */
 export async function prepareLocalImage(file: File): Promise<string> {
   if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 5 * 1024 * 1024 || file.size === 0)
     throw new Error('Choose a JPEG, PNG or WebP under 5 MB.');

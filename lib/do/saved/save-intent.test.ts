@@ -9,10 +9,11 @@ const id = '33333333-3333-4333-8333-333333333333';
 const now = '2026-10-13T12:00:00.000Z';
 class TestStore implements SavedStore {
   rows = new Map<string, SavedRecord>();
+  async list(owner: string) { return [...this.rows.values()].filter(row => row.ownerId === owner && !row.deleted); }
   async read(owner: string, key: string) { return this.rows.get(`${owner}:${key}`) ?? null; }
   async compareAndSwap(owner: string, key: string, revision: number, next: SavedRecord) {
-    if ((this.rows.get(`${owner}:${key}`)?.revision ?? 0) !== revision) return false;
-    this.rows.set(`${owner}:${key}`, structuredClone(next)); return true;
+    if ((this.rows.get(`${owner}:${key}`)?.revision ?? 0) !== revision) return null;
+    this.rows.set(`${owner}:${key}`, structuredClone(next)); return structuredClone(next);
   }
 }
 describe('reviewed Save intent', () => {
@@ -61,8 +62,8 @@ describe('inactive durable owner/CAS model', () => {
   it('fails closed on storage errors or foreign rows with no fallback', async () => {
     const store = new TestStore(), repo = new SavedRepository(store, a); await repo.save(a, id, 0, note, now);
     const bad = { ...await repo.get(a, id), ownerId: b };
-    await expect(new SavedRepository({ ...store, read: async () => bad, compareAndSwap: async () => true }, a).get(a, id)).rejects.toMatchObject({ code: 'unavailable' });
-    await expect(new SavedRepository({ read: async () => { throw new Error('offline'); }, compareAndSwap: async () => true }, a).get(a, id)).rejects.toThrow('offline');
+    await expect(new SavedRepository({ list: async () => [], read: async () => bad, compareAndSwap: async () => null }, a).get(a, id)).rejects.toMatchObject({ code: 'unavailable' });
+    await expect(new SavedRepository({ list: async () => [], read: async () => { throw new Error('offline'); }, compareAndSwap: async () => null }, a).get(a, id)).rejects.toThrow('offline');
   });
   it('refuses durable image save until owner-only blob storage is proven', async () => {
     await expect(new SavedRepository(new TestStore(), a).save(a, id, 0, { ...note, kind: 'image' }, now)).rejects.toMatchObject({ code: 'unavailable' });

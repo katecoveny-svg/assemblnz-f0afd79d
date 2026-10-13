@@ -2,7 +2,7 @@
 
 Local Next.js development route `/do/saved`, Chromium, fictional input only. Screenshots are local ignored files; none uploaded.
 
-- 24 focused Vitest cases passed (strict content, URL redaction/unsafe URL rejection, owner isolation, CAS race, delete tombstone, backend failure, image durability closed).
+- 36 focused Vitest cases passed (strict content, URL redaction/unsafe URL rejection, owner isolation, CAS race, delete tombstone, backend failure, image durability closed).
 - Scoped ESLint passed; brand guard and macron guard passed.
 - Actual route returned HTTP 200. Browser reported zero console errors after fresh load; development font/resource preload warnings remain.
 - Browser flow passed: add fictional note → review exact text and query/fragment-free URL → Add disabled until local consent → add → multi-word search → detail → task draft contains source ID/revision and original sanitized URL → Escape → remove.
@@ -17,4 +17,13 @@ Local evidence under `output/playwright/`:
 - `saved-phone.png`
 - `saved-detail-phone.png`
 
-No production SQL, schema, security/config change, deployment or merge performed. SQL proposal has not been executed; fake-port unit tests do not establish database durability. Full production build deferred on the shared Mac; hosted/release build remains a gate. Initial full typecheck found only a missing local canvas `tsup` dependency; the workspace dependency link was then supplied and the full typecheck rerun passed (exit 0).
+No production SQL, schema, security/config change, deployment or merge performed. Production SQL has not been applied. The proposal was executed only in isolated embedded PostgreSQL; hosted Supabase activation and independent-session concurrency still need proof. Full production build deferred on the shared Mac; hosted/release build remains a gate. Initial full typecheck found only a missing local canvas `tsup` dependency; the workspace dependency link was then supplied and the full typecheck rerun passed (exit 0).
+
+## Follow-up review corrections
+
+- `/do/saved` added to the shared focused-route list, removing the sibling dock/launcher that bypassed its navigation loss guard. The reviewed navigation test cancels Today and confirms the fictional addition remains.
+- SQL now explicitly validates `kind` as a JSON string; null/missing/extra fields are exercised against embedded PostgreSQL.
+- Disabled server API and cookie-scoped adapter have 12 additional synthetic HTTP integration cases (36 total focused tests).
+- `node scripts/test-do-saved-sql.cjs`: 35 checks pass on a disposable local PGlite PostgreSQL database, including a new-instance reopen. No hosted SQL or real auth used.
+- Decoder memory claim corrected: compressed input/accepted dimensions are bounded; peak decode memory is not guaranteed.
+- Initial preview cancellation was explicitly performed by this agent through Vercel cancellation API for dpl_6w1PrW5qL1uoE3fv7CaPxSisZdxy; the returned state was CANCELED. It was not build-success evidence. Parent subsequently clarified normal PR preview verification is authorised.
