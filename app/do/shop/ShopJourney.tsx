@@ -190,7 +190,7 @@ export default function ShopJourney({ initialBrief = '', embedded = false, expec
           <h2 id="shop-plan-title"><span>02 · dinners</span>{nights.length} {nights.length === 1 ? 'night' : 'nights'}, swap any you like</h2>
           <p>Illustrative meal images. Swap a dinner or change servings; the list updates with the recipe quantities.</p>
           <ol className="shop-nights">{nights.map((night, index) => { const meal = MEALS.find(item => item.id === night.mealId)!; return <li key={index} className="shop-night">
-            <div className="shop-meal-photo" role="img" aria-label={`Illustrative serving of ${meal.name}`} style={{ backgroundPosition: `${(MEALS.indexOf(meal) % 4) * 100 / 3}% ${MEALS.indexOf(meal) < 4 ? 0 : 100}%` }} />
+            <div className="shop-meal-photo" role="img" aria-label={`Illustrative serving of ${meal.name}`} style={{ backgroundImage: "url(/do/shop/meal-ideas-v1.png)", backgroundPosition: `${(MEALS.indexOf(meal) % 4) * 100 / 3}% ${MEALS.indexOf(meal) < 4 ? 0 : 100}%` }} />
             <span>Night {index + 1}</span>
             <div><strong>{meal.name}</strong><span className="shop-meal-ingredients">{meal.ingredients.slice(0, 3).map(item => item.name).join(" · ")}</span></div>
             <WholeNumber label={`Night ${index + 1} servings`} value={night.servings} max={12} onValidity={valid => numberValidity(`night-${index}`, valid)} onChange={servings => { setNights(current => current.map((item, i) => i === index ? { ...item, servings } : item)); invalidate(); }} />

@@ -13,7 +13,7 @@ export function DoCapabilityIdeas({ onChoose, disabled = false }: { onChoose: (p
   return <section className={styles.ideas} aria-label="Ideas to get started">
     <h2>Start with something useful</h2>
     <div className={styles.outcomes} aria-label="Open a working tool">
-      <Link target="_blank" rel="noopener noreferrer" href="/do/shop"><span className={styles.mealPhoto} aria-hidden="true" /><strong>Plan the shop</strong><span>Dinners → pantry → aisle checklist</span><small>Working planning · no cart connection</small><b>Open Shopper DO ↗</b></Link>
+      <Link target="_blank" rel="noopener noreferrer" href="/do/shop"><span className={styles.mealPhoto} style={{ backgroundImage: "url(/do/shop/meal-ideas-v1.png)" }} aria-hidden="true" /><strong>Plan the shop</strong><span>Dinners → pantry → aisle checklist</span><small>Working planning · no cart connection</small><b>Open Shopper DO ↗</b></Link>
       <Link target="_blank" rel="noopener noreferrer" href="/do/messages"><NotebookPen size={28} aria-hidden="true" /><strong>Prepare a reply</strong><span>Your notes → an editable message</span><small>Review before sharing</small><b>Open messages ↗</b></Link>
       <Link target="_blank" rel="noopener noreferrer" href="/do/travel"><CalendarDays size={28} aria-hidden="true" /><strong>Organise a trip</strong><span>Dates → plans → packing list</span><small>Planning · no bookings</small><b>Open Travel DO ↗</b></Link>
     </div>
