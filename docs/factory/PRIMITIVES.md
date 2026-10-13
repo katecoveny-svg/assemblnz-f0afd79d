@@ -209,3 +209,7 @@ Extends the existing fictional Pursuit examples and extracts the browser-only mo
 ### DO saved live-call voice (13 October review implementation)
 
 Extends the existing `do_personal_profiles.voice_name` preference and constrained Gemini Live token. `apps/do/shared/voice-options.ts` is the common curated allowlist; `apps/do/services/voice-preference.ts` binds the reviewed voice/revision to the authenticated owner. All hosted call entry surfaces use the saved choice on the next call with fresh consent; active session configuration is not replaced. No new storage or provider authority. Sources, integration boundaries and synthetic proof: `docs/DO-VOICE-CHOICE-20261013.md`.
+
+## Reviewed browser cart foundation — review build
+
+`apps/do/browser/` creates a bounded cart contract and deterministic fixture DOM executor; reuses verified DO ownership and the review/permit/verify lifecycle. `/api/do/browser-actions` is authenticated and fails closed; `capability.ts` supplies one unavailable projection for surface owners and generated companion copy. Atomic durable authority storage/pairing is an unbound port, not an in-memory production substitute. Woolworths execution is explicitly rejected until separate reviewed activation and retailer validation. See [browser cart foundation](../do-action-cloud/BROWSER-CART-FOUNDATION.md) for scope, tests and the staged/applied/deployed ledger.

@@ -5,7 +5,9 @@ import { DO_DISTRIBUTION_ORIGIN, doEmbedExample, doWidgetScript } from '@/apps/d
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-const VERSION = '1.7.0';
+const VERSION = '1.8.0';
+const MAC_VERSION = '1.7.0';
+const WIDGET_VERSION = '1.7.0';
 const EXTENSION_ROOT = path.join(process.cwd(), 'apps/do/extension');
 const MACOS_ROOT = path.join(process.cwd(), 'apps/do/macos');
 /** Keep in sync with scripts/package-do-downloads.mjs. */
@@ -21,6 +23,8 @@ export const EXTENSION_FILES = [
   'portable-background.js',
   'portable-launcher.js',
   'portable.css',
+  'browser-capability.js',
+  'icons/do-glass.webp',
   'floating.js',
   'selection-badge.js',
   'popup.html',
@@ -72,7 +76,7 @@ Chrome 116+ or compatible Edge. Direct developer install, not a Chrome Web Store
       for (const size of [192, 512]) {
         zip.file(`macos/resources/do-${size}.png`, await readFile(path.join(MACOS_ROOT, `resources/do-${size}.png`)));
       }
-      zip.file('README.md', `# DO for Mac · development source · v${VERSION}
+      zip.file('README.md', `# DO for Mac · development source · v${MAC_VERSION}
 
 This is source, not a notarised public Mac installer. It includes the Swift source AND canonical icon resources needed to build independently of a repository checkout.
 
@@ -95,7 +99,7 @@ Guide: ${origin}/do/install#mac
     } else {
       zip.file('do-widget.js', doWidgetScript(origin));
       zip.file('example.html', doEmbedExample(origin));
-      zip.file('README.md', `# DO website widget · v${VERSION}
+      zip.file('README.md', `# DO website widget · v${WIDGET_VERSION}
 
 Add before </body>: <script src="${origin}/api/do/widget" defer></script>
 
@@ -104,7 +108,7 @@ The launcher and panel can be moved. The widget never reads its host page or sta
 Guide: ${origin}/do/install
 `);
     }
-    const filename = format === 'extension' ? `assembl-do-extension-${VERSION}.zip` : format === 'mac' ? 'DO-mac-companion.zip' : `assembl-do-embed-${VERSION}.zip`;
+    const filename = format === 'extension' ? `assembl-do-extension-${VERSION}.zip` : format === 'mac' ? 'DO-mac-companion.zip' : `assembl-do-embed-${WIDGET_VERSION}.zip`;
     const content = await zip.generateAsync({ type: 'uint8array', compression: 'DEFLATE' });
     return new Response(content as BodyInit, { headers: {
       'Content-Type': 'application/zip', 'Content-Disposition': `attachment; filename="${filename}"`,
