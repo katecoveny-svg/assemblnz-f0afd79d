@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { CONVERSATION_BYTES_LIMIT, conversationMutationSchema, conversationTitle, nextConversationRecord, type ConversationMutation, type ConversationRecord } from './conversation';
+import { CONVERSATION_BYTES_LIMIT, conversationFull, conversationMutationSchema, conversationTitle, extendsTurns, nextConversationRecord, type ConversationMutation, type ConversationRecord } from './conversation';
 
 const now = '2026-10-13T09:00:00.000Z';
 const id = '11111111-1111-4111-8111-111111111111';
@@ -26,6 +26,17 @@ describe('kept conversation contract', () => {
     expect(extended.revision).toBe(3);
     expect(extended.createdAt).toBe(current.createdAt);
     expect(extended.expiresAt).toBe('2026-11-13T09:00:00.000Z');
+  });
+  it('never lets a full or stale device rewrite the turns another device kept', () => {
+    const current = nextConversationRecord(save, null, now) as ConversationRecord;
+    const rewritten = [{ ...turns[0], text: 'A different first message' }, turns[1]];
+    expect(() => nextConversationRecord({ ...save, expectedRevision: 1, turns: rewritten }, current, now)).toThrow('conversation_conflict');
+    const slid = [turns[1], { ...turns[0], at: now }];
+    expect(() => nextConversationRecord({ ...save, expectedRevision: 1, turns: slid }, current, now)).toThrow('conversation_conflict');
+    expect(extendsTurns(turns, [...turns, { ...turns[0], at: now }])).toBe(true);
+    expect(extendsTurns(turns, turns)).toBe(true);
+    expect(conversationFull(Array.from({ length: 38 }, () => turns[0]))).toBe(false);
+    expect(conversationFull(Array.from({ length: 39 }, () => turns[0]))).toBe(true);
   });
   it('forgetting needs the current revision and removes the record', () => {
     const current = nextConversationRecord(save, null, now)!;

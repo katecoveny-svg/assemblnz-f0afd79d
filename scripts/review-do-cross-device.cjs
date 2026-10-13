@@ -21,7 +21,8 @@ function fixtureStore() {
   const json = (status, body) => ({ status, contentType: 'application/json', body: JSON.stringify(body) });
   return {
     memory(request) {
-      if (request.method() === 'GET') return json(200, { records: [...memory.values()], storage: 'account', saved: true, notice: 'Fixture notice.' });
+      if (request.method() === 'GET') return json(200, { records: [...memory.values()], storage: 'account', saved: true, workspaceKey: OWNER, notice: 'Fixture notice.' });
+      if (request.headers()['x-do-workspace'] !== OWNER) return json(409, { error: 'Your signed-in account changed. Reload before saving this note.', workspaceChanged: true });
       const input = request.postDataJSON(); const current = memory.get(input.id) ?? null;
       if ((current?.revision ?? 0) !== input.expectedRevision) return json(409, { error: 'This record changed. Reload before editing.' });
       if (input.action === 'delete') { memory.delete(input.id); return json(200, { saved: true }); }

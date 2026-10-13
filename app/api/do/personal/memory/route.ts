@@ -8,13 +8,15 @@ const json = (body: unknown, status = 200) => Response.json(body, { status, head
 export async function GET() {
   const owner = await doOwner();
   if (!owner) return json({ records: [], storage: 'none', saved: false, workspaceKey: 'guest', notice: PERSONAL_MEMORY_NOTICE, family: 'fictional_preview_only' });
-  try { return json({ records: await loadPersonalMemory(owner.id), storage: 'account', saved: true, notice: PERSONAL_MEMORY_NOTICE }); }
-  catch { return json({ error: 'Optional account memory is unavailable.', storage: 'unavailable', saved: false }, 503); }
+  try { return json({ records: await loadPersonalMemory(owner.id), storage: 'account', saved: true, workspaceKey: owner.id, notice: PERSONAL_MEMORY_NOTICE }); }
+  catch { return json({ error: 'Optional account memory is unavailable.', storage: 'unavailable', saved: false, workspaceKey: owner.id }, 503); }
 }
 export async function POST(request: Request) {
   if (!sameDoOrigin(request)) return json({ error: 'Open memory on assembl.' }, 403);
   const owner = await doOwner();
   if (!owner) return json({ error: 'Sign in to save optional account memory.' }, 401);
+  // A note reviewed under one signed-in owner is never saved under another after a session switch in another tab.
+  if (request.headers.get('x-do-workspace') !== owner.id) return json({ error: 'Your signed-in account changed. Reload before saving this note.', workspaceChanged: true }, 409);
   let raw: unknown;
   try { raw = await readDoJson(request); } catch { return json({ error: 'Use a bounded valid request.' }, 400); }
   const parsed = personalMemoryMutationSchema.safeParse(raw);
