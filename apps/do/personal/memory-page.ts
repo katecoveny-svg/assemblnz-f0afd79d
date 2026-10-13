@@ -31,7 +31,7 @@ export function changeMemoryMutation(action: 'review' | 'pause' | 'delete', reco
   return { action, id: record.id, expectedRevision: record.revision };
 }
 export function draftFromRecord(record: PersonalMemoryRecord): MemoryDraft {
-  return { kind: record.kind, text: record.text, observedAt: record.observedAt.slice(0, 10), retentionDays: record.retentionDays };
+  return { kind: record.kind, text: record.text, observedAt: memoryDay(record.observedAt), retentionDays: record.retentionDays };
 }
 /** Date inputs give a New Zealand calendar day. It is stored as that day's midnight UTC, which is midday on the same
  * day in New Zealand, so it reads back as the day the owner picked and is never in the future. */

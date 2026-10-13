@@ -11,7 +11,7 @@ import {
 } from '@/apps/do/personal/assistant';
 import type { PersonalDoProfile } from '@/apps/do/personal/profile';
 import { ASSISTANT_NOTE_EVENT, reviewAssistantNote, type AssistantNoteOffer } from '@/apps/do/personal/editor-note';
-import { CONVERSATION_NOTICE, type ConversationRecord, type ConversationTurn, CONVERSATION_TURN_LIMIT, conversationFull } from '@/apps/do/personal/conversation';
+import { CONVERSATION_NOTICE, CONVERSATION_TURN_LIMIT, type ConversationRecord, type ConversationTurn } from '@/apps/do/personal/conversation';
 import { useKeptConversations, type ActiveConversation } from './useKeptConversations';
 import styles from './personal-assistant.module.css';
 
@@ -133,6 +133,7 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, re
   async function submit(event: FormEvent) {
     event.preventDefault();
     if (lock.current) return;
+    if (transcript.length + 2 > CONVERSATION_TURN_LIMIT) { setNotice('This conversation has reached its message limit. Start a new conversation to continue. Saved messages stay on your account.'); return; }
     setError(''); setNotice('');
     if (!message.trim()) { inputRef.current?.focus(); return; }
     if (!reviewOpen || !consent) { setReviewOpen(true); requestAnimationFrame(() => consentRef.current?.focus()); return; }
@@ -165,15 +166,12 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, re
       const at = new Date().toISOString();
       const userTurn: ConversationTurn = { role: 'user', text: parsed.data.message, at, draft: null, label: null };
       const assistantTurn: ConversationTurn = { role: 'assistant', text: next.reply, at, draft: next.nextStep.draft, label: next.nextStep.label };
-      // A full conversation is never slid over its oldest turns: this exchange starts a new one instead.
-      const continued = conversationFull(transcript);
-      const turns = continued ? [userTurn, assistantTurn] : [...transcript, userTurn, assistantTurn];
+      const turns = [...transcript, userTurn, assistantTurn];
       setTranscript(turns);
-      if (continued) setActive(null);
       if (keep) {
-        const saved = await kept.keep(continued ? null : active, turns);
+        const saved = await kept.keep(active, turns);
         if (!alive.current) return;
-        if (saved.ok) { setActive(saved.active); setNotice(continued ? `A reply is ready for your review. The kept conversation was full at ${CONVERSATION_TURN_LIMIT} messages, so this exchange starts a new one on your account.` : 'A reply is ready for your review. This conversation is kept on your account.'); }
+        if (saved.ok) { setActive(saved.active); setNotice('A reply is ready for your review. This conversation is kept on your account.'); }
         else setNotice(`A reply is ready for your review. Not kept: ${saved.error}`);
       }
     } catch (cause) {
@@ -217,12 +215,13 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, re
       </div>
     </div>}
     {result?.officialSourcesRequested && <details className={styles.notes}><summary>Official references checked for this request</summary>{result.officialSources?.length ? result.officialSources.map(source => <article key={source.citation}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a><p>{source.status || 'Status not provided'}{source.stage ? ` · ${source.stage}` : ''}</p><p>{source.excerpt}</p><p>Checked {source.verifiedAt}. Introduction: {source.introducedAt || 'unknown'}. Stage activity: {source.activityAt || 'unknown'}. Original publication unknown. A bill is not necessarily enacted law; recheck at the source.</p></article>) : <p>No fresh verified Parliament evidence was available for this request. Discovery links do not establish current facts.</p>}</details>}
+    {transcript.length + 2 > CONVERSATION_TURN_LIMIT && <p className={styles.keptMeta} role="status">This conversation has reached its {CONVERSATION_TURN_LIMIT}-message limit. Saved messages stay on your account. <button type="button" onClick={clearConversation} disabled={working}>Start a new conversation</button></p>}
     <form onSubmit={event => void submit(event)}>
       <label className={styles.inputLabel} htmlFor="personal-assistant-input">{result ? 'What would help next?' : 'What would you like done?'}</label>
       <textarea ref={inputRef} id="personal-assistant-input" data-do-primary-input value={message} maxLength={4000} rows={3} disabled={working} placeholder="e.g. Prepare a reply to my property manager" onChange={event => { setMessage(event.target.value); setConsent(false); setNotice(''); }} />
       <div className={styles.composerFooter}>
         <span>{working ? 'Checking the request and preparing your reply…' : 'Review drafts before sharing'}</span>
-        {working ? <button className={styles.stop} type="button" onClick={cancel}><X size={15} /> Stop</button> : <button className={styles.send} type="submit" disabled={!message.trim() || loading || !availability?.ready}>{reviewOpen && consent ? 'Ask DO' : 'Start'}<ArrowUpRight size={18} /></button>}
+        {working ? <button className={styles.stop} type="button" onClick={cancel}><X size={15} /> Stop</button> : <button className={styles.send} type="submit" disabled={!message.trim() || loading || !availability?.ready || transcript.length + 2 > CONVERSATION_TURN_LIMIT}>{reviewOpen && consent ? 'Ask DO' : 'Start'}<ArrowUpRight size={18} /></button>}
       </div>
       <details className={styles.notes}><summary>Notes &amp; references <ChevronDown size={14} /></summary>
         <label htmlFor="personal-assistant-notes">Notes to use in this conversation</label>

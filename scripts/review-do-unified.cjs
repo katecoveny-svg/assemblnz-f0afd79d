@@ -117,7 +117,7 @@ async function verifyFunctionalMark(page, root, label) {
       // The shop journey lives at /do/shop; the fictional-offer fixture moved to /do/shop/sample.
       if (path === '/do/shop') {
         check(`${path} retains its distinct preparation surface`, final.pathname === path);
-        check(`${path} says nothing is ordered`, (await clean.locator('body').innerText()).toLowerCase().includes('nothing is ordered'));
+        check(`${path} explicitly has no cart connection`, (await clean.locator('body').innerText()).toLowerCase().includes('no cart connection'));
       }
       if (path === '/do/shop/sample' || path === '/do/travel') {
         check(`${path} retains its distinct preparation surface`, final.pathname === path);
