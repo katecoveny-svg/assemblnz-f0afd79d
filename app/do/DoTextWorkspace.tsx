@@ -296,7 +296,7 @@ function WritingEditor({ initialBrief = '', initialTask = 'reply', embedded = fa
       <div className="do-prepare-actions"><button className="do-primary" disabled={busy || (task !== 'extract' && needsSignIn) || !consent || !source.trim() || (task !== 'extract' && availability?.preparation === 'unavailable')} type="submit">{busy ? <LoaderCircle className="do-spin" size={18} /> : <span className="do-action-mark" aria-hidden><DoMark /></span>}{busy ? 'Preparing your draft…' : DO_TASKS.find(option => option.id === task)!.title}<ArrowUpRight size={18} /></button>{busy && <button type="button" className="do-quiet-button" onClick={() => abort.current?.abort()}>Stop</button>}</div>
       <p className="do-runtime-note">{availability?.note || 'Preparation status is checked when you run a task.'}</p>
     </form>
-    {focus && <DoCapabilityIdeas disabled={busy} onChoose={prompt => {
+    {focus && <DoCapabilityIdeas embedded={embedded} disabled={busy} onChoose={prompt => {
       const next = source.trim() ? `${source}\n\n${prompt}` : prompt;
       if (next.length > DO_SOURCE_LIMIT) { setNotice('Your draft is full. Shorten it before adding this idea.'); return; }
       setSource(next); setConsent(false); setNotice('An idea added to your draft. Nothing was sent.'); sourceRef.current?.focus();
