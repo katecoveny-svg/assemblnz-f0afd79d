@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { GlassIdentity } from '@/components/brand/GlassIdentity';
 import { MEALS, ingredientById } from '@/lib/do/shop/catalogue';
-import { aisleList, choicesFromNights, estimate, listText, parseShopBrief, planMeals, retailerHandoff, RETAILERS, shopDigest, type RetailerKey, type ShopBrief } from '@/lib/do/shop/journey';
+import { validShopCount, aisleList, choicesFromNights, estimate, listText, parseShopBrief, planMeals, retailerHandoff, RETAILERS, shopDigest, type RetailerKey, type ShopBrief } from '@/lib/do/shop/journey';
 import type { MealChoice } from '@/lib/do/shop/preparation';
 import { prepareRun, reviewRun, runReceipt, type PreparationRun, type PreparedReceipt } from '@/lib/do/preparation/contracts';
 import { PantryEditor, newPantryRow, reviewPantry, type PantryRow } from './PantryEditor';
@@ -18,9 +18,25 @@ function nightsFromChoices(choices: MealChoice[]): Night[] {
 }
 type SyncState = { signedIn: boolean; enabled: boolean; workspace: string | null };
 
+function WholeNumber({ label, value, max, onChange, onValidity }: { label: string; value: number; max: number; onChange: (value: number) => void; onValidity: (valid: boolean) => void }) {
+  const [raw, setRaw] = useState(String(value));
+  useEffect(() => { setRaw(String(value)); }, [value]);
+  const valid = validShopCount(raw, max);
+  return <label>{label}<input type="number" min={1} max={max} step={1} aria-label={label} aria-invalid={!valid} value={raw} onChange={event => {
+    const next = event.target.value;
+    setRaw(next);
+    const ok = validShopCount(next, max);
+    onValidity(ok);
+    if (ok) onChange(Number(next));
+  }} />{!valid && <span role="alert">Enter a whole number from 1 to {max}. The last valid quantity remains on the list.</span>}</label>;
+}
+
 /** Brief → dinners → pantry → aisle list → handoff. Every step is editable, every edit invalidates
  * the review, and nothing leaves this page except links the shopper opens themselves. */
 export default function ShopJourney({ initialBrief = '', embedded = false, expectedWorkspace }: { initialBrief?: string; embedded?: boolean; expectedWorkspace?: string }) {
+  const [invalidNumbers, setInvalidNumbers] = useState<Record<string, boolean>>({});
+  const numericValid = !Object.values(invalidNumbers).some(Boolean);
+  const numberValidity = (id: string, valid: boolean) => { setInvalidNumbers(current => ({ ...current, [id]: !valid })); if (!valid) invalidate(); };
   const [text, setText] = useState(initialBrief);
   const [reviewBrief, setReviewBrief] = useState<ShopBrief | null>(() => initialBrief ? parseShopBrief(initialBrief) : null);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
@@ -60,12 +76,20 @@ export default function ShopJourney({ initialBrief = '', embedded = false, expec
   useEffect(() => {
     if (!text.trim() && !brief) return;
     const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ''; };
+    const leave = (event: MouseEvent) => {
+      if (!(event.target instanceof Element)) return;
+      const link = event.target.closest<HTMLAnchorElement>('a[href]');
+      if (!link || link.target === '_blank' || link.getAttribute('href')?.startsWith('#')) return;
+      if (!window.confirm('Leave this unsaved shopping plan? Only a separately kept list is saved; meals and pantry edits will be lost.')) { event.preventDefault(); event.stopImmediatePropagation(); }
+    };
+    document.addEventListener('click', leave, true);
     window.addEventListener('beforeunload', warn);
-    return () => window.removeEventListener('beforeunload', warn);
+    return () => { window.removeEventListener('beforeunload', warn); document.removeEventListener('click', leave, true); };
   }, [text, brief]);
 
   function invalidate() { setRun(null); setReceipt(null); setRevision(value => value + 1); setCopied(false); setCheckedItems([]); }
   function start() {
+    if (!numericValid) return;
     if (brief && !window.confirm('Replace the current dinners and pantry edits with this reviewed brief?')) return;
     const parsed = reviewBrief ?? parseShopBrief(text);
     const choices = planMeals(parsed);
@@ -91,7 +115,7 @@ export default function ShopJourney({ initialBrief = '', embedded = false, expec
   const summary = useMemo(() => brief ? estimate(list.lines, brief.budget) : null, [brief, list.lines]);
   const handoff = useMemo(() => retailerHandoff(list.lines, retailer), [list.lines, retailer]);
   const digest = useMemo(() => brief ? shopDigest({ brief, choices, pantry: pantryReviewed ? pantry.pantry : [], lines: list.lines }) : '', [brief, choices, pantryReviewed, pantry.pantry, list.lines]);
-  const ready = Boolean(brief) && nights.length > 0 && pantryReviewed && pantry.issues.length === 0 && list.lines.length > 0;
+  const ready = numericValid && Boolean(brief) && nights.length > 0 && pantryReviewed && pantry.issues.length === 0 && list.lines.length > 0;
   const current = { ...identity, revision: Math.max(1, revision) };
 
   function review(checked: boolean) {
@@ -101,7 +125,7 @@ export default function ShopJourney({ initialBrief = '', embedded = false, expec
     setRun(reviewRun(base, current, { digest }, checked, now));
   }
   function finish() {
-    if (!run) return;
+    if (!run || !ready) return;
     try { setReceipt(runReceipt(run, current, { digest }, new Date().toISOString())); }
     catch (error) { setNotice(error instanceof Error ? error.message : 'Review the current list first.'); }
   }
@@ -110,23 +134,18 @@ export default function ShopJourney({ initialBrief = '', embedded = false, expec
     catch { setNotice('Copy is unavailable here. Select the list and copy it manually.'); }
   }
   async function keepAsTask() {
-    if (!sync?.workspace || saving || (expectedWorkspace && sync.workspace !== expectedWorkspace)) return;
+    if ((embedded && !expectedWorkspace) || !sync?.workspace || saving || (expectedWorkspace && sync.workspace !== expectedWorkspace)) return;
     setSaving(true); setNotice('');
     try {
       taskId.current ||= crypto.randomUUID();
       const response = await fetch('/api/do/continuity', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-DO-Workspace': sync.workspace }, body: JSON.stringify({ action: 'save', id: taskId.current, scope: 'personal', request: listText(list.groups, `Shopping list · ${handoff.retailer}`).slice(0, 4000), context: [], consent: true, consentVersion: 'do-continuity-v1' }) });
       const data = await response.json().catch(() => ({}));
-      setNotice(response.ok && data.durable ? 'Kept as a DO task on your account. Open it on any device from Your tasks.' : (data.message || 'The list could not be kept. Nothing was saved online.'));
-    } catch { setNotice('The list could not be kept. Nothing was saved online.'); }
+      setNotice(response.ok && data.durable ? 'List text kept as a DO task. The editable meals, pantry and receipt are only in this tab.' : (data.message || 'Save could not be confirmed. Check Your tasks before retrying.'));
+    } catch { setNotice('Save could not be confirmed. Check Your tasks before retrying.'); }
     finally { setSaving(false); }
   }
 
-  return <div className="prep-page shop-page" onClickCapture={event => {
-    if ((!text.trim() && !brief) || !(event.target instanceof Element)) return;
-    const link = event.target.closest<HTMLAnchorElement>('a[href]');
-    if (!link || link.target === '_blank' || link.getAttribute('href')?.startsWith('#')) return;
-    if (!window.confirm('Leave this unsaved shopping plan? Copy the list or keep it as a task first if you need it later.')) { event.preventDefault(); event.stopPropagation(); }
-  }}>
+  return <div className="prep-page shop-page">
     {!embedded && <header className="prep-header"><GlassIdentity kind="do" size={54} /><Link href="/do">DO</Link><nav><Link href="/do/shop" aria-current="page">Shop</Link><Link href="/do/travel">Travel</Link><Link href="/do/continue">Your tasks</Link></nav></header>}
     <h1>Shopper DO</h1>
     <p className="prep-lead">Your dinners. Your pantry. One list to check.</p>
@@ -142,19 +161,19 @@ export default function ShopJourney({ initialBrief = '', embedded = false, expec
         <p>In your own words. Review the details before planning. Vegan meals are not supported yet.</p>
         <label htmlFor="shop-brief-text" className="prep-check" style={{ display: 'block' }}>Your brief</label>
         <textarea id="shop-brief-text" value={text} maxLength={6000} placeholder="e.g. Dinners for 4 for 5 nights, about $250. We have rice and onions. No nuts." onChange={event => { setText(event.target.value); setReviewBrief(null); }} />
-        <p className="shop-fine">Planning stays on this page. No new provider call or retailer connection.</p>
-        <button type="button" disabled={!text.trim()} onClick={() => setReviewBrief(parseShopBrief(text))}>Review brief</button>
+        <p className="shop-fine">Unsaved · this tab only. Browser Back or refresh can discard meals and pantry edits. Copy the list before leaving. Keeping a task saves list text only.</p>
+        <button type="button" disabled={!text.trim()} onClick={() => { setInvalidNumbers({}); setReviewBrief(parseShopBrief(text)); }}>Review brief</button>
         {reviewBrief && <div className="shop-brief-review" aria-label="Review shopping brief">
           <p>Check what DO read. Planning uses these values.</p>
           <div className="shop-review-fields">
-            <label>People<input type="number" min={1} max={12} value={reviewBrief.servings} onChange={event => setReviewBrief({ ...reviewBrief, servings: Math.min(12, Math.max(1, Number(event.target.value) || 1)) })} /></label>
-            <label>Nights (up to 7)<input type="number" min={1} max={7} value={reviewBrief.nights} onChange={event => setReviewBrief({ ...reviewBrief, nights: Math.min(7, Math.max(1, Number(event.target.value) || 1)) })} /></label>
+            <WholeNumber label="People" value={reviewBrief.servings} max={12} onValidity={valid => numberValidity("people", valid)} onChange={servings => setReviewBrief({ ...reviewBrief, servings })} />
+            <WholeNumber label="Nights (up to 7)" value={reviewBrief.nights} max={7} onValidity={valid => numberValidity("nights", valid)} onChange={nights => setReviewBrief({ ...reviewBrief, nights })} />
             <label>Budget NZ$ (optional)<input type="number" min={1} max={9999} value={reviewBrief.budget ? reviewBrief.budget.limitMinor / 100 : ''} onChange={event => setReviewBrief({ ...reviewBrief, budget: Number(event.target.value) > 0 ? { currency: 'NZD', limitMinor: Math.round(Math.min(9999, Number(event.target.value)) * 100), feeMinor: null } : null })} /></label>
           </div>
           <p>{reviewBrief.vegan ? 'Vegan: unsupported — no meals will be suggested.' : reviewBrief.vegetarian ? 'Vegetarian' : 'No vegetarian restriction read'} · {reviewBrief.excludedAllergens.length ? `Exclude: ${reviewBrief.excludedAllergens.join(', ')}` : 'No allergen exclusions read'}. Edit the brief to change dietary requirements.</p>
           {reviewBrief.unrecognised.length > 0 && <p>Not applied: {reviewBrief.unrecognised.join('; ')}</p>}
-          <button type="button" className="shop-primary" onClick={start} disabled={reviewBrief.vegan}>Use these details · plan dinners</button>
-          <button type="button" onClick={() => setReviewBrief(null)}>Cancel review</button>
+          <button type="button" className="shop-primary" onClick={start} disabled={reviewBrief.vegan || reviewBrief.dietaryReviewRequired || !numericValid}>Use these details · plan dinners</button>
+          <button type="button" onClick={() => { setInvalidNumbers({}); setReviewBrief(null); }}>Cancel review</button>
         </div>}
         {brief && <ul className="shop-chips" aria-label="What DO read">
           <li>{brief.servings} people</li><li>{brief.nights} nights</li>
@@ -174,7 +193,7 @@ export default function ShopJourney({ initialBrief = '', embedded = false, expec
             <div className="shop-meal-photo" role="img" aria-label={`Illustrative serving of ${meal.name}`} style={{ backgroundPosition: `${(MEALS.indexOf(meal) % 4) * 100 / 3}% ${MEALS.indexOf(meal) < 4 ? 0 : 100}%` }} />
             <span>Night {index + 1}</span>
             <div><strong>{meal.name}</strong><span className="shop-meal-ingredients">{meal.ingredients.slice(0, 3).map(item => item.name).join(" · ")}</span></div>
-            <label>Serves<input type="number" min={1} max={12} value={night.servings} aria-label={`Night ${index + 1} servings`} onChange={event => { const value = Math.min(12, Math.max(1, Number(event.target.value) || 1)); setNights(current => current.map((item, i) => i === index ? { ...item, servings: value } : item)); invalidate(); }} /></label>
+            <WholeNumber label={`Night ${index + 1} servings`} value={night.servings} max={12} onValidity={valid => numberValidity(`night-${index}`, valid)} onChange={servings => { setNights(current => current.map((item, i) => i === index ? { ...item, servings } : item)); invalidate(); }} />
             <button type="button" aria-label={`Swap night ${index + 1}`} onClick={() => swap(index)}>Swap</button>
           </li>; })}</ol>
           <p className="shop-fine">{eligible.length} of {MEALS.length} catalogue dinners fit your limits. <button type="button" className="shop-text-button" disabled={nights.length >= 7 || !eligible.length} onClick={() => { setNights(current => [...current, { mealId: eligible[current.length % eligible.length].id, servings: brief.servings }]); invalidate(); }}>Add a night</button> <button type="button" className="shop-text-button" disabled={nights.length <= 1} onClick={() => { setNights(current => current.slice(0, -1)); invalidate(); }}>Remove last night</button></p>
@@ -204,12 +223,12 @@ export default function ShopJourney({ initialBrief = '', embedded = false, expec
           <div className="shop-handoff-controls">
             <label>Supermarket <select value={retailer} onChange={event => setRetailer(event.target.value as RetailerKey)}>{Object.entries(RETAILERS).map(([key, value]) => <option key={key} value={key}>{value.name}</option>)}</select></label>
             <button type="button" disabled={!ready} onClick={() => void copyList()}>{copied ? 'Copied' : 'Copy list'}</button>
-            <button type="button" disabled={!ready || !sync?.enabled || saving || Boolean(expectedWorkspace && sync.workspace !== expectedWorkspace)} title={!sync?.signedIn ? 'Sign in to keep tasks' : !sync?.enabled ? 'Turn on sync in Your tasks first' : undefined} onClick={() => void keepAsTask()}>{saving ? 'Keeping…' : 'Keep as a DO task'}</button>
+            <button type="button" disabled={!ready || !sync?.enabled || saving || (embedded && !expectedWorkspace) || Boolean(expectedWorkspace && sync.workspace !== expectedWorkspace)} title={!sync?.signedIn ? 'Sign in to keep tasks' : !sync?.enabled ? 'Turn on sync in Your tasks first' : undefined} onClick={() => void keepAsTask()}>{saving ? 'Keeping…' : 'Keep as a DO task'}</button>
           </div>
           {ready ? <ul className="shop-links">{handoff.lines.map(line => <li key={line.name}><span>{line.name} · {line.display}</span><a href={line.url} target="_blank" rel="noopener noreferrer">Search at {handoff.retailer} ↗</a></li>)}</ul> : <p className="shop-fine">Finish the steps above to get your links.</p>}
           <label className="prep-check"><input type="checkbox" disabled={!ready || !!receipt} checked={run?.status === 'reviewed'} onChange={event => review(event.target.checked)} />I checked the quantities, swaps and allergen flags</label>
-          <button type="button" className="shop-primary" disabled={run?.status !== 'reviewed' || !!receipt} onClick={finish}>Save a prepared receipt</button>
-          {receipt && <div className="shop-receipt" role="status"><p>prepared · nothing ordered</p><p>{receipt.id} · {receipt.preparedAt}</p><p>{list.lines.length} lines · {handoff.retailer} · indicative estimate {money(list.lines.reduce((sum, line) => sum + line.estimateMinor, 0))}</p><p>external action: none · receipt is for this session; keep it as a task to carry it to another device</p></div>}
+          <button type="button" className="shop-primary" disabled={!ready || run?.status !== 'reviewed' || !!receipt} onClick={finish}>Save a prepared receipt</button>
+          {receipt && <div className="shop-receipt" role="status"><p>prepared · nothing ordered</p><p>{receipt.id} · {receipt.preparedAt}</p><p>{list.lines.length} lines · {handoff.retailer} · indicative estimate {money(list.lines.reduce((sum, line) => sum + line.estimateMinor, 0))}</p><p>external action: none · this receipt is only in this tab. Keeping a task saves list text only.</p></div>}
           <p className="shop-fine">{sync?.signedIn ? (sync.enabled ? 'Kept tasks reopen on any device you sign in on.' : 'Turn on sync in Your tasks to keep this list on your account.') : 'Sign in and turn on sync to keep this list on your account.'} Catalogue ingredient notes: {list.lines.filter(line => ingredientById(line.ingredientId)?.allergens.length).length} lines carry declared allergens; always check the real label.</p>
         </section>
       </div>}

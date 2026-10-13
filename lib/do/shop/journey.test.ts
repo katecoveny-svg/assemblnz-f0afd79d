@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { MEALS, ingredientByName } from './catalogue';
-import { aisleList, choicesFromNights, displayQuantity, estimate, listText, parseShopBrief, planMeals, retailerHandoff } from './journey';
+import { validShopCount, aisleList, choicesFromNights, displayQuantity, estimate, listText, parseShopBrief, planMeals, retailerHandoff } from './journey';
 
 describe('shop brief parsing', () => {
   it('reads people, nights, budget, diet, allergens and pantry hints from plain words', () => {
@@ -94,5 +94,22 @@ describe('reviewed planning boundaries', () => {
     const { lines } = aisleList(choices, []);
     expect(lines.find(line => line.ingredientId === 'pasta')?.required).toBe(1000);
     expect(lines.find(line => line.ingredientId === 'beef-mince')?.required).toBe(1250);
+  });
+});
+
+describe('review boundaries', () => {
+  it.each(['2.5', '', 'NaN', 'Infinity', '-1', '0', '13', '1e309'])('rejects invalid servings %s', raw => {
+    expect(validShopCount(raw, 12)).toBe(false);
+  });
+  it('accepts only bounded whole nights and servings', () => {
+    expect(validShopCount('12', 12)).toBe(true);
+    expect(validShopCount('8', 7)).toBe(false);
+    expect(validShopCount('7', 7)).toBe(true);
+  });
+  it('blocks unsupported dietary clauses appended to recognised dinner counts', () => {
+    const brief = parseShopBrief('Dinners for 4 for 5 nights, sesame allergy');
+    expect(brief.dietaryReviewRequired).toBe(true);
+    expect(brief.unrecognised.join(' ')).toContain('manual review');
+    expect(planMeals(brief)).toEqual([]);
   });
 });

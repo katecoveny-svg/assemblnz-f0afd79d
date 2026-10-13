@@ -45,3 +45,13 @@ Local: 50 targeted tests passed, 32 planner browser assertions and 16 voice/hand
 ## Image provenance
 
 `public/do/shop/meal-ideas-v1.png` is a built-in Imagegen-generated illustrative contact sheet, not a photo of cooked/tested recipes or retailer products. Prompt: eight equal overhead daylight photographs in a four-column/two-row grid, ordered mince/veg pasta, chicken stir-fry/rice, hoki/kūmara/peas, chickpea curry/rice, sausages/mash/peas, pumpkin soup/bread, beef nachos, tomato/aubergine pasta; pale ceramic/tabletop, no text/people/branding. Recipe facts and quantities remain separate HTML. Original generated file retained in the task workspace.
+
+### Independent review follow-up
+
+Numeric count fields now retain transient empty/fractional/out-of-range input without passing it to quantity calculations; planning/review stays disabled until corrected. Unsupported allergy/diet clauses (including sesame appended to a recognised dinner request) block suggestions for manual review.
+
+A document capture guard covers hosted widget header/footer links as well as planner links. Cancellation preserves edits. Native browser history is still session-only: visible copy explicitly warns that Back/refresh can discard meals and pantry edits; copy-list remains the manual recovery route. No private persistence was introduced.
+
+The verified widget boundary passes its owner to the planner, suspends interaction while revalidating and clears on identity invalidation. A continuity response for another account cannot enable list saving. Save acknowledgement uncertainty now directs users to check Your tasks; only list text is saved, never editable meals/pantry or the prepared receipt.
+
+Regression evidence: bounded integer unit cases (fractional, empty, nonfinite, negative, zero and over-limit), unsupported dietary clause, synthetic voice/planner cancellation and outer widget Privacy navigation, mismatched continuity owner and delayed/reordered owner verification. No paid calls, real audio or cart actions.

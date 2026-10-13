@@ -6,7 +6,7 @@ import { budgetSummary, fingerprint, type Budget } from '../preparation/contract
  * beyond the patterns below. Anything not recognised stays in `unrecognised` for the person. */
 export type ShopBrief = {
   servings: number; nights: number; budget: Budget | null;
-  vegetarian: boolean; vegan?: boolean; excludedAllergens: string[];
+  vegetarian: boolean; vegan?: boolean; dietaryReviewRequired?: boolean; excludedAllergens: string[];
   pantryHints: { id: string; name: string }[];
   unrecognised: string[];
 };
@@ -34,14 +34,17 @@ export function parseShopBrief(text: string): ShopBrief {
     }
   }
   const unrecognised = source.split(/[.;]\s*/).map(part => part.trim()).filter(part => part && !/(for|feed)\s+\d|\d\s*(people|adults|nights?|dinners?|days?)|\$|dollars|budget|vegetarian|veggie|have|got|week|gluten|dairy|nut|egg|fish|soy/i.test(part));
-  return { servings, nights, budget, vegetarian, vegan: /\bvegan\b/.test(lower), excludedAllergens, pantryHints, unrecognised };
+  // Retain every dietary clause for review, including clauses attached to recognised counts.
+  const dietaryReviewRequired = /allerg|intoleran|sesame|shellfish|celery|mustard|sulphite|lupin|halal|kosher|low.sodium|diabet|keto/i.test(source);
+  if (dietaryReviewRequired) unrecognised.push('Dietary requirements need manual review; this catalogue cannot verify allergy safety.');
+  return { servings, nights, budget, vegetarian, dietaryReviewRequired, vegan: /\bvegan\b/.test(lower), excludedAllergens, pantryHints, unrecognised };
 }
 
 /** Pick dinners for the brief: rotate the catalogue, honour vegetarian and allergen limits,
  * never repeat a dinner before every eligible one has been used. */
-export function planMeals(brief: Pick<ShopBrief, 'servings' | 'nights' | 'vegetarian' | 'vegan' | 'excludedAllergens'>, catalogue: CatalogueMeal[] = MEALS): MealChoice[] {
+export function planMeals(brief: Pick<ShopBrief, 'servings' | 'nights' | 'vegetarian' | 'vegan' | 'dietaryReviewRequired' | 'excludedAllergens'>, catalogue: CatalogueMeal[] = MEALS): MealChoice[] {
   // Catalogue does not verify animal-derived ingredients in sauces or packaged goods.
-  if (brief.vegan) return [];
+  if (brief.vegan || brief.dietaryReviewRequired) return [];
   const eligible = catalogue.filter(meal => (!brief.vegetarian || meal.tags.includes('vegetarian'))
     && !meal.ingredients.some(item => ingredientById(item.id)?.allergens.some(allergen => brief.excludedAllergens.includes(allergen))));
   if (!eligible.length) return [];
@@ -112,4 +115,9 @@ export function choicesFromNights(nights: ShopNight[]): MealChoice[] {
     else choices.set(key, { ...night, occurrences: 1 });
   }
   return [...choices.values()];
+}
+
+/** UI boundary: empty and fractional edits remain drafts, never quantities. */
+export function validShopCount(raw: string, max: number): boolean {
+  return /^\d+$/.test(raw) && Number.isSafeInteger(Number(raw)) && Number(raw) >= 1 && Number(raw) <= max;
 }

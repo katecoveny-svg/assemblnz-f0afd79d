@@ -18,7 +18,7 @@ import type { CompanionEntry } from '@/apps/do/shared/companion-entry';
 import type { DoTask } from '@/apps/do/shared/preparation';
 
 type Mode = 'write' | 'talk' | 'look' | 'build' | 'shop';
-export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTask }) {
+export function DoFocusWorkspace({ initialTask = 'reply', expectedWorkspace }: { initialTask?: DoTask; expectedWorkspace?: string }) {
   const [shoppingBrief, setShoppingBrief] = useState<string | null>(null);
   const [mode, setMode] = useState<Mode>('write');
   const [builderOpened, setBuilderOpened] = useState(false);
@@ -54,7 +54,7 @@ export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTa
   }, [enter]);
   function acceptShoppingBrief(text: string) {
     // This component is keyed and unmounted by the existing verified owner boundary.
-    if (shoppingBrief !== null || !text.trim() || text.length > 6000) return false;
+    if (!expectedWorkspace || shoppingBrief !== null || !text.trim() || text.length > 6000) return false;
     setShoppingBrief(text.trim()); setMode('shop'); return true;
   }
   function acceptContext(text: string) {
@@ -88,7 +88,7 @@ export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTa
       </>}
       {shoppingBrief !== null && <section hidden={mode !== 'shop'} aria-label="Shopping plan from reviewed call">
         <button type="button" className={styles.textButton} onClick={() => { if (window.confirm('Discard this unsaved shopping plan?')) { setShoppingBrief(null); enter('write'); } }}>Discard shopping plan</button>
-        <ShopJourney embedded initialBrief={shoppingBrief} />
+        <ShopJourney embedded initialBrief={shoppingBrief} expectedWorkspace={expectedWorkspace} />
       </section>}
       {mode === 'write' && <DoLocalInformation />}
       <details className={styles.secondaryDetails} onToggle={e => { if (!e.currentTarget.open && mode === 'build') setMode('write'); }}>
