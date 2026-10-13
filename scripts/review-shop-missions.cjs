@@ -45,7 +45,17 @@ const output = 'output/shop-missions';
     await page.getByText('Why each ingredient is needed', { exact: true }).click();
     check(name + ': ingredient calculation is explained', await page.locator('.shop-calculations').innerText().then(s => /Required.*pantry used.*need/s.test(s)));
     const accept = page.getByRole('button', { name: 'Accept lower-cost alternative' });
-    if (await accept.count()) { await accept.click(); check(name + ': changed plan needs review', await page.getByText('Alternative accepted. Quantities and totals recalculated; review the changed plan again.').isVisible()); }
+    await accept.waitFor({ state: 'visible' });
+    check(name + ': required six-person alternative compares full verified totals', await page.locator('.shop-alternative').innerText().then(s => s.includes('$54.00') && s.includes('$29.90') && s.includes('Mince and veg pasta') && s.includes('Chickpea and vegetable curry with rice')));
+    const approval = page.getByRole('checkbox', { name: 'I checked the quantities, swaps and allergen flags' });
+    const saveReceipt = page.getByRole('button', { name: 'Save a prepared receipt' });
+    await approval.check();
+    await saveReceipt.click();
+    await page.getByText('prepared · nothing ordered', { exact: true }).waitFor();
+    check(name + ': original receipt contains original total', await page.locator('.shop-receipt').innerText().then(s => s.includes('$54.00')));
+    await accept.click();
+    check(name + ': accepted alternative changes meal and complete total', await page.locator('.shop-night strong').innerText().then(s => s === 'Chickpea and vegetable curry with rice') && await page.getByText(/About \$29\.90 against/).isVisible());
+    check(name + ': acceptance clears actual receipt and approval', await page.locator('.shop-receipt').count() === 0 && !await approval.isChecked() && await saveReceipt.isDisabled());
     check(name + ': Shop fits viewport', await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
     await shot(`${name}-shop`);
 

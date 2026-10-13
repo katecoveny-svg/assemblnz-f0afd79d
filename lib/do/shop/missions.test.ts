@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { lowerCostAlternative, missionChoices } from './missions';
 import { consolidate, type Meal, type Pantry } from './preparation';
+import { MEALS } from './catalogue';
+import { aisleList } from './journey';
 
 const meals: Meal[] = [
   { id: 'a', name: 'A', baseServings: 4, ingredients: [{ id: 'rice', name: 'Rice', quantity: { amount: 400, unit: 'g' } }] },
@@ -8,6 +10,12 @@ const meals: Meal[] = [
 ];
 const pantry: Pantry[] = [{ id: 'egg', name: 'Egg', quantity: { amount: 4, unit: 'each' }, reviewed: true }];
 describe('bounded shopping missions', () => {
+  it('compares the six-person catalogue fixture using every whole-pack line', () => {
+    const total = (choices: Parameters<typeof aisleList>[0]) => aisleList(choices, []).lines.reduce((sum, l) => sum + l.estimateMinor, 0);
+    const alternative = lowerCostAlternative([{ mealId: 'mince-pasta', servings: 6, occurrences: 1 }], MEALS, total);
+    expect(alternative).toMatchObject({ beforeMinor: 5400, afterMinor: 2990, from: 'mince-pasta', to: 'chickpea-curry' });
+    expect(alternative?.choices).toEqual([{ mealId: 'chickpea-curry', servings: 6, occurrences: 1 }]);
+  });
   it('selects one dinner or two occurrences without changing people', () => {
     expect(missionChoices('tonight', meals, pantry, 4, 'a')).toEqual([{ mealId: 'a', servings: 4, occurrences: 1 }]);
     const extra = missionChoices('extra', meals, pantry, 4, 'b');
