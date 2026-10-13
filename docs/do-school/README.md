@@ -4,7 +4,7 @@
 
 Extends `/do/family`, selected-sender `familyRequest`, HouseholdPerson's type contract and FamilyStatus review vocabulary. No new brand or DO shell. Uses exact evidence extraction and prepare/review conventions; does not import any household default roster. Only fictional sources and children are shipped. Separate checkout `codex/school-family-briefing`, base `2063e007cc0afbae62af2185b52989ffb74b641d`.
 
-Inspected root AGENTS, START_HERE, context manifest/router/current state, assembl context, Factory/PRIMITIVES, DO-FAMILY-GMAIL, household SCHOOL seat and design canon. `.agents/skills/impeccable` launcher was unavailable; read existing PRODUCT/DESIGN and refinement guidance directly. PR #1525 and #1527 file inventories were checked; no overlap with this slice. No merge/deployment, account grant, credential transfer, provider activation, inbox content read or production schema change.
+Inspected root AGENTS, START_HERE, context manifest/router/current state, assembl context, Factory/PRIMITIVES, DO-FAMILY-GMAIL, household SCHOOL seat and design canon. `.agents/skills/impeccable` launcher was unavailable; read existing PRODUCT/DESIGN and refinement guidance directly. PR #1525 and #1527 file inventories were checked; no overlap with this slice. No merge or manual/production deployment, account grant, credential transfer, provider activation, inbox content read or production schema change.
 
 ## Capability matrix
 
@@ -13,7 +13,7 @@ Inspected root AGENTS, START_HERE, context manifest/router/current state, assemb
 | Synthetic notices → PDF text → previous/current comparison → reviewed/dismissed proposal | Working mounted `/do/family` preview, `/api/do/family/school-preview`; actual local fixture PDF bytes | Explicit six-column timetable rows only, not general prose or scanned-PDF comprehension |
 | Selected senders and 7/14/30-day lookback | Reuses Family DO validation; current sources filtered by received time, historical baseline retained separately | Preview accepts two fictional senders only; live forwarding by a different sender is excluded |
 | Date/time/location and cancellation comparison | Exact row/page/source links, old values retained, changed fields exposed | Exact school/title/audience matching; equivalent NZ date formats compare equal; older notices cannot roll back a newer baseline; renamed or ambiguous events need manual reconciliation |
-| Duplicates and conflicts | Identical rows collapse across forwarded copies; incompatible versions block review | No latest-message-wins rule; adult/school resolution required |
+| Duplicates and conflicts | Identical rows collapse across forwarded copies; incompatible current or baseline versions block review; all distinct prior source/page/quote evidence is retained | No latest-message-wins rule; adult/school resolution required |
 | NZ dates / Pacific/Auckland | Explicit year, day/month and month-name dates; Intl verifies summer/winter offsets, rejects nonexistent/repeated times | Unsupported/uncertain wording blocks action; no guessed duration or reminder time |
 | Multiple children/schools | Explicit school IDs and confirmed audiences; no options/transport inference | Type reuse only; never imports the legacy personal defaults or infers class membership |
 | Existing Gmail integration | Existing family reader and owner checks inspected; `pilot-server.ts` dependency retained with unconditional rejection | School ingestion NOT wired live; no route, cron or caller flag can enable it |
@@ -42,6 +42,8 @@ Sender/school identity, received/check times, fictional child mappings and the e
 
 ## Existing Gmail UI and smallest setup
 
+The existing digest is an immediate provider-processing path, not a safe shortcut to the closed school-comparison pilot. Its processing consent is independent of this fictional preview.
+
 The existing UI is `/do/family`, **Your Gmail**, below the fictional comparison. A signed-out pilot user sees DO account sign-in; a signed-in user without a healthy connection sees **Connect Gmail**, followed by **I have connected — check again**. It uses GET/POST/DELETE `/api/do/family/connection` for status/connect/disconnect. The connection POST creates a Pipedream link for the authenticated DO owner and selects `app=gmail` plus the configured custom `oauthAppId`; it does not request or inspect a literal scope list in this code.
 
 The documented required grant is `https://www.googleapis.com/auth/gmail.readonly` plus necessary identity scopes. No Gmail modify/send or Calendar write scope is requested by this school slice. Actual granted scopes must still be verified in the custom OAuth application and Google's consent screen. At code level, the existing Family reader constrains requests to Gmail message GETs; this is distinct from proving the OAuth grant is narrow.
@@ -62,17 +64,21 @@ Stop the pilot if any gate fails. Do not use private data as a fixture, screensh
 
 ## Validation and reproduction
 
-`School briefing validation` runs the complete synthetic school suite on the exact PR head, separately from the existing DO core workflow (whose test filter includes the school API but not the new `apps/do/school` unit suite). No secrets, access grants or provider calls are required.
+`School briefing validation` builds the actual app and runs `scripts/review-do-school.cjs` at 320, 375 and 1440px, with nonlocal traffic and live/provider APIs blocked, an explicitly mocked signed-out connection status, and the actual PDF preview API. It checks baseline-only conflict source links, blocked approval, review/dismiss, input invalidation, failure scenarios, clear/reload, overflow and companion hit-testing; its report and screenshots are uploaded as `school-browser-proof`. It also runs the complete synthetic school suite on the exact PR head, separately from the existing DO core workflow (whose test filter includes the school API but not the new `apps/do/school` unit suite). No secrets, access grants or provider calls are required.
 
-- `node --import tsx scripts/generate-school-fixtures.ts` regenerates six fictional PDF notices.
+- `node --import tsx scripts/generate-school-fixtures.ts` regenerates seven fictional PDF notices.
 - `pnpm exec vitest run apps/do/school apps/do/services/family.test.ts apps/do/services/family-server.test.ts apps/do/services/gmail-ownership.test.ts app/api/do/family`.
 - `pnpm exec eslint apps/do/school app/do/family/SchoolBriefing.tsx app/do/family/FamilyDo.tsx app/api/do/family/school-preview scripts/generate-school-fixtures.ts --max-warnings=0`.
 - Build canvas before typecheck/build. Browser: `/do/family`, confirm fictional audiences, compare, review/decline, change inputs (clears review), exercise all failure scenarios, clear/reload, 375px and desktop.
 
-Verified locally: 50 focused tests passed with `--maxWorkers=1 --testTimeout=30000`; `pnpm typecheck`, scoped ESLint, brand and macron guards passed. A concurrent default-timeout run hit three timeouts while the full build was compiling; the constrained rerun passed. Browser tests passed desktop/375px, actual PDF links, review/decline, input invalidation, all six scenarios, clear/reload, visible keyboard focus and reduced motion. Final browser console had no errors and one existing companion iframe warning. The existing fixed companion/shortcut controls overlay part of the long mobile capture; shared shell changes remain with PR1525's owner.
+Verified locally: 52 focused tests passed with `--maxWorkers=1 --testTimeout=30000`; `pnpm typecheck`, scoped ESLint, brand and macron guards passed. A concurrent default-timeout run hit three timeouts while the full build was compiling; the constrained rerun passed. Browser tests passed desktop/375px, actual PDF links, review/decline, input invalidation, all seven scenarios, clear/reload, visible keyboard focus and reduced motion. Final browser console had no errors and one existing companion iframe warning. The Family route is excluded from the floating companion/shortcut dock, with DO home and Privacy available in its own header. A Family-scoped CSS guard hides companion hosts surviving SPA navigation; PR1525 companion code remains untouched.
 
 Screenshots: `output/playwright/do-school/{desktop,mobile,conflict-mobile}.png`; browser observations: `results.json`. Combined proof was saved privately in Library as `school-briefing-browser-proof.png` (fictional data only). `pnpm build` passed, including the synthetic route. Repository-wide `pnpm lint:all` failed with 1,169 errors and 242 warnings outside the changed files; none of the changed school files appeared in its report. Scoped lint passed. The complete repository lint baseline is not clean. Draft PR: https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1528. Do not infer live pilot readiness from unit tests or screenshots.
 
 ## Rollback and follow-up
 
 Remove the `SchoolBriefing` import/mount and synthetic route to hide the feature; existing Gmail digest is untouched. No schema/storage rollback is needed. General notice interpretation, live PDF ingestion, persistent baseline history and calendar execution remain separate approved slices. The reusable asset is the conservative evidence comparison/review contract and its synthetic edge-case tests.
+
+## Historical evidence follow-up
+
+Conflicting baseline versions now have no authoritative single `before` value. `priorEvidence` retains distinct source IDs, URLs, pages and exact rows; the expanded source review renders each earlier row alongside current variants. The fictional baseline-only conflict has 20 and 21 October in separate earlier PDFs and just one current notice. Review stays blocked until the conflict is resolved. The baseline PDF is supplied fiction, not persisted inbox history.

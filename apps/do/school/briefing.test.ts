@@ -1,10 +1,10 @@
 import { describe, expect, it, vi } from 'vitest';
 import { aucklandInstant, nzDate, prepareSchoolBriefing, reviewSchoolCard, safeSchoolLink, extractSchoolRows } from './briefing';
-import { SCHOOL_DEMO_NOW, SCHOOL_DEMO_OWNER, schoolDemoChildren, schoolDemoPrevious, schoolDemoSources } from './fixtures';
+import { SCHOOL_DEMO_NOW, SCHOOL_DEMO_OWNER, schoolDemoChildren, schoolDemoBaseline, schoolDemoSources } from './fixtures';
 import { collectSchoolPilotMail } from './pilot-server';
 vi.mock('../services/family-server', () => ({ collectFamilyMail: vi.fn() }));
 function input(scenario = 'revised') {
-  return { ownerId: SCHOOL_DEMO_OWNER, revision: 'revision-1', now: SCHOOL_DEMO_NOW, selection: { senders: ['office@harbour.example', 'office@hill.example'], days: 14 as const }, children: schoolDemoChildren.map((c, i) => ({ ...c, confirmedAudiences: [i ? 'Year 7' : 'Year 9'] })), previous: structuredClone(schoolDemoPrevious), current: schoolDemoSources(scenario) };
+  return { ownerId: SCHOOL_DEMO_OWNER, revision: 'revision-1', now: SCHOOL_DEMO_NOW, selection: { senders: ['office@harbour.example', 'office@hill.example'], days: 14 as const }, children: schoolDemoChildren.map((c, i) => ({ ...c, confirmedAudiences: [i ? 'Year 7' : 'Year 9'] })), previous: schoolDemoBaseline(scenario), current: schoolDemoSources(scenario) };
 }
 describe('source-backed school changes', () => {
   it('retains exact previous/current page evidence and prepares changed dates, times and locations', () => {
@@ -21,6 +21,20 @@ describe('source-backed school changes', () => {
   });
   it('blocks conflicting versions instead of picking the latest as authority', () => {
     const b = prepareSchoolBriefing(input('conflict')); expect(b.cards[0].change).toBe('conflict'); expect(b.cards[0].alternatives).toHaveLength(2); expect(b.cards[0].blockers.join()).toContain('Conflicting');
+  });
+  it('retains all conflicting baseline sources with one current version and blocks approval', () => {
+    const i = input('baseline-conflict');
+    i.previous.push(structuredClone(i.previous[0])); // Repeated identical source, not another version.
+    const b = prepareSchoolBriefing(i), card = b.cards[0];
+    expect(card.change).toBe('conflict'); expect(card.before).toBeUndefined();
+    expect(card.alternatives).toHaveLength(1); expect(card.priorEvidence).toHaveLength(2);
+    expect(card.priorEvidence.map(e => [e.date, e.source.url, e.page, e.quote])).toEqual([
+      ['20/10/2026', '/do/school-fixtures/harbour-original.pdf', 1, i.previous[0].pages[0].text],
+      ['21/10/2026', '/do/school-fixtures/harbour-prior-conflict.pdf', 1, i.previous[2].pages[0].text],
+    ]);
+    const command = { ownerId: b.ownerId, revision: b.revision, cardId: card.id, decision: 'approved' as const, now: SCHOOL_DEMO_NOW };
+    expect(() => reviewSchoolCard(b, command)).toThrow('Resolve evidence');
+    expect(reviewSchoolCard(b, { ...command, decision: 'dismissed' }).cards[0].status).toBe('dismissed');
   });
   it.each(['missing', 'stale'])('blocks %s evidence', scenario => {
     expect(prepareSchoolBriefing(input(scenario)).cards[0].blockers.length).toBeGreaterThan(0);
