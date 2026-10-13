@@ -26,7 +26,7 @@ Separate follow-up from main `8d85121397f48173ec746d876614a44055dd2cd4`. Review 
 - [ ] Coordinator reviews exact PR head, hosted typecheck/build/tests and both browser proofs before publication.
 - [ ] DB: no migration, SQL, grants, auth or profile change. Confirm existing continuity services independently if demonstrating saved list text.
 - [ ] Persistence: editable plans, mission state and demo receipt remain in this tab. Reload/navigation can discard them; no new durable claim. Existing account-bound voice transport remains unchanged and carries no consent.
-- [ ] Vercel: `codex/shop-missions` automatic deployment disabled in branch config. No deployment by this task; coordinator verifies intended commit/environment/aliases and runtime separately.
+- [ ] Vercel: ordinary protected PR previews are allowed. No hosting configuration change is required; production merge/publication remains with the coordinator, who verifies intended commit/environment/aliases and runtime separately.
 - [ ] Integrations: real retailer prices, stock, rewards, pairing, cart execution and checkout remain blocked. The separate browser bridge must require fresh observation, selected SKUs and explicit action approval.
 - [ ] Voice: no real provider/microphone calls or accent-listening claim in this change.
 - [ ] Rollback: revert this PR's mission UI/calculation additions; no DB or stored-data rollback required.
