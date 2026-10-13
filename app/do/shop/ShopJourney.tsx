@@ -20,7 +20,8 @@ type SyncState = { signedIn: boolean; enabled: boolean; workspace: string | null
 
 function WholeNumber({ label, value, max, onChange, onValidity }: { label: string; value: number; max: number; onChange: (value: number) => void; onValidity: (valid: boolean) => void }) {
   const [raw, setRaw] = useState(String(value));
-  useEffect(() => { setRaw(String(value)); }, [value]);
+  const [lastValue, setLastValue] = useState(value);
+  if (lastValue !== value) { setLastValue(value); setRaw(String(value)); }
   const valid = validShopCount(raw, max);
   return <label>{label}<input type="number" min={1} max={max} step={1} aria-label={label} aria-invalid={!valid} value={raw} onChange={event => {
     const next = event.target.value;
