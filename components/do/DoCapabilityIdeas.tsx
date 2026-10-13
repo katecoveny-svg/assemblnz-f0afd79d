@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { ArrowUpRight, Plus } from 'lucide-react';
 import { DO_ENTRY_IDEAS } from '@/apps/do/shared/entry-capabilities';
 import styles from './do-capability-ideas.module.css';
@@ -14,7 +13,7 @@ export function DoCapabilityIdeas({ onChoose, disabled = false }: { onChoose: (p
     <h2>Start with something useful</h2>
     <div className={styles.choices}>{choices(DO_ENTRY_IDEAS.slice(0, 3))}</div>
     <details><summary>More ways DO can help <Plus size={16} aria-hidden="true" /></summary><div className={styles.choices}>{choices(DO_ENTRY_IDEAS.slice(3))}</div></details>
-    <p>Have a bill ready? <Link href="/do/bills">Review a CSV or invoice</Link>, or <Link href="/do/bills/compare">compare NZ bill options</Link>. These tools open their own review and consent steps.</p>
+    <p>Have a bill ready? <a href="/do/bills">Review a CSV or invoice</a>, or <a href="/do/bills/compare">compare NZ bill options</a>. These tools open their own review and consent steps.</p>
     <p>These are draft starters, not connected services. Choose one to add to your draft. Nothing is sent, purchased or booked.</p>
   </section>;
 }
