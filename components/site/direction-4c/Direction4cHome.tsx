@@ -5,6 +5,7 @@ import { directionMarkup } from './markup';
 import './direction-4c.css';
 
 type TideWorld = {
+  ready: Promise<void>;
   api: { setKnock(value: number): void; setArrive(value: number): void } | null;
   setPaused(value: boolean): void;
   dispose(): void;
@@ -12,7 +13,7 @@ type TideWorld = {
 type Tide = { attach(options: {
   canvas: HTMLCanvasElement; plate: HTMLVideoElement; extra: Record<string, unknown>;
   onFail(): void;
-}): Promise<TideWorld> };
+}): TideWorld };
 
 // The supplied, locally hosted engine is loaded once; the document never evaluates the design DSL.
 function loadScript(src: string): Promise<void> {
@@ -93,8 +94,8 @@ export function Direction4cHome() {
         video.src = '/direction-4c/assets/footage/bay-of-islands.mp4';
         const engine = (window as Window & { AssemblTide?: Tide }).AssemblTide;
         if (!engine) throw new Error('Motion engine unavailable');
-        const next = await engine.attach({
-          canvas: ref('canvasRef') as HTMLCanvasElement, plate: video, onFail: lost,
+        const next = engine.attach({
+          canvas: ref('canvasRef') as HTMLCanvasElement, plate: video, onFail: () => { if (!disposed && current === generation) lost(); },
           extra: { tone: 'film', gliders: false, knockZoom: true, outline: .7, glass: false,
             count: 900, arrive: .22, birdScale: 1.2, silhouette: 1,
             slots: ['cloud', 'signal', 'pin', 'DO', 'bubble', 'tick', 'frame', 'sparkle', 'padlock', 'seal', 'amark', 'word'],
@@ -105,8 +106,10 @@ export function Direction4cHome() {
             },
           },
         });
-        if (disposed || current !== generation) { next.dispose(); return; }
         world = next;
+        updatePause();
+        await next.ready;
+        if (disposed || current !== generation) { next.dispose(); return; }
         if (!world.api) { lost(); return; }
         root.dataset.ready = 'true';
         updatePause(); tick();

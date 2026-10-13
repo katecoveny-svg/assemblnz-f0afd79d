@@ -9,9 +9,9 @@
 - Scoped ESLint passed with zero warnings. `pnpm lint:all` completed successfully (Babel informational note about pre-existing large model-viewer vendor source).
 - `node scripts/brand-guard.mjs` and `node scripts/public-front-door-guard.mjs` passed.
 - `node --import tsx scripts/lint-macrons.ts` passed. The pnpm/tsx wrapper initially hit sandbox IPC restrictions; direct Node loader ran the same script successfully.
-- `pnpm exec vitest run lib/do/navigation.test.ts`: 3/3 passed.
+- `pnpm exec vitest run lib/do/navigation.test.ts`: 3/3 passed. Eight additional actual-source motion tests cover pause, preference changes, disposal, delayed initialization, obsolete failure callbacks and cancellation before GPU allocation.
 - Chrome desktop 1440×900, tablet 768×1024, phone 375×812. Phone/tablet document width equals viewport: no horizontal overflow.
-- Pause/Play button changes its pressed state and pauses the engine on a fresh load.
+- Pause/Play stops engine and parallax, including during pending initialization. The engine returns a synchronous pause/dispose handle with a readiness promise; disposal cancels initialization and restores styles before another scene can attach. Each failure callback is scoped to its generation.
 - Reduced-motion initial load shows readable static wordmark/useful-work composition, disabled “Motion reduced” control and no running tide canvas.
 - Actual Write link opens `/do?tool=write` with existing DO editor/menu; Studio opens `/creative-studio`; Pursuit opens `/pursuit` and shows its existing public entry. Existing sign-in boundaries remain present; no sign-in, microphone, provider or external action performed.
 - Hero → useful-work scroll transition and in-page DO anchor exercised. Original standalone reference rendered separately for comparison.

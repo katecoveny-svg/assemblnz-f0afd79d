@@ -391,6 +391,8 @@ void main(){
 }`;
 
 async function mount(canvas, opts = {}) {
+  try { await Promise.race([document.fonts.load(`600 200px ${FONT}`), new Promise(r => setTimeout(r, 1500))]); } catch (e) { /* system font fallback */ }
+  if (opts.signal?.aborted) throw new DOMException("Scene cancelled", "AbortError");
   THREE = window.THREE;
   const SLOTS = (opts.slots || DEFAULT_SLOTS).filter(n => SHAPES[n]).map(n => [n, ...SHAPES[n]]);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches, narrow0 = innerWidth < 900;
@@ -415,7 +417,6 @@ async function mount(canvas, opts = {}) {
   let plateTex = null, plateDirty = true;
   const mark = () => { plateDirty = true; };
   if (plate) { plateTex = new THREE.VideoTexture(plate); PL.tPlate.value = plateTex; plate.addEventListener('seeked', mark); plate.addEventListener('loadeddata', mark); }
-  try { await Promise.race([document.fonts.load(`600 200px ${FONT}`), new Promise(r => setTimeout(r, 1500))]); } catch (e) { /* system font fallback */ }
   const mask = opts.knock === false ? null : makeMask();
   if (mask) { PL.tMask.value = mask.tex; PL.tBevel.value = mask.bevel; PL.tTint.value = mask.tint; PL.uBT.value.set(...mask.texel); PL.uKBase.value = mask.base; PL.uKA.value = mask.aspect; PL.uKAnchor.value.set(mask.ax, mask.ay); PL.uKOn.value = 1; }
   const sky = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({ uniforms: PL, vertexShader: FS_VS, fragmentShader: PLATE_FS, depthWrite: false, depthTest: false }));
@@ -615,7 +616,7 @@ async function mount(canvas, opts = {}) {
 }
 
 // Page wiring shared by the assembl murmuration pages: scroll position → world shape, parallax, reveals, pointer, pause.
-async function attach({ canvas, preset, theme, plate, grade, onFail, engine, extra }) {
+function attach({ canvas, preset, theme, plate, grade, onFail, engine, extra }) {
   const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');
   let reduced = motionQuery.matches, paused = reduced, disposed = false;
   let io = null, api = null, raf = 0;
@@ -662,11 +663,8 @@ async function attach({ canvas, preset, theme, plate, grade, onFail, engine, ext
   };
   if (!reduced) bindMotion();
   tick();
-  try {
-    api = await mount(canvas, { preset, theme, plate, grade, ...(extra || {}) });
-    onResize();
-  } catch (err) { console.warn('assembl world unavailable', err); if (onFail) onFail(); }
   const setPaused = p => {
+    if (disposed) return;
     paused = Boolean(p) || reduced;
     if (api) api.setPaused(paused);
     document.documentElement.toggleAttribute('data-paused', paused);
@@ -686,10 +684,22 @@ async function attach({ canvas, preset, theme, plate, grade, onFail, engine, ext
   };
   motionQuery.addEventListener('change', onMotionChange);
   if (reduced) setPaused(true);
+  const abort = new AbortController();
+  const ready = mount(canvas, { preset, theme, plate, grade, ...(extra || {}), signal: abort.signal }).then(next => {
+    if (disposed) { next.dispose(); return; }
+    api = next;
+    api.setPaused(paused || reduced);
+    onResize();
+  }).catch(err => {
+    if (disposed) return;
+    console.warn('assembl world unavailable', err);
+    if (onFail) onFail();
+  });
   return {
+    ready,
     get api() { return api; },
     setPaused,
-    dispose() { disposed = true; motionQuery.removeEventListener('change', onMotionChange); savedStyles.forEach(([el, transform, opacity, transition]) => { el.style.transform = transform; el.style.opacity = opacity; el.style.transition = transition; }); unbindMotion(); if (raf) cancelAnimationFrame(raf); if (io) io.disconnect(); if (api) api.dispose(); document.documentElement.removeAttribute('data-paused'); },
+    dispose() { if (disposed) return; disposed = true; abort.abort(); motionQuery.removeEventListener('change', onMotionChange); savedStyles.forEach(([el, transform, opacity, transition]) => { el.style.transform = transform; el.style.opacity = opacity; el.style.transition = transition; }); unbindMotion(); if (raf) cancelAnimationFrame(raf); if (io) io.disconnect(); if (api) api.dispose(); document.documentElement.removeAttribute('data-paused'); },
   };
 }
 
