@@ -5,7 +5,7 @@ const output = 'output/playwright/mobile-recovery';
 fs.mkdirSync(output, { recursive: true });
 (async () => {
   const engine = process.env.PROOF_BROWSER || 'chromium';
-  const browser = await ({ chromium, webkit }[engine]).launch({ ...(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}), args: engine === 'chromium' ? ['--enable-unsafe-swiftshader'] : [] });
+  const browser = await ({ chromium, webkit }[engine]).launch({ ...(process.env.PROOF_CHANNEL ? { channel: process.env.PROOF_CHANNEL } : {}), ...(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}), args: engine === 'chromium' ? ['--enable-unsafe-swiftshader'] : [] });
   const results = [];
   try {
     for (const width of [375, 390, 430, 1440]) {
@@ -18,8 +18,16 @@ fs.mkdirSync(output, { recursive: true });
         if (mode === 'denied') await page.addInitScript(() => { HTMLMediaElement.prototype.play = () => Promise.reject(new DOMException('Blocked', 'NotAllowedError')); });
         if (mode === 'no-frame') await page.addInitScript(() => { HTMLVideoElement.prototype.requestVideoFrameCallback = () => 1; HTMLVideoElement.prototype.cancelVideoFrameCallback = () => {}; });
         await page.goto(process.env.HOMEPAGE_URL || 'http://127.0.0.1:3066/mobile-recovery-proof.html', { waitUntil: 'load' });
-        if (mode === 'normal') await page.waitForFunction(() => document.querySelector('.direction-4c').hasAttribute('data-video-ready'), { timeout: 15000 });
-        if (mode === 'no-frame') await page.waitForFunction(() => document.querySelector('.direction-4c').hasAttribute('data-static'), { timeout: 10000 });
+        if (mode === 'normal') {
+          try { await page.waitForFunction(() => document.querySelector('.direction-4c')?.hasAttribute('data-video-ready'), undefined, { timeout: 15000 }); }
+          catch (error) {
+            await page.screenshot({ path: `${output}/${engine}-${width}-failure.jpg`, type: 'jpeg' });
+            console.log(await page.evaluate(() => ({ title: document.title, url: location.href, state: document.querySelector('.direction-4c')?.dataset, media: [...document.querySelectorAll('video')].map(v => ({ ready: v.readyState, source: v.getAttribute('src'), error: v.error?.message, codec: v.canPlayType('video/mp4; codecs="avc1.42E01E"') })) })));
+            console.log('Page errors', errors);
+            throw error;
+          }
+        }
+        if (mode === 'no-frame') await page.waitForFunction(() => document.querySelector('.direction-4c').hasAttribute('data-static'), undefined, { timeout: 10000 });
         await page.waitForTimeout(150);
         await page.evaluate(() => document.fonts.ready);
         assert(await page.locator('.clear-coastal-poster').evaluate(el => el.complete && el.naturalWidth >= 1280), 'coastal poster loaded');
