@@ -69,3 +69,10 @@
 .direction-4c[data-static] [data-fallback] p{position:static!important;order:1;transform:none!important;font-size:min(18vw,200px)!important}
 .direction-4c[data-static] [data-ref="msgRef"]{position:relative!important;order:2;top:auto!important;left:auto!important;right:auto!important;width:100%;transform:none!important;opacity:1!important;visibility:visible!important}
 .direction-4c[data-static] [data-ref="subRef"],.direction-4c[data-static] [data-ref="cueRef"]{display:none}
+
+/* Negative tracking can put the final glyph outside the gradient paint box.
+   Add ink space while retaining the original word width and line wrapping. */
+.direction-4c .clear-accent{padding-inline:.08em;margin-inline:-.08em}
+.direction-4c .clear-legal{display:flex;flex-wrap:wrap;gap:4px 28px;align-items:center;max-width:1400px;margin:40px auto 0;padding-top:20px;border-top:1px solid rgba(234,200,223,.26)}
+.direction-4c .clear-legal p{flex-basis:100%;margin:0 0 4px;font:400 10.5px/1.4 var(--font-mono),monospace;letter-spacing:.16em;text-transform:uppercase;color:#EAC8DF}
+.direction-4c .clear-legal a{display:inline-flex;align-items:center;min-height:44px;color:#FFFDFB;font-size:15px}
