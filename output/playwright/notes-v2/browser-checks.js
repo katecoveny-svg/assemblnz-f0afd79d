@@ -7,7 +7,9 @@ async page => {
     await notes().getByLabel('Add handwritten note photos', { exact: true }).setInputFiles(image);
     await notes().getByRole('status').filter({ hasText: '1 page(s) added' }).waitFor();
   };
-  await page.getByRole('button', { name: 'Photo: add images', exact: true }).focus();
+  await page.locator('nav[aria-label="Choose how to start"] summary').focus();
+  await page.keyboard.press('Enter');
+  await page.getByRole('button', { name: 'Photo or image', exact: true }).focus();
   await page.keyboard.press('Enter');
   await page.locator('summary').filter({ hasText: /^Photo$/ }).first().focus();
   await page.keyboard.press('Enter');
@@ -30,11 +32,14 @@ async page => {
   await page.getByRole('button', { name: 'Notes', exact: true }).click();
   await page.getByRole('button', { name: 'Photo', exact: true }).click();
   ensure(await notes().locator('img').count() === 1, 'Paste toolbar unmounted photo');
-  await page.getByRole('button', { name: 'Notes: paste a note', exact: true }).click();
-  await page.getByRole('button', { name: 'Photo: add images', exact: true }).click();
+  await page.locator('nav[aria-label="Choose how to start"] summary').click();
+  await page.getByRole('button', { name: 'Note or checklist', exact: true }).click();
+  await page.locator('nav[aria-label="Choose how to start"] summary').click();
+  await page.getByRole('button', { name: 'Photo or image', exact: true }).click();
   ensure((await notes().getByRole('textbox', { name: /Page 1 text/ }).inputValue()).includes('Life Admin correction'), 'Quick paste dock lost notes');
-  await page.getByRole('button', { name: 'Ask DO', exact: true }).click();
-  await page.getByRole('button', { name: 'Make a checklist', exact: true }).click();
+  await page.getByRole('button', { name: 'Write', exact: true }).click();
+  await page.locator('nav[aria-label="Choose how to start"] summary').click();
+  await page.getByRole('button', { name: 'Photo or image', exact: true }).click();
   ensure(await notes().locator('img').count() === 1, 'Ask DO/checklist switch lost photo');
   await page.getByRole('button', { name: 'Voice', exact: true }).click();
   ensure(await page.getByRole('region', { name: 'Handwritten notes', exact: true }).count() === 0, 'Talk kept photo active');
@@ -54,19 +59,20 @@ async page => {
   ensure(!await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), 'Life Admin 375px overflow');
   await page.screenshot({ path: out + 'life-admin-retained-mobile.png', fullPage: true });
   await page.getByRole('button', { name: 'Change synthetic owner' }).click();
-  await page.getByRole('button', { name: 'Photo: add images', exact: true }).click();
+  await page.locator('nav[aria-label="Choose how to start"] summary').click();
+  await page.getByRole('button', { name: 'Photo or image', exact: true }).click();
   await page.locator('summary').filter({ hasText: /^Photo$/ }).first().click();
   ensure(await notes().locator('img').count() === 0, 'storageScope change adopted private photo');
   ensure(await page.getByRole('textbox', { name: 'What would you like done?', exact: true }).inputValue() === '', 'storageScope change adopted private source');
 
   await page.goto('http://127.0.0.1:4189/');
-  await page.getByRole('button', { name: 'Photo', exact: true }).click();
+  await page.getByRole('navigation', { name: 'Ways to work with DO' }).getByRole('button', { name: 'Add image', exact: true }).click();
   await page.locator('summary').filter({ hasText: /^Photo$/ }).first().click();
   await upload();
   await notes().getByRole('textbox', { name: /Page 1 text/ }).fill('Focus synthetic correction.');
   await page.getByRole('button', { name: 'Write', exact: true }).click();
   await page.getByRole('button', { name: 'Talk', exact: true }).click();
-  await page.getByRole('button', { name: 'Photo', exact: true }).click();
+  await page.getByRole('navigation', { name: 'Ways to work with DO' }).getByRole('button', { name: 'Add image', exact: true }).click();
   ensure((await notes().getByRole('textbox', { name: /Page 1 text/ }).inputValue()).includes('Focus synthetic correction'), 'Focus switch regression');
   const look = page.getByRole('region', { name: 'Show DO an image', exact: true });
   await look.getByLabel('Choose an image for DO', { exact: true }).setInputFiles(image);
@@ -87,7 +93,7 @@ async page => {
   ensure(!await permission.isChecked() && !await ask.isEnabled(), 'repeat did not revoke approval');
   await page.screenshot({ path: out + 'observation-retry-mobile.png', fullPage: true });
 
-  await page.getByText('Build or customise a DO', { exact: true }).click();
+  await page.getByText('Tools & examples', { exact: true }).click();
   await page.getByRole('button', { name: 'Open the builder', exact: true }).click();
   const builder = page.getByRole('region', { name: 'DO builder workspace', exact: true });
   ensure(await page.evaluate(() => getComputedStyle(document.querySelector('.dob')).display === 'flex' && getComputedStyle(document.querySelector('.docanvas')).backgroundColor === 'rgb(36, 11, 33)'), 'Builder global CSS was not applied');
@@ -98,8 +104,8 @@ async page => {
   await page.getByRole('button', { name: 'Back to writing', exact: true }).click();
   await page.getByRole('button', { name: 'Open the builder', exact: true }).click();
   ensure((await notes().getByRole('textbox', { name: /Page 1 text/ }).inputValue()).includes('Builder private'), 'Back to writing unmounted builder notes');
-  await page.getByText('Build or customise a DO', { exact: true }).click();
-  await page.getByText('Build or customise a DO', { exact: true }).click();
+  await page.getByText('Tools & examples', { exact: true }).click();
+  await page.getByText('Tools & examples', { exact: true }).click();
   await page.getByRole('button', { name: 'Open the builder', exact: true }).click();
   ensure(await notes().locator('img').count() === 1, 'Disclosure close unmounted builder photo');
   await notes().getByRole('textbox', { name: /Page 1 text/ }).fill('');
@@ -117,7 +123,7 @@ async page => {
   ensure(!await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), 'Builder 375px overflow');
   await page.screenshot({ path: out + 'builder-retained-mobile.png', fullPage: true });
   await page.getByRole('button', { name: 'Change synthetic owner' }).click();
-  await page.getByText('Build or customise a DO', { exact: true }).click();
+  await page.getByText('Tools & examples', { exact: true }).click();
   await page.getByRole('button', { name: 'Open the builder', exact: true }).click();
   await page.getByRole('region', { name: 'DO builder workspace' }).locator('summary').filter({ hasText: /^Photo$/ }).first().click();
   ensure(await notes().locator('img').count() === 0, 'Owner remount adopted builder images');

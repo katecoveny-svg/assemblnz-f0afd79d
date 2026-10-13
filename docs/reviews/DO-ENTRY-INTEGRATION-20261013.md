@@ -11,6 +11,8 @@
 - **More → Tools & examples** preserves specialist routes and labels samples. Meeting notes retain the sign-in label. Install, privacy and existing account controls remain accessible.
 - Official NZ reference selection is under **Notes & references**; its scope/disclosure and consent-reset handler remain intact.
 
+The portable wrapper has a collapsed **Page tools** disclosure. It retains point/selection/screen capture plus secondary writing/full-window conversation handlers; these no longer compete with the editor’s primary Write/Talk controls. Escape closes the disclosure and returns focus before a further Escape minimises the workspace. No automatic capture or submission is added.
+
 The visual revision uses the canonical glass D, existing Instrument Sans/IBM Plex Mono, rounded controls and plum/rose/lilac gradients. The public mymind homepage was inspected for broad visual direction; no third-party artwork, copy or layout assets were copied.
 
 ## Reuse and boundaries
@@ -34,6 +36,7 @@ Screenshots use fictional or empty account fixtures; no private account, browser
 - [Working entry, phone](../../output/playwright/do-entry-chrome/do-mobile.png)
 - [Portable launcher, desktop](../../output/playwright/companion-entry/embedded-1440.png)
 - [Portable launcher, phone](../../output/playwright/companion-entry/embedded-375.png)
+- [Optional page tools expanded](../../output/playwright/companion-entry/embedded-tools-375.png)
 - [Entry checks](../../output/playwright/do-entry-chrome/report.json)
 - [Companion checks](../../output/playwright/companion-entry/report.json)
 - [Simulated call checks](../../output/playwright/do-entry-call/results.json)
@@ -47,10 +50,11 @@ The separate static concept remains in `prototypes/do-one` on branch `codex/do-u
 - Brand guard, front-door guard and macron check: passed. Front-door guard now checks the shared menu and still requires the Meeting sign-in label.
 - Targeted DO tests: 181 personal/companion/voice checks passed; 40 package/navigation/launcher checks passed after regenerating the extension mirror.
 - `review-do-entry-chrome.cjs`: 17 checks passed, including draft append/continuity, no implicit submission/media, 320/375/768/1440 widths, keyboard and reduced motion.
-- `review-do-companion-entry.cjs`: 17 checks passed, including readiness, reviewed profile, original editor/iframe, explicit expansion, minimise/reopen and phone resize.
+- `review-do-companion-entry.cjs`: 24 checks passed, including collapsed/expanded page tools, keyboard Escape/focus, 320/375/768px tool overflow, readiness, reviewed profile, original editor/iframe, explicit expansion, minimise/reopen and phone resize.
 - `review-do-personal-call.cjs`: 39 simulated checks passed, including active call retained through entry/menu/resize, no duplicate token, consent invalidation, cancellation, mute, stale events and explicit end. Real Google audio/microphone were not used.
+- Portable capture/drag regression: 23 checks passed. Existing photo-notes v1/v2 and owner-change privacy browser suites passed after updating navigation selectors; all original consent, cancellation and ownership assertions retained. Saved-checklist refinement and assistant-draft suites each passed 22 checks.
 - Changed-source ESLint passed. Repository-wide lint is not clean: 1,169 errors and 242 warnings in the aggregate run, including untouched admin, research/vendor and email-template files. Representative admin ref-render errors were reproduced on the unchanged base checkout. No broad lint cleanup is part of this draft.
-- Final aggregate tests: **3,236 passed, 2 failed, 3 skipped**. The remaining failures are unchanged-base `lib/deployment/vercel-redeploy.test.ts` (documentation-only skip expectation) and `lib/design/franklin-scene.test.ts` (stale headline expectation). Both reproduced in the untouched base checkout. Initial five NZ transport failures were build prerequisites and passed after generating local plugin candidates; generated plugin artifacts are not part of this PR.
+- Final aggregate tests: **3,236 passed, 2 failed, 3 skipped**. The remaining failures are unchanged-base `lib/deployment/vercel-redeploy.test.ts` (documentation-only skip expectation) and `lib/design/franklin-scene.test.ts` (stale headline expectation). Both reproduced on exact PR base `2063e007cc0afbae62af2185b52989ffb74b641d` in a clean detached worktree (5 passed, 2 failed). [Reproduction and identical-file hashes](../../output/playwright/do-entry-baseline.json). The redeploy fixture uses `docs/note.md`, outside the explicit skip allowlist, so the script returns 1 (build) while the test expects 0. The Franklin test expects “the work.” while the unchanged homepage renders “Agentic AI solutions, assembled for your business.” Initial five NZ transport failures were build prerequisites and passed after generating local plugin candidates; generated plugin artifacts are not part of this PR.
 - Existing settings/checklist regression: **32 checks passed**, including nickname/preferences reload, separate consent, save failure recovery, guest navigation protection and real checklist state. Measured headline contrast against rendered gradient pixels: **10.72:1 desktop, 9.66:1 phone**.
 - Existing header/paint regression passed at 320/375/1440px: no overlaps, 44px targets, keyboard menu, and painted source/submit controls. [Settings report](../../output/playwright/do-entry-settings/results.json), [header report](../../output/playwright/do-entry-header/results.json).
 
