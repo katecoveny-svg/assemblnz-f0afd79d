@@ -8,6 +8,7 @@ import { personalMutationSchema } from "@/apps/do/personal/contract";
 import {
   personalState,
   savePersonal,
+  schedulePersonal,
   mutatePersonal,
   PersonalStorageConflict,
 } from "@/apps/do/personal/service";
@@ -54,6 +55,8 @@ export async function POST(request: Request) {
     const p = parsed.data;
     if (p.action === "save")
       return json({ id: await savePersonal(owner.id, p), saved: true, preparation: "off" });
+    if (p.action === "schedule")
+      return json({ schedule: await schedulePersonal(owner.id, p) });
     return (await mutatePersonal(owner.id, p.action, p.id))
       ? json({ ok: true })
       : json({ error: "That item is no longer available." }, 404);

@@ -42,7 +42,7 @@ jobs:
       - name: Fictional PDF, change, consent and owner contracts
         run: pnpm exec vitest run --maxWorkers=1 --testTimeout=30000 apps/do/school apps/do/services/family.test.ts apps/do/services/family-server.test.ts apps/do/services/gmail-ownership.test.ts app/api/do/family
       - name: Scoped lint
-        run: pnpm exec eslint apps/do/school app/api/do/family/school-preview app/do/family/SchoolBriefing.tsx app/do/family/FamilyDo.tsx next.config.ts scripts/generate-school-fixtures.ts scripts/review-do-school.cjs app/do/DoUtilityDock.tsx --max-warnings=0
+        run: pnpm exec eslint apps/do/school app/api/do/family/school-preview app/api/do/family/school-pilot app/do/family/SchoolAgenda.tsx app/do/family/SchoolBriefing.tsx app/do/family/FamilyDo.tsx next.config.ts scripts/generate-school-fixtures.ts scripts/review-do-school.cjs app/do/DoUtilityDock.tsx --max-warnings=0
       - name: Build the actual Family DO route
         run: |
           pnpm --filter @assembl/canvas build

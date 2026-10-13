@@ -773,3 +773,94 @@
 .householdContext a { text-decoration: underline; text-underline-offset: 3px; }
 .householdContext summary { min-height: 44px; display: flex; align-items: center; font-size: 14px; }
 @media (max-width: 600px) { .householdContext { padding: 20px; margin-top: 16px; } }
+/* Wake-ups: schedule and "wake DO now" controls on each responsibility. */
+.wakeups {
+  margin-top: 20px;
+  padding: 16px 18px;
+  background: var(--paper);
+  border-radius: 20px;
+  border: 1px solid #240b2114;
+}
+.wakeups[data-wakeups="on"] {
+  border-color: #916a7066;
+}
+.wakeupLine {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 0;
+  font-size: 13px !important;
+}
+.wakeupLine > svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.wakeupLine strong {
+  display: block;
+  font-weight: 500;
+}
+.wakeups .actions {
+  margin-top: 14px;
+}
+.wakeupNote {
+  font-family: monospace;
+  font-size: 11px !important;
+  color: #654a4e;
+  margin: 12px 0 0;
+}
+.wakeupForm {
+  display: grid;
+  gap: 14px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #240b2114;
+}
+.wakeupForm label,
+.wakeupNoteForm label {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.wakeupForm select,
+.wakeupForm input:not([type="checkbox"]),
+.wakeupNoteForm input {
+  font: inherit;
+  font-size: 14px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid #240b2129;
+  border-radius: 12px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.wakeupForm label.consent {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  font-weight: 400;
+  line-height: 1.6;
+}
+.wakeupForm .actions {
+  margin-top: 4px;
+}
+.wakeupNoteForm {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: end;
+  margin-top: 14px;
+}
+.wakeupNoteForm button {
+  border: 1px solid #240b2129;
+  border-radius: 22px;
+  background: transparent;
+  min-height: 44px;
+  padding: 10px 14px;
+  font-size: 12px;
+}
+@media (max-width: 520px) {
+  .wakeupNoteForm {
+    grid-template-columns: 1fr;
+  }
+}

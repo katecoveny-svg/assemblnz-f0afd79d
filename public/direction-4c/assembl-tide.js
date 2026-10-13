@@ -417,6 +417,12 @@ async function mount(canvas, opts = {}) {
   let plateTex = null, plateDirty = true;
   const mark = () => { plateDirty = true; };
   if (plate) { plateTex = new THREE.VideoTexture(plate); PL.tPlate.value = plateTex; plate.addEventListener('seeked', mark); plate.addEventListener('loadeddata', mark); }
+  // A detached image retains intrinsic dimensions; the CSS-sized DOM image can
+  // allocate a smaller GPU texture than its decoded pixels in Three's upload path.
+  const poster = opts.poster ? new Image() : null;
+  if (poster) poster.src = opts.poster.currentSrc || opts.poster.src;
+  const posterTex = poster ? new THREE.Texture(poster) : null;
+  let posterUploaded = false;
   const mask = opts.knock === false ? null : makeMask();
   if (mask) { PL.tMask.value = mask.tex; PL.tBevel.value = mask.bevel; PL.tTint.value = mask.tint; PL.uBT.value.set(...mask.texel); PL.uKBase.value = mask.base; PL.uKA.value = mask.aspect; PL.uKAnchor.value.set(mask.ax, mask.ay); PL.uKOn.value = 1; }
   const sky = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({ uniforms: PL, vertexShader: FS_VS, fragmentShader: PLATE_FS, depthWrite: false, depthTest: false }));
@@ -537,6 +543,7 @@ async function mount(canvas, opts = {}) {
     PL.uKW.value = W * dpr; PL.uKC.value.set(0.5 * w * dpr, (h - top) * dpr);
     if (opts.onLayout) opts.onLayout({ cx: 0.5 * w, cy: top, w: W, h: W * mask.ink });
   };
+  let paintDirty = true;
   const resize = () => {
     const w = canvas.clientWidth || innerWidth, h = canvas.clientHeight || innerHeight;
     renderer.setSize(w, h, false);
@@ -548,15 +555,41 @@ async function mount(canvas, opts = {}) {
     pivot.scale.setScalar(fit); U.uSize.value = (1 + (1 - fit) * 1.2) * (opts.birdScale || 1);
     bright.uniforms.uTexel.value.set(1 / fw, 1 / fh); blur.uniforms.uTexel.value.set(1 / qw, 1 / qh); comp.uniforms.uRes.value.set(fw, fh);
     layout(w, h);
+    paintDirty = true;
   };
   resize(); addEventListener('resize', resize);
   const onLost = e => { e.preventDefault(); lost = true; };
   canvas.addEventListener('webglcontextlost', onLost);
   const NUM = ['exp', 'con', 'sat', 'split', 'duo', 'vig', 'th', 'bloom', 'glow', 'aur', 'star', 'paua', 'streak', 'ink'], VEC = ['sh', 'hi', 'haze'];
+  // Re-select every paint: a decoded but unverified/stale video must not hide the poster.
+  const backdrop = () => plate && plate.readyState >= 2 && plate.videoWidth && !plate.error &&
+    (!opts.plateReady || opts.plateReady()) ? plateTex :
+    poster && poster.complete && poster.naturalWidth ? posterTex : null;
+  const paint = texture => {
+    PL.tPlate.value = texture;
+    PL.uHas.value = texture ? 1 : 0;
+    if (texture === plateTex && texture) {
+      PL.uPlateAspect.value = plate.videoWidth / plate.videoHeight;
+      if (plateDirty || !plate.paused) { plateTex.needsUpdate = true; plateDirty = false; }
+    } else if (texture === posterTex && texture) {
+      PL.uPlateAspect.value = poster.naturalWidth / poster.naturalHeight;
+      if (!posterUploaded) { posterTex.needsUpdate = true; posterUploaded = true; }
+    }
+    renderer.setRenderTarget(rtScene); renderer.render(scene, camera);
+    pass(bright, rtA);
+    blurPass(rtA, rtB, 1, 0); blurPass(rtB, rtA, 0, 1); blurPass(rtA, rtB, 2.2, 0); blurPass(rtB, rtA, 0, 2.2);
+    pass(comp, null);
+    paintDirty = false;
+  };
   const frame = now => {
     raf = requestAnimationFrame(frame);
     const dt = Math.max(0, Math.min((now - last0) / 1000, 0.05)); last0 = now;
-    if (paused || lost || document.hidden) return;
+    if (lost || document.hidden) return;
+    if (paused) {
+      // Resize clears the drawing buffer. Repaint the frozen scene without advancing it.
+      if (paintDirty || PL.tPlate.value !== backdrop()) paint(backdrop());
+      return;
+    }
     if (!reduced) t += dt;
     const fPrev = fC;
     fC = reduced ? fT : fC + (fT - fC) * (1 - Math.exp(-dt * 1.8));
@@ -586,16 +619,10 @@ async function mount(canvas, opts = {}) {
     if (albOn) for (const [th, dir, y] of TRIG) if (fPrev < th && fC >= th) launch(dir, y);
     for (const al of alb) { if (al.on) fly(al); trail(al); }
     G.uTime.value = t; G.uLit.value = litC; G.uPulse.value = pulse * pulse; G.uPtr.value.set(cx, -cy);
-    if (plate && plate.readyState >= 2) {
-      if (plate.videoWidth) PL.uPlateAspect.value = plate.videoWidth / plate.videoHeight;
-      PL.uHas.value = 1;
-      if (plateDirty || !plate.paused) { plateTex.needsUpdate = true; plateDirty = false; }
-    }
-    renderer.setRenderTarget(rtScene); renderer.render(scene, camera);
-    pass(bright, rtA);
-    blurPass(rtA, rtB, 1, 0); blurPass(rtB, rtA, 0, 1); blurPass(rtA, rtB, 2.2, 0); blurPass(rtB, rtA, 0, 2.2);
-    pass(comp, null);
+    paint(backdrop());
   };
+  // Readiness means a painted frame, including an initially paused mount.
+  paint(backdrop());
   raf = requestAnimationFrame(frame);
   return {
     setForm: f => { fT = Math.max(0, Math.min(SLOTS.length - 1, Math.round(f))); },
@@ -611,7 +638,7 @@ async function mount(canvas, opts = {}) {
     setGlass: on => { PL.uGlass.value = on ? 1 : 0; },
     setPaused: p => { paused = p; },
     setWide: w => { wide = w; },
-    dispose: () => { cancelAnimationFrame(raf); removeEventListener('resize', resize); canvas.removeEventListener('webglcontextlost', onLost); if (plate) { plate.removeEventListener('seeked', mark); plate.removeEventListener('loadeddata', mark); } if (plateTex) plateTex.dispose(); if (mask) { mask.tex.dispose(); mask.bevel.dispose(); mask.tint.dispose(); } alb.forEach(a => { a.trail.g.dispose(); a.mesh.material.dispose(); }); trailMat.dispose(); albGeo.dispose(); rtScene.dispose(); rtA.dispose(); rtB.dispose(); renderer.dispose(); },
+    dispose: () => { cancelAnimationFrame(raf); removeEventListener('resize', resize); canvas.removeEventListener('webglcontextlost', onLost); if (plate) { plate.removeEventListener('seeked', mark); plate.removeEventListener('loadeddata', mark); } if (plateTex) plateTex.dispose(); if (posterTex) posterTex.dispose(); if (mask) { mask.tex.dispose(); mask.bevel.dispose(); mask.tint.dispose(); } alb.forEach(a => { a.trail.g.dispose(); a.mesh.material.dispose(); }); trailMat.dispose(); albGeo.dispose(); rtScene.dispose(); rtA.dispose(); rtB.dispose(); renderer.dispose(); },
   };
 }
 

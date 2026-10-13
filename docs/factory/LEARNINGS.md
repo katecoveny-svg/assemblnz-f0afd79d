@@ -92,3 +92,20 @@ A device-wide localStorage key has no owner proof. Keying a component by account
 ### Loyalty DO partner concept (13 October 2026, draft)
 
 Partner scenes can reuse Shop preparation without reusing seeded journey persistence or timed reward theatre. A pantry image is evidence to review, not structured quantity or food-safety truth. Keep provider observations as editable notes until the person explicitly sets quantities. Bind basket approval to the full current plan, invalidate it on edits, and distinguish a local simulated handoff receipt from merchant execution. Optional useful activity during human review needs no fabricated processing timer or numeric point credit. See `docs/design/woolworths-loyalty-do/README.md` for this draft's verification gates.
+
+
+## 13 October 2026 — mobile coastal homepage recovery (review branch)
+
+Renderer initialization is not decoded-video proof. Keep a real coastal poster visible until a video frame callback (or current pixel data on older browsers) confirms content, bound startup with a timeout, and handle denied playback/stalls. Muted inline video must be mounted and explicitly started. Mobile reading must not inherit scroll-driven parent opacity: this recovery uses normal-flow, opaque content and native video without the flock renderer at widths up to 900px. SVG action arrows avoid iOS emoji substitution. The existing homepage primitive is extended; this is not a new rendering framework.
+
+Regression proof lives in `components/site/direction-4c/video-readiness.test.ts` and `scripts/direction-4c-mobile-proof.cjs`: 375/390/430px, desktop, blocked media, autoplay denial, no decoded frame, reduced motion, pause while scrolling and stall fallback. Hosted WebKit proof is required; Chromium emulation alone is not an actual iPhone claim.
+
+The review caught two lifecycle traps: applying pause before an unconditional `play()` does not preserve intent across asynchronous initialization, and `stalled` describes network fetching rather than exhausted playback buffers. Gate every startup/recovery attempt on current pause/visibility, suspend its frame deadline while disallowed, preserve buffered frames on `stalled`, and recover `waiting` directly from decoded frames without requiring another `playing` event. Browser evidence must use instant verified scroll positions and record media state; a smooth-scroll screenshot can mislabel mid-scroll as the top.
+
+### Addendum (13 October 2026, later): keep the design on phones
+
+The phone recovery above over-corrected: hiding the tide canvas and restacking the hero removed the design's flock on the device the owner uses, and treating video readiness as a hard dependency sent the whole page static whenever iOS declined autoplay. The engine already scales for narrow screens; footage must stay an optional backdrop (drop the source, keep the scene) and only a lost renderer may go static. Keep the real fixes (poster, decoded-frame readiness, pause across breakpoints, SVG arrows) and keep the owner's copy decisions in the proof, not just the code.
+
+### Addendum (14 October 2026): prove the painted backdrop and intermediate reading stops
+
+A visible HTML poster does not prove the backdrop when an opaque WebGL canvas sits above it. Select the canvas texture from the same decoded-frame gate as the page, clear stale video selection, and use the actual coastal image when footage fails. Upload a detached image at intrinsic dimensions: a CSS-sized DOM image can allocate an undersized texture. Renderer readiness must follow a painted frame; paused resize must repaint without advancing or rebuilding the frozen composition. On phones, reveal the useful-work reading block at full opacity once its scroll threshold is reached. Test intermediate progress (including 0.70), not only the hero endpoint. `scripts/homepage-scroll-canvas-proof.cjs` extends the existing proof workflow with canvas pixel readback, sampled GPU texture evidence, paused breakpoint crossings and interruption/reload checks. Browser-engine proof is not physical iPhone proof.

@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import { reviewSchoolCard, safeSchoolLink, type SchoolBriefing as Brief, type SchoolEvent } from '@/apps/do/school/briefing';
 import { SCHOOL_DEMO_NOW, SCHOOL_DEMO_OWNER } from '@/apps/do/school/fixtures';
 import './school-briefing.css';
+import { SchoolAgenda } from './SchoolAgenda';
 
 function Evidence({ event, label }: { event: SchoolEvent; label: string }) {
   const url = safeSchoolLink(event.source.url);
@@ -56,6 +57,7 @@ export function SchoolBriefing() {
       <p><strong>{card.action}.</strong> Confirm the actual calendar event and reminder timing before any future write. No duration, pickup or transport arrangement has been assumed.</p>
       <div className="school-actions"><button disabled={Boolean(card.blockers.length) || card.change === 'unchanged' || card.status !== 'proposed'} onClick={() => review(card.id, 'approved')}>Mark draft reviewed</button><button disabled={card.status !== 'proposed'} onClick={() => review(card.id, 'dismissed')}>Dismiss proposal</button><span>{card.status === 'approved' ? 'Reviewed draft · no external action' : card.status === 'dismissed' ? 'Dismissed · no external action' : 'Awaiting adult review'}</span></div>
     </article>)}
+    {brief && <SchoolAgenda key={JSON.stringify([brief.revision, brief.cards.map(c => [c.id, c.status])])} brief={brief}/>}
     <details className="school-limits"><summary>Private pilot requirements and current limits</summary><p>This preview recognises explicit timetable rows only. Scanned PDFs, prose notices and uncertain rows require manual review; this is not general PDF understanding. Reopening clears the preview.</p><p>Before live use: sign into DO, verify your own read-only Gmail connection through Pipedream, select exact senders and a 7/14/30-day window, and separately approve the exact information and any named processors. Chat Gmail access gives DO no access.</p><p>The existing email digest below sends selected text to OpenAI (GPT-6 Astra) and TypeSafe only with its separate consent. The school comparison pilot is closed pending verified account-isolated storage, retention/deletion and attachment permissions. Background ingestion, calendar writes and notifications are unavailable.</p></details>
   </section>;
 }

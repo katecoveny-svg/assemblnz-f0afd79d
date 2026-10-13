@@ -17,20 +17,50 @@ import {
   Leaf,
   RotateCcw,
 } from "lucide-react";
-import { DoVision } from "../../DoVision";
+import {
+  GroceryPhoto,
+  sampleProvenance,
+  type GroceryProvenance,
+} from "./GroceryPhoto";
+import { IngredientEditor } from "./IngredientEditor";
+import {
+  reviewIngredients,
+  parseIngredientObservation,
+  type IngredientRow,
+} from "./ingredients";
 import { DoGeminiLive } from "../../DoGeminiLive";
 import { GlassIdentity } from "@/components/brand/GlassIdentity";
-import { pantryTemplate, planShop, money, canApprove } from "./model";
-import type { Pantry } from "@/lib/do/shop/preparation";
+import {
+  pantryTemplate,
+  planShop,
+  money,
+  canApprove,
+  meals,
+  recipeDescriptions,
+} from "./model";
+
 import "./loyalty.css";
 
+const sampleRows = (): IngredientRow[] =>
+  pantryTemplate.map((p) => ({
+    id: p.id,
+    name: p.name,
+    amount: p.quantity.amount,
+    unit: p.quantity.unit,
+    confirmed: true,
+    source: "sample",
+    uncertainty: "Illustrative sample quantity, not detected from the image.",
+  }));
 const steps = ["Your kitchen", "The plan", "Your basket", "Ready to review"];
 export default function LoyaltyDo() {
   const [step, setStep] = useState(0);
   const [started, setStarted] = useState(false);
-  const [pantry, setPantry] = useState<Pantry[]>(
-    pantryTemplate.map((p) => ({ ...p, quantity: { ...p.quantity } })),
-  );
+  const [rows, setRows] = useState<IngredientRow[]>(sampleRows);
+  const [provenance, setProvenance] =
+    useState<GroceryProvenance>(sampleProvenance);
+  const [ingredientNotice, setIngredientNotice] = useState("");
+  const [recipe, setRecipe] = useState("pasta-night");
+  const [budgetInput, setBudgetInput] = useState("40");
   const [usable, setUsable] = useState(false);
   const [servings, setServings] = useState(4);
   const [occasion, setOccasion] = useState("Family dinner");
@@ -49,13 +79,33 @@ export default function LoyaltyDo() {
   const root = useRef<HTMLDivElement>(null);
   const workspace = useRef<HTMLElement>(null);
   const title = useRef<HTMLHeadingElement>(null);
-  const plan = planShop(pantry, servings, usable);
+  const stock = reviewIngredients(rows);
+  const budgetMinor = Math.round(Number(budgetInput) * 100);
+  const budgetValid =
+    /^\d+(?:\.\d{0,2})?$/.test(budgetInput) &&
+    budgetMinor >= 100 &&
+    budgetMinor <= 500000;
+  const plan = planShop(
+    stock.pantry,
+    servings,
+    usable && stock.issues.length === 0,
+    budgetValid ? budgetMinor : 4000,
+    recipe,
+  );
+  if (!budgetValid)
+    plan.blockers.push(
+      "Enter a valid NZD budget between $1 and $5,000 with at most two decimal places.",
+    );
+  const selectedRecipe = meals.find((m) => m.id === recipe)!;
   const revision = JSON.stringify([
     plan.digest,
     occasion,
     notes,
     notesSource,
     notesEdited,
+    rows,
+    provenance,
+    budgetInput,
   ]);
   const approvedCurrent = approved === revision;
   useEffect(() => {
@@ -95,9 +145,11 @@ export default function LoyaltyDo() {
   function reset() {
     setStep(0);
     setUsable(false);
-    setPantry(
-      pantryTemplate.map((p) => ({ ...p, quantity: { ...p.quantity } })),
-    );
+    setRows(sampleRows());
+    setProvenance(sampleProvenance);
+    setIngredientNotice("");
+    setRecipe("pasta-night");
+    setBudgetInput("40");
     setServings(4);
     setOccasion("Family dinner");
     setNotes("");
@@ -109,21 +161,72 @@ export default function LoyaltyDo() {
     setPhoto(false);
     setVoice(false);
   }
-  function editStock(id: string, amount: number) {
-    setPantry(
-      pantry.map((p) =>
-        p.id === id ? { ...p, quantity: { ...p.quantity, amount } } : p,
-      ),
-    );
+  function invalidate() {
     setUsable(false);
     setReviewed(null);
     setApproved(null);
+  }
+  function changeRows(next: IngredientRow[]) {
+    const content = (values: IngredientRow[]) =>
+      JSON.stringify(
+        values.map(({ name, amount, unit }) => ({ name, amount, unit })),
+      );
+    if (content(next) !== content(rows))
+      setProvenance((p) => ({ ...p, userEdited: true }));
+    setRows(next);
+    invalidate();
+  }
+  function applyObservation(
+    next: IngredientRow[],
+    text: string,
+    source: GroceryProvenance,
+  ) {
+    setRows(next);
+    setNotes(text);
+    setNotesSource(
+      source.source === "photo"
+        ? "Vision observation"
+        : "Synthetic photo observation",
+    );
+    setNotesEdited(source.userEdited);
+    setProvenance(source);
+    setIngredientNotice(
+      "Review and confirm every imported ingredient. Unknown quantities are not zero.",
+    );
+    invalidate();
+  }
+  function mapNotes() {
+    const parsed = parseIngredientObservation(notes, "voice");
+    setIngredientNotice(parsed.notice);
+    if (!parsed.rows.length) return;
+    setRows(
+      parsed.rows.map((r) => ({
+        ...r,
+        source: notesSource.includes("voice") ? "voice" : "manual",
+      })),
+    );
+    setProvenance(
+      notesSource === "Vision observation"
+        ? { ...provenance, userEdited: true }
+        : {
+            source: notesSource.includes("voice") ? "voice" : "manual",
+            model: null,
+            imageHash: null,
+            outputHash: null,
+            createdAt: null,
+            userEdited: true,
+          },
+    );
+    invalidate();
   }
   function exportPlan() {
     const text = [
       "ASSEMBL · INDEPENDENT LOYALTY DO PROPOSAL",
       "SIMULATED HANDOFF · NO ORDER OR POINTS ISSUED",
-      `${occasion} · ${servings} people`,
+      `${occasion} · ${selectedRecipe.name} · ${servings} people`,
+      `Budget: NZ${money(budgetMinor)}; demo pickup fee NZ$0; actual fees unknown.`,
+      `Observation provenance: ${JSON.stringify(provenance)}`,
+      `Confirmed pantry: ${JSON.stringify(stock.pantry)}`,
       ...plan.basket.map(
         (l) => `${l.name}: ${l.packs} demo packs · ${money(l.estimatedMinor)}`,
       ),
@@ -303,9 +406,55 @@ export default function LoyaltyDo() {
                   Dinner starts here.
                 </h2>
                 <p className="ld-lead">
-                  A few things in the kitchen. Plenty of possibility. Review the
-                  sample pantry, or bring your own observations.
+                  Review the illustrative pantry or bring your own ingredients.
+                  Photo and voice observations become candidates, never approved
+                  stock.
                 </p>
+                <div className="ld-secondary-actions">
+                  <button
+                    onClick={() => setPhoto(!photo)}
+                    aria-expanded={photo}
+                  >
+                    <Camera size={17} />
+                    Review a fridge photo
+                  </button>
+                  <button
+                    onClick={() => setVoice(!voice)}
+                    aria-expanded={voice}
+                  >
+                    <Mic size={17} />
+                    Talk through dinner
+                  </button>
+                </div>
+                {photo && <GroceryPhoto onApply={applyObservation} />}
+                {voice && (
+                  <section className="ld-provider">
+                    <h3>Voice planning with DO</h3>
+                    <p>
+                      Existing authenticated Google voice, with its own fresh
+                      consent. Sign-in opens a new tab and returns to this
+                      loyalty route. Keep this original tab open: your reviewed
+                      dinner remains here. After signing in, return to this tab
+                      and check availability. Closing or reloading this tab
+                      loses the local draft; no private notes are put in the
+                      sign-in URL.
+                    </p>
+                    <DoGeminiLive
+                      signInReturnTo="/do/loyalty/everyday-rewards"
+                      context="Help identify ingredients for a dinner plan. No merchant access or ordering. At the end, offer one ingredient per line in this exact format: Tomatoes | 400 | g. Use ? for unknown quantities or units. Do not invent quantities. The person must review every line and confirm food usability."
+                      onDraft={(text) => {
+                        setNotes(text);
+                        setNotesSource("Reviewed DO voice notes");
+                        setNotesEdited(false);
+                        setIngredientNotice(
+                          "Voice notes are ready below. Review them, then explicitly map ingredient lines; ordinary prose is never inferred as stock.",
+                        );
+                        invalidate();
+                        return true;
+                      }}
+                    />
+                  </section>
+                )}
                 <div className="ld-pantry">
                   <div className="ld-sample">
                     <Image
@@ -313,48 +462,48 @@ export default function LoyaltyDo() {
                       unoptimized
                       width={560}
                       height={420}
-                      alt="Synthetic sample kitchen; quantities are separate editable fixtures, not image recognition"
+                      alt="Synthetic kitchen sample; quantities are separate illustrative fixtures"
                     />
                     <span>SYNTHETIC SAMPLE · NO MODEL CALL</span>
                   </div>
-                  <div className="ld-stock">
-                    <h3>What can we use?</h3>
+                  <div>
+                    <h3>Use what you have.</h3>
                     <p>
-                      These are editable sample quantities, not detected stock.
+                      Check identities, quantities and usability against your
+                      kitchen. The photo cannot verify freshness, expiry or
+                      hidden stock.
                     </p>
-                    {pantry.map((p) => (
-                      <label key={p.id}>
-                        <span>{p.name}</span>
-                        <span>
-                          <input
-                            aria-label={`${p.name} available`}
-                            type="number"
-                            min="0"
-                            max={p.quantity.unit === "g" ? 10000 : 30}
-                            value={p.quantity.amount}
-                            onChange={(e) =>
-                              editStock(
-                                p.id,
-                                Math.max(
-                                  0,
-                                  Math.min(
-                                    p.quantity.unit === "g" ? 10000 : 30,
-                                    Number(e.target.value) || 0,
-                                  ),
-                                ),
-                              )
-                            }
-                          />
-                          {p.quantity.unit}
-                        </span>
-                      </label>
-                    ))}
+                    <p>
+                      Planning covers three explicitly chosen sample recipes.
+                      Other ingredients are retained in your pantry record, but
+                      do not silently change a recipe.
+                    </p>
                   </div>
                 </div>
+                <IngredientEditor rows={rows} onChange={changeRows} />
+                {ingredientNotice && (
+                  <p className="ld-ingredient-notice" role="status">
+                    {ingredientNotice}
+                  </p>
+                )}
+                {stock.issues.length > 0 && (
+                  <p className="ld-ingredient-notice">
+                    {stock.issues.join(" ")}
+                  </p>
+                )}
+                {stock.uncovered.length > 0 && (
+                  <p>
+                    Outside the supported recipe catalogue:{" "}
+                    {stock.uncovered.join(", ")}. These remain in your reviewed
+                    pantry but are not used by the three sample recipes.
+                  </p>
+                )}
                 <label className="ld-check">
                   <input
                     type="checkbox"
+                    aria-label="Confirm entire pantry"
                     checked={usable}
+                    disabled={stock.issues.length > 0}
                     onChange={(e) => {
                       setUsable(e.target.checked);
                       setReviewed(null);
@@ -362,106 +511,43 @@ export default function LoyaltyDo() {
                     }}
                   />
                   <span>
-                    I’ve reviewed the quantities and checked these ingredients
-                    are usable. A photo cannot verify freshness, expiry or
-                    hidden stock.
+                    I’ve reviewed the complete pantry, including missing items.
+                    All quantities are usable; a photo cannot prove food safety.
                   </span>
                 </label>
-                <div className="ld-secondary-actions">
-                  <button
-                    onClick={() => setPhoto(!photo)}
-                    aria-expanded={photo}
-                  >
-                    <Camera size={17} /> Use my own photo
-                  </button>
-                  <button
-                    onClick={() => setVoice(!voice)}
-                    aria-expanded={voice}
-                  >
-                    <Mic size={17} /> Talk through dinner
-                  </button>
-                </div>
-                {photo && (
-                  <div className="ld-provider">
-                    <h3>Review before sharing</h3>
-                    <p>
-                      Choosing an image previews it on this device. Sending it
-                      uses assembl’s existing vision service and configured
-                      OpenAI, Anthropic or Google providers, which may be tried
-                      in order if one fails. The existing tool asks for separate
-                      consent before transmission. Avoid faces, addresses and
-                      private documents.
-                    </p>
-                    <DoVision
-                      onUse={(text) => {
-                        setNotes(text);
-                        setNotesSource(
-                          "Vision provider observation via existing DO; see reviewed notes for provider evidence",
-                        );
-                        setNotesEdited(false);
-                        setUsable(false);
-                        setReviewed(null);
-                        setApproved(null);
-                        return true;
-                      }}
-                    />
-                    <p>
-                      Observations become editable notes below. They do not set
-                      quantities or prove food safety.
-                    </p>
-                  </div>
-                )}
-                {voice && (
-                  <div className="ld-provider">
-                    <h3>Voice planning with DO</h3>
-                    <p>
-                      The existing secure DO voice surface requires its own
-                      availability check, sign-in and fresh Google voice
-                      consent. It can help plan; it cannot access Woolworths,
-                      activate offers or place orders.
-                    </p>
-                    <DoGeminiLive
-                      context="Plan a fictional family dinner. No merchant access, account data, live prices, points or ordering. Ask the person to review any suggested ingredients and quantities."
-                      onDraft={(text) => {
-                        setNotes(text);
-                        setNotesSource(
-                          "DO voice planning draft; not retailer execution",
-                        );
-                        setNotesEdited(false);
-                        setUsable(false);
-                        setReviewed(null);
-                        setApproved(null);
-                        return true;
-                      }}
-                    />
-                  </div>
-                )}
                 <label className="ld-notes">
-                  Kitchen notes{" "}
+                  Reviewed voice or written ingredient notes
                   <span>
-                    Optional · reviewed manually; not parsed into the recipe
+                    Local text only. One ingredient per line: Tomatoes | 400 |
+                    g. Use ? for unknown. No model runs when you type.
                   </span>
                   <textarea
+                    aria-label="Ingredient notes"
                     value={notes}
-                    maxLength={6000}
+                    maxLength={16000}
                     onChange={(e) => {
                       setNotes(e.target.value);
                       setNotesEdited(true);
-                      setUsable(false);
-                      setReviewed(null);
-                      setApproved(null);
+                      setProvenance((p) => ({ ...p, userEdited: true }));
+                      invalidate();
                     }}
-                    placeholder="Anything to remember for dinner?"
                   />
                 </label>
+                <button
+                  className="ld-text-button"
+                  disabled={!notes.trim()}
+                  onClick={mapNotes}
+                >
+                  Map reviewed notes to ingredient candidates
+                </button>
                 <div className="ld-next">
                   <p>
-                    Sample recipes contain wheat. Check real labels and dietary
-                    suitability.
+                    These are sample recipes. Check real product labels,
+                    allergies and dietary suitability before cooking.
                   </p>
                   <button
                     className="ld-dark"
-                    disabled={!usable}
+                    disabled={!usable || stock.issues.length > 0}
                     onClick={() => {
                       setStarted(true);
                       move(1);
@@ -480,24 +566,66 @@ export default function LoyaltyDo() {
                   Less to think about.
                 </h2>
                 <p className="ld-lead">
-                  Roasted tomato & aubergine pasta. A fictional recipe built
-                  around your reviewed pantry.
+                  Choose a supported sample recipe. DO scales it and subtracts
+                  your confirmed pantry; it does not invent a meal from
+                  free-text notes.
                 </p>
                 <div className="ld-plan-paper">
                   <div className="ld-plan-heading">
                     <Leaf size={30} />
                     <span>Tonight, assembled.</span>
                   </div>
-                  <h3>
-                    Roast. Toss.
-                    <br />
-                    <em>Gather round.</em>
-                  </h3>
+                  <h3>{selectedRecipe.name}</h3>
                   <p>
-                    Roast the tomatoes and aubergine, cook the pasta, then toss
-                    with basil. Check food safety and follow a suitable recipe
-                    before cooking.
+                    {recipeDescriptions[recipe]} Follow a suitable recipe and
+                    check food safety before cooking.
                   </p>
+                  <label>
+                    Sample recipe
+                    <select
+                      aria-label="Sample recipe"
+                      value={recipe}
+                      onChange={(e) => {
+                        setRecipe(e.target.value);
+                        setReviewed(null);
+                        setApproved(null);
+                      }}
+                    >
+                      {meals.map((m) => (
+                        <option key={m.id} value={m.id}>
+                          {m.name}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label>
+                    Basket budget (NZD)
+                    <input
+                      aria-label="Basket budget NZD"
+                      type="number"
+                      min="1"
+                      max="5000"
+                      step="0.01"
+                      value={budgetInput}
+                      onChange={(e) => {
+                        setBudgetInput(e.target.value);
+                        setReviewed(null);
+                        setApproved(null);
+                      }}
+                    />
+                  </label>
+                  <p>
+                    Budget applies to fictional whole-pack prices plus a
+                    simulated NZ$0 pickup fee. Actual retailer fees, stock and
+                    prices are unknown. Increase the budget or change the plan
+                    if the estimate exceeds it.
+                  </p>
+                  {!budgetValid && (
+                    <p role="alert">
+                      Enter a budget from NZ$1 to NZ$5,000, with at most two
+                      decimal places.
+                    </p>
+                  )}
                   <label>
                     What’s the occasion?
                     <select
@@ -592,7 +720,8 @@ export default function LoyaltyDo() {
                   <div>
                     <span>Fictional basket total</span>
                     <small>
-                      Demo pickup fee NZ$0 · real fees & stock unknown
+                      Budget NZ{money(budgetMinor)} · demo pickup fee NZ$0 ·
+                      real fees & stock unknown
                     </small>
                   </div>
                   <strong>NZ{money(plan.estimatedMinor)}</strong>
@@ -635,6 +764,7 @@ export default function LoyaltyDo() {
                 <label className="ld-check">
                   <input
                     type="checkbox"
+                    aria-label="Confirm simulated basket"
                     checked={reviewed === revision}
                     onChange={(e) =>
                       setReviewed(e.target.checked ? revision : null)
@@ -716,7 +846,8 @@ export default function LoyaltyDo() {
                     <div>
                       <dt>Kitchen</dt>
                       <dd>
-                        User-reviewed sample quantities
+                        {stock.pantry.length} confirmed ingredient rows ·{" "}
+                        {provenance.source} source
                         {notes ? " + reviewed notes" : ""}
                       </dd>
                     </div>
@@ -727,6 +858,44 @@ export default function LoyaltyDo() {
                           ? notesSource
                           : "Synthetic sample · no model call"}
                         {notesEdited ? " · user-edited" : ""}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Photo provenance</dt>
+                      <dd>
+                        {provenance.source === "photo" ? (
+                          <>
+                            <span>
+                              Model: {provenance.model}; observed{" "}
+                              {provenance.createdAt}
+                            </span>
+                            <br />
+                            <span>Image hash: {provenance.imageHash}</span>
+                            <br />
+                            <span>
+                              Original output hash: {provenance.outputHash}
+                            </span>
+                            <br />
+                            <span>
+                              User edited:{" "}
+                              {provenance.userEdited || notesEdited
+                                ? "yes"
+                                : "no"}
+                              . Hash identifies the original provider evidence,
+                              not the corrected quantities. Raw image not
+                              retained in receipt.
+                            </span>
+                          </>
+                        ) : (
+                          `${provenance.source}: no image/model fingerprint. User edited: ${provenance.userEdited || notesEdited ? "yes" : "no"}.`
+                        )}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Recipe and budget</dt>
+                      <dd>
+                        {selectedRecipe.name} · NZ{money(budgetMinor)} budget ·
+                        simulated NZ$0 pickup fee
                       </dd>
                     </div>
                     <div>

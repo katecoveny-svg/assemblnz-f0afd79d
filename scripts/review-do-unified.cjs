@@ -107,17 +107,22 @@ async function verifyFunctionalMark(page, root, label) {
     check('cancel keeps the same local work', await page.locator('#personal-do-result').isVisible());
     // Fresh tab avoids accepting the browser's unsaved-work warning in test cleanup.
     const clean = await context.newPage(); clean.on('pageerror', e => errors.push(clean.url() + ": " + e.message));
-    for (const path of ['/', '/do', '/do/personal', '/do?open=1', '/do?task=plan', '/do/widget?task=rewrite', '/do/widget?tool=look', '/do/meetings', '/do/bills', '/do/enquiries', '/do/install', '/do/install#chrome', '/do/billing', '/do/share', '/do/live', '/do/shop', '/do/travel', '/about', '/contact', '/pursuit', '/creative-studio', '/legal/privacy', '/login?redirect=%2Fdo']) {
+    for (const path of ['/', '/do', '/do/personal', '/do?open=1', '/do?task=plan', '/do/widget?task=rewrite', '/do/widget?tool=look', '/do/meetings', '/do/bills', '/do/enquiries', '/do/install', '/do/install#chrome', '/do/billing', '/do/share', '/do/live', '/do/shop', '/do/shop/sample', '/do/travel', '/about', '/contact', '/pursuit', '/creative-studio', '/legal/privacy', '/login?redirect=%2Fdo']) {
       await clean.goto('about:blank'); // Force an HTTP navigation even for same-page hash routes.
       const response = await clean.goto(origin + path, { waitUntil: 'networkidle' });
       const title = await clean.title(); const final = new URL(clean.url());
       links.push({ path, status: response.status(), final: final.pathname + final.search + final.hash, title });
       check(`route ${path}`, response.ok());
       if (path === '/do?task=plan') check(`${path} retains task`, final.pathname === '/do/widget' && final.searchParams.get('task') === 'plan');
-      if (path === '/do/shop' || path === '/do/travel') {
+      // The shop journey lives at /do/shop; the fictional-offer fixture moved to /do/shop/sample.
+      if (path === '/do/shop') {
+        check(`${path} retains its distinct preparation surface`, final.pathname === path);
+        check(`${path} says nothing is ordered`, (await clean.locator('body').innerText()).toLowerCase().includes('nothing is ordered'));
+      }
+      if (path === '/do/shop/sample' || path === '/do/travel') {
         check(`${path} retains its distinct preparation surface`, final.pathname === path);
         check(`${path} labels session-only preparation`, (await clean.locator('body').innerText()).toLowerCase().includes('session only'));
-        if (path === '/do/shop') {
+        if (path === '/do/shop/sample') {
           await clean.getByLabel('I reviewed every pantry quantity').check();
           await clean.getByRole('button', { name: 'Prepare sample basket', exact: true }).dblclick();
           await clean.getByLabel('I reviewed quantities, substitutions, leftovers, allergen limits and uncertain fees/weights').check();
@@ -239,7 +244,7 @@ async function verifyFunctionalMark(page, root, label) {
     await clean.waitForFunction(() => document.querySelector('.direction-4c[data-ready="true"]'));
     check('scene returns after reduced-motion preference changes', await scene.locator('canvas').isVisible());
     const fallback = await context.newPage();
-    await fallback.addInitScript(() => { const original = HTMLCanvasElement.prototype.getContext; HTMLCanvasElement.prototype.getContext = function(type, ...args) { if (String(type).startsWith('webgl')) return null; return original.call(this, type, ...args); }; });
+    await fallback.addInitScript(() => { const original = HTMLCanvasElement.prototype.getContext; HTMLCanvasElement.prototype.getContext = function(type, ...args) { if (/^(webgl|experimental-webgl)/.test(String(type))) return null; return original.call(this, type, ...args); }; });
     await fallback.emulateMedia({ reducedMotion: 'no-preference' });
     await fallback.goto(origin + '/', { waitUntil: 'networkidle' });
     await fallback.waitForFunction(() => document.querySelector('.direction-4c[data-static="true"]'));

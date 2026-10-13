@@ -1,6 +1,12 @@
 import { timingSafeEqual } from "node:crypto";
-import { personalHeartbeat, personalWorkerConfigured, runPersonal } from "@/apps/do/personal/service";
+import { maintainPersonalResponsibilityStorage, personalHeartbeat, personalWorkerConfigured, personalWorkerMode, runPersonal } from "@/apps/do/personal/service";
+import { maintainPersonalMemory } from "@/apps/do/personal/memory-maintenance-server";
 import { prepareEnquiryFollowups } from '@/apps/do/enquiries/service';
+// Retention cleanup is bounded and flag-gated; storage-only enrolment stays ready only while
+// a completed cleanup is recorded within 90 minutes, so it runs on every hourly tick.
+async function settle<T>(run: () => Promise<T>) {
+  try { return await run(); } catch { return { configured: true as const, failed: true as const }; }
+}
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 export const maxDuration = 180;
@@ -28,9 +34,10 @@ export async function GET(request: Request) {
       claimed++;
       if (result.published) published++;
     }
+    const maintenance = { responsibilities: await settle(maintainPersonalResponsibilityStorage), memory: await settle(maintainPersonalMemory) };
     await personalHeartbeat();
     return Response.json(
-      { claimed, published, followupsPrepared, personal: personalEnabled ? { status: 'enabled' } : { status: 'disabled', reason: 'provider_permission_renewal_required' } },
+      { claimed, published, followupsPrepared, maintenance, personal: personalEnabled ? { status: 'enabled', mode: personalWorkerMode() } : { status: 'disabled', reason: 'provider_permission_renewal_required' } },
       { headers: { "Cache-Control": "no-store" } },
     );
   } catch {

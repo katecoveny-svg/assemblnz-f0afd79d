@@ -80,10 +80,13 @@ export function extractSchoolRows(source: SchoolSource): { events: SchoolEvent[]
 
 export function prepareSchoolBriefing(input: {
   ownerId: string; revision: string; now: string; selection: z.infer<typeof schoolSelection>;
-  children: SchoolChild[]; previous: SchoolSource[]; current: SchoolSource[];
+  children: SchoolChild[]; previous: SchoolSource[]; current: SchoolSource[]; sourceCutoff?: string;
 }): SchoolBriefing {
   const selection = schoolSelection.parse(input.selection);
   const now = Date.parse(input.now);
+  // Retrieval window stays fixed while evidence freshness uses comparison time.
+  const sourceCutoff = input.sourceCutoff === undefined ? now : Date.parse(input.sourceCutoff);
+  if (!Number.isFinite(sourceCutoff) || sourceCutoff > now) throw new Error('Invalid source cutoff');
   if (!input.ownerId || !input.revision || !Number.isFinite(now) || input.previous.length + input.current.length > 60 || input.children.length > 12) throw new Error('Invalid briefing scope');
   if (new Set(input.children.map(c => c.id)).size !== input.children.length) throw new Error('Duplicate child identity');
   const notices: string[] = [];
@@ -93,7 +96,7 @@ export function prepareSchoolBriefing(input: {
     if (source.ownerId !== input.ownerId) throw new Error('School source owner mismatch');
     if (!selection.senders.map(normal).includes(senderAddress(source.sender))) return [];
     const received = Date.parse(source.receivedAt);
-    if (received > now || (current && received < now - selection.days * 86400000)) return [];
+    if (received > (current ? sourceCutoff : now) || (current && received < sourceCutoff - selection.days * 86400000)) return [];
     if (source.state === 'unavailable') { incompleteSchools.add(source.schoolId); notices.push(`${source.title}: source unavailable; no event can be verified.`); return []; }
     const parsed = extractSchoolRows(source);
     if (parsed.unparsed || !parsed.events.length) { incompleteSchools.add(source.schoolId); notices.push(`${source.title}: some text needs manual review; no dates or child options inferred.`); }
