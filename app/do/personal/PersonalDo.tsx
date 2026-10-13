@@ -55,7 +55,7 @@ const stamp = (date: string, zone = "Pacific/Auckland") =>
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(date));
-export function PersonalDo() {
+export function PersonalDo({ context }: { context?: "household" } = {}) {
   const [state, setState] = useState<PersonalState | null>(null);
   const [personalProfile, setPersonalProfile] = useState<PersonalDoProfile | null>(null);
   const [sharedIntake, setSharedIntake] = useState<{ id: string; text: string; sourceTitle: string }>();
@@ -354,9 +354,15 @@ export function PersonalDo() {
           <Link className={styles.phoneLink} href="/do/install#phone">Install DO <ArrowUpRight size={14} /></Link>
           {access === "ready" && workspaceKey
             ? <PersonalDoSettings key={workspaceKey} compact triggerRef={settingsButton} sharedProfile={personalProfile} onProfileChange={setPersonalProfile} />
-            : <Link className={styles.signIn} href="/login?redirect=%2Fdo">Sign in <ArrowUpRight size={15} /></Link>}
+            : <Link className={styles.signIn} href={context === "household" ? "/login?redirect=%2Fdo%2Fhousehold" : "/login?redirect=%2Fdo"}>Sign in <ArrowUpRight size={15} /></Link>}
         </nav>
       </header>
+      {context === "household" && <section className={styles.householdContext} aria-label="Household workspace">
+        <h1>One place for household next steps.</h1>
+        <p>Write, talk or add a notice below to prepare a list, plan or reply to review. This uses your existing DO workspace; it does not create a shared family account or connect a school inbox.</p>
+        <p><Link href="/do/bills">Review bills and CSVs</Link> · Local calculations and downloadable enquiry drafts. No bank connection. <Link href="/do/bills/compare">Compare NZ bill options</Link> with consented document analysis and sourced research; no provider switching or payments.</p>
+        <details><summary>Earlier household sample</summary><p>The fictional nine-seat board remains available separately. Its sample and device-local settings are not imported into your DO notes.</p><Link href="/do/household?view=sample">Open legacy household sample</Link></details>
+      </section>}
       <div className={styles.notice} role="status" aria-live="polite">
         {notice}
       </div>

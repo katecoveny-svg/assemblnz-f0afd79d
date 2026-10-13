@@ -17,7 +17,7 @@ export function DoSecondaryNavigation({ embedded = false, children }: { embedded
       <Link href="/do/widget" {...linkProps}>Open capture workspace</Link>
       <details className={styles.tools}>
         <summary>Tools &amp; examples <span aria-hidden="true">＋</span></summary>
-        <p>Specialist tools and sample workspaces.</p>
+        <p>Each tool states what works and what needs a connection.</p>
         {DO_TOOL_LINKS.map(item => <Link key={item.href} href={item.href} {...linkProps}>{item.label}<small>{item.limit}</small></Link>)}
       </details>
       {children}

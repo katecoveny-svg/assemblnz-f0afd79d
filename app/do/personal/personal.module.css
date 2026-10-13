@@ -766,3 +766,10 @@
 
 /* Warm DO entry backdrop; no new overlay or interaction layer. */
 .page[data-do-identity=assembled-glass]{background:radial-gradient(ellipse 640px 600px at 2% 360px,#e8bfd37a,transparent 78%),radial-gradient(ellipse 700px 640px at 100% 400px,#ddd0ec99,transparent 80%),#faf6f7}
+
+.householdContext { max-width: 760px; margin: 28px auto 12px; padding: 24px; background: #f5f1f2; border-radius: 20px; }
+.householdContext h1 { margin: 0 0 12px; font-size: clamp(23px, 3vw, 32px); font-weight: 500; letter-spacing: -.03em; line-height: 1.2; }
+.householdContext p { font-size: 14px; line-height: 1.65; }
+.householdContext a { text-decoration: underline; text-underline-offset: 3px; }
+.householdContext summary { min-height: 44px; display: flex; align-items: center; font-size: 14px; }
+@media (max-width: 600px) { .householdContext { padding: 20px; margin-top: 16px; } }

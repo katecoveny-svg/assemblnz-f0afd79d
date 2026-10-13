@@ -214,7 +214,7 @@ export function HouseholdFloorClient({
   }
 
   const shareText = floor && floor.visibility === 'public_template'
-    ? `Try Assembl Household Floor — a runnable family DO with nine seats, evening board, and drafts-only gates.\n${typeof window !== 'undefined' ? `${window.location.origin}/do/household` : 'https://www.assembl.co.nz/do/household'}`
+    ? `Try Assembl Household Floor — a runnable family DO with nine seats, evening board, and drafts-only gates.\n${typeof window !== 'undefined' ? `${window.location.origin}/do/household?view=sample` : 'https://www.assembl.co.nz/do/household?view=sample'}`
     : '';
 
   return (
@@ -222,13 +222,13 @@ export function HouseholdFloorClient({
       <header className={styles.header}>
         <div className={styles.brand}>
           <Link href="/do" className={styles.wordmark}>DO</Link>
-          <span>household floor</span>
+          <span>legacy household sample</span>
           <span className={styles.chip}>{floor?.visibility === 'owner_private' ? 'private' : 'sample'}</span>
         </div>
         <div className={styles.headerActions}>
           <Link href="/do/office">Office</Link>
           <Link href="/api/do/download?format=extension">Extension ZIP</Link>
-          <Link href="/do" className={styles.primaryLink}>assembl home DO</Link>
+          <Link href="/do/household" className={styles.primaryLink}>Household DO</Link>
         </div>
       </header>
 
