@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { createClient as createBrowserClient } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/client';
 import { shouldRevalidatePersonalOwner } from '@/apps/do/personal/session';
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import { DoBrand } from '@/components/do/DoBrand';
@@ -28,66 +28,98 @@ export function MemoryNotes() {
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState('');
   const [error, setError] = useState('');
-  // The server names the owner the notes belong to; it travels back as an expectation on every save, never as authority.
-  const workspace = useRef<string | null>(null);
   const formRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLTextAreaElement>(null);
   const alive = useRef(true);
 
-  const load = useCallback(async () => {
-    try {
-      const response = await fetch('/api/do/personal/memory', { cache: 'no-store' });
-      const data = await response.json();
-      if (!alive.current) return;
-      workspace.current = typeof data.workspaceKey === 'string' && data.workspaceKey !== 'guest' ? data.workspaceKey : null;
-      if (response.status === 503 || data.storage === 'unavailable') { setStorage('unavailable'); setRecords([]); return; }
-      if (data.storage === 'none') { setStorage('none'); setRecords([]); return; }
-      const parsed = Array.isArray(data.records) ? data.records.map((item: unknown) => personalMemoryRecordSchema.parse(item)) : [];
-      setRecords(sortMemory(parsed)); setStorage('account');
-    } catch {
-      if (alive.current) { setStorage('unavailable'); setError('Memory could not be loaded. Nothing was changed.'); }
-    }
+  const workspace = useRef<string | null>(null);
+  const generation = useRef(0);
+  const loadRequest = useRef<AbortController | null>(null);
+  const mutationRequest = useRef<AbortController | null>(null);
+  const mutationLock = useRef(false);
+  const resetDraft = useCallback(() => {
+    setDraft(EMPTY_MEMORY_DRAFT(new Date().toISOString())); setEditing(null); setConsent(false);
+    setStatus(''); setError('');
   }, []);
+
+  const load = useCallback(async (): Promise<boolean> => {
+    const epoch = ++generation.current;
+    loadRequest.current?.abort(); mutationRequest.current?.abort();
+    mutationLock.current = false; setBusy(false);
+    const controller = new AbortController(); loadRequest.current = controller;
+    const previousOwner = workspace.current;
+    // Hide old records and drafts while identity is uncertain. Only the server can restore them.
+    setStorage('loading'); setRecords([]);
+    try {
+      const response = await fetch('/api/do/personal/memory', { cache: 'no-store', signal: controller.signal });
+      const data = await response.json();
+      if (!alive.current || controller.signal.aborted || epoch !== generation.current) return false;
+      const owner = typeof data.workspaceKey === 'string' && data.workspaceKey !== 'guest' ? data.workspaceKey : null;
+      if (owner !== previousOwner) resetDraft();
+      workspace.current = owner;
+      if (response.status === 503 || data.storage === 'unavailable') { resetDraft(); setStorage('unavailable'); return false; }
+      if (data.storage === 'none') { resetDraft(); setStorage('none'); return false; }
+      if (!response.ok || data.storage !== 'account' || !owner || !Array.isArray(data.records)) throw new Error('invalid_memory');
+      const parsed = data.records.map((item: unknown) => personalMemoryRecordSchema.parse(item));
+      setRecords(sortMemory(parsed)); setStorage('account');
+      return owner === previousOwner;
+    } catch {
+      if (alive.current && !controller.signal.aborted && epoch === generation.current) {
+        workspace.current = null; resetDraft(); setStorage('unavailable'); setError('Memory could not be loaded. Nothing was changed.');
+      }
+      return false;
+    }
+  }, [resetDraft]);
   useEffect(() => {
     alive.current = true;
-    // Owner-scoped read of saved notes; state updates arrive after the fetch resolves, never a provider call.
+    // Owner-scoped reads only. Authentication hints invalidate; they never grant access.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     void load();
-    // A session switch in another tab invalidates what is shown; the server verifies the new owner on reload.
     const refresh = () => { void load(); };
+    const visible = () => { if (document.visibilityState === 'visible') refresh(); };
     window.addEventListener('focus', refresh);
+    document.addEventListener('visibilitychange', visible);
     let unsubscribe: (() => void) | undefined;
     try {
-      const subscription = createBrowserClient().auth.onAuthStateChange((event, session) => {
-        if (shouldRevalidatePersonalOwner(event, workspace.current, session?.user?.id ?? 'guest')) {
-          workspace.current = null; setRecords([]); setEditing(null); setConsent(false); setStorage('loading');
-          void load();
-        }
+      const subscription = createClient().auth.onAuthStateChange((event, session) => {
+        if (!shouldRevalidatePersonalOwner(event, workspace.current, session?.user?.id ?? 'guest')) return;
+        workspace.current = null; resetDraft();
+        void load();
       });
       unsubscribe = () => subscription.data.subscription.unsubscribe();
-    } catch { /* The page still works from the server's answer when Supabase is not configured in the browser. */ }
-    return () => { alive.current = false; window.removeEventListener('focus', refresh); unsubscribe?.(); };
-  }, [load]);
+    } catch { /* Without client auth configuration, focus revalidation and server binding still fail closed. */ }
+    return () => {
+      alive.current = false;
+      loadRequest.current?.abort(); mutationRequest.current?.abort();
+      window.removeEventListener('focus', refresh); document.removeEventListener('visibilitychange', visible); unsubscribe?.();
+    };
+  }, [load, resetDraft]);
 
   async function send(mutation: PersonalMemoryMutation, success: string) {
+    const owner = workspace.current;
+    if (!owner || storage !== 'account' || mutationLock.current) return false;
+    const epoch = generation.current;
+    const controller = new AbortController(); mutationRequest.current = controller; mutationLock.current = true;
+    const current = () => alive.current && !controller.signal.aborted && epoch === generation.current && workspace.current === owner;
     setBusy(true); setError(''); setStatus('');
-    if (!workspace.current) { setError('Sign in to save optional account memory.'); setBusy(false); return false; }
     try {
       const response = await fetch('/api/do/personal/memory', {
-        method: 'POST', headers: { 'Content-Type': 'application/json', 'X-DO-Workspace': workspace.current }, body: JSON.stringify(mutation),
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'X-DO-Workspace': owner }, body: JSON.stringify(mutation), signal: controller.signal,
       });
       const data = await response.json().catch(() => ({}));
-      if (!alive.current) return false;
-      if (response.status === 409 && data.workspaceChanged) { setEditing(null); setConsent(false); setError('Your signed-in account changed in another tab. Nothing was saved; showing that account’s notes.'); await load(); return false; }
-      if (response.status === 409) { setError('This note changed on another device. Reloading the latest version.'); await load(); return false; }
+      if (!current()) return false;
+      if (data.workspaceChanged || response.status === 401 || (response.ok && data.workspaceKey !== owner)) {
+        workspace.current = null; resetDraft(); await load(); return false;
+      }
+      if (response.status === 409) { setError('This note changed on another device. Reloading the latest version.'); setConsent(false); await load(); return false; }
       if (!response.ok) { setError(typeof data.error === 'string' ? data.error : 'Memory storage unavailable. No change was confirmed.'); return false; }
-      setStatus(success);
-      await load();
-      return true;
-    } catch {
-      if (alive.current) setError('Memory storage unavailable. No change was confirmed.');
+      const sameOwner = await load();
+      if (sameOwner && alive.current && workspace.current === owner) { setStatus(success); return true; }
       return false;
-    } finally { if (alive.current) setBusy(false); }
+    } catch {
+      if (current()) setError('Memory storage unavailable. No change was confirmed.');
+      return false;
+    } finally { if (current()) { mutationLock.current = false; setBusy(false); } }
   }
 
   function startEdit(record: PersonalMemoryRecord) {
@@ -129,7 +161,7 @@ export function MemoryNotes() {
     </div>
     {error && <p className={styles.error} role="alert">{error}</p>}
 
-    <div className={styles.columns}>
+    {storage === 'account' && <div className={styles.columns}>
       <section className={styles.list} aria-labelledby="notes-title">
         <h2 id="notes-title">{records.length ? `${records.length} ${records.length === 1 ? 'note' : 'notes'}` : 'No notes yet'}</h2>
         {storage === 'account' && !records.length && <p className={styles.empty}>DO has nothing stored about you. Add a note when something is worth remembering, or leave it empty.</p>}
@@ -184,6 +216,6 @@ export function MemoryNotes() {
           <p className={styles.fine}>Saved privately to your account for your own review. Not sent to a drafting provider unless you separately allow that for a specific request.</p>
         </form>
       </div>
-    </div>
+    </div>}
   </main>;
 }

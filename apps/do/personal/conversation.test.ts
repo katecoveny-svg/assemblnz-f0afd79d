@@ -59,3 +59,29 @@ describe('kept conversation contract', () => {
     expect(conversationTitle([turns[1]])).toBe('Conversation');
   });
 });
+
+it('preserves every existing message at the 40-turn boundary and refuses rolling replacement', () => {
+ const forty = Array.from({ length: 40 }, (_, index) => ({ ...turns[index % 2], text: `Synthetic turn ${index}` }));
+ const current = nextConversationRecord({ ...save, turns: forty.slice(0, 38) }, null, now)!;
+ const full = nextConversationRecord({ ...save, expectedRevision: 1, turns: forty }, current, now)!;
+ expect(full.turns).toEqual(forty);
+ const rolled = [...forty.slice(2), ...turns];
+ expect(() => nextConversationRecord({ ...save, expectedRevision: 2, turns: rolled }, full, now)).toThrow('conversation_conflict');
+ expect(() => nextConversationRecord({ ...save, expectedRevision: 2, turns: forty.map((turn, i) => i === 0 ? { ...turn, draft: 'Replacement' } : turn) }, full, now)).toThrow('conversation_conflict');
+ expect(full.turns).toEqual(forty);
+ const clockSkew = nextConversationRecord({ ...save, expectedRevision: 2, turns: forty.map(turn => ({ ...turn, at: '2026-10-14T09:00:00.000Z' })) }, full, now)!;
+ expect(clockSkew.turns).toEqual(forty);
+});
+
+it('appends after a fast-device-clock save without rewriting canonical timestamps or reviewed content', () => {
+ const deviceTurns = turns.map(turn => ({ ...turn, at: '2026-10-13T09:00:05.000Z' }));
+ const current = nextConversationRecord({ ...save, turns: deviceTurns }, null, now)!;
+ const appended = nextConversationRecord({ ...save, expectedRevision: 1, turns: [...deviceTurns, { ...turns[0], text: 'Next question', at: '2026-10-13T09:00:06.000Z' }] }, current, '2026-10-13T09:00:02.000Z')!;
+ expect(appended.turns.slice(0, 2)).toEqual(current.turns);
+ expect(appended.turns[2].at).toBe('2026-10-13T09:00:02.000Z');
+ for (const change of [{ label: 'Changed review label' }, { draft: 'Changed review draft' }]) {
+   const changed = deviceTurns.map((turn, i) => i === 1 ? { ...turn, ...change } : turn);
+   expect(extendsTurns(current.turns, changed)).toBe(false);
+   expect(() => nextConversationRecord({ ...save, expectedRevision: 1, turns: changed }, current, now)).toThrow('conversation_conflict');
+ }
+});

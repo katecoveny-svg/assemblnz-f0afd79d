@@ -50,15 +50,14 @@ export function conversationTitle(turns: ConversationTurn[]): string {
   return first.length > 72 ? `${first.slice(0, 71).trimEnd()}…` : first;
 }
 
-/** True when `next` is `previous` with zero or more turns appended; an identical text at a different
- * instant is still a different turn. */
+/** Saved content must remain an exact prefix. Device timestamps are not identity:
+ * nextConversationRecord retains the server-canonical timestamps for existing turns. */
 export function extendsTurns(previous: ConversationTurn[], next: ConversationTurn[]): boolean {
   return next.length >= previous.length && previous.every((turn, index) => {
     const candidate = next[index];
-    return candidate.role === turn.role && candidate.text === turn.text && candidate.at === turn.at;
+    return candidate.role === turn.role && candidate.text === turn.text && candidate.draft === turn.draft && candidate.label === turn.label;
   });
 }
-/** A conversation that cannot take another exchange without passing the turn cap. */
 export function conversationFull(turns: ConversationTurn[], incoming = 2): boolean {
   return turns.length + incoming > CONVERSATION_TURN_LIMIT;
 }
@@ -69,11 +68,9 @@ export function nextConversationRecord(input: ConversationMutation, current: Con
   if (conversationBytes(input.turns, input.title) > CONVERSATION_BYTES_LIMIT) throw new Error('conversation_too_long');
   // Turn times come from the device clock; a clock a few seconds fast must not stop the keep, so the
   // server clock caps them. Nothing downstream relies on turn order within the same instant.
-  const turns = input.turns.map(turn => Date.parse(turn.at) > Date.parse(now) ? { ...turn, at: now } : turn);
-  // A kept conversation only grows: a stale device can never drop or rewrite turns another device
-  // added, and a device at the 40-turn cap cannot slide the window over the oldest ones. When a
-  // conversation is full the client starts a new kept conversation instead.
-  if (current && !extendsTurns(current.turns, turns)) throw new Error('conversation_conflict');
+  const turns = input.turns.map((turn, index) => current?.turns[index] ?? (Date.parse(turn.at) > Date.parse(now) ? { ...turn, at: now } : turn));
+  // A kept conversation only grows: a stale device can never drop turns another device added.
+  if (current && !extendsTurns(current.turns, input.turns)) throw new Error('conversation_conflict');
   return conversationRecordSchema.parse({
     id: input.id, title: input.title, turns, revision: input.expectedRevision + 1,
     createdAt: current?.createdAt ?? now, updatedAt: now,

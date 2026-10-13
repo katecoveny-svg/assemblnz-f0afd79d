@@ -22,16 +22,16 @@ function fixtureStore() {
   return {
     memory(request) {
       if (request.method() === 'GET') return json(200, { records: [...memory.values()], storage: 'account', saved: true, workspaceKey: OWNER, notice: 'Fixture notice.' });
-      if (request.headers()['x-do-workspace'] !== OWNER) return json(409, { error: 'Your signed-in account changed. Reload before saving this note.', workspaceChanged: true });
+      if (request.headers()['x-do-workspace'] !== OWNER) return json(409, { workspaceChanged: true });
       const input = request.postDataJSON(); const current = memory.get(input.id) ?? null;
       if ((current?.revision ?? 0) !== input.expectedRevision) return json(409, { error: 'This record changed. Reload before editing.' });
-      if (input.action === 'delete') { memory.delete(input.id); return json(200, { saved: true }); }
+      if (input.action === 'delete') { memory.delete(input.id); return json(200, { saved: true, workspaceKey: OWNER }); }
       if (input.action === 'save') {
         const record = { id: input.id, subject: 'self', kind: input.kind, text: input.text, source: 'owner_entered', observedAt: input.observedAt, retentionDays: input.retentionDays, active: input.active, revision: input.expectedRevision + 1, consentedAt: iso(), reviewedAt: iso(), updatedAt: iso(), expiresAt: iso(input.retentionDays * 86400000), noticeVersion: 1, use: 'owner_review_only' };
-        memory.set(input.id, record); return json(200, { record, saved: true });
+        memory.set(input.id, record); return json(200, { record, saved: true, workspaceKey: OWNER });
       }
       const record = { ...current, revision: current.revision + 1, updatedAt: iso(), ...(input.action === 'pause' ? { active: false } : { reviewedAt: iso() }) };
-      memory.set(input.id, record); return json(200, { record, saved: true });
+      memory.set(input.id, record); return json(200, { record, saved: true, workspaceKey: OWNER });
     },
     continuity(request) {
       const url = new URL(request.url());

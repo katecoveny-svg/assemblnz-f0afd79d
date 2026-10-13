@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { personalMemoryMutationSchema, personalMemoryRecordSchema, nextMemoryRecord, type PersonalMemoryRecord } from './memory';
 import { changeMemoryMutation, daysUntil, draftFromRecord, saveMemoryMutation, sortMemory, toObservedAt } from './memory-page';
 
@@ -44,4 +44,21 @@ describe('memory page helpers', () => {
     expect(sortMemory([paused, record]).map(item => item.id)).toEqual([record.id, paused.id]);
     expect(daysUntil(record.expiresAt, new Date(now))).toBe(30);
   });
+});
+
+afterEach(() => vi.useRealTimers());
+it.each([
+ ['2026-01-14T19:00:00.000Z', '2026-01-15'],
+ ['2026-07-14T20:00:00.000Z', '2026-07-15'],
+ ['2026-04-04T18:00:00.000Z', '2026-04-05'],
+ ['2026-09-26T18:00:00.000Z', '2026-09-27'],
+])('keeps the Auckland day through morning save/edit/resume at %s', (instant, day) => {
+ vi.useFakeTimers(); vi.setSystemTime(new Date(instant));
+ const saved = nextMemoryRecord(saveMemoryMutation(record.id, { kind: 'routine', text: 'Synthetic morning note', observedAt: day, retentionDays: 30 }, null), null, instant)!;
+ expect(draftFromRecord(saved).observedAt).toBe(day);
+ for (const active of [false, true]) {
+  const edited = nextMemoryRecord(saveMemoryMutation(record.id, draftFromRecord(saved), saved, active), saved, instant)!;
+  expect(draftFromRecord(edited).observedAt).toBe(day);
+  expect(Date.parse(edited.observedAt)).toBeLessThanOrEqual(Date.parse(instant));
+ }
 });
