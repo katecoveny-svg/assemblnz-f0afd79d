@@ -50,3 +50,5 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 .runtime .check{color:#654a4e}
 .runtime .primary-btn.secondary{color:#240b21;border-color:#dccbd6;background:#f5f1f2}
 .runtime .download-link{min-height:32px;font-size:11px}
+
+.do-mark { background: transparent; width: 40px; height: 40px; } .do-mark img { display: block; object-fit: contain; }

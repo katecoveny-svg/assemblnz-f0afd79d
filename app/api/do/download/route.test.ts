@@ -6,6 +6,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import JSZip from 'jszip';
 import { EXTENSION_FILES, GET } from './route';
+import versions from '@/apps/do/shared/distribution-versions.json';
 import { doWidgetScript } from '@/apps/do/shared/distribution';
 import { DoDownloadCtas } from '@/components/do/DoDownloadCtas';
 
@@ -13,10 +14,15 @@ const EXTENSION_DIR = path.join(process.cwd(), 'apps/do/extension');
 const EXTENSION_VERSION = JSON.parse(readFileSync(path.join(EXTENSION_DIR, 'manifest.json'), 'utf8')).version as string;
 
 describe('static DO download parity', () => {
+  it('keeps independently versioned packages aligned with the extension manifest', () => {
+    expect(versions.extension).toBe(EXTENSION_VERSION);
+    expect(versions.mac).toBe('1.7.0');
+    expect(versions.widget).toBe('1.7.0');
+  });
   it.each([
     ['extension', `assembl-do-extension-${EXTENSION_VERSION}.zip`],
     ['mac', 'DO-mac-companion.zip'],
-    ['mac', `assembl-do-macos-${EXTENSION_VERSION}.zip`],
+    ['mac', `assembl-do-macos-${versions.mac}.zip`],
   ])('%s mirror %s has the same runtime files as the API and source', async (format, filename) => {
     const response = await GET(new Request(`https://www.assembl.co.nz/api/do/download?format=${format}`));
     expect(response.status).toBe(200);

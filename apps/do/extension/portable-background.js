@@ -5,7 +5,7 @@ importScripts('portable-core.js');
   const core = globalThis.DoPortableCore;
   const KEY = 'doPortablePendingContextV1';
   const delivering = new Set();
-  const allowed = new Set(['workspace', 'meeting', 'typesafe']);
+  const allowed = new Set(['workspace', 'write', 'talk', 'add', 'meeting', 'typesafe']);
   async function offer(tabId) {
     if (delivering.has(tabId)) return;
     delivering.add(tabId);

@@ -1,17 +1,28 @@
-.do-portable { margin: 14px; padding: 18px; border: 1px solid #916A70; border-radius: 12px; background: #FFFDFB; color: #240B21; font: 14px/1.6 'Instrument Sans', system-ui, sans-serif; }
-.do-portable h2 { font-size: 23px; line-height: 1.15; letter-spacing: -.035em; margin: 0 0 12px; font-weight: 550; }
-.do-portable p { margin: 10px 0; }
-.do-portable .portable-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.do-portable button { width: 100%; min-height: 44px; font: inherit; font-size: 13px; padding: 10px 12px; border: 1px solid #916A70; border-radius: 6px; background: #F5F1F2; color: #240B21; cursor: pointer; text-align: left; }
-.do-portable button:first-child { grid-column: 1 / -1; background: #240B21; color: #FFFDFB; }
-.do-portable button:focus-visible { outline: 3px solid #916A70; outline-offset: 3px; }
-.do-portable button:disabled { opacity: .55; cursor: wait; }
-.do-portable .portable-note { color: #654A4E; font-size: 12px; }
-@media (max-width: 290px) { .do-portable .portable-actions { grid-template-columns: 1fr; } }
-.do-portable-page{margin:0;background:#FFFDFB;color:#240B21;font:15px/1.6 'Instrument Sans',system-ui,sans-serif;padding:22px;box-sizing:border-box}.do-portable-page header{display:flex;justify-content:space-between;gap:16px;font-size:12px;border-bottom:1px solid #916A70;padding-bottom:18px}.do-portable-page header span{font-size:24px;letter-spacing:-.07em}.do-portable-page a{color:#240B21}.do-portable-page .do-portable{padding:28px 0;border:0}.do-portable-page h1{font-size:clamp(38px,8vw,62px);font-weight:450;letter-spacing:-.06em;line-height:1.05;margin:20px 0}.do-portable-page .eyebrow{font-size:11px;letter-spacing:.13em}.do-portable-page details{border-top:1px solid #916A70;padding:18px 0;margin-top:28px}.do-portable-page summary{cursor:pointer;min-height:44px}.do-portable-page .install{display:block;margin-top:24px}.do-portable-page :focus-visible{outline:3px solid #916A70;outline-offset:3px}
-
-.do-portable button:last-child { grid-column: 1 / -1; }
-.do-portable-page { max-width: 680px; margin: 0 auto; }
-
-/* A quiet launcher for the working companion. */
-.do-portable-page{background:radial-gradient(ellipse at 100% 0,#d6a5bd33,transparent 65%),#fffdfb}.do-portable-page header,.do-portable-page details{border:0}.do-portable-page .do-portable{background:transparent;margin:0}.do-portable button{border-radius:22px;border-color:#916a7045;background:#fffdfbb3}.do-portable button:first-child{background:linear-gradient(125deg,#654a4e,#240b21);box-shadow:0 6px 24px #916a7029}.do-portable-page details{background:#f5f1f2;padding:16px;border-radius:24px}
+* { box-sizing: border-box; }
+body { margin: 0; background: #fffdfb; color: #492b3e; font: 15px/1.6 'Instrument Sans', system-ui, sans-serif; }
+.do-portable-page { max-width: 680px; margin: auto; padding: 24px; }
+header { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+header strong { display: flex; align-items: center; gap: 8px; font-size: 24px; font-weight: 550; }
+header small { font-size: 11px; font-weight: 400; }
+a { color: inherit; text-underline-offset: 4px; }
+header a { font-size: 12px; }
+h1 { font-size: clamp(32px, 8vw, 48px); line-height: 1.08; letter-spacing: -.035em; font-weight: 500; margin: 40px 0 20px; }
+p { margin: 12px 0; }
+.entry-actions { display: flex; gap: 8px; margin: 24px 0 16px; }
+button { min-height: 48px; padding: 10px 16px; border: 1px solid #916a7066; border-radius: 24px; background: #f5f1f2; color: #492b3e; font: inherit; cursor: pointer; }
+.entry-actions button { flex: 1; }
+.entry-actions button:first-child { background: #240b21; color: #fffdfb; }
+button:hover { border-color: #492b3e; }
+button:disabled { opacity: .6; cursor: wait; }
+:focus-visible { outline: 3px solid #916a70; outline-offset: 3px; }
+::selection { color: #240b21; background: #eac8df; }
+#portable-status, .portable-note { font-size: 13px; color: #654a4e; }
+.connection { border-top: 1px solid #916a7045; padding-top: 16px; margin-top: 28px; }
+h2 { font-size: 17px; margin: 0; font-weight: 550; }
+details { border-top: 1px solid #916a7045; padding: 8px 0; margin-top: 16px; }
+summary { cursor: pointer; min-height: 48px; padding: 12px 0; }
+details p { font-size: 13px; }
+.portable-actions { display: grid; gap: 8px; }
+.portable-actions button { text-align: left; }
+.install { display: block; font-size: 12px; margin-top: 24px; }
+@media (max-width: 320px) { .do-portable-page { padding: 16px; } header small { display: none; } button { padding: 10px; } }
