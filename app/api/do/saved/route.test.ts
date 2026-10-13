@@ -53,7 +53,8 @@ it('is disabled by default and never touches auth, data or client while closed',
 });
 it('rejects origin, signed-out and changed workspace before any data access', async () => {
   expect((await POST(request(save, a, 'https://evil.test'))).status).toBe(403);
-  expect((await GET(request(undefined, a, ''))).status).toBe(403);
+  expect((await GET(request(undefined, a, 'https://evil.test'))).status).toBe(403);
+  expect((await POST(request(save, a, ''))).status).toBe(403);
   mocks.owner.mockResolvedValue(null); expect((await POST(request(save))).status).toBe(401);
   mocks.owner.mockResolvedValue({ id: b }); expect((await POST(request(save))).status).toBe(409);
   expect(mocks.client).not.toHaveBeenCalled();
@@ -87,4 +88,10 @@ it('fails closed on backend outage with no success, fallback or private error te
   for (const response of [await GET(request()), await POST(request(save))]) {
     expect(response.status).toBe(503); expect(await response.text()).not.toContain('private database detail');
   }
+});
+
+it('accepts ordinary same-origin GET without Origin while requiring workspace and verified owner', async () => {
+  const read = new Request('https://assembl.test/api/do/saved', { headers: { 'X-DO-Workspace': a } });
+  expect((await GET(read)).status).toBe(200);
+  expect((await GET(new Request('https://assembl.test/api/do/saved'))).status).toBe(409);
 });

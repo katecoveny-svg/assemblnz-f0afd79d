@@ -23,7 +23,7 @@ function failure(error: unknown) {
 async function access(request: Request) {
   // Closed path does not touch auth, DB or user content. No env/config change activates this.
   if (!savedDurableActive()) return closed();
-  if (!sameDoOrigin(request)) return json({ error: 'origin_not_allowed', durable: false }, 403);
+  if ((request.method !== 'GET' || request.headers.has('origin')) && !sameDoOrigin(request)) return json({ error: 'origin_not_allowed', durable: false }, 403);
   const owner = await doOwner();
   if (!owner) return json({ error: 'auth_required', durable: false }, 401);
   if (request.headers.get('x-do-workspace') !== owner.id) return json({ error: 'owner_changed', durable: false }, 409);
