@@ -52,3 +52,11 @@ ASSEMBL_PLAYWRIGHT_MODULE=/path/to/playwright node scripts/review-do-account-har
 Artifacts are local under `output/playwright/do-account-hardening/` and `output/playwright/do-cross-device/`. Review screenshots and `results.json` together. This is synthetic desktop/mobile-browser proof, not installed native-client or production two-device proof.
 
 Rollback is a normal code revert, but reverting the memory API binding reopens the cross-account draft risk; prefer fixing forward. No database rollback is part of this change.
+
+## Reconciliation after #1560 merged
+
+Current-main integration base: `dc12199c002f4d626638ed4d9f62207a6f6c4d7b`. Main was merged into this draft without rewriting either branch's history. Retained #1560's regression coverage and helper exports, with the stronger append-prefix contract: role, text, draft and label cannot change, while existing server-canonical timestamps remain unchanged despite device clock skew. Added a sequential fast-clock save/append regression and explicit label/draft mutation assertions.
+
+Behavior relative to #1560: a full conversation stops before provider submission and asks for an explicit new conversation rather than automatically starting another; account revalidation hides old content, clears changed-owner drafts/consent, and rejects superseded GET/POST responses. The Auckland date and changed-source wake-up consent corrections remain. No production configuration, SQL, policies, cleanup or live-provider operations accompany this reconciliation.
+
+Reconciled local suites: 281 focused tests and 1,774 all-DO tests passed (two skipped). Earlier full-suite baseline findings above still apply; this bounded reconciliation does not claim a clean whole-repository suite. Consult the draft PR for the final exact-head browser, typecheck and hosted check receipts.
