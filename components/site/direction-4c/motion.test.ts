@@ -143,7 +143,7 @@ async function controllerFixture() {
   });
   exported.Direction4cHome!();
   for (let n = 0; n < 16; n++) await Promise.resolve();
-  return { attach, world, root, video, videoEvents, frames, resolveAttach, cleanup, media, preference, mobile, resize, buttonEvents, documentEvents, pageDocument, flush: async () => { for (let n = 0; n < 16; n++) await Promise.resolve(); } };
+  return { attach, world, root, video, videoEvents, frames, resolveAttach, cleanup, media, preference, mobile, resize, button, buttonEvents, documentEvents, pageDocument, flush: async () => { for (let n = 0; n < 16; n++) await Promise.resolve(); } };
 }
 it('disposes an attach that resolves after media failure without restarting frames or seeking video', async () => {
   const { attach, world, root, video, videoEvents, frames, resolveAttach, cleanup, flush } = await controllerFixture();
@@ -254,4 +254,15 @@ it('restores kicker copy when a decode is interrupted and decodes cleanly on res
   expect(f.cleared.has(1)).toBe(true);
   f.revealText(); f.fire(); f.tick(16);
   expect(f.kicker.textContent).toBe(original);
+});
+
+it('keeps the retry control accurate after failure and visibility changes', async () => {
+  const f = await controllerFixture(); f.resolveAttach(); await f.flush();
+  f.videoEvents.get('error')!();
+  expect(f.button.textContent).toBe('Play motion');
+  f.pageDocument.hidden = true; f.documentEvents.get('visibilitychange')!();
+  f.pageDocument.hidden = false; f.documentEvents.get('visibilitychange')!();
+  expect(f.button.textContent).toBe('Play motion');
+  expect(f.button.setAttribute).toHaveBeenLastCalledWith('aria-pressed', 'true');
+  f.cleanup();
 });

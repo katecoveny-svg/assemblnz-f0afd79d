@@ -41,13 +41,14 @@ function revealText(root: HTMLElement): () => void {
   // The real copy is captured before any decode runs, so cleanup can restore it mid-scramble.
   const kickers = new Map<HTMLElement, string>(Array.from(root.querySelectorAll<HTMLElement>('[data-scramble]'), el => [el, el.textContent ?? '']));
   const scramble = (el: HTMLElement) => {
-    const final = kickers.get(el) ?? el.textContent ?? '', n = final.length, pool = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    const final = kickers.get(el) ?? el.textContent ?? '';
+    const n = final.length;
     let frame = 0;
     const id = window.setInterval(() => {
       frame++;
       const settled = Math.floor((frame * n) / 16);
       let out = '';
-      for (let i = 0; i < n; i++) out += i < settled || final[i] === ' ' || final[i] === '·' ? final[i] : pool[Math.floor(Math.random() * pool.length)];
+      for (let i = 0; i < n; i++) out += i < settled || final[i] === ' ' || final[i] === '·' ? final[i] : 'abcdefghijklmnopqrstuvwxyz0123456789'[Math.floor(Math.random() * 36)];
       el.textContent = out;
       if (settled >= n) { clearInterval(id); el.textContent = final; }
     }, 34);
@@ -124,8 +125,8 @@ export function Direction4cHome() {
       if (initialized && playbackGate.allowed() && video.paused) void recover();
       // Engine has a document-wide pause switch; contain it to this page.
       document.documentElement.removeAttribute('data-paused');
-      button.setAttribute('aria-pressed', String(paused || media.matches));
-      button.textContent = media.matches ? 'Motion reduced' : paused ? 'Play motion' : 'Pause motion';
+      button.setAttribute('aria-pressed', String(paused || media.matches || !!root.dataset.static));
+      button.textContent = media.matches ? 'Motion reduced' : paused || root.dataset.static ? 'Play motion' : 'Pause motion';
       button.disabled = media.matches;
     };
     const tick = () => {
@@ -195,7 +196,7 @@ export function Direction4cHome() {
       generation++; // A pending attach must never revive a failed scene.
       stop(); root.dataset.static = 'true';
       video.removeAttribute('src'); video.load();
-      button.textContent = 'Play motion';
+      updatePause();
     };
     const recover = () => {
       if (recovery || !initialized || !startup || startup.signal.aborted) return recovery;
