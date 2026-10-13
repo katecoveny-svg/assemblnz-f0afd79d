@@ -1,4 +1,5 @@
 .workspace { --ink:#492B3E; --muted:#654A4E; --paper:#FFFDFB; max-width:1280px; margin:auto; padding:28px 48px 90px; color:var(--ink); background:var(--paper); font-family:var(--font-body),sans-serif; }
+.workspace :is(h1,h2,h3) { color:var(--ink); }
 .workspace * { box-sizing:border-box; }
 .workspace ::selection { background:#EAC8DF; color:#240B21; }
 .workspace button,.workspace select,.workspace input { font:inherit; accent-color:#492B3E; caret-color:#492B3E; }
