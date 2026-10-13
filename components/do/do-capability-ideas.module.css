@@ -10,3 +10,7 @@
 @media(prefers-reduced-motion:reduce){.ideas.ideas button{transition:none}}
 .ideas>p a{display:inline-block;min-height:44px;padding:12px 0;text-decoration:underline;text-underline-offset:3px;color:#492b3e}
 .ideas>p a:focus-visible{outline:3px solid #654a4e;outline-offset:3px;border-radius:4px}
+.outcomes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.outcomes a{display:flex;flex-direction:column;gap:12px;min-width:0;padding:22px 18px;border-radius:24px;background:linear-gradient(145deg,#fffdfbe6,#ead8e380);color:#492b3e;text-decoration:none;box-shadow:0 8px 26px #240b210a}.outcomes a:hover{background:#ead8e3}.outcomes strong{font-size:19px;font-weight:500}.outcomes span{font-size:13px}.outcomes small{font-size:11px;color:#654a4e;line-height:1.5}.outcomes b{font-size:13px;font-weight:500;margin-top:auto;padding-top:8px}.outcomes a:focus-visible{outline:3px solid #654a4e;outline-offset:3px}@media(max-width:600px){.outcomes{grid-template-columns:1fr}.outcomes a{gap:8px;padding:20px}}
+.mealPhoto{display:block;height:135px;background-position:0 0;background-size:400% 200%;border-radius:14px;margin:-8px -4px 0}.outcomes a:first-child{grid-row:span 1}.outcomes a{transition:background 160ms ease-out}@media(prefers-reduced-motion:reduce){.outcomes a{transition:none}}
+.mealPhoto{height:auto;aspect-ratio:1.7;background-size:400% 215%}
+.outcomes .mealPhoto{width:100%;flex-shrink:0}

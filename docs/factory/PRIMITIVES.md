@@ -1,5 +1,14 @@
 # assembl primitive registry
 
+### Personal DO bounded mail review (review build)
+
+Extends verified owner, Pipedream account ownership, Gmail decoding and writing-owner
+invalidation with `apps/do/mail/`, `/api/do/mail` and `/do/mail`. Explicit account,
+literal bounded search, source/account evidence, cancellation and in-memory reviewed
+task drafts; no model, mailbox writes or persistent state. Outlook reading fails
+closed pending verified delegated Mail.Read. Reusable text/voice handoff carries no
+consent. Synthetic tests, setup steps and limits: [Personal mail read](../DO-PERSONAL-MAIL-READ.md).
+
 A primitive is a reusable capability that makes later products faster, safer or better.
 
 Do not extract something merely because it might be reused. Prefer extraction after a second real use or when the mechanic is clearly cross-product infrastructure.
@@ -213,3 +222,7 @@ Extends the existing `do_personal_profiles.voice_name` preference and constraine
 ## Reviewed browser cart foundation — review build
 
 `apps/do/browser/` creates a bounded cart contract and deterministic fixture DOM executor; reuses verified DO ownership and the review/permit/verify lifecycle. `/api/do/browser-actions` is authenticated and fails closed; `capability.ts` supplies one unavailable projection for surface owners and generated companion copy. Atomic durable authority storage/pairing is an unbound port, not an in-memory production substitute. Woolworths execution is explicitly rejected until separate reviewed activation and retailer validation. See [browser cart foundation](../do-action-cloud/BROWSER-CART-FOUNDATION.md) for scope, tests and the staged/applied/deployed ledger.
+
+### Reviewed voice → Shopper DO (14 October draft)
+
+Extends `DoGeminiLive` reviewed output and the existing `ShopJourney`; `lib/do/shop/voice-handoff.ts` bounds a page-owned brief without URLs, browser storage or carried consent. Personal DO and the hosted widget preserve the mounted planner across internal back/return and clear it at their existing owner boundary. `apps/do/shared/audio-exclusion.ts` coordinates read-aloud and live-call output on one page; it never starts audio. See `docs/reviews/SHOPPER-VOICE-20261014.md` for synthetic evidence and DB/Vercel/persistence/listening release gates. Real cart execution and durable editable plans are not provided.

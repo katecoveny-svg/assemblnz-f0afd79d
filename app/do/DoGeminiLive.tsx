@@ -1,6 +1,9 @@
 "use client";
+import { handoffReviewedMail } from "@/apps/do/mail/voice-handoff";
 
 import Link from "next/link";
+import { claimDoAudio } from "@/apps/do/shared/audio-exclusion";
+import { voiceDiagnostic, type VoiceDiagnostic } from "@/apps/do/shared/voice-diagnostics";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type { PersonalDoProfile } from "@/apps/do/personal/profile";
 import { appendVoiceTranscript, voiceTranscriptForReview, type DoVoiceTranscriptEntry } from "@/apps/do/shared/gemini-live-session";
@@ -56,6 +59,8 @@ function play(s: Session, encoded: string) {
 export function DoGeminiLive({
   context = "",
   onDraft,
+  onShoppingDraft,
+  onMailDraft,
   profile: initialProfile,
   onProfileChange,
   draftTarget = "task",
@@ -63,12 +68,15 @@ export function DoGeminiLive({
 }: {
   context?: string;
   onDraft?: (text: string) => boolean;
+  onShoppingDraft?: (text: string) => boolean;
+  onMailDraft?: (text: string) => boolean;
   profile?: PersonalDoProfile;
   onProfileChange?: (profile: PersonalDoProfile | null) => void;
   draftTarget?: "task" | "responsibility";
   signInReturnTo?: "/do/loyalty/everyday-rewards";
 }) {
   const active = useRef<Session | null>(null);
+  const [diagnostic, setDiagnostic] = useState<VoiceDiagnostic | null>(null);
   const [profile, setProfile] = useState(initialProfile);
   const [reviewedParentRevision, setReviewedParentRevision] = useState(initialProfile?.updatedAt);
   const parentRevision = useRef(initialProfile?.updatedAt);
@@ -142,6 +150,7 @@ export function DoGeminiLive({
     const session = active.current;
     active.current = null;
     destroy(session);
+    setDiagnostic(current => current ? { ...current, lifecycle: "ended" } : null);
     setState("idle");
     setMuted(false);
     setConsentFor(null);
@@ -216,6 +225,9 @@ export function DoGeminiLive({
       nextAudio: 0,
       calls: 0,
     };
+    const releaseAudio = claimDoAudio('call', () => end());
+    if (!releaseAudio) { setNotice('Another DO call is active on this page. End it before starting this call.'); return; }
+    s.releaseAudio = releaseAudio;
     active.current = s;
     const current = () => active.current === s;
     setState("starting");
@@ -261,6 +273,9 @@ export function DoGeminiLive({
       if (!current()) return;
       if (!response.ok || !issued.token)
         throw new Error(issued.error || "Voice could not start.");
+      const issuedVoice = issued.config.speechConfig?.voiceConfig?.prebuiltVoiceConfig?.voiceName;
+      if (issuedVoice !== voiceName) throw new Error("The issued voice differs from the one you reviewed. Review call options again.");
+      setDiagnostic(voiceDiagnostic(issued.model, issuedVoice, 'issued'));
       const ws = new WebSocket(
         `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContentConstrained?access_token=${encodeURIComponent(issued.token)}`,
       );
@@ -324,6 +339,7 @@ export function DoGeminiLive({
           if (message.setupComplete && !s.ready) {
             clearTimeout(s.setupTimer);
             s.ready = true;
+            setDiagnostic(value => value ? { ...value, lifecycle: "listening" } : null);
             const input = s.input!;
             const recorder = new AudioWorkletNode(input, "do-pcm-recorder");
             s.recorder = recorder;
@@ -613,6 +629,7 @@ export function DoGeminiLive({
           </button>
         </div>
       )}
+      {diagnostic && <details className="do-live-transcript"><summary>Call diagnostics</summary><p>Build: {diagnostic.build} · model: {diagnostic.model} · voice: {diagnostic.voice} · prompt: {diagnostic.promptVersion} · {diagnostic.lifecycle}</p><p>Accent consistency needs listening review; this metadata does not verify an accent.</p></details>}
       {live && (
         <p className="do-live-state" role="status">
           {state === "starting"
@@ -637,7 +654,7 @@ export function DoGeminiLive({
             reviewApplied.current = false;
             setDraft(review.text);
             setNotice(review.shortened ? "The latest 6,000 characters are ready to edit. The full transcript is still above." : "Edit the transcript below. Nothing is saved or started until you choose it in your workspace.");
-          }}>Review transcript for {draftTarget === "responsibility" ? "a responsibility" : "my DO"}</button>
+          }}>{onShoppingDraft ? "Review transcript" : `Review transcript for ${draftTarget === "responsibility" ? "a responsibility" : "my DO"}`}</button>
           <button type="button" onClick={() => { transcriptRef.current = []; setTranscript([]); }}>
             Clear transcript
           </button>
@@ -657,6 +674,35 @@ export function DoGeminiLive({
             maxLength={6000}
             rows={4}
           />
+          {onMailDraft && <button type="button" disabled={!draft.trim() || draft.length > 1200} onClick={() => {
+            if (reviewApplied.current || !draft.trim() || draft.length > 1200) return;
+            reviewApplied.current = true;
+            if (handoffReviewedMail(draft, {
+              endVoice: () => { if (active.current) end(); },
+              clearConsent: () => setConsentFor(null),
+              accept: onMailDraft,
+            })) {
+              setDraft(null);
+              setNotice("Your reviewed request is in mail review. Choose an account and permit a bounded read there. Nothing has been sent or saved.");
+            } else {
+              reviewApplied.current = false;
+              setNotice("Mail review could not accept this request. Sign in or discard the existing mail review first. Your call notes remain here.");
+            }
+          }}>Review correspondence in my DO</button>}
+          {onMailDraft && draft.length > 1200 && <p>Shorten the reviewed request to 1,200 characters before opening mail review.</p>}
+          {onShoppingDraft && <button type="button" disabled={!draft.trim()} onClick={() => {
+            if (reviewApplied.current || !draft.trim()) return;
+            reviewApplied.current = true;
+            if (onShoppingDraft(draft.trim())) {
+              if (active.current) end();
+              setDraft(null);
+              setConsentFor(null);
+              setNotice("Your reviewed brief is in Shopper DO. Check people, nights and budget there. Nothing is saved or ordered.");
+            } else {
+              reviewApplied.current = false;
+              setNotice("Your existing shopping plan is still open. Return to it or discard it first. These call notes are still here.");
+            }
+          }}>Review in Shopper DO</button>}
           {onDraft && (
             <button
               type="button"

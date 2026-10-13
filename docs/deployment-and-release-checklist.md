@@ -7,6 +7,20 @@ production.** Progress through the stages; each gate must pass before the next.
 local → staging → public sandbox → controlled pilot → production
 ```
 
+## Shared release completion gate — code, database, configuration and persistence
+
+For any relevant product release, including DO, **a merged GitHub PR alone is not a completed release**. Keep one dated evidence record for the target environment and requested audience. Mark every item **passed**, **blocked**, **not run** or **not applicable**, with evidence and an owner; do not turn missing proof into a success claim.
+
+- [ ] Record repository/PR, exact reviewed commit, exact-head CI results (including failures/skips), target Vercel project/environment, deployment ID/URL and the commit actually serving production. Verify routing/health after deployment; preview readiness does not prove production release.
+- [ ] Record the exact required Supabase migration versions and each version's applied/unapplied state on the intended project, verified at a stated UTC time. Verify relevant schema, RLS and RPC permissions separately; a migration file or ledger entry alone does not prove safe runtime behavior.
+- [ ] Inventory relevant Vercel flags and their environment-specific state. Record required secrets as **present**, **absent** or **unverified**, never their values. Confirm that the serving deployment contains the reviewed configuration; saved environment changes alone do not update an existing deployment.
+- [ ] Separate all-user availability from each owner's authority/consent. Record remaining allowlists, subscription/entitlement requirements, enrollment limits, worker health and retention-readiness gates. Do not remove owner isolation or consent to widen the audience.
+- [ ] Where authorized, prove a synthetic owner's **save → reload → new session/device reopen** against the actual deployed persistence path. Verify a second owner's isolation, account-switch invalidation, stale revision/request rejection and failure recovery. Record whether this is mocked, isolated staging or production proof. A successful request, in-memory fixture or local browser draft is not durable-save proof.
+- [ ] Record code/configuration/schema rollback steps and consequences for stored content, consent, retention, expiry cleanup, tombstones and restores. Disabling collection must not silently abandon required retention. Identify irreversible operations and uncertain outcomes explicitly.
+- [ ] Confirm action-time authority before migrations, production configuration/deployment, access expansion, secret creation, or permanent deletion/cleanup. This checklist grants none. Even a GET may purge expired content; inspect the implementation before live verification. Leave blocked operations marked blocked and report the exact missing approval or dependency.
+
+The journey-specific guidance below remains scoped to journey surfaces. For the dated DO all-user rollout blockers and evidence, see [account rollout hardening](do-personal/ACCOUNT-ROLLOUT-HARDENING.md).
+
 ## Platform
 
 - **Hosting**: Vercel (`vercel.json`, `framework: nextjs`). Package manager: **pnpm**.
