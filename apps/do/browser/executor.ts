@@ -64,6 +64,8 @@ export async function executeReviewedCart(input: {
       const before = cartObservation.parse(await adapter.observe());
       checkObservation(before, proposal, now());
       if (!same(before.items, observed.items) || before.revision !== observed.revision) throw new Error('Cart changed');
+      // Observation can yield while consent expires or the connection is revoked.
+      await authority();
       receipts[index].beforeRevision = before.revision;
       receipts[index].status = 'uncertain'; // includes click applied but response lost
       await adapter.setQuantity(proposal.scope, before.revision, item.productId, item.targetQuantity);

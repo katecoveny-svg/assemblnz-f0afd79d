@@ -77,7 +77,7 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
       - name: DO core unit tests
-        run: pnpm test apps/do/evidence apps/do/coordination apps/do/shared apps/do/personal apps/do/services/family.test.ts apps/do/services/family-server.test.ts app/api/do app/do/personal app/do/household/page.test.ts lib/do/public-do-specialists.test.ts lib/do/nz-public-data.test.ts lib/do/nz-local-updates.test.ts lib/do/do-pwa.test.ts lib/do/availability lib/do/travel lib/typesafe lib/os/improvement.test.ts lib/os/routing.test.ts lib/connectors/pipedream.test.ts
+        run: pnpm test apps/do/browser apps/do/evidence apps/do/coordination apps/do/shared apps/do/personal apps/do/services/family.test.ts apps/do/services/family-server.test.ts app/api/do app/do/personal app/do/household/page.test.ts lib/do/public-do-specialists.test.ts lib/do/nz-public-data.test.ts lib/do/nz-local-updates.test.ts lib/do/do-pwa.test.ts lib/do/availability lib/do/travel lib/typesafe lib/os/improvement.test.ts lib/os/routing.test.ts lib/connectors/pipedream.test.ts
       - name: Authentication cookie, callback, login and provider regressions
         run: pnpm exec vitest run app/login app/auth lib/supabase lib/auth/origin.test.ts lib/auth/do-entry.test.ts lib/auth/providers.test.ts lib/auth/remember.test.ts
       - name: Writing ownership scoped lint

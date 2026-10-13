@@ -94,3 +94,19 @@ it('a different approval ID and excessive validity cannot grant execution', asyn
   f.approval.digest = await proposalDigest(f.proposal); await expect(f.run()).rejects.toThrow();
   expect(f.adapter.setQuantity).not.toHaveBeenCalled();
 });
+
+it.each(['revoked', 'expired', 'offline'])('stops before effects when %s during observation', async kind => {
+  const f = await fixture(); let observations = 0;
+  f.adapter.observe = vi.fn(async () => {
+    if (++observations === 2) {
+      if (kind === 'revoked') f.approval.revoked = true;
+      if (kind === 'expired') f.tick(5000);
+      if (kind === 'offline') f.store.isConnected = async () => false;
+    }
+    return structuredClone(f.state);
+  });
+  const receipt = await f.run();
+  expect(receipt.status).toBe('stopped');
+  expect(receipt.items.map(i => i.status)).toEqual(['not_attempted', 'not_attempted']);
+  expect(f.adapter.setQuantity).not.toHaveBeenCalled();
+});

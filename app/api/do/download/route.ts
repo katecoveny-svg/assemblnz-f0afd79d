@@ -1,13 +1,14 @@
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import JSZip from 'jszip';
+import versions from '@/apps/do/shared/distribution-versions.json';
 import { DO_DISTRIBUTION_ORIGIN, doEmbedExample, doWidgetScript } from '@/apps/do/shared/distribution';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-const VERSION = '1.8.0';
-const MAC_VERSION = '1.7.0';
-const WIDGET_VERSION = '1.7.0';
+const VERSION = versions.extension;
+const MAC_VERSION = versions.mac;
+const WIDGET_VERSION = versions.widget;
 const EXTENSION_ROOT = path.join(process.cwd(), 'apps/do/extension');
 const MACOS_ROOT = path.join(process.cwd(), 'apps/do/macos');
 /** Keep in sync with scripts/package-do-downloads.mjs. */
