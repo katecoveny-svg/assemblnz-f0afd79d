@@ -1,6 +1,9 @@
 -- Storage-only responsibilities: apply docs/do-personal/storage-only-proposal.sql, enrol the pilot owner, record a first
 -- completed cleanup and register the version. Run in the Supabase SQL editor as one transaction (13 October 2026).
--- The connector used by the Claude session could not run the DROP/DELETE statements it contains.
+-- Applied to production (wurwcrgxjjwqdaxqceey) on 13 October 2026 at 21:33 UTC in three parts through the
+-- Supabase connector, with ALTER POLICY in place of the DROP/CREATE pair: owner_storage_ready returned true,
+-- consent runs to 20 October 2026 21:33 UTC. The schema half also lives in
+-- supabase/migrations/20261013094000_do_personal_storage_only.sql.
 begin;
 -- NOT APPROVED. ACL correction only; no run-expiry policy change.
 -- REVIEW/TEST ONLY. Do not apply automatically or replay migration backlog.
