@@ -223,6 +223,10 @@ Extends the existing `do_personal_profiles.voice_name` preference and constraine
 
 Creates `lib/do/saved/save-intent.ts` and `/do/saved`: strict selected text/link/note contracts, explicitly chosen local image previews, search, source-linked task drafts and session-only visual review using canonical glass identity and approved fictional art. The server-only repository port supplies owner expectations, CAS and erase tombstones; SQL remains outside migrations; a cookie-scoped adapter and `/api/do/saved` are bound behind the default-off DO_SAVED_DURABLE_ENABLED gate. The visual UI remains session-only. No URL fetching, provider, silent capture or cross-device claim. Proof and release gates: `docs/do-saved/README.md` and `lib/do/saved/save-intent.test.ts`.
 
+### DO Fitness reviewed synthetic handoff (draft)
+
+**Uses/extends:** Strong sample catalogue and engine, Shop quantity consolidation, portable AgentSpec and Office projection. `lib/do/fitness/contracts.ts` bounds chief→Fitness requests and rebuilds reviewed food-only Shop payloads with revision checks, whole-selection food constraints and explicit unsupported-unit blocking. `/do/fitness` is in-memory synthetic adult proof, not authenticated health storage or autonomous execution. Equipment/location and failed-swap donor safety fixes are shared. Tests and release gates: `docs/do-fitness/REVIEW.md`.
+
 ### Reviewed voice → Shopper DO (14 October draft)
 
 Extends `DoGeminiLive` reviewed output and the existing `ShopJourney`; `lib/do/shop/voice-handoff.ts` bounds a page-owned brief without URLs, browser storage or carried consent. Personal DO and the hosted widget preserve the mounted planner across internal back/return and clear it at their existing owner boundary. `apps/do/shared/audio-exclusion.ts` coordinates read-aloud and live-call output on one page; it never starts audio. See `docs/reviews/SHOPPER-VOICE-20261014.md` for synthetic evidence and DB/Vercel/persistence/listening release gates. Real cart execution and durable editable plans are not provided.
