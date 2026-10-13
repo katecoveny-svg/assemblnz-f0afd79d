@@ -21,7 +21,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   const url=new URL(route.request().url());
   if(url.origin!==origin){foreign.push(url.origin);return route.abort();}
   if(route.request().method()!=='GET'){posts.push(url.pathname);return route.abort();}
-  if(url.pathname==='/api/do/personal')return route.fulfill({json:{workspaceKey:'10000000-0000-4000-8000-000000000001'}});
+  if(url.pathname==='/api/do/session'||url.pathname==='/api/do/personal')return route.fulfill({json:{workspaceKey:'10000000-0000-4000-8000-000000000001'}});
   if(url.pathname==='/api/do/runtime')return route.fulfill({json:{signedIn:true,availability:{available:false}}});
   if(url.pathname==='/api/do/live-token')return route.fulfill({json:{enabled:ready,configured:ready,signedIn:true,remaining,dailyLimit:20,sessionSeconds:300,model:'fictional'}});
   if(url.pathname==='/api/do/personal/profile')return route.fulfill({status:profileFailure?503:200,json:profileFailure?{}:{saved:true,profile:{displayName:'Fictional Alex',avatar:'bloom',tone:'warm',responseLength:'brief',initiative:'on_request',preferences:'Fictional reviewed style',voiceName:'Aoede',onboardingCompleted:true,updatedAt:'2026-10-12T00:00:00Z'}}});

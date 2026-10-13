@@ -55,6 +55,7 @@ async function verifyFunctionalMark(page, root, label) {
   const browser = await chromium.launch({ executablePath: process.env.ASSEMBL_CHROMIUM_PATH || '/usr/bin/chromium', headless: true, args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
   try {
     const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
+    await context.route('**/api/do/session', route => route.fulfill({ json: { workspaceKey: 'guest' } }));
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(page.url() + ": " + error.message));
     const visit = async path => { const response = await page.goto(origin + path, { waitUntil: 'networkidle' }); assert.ok(response?.ok(), path); await page.evaluate(() => document.fonts.ready); return response; };
@@ -267,6 +268,6 @@ async function verifyFunctionalMark(page, root, label) {
       }
     }
     check('no unexpected runtime page errors', errors.length === 0);
-    fs.writeFileSync(out + '/results.json', JSON.stringify({ checks, links, errors, renderer, claims: 'Real anonymous HTTP and guest local interaction. No provider, signed-in account, real microphone, native install or external execution tested.' }, null, 2));
+    fs.writeFileSync(out + '/results.json', JSON.stringify({ checks, links, errors, renderer, claims: 'Real anonymous HTTP and guest local interaction; writing identity endpoint uses an explicit synthetic guest response. No provider, signed-in account, real microphone, native install or external execution tested.' }, null, 2));
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); fs.writeFileSync(out + '/failure.json', JSON.stringify({ checks, links, errors, error: String(error) }, null, 2)); process.exitCode = 1; });

@@ -20,6 +20,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   if(request.method()!=='GET'){posts.push(url.pathname);return route.abort()}
   if(url.pathname==='/entry-fixture')return route.fulfill({contentType:'text/html',body:'<!doctype html><title>Fictional companion host</title><p>Fictional practice note.</p><script src="/api/do/widget" defer></script>'});
   if(url.pathname==='/api/do/widget')return route.continue();
+  if (url.pathname === '/api/do/session') return route.fulfill({ json: { workspaceKey: '10000000-0000-4000-8000-000000000001' } });
   if(url.pathname==='/api/do/personal')return route.fulfill({json:{workspaceKey:'10000000-0000-4000-8000-000000000001',responsibilities:[],runs:[],worker:{configured:false,lastSeenAt:null}}});
   if(url.pathname==='/api/do/personal/profile')return route.fulfill({json:{saved:true,profile}});
   if(url.pathname==='/api/do/personal/assistant')return route.fulfill({json:{ready:true,signedIn:true,message:'Ready'}});

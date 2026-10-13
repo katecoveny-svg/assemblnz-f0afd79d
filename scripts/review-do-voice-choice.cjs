@@ -37,7 +37,8 @@ function check(label, result) { assert.ok(result, label); checks.push(label); co
         if (input.voiceName !== profile.voiceName || input.voiceRevision !== revision || (input.includeProfile && input.profileUpdatedAt !== profile.updatedAt)) return route.fulfill({ status: 409, json: { error: 'Fictional stale profile review' } });
         return route.fulfill({ json: { token: 'auth_tokens/fictional-only', model: 'gemini-3.8-live', mode: 'standard', voiceName: profile.voiceName, expiresAt: new Date(Date.now() + 300000).toISOString(), config: { responseModalities: ['AUDIO'], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: profile.voiceName } } } } } });
       }
-      if (url.pathname === '/api/do/personal') return route.fulfill({ json: { workspaceKey: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', responsibilities: [], runs: [], worker: { configured: false, lastSeenAt: null } } });
+      if (url.pathname === '/api/do/session') return route.fulfill({ json: { workspaceKey: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa' } });
+  if (url.pathname === '/api/do/personal') return route.fulfill({ json: { workspaceKey: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', responsibilities: [], runs: [], worker: { configured: false, lastSeenAt: null } } });
       return route.fulfill({ status: 503, json: { error: 'Fictional offline test' } });
     });
     await page.addInitScript(() => {

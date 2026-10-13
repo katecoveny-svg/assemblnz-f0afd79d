@@ -45,6 +45,7 @@ async function fixture({url='https://www.assembl.co.nz/do/widget?nativeReview=1'
     if(window.__offline)throw Error('fictional offline');
     return new Response(JSON.stringify(window.__owner?{version:1,owner:window.__owner,scope:'Personal',label:window.__owner.endsWith('1')?'alex@example.invalid':'taylor@example.invalid'}:{error:'sign_in_required'}),{status:window.__owner?200:401,headers:{'Content-Type':'application/json'}});
    }
+   if(url==='/api/do/session')return new Response(JSON.stringify({workspaceKey:window.__owner||'guest'}),{headers:{'Content-Type':'application/json'}});
    if(url==='/api/do/personal')return new Response(JSON.stringify({workspaceKey:window.__owner||'guest'}),{status:window.__owner?200:401,headers:{'Content-Type':'application/json'}});
    if(url==='/api/do/live-token'&&(opts.method??'GET')==='GET')return new Response(JSON.stringify({enabled:false,configured:false,signedIn:true,remaining:0}),{headers:{'Content-Type':'application/json'}});
    if(url==='/api/do/runtime')return new Response(JSON.stringify({signedIn:true,availability:{preparation:'unavailable',note:'Fictional test; provider disabled'}}),{headers:{'Content-Type':'application/json'}});
@@ -182,7 +183,7 @@ try{
   await page.getByLabel('Choose an image for DO',{exact:true}).setInputFiles({name:'fictional-pixel.png',mimeType:'image/png',buffer:fictionalPNG});
   await page.getByAltText('The image you chose for DO to inspect').waitFor();
   assert.equal(await page.getByRole('button',{name:'Ask DO to look · 1 task'}).isDisabled(),true);await page.getByAltText('The image you chose for DO to inspect').scrollIntoViewIfNeeded();await page.screenshot({path:resolve(out,'actual-image-review-820.png')});
-  await page.evaluate(owner=>{const fetch=window.fetch;window.fetch=(url,options)=>url==='/api/do/personal'?new Promise(resolve=>{window.__resolveWidgetIdentity=()=>resolve(new Response(JSON.stringify({workspaceKey:owner}),{headers:{'Content-Type':'application/json'}}));}):fetch(url,options);window.__owner=owner;window.__auth('SIGNED_IN',{user:{id:owner}})},B);
+  await page.evaluate(owner=>{const fetch=window.fetch;window.fetch=(url,options)=>url==='/api/do/session'?new Promise(resolve=>{window.__resolveWidgetIdentity=()=>resolve(new Response(JSON.stringify({workspaceKey:owner}),{headers:{'Content-Type':'application/json'}}));}):fetch(url,options);window.__owner=owner;window.__auth('SIGNED_IN',{user:{id:owner}})},B);
   await page.waitForFunction(()=>!document.querySelector('#do-vision-context'));
   assert.equal(await page.getByAltText('The image you chose for DO to inspect').count(),0);
   await page.evaluate(()=>window.__resolveWidgetIdentity());

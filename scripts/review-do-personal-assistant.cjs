@@ -28,6 +28,7 @@ const makeResult = message => ({
     const pendingStarted = new Promise(resolve => { resolvePending = resolve; });
     page.on('pageerror', error => errors.push(error.message));
     await page.route('**/api/**', route => route.fulfill({ status: 503, json: { error: 'Fictional unavailable fixture' } }));
+    await page.route('**/api/do/session', route => route.fulfill({ json: { workspaceKey: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa' } }));
     await page.route('**/api/do/personal', route => route.fulfill({ json: { workspaceKey: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', responsibilities: [], runs: [], worker: { configured: true, lastSeenAt: null } } }));
     await page.route('**/api/do/personal/profile', route => route.fulfill({ json: { profile, saved: true } }));
     await page.route('**/api/do/personal/assistant', async route => {
