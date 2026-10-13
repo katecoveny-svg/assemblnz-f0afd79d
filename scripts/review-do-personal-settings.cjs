@@ -166,11 +166,11 @@ async function headingContrast(page) {
     await page.getByRole('button', { name: 'Undo last checklist change', exact: false }).click();
     check('undo restores the prior checklist state', await page.getByRole('button', { name: 'I’ve done this', exact: true }).count() === 3);
     await page.screenshot({ path: out + '/personal-checklist-mobile.png', fullPage: true });
-    await page.getByText('Care, health & later life', { exact: true }).first().click();
+    await page.locator('summary').filter({hasText:'Care & later-life guides'}).first().click();
     await page.getByRole('button', { name: 'Aa · Larger text', exact: true }).click();
     check('care navigation has an accessible larger-text mode', await page.getByRole('button', { name: 'Aa · Standard text', exact: true }).getAttribute('aria-pressed') === 'true');
     await page.locator('#nz-care-navigation').screenshot({ path: out + '/personal-care-mobile.png' });
-    await page.getByText('Weather & public updates', { exact: true }).click();
+    await page.locator('summary').filter({hasText:'Weather & public updates'}).click();
     await page.getByText('Weather for your day', { exact: true }).click();
     await page.getByLabel('Choose a city or town').selectOption('auckland');
     await page.getByRole('button', { name: 'Check city forecast', exact: false }).click();

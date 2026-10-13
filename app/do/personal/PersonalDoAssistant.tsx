@@ -1,6 +1,7 @@
 "use client";
 import { DoReadAloud } from "@/components/do/DoReadAloud";
 
+import { DoCapabilityIdeas } from '@/components/do/DoCapabilityIdeas';
 import Link from 'next/link';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type FormEvent } from 'react';
 import { ArrowUpRight, Check, ChevronDown, Copy, LoaderCircle, RotateCcw, X } from 'lucide-react';
@@ -184,13 +185,10 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange }: 
         {profile && <label><input type="checkbox" checked={useSavedStyle} disabled={working} onChange={event => { setUseSavedStyle(event.target.checked); setConsent(false); }} /><span>Also use my saved tone and wording preferences with OpenAI</span></label>}
       </div>}
     </form>
-    {!result && <div className={styles.starters} aria-label="Ideas to get started">
-      {[['Shop', 'Plan this week’s shop'], ['Travel', 'Organise a weekend away'], ['Save', 'Review my bills']].map(([name, prompt]) => <button key={name} type="button" disabled={working} onClick={() => {
-        if (message.length + prompt.length + 2 > 4000) { setNotice('Your draft is full. Shorten it before adding this idea.'); return; }
-        setMessage(current => current.trim() ? `${current}\n\n${prompt}` : prompt); setConsent(false); setNotice('An idea added to your draft. Nothing was sent.'); inputRef.current?.focus();
-      }}><span>{name}</span>{prompt}</button>)}
-      <p>Plans and drafts for your review. No purchases, bookings or verified savings.</p>
-    </div>}
+    {!result && <DoCapabilityIdeas disabled={working} onChoose={prompt => {
+      if (message.length + prompt.length + 2 > 4000) { setNotice('Your draft is full. Shorten it before adding this idea.'); return; }
+      setMessage(current => current.trim() ? `${current}\n\n${prompt}` : prompt); setConsent(false); setNotice('An idea added to your draft. Nothing was sent.'); inputRef.current?.focus();
+    }} />}
     <div className={styles.status} aria-live="polite" role="status">
       {loading && <p><LoaderCircle size={13} /> Checking availability…</p>}
       {!loading && availability && !availability.ready && <p>{availability.message} {availability.reason === 'entitlement_required' && <Link href="/do/billing">Personal DO subscription</Link>} {!availability.signedIn ? <Link href="/login?redirect=%2Fdo">Sign in</Link> : <button type="button" onClick={() => { setError(''); void loadAvailability(); }}>Check again</button>}</p>}
