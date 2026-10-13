@@ -189,3 +189,7 @@ Extends `lib/do/preparation/contracts.ts` using existing journey run IDs, valida
 ### School source comparison (closed pilot foundation)
 
 Extends Family DO selected-sender validation, HouseholdPerson type and reviewed-action vocabulary via `apps/do/school/` and the existing `/do/family` surface. Actual fictional PDF bytes produce page-cited old/new comparisons, bounded NZ/Auckland dates, explicit child audience matching, conflict/failure gates and owner/revision-bound draft decisions. No private roster defaults, model, live ingestion, durable school store, calendar writes or notifications. Existing Gmail dependency is deliberately closed until specific processing consent and isolated persistence are verified. See `docs/do-school/README.md` for capability matrix, tests and exact private-pilot prerequisites.
+
+### Public Pursuit → Studio storyboard (review implementation, 13 October)
+
+Extends the existing fictional Pursuit examples and extracts the browser-only motion renderer into `lib/studio/motion-video.ts`, retaining the private Studio compatibility import. Creates `lib/studio/public-project.ts`: strict bounded, text-only versioned project import/export. `/pursuit/studio` is an anonymous local brief → four scenes → playable export workflow. No private content, provider calls, cloud persistence, cloning or avatars. Caption cues follow scenes, not speech. Tests and production-browser proof: `docs/PUBLIC-PURSUIT-STUDIO.md`; deployment remains a separate review gate.

@@ -8,7 +8,7 @@ import { isDashMicrosite, isAgentMarketplace, isAtlas, isEcho, isAuthSurface, is
 
 // These public pages supply their own complete navigation and footer.
 // Pursuit previously rendered BOTH its own and shared navigation on mobile.
-const CINEMATIC_PATHS = new Set(['/', '/pursuit', '/pricing', '/agents', '/pilots', '/field-notes', '/concepts']);
+const CINEMATIC_PATHS = new Set(['/', '/pursuit', '/pursuit/studio', '/pricing', '/agents', '/pilots', '/field-notes', '/concepts']);
 const isEditorialHome = (pathname: string | null): boolean => !!pathname && CINEMATIC_PATHS.has(pathname);
 const isLoyaltyJourney = (pathname: string | null): boolean => !!pathname && ['/journeys/one-nz', '/journeys/evidence-receipt', '/journeys/operator-desk', '/journeys/mana-receipt'].some(path => pathname === path || pathname.startsWith(`${path}/`));
 const isDoPreview = (pathname: string | null): boolean => !!pathname && (pathname === '/do' || pathname.startsWith('/do/'));
