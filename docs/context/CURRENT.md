@@ -10,7 +10,7 @@ It is intentionally shorter and more changeable than the long-term strategy docu
 
 ## 13 October entry draft — not a release
 
-The [one DO entry integration](../reviews/DO-ENTRY-INTEGRATION-20261013.md) is a local/draft branch against `6a09eb0`: shared secondary navigation, working Write/Talk/Add entry, prompt shortcuts and compact launcher. Build and bounded browser evidence are recorded there; no merge/deployment or durable shared memory is claimed. The [user-reviewed master roadmap](../do/MASTER-ROADMAP-20261013.md) is the dated proposed sequence. Reliability/voice and public discovery retain separate ownership. Older release evidence below is preserved, not promoted by this draft.
+The [one DO entry integration](../reviews/DO-ENTRY-INTEGRATION-20261013.md) is a draft branch rebased onto `2063e00` (initial audit `6a09eb0`): shared secondary navigation, working Write/Talk/Add entry, prompt shortcuts and compact launcher. Build and bounded browser evidence are recorded there; no merge/deployment or durable shared memory is claimed. The [user-reviewed master roadmap](../do/MASTER-ROADMAP-20261013.md) is the dated proposed sequence. Reliability/voice and public discovery retain separate ownership. Older release evidence below is preserved, not promoted by this draft.
 
 ## 13 October delivery and coordination baseline
 

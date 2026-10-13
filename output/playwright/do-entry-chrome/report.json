@@ -4,6 +4,7 @@
     "Talk and Write preserve the actual mounted editor",
     "unsupported uploads are explicit",
     "local checklist draft survives entry changes",
+    "Add closes after choosing a capture mode",
     "legacy tools are secondary, not deleted",
     "legacy routes remain reachable",
     "Escape closes menu and restores focus",

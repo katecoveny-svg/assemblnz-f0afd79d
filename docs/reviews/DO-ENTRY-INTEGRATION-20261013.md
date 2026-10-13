@@ -1,6 +1,6 @@
 # One DO entry integration — 13 October 2026
 
-**Status: draft for root/user review; no merge or release authorised.** Base main: `6a09eb061d667bf61c3740b0145ab3fb8a197e87`. Branch: `codex/do-entry-chrome-draft`. The [master roadmap](../do/MASTER-ROADMAP-20261013.md) supplies the programme sequence; the [earlier route/reuse audit](DO-ONE-ENTRY-20261013.md) preserves source findings and historical prototype evidence. This review supersedes that audit's “prototype only” status only for the changes listed here.
+**Status: draft for root/user review; no merge or release authorised.** Initial audited base: `6a09eb061d667bf61c3740b0145ab3fb8a197e87`. Rebased on main `2063e00` after PRs #1522–#1524; their public-discovery, Gemini lifecycle and reliability changes are retained unchanged. Branch: `codex/do-entry-chrome-draft`. The [master roadmap](../do/MASTER-ROADMAP-20261013.md) supplies the programme sequence; the [earlier route/reuse audit](DO-ONE-ENTRY-20261013.md) preserves source findings and historical prototype evidence. This review supersedes that audit's “prototype only” status only for the changes listed here.
 
 ## Entry and copy
 
@@ -46,11 +46,11 @@ The separate static concept remains in `prototypes/do-one` on branch `codex/do-u
 - `pnpm typecheck`: passed.
 - Brand guard, front-door guard and macron check: passed. Front-door guard now checks the shared menu and still requires the Meeting sign-in label.
 - Targeted DO tests: 181 personal/companion/voice checks passed; 40 package/navigation/launcher checks passed after regenerating the extension mirror.
-- `review-do-entry-chrome.cjs`: 16 checks passed, including draft append/continuity, no implicit submission/media, 320/375/768/1440 widths, keyboard and reduced motion.
+- `review-do-entry-chrome.cjs`: 17 checks passed, including draft append/continuity, no implicit submission/media, 320/375/768/1440 widths, keyboard and reduced motion.
 - `review-do-companion-entry.cjs`: 17 checks passed, including readiness, reviewed profile, original editor/iframe, explicit expansion, minimise/reopen and phone resize.
-- `review-do-personal-call.cjs`: 25 simulated checks passed, including active call retained through entry/menu/resize, no duplicate token, consent invalidation, cancellation, mute, stale events and explicit end. Real Google audio/microphone were not used.
+- `review-do-personal-call.cjs`: 39 simulated checks passed, including active call retained through entry/menu/resize, no duplicate token, consent invalidation, cancellation, mute, stale events and explicit end. Real Google audio/microphone were not used.
 - Changed-source ESLint passed. Repository-wide lint is not clean: 1,169 errors and 242 warnings in the aggregate run, including untouched admin, research/vendor and email-template files. Representative admin ref-render errors were reproduced on the unchanged base checkout. No broad lint cleanup is part of this draft.
-- Final aggregate tests: **3,208 passed, 2 failed, 3 skipped**. The remaining failures are unchanged-base `lib/deployment/vercel-redeploy.test.ts` (documentation-only skip expectation) and `lib/design/franklin-scene.test.ts` (stale headline expectation). Both reproduced in the untouched base checkout. Initial five NZ transport failures were build prerequisites and passed after generating local plugin candidates; generated plugin artifacts are not part of this PR.
+- Final aggregate tests: **3,236 passed, 2 failed, 3 skipped**. The remaining failures are unchanged-base `lib/deployment/vercel-redeploy.test.ts` (documentation-only skip expectation) and `lib/design/franklin-scene.test.ts` (stale headline expectation). Both reproduced in the untouched base checkout. Initial five NZ transport failures were build prerequisites and passed after generating local plugin candidates; generated plugin artifacts are not part of this PR.
 - Existing settings/checklist regression: **32 checks passed**, including nickname/preferences reload, separate consent, save failure recovery, guest navigation protection and real checklist state. Measured headline contrast against rendered gradient pixels: **10.72:1 desktop, 9.66:1 phone**.
 - Existing header/paint regression passed at 320/375/1440px: no overlaps, 44px targets, keyboard menu, and painted source/submit controls. [Settings report](../../output/playwright/do-entry-settings/results.json), [header report](../../output/playwright/do-entry-header/results.json).
 
@@ -58,4 +58,4 @@ Live Kiwi voice and retained sign-in remain the user's confirmed baseline. These
 
 ## Review decisions
 
-Approve or revise the warmer rounded direction and the compact launcher before release. Keep this PR draft while root reconciles the parallel reliability work. A later shared-state slice must decide how conversations and reviewed candidates become owner-scoped tasks; the UI must not imply that this already exists. Onboarding should reuse profile storage with the existing explicit consent and only ask for connections at the point of need.
+Approve or revise the warmer rounded direction and the compact launcher before release. Keep this PR draft for root/user review; merged reliability work is already retained in the rebased source. A later shared-state slice must decide how conversations and reviewed candidates become owner-scoped tasks; the UI must not imply that this already exists. Onboarding should reuse profile storage with the existing explicit consent and only ask for connections at the point of need.
