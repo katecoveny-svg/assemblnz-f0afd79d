@@ -32,8 +32,8 @@ export function prepareFitness(raw: unknown) {
   const request = FitnessRequestSchema.parse(raw);
   const input = request.input;
   // The donor profile is fictional. Nutrition targets are neither used nor exposed by this slice.
-  const profile = { ...FICTIONAL_STRONG_PROFILE, goals: [input.goal], locations: [input.location], equipment: input.equipment, availableMinutes: input.minutes, trainingDays: input.days, dietaryPattern: input.dietaryPattern, allergens: input.allergens };
-  const candidateSession = buildSession(profile, input.location);
+  const profile = { ...FICTIONAL_STRONG_PROFILE, blockedTags: [...FICTIONAL_STRONG_PROFILE.blockedTags, ...FICTIONAL_STRONG_PROFILE.clearanceRequiredTags], goals: [input.goal], locations: [input.location], equipment: input.equipment, availableMinutes: input.minutes, trainingDays: input.days, dietaryPattern: input.dietaryPattern, allergens: input.allergens };
+  const candidateSession = buildSession(profile, input.location, input.minutes, input.goal === 'mobility' ? ['core', 'mobility'] : undefined);
   // No clinical clearance is created from an empty form; movements awaiting review are withheld.
   const session = { ...candidateSession, exercises: candidateSession.exercises.filter(item => item.clearance !== 'clinician-review' && (input.goal !== 'mobility' || ['core', 'mobility'].includes(item.exercise.movement))).map(({ exercise, sets, reps, restSeconds }) => ({ exercise, sets, reps, restSeconds })) };
   const foodBlocked = input.foodRequirement !== 'none' || input.allergens.length > 0;

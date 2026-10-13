@@ -44,6 +44,12 @@ describe('chief → Fitness → Shop sample boundary', () => {
     }
     expect(JSON.stringify(result)).not.toContain('nutritionTargets');
   });
+  it('selects movement goals before the session limit and uses a compatible hinge fallback', () => {
+    const mobility = prepareFitness({ ...request, input: { ...request.input, goal: 'mobility' } });
+    expect(mobility.session.exercises.length).toBeGreaterThan(0);
+    expect(mobility.session.exercises.every(item => ['core', 'mobility'].includes(item.exercise.movement))).toBe(true);
+    expect(prepareFitness(request).session.exercises.map(item => item.exercise.id)).toContain('glute-bridge');
+  });
   it('uses Shop consolidation and allows only food fields across the handoff', () => {
     const handoff = prepareFoodHandoff(request, review());
     expect(handoff.requirements.find(item => item.name === 'salmon fillet')?.required).toBe(360);

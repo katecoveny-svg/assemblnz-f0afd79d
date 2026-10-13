@@ -57,13 +57,14 @@ export function isExerciseCompatible(exercise: Exercise, profile: Pick<StrongPro
     item === 'band or cable' ? available.has('long resistance band') || available.has('cable') : available.has(item));
 }
 
-export function buildSession(profile: StrongProfile, location: TrainingLocation, minutes = profile.availableMinutes): SessionPlan {
+export function buildSession(profile: StrongProfile, location: TrainingLocation, minutes = profile.availableMinutes, movements?: readonly Exercise['movement'][]): SessionPlan {
   const sets = minutes <= 20 ? 2 : 3;
   const maximumExercises = minutes <= 20 ? 4 : minutes <= 35 ? 6 : 7;
   const prescriptions: ExercisePrescription[] = [];
 
   for (const id of LOCATION_EXERCISES[location]) {
     const exercise = getExercise(id);
+    if (movements && !movements.includes(exercise.movement)) continue;
     const prescription = isExerciseCompatible(exercise, profile, location) ? prescribeExercise(exercise, profile, sets) : null;
     if (prescription && !prescriptions.some(item => item.exercise.id === exercise.id)) {
       prescriptions.push(prescription);
