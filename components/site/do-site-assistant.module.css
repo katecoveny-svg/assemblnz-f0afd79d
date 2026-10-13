@@ -6,3 +6,8 @@
  .widget[data-home-inline] .trigger{float:none;min-height:44px}
  .widget[data-home-inline] .panel{width:100%;max-height:none}
 }
+
+.launcher{display:flex;align-items:center;gap:8px;padding:4px 12px 4px 4px;border:1px solid #916a7033;border-radius:26px;background:#fffdfbf5;box-shadow:0 8px 30px #240b2114;width:fit-content;margin-left:auto}
+.trigger{float:none;display:flex;align-items:center;gap:4px;min-height:56px;padding:0 10px 0 0;border:0;border-radius:20px;background:transparent;color:#492b3e;font-weight:500;white-space:nowrap}
+.entryActions{display:flex;gap:2px;border-left:1px solid #916a7033;padding-left:8px}.entryActions button,.entryActions a{display:flex;align-items:center;justify-content:center;gap:5px;min-height:44px;padding:8px;border:0;border-radius:12px;background:transparent;color:#492b3e;text-decoration:none;font:inherit;font-size:13px;cursor:pointer}.entryActions :is(button,a):hover{background:#f5f1f2}.widget :is(button,a):focus-visible{outline:3px solid #654a4e;outline-offset:2px}.panel header button{min-width:44px;min-height:44px}.widget{bottom:max(16px,env(safe-area-inset-bottom));color:#492b3e}.panel{max-height:calc(100dvh - 112px)}
+@media(max-width:500px){.launcher{gap:2px;padding-right:6px}.entryActions{padding-left:4px}.entryActions button,.entryActions a{padding:6px}.trigger{padding-right:6px}.widget{max-width:calc(100vw - 32px)}}
