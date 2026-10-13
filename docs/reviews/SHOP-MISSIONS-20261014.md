@@ -16,9 +16,9 @@ Separate follow-up from main `8d85121397f48173ec746d876614a44055dd2cd4`. Review 
 
 ## Evidence
 
-- 61 focused tests across `lib/do/shop` and the Everyday Rewards model/ingredients pass locally.
+- 63 focused tests across `lib/do/shop` and the Everyday Rewards model/ingredients pass locally. Includes a 45-case mixed dietary-clause matrix: recognised spans never discard unsupported wording.
 - Full TypeScript check and scoped ESLint pass. Macron check passes using `node --import tsx scripts/lint-macrons.ts` (the CLI wrapper's IPC socket is restricted locally). Brand and public-front-door guards pass.
-- `scripts/review-shop-missions.cjs`: 30 checks at 1440px and 375px, no non-GET requests and no page errors. Verifies actual mission changes, pantry review gate, calculations, explicit cheaper-swap acceptance and invalidated approval, unsupported diet blocking and no horizontal overflow.
+- `scripts/review-shop-missions.cjs`: 40 checks at 1440px and 375px, no non-GET requests and no page errors. Verifies actual mission changes, preservation of edited first-dinner servings, pantry review gate, calculations, explicit cheaper-swap acceptance and invalidated approval, mixed unsupported diet blocking, reset of mission/diet state and no horizontal overflow.
 - Screenshots and machine-readable checks: `output/shop-missions`. The Loyalty DO CI workflow runs both the existing regression script and this new proof, and uploads both evidence folders. Local screenshot review confirms desktop/mobile layout; production build remains a hosted CI gate.
 
 ## Release checklist

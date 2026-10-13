@@ -3,6 +3,23 @@ import { MEALS, ingredientByName } from './catalogue';
 import { validShopCount, aisleList, choicesFromNights, displayQuantity, estimate, listText, parseShopBrief, planMeals, retailerHandoff } from './journey';
 
 describe('shop brief parsing', () => {
+  it('retains arbitrary unsupported wording beside a supported dietary span', () => {
+    for (const supported of ['gluten free', 'no milk', 'vegetarian']) {
+      for (const unsupported of ['low fat', 'high protein', 'organic ingredients', 'Mediterranean diet', 'texture modified']) {
+        for (const clause of [`${supported} and ${unsupported}`, `${unsupported}, ${supported}`, `Dinner for 4 people, ${supported} with ${unsupported}`]) {
+          const parsed = parseShopBrief(clause);
+          expect(parsed.dietaryReviewRequired, clause).toBe(true);
+          expect(parsed.unrecognised.join(' '), clause).toContain(unsupported);
+          expect(planMeals(parsed), clause).toEqual([]);
+        }
+      }
+    }
+  });
+  it('still accepts clauses made entirely of supported requirements and planning details', () => {
+    for (const clause of ['gluten free and no milk', 'Dinner for 4 people, vegetarian please', 'No nuts please, and one of us is vegetarian']) {
+      expect(parseShopBrief(clause).dietaryReviewRequired, clause).toBe(false);
+    }
+  });
   it('reads people, nights, budget, diet, allergens and pantry hints from plain words', () => {
     const brief = parseShopBrief('Dinners for 4 for 5 nights, budget $250. We have rice and some onions. No nuts please, and one of us is vegetarian.');
     expect(brief.servings).toBe(4);

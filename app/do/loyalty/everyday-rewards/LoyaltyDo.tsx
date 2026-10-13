@@ -160,6 +160,8 @@ export default function LoyaltyDo() {
     setProvenance(sampleProvenance);
     setIngredientNotice("");
     setRecipe("pasta-night");
+    setMission("tonight");
+    setDietaryText("");
     setBudgetInput("40");
     setServings(4);
     setOccasion("Family dinner");

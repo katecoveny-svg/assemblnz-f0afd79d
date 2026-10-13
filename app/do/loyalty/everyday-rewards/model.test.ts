@@ -17,7 +17,7 @@ describe("loyalty DO preparation boundary", () => {
     expect(demoAlternative(pantryTemplate, 4, false, 4000, 'rice-night', 'tonight')).toBeNull();
   });
   it('fails closed for unsupported diets and filters explicit catalogue allergens', () => {
-    for (const text of ['vegan', 'sesame allergy', 'low sodium']) {
+    for (const text of ['vegan', 'sesame allergy', 'low sodium', 'gluten free and low fat', 'gluten free and high protein', 'vegetarian with organic ingredients']) {
       expect(demoEligibleMeals(text)).toEqual([]);
       expect(planShop(pantryTemplate, 4, true, 4000, 'pasta-night', 'tonight', text).blockers.length).toBeGreaterThan(0);
     }

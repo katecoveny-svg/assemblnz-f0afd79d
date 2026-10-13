@@ -11,6 +11,21 @@ export type ShopBrief = {
   unrecognised: string[];
 };
 const ALLERGEN_WORDS: Record<string, string[]> = { gluten: ['no wheat', 'wheat-free', 'wheat free', 'gluten', 'gluten-free', 'gluten free', 'coeliac', 'celiac'], milk: ['no milk', 'milk-free', 'milk free', 'dairy', 'dairy-free', 'dairy free', 'lactose'], egg: ['egg-free', 'egg free', 'no eggs', 'no egg'], fish: ['no fish', 'fish-free'], soy: ['no soy', 'soy-free', 'soy free'], nuts: ['no nuts', 'no nut', 'nut-free', 'nut free', 'nut allerg', 'allergic to nuts', 'no peanuts', 'peanut allerg', 'peanut-free', 'peanut free'] };
+const SUPPORTED_DIET = new RegExp(`\\b(?:${[...Object.values(ALLERGEN_WORDS).flat(), 'vegetarian', 'veggie', 'no meat', 'meat-free', 'vegan'].sort((a, b) => b.length - a.length).join('|')})\\b`, 'gi');
+
+/** Consume only supported spans, never discard a whole clause because one word matched.
+ * The small planning grammar allows a restriction to share a clause with counts/budget.
+ * Any other wording alongside that restriction must remain visible for review. */
+function unsupportedMixedDietaryClause(clause: string): boolean {
+  const withoutDiet = clause.replace(SUPPORTED_DIET, ' ');
+  if (withoutDiet === clause) return false;
+  const remainder = withoutDiet
+    .replace(/\b(?:for|feed|feeds|feeding|family of)\s+\d{1,2}\b(?:\s*(?:people|adults|of us|pax|nights?|dinners?|days?|meals?)\b)?|\b\d{1,2}\s*(?:people|adults|of us|pax|nights?|dinners?|days?|meals?)\b/gi, ' ')
+    .replace(/\$\s?\d+(?:\.\d+)?|\b\d+\s*(?:dollars|bucks|nzd)\b|\bbudget\s+(?:of|is)\s*\d+/gi, ' ')
+    .replace(/\b(?:one of us is|we are|i am|i'm|we're|please|and|or|with|for|a|the|is|dinners?|meals?|nights?|budget|of)\b/gi, ' ')
+    .replace(/[\s,;:&+()\-]+/g, '');
+  return remainder.length > 0;
+}
 export function parseShopBrief(text: string): ShopBrief {
   const source = text.replace(/\s+/g, ' ').trim();
   const lower = source.toLowerCase();
@@ -36,7 +51,8 @@ export function parseShopBrief(text: string): ShopBrief {
   const unrecognised = source.split(/[.;]\s*/).map(part => part.trim()).filter(part => part && !/(for|feed)\s+\d|\d\s*(people|adults|nights?|dinners?|days?)|\$|dollars|budget|vegetarian|veggie|have|got|week|gluten|dairy|nut|egg|fish|soy/i.test(part));
   // Retain every dietary clause for review, including clauses attached to recognised counts.
   const dietaryRemainder = Object.values(ALLERGEN_WORDS).flat().sort((a, b) => b.length - a.length).reduce((remaining, phrase) => remaining.split(phrase).join(' '), lower).replace(/\bno meat\b|\bmeat-free\b/g, ' ');
-  const dietaryReviewRequired = /\b(?:no|without|avoid|exclude)\s+[a-z]|\b[a-z]+[- ]free\b/.test(dietaryRemainder) || /allerg|intoleran|sesame|shellfish|celery|mustard|sulphite|lupin|halal|kosher|low.sodium|diabet|keto/i.test(source);
+  const mixedDietaryClauses = source.split(/[.;]\s*/).filter(unsupportedMixedDietaryClause);
+  const dietaryReviewRequired = mixedDietaryClauses.length > 0 || /\b(?:no|without|avoid|exclude)\s+[a-z]|\b[a-z]+[- ]free\b/.test(dietaryRemainder) || /allerg|intoleran|sesame|shellfish|celery|mustard|sulphite|lupin|halal|kosher|low.sodium|diabet|keto/i.test(source);
   if (dietaryReviewRequired) unrecognised.push(`Dietary requirements need manual review; this catalogue cannot verify allergy safety. Review the full brief: ${source}`);
   return { servings, nights, budget, vegetarian, dietaryReviewRequired, vegan: /\bvegan\b/.test(lower), excludedAllergens, pantryHints, unrecognised };
 }

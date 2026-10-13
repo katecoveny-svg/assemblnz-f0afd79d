@@ -121,7 +121,7 @@ export default function ShopJourney({ initialBrief = '', embedded = false, expec
   const alternative = useMemo(() => brief && pantryReviewed && pantry.issues.length === 0 && numericValid ? lowerCostAlternative(choices, eligible, next => aisleList(next, pantry.pantry).lines.reduce((sum, line) => sum + line.estimateMinor, 0)) : null, [brief, pantryReviewed, pantry, numericValid, choices, eligible]);
   function applyMission(mission: ShopMission) {
     if (!brief || !numericValid || (mission === 'pantry' && !pantryReviewed)) return;
-    const next = missionChoices(mission, eligible, pantryReviewed ? pantry.pantry : [], brief.servings, nights[0]?.mealId);
+    const next = missionChoices(mission, eligible, pantryReviewed ? pantry.pantry : [], nights[0]?.servings ?? brief.servings, nights[0]?.mealId);
     setNights(nightsFromChoices(next)); setInvalidNumbers({}); invalidate();
     setNotice(mission === 'extra' ? 'Two dinners of the same recipe. Quantities include tomorrow’s portions; pantry is deducted once.' : mission === 'pantry' ? 'Recipe chosen by confirmed ingredient coverage in this catalogue. Review the remaining list.' : 'One dinner planned. Review its ingredients below.');
   }
