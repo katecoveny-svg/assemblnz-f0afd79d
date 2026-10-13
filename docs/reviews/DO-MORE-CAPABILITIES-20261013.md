@@ -42,3 +42,9 @@ Library draft screenshots: [desktop More](https://chatgpt.com/api/library/files/
 ## Review boundary
 
 Review the broader capability copy and rose panel before merging. Connected calendar agendas, proactive briefings, real family integrations, cross-device task coordination and native widgets remain separate implementation. No auth/session/provider/voice/native lifecycle code is changed.
+
+## Remote validation and recovery follow-up
+
+The UI commit `18f38ba` passed the complete DO core CI workflow, including production build, typecheck, auth/voice regressions and browser proof. Its Vercel review preview is https://assemblnz-f0afd79d-8tmmg7vxx-katecoveny-svgs-projects.vercel.app. Portable validation exposed a CSS bundling assumption in the standalone native receiver test harness. Commit `2fffed0` fixes the fixture to include real CSS; portable continuity, both Mac build workflows, context health and synthetic SQL proof then passed. Core validation at that commit passed 1,534 tests but flagged two stale Mac source ZIP mirrors. This follow-up refreshes only `macos/tests/receiver-browser.mjs` inside those mirrors; all 11 download tests now pass locally. Final-head CI remains required before merge.
+
+After Mac restart, free space was 17 GiB. The sole task-owned Next cache found was `do-entry-production/.next` (570 MB). No cache, source, dependencies or evidence was deleted. Heavy local builds remain paused; the interrupted local production build is not claimed as passing. No production deployment or merge was performed.
