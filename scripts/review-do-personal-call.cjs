@@ -143,7 +143,7 @@ const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLe
     });
     check('interruption stops and disconnects queued speech without replaying interrupted audio', await page.evaluate(() => window.__callTest.audio.length === 1 && window.__callTest.audio[0].stopped && window.__callTest.audio[0].disconnected && !window.__callTest.tracks.at(-1).stopped));
     await panel.getByText('Conversation transcript · this session', { exact: true }).click();
-    await panel.getByRole('button', { name: 'Review transcript for a responsibility', exact: true }).click();
+    await panel.getByRole('button', { name: 'Review transcript', exact: true }).click();
     const review = panel.getByLabel('Review and edit your call notes', { exact: true });
     await review.fill('My explicitly reviewed fictional outline.');
     await page.evaluate(() => { const socket = window.__callTest.sockets.at(-1); const tool = { toolCall: { functionCalls: [{ id: 'brief-one', name: 'compile_do_agent', args: { brief: 'Prepare a fictional proposal' } }] } }; socket.emit(tool); socket.emit(tool); });

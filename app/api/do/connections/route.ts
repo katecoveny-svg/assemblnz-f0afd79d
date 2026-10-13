@@ -59,8 +59,9 @@ export async function GET() {
     accounts: accounts
       .filter((account) => accountOwner(account) === owner.externalId)
       .map((account) => ({
+        id: account.id,
         app: account.app?.name_slug ?? 'unknown',
-        label: account.app?.name ?? account.name ?? 'Connected account',
+        label: account.name ?? account.app?.name ?? 'Connected account',
         healthy: account.healthy === true,
       })),
   }, { headers });

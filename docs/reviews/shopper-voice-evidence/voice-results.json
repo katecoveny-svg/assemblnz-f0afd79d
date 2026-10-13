@@ -1,0 +1,35 @@
+{
+  "checks": [
+    "reviewed call reaches real planner with worker disabled",
+    "handoff ends microphone and carries no call consent",
+    "back and return retain unsaved serving edits",
+    "repeat handoff cannot replace open plan",
+    "cancel discard retains plan",
+    "cancel page navigation retains shopping edits",
+    "private brief never enters URL",
+    "brief never enters persistent browser storage",
+    "no provider permission is reused for persistence",
+    "responsive voice planner 1440",
+    "responsive voice planner 375",
+    "verified account change clears shopping work",
+    "fixed saved voice is sent once without browser TTS fallback",
+    "invalid people stays editable: 2.5",
+    "invalid people stays editable: ",
+    "invalid people stays editable: 0",
+    "invalid people stays editable: 13",
+    "fractional nightly servings do not crash",
+    "hosted widget voice opens same planner and retains work across modes",
+    "fast other-owner continuity cannot enable save",
+    "widget outer Privacy cancellation preserves plan",
+    "widget clears A while owner verification is delayed",
+    "late A cannot restore shopping draft into B",
+    "widget performs no persistence write",
+    "no uncaught errors"
+  ],
+  "writes": [
+    "/api/do/live-token",
+    "/api/do/live-token"
+  ],
+  "errors": [],
+  "scope": "Synthetic accounts/media/sockets; no paid calls, real microphone or retailer action"
+}

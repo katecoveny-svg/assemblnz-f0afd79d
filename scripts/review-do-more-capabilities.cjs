@@ -69,7 +69,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   }
   check('page navigation never starts microphone',await page.evaluate(()=>window.__media===0));
   await page.setViewportSize({width:1440,height:1000});
-  await page.locator('[data-do-idea=agenda]').click();
+  await page.getByText('Draft something else', {exact:true}).click();await page.locator('[data-do-idea=agenda]').click();
   check('agenda appends without submitting',await editor.inputValue()==='Fictional draft to retain across menus.\n\nHelp me plan the week ahead');
   await page.getByText('More ways DO can help',{exact:true}).click();
   const expected=await page.locator('[data-do-idea]').evaluateAll(es=>es.map(e=>({id:e.dataset.doIdea,label:e.getAttribute('aria-label')})));
@@ -80,7 +80,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
     await page.setViewportSize({width,height:900});await page.goto(origin+url);await page.locator('#do-source').waitFor();
     const actual=await page.locator('[data-do-idea]').evaluateAll(es=>es.map(e=>({id:e.dataset.doIdea,label:e.getAttribute('aria-label')})));
     check(surface+' uses the same capability definitions',JSON.stringify(actual)===JSON.stringify(expected));
-    await page.locator('#do-source').fill('Fictional existing widget draft.');await page.locator('.do-source-details>summary').click();await page.locator('#do-source-title').fill('Fictional source title');await page.locator('#do-source-url').fill('https://example.com/notes');await page.locator('[data-do-idea=agenda]').click();
+    await page.locator('#do-source').fill('Fictional existing widget draft.');await page.locator('.do-source-details>summary').click();await page.locator('#do-source-title').fill('Fictional source title');await page.locator('#do-source-url').fill('https://example.com/notes');await page.getByText('Draft something else', {exact:true}).click();await page.locator('[data-do-idea=agenda]').click();
     await page.waitForFunction(()=>document.querySelector('#do-source').value.includes('Help me plan'));
     check(surface+' appends and retains draft',await page.locator('#do-source').inputValue()==='Fictional existing widget draft.\n\nHelp me plan the week ahead');
     check(surface+' retains source metadata',await page.locator('#do-source-title').inputValue()==='Fictional source title'&&await page.locator('#do-source-url').inputValue()==='https://example.com/notes');
@@ -91,7 +91,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   await page.setViewportSize({width:500,height:900});await page.goto(origin+'/entry-fixture');await page.getByRole('button',{name:'Open DO. Drag to move or use Alt and arrow keys.',exact:true}).click();
   const frame=page.frameLocator('iframe');await frame.locator('#do-source').waitFor();
   check('companion iframe uses the same capability definitions',JSON.stringify(await frame.locator('[data-do-idea]').evaluateAll(es=>es.map(e=>({id:e.dataset.doIdea,label:e.getAttribute('aria-label')}))))===JSON.stringify(expected));
-  await frame.locator('#do-source').fill('Fictional companion draft.');await frame.locator('[data-do-idea=school]').click();
+  await frame.locator('#do-source').fill('Fictional companion draft.');await frame.getByText('Draft something else', {exact:true}).click();await frame.locator('[data-do-idea=school]').click();
   await page.waitForTimeout(100);check('companion preserves draft when adding an idea',(await frame.locator('#do-source').inputValue()).startsWith('Fictional companion draft.\n\n'));
   const menu=frame.locator('details[data-do-overlay]');await menu.locator('summary').first().click();await menu.locator('details>summary').click();
   check('embedded tool links open separately',await menu.getByRole('link',{name:'School briefing'}).getAttribute('target')==='_blank');
