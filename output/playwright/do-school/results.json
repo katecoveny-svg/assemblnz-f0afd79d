@@ -1,0 +1,13 @@
+{
+  "surface": "http://localhost:3137/do/family",
+  "classification": "fictional local preview; not production or private pilot proof",
+  "desktop": {"viewportWidth":1440,"review":true,"dismiss":true,"pdfLink":true},
+  "mobile": {"viewportWidth":375,"noHorizontalOverflow":true},
+  "scenarios": {"changedDateTimeLocation":true,"cancellation":true,"conflictBlocksReview":true,"missingDateBlocksReview":true,"staleSourceBlocksReview":true,"unavailableSourceLabel":true,"forwardedDuplicateCollapsed":true},
+  "state": {"inputChangeClearsReview":true,"clear":true,"reloadClears":true},
+  "accessibility": {"keyboardFocusOutline":"solid","reducedMotion":true},
+  "console": {"finalErrors":0,"existingWarning":"Existing DO widget iframe allow-scripts + allow-same-origin warning"},
+  "observations": ["Existing fixed DO companion/shortcut controls overlay part of the long mobile capture; shared shell retained for PR1525 owner.","Initial loopback-origin rejection resolved by using localhost, preserving existing origin guard.","PDF.js worker packaging failure fixed using serverExternalPackages and fixture tracing."],
+  "screenshots": ["desktop.png","mobile.png","conflict-mobile.png"],
+  "notVerified": ["Kate DO Gmail grant/scopes","live notices/attachments","private persisted history","calendar writes","background ingestion","notifications"]
+}

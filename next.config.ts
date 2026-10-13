@@ -1,11 +1,20 @@
 import type { NextConfig } from "next";
+import { realpathSync } from "node:fs";
+import path from "node:path";
+
+// Trace the resolved pnpm file only. Including both a symlink child and its
+// real target produces an invalid Vercel serverless package.
+const schoolPdfWorker = path.relative(process.cwd(), realpathSync(path.join(process.cwd(), "node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs"))).split(path.sep).join("/");
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // PDF.js loads its Node worker relative to the package at runtime.
+  serverExternalPackages: ['pdfjs-dist'],
   outputFileTracingRoot: process.cwd(),
   // Ship the committed winter-series markdown into the serverless bundles that
   // read it at runtime (the /admin approvals ingest action + the ingest API).
   outputFileTracingIncludes: {
+    '/api/do/family/school-preview': ['./public/do/school-fixtures/*.pdf', schoolPdfWorker],
     '/opengraph-image': ['./public/brand/assembl-assembled-plum-og.png'],
     '/api/do/download': ['./apps/do/extension/**', './apps/do/macos/**'],
     '/admin/approvals': ['./content/spark-winter-series/**'],

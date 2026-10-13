@@ -1,0 +1,43 @@
+name: School briefing validation
+on:
+  pull_request:
+    paths:
+      - 'apps/do/school/**'
+      - 'apps/do/services/family*'
+      - 'apps/do/services/gmail-ownership.test.ts'
+      - 'app/api/do/family/**'
+      - 'app/do/family/**'
+      - 'public/do/school-fixtures/**'
+      - 'scripts/generate-school-fixtures.ts'
+      - 'next.config.ts'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/do-school-validation.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthetic-school-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Verify exact candidate HEAD
+        env:
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: pnpm install --frozen-lockfile
+      - name: Fictional PDF, change, consent and owner contracts
+        run: pnpm exec vitest run --maxWorkers=1 --testTimeout=30000 apps/do/school apps/do/services/family.test.ts apps/do/services/family-server.test.ts apps/do/services/gmail-ownership.test.ts app/api/do/family
+      - name: Scoped lint
+        run: pnpm exec eslint apps/do/school app/api/do/family/school-preview app/do/family/SchoolBriefing.tsx app/do/family/FamilyDo.tsx next.config.ts scripts/generate-school-fixtures.ts --max-warnings=0
