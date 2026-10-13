@@ -209,3 +209,7 @@ Extends the existing fictional Pursuit examples and extracts the browser-only mo
 ### DO saved live-call voice (13 October review implementation)
 
 Extends the existing `do_personal_profiles.voice_name` preference and constrained Gemini Live token. `apps/do/shared/voice-options.ts` is the common curated allowlist; `apps/do/services/voice-preference.ts` binds the reviewed voice/revision to the authenticated owner. All hosted call entry surfaces use the saved choice on the next call with fresh consent; active session configuration is not replaced. No new storage or provider authority. Sources, integration boundaries and synthetic proof: `docs/DO-VOICE-CHOICE-20261013.md`.
+
+### Reviewed Save-to-DO visual board (inactive persistence proposal)
+
+Creates `lib/do/saved/save-intent.ts` and `/do/saved`: strict selected text/link/note contracts, explicitly chosen local image previews, search, source-linked task drafts and session-only visual review using canonical glass identity and approved fictional art. The server-only repository port supplies owner expectations, CAS and erase tombstones; SQL remains outside migrations and no durable adapter or route is bound. No URL fetching, provider, silent capture or cross-device claim. Proof and release gates: `docs/do-saved/README.md` and `lib/do/saved/save-intent.test.ts`.
