@@ -35,7 +35,7 @@ export function stopVoiceAudio(session: VoiceSessionResources) {
 /** Caller invalidates the active session first, so late async completions cannot publish. */
 export function releaseVoiceSession(session: VoiceSessionResources | null) {
   if (!session) return;
-  session.releaseAudio?.();
+  release(() => session.releaseAudio?.());
   session.releaseAudio = undefined;
   session.ready = false;
   // Release capture before socket/audio cleanup: a failing close must never retain the mic.
