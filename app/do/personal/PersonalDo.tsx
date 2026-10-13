@@ -27,6 +27,8 @@ import type { PersonalDoProfile } from "@/apps/do/personal/profile";
 import { PersonalDoSettings } from "./PersonalDoSettings";
 import { LifeAdmin } from "./LifeAdmin";
 import { PersonalDoAssistant, type PersonalAssistantWork } from "./PersonalDoAssistant";
+import { WakeupControls } from "./WakeupControls";
+import { triggerLabel } from "@/apps/do/personal/wakeups";
 import { DoLocalInformation } from '@/components/do/DoLocalInformation';
 import { acceptDoShare, readDoShareForWorkspace, doShareText } from "@/apps/do/shared/share-intake";
 import { createClient as createBrowserClient } from "@/lib/supabase/client";
@@ -230,7 +232,8 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
   }
   async function change(payload: unknown, run = false, retry = false): Promise<boolean> {
     const requestOwner = workspaceKey;
-    const saving = !run && (payload as { action?: string }).action === "save";
+    const action = (payload as { action?: string }).action;
+    const saving = !run && action === "save";
     if (lock.current || (saving && saveUncertain && !retry)) return false;
     if (saving && retry && pendingSave.current?.owner !== requestOwner) return false;
     lock.current = true;
@@ -240,7 +243,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
       if (requestOwner) rememberRequest(requestOwner, (payload as { id: string }).id);
       setSaveUncertain(true);
     }
-    setNotice(run ? "DO is preparing from your saved notes…" : "Saving…");
+    setNotice(run ? "DO is waking up with your saved notes…" : action === "schedule" ? "Updating wake-ups…" : "Saving…");
     let rejectedWithoutWrite = false;
     try {
       const r = await fetch(run ? "/api/do/personal/run" : "/api/do/personal", {
@@ -275,9 +278,11 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
       setNotice(
         run
           ? data.published
-            ? "A draft is ready for your review."
+            ? "A worksheet is ready for your review. No model was called."
             : "No draft was published. Check the run history for a failure or cancellation."
-          : "Saved · preparation off.",
+          : action === "schedule"
+            ? "Wake-ups updated. DO prepares from these saved notes only."
+            : "Saved · preparation off.",
       );
       return true;
     } catch (e) {
@@ -389,7 +394,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
       {access === "ready" && state && (
         <details className={styles.ongoing}>
           <summary><span><span className={styles.eyebrow}>SAVED NOTES</span><strong>Ongoing responsibilities</strong></span><span className={styles.ongoingCount}>{needsReview ? `${needsReview} to review` : `${state.responsibilities.length} saved`} <ChevronDown size={20} /></span></summary>
-          <div className={styles.ongoingIntro}><p>Save your own responsibility and notes privately. Preparation stays off.</p><button className={styles.save} onClick={() => openEditor()} disabled={busy || !state.storage?.available || state.responsibilities.length >= 5}><Plus size={18} /> Give DO a responsibility</button></div>
+          <div className={styles.ongoingIntro}><p>{state.wakeups?.enabled ? "Save your own responsibility and notes privately, then choose when DO wakes up to prepare a worksheet from them." : "Save your own responsibility and notes privately. Preparation stays off."}</p><button className={styles.save} onClick={() => openEditor()} disabled={busy || !state.storage?.available || state.responsibilities.length >= 5}><Plus size={18} /> Give DO a responsibility</button></div>
           <section
             className={styles.worker}
             aria-label="Background worker status"
@@ -404,7 +409,9 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
                 {state.worker.lastSeenAt
                   ? `Last worker check: ${stamp(state.worker.lastSeenAt)} (NZ time).`
                   : "Waiting for the first cloud worker check."}{" "}
-                Background preparation is off. Saving notes does not queue work or grant provider permission. Phone notifications are not connected.
+                {state.worker.configured
+                  ? "Wake-ups prepare a worksheet from your saved notes only; no model is called. Saving notes does not turn wake-ups on. Phone notifications are not connected."
+                  : "Background preparation is off. Saving notes does not queue work or grant provider permission. Phone notifications are not connected."}
               </p>
             </div>
             <button
@@ -438,16 +445,24 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
                         {responsibilityStatus(item, now, state?.worker.configured === true)}
                       </span>
                       <span>
-                        Saved · preparation off
+                        {state.wakeups?.enabled ? "Saved privately" : "Saved · preparation off"}
                       </span>
                     </div>
                     <h3>{item.title}</h3>
                     <p>{item.goal}</p>
-                    <p className={styles.meta}>
+                    {!state.wakeups?.enabled && <p className={styles.meta}>
                       {item.timezone}
                       <br />
                       No preparation scheduled
-                    </p>
+                    </p>}
+                    {state.wakeups?.enabled && <WakeupControls
+                      item={item}
+                      now={now}
+                      busy={busy}
+                      workerReady={state.worker.configured}
+                      onSchedule={payload => change(payload)}
+                      onWake={note => change(note ? { id: item.id, note } : { id: item.id }, true)}
+                    />}
                     <details>
                       <summary>What DO remembers</summary>
                       <p className={styles.notes}>{item.notes}</p>
@@ -457,7 +472,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
                       </small>
                     </details>
                     <div className={styles.actions}>
-                      <button
+                      {!state.wakeups?.enabled && <button
                         disabled={
                           busy ||
                           responsibilityStatus(item, now, state?.worker.configured === true) !== "Scheduled" ||
@@ -466,7 +481,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
                         onClick={() => void change({ id: item.id }, true)}
                       >
                         Prepare now <ArrowUpRight size={15} />
-                      </button>
+                      </button>}
                       <button disabled={busy} onClick={() => openEditor(item)}>
                         Edit notes
                       </button>
@@ -545,8 +560,9 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
                   <DoPresence size="small" finish="glass" />
                   <h3>No drafts yet</h3>
                   <p>
-                    Background preparation is off. Saving a responsibility does not start its
-                    scheduled check.
+                    {state.worker.configured
+                      ? "Turn wake-ups on for a responsibility, or wake DO now, and the worksheet appears here for your review."
+                      : "Background preparation is off. Saving a responsibility does not start its scheduled check."}
                   </p>
                 </div>
               )}
@@ -572,6 +588,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
                       </p>
                       <h3>{item?.title ?? "Prepared work"}</h3>
                       <time>{stamp(run.started_at)}</time>
+                      {triggerLabel(run) && <p className={styles.meta}>{triggerLabel(run)}{run.note ? ` · “${run.note}”` : ""}{run.evidence.method === "worksheet" ? " · worksheet, no model called" : ""}</p>}
                       {stale && (
                         <p className={styles.stale}>
                           Prepared before the latest change. Check against your
@@ -595,7 +612,9 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
                         <p className={styles.meta}>
                           {typeof run.evidence.model === "string"
                             ? `Prepared with ${run.evidence.model}. `
-                            : ""}
+                            : run.evidence.method === "worksheet"
+                              ? "Prepared as a worksheet from your saved notes; no model, inbox, calendar or browser was used. "
+                              : ""}
                           {typeof run.evidence.notesUpdatedAt === "string"
                             ? `Notes saved ${stamp(run.evidence.notesUpdatedAt)}.`
                             : ""}
@@ -766,7 +785,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
               </label>
               <div className={styles.schedule}>
                 <label>
-                  Preferred hour (not scheduled)
+                  {state?.wakeups?.enabled ? "Preferred hour (wake-ups are set after saving)" : "Preferred hour (not scheduled)"}
                   <select
                     value={form.localHour}
                     onChange={(e) => {
@@ -806,7 +825,9 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
                 </span>
               </label>
               <p>
-                Preparation is off. Nothing will be sent to OpenAI or TypeSafe by saving these notes.
+                {state?.wakeups?.enabled
+                  ? "Saving does not turn wake-ups on; set them on the responsibility afterwards. Nothing will be sent to OpenAI or TypeSafe by saving these notes."
+                  : "Preparation is off. Nothing will be sent to OpenAI or TypeSafe by saving these notes."}
               </p>
               <button
                 type="submit"
