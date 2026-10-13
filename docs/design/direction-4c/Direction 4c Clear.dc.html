@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<meta name="ext-resource-dependency" content="assets/footage/bay-of-islands.mp4" data-resource-id="bayClip">
+<script src="vendor/three.min.js"></script>
+<script src="assembl-tide.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#240B21"><svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><rect width="1200" height="800" fill="#240B21"></rect><circle cx="600" cy="400" r="150" fill="#FFFDFB"></circle><text x="600" y="458" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="200" font-weight="600" fill="#240B21">a</text></svg></template>
+<x-dc>
+<helmet>
+<title>assembl · direction 4c · clear</title>
+<link rel="icon" href="assets/brand/favicon-a.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:#0E040D;color:#FFFDFB;font-family:"Instrument Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#EAC8DF;text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:4px}
+button,input,textarea{font:inherit}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid rgba(145,106,112,.75);outline-offset:4px}
+::selection{background:#EAC8DF;color:#240B21}
+textarea::placeholder{color:#B79FAE}
+html[data-paused] *,html[data-paused] *::before,html[data-paused] *::after{animation-play-state:paused!important}
+@keyframes up{from{transform:translateY(108%)}to{transform:none}}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes sheen{0%,52%{background-position:110% 0}100%{background-position:-10% 0}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(145,106,112,.5)}50%{box-shadow:0 0 0 7px rgba(145,106,112,0)}}
+@keyframes ring{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.9);opacity:0}}
+@keyframes drift{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+@media (max-width:900px){[data-hide-sm]{display:none!important}[data-sec]{min-height:auto!important;padding-top:110px!important;padding-bottom:110px!important}[data-shade]{margin:0!important;padding:24px!important;border-radius:26px;background:rgba(36,11,33,.62)!important;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}}
+@media (max-height:760px){[data-short]{display:none!important}}
+@media (max-height:640px){[data-cue]{display:none!important}}
+</style>
+</helmet>
+<div style="position:relative;min-height:100vh;overflow-x:clip;background:#0E040D">
+<canvas ref="{{ canvasRef }}" aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none"></canvas>
+<sc-if value="{{ failed }}" hint-placeholder-val="{{ false }}"><div aria-hidden="true" style="position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,#0E040D 0%,#2A1027 45%,#6B4466 74%,#C9A9BE 100%)"></div></sc-if>
+<sc-if value="{{ dragging }}" hint-placeholder-val="{{ false }}">
+  <div aria-hidden="true" style="position:fixed;inset:12px;z-index:40;display:grid;place-items:center;border-radius:28px;border:2px dashed #EAC8DF;background:rgba(36,11,33,.6);color:#FFFDFB;font-size:24px;font-weight:500;pointer-events:none">Drop to use this clip</div>
+</sc-if>
+
+<header style="position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:20;width:min(1400px,calc(100% - 28px));display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 7px 7px 7px;border-radius:999px;background:rgba(36,11,33,.5);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);box-shadow:0 14px 40px -26px rgba(14,4,13,.6),inset 0 0 0 1px rgba(234,200,223,.2)">
+  <a href="#top" aria-label="assembl, back to top" style="display:flex;align-items:center;gap:11px;min-height:44px;padding-right:8px;color:#FFFDFB" style-hover="text-decoration:none"><img src="assets/brand/assembl-a-glass.webp" alt="" style="width:44px;height:44px;flex-shrink:0;border-radius:50%;object-fit:cover;object-position:44% 50%;box-shadow:0 0 0 1px rgba(255,253,251,.55),0 10px 26px -10px rgba(234,178,208,.9)"><strong ref="{{ markRef }}" data-hide-sm="" style="font-size:23px;font-weight:600;letter-spacing:-.055em;opacity:0">assembl</strong></a>
+  <nav aria-label="Primary" data-hide-sm="" style="display:flex;gap:4px;font-size:14px">
+    <a href="Pursuit.dc.html" style="display:flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;color:#FFFDFB" style-hover="text-decoration:none;background:rgba(255,253,251,.1)">Pursuit</a>
+    <a href="Studio.dc.html" style="display:flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;color:#FFFDFB" style-hover="text-decoration:none;background:rgba(255,253,251,.1)">Studio</a>
+    <a href="DO v2.dc.html" style="display:flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;color:#FFFDFB" style-hover="text-decoration:none;background:rgba(255,253,251,.1)">DO</a>
+  </nav>
+  <div style="display:flex;align-items:center;gap:4px">
+    <button type="button" onClick="{{ togglePause }}" aria-pressed="{{ pausedAria }}" style="min-height:44px;padding:0 14px;border:0;border-radius:999px;background:transparent;color:#F2E6EB;font:400 11px/1 'IBM Plex Mono',monospace;letter-spacing:.06em;cursor:pointer" style-hover="background:rgba(255,253,251,.1)">{{ pauseLabel }}</button>
+    <a href="https://www.assembl.co.nz/contact" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:13px;font-weight:600;transition:box-shadow .4s ease" style-hover="text-decoration:none;box-shadow:0 0 30px -4px rgba(214,165,189,.95)">Bring us the work ↗</a>
+  </div>
+</header>
+
+<main style="position:relative;z-index:1">
+  <section id="top" ref="{{ heroRef }}" data-form="0" data-screen-label="Hero" style="position:relative;height:320svh">
+    <div style="position:sticky;top:0;height:100svh;overflow:hidden">
+      <h1 style="position:absolute;width:1px;height:1px;margin:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">assembl. Useful work.</h1>
+      <sc-if value="{{ failed }}" hint-placeholder-val="{{ false }}">
+        <p aria-hidden="true" style="position:absolute;left:0;right:0;top:42svh;margin:0;transform:translateY(-58%);text-align:center;font-size:min(21vw,36svh);font-weight:600;line-height:1;letter-spacing:-.055em;color:#FFFDFB">assembl</p>
+      </sc-if>
+      <p ref="{{ kickRef }}" data-scramble="" style="position:absolute;left:5.5%;right:5.5%;top:calc(42svh - min(11vw,18svh) - 48px);margin:0;text-align:center;font:400 11px/1.5 'IBM Plex Mono',monospace;letter-spacing:.22em;text-transform:uppercase;color:#F2E6EB">agentic AI · built in Aotearoa New Zealand</p>
+      <p ref="{{ subRef }}" style="position:absolute;left:5.5%;right:5.5%;top:calc(42svh + min(11vw,18svh) + 26px);margin:0;text-align:center"><span style="display:inline-block;font-size:clamp(19px,1.8vw,26px);font-weight:500;line-height:1.3;letter-spacing:-.03em;background-image:var(--sub,linear-gradient(90deg,#DCC8FA 0%,#E9C5E6 50%,#F2C0CA 100%));-webkit-background-clip:text;background-clip:text;color:transparent;text-wrap:balance;animation:fade .9s ease .5s both">Agentic AI solutions for your business.</span></p>
+      <div ref="{{ msgRef }}" style="position:absolute;left:5.5%;right:5.5%;top:52%;transform:translateY(-50%);isolation:isolate;display:flex;flex-direction:column;align-items:center;text-align:center;opacity:0;visibility:hidden">
+        <div aria-hidden="true" style="position:absolute;left:50%;top:50%;z-index:-1;width:min(1200px,130%);height:170%;transform:translate(-50%,-50%);pointer-events:none;background:radial-gradient(closest-side,rgba(36,11,33,.5) 0%,rgba(36,11,33,.36) 34%,rgba(36,11,33,.16) 64%,rgba(36,11,33,0) 100%)"></div>
+        <p aria-hidden="true" style="margin:0;font-size:clamp(60px,9.5vw,176px);font-weight:500;line-height:.88;letter-spacing:-.066em;color:#FFFDFB;text-shadow:0 6px 60px rgba(14,4,13,.5)">useful <span style="display:inline-block;text-shadow:none;background-image:var(--acc,linear-gradient(100deg,#D9C2F8 0%,#CCADF5 28%,#FFFDFB 44%,#F3C9CC 52%,#EDB2B6 66%,#D9C2F8 100%));background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 6.5s ease-in-out 1s infinite">work.</span></p>
+        <p style="margin:24px 0 0;max-width:44ch;font-size:18px;line-height:1.55;color:#F2E6EB">Pursuit finds the opportunity. DO does the work. Studio shows it. Nothing leaves without your yes.</p>
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:30px">
+          <a href="https://www.assembl.co.nz/contact" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 26px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:16px;font-weight:600;box-shadow:0 3px 0 #D8C9D3,0 18px 40px -18px rgba(14,4,13,.8);transition:transform .22s ease,box-shadow .4s ease" style-hover="text-decoration:none;transform:translateY(-2px);box-shadow:0 5px 0 #D8C9D3,0 0 44px -6px rgba(214,165,189,.95)">Bring us the work <span aria-hidden="true">↗</span></a>
+          <a href="#try" style="display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 26px;border-radius:999px;background:rgba(255,253,251,.08);color:#FFFDFB;font-size:16px;font-weight:600;box-shadow:inset 0 0 0 1px rgba(234,200,223,.4);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)" style-hover="text-decoration:none;background:rgba(255,253,251,.16)">Give DO a job <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <div ref="{{ cueRef }}" data-cue="" aria-hidden="true" style="position:absolute;left:50%;bottom:22px;transform:translateX(-50%)">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;font:400 10px/1 'IBM Plex Mono',monospace;letter-spacing:.2em;text-transform:uppercase;color:#EAC8DF;animation:fade .9s ease 1.6s both"><span>scroll</span><i style="display:block;width:1px;height:28px;background:linear-gradient(#EAC8DF,rgba(234,200,223,0));animation:drift 2.2s ease-in-out infinite"></i></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pursuit" data-sec="" data-screen-label="Pursuit" style="position:relative;min-height:130svh;display:flex;align-items:center;padding:160px 5.5%">
+    <i aria-hidden="true" data-form="1" style="position:absolute;left:0;top:30%;width:1px;height:1px;pointer-events:none"></i>
+    <i aria-hidden="true" data-form="2" style="position:absolute;left:0;top:72%;width:1px;height:1px;pointer-events:none"></i>
+    <div data-par="" data-shade="" style="position:relative;max-width:720px;margin:-70px;padding:70px;isolation:isolate"><div aria-hidden="true" data-hide-sm="" style="position:absolute;inset:-6% -10%;z-index:-1;pointer-events:none;background:radial-gradient(closest-side,rgba(36,11,33,.5) 0%,rgba(36,11,33,.38) 32%,rgba(36,11,33,.2) 60%,rgba(36,11,33,.07) 82%,rgba(36,11,33,0) 100%)"></div>
+      <p data-scramble="" style="margin:0 0 24px;font:400 11px/1.5 'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:#F2E6EB">01 · Pursuit · find it</p>
+      <h2 data-split="" style="margin:0;font-size:clamp(48px,6.6vw,116px);font-weight:500;line-height:.92;letter-spacing:-.062em;text-wrap:balance;text-shadow:0 4px 40px rgba(14,4,13,.45)"><span data-w="" style="display:inline-block">An</span> <span data-w="" style="display:inline-block">opportunity</span> <span data-w="" style="display:inline-block">starts</span> <span data-w="" style="display:inline-block">with</span> <span data-w="" style="display:inline-block">a</span> <span data-w="" style="display: inline-block; text-shadow: none; background-image:var(--acc,linear-gradient(100deg,#D9C2F8 0%,#CCADF5 28%,#FFFDFB 44%,#F3C9CC 52%,#EDB2B6 66%,#D9C2F8 100%)); background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; width: 278px; height: 105px">signal.</span></h2>
+      <p data-rv="200" style="margin:26px 0 0;max-width:38ch;font-size:19px;line-height:1.55;color:#F2E6EB;text-shadow:0 1px 18px rgba(36,11,33,.6)">Tenders, projects and market changes, brought back with the source attached.</p>
+      <div data-rv="280"><a href="Pursuit.dc.html" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;margin-top:30px;padding:0 24px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:15px;font-weight:600;box-shadow:0 3px 0 #D8C9D3;transition:transform .22s ease,box-shadow .4s ease" style-hover="text-decoration:none;transform:translateY(-2px);box-shadow:0 5px 0 #D8C9D3,0 0 36px -6px rgba(214,165,189,.95)">Explore Pursuit <span aria-hidden="true">↗</span></a></div>
+    </div>
+  </section>
+
+  <section id="do" data-sec="" data-screen-label="DO" style="position:relative;min-height:115svh;display:flex;align-items:center;padding:160px 5.5%">
+    <i aria-hidden="true" data-form="3" style="position:absolute;left:0;top:30%;width:1px;height:1px;pointer-events:none"></i>
+    <i aria-hidden="true" data-form="4" style="position:absolute;left:0;top:72%;width:1px;height:1px;pointer-events:none"></i>
+    <div data-par="" data-shade="" style="position:relative;max-width:720px;margin:-70px;padding:70px;isolation:isolate"><div aria-hidden="true" data-hide-sm="" style="position:absolute;inset:-6% -10%;z-index:-1;pointer-events:none;background:radial-gradient(closest-side,rgba(36,11,33,.5) 0%,rgba(36,11,33,.38) 32%,rgba(36,11,33,.2) 60%,rgba(36,11,33,.07) 82%,rgba(36,11,33,0) 100%)"></div>
+      <p data-scramble="" style="margin:0 0 24px;font:400 11px/1.5 'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:#F2E6EB">02 · DO · do it</p>
+      <h2 data-split="" style="margin:0;font-size:clamp(48px,6.6vw,116px);font-weight:500;line-height:.92;letter-spacing:-.062em;text-wrap:balance;text-shadow:0 4px 40px rgba(14,4,13,.45)"><span data-w="" style="display:inline-block">What</span> <span data-w="" style="display:inline-block">do</span> <span data-w="" style="display:inline-block">you</span> <span data-w="" style="display:inline-block">need</span> <span data-w="" style="display:inline-block">to</span> <span data-w="" style="display: inline-block; text-shadow: none; background-image:var(--acc,linear-gradient(100deg,#D9C2F8 0%,#CCADF5 28%,#FFFDFB 44%,#F3C9CC 52%,#EDB2B6 66%,#D9C2F8 100%)); background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; width: 397px; height: 86px">assembl?</span></h2>
+      <p data-rv="200" style="margin:26px 0 0;max-width:38ch;font-size:19px;line-height:1.55;color:#F2E6EB;text-shadow:0 1px 18px rgba(36,11,33,.6)">Your personal agent. A draft, a plan or a next step, ready for your review.</p>
+      <div data-rv="280"><a href="DO v2.dc.html" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;margin-top:30px;padding:0 24px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:15px;font-weight:600;box-shadow:0 3px 0 #D8C9D3;transition:transform .22s ease,box-shadow .4s ease" style-hover="text-decoration:none;transform:translateY(-2px);box-shadow:0 5px 0 #D8C9D3,0 0 36px -6px rgba(214,165,189,.95)">Open DO <span aria-hidden="true">→</span></a></div>
+    </div>
+  </section>
+
+  <section id="try" data-form="5" data-sec="" data-screen-label="Try DO" style="min-height:120svh;display:flex;align-items:center;padding:130px 5.5%">
+    <div style="width:100%;max-width:580px">
+      <p data-scramble="" style="margin:0 0 16px;font:400 11px/1.5 'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:#F2E6EB;text-shadow:0 2px 16px rgba(14,4,13,.6)">try DO · simulated</p>
+      <div data-rv="0" style="position:relative;overflow:hidden;border-radius:34px;padding:clamp(20px,2.4vw,30px);color:#FFFDFB;background:linear-gradient(160deg,rgba(74,36,64,.78) 0%,rgba(36,11,33,.86) 46%,rgba(24,7,22,.92) 100%);-webkit-backdrop-filter:blur(26px) saturate(150%);backdrop-filter:blur(26px) saturate(150%);box-shadow:0 60px 120px -60px rgba(0,0,0,.9),0 0 120px -44px rgba(234,178,208,.75),inset 0 0 0 1px rgba(234,200,223,.26),inset 0 1px 0 rgba(255,253,251,.18)">
+        <div aria-hidden="true" style="position:absolute;right:-120px;top:-140px;width:360px;height:360px;border-radius:50%;background:radial-gradient(closest-side,rgba(218,210,244,.28),rgba(234,200,223,.12) 55%,rgba(234,200,223,0));pointer-events:none"></div>
+        <div style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="display:grid;place-items:center;width:48px;height:48px;flex-shrink:0;border-radius:50%;background:#FFFDFB;box-shadow:0 0 0 1px rgba(255,253,251,.55),0 10px 26px -10px rgba(234,178,208,.9)"><img src="assets/brand/do-d-glass-transparent.png" alt="" style="width:34px;height:34px;object-fit:contain"></span>
+            <span style="display:flex;align-items:baseline;gap:7px"><strong style="font-size:28px;font-weight:700;line-height:1;letter-spacing:-.045em">DO</strong><span style="font-size:12px;color:#EAC8DF">by assembl</span></span>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <button type="button" data-pop="" onClick="{{ toggleMore }}" aria-expanded="{{ moreAria }}" style="display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border:0;border-radius:999px;background:transparent;color:#FFFDFB;font-size:14px;font-weight:500;cursor:pointer" style-hover="background:rgba(255,253,251,.1)"><span style="text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgba(234,200,223,.6)">More</span><svg viewBox="0 0 24 24" aria-hidden="true" style="width:14px;height:14px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button>
+            <button type="button" data-pop="" onClick="{{ toggleCustom }}" aria-expanded="{{ customAria }}" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:0;border-radius:999px;background:rgba(255,253,251,.08);box-shadow:inset 0 0 0 1px rgba(234,200,223,.3);color:#FFFDFB;font-size:13px;font-weight:500;cursor:pointer" style-hover="background:rgba(255,253,251,.16)"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:15px;height:15px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M21 4h-7M10 4H3M21 12h-9M8 12H3M21 20h-5M12 20H3M14 2v4M8 10v4M16 18v4"></path></svg>Customise DO</button>
+          </div>
+        </div>
+        <sc-if value="{{ menuMore }}" hint-placeholder-val="{{ false }}">
+          <div data-pop="" role="menu" aria-label="More jobs for DO" style="position:absolute;z-index:5;top:78px;right:clamp(20px,2.4vw,30px);padding:8px;border-radius:22px;background:#2A0F27;box-shadow:0 30px 60px -28px rgba(0,0,0,.8),inset 0 0 0 1px rgba(234,200,223,.24);animation:fade .25s ease both;width:min(290px,calc(100% - 40px))">
+            <p style="margin:8px 12px 6px;font:400 10.5px/1.3 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#EAC8DF">more jobs for DO</p>
+            <sc-for list="{{ more }}" as="mj" hint-placeholder-count="3">
+              <button type="button" role="menuitem" onClick="{{ mj.go }}" style="display:flex;align-items:center;width:100%;min-height:44px;padding:0 12px;border:0;border-radius:14px;background:transparent;color:#FFFDFB;font-size:15px;text-align:left;cursor:pointer" style-hover="background:rgba(255,253,251,.08)">{{ mj.label }}</button>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ menuCustom }}" hint-placeholder-val="{{ false }}">
+          <div data-pop="" role="dialog" aria-label="Customise DO" style="position:absolute;z-index:5;top:78px;right:clamp(20px,2.4vw,30px);padding:8px;border-radius:22px;background:#2A0F27;box-shadow:0 30px 60px -28px rgba(0,0,0,.8),inset 0 0 0 1px rgba(234,200,223,.24);animation:fade .25s ease both;width:min(310px,calc(100% - 40px));display:flex;flex-direction:column;gap:14px;padding:18px">
+            <p style="margin:0;font:400 10.5px/1.3 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#EAC8DF">customise DO</p>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+              <span style="font-size:15px;font-weight:500">Draft voice</span>
+              <div role="group" aria-label="Draft voice" style="display:inline-flex;gap:3px;padding:3px;border-radius:999px;background:rgba(255,253,251,.08);box-shadow:inset 0 0 0 1px rgba(234,200,223,.2)">
+                <sc-for list="{{ voices }}" as="vo" hint-placeholder-count="2">
+                  <button type="button" aria-pressed="{{ vo.on }}" onClick="{{ vo.go }}" style="min-height:40px;padding:0 14px;border:0;border-radius:999px;background:{{ vo.bg }};color:{{ vo.color }};font-size:13px;font-weight:500;cursor:pointer">{{ vo.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <p style="display:flex;align-items:flex-start;gap:10px;margin:0;font-size:13.5px;line-height:1.45;color:#F2E6EB"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;flex-shrink:0;margin-top:2px;fill:none;stroke:#EAC8DF;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><rect width="18" height="11" x="3" y="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>DO always asks before anything sends, books or spends. This one stays on.</p>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ idle }}" hint-placeholder-val="{{ true }}">
+          <h3 style="position:relative;margin:28px 0 0;font-size:clamp(38px,3.8vw,56px);font-weight:500;line-height:.96;letter-spacing:-.058em;text-wrap:balance">What would you like <span style="display:inline-block;background-image:var(--acc,linear-gradient(100deg,#D9C2F8 0%,#CCADF5 28%,#FFFDFB 44%,#F3C9CC 52%,#EDB2B6 66%,#D9C2F8 100%));background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent">done?</span></h3>
+          <p style="position:relative;margin:12px 0 0;font-size:16px;line-height:1.5;color:#F2E6EB">Bring a question, a plan or the thing on your mind.</p>
+          <div role="tablist" aria-label="How to ask DO" style="position:relative;display:inline-flex;gap:4px;margin-top:22px;padding:4px;border-radius:999px;background:rgba(255,253,251,.06);box-shadow:inset 0 0 0 1px rgba(234,200,223,.22)">
+            <sc-for list="{{ modes }}" as="m" hint-placeholder-count="3">
+              <button type="button" role="tab" aria-selected="{{ m.sel }}" onClick="{{ m.go }}" style="display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 18px;border:0;border-radius:999px;background:{{ m.bg }};color:{{ m.color }};font-size:15px;font-weight:500;cursor:pointer;transition:background .25s ease,color .25s ease">{{ m.label }}<sc-if value="{{ m.plus }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:14px;height:14px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></sc-if></button>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ isWrite }}" hint-placeholder-val="{{ true }}">
+            <div style="position:relative;margin-top:16px;padding:18px 18px 14px;border-radius:24px;background:rgba(255,253,251,.06);box-shadow:inset 0 0 0 1px rgba(234,200,223,.2)">
+              <label style="display:block">
+                <span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">What would you like done?</span>
+                <textarea value="{{ text }}" onChange="{{ onText }}" onKeyDown="{{ onKey }}" rows="3" placeholder="e.g. Prepare a reply to my property manager" style="display:block;width:100%;min-height:84px;padding:0;resize:none;border:0;outline:none;background:transparent;color:#FFFDFB;font-size:18px;line-height:1.45"></textarea>
+              </label>
+              <sc-if value="{{ hasFiles }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+                  <sc-for list="{{ files }}" as="fl" hint-placeholder-count="1">
+                    <span style="display:inline-flex;align-items:center;padding:7px 11px;border-radius:999px;background:rgba(234,200,223,.14);font:400 11px/1.2 'IBM Plex Mono',monospace;color:#F2E6EB">{{ fl.label }}</span>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:12px">
+                <span style="display:inline-flex;align-items:center;gap:9px;font-size:13px;color:#F2E6EB"><span aria-hidden="true" style="position:relative;display:inline-block;width:30px;height:18px;border-radius:999px;background:#916A70;box-shadow:0 0 14px -2px rgba(214,165,189,.8)"><i style="position:absolute;right:2px;top:2px;width:14px;height:14px;border-radius:50%;background:#FFFDFB"></i></span>Review drafts before sharing</span>
+                <button type="button" onClick="{{ submit }}" disabled="{{ empty }}" style="display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:0 22px;border:0;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:15px;font-weight:600;cursor:pointer;opacity:{{ submitO }};box-shadow:0 3px 0 #D8C9D3,0 0 34px -8px rgba(214,165,189,.9);transition:opacity .2s ease,transform .22s ease" style-hover="transform:translateY(-2px)">Start<svg viewBox="0 0 24 24" aria-hidden="true" style="width:15px;height:15px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></button>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isTalk }}" hint-placeholder-val="{{ false }}">
+            <div style="position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:16px;padding:26px 18px;border-radius:24px;background:rgba(255,253,251,.06);box-shadow:inset 0 0 0 1px rgba(234,200,223,.2)">
+              <button type="button" onClick="{{ listen }}" aria-label="{{ micLabel }}" style="position:relative;display:grid;place-items:center;width:76px;height:76px;border:0;border-radius:50%;background:#FFFDFB;color:#240B21;cursor:pointer;box-shadow:0 0 44px -6px rgba(214,165,189,.95)">
+                <sc-if value="{{ listening }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="position:absolute;inset:0;border-radius:50%;border:2px solid #EAC8DF;animation:ring 1.2s ease-out infinite"></span></sc-if>
+                <svg viewBox="0 0 24 24" aria-hidden="true" style="width:26px;height:26px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><path d="M12 19v3"></path></svg>
+              </button>
+              <p aria-live="polite" style="margin:0;min-height:26px;font-size:17px;line-height:1.45;text-align:center;color:#FFFDFB">{{ talkLine }}</p>
+              <p style="margin:0;font:400 10.5px/1.3 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#EAC8DF">voice is simulated on this page</p>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isAdd }}" hint-placeholder-val="{{ false }}">
+            <div style="position:relative;margin-top:16px;padding:18px;border-radius:24px;background:rgba(255,253,251,.06);box-shadow:inset 0 0 0 1px rgba(234,200,223,.2)">
+              <p style="margin:0 0 12px;font-size:15px;color:#F2E6EB">Give DO something to work from.</p>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <button type="button" onClick="{{ addPhoto }}" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:0;border-radius:999px;background:rgba(255,253,251,.08);box-shadow:inset 0 0 0 1px rgba(234,200,223,.22);color:#FFFDFB;font-size:14px;cursor:pointer" style-hover="background:rgba(234,200,223,.2)"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><rect width="18" height="18" x="3" y="3" rx="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"></path></svg>Photo</button>
+                <button type="button" onClick="{{ addDoc }}" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:0;border-radius:999px;background:rgba(255,253,251,.08);box-shadow:inset 0 0 0 1px rgba(234,200,223,.22);color:#FFFDFB;font-size:14px;cursor:pointer" style-hover="background:rgba(234,200,223,.2)"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path></svg>File</button>
+                <button type="button" onClick="{{ addLink }}" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:0;border-radius:999px;background:rgba(255,253,251,.08);box-shadow:inset 0 0 0 1px rgba(234,200,223,.22);color:#FFFDFB;font-size:14px;cursor:pointer" style-hover="background:rgba(234,200,223,.2)"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>Link</button>
+              </div>
+              <p style="margin:12px 0 0;font:400 10.5px/1.3 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#EAC8DF">simulated · nothing is uploaded on this page</p>
+            </div>
+          </sc-if>
+
+          <button type="button" onClick="{{ toggleNotes }}" aria-expanded="{{ notesAria }}" style="position:relative;display:inline-flex;align-items:center;gap:6px;min-height:44px;margin-top:8px;padding:0 4px;border:0;background:transparent;color:#FFFDFB;font-size:14px;font-weight:500;cursor:pointer"><span style="text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgba(234,200,223,.6)">Notes &amp; references</span><svg viewBox="0 0 24 24" aria-hidden="true" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s ease;transform:rotate({{ notesRot }})"><path d="m6 9 6 6 6-6"></path></svg></button>
+          <sc-if value="{{ notesOpen }}" hint-placeholder-val="{{ false }}">
+            <label style="position:relative;display:block;margin-top:4px">
+              <span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Notes and references</span>
+              <textarea value="{{ notes }}" onChange="{{ onNotes }}" rows="2" placeholder="Links, details or anything DO should use" style="display:block;width:100%;padding:14px 16px;resize:vertical;border:0;border-radius:18px;outline:none;background:rgba(255,253,251,.06);box-shadow:inset 0 0 0 1px rgba(234,200,223,.2);color:#FFFDFB;font-size:15px;line-height:1.45"></textarea>
+            </label>
+          </sc-if>
+
+          <div style="position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px">
+            <button type="button" onClick="{{ cardShop }}" style="position:relative;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:12px;min-height:116px;padding:16px;border:0;border-radius:22px;background:radial-gradient(130% 100% at 0% 0%,rgba(234,200,223,.34),rgba(255,253,251,.04) 62%);color:#FFFDFB;text-align:left;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(234,200,223,.2);transition:transform .22s cubic-bezier(.16,1,.3,1),box-shadow .3s ease" style-hover="transform:translateY(-5px);box-shadow:inset 0 0 0 1px rgba(234,200,223,.45),0 22px 40px -22px rgba(0,0,0,.8),0 0 40px -14px rgba(214,165,189,.7)"><span style="font:400 10.5px/1.3 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#EAC8DF">Shop</span><span style="font-size:16px;font-weight:500;line-height:1.25;letter-spacing:-.02em">Plan this week’s shop</span></button>
+            <button type="button" onClick="{{ cardTravel }}" style="position:relative;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:12px;min-height:116px;padding:16px;border:0;border-radius:22px;background:radial-gradient(130% 100% at 0% 0%,rgba(218,210,244,.32),rgba(255,253,251,.04) 62%);color:#FFFDFB;text-align:left;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(234,200,223,.2);transition:transform .22s cubic-bezier(.16,1,.3,1),box-shadow .3s ease" style-hover="transform:translateY(-5px);box-shadow:inset 0 0 0 1px rgba(234,200,223,.45),0 22px 40px -22px rgba(0,0,0,.8),0 0 40px -14px rgba(214,165,189,.7)"><span style="font:400 10.5px/1.3 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#EAC8DF">Travel</span><span style="font-size:16px;font-weight:500;line-height:1.25;letter-spacing:-.02em">Organise a weekend away</span></button>
+            <button type="button" onClick="{{ cardSave }}" style="position:relative;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:12px;min-height:116px;padding:16px;border:0;border-radius:22px;background:radial-gradient(130% 100% at 0% 0%,rgba(145,106,112,.42),rgba(255,253,251,.04) 62%);color:#FFFDFB;text-align:left;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(234,200,223,.2);transition:transform .22s cubic-bezier(.16,1,.3,1),box-shadow .3s ease" style-hover="transform:translateY(-5px);box-shadow:inset 0 0 0 1px rgba(234,200,223,.45),0 22px 40px -22px rgba(0,0,0,.8),0 0 40px -14px rgba(214,165,189,.7)"><span style="font:400 10.5px/1.3 'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#EAC8DF">Save</span><span style="font-size:16px;font-weight:500;line-height:1.25;letter-spacing:-.02em">Review my bills</span></button>
+          </div>
+          <p style="position:relative;margin:14px 0 0;font-size:12.5px;line-height:1.5;color:#F2E6EB">Plans and drafts for your review. No purchases, bookings or verified savings.</p>
+          <button type="button" onClick="{{ tryExample }}" style="position:relative;display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:0;border:0;background:transparent;color:#EAC8DF;font-size:14px;font-weight:500;cursor:pointer" style-hover="color:#FFFDFB">Try a fictional example<svg viewBox="0 0 24 24" aria-hidden="true" style="width:15px;height:15px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m9 18 6-6-6-6"></path></svg></button>
+        </sc-if>
+
+        <sc-if value="{{ active }}" hint-placeholder-val="{{ false }}">
+          <div style="position:relative;display:flex;flex-direction:column;gap:18px;margin-top:24px;animation:fade .5s ease both">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+              <span style="font:400 11px/1.4 'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:#EAC8DF">{{ jobName }}</span>
+              <span role="status" style="display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:rgba(255,253,251,.08);box-shadow:inset 0 0 0 1px rgba(234,200,223,.26);font:400 10.5px/1.3 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#FFFDFB"><i style="width:8px;height:8px;border-radius:50%;background:#EAC8DF;animation:pulse 1.4s ease-in-out infinite"></i>{{ status }}</span>
+            </div>
+            <h3 style="margin:0;font-size:clamp(28px,2.8vw,40px);font-weight:500;line-height:1.04;letter-spacing:-.045em;text-wrap:balance">{{ jobTitle }}</h3>
+            <ol aria-label="Job progress" style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px">
+              <sc-for list="{{ steps }}" as="s" hint-placeholder-count="6">
+                <li style="display:flex;flex-direction:column;gap:8px;min-width:0"><i style="display:block;height:4px;border-radius:4px;background:{{ s.bar }};transition:background .5s ease"></i><span style="display:flex;align-items:center;gap:6px;font:400 9.5px/1.2 'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:{{ s.c }}"><i style="flex-shrink:0;width:6px;height:6px;border-radius:50%;background:{{ s.dot }};animation:{{ s.anim }}"></i>{{ s.label }}</span></li>
+              </sc-for>
+            </ol>
+            <p aria-live="polite" style="margin:0;min-height:52px;font-size:17px;line-height:1.45;color:#FFFDFB">{{ line }}</p>
+            <sc-if value="{{ isAsk }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-wrap:wrap;gap:10px">
+                <button type="button" onClick="{{ approve }}" style="display:inline-flex;align-items:center;min-height:52px;padding:0 26px;border:0;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 3px 0 #D8C9D3,0 0 36px -8px rgba(214,165,189,.95)">Approve</button>
+                <button type="button" onClick="{{ park }}" style="min-height:52px;padding:0 22px;border:0;border-radius:999px;background:transparent;color:#FFFDFB;font-size:15px;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(234,200,223,.4)" style-hover="background:rgba(255,253,251,.08)">Not now</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ isReceipt }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:16px 20px;border-radius:24px;background:rgba(255,253,251,.06);box-shadow:inset 0 0 0 1px rgba(234,200,223,.2)">
+                <sc-for list="{{ receipt }}" as="r" hint-placeholder-count="4">
+                  <div style="display:grid;grid-template-columns:110px minmax(0,1fr);gap:4px 14px;padding:8px 0;border-bottom:1px solid rgba(234,200,223,.16);font:400 12.5px/1.5 'IBM Plex Mono',monospace"><span style="color:#EAC8DF">{{ r.k }}</span><span style="color:#FFFDFB;overflow-wrap:anywhere">{{ r.v }}</span></div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+                <a href="{{ fullHref }}" style="display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 22px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:14px;font-weight:600;box-shadow:0 3px 0 #D8C9D3" style-hover="text-decoration:none">Open the full DO <span aria-hidden="true">→</span></a>
+                <button type="button" onClick="{{ reset }}" style="min-height:48px;padding:0 16px;border:0;background:transparent;color:#EAC8DF;font-size:14px;cursor:pointer;text-decoration:underline;text-underline-offset:4px">Try another job</button>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+
+  <section id="studio" data-sec="" data-screen-label="Studio" style="position:relative;min-height:130svh;display:flex;align-items:center;padding:160px 5.5%">
+    <i aria-hidden="true" data-form="6" style="position:absolute;left:0;top:30%;width:1px;height:1px;pointer-events:none"></i>
+    <i aria-hidden="true" data-form="7" style="position:absolute;left:0;top:72%;width:1px;height:1px;pointer-events:none"></i>
+    <div data-par="" data-shade="" style="position:relative;max-width:720px;margin:-70px;padding:70px;isolation:isolate"><div aria-hidden="true" data-hide-sm="" style="position:absolute;inset:-6% -10%;z-index:-1;pointer-events:none;background:radial-gradient(closest-side,rgba(36,11,33,.5) 0%,rgba(36,11,33,.38) 32%,rgba(36,11,33,.2) 60%,rgba(36,11,33,.07) 82%,rgba(36,11,33,0) 100%)"></div>
+      <p data-scramble="" style="margin:0 0 24px;font:400 11px/1.5 'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:#F2E6EB">03 · Studio · show it</p>
+      <h2 data-split="" style="margin:0;font-size:clamp(48px,6.6vw,116px);font-weight:500;line-height:.92;letter-spacing:-.062em;text-wrap:balance;text-shadow:0 4px 40px rgba(14,4,13,.45)"><span data-w="" style="display:inline-block">Give</span> <span data-w="" style="display:inline-block">the</span> <span data-w="" style="display:inline-block">idea</span> <span data-w="" style="display:inline-block">a</span> <span data-w="" style="display:inline-block;text-shadow:none;background-image:var(--acc,linear-gradient(100deg,#D9C2F8 0%,#CCADF5 28%,#FFFDFB 44%,#F3C9CC 52%,#EDB2B6 66%,#D9C2F8 100%));background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent">world</span> <span data-w="" style="display:inline-block">of</span> <span data-w="" style="display:inline-block">its</span> <span data-w="" style="display:inline-block">own.</span></h2>
+      <p data-rv="200" style="margin:26px 0 0;max-width:38ch;font-size:19px;line-height:1.55;color:#F2E6EB;text-shadow:0 1px 18px rgba(36,11,33,.6)">Websites, campaigns, image and film. Work people can see, change and try.</p>
+      <div data-rv="280"><a href="Studio.dc.html" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;margin-top:30px;padding:0 24px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:15px;font-weight:600;box-shadow:0 3px 0 #D8C9D3;transition:transform .22s ease,box-shadow .4s ease" style-hover="text-decoration:none;transform:translateY(-2px);box-shadow:0 5px 0 #D8C9D3,0 0 36px -6px rgba(214,165,189,.95)">Explore Studio <span aria-hidden="true">↗</span></a></div>
+    </div>
+  </section>
+
+  <section data-sec="" data-screen-label="Evidence" style="position:relative;min-height:120svh;display:flex;align-items:center;padding:160px 5.5%">
+    <i aria-hidden="true" data-form="8" style="position:absolute;left:0;top:30%;width:1px;height:1px;pointer-events:none"></i>
+    <i aria-hidden="true" data-form="9" style="position:absolute;left:0;top:72%;width:1px;height:1px;pointer-events:none"></i>
+    <div data-par="" data-shade="" style="position:relative;max-width:700px;margin:-70px;padding:70px;isolation:isolate"><div aria-hidden="true" data-hide-sm="" style="position:absolute;inset:-6% -10%;z-index:-1;pointer-events:none;background:radial-gradient(closest-side,rgba(36,11,33,.5) 0%,rgba(36,11,33,.38) 32%,rgba(36,11,33,.2) 60%,rgba(36,11,33,.07) 82%,rgba(36,11,33,0) 100%)"></div>
+      <p data-scramble="" style="margin:0 0 20px;font:400 11px/1.5 'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:#F2E6EB">evidence · why it is built this way</p>
+      <h2 data-split="" style="margin:0;font-size:clamp(40px,4.8vw,76px);font-weight:500;line-height:.96;letter-spacing:-.055em;text-wrap:balance;text-shadow:0 4px 40px rgba(14,4,13,.45)"><span data-w="" style="display:inline-block">The</span> <span data-w="" style="display:inline-block;text-shadow:none;background-image:var(--acc,linear-gradient(100deg,#D9C2F8 0%,#CCADF5 28%,#FFFDFB 44%,#F3C9CC 52%,#EDB2B6 66%,#D9C2F8 100%));background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent">rules</span> <span data-w="" style="display:inline-block">we</span> <span data-w="" style="display:inline-block">build</span> <span data-w="" style="display:inline-block">by,</span> <span data-w="" style="display:inline-block">and</span> <span data-w="" style="display:inline-block">where</span> <span data-w="" style="display:inline-block">they</span> <span data-w="" style="display:inline-block">come</span> <span data-w="" style="display:inline-block">from.</span></h2>
+      <ol style="list-style:none;margin:30px 0 0;padding:0;border-top:1px solid rgba(234,200,223,.26)">
+        <li data-rv="160" style="display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;padding:18px 0;border-bottom:1px solid rgba(234,200,223,.26)"><span style="font:400 11px/1.6 'IBM Plex Mono',monospace;color:#EAC8DF">01</span><span style="display:flex;flex-direction:column;gap:4px"><strong style="font-size:17px;font-weight:500">Indirect collection must be notified.</strong><span style="font:400 11px/1.4 'IBM Plex Mono',monospace;color:#F2E6EB">source · legislation.govt.nz · Privacy Act 2020, IPP 3A</span></span></li>
+        <li data-rv="220" style="display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;padding:18px 0;border-bottom:1px solid rgba(234,200,223,.26)"><span style="font:400 11px/1.6 'IBM Plex Mono',monospace;color:#EAC8DF">02</span><span style="display:flex;flex-direction:column;gap:4px"><strong style="font-size:17px;font-weight:500">Nothing sends without a named person.</strong><span style="font:400 11px/1.4 'IBM Plex Mono',monospace;color:#F2E6EB">source · assembl product rules</span></span></li>
+        <li data-rv="280" style="display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;padding:18px 0;border-bottom:1px solid rgba(234,200,223,.26)"><span style="font:400 11px/1.6 'IBM Plex Mono',monospace;color:#EAC8DF">03</span><span style="display:flex;flex-direction:column;gap:4px"><strong style="font-size:17px;font-weight:500">Every receipt is sealed.</strong><span style="font:400 11px/1.4 'IBM Plex Mono',monospace;color:#F2E6EB">source · assembl evidence pack specification</span></span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="contact" data-sec="" data-screen-label="Contact" style="position:relative;min-height:150svh;display:flex;align-items:flex-end;justify-content:center;padding:160px 5.5% 150px">
+    <i aria-hidden="true" data-form="10" style="position:absolute;left:0;top:22%;width:1px;height:1px;pointer-events:none"></i>
+    <i aria-hidden="true" data-form="11" style="position:absolute;left:0;top:58%;width:1px;height:1px;pointer-events:none"></i>
+    <div data-shade="" style="width:100%;max-width:760px;text-align:center;margin:-60px;padding:60px;isolation:isolate">
+      <h2 data-split="" style="margin:0;font-size:clamp(52px,7.4vw,128px);font-weight:500;line-height:.9;letter-spacing:-.065em;text-shadow:0 4px 40px rgba(14,4,13,.45)"><span data-w="" style="display:inline-block;text-shadow:none;background-image:linear-gradient(180deg,#E8DAFC 0%,#CCADF5 52%,#B08EF0 100%);-webkit-background-clip:text;background-clip:text;color:transparent">Some</span> <span data-w="" style="display:inline-block;text-shadow:none;background-image:linear-gradient(180deg,#E8DAFC 0%,#CCADF5 52%,#B08EF0 100%);-webkit-background-clip:text;background-clip:text;color:transparent">assembly</span> <span data-w="" style="display:inline-block;text-shadow:none;background-image:linear-gradient(180deg,#E8DAFC 0%,#CCADF5 52%,#B08EF0 100%);-webkit-background-clip:text;background-clip:text;color:transparent">required.</span><br>  </h2>
+      <p data-rv="160" style="margin:28px auto 0;max-width:42ch;font-size:19px;line-height:1.55;color:#F2E6EB;text-shadow:0 1px 18px rgba(36,11,33,.6)">Bring a brief, an opportunity or a job that needs better thinking. We’ll agree the outcome and the first useful piece of work.</p>
+      <div data-rv="240" style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:32px">
+        <a href="https://www.assembl.co.nz/contact" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 26px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:16px;font-weight:600;box-shadow:0 3px 0 #D8C9D3;transition:transform .22s ease,box-shadow .4s ease" style-hover="text-decoration:none;transform:translateY(-2px);box-shadow:0 5px 0 #D8C9D3,0 0 40px -6px rgba(214,165,189,.95)">Bring us the work <span aria-hidden="true">↗</span></a>
+        <a href="#try" style="display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 26px;border-radius:999px;background:rgba(255,253,251,.1);color:#FFFDFB;font-size:16px;font-weight:600;box-shadow:inset 0 0 0 1px rgba(234,200,223,.4)" style-hover="text-decoration:none;background:rgba(255,253,251,.18)">Give DO a job <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+<div aria-hidden="true" data-hide-sm="" style="position: absolute; inset: -6% -10%; z-index: -1; pointer-events: none; background: radial-gradient(closest-side,rgba(36,11,33,.5) 0%,rgba(36,11,33,.38) 32%,rgba(36,11,33,.2) 60%,rgba(36,11,33,.07) 82%,rgba(36,11,33,0) 100%); left: -112px; top: -708px"></div></main>
+
+<footer style="position:relative;z-index:2;overflow:hidden;margin-top:-1px;padding:90px 5.5% 76px;border-radius:44px 44px 0 0;background:radial-gradient(70% 90% at 85% 0%,rgba(234,178,208,.32),rgba(234,178,208,0) 60%),radial-gradient(60% 80% at 0% 100%,rgba(218,210,244,.22),rgba(218,210,244,0) 60%),linear-gradient(180deg,rgba(58,21,53,.82) 0%,#2A0F27 46%,#36142F 100%);-webkit-backdrop-filter:blur(22px) saturate(140%);backdrop-filter:blur(22px) saturate(140%);box-shadow:inset 0 1px 0 rgba(255,253,251,.16),inset 0 0 0 1px rgba(234,200,223,.14),0 -40px 80px -40px rgba(0,0,0,.6)">
+  <div style="position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:36px 48px;align-items:start;max-width:1400px;margin:0 auto">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;gap:14px"><img src="assets/brand/assembl-a-glass.webp" alt="" style="width:72px;height:72px;flex-shrink:0;border-radius:50%;object-fit:cover;object-position:44% 50%;box-shadow:0 0 0 1px rgba(255,253,251,.55),0 10px 26px -10px rgba(234,178,208,.9)"></div>
+      <p style="margin:0;font-size:15px;line-height:1.6;color:#F2E6EB">Intelligence. Strategy. Software.<br>Built in Aotearoa New Zealand.</p>
+      <a href="https://www.assembl.co.nz/contact" target="_blank" rel="noopener" style="align-self:flex-start;display:inline-flex;align-items:center;gap:10px;min-height:52px;margin-top:8px;padding:0 24px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:15px;font-weight:600;box-shadow:0 3px 0 #D8C9D3,0 0 40px -10px rgba(214,165,189,.9);transition:transform .22s ease" style-hover="text-decoration:none;transform:translateY(-2px)">Bring us the work <span aria-hidden="true">↗</span></a>
+    </div>
+    <nav aria-label="Footer" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 24px;font-size:16px">
+      <p style="grid-column:1/-1;margin:0 0 8px;font:400 10.5px/1.4 'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:#EAC8DF">explore</p>
+      <a href="Pursuit.dc.html" style="display:flex;align-items:center;min-height:44px;color:#FFFDFB;border-bottom:1px solid rgba(234,200,223,.16)" style-hover="text-decoration:none;color:#EAC8DF">Pursuit</a>
+      <a href="Studio.dc.html" style="display:flex;align-items:center;min-height:44px;color:#FFFDFB;border-bottom:1px solid rgba(234,200,223,.16)" style-hover="text-decoration:none;color:#EAC8DF">Studio</a>
+      <a href="DO v2.dc.html" style="display:flex;align-items:center;min-height:44px;color:#FFFDFB;border-bottom:1px solid rgba(234,200,223,.16)" style-hover="text-decoration:none;color:#EAC8DF">DO</a>
+      <a href="https://www.assembl.co.nz/do/install" target="_blank" rel="noopener" style="display:flex;align-items:center;min-height:44px;color:#FFFDFB;border-bottom:1px solid rgba(234,200,223,.16)" style-hover="text-decoration:none;color:#EAC8DF">Install DO</a>
+      <a href="https://www.assembl.co.nz/contact" target="_blank" rel="noopener" style="display:flex;align-items:center;min-height:44px;color:#FFFDFB;border-bottom:1px solid rgba(234,200,223,.16)" style-hover="text-decoration:none;color:#EAC8DF">Contact</a>
+    </nav>
+    <div style="display:flex;flex-direction:column;gap:10px;padding:20px 22px;border-radius:24px;background:rgba(255,253,251,.06);box-shadow:inset 0 0 0 1px rgba(234,200,223,.2)">
+      <p style="margin:0;font:400 10.5px/1.4 'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:#EAC8DF">nothing sends without your yes</p>
+      <p style="margin:0;font-size:14px;line-height:1.6;color:#F2E6EB">Every email, booking and post is a draft until a person on your team approves it. The DO job on this page is simulated.</p>
+    </div>
+  </div>
+  <p style="position:relative;max-width:1400px;margin:72px auto 0;text-align:center;font-size:min(25vw,400px);font-weight:600;line-height:.8;letter-spacing:-.055em;white-space:nowrap;background:linear-gradient(180deg,rgba(242,230,235,.32) 0%,rgba(234,200,223,.07) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;user-select:none">assembl</p>
+</footer>
+
+<sc-if value="{{ needFootage }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;right:14px;bottom:14px;z-index:25;width:min(340px,calc(100% - 28px));display:flex;flex-direction:column;gap:10px;padding:18px;border-radius:24px;background:rgba(36,11,33,.9);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:inset 0 0 0 1px rgba(234,200,223,.25),0 30px 70px -30px rgba(0,0,0,.7);color:#FFFDFB">
+    <p style="margin:0;font:400 10.5px/1.4 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#EAC8DF">add the footage</p>
+    <p style="margin:0;font-size:16px;font-weight:500;line-height:1.3">Drop the Bay of Islands clip anywhere on this page.</p>
+    <p style="margin:0;font-size:13px;line-height:1.5;color:#F2E6EB">{{ footageMsg }}</p>
+    <label style="align-self:flex-start;display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:14px;font-weight:600;cursor:pointer">Choose a video<input type="file" accept="video/*" onChange="{{ onPick }}" style="display:none"></label>
+  </div>
+</sc-if>
+<div data-review="" style="position:fixed;left:14px;bottom:14px;z-index:25;display:flex;flex-direction:column;align-items:flex-start;gap:8px">
+  <sc-if value="{{ reviewOpen }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-label="Review options" style="display:flex;flex-direction:column;gap:12px;width:min(330px,calc(100vw - 28px));padding:16px;border-radius:24px;background:rgba(36,11,33,.95);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:inset 0 0 0 1px rgba(234,200,223,.22),0 24px 60px -24px rgba(0,0,0,.85);animation:fade .25s ease both">
+      <p style="margin:0;font:400 10.5px/1.4 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#EAC8DF">direction</p>
+      <nav aria-label="Visual directions" style="display:flex;flex-wrap:wrap;gap:4px">
+        <a href="Direction 4c Clear.dc.html" aria-current="page" style="display:flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border-radius:999px;font:400 11px/1 'IBM Plex Mono',monospace;letter-spacing:.04em;background:#FFFDFB;color:#240B21" style-hover="text-decoration:none"><b style="font-weight:500">4c</b><span>Clear</span></a>
+        <a href="Direction 4b Tide.dc.html" style="display:flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border-radius:999px;font:400 11px/1 'IBM Plex Mono',monospace;letter-spacing:.04em;color:#FFFDFB" style-hover="text-decoration:none;background:rgba(255,253,251,.12)"><b style="font-weight:500">4b</b><span>Tide</span></a>
+        <a href="Direction 4a Bay Footage.dc.html" style="display:flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border-radius:999px;font:400 11px/1 'IBM Plex Mono',monospace;letter-spacing:.04em;color:#FFFDFB" style-hover="text-decoration:none;background:rgba(255,253,251,.12)"><b style="font-weight:500">4a</b></a>
+        <a href="Direction 3b Southern Lights.dc.html" style="display:flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border-radius:999px;font:400 11px/1 'IBM Plex Mono',monospace;letter-spacing:.04em;color:#FFFDFB" style-hover="text-decoration:none;background:rgba(255,253,251,.12)"><b style="font-weight:500">3b</b></a>
+        <a href="Direction 3a Above and Below.dc.html" style="display:flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border-radius:999px;font:400 11px/1 'IBM Plex Mono',monospace;letter-spacing:.04em;color:#FFFDFB" style-hover="text-decoration:none;background:rgba(255,253,251,.12)"><b style="font-weight:500">3a</b></a>
+      </nav>
+      <p style="margin:4px 0 0;font:400 10.5px/1.4 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#EAC8DF">new looks</p>
+      <div role="group" aria-label="New looks" style="display:flex;flex-wrap:wrap;gap:4px">
+        <sc-for list="{{ looks }}" as="lk" hint-placeholder-count="3">
+          <button type="button" onClick="{{ lk.go }}" aria-pressed="{{ lk.on }}" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px 0 10px;border:0;border-radius:999px;background:{{ lk.bg }};color:{{ lk.color }};font:400 11px/1 'IBM Plex Mono',monospace;letter-spacing:.04em;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(234,200,223,.28);transition:background .25s ease,color .25s ease"><i aria-hidden="true" style="width:14px;height:14px;flex-shrink:0;border-radius:50%;background-image:{{ lk.sw }};box-shadow:0 0 10px -1px rgba(234,178,208,.8)"></i>{{ lk.label }}</button>
+        </sc-for>
+      </div>
+      <p style="margin:4px 0 0;font:400 10.5px/1.4 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#EAC8DF">tones</p>
+      <div role="group" aria-label="Footage tone" style="display:flex;flex-wrap:wrap;gap:4px">
+        <sc-for list="{{ tones }}" as="tn" hint-placeholder-count="5">
+          <button type="button" onClick="{{ tn.go }}" aria-pressed="{{ tn.on }}" style="min-height:44px;padding:0 14px;border:0;border-radius:999px;background:{{ tn.bg }};color:{{ tn.color }};font:400 11px/1 'IBM Plex Mono',monospace;letter-spacing:.04em;cursor:pointer;transition:background .25s ease,color .25s ease">{{ tn.label }}</button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ hasFootage }}" hint-placeholder-val="{{ false }}">
+        <label style="align-self:flex-start;display:flex;align-items:center;min-height:44px;padding:0 14px;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(234,200,223,.3);color:#EAC8DF;font:400 11px/1 'IBM Plex Mono',monospace;cursor:pointer">Replace clip<input type="file" accept="video/*" onChange="{{ onPick }}" style="display:none"></label>
+      </sc-if>
+    </div>
+  </sc-if>
+  <button type="button" onClick="{{ toggleReview }}" aria-expanded="{{ reviewAria }}" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:0;border-radius:999px;background:rgba(36,11,33,.86);color:#FFFDFB;font:400 11px/1 'IBM Plex Mono',monospace;letter-spacing:.06em;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(234,200,223,.22),0 16px 40px -18px rgba(0,0,0,.8)" style-hover="background:rgba(58,21,53,.95)"><b style="font-weight:500">4c</b><span>Review</span></button>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tone&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Film&quot;,&quot;Dusk glow&quot;,&quot;As shot&quot;,&quot;Ink&quot;,&quot;Night&quot;,&quot;Aurora&quot;,&quot;Pāua&quot;,&quot;Sunstreak&quot;],&quot;default&quot;:&quot;Film&quot;,&quot;tsType&quot;:&quot;'Film' | 'Dusk glow' | 'As shot' | 'Ink' | 'Night' | 'Aurora' | 'Pāua' | 'Sunstreak'&quot;,&quot;section&quot;:&quot;Footage&quot;},&quot;heroZoom&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;outline&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hero&quot;}}">
+class Component extends DCLogic {
+  state = { text: '', notes: '', notesOpen: false, mode: 'write', files: [], listening: false, heard: '', menu: null, voice: 'Plain', job: null, step: -1, at: '', paused: false, failed: false, footage: 'loading', footageMsg: '', tone: 'film', dragging: false, reviewOpen: false };
+  canvasRef = React.createRef(); heroRef = React.createRef(); heroCopyRef = React.createRef(); kickRef = React.createRef(); cueRef = React.createRef(); msgRef = React.createRef(); markRef = React.createRef(); subRef = React.createRef();
+  timers = []; hp = -1; ex = 0;
+  TONE_LIST = [['film', 'Film'], ['glow', 'Dusk glow'], ['shot', 'As shot'], ['ink', 'Ink'], ['night', 'Night']];
+  TONE_PROP = { Film: 'film', 'As shot': 'shot', 'Dusk glow': 'glow', Ink: 'ink', Night: 'night', Aurora: 'aurora', 'Pāua': 'paua', Sunstreak: 'streak' };
+  LOOK_LIST = [['aurora', 'Aurora'], ['paua', 'Pāua'], ['streak', 'Sunstreak']];
+  // accent-word gradient and hero subhead gradient for each look
+  ACC = {
+    base: ['linear-gradient(100deg,#D9C2F8 0%,#CCADF5 28%,#FFFDFB 44%,#F3C9CC 52%,#EDB2B6 66%,#D9C2F8 100%)', 'linear-gradient(90deg,#DCC8FA 0%,#E9C5E6 50%,#F2C0CA 100%)'],
+    aurora: ['linear-gradient(100deg,#CDB8FB 0%,#A98DF7 28%,#FFFDFB 44%,#F7B9D7 54%,#EE9CC4 70%,#CDB8FB 100%)', 'linear-gradient(90deg,#CDB8FB 0%,#DDB6EE 50%,#F2B6D6 100%)'],
+    paua: ['linear-gradient(100deg,#C9B6F7 0%,#9ED9DD 28%,#FFFDFB 44%,#AFC1F7 56%,#EDB2B6 76%,#C9B6F7 100%)', 'linear-gradient(90deg,#C9B6F7 0%,#A9DCE0 52%,#F0BFD0 100%)'],
+    streak: ['linear-gradient(100deg,#F7D3C9 0%,#F1B4B4 28%,#FFFDFB 44%,#F3C9CC 54%,#E6A7C5 70%,#F7D3C9 100%)', 'linear-gradient(90deg,#F7D3C9 0%,#F1C2C4 50%,#E9B5CF 100%)'],
+  };
+  EXAMPLES = ['Prepare a reply to my property manager', 'Turn Tuesday’s meeting into notes', 'Sort the school newsletter'];
+  SC = {
+    shop: { name: 'Shopping DO', title: 'Plan this week’s shop', lines: ['Opening your pantry notes and last week’s list. Nothing else.', 'Five dinners and one list, grouped by aisle. Nothing bought.', '', 'Saving the list to your notes.', 'Checking the list is there.'], ask: 'Save this list to your notes?', used: 'Pantry notes, last week’s list', action: 'List saved to your notes' },
+    travel: { name: 'Travel DO', title: 'Organise a weekend away', lines: ['Opening your travel notes and your calendar.', 'A two-night plan, ready to edit. Nothing booked.', '', 'Holding Friday afternoon in your calendar.', 'Checking the hold is there.'], ask: 'Hold Friday afternoon in your calendar?', used: 'Your travel notes, your calendar', action: 'Friday afternoon held in your calendar' },
+    bills: { name: 'Bills DO', title: 'Review my bills', lines: ['Opening the three bills you added. Nothing else.', 'Power, phone and insurance side by side. Any savings shown are estimates, not verified.', '', 'Saving the summary to your notes.', 'Checking the summary is there.'], ask: 'Save the bill summary to your notes?', used: 'Three bills you added', action: 'Summary saved to your notes' },
+    meeting: { name: 'Meeting DO', title: 'Turn Tuesday’s meeting into notes', lines: ['Opening the transcript and the project plan.', 'Two decisions and four actions. One action has no owner yet.', '', 'Putting the notes in your email drafts.', 'Checking the draft is there.'], ask: 'Put the notes in your email drafts?', used: 'Meeting transcript, project plan', action: 'Notes saved to your email drafts' },
+    school: { name: 'School admin DO', title: 'Sort the school newsletter', lines: ['Opening the newsletter and the family calendar. Nothing else.', 'Three dates found. The camp cost is missing, so DO drafted a question for the school.', '', 'Adding three dates to the family calendar.', 'Checking all three landed.'], ask: 'Add three dates to the family calendar?', used: 'Term 4 newsletter, family calendar', action: 'Three dates added to the family calendar' },
+    writing: { name: 'Writing DO', title: '', lines: ['Working only from what you typed.', '', '', 'Putting the draft in your email drafts.', 'Checking the draft is there.'], ask: 'Put this draft in your email drafts?', used: 'Only what you typed', action: 'Draft saved to your email drafts' },
+  };
+  componentDidMount() {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let tone = this.TONE_PROP[this.props.tone] || 'film';
+    try { const s = localStorage.getItem('assembl-clear-tone'); if (s && [...this.TONE_LIST, ...this.LOOK_LIST].some(x => x[0] === s)) tone = s; } catch (e) {}
+    this.setState({ tone }); this.applyLook(tone);
+    const v = this.video = document.createElement('video'), SRC = (window.__resources && window.__resources.bayClip) || 'assets/footage/bay-of-islands.mp4';
+    v.muted = true; v.playsInline = true; v.preload = 'auto'; v.setAttribute('playsinline', '');
+    v.addEventListener('loadedmetadata', () => this.setState({ footage: 'ready', footageMsg: '' }));
+    v.addEventListener('error', () => this.setState({ footage: 'none', footageMsg: this.fromStore ? 'That file would not play here. Try an MP4 (H.264).' : '' }));
+    this.idb('readonly', st => st.get('bay')).then(b => { if (b) { this.fromStore = true; this.useBlob(b); } else v.src = SRC; }).catch(() => { v.src = SRC; });
+    this.whenTide()
+      .then(m => m.attach({ canvas: this.canvasRef.current, plate: v, extra: { tone, gliders: false, knockZoom: this.props.heroZoom ?? true, outline: (this.props.outline ?? true) ? 0.7 : false, glass: false, count: 900, arrive: 0.22, birdScale: 1.2, silhouette: 1, slots: ['cloud', 'signal', 'pin', 'DO', 'bubble', 'tick', 'frame', 'sparkle', 'padlock', 'seal', 'amark', 'word'], onLayout: l => this.onLayout(l) }, onFail: () => this.setState({ failed: true }) }))
+      .then(w => { this.w = w; this.api = w.api; this.heroFx(Math.max(0, this.hp)); })
+      .catch(err => { console.warn(err); this.setState({ failed: true }); });
+    this.onDragOver = e => { if (e.dataTransfer && Array.from(e.dataTransfer.types || []).includes('Files')) { e.preventDefault(); if (!this.state.dragging) this.setState({ dragging: true }); } };
+    this.onDragLeave = e => { if (!e.relatedTarget) this.setState({ dragging: false }); };
+    this.onDrop = e => { e.preventDefault(); this.setState({ dragging: false }); const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]; if (f) this.useFile(f); };
+    this.onDown = e => { const cl = s => e.target.closest && e.target.closest(s); if (this.state.menu && !cl('[data-pop]')) this.setState({ menu: null }); if (this.state.reviewOpen && !cl('[data-review]')) this.setState({ reviewOpen: false }); };
+    this.onEsc = e => { if (e.key === 'Escape' && (this.state.menu || this.state.reviewOpen)) this.setState({ menu: null, reviewOpen: false }); };
+    addEventListener('dragover', this.onDragOver); addEventListener('dragleave', this.onDragLeave); addEventListener('drop', this.onDrop);
+    addEventListener('pointerdown', this.onDown); addEventListener('keydown', this.onEsc);
+    this.reveal(reduced);
+    const tick = () => {
+      this.scrubRaf = requestAnimationFrame(tick);
+      const hero = this.heroRef.current;
+      if (hero) {
+        const r = hero.getBoundingClientRect(), p = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height - innerHeight)));
+        if (p !== this.hp) { this.hp = p; this.heroFx(p); }
+      }
+      if (!v.duration || !isFinite(v.duration)) return;
+      // the clip opens on a top-down shot of the coast; the page starts at the warm horizon instead
+      const T0 = Math.min(6, v.duration * 0.25), max = document.documentElement.scrollHeight - innerHeight, q = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0, idle = reduced || this.state.paused ? 0 : (1 - Math.min(1, q * 25)) * (1 - Math.cos(performance.now() * 0.0004)) * 0.9, target = Math.min(v.duration - 0.05, T0 + idle + q * Math.max(0, v.duration - T0 - 0.05));
+      this.cur = this.cur == null ? target : this.cur + (target - this.cur) * 0.14;
+      if (!v.seeking && Math.abs(v.currentTime - this.cur) > 0.015) v.currentTime = this.cur;
+    };
+    this.scrubRaf = requestAnimationFrame(tick);
+  }
+  componentDidUpdate(pp) {
+    if (pp.tone !== this.props.tone && this.props.tone) this.setTone(this.TONE_PROP[this.props.tone] || 'film');
+    if (pp.heroZoom !== this.props.heroZoom && this.api) this.api.setKnockZoom(this.props.heroZoom ?? true);
+    if (pp.outline !== this.props.outline && this.api) this.api.setOutline((this.props.outline ?? true) ? 0.7 : false);
+  }
+  componentWillUnmount() {
+    cancelAnimationFrame(this.scrubRaf); document.documentElement.style.removeProperty('--acc'); document.documentElement.style.removeProperty('--sub');
+    removeEventListener('dragover', this.onDragOver); removeEventListener('dragleave', this.onDragLeave); removeEventListener('drop', this.onDrop);
+    removeEventListener('pointerdown', this.onDown); removeEventListener('keydown', this.onEsc);
+    if (this.io) this.io.disconnect(); if (this.url) URL.revokeObjectURL(this.url); if (this.w) this.w.dispose(); this.clear();
+  }
+  onLayout(l) { const k = this.kickRef.current, s = this.subRef.current; if (k) k.style.top = Math.round(l.cy - l.h / 2 - 50) + 'px'; if (s) s.style.top = Math.round(l.cy + l.h / 2 + 26) + 'px'; }
+  // one thing at a time: the wordmark window, the fly-through into the l, then the birds arrive with the line
+  heroFx(p) {
+    const cl = x => Math.min(1, Math.max(0, x)), sm = x => { x = cl(x); return x * x * (3 - 2 * x); };
+    if (this.api) { this.api.setKnock(cl((p - 0.1) / 0.62)); if (this.api.setArrive) this.api.setArrive(0.22 + 0.78 * sm((p - 0.48) / 0.34)); }
+    const card = 1 - sm(p / 0.14), msg = sm((p - 0.64) / 0.18), mark = sm((p - 0.58) / 0.2);
+    const set = (ref, o, tf) => { const el = ref.current; if (!el) return; el.style.opacity = o.toFixed(3); el.style.visibility = o < 0.02 ? 'hidden' : 'visible'; if (tf) el.style.transform = tf; };
+    set(this.kickRef, card); set(this.cueRef, card); set(this.subRef, card); set(this.markRef, mark);
+    set(this.msgRef, msg, 'translateY(calc(-50% + ' + ((1 - msg) * 48).toFixed(1) + 'px))');
+  }
+  // headlines gather word by word out of a blur; mono kickers decode into place
+  reveal(reduced) {
+    if (reduced || !('IntersectionObserver' in window)) return;
+    const words = el => Array.from(el.querySelectorAll('[data-w]'));
+    this.io = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target; this.io.unobserve(el);
+      if (el.hasAttribute('data-split')) words(el).forEach((w, i) => { const d = i * 70; w.style.transition = `opacity .9s ease ${d}ms, transform 1.1s cubic-bezier(.16,1,.3,1) ${d}ms, filter 1s ease ${d}ms`; w.style.opacity = '1'; w.style.transform = 'none'; w.style.filter = 'none'; });
+      if (el.hasAttribute('data-scramble')) this.scramble(el);
+    }), { rootMargin: '0px 0px -12% 0px' });
+    document.querySelectorAll('[data-split]').forEach(el => { words(el).forEach(w => { w.style.opacity = '0'; w.style.transform = 'translateY(.45em) rotate(4deg)'; w.style.transformOrigin = '0 100%'; w.style.filter = 'blur(14px)'; }); this.io.observe(el); });
+    document.querySelectorAll('[data-scramble]').forEach(el => this.io.observe(el));
+  }
+  scramble(el) {
+    const fin = el.textContent, n = fin.length, pool = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let f = 0;
+    const id = setInterval(() => {
+      f++; const done = Math.floor((f * n) / 16); let s = '';
+      for (let i = 0; i < n; i++) s += i < done || fin[i] === ' ' || fin[i] === '·' ? fin[i] : pool[Math.floor(Math.random() * pool.length)];
+      el.textContent = s;
+      if (done >= n) { clearInterval(id); el.textContent = fin; }
+    }, 34);
+    this.timers.push(id);
+  }
+  useFile(f) {
+    if (!f || !/^video\//.test(f.type)) { this.setState({ footageMsg: 'That is not a video file.' }); return; }
+    this.fromStore = true; this.cur = null;
+    this.idb('readwrite', st => st.put(f, 'bay')).catch(() => {});
+    this.useBlob(f);
+  }
+  useBlob(b) { if (this.url) URL.revokeObjectURL(this.url); this.url = URL.createObjectURL(b); this.setState({ footage: 'loading' }); this.video.src = this.url; this.video.load(); }
+  idb(mode, fn) {
+    return new Promise((res, rej) => {
+      const r = indexedDB.open('assembl-footage', 1);
+      r.onupgradeneeded = () => r.result.createObjectStore('clips');
+      r.onerror = () => rej(r.error);
+      r.onsuccess = () => { const tx = r.result.transaction('clips', mode), q = fn(tx.objectStore('clips')); tx.oncomplete = () => res(q && q.result); tx.onerror = () => rej(tx.error); };
+    });
+  }
+  setTone(k) { this.setState({ tone: k }); try { localStorage.setItem('assembl-clear-tone', k); } catch (e) {} if (this.api) this.api.setTone(k); this.applyLook(k); }
+  applyLook(k) { const [a, b] = this.ACC[k] || this.ACC.base, r = document.documentElement.style; r.setProperty('--acc', a); r.setProperty('--sub', b); }
+  later(ms, fn) { this.timers.push(setTimeout(fn, ms)); }
+  // three.js and the engine load as plain scripts in the head so publishing can inline them
+  whenTide() { const t0 = performance.now(); return new Promise((res, rej) => { const chk = () => window.AssemblTide && window.THREE ? res(window.AssemblTide) : performance.now() - t0 > 20000 ? rej(new Error('assembl engine did not load')) : setTimeout(chk, 40); chk(); }); }
+  clear() { this.timers.forEach(id => { clearTimeout(id); clearInterval(id); }); this.timers = []; }
+  pick(t) { return /shop|grocer|dinner|meal|supermarket/i.test(t) ? 'shop' : /weekend|trip|travel|holiday|away/i.test(t) ? 'travel' : /bill|power|phone|insurance|saving/i.test(t) ? 'bills' : /meeting|transcript|minutes/i.test(t) ? 'meeting' : /school|newsletter|notice|camp/i.test(t) ? 'school' : 'writing'; }
+  go(n) {
+    this.setState({ step: n });
+    if (this.api) { this.api.setLit(Math.min(1, (n + 1) / 6)); if (n === 5) this.api.pulse(); }
+    const next = { 0: [1100, 1], 1: [1500, 2], 3: [1100, 4], 4: [1000, 5] }[n];
+    if (next) this.later(next[0], () => this.go(next[1]));
+  }
+  start(t) { const text = (t ?? this.state.text).trim(); if (!text) return; this.clear(); this.setState({ text, job: this.pick(text), at: '', menu: null, listening: false }); this.go(0); }
+  listen() {
+    if (this.state.listening) return;
+    const phrase = 'Organise a weekend away in the Bay of Islands', words = phrase.split(' ');
+    this.setState({ listening: true, heard: '' });
+    words.forEach((w, i) => this.later(500 + i * 190, () => this.setState({ heard: words.slice(0, i + 1).join(' ') })));
+    this.later(500 + words.length * 190 + 700, () => this.setState({ listening: false, heard: '', text: phrase, mode: 'write' }));
+  }
+  addFile(kind) {
+    const label = { photo: 'photo · power-bill.jpg', file: 'file · insurance-renewal.pdf', link: 'link · ferry timetable' }[kind];
+    this.setState(s => ({ files: s.files.includes(label) ? s.files : [...s.files, label], mode: 'write' }));
+  }
+  togglePause = () => { const p = !this.state.paused; this.setState({ paused: p }); if (this.api) this.api.setPaused(p); document.documentElement.toggleAttribute('data-paused', p); };
+  renderVals() {
+    const { text, job, step, paused, failed, at, mode, menu, voice, listening, heard, files, notesOpen, notes, footage, tone } = this.state;
+    const S = job ? this.SC[job] : null, parked = step === 6, done = step === 5, n = parked ? 2 : done ? 6 : Math.max(0, step);
+    const lines = !S ? [] : job === 'writing' ? [S.lines[0], voice === 'Warm' ? 'A warm, clear draft, ready for you to edit.' : 'A plain, clear draft, ready for you to edit.', '', S.lines[3], S.lines[4]] : S.lines;
+    const sel = on => ({ bg: on ? '#FFFDFB' : 'transparent', color: on ? '#240B21' : '#FFFDFB' });
+    return {
+      canvasRef: this.canvasRef, heroRef: this.heroRef, heroCopyRef: this.heroCopyRef, kickRef: this.kickRef, cueRef: this.cueRef, msgRef: this.msgRef, markRef: this.markRef, subRef: this.subRef,
+      reviewOpen: this.state.reviewOpen, reviewAria: this.state.reviewOpen ? 'true' : 'false', toggleReview: () => this.setState(s => ({ reviewOpen: !s.reviewOpen })),
+      failed, togglePause: this.togglePause, pauseLabel: paused ? 'Play motion' : 'Pause motion', pausedAria: paused ? 'true' : 'false',
+      needFootage: footage === 'none', hasFootage: footage === 'ready', dragging: this.state.dragging,
+      footageMsg: this.state.footageMsg || 'It stays in this browser. Nothing is uploaded.',
+      onPick: e => { const f = e.target.files && e.target.files[0]; if (f) this.useFile(f); e.target.value = ''; },
+      looks: this.LOOK_LIST.map(([k, label]) => ({ label, sw: this.ACC[k][1], on: tone === k ? 'true' : 'false', bg: tone === k ? '#FFFDFB' : 'rgba(255,253,251,.06)', color: tone === k ? '#240B21' : '#FFFDFB', go: () => this.setTone(k) })),
+      tones: this.TONE_LIST.map(([k, label]) => ({ label, on: tone === k ? 'true' : 'false', bg: tone === k ? '#FFFDFB' : 'transparent', color: tone === k ? '#240B21' : '#FFFDFB', go: () => this.setTone(k) })),
+      idle: !S, active: !!S,
+      toggleMore: () => this.setState({ menu: menu === 'more' ? null : 'more' }), toggleCustom: () => this.setState({ menu: menu === 'custom' ? null : 'custom' }),
+      menuMore: menu === 'more', menuCustom: menu === 'custom', moreAria: menu === 'more' ? 'true' : 'false', customAria: menu === 'custom' ? 'true' : 'false',
+      more: [['Turn a meeting into notes', 'Turn Tuesday’s meeting into notes'], ['Sort a school notice', 'Sort the school newsletter'], ['Draft a reply', 'Prepare a reply to my property manager']].map(([label, t]) => ({ label, go: () => this.start(t) })),
+      voices: ['Plain', 'Warm'].map(vo => ({ label: vo, on: voice === vo ? 'true' : 'false', ...sel(voice === vo), go: () => this.setState({ voice: vo }) })),
+      modes: [['write', 'Write', false], ['talk', 'Talk', false], ['add', 'Add', true]].map(([k, label, plus]) => ({ label, plus, sel: mode === k ? 'true' : 'false', ...sel(mode === k), go: () => this.setState({ mode: k, menu: null }) })),
+      isWrite: mode === 'write', isTalk: mode === 'talk', isAdd: mode === 'add',
+      text, onText: e => this.setState({ text: e.target.value }), onKey: e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); this.start(); } },
+      empty: !text.trim(), submitO: text.trim() ? 1 : 0.4, submit: () => this.start(),
+      hasFiles: files.length > 0, files: files.map(label => ({ label })),
+      listen: () => this.listen(), listening, micLabel: listening ? 'Listening' : 'Start talking', talkLine: listening ? heard || 'Listening…' : 'Tap the microphone and say what you would like done.',
+      addPhoto: () => this.addFile('photo'), addDoc: () => this.addFile('file'), addLink: () => this.addFile('link'),
+      notesOpen, notesAria: notesOpen ? 'true' : 'false', notesRot: notesOpen ? '180deg' : '0deg', toggleNotes: () => this.setState({ notesOpen: !notesOpen }), notes, onNotes: e => this.setState({ notes: e.target.value }),
+      cardShop: () => this.start('Plan this week’s shop'), cardTravel: () => this.start('Organise a weekend away'), cardSave: () => this.start('Review my bills'),
+      tryExample: () => this.start(this.EXAMPLES[this.ex++ % this.EXAMPLES.length]),
+      jobName: S ? S.name : '', jobTitle: S ? S.title || text : '',
+      status: ['READING', 'PREPARING', 'WAITING FOR YOUR YES', 'DOING · SIMULATED', 'CHECKING', 'DONE · RECEIPT', 'KEPT AS A DRAFT'][step] || '',
+      steps: ['know', 'prepare', 'permit', 'do', 'verify', 'receipt'].map((label, i) => { const d = i < n, c = !parked && !done && i === step; return { label, bar: d ? '#FFFDFB' : c ? '#EAC8DF' : 'rgba(234,200,223,.18)', dot: d ? '#FFFDFB' : c ? '#EAC8DF' : 'rgba(234,200,223,.3)', c: d || c ? '#FFFDFB' : '#B79FAE', anim: c ? 'pulse 1.4s ease-in-out infinite' : 'none' }; }),
+      line: !S ? '' : step === 2 ? S.ask : parked ? 'Nothing was changed. The draft is kept for later.' : done ? 'Done. Here is the receipt.' : lines[step] || '',
+      isAsk: step === 2, isReceipt: done, isDone: done || parked,
+      approve: () => { this.setState({ at: new Date().toLocaleTimeString('en-NZ', { hour: 'numeric', minute: '2-digit' }) }); this.go(3); },
+      park: () => { this.clear(); this.setState({ step: 6 }); if (this.api) this.api.setLit(0.5); },
+      reset: () => { this.clear(); this.setState({ job: null, step: -1, text: '', files: [] }); if (this.api) this.api.setLit(0); },
+      receipt: S ? [['job', S.title || text], ['used', S.used], ['approved by', 'you · ' + (at || 'just now')], ['action', S.action + ' · simulated']].map(([k, v]) => ({ k, v })) : [],
+      fullHref: 'DO v2.dc.html' + (text.trim() ? '?job=' + encodeURIComponent(text.trim()) : ''),
+    };
+  }
+}
+</script>
+</body>
+</html>

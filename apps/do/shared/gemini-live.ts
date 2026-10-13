@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { DO_VOICE_VOICES, DEFAULT_DO_VOICE } from "./voice-options";
+export { DO_VOICE_VOICES } from "./voice-options";
 import { formatPersonalDoStyle, type PersonalDoProfileInput } from "@/apps/do/personal/profile";
 import type {
   Behavior,
@@ -14,11 +16,11 @@ export const DO_VOICE_MODELS = {
 } as const;
 export const DO_VOICE_SECONDS = 300;
 export const DO_VOICE_DAILY_SESSIONS = 3;
-export const DO_VOICE_VOICES = ["Kore", "Aoede", "Puck", "Charon"] as const;
 export const doVoiceRequest = z
   .object({
     mode: z.enum(["standard", "extended"]).default("standard"),
-    voiceName: z.enum(DO_VOICE_VOICES).default("Kore"),
+    voiceName: z.enum(DO_VOICE_VOICES).default(DEFAULT_DO_VOICE),
+    voiceRevision: z.string().regex(/^[a-f0-9]{64}$/),
     consent: z.literal(true),
     includeProfile: z.boolean().default(false),
     profileUpdatedAt: z.iso.datetime({ offset: true }).nullable().optional(),
@@ -83,4 +85,6 @@ export type DoVoiceAvailability = {
   dailyLimit: number;
   sessionSeconds: number;
   model: string;
+  voiceName: (typeof DO_VOICE_VOICES)[number] | null;
+  voiceRevision: string | null;
 };

@@ -67,6 +67,7 @@ const result = message => ({ id: 'fictional-site-draft', createdAt: '2026-10-01T
       await page.getByRole('heading', { name: 'Sign in to DO', exact: true }).waitFor();
       check(`public widget reaches ordinary DO login at ${width}`, new URL(page.url()).pathname === '/login' && new URL(page.url()).searchParams.get('redirect') === '/do');
     }
+    await page.route('**/api/do/session', route => route.fulfill({ json: { workspaceKey: 'guest' } }));
     // Exhausted legacy allowance cannot disable provider-free extraction.
     await page.route('**/api/do/runtime', route => route.fulfill({ json: { signedIn: false, trial: { remaining: 0 }, availability: { preparation: 'unavailable', note: 'Fictional unavailable generation.' } } }));
     await page.goto(origin + '/do/widget?task=extract', { waitUntil: 'networkidle' });

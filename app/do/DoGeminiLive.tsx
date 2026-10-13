@@ -5,9 +5,11 @@ import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type { PersonalDoProfile } from "@/apps/do/personal/profile";
 import { appendVoiceTranscript, voiceTranscriptForReview, type DoVoiceTranscriptEntry } from "@/apps/do/shared/gemini-live-session";
 import { releaseVoiceSession as destroy, stopVoiceAudio as stopAudio, type VoiceSessionResources as Session } from "@/apps/do/shared/voice-session-resources";
+import { DO_VOICE_LABELS, DEFAULT_DO_VOICE } from "@/apps/do/shared/voice-options";
+import { PersonalDoSettings } from "./personal/PersonalDoSettings";
+import { personalDoProfileSchema } from "@/apps/do/personal/profile";
 import type { LiveConnectConfig, LiveServerMessage } from "@google/genai";
 import {
-  DO_VOICE_VOICES,
   type DoVoiceAvailability,
   type DoVoiceMode,
 } from "@/apps/do/shared/gemini-live";
@@ -54,15 +56,20 @@ function play(s: Session, encoded: string) {
 export function DoGeminiLive({
   context = "",
   onDraft,
-  profile,
+  profile: initialProfile,
+  onProfileChange,
   draftTarget = "task",
 }: {
   context?: string;
   onDraft?: (text: string) => boolean;
   profile?: PersonalDoProfile;
+  onProfileChange?: (profile: PersonalDoProfile | null) => void;
   draftTarget?: "task" | "responsibility";
 }) {
   const active = useRef<Session | null>(null);
+  const [profile, setProfile] = useState(initialProfile);
+  const [reviewedParentRevision, setReviewedParentRevision] = useState(initialProfile?.updatedAt);
+  const parentRevision = useRef(initialProfile?.updatedAt);
   const availabilityRequest = useRef<AbortController | null>(null);
   const transcriptRef = useRef<DoVoiceTranscriptEntry[]>([]);
   const draftId = useId();
@@ -78,8 +85,8 @@ export function DoGeminiLive({
   const [consentFor, setConsentFor] = useState<string | null>(null);
   const [includeContext, setIncludeContext] = useState(false);
   const [mode, setMode] = useState<DoVoiceMode>("standard");
-  const [voiceName, setVoiceName] =
-    useState<(typeof DO_VOICE_VOICES)[number]>("Kore");
+  const voiceName = availability?.voiceName ?? DEFAULT_DO_VOICE;
+  const voiceLabel = availability?.voiceName ? DO_VOICE_LABELS[voiceName] : "Saved voice not yet checked";
   const [notice, setNotice] = useState("");
   const [availabilityError, setAvailabilityError] = useState(false);
   const [muted, setMuted] = useState(false);
@@ -87,28 +94,48 @@ export function DoGeminiLive({
   const [draft, setDraft] = useState<string | null>(null);
   const [preparedBrief, setPreparedBrief] = useState("");
   // Any change to the reviewed disclosure invalidates its previous consent.
-  const consentScope = JSON.stringify([profile ?? null, mode, profile?.voiceName ?? voiceName, includeContext, includeContext ? context.slice(0, 6000) : ""]);
+  const consentScope = JSON.stringify([initialProfile?.updatedAt ?? null, profile ?? null, mode, voiceName, availability?.voiceRevision, includeContext, includeContext ? context.slice(0, 6000) : ""]);
   const consent = consentFor === consentScope;
   const live = state !== "idle";
 
+  const includeSavedStyle = Boolean(initialProfile);
+  // A parent save invalidates the idle review immediately, before effects run.
+  const profileReviewPending = reviewedParentRevision !== initialProfile?.updatedAt;
   const refresh = useCallback(async () => {
     availabilityRequest.current?.abort();
     const request = new AbortController();
+    const requestedParentRevision = parentRevision.current;
     availabilityRequest.current = request;
     try {
-      const response = await fetch("/api/do/live-token", { signal: request.signal });
+      const response = await fetch("/api/do/live-token", { cache: "no-store", signal: request.signal });
       if (!response.ok) throw new Error("availability_unchecked");
       const value = await response.json();
       if (request.signal.aborted) return;
+      // Do not replace the displayed/reviewed voice during an active session.
+      if (active.current) return;
+      if (includeSavedStyle) {
+        const preferences = await fetch("/api/do/personal/profile", { cache: "no-store", signal: request.signal });
+        const data = await preferences.json();
+        if (!preferences.ok) throw new Error("profile_unchecked");
+        const nextProfile = personalDoProfileSchema.parse(data.profile);
+        if (request.signal.aborted || active.current) return;
+        setProfile(nextProfile);
+      }
       setAvailability(value);
       setAvailabilityError(false);
+      setReviewedParentRevision(requestedParentRevision);
     } catch {
-      if (!request.signal.aborted) {
+      if (!request.signal.aborted && !active.current) {
         setAvailability(null);
         setAvailabilityError(true);
       }
     }
-  }, []);
+  }, [includeSavedStyle]);
+  const onVoiceSettings = useCallback((next: PersonalDoProfile | null) => {
+    onProfileChange?.(next);
+    setConsentFor(null);
+    void refresh();
+  }, [onProfileChange, refresh]);
   const end = useCallback((message = "Call ended. Your microphone is off.") => {
     const session = active.current;
     active.current = null;
@@ -119,6 +146,20 @@ export function DoGeminiLive({
     setNotice(message);
     void refresh();
   }, [refresh]);
+  useEffect(() => {
+    // Refresh idle reviews after a save through another mounted settings entry.
+    // Keep this separate from media cleanup: a revision must not end a live call.
+    parentRevision.current = initialProfile?.updatedAt;
+    if (active.current) return;
+    const timer = window.setTimeout(() => void refresh(), 0);
+    return () => window.clearTimeout(timer);
+  }, [initialProfile?.updatedAt, live, refresh]);
+  useEffect(() => {
+    // Explicitly forgetting a saved profile still ends its call. Ordinary edits
+    // stay queued until the next call, without remounting the active session.
+    if (initialProfile?.updatedAt === null && profile?.updatedAt && active.current)
+      end("Call ended because your saved preferences were removed. Your microphone is off.");
+  }, [initialProfile?.updatedAt, profile?.updatedAt, end]);
   useEffect(() => {
     const initialCheck = window.setTimeout(() => void refresh(), 0);
     const onHidden = () => {
@@ -163,7 +204,7 @@ export function DoGeminiLive({
       session.ws.send(JSON.stringify({ realtimeInput: { audioStreamEnd: true } }));
   }
   async function start() {
-    if (active.current || !consent || !availability?.enabled || !availability.configured || !availability.signedIn || !availability.remaining) return;
+    if (active.current || profileReviewPending || !consent || !availability?.enabled || !availability.configured || !availability.signedIn || !availability.remaining || !availability.voiceRevision) return;
     const s: Session = {
       request: new AbortController(),
       ready: false,
@@ -209,7 +250,7 @@ export function DoGeminiLive({
       const response = await fetch("/api/do/live-token", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mode, voiceName: profile?.voiceName ?? voiceName, consent: true, ...(profile ? { includeProfile: true, profileUpdatedAt: profile.updatedAt } : {}) }),
+        body: JSON.stringify({ mode, voiceName, voiceRevision: availability?.voiceRevision, consent: true, ...(profile ? { includeProfile: true, profileUpdatedAt: profile.updatedAt } : {}) }),
         signal: s.request.signal,
       });
       const issued = (await response.json()) as IssuedSession & {
@@ -470,7 +511,7 @@ export function DoGeminiLive({
               : profile ? `Call ${displayName}` : "Say it. Let DO help."}
           </strong>
           <p role="status">{notice || availabilityNotice}</p>
-          {profile && <p>{profile.voiceName} voice · your {profile.updatedAt ? "saved" : "default"} conversation style</p>}
+          <p>Call voice: {voiceLabel}</p>
         </div>
         {live ? (
           <div className="do-live-controls">
@@ -498,7 +539,7 @@ export function DoGeminiLive({
       {expanded && !live && (
         <div className="do-live-options">
           <p>{availabilityNotice}</p>
-          {(availabilityError || availability?.remaining === null) && <button type="button" onClick={() => void refresh()}>Check call availability</button>}
+          {(availabilityError || availability?.remaining === null || !availability?.voiceRevision) && <button type="button" onClick={() => void refresh()}>Check call availability</button>}
           <div className="do-live-choice">
             <label>
               Conversation
@@ -511,28 +552,18 @@ export function DoGeminiLive({
                 <option value="extended">Think it through</option>
               </select>
             </label>
-            <label>
-              Voice
-              <select
-                aria-label="Voice"
-                disabled={Boolean(profile)}
-                value={profile?.voiceName ?? voiceName}
-                onChange={(e) =>
-                  setVoiceName(e.target.value as typeof voiceName)
-                }
-              >
-                {DO_VOICE_VOICES.map((voice) => (
-                  <option key={voice}>{voice}</option>
-                ))}
-              </select>
-            </label>
+            <div>
+              <p>Call voice: {voiceLabel}</p>
+              {availability?.signedIn && <PersonalDoSettings voiceEntry sharedProfile={onProfileChange ? initialProfile ?? null : undefined} onProfileChange={onVoiceSettings} />}
+              <p>Changes apply to your next call across your signed-in DO surfaces.</p>
+            </div>
           </div>
           {profile && <details className="do-live-profile">
             <summary>Profile shared for this call</summary>
             <p>Name: {profile.displayName} · voice: {profile.voiceName}</p>
             <p>Tone: {profile.tone} · replies: {profile.responseLength} · initiative: {profile.initiative.replaceAll("_", " ")}</p>
             <p className="do-live-context">{profile.preferences || "No extra preferences saved."}</p>
-            <p>Save a profile to choose a different name or voice.</p>
+            <p>Choose call voice above to update your saved preferences.</p>
           </details>}
           {context.trim() && (
             <>
@@ -568,6 +599,8 @@ export function DoGeminiLive({
             type="button"
             disabled={
               !ready ||
+              profileReviewPending ||
+              !availability?.voiceRevision ||
               !availability?.signedIn ||
               !availability?.remaining ||
               !consent

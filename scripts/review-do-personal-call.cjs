@@ -26,13 +26,14 @@ const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLe
     let holdToken = false, releaseToken;
     let holdCompile = false, releaseCompile;
     page.on('pageerror', (error) => errors.push(error.message));
+    await page.route('**/api/do/session', route => route.fulfill({ json: { workspaceKey: owner } }));
     await page.route('**/api/do/personal', (route) => {
       if (route.request().method() !== 'GET') mutations.push(route.request().postDataJSON());
       return route.fulfill({ json: { workspaceKey: owner, responsibilities: [], runs: [], worker: { configured: true, lastSeenAt: new Date().toISOString() } } });
     });
     await page.route('**/api/do/personal/profile', (route) => route.fulfill({ json: { profile, saved: true } }));
     await page.route('**/api/do/live-token', async (route) => {
-      if (route.request().method() === 'GET') return route.fulfill({ json: { enabled: true, configured: true, signedIn: true, remaining: 3, dailyLimit: 3, sessionSeconds: 300, model: 'gemini-3.8-live' } });
+      if (route.request().method() === 'GET') return route.fulfill({ json: { enabled: true, configured: true, signedIn: true, remaining: 3, dailyLimit: 3, sessionSeconds: 300, model: 'gemini-3.8-live', voiceName: profile.voiceName, voiceRevision: 'a'.repeat(64) } });
       tokens.push(route.request().postDataJSON());
       if (holdToken) await new Promise(resolve => { releaseToken = resolve; });
       if (tokenStatus !== 200) return route.fulfill({ status: tokenStatus, json: { error: 'Your session expired. Sign in before starting another call.' } });
@@ -96,7 +97,7 @@ const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLe
     check('call requires separate unselected consent', !await consent.isChecked() && await start.isDisabled());
     await panel.getByText('Profile shared for this call', { exact: true }).click();
     check('personal profile sharing is reviewable', await panel.getByText(profile.preferences, { exact: true }).isVisible());
-    check('saved voice is shown and cannot diverge silently', await panel.getByLabel('Voice', { exact: true }).inputValue() === 'Aoede' && await panel.getByLabel('Voice', { exact: true }).isDisabled());
+    check('saved voice is shown and cannot diverge silently', (await panel.textContent()).includes('Aoede · female · breezy') && await panel.getByRole('button', { name: 'Choose call voice', exact: true }).isVisible());
     await consent.check();
     await panel.getByLabel('Conversation', { exact: true }).selectOption('extended');
     check('changing conversation settings revokes earlier consent', !await consent.isChecked() && await start.isDisabled());

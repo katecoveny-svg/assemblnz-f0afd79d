@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { readWritingOwner, WRITING_OWNER_CHANGED_EVENT } from '@/apps/do/shared/use-writing-owner';
 import { createClient } from '@/lib/supabase/client';
 import { replacePersonalLoad, shouldRevalidatePersonalOwner } from '@/apps/do/personal/session';
 import { DoFocusWorkspace } from './DoFocusWorkspace';
@@ -20,32 +21,32 @@ export function DoWidgetPrivacyBoundary({ initialTask }: { initialTask: DoTask }
       const controller = replacePersonalLoad(request);
       request = controller;
       try {
-        const response = await fetch('/api/do/personal', { cache: 'no-store', signal: controller.signal });
-        const data = await response.json();
+        const next = await readWritingOwner(AbortSignal.any([controller.signal, AbortSignal.timeout(10_000)]));
         if (!mounted || controller.signal.aborted || attempt !== generation) return;
-        const next = response.status === 401 && data.workspaceKey === 'guest' ? 'guest'
-          : response.ok && typeof data.workspaceKey === 'string' && /^[a-f0-9-]{36}$/i.test(data.workspaceKey) ? data.workspaceKey : null;
-        if (!next) throw new Error('Identity unavailable');
         verified = next; setScope(next); setError(false);
       } catch {
         if (!mounted || controller.signal.aborted || attempt !== generation) return;
         verified = null; setScope(null); setError(true);
       }
     }
+    const invalidate = () => {
+      generation++; request?.abort(); verified = null;
+      setScope(null); setError(false); void revalidate();
+    };
     const focus = () => { void revalidate(); };
     void revalidate();
     window.addEventListener('focus', focus);
+    window.addEventListener(WRITING_OWNER_CHANGED_EVENT, invalidate);
     let unsubscribe: (() => void) | undefined;
     try {
       const subscription = createClient().auth.onAuthStateChange((event, session) => {
         if (!shouldRevalidatePersonalOwner(event, verified, session?.user?.id ?? 'guest')) return;
         // Unmount now, before asynchronous verification can finish: abort child work.
-        generation++; request?.abort(); verified = null;
-        setScope(null); setError(false); void revalidate();
+        invalidate();
       });
       unsubscribe = () => subscription.data.subscription.unsubscribe();
     } catch { /* Existing local guest contract still verifies through the server. */ }
-    return () => { mounted = false; generation++; request?.abort(); unsubscribe?.(); window.removeEventListener('focus', focus); };
+    return () => { mounted = false; generation++; request?.abort(); unsubscribe?.(); window.removeEventListener('focus', focus); window.removeEventListener(WRITING_OWNER_CHANGED_EVENT, invalidate); };
   }, []);
   if (!scope) return <div role="status">{error ? <>DO could not verify this workspace. <button onClick={() => window.dispatchEvent(new Event('focus'))}>Retry workspace</button></> : 'Checking this workspace…'}</div>;
   return <DoFocusWorkspace key={scope} initialTask={initialTask} />;

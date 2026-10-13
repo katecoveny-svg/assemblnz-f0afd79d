@@ -13,8 +13,6 @@ import {
   Check,
   Clock3,
   ChevronDown,
-  HeartHandshake,
-  CloudSun,
   Pause,
   Plus,
   RefreshCw,
@@ -29,8 +27,7 @@ import type { PersonalDoProfile } from "@/apps/do/personal/profile";
 import { PersonalDoSettings } from "./PersonalDoSettings";
 import { LifeAdmin } from "./LifeAdmin";
 import { PersonalDoAssistant, type PersonalAssistantWork } from "./PersonalDoAssistant";
-import { NzCareNavigation } from "./NzCareNavigation";
-import { LifeAdminLocalUpdates } from "./LifeAdminLocalUpdates";
+import { DoLocalInformation } from '@/components/do/DoLocalInformation';
 import { acceptDoShare, readDoShareForWorkspace, doShareText } from "@/apps/do/shared/share-intake";
 import { createClient as createBrowserClient } from "@/lib/supabase/client";
 import { replacePersonalLoad, shouldRevalidatePersonalOwner } from "@/apps/do/personal/session";
@@ -58,7 +55,7 @@ const stamp = (date: string, zone = "Pacific/Auckland") =>
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(date));
-export function PersonalDo() {
+export function PersonalDo({ context }: { context?: "household" } = {}) {
   const [state, setState] = useState<PersonalState | null>(null);
   const [personalProfile, setPersonalProfile] = useState<PersonalDoProfile | null>(null);
   const [sharedIntake, setSharedIntake] = useState<{ id: string; text: string; sourceTitle: string }>();
@@ -356,10 +353,16 @@ export function PersonalDo() {
           <DoSecondaryNavigation />
           <Link className={styles.phoneLink} href="/do/install#phone">Install DO <ArrowUpRight size={14} /></Link>
           {access === "ready" && workspaceKey
-            ? <PersonalDoSettings key={workspaceKey} compact triggerRef={settingsButton} onProfileChange={setPersonalProfile} />
-            : <Link className={styles.signIn} href="/login?redirect=%2Fdo">Sign in <ArrowUpRight size={15} /></Link>}
+            ? <PersonalDoSettings key={workspaceKey} compact triggerRef={settingsButton} sharedProfile={personalProfile} onProfileChange={setPersonalProfile} />
+            : <Link className={styles.signIn} href={context === "household" ? "/login?redirect=%2Fdo%2Fhousehold" : "/login?redirect=%2Fdo"}>Sign in <ArrowUpRight size={15} /></Link>}
         </nav>
       </header>
+      {context === "household" && <section className={styles.householdContext} aria-label="Household workspace">
+        <h2>Household, with DO.</h2>
+        <p>Bring a school notice, a household job or a bill. Prepare the next steps in your existing DO workspace.</p>
+        <details><summary>Household tools and earlier sample</summary><p>No shared family account or school inbox is connected.</p><p><Link href="/do/bills">Review bills and CSVs</Link> · Local calculations and downloadable enquiry drafts. No bank connection. <Link href="/do/bills/compare">Compare NZ bill options</Link> with consented document analysis and sourced research; no provider switching or payments.</p>
+        <p>The fictional nine-seat board remains available separately. Its sample and device-local settings are not imported into your DO notes.</p><Link href="/do/household?view=sample">Open legacy household sample</Link></details>
+      </section>}
       <div className={styles.notice} role="status" aria-live="polite">
         {notice}
       </div>
@@ -371,23 +374,18 @@ export function PersonalDo() {
           Try loading again <RefreshCw size={16} />
         </button>
       )}
-      {workspaceKey && <LifeAdmin key={workspaceKey} assistant={<PersonalDoAssistant key={workspaceKey} profile={personalProfile ?? undefined} onWorkingChange={setAssistantWorking} onWorkChange={setAssistantWork} />} assistantWork={assistantWork} assistantWorking={assistantWorking} profile={personalProfile} onCustomise={access === "ready" ? () => settingsButton.current?.click() : undefined} storageScope={workspaceKey} intake={sharedIntake} onGuestWorkChange={setGuestDirty} onIntakeAccepted={id => { try { acceptDoShare(window.sessionStorage, id); } catch { /* Storage may be unavailable. */ } }} onTalk={() => { setCallOpen(true); requestAnimationFrame(() => document.getElementById("personal-do-call")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" })); }} />}
+      {workspaceKey && <LifeAdmin key={workspaceKey} assistant={<PersonalDoAssistant key={workspaceKey} returnTo={context === "household" ? "/do/household" : "/do"} profile={personalProfile ?? undefined} onWorkingChange={setAssistantWorking} onWorkChange={setAssistantWork} />} assistantWork={assistantWork} assistantWorking={assistantWorking} profile={personalProfile} onCustomise={access === "ready" ? () => settingsButton.current?.click() : undefined} storageScope={workspaceKey} intake={sharedIntake} onGuestWorkChange={setGuestDirty} onIntakeAccepted={id => { try { acceptDoShare(window.sessionStorage, id); } catch { /* Storage may be unavailable. */ } }} onTalk={() => { setCallOpen(true); requestAnimationFrame(() => document.getElementById("personal-do-call")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" })); }} />}
       {workspaceKey && callOpen && <div id="personal-do-call" className={styles.call}>
         <div className={styles.callHeading}><p className={styles.eyebrow}>VOICE</p><a href="#life-admin">Back to my workspace ↑</a></div>
         <DoGeminiLive
-          key={`${workspaceKey}:${personalProfile?.updatedAt ?? "default"}`}
+          key={workspaceKey}
           profile={personalProfile ?? undefined}
+          onProfileChange={setPersonalProfile}
           draftTarget="responsibility"
           onDraft={state?.worker.configured && state.responsibilities.length < 5 ? keepCallDraft : undefined}
         />
       </div>}
-      {workspaceKey && <section className={styles.around} aria-labelledby="around-you-title">
-        <div className={styles.aroundHeading}><p className={styles.eyebrow}>NEW ZEALAND</p><h2 id="around-you-title">Local information</h2></div>
-        <div className={styles.aroundGrid}>
-          <details className={styles.aroundPanel}><summary><HeartHandshake size={23} /><span><strong>Care, health & later life</strong><small>Support, appointments and the right place to ask</small></span><Plus size={19} /></summary><NzCareNavigation storageScope={workspaceKey} /></details>
-          <details className={styles.aroundPanel}><summary><CloudSun size={23} /><span><strong>Weather & public updates</strong><small>Check the conditions before your next step</small></span><Plus size={19} /></summary><LifeAdminLocalUpdates key={workspaceKey} /></details>
-        </div>
-      </section>}
+      {workspaceKey && <DoLocalInformation storageScope={workspaceKey} />}
       {access === "ready" && state && (
         <details className={styles.ongoing}>
           <summary><span><span className={styles.eyebrow}>SAVED NOTES</span><strong>Ongoing responsibilities</strong></span><span className={styles.ongoingCount}>{needsReview ? `${needsReview} to review` : `${state.responsibilities.length} saved`} <ChevronDown size={20} /></span></summary>
