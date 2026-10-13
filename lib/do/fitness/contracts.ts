@@ -35,7 +35,7 @@ export function prepareFitness(raw: unknown) {
   const profile = { ...FICTIONAL_STRONG_PROFILE, goals: [input.goal], locations: [input.location], equipment: input.equipment, availableMinutes: input.minutes, trainingDays: input.days, dietaryPattern: input.dietaryPattern, allergens: input.allergens };
   const candidateSession = buildSession(profile, input.location);
   // No clinical clearance is created from an empty form; movements awaiting review are withheld.
-  const session = { ...candidateSession, exercises: candidateSession.exercises.filter(item => item.clearance !== 'clinician-review' && (input.goal !== 'mobility' || ['core', 'mobility'].includes(item.exercise.movement))) };
+  const session = { ...candidateSession, exercises: candidateSession.exercises.filter(item => item.clearance !== 'clinician-review' && (input.goal !== 'mobility' || ['core', 'mobility'].includes(item.exercise.movement))).map(({ exercise, sets, reps, restSeconds }) => ({ exercise, sets, reps, restSeconds })) };
   const foodBlocked = input.foodRequirement !== 'none' || input.allergens.length > 0;
   const meals = foodBlocked ? [] : RECIPES.filter(recipe => recipe.meal === 'dinner' && recipe.minutes <= 35 && recipeMatchesProfile(recipe, profile)).slice(0, 2);
   const blockers = [
@@ -110,6 +110,7 @@ export function fitnessOffice(now: string, result: FitnessResult | null, food: F
   }));
   const office = officeSnapshotFromAgents(specs, { workspaceId: 'fitness-synthetic-session', workspaceName: 'DO Fitness sample' });
   const messages: DoOfficeMessage[] = [];
+  if (result) messages.push({ id: `request:${result.revision}`, workspaceId: office.workspaces[0].id, fromIdentityId: 'agent:chief-do', toIdentityId: 'agent:fitness-do', kind: 'handoff', summary: 'Prepare movement and food from the reviewed synthetic adult inputs.', requestedAction: 'prepare-draft-only', createdAt: now });
   if (result) messages.push({ id: `fitness:${result.revision}`, workspaceId: office.workspaces[0].id, fromIdentityId: 'agent:fitness-do', toIdentityId: 'agent:chief-do', kind: 'update', summary: 'Reviewed sample inputs produced a draft; no external action.', createdAt: now });
   if (food) messages.push({ id: `food:${food.revision}`, workspaceId: office.workspaces[0].id, fromIdentityId: 'agent:fitness-do', toIdentityId: 'agent:shop-do', kind: 'handoff', summary: 'Only reviewed food choices and quantities received.', createdAt: now });
   return { ...office, inbox: messages };

@@ -76,6 +76,7 @@ export default function FitnessWorkspace() {
           </section>
         </>}
         {food && <section className={styles.shop} aria-labelledby="shop-heading"><div className={styles.sectionTitle}><h2 id="shop-heading">Shop’s ingredient review</h2><Check size={24} /></div><p>Received from Fitness through DO · one serving choice per dinner.</p><ul>{food.requirements.map(item => <li key={item.ingredientId}><span>{item.name}</span><strong>{Number(item.required.toFixed(2))} {item.unit}</strong></li>)}</ul><p>Pantry has not been reviewed. No packs, stock, prices, budget coverage or retailer cart are confirmed. This food-only draft stays in this tab.</p><button className={styles.quiet} onClick={() => { setFood(null); setFoodReviewed(false); }}>Withdraw food handoff</button></section>}
+        {!!office.inbox.length && <details className={styles.trace}><summary>Review DO’s delegation</summary><ol>{office.inbox.map(message => <li key={message.id}><strong>{message.fromIdentityId.replace('agent:', '').replace('-do', '')} → {message.toIdentityId.replace('agent:', '').replace('-do', '')}</strong><p>{message.summary}</p></li>)}</ol></details>}
         <div className={styles.notice} role="status" aria-live="polite">{notice}</div>
         <section className={styles.future}><h2>Connections come later</h2><p>Apple Health, GPS and Strava are not connected. Medication logging is not available in this slice. No health permissions, dosing guidance or medical records are requested.</p></section>
       </div>

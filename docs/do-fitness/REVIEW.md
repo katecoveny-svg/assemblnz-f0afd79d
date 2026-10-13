@@ -32,7 +32,7 @@ Shop PR1563 owns ShopJourney, PersonalDo, DoFocusWorkspace, voice and shared dia
 
 ## Validation and release gates
 
-Local focused tests: 27 passed (Fitness contracts, Strong engine, Shop preparation); scoped ESLint passed. Hosted workflow `do-fitness-review.yml` runs current full typecheck, focused regressions, scoped lint, guarded production build and actual Next browser interactions at 375/1440. Browser script checks review gates, edits invalidating prior approval, withheld allergy/medical suggestions, no localStorage changes/outbound writes, reset on refresh and horizontal overflow; captures ready/reviewed/withheld states.
+Local focused tests: 36 passed (Fitness contracts, Strong engine, Shop preparation and Office projection); scoped ESLint passed. Hosted workflow `do-fitness-review.yml` runs current full typecheck, focused regressions, scoped lint, guarded production build and actual Next browser interactions at 375/1440. Browser script checks review gates, edits invalidating prior approval, withheld allergy/medical suggestions, no localStorage changes/outbound writes, reset on refresh and horizontal overflow; captures ready/reviewed/withheld states.
 
 Ship readiness requires all of the following on the final commit:
 

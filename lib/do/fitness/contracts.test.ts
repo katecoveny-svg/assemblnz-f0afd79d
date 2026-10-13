@@ -37,7 +37,8 @@ describe('chief → Fitness → Shop sample boundary', () => {
   });
   it('withholds review-required movement and all food for unverified medical or allergy constraints', () => {
     const result = prepareFitness(request);
-    expect(result.session.exercises.some(item => item.clearance === 'clinician-review')).toBe(false);
+    expect(result.session.exercises.some(item => item.exercise.id === 'romanian-deadlift')).toBe(false);
+    expect(result.session.exercises.every(item => !('clearance' in item))).toBe(true);
     for (const input of [{ ...request.input, allergens: ['fish'] }, { ...request.input, foodRequirement: 'allergy-or-medical' }, { ...request.input, foodRequirement: 'other-unsupported' }]) {
       expect(prepareFitness({ ...request, input }).meals).toEqual([]);
     }
@@ -68,7 +69,8 @@ describe('chief → Fitness → Shop sample boundary', () => {
     const office = fitnessOffice('2026-10-14T00:00:00Z', prepareFitness(request), null);
     expect(office.members).toHaveLength(3);
     expect(office.members.every(member => member.identity.agentId && member.identity.emailState === 'none')).toBe(true);
-    expect(office.inbox[0].toIdentityId).toBe('agent:chief-do');
+    expect(office.inbox[0].toIdentityId).toBe('agent:fitness-do');
+    expect(office.inbox[1].toIdentityId).toBe('agent:chief-do');
   });
 });
 

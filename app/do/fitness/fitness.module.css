@@ -68,3 +68,8 @@
 .future h2 { font-size:20px; }
 .future p { font-size:14px; }
 @media(max-width:760px) { .workspace { padding:18px 20px 70px; } .intro { grid-template-columns:1fr; gap:18px; padding:35px 0 24px; } .intro h1 { font-size:39px; } .intro>div>p { font-size:17px; } .sample { padding:16px; } .team { gap:12px; } .team>div { padding:16px 0; } .team strong { font-size:21px; } .team svg { display:none; } .team span { font-size:11px; } .layout { grid-template-columns:1fr; gap:34px; } .inputs { padding-bottom:30px; border-bottom:1px solid #d9cbd2; } .empty { min-height:280px; padding:28px; } .header { gap:10px; } .identity { gap:6px; font-size:18px; } .header .quiet { font-size:12px; padding:9px; } .sectionTitle { align-items:flex-start; } .shop { padding:20px; } }
+
+.trace ol { padding-left:22px; }
+.trace li { padding:10px 0; font-size:14px; }
+.trace strong { font-weight:500; text-transform:capitalize; }
+.trace p { margin:6px 0; }
