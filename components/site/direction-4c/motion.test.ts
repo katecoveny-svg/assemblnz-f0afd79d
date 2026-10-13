@@ -201,7 +201,9 @@ it('keeps playback paused across a breakpoint change until explicitly resumed', 
   const plays = f.video.play.mock.calls.length;
   f.mobile.matches = true; f.resize(); await f.flush();
   expect(f.video.play).toHaveBeenCalledTimes(plays);
-  expect(f.root.dataset.videoReady).toBeUndefined();
+  expect(f.root.dataset.videoReady).toBe('true');
+  expect(f.attach).toHaveBeenCalledTimes(1);
+  expect(f.world.dispose).not.toHaveBeenCalled();
   f.buttonEvents.get('click')!(); await f.flush();
   expect(f.video.play.mock.calls.length).toBeGreaterThan(plays);
   expect(f.root.dataset.videoReady).toBe('true'); f.cleanup();
@@ -285,5 +287,18 @@ it('finishes visible desktop copy fades and freezes them through paused scrollin
   }
   f.buttonEvents.get('click')!(); f.moveHero(0); f.advanceFrame();
   expect(f.copy.msgRef.style.opacity).toBe('0.000');
+  f.cleanup();
+});
+
+it('keeps phone useful-work copy fully readable at intermediate hero stops', async () => {
+  const f = await controllerFixture(); f.mobile.matches = true;
+  f.resolveAttach(); await f.flush();
+  for (const progress of [.64, .67, .70, .76, .82, .95]) {
+    f.moveHero(-1760 * progress); f.advanceFrame();
+    expect(f.copy.msgRef.style.opacity).toBe('1.000');
+    expect(f.copy.msgRef.style.visibility).toBe('visible');
+  }
+  f.moveHero(-1760 * .5); f.advanceFrame();
+  expect(f.copy.msgRef.style.visibility).toBe('hidden');
   f.cleanup();
 });
