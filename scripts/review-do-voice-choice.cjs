@@ -183,6 +183,7 @@ function check(label, result) { assert.ok(result, label); checks.push(label); co
       profile.displayName === 'Mira revised' && profile.preferences === 'New preferences must survive voice save.' && profile.avatar === 'orbit' && profile.tone === 'direct' && profile.responseLength === 'detailed' && profile.initiative === 'on_request' && profile.voiceName === 'Puck', { ...profile });
     fs.writeFileSync(out + '/dual-settings-results.json', JSON.stringify(regressions, null, 2));
     check('both real settings instances preserve sequential saves and idle review', regressions.every(r => r.passed));
+    await panel.getByText('Call voice: Puck · male · upbeat', { exact: true }).first().waitFor();
 
     await page.evaluate(() => { window.__callTest.mode = 'allow'; });
     await consent.check();

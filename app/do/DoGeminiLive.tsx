@@ -69,6 +69,7 @@ export function DoGeminiLive({
   const active = useRef<Session | null>(null);
   const [profile, setProfile] = useState(initialProfile);
   const [reviewedParentRevision, setReviewedParentRevision] = useState(initialProfile?.updatedAt);
+  const parentRevision = useRef(initialProfile?.updatedAt);
   const availabilityRequest = useRef<AbortController | null>(null);
   const transcriptRef = useRef<DoVoiceTranscriptEntry[]>([]);
   const draftId = useId();
@@ -103,6 +104,7 @@ export function DoGeminiLive({
   const refresh = useCallback(async () => {
     availabilityRequest.current?.abort();
     const request = new AbortController();
+    const requestedParentRevision = parentRevision.current;
     availabilityRequest.current = request;
     try {
       const response = await fetch("/api/do/live-token", { cache: "no-store", signal: request.signal });
@@ -121,7 +123,7 @@ export function DoGeminiLive({
       }
       setAvailability(value);
       setAvailabilityError(false);
-      return true;
+      setReviewedParentRevision(requestedParentRevision);
     } catch {
       if (!request.signal.aborted && !active.current) {
         setAvailability(null);
@@ -147,14 +149,10 @@ export function DoGeminiLive({
   useEffect(() => {
     // Refresh idle reviews after a save through another mounted settings entry.
     // Keep this separate from media cleanup: a revision must not end a live call.
+    parentRevision.current = initialProfile?.updatedAt;
     if (active.current) return;
-    let cancelled = false;
-    const timer = window.setTimeout(() => {
-      void refresh().then(checked => {
-        if (checked && !cancelled) setReviewedParentRevision(initialProfile?.updatedAt);
-      });
-    }, 0);
-    return () => { cancelled = true; window.clearTimeout(timer); };
+    const timer = window.setTimeout(() => void refresh(), 0);
+    return () => window.clearTimeout(timer);
   }, [initialProfile?.updatedAt, live, refresh]);
   useEffect(() => {
     // Explicitly forgetting a saved profile still ends its call. Ordinary edits
