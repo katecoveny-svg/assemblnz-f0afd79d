@@ -153,7 +153,7 @@ fs.mkdirSync(output, { recursive: true });
           await demo.getByRole('button', { name: 'Approve', exact: true }).waitFor();
           await demo.getByRole('button', { name: 'Not now', exact: true }).click();
           await demo.getByRole('link', { name: 'Open the full DO' }).waitFor();
-          assert.match(await demo.locator('.td-line').textContent(), /kept for later/);
+          assert.equal(await demo.locator('.td-line').textContent(), 'Nothing was changed. This sample is not saved and will be lost on reload.');
         }
         assert.deepEqual(errors, []);
         results.push({ width, mode, engine, passed: true, entryTargets, pausedCopyChecks });

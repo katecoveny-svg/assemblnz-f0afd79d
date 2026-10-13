@@ -6,6 +6,7 @@ on:
       - 'public/direction-4c/**'
       - 'app/page.tsx'
       - 'scripts/direction-4c-mobile-proof.cjs'
+      - 'scripts/homepage-scroll-canvas-proof.cjs'
       - '.github/workflows/direction-4c-review.yml'
   workflow_dispatch:
 permissions:
@@ -16,7 +17,8 @@ concurrency:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    # Both full browser suites include software-WebGL screenshots and media failure waits.
+    timeout-minutes: 40
     env:
       NODE_OPTIONS: --max-old-space-size=6144
     steps:
@@ -49,9 +51,13 @@ jobs:
           result=0
           PROOF_BROWSER=chromium PROOF_CHANNEL=chrome node scripts/direction-4c-mobile-proof.cjs || result=1
           PROOF_BROWSER=webkit node scripts/direction-4c-mobile-proof.cjs || result=1
+          PROOF_BROWSER=chromium PROOF_CHANNEL=chrome node scripts/homepage-scroll-canvas-proof.cjs || result=1
+          PROOF_BROWSER=webkit node scripts/homepage-scroll-canvas-proof.cjs || result=1
           exit "$result"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: mobile-homepage-proof
-          path: output/playwright/mobile-recovery
+          path: |
+            output/playwright/mobile-recovery
+            output/playwright/homepage-regression

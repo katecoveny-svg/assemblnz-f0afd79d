@@ -146,7 +146,8 @@ export function Direction4cHome() {
         const p = clamp(-rect.top / Math.max(1, rect.height - innerHeight));
         world?.api?.setKnock(clamp((p - .1) / .62));
         world?.api?.setArrive(.22 + .78 * smooth((p - .48) / .34));
-        const card = 1 - smooth(p / .14), msg = smooth((p - .64) / .18);
+        // Phone scrolling can stop anywhere: reveal the reading block at full contrast.
+        const card = 1 - smooth(p / .14), msg = mobile.matches ? (p >= .64 ? 1 : 0) : smooth((p - .64) / .18);
         set('kickRef', card); set('cueRef', card); set('subRef', card); set('markRef', smooth((p - .58) / .2));
         set('msgRef', msg, `translateY(calc(-50% + ${(1 - msg) * 48}px))`);
       }
@@ -175,7 +176,7 @@ export function Direction4cHome() {
         if (!engine) throw new Error('Motion engine unavailable');
         const next = engine.attach({
           canvas: ref('canvasRef') as HTMLCanvasElement, plate: video, onFail: () => { if (!disposed && current === generation) lost(); },
-          extra: { tone: 'film', gliders: false, knockZoom: true, outline: .7, glass: false,
+          extra: { poster: root.querySelector('.clear-coastal-poster'), plateReady: () => root.dataset.videoReady === 'true', tone: 'film', gliders: false, knockZoom: true, outline: .7, glass: false,
             count: 900, arrive: .22, birdScale: 1.2, silhouette: 1,
             slots: ['cloud', 'signal', 'pin', 'DO', 'bubble', 'tick', 'frame', 'sparkle', 'padlock', 'seal', 'amark', 'word'],
             onLayout: (layout: { cy: number; h: number }) => {
@@ -200,6 +201,8 @@ export function Direction4cHome() {
       paused = !paused; updatePause();
     };
     const visibility = () => updatePause();
+    // Keep the frozen composition on resize; the renderer repaints its new buffer.
+    const breakpoint = () => { if (playbackGate.allowed()) void start(); };
     const lost = () => {
       generation++; // A pending attach must never revive a failed scene.
       stop(); root.dataset.static = 'true';
@@ -235,13 +238,13 @@ export function Direction4cHome() {
     ref('canvasRef')?.addEventListener('webglcontextlost', lost);
     button.addEventListener('click', toggle);
     media.addEventListener('change', start);
-    mobile.addEventListener('change', start);
+    mobile.addEventListener('change', breakpoint);
     document.addEventListener('visibilitychange', visibility);
     void start();
     return () => {
       disposed = true; generation++; stop(); signals.current = null; video.removeAttribute('src'); video.load();
       video.removeEventListener('waiting', waiting); video.removeEventListener('stalled', stalled);
-      mobile.removeEventListener('change', start);
+      mobile.removeEventListener('change', breakpoint);
       button.removeEventListener('click', toggle); media.removeEventListener('change', start);
       document.removeEventListener('visibilitychange', visibility); video.removeEventListener('error', noFootage);
       ref('canvasRef')?.removeEventListener('webglcontextlost', lost);

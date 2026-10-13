@@ -169,7 +169,7 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
   const lines = !scenario ? [] : job?.key === 'writing'
     ? [scenario.lines[0], voice === 'Warm' ? 'A warm, clear draft, ready for you to edit.' : 'A plain, clear draft, ready for you to edit.', '', scenario.lines[3], scenario.lines[4]]
     : scenario.lines;
-  const line = !scenario ? '' : step === 2 ? scenario.ask : parked ? 'Nothing was changed. The draft is kept for later.' : done ? 'Done. Here is the receipt.' : lines[step] ?? '';
+  const line = !scenario ? '' : step === 2 ? scenario.ask : parked ? 'Nothing was changed. This sample is not saved and will be lost on reload.' : done ? 'Done. Here is the receipt.' : lines[step] ?? '';
   const receipt: [string, string][] = scenario && job ? [
     ['job', scenario.title || job.text],
     ['used', scenario.used],
