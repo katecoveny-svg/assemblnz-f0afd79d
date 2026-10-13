@@ -7,7 +7,7 @@ export type State = {
   availability: Record<string, boolean>;
   accountsAvailable?: boolean;
   capabilities: DoCapabilityCard[];
-  accounts: Array<{ app: string; label: string; healthy: boolean }>;
+  accounts: Array<{ id?: string; app: string; label: string; healthy: boolean }>;
 };
 
 type McpProviderRow = {
