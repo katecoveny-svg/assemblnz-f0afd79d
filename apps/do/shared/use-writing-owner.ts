@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { shouldRevalidatePersonalOwner } from '@/apps/do/personal/session';
 import { createClient } from '@/lib/supabase/client';
 import { z } from 'zod';
 
@@ -51,7 +52,7 @@ export function useWritingOwner(enabled: boolean) {
     try {
       const { data } = createClient().auth.onAuthStateChange((event, session) => {
         const hinted = session?.user && !session.user.is_anonymous ? session.user.id : 'guest';
-        if (event === 'SIGNED_OUT' || (verified !== null && hinted !== verified)) invalidate();
+        if (event === 'SIGNED_OUT' || shouldRevalidatePersonalOwner(event, verified, hinted)) invalidate();
       });
       unsubscribe = () => data.subscription.unsubscribe();
     } catch { /* Cookie verification remains required even without client auth configuration. */ }

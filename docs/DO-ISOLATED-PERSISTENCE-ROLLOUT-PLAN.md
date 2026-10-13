@@ -30,3 +30,9 @@ On desktop and iPhone Safari/installed PWA, test save → close → reopen, sign
 ## Stage 4 — production release proposal, not execution
 
 Return exact reviewed commits/schema/RPC/cleanup diffs, passing isolated evidence, rollback and data-retention plan, remaining limitations, target and flags. Obtain scoped production approval before any migration, memory flag, provider-sharing change or security setting. A storage release does not imply permission to send remembered content to a model. Roll out one vertical slice, observe only non-content operational errors, verify owner-safe deletion, then separately review long-term memory.
+
+## Who performs the remaining checks
+
+Agents can safely simulate account changes, expired-session responses, offline/reconnect, quota/read failures, unsupported locks, stale revisions and delayed auth responses with fictional data; those checks are already exercised. Real cookie refresh/expiry and hosted RLS need a distinct authorized fixture target/accounts, but do not require Kate's personal session. Never revoke her working production session for a failure test.
+
+Kate—or an explicitly authorized person holding the device—must check her actual iPhone Safari/installed PWA: close/reopen, screen lock, background/resume, airplane mode, storage persistence and available Web Locks, using fictional text. Kate must confirm her previously working sign-in remains intact and whether the voice still sounds right to her. A real microphone/provider call must be user-initiated with the existing consent; observe the device mic indicator on End/offline/background. Browser automation cannot prove those device observations. Cross-device draft sync is not promised or implemented by this patch.

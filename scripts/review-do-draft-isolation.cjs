@@ -62,6 +62,10 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
     await page.getByRole('button', { name: 'Save in this browser', exact: true }).click();
     await page.getByRole('alert').filter({ hasText: 'another tab' }).waitFor();
     check('stale populated editor cannot overwrite another tab revision', await page.evaluate(({ key, A }) => JSON.parse(localStorage.getItem(key + ':' + A))[0].draft.text === 'Tab two newer edit', { key, A }));
+    await page.getByRole('button', { name: 'Remove Fixture 1 from this browser', exact: true }).click();
+    await page.waitForFunction(({ key, A }) => JSON.parse(localStorage.getItem(key + ':' + A) || '[]')[0]?.draft.text === 'Tab two newer edit', { key, A });
+    try { await page.getByRole('alert').filter({ hasText: 'Reopen it before removing it' }).waitFor({ timeout: 5000 }); } catch (error) { console.error('Stale-remove fixture state', await page.evaluate(({ key, A }) => ({ saved: localStorage.getItem(key + ':' + A), text: document.querySelector('#do-result')?.value }), { key, A })); throw error; }
+    check('Remove from refreshed sidebar cannot delete a newer revision while its stale editor is open', await page.evaluate(({ key, A }) => JSON.parse(localStorage.getItem(key + ':' + A))[0].draft.text === 'Tab two newer edit', { key, A }));
     await page.getByRole('button', { name: /Fixture 1 Draft/ }).click();
     // Block storage writes and prove a visible failure with the existing saved copy intact.
     await page.evaluate(() => { window.__setItem = Storage.prototype.setItem; Storage.prototype.setItem = function () { throw new DOMException('Fixture quota exhausted', 'QuotaExceededError'); }; });

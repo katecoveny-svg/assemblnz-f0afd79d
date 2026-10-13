@@ -30,6 +30,7 @@ on:
       - 'scripts/review-do-personal-settings.cjs'
       - 'scripts/review-do-personal-call.cjs'
       - 'scripts/review-do-draft-isolation.cjs'
+      - 'scripts/review-do-writing-owner.cjs'
       - 'scripts/review-do-refinement.cjs'
       - 'scripts/review-do-unified.cjs'
       - 'scripts/test-do-memory-sql.cjs'
@@ -111,6 +112,11 @@ jobs:
           ASSEMBL_ESBUILD_MODULE: ${{ github.workspace }}/node_modules/.pnpm/esbuild@0.28.0/node_modules/esbuild
           ASSEMBL_REVIEW_OUTPUT: /tmp/personal-do-proof/result-focus
         run: node scripts/review-do-personal-result-focus.cjs
+      - name: Pending writing identity response regressions (fictional auth)
+        env:
+          ASSEMBL_ESBUILD_MODULE: ${{ github.workspace }}/node_modules/.pnpm/esbuild@0.28.0/node_modules/esbuild
+          ASSEMBL_REVIEW_OUTPUT: /tmp/personal-do-proof/writing-owner
+        run: node scripts/review-do-writing-owner.cjs
       - name: Private checklist SQL boundaries
         run: ASSEMBL_PGLITE_MODULE=/tmp/assembl-browser/node_modules/@electric-sql/pglite node scripts/test-do-personal-checklists-sql.cjs
       - name: Optional memory SQL boundaries (proposal only)

@@ -15,6 +15,7 @@ const path = require('node:path');
       const errors = [];
       page.on('pageerror', error => errors.push(error.message));
       await page.route('**/*', route => route.request().method() === 'GET' ? route.continue() : route.abort());
+      await page.route('**/api/do/session', route => route.fulfill({ json: { workspaceKey: 'guest' } }));
       await page.goto(`${process.env.DO_REVIEW_ORIGIN || 'http://127.0.0.1:3000'}/do/widget`, { waitUntil: 'networkidle' });
       const header = page.locator('main > header');
       const geometry = () => header.evaluate(node => {

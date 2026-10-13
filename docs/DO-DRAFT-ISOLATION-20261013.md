@@ -45,3 +45,15 @@ Smallest safe release: independently reviewed voice cleanup (already separately 
 ### Regression caught during verification
 
 The companion test caught input loss when ownership revalidation hid an iframe while a same-page launcher moved keyboard focus into it. Embedded frames now revalidate on auth/storage events, page show, visible-page return, reconnect and explicit retry; mere focus movement inside the containing page does not hide the input. Standalone window focus still revalidates. Every storage mutation still verifies identity under its lock. The existing companion suite proves Write/close/reopen retains the same iframe and populated draft.
+
+### Independent review follow-up
+
+The inner writing hook now uses the existing ownership-invalidation helper for `SIGNED_IN`/`USER_UPDATED` while verification is pending. Four actual standalone-editor fixtures defer account A's response, announce B, then release A; only B's populated draft can reopen. The widget's outer privacy boundary already handles this pending-event case, so this is defensive coverage, not a demonstrated exposed widget-account bypass.
+
+A populated two-tab reproduction showed that the original sidebar Remove action deleted tab B's newer saved revision while tab A retained a stale open editor. Remove now compares the opened snapshot when that draft is open; an untouched sidebar-only removal still compares the visible sidebar entry. The actual UI fixture checks the conflict and preservation, in addition to storage-unit tests.
+
+### Existing users and the recovery gate
+
+For an existing unscoped draft, the bytes remain, but the saved title and content no longer appear in the usable list. Signed-in, nonembedded writing shows: “Older device drafts have no recorded owner. They remain untouched and are not opened in this account.” Anonymous users see the page-only writing explanation. A historical `:guest` key stays untouched but does not itself trigger the unscoped-key notice. There is no recovery button or importer in this candidate. Legitimate users may therefore lose application access to old work even though it is preserved.
+
+Users with separately retained downloads can recover their known content into their own documents without opening the shared unknown list. Any supervised recovery must establish original-user authority and individual-item provenance outside the unowned key before disclosure; sign-in/device possession alone is insufficient on a shared profile. Copy only verified items with a visible destination and explicit approval; retain originals privately on-device. If provenance cannot be established, keep the data quarantined—there is no safe automatic recovery. General release requires accepting this access limitation or separately reviewing a recovery process. Do not claim migration is complete.
