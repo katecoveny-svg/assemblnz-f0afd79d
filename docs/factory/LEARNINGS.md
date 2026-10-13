@@ -92,3 +92,10 @@ A device-wide localStorage key has no owner proof. Keying a component by account
 ### Loyalty DO partner concept (13 October 2026, draft)
 
 Partner scenes can reuse Shop preparation without reusing seeded journey persistence or timed reward theatre. A pantry image is evidence to review, not structured quantity or food-safety truth. Keep provider observations as editable notes until the person explicitly sets quantities. Bind basket approval to the full current plan, invalidate it on edits, and distinguish a local simulated handoff receipt from merchant execution. Optional useful activity during human review needs no fabricated processing timer or numeric point credit. See `docs/design/woolworths-loyalty-do/README.md` for this draft's verification gates.
+
+
+## 13 October 2026 — mobile coastal homepage recovery (review branch)
+
+Renderer initialization is not decoded-video proof. Keep a real coastal poster visible until a video frame callback (or current pixel data on older browsers) confirms content, bound startup with a timeout, and handle denied playback/stalls. Muted inline video must be mounted and explicitly started. Mobile reading must not inherit scroll-driven parent opacity: this recovery uses normal-flow, opaque content and native video without the flock renderer at widths up to 900px. SVG action arrows avoid iOS emoji substitution. The existing homepage primitive is extended; this is not a new rendering framework.
+
+Regression proof lives in `components/site/direction-4c/video-readiness.test.ts` and `scripts/direction-4c-mobile-proof.cjs`: 375/390/430px, desktop, blocked media, autoplay denial, no decoded frame, reduced motion, pause while scrolling and stall fallback. Hosted WebKit proof is required; Chromium emulation alone is not an actual iPhone claim.

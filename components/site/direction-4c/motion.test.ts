@@ -118,8 +118,8 @@ async function controllerFixture() {
   const videoEvents = new Map<string, () => void>();
   const button = { setAttribute: vi.fn(), addEventListener: vi.fn(), removeEventListener: vi.fn(), textContent: '', disabled: false };
   const canvas = { addEventListener: vi.fn(), removeEventListener: vi.fn() };
-  const root = { dataset: {} as Record<string, string>, toggleAttribute: vi.fn(), querySelectorAll: () => [], querySelector: (selector: string) => selector === '[data-pause]' ? button : selector.includes('canvasRef') ? canvas : null };
-  const video = { muted: false, playsInline: false, preload: '', duration: 24, currentTime: 0, seeking: false, src: '', pause: vi.fn(), load: vi.fn(), removeAttribute: vi.fn(), addEventListener: (name: string, fn: () => void) => videoEvents.set(name, fn), removeEventListener: (name: string) => videoEvents.delete(name) };
+  const root = { dataset: {} as Record<string, string>, toggleAttribute: vi.fn(), querySelectorAll: () => [], querySelector: (selector: string) => selector === '[data-coastal-video]' ? video : selector === '[data-pause]' ? button : selector.includes('canvasRef') ? canvas : null };
+  const video = { muted: false, playsInline: false, preload: '', duration: 24, currentTime: 0, seeking: false, src: '', play: vi.fn().mockResolvedValue(undefined), pause: vi.fn(), load: vi.fn(), removeAttribute: vi.fn(), addEventListener: (name: string, fn: () => void) => videoEvents.set(name, fn), removeEventListener: (name: string) => videoEvents.delete(name) };
   let resolveAttach!: () => void;
   const world = { ready: new Promise<void>(resolve => { resolveAttach = resolve; }), api: { setKnock: vi.fn(), setArrive: vi.fn() }, setPaused: vi.fn(), dispose: vi.fn() };
   const attach = vi.fn((_options: { onFail(): void }) => world);
@@ -128,8 +128,8 @@ async function controllerFixture() {
   let preference!: () => void;
   const media = { matches: false, addEventListener: (_: string, fn: () => void) => { preference = fn; }, removeEventListener: vi.fn() };
   runInNewContext(js, {
-    exports: exported,
-    require: (name: string) => name === 'react' ? { useRef: () => ({ current: root }), useEffect: (fn: () => () => void) => { cleanup = fn(); } } : name === 'react/jsx-runtime' ? { jsx: () => null } : {},
+    exports: exported, AbortController,
+    require: (name: string) => name === 'react' ? { useRef: () => ({ current: root }), useEffect: (fn: () => () => void) => { cleanup = fn(); } } : name === './video-readiness' ? { waitForVideoFrame: () => Promise.resolve() } : name === 'react/jsx-runtime' ? { jsx: () => null } : {},
     document: { hidden: false, createElement: () => video, querySelector: () => ({ dataset: { loaded: 'true' } }), documentElement: { removeAttribute: vi.fn(), scrollHeight: 1000 }, addEventListener: vi.fn(), removeEventListener: vi.fn() },
     window: { AssemblTide: { attach } }, matchMedia: () => media, scrollY: 0, innerHeight: 800, performance: { now: () => 0 },
     cancelAnimationFrame: (id: number) => frames.delete(id), requestAnimationFrame: (fn: () => void) => { frames.set(frames.size + 1, fn); return frames.size; },

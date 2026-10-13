@@ -1,7 +1,10 @@
 // Trusted static markup adapted from the supplied design. Never interpolate user input.
+const arrow = `<svg class="clear-arrow" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M5 5h14v14"/></svg>`;
 export const directionMarkup = `<div style="position:relative;min-height:100vh;overflow-x:clip;background:#0E040D">
+<img class="clear-coastal-poster" src="/direction-4c/assets/footage/bay-of-islands-poster.jpg" alt="" fetchpriority="high" aria-hidden="true">
+<video data-coastal-video class="clear-coastal-video" muted playsinline loop preload="none" poster="/direction-4c/assets/footage/bay-of-islands-poster.jpg" aria-hidden="true" tabindex="-1"></video>
 <canvas data-ref="canvasRef" aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none"></canvas>
-<div data-fallback><div aria-hidden="true" style="position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,#0E040D 0%,#2A1027 45%,#6B4466 74%,#C9A9BE 100%)"></div></div>
+<div data-fallback><div aria-hidden="true" style="position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,rgba(36,11,33,.12),rgba(36,11,33,.35))"></div></div>
 
 
 <header style="position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:20;width:min(1400px,calc(100% - 28px));display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 7px 7px 7px;border-radius:999px;background:rgba(36,11,33,.5);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);box-shadow:0 14px 40px -26px rgba(14,4,13,.6),inset 0 0 0 1px rgba(234,200,223,.2)">
@@ -13,7 +16,7 @@ export const directionMarkup = `<div style="position:relative;min-height:100vh;o
   </nav>
   <div style="display:flex;align-items:center;gap:4px">
     <button type="button" data-pause aria-pressed="false" style="min-height:44px;padding:0 14px;border:0;border-radius:999px;background:transparent;color:#F2E6EB;font:400 11px/1 var(--font-mono),'IBM Plex Mono',monospace;letter-spacing:.06em;cursor:pointer" class="clear-hover-4">Pause motion</button>
-    <a href="/contact" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:13px;font-weight:600;transition:box-shadow .4s ease" class="clear-hover-5">Bring us the work ↗</a>
+    <a href="/contact" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:13px;font-weight:600;transition:box-shadow .4s ease" class="clear-hover-5">Bring us the work ${arrow}</a>
   </div>
 </header>
 
@@ -31,7 +34,7 @@ export const directionMarkup = `<div style="position:relative;min-height:100vh;o
         <p aria-hidden="true" style="margin:0;font-size:clamp(60px,9.5vw,176px);font-weight:500;line-height:.88;letter-spacing:-.066em;color:#FFFDFB;text-shadow:0 6px 60px rgba(14,4,13,.5)">useful <span class="clear-accent" style="display:inline-block;text-shadow:none;background-image:var(--acc,linear-gradient(100deg,#D9C2F8 0%,#CCADF5 28%,#FFFDFB 44%,#F3C9CC 52%,#EDB2B6 66%,#D9C2F8 100%));background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:clear-sheen 6.5s ease-in-out 1s infinite">work.</span></p>
         <p style="margin:24px 0 0;max-width:44ch;font-size:18px;line-height:1.55;color:#F2E6EB">Pursuit finds the opportunity. DO does the work. Studio shows it. Review consequential actions before they happen.</p>
         <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:30px">
-          <a href="/contact" style="display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 26px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:16px;font-weight:600;box-shadow:0 3px 0 #D8C9D3,0 18px 40px -18px rgba(14,4,13,.8);transition:transform .22s ease,box-shadow .4s ease" class="clear-hover-6">Bring us the work <span aria-hidden="true">↗</span></a>
+          <a href="/contact" style="display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 26px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:16px;font-weight:600;box-shadow:0 3px 0 #D8C9D3,0 18px 40px -18px rgba(14,4,13,.8);transition:transform .22s ease,box-shadow .4s ease" class="clear-hover-6">Bring us the work <span aria-hidden="true">${arrow}</span></a>
           <a href="#try" style="display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 26px;border-radius:999px;background:rgba(255,253,251,.08);color:#FFFDFB;font-size:16px;font-weight:600;box-shadow:inset 0 0 0 1px rgba(234,200,223,.4);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)" class="clear-hover-7">Give DO a job <span aria-hidden="true">→</span></a>
         </div>
       </div>
@@ -48,7 +51,7 @@ export const directionMarkup = `<div style="position:relative;min-height:100vh;o
       <p data-scramble="" style="margin:0 0 24px;font:400 11px/1.5 var(--font-mono),'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:#F2E6EB">01 · Pursuit · find it</p>
       <h2 data-split="" style="margin:0;font-size:clamp(48px,6.6vw,116px);font-weight:500;line-height:.92;letter-spacing:-.062em;text-wrap:balance;text-shadow:0 4px 40px rgba(14,4,13,.45)"><span data-w="" style="display:inline-block">An</span> <span data-w="" style="display:inline-block">opportunity</span> <span data-w="" style="display:inline-block">starts</span> <span data-w="" style="display:inline-block">with</span> <span data-w="" style="display:inline-block">a</span> <span class="clear-accent" data-w="" style="display: inline-block; text-shadow: none; background-image:var(--acc,linear-gradient(100deg,#D9C2F8 0%,#CCADF5 28%,#FFFDFB 44%,#F3C9CC 52%,#EDB2B6 66%,#D9C2F8 100%)); background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; ">signal.</span></h2>
       <p data-rv="200" style="margin:26px 0 0;max-width:38ch;font-size:19px;line-height:1.55;color:#F2E6EB;text-shadow:0 1px 18px rgba(36,11,33,.6)">Tenders, projects and market changes, brought back with the source attached.</p>
-      <div data-rv="280"><a href="/pursuit" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;margin-top:30px;padding:0 24px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:15px;font-weight:600;box-shadow:0 3px 0 #D8C9D3;transition:transform .22s ease,box-shadow .4s ease" class="clear-hover-8">Explore Pursuit <span aria-hidden="true">↗</span></a></div>
+      <div data-rv="280"><a href="/pursuit" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;margin-top:30px;padding:0 24px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:15px;font-weight:600;box-shadow:0 3px 0 #D8C9D3;transition:transform .22s ease,box-shadow .4s ease" class="clear-hover-8">Explore Pursuit <span aria-hidden="true">${arrow}</span></a></div>
     </div>
   </section>
 
@@ -67,7 +70,7 @@ export const directionMarkup = `<div style="position:relative;min-height:100vh;o
 <div style="width:100%;max-width:580px"><p class="clear-kicker">Give DO a job</p>
 <div class="clear-do-card"><div class="clear-do-brand"><img src="/direction-4c/assets/brand/do-d-glass-transparent.png" alt="" width="48" height="48"><strong>DO</strong><span>by assembl</span></div>
 <h2>What do you need done?</h2><p>Start with a draft, a question or something you want to make.</p>
-<nav aria-label="Start with DO" class="clear-do-actions"><a href="/do?tool=write">Write ↗</a><a href="/do?tool=talk">Talk ↗</a><a href="/do">Add something ↗</a></nav>
+<nav aria-label="Start with DO" class="clear-do-actions"><a href="/do?tool=write">Write ${arrow}</a><a href="/do?tool=talk">Talk ${arrow}</a><a href="/do">Add something ${arrow}</a></nav>
 <p class="clear-do-note">Continue in DO. Sign-in and permissions apply to the tools you choose.</p></div></div></section>
   <section id="studio" data-sec="" data-screen-label="Studio" style="position:relative;min-height:130svh;display:flex;align-items:center;padding:160px 5.5%">
     <i aria-hidden="true" data-form="6" style="position:absolute;left:0;top:30%;width:1px;height:1px;pointer-events:none"></i>
@@ -76,7 +79,7 @@ export const directionMarkup = `<div style="position:relative;min-height:100vh;o
       <p data-scramble="" style="margin:0 0 24px;font:400 11px/1.5 var(--font-mono),'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:#F2E6EB">03 · Studio · show it</p>
       <h2 data-split="" style="margin:0;font-size:clamp(48px,6.6vw,116px);font-weight:500;line-height:.92;letter-spacing:-.062em;text-wrap:balance;text-shadow:0 4px 40px rgba(14,4,13,.45)"><span data-w="" style="display:inline-block">Give</span> <span data-w="" style="display:inline-block">the</span> <span data-w="" style="display:inline-block">idea</span> <span data-w="" style="display:inline-block">a</span> <span class="clear-accent" data-w="" style="display:inline-block;text-shadow:none;background-image:var(--acc,linear-gradient(100deg,#D9C2F8 0%,#CCADF5 28%,#FFFDFB 44%,#F3C9CC 52%,#EDB2B6 66%,#D9C2F8 100%));background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent">world</span> <span data-w="" style="display:inline-block">of</span> <span data-w="" style="display:inline-block">its</span> <span data-w="" style="display:inline-block">own.</span></h2>
       <p data-rv="200" style="margin:26px 0 0;max-width:38ch;font-size:19px;line-height:1.55;color:#F2E6EB;text-shadow:0 1px 18px rgba(36,11,33,.6)">Websites, campaigns, image and film. Work people can see, change and try.</p>
-      <div data-rv="280"><a href="/creative-studio" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;margin-top:30px;padding:0 24px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:15px;font-weight:600;box-shadow:0 3px 0 #D8C9D3;transition:transform .22s ease,box-shadow .4s ease" class="clear-hover-10">Explore Studio <span aria-hidden="true">↗</span></a></div>
+      <div data-rv="280"><a href="/creative-studio" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;margin-top:30px;padding:0 24px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:15px;font-weight:600;box-shadow:0 3px 0 #D8C9D3;transition:transform .22s ease,box-shadow .4s ease" class="clear-hover-10">Explore Studio <span aria-hidden="true">${arrow}</span></a></div>
     </div>
   </section>
 
@@ -101,7 +104,7 @@ export const directionMarkup = `<div style="position:relative;min-height:100vh;o
       <h2 data-split="" style="margin:0;font-size:clamp(52px,7.4vw,128px);font-weight:500;line-height:.9;letter-spacing:-.065em;text-shadow:0 4px 40px rgba(14,4,13,.45)"><span class="clear-accent" data-w="" style="display:inline-block;text-shadow:none;background-image:linear-gradient(180deg,#E8DAFC 0%,#CCADF5 52%,#B08EF0 100%);-webkit-background-clip:text;background-clip:text;color:transparent">Some</span> <span class="clear-accent" data-w="" style="display:inline-block;text-shadow:none;background-image:linear-gradient(180deg,#E8DAFC 0%,#CCADF5 52%,#B08EF0 100%);-webkit-background-clip:text;background-clip:text;color:transparent">assembly</span> <span class="clear-accent" data-w="" style="display:inline-block;text-shadow:none;background-image:linear-gradient(180deg,#E8DAFC 0%,#CCADF5 52%,#B08EF0 100%);-webkit-background-clip:text;background-clip:text;color:transparent">required.</span><br>  </h2>
       <p data-rv="160" style="margin:28px auto 0;max-width:42ch;font-size:19px;line-height:1.55;color:#F2E6EB;text-shadow:0 1px 18px rgba(36,11,33,.6)">Bring a brief, an opportunity or a job that needs better thinking. We’ll agree the outcome and the first useful piece of work.</p>
       <div data-rv="240" style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:32px">
-        <a href="/contact" style="display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 26px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:16px;font-weight:600;box-shadow:0 3px 0 #D8C9D3;transition:transform .22s ease,box-shadow .4s ease" class="clear-hover-11">Bring us the work <span aria-hidden="true">↗</span></a>
+        <a href="/contact" style="display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 26px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:16px;font-weight:600;box-shadow:0 3px 0 #D8C9D3;transition:transform .22s ease,box-shadow .4s ease" class="clear-hover-11">Bring us the work <span aria-hidden="true">${arrow}</span></a>
         <a href="#try" style="display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 26px;border-radius:999px;background:rgba(255,253,251,.1);color:#FFFDFB;font-size:16px;font-weight:600;box-shadow:inset 0 0 0 1px rgba(234,200,223,.4)" class="clear-hover-12">Give DO a job <span aria-hidden="true">→</span></a>
       </div>
     </div>
@@ -113,7 +116,7 @@ export const directionMarkup = `<div style="position:relative;min-height:100vh;o
     <div style="display:flex;flex-direction:column;gap:14px">
       <div style="display:flex;align-items:center;gap:14px"><img src="/direction-4c/assets/brand/assembl-a-glass.webp" alt="" style="width:72px;height:72px;flex-shrink:0;border-radius:50%;object-fit:cover;object-position:44% 50%;box-shadow:0 0 0 1px rgba(255,253,251,.55),0 10px 26px -10px rgba(234,178,208,.9)"></div>
       <p style="margin:0;font-size:15px;line-height:1.6;color:#F2E6EB">Intelligence. Strategy. Software.<br>Built in Aotearoa New Zealand.</p>
-      <a href="/contact" style="align-self:flex-start;display:inline-flex;align-items:center;gap:10px;min-height:52px;margin-top:8px;padding:0 24px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:15px;font-weight:600;box-shadow:0 3px 0 #D8C9D3,0 0 40px -10px rgba(214,165,189,.9);transition:transform .22s ease" class="clear-hover-13">Bring us the work <span aria-hidden="true">↗</span></a>
+      <a href="/contact" style="align-self:flex-start;display:inline-flex;align-items:center;gap:10px;min-height:52px;margin-top:8px;padding:0 24px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:15px;font-weight:600;box-shadow:0 3px 0 #D8C9D3,0 0 40px -10px rgba(214,165,189,.9);transition:transform .22s ease" class="clear-hover-13">Bring us the work <span aria-hidden="true">${arrow}</span></a>
     </div>
     <nav aria-label="Footer" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 24px;font-size:16px">
       <p style="grid-column:1/-1;margin:0 0 8px;font:400 10.5px/1.4 var(--font-mono),'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:#EAC8DF">explore</p>

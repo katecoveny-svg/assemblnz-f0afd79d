@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { waitForVideoFrame } from './video-readiness';
 import { directionMarkup } from './markup';
 import './direction-4c.css';
 
@@ -33,10 +34,13 @@ export function Direction4cHome() {
     const root = rootRef.current;
     if (!root) return;
     const media = matchMedia('(prefers-reduced-motion: reduce)');
+    const mobile = matchMedia('(max-width: 900px)');
+    let startup: AbortController | undefined;
     let disposed = false, paused = false, frame = 0;
     let world: TideWorld | undefined;
-    const video = document.createElement('video');
-    video.muted = true; video.playsInline = true; video.preload = 'auto';
+    const video = root.querySelector<HTMLVideoElement>('[data-coastal-video]')!;
+    video.muted = true; video.defaultMuted = true; video.playsInline = true; video.preload = 'auto';
+    video.loop = true;
     const ref = (name: string) => root.querySelector<HTMLElement>(`[data-ref="${name}"]`);
     const button = root.querySelector<HTMLButtonElement>('[data-pause]')!;
     const clamp = (x: number) => Math.max(0, Math.min(1, x));
@@ -47,13 +51,15 @@ export function Direction4cHome() {
       if (transform) el.style.transform = transform;
     };
     const fallback = () => {
-      delete root.dataset.ready;
+      delete root.dataset.ready; delete root.dataset.videoReady;
       root.querySelectorAll<HTMLElement>('[data-rv]').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
     };
-    const stop = () => { cancelAnimationFrame(frame); frame = 0; world?.dispose(); world = undefined; video.pause(); fallback(); };
+    const stop = () => { startup?.abort(); startup = undefined; cancelAnimationFrame(frame); frame = 0; world?.dispose(); world = undefined; video.pause(); fallback(); };
     const updatePause = () => {
       root.toggleAttribute('data-paused', paused || media.matches);
       world?.setPaused(paused || media.matches || document.hidden);
+      if (paused || media.matches || document.hidden) video.pause();
+      else if (video.src) void video.play().catch(() => { delete root.dataset.videoReady; });
       // Engine has a document-wide pause switch; contain it to this page.
       document.documentElement.removeAttribute('data-paused');
       button.setAttribute('aria-pressed', String(paused || media.matches));
@@ -63,7 +69,7 @@ export function Direction4cHome() {
     const tick = () => {
       if (disposed || media.matches || !world?.api) return;
       frame = requestAnimationFrame(tick);
-      if (paused || document.hidden) return;
+      if (document.hidden) return;
       const hero = ref('heroRef');
       if (hero) {
         const rect = hero.getBoundingClientRect();
@@ -74,24 +80,25 @@ export function Direction4cHome() {
         set('kickRef', card); set('cueRef', card); set('subRef', card); set('markRef', smooth((p - .58) / .2));
         set('msgRef', msg, `translateY(calc(-50% + ${(1 - msg) * 48}px))`);
       }
-      if (Number.isFinite(video.duration) && video.duration > 0) {
-        const start = Math.min(6, video.duration * .25);
-        const q = clamp(scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight));
-        const idle = (1 - Math.min(1, q * 25)) * (1 - Math.cos(performance.now() * .0004)) * .9;
-        const target = Math.min(video.duration - .05, start + idle + q * (video.duration - start - .05));
-        if (!video.seeking && Math.abs(video.currentTime - target) > .03) video.currentTime += (target - video.currentTime) * .14;
-      }
+
     };
     let generation = 0;
     const start = async () => {
       const current = ++generation;
       stop(); delete root.dataset.static; updatePause();
       if (media.matches) return;
+      startup = new AbortController();
+      const signal = startup.signal;
       try {
+        video.src = '/direction-4c/assets/footage/bay-of-islands.mp4';
+        const decoded = waitForVideoFrame(video, signal);
+        await Promise.all([decoded, video.play()]);
+        if (disposed || current !== generation || media.matches) return;
+        root.dataset.videoReady = 'true';
+        if (mobile.matches) { updatePause(); return; }
         await loadScript('/direction-4c/vendor/three.min.js');
         await loadScript('/direction-4c/assembl-tide.js');
         if (disposed || current !== generation || media.matches) return;
-        video.src = '/direction-4c/assets/footage/bay-of-islands.mp4';
         const engine = (window as Window & { AssemblTide?: Tide }).AssemblTide;
         if (!engine) throw new Error('Motion engine unavailable');
         const next = engine.attach({
@@ -115,21 +122,42 @@ export function Direction4cHome() {
         updatePause(); tick();
       } catch { if (!disposed && current === generation) lost(); }
     };
-    const toggle = () => { paused = !paused; updatePause(); };
+    const toggle = () => {
+      if (root.dataset.static && !media.matches) { paused = false; void start(); return; }
+      paused = !paused; updatePause();
+    };
     const visibility = () => updatePause();
     const lost = () => {
       generation++; // A pending attach must never revive a failed scene.
       stop(); root.dataset.static = 'true';
       video.removeAttribute('src'); video.load();
+      button.textContent = 'Play motion';
     };
+    const waiting = () => { delete root.dataset.videoReady; delete root.dataset.ready; };
+    const playing = async () => {
+      if (!startup || startup.signal.aborted) return;
+      const current = generation;
+      try {
+        await waitForVideoFrame(video, startup.signal);
+        if (disposed || current !== generation) return;
+        root.dataset.videoReady = 'true';
+        if (world?.api) root.dataset.ready = 'true';
+      } catch { /* The coastal poster remains visible. */ }
+    };
+    video.addEventListener('waiting', waiting);
+    video.addEventListener('stalled', waiting);
+    video.addEventListener('playing', playing);
     video.addEventListener('error', lost);
     ref('canvasRef')?.addEventListener('webglcontextlost', lost);
     button.addEventListener('click', toggle);
     media.addEventListener('change', start);
+    mobile.addEventListener('change', start);
     document.addEventListener('visibilitychange', visibility);
     void start();
     return () => {
       disposed = true; generation++; stop(); video.removeAttribute('src'); video.load();
+      video.removeEventListener('waiting', waiting); video.removeEventListener('stalled', waiting);
+      video.removeEventListener('playing', playing); mobile.removeEventListener('change', start);
       button.removeEventListener('click', toggle); media.removeEventListener('change', start);
       document.removeEventListener('visibilitychange', visibility); video.removeEventListener('error', lost);
       ref('canvasRef')?.removeEventListener('webglcontextlost', lost);
