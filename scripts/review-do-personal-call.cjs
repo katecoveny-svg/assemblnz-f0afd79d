@@ -11,6 +11,8 @@ function check(name, value) { assert.ok(value, name); checks.push(name); console
 const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLength: 'brief', initiative: 'gentle', preferences: 'Fictional test: use short lists.', voiceName: 'Aoede', onboardingCompleted: true, updatedAt: '2026-09-30T03:00:00.000Z' };
 (async () => {
   fs.mkdirSync(out, { recursive: true });
+  // A failed rerun must not leave an older successful receipt behind.
+  fs.rmSync(out + '/results.json', { force: true });
   const browser = await chromium.launch({ executablePath: process.env.ASSEMBL_CHROMIUM_PATH || '/usr/bin/chromium', headless: true });
   let proofPage;
   try {
@@ -19,20 +21,30 @@ const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLe
     proofPage = page;
     page.setDefaultTimeout(15_000);
     const errors = [], tokens = [], mutations = [], compiles = [];
+    let owner = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+    let tokenStatus = 200;
+    let holdToken = false, releaseToken;
+    let holdCompile = false, releaseCompile;
     page.on('pageerror', (error) => errors.push(error.message));
     await page.route('**/api/do/personal', (route) => {
       if (route.request().method() !== 'GET') mutations.push(route.request().postDataJSON());
-      return route.fulfill({ json: { workspaceKey: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', responsibilities: [], runs: [], worker: { configured: true, lastSeenAt: new Date().toISOString() } } });
+      return route.fulfill({ json: { workspaceKey: owner, responsibilities: [], runs: [], worker: { configured: true, lastSeenAt: new Date().toISOString() } } });
     });
     await page.route('**/api/do/personal/profile', (route) => route.fulfill({ json: { profile, saved: true } }));
-    await page.route('**/api/do/live-token', (route) => {
+    await page.route('**/api/do/live-token', async (route) => {
       if (route.request().method() === 'GET') return route.fulfill({ json: { enabled: true, configured: true, signedIn: true, remaining: 3, dailyLimit: 3, sessionSeconds: 300, model: 'gemini-3.8-live' } });
       tokens.push(route.request().postDataJSON());
+      if (holdToken) await new Promise(resolve => { releaseToken = resolve; });
+      if (tokenStatus !== 200) return route.fulfill({ status: tokenStatus, json: { error: 'Your session expired. Sign in before starting another call.' } });
       return route.fulfill({ json: { token: 'auth_tokens/browser-test-only', mode: 'standard', model: 'gemini-3.8-live', voiceName: 'Aoede', displayName: 'Moss', expiresAt: new Date(Date.now() + 300_000).toISOString(), config: { responseModalities: ['AUDIO'], systemInstruction: 'Fictional test only', speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Aoede' } } } } } });
     });
-    await page.route('**/api/do/live-compile', (route) => { compiles.push(route.request().postDataJSON()); return route.fulfill({ json: { spec: { brief: 'A newer fictional provider brief.' } } }); });
+    await page.route('**/api/do/live-compile', async (route) => {
+      compiles.push(route.request().postDataJSON());
+      if (holdCompile) await new Promise(resolve => { releaseCompile = resolve; });
+      return route.fulfill({ json: { spec: { brief: 'A newer fictional provider brief.' } } });
+    });
     await page.addInitScript(() => {
-      const state = window.__callTest = { mode: 'deny', tracks: [], contextsClosed: 0, sent: [], sockets: [], recorders: [], mediaRequests: 0 };
+      const state = window.__callTest = { mode: 'deny', tracks: [], contextsClosed: 0, sent: [], sockets: [], recorders: [], mediaRequests: 0, audio: [], autoSetup: true, audioPending: false };
       const media = () => {
         const track = { enabled: true, stopped: false, stop() { this.stopped = true; }, addEventListener() {} };
         state.tracks.push(track);
@@ -45,13 +57,15 @@ const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLe
         return media();
       } } });
       class FakeAudioContext {
-        constructor() { this.sampleRate = 48000; this.currentTime = 0; this.destination = {}; this.audioWorklet = { addModule: async () => {} }; }
+        constructor() { this.sampleRate = 48000; this.currentTime = 0; this.destination = {}; this.audioWorklet = { addModule: async () => { if (state.audioPending) await new Promise(resolve => { state.releaseAudio = resolve; }); } }; }
         async resume() {}
         async close() { state.contextsClosed++; }
-        createMediaStreamSource() { return { connect() {} }; }
+        createMediaStreamSource() { return { connect() {}, disconnect() {} }; }
+        createBuffer() { return { copyToChannel() {}, duration: 0.25 }; }
+        createBufferSource() { const source = { connect() {}, disconnect() { this.disconnected = true; }, start() {}, stop() { this.stopped = true; } }; state.audio.push(source); return source; }
       }
       window.AudioContext = FakeAudioContext;
-      window.AudioWorkletNode = class { constructor() { this.port = {}; state.recorders.push(this); } connect() {} disconnect() {} };
+      window.AudioWorkletNode = class { constructor() { if (state.recorderFail) throw new Error('Fictional recorder unavailable.'); this.port = { close() {} }; state.recorders.push(this); } connect() {} disconnect() {} };
       const NativeSocket = window.WebSocket;
       class FakeSocket {
         static OPEN = 1; static CLOSING = 2;
@@ -62,7 +76,7 @@ const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLe
         }
         send(value) {
           const message = JSON.parse(value); state.sent.push(message);
-          if (message.setup) queueMicrotask(() => {
+          if (message.setup && state.autoSetup) queueMicrotask(() => {
             this.emit({ setupComplete: {} });
             this.emit({ serverContent: { inputTranscription: { text: 'Prepare a fictional proposal outline for Friday.' }, outputTranscription: { text: 'Who should review the outline?' } } });
           });
@@ -113,6 +127,12 @@ const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLe
     await panel.getByRole('button', { name: 'Unmute microphone', exact: true }).click();
     await page.evaluate(() => window.__callTest.recorders.at(-1).port.onmessage({ data: new ArrayBuffer(8) }));
     check('unmute resumes microphone frames', await page.evaluate((count) => window.__callTest.tracks.at(-1).enabled && window.__callTest.sent.filter((message) => message.realtimeInput?.audio).length === count + 1, audioBefore));
+    await page.evaluate(() => {
+      const socket = window.__callTest.sockets.at(-1);
+      socket.emit({ serverContent: { modelTurn: { parts: [{ inlineData: { data: 'AAAAAA==', mimeType: 'audio/pcm' } }] } } });
+      socket.emit({ serverContent: { interrupted: true, modelTurn: { parts: [{ inlineData: { data: 'AAAAAA==', mimeType: 'audio/pcm' } }] } } });
+    });
+    check('interruption stops and disconnects queued speech without replaying interrupted audio', await page.evaluate(() => window.__callTest.audio.length === 1 && window.__callTest.audio[0].stopped && window.__callTest.audio[0].disconnected && !window.__callTest.tracks.at(-1).stopped));
     await panel.getByText('Conversation transcript · this session', { exact: true }).click();
     await panel.getByRole('button', { name: 'Review transcript for a responsibility', exact: true }).click();
     const review = panel.getByLabel('Review and edit your call notes', { exact: true });
@@ -149,6 +169,83 @@ const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLe
     await consent.check(); await start.click();
     await panel.getByRole('button', { name: 'End call', exact: true }).click();
     check('explicit End call stops microphone', await page.evaluate(() => window.__callTest.tracks.at(-1).stopped));
+    await consent.check(); await start.click();
+    await panel.getByRole('button', { name: 'End call', exact: true }).waitFor();
+    await page.evaluate(() => window.dispatchEvent(new Event('offline')));
+    await panel.getByText('The connection is offline. Your microphone is off. Start a new call when you are connected.', { exact: true }).waitFor();
+    check('offline closes microphone, recorder and socket immediately', await page.evaluate(() => window.__callTest.tracks.at(-1).stopped && window.__callTest.sockets.at(-1).readyState === 3 && window.__callTest.recorders.at(-1).port.onmessage === null));
+    const requestsBeforeReconnect = tokens.length;
+    const mediaBeforeReconnect = await page.evaluate(() => window.__callTest.mediaRequests);
+    await page.evaluate(() => window.dispatchEvent(new Event('online')));
+    await panel.getByRole('button', { name: 'Start call', exact: true }).waitFor();
+    check('online never automatically restarts microphone or transmits a profile', tokens.length === requestsBeforeReconnect && await page.evaluate(() => window.__callTest.mediaRequests) === mediaBeforeReconnect && !await consent.isChecked());
+    await consent.check(); await start.click();
+    await panel.getByRole('button', { name: 'End call', exact: true }).waitFor();
+    await page.evaluate(() => window.dispatchEvent(new Event('pagehide')));
+    await panel.getByText('Call ended because this page was closed. Your microphone is off.', { exact: true }).waitFor();
+    check('page exit closes capture even without a visibility event', await page.evaluate(() => window.__callTest.tracks.at(-1).stopped && window.__callTest.sockets.at(-1).readyState === 3));
+    await consent.check(); await start.click();
+    await panel.getByRole('button', { name: 'End call', exact: true }).waitFor();
+    holdCompile = true;
+    const compilesBeforeEnd = compiles.length;
+    await page.evaluate(() => window.__callTest.sockets.at(-1).emit({ toolCall: { functionCalls: [
+      { id: 'pending-at-end', name: 'compile_do_agent', args: { brief: 'Fictional pending brief' } },
+      { id: 'never-start-after-end', name: 'compile_do_agent', args: { brief: 'This must not be sent' } },
+    ] } }));
+    for (let attempt = 0; !releaseCompile && attempt < 100; attempt++) await new Promise(resolve => setTimeout(resolve, 10));
+    assert.ok(releaseCompile, 'fixture compile request arrived');
+    await panel.getByRole('button', { name: 'End call', exact: true }).click();
+    holdCompile = false; releaseCompile();
+    await page.waitForTimeout(100);
+    check('ending during an awaited tool prevents later tools in the same message', compiles.length === compilesBeforeEnd + 1);
+
+    // Exercise actual React state with virtual time; all media/provider APIs remain fixtures.
+    await page.clock.install();
+    await page.evaluate(() => { window.__callTest.audioPending = true; });
+    const beforeAudioTimeout = tokens.length;
+    await consent.check(); await start.click();
+    await page.waitForFunction(() => Boolean(window.__callTest.releaseAudio));
+    await page.clock.runFor(30_001);
+    await panel.getByText('The voice connection timed out. Your microphone is off. Check your connection before trying again.', { exact: true }).waitFor();
+    await page.evaluate(() => { window.__callTest.audioPending = false; window.__callTest.releaseAudio(); });
+    check('stalled audio setup releases capture and late resolution does not reserve a token', tokens.length === beforeAudioTimeout && await page.evaluate(() => window.__callTest.tracks.at(-1).stopped));
+    holdToken = true;
+    await consent.check(); await start.click();
+    await page.waitForFunction(() => !window.__callTest.tracks.at(-1).stopped);
+    for (let attempt = 0; !releaseToken && attempt < 100; attempt++) await new Promise(resolve => setTimeout(resolve, 10));
+    assert.ok(releaseToken, 'fixture token request arrived');
+    const socketsBeforeTimeout = await page.evaluate(() => window.__callTest.sockets.length);
+    await page.clock.runFor(30_001);
+    await panel.getByText('The voice connection timed out. Your microphone is off. Check your connection before trying again.', { exact: true }).waitFor();
+    holdToken = false; releaseToken();
+    check('stalled token request releases capture and revokes consent', await page.evaluate(() => window.__callTest.tracks.at(-1).stopped) && !await consent.isChecked());
+    await page.clock.runFor(10);
+    check('late token response cannot open a socket', await page.evaluate(() => window.__callTest.sockets.length) === socketsBeforeTimeout);
+    tokenStatus = 401;
+    await consent.check(); await start.click();
+    await panel.getByText('Your session expired. Sign in before starting another call.', { exact: true }).waitFor();
+    check('expired token request stops capture and cannot connect', await page.evaluate(() => window.__callTest.tracks.at(-1).stopped && window.__callTest.sockets.length) === socketsBeforeTimeout && !await consent.isChecked());
+    check('failed restart retains the previous reviewable transcript', await panel.getByText('Prepare a fictional proposal outline for Friday.', { exact: false }).isVisible());
+    tokenStatus = 200;
+    await page.evaluate(() => { window.__callTest.recorderFail = true; });
+    await consent.check(); await start.click();
+    await panel.getByText('Fictional recorder unavailable.', { exact: true }).waitFor();
+    check('recorder failure after socket setup releases capture and retains previous notes', await page.evaluate(() => window.__callTest.tracks.at(-1).stopped && window.__callTest.sockets.at(-1).readyState === 3) && await panel.getByText('Prepare a fictional proposal outline for Friday.', { exact: false }).isVisible());
+    await page.evaluate(() => { window.__callTest.recorderFail = false; });
+    await page.evaluate(() => { window.__callTest.autoSetup = false; });
+    await consent.check(); await start.click();
+    await page.waitForFunction(() => window.__callTest.sockets.at(-1).readyState === 1);
+    await page.clock.runFor(30_001);
+    await panel.getByText('The voice connection timed out. Your microphone is off. Check your connection before trying again.', { exact: true }).waitFor();
+    check('missing socket setup acknowledgement releases microphone and socket', await page.evaluate(() => window.__callTest.tracks.at(-1).stopped && window.__callTest.sockets.at(-1).readyState === 3));
+    await page.evaluate(() => { window.__callTest.autoSetup = true; });
+    await consent.check(); await start.click();
+    await panel.getByRole('button', { name: 'End call', exact: true }).waitFor();
+    owner = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
+    await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+    await page.waitForFunction(() => window.__callTest.tracks.at(-1).stopped);
+    check('verified account switch unmounts the call and closes its socket', await page.evaluate(() => window.__callTest.sockets.at(-1).readyState === 3));
+    check('account switch clears the prior transcript and reviewed call draft', await panel.getByText('Prepare a fictional proposal outline for Friday.', { exact: false }).count() === 0 && await panel.getByLabel('Review and edit your call notes', { exact: true }).count() === 0);
     check('375px call panel fits viewport', await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
     check('no browser runtime errors', errors.length === 0);
     fs.writeFileSync(out + '/results.json', JSON.stringify({ checks, errors, apiMode: 'fictional intercepted fixtures; mocked media and Google WebSocket', liveProviderTested: false, realMicrophoneTested: false }, null, 2));

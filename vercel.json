@@ -30,7 +30,8 @@
   ],
   "git": {
     "deploymentEnabled": {
-      "codex/assembl-rebuild-20261012": false
+      "codex/assembl-rebuild-20261012": false,
+      "codex/do-persistence-reliability": false
     }
   }
 }
