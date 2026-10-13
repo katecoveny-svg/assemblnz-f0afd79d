@@ -55,7 +55,7 @@ const stamp = (date: string, zone = "Pacific/Auckland") =>
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(date));
-export function PersonalDo() {
+export function PersonalDo({ context }: { context?: "household" } = {}) {
   const [state, setState] = useState<PersonalState | null>(null);
   const [personalProfile, setPersonalProfile] = useState<PersonalDoProfile | null>(null);
   const [sharedIntake, setSharedIntake] = useState<{ id: string; text: string; sourceTitle: string }>();
@@ -354,9 +354,15 @@ export function PersonalDo() {
           <Link className={styles.phoneLink} href="/do/install#phone">Install DO <ArrowUpRight size={14} /></Link>
           {access === "ready" && workspaceKey
             ? <PersonalDoSettings key={workspaceKey} compact triggerRef={settingsButton} sharedProfile={personalProfile} onProfileChange={setPersonalProfile} />
-            : <Link className={styles.signIn} href="/login?redirect=%2Fdo">Sign in <ArrowUpRight size={15} /></Link>}
+            : <Link className={styles.signIn} href={context === "household" ? "/login?redirect=%2Fdo%2Fhousehold" : "/login?redirect=%2Fdo"}>Sign in <ArrowUpRight size={15} /></Link>}
         </nav>
       </header>
+      {context === "household" && <section className={styles.householdContext} aria-label="Household workspace">
+        <h2>Household, with DO.</h2>
+        <p>Bring a school notice, a household job or a bill. Prepare the next steps in your existing DO workspace.</p>
+        <details><summary>Household tools and earlier sample</summary><p>No shared family account or school inbox is connected.</p><p><Link href="/do/bills">Review bills and CSVs</Link> · Local calculations and downloadable enquiry drafts. No bank connection. <Link href="/do/bills/compare">Compare NZ bill options</Link> with consented document analysis and sourced research; no provider switching or payments.</p>
+        <p>The fictional nine-seat board remains available separately. Its sample and device-local settings are not imported into your DO notes.</p><Link href="/do/household?view=sample">Open legacy household sample</Link></details>
+      </section>}
       <div className={styles.notice} role="status" aria-live="polite">
         {notice}
       </div>
@@ -368,7 +374,7 @@ export function PersonalDo() {
           Try loading again <RefreshCw size={16} />
         </button>
       )}
-      {workspaceKey && <LifeAdmin key={workspaceKey} assistant={<PersonalDoAssistant key={workspaceKey} profile={personalProfile ?? undefined} onWorkingChange={setAssistantWorking} onWorkChange={setAssistantWork} />} assistantWork={assistantWork} assistantWorking={assistantWorking} profile={personalProfile} onCustomise={access === "ready" ? () => settingsButton.current?.click() : undefined} storageScope={workspaceKey} intake={sharedIntake} onGuestWorkChange={setGuestDirty} onIntakeAccepted={id => { try { acceptDoShare(window.sessionStorage, id); } catch { /* Storage may be unavailable. */ } }} onTalk={() => { setCallOpen(true); requestAnimationFrame(() => document.getElementById("personal-do-call")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" })); }} />}
+      {workspaceKey && <LifeAdmin key={workspaceKey} assistant={<PersonalDoAssistant key={workspaceKey} returnTo={context === "household" ? "/do/household" : "/do"} profile={personalProfile ?? undefined} onWorkingChange={setAssistantWorking} onWorkChange={setAssistantWork} />} assistantWork={assistantWork} assistantWorking={assistantWorking} profile={personalProfile} onCustomise={access === "ready" ? () => settingsButton.current?.click() : undefined} storageScope={workspaceKey} intake={sharedIntake} onGuestWorkChange={setGuestDirty} onIntakeAccepted={id => { try { acceptDoShare(window.sessionStorage, id); } catch { /* Storage may be unavailable. */ } }} onTalk={() => { setCallOpen(true); requestAnimationFrame(() => document.getElementById("personal-do-call")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" })); }} />}
       {workspaceKey && callOpen && <div id="personal-do-call" className={styles.call}>
         <div className={styles.callHeading}><p className={styles.eyebrow}>VOICE</p><a href="#life-admin">Back to my workspace ↑</a></div>
         <DoGeminiLive

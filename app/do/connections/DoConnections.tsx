@@ -153,7 +153,7 @@ export function ConnectionsView({ state, mcp, busy, message, technicalError, hub
   }, [state]);
 
   return <div className={styles.shell}>
-    <header className={styles.topbar}><div><Link href="/do" className={styles.brand}>DO</Link><span>/</span><strong>connections</strong></div><nav><Link href="/do/household">Household Floor</Link><Link href="/do/office">office</Link><Link href="/do/builder">Builder DO</Link></nav></header>
+    <header className={styles.topbar}><div><Link href="/do" className={styles.brand}>DO</Link><span>/</span><strong>connections</strong></div><nav><Link href="/do/household">Household DO</Link><Link href="/do/office">office</Link><Link href="/do/builder">Builder DO</Link></nav></header>
     <main className={styles.main}>
       <section className={styles.hero}>
         <div><p>DO / connections</p><h1>Connect the tools you use.</h1></div>
