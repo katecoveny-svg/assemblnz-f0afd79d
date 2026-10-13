@@ -196,7 +196,7 @@ export function HouseholdFloorClient({
       });
       const data = await response.json() as { url?: string; message?: string };
       if (response.status === 401) {
-        window.location.assign('/login?redirect=%2Fdo%2Fhousehold');
+        window.location.assign('/login?redirect=%2Fdo%2Fhousehold%3Fview%3Dsample');
         return;
       }
       if (!response.ok || !data.url) throw new Error(data.message || 'Connection unavailable.');
@@ -214,7 +214,7 @@ export function HouseholdFloorClient({
   }
 
   const shareText = floor && floor.visibility === 'public_template'
-    ? `Try Assembl Household Floor — a runnable family DO with nine seats, evening board, and drafts-only gates.\n${typeof window !== 'undefined' ? `${window.location.origin}/do/household` : 'https://www.assembl.co.nz/do/household'}`
+    ? `Try Assembl Household Floor — a runnable family DO with nine seats, evening board, and drafts-only gates.\n${typeof window !== 'undefined' ? `${window.location.origin}/do/household?view=sample` : 'https://www.assembl.co.nz/do/household?view=sample'}`
     : '';
 
   return (
@@ -222,13 +222,13 @@ export function HouseholdFloorClient({
       <header className={styles.header}>
         <div className={styles.brand}>
           <Link href="/do" className={styles.wordmark}>DO</Link>
-          <span>household floor</span>
+          <span>legacy household sample</span>
           <span className={styles.chip}>{floor?.visibility === 'owner_private' ? 'private' : 'sample'}</span>
         </div>
         <div className={styles.headerActions}>
           <Link href="/do/office">Office</Link>
           <Link href="/api/do/download?format=extension">Extension ZIP</Link>
-          <Link href="/do" className={styles.primaryLink}>assembl home DO</Link>
+          <Link href="/do/household" className={styles.primaryLink}>Household DO</Link>
         </div>
       </header>
 
@@ -396,7 +396,7 @@ export function HouseholdFloorClient({
                         {row.state === 'connected' ? (
                           <span className={styles.meta}>Linked{row.accountLabel ? ` · ${row.accountLabel}` : ''}. Authority: {row.authority}.</span>
                         ) : row.state === 'sign_in' ? (
-                          <a className={styles.cta} href="/login?redirect=%2Fdo%2Fhousehold">Sign in to connect</a>
+                          <a className={styles.cta} href="/login?redirect=%2Fdo%2Fhousehold%3Fview%3Dsample">Sign in to connect</a>
                         ) : row.state === 'setup_needed' ? (
                           <span className={styles.meta}>Platform setup needed before this connection can open.</span>
                         ) : (

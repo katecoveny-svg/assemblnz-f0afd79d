@@ -2,6 +2,7 @@
 
 import { DO_TEXT_PROVIDER_CONSENT_VERSION, DO_TEXT_PROVIDER_CONSENT } from '@/apps/do/shared/provider-consent';
 
+import { DoEntryDisclosure } from '@/components/do/DoEntryDisclosure';
 import Link from 'next/link';
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { ArrowDownToLine, ArrowRight, ArrowUpRight, Check, ChevronRight, FileText, Mic, Plus, RotateCcw, ShieldCheck, Sparkles, X, Backpack, ReceiptText, CarFront } from 'lucide-react';
@@ -264,11 +265,11 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
       {assistant && <nav className={entry.composerTabs} aria-label="Choose how to start">
         <button type="button" aria-pressed={!localOpen} onClick={() => { setLocalOpen(false); requestAnimationFrame(() => document.getElementById('personal-assistant-input')?.focus()); }}>Write</button>
         {onTalk && <button type="button" onClick={() => { setCaptureMode('type'); onTalk(); }}>Talk</button>}
-        <details className={entry.entryTools} onKeyDown={event => { if (event.key === 'Escape') { event.preventDefault(); event.currentTarget.open = false; event.currentTarget.querySelector('summary')?.focus(); } }}><summary>Add <Plus size={15} /></summary><div>
+        <DoEntryDisclosure className={entry.entryTools}><summary>Add <Plus size={15} /></summary><div data-do-overlay-panel="320">
           <button type="button" onClick={event => { const menu = event.currentTarget.closest('details'); if (menu) menu.open = false; setLocalOpen(true); setCaptureMode('photo'); }}>Photo or image</button>
           <button type="button" onClick={event => { const menu = event.currentTarget.closest('details'); if (menu) menu.open = false; setLocalOpen(true); setCaptureMode('forward'); requestAnimationFrame(() => sourceRef.current?.focus()); }}>Note or checklist</button>
           <p>Images and pasted text. PDF and other file uploads are not available here.</p>
-        </div></details>
+        </div></DoEntryDisclosure>
       </nav>}
       <div hidden={Boolean(assistant) && localOpen}>{assistant}</div>
       <div id="personal-local-checklist" hidden={Boolean(assistant) && !localOpen}>{localComposer}</div>

@@ -1,0 +1,20 @@
+{
+  "checks": [
+    "populated reviewed draft reopens for A",
+    "account switch removes populated draft and source from editor",
+    "legacy draft is hidden instead of assigned to B",
+    "original account recovers unchanged reviewed draft",
+    "failed identity check hides populated editor without guest fallback",
+    "same-account reconnect recovers editor without transmission",
+    "another tab receives saved-list update",
+    "stale populated editor cannot overwrite another tab revision",
+    "quota failure does not claim save or replace saved copy",
+    "cross-tab signout clears populated editor",
+    "anonymous to signed-in transition does not adopt anonymous text",
+    "legacy and guest-scoped originals remain byte-for-byte intact",
+    "no page errors or provider/database mutations"
+  ],
+  "errors": [],
+  "mutations": [],
+  "evidence": "Fictional local-browser proof. Real auth/session expiry/device checks remain release gates."
+}

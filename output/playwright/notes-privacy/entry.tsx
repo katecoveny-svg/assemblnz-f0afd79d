@@ -14,10 +14,10 @@ Object.assign(window, {privacy: {
  get calls(){return personalCalls;},get unsubscriptions(){return unsubscriptions;}
 }});
 window.fetch = async (input, options) => {
-  if (String(input) === '/api/do/personal') {
+  if (String(input) === '/api/do/session') {
     personalCalls++;const captured=owner;const failure=fail;
     if(defer){defer=false;await new Promise<void>(resolve=>{pending=resolve;});}
-    return Response.json({workspaceKey:captured}, {status:failure?503:captured==='guest'?401:200});
+    return Response.json({workspaceKey:captured}, {status:failure?503:200});
   }
   if (String(input) === '/api/do/runtime') return Response.json({ trial: { remaining: 3, limit: 3 } });
   if (!String(input).includes('/api/do/vision')) throw new Error('All unrelated providers blocked by harness.');

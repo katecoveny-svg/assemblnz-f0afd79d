@@ -1,5 +1,6 @@
 'use client';
 
+import { DoLocalInformation } from './DoLocalInformation';
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import { FileText, Mic, Eye, Settings2 } from 'lucide-react';
@@ -77,6 +78,7 @@ export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTa
         {mode === 'talk' && <div className={styles.toolSurface}><DoGeminiLive profile={talkProfile} context={context} onDraft={acceptContext} /></div>}
         <section hidden={mode !== 'look'} className={styles.toolSurface} aria-label="Show DO an image"><DoVision active={mode === 'look'} onUse={acceptContext} /></section>
       </>}
+      {mode === 'write' && <DoLocalInformation />}
       <details className={styles.secondaryDetails} onToggle={e => { if (!e.currentTarget.open && mode === 'build') setMode('write'); }}>
         <summary><Settings2 size={13} aria-hidden="true" style={{ display: 'inline', marginRight: 8 }} />Tools &amp; examples</summary>
         <p>Templates, appearance and the advanced builder. Your writing draft stays in this page.</p>

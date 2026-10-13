@@ -4,7 +4,7 @@ const provider = vi.hoisted(() => ({ ladder: vi.fn(), generate: vi.fn() }));
 vi.mock('./reasoning-server', () => ({ runDoTextReasoning: provider.generate }));
 import { preparationInputSchema, extractDetails } from './preparation';
 import { getDoAvailability, prepareDoDraft as prepareRaw } from './preparation-server';
-import { editDoDraft, readLocalDrafts, saveLocalDraft, removeLocalDraft } from './local-drafts';
+import { DO_DRAFTS_KEY, localDraftsKey, editDoDraft, readLocalDrafts, saveLocalDraft, removeLocalDraft } from './local-drafts';
 
 const good = (text = 'A draft to review.') => ({ state: 'draft', reply: text, nextStep: { draft: text }, generation: { actualModel: 'gpt-6-astra' }, reasoning: { model: 'jev-1.13.0', action: 'prepare' } });
 const prepareDoDraft = (input: Parameters<typeof prepareRaw>[0]) => prepareRaw({ ...input, providerConsentVersion: 'do-openai-typesafe-v1' }, undefined, undefined, { ownerId: 'owner' });
@@ -72,12 +72,14 @@ describe('DO preparation and evidence', () => {
 });
 
 describe('private browser drafts', () => {
+  const owner = '11111111-1111-4111-8111-111111111111';
+  const other = '22222222-2222-4222-8222-222222222222';
   function storage() { const values = new Map<string, string>(); return { getItem: (key: string) => values.get(key) ?? null, setItem: (key: string, value: string) => { values.set(key, value); }, removeItem: (key: string) => { values.delete(key); } }; }
   it('isolates drafts in each browser store and removes a saved copy', async () => {
     const first = storage(); const second = storage(); const draft = await prepareDoDraft(input());
-    saveLocalDraft(first, { draft, source: input().source, brief: input().brief });
-    expect(readLocalDrafts(first)).toHaveLength(1); expect(readLocalDrafts(second)).toHaveLength(0);
-    removeLocalDraft(first, draft.id); expect(readLocalDrafts(first)).toHaveLength(0);
+    saveLocalDraft(first, { draft, source: input().source, brief: input().brief }, owner);
+    expect(readLocalDrafts(first, owner)).toHaveLength(1); expect(readLocalDrafts(second, owner)).toHaveLength(0);
+    removeLocalDraft(first, draft.id, owner); expect(readLocalDrafts(first, owner)).toHaveLength(0);
   });
   it('clears the review when the prepared text changes', async () => {
     const original = await prepareDoDraft(input());
@@ -89,12 +91,55 @@ describe('private browser drafts', () => {
     const store = storage(); provider.ladder.mockReturnValue([{ id: 'configured-model' }]);
     provider.generate.mockResolvedValue(good('Prepared work for review.'));
     const value = { ...input(), task }; const draft = await prepareDoDraft(value);
-    saveLocalDraft(store, { draft, source: value.source, brief: value.brief });
-    expect(readLocalDrafts(store)[0].draft.task).toBe(task);
-    expect(readLocalDrafts(store)[0].draft.text).toBe('Prepared work for review.');
+    saveLocalDraft(store, { draft, source: value.source, brief: value.brief }, owner);
+    expect(readLocalDrafts(store, owner)[0].draft.task).toBe(task);
+    expect(readLocalDrafts(store, owner)[0].draft.text).toBe('Prepared work for review.');
+  });
+  it('keeps populated reviewed drafts isolated and recovers them for the original account', async () => {
+    const store = storage(); const draft = await prepareDoDraft(input());
+    const reviewed = { ...draft, status: 'reviewed' as const, reviewer: 'Fixture A', reviewedAt: draft.createdAt, reviewedTextHash: 'f'.repeat(64) };
+    saveLocalDraft(store, { draft: reviewed, source: input().source, brief: '' }, owner);
+    expect(readLocalDrafts(store, other)).toEqual([]);
+    expect(() => readLocalDrafts(store, 'guest')).toThrow();
+    expect(readLocalDrafts(store, owner)[0].draft).toEqual(reviewed);
+  });
+  it('never assigns or modifies legacy unowned drafts, including old guest-scoped copies', async () => {
+    const store = storage(); const draft = await prepareDoDraft(input());
+    const raw = JSON.stringify([{ draft, source: input().source, brief: '' }]);
+    store.setItem(DO_DRAFTS_KEY, raw); store.setItem(`${DO_DRAFTS_KEY}:guest`, raw);
+    expect(readLocalDrafts(store, owner)).toEqual([]);
+    saveLocalDraft(store, { draft, source: input().source, brief: '' }, owner);
+    removeLocalDraft(store, draft.id, owner);
+    expect(store.getItem(DO_DRAFTS_KEY)).toBe(raw);
+    expect(store.getItem(`${DO_DRAFTS_KEY}:guest`)).toBe(raw);
+  });
+  it('does not overwrite malformed, inaccessible or full storage', async () => {
+    const store = storage(); const draft = await prepareDoDraft(input());
+    const entry = { draft, source: input().source, brief: '' };
+    store.setItem(localDraftsKey(owner), '{broken');
+    expect(() => saveLocalDraft(store, entry, owner)).toThrow();
+    expect(store.getItem(localDraftsKey(owner))).toBe('{broken');
+    const inaccessible = { ...store, getItem: () => { throw new Error('Denied'); }, setItem: vi.fn() };
+    expect(() => saveLocalDraft(inaccessible, entry, owner)).toThrow('Denied');
+    expect(inaccessible.setItem).not.toHaveBeenCalled();
+    store.removeItem(localDraftsKey(owner));
+    for (let i = 0; i < 8; i++) saveLocalDraft(store, { ...entry, draft: { ...draft, id: `00000000-0000-4000-8000-00000000000${i}` } }, owner);
+    const before = store.getItem(localDraftsKey(owner));
+    expect(() => saveLocalDraft(store, entry, owner)).toThrow('Eight drafts');
+    expect(store.getItem(localDraftsKey(owner))).toBe(before);
+  });
+  it('rejects stale edits/removals while preserving another tab’s revision', async () => {
+    const store = storage(); const draft = await prepareDoDraft(input());
+    const first = { draft, source: input().source, brief: '' };
+    saveLocalDraft(store, first, owner, null);
+    const updated = { ...first, draft: editDoDraft(draft, 'Other tab edit') };
+    saveLocalDraft(store, updated, owner, first);
+    expect(() => saveLocalDraft(store, first, owner, first)).toThrow('another tab');
+    expect(() => removeLocalDraft(store, draft.id, owner, first)).toThrow('another tab');
+    expect(readLocalDrafts(store, owner)).toEqual([updated]);
   });
   it('does not accept malformed saved records', () => {
-    const broken = storage(); broken.setItem('assembl:do:drafts:v1', '[{"draft":{"status":"sent"}}]');
-    expect(readLocalDrafts(broken)).toEqual([]);
+    const broken = storage(); broken.setItem(localDraftsKey(owner), '[{"draft":{"status":"sent"}}]');
+    expect(() => readLocalDrafts(broken, owner)).toThrow();
   });
 });

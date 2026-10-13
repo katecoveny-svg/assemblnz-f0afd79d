@@ -32,6 +32,7 @@
     "deploymentEnabled": {
       "codex/assembl-rebuild-20261012": false,
       "codex/do-persistence-reliability": false,
+      "codex/do-draft-account-isolation": false,
       "codex/school-agenda-pilot-staging": false
     }
   }

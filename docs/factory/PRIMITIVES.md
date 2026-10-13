@@ -197,3 +197,14 @@ Extends the existing fictional Pursuit examples and extracts the browser-only mo
 ### School agenda projection and closed pilot port
 
 `apps/do/school/agenda.ts` extends the existing school evidence primitive with Auckland civil-day/week windows, explicit calendar event links, start-time conflicts and snapshot-bound draft review. `apps/do/school/staging.ts` reuses owner/CAS, connector input, digest and source contracts behind an unbound server port; `/api/do/family/school-pilot` remains closed. No parallel browser storage, live reader, job or writer. [Pilot adapter and consent gates](../do-school/PRIVATE-PILOT-STAGING.md).
+
+### DO entry capability presentation (review draft, 13 October)
+
+- **Creates:** `apps/do/shared/entry-capabilities.ts` and `DoCapabilityIdeas` for one presentation catalog across Personal DO and the hosted widget used by the browser/Mac companions. These are draft ideas and labelled routes, not execution permissions or a new agent runtime.
+- **Extends:** existing navigation with `DoEntryDisclosure`: viewport-bounded panels, mutually exclusive More/Add, keyboard/outside dismissal and mounted-editor preservation. Parent navigation styles must target direct children; nested dropdowns declare their own layout.
+- **Reuses:** existing official local-information components in `DoLocalInformation`, existing editor consent and tool routes. No new provider, calendar, bank or native-widget connection.
+- **Proof:** `scripts/review-do-more-capabilities.cjs` covers expanded panels, responsive geometry and shared actions, alongside the existing entry/settings/companion regressions. See `docs/reviews/DO-MORE-CAPABILITIES-20261013.md` for the cross-surface matrix and platform limits. Draft status until review and release.
+
+### DO saved live-call voice (13 October review implementation)
+
+Extends the existing `do_personal_profiles.voice_name` preference and constrained Gemini Live token. `apps/do/shared/voice-options.ts` is the common curated allowlist; `apps/do/services/voice-preference.ts` binds the reviewed voice/revision to the authenticated owner. All hosted call entry surfaces use the saved choice on the next call with fresh consent; active session configuration is not replaced. No new storage or provider authority. Sources, integration boundaries and synthetic proof: `docs/DO-VOICE-CHOICE-20261013.md`.

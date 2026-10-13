@@ -18,7 +18,7 @@ import { createHash } from 'node:crypto';
 const errors = [];
 const read = path => readFileSync(path, 'utf8');
 const checks = [
-  ['app/page.tsx', /AssemblTheWorkHome/],
+  ['app/page.tsx', /import \{ (?:AssemblTheWorkHome|Direction4cHome) \}/],
   ['app/do/page.tsx', /<DoHome\s*\/>/],
   ['components/site/assembl-the-work/AssemblTheWorkHome.tsx', /<DoFilm\s*\/>/],
   ['app/do/DoHome.tsx', /<PersonalDo\s*\/>/],
@@ -183,11 +183,13 @@ if (!/small agent that sits where you already work/.test(doHome)) {
 if (!/atelier-poster\.png/.test(doHome)) {
   errors.push('Public /do must use the daylight atelier still (atelier-poster.png)');
 }
+const doEntryCatalog = read('apps/do/shared/entry-capabilities.ts');
+if (!doNavigation.includes('DO_TOOL_LINKS.map')) errors.push('DO menu must render the shared capability links');
 // Product access must not regress to a contact-only explanation page again.
 for (const href of ['/do/bills', '/do/personal', '/do/meetings', '/do/widget']) {
-  if (href !== '/do/personal' && !doNavigation.includes(`href="${href}"`)) errors.push(`Public /do is missing its task entry: ${href}`);
+  if (href !== '/do/personal' && !doNavigation.includes(`href="${href}"`) && !doEntryCatalog.includes(`href: '${href}'`)) errors.push(`Public /do is missing its task entry: ${href}`);
 }
-if (!doNavigation.includes('Meeting notes · sign in')) errors.push('Meeting entry must explain the sign-in requirement');
+if (!doEntryCatalog.includes('Meeting notes · sign in')) errors.push('Meeting entry must explain the sign-in requirement');
 
 const meetingUi = read('app/do/meetings/MeetingDo.tsx') + (existsSync('app/do/meetings/MeetingDoExperience.tsx') ? read('app/do/meetings/MeetingDoExperience.tsx') : '');
 const meetingChrome = meetingUi.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');

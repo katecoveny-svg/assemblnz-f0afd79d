@@ -1,10 +1,11 @@
 import { z } from "zod";
+import { DO_VOICE_VOICES, DEFAULT_DO_VOICE } from "../shared/voice-options";
 
 export const PERSONAL_DO_AVATARS = ["bloom", "orbit", "pebble", "spark"] as const;
 export const PERSONAL_DO_TONES = ["warm", "direct", "thoughtful"] as const;
 export const PERSONAL_DO_RESPONSE_LENGTHS = ["brief", "balanced", "detailed"] as const;
 export const PERSONAL_DO_INITIATIVES = ["on_request", "gentle", "proactive"] as const;
-export const PERSONAL_DO_VOICES = ["Kore", "Aoede", "Puck", "Charon"] as const;
+export const PERSONAL_DO_VOICES = DO_VOICE_VOICES;
 
 export const PERSONAL_DO_PROFILE_CONSENT =
   "Save these preferences to my account and use them with Assembl's configured drafting provider for my Personal DO drafts. For calls, share them with Google only when I separately agree to start a call. These preferences do not grant permission to act or monitor accounts.";
@@ -44,7 +45,7 @@ export const DEFAULT_PERSONAL_DO_PROFILE: PersonalDoProfile = {
   responseLength: "balanced",
   initiative: "gentle",
   preferences: "",
-  voiceName: "Kore",
+  voiceName: DEFAULT_DO_VOICE,
   onboardingCompleted: false,
   updatedAt: null,
 };

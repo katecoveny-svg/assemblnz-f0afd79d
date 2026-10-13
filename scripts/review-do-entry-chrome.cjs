@@ -16,6 +16,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   const request=route.request(),url=new URL(request.url());
   if(url.origin!==origin)return route.abort();
   if(request.method()!=='GET'){posts.push(url.pathname);return route.abort()}
+  if (url.pathname === '/api/do/session') return route.fulfill({ json: { workspaceKey: '10000000-0000-4000-8000-000000000001' } });
   if(url.pathname==='/api/do/personal')return route.fulfill({json:{workspaceKey:'10000000-0000-4000-8000-000000000001',responsibilities:[],runs:[],worker:{configured:false,lastSeenAt:null}}});
   if(url.pathname==='/api/do/personal/profile')return route.fulfill({json:{saved:true,profile}});
   if(url.pathname==='/api/do/personal/assistant')return route.fulfill({json:{ready:true,signedIn:true,message:'Ready'}});
@@ -64,7 +65,8 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   await page.setViewportSize({width:1440,height:1000});
   const editor=await page.locator('#personal-assistant-input').elementHandle();
   await page.locator('#personal-assistant-input').fill('Fictional weekend plan.');
-  await page.getByRole('button',{name:'Shop Plan this week’s shop',exact:true}).click();
+  await page.getByText('More ways DO can help',{exact:true}).click();
+  await page.locator('[data-do-idea=shop]').click();
   check('capability shortcut appends to existing draft',await page.locator('#personal-assistant-input').inputValue()==='Fictional weekend plan.\n\nPlan this week’s shop');
   await page.getByRole('button',{name:'Talk',exact:true}).click();
   await page.locator('.do-live-panel').waitFor();
@@ -94,7 +96,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
    check(width+'px no horizontal overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   }
   await page.emulateMedia({reducedMotion:'reduce'});
-  check('reduced motion disables shortcut transitions',await page.getByRole('button',{name:'Shop Plan this week’s shop',exact:true}).evaluate(e=>getComputedStyle(e).transitionDuration.split(',').every(value=>parseFloat(value)===0)));
+  check('reduced motion disables shortcut transitions',await page.locator('[data-do-idea=shop]').evaluate(e=>getComputedStyle(e).transitionProperty==='none'||getComputedStyle(e).transitionDuration.split(',').every(value=>parseFloat(value)<=.00001)));
   await page.locator('#personal-assistant-input').focus();
   check('editor focus is visible',await page.locator('#personal-assistant-input').evaluate(e=>getComputedStyle(e).outlineStyle!=='none'));
   await page.goto(origin+'/do/personal');

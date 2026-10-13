@@ -29,6 +29,9 @@ on:
       - 'docs/do-personal/**'
       - 'scripts/review-do-personal-settings.cjs'
       - 'scripts/review-do-personal-call.cjs'
+      - 'scripts/review-do-draft-isolation.cjs'
+      - 'scripts/review-do-writing-owner.cjs'
+      - 'scripts/review-do-voice-choice.cjs'
       - 'scripts/review-do-refinement.cjs'
       - 'scripts/review-do-unified.cjs'
       - 'scripts/test-do-memory-sql.cjs'
@@ -74,11 +77,13 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
       - name: DO core unit tests
-        run: pnpm test apps/do/coordination apps/do/shared apps/do/personal apps/do/services/family.test.ts apps/do/services/family-server.test.ts app/api/do app/do/personal lib/do/nz-public-data.test.ts lib/do/nz-local-updates.test.ts lib/do/do-pwa.test.ts lib/do/availability lib/do/travel lib/typesafe lib/os/improvement.test.ts lib/os/routing.test.ts lib/connectors/pipedream.test.ts
+        run: pnpm test apps/do/coordination apps/do/shared apps/do/personal apps/do/services/family.test.ts apps/do/services/family-server.test.ts app/api/do app/do/personal lib/do/public-do-specialists.test.ts lib/do/nz-public-data.test.ts lib/do/nz-local-updates.test.ts lib/do/do-pwa.test.ts lib/do/availability lib/do/travel lib/typesafe lib/os/improvement.test.ts lib/os/routing.test.ts lib/connectors/pipedream.test.ts
       - name: Authentication cookie, callback, login and provider regressions
         run: pnpm exec vitest run app/login app/auth lib/supabase lib/auth/origin.test.ts lib/auth/do-entry.test.ts lib/auth/providers.test.ts lib/auth/remember.test.ts
+      - name: Writing ownership scoped lint
+        run: pnpm exec eslint app/do/DoTextWorkspace.tsx apps/do/shared/use-writing-owner.ts apps/do/shared/local-drafts.ts apps/do/shared/local-drafts.test.ts app/api/do/session/route.ts app/api/do/session/route.test.ts scripts/review-do-draft-isolation.cjs --max-warnings=0
       - name: Voice lifecycle scoped lint
-        run: pnpm exec eslint app/do/DoGeminiLive.tsx apps/do/shared/voice-session-resources.ts apps/do/shared/voice-session-resources.test.ts scripts/review-do-personal-call.cjs --max-warnings=0
+        run: pnpm exec eslint app/do/DoGeminiLive.tsx apps/do/shared/voice-session-resources.ts apps/do/shared/voice-session-resources.test.ts scripts/review-do-personal-call.cjs scripts/review-do-voice-choice.cjs apps/do/shared/voice-options.ts apps/do/services/voice-preference.ts app/api/do/live-token/route.ts app/do/personal/PersonalDoSettings.tsx --max-warnings=0
       - name: DO paper field and locked identity contracts
         run: pnpm exec vitest run lib/brand/do-identity.test.ts
       - name: Photo notes and privacy session contracts (synthetic tests)
@@ -108,6 +113,11 @@ jobs:
           ASSEMBL_ESBUILD_MODULE: ${{ github.workspace }}/node_modules/.pnpm/esbuild@0.28.0/node_modules/esbuild
           ASSEMBL_REVIEW_OUTPUT: /tmp/personal-do-proof/result-focus
         run: node scripts/review-do-personal-result-focus.cjs
+      - name: Pending writing identity response regressions (fictional auth)
+        env:
+          ASSEMBL_ESBUILD_MODULE: ${{ github.workspace }}/node_modules/.pnpm/esbuild@0.28.0/node_modules/esbuild
+          ASSEMBL_REVIEW_OUTPUT: /tmp/personal-do-proof/writing-owner
+        run: node scripts/review-do-writing-owner.cjs
       - name: Private checklist SQL boundaries
         run: ASSEMBL_PGLITE_MODULE=/tmp/assembl-browser/node_modules/@electric-sql/pglite node scripts/test-do-personal-checklists-sql.cjs
       - name: Optional memory SQL boundaries (proposal only)
@@ -130,6 +140,10 @@ jobs:
           settings_status=$?
           ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/calls node scripts/review-do-personal-call.cjs
           calls_status=$?
+          ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/draft-isolation node scripts/review-do-draft-isolation.cjs
+          drafts_status=$?
+          ASSEMBL_REVIEW_ORIGIN=http://localhost:3117 ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/voice-choice node scripts/review-do-voice-choice.cjs
+          voice_status=$?
           ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/portable node scripts/review-do-portable.cjs
           portable_status=$?
           # Next pins the generated widget to localhost in this loopback server.
@@ -146,8 +160,10 @@ jobs:
           entry_status=$?
           ASSEMBL_REVIEW_ORIGIN=http://localhost:3117 ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/entry-chrome node scripts/review-do-entry-chrome.cjs
           chrome_status=$?
+          ASSEMBL_REVIEW_ORIGIN=http://localhost:3117 ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/more-capabilities node scripts/review-do-more-capabilities.cjs
+          more_status=$?
           set -e
-          test "$header_status" -eq 0 && test "$settings_status" -eq 0 && test "$calls_status" -eq 0 && test "$portable_status" -eq 0 && test "$assistant_status" -eq 0 && test "$site_status" -eq 0 && test "$refinement_status" -eq 0 && test "$unified_status" -eq 0 && test "$entry_status" -eq 0 && test "$chrome_status" -eq 0
+          test "$drafts_status" -eq 0 && test "$voice_status" -eq 0 && test "$header_status" -eq 0 && test "$settings_status" -eq 0 && test "$calls_status" -eq 0 && test "$portable_status" -eq 0 && test "$assistant_status" -eq 0 && test "$site_status" -eq 0 && test "$refinement_status" -eq 0 && test "$unified_status" -eq 0 && test "$entry_status" -eq 0 && test "$chrome_status" -eq 0 && test "$more_status" -eq 0
       - uses: actions/upload-artifact@v4
         if: always()
         with:
