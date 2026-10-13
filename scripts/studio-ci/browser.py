@@ -18,9 +18,10 @@ async def fresh(page):
     await page.get_by_label('Target company',exact=True).wait_for()
 async def brief(page):
     await page.get_by_label('Target company',exact=True).fill('FICTIONAL Independent Company')
-    await page.get_by_label('Starting point',exact=True).select_option('prospect')
-    await page.get_by_label('Audience',exact=True).select_option('GM')
-    await page.get_by_label('Position this piece for',exact=True).select_option('Both')
+    # Nested select options contribute to label text; match the control's accessible name.
+    await page.get_by_role('combobox',name='Starting point',exact=True).select_option('prospect')
+    await page.get_by_role('combobox',name='Audience',exact=True).select_option('GM')
+    await page.get_by_role('combobox',name='Position this piece for',exact=True).select_option('Both')
     await page.get_by_label('Job advertisement or prospect brief',exact=True).fill('FICTIONAL authored brief: demonstrate a useful selected project handoff for a GM.')
     await page.get_by_role('button',name='Use this brief',exact=True).click()
 async def backup(page,name):
@@ -63,7 +64,7 @@ async def journey(page,width):
     await page.get_by_label('Source web link',exact=True).fill('https://example.org/supplied')
     await page.get_by_label('Relevant fact extract',exact=True).fill('FICTIONAL supplied extract, not independently verified')
     await page.get_by_role('button',name='Add source for review',exact=True).click()
-    await page.get_by_label('Claim status',exact=True).select_option('source')
+    await page.get_by_role('combobox',name='Claim status',exact=True).select_option('source')
     await page.get_by_label('Use in concept and client evidence',exact=True).check()
     await close_panel(page)
     await page.get_by_role('button',name='Add a working idea',exact=True).click()

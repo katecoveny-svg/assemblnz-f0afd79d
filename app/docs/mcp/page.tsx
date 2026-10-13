@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.assembl.co.nz/docs/mcp' },
   title: 'Assembl MCP · governed tools for work and proof',
   description: 'How Assembl exposes tenant-governed work, proof and approval requests through MCP.',
 };
