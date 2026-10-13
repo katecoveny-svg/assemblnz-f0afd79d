@@ -1,3 +1,4 @@
+import { voiceRevision } from "@/apps/do/services/voice-preference";
 import { GoogleGenAI } from "@google/genai";
 import { getPersonalDoProfile } from "@/apps/do/personal/profile-service";
 import type { PersonalDoProfile } from "@/apps/do/personal/profile";
@@ -29,6 +30,7 @@ const enabled = () => process.env.DO_GEMINI_LIVE_ENABLED === "true";
 
 export async function GET() {
   const owner = await doOwner();
+  const saved = owner ? await getPersonalDoProfile(owner.id).catch(() => null) : null;
   return Response.json(
     {
       enabled: enabled(),
@@ -40,6 +42,8 @@ export async function GET() {
       dailyLimit: DO_VOICE_DAILY_SESSIONS,
       sessionSeconds: DO_VOICE_SECONDS,
       model: DO_VOICE_MODELS.standard,
+      voiceName: saved?.profile.voiceName ?? null,
+      voiceRevision: owner && saved ? voiceRevision(owner.id, saved.profile) : null,
     },
     { headers },
   );
@@ -80,16 +84,17 @@ export async function POST(request: Request) {
 
   // Load only this authenticated owner's reviewed profile. Never accept identity,
   // preferences, tools or system instructions supplied by the browser.
-  let profile: PersonalDoProfile | undefined;
-  if (parsed.data.includeProfile) {
-    try {
-      ({ profile } = await getPersonalDoProfile(owner.id));
-    } catch {
-      return json({ error: "Your saved DO profile could not be checked. Refresh and try again." }, 503);
-    }
-    if (profile.updatedAt !== parsed.data.profileUpdatedAt)
-      return json({ error: "Your DO profile changed. Refresh and review it before calling." }, 409);
+  let savedProfile: PersonalDoProfile;
+  try {
+    ({ profile: savedProfile } = await getPersonalDoProfile(owner.id));
+  } catch {
+    return json({ error: "Your saved call voice could not be checked. Check call availability and try again." }, 503);
   }
+  if (parsed.data.voiceRevision !== voiceRevision(owner.id, savedProfile) || parsed.data.voiceName !== savedProfile.voiceName)
+    return json({ error: "Your account or call voice changed. Check call availability and review it before calling." }, 409);
+  const profile = parsed.data.includeProfile ? savedProfile : undefined;
+  if (profile && profile.updatedAt !== parsed.data.profileUpdatedAt)
+    return json({ error: "Your DO profile changed. Refresh and review it before calling." }, 409);
   if (request.signal.aborted)
     return json({ error: "This call was cancelled before connecting." }, 499);
 
@@ -98,7 +103,7 @@ export async function POST(request: Request) {
     reservation = await reserveDoVoice(owner.id);
     if (request.signal.aborted) throw new Error("cancelled");
     const { mode } = parsed.data;
-    const voiceName = profile?.voiceName ?? parsed.data.voiceName;
+    const voiceName = savedProfile.voiceName;
     const model = DO_VOICE_MODELS[mode];
     const config = doVoiceConfig(mode, voiceName, profile);
     // Google rejects subsequent messages after expiry; this is not just a UI timer.

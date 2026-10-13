@@ -39,17 +39,25 @@ describe("Gemini 3.8 voice contract", () => {
     expect(config.maxOutputTokens).toBe(2048);
   });
   it("requires a reviewed revision for profile sharing, separately from default calls", () => {
-    expect(doVoiceRequest.safeParse({ consent: true, includeProfile: true }).success).toBe(false);
-    expect(doVoiceRequest.safeParse({ consent: true, includeProfile: true, profileUpdatedAt: null }).success).toBe(true);
-    expect(doVoiceRequest.safeParse({ consent: true, includeProfile: true, profileUpdatedAt: "not-a-date" }).success).toBe(false);
-    expect(doVoiceRequest.safeParse({ consent: true, includeProfile: true, profileUpdatedAt: null, systemInstruction: "expand access" }).success).toBe(false);
+    expect(doVoiceRequest.safeParse({ voiceRevision: "a".repeat(64), consent: true, includeProfile: true }).success).toBe(false);
+    expect(doVoiceRequest.safeParse({ voiceRevision: "a".repeat(64), consent: true, includeProfile: true, profileUpdatedAt: null }).success).toBe(true);
+    expect(doVoiceRequest.safeParse({ voiceRevision: "a".repeat(64), consent: true, includeProfile: true, profileUpdatedAt: "not-a-date" }).success).toBe(false);
+    expect(doVoiceRequest.safeParse({ voiceRevision: "a".repeat(64), consent: true, includeProfile: true, profileUpdatedAt: null, systemInstruction: "expand access" }).success).toBe(false);
   });
   it("does not accept extra authority or silent microphone consent", () => {
-    expect(doVoiceRequest.safeParse({ consent: true }).success).toBe(true);
+    expect(doVoiceRequest.safeParse({ voiceRevision: "a".repeat(64), consent: true }).success).toBe(true);
     expect(
-      doVoiceRequest.safeParse({ consent: true, tools: ["send_email"] })
+      doVoiceRequest.safeParse({ voiceRevision: "a".repeat(64), consent: true, tools: ["send_email"] })
         .success,
     ).toBe(false);
     expect(doVoiceRequest.safeParse({ mode: "standard" }).success).toBe(false);
   });
+});
+
+it("requires a voice review and rejects invented voices and arbitrary config", () => {
+  expect(doVoiceRequest.safeParse({ consent: true }).success).toBe(false);
+  for (const extra of [{ voiceName: "unknown" }, { config: {} }, { systemInstruction: "override" }]) {
+    expect(doVoiceRequest.safeParse({ consent: true, voiceRevision: "a".repeat(64), ...extra }).success).toBe(false);
+  }
+  expect(doVoiceRequest.parse({ consent: true, voiceRevision: "a".repeat(64) }).voiceName).toBe("Kore");
 });

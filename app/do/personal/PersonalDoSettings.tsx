@@ -8,7 +8,7 @@ import {
   type PersonalDoProfile,
   type PersonalDoProfileInput,
 } from "@/apps/do/personal/profile";
-import { DO_VOICE_VOICES } from "@/apps/do/shared/gemini-live";
+import { DO_VOICE_VOICES, DO_VOICE_LABELS } from "@/apps/do/shared/voice-options";
 import { PersonalDoCharacter } from "./PersonalDoCharacter";
 import styles from "./identity.module.css";
 
@@ -39,13 +39,20 @@ function editable(profile: PersonalDoProfile): PersonalDoProfileInput {
   return input;
 }
 
-export function PersonalDoSettings({ onProfileChange, compact = false, triggerRef }: {
+export function PersonalDoSettings({ onProfileChange, compact = false, voiceEntry = false, triggerRef, sharedProfile }: {
+  sharedProfile?: PersonalDoProfile | null;
   triggerRef?: RefObject<HTMLButtonElement | null>;
   compact?: boolean;
+  voiceEntry?: boolean;
   onProfileChange: (profile: PersonalDoProfile | null) => void;
 }) {
-  const [profile, setProfile] = useState<PersonalDoProfile | null>(null);
-  const [saved, setSaved] = useState(false);
+  const [localProfile, setProfile] = useState<PersonalDoProfile | null>(null);
+  const [localSaved, setSaved] = useState(false);
+  // Personal DO owns one profile for both mounted settings entry points.
+  // Standalone surfaces retain their existing local loading behavior.
+  const profile = sharedProfile === undefined ? localProfile : sharedProfile;
+  const saved = sharedProfile === undefined ? localSaved : Boolean(sharedProfile?.updatedAt);
+  const [draftRevision, setDraftRevision] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
@@ -62,7 +69,11 @@ export function PersonalDoSettings({ onProfileChange, compact = false, triggerRe
   const request = useRef<AbortController | null>(null);
   const saveRequest = useRef<AbortController | null>(null);
 
+  const hasSharedProfile = Boolean(sharedProfile);
   const load = useCallback(async () => {
+    // The owner already loaded this profile. Do not publish a second mount-time
+    // response over newer shared state or keep a competing editable snapshot.
+    if (hasSharedProfile) { setLoading(false); setError(""); return; }
     request.current?.abort();
     const controller = new AbortController();
     request.current = controller;
@@ -83,7 +94,7 @@ export function PersonalDoSettings({ onProfileChange, compact = false, triggerRe
     } finally {
       if (!controller.signal.aborted) setLoading(false);
     }
-  }, [onProfileChange]);
+  }, [onProfileChange, hasSharedProfile]);
   useEffect(() => {
     mounted.current = true;
     // The state changes follow the asynchronous account-scoped fetch.
@@ -96,6 +107,8 @@ export function PersonalDoSettings({ onProfileChange, compact = false, triggerRe
     else dialog.current?.close();
   }, [open, step]);
 
+  const staleDraft = open && draftRevision !== (profile?.updatedAt ?? null);
+
   function change<K extends keyof PersonalDoProfileInput>(key: K, value: PersonalDoProfileInput[K]) {
     setDraft(previous => ({ ...previous, [key]: value }));
     setConsent(false);
@@ -104,14 +117,15 @@ export function PersonalDoSettings({ onProfileChange, compact = false, triggerRe
   }
   function edit() {
     setDraft(editable(profile ?? DEFAULT_PERSONAL_DO_PROFILE));
+    setDraftRevision(profile?.updatedAt ?? null);
     setConsent(false);
     setNotice("");
     setForgetting(false);
-    setStep(0);
+    setStep(voiceEntry ? 2 : 0);
     setOpen(true);
   }
   async function save() {
-    if (lock.current || !consent) return;
+    if (lock.current || !consent || staleDraft) return;
     lock.current = true;
     setBusy(true);
     setNotice("");
@@ -121,7 +135,7 @@ export function PersonalDoSettings({ onProfileChange, compact = false, triggerRe
       const response = await fetch("/api/do/personal/profile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...draft, displayName: draft.displayName.trim(), onboardingCompleted: true, consent: true }),
+        body: JSON.stringify({ ...draft, displayName: draft.displayName.trim(), onboardingCompleted: voiceEntry ? draft.onboardingCompleted : true, consent: true }),
         signal: controller.signal,
       });
       const data = await response.json();
@@ -171,7 +185,7 @@ export function PersonalDoSettings({ onProfileChange, compact = false, triggerRe
       ? "The proposal looks like a useful place to start. Is Friday a firm deadline, or is there room to move?"
       : "Let’s make a little room in your day. Start with the proposal, then check that Friday’s deadline is still right.";
   return <>
-    <section className={styles.identity} data-compact={compact || undefined} aria-label="Your DO settings">
+    {voiceEntry ? <button type="button" onClick={error ? () => void load() : edit} disabled={loading}>{error ? "Retry voice settings" : "Choose call voice"}</button> : <section className={styles.identity} data-compact={compact || undefined} aria-label="Your DO settings">
       <PersonalDoCharacter avatar={profile?.avatar ?? "bloom"} small />
       <div className={styles.identityText}>
         <p className={styles.eyebrow}>{saved ? "MADE YOURS" : "A GOOD PLACE TO BEGIN"}</p>
@@ -181,21 +195,21 @@ export function PersonalDoSettings({ onProfileChange, compact = false, triggerRe
       {error ? <button type="button" onClick={() => void load()}>Try settings again</button> : <button ref={triggerRef} type="button" onClick={edit} disabled={loading}>
         {saved ? <><Settings2 size={17} /> Customise {name}</> : <>Make DO mine <ArrowRight size={17} /></>}
       </button>}
-    </section>
+    </section>}
     {!open && notice && <p className={styles.savedNotice} role="status">{notice}</p>}
     {open && <dialog ref={dialog} className={styles.backdrop} aria-labelledby="do-settings-title" onCancel={event => { event.preventDefault(); if (!busy) setOpen(false); }}>
-      <div className={styles.sheet}>
+      <div className={styles.sheet} style={voiceEntry ? { maxWidth: 620 } : undefined}>
         <div className={styles.sheetBar}>
           <span className={styles.eyebrow}>PERSONAL DO / MAKE IT YOURS</span>
           <button type="button" className={styles.close} onClick={() => setOpen(false)} disabled={busy} aria-label="Close customisation"><X size={22} /></button>
         </div>
-        <div className={styles.progress} aria-label={`Step ${step + 1} of 3`}>
+        {!voiceEntry && <div className={styles.progress} aria-label={`Step ${step + 1} of 3`}>
           {["Appearance", "Preferences", "Review"].map((label, index) => <span key={label} data-current={index === step} data-done={index < step}><b>{index < step ? <Check size={12} /> : `0${index + 1}`}</b><span>{label}</span></span>)}
-        </div>
-        <div className={styles.sheetGrid}>
+        </div>}
+        <div className={styles.sheetGrid} style={voiceEntry ? { gridTemplateColumns: "minmax(0, 1fr)" } : undefined}>
           <div className={styles.form}>
-            <h2 id="do-settings-title" ref={heading} tabIndex={-1}>{["Name and appearance", "Preferences", "Review and save"][step]}</h2>
-            <p className={styles.introduction}>{["Choose a name and appearance. Change them any time.", "Choose the tone and length of replies.", "Tell DO what makes help useful for you. Keep personal account details and secrets out of this box."][step]}</p>
+            <h2 id="do-settings-title" ref={heading} tabIndex={-1}>{voiceEntry ? "Choose call voice" : ["Name and appearance", "Preferences", "Review and save"][step]}</h2>
+            <p className={styles.introduction}>{voiceEntry ? "One saved voice for your calls with DO." : ["Choose a name and appearance. Change them any time.", "Choose the tone and length of replies.", "Tell DO what makes help useful for you. Keep personal account details and secrets out of this box."][step]}</p>
             {step === 0 && <>
               <label className={styles.label}>What shall we call your DO?<input autoComplete="off" value={draft.displayName} maxLength={32} onChange={e => change("displayName", e.target.value)} placeholder="DO, Dot, Pip…" /></label>
               <fieldset className={styles.fieldset}><legend>Choose a finish</legend><p>Your finish appears beside the start controls. The glass artwork stays the same.</p><div className={styles.characters}>{characters.map(item => <button key={item.value} type="button" aria-pressed={draft.avatar === item.value} onClick={() => change("avatar", item.value)}><PersonalDoCharacter avatar={item.value} small /><strong>{item.label}</strong><span>{item.note}</span></button>)}</div></fieldset>
@@ -208,27 +222,28 @@ export function PersonalDoSettings({ onProfileChange, compact = false, triggerRe
               <p className={styles.hint}>This changes suggestions in your replies. Background jobs and external actions still need their own permission.</p>
             </>}
             {step === 2 && <>
-              <label className={styles.label}>Anything else about how you like to work?<textarea rows={4} maxLength={1200} value={draft.preferences} onChange={e => change("preferences", e.target.value)} placeholder="Use NZ spelling. Put the next step first. Give me room to think before suggesting more." /></label>
-              <label className={styles.label}>Your call voice<select value={draft.voiceName} onChange={e => change("voiceName", e.target.value as PersonalDoProfile["voiceName"])}>{DO_VOICE_VOICES.map(voice => <option key={voice}>{voice}</option>)}</select></label>
-              <p className={styles.hint}>Used when live calls are available. Your microphone stays off until you choose to start a call.</p>
+              {!voiceEntry && <label className={styles.label}>Anything else about how you like to work?<textarea rows={4} maxLength={1200} value={draft.preferences} onChange={e => change("preferences", e.target.value)} placeholder="Use NZ spelling. Put the next step first. Give me room to think before suggesting more." /></label>}
+              <label className={styles.label}>Your call voice<select value={draft.voiceName} onChange={e => change("voiceName", e.target.value as PersonalDoProfile["voiceName"])}>{DO_VOICE_VOICES.map(voice => <option key={voice} value={voice}>{DO_VOICE_LABELS[voice]}</option>)}</select></label>
+              <p className={styles.hint}>Saved to your account for your next call in the app, widget or Mac companion. A call already in progress keeps its voice. Your microphone stays off until you start a call.</p>
+              <p className={styles.hint}>Google describes Puck as upbeat and Charon as informative; both are male voices. Voice choice does not guarantee a New Zealand accent or te reo Māori fluency.</p>
               <label className={styles.consent}><input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} /><span>{PERSONAL_DO_PROFILE_CONSENT}</span></label>
             </>}
-            <div role="status" aria-live="polite" className={styles.formNotice}>{notice}</div>
+            <div role="status" aria-live="polite" className={styles.formNotice}>{staleDraft ? "Your settings changed elsewhere. Close and reopen this dialog to review the latest preferences before saving." : notice}</div>
             <div className={styles.formActions}>
-              {step > 0 ? <button type="button" className={styles.secondary} disabled={busy} onClick={() => setStep(step - 1)}><ArrowLeft size={16} /> Back</button> : <button type="button" className={styles.secondary} onClick={() => setOpen(false)}>Not now</button>}
-              {step < 2 ? <button type="button" className={styles.primary} disabled={!draft.displayName.trim()} onClick={() => setStep(step + 1)}>Next <ArrowRight size={16} /></button> : <button type="button" className={styles.primary} disabled={busy || !consent || !draft.displayName.trim()} onClick={() => void save()}>{busy ? "Saving…" : "Save my DO"}<Check size={16} /></button>}
+              {step > 0 && !voiceEntry ? <button type="button" className={styles.secondary} disabled={busy} onClick={() => setStep(step - 1)}><ArrowLeft size={16} /> Back</button> : <button type="button" className={styles.secondary} onClick={() => setOpen(false)}>Not now</button>}
+              {step < 2 ? <button type="button" className={styles.primary} disabled={!draft.displayName.trim()} onClick={() => setStep(step + 1)}>Next <ArrowRight size={16} /></button> : <button type="button" className={styles.primary} disabled={busy || !consent || staleDraft || !draft.displayName.trim()} onClick={() => void save()}>{busy ? "Saving…" : voiceEntry ? "Save call voice" : "Save my DO"}<Check size={16} /></button>}
             </div>
-            {saved && <div className={styles.resetActions}><button type="button" className={styles.reset} disabled={busy} onClick={() => { setDraft(editable(DEFAULT_PERSONAL_DO_PROFILE)); setConsent(false); setNotice("Defaults selected. Save to apply them to your account."); }}>Use DO defaults</button><button type="button" className={styles.reset} disabled={busy} onClick={() => setForgetting(!forgetting)}>Forget my preferences</button></div>}
+            {saved && !voiceEntry && <div className={styles.resetActions}><button type="button" className={styles.reset} disabled={busy} onClick={() => { setDraft(editable(DEFAULT_PERSONAL_DO_PROFILE)); setConsent(false); setNotice("Defaults selected. Save to apply them to your account."); }}>Use DO defaults</button><button type="button" className={styles.reset} disabled={busy} onClick={() => setForgetting(!forgetting)}>Forget my preferences</button></div>}
             {forgetting && <section className={styles.forget} aria-label="Confirm preference removal"><strong>Forget these saved preferences?</strong><p>This removes your name, character and communication preferences from your account and ends any current call. Your responsibility notes and drafts stay saved. It cannot recall information already shared with a provider.</p><button type="button" className={styles.primary} disabled={busy} onClick={() => void forget()}>{busy ? "Removing…" : "Remove saved preferences"}</button><button type="button" className={styles.secondary} disabled={busy} onClick={() => setForgetting(false)}>Keep them</button></section>}
           </div>
-          <aside className={styles.preview} aria-label="Personality preview">
+          {!voiceEntry && <aside className={styles.preview} aria-label="Personality preview">
             <span className={styles.eyebrow}>A LITTLE INTRODUCTION</span>
             <PersonalDoCharacter avatar={draft.avatar} />
             <h3>{draft.displayName.trim() || "DO"}<span>by assembl</span></h3>
             <div className={styles.sample}><span className={styles.eyebrow}>EXAMPLE REPLY</span><p>{sample}</p>{draft.responseLength === "detailed" && <p>Once that’s clear, put the outline together and leave the finished draft for your review.</p>}</div>
             <p className={styles.previewNote}>An example of the tone. Your real replies depend on the context you share.</p>
             <div className={styles.assurance}><ShieldCheck size={19} /><span>Your preferences shape the help.<br />You stay in charge of the work.</span></div>
-          </aside>
+          </aside>}
         </div>
       </div>
     </dialog>}

@@ -43,7 +43,7 @@ describe("Personal DO profile persistence", () => {
   });
 
   it("fails honestly for missing storage, malformed data or missing timestamp", async () => {
-    for (const result of [{ data: null, error: { code: "42P01" } }, { data: { ...row, avatar: "invalid" }, error: null }, { data: { ...row, updated_at: null }, error: null }]) {
+    for (const result of [{ data: null, error: { code: "42P01" } }, { data: { ...row, avatar: "invalid" }, error: null }, { data: { ...row, voice_name: "unknown" }, error: null }, { data: { ...row, updated_at: null }, error: null }]) {
       query.maybeSingle.mockResolvedValue(result);
       await expect(getPersonalDoProfile(owner)).rejects.toThrow("preferences are unavailable");
     }
