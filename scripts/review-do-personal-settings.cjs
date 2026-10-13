@@ -209,7 +209,7 @@ async function headingContrast(page) {
     await page.getByRole('button', { name: 'Note or checklist', exact: true }).click();
     await page.locator('#life-admin-source').fill('Fictional unfinished guest note.');
     await page.getByRole('navigation', { name: 'DO', exact: true }).getByRole('link', { name: 'Sign in', exact: true }).click();
-    await page.getByRole('dialog', { name: 'Your checklist is in this page.' }).waitFor();
+    await page.getByRole('dialog', { name: 'Your unsaved work is in this page.' }).waitFor();
     check('guest sign-in warns before losing current work', await page.getByRole('button', { name: 'Stay and keep my work', exact: true }).isVisible());
     await page.screenshot({ path: out + '/personal-guest-leave-mobile.png' });
     await page.getByRole('button', { name: 'Stay and keep my work', exact: true }).click();
