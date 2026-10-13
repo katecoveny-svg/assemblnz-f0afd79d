@@ -18,9 +18,10 @@ async def fresh(page):
     await page.get_by_label('Target company',exact=True).wait_for()
 async def brief(page):
     await page.get_by_label('Target company',exact=True).fill('FICTIONAL Independent Company')
-    await page.get_by_label('Starting point',exact=True).select_option('prospect')
-    await page.get_by_label('Audience',exact=True).select_option('GM')
-    await page.get_by_label('Position this piece for',exact=True).select_option('Both')
+    # Nested select options contribute to label text; match the control's accessible name.
+    await page.get_by_role('combobox',name='Starting point',exact=True).select_option('prospect')
+    await page.get_by_role('combobox',name='Audience',exact=True).select_option('GM')
+    await page.get_by_role('combobox',name='Position this piece for',exact=True).select_option('Both')
     await page.get_by_label('Job advertisement or prospect brief',exact=True).fill('FICTIONAL authored brief: demonstrate a useful selected project handoff for a GM.')
     await page.get_by_role('button',name='Use this brief',exact=True).click()
 async def backup(page,name):
