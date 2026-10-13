@@ -29,7 +29,7 @@ export const knownIngredients = [
     id: "bread",
     name: "Bread slices",
     unit: "each",
-    aliases: ["bread", "bread slices", "toast"],
+    aliases: ["bread slice", "bread slices"],
   },
 ] as const;
 export const units: Unit[] = ["g", "kg", "ml", "l", "each"];

@@ -67,6 +67,33 @@ describe("grocery observation review adapter", () => {
       reviewIngredients([{ ...p[0], unit: "each" }]).issues.join(),
     ).toContain("do not guess");
   });
+  it.each(["Bread", "Loaf", "Bread loaf", "Loaves", "Toast"])(
+    "never interprets %s | 1 | each as one bread slice",
+    (name) => {
+      const parsed = parseIngredientObservation(`${name} | 1 | each`, "voice");
+      expect(parsed.rows[0].name).toBe(name);
+      const stock = reviewIngredients(confirm(parsed.rows));
+      expect(stock.uncovered).toEqual([name]);
+      expect(stock.pantry[0].id).not.toBe("bread");
+      const plan = planShop(stock.pantry, 4, true, 4000, "eggs-toast");
+      expect(
+        plan.basket.find((l) => l.ingredientId === "bread")?.pantryUsed,
+      ).toBe(0);
+    },
+  );
+  it.each(["Bread slice", "Bread slices"])(
+    "deducts only explicitly identified %s measured individually",
+    (name) => {
+      const parsed = parseIngredientObservation(`${name} | 1 | each`, "voice");
+      expect(parsed.rows[0].confirmed).toBe(false);
+      const stock = reviewIngredients(confirm(parsed.rows));
+      expect(stock.uncovered).toEqual([]);
+      const plan = planShop(stock.pantry, 4, true, 4000, "eggs-toast");
+      expect(
+        plan.basket.find((l) => l.ingredientId === "bread")?.pantryUsed,
+      ).toBe(1);
+    },
+  );
   it("retains confirmed custom items but discloses catalogue coverage", () => {
     const p = confirm(
       parseIngredientObservation(candidate("Chickpeas", 200), "photo").rows,

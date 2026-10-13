@@ -27,6 +27,11 @@ export function IngredientEditor({
         missing items or remove anything you cannot verify. Removing an item
         means no stock is deducted for it.
       </p>
+      <p>
+        For bread, enter “Bread slices” and count slices using “each”. Plain
+        “Bread”, “Toast” or a loaf is outside this recipe catalogue and is never
+        counted as one slice. Do not guess how many slices a loaf contains.
+      </p>
       <datalist id="ld-known-ingredients">
         {knownIngredients.map((k) => (
           <option key={k.id} value={k.name} />
