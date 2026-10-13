@@ -21,18 +21,25 @@ async function journey(browser, viewport, name, syncEnabled) {
       kept.push(route.request().postDataJSON());
       return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ task: { id: kept[0].id }, durable: true, storage: 'database', workspaceKey: 'fixture-owner' }) });
     }
+    if (url.pathname === '/api/do/browser-actions') return route.fulfill({json:{protocol:'do.cart.v1',state:'unavailable',canMutateCart:false}});
     return route.continue();
   });
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', error => errors.push(`${name}: ${error.message}`));
   const shot = label => page.screenshot({ path: path.join(output, `${name}-${label}.jpg`), type: 'jpeg', quality: 70, fullPage: viewport.width < 500 });
-  await page.goto(origin + '/do/shop');
+  await page.goto(origin + '/do/shop', {timeout:120000});
+  await page.getByLabel('Your brief').fill('');
+  await page.addStyleTag({content:'nextjs-portal{display:none!important}'});
+  await shot('entry');
   await page.getByLabel('Your brief').fill('Dinners for 4 for 3 nights, budget $120. We have rice. No nuts. Kids hate mushrooms.');
-  await page.getByRole('button', { name: 'Plan the dinners' }).click();
+  await page.getByRole('button', { name: 'Review brief', exact: true }).click();
+  await page.getByRole('button', { name: 'Use these details · plan dinners' }).click();
   await page.getByText('3 nights, swap any you like').waitFor();
   check(`${name}: brief becomes a plan with the right people, nights and budget`, await page.getByText('4 people').isVisible() && await page.getByText('budget $120.00').isVisible());
   check(`${name}: unrecognised words are shown, not silently used`, await page.getByText('Not used: “Kids hate mushrooms”').isVisible());
+  await page.locator('#shop-plan-title').evaluate(e=>e.scrollIntoView({block:'start',behavior:'instant'}));
+  await page.waitForTimeout(300);
   await shot('plan');
   const first = await page.locator('.shop-night strong').first().textContent();
   await page.getByRole('button', { name: 'Swap night 1' }).click();
@@ -46,13 +53,16 @@ async function journey(browser, viewport, name, syncEnabled) {
   check(`${name}: list is grouped by aisle in store order`, aisles[0] === 'produce' && aisles.length >= 3);
   check(`${name}: rice is deducted from the list`, (await page.locator('.shop-aisle li', { hasText: 'Rice' }).count()) === 0);
   check(`${name}: estimate is compared against the budget`, await page.getByText(/against your \$120\.00 budget/).isVisible());
+  await page.locator('.shop-aisle input').first().check();
+  check(`${name}: aisle collection checkbox is interactive`, await page.locator('.shop-aisle input').first().isChecked());
+  check(`${name}: unavailable browser connection is explicit`, await page.getByText('Browser shopping is not connected.', {exact:false}).isVisible());
   await shot('list');
   const links = page.locator('.shop-links a');
   check(`${name}: handoff links open the retailer's own search in a new tab`, (await links.count()) > 3 && (await links.first().getAttribute('href')).startsWith('https://www.woolworths.co.nz/shop/searchproducts?search=') && (await links.first().getAttribute('target')) === '_blank');
   await page.getByLabel('Supermarket').selectOption('new-world');
   check(`${name}: switching supermarket switches every link`, (await links.first().getAttribute('href')).startsWith('https://www.newworld.co.nz/'));
   const keep = page.getByRole('button', { name: 'Keep as a DO task' });
-  if (syncEnabled) { await keep.click(); await page.getByText('Kept as a DO task on your account.').waitFor(); check(`${name}: list is kept as a task through the continuity contract`, kept.length === 1 && kept[0].action === 'save' && kept[0].request.startsWith('Shopping list · New World')); }
+  if (syncEnabled) { await keep.click(); await page.getByText('List text kept as a DO task.').waitFor(); check(`${name}: list is kept as a task through the continuity contract`, kept.length === 1 && kept[0].action === 'save' && kept[0].request.startsWith('Shopping list · New World')); }
   else check(`${name}: keeping is disabled when signed out, with a reason`, await keep.isDisabled());
   await page.getByRole('checkbox', { name: 'I checked the quantities, swaps and allergen flags' }).check();
   await page.getByRole('button', { name: 'Save a prepared receipt' }).click();

@@ -15,13 +15,13 @@ export async function POST(request: Request) {
   if (!sameDoOrigin(request)) return json({ error: 'Open memory on assembl.' }, 403);
   const owner = await doOwner();
   if (!owner) return json({ error: 'Sign in to save optional account memory.' }, 401);
-  // A note reviewed under one signed-in owner is never saved under another after a session switch in another tab.
-  if (request.headers.get('x-do-workspace') !== owner.id) return json({ error: 'Your signed-in account changed. Reload before saving this note.', workspaceChanged: true }, 409);
+  // The expected workspace is a binding, never authority: identity still comes from doOwner.
+  if (request.headers.get('x-do-workspace') !== owner.id) return json({ error: 'Your signed-in workspace changed. Reopen memory before saving.', workspaceChanged: true }, 409);
   let raw: unknown;
   try { raw = await readDoJson(request); } catch { return json({ error: 'Use a bounded valid request.' }, 400); }
   const parsed = personalMemoryMutationSchema.safeParse(raw);
   if (!parsed.success) return json({ error: 'Confirm self-only context, consent, provenance and retention.' }, 400);
-  try { return json({ record: await mutatePersonalMemory(owner.id, parsed.data), saved: true }); }
+  try { return json({ record: await mutatePersonalMemory(owner.id, parsed.data), saved: true, workspaceKey: owner.id }); }
   catch (error) {
     return error instanceof MemoryConflict ? json({ error: 'This record changed. Reload before editing.' }, 409)
       : json({ error: 'Memory storage unavailable. No change was confirmed.' }, 503);

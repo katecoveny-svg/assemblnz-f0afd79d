@@ -1,0 +1,57 @@
+name: Shopper voice review
+on:
+  push:
+    branches: ['codex/shopper-voice-review']
+  pull_request:
+    paths:
+      - 'lib/do/shop/**'
+      - 'app/do/shop/**'
+      - 'app/do/DoGeminiLive.tsx'
+      - 'apps/do/shared/voice-*.ts'
+      - 'apps/do/shared/audio-exclusion*'
+      - 'components/do/DoCapabilityIdeas.tsx'
+      - 'components/do/DoFocusWorkspace.tsx'
+      - '.github/workflows/shopper-voice-review.yml'
+permissions:
+  contents: read
+concurrency:
+  group: shopper-voice-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @assembl/canvas build
+      - run: pnpm typecheck
+      - run: pnpm exec vitest run lib/do/shop apps/do/shared/audio-exclusion.test.ts apps/do/shared/voice-consistency.test.ts apps/do/shared/gemini-live.test.ts apps/do/shared/gemini-live-session.test.ts apps/do/shared/voice-session-resources.test.ts app/do/personal/PersonalDo.interruption.test.ts app/do/personal/PersonalDo.storage.test.ts --maxWorkers=2
+      - run: pnpm exec eslint app/do/shop/ShopJourney.tsx app/do/personal/PersonalDo.tsx app/do/DoGeminiLive.tsx components/do/DoCapabilityIdeas.tsx components/do/DoFocusWorkspace.tsx components/do/DoReadAloud.tsx lib/do/shop/journey.ts lib/do/shop/voice-handoff.ts apps/do/shared/audio-exclusion.ts apps/do/shared/voice-diagnostics.ts apps/do/shared/gemini-live.ts apps/do/shared/voice-session-resources.ts --max-warnings=0
+      - run: pnpm build
+      - name: Synthetic browser proof
+        run: |
+          npm install --prefix /tmp/shopper-browser playwright@1.55.0
+          /tmp/shopper-browser/node_modules/.bin/playwright install --with-deps chromium
+          pnpm start --port 3148 > /tmp/shopper-server.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:3148/do/shop >/dev/null && break; sleep 2; done
+          export ASSEMBL_REVIEW_ORIGIN=http://127.0.0.1:3148
+          export ASSEMBL_PLAYWRIGHT_MODULE=/tmp/shopper-browser/node_modules/playwright
+          node scripts/review-do-shop-journey.cjs
+          node scripts/review-shopper-voice.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: shopper-voice-proof-${{ github.sha }}
+          path: |
+            output/playwright/do-shop-journey/
+            output/playwright/shopper-voice/
+            /tmp/shopper-server.log
+          retention-days: 7

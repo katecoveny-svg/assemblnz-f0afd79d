@@ -160,6 +160,7 @@ export function ConnectionsView({ state, mcp, busy, message, technicalError, hub
         <p>Bring your mail, calendar and everyday work into DO. Choose what to share, then review anything that changes a connected tool.</p>
       </section>
       <p className={styles.permission}>Linking an account does not grant permission to read private information or make changes. DO asks separately when a task needs that access.</p>
+      <p><Link href="/do/mail">Find correspondence and prepare a task draft</Link> · Choose a mail account for each read. Outlook read setup remains unverified.</p>
 
       {!state ? <p className={styles.notice} role="status">{message ? 'Account status unavailable' : 'Checking available capabilities…'}</p> : !state.signedIn ? <section className={styles.signin}><strong>Sign in before connecting personal tools.</strong><p>Connections are tied to your own DO account so another user cannot inherit your grants.</p><Link href="/login?redirect=%2Fdo%2Fconnections">Open DO sign-in <ArrowUpRight size={16}/></Link></section> : <section className={styles.account}><strong>Signed in to your DO account</strong><p>These connections belong to this account. Task permissions are requested separately.</p></section>}
       {message ? <div className={styles.error} role="alert">{message} <button type="button" onClick={() => void refresh()}>Try again</button></div> : null}
@@ -186,7 +187,9 @@ export function ConnectionsView({ state, mcp, busy, message, technicalError, hub
               </div>;
               if (isConnected) return <div className={styles.appState} key={app.slug}>
                 <strong>{app.label}</strong><span className={styles.status}>Connected / unverified</span>
+                {state?.accounts.filter(account => account.app === app.slug).map((account, index) => <p key={account.id ?? index}>{account.label} · {account.id ?? 'Account identifier unavailable'} · {account.healthy ? 'Linked, grant unverified' : 'Reconnect needed'}</p>)}
                 <p>Account linked. No tool call has been verified here.</p>
+                {app.slug === 'gmail' && <button type="button" disabled={Boolean(busy) || !state?.availability.gmail} onClick={() => void connect('gmail')}>Add another Gmail account</button>}
               </div>;
               const label = busy === app.slug ? `Opening ${app.label}…`
                 : !state?.signedIn ? `Sign in · ${app.label}`

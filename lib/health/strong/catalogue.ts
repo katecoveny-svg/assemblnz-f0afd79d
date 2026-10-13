@@ -22,7 +22,7 @@ export const EXERCISES: Exercise[] = [
   {
     id: 'goblet-squat', name: 'Goblet squat', locations: ['home', 'gym'], movement: 'squat',
     equipment: ['dumbbell'], restrictionTags: ['deep-knee-flexion'],
-    coachingCue: 'Brace gently, sit between the hips, and stop inside the approved range.',
+    coachingCue: 'Brace gently, sit between the hips, and use a comfortable, controlled range.',
     progression: 'Add one rep before adding load.', regression: 'Sit-to-stand from a bench.',
   },
   {

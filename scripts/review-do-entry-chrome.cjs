@@ -65,6 +65,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   await page.setViewportSize({width:1440,height:1000});
   const editor=await page.locator('#personal-assistant-input').elementHandle();
   await page.locator('#personal-assistant-input').fill('Fictional weekend plan.');
+  await page.getByText('Draft something else',{exact:true}).click();
   await page.getByText('More ways DO can help',{exact:true}).click();
   await page.locator('[data-do-idea=shop]').click();
   check('capability shortcut appends to existing draft',await page.locator('#personal-assistant-input').inputValue()==='Fictional weekend plan.\n\nPlan this week’s shop');

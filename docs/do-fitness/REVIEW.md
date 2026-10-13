@@ -1,12 +1,12 @@
 # DO Fitness — bounded first slice
 
-Base: main `dc12199c0` (PR1560). Draft only; no merge, production configuration, SQL or provider setup authorised.
+Initial base: main `dc12199c0` (PR1560); integrated main `062deff726a4` during review. Draft only; no merge, production configuration, SQL or provider setup authorised.
 
 ## Scope and authority
 
 `/do/fitness` is a synthetic adult, session-only demonstration. One DO coordinates Fitness and a Shop ingredient review in the same interface. Uses the existing portable `AgentSpec`, Office projection, Strong catalogue/engine and Shop `consolidate`; no registry, agent store or database is created. Chief/Fitness request and response are explicit and revision-bound. Deterministic local preparation runs only after input review. It is not an autonomous specialist or live model runtime.
 
-Reviewed inputs: goal, place, equipment, time, weekly frequency and food preference. Outputs: bounded movement draft, first four weeks from the donor programme, manual sample activity marker, up to two sample dinners, separately reviewed food-only ingredient handoff. Every material edit clears dependent draft/review/activity. Reload clears all sample state.
+Reviewed inputs: goal, place, equipment, time, weekly frequency and food preference. Outputs: bounded movement draft, first four weeks from the donor programme, manual sample activity marker, up to two sample dinners, separately reviewed food-only ingredient handoff. Ingredient quantities shown before food approval scale with servings; the browser regression compares four-serving amounts before and after handoff. Every material edit clears dependent draft/review/activity. Reload clears all sample state.
 
 No account identity is accepted: the only contract scope is the fixed synthetic session. There is no health endpoint or persistent owner record. An authenticated adapter must resolve owner and purpose server-side before a future real-data slice. Do not reuse the synthetic scope as an authorization key.
 
@@ -28,7 +28,7 @@ Health state is never stored in localStorage/sessionStorage, sent to a model, pl
 
 ## Coordination
 
-Shop PR1563 owns ShopJourney, PersonalDo, DoFocusWorkspace, voice and shared diagnostics: untouched. Its reviewedText embedding interface is not on this main baseline, so this slice does not claim that full Shop journey integration. It shows a local ingredient review using the authoritative preparation primitive. Saved PR1564 owns its routes/API/contracts: untouched. Shared DoUtilityDock adds only `/do/fitness`; retain `/do/saved` and other parallel additions when integrating.
+Shop PR1563 owns ShopJourney, PersonalDo, DoFocusWorkspace, voice and shared diagnostics: untouched. Its reviewedText embedding interface arrived with the integrated main; full account-bound Shop journey integration remains a separate follow-up and is not claimed by this synthetic slice. It shows a local ingredient review using the authoritative preparation primitive. Saved PR1564 owns its routes/API/contracts: untouched. Shared DoUtilityDock adds only `/do/fitness`; retain `/do/saved` and other parallel additions when integrating.
 
 ## Validation and release gates
 
