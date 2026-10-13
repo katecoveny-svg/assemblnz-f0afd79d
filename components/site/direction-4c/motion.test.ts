@@ -148,18 +148,18 @@ async function controllerFixture() {
   for (let n = 0; n < 16; n++) await Promise.resolve();
   return { copy, moveHero: (top: number) => { heroTop = top; }, advanceFrame: () => { const entry = [...frames.entries()].at(-1); if (entry) { frames.delete(entry[0]); entry[1](); } }, attach, world, root, video, videoEvents, frames, resolveAttach, cleanup, media, preference, mobile, resize, button, buttonEvents, documentEvents, pageDocument, flush: async () => { for (let n = 0; n < 16; n++) await Promise.resolve(); } };
 }
-it('disposes an attach that resolves after media failure without restarting frames or seeking video', async () => {
-  const { attach, world, root, video, videoEvents, frames, resolveAttach, cleanup, flush } = await controllerFixture();
+it('keeps the scene when footage fails: the source is dropped, nothing goes static and the flock still arrives', async () => {
+  const { attach, world, root, video, videoEvents, resolveAttach, cleanup, flush } = await controllerFixture();
   expect(attach).toHaveBeenCalledOnce();
   videoEvents.get('error')!();
-  expect(root.dataset.static).toBe('true');
+  expect(root.dataset.static).toBeUndefined();
+  expect(root.dataset.videoReady).toBeUndefined();
+  expect(video.removeAttribute).toHaveBeenCalledWith('src');
   resolveAttach();
   await flush();
-  expect(world.dispose).toHaveBeenCalled();
-  expect(root.dataset.ready).toBeUndefined();
-  expect(frames.size).toBe(0);
+  expect(root.dataset.ready).toBe('true');
+  expect(world.dispose).not.toHaveBeenCalled();
   expect(video.currentTime).toBe(0);
-  expect(video.removeAttribute).toHaveBeenCalledWith('src');
   cleanup();
   expect(videoEvents.size).toBe(0);
 });
@@ -259,9 +259,10 @@ it('restores kicker copy when a decode is interrupted and decodes cleanly on res
   expect(f.kicker.textContent).toBe(original);
 });
 
-it('keeps the retry control accurate after failure and visibility changes', async () => {
+it('keeps the retry control accurate after renderer failure and visibility changes', async () => {
   const f = await controllerFixture(); f.resolveAttach(); await f.flush();
-  f.videoEvents.get('error')!();
+  f.attach.mock.calls[0][0].onFail();
+  expect(f.root.dataset.static).toBe('true');
   expect(f.button.textContent).toBe('Play motion');
   f.pageDocument.hidden = true; f.documentEvents.get('visibilitychange')!();
   f.pageDocument.hidden = false; f.documentEvents.get('visibilitychange')!();

@@ -65,6 +65,10 @@ This section is the current, scoped delivery record. Durable direction is in [as
 
 ## Earlier dated operating context
 
+## 13 October homepage: design fidelity restored after mobile recovery
+
+`fix/home-design-fidelity` keeps the iPhone video-readiness, pause and SVG-arrow fixes from PRs #1547/#1552 and restores what the Claude Design and the owner decided: the tide flock on phones, the open interactive Try DO card as `#try` with the design's copy and statuses, verbatim homepage copy, and footage as an optional backdrop (a failed video no longer sends the page static). See `docs/reviews/DIRECTION-4C-FIDELITY-20261013.md`.
+
 ## 13 October DO always-on wake-ups (review candidate, not released)
 
 Branch `feat/do-always-on`: Personal DO responsibilities gain owner-chosen wake-ups (daily / weekdays / weekly / once / only when asked, plus "wake DO now" and "wake DO with a note"). Saving notes never turns wake-ups on; scheduling is a separate seven-day consent, bounded by body retention, and editing or pausing turns it off. The only executor is a provider-free worksheet from the saved notes; model preparation still needs renewed OpenAI and TypeSafe grants. Everything is behind `DO_PERSONAL_WAKEUPS_ENABLED` and `DO_PERSONAL_WORKER_MODE=worksheet`, both unset; migration `20261013093000_do_personal_wakeups.sql` is not applied anywhere. Proof: 41 PGlite checks, 254 unit tests, 32 fixture browser checks. See `docs/reviews/DO-ALWAYS-ON-20261013.md`. Not established: a hosted signed-in wake-up, the cron on a schedule, production build.
