@@ -11,7 +11,7 @@ import {
 } from '@/apps/do/personal/assistant';
 import type { PersonalDoProfile } from '@/apps/do/personal/profile';
 import { ASSISTANT_NOTE_EVENT, reviewAssistantNote, type AssistantNoteOffer } from '@/apps/do/personal/editor-note';
-import { CONVERSATION_NOTICE, type ConversationRecord, type ConversationTurn } from '@/apps/do/personal/conversation';
+import { CONVERSATION_NOTICE, type ConversationRecord, type ConversationTurn, CONVERSATION_TURN_LIMIT, conversationFull } from '@/apps/do/personal/conversation';
 import { useKeptConversations, type ActiveConversation } from './useKeptConversations';
 import styles from './personal-assistant.module.css';
 
@@ -165,12 +165,15 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, re
       const at = new Date().toISOString();
       const userTurn: ConversationTurn = { role: 'user', text: parsed.data.message, at, draft: null, label: null };
       const assistantTurn: ConversationTurn = { role: 'assistant', text: next.reply, at, draft: next.nextStep.draft, label: next.nextStep.label };
-      const turns = [...transcript, userTurn, assistantTurn].slice(-40);
+      // A full conversation is never slid over its oldest turns: this exchange starts a new one instead.
+      const continued = conversationFull(transcript);
+      const turns = continued ? [userTurn, assistantTurn] : [...transcript, userTurn, assistantTurn];
       setTranscript(turns);
+      if (continued) setActive(null);
       if (keep) {
-        const saved = await kept.keep(active, turns);
+        const saved = await kept.keep(continued ? null : active, turns);
         if (!alive.current) return;
-        if (saved.ok) { setActive(saved.active); setNotice('A reply is ready for your review. This conversation is kept on your account.'); }
+        if (saved.ok) { setActive(saved.active); setNotice(continued ? `A reply is ready for your review. The kept conversation was full at ${CONVERSATION_TURN_LIMIT} messages, so this exchange starts a new one on your account.` : 'A reply is ready for your review. This conversation is kept on your account.'); }
         else setNotice(`A reply is ready for your review. Not kept: ${saved.error}`);
       }
     } catch (cause) {

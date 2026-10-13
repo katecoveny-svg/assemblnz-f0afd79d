@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import { createClient as createBrowserClient } from '@/lib/supabase/client';
+import { shouldRevalidatePersonalOwner } from '@/apps/do/personal/session';
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import { DoBrand } from '@/components/do/DoBrand';
 import { DoSecondaryNavigation } from '@/components/do/DoSecondaryNavigation';
@@ -26,6 +28,8 @@ export function MemoryNotes() {
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState('');
   const [error, setError] = useState('');
+  // The server names the owner the notes belong to; it travels back as an expectation on every save, never as authority.
+  const workspace = useRef<string | null>(null);
   const formRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLTextAreaElement>(null);
   const alive = useRef(true);
@@ -35,6 +39,7 @@ export function MemoryNotes() {
       const response = await fetch('/api/do/personal/memory', { cache: 'no-store' });
       const data = await response.json();
       if (!alive.current) return;
+      workspace.current = typeof data.workspaceKey === 'string' && data.workspaceKey !== 'guest' ? data.workspaceKey : null;
       if (response.status === 503 || data.storage === 'unavailable') { setStorage('unavailable'); setRecords([]); return; }
       if (data.storage === 'none') { setStorage('none'); setRecords([]); return; }
       const parsed = Array.isArray(data.records) ? data.records.map((item: unknown) => personalMemoryRecordSchema.parse(item)) : [];
@@ -48,17 +53,32 @@ export function MemoryNotes() {
     // Owner-scoped read of saved notes; state updates arrive after the fetch resolves, never a provider call.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     void load();
-    return () => { alive.current = false; };
+    // A session switch in another tab invalidates what is shown; the server verifies the new owner on reload.
+    const refresh = () => { void load(); };
+    window.addEventListener('focus', refresh);
+    let unsubscribe: (() => void) | undefined;
+    try {
+      const subscription = createBrowserClient().auth.onAuthStateChange((event, session) => {
+        if (shouldRevalidatePersonalOwner(event, workspace.current, session?.user?.id ?? 'guest')) {
+          workspace.current = null; setRecords([]); setEditing(null); setConsent(false); setStorage('loading');
+          void load();
+        }
+      });
+      unsubscribe = () => subscription.data.subscription.unsubscribe();
+    } catch { /* The page still works from the server's answer when Supabase is not configured in the browser. */ }
+    return () => { alive.current = false; window.removeEventListener('focus', refresh); unsubscribe?.(); };
   }, [load]);
 
   async function send(mutation: PersonalMemoryMutation, success: string) {
     setBusy(true); setError(''); setStatus('');
+    if (!workspace.current) { setError('Sign in to save optional account memory.'); setBusy(false); return false; }
     try {
       const response = await fetch('/api/do/personal/memory', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(mutation),
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'X-DO-Workspace': workspace.current }, body: JSON.stringify(mutation),
       });
       const data = await response.json().catch(() => ({}));
       if (!alive.current) return false;
+      if (response.status === 409 && data.workspaceChanged) { setEditing(null); setConsent(false); setError('Your signed-in account changed in another tab. Nothing was saved; showing that account’s notes.'); await load(); return false; }
       if (response.status === 409) { setError('This note changed on another device. Reloading the latest version.'); await load(); return false; }
       if (!response.ok) { setError(typeof data.error === 'string' ? data.error : 'Memory storage unavailable. No change was confirmed.'); return false; }
       setStatus(success);

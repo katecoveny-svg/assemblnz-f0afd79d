@@ -5,7 +5,7 @@ import { doOwner, sameDoOrigin } from '@/apps/do/services/owner';
 import { loadPersonalMemory, mutatePersonalMemory, MemoryConflict } from '@/apps/do/personal/memory-service';
 import { GET, POST } from './route';
 const input = { action: 'delete', id: '11111111-1111-4111-8111-111111111111', expectedRevision: 1 };
-const request = (body = input) => new Request('https://example.test/api/do/personal/memory', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+const request = (body = input, workspace = 'owner-a') => new Request('https://example.test/api/do/personal/memory', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-DO-Workspace': workspace }, body: JSON.stringify(body) });
 beforeEach(() => { vi.resetAllMocks(); vi.mocked(doOwner).mockResolvedValue({ id: 'owner-a', externalId: 'do:user:owner-a' }); vi.mocked(sameDoOrigin).mockReturnValue(true); });
 it('guest contract needs no linked account and stores nothing', async () => {
  vi.mocked(doOwner).mockResolvedValue(null);
@@ -15,10 +15,18 @@ it('guest contract needs no linked account and stores nothing', async () => {
  expect(loadPersonalMemory).not.toHaveBeenCalled();
  expect((await POST(request())).status).toBe(401);
 });
-it('rejects foreign origin before mutation', async () => {
+it('rejects foreign origin and a stale signed-in owner before mutation', async () => {
  vi.mocked(sameDoOrigin).mockReturnValue(false);
  expect((await POST(request())).status).toBe(403);
+ vi.mocked(sameDoOrigin).mockReturnValue(true);
+ const stale = await POST(request(input, 'owner-b'));
+ expect(stale.status).toBe(409);
+ expect(await stale.json()).toMatchObject({ workspaceChanged: true });
  expect(mutatePersonalMemory).not.toHaveBeenCalled();
+});
+it('tells the page which owner the notes belong to', async () => {
+ vi.mocked(loadPersonalMemory).mockResolvedValue([]);
+ expect(await (await GET()).json()).toMatchObject({ storage: 'account', workspaceKey: 'owner-a' });
 });
 it('ignores no client owner override; strict schema rejects it', async () => {
  expect((await POST(request({ ...input, ownerId: 'owner-b' } as typeof input))).status).toBe(400);
