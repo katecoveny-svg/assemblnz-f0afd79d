@@ -17,3 +17,9 @@ Write opens/focuses the existing draft. Speak opens the existing full-window ava
 - Hosted workflow `do-task-art-review.yml` runs full typecheck, DO core/entry/personal tests, scoped lint, macron guard, guarded production build and browser proof at 375/390/1440px. Its `do-task-art-proof` artifact contains screenshots and a structured report.
 
 Reversal: revert this PR. No migrations, stored-data changes or asset deletion.
+
+## Post-merge browser foundation parity
+
+Fresh main `f06c99c17` already contains externally merged artwork PR #1572 and browser foundation #1561 (`b5c03f298`). The successor refresh uses `apps/do/shared/distribution-versions.json` through the existing generator to package **1.8.0**, preserving the browser capability source, manifest and permissions. The old 1.7 archive is not the current distribution. The portable accessible name now begins “Ask DO” to include the visible label. Shared source and generated `floating.js` remain byte-for-byte paired. This is package/source review, never an installed-extension update.
+
+Integrated local download/source parity, floating, browser executor and portable contract suites pass (64 tests). The successor hosted checks remain the release gate.

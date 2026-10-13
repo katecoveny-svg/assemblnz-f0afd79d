@@ -88,7 +88,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
     const panel=page.getByRole('navigation',{name:'More DO tools'});const g=await inspect(panel);geometry.push({surface,width,...g});check(surface+' More remains inside viewport',g.x>=15&&g.x+g.width<=width-15&&g.scrollWidth<=g.clientWidth);
     await page.screenshot({path:out+'/'+surface+'-more.png'});await page.keyboard.press('Escape');check(surface+' never starts microphone',await page.evaluate(()=>window.__media===0));
   }
-  await page.setViewportSize({width:500,height:900});await page.goto(origin+'/entry-fixture');await page.getByRole('button',{name:'Open DO. Drag to move or use Alt and arrow keys.',exact:true}).click();
+  await page.setViewportSize({width:500,height:900});await page.goto(origin+'/entry-fixture');await page.getByRole('button',{name:'Ask DO. Drag to move or use Alt and arrow keys.',exact:true}).click();
   const frame=page.frameLocator('iframe');await frame.locator('#do-source').waitFor();
   check('companion iframe uses the same capability definitions',JSON.stringify(await frame.locator('[data-do-idea]').evaluateAll(es=>es.map(e=>({id:e.dataset.doIdea,label:e.getAttribute('aria-label')}))))===JSON.stringify(expected));
   await frame.locator('#do-source').fill('Fictional companion draft.');await frame.getByText('Draft something else', {exact:true}).click();await frame.locator('[data-do-idea=school]').click();
