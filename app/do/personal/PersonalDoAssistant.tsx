@@ -15,7 +15,7 @@ import styles from './personal-assistant.module.css';
 
 /** Mount with the verified owner scope as the React key; never persist conversation across accounts. */
 export type PersonalAssistantWork = { dirty: boolean; exportText: string };
-export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange }: { profile?: PersonalDoProfile; onWorkingChange?: (working: boolean) => void; onWorkChange?: (work: PersonalAssistantWork) => void }) {
+export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, returnTo = "/do" }: { returnTo?: "/do" | "/do/household"; profile?: PersonalDoProfile; onWorkingChange?: (working: boolean) => void; onWorkChange?: (work: PersonalAssistantWork) => void }) {
   const [message, setMessage] = useState('');
   const [context, setContext] = useState('');
   const [consent, setConsent] = useState(false);
@@ -191,7 +191,7 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange }: 
     }} />}
     <div className={styles.status} aria-live="polite" role="status">
       {loading && <p><LoaderCircle size={13} /> Checking availability…</p>}
-      {!loading && availability && !availability.ready && <p>{availability.message} {availability.reason === 'entitlement_required' && <Link href="/do/billing">Personal DO subscription</Link>} {!availability.signedIn ? <Link href="/login?redirect=%2Fdo">Sign in</Link> : <button type="button" onClick={() => { setError(''); void loadAvailability(); }}>Check again</button>}</p>}
+      {!loading && availability && !availability.ready && <p>{availability.message} {availability.reason === 'entitlement_required' && <Link href="/do/billing">Personal DO subscription</Link>} {!availability.signedIn ? <Link href={`/login?redirect=${encodeURIComponent(returnTo)}`}>Sign in</Link> : <button type="button" onClick={() => { setError(''); void loadAvailability(); }}>Check again</button>}</p>}
       {!loading && !availability && <button type="button" onClick={() => { setError(''); void loadAvailability(); }}>Check availability again</button>}
       {notice && <p>{notice}</p>}
     </div>
