@@ -375,7 +375,7 @@ export function PersonalDo() {
       {workspaceKey && callOpen && <div id="personal-do-call" className={styles.call}>
         <div className={styles.callHeading}><p className={styles.eyebrow}>VOICE</p><a href="#life-admin">Back to my workspace ↑</a></div>
         <DoGeminiLive
-          key={`${workspaceKey}:${personalProfile?.updatedAt ?? "default"}`}
+          key={workspaceKey}
           profile={personalProfile ?? undefined}
           draftTarget="responsibility"
           onDraft={state?.worker.configured && state.responsibilities.length < 5 ? keepCallDraft : undefined}
