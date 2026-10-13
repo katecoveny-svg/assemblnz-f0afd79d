@@ -227,7 +227,7 @@ async function verifyFunctionalMark(page, root, label) {
     await clean.getByRole('button', { name: 'Pause motion', exact: true }).click();
     check('scene pause is explicit', await clean.getByRole('button', { name: 'Play motion', exact: true }).getAttribute('aria-pressed') === 'true');
     await clean.evaluate(() => scrollTo({ top: innerHeight, behavior: 'instant' }));
-    check('paused parallax stays reset during scrolling', await clean.locator('[data-par]').evaluateAll(nodes => nodes.every(el => el.style.transform === 'none')));
+    check('paused parallax stays reset during scrolling', await clean.locator('[data-par]').evaluateAll(nodes => nodes.every(el => getComputedStyle(el).transform === 'none')));
     await clean.screenshot({ path: out + '/07-home-motion.png', animations: 'disabled', timeout: 60000 });
     await clean.getByRole('button', { name: 'Play motion', exact: true }).click();
     check('scene resumes explicitly', await clean.getByRole('button', { name: 'Pause motion', exact: true }).getAttribute('aria-pressed') === 'false');
