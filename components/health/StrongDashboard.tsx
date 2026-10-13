@@ -96,6 +96,7 @@ export function StrongDashboard() {
   function swapDinner(mode: SwapMode) {
     const currentId = day.recipeIds[3];
     const replacement = findMealSwap(currentId, mode, profile);
+    if (!replacement) { setNotice('No meal matches these constraints. Review the plan before continuing.'); return; }
     setMealPlan((current) => current.map((entry, index) => index === selectedDay ? replaceMeal(entry, currentId, replacement.id) : entry));
     setNotice(replacement.id === currentId ? 'No closer swap matches those rules yet.' : `${replacement.name} is now ${day.day} dinner.`);
   }

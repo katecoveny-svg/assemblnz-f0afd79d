@@ -219,6 +219,10 @@ Extends the existing fictional Pursuit examples and extracts the browser-only mo
 
 Extends the existing `do_personal_profiles.voice_name` preference and constrained Gemini Live token. `apps/do/shared/voice-options.ts` is the common curated allowlist; `apps/do/services/voice-preference.ts` binds the reviewed voice/revision to the authenticated owner. All hosted call entry surfaces use the saved choice on the next call with fresh consent; active session configuration is not replaced. No new storage or provider authority. Sources, integration boundaries and synthetic proof: `docs/DO-VOICE-CHOICE-20261013.md`.
 
+### DO Fitness reviewed synthetic handoff (draft)
+
+**Uses/extends:** Strong sample catalogue and engine, Shop quantity consolidation, portable AgentSpec and Office projection. `lib/do/fitness/contracts.ts` bounds chief→Fitness requests and rebuilds reviewed food-only Shop payloads with revision checks, whole-selection food constraints and explicit unsupported-unit blocking. `/do/fitness` is in-memory synthetic adult proof, not authenticated health storage or autonomous execution. Equipment/location and failed-swap donor safety fixes are shared. Tests and release gates: `docs/do-fitness/REVIEW.md`.
+
 ### Reviewed voice → Shopper DO (14 October draft)
 
 Extends `DoGeminiLive` reviewed output and the existing `ShopJourney`; `lib/do/shop/voice-handoff.ts` bounds a page-owned brief without URLs, browser storage or carried consent. Personal DO and the hosted widget preserve the mounted planner across internal back/return and clear it at their existing owner boundary. `apps/do/shared/audio-exclusion.ts` coordinates read-aloud and live-call output on one page; it never starts audio. See `docs/reviews/SHOPPER-VOICE-20261014.md` for synthetic evidence and DB/Vercel/persistence/listening release gates. Real cart execution and durable editable plans are not provided.
