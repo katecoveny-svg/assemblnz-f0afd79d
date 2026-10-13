@@ -17,7 +17,8 @@ concurrency:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    # Both full browser suites include software-WebGL screenshots and media failure waits.
+    timeout-minutes: 40
     env:
       NODE_OPTIONS: --max-old-space-size=6144
     steps:

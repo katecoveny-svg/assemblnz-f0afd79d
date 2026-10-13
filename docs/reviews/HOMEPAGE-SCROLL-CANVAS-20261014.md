@@ -25,7 +25,8 @@ Local evidence directory (ignored, not uploaded): `output/playwright/homepage-re
 
 - Passed: canvas package build, `pnpm typecheck`, 23 direction-4c/navigation tests, scoped ESLint, JavaScript syntax checks, brand guard, macron guard, and `pnpm build`.
 - Passed: both browser matrices (six width/media cases plus three real destinations each), 112 candidate screenshots total.
-- `pnpm lint:all` reports 1,416 findings (1,173 errors / 243 warnings) outside changed files. This repair does not expand into unrelated cleanup.
+- Verified full-lint baseline: unchanged main and candidate each report exactly 1,173 errors and 243 warnings across 534 files after the same canvas build. Normalized JSON findings match by path, location, severity, rule and message; zero introduced or removed. Local evidence: `output/playwright/homepage-regression/lint-baseline-comparison.json`.
+- The first hosted run passed build, typecheck, scoped lint, 23 tests and both new canvas matrices, but the older mobile proof still asserted the removed “kept for later” copy. Its assertion now requires the exact no-save disclosure. The expanded full-browser job has a 40-minute ceiling; no shipping runtime changed in this CI follow-up.
 - CI extends `.github/workflows/direction-4c-review.yml` with the new Chromium/WebKit matrix and artifacts. Exact commit status must be checked on the draft PR before release.
 - No auth, storage, security, private-data activation or provider submission changes. No Library upload.
 
