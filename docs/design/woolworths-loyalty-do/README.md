@@ -34,6 +34,6 @@ Programme education follows the official NZ terms and ProductBoost terms, includ
 
 `.github/workflows/loyalty-do-review.yml`: hosted typecheck, focused lint/tests, macrons, build and production browser verification. Screenshots upload as `loyalty-do-review`. No deploy step. Local dependency reads stalled and available disk fell below 600 MB, so no fresh full dependency install/build was attempted locally.
 
-Status: draft, pending hosted checks and visual inspection of their screenshots. Provider calls, actual voice quality, physical iPhone, merchant execution and real programme rewards are not verified by synthetic tests.
+Initial implementation at `6f83287` passed hosted typecheck, focused lint, 14 tests, macrons, production build and all browser checks in run `38363704332`. Desktop/tablet/phone screenshots were inspected. PR 1540 was merged by another actor at 07:43 UTC before the author finished visual review; the author did not merge or deploy it. The screenshot-driven image-resolution/mobile composition and receipt-provenance refinement is a separate draft follow-up based on current main. Its final confirmation run and screenshots are linked in that PR. Provider calls, actual voice quality, physical iPhone, merchant execution and real programme rewards are not verified by synthetic tests.
 
-Rollback: remove this route, its two assets/files, test/review workflow and route entry in DoUtilityDock. No schema or canonical demo change.
+Rollback: remove this route, its artwork and source files, test/review workflow and route entry in DoUtilityDock. No schema or canonical demo change.
