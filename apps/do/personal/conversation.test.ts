@@ -48,3 +48,16 @@ describe('kept conversation contract', () => {
     expect(conversationTitle([turns[1]])).toBe('Conversation');
   });
 });
+
+it('preserves every existing message at the 40-turn boundary and refuses rolling replacement', () => {
+ const forty = Array.from({ length: 40 }, (_, index) => ({ ...turns[index % 2], text: `Synthetic turn ${index}` }));
+ const current = nextConversationRecord({ ...save, turns: forty.slice(0, 38) }, null, now)!;
+ const full = nextConversationRecord({ ...save, expectedRevision: 1, turns: forty }, current, now)!;
+ expect(full.turns).toEqual(forty);
+ const rolled = [...forty.slice(2), ...turns];
+ expect(() => nextConversationRecord({ ...save, expectedRevision: 2, turns: rolled }, full, now)).toThrow('conversation_conflict');
+ expect(() => nextConversationRecord({ ...save, expectedRevision: 2, turns: forty.map((turn, i) => i === 0 ? { ...turn, draft: 'Replacement' } : turn) }, full, now)).toThrow('conversation_conflict');
+ expect(full.turns).toEqual(forty);
+ const clockSkew = nextConversationRecord({ ...save, expectedRevision: 2, turns: forty.map(turn => ({ ...turn, at: '2026-10-14T09:00:00.000Z' })) }, full, now)!;
+ expect(clockSkew.turns).toEqual(forty);
+});

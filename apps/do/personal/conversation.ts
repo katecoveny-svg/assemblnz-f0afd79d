@@ -56,9 +56,12 @@ export function nextConversationRecord(input: ConversationMutation, current: Con
   if (conversationBytes(input.turns, input.title) > CONVERSATION_BYTES_LIMIT) throw new Error('conversation_too_long');
   // Turn times come from the device clock; a clock a few seconds fast must not stop the keep, so the
   // server clock caps them. Nothing downstream relies on turn order within the same instant.
-  const turns = input.turns.map(turn => Date.parse(turn.at) > Date.parse(now) ? { ...turn, at: now } : turn);
+  const turns = input.turns.map((turn, index) => current?.turns[index] ?? (Date.parse(turn.at) > Date.parse(now) ? { ...turn, at: now } : turn));
   // A kept conversation only grows: a stale device can never drop turns another device added.
-  if (current && input.turns.length < current.turns.length) throw new Error('conversation_conflict');
+  if (current && (input.turns.length < current.turns.length || current.turns.some((turn, index) => {
+    const incoming = input.turns[index];
+    return turn.role !== incoming.role || turn.text !== incoming.text || turn.draft !== incoming.draft || turn.label !== incoming.label;
+  }))) throw new Error('conversation_conflict');
   return conversationRecordSchema.parse({
     id: input.id, title: input.title, turns, revision: input.expectedRevision + 1,
     createdAt: current?.createdAt ?? now, updatedAt: now,

@@ -32,7 +32,7 @@ export function WakeupControls({ item, now, busy, workerReady, onSchedule, onWak
   const [consent, setConsent] = useState(false);
   // The saved schedule changed underneath an open form (notes edited, another device): restart from what is saved
   // so consent is only ever given to the hour and zone the owner can see.
-  const saved = `${item.cadence ?? ""}|${item.weekday ?? ""}|${item.local_hour}|${item.timezone}`;
+  const saved = JSON.stringify([item.id, item.revision, item.title, item.goal, item.notes, item.cadence, item.weekday, item.local_hour, item.timezone, item.active, item.consent_until, item.next_run_at, item.run_once_at, summary.on, workerReady]);
   const [seenSaved, setSeenSaved] = useState(saved);
   if (saved !== seenSaved) {
     setSeenSaved(saved);
