@@ -1,0 +1,242 @@
+[
+  {
+    "width": 320,
+    "before": {
+      "scrollWidth": 320,
+      "viewport": 320,
+      "brand": {
+        "left": 18,
+        "right": 152.546875,
+        "top": 14,
+        "bottom": 58,
+        "width": 134.546875,
+        "height": 44
+      },
+      "share": {
+        "left": 99,
+        "right": 219.390625,
+        "top": 81.59375,
+        "bottom": 129.1875,
+        "width": 120.390625,
+        "height": 47.59375
+      },
+      "more": {
+        "left": 225.390625,
+        "right": 302,
+        "top": 83.390625,
+        "bottom": 127.390625,
+        "width": 76.609375,
+        "height": 44
+      }
+    },
+    "after": {
+      "scrollWidth": 320,
+      "viewport": 320,
+      "brand": {
+        "left": 18,
+        "right": 152.546875,
+        "top": 14,
+        "bottom": 58,
+        "width": 134.546875,
+        "height": 44
+      },
+      "share": {
+        "left": 99,
+        "right": 219.390625,
+        "top": 81.59375,
+        "bottom": 129.1875,
+        "width": 120.390625,
+        "height": 47.59375
+      },
+      "more": {
+        "left": 225.390625,
+        "right": 302,
+        "top": 83.390625,
+        "bottom": 127.390625,
+        "width": 76.609375,
+        "height": 44
+      }
+    },
+    "paint": [
+      {
+        "name": "label",
+        "pixels": 448,
+        "width": 106,
+        "height": 23
+      },
+      {
+        "name": "textarea",
+        "pixels": 1552,
+        "width": 240,
+        "height": 216
+      },
+      {
+        "name": "submit",
+        "pixels": 130,
+        "width": 240,
+        "height": 53
+      }
+    ],
+    "errors": []
+  },
+  {
+    "width": 375,
+    "before": {
+      "scrollWidth": 375,
+      "viewport": 375,
+      "brand": {
+        "left": 18,
+        "right": 152.546875,
+        "top": 14.203125,
+        "bottom": 62.203125,
+        "width": 134.546875,
+        "height": 48
+      },
+      "share": {
+        "left": 160.546875,
+        "right": 280.9375,
+        "top": 20.203125,
+        "bottom": 67.796875,
+        "width": 120.390625,
+        "height": 47.59375
+      },
+      "more": {
+        "left": 286.9375,
+        "right": 363.546875,
+        "top": 22,
+        "bottom": 66,
+        "width": 76.609375,
+        "height": 44
+      }
+    },
+    "after": {
+      "scrollWidth": 375,
+      "viewport": 375,
+      "brand": {
+        "left": 18,
+        "right": 152.546875,
+        "top": 14.203125,
+        "bottom": 62.203125,
+        "width": 134.546875,
+        "height": 48
+      },
+      "share": {
+        "left": 160.546875,
+        "right": 280.9375,
+        "top": 20.203125,
+        "bottom": 67.796875,
+        "width": 120.390625,
+        "height": 47.59375
+      },
+      "more": {
+        "left": 286.9375,
+        "right": 363.546875,
+        "top": 22,
+        "bottom": 66,
+        "width": 76.609375,
+        "height": 44
+      }
+    },
+    "paint": [
+      {
+        "name": "label",
+        "pixels": 448,
+        "width": 106,
+        "height": 24
+      },
+      {
+        "name": "textarea",
+        "pixels": 1612,
+        "width": 295,
+        "height": 215
+      },
+      {
+        "name": "submit",
+        "pixels": 122,
+        "width": 295,
+        "height": 54
+      }
+    ],
+    "errors": []
+  },
+  {
+    "width": 1440,
+    "before": {
+      "scrollWidth": 1440,
+      "viewport": 1440,
+      "brand": {
+        "left": 160,
+        "right": 304.421875,
+        "top": 14.203125,
+        "bottom": 62.203125,
+        "width": 144.421875,
+        "height": 48
+      },
+      "share": {
+        "left": 1049.5625,
+        "right": 1175.953125,
+        "top": 20.203125,
+        "bottom": 67.796875,
+        "width": 126.390625,
+        "height": 47.59375
+      },
+      "more": {
+        "left": 1185.953125,
+        "right": 1280,
+        "top": 22,
+        "bottom": 66,
+        "width": 94.046875,
+        "height": 44
+      }
+    },
+    "after": {
+      "scrollWidth": 1440,
+      "viewport": 1440,
+      "brand": {
+        "left": 160,
+        "right": 304.421875,
+        "top": 14.203125,
+        "bottom": 62.203125,
+        "width": 144.421875,
+        "height": 48
+      },
+      "share": {
+        "left": 1049.5625,
+        "right": 1175.953125,
+        "top": 20.203125,
+        "bottom": 67.796875,
+        "width": 126.390625,
+        "height": 47.59375
+      },
+      "more": {
+        "left": 1185.953125,
+        "right": 1280,
+        "top": 22,
+        "bottom": 66,
+        "width": 94.046875,
+        "height": 44
+      }
+    },
+    "paint": [
+      {
+        "name": "label",
+        "pixels": 448,
+        "width": 106,
+        "height": 23
+      },
+      {
+        "name": "textarea",
+        "pixels": 2154,
+        "width": 684,
+        "height": 239
+      },
+      {
+        "name": "submit",
+        "pixels": 138,
+        "width": 180,
+        "height": 53
+      }
+    ],
+    "errors": []
+  }
+]

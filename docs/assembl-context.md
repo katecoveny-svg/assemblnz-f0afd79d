@@ -477,3 +477,7 @@ live signals + business context
 ```
 
 That is assembl.
+
+### DO implementation sequence — 13 October 2026
+
+The [user-reviewed master roadmap](do/MASTER-ROADMAP-20261013.md) records the proposed delivery gates and dated evidence. One DO, with People and Business offers, remains the product direction. Write and Talk lead; Shop, Travel and Save are capability shortcuts. Optional assistant naming reuses existing profile fields; onboarding must be skippable and must not gate returning users. The [entry integration draft](reviews/DO-ENTRY-INTEGRATION-20261013.md) changes navigation and presentation only. Durable coordination and new integrations are not delivered by that draft.

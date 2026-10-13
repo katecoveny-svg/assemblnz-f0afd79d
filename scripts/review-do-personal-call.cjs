@@ -87,7 +87,7 @@ const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLe
       window.WebSocket = FakeSocket;
     });
     await page.goto(origin + '/do/personal', { waitUntil: 'networkidle', timeout: 120_000 });
-    await page.getByRole('button', { name: 'Voice: open voice options', exact: true }).click();
+    await page.getByRole('button', { name: 'Talk', exact: true }).click();
     const panel = page.getByRole('region', { name: 'Call Moss', exact: true });
     await panel.getByRole('button', { name: 'Call Moss', exact: true }).click();
     const consent = panel.getByRole('checkbox', { name: /Use my microphone with Google Gemini/ });
@@ -119,6 +119,14 @@ const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLe
     await consent.check(); await start.click();
     await panel.getByRole('button', { name: 'Mute microphone', exact: true }).waitFor();
     check('call request is limited to consent and saved profile revision', tokens.length === 1 && tokens[0].includeProfile === true && tokens[0].profileUpdatedAt === profile.updatedAt && !('profile' in tokens[0]));
+    const callNode = await panel.elementHandle();
+    await page.getByRole('button', { name: 'Write', exact: true }).click();
+    await page.getByRole('navigation', { name: 'DO', exact: true }).locator('summary').first().click();
+    await page.locator('summary').filter({ hasText: 'Tools & examples' }).click();
+    await page.getByRole('navigation', { name: 'More DO tools' }).locator('summary').filter({ hasText: 'Tools & examples' }).press('Escape');
+    await page.setViewportSize({ width: 390, height: 844 });
+    check('entry navigation and resize preserve the admitted active call', await callNode.evaluate(node => node === document.querySelector('.do-live-panel')) && await page.evaluate(() => !window.__callTest.tracks.at(-1).stopped && window.__callTest.sockets.at(-1).readyState === 1) && tokens.length === 1);
+    await page.setViewportSize({ width: 375, height: 812 });
     await page.evaluate(() => window.__callTest.recorders.at(-1).port.onmessage({ data: new ArrayBuffer(8) }));
     const audioBefore = await page.evaluate(() => window.__callTest.sent.filter((message) => message.realtimeInput?.audio).length);
     await panel.getByRole('button', { name: 'Mute microphone', exact: true }).click();

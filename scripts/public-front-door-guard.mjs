@@ -155,6 +155,8 @@ if (/font-family:Georgia|font-family:[^;}]*Times New Roman/.test(companyCss)) {
 // The September 30 unified brief supersedes a mandatory chooser: /do is the app.
 const doHome = read('app/do/DoStory.tsx');
 const doWorkspace = read('app/do/personal/PersonalDo.tsx');
+const doNavigation = read('components/do/DoSecondaryNavigation.tsx');
+if (!doWorkspace.includes('<DoSecondaryNavigation />')) errors.push('Public DO must mount the shared secondary navigation');
 const doHomePublic = doHome
   .replace(/\/\*[\s\S]*?\*\//g, '')
   .replace(/^\s*\/\/.*$/gm, '')
@@ -183,9 +185,9 @@ if (!/atelier-poster\.png/.test(doHome)) {
 }
 // Product access must not regress to a contact-only explanation page again.
 for (const href of ['/do/bills', '/do/personal', '/do/meetings', '/do/widget']) {
-  if (href !== '/do/personal' && !doWorkspace.includes(`href="${href}"`)) errors.push(`Public /do is missing its task entry: ${href}`);
+  if (href !== '/do/personal' && !doNavigation.includes(`href="${href}"`)) errors.push(`Public /do is missing its task entry: ${href}`);
 }
-if (!doWorkspace.includes('Meeting notes · sign in')) errors.push('Meeting entry must explain the sign-in requirement');
+if (!doNavigation.includes('Meeting notes · sign in')) errors.push('Meeting entry must explain the sign-in requirement');
 
 const meetingUi = read('app/do/meetings/MeetingDo.tsx') + (existsSync('app/do/meetings/MeetingDoExperience.tsx') ? read('app/do/meetings/MeetingDoExperience.tsx') : '');
 const meetingChrome = meetingUi.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');

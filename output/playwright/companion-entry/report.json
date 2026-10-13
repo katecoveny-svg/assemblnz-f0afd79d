@@ -1,0 +1,25 @@
+{
+  "checks": [
+    "Write returns focus to the same editor",
+    "unavailable Talk is disabled",
+    "native navigation cannot bypass unavailable Talk",
+    "unchecked saved preferences keep Talk disabled",
+    "Talk opens real existing conversation controls with reviewed profile",
+    "opening Talk starts neither microphone nor speech playback",
+    "readiness refresh preserves the admitted Talk panel and reviewed profile",
+    "Back to Write preserves text and editor identity",
+    "phone has no horizontal overflow",
+    "choosing Write cancels a queued Talk request",
+    "embedded Write keeps the same iframe and draft",
+    "explicit expansion gives more room without replacing the iframe",
+    "compacting preserves the draft",
+    "close returns keyboard focus to the launcher",
+    "reopening preserves the iframe draft",
+    "compact launcher fits phone and retains its editor",
+    "no provider POST, foreign traffic or runtime errors"
+  ],
+  "posts": [],
+  "foreign": [],
+  "errors": [],
+  "scope": "Synthetic UI navigation; no live voice session or installed app changed."
+}
