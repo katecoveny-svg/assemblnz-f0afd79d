@@ -19,6 +19,11 @@ export const schoolDemoCurrent = [
   source('harbour-revised', 'harbour', 'Mathematics exam | Year 9 | 22/10/2026 | 13:00 | Hall B | scheduled', false, 'pdf'),
   source('hill-revised', 'hill', 'Science visit | Year 7 | 21/10/2026 | 10:00 | Science centre | cancelled'),
 ];
+export function schoolDemoBaseline(scenario: string): SchoolSource[] {
+  const previous = structuredClone(schoolDemoPrevious);
+  if (scenario === 'baseline-conflict') previous.push({ ...structuredClone(previous[0]), id: 'harbour-prior-conflict', title: 'Fictional Harbour conflicting earlier notice', url: '/do/school-fixtures/harbour-prior-conflict.pdf', pages: [{ number: 1, text: previous[0].pages[0].text.replace('20/10/2026', '21/10/2026') }] });
+  return previous;
+}
 export function schoolDemoSources(scenario: string): SchoolSource[] {
   const sources = structuredClone(schoolDemoCurrent);
   if (scenario === 'conflict') sources.push({ ...sources[0], id: 'harbour-conflict', url: '/do/school-fixtures/harbour-conflict.pdf', pages: [{ number: 1, text: sources[0].pages[0].text.replace('22/10/2026', '23/10/2026') }] });

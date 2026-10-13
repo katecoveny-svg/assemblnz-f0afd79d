@@ -21,7 +21,7 @@ export type SchoolEvent = {
 export type SchoolCard = {
   id: string; childId: string; childName: string; before?: SchoolEvent; after: SchoolEvent;
   change: 'new' | 'changed' | 'cancelled' | 'unchanged' | 'conflict';
-  changedFields: string[]; alternatives: SchoolEvent[]; blockers: string[];
+  changedFields: string[]; priorEvidence: SchoolEvent[]; alternatives: SchoolEvent[]; blockers: string[];
   action: string; status: Extract<FamilyStatus, 'proposed' | 'approved' | 'dismissed'>;
 };
 export type SchoolBriefing = { ownerId: string; revision: string; checkedAt: string; cards: SchoolCard[]; notices: string[] };
@@ -107,7 +107,10 @@ export function prepareSchoolBriefing(input: {
     const variants = [...new Map(candidates.map(e => [signature(e), e])).values()];
     const after = candidates[0];
     const old = previous.filter(e => e.key === key);
-    const before = old[0];
+    // Retain every distinct prior source/page/row, including corroborating copies.
+    // A conflicting baseline has no authoritative single "before" value.
+    const priorEvidence = [...new Map(old.map(e => [JSON.stringify([e.source.id, e.source.url, e.page, e.quote]), e])).values()];
+    const before = new Set(old.map(signature)).size > 1 ? undefined : old[0];
     const conflict = variants.length > 1 || new Set(old.map(signature)).size > 1;
     const changedFields = before ? fields.filter(f => comparable(before, f) !== comparable(after, f)) : [];
     const change = conflict ? 'conflict' : !before ? (after.status === 'cancelled' ? 'cancelled' : 'new') : !changedFields.length ? 'unchanged' : after.status === 'cancelled' ? 'cancelled' : 'changed';
@@ -125,8 +128,8 @@ export function prepareSchoolBriefing(input: {
         const age = now - Date.parse(event.source.checkedAt);
         if (event.source.state !== 'available' || age > 86400000 || age < 0 || !safeSchoolLink(event.source.url)) blockers.push('Source is partial, stale or has no usable original link. Recheck before acting.');
       }
-      const action = change === 'cancelled' ? 'Review cancelling the existing reminder/calendar event' : before ? 'Review updating the existing reminder/calendar event' : 'Review preparing a reminder/calendar event';
-      cards.push({ id: JSON.stringify([input.revision, child.id, key]), childId: child.id, childName: child.displayName, before, after, change, changedFields, alternatives: variants, blockers: [...new Set(blockers)], action, status: 'proposed' });
+      const action = conflict ? 'Resolve conflicting source evidence before proposing a calendar change' : change === 'cancelled' ? 'Review cancelling the existing reminder/calendar event' : before ? 'Review updating the existing reminder/calendar event' : 'Review preparing a reminder/calendar event';
+      cards.push({ id: JSON.stringify([input.revision, child.id, key]), childId: child.id, childName: child.displayName, before, after, change, changedFields, priorEvidence, alternatives: variants, blockers: [...new Set(blockers)], action, status: 'proposed' });
     }
   }
   if (!current.length) notices.push('No comparable current events. This does not mean no school changes.');

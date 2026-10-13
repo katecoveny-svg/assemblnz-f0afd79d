@@ -61,7 +61,7 @@ export function FamilyDo() {
     const anchor = document.createElement('a'); anchor.href = url; anchor.download = 'do-school-admin.txt'; anchor.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
   return <main className="family-do">
-    <header><Link href="/do"><ArrowLeft size={16} /> DO</Link><Link href="/">assembl</Link>{connection?.signedIn && <button disabled={Boolean(busy)} onClick={() => void act('Signing out', async () => { await api('/api/do/session', 'DELETE'); setDigest(null); setSenders(''); setConsent(false); await refresh(); })}><LogOut size={16} /> Sign out</button>}</header>
+    <header><Link href="/do"><ArrowLeft size={16} /> DO</Link><Link href="/">assembl</Link><Link href="/legal/privacy">Privacy</Link>{connection?.signedIn && <button disabled={Boolean(busy)} onClick={() => void act('Signing out', async () => { await api('/api/do/session', 'DELETE'); setDigest(null); setSenders(''); setConsent(false); await refresh(); })}><LogOut size={16} /> Sign out</button>}</header>
     <section className="family-intro"><p className="family-kicker">A LITTLE LESS TO REMEMBER</p><h1>School admin.<br/>In one place.</h1><p>Bring the dates, forms, payments and things to pack together from the school emails you choose.</p></section>
     <SchoolBriefing />
     <div className="family-layout"><aside className="family-setup">

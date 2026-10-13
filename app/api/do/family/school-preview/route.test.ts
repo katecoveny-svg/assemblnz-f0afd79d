@@ -7,6 +7,14 @@ describe('fictional school preview API', () => {
   it('runs actual local PDF extraction and returns only synthetic review data', async () => {
     const response = await POST(request()); expect(response.status).toBe(200); expect(response.headers.get('Cache-Control')).toBe('private, no-store'); const data = await response.json(); expect(data).toMatchObject({ synthetic: true, stored: false, externalActions: false }); expect(data.brief.cards[0].after.date).toBe('22/10/2026');
   });
+  it('extracts both historical PDF versions for a baseline-only conflict', async () => {
+    const response = await POST(request({ ...body, scenario: 'baseline-conflict' }));
+    expect(response.status).toBe(200);
+    const card = (await response.json()).brief.cards[0];
+    expect(card.change).toBe('conflict'); expect(card.before).toBeUndefined();
+    expect(card.priorEvidence.map((e: { date: string }) => e.date)).toEqual(['20/10/2026', '21/10/2026']);
+    expect(card.alternatives).toHaveLength(1); expect(card.blockers.join()).toContain('Conflicting');
+  });
   it('rejects real sender input, private text, owner IDs and arbitrary paths', async () => {
     for (const value of [{ ...body, senders: ['person@example.org'] }, { ...body, text: 'private' }, { ...body, ownerId: 'other' }, { ...body, url: '/etc/passwd' }]) expect((await POST(request(value))).status).toBe(400);
   });
