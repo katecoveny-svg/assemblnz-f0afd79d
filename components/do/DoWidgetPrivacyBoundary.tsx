@@ -35,7 +35,8 @@ export function DoWidgetPrivacyBoundary({ initialTask }: { initialTask: DoTask }
       generation++; request?.abort(); verified = null;
       setScope(null); setError(false); void revalidate();
     };
-    const focus = () => { void revalidate(); };
+    // Focusing the embedded editor is not an account transition; hiding it here steals keystrokes.
+    const focus = () => { if (window === window.top) void revalidate(); };
     void revalidate();
     window.addEventListener('focus', focus);
     window.addEventListener(WRITING_OWNER_CHANGED_EVENT, invalidate);

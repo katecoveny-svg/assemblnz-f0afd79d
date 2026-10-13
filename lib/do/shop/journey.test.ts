@@ -113,3 +113,16 @@ describe('review boundaries', () => {
     expect(planMeals(brief)).toEqual([]);
   });
 });
+
+it.each([['no milk', 'milk'], ['wheat-free', 'gluten']])('retains dietary exclusion in count-bearing clause: %s', (clause, allergen) => {
+  const brief = parseShopBrief(`Dinners for 4 for 5 nights, ${clause}`);
+  expect(brief.excludedAllergens).toContain(allergen);
+  const lines = aisleList(planMeals(brief), []).lines;
+  expect(lines.every(line => !line.allergens.includes(allergen))).toBe(true);
+});
+it('retains unknown dietary exclusions attached to count clauses for manual review', () => {
+  const brief = parseShopBrief('Dinners for 4 for 5 nights, no mushrooms');
+  expect(brief.dietaryReviewRequired).toBe(true);
+  expect(brief.unrecognised.join(' ')).toContain('no mushrooms');
+  expect(planMeals(brief)).toEqual([]);
+});
