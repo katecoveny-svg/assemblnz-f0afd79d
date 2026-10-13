@@ -19,10 +19,13 @@
     "invalid people stays editable: 13",
     "fractional nightly servings do not crash",
     "hosted widget voice opens same planner and retains work across modes",
+    "invalid last night blocks review",
+    "removing invalid last night restores valid remaining plan",
     "fast other-owner continuity cannot enable save",
     "widget outer Privacy cancellation preserves plan",
     "widget clears A while owner verification is delayed",
     "late A cannot restore shopping draft into B",
+    "embedded explicit Retry recovers failed verification without focus",
     "widget performs no persistence write",
     "no uncaught errors"
   ],
