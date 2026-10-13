@@ -2,11 +2,28 @@
 const {spawn}=require('node:child_process'),fs=require('node:fs'),assert=require('node:assert/strict');
 const {chromium}=require(process.env.ASSEMBL_PLAYWRIGHT_MODULE||'/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 const out=process.env.ASSEMBL_REVIEW_OUTPUT||'/tmp/assembl-refinement-proof',origin='http://127.0.0.1:3024';
-const checks=[];const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('PASS '+name)};
+const checks=[],resultLayouts=[];const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('PASS '+name)};
 (async()=>{fs.mkdirSync(out,{recursive:true});const log=fs.openSync(out+'/server.log','w');const server=spawn(process.execPath,['node_modules/next/dist/bin/next',...(process.env.ASSEMBL_REVIEW_DEV?['dev','--webpack']:['start']),'--hostname','127.0.0.1','--port','3024'],{stdio:['ignore',log,log],env:{...process.env,NODE_OPTIONS:'--max-old-space-size=6144 --no-experimental-strip-types'}});let browser;
 try {
  let ready=false;for(let i=0;i<180;i++){try{const r=await fetch(origin+'/do/personal');if(r.ok){ready=true;break}}catch{}await new Promise(r=>setTimeout(r,500));}assert.ok(ready,'server ready');
  browser=await chromium.launch({executablePath:process.env.ASSEMBL_CHROMIUM_PATH||'/root/.cache/ms-playwright/chromium_headless_shell-1161/chrome-linux/headless_shell',headless:true});const context=await browser.newContext({viewport:{width:375,height:812},reducedMotion:'reduce'});const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ const checkPhoneResult = async state => {
+  if(state==='restored') await page.getByRole('button').filter({has:page.locator('strong').filter({hasText:'School trip — fictional example'})}).click();
+  await page.locator('#personal-do-result').waitFor({state:'visible'});
+  for (const width of [320,375,430,600]) {
+   await page.setViewportSize({width,height:812});
+   await page.evaluate(()=>document.fonts.ready);
+   const geometry=await page.locator('#life-admin-heading').evaluate(h1=>{
+    const heading=h1.closest('header'), stage=heading.parentElement, style=getComputedStyle(heading);
+    const artwork=heading.querySelector('[data-renderer="static-art"]');
+    return {paddingRight:style.paddingRight,headingWidth:heading.getBoundingClientRect().width,textWidth:h1.getBoundingClientRect().width,stageWidth:stage.getBoundingClientRect().width,artworkHidden:getComputedStyle(artwork).display==='none',overflow:document.documentElement.scrollWidth>innerWidth};
+   });
+   resultLayouts.push({state,width,...geometry});
+   check(state+' checklist heading uses the available width at '+width+'px',geometry.paddingRight==='0px' && geometry.artworkHidden && geometry.textWidth>=Math.min(360,geometry.headingWidth)-1 && !geometry.overflow);
+   if(width===375){await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:out+'/checklist-'+state+'-375.png',fullPage:false});}
+  }
+  await page.setViewportSize({width:375,height:812});
+ };
  await page.goto(origin+'/do/personal',{waitUntil:'networkidle'});await page.addStyleTag({content:'nextjs-portal{display:none!important}'});
  check('guest can start without an account',await page.locator('#life-admin-source').isVisible());
  check('examples are optional',await page.locator('[data-example]').count()===0);
@@ -15,6 +32,7 @@ try {
  await page.screenshot({path:out+'/do-mobile.png',fullPage:true});
  check('real API rejects anonymous cloud read',(await page.request.get(origin+'/api/do/personal/checklists')).status()===401);
  await page.getByRole('button',{name:'Try a fictional example',exact:true}).click();await page.getByRole('button',{name:'Try fictional school notice',exact:true}).click();check('local example creates reviewable checklist',await page.getByRole('heading',{name:'School trip — fictional example'}).count()>0 || await page.locator('#personal-do-result').isVisible());
+ await checkPhoneResult('created');
  const identity={workspaceKey:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',responsibilities:[],runs:[],worker:{configured:true,lastSeenAt:null}};
  await page.route('**/api/do/personal',route=>route.fulfill({json:identity}));
  await page.route('**/api/do/personal/assistant',route=>route.fulfill({json:{ready:false,signedIn:true,message:'Fictional browser proof; no provider is called.'}}));
@@ -27,11 +45,12 @@ try {
  check('no automatic cloud upload',writes===0);check('save requires explicit consent',await page.getByRole('button',{name:'Save 1 checklist to my account'}).isDisabled());
  await consent.check();await page.getByRole('button',{name:'Save 1 checklist to my account'}).click();await page.getByText(/Checklists saved to your account/).waitFor();check('explicit save stores one collection',saved.plans.length===1&&writes===1);
  await page.reload({waitUntil:'networkidle'});check('no automatic retrieval on load',await page.locator('#personal-do-result').count()===0);await page.locator('summary').filter({hasText:'Saved checklists'}).click();await page.getByRole('button',{name:'Open saved checklists',exact:true}).click();await page.getByText('1 saved checklist opened.',{exact:false}).waitFor();check('saved work restores after refresh',await page.getByRole('button',{name:'Save 1 checklist to my account'}).isVisible());
+ await checkPhoneResult('restored');
  await consent.check();conflict=true;await page.getByRole('button',{name:'Save 1 checklist to my account'}).click();await page.getByText(/Your saved collection changed on another device/).waitFor();check('conflict blocks another save until reloaded',await page.getByRole('button',{name:'Save 1 checklist to my account'}).count()===0);
  await page.getByRole('button',{name:'Open saved checklists',exact:true}).click();await consent.waitFor();await consent.check();await page.getByRole('button',{name:'Remove saved collection',exact:true}).click();await page.getByRole('button',{name:'Keep it',exact:true}).click();check('removal can be cancelled',saved.plans.length===1);await page.getByRole('button',{name:'Remove saved collection',exact:true}).click();await page.getByRole('button',{name:'Yes, remove saved collection'}).click();await page.getByText(/Saved collection removed. Open checklists/).waitFor();check('remove keeps open work but empties cloud',saved.plans.length===0&&await page.getByRole('button',{name:'Save 1 checklist to my account'}).isVisible());
  await page.getByText('Ongoing responsibilities',{exact:true}).click();check('missing heartbeat is visibly unverified',await page.getByText('Background checks not verified',{exact:true}).isVisible());
  await page.setViewportSize({width:320,height:700});check('320px open workspace fits',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:out+'/do-cloud-mobile.png',fullPage:true});
  await page.goto(origin+'/',{waitUntil:'networkidle'});await page.setViewportSize({width:375,height:812});await page.addStyleTag({content:'nextjs-portal{display:none!important}'});await page.evaluate(()=>document.fonts.ready);check('three clear product doors',await page.locator('.refined-product').count()===3);check('research is not loaded before requested',await page.locator('#try-pursuit').count()===0);check('mobile homepage fits',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:out+'/home-mobile.png',fullPage:true});await page.setViewportSize({width:1440,height:1000});await page.screenshot({path:out+'/home-desktop.png',fullPage:true});
  await page.goto(origin+'/do',{waitUntil:'networkidle'});check('primary DO entry is the actual working app',await page.locator('#life-admin').isVisible());
- check('no runtime page errors',errors.length===0);fs.writeFileSync(out+'/results.json',JSON.stringify({checks,errors,apiMode:'fictional signed-in fixtures; real unauthenticated denial',physicalPhoneTested:false},null,2));
+ check('no runtime page errors',errors.length===0);fs.writeFileSync(out+'/results.json',JSON.stringify({checks,resultLayouts,errors,apiMode:'fictional signed-in fixtures; real unauthenticated denial',physicalPhoneTested:false},null,2));
 }finally{await browser?.close();server.kill('SIGTERM');fs.closeSync(log)}})().catch(e=>{console.error(e);process.exitCode=1});

@@ -162,6 +162,6 @@
 .entryTools :is(summary,button):focus-visible{outline:3px solid #654a4e;outline-offset:-3px}
 .workspace .stage .review{position:static;width:100%;margin:0 0 24px;padding:24px;border-radius:28px}
 .workspace .exampleToggle{align-self:center}
-@media(max-width:600px){.workspace .stage{padding:20px 0 24px}.workspace .heading{padding-right:0;padding-top:0}.workspace .artwork{display:none}.workspace .intro h1{font-size:42px;max-width:360px}.workspace .intro p{font-size:15px}.workspace .composerTabs button{padding:10px 16px}.entryTools>div{left:auto;right:-30px}.workspace .intake{padding:20px;border-radius:28px}}
+@media(max-width:600px){.workspace .stage{padding:20px 0 24px}.workspace .heading,.workspace .stage:has(>.review) .heading{padding-right:0;padding-top:0}.workspace .artwork{display:none}.workspace .intro h1{font-size:42px;max-width:360px}.workspace .intro p{font-size:15px}.workspace .composerTabs button{padding:10px 16px}.entryTools>div{left:auto;right:-30px}.workspace .intake{padding:20px;border-radius:28px}}
 
 .workspace .composerTabs{align-items:center;height:54px}.workspace .composerTabs button{height:44px}.emptyTasks{padding:24px 28px;border-radius:28px;background:linear-gradient(145deg,#fffdfbc9,#f2e5edaa);margin:0 auto 30px;max-width:780px}.emptyTasks h2{font-size:24px;font-weight:500;margin:0 0 12px}.emptyTasks p{font-size:16px;margin:0 0 6px}.emptyTasks small{font-size:12px;line-height:1.6;color:#654a4e;display:block}.workspace .emptyTasks{width:100%}
