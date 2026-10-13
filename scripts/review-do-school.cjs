@@ -53,6 +53,20 @@ async function main() {
         return data;
       }
       await prepare('revised');
+      const agenda = preview.getByRole('region', { name: 'School and calendar agenda' });
+      await agenda.getByText(/no scheduled job or notification/).waitFor();
+      assert.match(await agenda.innerText(), /Possible calendar conflict/);
+      assert(await agenda.getByRole('button', { name: 'Review calendar draft', exact: true }).first().isDisabled());
+      await agenda.getByRole('button', { name: 'Review calendar draft', exact: true }).nth(1).click();
+      await agenda.getByText('reviewed · no calendar write', { exact: true }).waitFor();
+      await agenda.getByLabel('Agenda view').selectOption('1');
+      await agenda.getByLabel('Agenda starting').selectOption('2026-10-20');
+      await agenda.getByText(/Moved out of this agenda window/).waitFor();
+      await agenda.getByLabel('Agenda view').selectOption('7');
+      await agenda.getByLabel('Agenda starting').selectOption('2026-10-19');
+      assert.match(await agenda.innerText(), /proposed · no calendar write/);
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      await agenda.screenshot({ path: path.join(output, `school-agenda-${width}.png`) });
       const exam = preview.locator('article').filter({ has: page.getByRole('heading', { name: 'Mathematics exam', exact: true }) });
       assert.match(await exam.innerText(), /20\/10\/2026/); assert.match(await exam.innerText(), /22\/10\/2026/);
       const review = exam.getByRole('button', { name: 'Mark draft reviewed' });
@@ -89,7 +103,7 @@ async function main() {
       }
       await preview.getByRole('button', { name: 'Clear preview' }).click(); assert.equal(await preview.locator('article').count(), 0);
       assert.deepEqual(forbidden, [], 'No live/model API may be requested');
-      report.viewports.push({ width, baselineConflictSources: 2, currentSources: 1, approvalBlocked: true, reviewDismissClear: true, inputInvalidation: true, noHorizontalOverflow: true, noShellOverlap: true });
+      report.viewports.push({ width, baselineConflictSources: 2, currentSources: 1, approvalBlocked: true, agendaDailyWeekly: true, calendarClash: true, cancellationDraftReview: true, reviewDismissClear: true, inputInvalidation: true, noHorizontalOverflow: true, noShellOverlap: true });
       await context.close();
     }
     assert.deepEqual(report.errors, []);
