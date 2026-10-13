@@ -56,6 +56,7 @@ export function prepareSchoolAgenda(brief: SchoolBriefing, rawCalendar: AgendaCa
     const target = linked ? calendar.events.find(e => e.id === linked) : undefined;
     const clashes = calendar.events.filter(e => e.id !== linked && e.status !== 'cancelled' && within(card.after.instant, eventRange(e))).map(e => e.id);
     const blockers = [...card.blockers];
+    if (card.status === 'dismissed') blockers.push('The school proposal was dismissed; its calendar draft is invalidated.');
     if (!calendarReady) blockers.push('Recheck the selected calendar before reviewing.');
     if (linked && !target) blockers.push('The explicitly selected calendar event is unavailable.');
     if (!linked && card.change !== 'new') blockers.push('Choose the exact existing calendar event; no title matching is assumed.');
@@ -64,7 +65,7 @@ export function prepareSchoolAgenda(brief: SchoolBriefing, rawCalendar: AgendaCa
     if (card.change !== 'cancelled') blockers.push('Confirm the end time or duration; it was not provided by the notice.');
     if (target?.status === 'cancelled' && card.change !== 'cancelled') blockers.push('The linked calendar event is cancelled. Confirm the intended action.');
     return { card, position: !card.after.instant ? 'needs_date' as const : within(card.after.instant, range) ? 'in_window' as const : 'moved_out' as const, clashes,
-      action: { cardId: card.id, kind: card.change === 'cancelled' ? 'cancel' as const : target ? 'update' as const : 'create' as const, calendarId: calendar.calendarId, eventId: target?.id ?? null, etag: target?.etag ?? null, start: card.after.instant, end: null, status: 'proposed' as const, blockers: [...new Set(blockers)] } };
+      action: { cardId: card.id, kind: card.change === 'cancelled' ? 'cancel' as const : target ? 'update' as const : 'create' as const, calendarId: calendar.calendarId, eventId: target?.id ?? null, etag: target?.etag ?? null, start: card.after.instant, end: null, status: card.status === 'dismissed' ? 'dismissed' as const : 'proposed' as const, blockers: [...new Set(blockers)] } };
   });
   return { ownerId: brief.ownerId, revision: brief.revision, checkedAt: brief.checkedAt, range, timezone: 'Pacific/Auckland', cadence: choice.days === 1 ? 'daily' : 'weekly', scheduled: false, entries, calendarEvents: calendar.events.filter(e => overlaps(eventRange(e), range)), notices };
 }
@@ -74,6 +75,6 @@ export async function reviewAgendaAction(agenda: SchoolAgenda, command: { ownerI
   const age = Date.parse(command.now) - Date.parse(agenda.checkedAt);
   const entry = agenda.entries.find(e => e.card.id === command.cardId);
   if (command.ownerId !== agenda.ownerId || command.revision !== agenda.revision || command.digest !== await agendaDigest(agenda) || !Number.isFinite(age) || age < 0 || age > 15 * 60000 || !entry || entry.action.status !== 'proposed') throw new Error('Agenda review changed or expired');
-  if (command.decision === 'reviewed' && entry.action.blockers.length) throw new Error('Resolve agenda evidence first');
+  if (command.decision === 'reviewed' && (entry.card.status === 'dismissed' || entry.action.blockers.length)) throw new Error('Resolve agenda evidence first');
   return { ...agenda, entries: agenda.entries.map(e => e === entry ? { ...e, action: { ...e.action, status: command.decision } } : e) };
 }

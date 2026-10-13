@@ -28,6 +28,31 @@ describe('private pilot test port', () => {
     expect(f.ports.readCalendar).toHaveBeenCalledWith(f.lease, expect.objectContaining({ calendarId: f.scope.calendarId, maxResults: 50 }));
     expect(f.state.expiresAt).toBe('2026-10-20T01:00:00.000Z'); expect(f.ports.publish).toHaveBeenCalledOnce();
   });
+  it('uses completion time for evidence freshness while keeping the initial mail cutoff', async () => {
+    const f = await fixture();
+    f.ports.readMail = vi.fn(async () => { f.state.now = '2026-10-13T01:01:00Z'; return schoolDemoSources('revised').map(s => ({ ...s, checkedAt: f.state.now })); });
+    f.ports.readCalendar = vi.fn(async () => { f.state.now = '2026-10-13T01:02:00Z'; return { ...schoolCalendarFixture(), observedAt: f.state.now }; });
+    const agenda = await stageSchoolPilot(f.command, f.ports);
+    expect(agenda.checkedAt).toBe('2026-10-13T01:02:00Z'); expect(agenda.notices).toEqual([]);
+    expect(f.ports.readMail).toHaveBeenCalledWith(f.lease, expect.objectContaining({ before: SCHOOL_DEMO_NOW }));
+    expect(f.state.expiresAt).toBe('2026-10-20T01:02:00.000Z');
+  });
+  it('keeps a notice at the initially approved lookback boundary after the clock advances', async () => {
+    const f = await fixture(); f.state.sources = [];
+    f.ports.readMail = async () => { f.state.now = '2026-10-13T01:01:00Z'; return schoolDemoSources('revised').map(s => ({ ...s, receivedAt: '2026-09-29T01:00:00Z', checkedAt: f.state.now })); };
+    f.ports.readCalendar = async () => { f.state.now = '2026-10-13T01:02:00Z'; return { ...schoolCalendarFixture(), observedAt: f.state.now }; };
+    expect((await stageSchoolPilot(f.command, f.ports)).entries).toHaveLength(2);
+  });
+  it.each(['mail', 'calendar'])('still rejects genuinely future %s evidence after advancing reads', async kind => {
+    const f = await fixture();
+    f.ports.readMail = async () => { f.state.now = '2026-10-13T01:01:00Z'; return schoolDemoSources('revised').map(s => ({ ...s, checkedAt: kind === 'mail' ? '2026-10-13T01:03:00Z' : f.state.now })); };
+    f.ports.readCalendar = async () => { f.state.now = '2026-10-13T01:02:00Z'; return { ...schoolCalendarFixture(), observedAt: kind === 'calendar' ? '2026-10-13T01:03:00Z' : f.state.now }; };
+    await expect(stageSchoolPilot(f.command, f.ports)).rejects.toThrow('incomplete'); expect(f.ports.commit).not.toHaveBeenCalled();
+  });
+  it('does not admit mail arriving after the original cutoff during a read', async () => {
+    const f = await fixture(); f.ports.readMail = async () => { f.state.now = '2026-10-13T01:02:00Z'; return schoolDemoSources('revised').map(s => ({ ...s, receivedAt: '2026-10-13T01:01:00Z', checkedAt: f.state.now })); };
+    await expect(stageSchoolPilot(f.command, f.ports)).rejects.toThrow('scope mismatch'); expect(f.ports.commit).not.toHaveBeenCalled();
+  });
   it.each(['owner', 'approval', 'retention', 'calendar', 'children'])('rejects changed %s before provider access', async kind => {
     const f = await fixture(); if (kind === 'owner') f.state.owner = 'adult-b'; if (kind === 'approval') f.lease.approvalRevision = 0; if (kind === 'retention') f.scope.retentionDays = 30; if (kind === 'calendar') f.scope.calendarId = 'another-calendar'; if (kind === 'children') (await f.ports.authorize('', '')).children[0].confirmedAudiences = ['different'];
     await expect(stageSchoolPilot(f.command, f.ports)).rejects.toThrow(); expect(f.ports.readMail).not.toHaveBeenCalled();

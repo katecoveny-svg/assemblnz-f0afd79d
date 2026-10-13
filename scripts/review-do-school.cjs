@@ -74,10 +74,26 @@ async function main() {
       // Hit-test the actual control, including any fixed/shadow-host overlays.
       assert(await review.evaluate(e => { const r = e.getBoundingClientRect(); return e.contains(document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2)); }));
       await review.click(); await exam.getByText('Reviewed draft · no external action', { exact: true }).waitFor();
+      // A source decision remounts dependent draft state, even within one briefing revision.
+      assert.equal(await agenda.getByText('reviewed · no calendar write', { exact: true }).count(), 0);
+      await agenda.getByRole('button', { name: 'Review calendar draft', exact: true }).nth(1).click();
+      await agenda.getByText('reviewed · no calendar write', { exact: true }).waitFor();
       await preview.locator('article').nth(1).getByRole('button', { name: 'Dismiss proposal' }).click();
+      await agenda.getByText('dismissed · no calendar write', { exact: true }).waitFor();
+      assert.equal(await agenda.getByText('reviewed · no calendar write', { exact: true }).count(), 0);
+      assert(await agenda.getByRole('button', { name: 'Review calendar draft', exact: true }).nth(1).isDisabled());
+      await agenda.getByLabel('Agenda view').selectOption('1');
+      await agenda.getByLabel('Agenda starting').selectOption('2026-10-21');
+      await agenda.getByText('dismissed · no calendar write', { exact: true }).waitFor();
+      assert(await agenda.getByRole('button', { name: 'Review calendar draft', exact: true }).first().isDisabled());
+
       await preview.getByLabel('Look back').selectOption('7');
       assert.equal(await preview.locator('article').count(), 0);
       await prepare('baseline-conflict');
+      // Dismissal before calendar review is blocked too.
+      await preview.locator('article').nth(1).getByRole('button', { name: 'Dismiss proposal' }).click();
+      await agenda.getByText('dismissed · no calendar write', { exact: true }).waitFor();
+      assert(await agenda.getByRole('button', { name: 'Review calendar draft', exact: true }).nth(1).isDisabled());
       assert.equal(await exam.getByRole('button', { name: 'Mark draft reviewed' }).isDisabled(), true);
       await exam.getByText('Inspect earlier and current source rows', { exact: true }).click();
       for (const [filename, date] of [['harbour-original', '20/10/2026'], ['harbour-prior-conflict', '21/10/2026']]) {
@@ -103,7 +119,7 @@ async function main() {
       }
       await preview.getByRole('button', { name: 'Clear preview' }).click(); assert.equal(await preview.locator('article').count(), 0);
       assert.deepEqual(forbidden, [], 'No live/model API may be requested');
-      report.viewports.push({ width, baselineConflictSources: 2, currentSources: 1, approvalBlocked: true, agendaDailyWeekly: true, calendarClash: true, cancellationDraftReview: true, reviewDismissClear: true, inputInvalidation: true, noHorizontalOverflow: true, noShellOverlap: true });
+      report.viewports.push({ width, baselineConflictSources: 2, currentSources: 1, approvalBlocked: true, agendaDailyWeekly: true, calendarClash: true, cancellationDraftReview: true, sourceDismissalInvalidatesCalendar: true, reviewDismissClear: true, inputInvalidation: true, noHorizontalOverflow: true, noShellOverlap: true });
       await context.close();
     }
     assert.deepEqual(report.errors, []);

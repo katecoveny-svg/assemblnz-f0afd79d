@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { prepareSchoolBriefing } from './briefing';
+import { prepareSchoolBriefing, reviewSchoolCard } from './briefing';
 import { schoolDemoChildren, schoolDemoSources, schoolDemoBaseline, SCHOOL_DEMO_NOW, SCHOOL_DEMO_OWNER } from './fixtures';
 import { schoolCalendarFixture, schoolCalendarLinks } from './agenda-fixtures';
 import { prepareSchoolAgenda, agendaWindow, agendaDigest, reviewAgendaAction } from './agenda';
@@ -32,6 +32,20 @@ describe('school agenda projection', () => {
     const command = { ownerId: a.ownerId, revision: a.revision, digest: await agendaDigest(a), cardId: a.entries[1].card.id, decision: 'reviewed' as const, now: SCHOOL_DEMO_NOW };
     expect((await reviewAgendaAction(a, command)).entries[1].action.status).toBe('reviewed');
     for (const patch of [{ ownerId: 'other' }, { digest: 'stale' }, { now: '2026-10-13T01:16:00Z' }, { cardId: a.entries[0].card.id }]) await expect(reviewAgendaAction(a, { ...command, ...patch })).rejects.toThrow();
+  });
+  it.each([false, true])('invalidates a dismissed source with prior calendar review=%s', async alreadyReviewed => {
+    const brief = sampleBrief();
+    let agenda = prepareSchoolAgenda(brief, schoolCalendarFixture(), week, schoolCalendarLinks);
+    const cardId = agenda.entries[1].card.id;
+    if (alreadyReviewed) agenda = await reviewAgendaAction(agenda, { ownerId: brief.ownerId, revision: brief.revision, digest: await agendaDigest(agenda), cardId, decision: 'reviewed', now: SCHOOL_DEMO_NOW });
+    const dismissed = reviewSchoolCard(brief, { ownerId: brief.ownerId, revision: brief.revision, cardId, decision: 'dismissed', now: SCHOOL_DEMO_NOW });
+    const fresh = prepareSchoolAgenda(dismissed, schoolCalendarFixture(), week, schoolCalendarLinks);
+    expect(fresh.entries[1].action.status).toBe('dismissed');
+    expect(fresh.entries[1].action.blockers.join()).toContain('school proposal was dismissed');
+    await expect(reviewAgendaAction(fresh, { ownerId: brief.ownerId, revision: brief.revision, digest: await agendaDigest(fresh), cardId, decision: 'reviewed', now: SCHOOL_DEMO_NOW })).rejects.toThrow();
+    // Even a caller resetting the derived status cannot bypass source dismissal.
+    fresh.entries[1].action.status = 'proposed'; fresh.entries[1].action.blockers = [];
+    await expect(reviewAgendaAction(fresh, { ownerId: brief.ownerId, revision: brief.revision, digest: await agendaDigest(fresh), cardId, decision: 'reviewed', now: SCHOOL_DEMO_NOW })).rejects.toThrow('Resolve');
   });
   it.each(['conflict', 'baseline-conflict', 'missing', 'stale'])('retains blockers for %s notices', scenario => { expect(prepareSchoolAgenda(sampleBrief(scenario), schoolCalendarFixture(), week, schoolCalendarLinks).entries[0].action.blockers.length).toBeGreaterThan(0); });
 });

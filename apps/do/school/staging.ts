@@ -66,12 +66,14 @@ export async function stageSchoolPilot(command: { workspace: string; approvalId:
   const calendar = await ports.readCalendar(lease, calendarReadInput(scope.calendarId, range));
   await active();
   if (calendar.ownerId !== ownerId || calendar.calendarId !== scope.calendarId || calendar.connectionId !== lease.calendarConnectionId || calendar.connectionRevision !== lease.calendarRevision) throw new Error('Pilot calendar scope mismatch');
-  const brief = prepareSchoolBriefing({ ownerId, revision: `${lease.approvalId}:${lease.approvalRevision}:${history.revision}`, now, selection: { senders: scope.senders, days: scope.days }, children: grant.children, previous: history.sources, current });
+  // Provider completion stamps are compared with the clock after both reads.
+  const comparisonNow = ports.now();
+  const brief = prepareSchoolBriefing({ ownerId, revision: `${lease.approvalId}:${lease.approvalRevision}:${history.revision}`, now: comparisonNow, sourceCutoff: now, selection: { senders: scope.senders, days: scope.days }, children: grant.children, previous: history.sources, current });
   const agenda = prepareSchoolAgenda(brief, calendar, { startDate: scope.startDate, days: scope.agendaDays }, grant.links);
   // Never replace a trusted baseline with failed, conflicting or unparsed evidence.
   if (brief.notices.length || brief.cards.some(c => c.blockers.length || c.change === 'conflict') || agenda.notices.length) throw new Error('Pilot evidence incomplete; history unchanged');
   await active();
-  const retentionEnd = new Date(Date.parse(now) + scope.retentionDays * 86400000).toISOString();
+  const retentionEnd = new Date(Date.parse(comparisonNow) + scope.retentionDays * 86400000).toISOString();
   const revision = await ports.commit(lease, history.revision, current, retentionEnd);
   await active();
   return ports.publish(lease, revision, agenda);
