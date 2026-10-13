@@ -6,7 +6,7 @@ fs.mkdirSync(out,{recursive:true});
 (async()=>{
 const browser=await ({chromium,webkit}[engine]).launch(engine==='chromium'?{...(process.env.PROOF_CHANNEL?{channel:process.env.PROOF_CHANNEL}:{}),...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),args:['--enable-unsafe-swiftshader']} : {});
 const results=[];
-for(const width of (process.env.PROOF_WIDTHS||'390,1440').split(',').map(Number)) for(const mode of (process.env.PROOF_MODES||'normal,delayed,blocked').split(',')) {
+for(const width of (process.env.PROOF_WIDTHS||'390,1440').split(',').map(Number)) for(const mode of (process.env.PROOF_MODES||'normal,delayed,blocked,poster-slow,poster-failed').split(',')) {
  const context=await browser.newContext({viewport:{width,height:844},recordVideo:{dir:out,size:{width,height:844}}});
  const page=await context.newPage();
       await page.addInitScript(() => {
@@ -57,27 +57,49 @@ for(const width of (process.env.PROOF_WIDTHS||'390,1440').split(',').map(Number)
  // Normal runs retain the real browser HTTP cache: no request routing.
  const fetch0=window.fetch;window.fetch=(u,o)=>{const url=new URL(typeof u==='string'?u:u.url,location.href);return /\/api\//.test(url.pathname)||(o?.method&&o.method!=='GET')?Promise.reject(new Error('Diagnostic blocks API')):fetch0(u,o);};
  });
+ const posterCase = mode.startsWith('poster-');
+ let releasePoster = () => {};
+ const posterGate = new Promise(resolve => { releasePoster = resolve; });
+ if(posterCase) await page.route('**/bay-of-islands-poster.jpg', async route => {
+  if(mode==='poster-failed') return route.abort();
+  await posterGate; return route.continue();
+ });
  let mediaDeadline;
- if(mode!=='normal')await page.route(/\.(mp4|webm)(?:\?|$)/,async route=>{if(mode==='blocked')return route.abort();mediaDeadline ||= Date.now()+4000;await new Promise(r=>setTimeout(r,Math.max(0,mediaDeadline-Date.now())));return route.continue();});
+ if(mode!=='normal')await page.route(/\.(mp4|webm)(?:\?|$)/,async route=>{if(mode==='blocked'||posterCase)return route.abort();mediaDeadline ||= Date.now()+4000;await new Promise(r=>setTimeout(r,Math.max(0,mediaDeadline-Date.now())));return route.continue();});
  const network=[];page.on('response',async r=>{if(/assembl-tide|\.mp4|\.webm|poster|coast/.test(r.url()))network.push({url:r.url(),status:r.status(),headers:await r.allHeaders()});});
  for(let repeat=0;repeat<(mode==='normal'?3:1);repeat++){
  const name=`${width}-${mode}-${repeat===0?'fresh':'warm'+repeat}`;const start=Date.now();
  await page.goto(process.env.HOMEPAGE_URL||'http://localhost:3077/',{waitUntil:'commit'});
+ const posterRecovery = mode==='poster-slow' ? page.waitForSelector('.direction-4c[data-ready]').then(() => new Promise(resolve => setTimeout(resolve,1200))).then(releasePoster) : Promise.resolve();
  const captures=[];
- for(const target of [0,250,500,1000,2000,3000,5000,7000,10000]){
+ for(const target of [0,250,500,1000,2000,3000,4000,5000,6000,7000,10000]){
  await new Promise(r=>setTimeout(r,Math.max(0,start+target-Date.now())));
  const file=`${out}/${name}-${target}.png`;await page.screenshot({path:file});
  captures.push({target,actual:Date.now()-start,file});
  }
+ await posterRecovery;
  const timeline=await page.evaluate(()=>window.__timeline);
+ const painted = await page.evaluate(() => {
+  const canvas=document.querySelector('[data-ref="canvasRef"]'), probe=document.createElement('canvas');probe.width=probe.height=8;
+  const ctx=probe.getContext('2d');ctx.drawImage(canvas,0,0,8,8);
+  return Array.from(ctx.getImageData(0,0,8,8).data);
+ });
 
-results.push({name,width,mode,captures,timeline,network:[...network],url:page.url()});
+results.push({name,width,mode,captures,timeline,painted,network:[...network],url:page.url()});
  fs.writeFileSync(`${out}/results.json`,JSON.stringify(results,null,2));console.log(name,JSON.stringify(timeline.filter((v,i,a)=>!i||v.ready!==a[i-1].ready||v.videoReady!==a[i-1].videoReady||v.sample?.tag!==a[i-1].sample?.tag)));
  if(process.env.PROOF_ASSERT==='1'){
   const assert=require('node:assert/strict');
   assert(timeline.some(x=>x.ready),'composed scene becomes ready');
   assert(!timeline.some(x=>x.videoReady&&x.videoOpacity!=='0'),'raw video never becomes a separate scene');
-  assert(!timeline.some(x=>x.ready&&!x.sample),'ready canvas always samples real coastal pixels');
+  assert(painted.some((v,i)=>i%4!==3&&v>0),'canvas actually paints colour');
+  if(!posterCase) assert(!timeline.some(x=>x.ready&&!x.sample),'available poster/video supplies the ready canvas');
+  if(posterCase){
+   assert(timeline.some(x=>x.ready&&!x.sample),'unavailable media deliberately uses the procedural fallback');
+   assert(!timeline.some(x=>x.static),'optional media failure keeps the flock active');
+   assert(!timeline.some(x=>x.sample?.tag==='VIDEO'),'video is unavailable in poster fallback coverage');
+   if(mode==='poster-slow') assert(timeline.some(x=>x.ready&&x.sample?.tag==='IMG'),'late poster recovers after the three-second deadline');
+   else assert(!timeline.some(x=>x.sample),'failed poster stays on the deliberate procedural fallback');
+  }
   if(mode==='blocked')assert(!timeline.some(x=>x.ready&&x.sample?.tag==='VIDEO'),'blocked video stays on poster');
   if(mode==='delayed')assert(timeline.some(x=>x.blend>0&&x.blend<1),'late video blends into the existing composition');
  }

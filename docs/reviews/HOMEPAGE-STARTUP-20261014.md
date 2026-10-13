@@ -32,7 +32,7 @@ The poster is visibly a different coastal view from the footage. A matching stil
 
 Local evidence is under `output/playwright/startup/` (live recordings, screenshots, sampler timelines, `domain-cache.json`, `live-three-scenes.png`). `startup-gated/` repeats WebKit delayed recovery with a shared four-second gate; the first diagnostic delayed every range request and therefore also exercised video timeout.
 
-Candidate evidence and final check results are recorded below. Nothing in this follow-up is pushed, merged, or deployed. Release requires independent visual review and the requested user reference.
+Candidate evidence and final check results are recorded below. The reviewed runtime is now in draft PR1559. Release requires independent visual review and passing CI; reproduced evidence is sufficient and an additional user recording is not required.
 
 ### Candidate verification
 
@@ -44,4 +44,10 @@ Candidate evidence and final check results are recorded below. Nothing in this f
 - The final production metadata check still showed the same READY deployment/SHA. No deployment was initiated.
 - Ten-second local MP4s are in `output/playwright/startup/{live,draft}-{390,1440}-first-10s.mp4`. These compare sequence, not network performance: live and localhost have different delivery latency.
 
-No hosted CI has been started for this unpublished draft. The workflow now includes startup proof when this change is eventually proposed. Full repository lint reproduced exactly the previously recorded baseline: 1173 errors and 243 warnings, with zero added/removed findings after normalizing checkout paths. See `output/playwright/startup/lint-comparison.json`. It is not a clean repository-wide check.
+Hosted CI is running on draft PR1559. The workflow includes startup proof. Full repository lint reproduced exactly the previously recorded baseline: 1173 errors and 243 warnings, with zero added/removed findings after normalizing checkout paths. See `output/playwright/startup/lint-comparison.json`. It is not a clean repository-wide check.
+
+### Poster timeout/failure coverage
+
+Independent review requested explicit coverage beyond the three-second poster decode deadline. The startup suite now includes `poster-slow` and `poster-failed`, with video blocked in both. Slow-poster coverage withholds the image until after the renderer has exposed its deliberate procedural fallback, then releases it to verify recovery; failed-poster coverage verifies the fallback remains painted without disabling the flock. The proof asserts actual nonzero canvas pixels, source selection and optional-media behavior.
+
+All eight local cases passed: Chromium/WebKit × 390/1440px × slow/failed poster. Evidence is in `output/playwright/startup-poster/`. Visually, the procedural pastel/plum wordmark and flock remain coherent and readable at both sizes, close to the supplied reference's lighter treatment. A late poster still changes the sampled background after the deadline: this is a deliberate degradation/recovery path, not a universal no-flash guarantee. No runtime or composition change was made for this coverage addition.
