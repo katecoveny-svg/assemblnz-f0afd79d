@@ -59,7 +59,7 @@ fs.mkdirSync(output, { recursive: true });
             // The design's flock flies on phones too, and footage never blocks it.
             await page.waitForFunction(() => document.querySelector('.direction-4c').hasAttribute('data-ready'), undefined, { timeout: 20000 });
             assert.equal(await page.locator('[data-ref="canvasRef"]').evaluate(el => getComputedStyle(el).display), 'block', 'tide canvas renders on phones');
-            const end = await page.locator('#top').evaluate(el => Math.round(el.getBoundingClientRect().height - innerHeight + scrollY) - 8);
+            const end = await page.locator('#top').evaluate(el => { const box = el.getBoundingClientRect(); return Math.round(box.top + scrollY + box.height - innerHeight) - 8; });
             await scroll(page, end); await page.waitForTimeout(300);
             const style = await page.locator('[data-ref="msgRef"]').evaluate(el => ({ opacity: getComputedStyle(el).opacity, visibility: getComputedStyle(el).visibility }));
             assert.equal(style.opacity, '1', 'useful work message is fully visible at the end of the hero'); assert.equal(style.visibility, 'visible');
