@@ -9,7 +9,9 @@ const timestamp = z.string().datetime();
 export const snapshotSchema = z.object({
   id: z.string().uuid(), sourceId: text, label: text,
   url: z.string().url().refine(v => { const u = new URL(v); return u.hostname.endsWith('.invalid') && u.protocol === 'https:' && !u.username && !u.password && !u.port; }),
-  observedAt: timestamp, expiresAt: timestamp, text,
+  observedAt: timestamp, expiresAt: timestamp,
+  // Preserve the exact observation. Normalisation belongs only to comparison.
+  text: z.string().min(1).max(4000).refine(v => v.trim().length > 0, 'Source text must contain content'),
   permission: z.literal('synthetic'), topic: text, value: text,
 }).strict().refine(s => Date.parse(s.expiresAt) > Date.parse(s.observedAt), 'Expiry must follow observation');
 export type Snapshot = z.infer<typeof snapshotSchema>;
@@ -78,7 +80,7 @@ export function ingest(state: ReviewState, input: unknown, actor: Actor, revisio
   if (previous && Date.parse(source.observedAt) <= Date.parse(previous.observedAt)) throw new Error('Out-of-order observation. Keep the latest source version.');
   const normalize = (v: string) => v.replace(/\s+/g, ' ').trim();
   const duplicate = previous && normalize(previous.text) === normalize(source.text) && previous.value === source.value && previous.topic === source.topic;
-  return { state: { ...state, revision: state.revision + 1, versions: [...state.versions, source], review: undefined }, change: duplicate ? 'Duplicate content; observation refreshed. Review invalidated.' : 'Meaningful source change. Recheck the brief; review invalidated.' };
+  return { state: { ...state, revision: state.revision + 1, versions: [...state.versions, source], review: undefined }, change: duplicate ? 'Duplicate content after whitespace normalisation; raw observation retained. Review invalidated.' : 'Meaningful source change. Recheck the brief; review invalidated.' };
 }
 export function editBrief(state: ReviewState, input: unknown, actor: Actor, revision: number): ReviewState {
   authorize(state, actor, revision);

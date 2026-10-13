@@ -10,12 +10,12 @@ The workspace uses the existing `DoProductFrame` and `DoEvidence` envelope. `pur
 
 ## Review contract
 
-- Permitted synthetic source snapshots include a source ID, immutable-style version ID, exact text, observed timestamp, expiry, labelled topic/value and fictional provenance URL.
+- Permitted synthetic source snapshots include a source ID, immutable-style version ID, exact raw text (whitespace/newlines preserved), observed timestamp, expiry, labelled topic/value and fictional provenance URL.
 - Ingestion retains history. Whitespace-normalised duplicate content is distinguished from changed text; both produce a new observation and invalidate review. This is deterministic comparison, not a claim of semantic model analysis.
 - Stale, future, conflicting topic/value assertions and superseded citations block approval. The fixture controls make failure and reset/retry visible. There is no automatic conflict resolution.
 - Quotations and facts require exact source support. Inferences, assumptions and proposed decisions remain explicitly labelled. Source instructions remain quoted data; there is no tool executor.
 - Edits and evidence updates increment a revision and clear current review. Expected-revision checks reject stale mutations. Owner and named-reviewer checks apply to the synthetic contract; `authenticated` mode fails closed. These checks are **not a server authorization boundary**.
-- Review receipts deep-copy all observed evidence versions (including superseded citations), the current-version IDs, brief, test reviewer action/time, decision status, separately confirmed commitments and unresolved commitments. Prior receipts survive subsequent edits in the current session. Files are versioned snapshots, not signed, cryptographically secured, tamper-proof or durable audit records.
+- Review receipts deep-copy all raw observed evidence versions (including superseded citations), the current-version IDs, brief, test reviewer action/time, decision status, separately confirmed commitments and unresolved commitments. Prior receipts survive subsequent edits in the current session. Files are versioned snapshots, not signed, cryptographically secured, tamper-proof or durable audit records.
 - Meeting source context is separate from quoted discussion. Suggested owners/deadlines remain unresolved unless a human separately checks the explicit confirmation box. Receipt approval alone does not confirm commitments. ICS includes unresolved work for the next meeting.
 
 ## Review workflow
@@ -46,7 +46,9 @@ Rollback: remove the Evidence route/module, synthetic Meeting DO link and regist
 
 The local draft survived the Mac restart. Refreshed `origin/main` remains `a513dc1aa22dad6d0cef1358b2e81f38e8caa77d`. Disk check shows 17 GiB free; no files were deleted by this recovery task.
 
-- 20 focused tests passed (Evidence contract and existing Meeting follow-through helpers).
+- 21 focused tests passed (Evidence contract and existing Meeting follow-through helpers).
 - Scoped ESLint, brand guard, macron check and diff whitespace check passed.
 - Static independent review identified example-reset data loss and reused calendar event IDs. The fixes preserve receipt history, confirm replacement of edited drafts, allocate independent ICS event IDs, and clear declined confirmation selections.
 - Desktop/375px browser verification and full typecheck/build remain pending. The previous attempt ended during the host disk/service failure; heavy runs are held until the UI owner confirms adequate capacity. This is a backup/review draft, not ship-ready proof.
+
+Source-provenance follow-up: raw source validation no longer trims text. Only duplicate comparison normalises whitespace, and the status explicitly labels this. Equality tests cover leading/trailing spaces and newlines through storage, brief quotations and exported receipt JSON. The Evidence suite is included in DO core CI. Final runtime/build status is recorded on PR #1536 and supersedes the recovery checkpoint above.

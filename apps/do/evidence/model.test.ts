@@ -99,4 +99,20 @@ describe('shared Evidence review boundary', () => {
     expect(() => ingest(s, { ...source('research', later), url: 'https://name:password@host.invalid/' }, actor, 1, later)).toThrow();
   });
 
+  it('retains exact source whitespace/newlines in stored observations and receipts', () => {
+    const s = example('research', now);
+    const raw = '  Workshop notice.\n\n  Draft only. \n';
+    const next = ingest(s, source('research', later, raw), actor, 1, later).state;
+    expect(next.versions[1].text).toBe(raw);
+    const prepared = editBrief(next, buildBrief(next, 'research'), actor, 2);
+    const receipt = review(prepared, actor, 3, 'approve', [], later).review!;
+    const exported = JSON.parse(exportReceipt(receipt));
+    expect(exported.sourceVersions[1].text).toBe(raw);
+    expect(exported.evidence.sources[1].excerpt).toBe(raw);
+    expect(exported.brief.statements[0].text).toBe(raw);
+    const duplicate = ingest(prepared, source('research', '2026-10-13T18:00:00.000Z', 'Workshop notice. Draft only.'), actor, 3, '2026-10-13T18:00:00.000Z');
+    expect(duplicate.change).toContain('after whitespace normalisation');
+    expect(duplicate.state.versions[1].text).toBe(raw);
+  });
+
 });
