@@ -15,7 +15,7 @@ function check(label, result) { assert.ok(result, label); checks.push(label); co
     const page = await context.newPage();
     page.setDefaultTimeout(30000);
     let profile = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLength: 'balanced', initiative: 'gentle', preferences: '', voiceName: 'Kore', onboardingCompleted: false, updatedAt: null };
-    let revision = 'a'.repeat(64), saved = false;
+    let revision = 'a'.repeat(64), saved = false, version = 0;
     const tokens = [], saves = [], errors = [];
     page.on('pageerror', e => errors.push(e.message));
     await context.route('**/*', async route => {
@@ -27,14 +27,14 @@ function check(label, result) { assert.ok(result, label); checks.push(label); co
         if (method === 'POST') {
           const { consent, ...input } = route.request().postDataJSON();
           assert.equal(consent, true); saves.push(input);
-          profile = { ...input, updatedAt: '2026-10-13T01:00:00Z' }; saved = true; revision = 'b'.repeat(64);
+          profile = { ...input, updatedAt: new Date(Date.UTC(2026, 9, 13, 3, 0, ++version)).toISOString() }; saved = true; revision = version.toString(16).padStart(64, '0');
         }
         return route.fulfill({ json: { profile, saved } });
       }
       if (url.pathname === '/api/do/live-token') {
         if (method === 'GET') return route.fulfill({ json: { enabled: true, configured: true, signedIn: true, remaining: 3, dailyLimit: 3, sessionSeconds: 300, model: 'gemini-3.8-live', voiceName: profile.voiceName, voiceRevision: revision } });
         const input = route.request().postDataJSON(); tokens.push(input);
-        assert.equal(input.voiceName, profile.voiceName); assert.equal(input.voiceRevision, revision);
+        if (input.voiceName !== profile.voiceName || input.voiceRevision !== revision || (input.includeProfile && input.profileUpdatedAt !== profile.updatedAt)) return route.fulfill({ status: 409, json: { error: 'Fictional stale profile review' } });
         return route.fulfill({ json: { token: 'auth_tokens/fictional-only', model: 'gemini-3.8-live', mode: 'standard', voiceName: profile.voiceName, expiresAt: new Date(Date.now() + 300000).toISOString(), config: { responseModalities: ['AUDIO'], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: profile.voiceName } } } } } });
       }
       if (url.pathname === '/api/do/personal') return route.fulfill({ json: { workspaceKey: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', responsibilities: [], runs: [], worker: { configured: false, lastSeenAt: null } } });
@@ -128,6 +128,74 @@ function check(label, result) { assert.ok(result, label); checks.push(label); co
     await panel.getByText('Call voice: Charon · male · informative', { exact: true }).waitFor();
     check('Personal DO loads the same saved voice', true);
     await page.screenshot({ path: out + '/personal-saved-voice-375.png', fullPage: false });
+
+    // Exercise the two real mounted settings instances with a populated account.
+    // Collect both save orders before failing, so the pre-fix run proves both losses.
+    const regressions = [];
+    const record = (label, passed, detail) => { regressions.push({ label, passed, detail }); console.log((passed ? 'PASS ' : 'FAIL ') + label); };
+    const seeded = { displayName: 'Mira', avatar: 'orbit', tone: 'direct', responseLength: 'detailed', initiative: 'on_request', preferences: 'Keep my populated preferences.', voiceName: 'Kore', onboardingCompleted: true };
+    async function openPopulated() {
+      profile = { ...seeded, updatedAt: new Date(Date.UTC(2026, 9, 13, 3, 0, ++version)).toISOString() };
+      saved = true; revision = version.toString(16).padStart(64, '0');
+      await page.goto(origin + '/do/personal', { waitUntil: 'networkidle' });
+      await page.locator('header').getByRole('button', { name: 'Customise Mira', exact: true }).waitFor();
+      await page.getByRole('button', { name: 'Talk', exact: true }).click();
+      await panel.getByRole('button', { name: 'Call Mira', exact: true }).click();
+      await panel.getByRole('button', { name: 'Choose call voice', exact: true }).waitFor();
+      await page.waitForFunction(() => [...document.querySelectorAll('button')].some(b => b.textContent === 'Choose call voice' && !b.disabled));
+    }
+    async function saveVoice(voice) {
+      await panel.getByRole('button', { name: 'Choose call voice', exact: true }).click();
+      await dialog.getByLabel('Your call voice').selectOption(voice);
+      await dialog.getByRole('checkbox').check();
+      await dialog.getByRole('button', { name: 'Save call voice', exact: true }).click();
+      await dialog.waitFor({ state: 'hidden' });
+    }
+    async function saveHeader(name, preferences, voice) {
+      await page.locator('header').getByRole('button', { name: /Customise / }).click();
+      await dialog.getByLabel('What shall we call your DO?').fill(name);
+      await dialog.getByRole('button', { name: 'Next', exact: true }).click();
+      await dialog.getByRole('button', { name: 'Next', exact: true }).click();
+      await dialog.getByLabel('Anything else about how you like to work?').fill(preferences);
+      if (voice) await dialog.getByLabel('Your call voice').selectOption(voice);
+      await dialog.getByRole('checkbox').check();
+      await dialog.getByRole('button', { name: 'Save my DO', exact: true }).click();
+      await dialog.waitFor({ state: 'hidden' });
+    }
+    await openPopulated();
+    await saveVoice('Puck');
+    await saveHeader('Mira edited', 'Keep the new header preferences.');
+    record('voice then header preserves the saved voice and unrelated populated fields',
+      profile.voiceName === 'Puck' && profile.displayName === 'Mira edited' && profile.preferences === 'Keep the new header preferences.' && profile.avatar === 'orbit' && profile.tone === 'direct' && profile.responseLength === 'detailed' && profile.initiative === 'on_request', { ...profile });
+
+    await openPopulated();
+    await consent.check();
+    const idleMedia = await page.evaluate(() => window.__callTest.mediaRequests);
+    const idleTokens = tokens.length;
+    await saveHeader('Mira revised', 'New preferences must survive voice save.', 'Charon');
+    await page.waitForTimeout(300);
+    const reviewed = (await panel.textContent()).includes('Call voice: Charon · male · informative');
+    record('header revision refreshes idle call and invalidates consent without microphone or token',
+      reviewed && !await consent.isChecked() && await page.evaluate(() => window.__callTest.mediaRequests) === idleMedia && tokens.length === idleTokens,
+      { reviewed, consent: await consent.isChecked(), media: await page.evaluate(() => window.__callTest.mediaRequests), tokens: tokens.length });
+    await saveVoice('Puck');
+    record('header then voice preserves the new name, preferences and populated style',
+      profile.displayName === 'Mira revised' && profile.preferences === 'New preferences must survive voice save.' && profile.avatar === 'orbit' && profile.tone === 'direct' && profile.responseLength === 'detailed' && profile.initiative === 'on_request' && profile.voiceName === 'Puck', { ...profile });
+    fs.writeFileSync(out + '/dual-settings-results.json', JSON.stringify(regressions, null, 2));
+    check('both real settings instances preserve sequential saves and idle review', regressions.every(r => r.passed));
+
+    await page.evaluate(() => { window.__callTest.mode = 'allow'; });
+    await consent.check();
+    await panel.getByRole('button', { name: 'Start call', exact: true }).click();
+    await panel.getByRole('button', { name: 'End call', exact: true }).waitFor();
+    check('call after dual settings saves uses the fresh full profile revision', tokens.at(-1).profileUpdatedAt === profile.updatedAt && tokens.at(-1).voiceName === 'Puck');
+    const activeSockets = await page.evaluate(() => window.__callTest.sockets.length);
+    await saveHeader('Mira active edit', 'Apply after this call.', 'Charon');
+    check('header save during a call preserves its voice and live socket', (await panel.textContent()).includes('Call voice: Puck · male · upbeat') && await page.evaluate(() => !window.__callTest.tracks.at(-1).stopped && window.__callTest.sockets.at(-1).readyState === 1 && window.__callTest.sockets.length) === activeSockets);
+    await panel.getByRole('button', { name: 'End call', exact: true }).click();
+    await panel.getByText('Call voice: Charon · male · informative', { exact: true }).first().waitFor();
+    check('active header edit is reviewed only for the next call', !await consent.isChecked());
+
     check('no browser runtime errors', errors.length === 0);
     fs.writeFileSync(out + '/results.json', JSON.stringify({ checks, errors, tokens: tokens.map(({ voiceName, includeProfile }) => ({ voiceName, includeProfile })), microphone: 'mock only', provider: 'mock only' }, null, 2));
   } finally { await browser.close(); }
