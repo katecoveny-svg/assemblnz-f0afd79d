@@ -7,11 +7,12 @@ import { MAIL_READ_CONSENT, correspondenceTask, mailSearch, type MailDraft, type
 import { MailReviewSession } from '@/apps/do/mail/review';
 import styles from './mail.module.css';
 
-export function MailWorkspace() {
+export function MailWorkspace({ expectedOwner, initialTask }: { expectedOwner?: string; initialTask?: string } = {}) {
   const identity = useWritingOwner(true);
   if (!identity.ready) return <p role="status">{identity.failed ? 'Your account could not be verified. Reopen DO to try again.' : 'Checking your DO account…'}</p>;
   if (!identity.owner || identity.owner === 'guest') return <p><Link href="/login?redirect=%2Fdo%2Fmail">Sign in to review your mail</Link></p>;
-  return <MailReview key={identity.owner} ownerId={identity.owner} />;
+  if (expectedOwner && identity.owner !== expectedOwner) return <p role="status">Your account changed. Reopen mail review in your current DO.</p>;
+  return <MailReview key={identity.owner} ownerId={identity.owner} initialTask={initialTask} />;
 }
 
 /** Shared text/voice destination. initialTask is reviewed in-memory text, never consent. */

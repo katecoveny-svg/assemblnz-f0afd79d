@@ -1,5 +1,7 @@
 name: Personal DO mail review
 on:
+  push:
+    branches: [codex/personal-do-mail-voice-review]
   pull_request:
     paths: ['apps/do/mail/**', 'app/do/mail/**', 'app/api/do/mail/**', 'lib/connectors/personal-mail.test.ts', 'lib/connectors/pipedream.ts', 'scripts/review-do-mail.cjs', '.github/workflows/do-mail-review.yml']
   workflow_dispatch:
@@ -41,11 +43,13 @@ jobs:
           trap 'kill "$server" || true' EXIT
           for i in $(seq 1 40); do curl -sf http://127.0.0.1:3000/do/mail >/dev/null && break; sleep 2; done
           ASSEMBL_PLAYWRIGHT_MODULE="$RUNNER_TEMP/mail-browser/node_modules/playwright" node scripts/review-do-mail.cjs
+          ASSEMBL_PLAYWRIGHT_MODULE="$RUNNER_TEMP/mail-browser/node_modules/playwright" node scripts/review-do-mail-voice.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: personal-do-mail-proof
           path: |
             output/playwright/do-mail/
+            output/playwright/do-mail-voice/
             /tmp/do-mail-server.log
           retention-days: 14

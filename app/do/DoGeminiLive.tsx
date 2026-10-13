@@ -1,4 +1,5 @@
 "use client";
+import { handoffReviewedMail } from "@/apps/do/mail/voice-handoff";
 
 import Link from "next/link";
 import { claimDoAudio } from "@/apps/do/shared/audio-exclusion";
@@ -59,6 +60,7 @@ export function DoGeminiLive({
   context = "",
   onDraft,
   onShoppingDraft,
+  onMailDraft,
   profile: initialProfile,
   onProfileChange,
   draftTarget = "task",
@@ -67,6 +69,7 @@ export function DoGeminiLive({
   context?: string;
   onDraft?: (text: string) => boolean;
   onShoppingDraft?: (text: string) => boolean;
+  onMailDraft?: (text: string) => boolean;
   profile?: PersonalDoProfile;
   onProfileChange?: (profile: PersonalDoProfile | null) => void;
   draftTarget?: "task" | "responsibility";
@@ -671,6 +674,22 @@ export function DoGeminiLive({
             maxLength={6000}
             rows={4}
           />
+          {onMailDraft && <button type="button" disabled={!draft.trim() || draft.length > 1200} onClick={() => {
+            if (reviewApplied.current || !draft.trim() || draft.length > 1200) return;
+            reviewApplied.current = true;
+            if (handoffReviewedMail(draft, {
+              endVoice: () => { if (active.current) end(); },
+              clearConsent: () => setConsentFor(null),
+              accept: onMailDraft,
+            })) {
+              setDraft(null);
+              setNotice("Your reviewed request is in mail review. Choose an account and permit a bounded read there. Nothing has been sent or saved.");
+            } else {
+              reviewApplied.current = false;
+              setNotice("Mail review could not accept this request. Sign in or discard the existing mail review first. Your call notes remain here.");
+            }
+          }}>Review correspondence in my DO</button>}
+          {onMailDraft && draft.length > 1200 && <p>Shorten the reviewed request to 1,200 characters before opening mail review.</p>}
           {onShoppingDraft && <button type="button" disabled={!draft.trim()} onClick={() => {
             if (reviewApplied.current || !draft.trim()) return;
             reviewApplied.current = true;
