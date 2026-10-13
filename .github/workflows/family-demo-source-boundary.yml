@@ -1,0 +1,35 @@
+name: Family demo source boundary
+on:
+  pull_request:
+    paths:
+      - 'app/customers/family/ops/**'
+      - 'lib/family/demo.ts'
+      - 'scripts/review-family-synthetic-demo.cjs'
+      - '.github/workflows/family-demo-source-boundary.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: family-demo-boundary-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  synthetic-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: pnpm install --frozen-lockfile
+      - name: Synthetic cookie and source-boundary regressions
+        run: pnpm test app/customers/family/ops/page.test.ts
+      - name: Changed-source lint
+        run: pnpm exec eslint app/customers/family/ops/page.tsx app/customers/family/ops/page.test.ts app/customers/family/ops/layout.tsx lib/family/demo.ts scripts/review-family-synthetic-demo.cjs --max-warnings=0
