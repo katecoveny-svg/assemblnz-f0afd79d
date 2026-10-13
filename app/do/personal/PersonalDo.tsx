@@ -358,10 +358,10 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
         </nav>
       </header>
       {context === "household" && <section className={styles.householdContext} aria-label="Household workspace">
-        <h1>One place for household next steps.</h1>
-        <p>Write, talk or add a notice below to prepare a list, plan or reply to review. This uses your existing DO workspace; it does not create a shared family account or connect a school inbox.</p>
-        <p><Link href="/do/bills">Review bills and CSVs</Link> · Local calculations and downloadable enquiry drafts. No bank connection. <Link href="/do/bills/compare">Compare NZ bill options</Link> with consented document analysis and sourced research; no provider switching or payments.</p>
-        <details><summary>Earlier household sample</summary><p>The fictional nine-seat board remains available separately. Its sample and device-local settings are not imported into your DO notes.</p><Link href="/do/household?view=sample">Open legacy household sample</Link></details>
+        <h2>Household, with DO.</h2>
+        <p>Bring a school notice, a household job or a bill. Prepare the next steps in your existing DO workspace.</p>
+        <details><summary>Household tools and earlier sample</summary><p>No shared family account or school inbox is connected.</p><p><Link href="/do/bills">Review bills and CSVs</Link> · Local calculations and downloadable enquiry drafts. No bank connection. <Link href="/do/bills/compare">Compare NZ bill options</Link> with consented document analysis and sourced research; no provider switching or payments.</p>
+        <p>The fictional nine-seat board remains available separately. Its sample and device-local settings are not imported into your DO notes.</p><Link href="/do/household?view=sample">Open legacy household sample</Link></details>
       </section>}
       <div className={styles.notice} role="status" aria-live="polite">
         {notice}
