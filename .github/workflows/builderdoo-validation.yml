@@ -29,6 +29,7 @@ on:
       - 'docs/do-personal/**'
       - 'scripts/review-do-personal-settings.cjs'
       - 'scripts/review-do-personal-call.cjs'
+      - 'scripts/review-do-draft-isolation.cjs'
       - 'scripts/review-do-refinement.cjs'
       - 'scripts/review-do-unified.cjs'
       - 'scripts/test-do-memory-sql.cjs'
@@ -77,6 +78,8 @@ jobs:
         run: pnpm test apps/do/coordination apps/do/shared apps/do/personal apps/do/services/family.test.ts apps/do/services/family-server.test.ts app/api/do app/do/personal lib/do/nz-public-data.test.ts lib/do/nz-local-updates.test.ts lib/do/do-pwa.test.ts lib/do/availability lib/do/travel lib/typesafe lib/os/improvement.test.ts lib/os/routing.test.ts lib/connectors/pipedream.test.ts
       - name: Authentication cookie, callback, login and provider regressions
         run: pnpm exec vitest run app/login app/auth lib/supabase lib/auth/origin.test.ts lib/auth/do-entry.test.ts lib/auth/providers.test.ts lib/auth/remember.test.ts
+      - name: Writing ownership scoped lint
+        run: pnpm exec eslint app/do/DoTextWorkspace.tsx apps/do/shared/use-writing-owner.ts apps/do/shared/local-drafts.ts apps/do/shared/local-drafts.test.ts app/api/do/session/route.ts app/api/do/session/route.test.ts scripts/review-do-draft-isolation.cjs --max-warnings=0
       - name: Voice lifecycle scoped lint
         run: pnpm exec eslint app/do/DoGeminiLive.tsx apps/do/shared/voice-session-resources.ts apps/do/shared/voice-session-resources.test.ts scripts/review-do-personal-call.cjs --max-warnings=0
       - name: DO paper field and locked identity contracts
@@ -130,6 +133,8 @@ jobs:
           settings_status=$?
           ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/calls node scripts/review-do-personal-call.cjs
           calls_status=$?
+          ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/draft-isolation node scripts/review-do-draft-isolation.cjs
+          drafts_status=$?
           ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/portable node scripts/review-do-portable.cjs
           portable_status=$?
           # Next pins the generated widget to localhost in this loopback server.
@@ -145,7 +150,7 @@ jobs:
           ASSEMBL_REVIEW_ORIGIN=http://localhost:3117 ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/companion-entry node scripts/review-do-companion-entry.cjs
           entry_status=$?
           set -e
-          test "$header_status" -eq 0 && test "$settings_status" -eq 0 && test "$calls_status" -eq 0 && test "$portable_status" -eq 0 && test "$assistant_status" -eq 0 && test "$site_status" -eq 0 && test "$refinement_status" -eq 0 && test "$unified_status" -eq 0 && test "$entry_status" -eq 0
+          test "$drafts_status" -eq 0 && test "$header_status" -eq 0 && test "$settings_status" -eq 0 && test "$calls_status" -eq 0 && test "$portable_status" -eq 0 && test "$assistant_status" -eq 0 && test "$site_status" -eq 0 && test "$refinement_status" -eq 0 && test "$unified_status" -eq 0 && test "$entry_status" -eq 0
       - uses: actions/upload-artifact@v4
         if: always()
         with:

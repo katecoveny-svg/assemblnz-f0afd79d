@@ -42,7 +42,7 @@ export function DoTextWorkspace(props: WritingProps) {
   if (native) return <WritingEditor {...props} storageOwner={null} storageReady={false} />;
   return <>
     {!identity.ready && <p role="status">{identity.failed ? <>Draft ownership could not be verified. Reconnect to reopen this editor. <button onClick={() => window.dispatchEvent(new Event('assembl:do-writing-retry'))}>Retry drafts</button></> : 'Checking whose drafts to open…'}</p>}
-    {identity.owner && <div hidden={!identity.ready}><WritingEditor key={identity.owner} {...props} storageOwner={identity.owner === 'guest' ? null : identity.owner} storageReady={identity.ready} /></div>}
+    {identity.owner && <div hidden={!identity.ready}><WritingEditor key={identity.owner} {...props} initialBrief={identity.owner === identity.initialOwner ? props.initialBrief : ''} offeredContext={identity.owner === identity.initialOwner ? props.offeredContext : undefined} storageOwner={identity.owner === 'guest' ? null : identity.owner} storageReady={identity.ready} /></div>}
   </>;
 }
 
@@ -66,6 +66,7 @@ function WritingEditor({ initialBrief = '', initialTask = 'reply', embedded = fa
   const [reviewer, setReviewer] = useState('');
   const [saved, setSaved] = useState<SavedDoDraft[]>([]);
   const openedSnapshot = useRef<SavedDoDraft | null>(null);
+  const storageBusy = useRef(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [sourceForDraft, setSourceForDraft] = useState('');
@@ -75,10 +76,10 @@ function WritingEditor({ initialBrief = '', initialTask = 'reply', embedded = fa
   const resultRef = useRef<HTMLElement>(null);
   const sourceRef = useRef<HTMLTextAreaElement>(null);
   useEffect(() => {
-    if (!focusRequest) return;
+    if (!focusRequest || (!storageReady && !nativeOrigin)) return;
     const frame = requestAnimationFrame(() => { const editor = sourceRef.current; if (editor && !editor.disabled && !editor.closest('[hidden]')) editor.focus(); });
     return () => cancelAnimationFrame(frame);
-  }, [focusRequest]);
+  }, [focusRequest, storageReady, nativeOrigin]);
   const currentDraft = useRef(draft);
   const reviewGeneration = useRef(0);
   useLayoutEffect(() => {
@@ -216,13 +217,16 @@ function WritingEditor({ initialBrief = '', initialTask = 'reply', embedded = fa
   }
 
   async function changeSaved(change: (owner: string) => SavedDoDraft[]) {
+    if (storageBusy.current) return;
     setNotice('');
     if (!storageOwner || !storageAllowed.current) { setError('Sign in and verify this workspace to save a browser copy. Download a copy of anonymous work before signing in.'); return; }
+    storageBusy.current = true;
     try {
       const next = await changeLocalDrafts(storageOwner, () => readWritingOwner(AbortSignal.timeout(10_000)), () => storageAllowed.current, () => change(storageOwner));
       if (!storageAllowed.current) return;
       setSaved(next); setError(''); setNotice('Browser copy updated for this account. It is not synced to other devices.');
     } catch (cause) { if (storageAllowed.current) setError(cause instanceof Error ? cause.message : 'Browser storage could not be updated. Existing copies are unchanged.'); }
+    finally { storageBusy.current = false; }
   }
 
   function save() {
@@ -259,7 +263,7 @@ function WritingEditor({ initialBrief = '', initialTask = 'reply', embedded = fa
       <p className="do-runtime-note">{availability?.note || 'Preparation status is checked when you run a task.'}</p>
     </form>
     {task !== 'extract' && needsSignIn && <p className="do-error" role="status">Model preparation needs your signed-in account and configured access. Exact extraction needs no model or subscription. <a href={`/login?redirect=${encodeURIComponent(nativeOrigin ? '/do/widget?nativeReview=1' : doReturnPath(pathname || '/do/widget', query))}`} target={nativeOrigin ? undefined : '_blank'} rel="noopener noreferrer">{nativeOrigin ? 'Sign in in this app' : 'Sign in in a new tab'}</a>, then return here. Your text stays on this page. <button type="button" className="do-quiet-button" onClick={() => void readRuntime(AbortSignal.timeout(10_000)).then(applyRuntime).then(() => setError('')).catch(cause => setError(cause instanceof Error ? cause.message : 'Connection could not be checked.'))}>Check connection</button></p>}
-    {!embedded && !nativeOrigin && !storageOwner && <p className="do-review-note">Anonymous writing stays on this page. Download a copy before signing in or leaving; it will not be assigned to the next account.</p>}
+    {!embedded && !nativeOrigin && !storageOwner && <p className="do-review-note">Anonymous writing stays on this page. Copy or download your work before signing in or leaving; it will not be assigned to the next account.</p>}
     {error && <p className="do-error" role="alert">{error}</p>}
     {notice && <p className="do-success" role="status">{notice}</p>}
     {draft && <section ref={resultRef} tabIndex={-1} className="do-prepared" aria-label="Prepared draft">

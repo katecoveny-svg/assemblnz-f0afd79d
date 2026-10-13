@@ -33,12 +33,12 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
     await page.reload({ waitUntil: 'networkidle' });
     await page.getByRole('button', { name: /Fixture 1 Reviewed draft/ }).click();
     check('populated reviewed draft reopens for A', await page.locator('#do-result').inputValue() === fixture.draft.text && await page.locator('#do-reviewer').inputValue() === 'Fixture A');
-    await page.screenshot({ path: out + '/owner-a-375.png', fullPage: true });
+    await page.screenshot({ path: out + '/owner-a-375.png', fullPage: true, animations: 'disabled' });
     owner = B; await page.evaluate(() => window.dispatchEvent(new Event('focus')));
     await page.waitForFunction(() => document.querySelector('#do-source')?.value === '');
     check('account switch removes populated draft and source from editor', await page.locator('#do-result').count() === 0 && !await page.getByText('Fixture 1', { exact: true }).count());
     check('legacy draft is hidden instead of assigned to B', await page.evaluate(({ key, B }) => localStorage.getItem(key + ':' + B) === null && localStorage.getItem(key) !== null, { key, B }));
-    await page.screenshot({ path: out + '/owner-b-375.png', fullPage: true });
+    await page.screenshot({ path: out + '/owner-b-375.png', fullPage: true, animations: 'disabled' });
     owner = A; await page.evaluate(() => window.dispatchEvent(new Event('focus')));
     await page.getByRole('button', { name: /Fixture 1 Reviewed draft/ }).click();
     check('original account recovers unchanged reviewed draft', await page.locator('#do-result').inputValue() === fixture.draft.text);

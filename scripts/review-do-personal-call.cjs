@@ -26,6 +26,7 @@ const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLe
     let holdToken = false, releaseToken;
     let holdCompile = false, releaseCompile;
     page.on('pageerror', (error) => errors.push(error.message));
+    await page.route('**/api/do/session', route => route.fulfill({ json: { workspaceKey: owner } }));
     await page.route('**/api/do/personal', (route) => {
       if (route.request().method() !== 'GET') mutations.push(route.request().postDataJSON());
       return route.fulfill({ json: { workspaceKey: owner, responsibilities: [], runs: [], worker: { configured: true, lastSeenAt: new Date().toISOString() } } });

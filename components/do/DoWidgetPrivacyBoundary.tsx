@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { readWritingOwner } from '@/apps/do/shared/use-writing-owner';
 import { createClient } from '@/lib/supabase/client';
 import { replacePersonalLoad, shouldRevalidatePersonalOwner } from '@/apps/do/personal/session';
 import { DoFocusWorkspace } from './DoFocusWorkspace';
@@ -20,12 +21,8 @@ export function DoWidgetPrivacyBoundary({ initialTask }: { initialTask: DoTask }
       const controller = replacePersonalLoad(request);
       request = controller;
       try {
-        const response = await fetch('/api/do/personal', { cache: 'no-store', signal: controller.signal });
-        const data = await response.json();
+        const next = await readWritingOwner(AbortSignal.any([controller.signal, AbortSignal.timeout(10_000)]));
         if (!mounted || controller.signal.aborted || attempt !== generation) return;
-        const next = response.status === 401 && data.workspaceKey === 'guest' ? 'guest'
-          : response.ok && typeof data.workspaceKey === 'string' && /^[a-f0-9-]{36}$/i.test(data.workspaceKey) ? data.workspaceKey : null;
-        if (!next) throw new Error('Identity unavailable');
         verified = next; setScope(next); setError(false);
       } catch {
         if (!mounted || controller.signal.aborted || attempt !== generation) return;

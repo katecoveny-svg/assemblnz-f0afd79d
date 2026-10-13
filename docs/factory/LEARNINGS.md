@@ -84,3 +84,7 @@ The initial candidate was rejected for an empty imported page ID colliding with 
 ### 13 October 2026 — bound the whole voice startup, then release independently
 
 A socket setup timeout starts too late if microphone capture is acquired before audio initialization or a token request stalls. The DO call candidate starts its budget when capture is acquired, invalidates the session before cleanup, releases tracks before fallible socket/audio operations, and tests late completions against the actual React component with fictional media. Reconnect only refreshes availability; restarting requires a fresh user start. Existing SQL tables and prior local tests are not evidence that a gated persistence path is deployed. See `docs/DO-RELIABILITY-REVIEW-20261013.md` and the existing `scripts/review-do-personal-call.cjs` regression harness.
+
+### 2026-10-13 — unowned browser drafts cannot be migrated by sign-in
+
+A device-wide localStorage key has no owner proof. Keying a component by account alone still leaks if it restores that global list. Require verified UUID-scoped storage; quarantine legacy records unchanged. Serialize tab writes and compare the opened revision, not the refreshed sidebar copy. Read/parse errors must block writes rather than turn a damaged store into an empty list. Fictional populated-draft switch/recovery proof: `scripts/review-do-draft-isolation.cjs`.
