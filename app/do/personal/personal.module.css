@@ -763,3 +763,6 @@
 .page .how{margin:20px auto 24px;max-width:1120px;border:0!important;padding:0}.page .how>summary{font-size:12px;color:#654a4e;width:fit-content;gap:18px;min-height:44px;padding:7px 0;justify-content:flex-start}
 @media(max-width:700px){.around{padding-top:18px;margin:16px 0 24px}.aroundHeading h2{font-size:30px}.aroundGrid{gap:12px}.aroundPanel>summary{min-height:112px!important;padding:18px!important}.aroundPanel strong{font-size:17px!important}.aroundPanel>summary>svg:first-child{width:54px;height:54px;padding:14px}}
 @media(prefers-reduced-motion:reduce){.aroundPanel>summary{transition:none;transform:none!important}}
+
+/* Warm DO entry backdrop; no new overlay or interaction layer. */
+.page[data-do-identity=assembled-glass]{background:radial-gradient(ellipse 640px 600px at 2% 360px,#e8bfd37a,transparent 78%),radial-gradient(ellipse 700px 640px at 100% 400px,#ddd0ec99,transparent 80%),#faf6f7}

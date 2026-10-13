@@ -22,7 +22,6 @@ import { LIFE_ADMIN_EXAMPLES } from '@/apps/do/personal/life-admin/examples';
 import styles from './LifeAdmin.module.css';
 import entry from './entry.module.css';
 import Image from 'next/image';
-import { PersonalDoCharacter } from './PersonalDoCharacter';
 import { DoActionIcon } from '@/components/do/DoBrand';
 import { ASSISTANT_NOTE_EVENT, type AssistantNoteOffer } from '@/apps/do/personal/editor-note';
 
@@ -249,10 +248,10 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
     <section className={`${styles.workspace} ${entry.workspace}`} id="life-admin" aria-labelledby="life-admin-heading">
       <div className={entry.stage} data-simple={simple || undefined}>
       <header className={entry.heading}>
-        <div className={entry.artwork} aria-hidden="true" data-renderer="static-art"><Image src="/brand/do-assembled-plum.webp" alt="" width={1200} height={800} priority unoptimized /></div>
+        <div className={entry.artwork} aria-hidden="true" data-renderer="static-art"><Image src="/brand/do-glass-D-transparent.png" alt="" width={240} height={240} priority unoptimized /></div>
         <div className={entry.intro}>
           <h1 id="life-admin-heading">What would you like done?</h1>
-          <p>{assistantWorking ? 'Preparing your reply…' : profile?.displayName && profile.displayName !== 'DO' ? `Hi, ${profile.displayName}.` : 'A photo, your voice or a note.'}</p>
+          <p>{assistantWorking ? 'Preparing your reply…' : profile?.displayName && profile.displayName !== 'DO' ? `Your ${profile.displayName}, ready to help.` : 'Bring a question, a plan or the thing on your mind.'}</p>
         </div>
       </header>
       {active && <section className={`${styles.quickResult} ${entry.review}`} aria-labelledby="personal-do-result">
@@ -263,25 +262,25 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
         {!guideDismissed && (!profile?.onboardingCompleted || guideStarted) && <div className={styles.resultGuide}><span>Review before sharing.</span>{onCustomise && <button type="button" onClick={onCustomise}>Make DO mine <ArrowUpRight size={13} /></button>}<button type="button" onClick={() => setGuideDismissed(true)} aria-label="Dismiss first-result guide"><X size={14} /></button></div>}
       </section>}
       {assistant && <nav className={entry.composerTabs} aria-label="Choose how to start">
-        <button type="button" aria-pressed={!localOpen} onClick={() => { setLocalOpen(false); requestAnimationFrame(() => document.getElementById('personal-assistant-input')?.focus()); }}>Ask DO</button>
-        <button type="button" aria-pressed={localOpen} onClick={() => { setLocalOpen(true); requestAnimationFrame(() => sourceRef.current?.focus()); }}>Make a checklist</button>
-        {profile && <span className={entry.finishChoice} aria-label={`Your saved DO finish: ${profile.avatar === 'bloom' ? 'Rose' : profile.avatar}`}><PersonalDoCharacter avatar={profile.avatar} small /></span>}
+        <button type="button" aria-pressed={!localOpen} onClick={() => { setLocalOpen(false); requestAnimationFrame(() => document.getElementById('personal-assistant-input')?.focus()); }}>Write</button>
+        {onTalk && <button type="button" onClick={() => { setCaptureMode('type'); onTalk(); }}>Talk</button>}
+        <details className={entry.entryTools} onKeyDown={event => { if (event.key === 'Escape') { event.preventDefault(); event.currentTarget.open = false; event.currentTarget.querySelector('summary')?.focus(); } }}><summary>Add <Plus size={15} /></summary><div>
+          <button type="button" onClick={event => { const menu = event.currentTarget.closest('details'); if (menu) menu.open = false; setLocalOpen(true); setCaptureMode('photo'); }}>Photo or image</button>
+          <button type="button" onClick={event => { const menu = event.currentTarget.closest('details'); if (menu) menu.open = false; setLocalOpen(true); setCaptureMode('forward'); requestAnimationFrame(() => sourceRef.current?.focus()); }}>Note or checklist</button>
+          <p>Images and pasted text. PDF and other file uploads are not available here.</p>
+        </div></details>
       </nav>}
       <div hidden={Boolean(assistant) && localOpen}>{assistant}</div>
       <div id="personal-local-checklist" hidden={Boolean(assistant) && !localOpen}>{localComposer}</div>
-      {assistant && <div className={entry.mainModes} aria-label="More ways to start">
-        {onTalk && <button type="button" onClick={() => { setCaptureMode('type'); onTalk?.(); }} aria-label="Voice: open voice options"><span className={entry.voiceObject} aria-hidden="true"><DoActionIcon kind="voice" /></span><span><strong>Voice</strong></span></button>}
-        <button type="button" onClick={() => { setLocalOpen(true); setCaptureMode('photo'); }} aria-label="Photo: add images"><span className={entry.photoObject} aria-hidden="true"><DoActionIcon kind="photo" /></span><span><strong>Photo</strong></span></button>
-        <button type="button" onClick={() => { setLocalOpen(true); setCaptureMode('forward'); requestAnimationFrame(() => sourceRef.current?.focus()); }} aria-label="Notes: paste a note"><span className={entry.noteObject} aria-hidden="true"><DoActionIcon kind="note" /></span><span><strong>Notes</strong></span></button>
-      </div>}
-      {!plans.length && !showExamples && !source.trim() && !intake && <button className={entry.exampleObject} type="button" onClick={() => tryExample(LIFE_ADMIN_EXAMPLES[0])} aria-label="Try fictional school notice">
+      {assistant && localOpen && <button type="button" className={entry.exampleToggle} onClick={() => { setLocalOpen(false); requestAnimationFrame(() => document.getElementById('personal-assistant-input')?.focus()); }}>Back to Write</button>}
+      {!plans.length && showExamples && !source.trim() && !intake && <button className={entry.exampleObject} type="button" onClick={() => tryExample(LIFE_ADMIN_EXAMPLES[0])} aria-label="Try fictional school notice">
         <span className={entry.exampleFlag}>Fictional example · on this device</span>
         <span className={entry.examplePaper} aria-hidden="true"><Backpack size={22} /><strong>School trip</strong><small>FRIDAY · PACKED LUNCH</small><i /><i /></span>
         <span className={entry.exampleFlow} aria-hidden="true"><ArrowRight size={24} /><span><Check size={16} /> Check the school reply</span><span><Check size={16} /> Review the dates</span></span>
         <span className={entry.exampleCaption}>A notice becomes a next step.<ArrowUpRight size={18} /></span>
         <small>Try this notice. Nothing is sent.</small>
       </button>}
-      {!plans.length && <button type="button" className={entry.exampleToggle} aria-expanded={showExamples} onClick={() => setShowExamples(!showExamples)}>{showExamples ? 'Hide examples' : 'More examples'}<ChevronRight size={16} /></button>}
+      {!plans.length && <button type="button" className={entry.exampleToggle} aria-expanded={showExamples} onClick={() => setShowExamples(!showExamples)}>{showExamples ? 'Hide examples' : 'Try a fictional example'}<ChevronRight size={16} /></button>}
       {!plans.length && showExamples && !source.trim() && !intake && <section className={styles.examples} aria-label="Try a fictional example">
         <div className={styles.exampleHeading}><span>TRY ONE THING</span><button type="button" onClick={() => { setShowExamples(false); setGuideStarted(true); if (assistant) document.getElementById('personal-assistant-input')?.focus(); else sourceRef.current?.focus(); }}>Use my own note <ArrowRight size={14} /></button></div>
         <div className={styles.exampleGrid}>{LIFE_ADMIN_EXAMPLES.map((example, index) => {
@@ -296,6 +295,7 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
       </section>}
 
       </div>
+      {!plans.length && <section className={entry.emptyTasks} aria-labelledby="do-empty-tasks"><h2 id="do-empty-tasks">Your tasks</h2><p>A little less on your mind.</p><small>Checklists you prepare appear here. Choose Add → Note or checklist to start one.</small></section>}
       {Boolean(plans.length) && <div className={styles.workspaceTools}><span className={styles.toolsCaption}>YOUR NEXT STEP</span><button className={styles.mode} type="button" aria-pressed={simple} onClick={() => setSimple(!simple)}>{simple ? 'Show the full picture' : 'I’m overwhelmed · just one thing'}<span aria-hidden="true">{simple ? '−' : '↘'}</span></button></div>}
       {storageScope === 'guest' && guestDirty && <aside className={styles.guest}><p>Guest work stays on this page. Download it before signing in, refreshing or leaving.</p><button type="button" onClick={() => { saveFile('do-guest-work.txt', [assistantWork?.exportText ? `Personal DO conversation\n${assistantWork.exportText}` : '', source.trim() ? `Unfinished note: ${title || 'Untitled'}\n${source}` : '', ...plans.map(lifeAdminPack)].filter(Boolean).join('\n\n────────\n\n')); setNotice('Your current note and guest checklists were downloaded. Nothing was sent or transferred to an account.'); }}>Download all guest work</button></aside>}
       <div hidden={!plans.length}>

@@ -75,15 +75,44 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   await iframe.locator('#do-source').waitFor({state:'visible'});
   await iframe.locator('#do-source').fill('Fictional embedded note.');
   const frameIdentity=await page.locator('iframe').elementHandle();
-  await page.getByRole('button',{name:'Write',exact:true}).click();
+  const pageTools=page.locator('.context-tools');
+  const contextToggle=page.locator('.context-tools summary');
+  check('page tools begin collapsed without duplicate primary entry controls',!(await pageTools.evaluate(e=>e.open)) && await page.getByRole('button',{name:'Write',exact:true}).count()===0 && !(await page.getByRole('button',{name:'Point at an area',exact:true}).isVisible()));
+  await contextToggle.focus();await page.keyboard.press('Enter');
+  check('keyboard opens optional page context actions',await page.getByRole('button',{name:'Point at an area',exact:true}).isVisible() && await page.getByRole('button',{name:'Use selected text',exact:true}).isVisible() && await page.getByRole('link',{name:'Share a screen ↗',exact:true}).isVisible());
+  await page.getByRole('button',{name:'Return to writing',exact:true}).click();
   const child=page.frames().find(frame=>frame.url().includes('/do/widget'));
   await child.waitForFunction(()=>document.activeElement?.id==='do-source');
   check('embedded Write keeps the same iframe and draft',await frameIdentity.evaluate(e=>e===document.querySelector('[data-do-companion]').shadowRoot.querySelector('iframe'))&&await iframe.locator('#do-source').inputValue()==='Fictional embedded note.');
+  await contextToggle.focus();await page.keyboard.press('Escape');
+  check('Escape collapses tools and retains focus and open workspace',!(await pageTools.evaluate(e=>e.open)) && await contextToggle.evaluate(e=>e.getRootNode().activeElement===e) && await page.getByRole('dialog',{name:'Movable DO workspace'}).isVisible());
+  const compactHeight=await page.getByRole('dialog',{name:'Movable DO workspace'}).evaluate(e=>e.getBoundingClientRect().height);
+  await page.getByRole('button',{name:'Expand DO workspace',exact:true}).click();
+  check('explicit expansion gives more room without replacing the iframe',await page.getByRole('dialog',{name:'Movable DO workspace'}).evaluate(e=>e.getBoundingClientRect().height)>compactHeight && await frameIdentity.evaluate(e=>e===document.querySelector('[data-do-companion]').shadowRoot.querySelector('iframe')));
+  await page.getByRole('button',{name:'Compact DO workspace',exact:true}).click();
+  check('compacting preserves the draft',await iframe.locator('#do-source').inputValue()==='Fictional embedded note.');
   await page.getByRole('button',{name:'Minimise DO workspace',exact:true}).click();
   check('close returns keyboard focus to the launcher',await page.getByRole('button',{name:'Open DO. Drag to move or use Alt and arrow keys.',exact:true}).evaluate(e=>e.getRootNode().activeElement===e));
   await page.getByRole('button',{name:'Open DO. Drag to move or use Alt and arrow keys.',exact:true}).click();
   check('reopening preserves the iframe draft',await iframe.locator('#do-source').inputValue()==='Fictional embedded note.');
+  await child.addStyleTag({content:'nextjs-portal{display:none!important}'});
+  await child.evaluate(()=>scrollTo(0,0));
   await page.screenshot({animations:'disabled',path:out+'/embedded-1440.png',fullPage:false});
+  await page.setViewportSize({width:375,height:812});
+  await page.waitForFunction(()=>{const p=document.querySelector('[data-do-companion]')?.shadowRoot.querySelector('.panel');if(!p)return false;const r=p.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth&&r.bottom<=innerHeight});
+  check('compact launcher fits phone and retains its editor',await page.getByRole('dialog',{name:'Movable DO workspace'}).evaluate(e=>{const r=e.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth&&r.bottom<=innerHeight}) && await iframe.locator('#do-source').inputValue()==='Fictional embedded note.');
+  await child.evaluate(()=>scrollTo(0,0));
+  await page.screenshot({animations:'disabled',path:out+'/embedded-375.png',fullPage:false});
+  await contextToggle.click();
+  await page.screenshot({animations:'disabled',path:out+'/embedded-tools-375.png',fullPage:false});
+  await contextToggle.press('Escape');
+  for(const width of [320,375,768]){
+    await page.setViewportSize({width,height:812});
+    await contextToggle.click();
+    check(width+'px expanded context tools fit without horizontal overflow',await pageTools.evaluate(e=>e.open&&e.scrollWidth<=e.clientWidth+1) && await page.getByRole('dialog',{name:'Movable DO workspace'}).evaluate(e=>e.scrollWidth<=e.clientWidth+1));
+    await contextToggle.press('Escape');
+  }
+  check('context disclosure and resize preserve iframe and draft',await frameIdentity.evaluate(e=>e===document.querySelector('[data-do-companion]').shadowRoot.querySelector('iframe'))&&await iframe.locator('#do-source').inputValue()==='Fictional embedded note.');
   check('no provider POST, foreign traffic or runtime errors',posts.length===0&&foreign.length===0&&errors.length===0);
   fs.writeFileSync(out+'/report.json',JSON.stringify({checks,posts,foreign,errors,scope:'Synthetic UI navigation; no live voice session or installed app changed.'},null,2));
  } catch(error) {fs.writeFileSync(out+'/failure.json',JSON.stringify({checks,posts,foreign,errors,message:error.message},null,2));throw error;} finally {await context.close();await browser.close();}

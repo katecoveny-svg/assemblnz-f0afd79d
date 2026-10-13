@@ -1,0 +1,41 @@
+{
+  "base_commit": "2063e007cc0afbae62af2185b52989ffb74b641d",
+  "base_tracked_status": "",
+  "command": "pnpm exec vitest run lib/deployment/vercel-redeploy.test.ts lib/design/franklin-scene.test.ts",
+  "result": {
+    "passed": 5,
+    "failed": 2
+  },
+  "failures": [
+    {
+      "test": "lib/deployment/vercel-redeploy.test.ts:33 \u2014 still skips a documentation-only new commit",
+      "expected": 0,
+      "actual": 1,
+      "cause": "Fixture docs/note.md is outside the explicit NON_RUNTIME allowlist; script correctly chooses build under current policy."
+    },
+    {
+      "test": "lib/design/franklin-scene.test.ts:45 \u2014 keeps the headline and three public paths in readable HTML",
+      "expected": "the work.",
+      "actual": "Agentic AI solutions, assembled for your business.",
+      "cause": "Headline expectation predates current public homepage copy."
+    }
+  ],
+  "identical_files": [
+    {
+      "path": "lib/deployment/vercel-redeploy.test.ts",
+      "sha256": "2f002a7fc846892f4a4a0fae62e58aefca73046bc61af828ea678ed7f88337ac"
+    },
+    {
+      "path": "scripts/vercel-ignore-build.mjs",
+      "sha256": "8a0094b8253a4d6a79bd9348bbcfbe4249eed1f38e0a809d41dc848968c0917c"
+    },
+    {
+      "path": "lib/design/franklin-scene.test.ts",
+      "sha256": "1b2db920705a34f569b0ebe1f8f58276db4dda7cfda172ab5a415fb3e5dd4f0b"
+    },
+    {
+      "path": "components/site/assembl-the-work/AssemblWorldHero.tsx",
+      "sha256": "e55b60c3a09f4f3c762dc23682cdc3c6727f6128fbddd112168580618984bd33"
+    }
+  ]
+}

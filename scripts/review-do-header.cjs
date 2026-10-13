@@ -41,7 +41,7 @@ const path = require('node:path');
       assert(!overlaps(after.brand, after.share) && !overlaps(after.brand, after.more) && !overlaps(after.share, after.more), `${width}: header overlap`);
       for (const control of [after.share, after.more]) assert(control.width >= 44 && control.height >= 44, `${width}: header touch target`);
       if (width < 375) assert(after.brand.height >= 44, 'short phone brand target');
-      const more = header.getByLabel('More DO tools');
+      const more = header.locator('details > summary').first();
       await more.focus(); await more.press('Enter');
       assert(await header.getByRole('link', { name: 'Sign in', exact: true }).isVisible());
       await more.press('Enter');

@@ -68,9 +68,10 @@ const fixture = `<!doctype html><meta name="viewport" content="width=device-widt
     await page.evaluate(() => { Object.defineProperty(window, 'visualViewport', { configurable: true, value: { width: 375, height: 350, offsetLeft: 0, offsetTop: 0 } }); dispatchEvent(new Event('resize')); });
     const small = await panel.boundingBox();
     check('Workspace stays within software-keyboard viewport', small.y >= 8 && small.y + small.height <= 343);
-    await page.locator('.dock').tap();
+    await page.getByRole('button', { name: 'Reset DO position', exact: true }).tap();
     check('Reset keeps controls reachable', (await panel.boundingBox()).y === 8);
     await page.evaluate(() => { delete window.visualViewport; dispatchEvent(new Event('resize')); });
+    await page.locator('.context-tools summary').tap();
     await page.getByRole('button', { name: 'Point at an area', exact: true }).tap();
     check('Explicit Point closes workspace and reveals the page picker', !(await panel.isVisible()) && await page.locator('.picker-bar').isVisible());
     await page.locator('#brief').tap();

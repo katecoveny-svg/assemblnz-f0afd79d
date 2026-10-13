@@ -51,9 +51,10 @@ const check=(label,value)=>{assert.ok(value,label);checks.push(label);console.lo
   // Simulate the visual viewport shrinking as the phone software keyboard opens.
   await page.evaluate(()=>{Object.defineProperty(window,'visualViewport',{configurable:true,value:{width:375,height:350,offsetLeft:0,offsetTop:0}});dispatchEvent(new Event('resize'));});
   const small=await panel.boundingBox();check('Companion stays in keyboard viewport',small.y>=8&&small.y+small.height<=343);
-  await page.locator('.dock').tap();check('Reset keeps header reachable',(await panel.boundingBox()).y===8);
+  await page.getByRole('button',{name:'Reset DO position',exact:true}).tap();check('Reset keeps header reachable',(await panel.boundingBox()).y===8);
   await page.evaluate(()=>{delete window.visualViewport;dispatchEvent(new Event('resize'));});
-  await page.locator('.tools button').first().tap();
+  await page.locator('.context-tools summary').tap();
+  await page.getByRole('button',{name:'Point at an area',exact:true}).tap();
   await page.locator('#brief').tap();
   check('Touch context requires review',await page.locator('.review').isVisible());
   check('Only chosen text reaches review',(await page.locator('.review textarea').inputValue()).includes('Thursday proposal'));

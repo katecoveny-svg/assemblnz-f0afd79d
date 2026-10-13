@@ -2,7 +2,7 @@ async page => {
   const base = 'repo/output/playwright/notes-v1/';
   const image = 'repo/output/playwright/notes/synthetic-1.jpg';
   const ensure = (condition, message) => { if (!condition) throw new Error(message); };
-  await page.getByRole('button', { name: 'Photo', exact: true }).click();
+  await page.getByRole('navigation', { name: 'Ways to work with DO' }).getByRole('button', { name: 'Add image', exact: true }).click();
   await page.locator('summary').filter({ hasText: /^Photo$/ }).first().click();
   for (const name of ['empty-id', 'duplicate-id', 'fake-jpeg', 'oversized-jpeg', 'disguised-png']) {
     await page.getByLabel('Import note backup', { exact: true }).setInputFiles(base + name + '.json');
@@ -37,7 +37,7 @@ async page => {
   await page.getByRole('textbox', { name: 'Write draft' }).fill('Separate synthetic writing context.');
   await page.getByRole('button', { name: 'Talk', exact: true }).click();
   ensure(await page.locator('[data-talk-context]').getAttribute('data-talk-context') === 'Separate synthetic writing context.', 'photo text automatically leaked to voice context');
-  await page.getByRole('button', { name: 'Photo', exact: true }).click();
+  await page.getByRole('navigation', { name: 'Ways to work with DO' }).getByRole('button', { name: 'Add image', exact: true }).click();
   ensure((await page.getByRole('textbox', { name: /Page 2 text/ }).inputValue()).includes('Reviewed synthetic page 2'), 'Look switch lost corrected text');
   ensure(await page.locator('img').count() === 3, 'Look switch lost images');
   ensure(await page.evaluate(() => window.synthetic.count) === 3, 'switch dispatched automatically');
@@ -72,7 +72,7 @@ async page => {
   await page.getByRole('button', { name: 'Write', exact: true }).click();
   await page.getByRole('button', { name: 'Talk', exact: true }).click();
   await page.evaluate(() => window.synthetic.release());
-  await page.getByRole('button', { name: 'Photo', exact: true }).click();
+  await page.getByRole('navigation', { name: 'Ways to work with DO' }).getByRole('button', { name: 'Add image', exact: true }).click();
   ensure(await page.getByRole('textbox', { name: /Page 1 text/ }).inputValue() === '', 'late result applied after switch');
   ensure(!await page.getByRole('checkbox', { name: /Send only page 1 / }).isChecked(), 'switch retained provider approval');
   await page.evaluate(() => window.synthetic.setMode('failure'));
@@ -111,7 +111,7 @@ async page => {
   await page.getByRole('button', { name: 'Transcribe page 1', exact: true }).click();
   await page.evaluate(async () => {
     const find = name => Array.from(document.querySelectorAll('button')).find(button => button.textContent === name);
-    find('Write').click(); await Promise.resolve(); find('Photo').click();
+    find('Write').click(); await Promise.resolve(); find('Add image').click();
   });
   await page.evaluate(() => window.synthetic.release());
   await page.waitForFunction(() => !Array.from(document.querySelectorAll('button')).find(button => button.textContent === 'Add photos').disabled);
@@ -120,6 +120,6 @@ async page => {
   ensure(await page.evaluate(() => localStorage.length === 0 && sessionStorage.length === 0), 'notes silently stored');
   ensure(await page.evaluate(async () => (await indexedDB.databases()).length === 0), 'notes created a hidden IndexedDB copy');
   await page.screenshot({ path: base + 'mobile-interrupted.png', fullPage: true });
-  await page.reload(); await page.getByRole('button', { name: 'Photo', exact: true }).click();
+  await page.reload(); await page.getByRole('navigation', { name: 'Ways to work with DO' }).getByRole('button', { name: 'Add image', exact: true }).click();
   ensure(await page.locator('img').count() === 0, 'photos silently restored across reload');
 }

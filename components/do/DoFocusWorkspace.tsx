@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
-import { FileText, Mic, Eye, AudioLines, Settings2 } from 'lucide-react';
+import { FileText, Mic, Eye, Settings2 } from 'lucide-react';
 import { DoTextWorkspace } from '@/app/do/DoTextWorkspace';
 import { DoGeminiLive } from '@/app/do/DoGeminiLive';
 import { DoVision } from '@/app/do/DoVision';
@@ -57,15 +57,14 @@ export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTa
     <section className={`${styles.hero} ${styles.workspaceHero}`} data-embedded={embedded || undefined}>
       <div className={styles.workspaceIntro}>
       <h1>What would you like done?</h1>
-      <p>A photo, your voice or a note.</p>
+      <p>Bring a question, a plan or the thing on your mind.</p>
       </div><DoGlassHero embedded={embedded} />
     </section>
     <div className={styles.workspace}>
       <nav className={styles.workspaceModes} aria-label="Ways to work with DO">
         <button aria-pressed={mode === 'write'} onClick={() => enter('write')}><FileText size={15} />Write</button>
         <button aria-pressed={mode === 'talk'} disabled={!talk.canOpen} aria-describedby="do-talk-readiness" onClick={() => enter('talk', profile)}><Mic size={15} />Talk</button>
-        <button aria-pressed={mode === 'look'} onClick={() => { setRequestedTalk(false); setMode('look'); }}><Eye size={15} />Photo</button>
-        <Link href="/do/meetings" target={embedded ? '_blank' : undefined} rel={embedded ? 'noopener noreferrer' : undefined}><AudioLines size={15} />Meet</Link>
+        <button aria-pressed={mode === 'look'} onClick={() => { setRequestedTalk(false); setMode('look'); }}><Eye size={15} />Add image</button>
       </nav>
       <p id="do-talk-readiness" role="status" className={styles.help}>{talk.message} <button type="button" className={styles.textButton} onClick={() => void refresh()}>Check Talk</button></p>
       <div hidden={mode !== 'write'}><DoTextWorkspace embedded={embedded} initialTask={initialTask} focus focusRequest={focusRequest} offeredContext={offeredContext} onSourceChange={setContext} onNativeReveal={() => enter('write')} /></div>
@@ -79,7 +78,7 @@ export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTa
         <section hidden={mode !== 'look'} className={styles.toolSurface} aria-label="Show DO an image"><DoVision active={mode === 'look'} onUse={acceptContext} /></section>
       </>}
       <details className={styles.secondaryDetails} onToggle={e => { if (!e.currentTarget.open && mode === 'build') setMode('write'); }}>
-        <summary><Settings2 size={13} aria-hidden="true" style={{ display: 'inline', marginRight: 8 }} />Build or customise a DO</summary>
+        <summary><Settings2 size={13} aria-hidden="true" style={{ display: 'inline', marginRight: 8 }} />Tools &amp; examples</summary>
         <p>Templates, appearance and the advanced builder. Your writing draft stays in this page.</p>
         <button className={styles.textButton} onClick={() => { setRequestedTalk(false); setBuilderOpened(true); setMode(mode === 'build' ? 'write' : 'build'); }}>{mode === 'build' ? 'Back to writing' : 'Open the builder'}</button>
       </details>

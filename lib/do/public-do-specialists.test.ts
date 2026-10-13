@@ -78,8 +78,11 @@ describe('public DO entry boundaries', () => {
     const doHome = readFileSync(join(root, 'app/do/DoHome.tsx'), 'utf8');
     const workspace = readFileSync(join(root, 'app/do/personal/PersonalDo.tsx'), 'utf8');
     expect(doHome).toContain('<PersonalDo />');
-    for (const href of ['/do/widget', '/do/meetings', '/do/bills', '/do/enquiries', '/do/install']) expect(workspace).toContain(`href="${href}"`);
-    expect(workspace).toContain('Meeting notes · sign in');
+    const navigation = readFileSync(join(root, 'components/do/DoSecondaryNavigation.tsx'), 'utf8');
+    expect(workspace).toContain('<DoSecondaryNavigation />');
+    for (const href of ['/do/widget', '/do/meetings', '/do/bills', '/do/enquiries', '/do/install']) expect(navigation).toContain(`href="${href}"`);
+    expect(navigation).toContain('Tools &amp; examples');
+    expect(navigation).toContain('href="/do/household"');
     expect(workspace).not.toContain('href="/do/household"');
     expect(workspace).not.toContain('href="/do/tasks');
     const story = readFileSync(join(root, 'app/do/DoStory.tsx'), 'utf8');
