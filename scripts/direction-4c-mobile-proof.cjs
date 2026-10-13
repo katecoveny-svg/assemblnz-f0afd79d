@@ -6,7 +6,20 @@ fs.mkdirSync(output, { recursive: true });
 (async () => {
   const engine = process.env.PROOF_BROWSER || 'chromium';
   const browser = await ({ chromium, webkit }[engine]).launch({ ...(process.env.PROOF_CHANNEL ? { channel: process.env.PROOF_CHANNEL } : {}), ...(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}), args: engine === 'chromium' ? ['--enable-unsafe-swiftshader'] : [] });
-  const results = [];
+  const results = [], captures = [];
+  const scroll = async (page, y) => {
+    await page.evaluate(y => { document.documentElement.style.scrollBehavior = 'auto'; document.body.style.scrollBehavior = 'auto'; scrollTo({ top: y, behavior: 'instant' }); }, y);
+    await page.waitForFunction(y => Math.abs(scrollY - Math.min(y, document.documentElement.scrollHeight - innerHeight)) < 1, y);
+  };
+  const capture = async (page, width, mode, label, y) => {
+    await scroll(page, y);
+    const file = `${engine}-${width}-${mode}-${label}.jpg`;
+    const state = await page.evaluate(() => { const v = document.querySelector('[data-coastal-video]'); return { scrollY, currentTime: v.currentTime, readyState: v.readyState, paused: v.paused, videoReady: document.querySelector('.direction-4c').dataset.videoReady || null, posterVisible: getComputedStyle(v).opacity === '0' }; });
+    await page.screenshot({ path: `${output}/${file}`, type: 'jpeg', quality: 85 });
+    captures.push({ file, width, mode, ...state });
+    fs.writeFileSync(`${output}/${engine}-captures.json`, JSON.stringify(captures, null, 2));
+    return state;
+  };
   try {
     for (const width of [375, 390, 430, 1440]) {
       for (const mode of width === 1440 ? ['normal', 'reduce'] : ['normal', 'blocked', 'denied', 'no-frame', 'reduce']) {
@@ -33,9 +46,13 @@ fs.mkdirSync(output, { recursive: true });
         assert(await page.locator('.clear-coastal-poster').evaluate(el => el.complete && el.naturalWidth >= 1280), 'coastal poster loaded');
         assert.equal(await page.locator('.direction-4c').evaluate(el => el.textContent.includes('↗')), false, 'no emoji arrows');
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'no horizontal overflow');
+        const top = await capture(page, width, mode, 'top', 0);
+        assert.equal(top.scrollY, 0);
+        if (mode === 'normal') { assert.equal(top.paused, false); assert(top.readyState >= 2); assert.equal(top.videoReady, 'true'); }
         if (width < 901) {
+          await capture(page, width, mode, 'midscroll', 240);
           for (const y of [0, 200, 400, 650, 1000]) {
-            await page.evaluate(y => scrollTo(0, y), y);
+            await scroll(page, y);
             const style = await page.locator('[data-ref="msgRef"]').evaluate(el => ({ opacity: getComputedStyle(el).opacity, visibility: getComputedStyle(el).visibility, background: getComputedStyle(el).backgroundColor }));
             assert.equal(style.opacity, '1'); assert.equal(style.visibility, 'visible'); assert.equal(style.background, 'rgb(36, 11, 33)');
           }
@@ -43,18 +60,30 @@ fs.mkdirSync(output, { recursive: true });
           if (mode === 'normal') {
             await page.locator('[data-pause]').click();
             assert(await page.locator('video').evaluate(el => el.paused));
-            await page.evaluate(() => scrollTo(0, 240));
+            await scroll(page, 240);
             assert.equal(await page.locator('[data-ref="msgRef"]').evaluate(el => getComputedStyle(el).opacity), '1');
-            await page.screenshot({ path: `${output}/${engine}-${width}-midscroll-paused.jpg`, type: 'jpeg', quality: 85 });
+            await capture(page, width, mode, 'midscroll-paused', 240);
+            await page.setViewportSize({ width: 1000, height: 844 });
+            await page.waitForTimeout(200);
+            assert(await page.locator('video').evaluate(el => el.paused), 'resize must preserve pause');
+            await page.setViewportSize({ width, height: 844 });
+            await page.waitForTimeout(200);
+            assert(await page.locator('video').evaluate(el => el.paused), 'return to mobile must preserve pause');
             await page.locator('[data-pause]').click();
             await page.waitForFunction(() => !document.querySelector('video').paused);
-            await page.screenshot({ path: `${output}/${engine}-${width}-playing.jpg`, type: 'jpeg', quality: 85 });
-            await page.locator('video').evaluate(el => el.dispatchEvent(new Event('waiting')));
-            assert.equal(await page.locator('video').evaluate(el => getComputedStyle(el).opacity), '0', 'stall reveals poster');
+            await page.waitForFunction(() => document.querySelector('.direction-4c').dataset.videoReady === 'true');
+            await page.locator('video').evaluate(el => el.dispatchEvent(new Event('stalled')));
+            assert.equal(await page.locator('video').evaluate(el => getComputedStyle(el).opacity), '1', 'buffered stall preserves visible footage');
+            const waitingHidden = await page.locator('video').evaluate(el => {
+              el.dispatchEvent(new Event('waiting'));
+              return !document.querySelector('.direction-4c').hasAttribute('data-video-ready');
+            });
+            assert(waitingHidden, 'actual waiting reveals poster');
+            await page.waitForFunction(() => document.querySelector('.direction-4c').dataset.videoReady === 'true');
+            await capture(page, width, mode, 'recovered', 240);
           } else assert.equal(await page.locator('video').evaluate(el => getComputedStyle(el).opacity), '0');
         }
-        await page.evaluate(() => scrollTo(0, 0));
-        await page.screenshot({ path: `${output}/${engine}-${width}-${mode}.jpg`, type: 'jpeg', quality: 85 });
+
         assert.deepEqual(errors, []);
         results.push({ width, mode, engine, passed: true });
         fs.writeFileSync(`${output}/${engine}-results.json`, JSON.stringify(results, null, 2));

@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import { describe, expect, it, vi } from 'vitest';
+import { playVideoWhenAllowed } from './video-readiness';
 
 // Exercise the shipping page wiring with a stub renderer, so input/cleanup behavior
 // is tested without requiring a GPU or copying the engine's implementation.
@@ -116,10 +117,13 @@ async function controllerFixture() {
   const js = transpileModule(component, { compilerOptions: { module: ModuleKind.CommonJS, jsx: JsxEmit.ReactJSX } }).outputText;
   const frames = new Map<number, () => void>();
   const videoEvents = new Map<string, () => void>();
-  const button = { setAttribute: vi.fn(), addEventListener: vi.fn(), removeEventListener: vi.fn(), textContent: '', disabled: false };
+  const videoListeners = new Map<string, Set<() => void>>();
+  const buttonEvents = new Map<string, () => void>();
+  const documentEvents = new Map<string, () => void>();
+  const button = { setAttribute: vi.fn(), addEventListener: (name: string, fn: () => void) => buttonEvents.set(name, fn), removeEventListener: (name: string) => buttonEvents.delete(name), textContent: '', disabled: false };
   const canvas = { addEventListener: vi.fn(), removeEventListener: vi.fn() };
   const root = { dataset: {} as Record<string, string>, toggleAttribute: vi.fn(), querySelectorAll: () => [], querySelector: (selector: string) => selector === '[data-coastal-video]' ? video : selector === '[data-pause]' ? button : selector.includes('canvasRef') ? canvas : null };
-  const video = { muted: false, playsInline: false, preload: '', duration: 24, currentTime: 0, seeking: false, src: '', play: vi.fn().mockResolvedValue(undefined), pause: vi.fn(), load: vi.fn(), removeAttribute: vi.fn(), addEventListener: (name: string, fn: () => void) => videoEvents.set(name, fn), removeEventListener: (name: string) => videoEvents.delete(name) };
+  const video = { readyState: 2, videoWidth: 1280, paused: true, muted: false, playsInline: false, preload: '', duration: 24, currentTime: 0, seeking: false, src: '', play: vi.fn(async () => { video.paused = false; }), pause: vi.fn(() => { video.paused = true; }), load: vi.fn(), removeAttribute: vi.fn(), addEventListener: (name: string, fn: () => void) => { if (!videoListeners.has(name)) videoListeners.set(name, new Set()); videoListeners.get(name)!.add(fn); videoEvents.set(name, () => [...(videoListeners.get(name) ?? [])].forEach(listener => listener())); }, removeEventListener: (name: string, fn: () => void) => { videoListeners.get(name)?.delete(fn); if (!videoListeners.get(name)?.size) videoEvents.delete(name); } };
   let resolveAttach!: () => void;
   const world = { ready: new Promise<void>(resolve => { resolveAttach = resolve; }), api: { setKnock: vi.fn(), setArrive: vi.fn() }, setPaused: vi.fn(), dispose: vi.fn() };
   const attach = vi.fn((_options: { onFail(): void }) => world);
@@ -127,16 +131,19 @@ async function controllerFixture() {
   const exported: { Direction4cHome?: () => void } = {};
   let preference!: () => void;
   const media = { matches: false, addEventListener: (_: string, fn: () => void) => { preference = fn; }, removeEventListener: vi.fn() };
+  let resize!: () => void;
+  const mobile = { matches: false, addEventListener: (_: string, fn: () => void) => { resize = fn; }, removeEventListener: vi.fn() };
+  const pageDocument = { hidden: false, createElement: () => video, querySelector: () => ({ dataset: { loaded: 'true' } }), documentElement: { removeAttribute: vi.fn(), scrollHeight: 1000 }, addEventListener: (name: string, fn: () => void) => documentEvents.set(name, fn), removeEventListener: (name: string) => documentEvents.delete(name) };
   runInNewContext(js, {
     exports: exported, AbortController,
-    require: (name: string) => name === 'react' ? { useRef: () => ({ current: root }), useEffect: (fn: () => () => void) => { cleanup = fn(); } } : name === './video-readiness' ? { waitForVideoFrame: () => Promise.resolve() } : name === 'react/jsx-runtime' ? { jsx: () => null } : {},
-    document: { hidden: false, createElement: () => video, querySelector: () => ({ dataset: { loaded: 'true' } }), documentElement: { removeAttribute: vi.fn(), scrollHeight: 1000 }, addEventListener: vi.fn(), removeEventListener: vi.fn() },
-    window: { AssemblTide: { attach } }, matchMedia: () => media, scrollY: 0, innerHeight: 800, performance: { now: () => 0 },
+    require: (name: string) => name === 'react' ? { useRef: () => ({ current: root }), useEffect: (fn: () => () => void) => { cleanup = fn(); } } : name === './video-readiness' ? { playVideoWhenAllowed } : name === 'react/jsx-runtime' ? { jsx: () => null } : {},
+    document: pageDocument,
+    window: { AssemblTide: { attach } }, matchMedia: (query: string) => query.includes('max-width') ? mobile : media, scrollY: 0, innerHeight: 800, performance: { now: () => 0 },
     cancelAnimationFrame: (id: number) => frames.delete(id), requestAnimationFrame: (fn: () => void) => { frames.set(frames.size + 1, fn); return frames.size; },
   });
   exported.Direction4cHome!();
-  for (let n = 0; n < 8; n++) await Promise.resolve();
-  return { attach, world, root, video, videoEvents, frames, resolveAttach, cleanup, media, preference, flush: async () => { for (let n = 0; n < 8; n++) await Promise.resolve(); } };
+  for (let n = 0; n < 16; n++) await Promise.resolve();
+  return { attach, world, root, video, videoEvents, frames, resolveAttach, cleanup, media, preference, mobile, resize, buttonEvents, documentEvents, pageDocument, flush: async () => { for (let n = 0; n < 16; n++) await Promise.resolve(); } };
 }
 it('disposes an attach that resolves after media failure without restarting frames or seeking video', async () => {
   const { attach, world, root, video, videoEvents, frames, resolveAttach, cleanup, flush } = await controllerFixture();
@@ -182,4 +189,36 @@ it('cancels delayed font initialization before allocating a WebGL renderer', asy
   abort.abort(); loaded();
   await expect(pending).rejects.toMatchObject({ name: 'AbortError' });
   expect(renderer).not.toHaveBeenCalled();
+});
+
+
+it('keeps playback paused across a breakpoint change until explicitly resumed', async () => {
+  const f = await controllerFixture(); f.resolveAttach(); await f.flush();
+  f.buttonEvents.get('click')!(); expect(f.video.paused).toBe(true);
+  const plays = f.video.play.mock.calls.length;
+  f.mobile.matches = true; f.resize(); await f.flush();
+  expect(f.video.play).toHaveBeenCalledTimes(plays);
+  expect(f.root.dataset.videoReady).toBeUndefined();
+  f.buttonEvents.get('click')!(); await f.flush();
+  expect(f.video.play.mock.calls.length).toBeGreaterThan(plays);
+  expect(f.root.dataset.videoReady).toBe('true'); f.cleanup();
+});
+it('preserves buffered video on stalled and restores waiting without a playing event', async () => {
+  const f = await controllerFixture(); f.resolveAttach(); await f.flush();
+  f.videoEvents.get('stalled')!();
+  expect(f.root.dataset.videoReady).toBe('true'); expect(f.root.dataset.ready).toBe('true');
+  f.videoEvents.get('waiting')!(); expect(f.root.dataset.videoReady).toBeUndefined();
+  await f.flush();
+  expect(f.root.dataset.videoReady).toBe('true'); expect(f.root.dataset.ready).toBe('true');
+  f.cleanup();
+});
+it('defers initialization while the page is hidden and resumes on visibility', async () => {
+  const f = await controllerFixture(); f.resolveAttach(); await f.flush();
+  f.pageDocument.hidden = true; f.documentEvents.get('visibilitychange')!();
+  const plays = f.video.play.mock.calls.length;
+  f.mobile.matches = true; f.resize(); await f.flush();
+  expect(f.video.play).toHaveBeenCalledTimes(plays);
+  expect(f.root.dataset.static).toBeUndefined();
+  f.pageDocument.hidden = false; f.documentEvents.get('visibilitychange')!(); await f.flush();
+  expect(f.root.dataset.videoReady).toBe('true'); f.cleanup();
 });

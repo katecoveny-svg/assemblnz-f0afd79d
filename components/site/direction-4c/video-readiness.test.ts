@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { waitForVideoFrame } from './video-readiness';
+import { playVideoWhenAllowed, waitForVideoFrame } from './video-readiness';
 
 function fixture(callbacks = true) {
   const video = new EventTarget() as HTMLVideoElement;
@@ -31,4 +31,21 @@ describe('coastal video readiness', () => {
   it('accepts loaded pixel data on browsers without frame callbacks', async () => {
     const f = fixture(false); await expect(waitForVideoFrame(f.video, f.controller.signal)).resolves.toBeUndefined();
   });
+});
+
+
+it('does not spend the frame deadline while paused or hidden, including suspension mid-start', async () => {
+  vi.useFakeTimers(); const f = fixture();
+  const play = vi.fn().mockResolvedValue(undefined), pause = vi.fn();
+  Object.assign(f.video, { play, pause });
+  let allowed = false; const listeners = new Set<() => void>();
+  const gate = { allowed: () => allowed, subscribe: (fn: () => void) => { listeners.add(fn); return () => { listeners.delete(fn); }; } };
+  const change = (value: boolean) => { allowed = value; [...listeners].forEach(fn => fn()); };
+  const pending = playVideoWhenAllowed(f.video, f.controller.signal, gate, 100);
+  await vi.advanceTimersByTimeAsync(1000); expect(play).not.toHaveBeenCalled();
+  change(true); await vi.advanceTimersByTimeAsync(50); expect(play).toHaveBeenCalledOnce();
+  change(false); await vi.advanceTimersByTimeAsync(1000); expect(pause).toHaveBeenCalled();
+  expect(play).toHaveBeenCalledOnce();
+  change(true); await vi.advanceTimersByTimeAsync(50); f.decode(); await pending;
+  expect(play).toHaveBeenCalledTimes(2); expect(listeners.size).toBe(0);
 });

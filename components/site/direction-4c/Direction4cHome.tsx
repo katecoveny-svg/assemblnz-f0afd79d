@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { waitForVideoFrame } from './video-readiness';
+import { playVideoWhenAllowed } from './video-readiness';
 import { directionMarkup } from './markup';
 import './direction-4c.css';
 
@@ -36,7 +36,13 @@ export function Direction4cHome() {
     const media = matchMedia('(prefers-reduced-motion: reduce)');
     const mobile = matchMedia('(max-width: 900px)');
     let startup: AbortController | undefined;
-    let disposed = false, paused = false, frame = 0;
+    let disposed = false, paused = false, initialized = false, frame = 0;
+    let recovery: Promise<void> | undefined;
+    const playbackListeners = new Set<() => void>();
+    const playbackGate = {
+      allowed: () => !paused && !media.matches && !document.hidden,
+      subscribe: (listener: () => void) => { playbackListeners.add(listener); return () => { playbackListeners.delete(listener); }; },
+    };
     let world: TideWorld | undefined;
     const video = root.querySelector<HTMLVideoElement>('[data-coastal-video]')!;
     video.muted = true; video.defaultMuted = true; video.playsInline = true; video.preload = 'auto';
@@ -54,12 +60,13 @@ export function Direction4cHome() {
       delete root.dataset.ready; delete root.dataset.videoReady;
       root.querySelectorAll<HTMLElement>('[data-rv]').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
     };
-    const stop = () => { startup?.abort(); startup = undefined; cancelAnimationFrame(frame); frame = 0; world?.dispose(); world = undefined; video.pause(); fallback(); };
+    const stop = () => { initialized = false; recovery = undefined; startup?.abort(); startup = undefined; cancelAnimationFrame(frame); frame = 0; world?.dispose(); world = undefined; video.pause(); fallback(); };
     const updatePause = () => {
       root.toggleAttribute('data-paused', paused || media.matches);
       world?.setPaused(paused || media.matches || document.hidden);
-      if (paused || media.matches || document.hidden) video.pause();
-      else if (video.src) void video.play().catch(() => { delete root.dataset.videoReady; });
+      if (!playbackGate.allowed()) video.pause();
+      playbackListeners.forEach(listener => listener());
+      if (initialized && playbackGate.allowed() && video.paused) void recover();
       // Engine has a document-wide pause switch; contain it to this page.
       document.documentElement.removeAttribute('data-paused');
       button.setAttribute('aria-pressed', String(paused || media.matches));
@@ -91,9 +98,9 @@ export function Direction4cHome() {
       const signal = startup.signal;
       try {
         video.src = '/direction-4c/assets/footage/bay-of-islands.mp4';
-        const decoded = waitForVideoFrame(video, signal);
-        await Promise.all([decoded, video.play()]);
+        await playVideoWhenAllowed(video, signal, playbackGate);
         if (disposed || current !== generation || media.matches) return;
+        initialized = true;
         root.dataset.videoReady = 'true';
         if (mobile.matches) { updatePause(); return; }
         await loadScript('/direction-4c/vendor/three.min.js');
@@ -133,20 +140,29 @@ export function Direction4cHome() {
       video.removeAttribute('src'); video.load();
       button.textContent = 'Play motion';
     };
-    const waiting = () => { delete root.dataset.videoReady; delete root.dataset.ready; };
-    const playing = async () => {
-      if (!startup || startup.signal.aborted) return;
+    const recover = () => {
+      if (recovery || !initialized || !startup || startup.signal.aborted) return recovery;
       const current = generation;
-      try {
-        await waitForVideoFrame(video, startup.signal);
+      recovery = playVideoWhenAllowed(video, startup.signal, playbackGate).then(() => {
         if (disposed || current !== generation) return;
         root.dataset.videoReady = 'true';
         if (world?.api) root.dataset.ready = 'true';
-      } catch { /* The coastal poster remains visible. */ }
+      }).catch(() => { if (!disposed && current === generation) lost(); }).finally(() => {
+        if (current === generation) recovery = undefined;
+      });
+      return recovery;
+    };
+    const waiting = () => {
+      delete root.dataset.videoReady; delete root.dataset.ready;
+      // Wait for the next decoded frame directly: recovery need not emit playing.
+      void recover();
+    };
+    const stalled = () => {
+      // Fetch can stall while buffered footage is still playing normally.
+      if (video.readyState < 2 || !video.videoWidth) waiting();
     };
     video.addEventListener('waiting', waiting);
-    video.addEventListener('stalled', waiting);
-    video.addEventListener('playing', playing);
+    video.addEventListener('stalled', stalled);
     video.addEventListener('error', lost);
     ref('canvasRef')?.addEventListener('webglcontextlost', lost);
     button.addEventListener('click', toggle);
@@ -156,8 +172,8 @@ export function Direction4cHome() {
     void start();
     return () => {
       disposed = true; generation++; stop(); video.removeAttribute('src'); video.load();
-      video.removeEventListener('waiting', waiting); video.removeEventListener('stalled', waiting);
-      video.removeEventListener('playing', playing); mobile.removeEventListener('change', start);
+      video.removeEventListener('waiting', waiting); video.removeEventListener('stalled', stalled);
+      mobile.removeEventListener('change', start);
       button.removeEventListener('click', toggle); media.removeEventListener('change', start);
       document.removeEventListener('visibilitychange', visibility); video.removeEventListener('error', lost);
       ref('canvasRef')?.removeEventListener('webglcontextlost', lost);
