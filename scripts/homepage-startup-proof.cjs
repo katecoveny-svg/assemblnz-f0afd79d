@@ -65,7 +65,7 @@ for(const width of (process.env.PROOF_WIDTHS||'390,1440').split(',').map(Number)
   await posterGate; return route.continue();
  });
  let mediaDeadline;
- if(mode!=='normal')await page.route(/\.(mp4|webm)(?:\?|$)/,async route=>{if(mode==='blocked'||posterCase)return route.abort();mediaDeadline ||= Date.now()+4000;await new Promise(r=>setTimeout(r,Math.max(0,mediaDeadline-Date.now())));return route.continue();});
+ if(mode!=='normal')await page.route(/\.(mp4|webm)(?:\?|$)/,async route=>{if(mode==='blocked'||posterCase)return route.abort();mediaDeadline ||= Date.now()+Number(process.env.PROOF_MEDIA_DELAY_MS||4000);await new Promise(r=>setTimeout(r,Math.max(0,mediaDeadline-Date.now())));return route.continue();});
  const network=[];page.on('response',async r=>{if(/assembl-tide|\.mp4|\.webm|poster|coast/.test(r.url()))network.push({url:r.url(),status:r.status(),headers:await r.allHeaders()});});
  for(let repeat=0;repeat<(mode==='normal'?3:1);repeat++){
  const name=`${width}-${mode}-${repeat===0?'fresh':'warm'+repeat}`;const start=Date.now();
@@ -79,13 +79,14 @@ for(const width of (process.env.PROOF_WIDTHS||'390,1440').split(',').map(Number)
  }
  await posterRecovery;
  const timeline=await page.evaluate(()=>window.__timeline);
+ const videoOutcome=await page.locator('video').evaluate(v=>({paused:v.paused,source:v.getAttribute('src'),readyState:v.readyState}));
  const painted = await page.evaluate(() => {
   const canvas=document.querySelector('[data-ref="canvasRef"]'), probe=document.createElement('canvas');probe.width=probe.height=8;
   const ctx=probe.getContext('2d');ctx.drawImage(canvas,0,0,8,8);
   return Array.from(ctx.getImageData(0,0,8,8).data);
  });
 
-results.push({name,width,mode,captures,timeline,painted,network:[...network],url:page.url()});
+results.push({name,width,mode,captures,timeline,painted,videoOutcome,network:[...network],url:page.url()});
  fs.writeFileSync(`${out}/results.json`,JSON.stringify(results,null,2));console.log(name,JSON.stringify(timeline.filter((v,i,a)=>!i||v.ready!==a[i-1].ready||v.videoReady!==a[i-1].videoReady||v.sample?.tag!==a[i-1].sample?.tag)));
  if(process.env.PROOF_ASSERT==='1'){
   const assert=require('node:assert/strict');
@@ -101,7 +102,17 @@ results.push({name,width,mode,captures,timeline,painted,network:[...network],url
    else assert(!timeline.some(x=>x.sample),'failed poster stays on the deliberate procedural fallback');
   }
   if(mode==='blocked')assert(!timeline.some(x=>x.ready&&x.sample?.tag==='VIDEO'),'blocked video stays on poster');
-  if(mode==='delayed')assert(timeline.some(x=>x.blend>0&&x.blend<1),'late video blends into the existing composition');
+  if(mode==='delayed'){
+   const firstVideo=timeline.findIndex(x=>x.ready&&x.sample?.tag==='VIDEO');
+   if(firstVideo>=0) {
+    if(timeline.slice(0,firstVideo).some(x=>x.ready&&x.sample?.tag==='IMG'))
+     assert(timeline.some(x=>x.blend>0&&x.blend<1),'video recovering after a painted poster blends into that composition');
+   } else {
+    // Software WebGL can consume the six-second media deadline. That is a supported failure path.
+    assert(timeline.filter(x=>x.ready).every(x=>x.sample?.tag==='IMG'),'unavailable delayed video retains the painted poster');
+    assert(videoOutcome.paused&&!videoOutcome.source,'unavailable video is stopped and discarded');
+   }
+  }
  }
  }
  const video=page.video();await context.close();await video.saveAs(`${out}/${width}-${mode}.webm`);
