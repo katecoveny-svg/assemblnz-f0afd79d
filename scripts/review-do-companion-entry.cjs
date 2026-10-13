@@ -70,7 +70,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   await page.waitForFunction(()=>window.assemblDoCompanionEntry?.readiness()==='ready');
   check('choosing Write cancels a queued Talk request',await page.locator('.do-live-panel').count()===0&&await page.getByRole('button',{name:'Write',exact:true}).getAttribute('aria-pressed')==='true');
   await page.goto(origin+'/entry-fixture');
-  await page.getByRole('button',{name:'Open DO. Drag to move or use Alt and arrow keys.',exact:true}).click();
+  await page.getByRole('button',{name:'Ask DO. Drag to move or use Alt and arrow keys.',exact:true}).click();
   const iframe=page.frameLocator('iframe[title="DO — prepare and review"]');
   await iframe.locator('#do-source').waitFor({state:'visible'});
   await iframe.locator('#do-source').fill('Fictional embedded note.');
@@ -92,8 +92,8 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   await page.getByRole('button',{name:'Compact DO workspace',exact:true}).click();
   check('compacting preserves the draft',await iframe.locator('#do-source').inputValue()==='Fictional embedded note.');
   await page.getByRole('button',{name:'Minimise DO workspace',exact:true}).click();
-  check('close returns keyboard focus to the launcher',await page.getByRole('button',{name:'Open DO. Drag to move or use Alt and arrow keys.',exact:true}).evaluate(e=>e.getRootNode().activeElement===e));
-  await page.getByRole('button',{name:'Open DO. Drag to move or use Alt and arrow keys.',exact:true}).click();
+  check('close returns keyboard focus to the launcher',await page.getByRole('button',{name:'Ask DO. Drag to move or use Alt and arrow keys.',exact:true}).evaluate(e=>e.getRootNode().activeElement===e));
+  await page.getByRole('button',{name:'Ask DO. Drag to move or use Alt and arrow keys.',exact:true}).click();
   check('reopening preserves the iframe draft',await iframe.locator('#do-source').inputValue()==='Fictional embedded note.');
   await child.addStyleTag({content:'nextjs-portal{display:none!important}'});
   await child.evaluate(()=>scrollTo(0,0));
