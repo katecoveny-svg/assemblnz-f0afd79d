@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { ArrowUpRight, ArrowRight, Check, Pause, Play, Plus, Minus, Camera, Mic, ShoppingBag, Leaf, RotateCcw } from 'lucide-react';
 import { DoVision } from '../../DoVision';
 import { DoGeminiLive } from '../../DoGeminiLive';
@@ -53,11 +54,11 @@ export default function LoyaltyDo() {
   return <div className="loyalty-do" ref={root} data-paused={paused || reduced ? '' : undefined}>
     <div className="ld-proposal">Independent assembl proposal <span>·</span> Not affiliated with or endorsed by Woolworths NZ. No retailer connection.</div>
     <header className="ld-header"><a href="#top" className="ld-brand" aria-label="Loyalty DO concept"><span className="ld-do">DO<span>.</span></span><span>for everyday<br /><b>rewards</b></span></a><div className="ld-header-actions"><button className="ld-motion" onClick={() => setPaused(!paused)} disabled={reduced} aria-pressed={paused || reduced}>{paused || reduced ? <Play size={15} /> : <Pause size={15} />}<span>{reduced ? 'Motion reduced' : paused ? 'Play motion' : 'Pause motion'}</span></button><button className="ld-dark ld-top-start" onClick={start}>Try the concept <ArrowUpRight size={17} /></button></div></header>
-    <main id="top">
+    <article id="top">
       <section className="ld-hero" aria-labelledby="ld-hero-title">
         <Image className="ld-hero-image" src="/loyalty/everyday-rewards/kitchen.jpg" alt="Synthetic kitchen still life: tomatoes, basil, aubergines and an orange shopping bag on a sunlit island" fill priority sizes="100vw" />
         <div className="ld-hero-copy"><h1 id="ld-hero-title">Everyday,<br />a little<br /><em>easier.</em></h1><p>Your kitchen. Tonight’s dinner.<br />A more thoughtful way to shop.</p><button className="ld-dark ld-hero-cta" onClick={start}>Let’s make dinner <ArrowRight size={20} /></button><span className="ld-caption">A loyalty DO concept for Woolworths NZ</span></div>
-        <div className="ld-reward-object" aria-label="Concept loyalty card, not a real membership card"><div className="ld-card-top"><span>everyday<br /><b>possibilities.</b></span><ShoppingBag size={26} /></div><p>A little less admin.<br /><strong>A little more life.</strong></p><div className="ld-card-bottom"><span>LOYALTY DO</span><span>CONCEPT / NZ</span></div></div>
+        <div className="ld-reward-object" aria-label="Concept loyalty card, not a real membership card"><div className="ld-object-top"><span>everyday<br /><b>possibilities.</b></span><ShoppingBag size={26} /></div><p>A little less admin.<br /><strong>A little more life.</strong></p><div className="ld-object-bottom"><span>LOYALTY DO</span><span>CONCEPT / NZ</span></div></div>
         <div className="ld-scene-note"><span className="ld-scene-line" />FROM WHAT YOU HAVE → TO WHAT YOU NEED<span>Synthetic concept artwork</span></div>
       </section>
       <section className="ld-intro"><p>Good things come together.</p><h2>Start with what’s in the kitchen.<br /><span>DO helps with what comes next.</span></h2><div><span><Leaf size={19} /> Use what you have</span><span><ShoppingBag size={19} /> Review what you need</span><span><Check size={19} /> Stay in control</span></div></section>
@@ -71,7 +72,7 @@ export default function LoyaltyDo() {
         </div>
       </section>
       <section className="ld-outro"><h2>A loyalty programme<br />that helps with <em>life.</em></h2><p>That’s the possibility. One familiar DO, helping the household make a plan, make a choice, and keep control of the next step.</p><button className="ld-outline" onClick={() => { reset(); start(); }}>{started ? 'Try another dinner' : 'Explore the concept'} <ArrowRight size={18} /></button></section>
-    </main>
-    <footer className="ld-footer"><div><strong>assembl</strong><p>Independent partner proposal · October 2026.<br />Synthetic artwork, recipes, prices and stock. No commercial relationship implied.</p></div><nav aria-label="Legal and programme information"><a href="/legal/terms">Terms</a><a href="/legal/privacy">Privacy</a><a href="https://www.everydayrewards.co.nz/terms-and-conditions" target="_blank" rel="noreferrer">Official NZ programme terms <ArrowUpRight size={14} /></a></nav></footer>
+    </article>
+    <footer className="ld-footer"><div><strong>assembl</strong><p>Independent partner proposal · October 2026.<br />Synthetic artwork, recipes, prices and stock. No commercial relationship implied.</p></div><nav aria-label="Legal and programme information"><Link href="/legal/terms">Terms</Link><Link href="/legal/privacy">Privacy</Link><a href="https://www.everydayrewards.co.nz/terms-and-conditions" target="_blank" rel="noreferrer">Official NZ programme terms <ArrowUpRight size={14} /></a></nav></footer>
   </div>;
 }
