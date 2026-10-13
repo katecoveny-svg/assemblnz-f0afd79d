@@ -1,12 +1,20 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+const grantVerifier = vi.hoisted(() => vi.fn());
+vi.mock('@/apps/do/mail/capability', async importOriginal => ({ ...await importOriginal<typeof import('@/apps/do/mail/capability')>(), verifyPersonalMailGrant: grantVerifier }));
 const owner = 'do:user:11111111-1111-4111-8111-111111111111';
 let fetcher: ReturnType<typeof vi.fn>;
 const search = { accountId: 'second', terms: 'Example Clinic', days: 7 as const };
 const rows = [{ id: 'first', healthy: true, app: { name_slug: 'gmail' }, external_user_id: owner }, { id: 'second', healthy: true, app: { name_slug: 'gmail' }, external_user_id: owner }];
-beforeEach(() => { vi.resetModules(); vi.stubEnv('PIPEDREAM_CLIENT_ID', 'synthetic'); vi.stubEnv('PIPEDREAM_CLIENT_SECRET', 'synthetic'); vi.stubEnv('PIPEDREAM_PROJECT_ID', 'proj_fixture'); vi.stubEnv('DO_GMAIL_OAUTH_APP_ID', 'oa_fixture'); fetcher = vi.fn(); vi.stubGlobal('fetch', fetcher); });
+beforeEach(() => { vi.resetModules(); grantVerifier.mockImplementation(async (externalOwner, accountId, signal) => { signal.throwIfAborted(); return { externalOwner, accountId, provider: 'gmail', source: 'provider_grant_metadata', scopes: ['https://www.googleapis.com/auth/gmail.readonly'], checkedAt: Date.now(), expiresAt: Date.now() + 300_000 }; }); vi.stubEnv('PIPEDREAM_CLIENT_ID', 'synthetic'); vi.stubEnv('PIPEDREAM_CLIENT_SECRET', 'synthetic'); vi.stubEnv('PIPEDREAM_PROJECT_ID', 'proj_fixture'); vi.stubEnv('DO_GMAIL_OAUTH_APP_ID', 'oa_fixture'); fetcher = vi.fn(); vi.stubGlobal('fetch', fetcher); });
 afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); });
 function setup(accounts = rows) { fetcher.mockResolvedValueOnce(Response.json({ access_token: 'synthetic', expires_in: 3600 })).mockResolvedValueOnce(Response.json({ data: accounts })); }
 describe('mail transport allowlist', () => {
+  it('blocks direct transport calls without verified scope evidence before any network request', async () => {
+    grantVerifier.mockResolvedValue(null);
+    const { doPersonalMailRead } = await import('./pipedream');
+    await expect(doPersonalMailRead(owner, 'second', { kind: 'search', search }, new AbortController().signal)).rejects.toThrow('gmail_read_unverified');
+    expect(fetcher).not.toHaveBeenCalled();
+  });
   it('pins account two and only a bounded GET to Gmail me/messages', async () => {
     setup(); fetcher.mockResolvedValueOnce(Response.json({ messages: [] }));
     const { doPersonalMailRead } = await import('./pipedream');

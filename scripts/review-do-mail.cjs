@@ -7,11 +7,12 @@ const output = process.env.ASSEMBL_REVIEW_OUTPUT || 'output/playwright/do-mail';
 const ownerA = '11111111-1111-4111-8111-111111111111';
 const ownerB = '22222222-2222-4222-8222-222222222222';
 const checks = [];
-const check = (name, value) => { assert.ok(value, name); checks.push(name); };
+const check = (name, value) => { assert.ok(value, name); checks.push(name); console.log('PASS ' + name); };
 (async () => {
   fs.mkdirSync(output, { recursive: true });
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, serviceWorkers: 'block' });
+  let grantVerified = false;
   let owner = ownerA, delay = false, release = () => {};
   const posts = [], external = [], errors = [];
   await context.route('**/*', async route => {
@@ -19,9 +20,9 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); };
     if (url.origin !== origin) { external.push(url.origin); return route.abort(); }
     if (url.pathname === '/api/do/session') return route.fulfill({ json: { workspaceKey: owner } });
     if (url.pathname === '/api/do/mail') {
-      if (request.method() === 'GET') return route.fulfill({ json: { ownerId: owner, metadataOnly: true, mailboxRead: false, accountsAvailable: true, accounts: [
-        { id: 'gmail_one', label: 'Fictional personal', provider: 'gmail', state: 'read_available_unverified', scopeVerified: false },
-        { id: 'gmail_two', label: 'Fictional admin', provider: 'gmail', state: 'read_available_unverified', scopeVerified: false },
+      if (request.method() === 'GET') return route.fulfill({ json: { ownerId: owner, metadataOnly: true, mailboxRead: false, gmailConfigured: true, outlookReadVerified: false, accountsAvailable: true, accounts: [
+        { id: 'gmail_one', label: 'Fictional personal', provider: 'gmail', state: grantVerified ? 'read_available' : 'gmail_read_unverified', scopeVerified: grantVerified },
+        { id: 'gmail_two', label: 'Fictional admin', provider: 'gmail', state: grantVerified ? 'read_available' : 'gmail_read_unverified', scopeVerified: grantVerified },
         { id: 'outlook_one', label: 'Fictional Outlook', provider: 'microsoft_outlook', state: 'outlook_read_unverified', scopeVerified: false },
       ] } });
       const input = request.postDataJSON(); posts.push(input);
@@ -37,6 +38,10 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); };
   const page = await context.newPage(); page.on('pageerror', error => errors.push(error.message));
   try {
     await page.goto(origin + '/do/mail');
+    await page.locator('option[value="gmail_two"]').waitFor({ state: 'attached' });
+    check('Unverified healthy Gmail accounts cannot be selected or read', await page.locator('option[value="gmail_two"]').isDisabled() && await page.getByRole('button', { name: 'Find correspondence' }).isDisabled() && posts.length === 0);
+    grantVerified = true; // Synthetic server grant proof only; never a real permission.
+    await page.reload();
     await page.getByLabel('Mail account', { exact: true }).selectOption('gmail_two');
     check('Both Gmail accounts remain independently selectable', await page.locator('option[value="gmail_one"]').count() === 1);
     check('Outlook stays disabled', await page.locator('option[value="outlook_one"]').isDisabled());
@@ -59,13 +64,16 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); };
     }
     owner = ownerB;
     await page.evaluate(() => window.dispatchEvent(new Event('assembl:do-writing-owner-changed')));
+    await page.waitForFunction(() => document.querySelector('select')?.value === '');
     await page.getByLabel('Mail account', { exact: true }).waitFor();
     check('Owner switch clears selected account, source and draft', await page.getByLabel('Mail account', { exact: true }).inputValue() === '' && await page.getByLabel('Task draft · unsent').inputValue() === '' && await page.locator('pre').count() === 0);
     await page.getByLabel('Mail account', { exact: true }).selectOption('gmail_two');
     await page.getByLabel('Search words or correspondent address').fill('Example Clinic');
     await page.getByRole('checkbox', { name: /Allow DO to search/ }).check();
     delay = true;
+    const pendingRead = page.waitForRequest(request => request.url().endsWith('/api/do/mail') && request.method() === 'POST');
     await page.getByRole('button', { name: 'Find correspondence' }).click();
+    await pendingRead;
     await page.getByRole('button', { name: 'Cancel', exact: true }).click();
     release();
     await page.getByText('Cancelled. Any late result will be discarded.').waitFor();
@@ -75,5 +83,9 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); };
     check('No browser runtime error', errors.length === 0);
     fs.writeFileSync(`${output}/proof.json`, JSON.stringify({ checks, externalBlocked: external, errors }, null, 2));
     console.log(JSON.stringify({ checks }));
+  } catch (error) {
+    await page.screenshot({ path: `${output}/failure.png`, fullPage: true }).catch(() => {});
+    fs.writeFileSync(`${output}/failure.json`, JSON.stringify({ checks, errors, url: page.url(), body: await page.locator('body').innerText().catch(() => ''), error: String(error) }, null, 2));
+    throw error;
   } finally { release(); await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

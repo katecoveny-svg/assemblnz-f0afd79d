@@ -16,6 +16,7 @@
  * docs/PIPEDREAM-CONNECT-SETUP.md.
  */
 import 'server-only';
+import { verifyPersonalMailGrant, verifiedMailGrant } from '@/apps/do/mail/capability';
 import { actionMapFromPack } from '@/apps/do/shared/do-connector-pack';
 import { validateConnectorInput } from '@/apps/do/shared/connector-contracts';
 import { verifyPipedreamResult, type RunActionResult } from './pipedream-results';
@@ -219,6 +220,7 @@ export async function doPersonalMailRead(owner: string, accountId: string, opera
     path = `messages/${id}?format=${operation.full ? 'full' : 'metadata'}`;
     if (!operation.full) path += '&metadataHeaders=Subject&metadataHeaders=From&metadataHeaders=Date';
   }
+  if (!verifiedMailGrant(await verifyPersonalMailGrant(owner, accountId, signal), owner, accountId)) throw new Error('gmail_read_unverified');
   const matches = (await listConnectedAccounts(owner, signal)).filter(account => account.id === accountId);
   if (matches.length !== 1 || accountOwner(matches[0]) !== owner || (matches[0].external_user_id && matches[0].external_user_id !== owner) || (matches[0].external_id && matches[0].external_id !== owner) || matches[0].healthy !== true || matches[0].app?.name_slug !== 'gmail') throw new Error('mail_account_unavailable');
   signal.throwIfAborted();
