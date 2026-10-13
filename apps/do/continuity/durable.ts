@@ -1,9 +1,13 @@
+import { z } from 'zod';
 import { ContinuityError, mutationSchema, scopeSchema, taskSchema, type Change, type PortableTask, type Save, type Scope } from './contract';
 import type { PortableRepository } from './repository';
 
+type RpcName = 'do_continuity_read' | 'do_continuity_mutate' | 'do_continuity_access';
 export interface ContinuityRpc {
-  rpc(name: 'do_continuity_read' | 'do_continuity_mutate', args: Record<string, unknown>): PromiseLike<{ data: unknown; error: { message: string } | null }>;
+  rpc(name: RpcName, args: Record<string, unknown>): PromiseLike<{ data: unknown; error: { message: string } | null }>;
 }
+export const accessSchema = z.object({ scope: scopeSchema, enabled: z.boolean(), expiresAt: z.string().datetime().nullable() }).strict();
+export type ContinuityAccess = z.infer<typeof accessSchema>;
 
 /** Reviewed-proposal adapter. Construct only with a verified owner's cookie-based
  * client. SQL obtains auth.uid(); never uses a service key or trusts owner input.
@@ -12,7 +16,15 @@ export class DurableRepository implements PortableRepository {
   readonly storage = 'database' as const;
   constructor(private db: ContinuityRpc, private verifiedOwner: string) {}
   private assertOwner(owner: string) { if (owner !== this.verifiedOwner) throw new ContinuityError('not_found'); }
-  private async call(name: 'do_continuity_read' | 'do_continuity_mutate', args: Record<string, unknown>) {
+  /** The owner's own sync switch for one scope. `enable` omitted only reads the state. */
+  async access(owner: string, scope: Scope, enable?: boolean): Promise<ContinuityAccess> {
+    this.assertOwner(owner);
+    const data = await this.call('do_continuity_access', { p_scope: scopeSchema.parse(scope), p_enable: enable ?? null });
+    const parsed = accessSchema.safeParse(data);
+    if (!parsed.success || parsed.data.scope !== scope) throw new ContinuityError('storage_unavailable');
+    return parsed.data;
+  }
+  private async call(name: RpcName, args: Record<string, unknown>) {
     const { data, error } = await this.db.rpc(name, args);
     if (error) {
       const code = ['conflict', 'not_found', 'permission_expired', 'stopped', 'id_reused', 'quota_exhausted'].find(c => error.message.includes(`continuity_${c}`));

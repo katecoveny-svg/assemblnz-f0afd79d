@@ -11,7 +11,16 @@ import {
 } from '@/apps/do/personal/assistant';
 import type { PersonalDoProfile } from '@/apps/do/personal/profile';
 import { ASSISTANT_NOTE_EVENT, reviewAssistantNote, type AssistantNoteOffer } from '@/apps/do/personal/editor-note';
+import { CONVERSATION_NOTICE, type ConversationRecord, type ConversationTurn } from '@/apps/do/personal/conversation';
+import { useKeptConversations, type ActiveConversation } from './useKeptConversations';
 import styles from './personal-assistant.module.css';
+
+/** The next request carries only the last exchange, kept or not. */
+function lastExchange(turns: ConversationTurn[]): PersonalAssistantInput['history'] {
+  const assistant = [...turns].reverse().find(turn => turn.role === 'assistant');
+  const user = assistant ? turns.slice(0, turns.indexOf(assistant)).reverse().find(turn => turn.role === 'user') : undefined;
+  return user && assistant ? [{ role: 'user', text: user.text }, { role: 'assistant', text: [assistant.text, assistant.draft].filter(Boolean).join('\n\n') }] : [];
+}
 
 /** Mount with the verified owner scope as the React key; never persist conversation across accounts. */
 export type PersonalAssistantWork = { dirty: boolean; exportText: string };
@@ -31,6 +40,11 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, re
   const [result, setResult] = useState<PersonalAssistantResult | null>(null);
   const [draft, setDraft] = useState('');
   const [copied, setCopied] = useState(false);
+  // Kept conversations are the owner's explicit choice; the transcript lives on their account, not this device.
+  const kept = useKeptConversations();
+  const [keep, setKeep] = useState(false);
+  const [active, setActive] = useState<ActiveConversation | null>(null);
+  const [transcript, setTranscript] = useState<ConversationTurn[]>([]);
   const attempt = useRef<{ body: string; id: string } | null>(null);
   const request = useRef<AbortController | null>(null);
   const statusRequest = useRef<AbortController | null>(null);
@@ -98,7 +112,23 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, re
     attempt.current = null;
     cancel(); setResult(null); setDraft(''); setLastMessage(''); setCopied(false);
     setMessage(''); setContext(''); setReviewOpen(false); setError(''); setNotice('New conversation.');
+    setActive(null); setTranscript([]); setKeep(false);
     inputRef.current?.focus();
+  }
+  function resumeConversation(record: ConversationRecord) {
+    attempt.current = null;
+    cancel(); setResult(null); setDraft(''); setLastMessage(''); setCopied(false);
+    setMessage(''); setReviewOpen(false); setError('');
+    setTranscript(record.turns); setActive({ id: record.id, revision: record.revision, turns: record.turns }); setKeep(true);
+    setNotice('Conversation reopened from your account. Only the last exchange goes with your next message.');
+    inputRef.current?.focus();
+  }
+  async function forgetConversation() {
+    if (!active) return;
+    const done = await kept.forget(active);
+    if (!alive.current) return;
+    if (done.ok) { setActive(null); setKeep(false); setNotice('Forgotten everywhere. What is on this screen stays until you start a new conversation.'); }
+    else setError(done.error);
   }
   async function submit(event: FormEvent) {
     event.preventDefault();
@@ -109,7 +139,7 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, re
     const history: PersonalAssistantInput['history'] = result ? [
       { role: 'user', text: lastMessage },
       { role: 'assistant', text: [result.reply, draft].filter(Boolean).join('\n\n') },
-    ] : [];
+    ] : lastExchange(transcript);
     const parsed = personalAssistantInputSchema.safeParse({ message, context, history, consent, useSavedStyle, usePublicNz });
     if (!parsed.success) { setError(parsed.error.issues[0]?.message ?? 'Check your request.'); return; }
     const body = JSON.stringify(parsed.data);
@@ -132,6 +162,17 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, re
       attempt.current = null;
       setResult(next); setDraft(next.nextStep.draft ?? ''); setLastMessage(parsed.data.message);
       setMessage(''); setReviewOpen(false); setNotice('A reply is ready for your review.');
+      const at = new Date().toISOString();
+      const userTurn: ConversationTurn = { role: 'user', text: parsed.data.message, at, draft: null, label: null };
+      const assistantTurn: ConversationTurn = { role: 'assistant', text: next.reply, at, draft: next.nextStep.draft, label: next.nextStep.label };
+      const turns = [...transcript, userTurn, assistantTurn].slice(-40);
+      setTranscript(turns);
+      if (keep) {
+        const saved = await kept.keep(active, turns);
+        if (!alive.current) return;
+        if (saved.ok) { setActive(saved.active); setNotice('A reply is ready for your review. This conversation is kept on your account.'); }
+        else setNotice(`A reply is ready for your review. Not kept: ${saved.error}`);
+      }
     } catch (cause) {
       if (!controller.signal.aborted && alive.current && request.current === controller) setError(cause instanceof Error ? cause.message : 'DO could not finish this request. Please try again.');
     } finally {
@@ -144,6 +185,13 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, re
   }
 
   return <section className={styles.panel} aria-label={`Ask ${profile?.displayName ?? 'DO'}`} aria-busy={working}>
+    {!result && transcript.length > 0 && <div className={styles.exchange} aria-label="Kept conversation">
+      {transcript.length > 6 && <p className={styles.keptMeta}>Earlier messages are kept too; the last six are shown.</p>}
+      {transcript.slice(-6).map((turn, index) => turn.role === 'user'
+        ? <p key={index} className={styles.userMessage}>{turn.text}</p>
+        : <div key={index} className={styles.response}><p className={styles.reply}>{turn.text}</p>{turn.draft && <details className={styles.evidence}><summary>{turn.label ?? 'Draft from that reply'} <ChevronDown size={14} /></summary><p className={styles.reply}>{turn.draft}</p></details>}</div>)}
+    </div>}
+    {active && <p className={styles.keptMeta}>Kept on your account · {active.turns.length} messages · <button type="button" onClick={() => void forgetConversation()} disabled={working}>Forget</button></p>}
     {result && <div className={styles.exchange}>
       <p className={styles.userMessage}>{lastMessage}</p>
       <div className={styles.response}>
@@ -161,7 +209,7 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, re
           {!!result.evidence.length && <><h4>What this reply uses</h4><ul>{result.evidence.map((item, index) => <li key={index}>“{item.quote}” <span>({item.source === 'public_source' ? 'official reference' : item.source})</span>{item.source === 'public_source' && item.citation && <a href={item.citation} target="_blank" rel="noopener noreferrer"> Source</a>}</li>)}</ul></>}
           {!!result.missingInformation.length && <><h4>Still to check</h4><ul>{result.missingInformation.map((item, index) => <li key={index}>{item}</li>)}</ul></>}
           <p>{result.generation ? `Reply: ${result.generation.actualModel} · ${result.generation.reasoningEffort} reasoning.` : 'No OpenAI generation was made for this reply.'} Request check: TypeSafe ({result.reasoning.model}).</p>
-          <p>{result.reasoning.note} Your text and reply are not saved to your Assembl account by this conversation; provider retention terms apply.</p>
+          <p>{result.reasoning.note} {active ? 'This conversation is kept on your account because you chose to; forget it any time.' : 'Your text and reply are not saved to your Assembl account by this conversation.'} Provider retention terms apply.</p>
         </details>
       </div>
     </div>}
@@ -183,8 +231,13 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, re
       {reviewOpen && <div className={styles.consent}>
         <label><input ref={consentRef} type="checkbox" checked={consent} disabled={working} onChange={event => setConsent(event.target.checked)} /><span>{PERSONAL_DO_ASSISTANT_CONSENT}</span></label>
         {profile && <label><input type="checkbox" checked={useSavedStyle} disabled={working} onChange={event => { setUseSavedStyle(event.target.checked); setConsent(false); }} /><span>Also use my saved tone and wording preferences with OpenAI</span></label>}
+        {kept.storage === 'account' && <label><input type="checkbox" checked={keep} disabled={working} onChange={event => setKeep(event.target.checked)} /><span>Keep this conversation on my account so I can pick it up on any device<small>{CONVERSATION_NOTICE}</small></span></label>}
       </div>}
     </form>
+    {!result && !transcript.length && kept.records.length > 0 && <div className={styles.keptList}>
+      <h3>Pick up where you left off</h3>
+      {kept.records.slice(0, 5).map(record => <button type="button" key={record.id} disabled={working} onClick={() => resumeConversation(record)}>{record.title}<small>{new Date(record.updatedAt).toLocaleDateString('en-NZ', { day: 'numeric', month: 'short' })} · {record.turns.length} messages</small></button>)}
+    </div>}
     {!result && <DoCapabilityIdeas disabled={working} onChoose={prompt => {
       if (message.length + prompt.length + 2 > 4000) { setNotice('Your draft is full. Shorten it before adding this idea.'); return; }
       setMessage(current => current.trim() ? `${current}\n\n${prompt}` : prompt); setConsent(false); setNotice('An idea added to your draft. Nothing was sent.'); inputRef.current?.focus();

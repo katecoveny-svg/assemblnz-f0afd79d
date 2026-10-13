@@ -36,6 +36,7 @@ export function PortableDo({ initialFixture = false, initialScope = 'personal' }
   const [busy, setBusy] = useState(false);
   const [online, setOnline] = useState(true);
   const [owner, setOwner] = useState<string | null>(null);
+  const [access, setAccess] = useState<{ enabled: boolean; expiresAt: string | null } | null>(null);
   const pendingId = useRef('');
   const contextId = useRef('');
   const generation = useRef(0);
@@ -48,7 +49,7 @@ export function PortableDo({ initialFixture = false, initialScope = 'personal' }
     network.current?.abort();
     busyRef.current = false;
     setBusy(false); setTask(null); setTasks([]); setResult(''); setRequest(''); setNotes('');
-    setInclude(false); setConsent(false); setOwner(null);
+    setInclude(false); setConsent(false); setOwner(null); setAccess(null);
     ownerRef.current = null;
     pendingId.current = crypto.randomUUID(); contextId.current = crypto.randomUUID();
   }, []);
@@ -79,13 +80,17 @@ export function PortableDo({ initialFixture = false, initialScope = 'personal' }
         pendingId.current = crypto.randomUUID(); contextId.current = crypto.randomUUID();
       }
       ownerRef.current = verifiedOwner; setOwner(verifiedOwner);
-      if (!response.ok) { setTask(null); setTasks([]); setResult(''); throw new Error(data.message || 'Sign in to reopen private tasks. Cross-device storage is awaiting review.'); }
+      if (!response.ok) { setTask(null); setTasks([]); setResult(''); throw new Error(data.message || 'Sign in to reopen your tasks on this device.'); }
       if (!data.durable || data.storage !== 'database') throw new Error('Online storage could not be confirmed.');
+      // Sync is the owner's own switch per scope; off means nothing is read or saved online.
+      const sync = data.access && typeof data.access.enabled === 'boolean' ? { enabled: data.access.enabled as boolean, expiresAt: typeof data.access.expiresAt === 'string' ? data.access.expiresAt : null } : null;
+      setAccess(sync);
+      if (sync && !sync.enabled) { setTasks([]); setTask(null); setResult(''); setMessage('Cross-device sync is off for this scope. Turn it on to keep tasks on all your devices.'); return; }
       const loaded = (data.tasks as unknown[]).map(t => taskSchema.parse(t));
       if (loaded.some(t => t.ownerId !== data.workspaceKey || t.scope !== scope)) throw new Error('Reopen your workspace.');
       const reopened = id ? loaded.find(t => t.id === id) : null;
       setTasks(loaded); setTask(reopened || null); setResult(reopened?.result || '');
-      setMessage(id && !loaded.length ? 'That task is no longer available.' : 'Private online storage connected.');
+      setMessage(id && !loaded.length ? 'That task is no longer available.' : 'Synced to your account. Reopen from any signed-in device.');
     } catch (error) {
       if (epoch !== generation.current || controller.signal.aborted) return;
       setTask(null); setTasks([]); setResult('');
@@ -158,6 +163,26 @@ export function PortableDo({ initialFixture = false, initialScope = 'personal' }
         : `${error instanceof Error ? error.message : 'Transport failed.'} No new save confirmed. Retry uses the same task ID.`);
     } finally { if (epoch === generation.current) { busyRef.current = false; setBusy(false); } }
   }
+  async function setSync(enable: boolean) {
+    if (busyRef.current || fixture || !owner) return;
+    if (!online) { setMessage('Offline · sync unchanged. Reconnect, then try again.'); return; }
+    busyRef.current = true; setBusy(true);
+    const epoch = generation.current;
+    setMessage(enable ? 'Turning sync on…' : 'Turning sync off…');
+    try {
+      const controller = new AbortController(); network.current = controller;
+      const response = await fetch('/api/do/continuity/access', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-DO-Workspace': owner }, body: JSON.stringify(enable ? { scope, enable: true, consent: true } : { scope, enable: false }), signal: controller.signal });
+      const data = await response.json();
+      if (epoch !== generation.current) return;
+      if (response.status === 401 || data.error === 'workspace_changed') { clear(); void refresh(); return; }
+      if (!response.ok || !data.durable || data.workspaceKey !== owner || typeof data.access?.enabled !== 'boolean') throw new Error(data.message || 'Sync could not be changed.');
+      busyRef.current = false; setBusy(false);
+      void refresh();
+    } catch (error) {
+      if (epoch !== generation.current) return;
+      setMessage(`${error instanceof Error ? error.message : 'Transport failed.'} Sync unchanged.`);
+    } finally { if (epoch === generation.current) { busyRef.current = false; setBusy(false); } }
+  }
   function startFixture() {
     const url = new URL(location.href); url.search = ''; url.searchParams.set('fixture', '1'); history.replaceState(null, '', url);
     clear(); fixtureRef.current = true; setFixture(true);
@@ -170,8 +195,14 @@ export function PortableDo({ initialFixture = false, initialScope = 'personal' }
   const stopped = task && ['cancelled', 'revoked', 'expired'].includes(task.status);
   return <main className={styles.root}>
     <header className={styles.header}><DoBrand /><Link href="/do/personal">Personal DO ↗</Link></header>
-    <section className={styles.intro}><DoPresence size="small" /><div><p className={styles.eyebrow}>Portable continuity · review prototype</p><h1>Keep the thread.</h1><p>Paste a request. Choose its context. Come back to the same task.</p></div></section>
+    <section className={styles.intro}><DoPresence size="small" /><div><p className={styles.eyebrow}>Your tasks · every device</p><h1>Keep the thread.</h1><p>Paste a request. Choose its context. Come back to the same task on your phone or desktop.</p></div></section>
     <div className={styles.status} role="status" aria-live="polite">{!online && !fixture ? 'Offline · nothing submitted. Keep this tab open to retry.' : message}</div>
+    {!fixture && owner && access && <div className={styles.toolbar} data-sync-switch>
+      <button aria-pressed={access.enabled} disabled={busy} onClick={() => void setSync(!access.enabled)}>{access.enabled ? 'Sync on' : 'Sync off'}</button>
+      <p className={styles.notice}>{access.enabled
+        ? `Keeping your ${scope} tasks on every device you sign in on${access.expiresAt ? ` until ${new Date(access.expiresAt).toLocaleDateString('en-NZ')}` : ''}. Turn it off any time; nothing goes to a provider.`
+        : `Turn on to keep your ${scope} tasks on every device you sign in on. Saved to your account for 90 days at a time. Off stops all reading and saving at once.`}</p>
+    </div>}
     {busy && !fixture && <button onClick={() => network.current?.abort()}>Stop waiting</button>}
     <div className={styles.toolbar}><div role="group" aria-label="Task scope">{(['personal', 'work'] as const).map(value => <button key={value} aria-pressed={scope === value} disabled={busy} onClick={() => switchScope(value)}>{value === 'personal' ? 'Personal' : 'Work'}</button>)}</div>
       {!fixture ? <button onClick={startFixture} disabled={busy}>Try a fictional example</button> : <button onClick={() => { clear(); const url = new URL(location.href); url.search = ''; history.replaceState(null, '', url); fixtureRef.current = false; setFixture(false); }}>Leave fixture</button>}</div>
@@ -184,7 +215,7 @@ export function PortableDo({ initialFixture = false, initialScope = 'personal' }
           <div className={styles.bundle}><span>Selected bundle</span><p>{include && notes.trim() ? notes : 'Request only. No saved memory selected.'}</p></div>
           <label className={styles.check}><input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} />{fixture ? 'Save this fictional fixture in this browser. Permission expires in 24 hours; clear expired content on reopen. No provider transmission.' : 'Save this request and selected notes for seven days. Allow worksheet preparation for 24 hours. No provider transmission.'}</label>
           <button className={styles.primary} disabled={busy || !consent || request.trim().length < 8} onClick={() => void mutate({ action: 'save', id: pendingId.current || (pendingId.current = crypto.randomUUID()), scope, request, context: include && notes.trim() ? [{ id: contextId.current || (contextId.current = crypto.randomUUID()), label: 'My selected notes', text: notes, source: 'user_selected' }] : [], consent: true, consentVersion: CONTINUITY_VERSION })}>Save one task</button>
-          <p className={styles.small}>{fixture ? 'Fixture storage stays on this browser.' : 'Online storage is inactive pending schema review. An unsaved request is lost when this tab closes.'}</p>
+          <p className={styles.small}>{fixture ? 'Fixture storage stays on this browser.' : access?.enabled ? 'Saved to your account; reopen it from any signed-in device.' : 'Turn on sync above to save online. An unsaved request is lost when this tab closes.'}</p>
         </> : <><p className={styles.eyebrow}>{labels[task.status]}</p><h2>Your request</h2><p className={styles.content}>{task.request || 'Retained content has expired.'}</p><div className={styles.bundle}><span>Selected context</span>{task.context.length ? task.context.map(c => <p className={styles.content} key={c.id}>{c.text}</p>) : <p>No selected notes available.</p>}</div>
           <p className={styles.small}>Permission until {new Date(task.consentUntil).toLocaleString('en-NZ')}. Task {task.id.slice(0, 8)} · revision {task.revision}.</p>
           <div className={styles.actions}>{task.status === 'waiting' && <button className={styles.primary} disabled={busy || (!online && !fixture)} onClick={() => void mutate({ action: 'prepare', id: task.id, scope, expectedRevision: task.revision })}>Prepare editable worksheet</button>}
@@ -194,7 +225,7 @@ export function PortableDo({ initialFixture = false, initialScope = 'personal' }
       </section>
       <section className={styles.card}><h2>{task?.status === 'needs_review' ? 'Make it yours.' : 'The next step, ready to review.'}</h2>
         {task?.status === 'needs_review' ? <><label htmlFor="portable-result">Editable result</label><textarea id="portable-result" className={styles.result} value={result} maxLength={CONTINUITY_RESULT_LIMIT} onChange={e => setResult(e.target.value)} /><button className={styles.primary} disabled={busy || result === task.result} onClick={() => void mutate({ action: 'edit', id: task.id, scope, expectedRevision: task.revision, result })}>Save edited result</button><p className={styles.small}>{result === task.result ? 'Last confirmed revision shown.' : 'Unsaved edits · keep this tab open.'}</p></> : <div className={styles.empty}><DoPresence size="small" /><p>{stopped ? 'This task is stopped. Review a new request to continue.' : 'Save your reviewed request, then prepare an EA worksheet.'}</p></div>}
-        <p className={styles.small}>{CONTINUITY_BOUNDARY}</p><div className={styles.saved}><h3>Reopen a task</h3>{tasks.length ? tasks.map(t => <button key={t.id} disabled={busy} onClick={() => { setTask(null); setResult(''); setRequest(''); setNotes(''); setInclude(false); setConsent(false); const url = new URL(location.href); url.searchParams.set('task', t.id); url.searchParams.set('scope', scope); history.replaceState(null, '', url); void refresh(t.id); }}>{t.request.slice(0, 70) || 'Expired task'} <small>{labels[t.status]}</small></button>) : <p>No confirmed tasks in this scope.</p>}<button disabled={busy} onClick={() => void refresh()}>Reopen / retry connection</button><p className={styles.small}>{fixture ? 'Reload proves this browser’s fixture only.' : 'Desktop continuation requires the same signed-in owner and approved online storage.'}</p></div>
+        <p className={styles.small}>{CONTINUITY_BOUNDARY}</p><div className={styles.saved}><h3>Reopen a task</h3>{tasks.length ? tasks.map(t => <button key={t.id} disabled={busy} onClick={() => { setTask(null); setResult(''); setRequest(''); setNotes(''); setInclude(false); setConsent(false); const url = new URL(location.href); url.searchParams.set('task', t.id); url.searchParams.set('scope', scope); history.replaceState(null, '', url); void refresh(t.id); }}>{t.request.slice(0, 70) || 'Expired task'} <small>{labels[t.status]}</small></button>) : <p>No confirmed tasks in this scope.</p>}<button disabled={busy} onClick={() => void refresh()}>Reopen / retry connection</button><p className={styles.small}>{fixture ? 'Reload proves this browser’s fixture only.' : 'Reopen on another device by signing in with the same account, with sync on.'}</p></div>
       </section>
     </div>
   </main>;

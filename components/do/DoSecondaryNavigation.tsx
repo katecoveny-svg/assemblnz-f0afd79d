@@ -15,6 +15,7 @@ export function DoSecondaryNavigation({ embedded = false, children }: { embedded
       <p className={styles.title}>Your DO workspace</p>
       <Link href="/do" {...linkProps}>My DO</Link>
       <Link href="/do/widget" {...linkProps}>Open capture workspace</Link>
+      <Link href="/do/memory" {...linkProps}>What DO remembers</Link>
       <details className={styles.tools}>
         <summary>Tools &amp; examples <span aria-hidden="true">＋</span></summary>
         <p>Each tool states what works and what needs a connection.</p>
