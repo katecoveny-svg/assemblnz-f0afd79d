@@ -10,7 +10,13 @@ export const MEMORY_RETENTION_OPTIONS = [7, 30, 90] as const;
 export type MemoryRetention = (typeof MEMORY_RETENTION_OPTIONS)[number];
 
 export type MemoryDraft = { kind: PersonalMemoryRecord['kind']; text: string; observedAt: string; retentionDays: MemoryRetention };
-export const EMPTY_MEMORY_DRAFT = (now: string): MemoryDraft => ({ kind: 'preference', text: '', observedAt: now.slice(0, 10), retentionDays: 30 });
+export const MEMORY_TIME_ZONE = 'Pacific/Auckland';
+const dayFormat = new Intl.DateTimeFormat('en-CA', { timeZone: MEMORY_TIME_ZONE, year: 'numeric', month: '2-digit', day: '2-digit' });
+/** The calendar day in New Zealand for an instant, as a date input value. */
+export function memoryDay(now: Date | string = new Date()): string {
+  return dayFormat.format(typeof now === 'string' ? new Date(now) : now);
+}
+export const EMPTY_MEMORY_DRAFT = (now: string): MemoryDraft => ({ kind: 'preference', text: '', observedAt: memoryDay(now), retentionDays: 30 });
 
 /** A new note, or a full re-save of an existing one. Consent is a literal the owner ticked this time. */
 export function saveMemoryMutation(id: string, draft: MemoryDraft, current: PersonalMemoryRecord | null, active = true): PersonalMemoryMutation {
@@ -27,9 +33,10 @@ export function changeMemoryMutation(action: 'review' | 'pause' | 'delete', reco
 export function draftFromRecord(record: PersonalMemoryRecord): MemoryDraft {
   return { kind: record.kind, text: record.text, observedAt: record.observedAt.slice(0, 10), retentionDays: record.retentionDays };
 }
-/** Date inputs give a calendar day; the note was observed by the end of that day, never in the future. */
+/** Date inputs give a New Zealand calendar day. It is stored as that day's midnight UTC, which is midday on the same
+ * day in New Zealand, so it reads back as the day the owner picked and is never in the future. */
 export function toObservedAt(day: string, now = new Date()): string {
-  const parsed = /^\d{4}-\d{2}-\d{2}$/.test(day) ? new Date(`${day}T23:59:59.000Z`) : new Date(NaN);
+  const parsed = /^\d{4}-\d{2}-\d{2}$/.test(day) ? new Date(`${day}T00:00:00.000Z`) : new Date(NaN);
   if (Number.isNaN(parsed.getTime())) return now.toISOString();
   return (parsed.getTime() > now.getTime() ? now : parsed).toISOString();
 }

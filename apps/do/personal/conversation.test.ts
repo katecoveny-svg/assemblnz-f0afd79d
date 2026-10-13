@@ -36,7 +36,8 @@ describe('kept conversation contract', () => {
     const huge = { ...save, turns: [{ ...turns[0], text: 'x'.repeat(10000) }, { ...turns[1], text: 'y'.repeat(10000) }, { ...turns[0], text: 'z'.repeat(10000) }, { ...turns[1], text: 'w'.repeat(10000) }, { ...turns[0], text: 'v'.repeat(9000) }] };
     expect(() => nextConversationRecord(huge, null, now)).toThrow('conversation_too_long');
     expect(conversationMutationSchema.safeParse({ ...save, turns: Array.from({ length: 41 }, () => turns[0]) }).success).toBe(false);
-    expect(() => nextConversationRecord({ ...save, turns: [{ ...turns[0], at: '2026-10-13T09:00:01.000Z' }] }, null, now)).toThrow('Check when');
+    // A device clock a second fast is capped to the server clock rather than failing the keep.
+    expect(nextConversationRecord({ ...save, turns: [{ ...turns[0], at: '2026-10-13T09:00:01.000Z' }] }, null, now)?.turns[0].at).toBe(now);
     for (const extra of [{ ownerId: 'other' }, { sentToProvider: true }, { authority: 'send' }, { consent: false }])
       expect(conversationMutationSchema.safeParse({ ...save, ...extra }).success).toBe(false);
     expect(CONVERSATION_BYTES_LIMIT).toBe(48000);

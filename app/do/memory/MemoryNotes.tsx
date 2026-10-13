@@ -7,6 +7,7 @@ import { DoSecondaryNavigation } from '@/components/do/DoSecondaryNavigation';
 import { PERSONAL_MEMORY_NOTICE, personalMemoryRecordSchema, type PersonalMemoryMutation, type PersonalMemoryRecord } from '@/apps/do/personal/memory';
 import {
   EMPTY_MEMORY_DRAFT, MEMORY_KIND_LABEL, MEMORY_RETENTION_OPTIONS, changeMemoryMutation, daysUntil, draftFromRecord, saveMemoryMutation, sortMemory,
+  memoryDay,
   type MemoryDraft,
 } from '@/apps/do/personal/memory-page';
 import styles from './memory.module.css';
@@ -146,7 +147,7 @@ export function MemoryNotes() {
           <div className={styles.row}>
             <div>
               <label htmlFor="memory-observed">Observed on</label>
-              <input id="memory-observed" type="date" value={draft.observedAt} max={new Date().toISOString().slice(0, 10)} disabled={!canWrite} onChange={event => { setDraft(d => ({ ...d, observedAt: event.target.value })); setConsent(false); }} />
+              <input id="memory-observed" type="date" value={draft.observedAt} max={memoryDay()} disabled={!canWrite} onChange={event => { setDraft(d => ({ ...d, observedAt: event.target.value })); setConsent(false); }} />
             </div>
             <div>
               <label htmlFor="memory-retention">Keep for</label>

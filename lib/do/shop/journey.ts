@@ -10,13 +10,13 @@ export type ShopBrief = {
   pantryHints: { id: string; name: string }[];
   unrecognised: string[];
 };
-const ALLERGEN_WORDS: Record<string, string[]> = { gluten: ['gluten', 'gluten-free', 'gluten free', 'coeliac', 'celiac'], milk: ['dairy', 'dairy-free', 'dairy free', 'lactose'], egg: ['egg-free', 'egg free', 'no eggs', 'no egg'], fish: ['no fish', 'fish-free'], soy: ['no soy', 'soy-free', 'soy free'], nuts: ['nut', 'nuts', 'nut-free', 'nut free', 'peanut'] };
+const ALLERGEN_WORDS: Record<string, string[]> = { gluten: ['gluten', 'gluten-free', 'gluten free', 'coeliac', 'celiac'], milk: ['dairy', 'dairy-free', 'dairy free', 'lactose'], egg: ['egg-free', 'egg free', 'no eggs', 'no egg'], fish: ['no fish', 'fish-free'], soy: ['no soy', 'soy-free', 'soy free'], nuts: ['no nuts', 'no nut', 'nut-free', 'nut free', 'nut allerg', 'allergic to nuts', 'no peanuts', 'peanut allerg', 'peanut-free', 'peanut free'] };
 export function parseShopBrief(text: string): ShopBrief {
   const source = text.replace(/\s+/g, ' ').trim();
   const lower = source.toLowerCase();
   const people = lower.match(/(?:for|feed|feeds|feeding)\s+(\d{1,2})\b|(\d{1,2})\s*(?:people|adults|of us|pax)\b|family of\s+(\d{1,2})/);
   const servings = Math.min(12, Math.max(1, Number(people?.[1] ?? people?.[2] ?? people?.[3] ?? 4)));
-  const nightsMatch = lower.match(/(\d)\s*(?:nights?|dinners?|days?|meals?)\b/) ?? (/\b(a )?week\b|weekly/.test(lower) ? ['', '5'] : null);
+  const nightsMatch = lower.match(/\b(\d{1,2})\s*(?:nights?|dinners?|days?|meals?)\b/) ?? (/\b(a )?week\b|weekly/.test(lower) ? ['', '5'] : null);
   const nights = Math.min(7, Math.max(1, Number(nightsMatch?.[1] ?? 5)));
   const money = lower.match(/\$\s?(\d{2,4})(?:\.(\d{2}))?|(\d{2,4})\s*(?:dollars|bucks|nzd)\b|budget (?:of|is)\s*\$?(\d{2,4})/);
   const limit = money ? Number(money[1] ?? money[3] ?? money[4]) * 100 + Number(money[2] ?? 0) : null;

@@ -54,11 +54,13 @@ export function nextConversationRecord(input: ConversationMutation, current: Con
   if ((current?.revision ?? 0) !== input.expectedRevision || (current && current.id !== input.id)) throw new Error('conversation_conflict');
   if (input.action === 'forget') return null;
   if (conversationBytes(input.turns, input.title) > CONVERSATION_BYTES_LIMIT) throw new Error('conversation_too_long');
-  if (input.turns.some(turn => Date.parse(turn.at) > Date.parse(now))) throw new Error('Check when these messages were sent.');
+  // Turn times come from the device clock; a clock a few seconds fast must not stop the keep, so the
+  // server clock caps them. Nothing downstream relies on turn order within the same instant.
+  const turns = input.turns.map(turn => Date.parse(turn.at) > Date.parse(now) ? { ...turn, at: now } : turn);
   // A kept conversation only grows: a stale device can never drop turns another device added.
   if (current && input.turns.length < current.turns.length) throw new Error('conversation_conflict');
   return conversationRecordSchema.parse({
-    id: input.id, title: input.title, turns: input.turns, revision: input.expectedRevision + 1,
+    id: input.id, title: input.title, turns, revision: input.expectedRevision + 1,
     createdAt: current?.createdAt ?? now, updatedAt: now,
     expiresAt: new Date(Date.parse(now) + CONVERSATION_RETENTION_DAYS * 86400000).toISOString(),
     noticeVersion: input.noticeVersion, use: 'owner_review_only',
