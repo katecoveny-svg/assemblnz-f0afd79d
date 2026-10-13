@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
   // Ship the committed winter-series markdown into the serverless bundles that
   // read it at runtime (the /admin approvals ingest action + the ingest API).
   outputFileTracingIncludes: {
-    '/api/do/family/school-preview': ['./public/do/school-fixtures/*.pdf'],
+    '/api/do/family/school-preview': ['./public/do/school-fixtures/*.pdf', './node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs'],
     '/opengraph-image': ['./public/brand/assembl-assembled-plum-og.png'],
     '/api/do/download': ['./apps/do/extension/**', './apps/do/macos/**'],
     '/admin/approvals': ['./content/spark-winter-series/**'],

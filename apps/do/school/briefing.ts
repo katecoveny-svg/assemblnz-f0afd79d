@@ -27,7 +27,8 @@ export type SchoolCard = {
 export type SchoolBriefing = { ownerId: string; revision: string; checkedAt: string; cards: SchoolCard[]; notices: string[] };
 const normal = (s: string) => s.trim().replace(/\s+/g, ' ').toLowerCase();
 const fields = ['date', 'time', 'location', 'status'] as const;
-const signature = (e: SchoolEvent) => JSON.stringify(fields.map(f => normal(e[f])));
+const comparable = (e: SchoolEvent, f: typeof fields[number]) => f === 'date' ? nzDate(e.date) ?? normal(e.date) : normal(e[f]);
+const signature = (e: SchoolEvent) => JSON.stringify(fields.map(f => comparable(e, f)));
 
 /** No host-locale Date parsing, no inferred year, no ambiguous two-digit years. */
 export function nzDate(raw: string): string | null {
@@ -108,7 +109,7 @@ export function prepareSchoolBriefing(input: {
     const old = previous.filter(e => e.key === key);
     const before = old[0];
     const conflict = variants.length > 1 || new Set(old.map(signature)).size > 1;
-    const changedFields = before ? fields.filter(f => normal(before[f]) !== normal(after[f])) : [];
+    const changedFields = before ? fields.filter(f => comparable(before, f) !== comparable(after, f)) : [];
     const change = conflict ? 'conflict' : !before ? (after.status === 'cancelled' ? 'cancelled' : 'new') : !changedFields.length ? 'unchanged' : after.status === 'cancelled' ? 'cancelled' : 'changed';
     const matches = input.children.filter(c => c.role === 'child' && c.schoolId === after.source.schoolId);
     if (!matches.length) notices.push(`${after.title}: no child explicitly matched to this school.`);
@@ -116,6 +117,7 @@ export function prepareSchoolBriefing(input: {
       const blockers: string[] = [];
       if (incompleteSchools.has(after.source.schoolId)) blockers.push('Some source evidence for this school is unavailable or unparsed. Recheck the originals.');
       if (!child.confirmedAudiences.map(normal).includes(normal(after.audience))) blockers.push('Confirm this child’s class/options against the notice.');
+      if (before && signature(before) !== signature(after) && after.source.receivedAt <= before.source.receivedAt) blockers.push('Current notice does not postdate the baseline. Confirm which revision applies.');
       if (conflict) blockers.push('Conflicting notices: ask the school which version applies.');
       if (!after.instant) blockers.push('Date/time missing, invalid or ambiguous in Pacific/Auckland.');
       if (!after.location || after.location === '?') blockers.push('Location needs confirmation.');

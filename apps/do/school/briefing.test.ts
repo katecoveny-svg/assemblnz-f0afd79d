@@ -58,6 +58,12 @@ describe('source-backed school changes', () => {
     const i = input(); i.current[0].state = 'partial'; expect(prepareSchoolBriefing(i).cards[0].blockers.length).toBeGreaterThan(0);
     i.current[0].state = 'available'; i.previous[0].state = 'unavailable'; expect(prepareSchoolBriefing(i).cards[0].blockers.join()).toContain('unavailable');
   });
+  it('does not call a date-format-only difference a changed date', () => {
+    const i = input(); i.current[0].pages[0].text = i.previous[0].pages[0].text.replace('20/10/2026', '20 October 2026'); expect(prepareSchoolBriefing(i).cards[0].change).toBe('unchanged');
+  });
+  it('blocks an older notice from rolling back a newer baseline', () => {
+    const i = input(); i.current[0].receivedAt = '2026-09-30T01:00:00.000Z'; expect(prepareSchoolBriefing(i).cards[0].blockers.join()).toContain('does not postdate');
+  });
   it('retains page numbers and exact quotations', () => {
     const s = input().current[0]; s.pages[0].number = 3; expect(extractSchoolRows(s).events[0].page).toBe(3);
   });
