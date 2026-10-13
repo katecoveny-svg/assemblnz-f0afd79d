@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { MEALS, ingredientByName } from './catalogue';
-import { aisleList, displayQuantity, estimate, listText, parseShopBrief, planMeals, retailerHandoff } from './journey';
+import { aisleList, choicesFromNights, displayQuantity, estimate, listText, parseShopBrief, planMeals, retailerHandoff } from './journey';
 
 describe('shop brief parsing', () => {
   it('reads people, nights, budget, diet, allergens and pantry hints from plain words', () => {
@@ -19,6 +19,8 @@ describe('shop brief parsing', () => {
     expect(parseShopBrief('feed 40 people for 9 nights').servings).toBe(12);
     expect(parseShopBrief('feed 40 people for 9 nights').nights).toBe(7);
     expect(parseShopBrief('dinners for 10 nights').nights).toBe(7);
+    expect(parseShopBrief('dinners for 10 nights').servings).toBe(4);
+    expect(parseShopBrief('for 5 nights for 2 people').servings).toBe(2);
     expect(parseShopBrief('we have coconut milk and peanut butter').excludedAllergens).toEqual([]);
     expect(parseShopBrief('one of us has a nut allergy').excludedAllergens).toEqual(['nuts']);
   });
@@ -78,5 +80,19 @@ describe('aisle list, estimate and handoff', () => {
     const text = listText(groups);
     expect(text.startsWith('Shopping list')).toBe(true);
     expect(text).toContain('PRODUCE');
+  });
+});
+
+describe('reviewed planning boundaries', () => {
+  it('does not substitute vegetarian meals for an unsupported vegan brief', () => {
+    const brief = parseShopBrief('Vegan dinners for 2 people for 3 nights');
+    expect(brief.vegan).toBe(true);
+    expect(planMeals(brief)).toEqual([]);
+  });
+  it('sums repeated meals with unequal servings without overwriting quantities', () => {
+    const choices = choicesFromNights([{ mealId: 'mince-pasta', servings: 2 }, { mealId: 'mince-pasta', servings: 6 }, { mealId: 'mince-pasta', servings: 2 }]);
+    const { lines } = aisleList(choices, []);
+    expect(lines.find(line => line.ingredientId === 'pasta')?.required).toBe(1000);
+    expect(lines.find(line => line.ingredientId === 'beef-mince')?.required).toBe(1250);
   });
 });
