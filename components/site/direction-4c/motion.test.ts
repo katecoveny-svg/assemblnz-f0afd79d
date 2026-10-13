@@ -119,9 +119,9 @@ async function controllerFixture() {
   const button = { setAttribute: vi.fn(), addEventListener: vi.fn(), removeEventListener: vi.fn(), textContent: '', disabled: false };
   const canvas = { addEventListener: vi.fn(), removeEventListener: vi.fn() };
   const root = { dataset: {} as Record<string, string>, toggleAttribute: vi.fn(), querySelectorAll: () => [], querySelector: (selector: string) => selector === '[data-pause]' ? button : selector.includes('canvasRef') ? canvas : null };
-  const video = { muted: false, playsInline: false, preload: '', duration: 24, currentTime: 0, seeking: false, src: '', pause: vi.fn(), load: vi.fn(), removeAttribute: vi.fn(), addEventListener: (name: string, fn: () => void) => videoEvents.set(name, fn), removeEventListener: (name: string) => videoEvents.delete(name) };
+  const video = { canPlayType: () => 'probably', getAttribute: (name: string) => name === 'src' ? video.src || null : null, muted: false, playsInline: false, preload: '', duration: 24, currentTime: 0, seeking: false, src: '', pause: vi.fn(), load: vi.fn(), removeAttribute: vi.fn(), addEventListener: (name: string, fn: () => void) => videoEvents.set(name, fn), removeEventListener: (name: string) => videoEvents.delete(name) };
   let resolveAttach!: () => void;
-  const world = { ready: new Promise<void>(resolve => { resolveAttach = resolve; }), api: { setKnock: vi.fn(), setArrive: vi.fn() }, setPaused: vi.fn(), dispose: vi.fn() };
+  const world = { ready: new Promise<void>(resolve => { resolveAttach = resolve; }), api: { setKnock: vi.fn(), setArrive: vi.fn(), setLit: vi.fn(), pulse: vi.fn() }, setPaused: vi.fn(), dispose: vi.fn() };
   const attach = vi.fn((_options: { onFail(): void }) => world);
   let cleanup!: () => void;
   const exported: { Direction4cHome?: () => void } = {};
@@ -129,27 +129,31 @@ async function controllerFixture() {
   const media = { matches: false, addEventListener: (_: string, fn: () => void) => { preference = fn; }, removeEventListener: vi.fn() };
   runInNewContext(js, {
     exports: exported,
-    require: (name: string) => name === 'react' ? { useRef: () => ({ current: root }), useEffect: (fn: () => () => void) => { cleanup = fn(); } } : name === 'react/jsx-runtime' ? { jsx: () => null } : {},
+    require: (name: string) => name === 'react' ? { useRef: () => ({ current: root }), useEffect: (fn: () => () => void) => { cleanup = fn(); } } : name === 'react/jsx-runtime' ? { jsx: () => null, jsxs: () => null } : {},
     document: { hidden: false, createElement: () => video, querySelector: () => ({ dataset: { loaded: 'true' } }), documentElement: { removeAttribute: vi.fn(), scrollHeight: 1000 }, addEventListener: vi.fn(), removeEventListener: vi.fn() },
     window: { AssemblTide: { attach } }, matchMedia: () => media, scrollY: 0, innerHeight: 800, performance: { now: () => 0 },
     cancelAnimationFrame: (id: number) => frames.delete(id), requestAnimationFrame: (fn: () => void) => { frames.set(frames.size + 1, fn); return frames.size; },
   });
   exported.Direction4cHome!();
   for (let n = 0; n < 8; n++) await Promise.resolve();
-  return { attach, world, root, video, videoEvents, frames, resolveAttach, cleanup, media, preference, flush: async () => { for (let n = 0; n < 8; n++) await Promise.resolve(); } };
+  return { attach, world, root, video, videoEvents, canvas, frames, resolveAttach, cleanup, media, preference, flush: async () => { for (let n = 0; n < 8; n++) await Promise.resolve(); } };
 }
-it('disposes an attach that resolves after media failure without restarting frames or seeking video', async () => {
-  const { attach, world, root, video, videoEvents, frames, resolveAttach, cleanup, flush } = await controllerFixture();
+it('keeps the scene when footage fails and drops to static only when the renderer is lost', async () => {
+  const { attach, world, root, video, videoEvents, canvas, frames, resolveAttach, cleanup, flush } = await controllerFixture();
   expect(attach).toHaveBeenCalledOnce();
   videoEvents.get('error')!();
-  expect(root.dataset.static).toBe('true');
+  expect(video.removeAttribute).toHaveBeenCalledWith('src');
+  expect(root.dataset.static).toBeUndefined();
   resolveAttach();
   await flush();
-  expect(world.dispose).toHaveBeenCalled();
+  expect(root.dataset.ready).toBe('true');
+  expect(world.dispose).not.toHaveBeenCalled();
+  const contextLost = canvas.addEventListener.mock.calls.find(([name]) => name === 'webglcontextlost')![1] as () => void;
+  contextLost();
+  expect(root.dataset.static).toBe('true');
   expect(root.dataset.ready).toBeUndefined();
+  expect(world.dispose).toHaveBeenCalled();
   expect(frames.size).toBe(0);
-  expect(video.currentTime).toBe(0);
-  expect(video.removeAttribute).toHaveBeenCalledWith('src');
   cleanup();
   expect(videoEvents.size).toBe(0);
 });

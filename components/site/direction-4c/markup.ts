@@ -1,6 +1,8 @@
-// Trusted static markup adapted from the supplied design. Never interpolate user input.
-export const directionMarkup = `<div style="position:relative;min-height:100vh;overflow-x:clip;background:#0E040D">
-<canvas data-ref="canvasRef" aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none"></canvas>
+// Trusted static markup adapted from the supplied Claude Design export (docs/design/direction-4c).
+// Server-rendered as-is; never interpolate user input. The interactive Try DO card lives in TryDo.tsx.
+
+/** Fixed canvas, static fallback backdrop and the floating header. */
+export const chromeMarkup = `<canvas data-ref="canvasRef" aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none"></canvas>
 <div data-fallback><div aria-hidden="true" style="position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,#0E040D 0%,#2A1027 45%,#6B4466 74%,#C9A9BE 100%)"></div></div>
 
 
@@ -15,10 +17,10 @@ export const directionMarkup = `<div style="position:relative;min-height:100vh;o
     <button type="button" data-pause aria-pressed="false" style="min-height:44px;padding:0 14px;border:0;border-radius:999px;background:transparent;color:#F2E6EB;font:400 11px/1 var(--font-mono),'IBM Plex Mono',monospace;letter-spacing:.06em;cursor:pointer" class="clear-hover-4">Pause motion</button>
     <a href="/contact" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:13px;font-weight:600;transition:box-shadow .4s ease" class="clear-hover-5">Bring us the work ↗</a>
   </div>
-</header>
+</header>`;
 
-<div style="position:relative;z-index:1">
-  <section id="top" data-ref="heroRef" data-form="0" data-screen-label="Hero" style="position:relative;height:320svh">
+/** Hero, Pursuit and DO sections — everything above Try DO. */
+export const leadMarkup = `<section id="top" data-ref="heroRef" data-form="0" data-screen-label="Hero" style="position:relative;height:320svh">
     <div style="position:sticky;top:0;height:100svh;overflow:hidden">
       <h1 style="position:absolute;width:1px;height:1px;margin:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">assembl. Useful work.</h1>
       <div data-fallback>
@@ -29,7 +31,7 @@ export const directionMarkup = `<div style="position:relative;min-height:100vh;o
       <div data-ref="msgRef" style="position:absolute;left:5.5%;right:5.5%;top:52%;transform:translateY(-50%);isolation:isolate;display:flex;flex-direction:column;align-items:center;text-align:center;opacity:0;visibility:hidden">
         <div aria-hidden="true" style="position:absolute;left:50%;top:50%;z-index:-1;width:min(1200px,130%);height:170%;transform:translate(-50%,-50%);pointer-events:none;background:radial-gradient(closest-side,rgba(36,11,33,.5) 0%,rgba(36,11,33,.36) 34%,rgba(36,11,33,.16) 64%,rgba(36,11,33,0) 100%)"></div>
         <p aria-hidden="true" style="margin:0;font-size:clamp(60px,9.5vw,176px);font-weight:500;line-height:.88;letter-spacing:-.066em;color:#FFFDFB;text-shadow:0 6px 60px rgba(14,4,13,.5)">useful <span class="clear-accent" style="display:inline-block;text-shadow:none;background-image:var(--acc,linear-gradient(100deg,#D9C2F8 0%,#CCADF5 28%,#FFFDFB 44%,#F3C9CC 52%,#EDB2B6 66%,#D9C2F8 100%));background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:clear-sheen 6.5s ease-in-out 1s infinite">work.</span></p>
-        <p style="margin:24px 0 0;max-width:44ch;font-size:18px;line-height:1.55;color:#F2E6EB">Pursuit finds the opportunity. DO does the work. Studio shows it. Review consequential actions before they happen.</p>
+        <p style="margin:24px 0 0;max-width:44ch;font-size:18px;line-height:1.55;color:#F2E6EB">Pursuit finds the opportunity. DO does the work. Studio shows it. Nothing leaves without your yes.</p>
         <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:30px">
           <a href="/contact" style="display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 26px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:16px;font-weight:600;box-shadow:0 3px 0 #D8C9D3,0 18px 40px -18px rgba(14,4,13,.8);transition:transform .22s ease,box-shadow .4s ease" class="clear-hover-6">Bring us the work <span aria-hidden="true">↗</span></a>
           <a href="#try" style="display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 26px;border-radius:999px;background:rgba(255,253,251,.08);color:#FFFDFB;font-size:16px;font-weight:600;box-shadow:inset 0 0 0 1px rgba(234,200,223,.4);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)" class="clear-hover-7">Give DO a job <span aria-hidden="true">→</span></a>
@@ -61,15 +63,10 @@ export const directionMarkup = `<div style="position:relative;min-height:100vh;o
       <p data-rv="200" style="margin:26px 0 0;max-width:38ch;font-size:19px;line-height:1.55;color:#F2E6EB;text-shadow:0 1px 18px rgba(36,11,33,.6)">Your personal agent. A draft, a plan or a next step, ready for your review.</p>
       <div data-rv="280"><a href="/do" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;margin-top:30px;padding:0 24px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:15px;font-weight:600;box-shadow:0 3px 0 #D8C9D3;transition:transform .22s ease,box-shadow .4s ease" class="clear-hover-9">Open DO <span aria-hidden="true">→</span></a></div>
     </div>
-  </section>
+  </section>`;
 
-<section id="try" data-form="5" data-sec data-screen-label="Try DO" style="min-height:120svh;display:flex;align-items:center;padding:130px 5.5%">
-<div style="width:100%;max-width:580px"><p class="clear-kicker">Give DO a job</p>
-<div class="clear-do-card"><div class="clear-do-brand"><img src="/direction-4c/assets/brand/do-d-glass-transparent.png" alt="" width="48" height="48"><strong>DO</strong><span>by assembl</span></div>
-<h2>What do you need done?</h2><p>Start with a draft, a question or something you want to make.</p>
-<nav aria-label="Start with DO" class="clear-do-actions"><a href="/do?tool=write">Write ↗</a><a href="/do?tool=talk">Talk ↗</a><a href="/do">Add something ↗</a></nav>
-<p class="clear-do-note">Continue in DO. Sign-in and permissions apply to the tools you choose.</p></div></div></section>
-  <section id="studio" data-sec="" data-screen-label="Studio" style="position:relative;min-height:130svh;display:flex;align-items:center;padding:160px 5.5%">
+/** Studio, Evidence and Contact sections — everything below Try DO. */
+export const trailMarkup = `<section id="studio" data-sec="" data-screen-label="Studio" style="position:relative;min-height:130svh;display:flex;align-items:center;padding:160px 5.5%">
     <i aria-hidden="true" data-form="6" style="position:absolute;left:0;top:30%;width:1px;height:1px;pointer-events:none"></i>
     <i aria-hidden="true" data-form="7" style="position:absolute;left:0;top:72%;width:1px;height:1px;pointer-events:none"></i>
     <div data-par="" data-shade="" style="position:relative;max-width:720px;margin:-70px;padding:70px;isolation:isolate"><div aria-hidden="true" data-hide-sm="" style="position:absolute;inset:-6% -10%;z-index:-1;pointer-events:none;background:radial-gradient(closest-side,rgba(36,11,33,.5) 0%,rgba(36,11,33,.38) 32%,rgba(36,11,33,.2) 60%,rgba(36,11,33,.07) 82%,rgba(36,11,33,0) 100%)"></div>
@@ -87,9 +84,9 @@ export const directionMarkup = `<div style="position:relative;min-height:100vh;o
       <p data-scramble="" style="margin:0 0 20px;font:400 11px/1.5 var(--font-mono),'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:#F2E6EB">evidence · why it is built this way</p>
       <h2 data-split="" style="margin:0;font-size:clamp(40px,4.8vw,76px);font-weight:500;line-height:.96;letter-spacing:-.055em;text-wrap:balance;text-shadow:0 4px 40px rgba(14,4,13,.45)"><span data-w="" style="display:inline-block">The</span> <span class="clear-accent" data-w="" style="display:inline-block;text-shadow:none;background-image:var(--acc,linear-gradient(100deg,#D9C2F8 0%,#CCADF5 28%,#FFFDFB 44%,#F3C9CC 52%,#EDB2B6 66%,#D9C2F8 100%));background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent">rules</span> <span data-w="" style="display:inline-block">we</span> <span data-w="" style="display:inline-block">build</span> <span data-w="" style="display:inline-block">by,</span> <span data-w="" style="display:inline-block">and</span> <span data-w="" style="display:inline-block">where</span> <span data-w="" style="display:inline-block">they</span> <span data-w="" style="display:inline-block">come</span> <span data-w="" style="display:inline-block">from.</span></h2>
       <ol style="list-style:none;margin:30px 0 0;padding:0;border-top:1px solid rgba(234,200,223,.26)">
-        <li data-rv="160" style="display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;padding:18px 0;border-bottom:1px solid rgba(234,200,223,.26)"><span style="font:400 11px/1.6 var(--font-mono),'IBM Plex Mono',monospace;color:#EAC8DF">01</span><span style="display:flex;flex-direction:column;gap:4px"><strong style="font-size:17px;font-weight:500">Make information use clear.</strong><span style="font:400 11px/1.4 var(--font-mono),'IBM Plex Mono',monospace;color:#F2E6EB">design principle · explain information use and permissions</span></span></li>
-        <li data-rv="220" style="display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;padding:18px 0;border-bottom:1px solid rgba(234,200,223,.26)"><span style="font:400 11px/1.6 var(--font-mono),'IBM Plex Mono',monospace;color:#EAC8DF">02</span><span style="display:flex;flex-direction:column;gap:4px"><strong style="font-size:17px;font-weight:500">Review consequential actions.</strong><span style="font:400 11px/1.4 var(--font-mono),'IBM Plex Mono',monospace;color:#F2E6EB">design principle · approval at the action boundary</span></span></li>
-        <li data-rv="280" style="display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;padding:18px 0;border-bottom:1px solid rgba(234,200,223,.26)"><span style="font:400 11px/1.6 var(--font-mono),'IBM Plex Mono',monospace;color:#EAC8DF">03</span><span style="display:flex;flex-direction:column;gap:4px"><strong style="font-size:17px;font-weight:500">Keep a record of the work.</strong><span style="font:400 11px/1.4 var(--font-mono),'IBM Plex Mono',monospace;color:#F2E6EB">design principle · evidence and receipt coverage varies by tool</span></span></li>
+        <li data-rv="160" style="display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;padding:18px 0;border-bottom:1px solid rgba(234,200,223,.26)"><span style="font:400 11px/1.6 var(--font-mono),'IBM Plex Mono',monospace;color:#EAC8DF">01</span><span style="display:flex;flex-direction:column;gap:4px"><strong style="font-size:17px;font-weight:500">Indirect collection must be notified.</strong><span style="font:400 11px/1.4 var(--font-mono),'IBM Plex Mono',monospace;color:#F2E6EB">source · legislation.govt.nz · Privacy Act 2020, IPP 3A</span></span></li>
+        <li data-rv="220" style="display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;padding:18px 0;border-bottom:1px solid rgba(234,200,223,.26)"><span style="font:400 11px/1.6 var(--font-mono),'IBM Plex Mono',monospace;color:#EAC8DF">02</span><span style="display:flex;flex-direction:column;gap:4px"><strong style="font-size:17px;font-weight:500">Nothing sends without a named person.</strong><span style="font:400 11px/1.4 var(--font-mono),'IBM Plex Mono',monospace;color:#F2E6EB">source · assembl product rules</span></span></li>
+        <li data-rv="280" style="display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;padding:18px 0;border-bottom:1px solid rgba(234,200,223,.26)"><span style="font:400 11px/1.6 var(--font-mono),'IBM Plex Mono',monospace;color:#EAC8DF">03</span><span style="display:flex;flex-direction:column;gap:4px"><strong style="font-size:17px;font-weight:500">Every job leaves a receipt.</strong><span style="font:400 11px/1.4 var(--font-mono),'IBM Plex Mono',monospace;color:#F2E6EB">source · assembl evidence pack specification</span></span></li>
       </ol>
     </div>
   </section>
@@ -105,10 +102,9 @@ export const directionMarkup = `<div style="position:relative;min-height:100vh;o
         <a href="#try" style="display:inline-flex;align-items:center;gap:10px;min-height:56px;padding:0 26px;border-radius:999px;background:rgba(255,253,251,.1);color:#FFFDFB;font-size:16px;font-weight:600;box-shadow:inset 0 0 0 1px rgba(234,200,223,.4)" class="clear-hover-12">Give DO a job <span aria-hidden="true">→</span></a>
       </div>
     </div>
-  </section>
-<div aria-hidden="true" data-hide-sm="" style="position: absolute; inset: -6% -10%; z-index: -1; pointer-events: none; background: radial-gradient(closest-side,rgba(36,11,33,.5) 0%,rgba(36,11,33,.38) 32%,rgba(36,11,33,.2) 60%,rgba(36,11,33,.07) 82%,rgba(36,11,33,0) 100%); left: -112px; top: -708px"></div></div>
+  </section>`;
 
-<footer style="position:relative;z-index:2;overflow:hidden;margin-top:-1px;padding:90px 5.5% 76px;border-radius:44px 44px 0 0;background:radial-gradient(70% 90% at 85% 0%,rgba(234,178,208,.32),rgba(234,178,208,0) 60%),radial-gradient(60% 80% at 0% 100%,rgba(218,210,244,.22),rgba(218,210,244,0) 60%),linear-gradient(180deg,rgba(58,21,53,.82) 0%,#2A0F27 46%,#36142F 100%);-webkit-backdrop-filter:blur(22px) saturate(140%);backdrop-filter:blur(22px) saturate(140%);box-shadow:inset 0 1px 0 rgba(255,253,251,.16),inset 0 0 0 1px rgba(234,200,223,.14),0 -40px 80px -40px rgba(0,0,0,.6)">
+export const footerMarkup = `<footer style="position:relative;z-index:2;overflow:hidden;margin-top:-1px;padding:90px 5.5% 76px;border-radius:44px 44px 0 0;background:radial-gradient(70% 90% at 85% 0%,rgba(234,178,208,.32),rgba(234,178,208,0) 60%),radial-gradient(60% 80% at 0% 100%,rgba(218,210,244,.22),rgba(218,210,244,0) 60%),linear-gradient(180deg,rgba(58,21,53,.82) 0%,#2A0F27 46%,#36142F 100%);-webkit-backdrop-filter:blur(22px) saturate(140%);backdrop-filter:blur(22px) saturate(140%);box-shadow:inset 0 1px 0 rgba(255,253,251,.16),inset 0 0 0 1px rgba(234,200,223,.14),0 -40px 80px -40px rgba(0,0,0,.6)">
   <div style="position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:36px 48px;align-items:start;max-width:1400px;margin:0 auto">
     <div style="display:flex;flex-direction:column;gap:14px">
       <div style="display:flex;align-items:center;gap:14px"><img src="/direction-4c/assets/brand/assembl-a-glass.webp" alt="" style="width:72px;height:72px;flex-shrink:0;border-radius:50%;object-fit:cover;object-position:44% 50%;box-shadow:0 0 0 1px rgba(255,253,251,.55),0 10px 26px -10px rgba(234,178,208,.9)"></div>
@@ -124,8 +120,8 @@ export const directionMarkup = `<div style="position:relative;min-height:100vh;o
       <a href="/contact" style="display:flex;align-items:center;min-height:44px;color:#FFFDFB;border-bottom:1px solid rgba(234,200,223,.16)" class="clear-hover-18">Contact</a>
     </nav>
     <div style="display:flex;flex-direction:column;gap:10px;padding:20px 22px;border-radius:24px;background:rgba(255,253,251,.06);box-shadow:inset 0 0 0 1px rgba(234,200,223,.2)">
-      <p style="margin:0;font:400 10.5px/1.4 var(--font-mono),'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:#EAC8DF">review before action</p>
-      <p style="margin:0;font-size:14px;line-height:1.6;color:#F2E6EB">DO tools have their own permissions and review steps. Availability and evidence coverage depend on the tool and connection.</p>
+      <p style="margin:0;font:400 10.5px/1.4 var(--font-mono),'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:#EAC8DF">nothing sends without your yes</p>
+      <p style="margin:0;font-size:14px;line-height:1.6;color:#F2E6EB">Every email, booking and post is a draft until a person on your team approves it. The DO job on this page is simulated.</p>
     </div>
   </div>
   <nav aria-label="Legal" class="clear-legal">
@@ -136,6 +132,4 @@ export const directionMarkup = `<div style="position:relative;min-height:100vh;o
     <a href="/legal/meta-data-deletion">Meta data deletion</a>
   </nav>
   <p style="position:relative;max-width:1400px;margin:72px auto 0;text-align:center;font-size:min(25vw,400px);font-weight:600;line-height:.8;letter-spacing:-.055em;white-space:nowrap;background:linear-gradient(180deg,rgba(242,230,235,.32) 0%,rgba(234,200,223,.07) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;user-select:none">assembl</p>
-</footer>
-
-</div>`;
+</footer>`;
