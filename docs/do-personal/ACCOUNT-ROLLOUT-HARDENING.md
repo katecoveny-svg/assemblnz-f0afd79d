@@ -21,13 +21,24 @@ No flags, secrets, SQL migrations, policies, enrollment records, production data
 4. **Wake-ups:** saving a responsibility and granting scheduled preparation remain separate consents. Keep `DO_PERSONAL_WAKEUPS_ENABLED`, worksheet worker configuration, operational health and per-responsibility seven-day permission checks. This PR changes consent invalidation only.
 5. **Assistant replies are not available to every signed-in owner yet.** `assistant-server.ts` uses `TYPESAFE_PILOT_USER_IDS` on the private path; the consumer path requires `PERSONAL_DO_CONSUMER_ENABLED`, a configured plan and a current owner entitlement, plus provider configuration and durable admission. All-user access needs a separately reviewed access/entitlement decision and bounded capacity/cost controls. Do not remove provider consent or admission limits. This hardening PR does not activate live models or widen billing access.
 
+## Dated production metadata, not evergreen availability
+
+**2026-10-13 21:40 UTC — parent rollout review, metadata only.** This implementation task did not independently query production or change it. Re-check before any activation:
+
+- Supabase migration versions `20261013090000` (memory), `20261013091000` (continuity), `20261013092000` (conversations), `20261013093000` (wake-ups), and `20261013094000` (storage-only) were reported applied, with RLS enabled on the reviewed tables.
+- The parent reported the rollout configuration absent in Vercel production: `DO_PERSONAL_MEMORY_ENABLED`, `DO_PERSONAL_MEMORY_PURGE_ENABLED`, `DO_CONTINUITY_DURABLE_ENABLED`, `DO_PERSONAL_CONVERSATIONS_ENABLED`, `DO_PERSONAL_RESPONSIBILITY_STORAGE_ENABLED`, `DO_PERSONAL_RESPONSIBILITY_PURGE_ENABLED`, `DO_PERSONAL_WAKEUPS_ENABLED`, and `DO_PERSONAL_WORKER_MODE`. These are observed absence labels, not instructions to activate them. Secret-presence checks and exact deployed head remain the parent release review's responsibility; no secret values belong in this record.
+- Responsibility enrollment still had `UNIQUE(singleton)` plus `CHECK(singleton)`, with one enabled, retention-reviewed enrollment expiring **2026-10-20 21:33:46 UTC**. Completed responsibility cleanup was reported at **2026-10-13 21:33:46 UTC**, with zero purged; that historical completion does not establish current readiness. No memory-maintenance attempt was recorded.
+- Hosted owner-isolated save/reload/new-session proof: **not run here**. Wider responsibility enrollment, activation and permanent cleanup: **blocked pending separate reviewed implementation/approvals**. The code PR is not a live rollout receipt.
+
+Use the permanent [shared release completion gate](../deployment-and-release-checklist.md#shared-release-completion-gate--code-database-configuration-and-persistence) for future releases rather than treating this snapshot as current truth.
+
 ## Synthetic proof
 
 - Focused personal suite: 40 files / 278 tests passed.
 - All DO suites (`apps/do`, `app/api/do`, `app/do`): 156 passed files, one skipped; 1,771 passed tests, two skipped.
 - `scripts/review-do-account-hardening.cjs`: 25 browser checks passed. Two owners; cross-tab Supabase auth broadcast; focus revalidation; delayed GET/POST; stale expected owner; 38→40 and reopened 40-message boundary; no provider submission beyond the limit; source and schedule consent changes; 375px geometry; no page errors. Local dev must use the synthetic Supabase URL/key documented in the script command below.
 - Existing `scripts/review-do-cross-device.cjs`: 13 browser checks passed, with workspace-bound memory fixtures updated to match the API contract.
-- Typecheck and changed-source ESLint passed. Macron guard passed via `node --import tsx scripts/lint-macrons.ts` (the pnpm/tsx CLI hit the sandbox IPC restriction).
+- Local production build, typecheck and changed-source ESLint passed. Macron guard passed via `node --import tsx scripts/lint-macrons.ts` (the pnpm/tsx CLI hit the sandbox IPC restriction).
 - Full Vitest run: 3,505 passed, three skipped, eight failures in four unrelated files. The exact eight failures also reproduce in an untouched worktree of the base: deployment docs-only skip (1), Franklin headline expectation (1), loyalty Arial craft guard (1), portable stdio candidates unavailable (5).
 - Whole-repository ESLint is not green (1,174 errors and 244 warnings on the initial pass, including one subsequently fixed warning in this change). The changed TypeScript/TSX files pass separately. No broad lint cleanup is included.
 
