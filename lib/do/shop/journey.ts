@@ -58,20 +58,20 @@ export function planMeals(brief: Pick<ShopBrief, 'servings' | 'nights' | 'vegeta
   return [...choices.values()];
 }
 
-export type ListLine = Requirement & { aisle: Aisle; display: string; estimateMinor: number; allergens: string[] };
+export type ListLine = Requirement & { aisle: Aisle; display: string; estimateMinor: number; packs: number; leftover: number; allergens: string[] };
 export type AisleGroup = { aisle: Aisle; lines: ListLine[] };
 /** A merchant-neutral list grouped the way a supermarket is laid out, with a rough NZD estimate. */
-export function aisleList(choices: MealChoice[], pantry: Pantry[], catalogue: CatalogueMeal[] = MEALS): { groups: AisleGroup[]; lines: ListLine[] } {
-  const lines: ListLine[] = consolidate(choices, catalogue, pantry).filter(need => need.needed > 0).map(need => {
+export function aisleList(choices: MealChoice[], pantry: Pantry[], catalogue: CatalogueMeal[] = MEALS): { groups: AisleGroup[]; lines: ListLine[]; requirements: ListLine[] } {
+  const lines: ListLine[] = consolidate(choices, catalogue, pantry).map(need => {
     const item = ingredientById(need.ingredientId);
     const aisle = item?.aisle ?? 'pantry';
     const per = item?.indicativeMinorPer;
     const perBase = per ? per.amount * (per.unit === 'kg' || per.unit === 'l' ? 1000 : 1) : 0;
     const packs = per && perBase > 0 ? Math.ceil(need.needed / perBase) : 0;
-    return { ...need, aisle, display: displayQuantity(need.needed, need.unit), estimateMinor: per ? packs * per.priceMinor : 0, allergens: item?.allergens ?? [] };
+    return { ...need, aisle, packs, leftover: packs * perBase - need.needed, display: displayQuantity(need.needed, need.unit), estimateMinor: per ? packs * per.priceMinor : 0, allergens: item?.allergens ?? [] };
   });
-  const groups = AISLE_ORDER.map(aisle => ({ aisle, lines: lines.filter(line => line.aisle === aisle) })).filter(group => group.lines.length);
-  return { groups, lines };
+  const groups = AISLE_ORDER.map(aisle => ({ aisle, lines: lines.filter(line => line.aisle === aisle && line.needed > 0) })).filter(group => group.lines.length);
+  return { groups, lines: lines.filter(line => line.needed > 0), requirements: lines };
 }
 export function displayQuantity(amount: number, unit: Requirement['unit']): string {
   if (unit === 'each') return `${Math.ceil(amount)}`;
@@ -96,7 +96,7 @@ export type RetailerKey = keyof typeof RETAILERS;
 export type HandoffLine = { name: string; display: string; aisle: Aisle; url: string };
 export function retailerHandoff(lines: ListLine[], retailer: RetailerKey): { retailer: (typeof RETAILERS)[RetailerKey]['name']; lines: HandoffLine[] } {
   const target = RETAILERS[retailer];
-  return { retailer: target.name, lines: lines.map(line => ({ name: line.name, display: line.display, aisle: line.aisle, url: target.search(line.name.replace(/\s*\(.*?\)\s*/g, ' ').trim()) })) };
+  return { retailer: target.name, lines: lines.filter(line => line.needed > 0).map(line => ({ name: line.name, display: line.display, aisle: line.aisle, url: target.search(line.name.replace(/\s*\(.*?\)\s*/g, ' ').trim()) })) };
 }
 /** Plain-text list for clipboard, notes or a kept task. */
 export function listText(groups: AisleGroup[], title = 'Shopping list'): string {

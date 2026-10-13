@@ -30,6 +30,7 @@
   ],
   "git": {
     "deploymentEnabled": {
+      "codex/shop-missions": false,
       "codex/assembl-rebuild-20261012": false,
       "codex/do-persistence-reliability": false,
       "codex/do-draft-account-isolation": false,

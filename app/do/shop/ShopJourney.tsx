@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { GlassIdentity } from '@/components/brand/GlassIdentity';
 import { MEALS, ingredientById } from '@/lib/do/shop/catalogue';
 import { validShopCount, aisleList, choicesFromNights, estimate, listText, parseShopBrief, planMeals, retailerHandoff, RETAILERS, shopDigest, type RetailerKey, type ShopBrief } from '@/lib/do/shop/journey';
+import { SHOP_MISSIONS, missionChoices, lowerCostAlternative, type ShopMission } from '@/lib/do/shop/missions';
 import type { MealChoice } from '@/lib/do/shop/preparation';
 import { prepareRun, reviewRun, runReceipt, type PreparationRun, type PreparedReceipt } from '@/lib/do/preparation/contracts';
 import { PantryEditor, newPantryRow, reviewPantry, type PantryRow } from './PantryEditor';
@@ -112,11 +113,18 @@ export default function ShopJourney({ initialBrief = '', embedded = false, expec
   }
   const choices = useMemo(() => choicesFromNights(nights), [nights]);
   const pantry = useMemo(() => reviewPantry(rows), [rows]);
-  const list = useMemo(() => brief ? aisleList(choices, pantryReviewed ? pantry.pantry : []) : { groups: [], lines: [] }, [brief, choices, pantryReviewed, pantry.pantry]);
+  const list = useMemo(() => brief ? aisleList(choices, pantryReviewed ? pantry.pantry : []) : { groups: [], lines: [], requirements: [] }, [brief, choices, pantryReviewed, pantry.pantry]);
   const summary = useMemo(() => brief ? estimate(list.lines, brief.budget) : null, [brief, list.lines]);
   const handoff = useMemo(() => retailerHandoff(list.lines, retailer), [list.lines, retailer]);
   const digest = useMemo(() => brief ? shopDigest({ brief, choices, pantry: pantryReviewed ? pantry.pantry : [], lines: list.lines }) : '', [brief, choices, pantryReviewed, pantry.pantry, list.lines]);
   const ready = numericValid && Boolean(brief) && nights.length > 0 && pantryReviewed && pantry.issues.length === 0 && list.lines.length > 0;
+  const alternative = useMemo(() => brief && pantryReviewed && pantry.issues.length === 0 && numericValid ? lowerCostAlternative(choices, eligible, next => aisleList(next, pantry.pantry).lines.reduce((sum, line) => sum + line.estimateMinor, 0)) : null, [brief, pantryReviewed, pantry, numericValid, choices, eligible]);
+  function applyMission(mission: ShopMission) {
+    if (!brief || !numericValid || (mission === 'pantry' && !pantryReviewed)) return;
+    const next = missionChoices(mission, eligible, pantryReviewed ? pantry.pantry : [], brief.servings, nights[0]?.mealId);
+    setNights(nightsFromChoices(next)); setInvalidNumbers({}); invalidate();
+    setNotice(mission === 'extra' ? 'Two dinners of the same recipe. Quantities include tomorrow’s portions; pantry is deducted once.' : mission === 'pantry' ? 'Recipe chosen by confirmed ingredient coverage in this catalogue. Review the remaining list.' : 'One dinner planned. Review its ingredients below.');
+  }
   const current = { ...identity, revision: Math.max(1, revision) };
 
   function review(checked: boolean) {
@@ -187,6 +195,11 @@ export default function ShopJourney({ initialBrief = '', embedded = false, expec
       </section>
 
       {brief && <div ref={planRef}>
+        <section className="shop-step" aria-label="Shopping missions">
+          <h2>What would help today?</h2>
+          <div className="shop-missions">{SHOP_MISSIONS.map(mission => <button type="button" key={mission.id} disabled={!numericValid || !eligible.length || (mission.id === 'pantry' && !pantryReviewed)} onClick={() => applyMission(mission.id)}><span aria-hidden="true">{mission.symbol}</span><strong>{mission.title}</strong><small>{mission.detail}</small></button>)}</div>
+          {!pantryReviewed && <p className="shop-fine">Review pantry quantities below to use what you have.</p>}
+        </section>
         <section className="shop-step" aria-labelledby="shop-plan-title">
           <h2 id="shop-plan-title"><span>02 · dinners</span>{nights.length} {nights.length === 1 ? 'night' : 'nights'}, swap any you like</h2>
           <p>Illustrative meal images. Swap a dinner or change servings; the list updates with the recipe quantities.</p>
@@ -217,6 +230,12 @@ export default function ShopJourney({ initialBrief = '', embedded = false, expec
           {pantryReviewed && !summary && list.lines.length > 0 && <p className="shop-estimate"><strong>About {money(list.lines.reduce((sum, line) => sum + line.estimateMinor, 0))}</strong> on indicative prices. Add a budget to your brief to compare.</p>}
         </section>
 
+        <section className="shop-step" aria-label="Ingredient calculation and alternative">
+          <h2>See what changes the list</h2>
+          <p>Indicative catalogue packs and prices, not live stock or the cheapest supermarket basket. Fees are unknown.</p>
+          <details><summary>Why each ingredient is needed</summary><ul className="shop-calculations">{list.requirements.map(line => <li key={line.ingredientId}><strong>{line.name}</strong><span>{line.meals.join(' · ')}</span><span>Required {line.required} {line.unit} − pantry used {line.pantryUsed} {line.unit} = need {line.needed} {line.unit}</span><span>{line.packs} indicative packs · {money(line.estimateMinor)} · {line.leftover} {line.unit} left from purchased packs</span></li>)}</ul></details>
+          {alternative ? <div className="shop-alternative"><h3>A lower-cost recipe swap</h3><p>{MEALS.find(m => m.id === alternative.from)?.name} → {MEALS.find(m => m.id === alternative.to)?.name}</p><p><strong>{money(alternative.beforeMinor)} → {money(alternative.afterMinor)}</strong> for the complete plan · {money(alternative.beforeMinor - alternative.afterMinor)} less using the same indicative pack prices.</p><button type="button" onClick={() => { setNights(nightsFromChoices(alternative.choices)); invalidate(); setNotice('Alternative accepted. Quantities and totals recalculated; review the changed plan again.'); }}>Accept lower-cost alternative</button></div> : <p className="shop-fine">{pantryReviewed ? 'No lower-cost single recipe swap found in the supported catalogue.' : 'Confirm pantry quantities to compare a lower-cost alternative.'}</p>}
+        </section>
         <section className="shop-step" aria-labelledby="shop-handoff-title">
           <h2 id="shop-handoff-title"><span>05 · search</span>Find products yourself</h2>
           <p className="shop-connection" role="status">{browserStatus} <Link href="/do/install">View DO installation options</Link>. Phone commands need an approved paired browser online.</p>

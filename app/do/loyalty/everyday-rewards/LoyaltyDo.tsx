@@ -31,6 +31,9 @@ import {
 import { DoGeminiLive } from "../../DoGeminiLive";
 import { GlassIdentity } from "@/components/brand/GlassIdentity";
 import {
+  demoAlternative,
+  demoEligibleMeals,
+  demoMissionRecipe,
   pantryTemplate,
   planShop,
   money,
@@ -39,6 +42,7 @@ import {
   recipeDescriptions,
 } from "./model";
 
+import { SHOP_MISSIONS, type ShopMission } from "@/lib/do/shop/missions";
 import "./loyalty.css";
 
 const sampleRows = (): IngredientRow[] =>
@@ -59,6 +63,8 @@ export default function LoyaltyDo() {
   const [provenance, setProvenance] =
     useState<GroceryProvenance>(sampleProvenance);
   const [ingredientNotice, setIngredientNotice] = useState("");
+  const [mission, setMission] = useState<ShopMission>("tonight");
+  const [dietaryText, setDietaryText] = useState("");
   const [recipe, setRecipe] = useState("pasta-night");
   const [budgetInput, setBudgetInput] = useState("40");
   const [usable, setUsable] = useState(false);
@@ -91,7 +97,10 @@ export default function LoyaltyDo() {
     usable && stock.issues.length === 0,
     budgetValid ? budgetMinor : 4000,
     recipe,
+    mission,
+    dietaryText,
   );
+  const alternative = budgetValid && usable && !stock.issues.length ? demoAlternative(stock.pantry, servings, true, budgetMinor, recipe, mission, dietaryText) : null;
   if (!budgetValid)
     plan.blockers.push(
       "Enter a valid NZD budget between $1 and $5,000 with at most two decimal places.",
@@ -99,6 +108,8 @@ export default function LoyaltyDo() {
   const selectedRecipe = meals.find((m) => m.id === recipe)!;
   const revision = JSON.stringify([
     plan.digest,
+    mission,
+    dietaryText,
     occasion,
     notes,
     notesSource,
@@ -163,6 +174,9 @@ export default function LoyaltyDo() {
   }
   function invalidate() {
     setUsable(false);
+    invalidatePlan();
+  }
+  function invalidatePlan() {
     setReviewed(null);
     setApproved(null);
   }
@@ -224,6 +238,7 @@ export default function LoyaltyDo() {
       "ASSEMBL · INDEPENDENT LOYALTY DO PROPOSAL",
       "SIMULATED HANDOFF · NO ORDER OR POINTS ISSUED",
       `${occasion} · ${selectedRecipe.name} · ${servings} people`,
+      `Mission: ${mission}; ${servings * (mission === 'extra' ? 2 : 1)} portions across ${mission === 'extra' ? 2 : 1} dinner(s).`,
       `Budget: NZ${money(budgetMinor)}; demo pickup fee NZ$0; actual fees unknown.`,
       `Observation provenance: ${JSON.stringify(provenance)}`,
       `Confirmed pantry: ${JSON.stringify(stock.pantry)}`,
@@ -570,6 +585,11 @@ export default function LoyaltyDo() {
                   your confirmed pantry; it does not invent a meal from
                   free-text notes.
                 </p>
+                <div className="ld-missions" aria-label="Shopping missions">{SHOP_MISSIONS.map(item => <button key={item.id} type="button" aria-pressed={mission === item.id} onClick={() => {
+                  const next = demoMissionRecipe(item.id, stock.pantry, servings, recipe, dietaryText);
+                  if (next) setRecipe(next);
+                  setMission(item.id); invalidatePlan();
+                }}><span aria-hidden="true">{item.symbol}</span><strong>{item.title}</strong><small>{item.detail}</small></button>)}</div>
                 <div className="ld-plan-paper">
                   <div className="ld-plan-heading">
                     <Leaf size={30} />
@@ -598,6 +618,10 @@ export default function LoyaltyDo() {
                       ))}
                     </select>
                   </label>
+                  <label>Dietary requirements (optional)<input aria-label="Dietary requirements" value={dietaryText} maxLength={300} onChange={e => { setDietaryText(e.target.value); invalidatePlan(); }} /></label>
+                  <p>Catalogue filters only. Unsupported requirements stop preparation; check real labels and suitability.</p>
+                  {!demoEligibleMeals(dietaryText).some(m => m.id === recipe) && <p role="alert">This recipe cannot satisfy the stated requirements in this sample catalogue. Choose a supported recipe or review the requirements before continuing.</p>}
+                  <p>{mission === 'extra' ? `Cook ${servings * 2} portions: ${servings} for tonight and ${servings} for tomorrow. Pantry is deducted once.` : `${servings} portions for one dinner.`}</p>
                   <label>
                     Basket budget (NZD)
                     <input
@@ -689,6 +713,7 @@ export default function LoyaltyDo() {
                   Your pantry comes first. Quantities scale with the plan; whole
                   demo packs cover the rest.
                 </p>
+                {alternative && <aside className="ld-alternative"><h3>A lower-cost sample recipe</h3><p>{selectedRecipe.name} → {meals.find(m => m.id === alternative.to)?.name}</p><p><strong>{money(alternative.beforeMinor)} → {money(alternative.afterMinor)}</strong> · {money(alternative.beforeMinor - alternative.afterMinor)} less, comparing the complete whole-pack basket and the same confirmed pantry.</p><p>Fictional prices. Not the cheapest Woolworths basket; real prices and stock are unknown.</p><button type="button" className="ld-dark" onClick={() => { setRecipe(alternative.to); invalidatePlan(); }}>Accept lower-cost alternative</button></aside>}
                 <div
                   className="ld-basket"
                   role="table"
@@ -704,8 +729,8 @@ export default function LoyaltyDo() {
                       <span role="cell">
                         <strong>{l.name}</strong>
                         <small>
-                          {l.pantryUsed} {l.unit} from home · {l.needed}{" "}
-                          {l.unit} needed
+                          Required {l.required} {l.unit} · pantry used {l.pantryUsed} {l.unit} · need {l.needed}{" "}
+                          {l.unit}
                           {l.leftover > 0
                             ? ` · ${l.leftover} ${l.unit} left over`
                             : ""}
@@ -900,7 +925,7 @@ export default function LoyaltyDo() {
                     </div>
                     <div>
                       <dt>Calculation</dt>
-                      <dd>Shared DO Shop preparation · {servings} servings</dd>
+                      <dd>Shared DO Shop preparation · {servings * (mission === "extra" ? 2 : 1)} portions</dd>
                     </div>
                     <div>
                       <dt>Basket</dt>
