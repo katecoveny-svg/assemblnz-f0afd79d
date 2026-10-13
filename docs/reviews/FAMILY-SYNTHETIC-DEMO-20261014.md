@@ -18,3 +18,11 @@ This deliberately removes interactive capabilities from this reusable demo rathe
 Keep the PR draft until review. Verify exact-head CI and deployed source/bundle identity before claiming the unsafe page composition is removed in production. The current deployed page is unchanged by opening this draft. Source rollback would restore the unsafe composition, so prefer fixing forward. Do not enable a personal-data toggle as rollback.
 
 Synthetic local reproduction: start Next with `DEMO_BASIC_AUTH_USER=synthetic-demo DEMO_BASIC_AUTH_PASSWORD=synthetic-local-only`, then run `scripts/review-family-synthetic-demo.cjs` against localhost port 3160. Browser artifacts are under `output/playwright/family-synthetic-demo/`. These are demonstration fixtures, not hosted authorization or production persistence proof.
+
+## Local verification
+
+- 23 tests passed across the family source-boundary suite (16) and industry-pack contracts (7).
+- 26 local browser checks passed: all six tabs with four presentation-cookie values, 375px without horizontal overflow, and no page runtime errors. All API and external-origin requests were blocked. Desktop/mobile screenshots contain synthetic examples only.
+- Typecheck, changed-source lint, brand guard, macron check and whitespace check passed.
+- Directory-wide lint also reports a pre-existing unrelated effect-state error in `visuals/ambient.tsx`; changed-source lint is clean.
+- The first production build was stopped to reduce concurrent local resource contention; the retry and exact-head hosted checks must be recorded before release approval.

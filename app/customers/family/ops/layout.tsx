@@ -28,7 +28,7 @@ export default function FamilyOpsLayout({ children }: { children: ReactNode }) {
   if (!config) notFound();
   return (
     <OpsShell
-      config={config}
+      config={{ ...config, voice: { ...config.voice, greeting: 'Explore fictional examples. Nothing is connected or saved.' } }}
       nav={NAV}
       rightRail={
         <div className="rounded-2xl border border-[#bfa37a]/40 bg-[color:var(--brand-surface)] p-4">

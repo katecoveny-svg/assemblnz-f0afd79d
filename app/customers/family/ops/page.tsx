@@ -15,10 +15,10 @@ export default async function FamilyOpsPage({ searchParams }: { searchParams: Pr
       <section aria-labelledby="family-demo-people">
         <h2 id="family-demo-people" className="text-xl">Example whānau</h2>
         <ul className="mt-3 grid gap-3 sm:grid-cols-2">
-          {FAMILY_DEMO.people.map(person => <li key={person.id} className="rounded-xl border border-[color:var(--brand-muted)]/20 p-4"><h3 className="font-semibold">{person.name}</h3><p className="mt-1 text-sm text-[color:var(--brand-muted)]">{person.role}</p></li>)}
+          {FAMILY_DEMO.people.map(person => <li key={person.id} className="rounded-xl border border-[color:var(--brand-muted)]/20 bg-[color:var(--brand-surface)] p-4"><h3 className="font-semibold">{person.name}</h3><p className="mt-1 text-sm text-[color:var(--brand-muted)]">{person.role}</p></li>)}
         </ul>
       </section>
-      <section aria-labelledby="family-demo-section" className="rounded-2xl border border-[color:var(--brand-muted)]/20 p-5">
+      <section aria-labelledby="family-demo-section" className="rounded-2xl border border-[color:var(--brand-muted)]/20 bg-[color:var(--brand-surface)] p-5">
         <h2 id="family-demo-section" className="text-xl">{section.title}</h2>
         <p className="mt-3 max-w-2xl leading-relaxed">{section.text}</p>
         <ul className="mt-3 list-disc space-y-2 pl-5">{section.items.map(item => <li key={item}>{item}</li>)}</ul>
