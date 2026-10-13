@@ -202,7 +202,9 @@
 .direction-4c .clear-coastal-video{opacity:0}
 .direction-4c[data-video-ready] .clear-coastal-video{opacity:1}
 .direction-4c .clear-arrow{display:inline-block;flex:none;vertical-align:-.15em}
-.direction-4c .clear-do-actions a{gap:8px}
+.direction-4c .clear-do-actions{display:flex;flex-wrap:wrap;gap:12px;margin:20px 0}
+.direction-4c .clear-do-actions a{display:inline-flex;align-items:center;justify-content:space-between;gap:12px;min-height:48px;min-width:48px;padding:10px 16px;border:1px solid #eac8df45;border-radius:24px;background:#fffdfb12;color:#FFFDFB}
+@media(max-width:900px){.direction-4c .clear-do-actions{flex-direction:column}.direction-4c .clear-do-actions a{width:100%}}
 /* Reading must not depend on scroll progress or a paused animation frame. */
 @media(max-width:900px){
   .direction-4c [data-ref="canvasRef"]{display:none!important}

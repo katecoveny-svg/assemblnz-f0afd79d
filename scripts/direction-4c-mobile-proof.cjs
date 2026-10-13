@@ -87,6 +87,42 @@ fs.mkdirSync(output, { recursive: true });
           } else assert.equal(await page.locator('video').evaluate(el => getComputedStyle(el).opacity), '0');
         }
 
+        const entryTargets = [], pausedCopyChecks = [];
+        if (mode === 'normal' && width < 901) {
+          const actions = page.locator('.clear-do-actions');
+          await actions.evaluate(el => el.scrollIntoView({ block: 'center', behavior: 'instant' }));
+          for (const link of await actions.locator('a').all()) {
+            await link.click({ trial: true });
+            const box = await link.boundingBox();
+            assert(box.width >= 44 && box.height >= 48, 'DO entry has usable touch targets');
+            const previous = entryTargets.at(-1);
+            if (previous) assert(box.y - (previous.y + previous.height) >= 11, 'DO entry targets are separated');
+            entryTargets.push({ href: await link.getAttribute('href'), ...box });
+          }
+          await page.screenshot({ path: `${output}/${engine}-${width}-do-entry.jpg`, type: 'jpeg', quality: 85 });
+        }
+        if (mode === 'normal' && width === 1440) {
+          await page.waitForFunction(() => document.querySelector('.direction-4c').hasAttribute('data-ready'));
+          const copyState = () => page.locator('[data-ref="msgRef"], [data-ref="kickRef"], [data-ref="subRef"], [data-ref="cueRef"], [data-ref="markRef"]').evaluateAll(els => els.map(el => ({ ref: el.dataset.ref, opacity: getComputedStyle(el).opacity, visibility: getComputedStyle(el).visibility, transform: getComputedStyle(el).transform })));
+          for (const progress of [0, .72, .95]) {
+            const y = await page.locator('#top').evaluate((el, p) => Math.round((el.getBoundingClientRect().height - innerHeight) * p), progress);
+            await scroll(page, y); await page.waitForTimeout(100);
+            await page.locator('[data-pause]').click();
+            const frozen = await copyState();
+            assert(frozen.every(s => s.opacity === '0' || s.opacity === '1'), 'paused copy is never left translucent');
+            assert(await page.locator('video').evaluate(v => v.paused));
+            for (const target of [0, 700, 1500]) {
+              await scroll(page, target); await page.waitForTimeout(100);
+              assert.deepEqual(await copyState(), frozen, 'paused scroll cannot fade or move desktop copy');
+            }
+            await scroll(page, y);
+            await page.screenshot({ path: `${output}/${engine}-1440-paused-${progress}.jpg`, type: 'jpeg', quality: 85 });
+            pausedCopyChecks.push({ progress, scrollY: y, frozen });
+            await page.locator('[data-pause]').click();
+            await page.waitForFunction(() => !document.querySelector('video').paused);
+          }
+        }
+
         for (const href of ['/do?tool=write', '/do?tool=talk', '/do']) assert(await page.locator(`#try a[href="${href}"]`).count(), `real DO link ${href}`);
         for (const href of ['/legal/terms', '/legal/privacy', '/legal/disclaimer', '/legal/meta-data-deletion']) assert(await page.locator(`.clear-legal a[href="${href}"]`).count());
         if (width === 390 && mode === 'normal') {
@@ -115,7 +151,7 @@ fs.mkdirSync(output, { recursive: true });
           assert.match(await demo.locator('.td-line').textContent(), /No draft is saved/);
         }
         assert.deepEqual(errors, []);
-        results.push({ width, mode, engine, passed: true });
+        results.push({ width, mode, engine, passed: true, entryTargets, pausedCopyChecks });
         fs.writeFileSync(`${output}/${engine}-results.json`, JSON.stringify(results, null, 2));
         console.log(`PASS ${engine} ${width} ${mode}`);
         await context.close();
