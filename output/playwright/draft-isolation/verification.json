@@ -1,0 +1,41 @@
+{
+  "runtime_commit": "9929129b189f70a100b731a942ababb75fbcc916",
+  "production_build": "passed, including TypeScript",
+  "build_id": "jKhaM3DDEpCXjq4AsFre1",
+  "do_unit_tests": {
+    "passed": 1527,
+    "skipped_existing": 2
+  },
+  "auth_regressions": {
+    "passed": 40
+  },
+  "focused_identity_storage_tests": {
+    "passed": 25
+  },
+  "final_production_browser": {
+    "draft_isolation": 13,
+    "companion_entry": 14
+  },
+  "additional_regressions": {
+    "voice_lifecycle": 38,
+    "personal_assistant": 22,
+    "native_receiver": 22,
+    "synthetic_privacy": "passed"
+  },
+  "guards": [
+    "scoped ESLint",
+    "macrons",
+    "brand",
+    "public front door",
+    "git diff --check"
+  ],
+  "context_health": "canonical context OK, 29 existing unrelated brand review warnings",
+  "limitations": [
+    "Fictional local accounts and API/media fixtures",
+    "No hosted isolated database proof or real session-expiry proof",
+    "No real mic, iPhone or installed PWA call",
+    "No cloud persistence or legacy ownership recovery claim"
+  ],
+  "draft_pr": "https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1527",
+  "deployment": "not authorized; branch automatic deployment disabled"
+}
