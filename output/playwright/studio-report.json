@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "playback": {
+    "duration": 16.078267,
+    "width": 1280,
+    "height": 720,
+    "currentTime": 0.22058
+  },
+  "protectedRoutes": {
+    "/customers/example": 401,
+    "/journeys/one-nz": 401
+  },
+  "submissions": [],
+  "pageErrors": [],
+  "checks": [
+    "anonymous route",
+    "brief handoff",
+    "all aspect ratios",
+    "local image/audio",
+    "oversize/invalid uploads",
+    "project roundtrip",
+    "malicious import",
+    "scene VTT timing",
+    "cancel and retry",
+    "playable export",
+    "mobile 375px",
+    "reduced motion",
+    "keyboard",
+    "unsupported encoder"
+  ]
+}

@@ -1,0 +1,1164 @@
+{
+  "checks": [
+    "More fits viewport with no horizontal clipping at 1488",
+    "links are full readable rows at 1488",
+    "Privacy remains reachable by scrolling at 1488",
+    "More text contrast exceeds 4.5 at 1488",
+    "Escape closes More and restores its trigger at 1488",
+    "Tab enters menu at 1488",
+    "opening More closes Add at 1488",
+    "opening Add closes More at 1488",
+    "Add remains open at 1488",
+    "Add fits viewport at 1488",
+    "outside click closes Add at 1488",
+    "outside click closes More at 1488",
+    "menus preserve draft at 1488",
+    "page has no horizontal overflow at 1488",
+    "More fits viewport with no horizontal clipping at 1190",
+    "links are full readable rows at 1190",
+    "Privacy remains reachable by scrolling at 1190",
+    "More text contrast exceeds 4.5 at 1190",
+    "Escape closes More and restores its trigger at 1190",
+    "Tab enters menu at 1190",
+    "opening More closes Add at 1190",
+    "opening Add closes More at 1190",
+    "Add remains open at 1190",
+    "Add fits viewport at 1190",
+    "outside click closes Add at 1190",
+    "outside click closes More at 1190",
+    "menus preserve draft at 1190",
+    "page has no horizontal overflow at 1190",
+    "More fits viewport with no horizontal clipping at 744",
+    "links are full readable rows at 744",
+    "Privacy remains reachable by scrolling at 744",
+    "More text contrast exceeds 4.5 at 744",
+    "Escape closes More and restores its trigger at 744",
+    "Tab enters menu at 744",
+    "opening More closes Add at 744",
+    "opening Add closes More at 744",
+    "Add remains open at 744",
+    "Add fits viewport at 744",
+    "outside click closes Add at 744",
+    "outside click closes More at 744",
+    "menus preserve draft at 744",
+    "page has no horizontal overflow at 744",
+    "More fits viewport with no horizontal clipping at 375",
+    "links are full readable rows at 375",
+    "Privacy remains reachable by scrolling at 375",
+    "More text contrast exceeds 4.5 at 375",
+    "Escape closes More and restores its trigger at 375",
+    "Tab enters menu at 375",
+    "opening More closes Add at 375",
+    "opening Add closes More at 375",
+    "Add remains open at 375",
+    "Add fits viewport at 375",
+    "outside click closes Add at 375",
+    "outside click closes More at 375",
+    "menus preserve draft at 375",
+    "page has no horizontal overflow at 375",
+    "More fits viewport with no horizontal clipping at 320",
+    "links are full readable rows at 320",
+    "Privacy remains reachable by scrolling at 320",
+    "More text contrast exceeds 4.5 at 320",
+    "Escape closes More and restores its trigger at 320",
+    "Tab enters menu at 320",
+    "opening More closes Add at 320",
+    "opening Add closes More at 320",
+    "Add remains open at 320",
+    "Add fits viewport at 320",
+    "outside click closes Add at 320",
+    "outside click closes More at 320",
+    "menus preserve draft at 320",
+    "page has no horizontal overflow at 320",
+    "page navigation never starts microphone",
+    "agenda appends without submitting",
+    "nine shared capability examples are available",
+    "all phone example text wraps within its control",
+    "widget uses the same capability definitions",
+    "widget appends and retains draft",
+    "widget retains source metadata",
+    "widget More remains inside viewport",
+    "widget never starts microphone",
+    "phone-web uses the same capability definitions",
+    "phone-web appends and retains draft",
+    "phone-web retains source metadata",
+    "phone-web More remains inside viewport",
+    "phone-web never starts microphone",
+    "native-hosted uses the same capability definitions",
+    "native-hosted appends and retains draft",
+    "native-hosted retains source metadata",
+    "native-hosted More remains inside viewport",
+    "native-hosted never starts microphone",
+    "companion iframe uses the same capability definitions",
+    "companion preserves draft when adding an idea",
+    "embedded tool links open separately",
+    "companion menu fits its own viewport",
+    "companion menu scroll reaches Privacy",
+    "companion never starts microphone",
+    "no writes or microphone starts",
+    "no runtime errors"
+  ],
+  "geometry": [
+    {
+      "surface": "page",
+      "width": 360,
+      "display": "block",
+      "x": 863.625,
+      "y": 74,
+      "height": 816,
+      "viewport": [
+        1488,
+        906
+      ],
+      "scrollWidth": 358,
+      "clientWidth": 358,
+      "scrollHeight": 875,
+      "clientHeight": 814,
+      "links": [
+        {
+          "text": "My DO",
+          "x": 880.625,
+          "right": 1206.625,
+          "width": 326,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "Open capture workspace",
+          "x": 880.625,
+          "right": 1206.625,
+          "width": 326,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "School briefingFictional pilot; no connected school inbox",
+          "x": 880.625,
+          "right": 1206.625,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Meeting notes · sign inCapture and sharing need your permission",
+          "x": 880.625,
+          "right": 1206.625,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Conversations and repliesReview replies before sharing",
+          "x": 880.625,
+          "right": 1206.625,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Bills · examples and CSVDemo or your CSV; no live bank connection",
+          "x": 880.625,
+          "right": 1206.625,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Builder · prepare a planAdvanced planning workspace",
+          "x": 880.625,
+          "right": 1206.625,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Household · sample workspaceSample data, not your household",
+          "x": 880.625,
+          "right": 1206.625,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Voice studioSeparate voice tools",
+          "x": 880.625,
+          "right": 1206.625,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Enquiry replies · private pilotRestricted pilot access",
+          "x": 880.625,
+          "right": 1206.625,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Install DO",
+          "x": 880.625,
+          "right": 1206.625,
+          "width": 326,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "Privacy",
+          "x": 880.625,
+          "right": 1206.625,
+          "width": 326,
+          "height": 44,
+          "font": "14px"
+        }
+      ]
+    },
+    {
+      "surface": "page",
+      "width": 360,
+      "display": "block",
+      "x": 610.125,
+      "y": 74,
+      "height": 816,
+      "viewport": [
+        1190,
+        906
+      ],
+      "scrollWidth": 358,
+      "clientWidth": 358,
+      "scrollHeight": 875,
+      "clientHeight": 814,
+      "links": [
+        {
+          "text": "My DO",
+          "x": 627.125,
+          "right": 953.125,
+          "width": 326,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "Open capture workspace",
+          "x": 627.125,
+          "right": 953.125,
+          "width": 326,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "School briefingFictional pilot; no connected school inbox",
+          "x": 627.125,
+          "right": 953.125,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Meeting notes · sign inCapture and sharing need your permission",
+          "x": 627.125,
+          "right": 953.125,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Conversations and repliesReview replies before sharing",
+          "x": 627.125,
+          "right": 953.125,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Bills · examples and CSVDemo or your CSV; no live bank connection",
+          "x": 627.125,
+          "right": 953.125,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Builder · prepare a planAdvanced planning workspace",
+          "x": 627.125,
+          "right": 953.125,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Household · sample workspaceSample data, not your household",
+          "x": 627.125,
+          "right": 953.125,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Voice studioSeparate voice tools",
+          "x": 627.125,
+          "right": 953.125,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Enquiry replies · private pilotRestricted pilot access",
+          "x": 627.125,
+          "right": 953.125,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Install DO",
+          "x": 627.125,
+          "right": 953.125,
+          "width": 326,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "Privacy",
+          "x": 627.125,
+          "right": 953.125,
+          "width": 326,
+          "height": 44,
+          "font": "14px"
+        }
+      ]
+    },
+    {
+      "surface": "page",
+      "width": 360,
+      "display": "block",
+      "x": 216.140625,
+      "y": 74,
+      "height": 816,
+      "viewport": [
+        744,
+        906
+      ],
+      "scrollWidth": 358,
+      "clientWidth": 358,
+      "scrollHeight": 875,
+      "clientHeight": 814,
+      "links": [
+        {
+          "text": "My DO",
+          "x": 233.140625,
+          "right": 559.140625,
+          "width": 326,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "Open capture workspace",
+          "x": 233.140625,
+          "right": 559.140625,
+          "width": 326,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "School briefingFictional pilot; no connected school inbox",
+          "x": 233.140625,
+          "right": 559.140625,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Meeting notes · sign inCapture and sharing need your permission",
+          "x": 233.140625,
+          "right": 559.140625,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Conversations and repliesReview replies before sharing",
+          "x": 233.140625,
+          "right": 559.140625,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Bills · examples and CSVDemo or your CSV; no live bank connection",
+          "x": 233.140625,
+          "right": 559.140625,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Builder · prepare a planAdvanced planning workspace",
+          "x": 233.140625,
+          "right": 559.140625,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Household · sample workspaceSample data, not your household",
+          "x": 233.140625,
+          "right": 559.140625,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Voice studioSeparate voice tools",
+          "x": 233.140625,
+          "right": 559.140625,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Enquiry replies · private pilotRestricted pilot access",
+          "x": 233.140625,
+          "right": 559.140625,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Install DO",
+          "x": 233.140625,
+          "right": 559.140625,
+          "width": 326,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "Privacy",
+          "x": 233.140625,
+          "right": 559.140625,
+          "width": 326,
+          "height": 44,
+          "font": "14px"
+        }
+      ]
+    },
+    {
+      "surface": "page",
+      "width": 343,
+      "display": "block",
+      "x": 16,
+      "y": 74,
+      "height": 722,
+      "viewport": [
+        375,
+        812
+      ],
+      "scrollWidth": 341,
+      "clientWidth": 341,
+      "scrollHeight": 867,
+      "clientHeight": 720,
+      "links": [
+        {
+          "text": "My DO",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "Open capture workspace",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "School briefingFictional pilot; no connected school inbox",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Meeting notes · sign inCapture and sharing need your permission",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Conversations and repliesReview replies before sharing",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Bills · examples and CSVDemo or your CSV; no live bank connection",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Builder · prepare a planAdvanced planning workspace",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Household · sample workspaceSample data, not your household",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Voice studioSeparate voice tools",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Enquiry replies · private pilotRestricted pilot access",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Install DO",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "Privacy",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 44,
+          "font": "14px"
+        }
+      ]
+    },
+    {
+      "surface": "page",
+      "width": 288,
+      "display": "block",
+      "x": 16,
+      "y": 74,
+      "height": 722,
+      "viewport": [
+        320,
+        812
+      ],
+      "scrollWidth": 286,
+      "clientWidth": 286,
+      "scrollHeight": 867,
+      "clientHeight": 720,
+      "links": [
+        {
+          "text": "My DO",
+          "x": 29,
+          "right": 291,
+          "width": 262,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "Open capture workspace",
+          "x": 29,
+          "right": 291,
+          "width": 262,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "School briefingFictional pilot; no connected school inbox",
+          "x": 29,
+          "right": 291,
+          "width": 262,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Meeting notes · sign inCapture and sharing need your permission",
+          "x": 29,
+          "right": 291,
+          "width": 262,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Conversations and repliesReview replies before sharing",
+          "x": 29,
+          "right": 291,
+          "width": 262,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Bills · examples and CSVDemo or your CSV; no live bank connection",
+          "x": 29,
+          "right": 291,
+          "width": 262,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Builder · prepare a planAdvanced planning workspace",
+          "x": 29,
+          "right": 291,
+          "width": 262,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Household · sample workspaceSample data, not your household",
+          "x": 29,
+          "right": 291,
+          "width": 262,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Voice studioSeparate voice tools",
+          "x": 29,
+          "right": 291,
+          "width": 262,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Enquiry replies · private pilotRestricted pilot access",
+          "x": 29,
+          "right": 291,
+          "width": 262,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Install DO",
+          "x": 29,
+          "right": 291,
+          "width": 262,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "Privacy",
+          "x": 29,
+          "right": 291,
+          "width": 262,
+          "height": 44,
+          "font": "14px"
+        }
+      ]
+    },
+    {
+      "surface": "widget",
+      "width": 360,
+      "display": "block",
+      "x": 920,
+      "y": 73.61478424072266,
+      "height": 810,
+      "viewport": [
+        1440,
+        900
+      ],
+      "scrollWidth": 358,
+      "clientWidth": 358,
+      "scrollHeight": 969,
+      "clientHeight": 808,
+      "links": [
+        {
+          "text": "My DO",
+          "x": 937,
+          "right": 1263,
+          "width": 326,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "Open capture workspace",
+          "x": 937,
+          "right": 1263,
+          "width": 326,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "School briefingFictional pilot; no connected school inbox",
+          "x": 937,
+          "right": 1263,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Meeting notes · sign inCapture and sharing need your permission",
+          "x": 937,
+          "right": 1263,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Conversations and repliesReview replies before sharing",
+          "x": 937,
+          "right": 1263,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Bills · examples and CSVDemo or your CSV; no live bank connection",
+          "x": 937,
+          "right": 1263,
+          "width": 326,
+          "height": 61.000030517578125,
+          "font": "14px"
+        },
+        {
+          "text": "Builder · prepare a planAdvanced planning workspace",
+          "x": 937,
+          "right": 1263,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Household · sample workspaceSample data, not your household",
+          "x": 937,
+          "right": 1263,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Voice studioSeparate voice tools",
+          "x": 937,
+          "right": 1263,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Enquiry replies · private pilotRestricted pilot access",
+          "x": 937,
+          "right": 1263,
+          "width": 326,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Sign in",
+          "x": 937,
+          "right": 1263,
+          "width": 326,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "Install DO",
+          "x": 937,
+          "right": 1263,
+          "width": 326,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "Privacy",
+          "x": 937,
+          "right": 1263,
+          "width": 326,
+          "height": 43.99993896484375,
+          "font": "14px"
+        }
+      ]
+    },
+    {
+      "surface": "phone-web",
+      "width": 343,
+      "display": "block",
+      "x": 16,
+      "y": 73.61399841308594,
+      "height": 810,
+      "viewport": [
+        375,
+        900
+      ],
+      "scrollWidth": 341,
+      "clientWidth": 341,
+      "scrollHeight": 961,
+      "clientHeight": 808,
+      "links": [
+        {
+          "text": "My DO",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "Open capture workspace",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "School briefingFictional pilot; no connected school inbox",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Meeting notes · sign inCapture and sharing need your permission",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Conversations and repliesReview replies before sharing",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Bills · examples and CSVDemo or your CSV; no live bank connection",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Builder · prepare a planAdvanced planning workspace",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Household · sample workspaceSample data, not your household",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Voice studioSeparate voice tools",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Enquiry replies · private pilotRestricted pilot access",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Sign in",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "Install DO",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "Privacy",
+          "x": 29,
+          "right": 346,
+          "width": 317,
+          "height": 44,
+          "font": "14px"
+        }
+      ]
+    },
+    {
+      "surface": "native-hosted",
+      "width": 360,
+      "display": "block",
+      "x": 52,
+      "y": 74,
+      "height": 810,
+      "viewport": [
+        430,
+        900
+      ],
+      "scrollWidth": 358,
+      "clientWidth": 358,
+      "scrollHeight": 961,
+      "clientHeight": 808,
+      "links": [
+        {
+          "text": "My DO",
+          "x": 65,
+          "right": 399,
+          "width": 334,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "Open capture workspace",
+          "x": 65,
+          "right": 399,
+          "width": 334,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "School briefingFictional pilot; no connected school inbox",
+          "x": 65,
+          "right": 399,
+          "width": 334,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Meeting notes · sign inCapture and sharing need your permission",
+          "x": 65,
+          "right": 399,
+          "width": 334,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Conversations and repliesReview replies before sharing",
+          "x": 65,
+          "right": 399,
+          "width": 334,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Bills · examples and CSVDemo or your CSV; no live bank connection",
+          "x": 65,
+          "right": 399,
+          "width": 334,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Builder · prepare a planAdvanced planning workspace",
+          "x": 65,
+          "right": 399,
+          "width": 334,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Household · sample workspaceSample data, not your household",
+          "x": 65,
+          "right": 399,
+          "width": 334,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Voice studioSeparate voice tools",
+          "x": 65,
+          "right": 399,
+          "width": 334,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Enquiry replies · private pilotRestricted pilot access",
+          "x": 65,
+          "right": 399,
+          "width": 334,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Sign in",
+          "x": 65,
+          "right": 399,
+          "width": 334,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "Install DO",
+          "x": 65,
+          "right": 399,
+          "width": 334,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "Privacy",
+          "x": 65,
+          "right": 399,
+          "width": 334,
+          "height": 44,
+          "font": "14px"
+        }
+      ]
+    },
+    {
+      "surface": "companion-iframe",
+      "display": "block",
+      "x": 50,
+      "y": 61.614830017089844,
+      "width": 360,
+      "height": 369,
+      "viewport": [
+        428,
+        447
+      ],
+      "scrollWidth": 358,
+      "clientWidth": 358,
+      "scrollHeight": 887,
+      "clientHeight": 367,
+      "links": [
+        {
+          "text": "My DO",
+          "x": 63,
+          "right": 397,
+          "width": 334,
+          "height": 44.00000762939453,
+          "font": "14px"
+        },
+        {
+          "text": "Open capture workspace",
+          "x": 63,
+          "right": 397,
+          "width": 334,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "School briefingFictional pilot; no connected school inbox",
+          "x": 63,
+          "right": 397,
+          "width": 334,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Meeting notes · sign inCapture and sharing need your permission",
+          "x": 63,
+          "right": 397,
+          "width": 334,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Conversations and repliesReview replies before sharing",
+          "x": 63,
+          "right": 397,
+          "width": 334,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Bills · examples and CSVDemo or your CSV; no live bank connection",
+          "x": 63,
+          "right": 397,
+          "width": 334,
+          "height": 60.999969482421875,
+          "font": "14px"
+        },
+        {
+          "text": "Builder · prepare a planAdvanced planning workspace",
+          "x": 63,
+          "right": 397,
+          "width": 334,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Household · sample workspaceSample data, not your household",
+          "x": 63,
+          "right": 397,
+          "width": 334,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Voice studioSeparate voice tools",
+          "x": 63,
+          "right": 397,
+          "width": 334,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Enquiry replies · private pilotRestricted pilot access",
+          "x": 63,
+          "right": 397,
+          "width": 334,
+          "height": 61,
+          "font": "14px"
+        },
+        {
+          "text": "Sign in",
+          "x": 63,
+          "right": 397,
+          "width": 334,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "Install DO",
+          "x": 63,
+          "right": 397,
+          "width": 334,
+          "height": 44,
+          "font": "14px"
+        },
+        {
+          "text": "Privacy",
+          "x": 63,
+          "right": 397,
+          "width": 334,
+          "height": 44,
+          "font": "14px"
+        }
+      ]
+    }
+  ],
+  "posts": [],
+  "errors": [],
+  "scope": "Fictional APIs; isolated Chrome. Phone is web viewport, native-hosted is its existing URL, not native binary proof. 1488 desktop and 1190/744 effective viewport reflow cover zoom-like constraints; screenshot alone does not disclose actual browser zoom."
+}

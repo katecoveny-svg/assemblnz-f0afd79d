@@ -1,0 +1,39 @@
+{
+  "verifiedAt": "2026-10-13T00:53:14.996Z",
+  "base": "6a09eb061d667bf61c3740b0145ab3fb8a197e87",
+  "build": {
+    "command": "pnpm build",
+    "passed": true,
+    "includesTypeScript": true,
+    "buildId": "dsQzm7MxaMsUUVmN5MbQd"
+  },
+  "browser": {
+    "origin": "http://127.0.0.1:3226",
+    "productionBuild": true,
+    "checksPassed": 38,
+    "errors": 0,
+    "realMicrophone": false,
+    "realProvider": false,
+    "realAccount": false
+  },
+  "tests": {
+    "broadPassed": 1173,
+    "broadSkipped": 2,
+    "focusedVoicePassed": 24,
+    "countsOverlap": true,
+    "isolatedSqlChecks": 67
+  },
+  "guards": [
+    "scoped ESLint",
+    "macrons",
+    "brand",
+    "public front door",
+    "git diff --check"
+  ],
+  "sourceSha256": {
+    "app/do/DoGeminiLive.tsx": "c154bb4d53aa25a01819da8d54faa67c437d89b629c204fa0ddc80899b6dae70",
+    "apps/do/shared/voice-session-resources.ts": "a541b85c6d6ec37d7e2baf06f82742e9b277dd02c818a059a1de215436238b26",
+    "scripts/review-do-personal-call.cjs": "0002eaab10d2d3299e957803a979381ace3a160359d6baeedb7afd8b713c0418"
+  },
+  "deployment": "not deployed; branch-specific automatic deployment disabled; root review required"
+}

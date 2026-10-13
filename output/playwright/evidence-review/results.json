@@ -1,0 +1,24 @@
+[
+  {
+    "width": 1440,
+    "receipt": "exact versions",
+    "stale": "blocked",
+    "conflict": "blocked",
+    "newEvidence": "invalidated",
+    "meeting": "unconfirmed commitments exported",
+    "approvalAfterExpiry": "historical receipt retained; current freshness expired",
+    "overflow": false,
+    "pageErrors": []
+  },
+  {
+    "width": 375,
+    "receipt": "exact versions",
+    "stale": "blocked",
+    "conflict": "blocked",
+    "newEvidence": "invalidated",
+    "meeting": "unconfirmed commitments exported",
+    "approvalAfterExpiry": "historical receipt retained; current freshness expired",
+    "overflow": false,
+    "pageErrors": []
+  }
+]
