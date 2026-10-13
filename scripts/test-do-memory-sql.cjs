@@ -14,7 +14,7 @@ const fs = require('node:fs'); const os = require('node:os'); const path = requi
  const check = (name, ok) => { assert.ok(ok, name); checks++; console.log('PASS ' + name); };
  try {
   await db.exec(`create role anon; create role authenticated; create role service_role bypassrls; create schema auth; create table auth.users(id uuid primary key,is_anonymous boolean default false); create function auth.uid() returns uuid language sql as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$; create function auth.jwt() returns jsonb language sql as $$select coalesce(nullif(current_setting('request.jwt.claims',true),''),'{}')::jsonb$$; grant usage on schema public to anon,authenticated,service_role; grant usage on schema auth to authenticated,service_role; grant select on auth.users to service_role;`);
-  await db.exec(fs.readFileSync('docs/do-personal/schema-review.sql', 'utf8'));
+  await db.exec(fs.readFileSync('supabase/migrations/20261013090000_do_personal_memory.sql', 'utf8'));
   await db.exec(fs.readFileSync('supabase/migrations/20260929213918_do_personal_responsibilities.sql', 'utf8'));
   const a = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', b = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb', anonymous = 'cccccccc-cccc-4ccc-8ccc-cccccccccccc', id = '11111111-1111-4111-8111-111111111111';
   await db.query('insert into auth.users values ($1,false),($2,false),($3,true)', [a,b,anonymous]);
