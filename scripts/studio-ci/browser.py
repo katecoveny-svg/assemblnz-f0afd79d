@@ -64,7 +64,7 @@ async def journey(page,width):
     await page.get_by_label('Source web link',exact=True).fill('https://example.org/supplied')
     await page.get_by_label('Relevant fact extract',exact=True).fill('FICTIONAL supplied extract, not independently verified')
     await page.get_by_role('button',name='Add source for review',exact=True).click()
-    await page.get_by_label('Claim status',exact=True).select_option('source')
+    await page.get_by_role('combobox',name='Claim status',exact=True).select_option('source')
     await page.get_by_label('Use in concept and client evidence',exact=True).check()
     await close_panel(page)
     await page.get_by_role('button',name='Add a working idea',exact=True).click()
