@@ -66,6 +66,7 @@ export function MailReview({ ownerId, initialTask = '' }: { ownerId: string; ini
       {readiness?.accounts.map(account => <option key={account.id} value={account.id} disabled={account.state !== 'read_available_unverified'}>{account.label} · {account.id} · {account.state === 'outlook_read_unverified' ? 'Outlook read setup unverified' : account.state === 'read_available_unverified' ? 'Gmail · grant unverified' : account.state.replaceAll('_', ' ')}</option>)}
     </select>
     {readiness && !readiness.accountsAvailable && <p role="status">Account metadata is unavailable.</p>}
+    {readiness?.gmailConfigured === false && <p role="status">Gmail reading needs platform setup. No account grant has been verified.</p>}
     {readiness && !readiness.accounts.length && readiness.accountsAvailable && <p>No mail accounts found. <Link href="/do/connections">Review connections</Link>.</p>}
     <p className={styles.evidence}>Readiness checks account metadata only. Actual scopes and mailbox access are unverified. Outlook reading stays unavailable until delegated Mail.Read is verified.</p>
     <label>Search words or correspondent address<input value={terms} maxLength={100} disabled={busy} onChange={event => { invalidate(); setTerms(event.target.value); }} placeholder="e.g. Example Clinic" /></label>

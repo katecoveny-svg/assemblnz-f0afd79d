@@ -30,13 +30,17 @@ export function accountReadiness(accounts: ConnectedAccount[], owner: Owner, con
 }
 export async function mailReadiness(owner: Owner, signal: AbortSignal, dependencies = ports): Promise<MailReadiness> {
   verifyOwner(owner); signal.throwIfAborted();
+  const gmailConfigured = dependencies.configured('gmail');
+  const base = { ownerId: owner.id, metadataOnly: true as const, mailboxRead: false as const, gmailConfigured, outlookReadVerified: false as const };
+  // A missing provider configuration is unknown readiness, not an empty mailbox/account list.
+  if (!gmailConfigured && !dependencies.configured('microsoft_outlook')) return { ...base, accounts: [], accountsAvailable: false };
   try {
     const accounts = await dependencies.accounts(owner.externalId, signal);
     signal.throwIfAborted();
-    return { ownerId: owner.id, accounts: accountReadiness(accounts, owner, dependencies.configured('gmail')), metadataOnly: true, mailboxRead: false, accountsAvailable: true };
+    return { ...base, accounts: accountReadiness(accounts, owner, gmailConfigured), accountsAvailable: true };
   } catch {
     signal.throwIfAborted();
-    return { ownerId: owner.id, accounts: [], metadataOnly: true, mailboxRead: false, accountsAvailable: false };
+    return { ...base, accounts: [], accountsAvailable: false };
   }
 }
 

@@ -19,7 +19,7 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
     if (url.origin !== origin) { external.push(url.origin); return route.abort(); }
     if (url.pathname === '/api/do/session') return route.fulfill({ json: { workspaceKey: owner } });
     if (url.pathname === '/api/do/mail') {
-      if (request.method() === 'GET') return route.fulfill({ json: { ownerId: owner, metadataOnly: true, mailboxRead: false, accountsAvailable: true, accounts: [
+      if (request.method() === 'GET') return route.fulfill({ json: { ownerId: owner, metadataOnly: true, mailboxRead: false, gmailConfigured: true, outlookReadVerified: false, accountsAvailable: true, accounts: [
         { id: 'gmail_one', label: 'Fictional personal', provider: 'gmail', state: 'read_available_unverified', scopeVerified: false },
         { id: 'gmail_two', label: 'Fictional admin', provider: 'gmail', state: 'read_available_unverified', scopeVerified: false },
         { id: 'outlook_one', label: 'Fictional Outlook', provider: 'microsoft_outlook', state: 'outlook_read_unverified', scopeVerified: false },

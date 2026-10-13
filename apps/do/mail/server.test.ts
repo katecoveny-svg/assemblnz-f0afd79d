@@ -35,6 +35,11 @@ describe('Personal DO bounded mail', () => {
     expect(result.sources[0]).toMatchObject({ key: 'gmail_two:msg1', accountId: 'gmail_two', provider: 'gmail', trust: 'untrusted_correspondence' });
     expect(result).toMatchObject({ status: 'review', stored: false, modelUsed: false, moreAvailable: true });
   });
+  it('does not present missing provider setup as a verified empty account list', async () => {
+    const ports = fixture(); ports.configured.mockReturnValue(false);
+    expect(await mailReadiness(owner, signal(), ports)).toMatchObject({ accountsAvailable: false, gmailConfigured: false, outlookReadVerified: false });
+    expect(ports.accounts).not.toHaveBeenCalled(); expect(ports.read).not.toHaveBeenCalled();
+  });
   it('does not merge identical message IDs from different accounts', async () => {
     const first = await readMail({ ...request, search: { ...request.search, accountId: 'gmail_one' } }, owner, signal(), recheck, fixture());
     const second = await readMail(request, owner, signal(), recheck, fixture());
