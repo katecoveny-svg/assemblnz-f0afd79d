@@ -7,7 +7,7 @@ import { RewardedWait } from '@/components/do/preparation/RewardedWait';
 import { beginReward, demoReward, declineRun, preparationRunId, prepareRun, reviewRun, runReceipt, settleRewards, type PreparationRun, type PreparedReceipt, type RewardEvent } from '@/lib/do/preparation/contracts';
 import { initialShop, meals, offers } from '@/lib/do/shop/fixtures';
 import { prepareShop, type ShopInput, type ShopPlan } from '@/lib/do/shop/preparation';
-import '../preparation.css';
+import '../../preparation.css';
 const money = (minor: number) => new Intl.NumberFormat('en-NZ', { style: 'currency', currency: 'NZD' }).format(minor / 100);
 export default function ShopPreparation() {
   const [input, setInput] = useState<ShopInput>(initialShop);
