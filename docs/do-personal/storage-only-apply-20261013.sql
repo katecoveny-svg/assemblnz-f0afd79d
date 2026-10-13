@@ -133,8 +133,10 @@ $$;
 revoke all on function public.do_personal_storage_expire_batch(integer),public.do_personal_storage_record_maintenance(text,integer,timestamptz),public.do_personal_storage_maintenance_health() from public,anon,authenticated,service_role;
 grant execute on function public.do_personal_storage_expire_batch(integer),public.do_personal_storage_record_maintenance(text,integer,timestamptz),public.do_personal_storage_maintenance_health() to service_role;
 -- Owner enrolment: single pilot seat, seven-day consent, retention reviewed by the owner.
-insert into public.do_personal_storage_enrolment(owner_id,enabled,expires_at,retention_reviewed,purpose)
- values('893f40dc-2b51-4f10-bcfe-91fa6e952f32',true,clock_timestamp()+interval '7 days',true,'owner_entered_responsibility_review');
+-- Both instants come from now(), fixed for the transaction, so the seven-day check cannot be beaten by the
+-- clock moving between the enrolled_at default and the expires_at value inside one statement.
+insert into public.do_personal_storage_enrolment(owner_id,enabled,enrolled_at,expires_at,retention_reviewed,purpose)
+ values('893f40dc-2b51-4f10-bcfe-91fa6e952f32',true,now(),now()+interval '7 days',true,'owner_entered_responsibility_review');
 select public.do_personal_storage_record_maintenance('completed',0,clock_timestamp());
 insert into supabase_migrations.schema_migrations(version,name) values('20261013094000','do_personal_storage_only');
 commit;
