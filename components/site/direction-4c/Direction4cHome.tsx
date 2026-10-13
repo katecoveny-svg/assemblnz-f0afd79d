@@ -1,19 +1,14 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { chromeMarkup, footerMarkup, leadMarkup, trailMarkup } from './markup';
+import { playVideoWhenAllowed } from './video-readiness';
+import { chromeMarkup, footerMarkup, leadMarkup, entryMarkup, trailMarkup } from './markup';
 import { TryDo, type TryDoSignals } from './TryDo';
 import './direction-4c.css';
 
-type TideApi = {
-  setKnock(value: number): void;
-  setArrive(value: number): void;
-  setLit(value: number): void;
-  pulse(): void;
-};
 type TideWorld = {
   ready: Promise<void>;
-  api: TideApi | null;
+  api: { setKnock(value: number): void; setArrive(value: number): void; setLit(value: number): void; pulse(): void } | null;
   setPaused(value: boolean): void;
   dispose(): void;
 };
@@ -21,8 +16,6 @@ type Tide = { attach(options: {
   canvas: HTMLCanvasElement; plate: HTMLVideoElement; extra: Record<string, unknown>;
   onFail(): void;
 }): TideWorld };
-
-const FOOTAGE = '/direction-4c/assets/footage/bay-of-islands';
 
 // The supplied, locally hosted engine is loaded once; the document never evaluates the design DSL.
 function loadScript(src: string): Promise<void> {
@@ -48,13 +41,14 @@ function revealText(root: HTMLElement): () => void {
   // The real copy is captured before any decode runs, so cleanup can restore it mid-scramble.
   const kickers = new Map<HTMLElement, string>(Array.from(root.querySelectorAll<HTMLElement>('[data-scramble]'), el => [el, el.textContent ?? '']));
   const scramble = (el: HTMLElement) => {
-    const final = kickers.get(el) ?? el.textContent ?? '', n = final.length, pool = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    const final = kickers.get(el) ?? el.textContent ?? '';
+    const n = final.length;
     let frame = 0;
     const id = window.setInterval(() => {
       frame++;
       const settled = Math.floor((frame * n) / 16);
       let out = '';
-      for (let i = 0; i < n; i++) out += i < settled || final[i] === ' ' || final[i] === '·' ? final[i] : pool[Math.floor(Math.random() * pool.length)];
+      for (let i = 0; i < n; i++) out += i < settled || final[i] === ' ' || final[i] === '·' ? final[i] : 'abcdefghijklmnopqrstuvwxyz0123456789'[Math.floor(Math.random() * 36)];
       el.textContent = out;
       if (settled >= n) { clearInterval(id); el.textContent = final; }
     }, 34);
@@ -93,12 +87,22 @@ export function Direction4cHome() {
     const root = rootRef.current;
     if (!root) return;
     const media = matchMedia('(prefers-reduced-motion: reduce)');
-    let disposed = false, paused = false, frame = 0, lit = 0, stopReveal: (() => void) | undefined;
+    const mobile = matchMedia('(max-width: 900px)');
+    let startup: AbortController | undefined;
+    let disposed = false, paused = false, initialized = false, frame = 0;
+    let recovery: Promise<void> | undefined;
+    const playbackListeners = new Set<() => void>();
+    const playbackGate = {
+      allowed: () => !paused && !media.matches && !document.hidden,
+      subscribe: (listener: () => void) => { playbackListeners.add(listener); return () => { playbackListeners.delete(listener); }; },
+    };
     let world: TideWorld | undefined;
-    const video = document.createElement('video');
-    video.muted = true; video.playsInline = true; video.preload = 'auto';
-    // H.264 where available (Safari, Chrome); VP9 for browsers shipped without it.
-    const footage = `${FOOTAGE}.${video.canPlayType('video/mp4; codecs="avc1.42E01E"') ? 'mp4' : 'webm'}`;
+    let lit = 0, stopReveal: (() => void) | undefined;
+    signals.current = { setLit: value => { lit = value; world?.api?.setLit(value); }, pulse: () => world?.api?.pulse() };
+    const video = root.querySelector<HTMLVideoElement>('[data-coastal-video]')!;
+    video.muted = true; video.defaultMuted = true; video.playsInline = true; video.preload = 'auto';
+    video.loop = true;
+    const footage = `/direction-4c/assets/footage/bay-of-islands.${video.canPlayType('video/mp4; codecs="avc1.42E01E"') ? 'mp4' : 'webm'}`;
     const ref = (name: string) => root.querySelector<HTMLElement>(`[data-ref="${name}"]`);
     const button = root.querySelector<HTMLButtonElement>('[data-pause]')!;
     const clamp = (x: number) => Math.max(0, Math.min(1, x));
@@ -109,28 +113,26 @@ export function Direction4cHome() {
       if (transform) el.style.transform = transform;
     };
     const fallback = () => {
-      delete root.dataset.ready;
+      delete root.dataset.ready; delete root.dataset.videoReady;
       root.querySelectorAll<HTMLElement>('[data-rv]').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
     };
-    const stop = () => { cancelAnimationFrame(frame); frame = 0; world?.dispose(); world = undefined; video.pause(); fallback(); };
-    // The Try DO job lights the flock as it progresses and pulses it on the receipt.
-    signals.current = {
-      setLit: value => { lit = value; world?.api?.setLit(value); },
-      pulse: () => world?.api?.pulse(),
-    };
+    const stop = () => { stopReveal?.(); stopReveal = undefined; initialized = false; recovery = undefined; startup?.abort(); startup = undefined; cancelAnimationFrame(frame); frame = 0; world?.dispose(); world = undefined; video.pause(); fallback(); };
     const updatePause = () => {
       root.toggleAttribute('data-paused', paused || media.matches);
       world?.setPaused(paused || media.matches || document.hidden);
+      if (!playbackGate.allowed()) { video.pause(); stopReveal?.(); stopReveal = undefined; }
+      playbackListeners.forEach(listener => listener());
+      if (initialized && playbackGate.allowed() && video.paused) void recover();
       // Engine has a document-wide pause switch; contain it to this page.
       document.documentElement.removeAttribute('data-paused');
-      button.setAttribute('aria-pressed', String(paused || media.matches));
-      button.textContent = media.matches ? 'Motion reduced' : paused ? 'Play motion' : 'Pause motion';
+      button.setAttribute('aria-pressed', String(paused || media.matches || !!root.dataset.static));
+      button.textContent = media.matches ? 'Motion reduced' : paused || root.dataset.static ? 'Play motion' : 'Pause motion';
       button.disabled = media.matches;
     };
     const tick = () => {
       if (disposed || media.matches || !world?.api) return;
       frame = requestAnimationFrame(tick);
-      if (paused || document.hidden) return;
+      if (document.hidden) return;
       const hero = ref('heroRef');
       if (hero) {
         const rect = hero.getBoundingClientRect();
@@ -141,26 +143,26 @@ export function Direction4cHome() {
         set('kickRef', card); set('cueRef', card); set('subRef', card); set('markRef', smooth((p - .58) / .2));
         set('msgRef', msg, `translateY(calc(-50% + ${(1 - msg) * 48}px))`);
       }
-      if (Number.isFinite(video.duration) && video.duration > 0) {
-        const start = Math.min(6, video.duration * .25);
-        const q = clamp(scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight));
-        const idle = (1 - Math.min(1, q * 25)) * (1 - Math.cos(performance.now() * .0004)) * .9;
-        const target = Math.min(video.duration - .05, start + idle + q * (video.duration - start - .05));
-        if (!video.seeking && Math.abs(video.currentTime - target) > .03) video.currentTime += (target - video.currentTime) * .14;
-      }
+
     };
     let generation = 0;
     const start = async () => {
       const current = ++generation;
-      stop(); stopReveal?.(); stopReveal = undefined;
-      delete root.dataset.static; updatePause();
+      stop(); delete root.dataset.static; updatePause();
       if (media.matches) return;
-      if ('IntersectionObserver' in window) stopReveal = revealText(root);
+      startup = new AbortController();
+      const signal = startup.signal;
       try {
+        video.src = footage;
+        await playVideoWhenAllowed(video, signal, playbackGate);
+        if (disposed || current !== generation || media.matches) return;
+        initialized = true;
+        root.dataset.videoReady = 'true';
+        if (mobile.matches) { updatePause(); return; }
+        if (playbackGate.allowed() && 'IntersectionObserver' in window) stopReveal = revealText(root);
         await loadScript('/direction-4c/vendor/three.min.js');
         await loadScript('/direction-4c/assembl-tide.js');
         if (disposed || current !== generation || media.matches) return;
-        video.src = footage;
         const engine = (window as Window & { AssemblTide?: Tide }).AssemblTide;
         if (!engine) throw new Error('Motion engine unavailable');
         const next = engine.attach({
@@ -185,27 +187,53 @@ export function Direction4cHome() {
         updatePause(); tick();
       } catch { if (!disposed && current === generation) lost(); }
     };
-    const toggle = () => { paused = !paused; updatePause(); };
+    const toggle = () => {
+      if (root.dataset.static && !media.matches) { paused = false; void start(); return; }
+      paused = !paused; updatePause();
+    };
     const visibility = () => updatePause();
-    // Only a lost renderer drops the page to its static composition.
     const lost = () => {
       generation++; // A pending attach must never revive a failed scene.
-      stop(); stopReveal?.(); stopReveal = undefined; root.dataset.static = 'true';
+      stop(); root.dataset.static = 'true';
       video.removeAttribute('src'); video.load();
+      updatePause();
     };
-    // Footage is a backdrop, not a dependency: without it the flock still flies over the plum sky.
-    const noFootage = () => { if (video.getAttribute('src')) { video.removeAttribute('src'); video.load(); } };
-    video.addEventListener('error', noFootage);
+    const recover = () => {
+      if (recovery || !initialized || !startup || startup.signal.aborted) return recovery;
+      const current = generation;
+      recovery = playVideoWhenAllowed(video, startup.signal, playbackGate).then(() => {
+        if (disposed || current !== generation) return;
+        root.dataset.videoReady = 'true';
+        if (world?.api) root.dataset.ready = 'true';
+      }).catch(() => { if (!disposed && current === generation) lost(); }).finally(() => {
+        if (current === generation) recovery = undefined;
+      });
+      return recovery;
+    };
+    const waiting = () => {
+      delete root.dataset.videoReady; delete root.dataset.ready;
+      // Wait for the next decoded frame directly: recovery need not emit playing.
+      void recover();
+    };
+    const stalled = () => {
+      // Fetch can stall while buffered footage is still playing normally.
+      if (video.readyState < 2 || !video.videoWidth) waiting();
+    };
+    video.addEventListener('waiting', waiting);
+    video.addEventListener('stalled', stalled);
+    video.addEventListener('error', lost);
     ref('canvasRef')?.addEventListener('webglcontextlost', lost);
     button.addEventListener('click', toggle);
     media.addEventListener('change', start);
+    mobile.addEventListener('change', start);
     document.addEventListener('visibilitychange', visibility);
     void start();
     return () => {
-      disposed = true; generation++; stop(); stopReveal?.(); signals.current = null;
-      video.removeAttribute('src'); video.load();
+      disposed = true; generation++; stop(); signals.current = null; video.removeAttribute('src'); video.load();
+      video.removeEventListener('waiting', waiting); video.removeEventListener('stalled', stalled);
+      mobile.removeEventListener('change', start);
       button.removeEventListener('click', toggle); media.removeEventListener('change', start);
-      document.removeEventListener('visibilitychange', visibility); video.removeEventListener('error', noFootage);
+      document.removeEventListener('visibilitychange', visibility); video.removeEventListener('error', lost);
       ref('canvasRef')?.removeEventListener('webglcontextlost', lost);
     };
   }, []);
@@ -215,7 +243,11 @@ export function Direction4cHome() {
         <Static html={chromeMarkup} />
         <div style={{ position: 'relative', zIndex: 1 }}>
           <Static html={leadMarkup} />
-          <TryDo signals={signals} />
+          <Static html={entryMarkup} />
+          <details className="clear-demo-disclosure">
+            <summary>Explore a simulated DO example</summary>
+            <TryDo signals={signals} />
+          </details>
           <Static html={trailMarkup} />
         </div>
         <Static html={footerMarkup} />

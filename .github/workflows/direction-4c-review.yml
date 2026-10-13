@@ -5,6 +5,7 @@ on:
       - 'components/site/direction-4c/**'
       - 'public/direction-4c/**'
       - 'app/page.tsx'
+      - 'scripts/direction-4c-mobile-proof.cjs'
       - '.github/workflows/direction-4c-review.yml'
   workflow_dispatch:
 permissions:
@@ -33,6 +34,24 @@ jobs:
       - run: pnpm --filter @assembl/canvas build
       - run: pnpm typecheck
       - run: pnpm exec eslint components/site/direction-4c app/page.tsx --max-warnings=0
-      - run: pnpm exec vitest run lib/do/navigation.test.ts components/site/direction-4c/motion.test.ts
+      - run: pnpm exec vitest run lib/do/navigation.test.ts components/site/direction-4c
       - run: pnpm lint:macrons
       - run: pnpm build
+      - run: npm install --prefix /tmp/mobile-proof playwright@1.56.1
+      - run: /tmp/mobile-proof/node_modules/.bin/playwright install --with-deps chrome webkit
+      - name: Mobile Chromium and WebKit proof
+        env:
+          PLAYWRIGHT_MODULE: /tmp/mobile-proof/node_modules/playwright
+          HOMEPAGE_URL: http://127.0.0.1:3000
+        run: |
+          pnpm start > /tmp/homepage-server.log 2>&1 &
+          for i in $(seq 1 60); do curl -fsS http://127.0.0.1:3000/ > /dev/null && break; sleep 2; done
+          result=0
+          PROOF_BROWSER=chromium PROOF_CHANNEL=chrome node scripts/direction-4c-mobile-proof.cjs || result=1
+          PROOF_BROWSER=webkit node scripts/direction-4c-mobile-proof.cjs || result=1
+          exit "$result"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mobile-homepage-proof
+          path: output/playwright/mobile-recovery

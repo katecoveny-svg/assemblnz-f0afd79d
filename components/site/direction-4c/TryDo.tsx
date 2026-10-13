@@ -26,7 +26,7 @@ const SCENARIOS: Record<JobKey, Scenario> = {
 const EXAMPLES = ['Prepare a reply to my property manager', 'Turn Tuesday’s meeting into notes', 'Sort the school newsletter'];
 const MORE_JOBS: [string, string][] = [['Turn a meeting into notes', 'Turn Tuesday’s meeting into notes'], ['Sort a school notice', 'Sort the school newsletter'], ['Draft a reply', 'Prepare a reply to my property manager']];
 const STEP_LABELS = ['know', 'prepare', 'permit', 'do', 'verify', 'receipt'];
-const STATUS = ['READING', 'PREPARING', 'WAITING FOR YOUR YES', 'DOING · SIMULATED', 'CHECKING', 'DONE · RECEIPT', 'KEPT AS A DRAFT'];
+const STATUS = ['DEMO · READING', 'DEMO · PREPARING', 'SIMULATED APPROVAL', 'DOING · SIMULATED', 'DEMO · CHECKING', 'SIMULATED RECEIPT', 'DEMO · NOT NOW'];
 // Step n advances to the next step after a pause; step 2 waits for Approve / Not now.
 const AUTO_ADVANCE: Partial<Record<number, [number, number]>> = { 0: [1100, 1], 1: [1500, 2], 3: [1100, 4], 4: [1000, 5] };
 const PARKED = 6, DONE = 5;
@@ -61,6 +61,7 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
   const [approvedAt, setApprovedAt] = useState('');
 
   const timers = useRef<number[]>([]);
+  const voiceTimers = useRef<number[]>([]);
   const exampleIndex = useRef(0);
   const cardRef = useRef<HTMLDivElement>(null);
   const jobHeadingRef = useRef<HTMLHeadingElement>(null);
@@ -72,9 +73,15 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
   const later = (ms: number, fn: () => void) => { timers.current.push(window.setTimeout(fn, ms)); };
   const clearTimers = () => { timers.current.forEach(id => clearTimeout(id)); timers.current = []; };
   useEffect(() => {
-    const pending = timers;
-    return () => pending.current.forEach(id => clearTimeout(id));
+    const pending = timers, voice = voiceTimers;
+    return () => { pending.current.forEach(id => clearTimeout(id)); voice.current.forEach(id => clearTimeout(id)); };
   }, []);
+
+  const cancelVoice = () => {
+    voiceTimers.current.forEach(id => clearTimeout(id)); voiceTimers.current = [];
+    setListening(false); setHeard('');
+  };
+  const selectMode = (next: Mode) => { cancelVoice(); setMode(next); };
 
   // Steps advance themselves on a timer; the ref always points at the latest render's go().
   const goRef = useRef<(n: number) => void>(() => {});
@@ -90,7 +97,7 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
   const start = (value?: string) => {
     const trimmed = (value ?? text).trim();
     if (!trimmed) return;
-    clearTimers();
+    clearTimers(); cancelVoice();
     setText(trimmed); setJob({ key: pickJob(trimmed), text: trimmed }); setApprovedAt(''); setMenu(null); setListening(false); setHeard('');
     focusAfter.current = 'job';
     go(0);
@@ -102,7 +109,7 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
   };
   const park = () => { clearTimers(); setStep(PARKED); signals.current?.setLit(0.5); };
   const reset = () => {
-    clearTimers(); setJob(null); setStep(-1); setText(''); setFiles([]); setMode('write');
+    clearTimers(); cancelVoice(); setJob(null); setStep(-1); setText(''); setFiles([]); setMode('write');
     signals.current?.setLit(0);
     focusAfter.current = 'input';
   };
@@ -129,10 +136,12 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
 
   const listen = () => {
     if (listening) return;
+    cancelVoice();
+    const voiceLater = (ms: number, fn: () => void) => { voiceTimers.current.push(window.setTimeout(fn, ms)); };
     const words = TALK_PHRASE.split(' ');
     setListening(true); setHeard('');
-    words.forEach((_, i) => later(500 + i * 190, () => setHeard(words.slice(0, i + 1).join(' '))));
-    later(500 + words.length * 190 + 700, () => {
+    words.forEach((_, i) => voiceLater(500 + i * 190, () => setHeard(words.slice(0, i + 1).join(' '))));
+    voiceLater(500 + words.length * 190 + 700, () => {
       setListening(false); setHeard(''); setText(TALK_PHRASE); setMode('write');
       focusAfter.current = 'input';
     });
@@ -141,7 +150,7 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
   const addFile = (kind: keyof typeof ATTACHMENTS) => {
     const label = ATTACHMENTS[kind];
     setFiles(list => list.includes(label) ? list : [...list, label]);
-    setMode('write');
+    selectMode('write');
   };
 
   const onTabKey = (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
@@ -150,7 +159,7 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
     if (!delta && edge < 0) return;
     e.preventDefault();
     const next = edge >= 0 ? edge : (index + delta + MODES.length) % MODES.length;
-    setMode(MODES[next][0]);
+    selectMode(MODES[next][0]);
     tabRefs.current[next]?.focus();
   };
 
@@ -160,7 +169,7 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
   const lines = !scenario ? [] : job?.key === 'writing'
     ? [scenario.lines[0], voice === 'Warm' ? 'A warm, clear draft, ready for you to edit.' : 'A plain, clear draft, ready for you to edit.', '', scenario.lines[3], scenario.lines[4]]
     : scenario.lines;
-  const line = !scenario ? '' : step === 2 ? scenario.ask : parked ? 'Nothing was changed. The draft is kept for later.' : done ? 'Done. Here is the receipt.' : lines[step] ?? '';
+  const line = !scenario ? '' : step === 2 ? scenario.ask : parked ? 'This example is paused. No draft is saved.' : done ? 'Example complete. This is a fictional receipt.' : lines[step] ?? '';
   const receipt: [string, string][] = scenario && job ? [
     ['job', scenario.title || job.text],
     ['used', scenario.used],
@@ -170,9 +179,10 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
   const panelId = `${uid}-panel`;
 
   return (
-    <section id="try" data-form="5" data-sec="" data-screen-label="Try DO" className="td-section" aria-labelledby={`${uid}-title`}>
+    <section id="try-demo" data-sec="" data-screen-label="Try DO" className="td-section" aria-labelledby={`${uid}-title`}>
       <div className="td-wrap">
-        <p data-scramble="" className="td-kicker">try DO · simulated</p>
+        <p className="td-kicker">DO walkthrough · simulated</p>
+        <p className="td-demo-notice">Fictional walkthrough only. No accounts, microphone or files are accessed. Nothing is saved, sent or booked. Use the links above to work in DO.</p>
         <div data-rv="0">
           <div ref={cardRef} className="td-card">
             <div aria-hidden="true" className="td-glow" />
@@ -212,7 +222,7 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
                 </div>
                 <p className="td-lock-note">
                   <svg viewBox="0 0 24 24" aria-hidden="true" className="td-icon td-icon-16 td-lock"><rect width="18" height="11" x="3" y="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
-                  DO always asks before anything sends, books or spends. This one stays on.
+                  This example includes a review step. Real DO tools have their own permissions and review requirements.
                 </p>
               </div>
             )}
@@ -220,7 +230,7 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
             {!scenario && (
               <>
                 <h3 id={`${uid}-title`} className="td-title">What would you like <span className="td-accent">done?</span></h3>
-                <p className="td-sub">Bring a question, a plan or the thing on your mind.</p>
+                <p className="td-sub">Explore a fictional example of the review steps.</p>
                 <div role="tablist" aria-label="How to ask DO" className="td-tabs">
                   {MODES.map(([key, label], i) => (
                     <button
@@ -233,7 +243,7 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
                       aria-controls={panelId}
                       tabIndex={mode === key ? 0 : -1}
                       className="td-tab"
-                      onClick={() => { setMode(key); setMenu(null); }}
+                      onClick={() => { selectMode(key); setMenu(null); }}
                       onKeyDown={e => onTabKey(e, i)}
                     >
                       {label}{key === 'add' && <Plus />}
@@ -265,17 +275,17 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
                         <span className="td-review">
                           <span aria-hidden="true" className="td-switch"><i /></span>Review drafts before sharing
                         </span>
-                        <button type="button" className="td-start" disabled={!text.trim()} onClick={() => start()}>Start<Arrow /></button>
+                        <button type="button" className="td-start" disabled={!text.trim()} onClick={() => start()}>Run example<Arrow /></button>
                       </div>
                     </div>
                   )}
                   {mode === 'talk' && (
                     <div className="td-panel td-panel-talk">
-                      <button type="button" className="td-mic" aria-label={listening ? 'Listening' : 'Start talking'} aria-pressed={listening} onClick={listen}>
+                      <button type="button" className="td-mic" aria-label={listening ? 'Simulated voice example playing' : 'Play simulated voice example'} aria-pressed={listening} onClick={listen}>
                         {listening && <span aria-hidden="true" className="td-mic-ring" />}
                         <svg viewBox="0 0 24 24" aria-hidden="true" className="td-icon td-icon-26"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" /><path d="M19 10v2a7 7 0 0 1-14 0v-2" /><path d="M12 19v3" /></svg>
                       </button>
-                      <p aria-live="polite" className="td-talk-line">{listening ? heard || 'Listening…' : 'Tap the microphone and say what you would like done.'}</p>
+                      <p aria-live="polite" className="td-talk-line">{listening ? heard || 'Playing example…' : 'Play a fictional voice example. Your microphone is not used.'}</p>
                       <p className="td-mono td-note">voice is simulated on this page</p>
                     </div>
                   )}
@@ -343,7 +353,7 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
                 <p aria-live="polite" className="td-line">{line}</p>
                 {step === 2 && (
                   <div className="td-actions">
-                    <button type="button" className="td-approve" onClick={approve}>Approve</button>
+                    <button type="button" className="td-approve" onClick={approve}>Simulate approval</button>
                     <button type="button" className="td-park" onClick={park}>Not now</button>
                   </div>
                 )}
@@ -354,7 +364,7 @@ export function TryDo({ signals }: { signals: { current: TryDoSignals | null } }
                 )}
                 {(done || parked) && (
                   <div className="td-actions td-actions-center">
-                    <Link href="/do?tool=write" className="td-open">Open the full DO <span aria-hidden="true">→</span></Link>
+                    <Link href="/do?tool=write" className="td-open">Open the full DO <Arrow /></Link>
                     <button type="button" className="td-again" onClick={reset}>Try another job</button>
                   </div>
                 )}
