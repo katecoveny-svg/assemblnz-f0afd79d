@@ -8,3 +8,5 @@
 .ideas.ideas :is(button,summary):focus-visible{outline:3px solid #654a4e;outline-offset:3px;border-radius:10px}
 @media(max-width:600px){.choices{padding:4px 16px}.ideas.ideas button{align-items:flex-start;gap:9px;flex-direction:column;padding:16px 0}.state{flex:auto;justify-content:space-between;width:100%}.ideas.ideas h2{font-size:20px}}
 @media(prefers-reduced-motion:reduce){.ideas.ideas button{transition:none}}
+.ideas>p a{display:inline-block;min-height:44px;padding:12px 0;text-decoration:underline;text-underline-offset:3px;color:#492b3e}
+.ideas>p a:focus-visible{outline:3px solid #654a4e;outline-offset:3px;border-radius:4px}
