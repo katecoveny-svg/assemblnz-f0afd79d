@@ -12,6 +12,7 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
   fs.mkdirSync(output, { recursive: true });
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, serviceWorkers: 'block' });
+  let grantVerified = false;
   let owner = ownerA, delay = false, release = () => {};
   const posts = [], external = [], errors = [];
   await context.route('**/*', async route => {
@@ -20,8 +21,8 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
     if (url.pathname === '/api/do/session') return route.fulfill({ json: { workspaceKey: owner } });
     if (url.pathname === '/api/do/mail') {
       if (request.method() === 'GET') return route.fulfill({ json: { ownerId: owner, metadataOnly: true, mailboxRead: false, gmailConfigured: true, outlookReadVerified: false, accountsAvailable: true, accounts: [
-        { id: 'gmail_one', label: 'Fictional personal', provider: 'gmail', state: 'read_available_unverified', scopeVerified: false },
-        { id: 'gmail_two', label: 'Fictional admin', provider: 'gmail', state: 'read_available_unverified', scopeVerified: false },
+        { id: 'gmail_one', label: 'Fictional personal', provider: 'gmail', state: grantVerified ? 'read_available' : 'gmail_read_unverified', scopeVerified: grantVerified },
+        { id: 'gmail_two', label: 'Fictional admin', provider: 'gmail', state: grantVerified ? 'read_available' : 'gmail_read_unverified', scopeVerified: grantVerified },
         { id: 'outlook_one', label: 'Fictional Outlook', provider: 'microsoft_outlook', state: 'outlook_read_unverified', scopeVerified: false },
       ] } });
       const input = request.postDataJSON(); posts.push(input);
@@ -37,6 +38,10 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
   const page = await context.newPage(); page.on('pageerror', error => errors.push(error.message));
   try {
     await page.goto(origin + '/do/mail');
+    await page.locator('option[value="gmail_two"]').waitFor({ state: 'attached' });
+    check('Unverified healthy Gmail accounts cannot be selected or read', await page.locator('option[value="gmail_two"]').isDisabled() && await page.getByRole('button', { name: 'Find correspondence' }).isDisabled() && posts.length === 0);
+    grantVerified = true; // Synthetic server grant proof only; never a real permission.
+    await page.reload();
     await page.getByLabel('Mail account', { exact: true }).selectOption('gmail_two');
     check('Both Gmail accounts remain independently selectable', await page.locator('option[value="gmail_one"]').count() === 1);
     check('Outlook stays disabled', await page.locator('option[value="outlook_one"]').isDisabled());

@@ -5,7 +5,20 @@ backstops, Gmail decoding and writing-owner invalidation. Creates a shared mail
 read contract and in-memory review destination. No production activation, account
 linking, OAuth grant/configuration change or mailbox write was performed.
 
-## Working slice
+## Current live-access blocker
+
+Gmail and Outlook reads are unavailable in this follow-up until authoritative,
+account-specific scope and expiry evidence can be obtained. The current production
+`verifyPersonalMailGrant` returns no capability: healthy metadata and the custom
+OAuth client do not enable reads. Both the gateway and direct provider transport
+reject unverified Gmail before mailbox access. No environment override exists.
+The server validator requires exact owner/account binding, fresh evidence, unexpired
+grant, gmail.readonly and only explicitly allowed identity scopes; write, send,
+contacts, full-mail and unknown scopes fail closed. A real provider-backed verifier
+is not implemented and requires separately reviewed work. Tests inject synthetic
+server evidence only, not client claims or a production switch.
+
+## Synthetic working slice
 
 `/do/connections` → **Find correspondence and prepare a task draft** → `/do/mail`.
 Choose one account by its label and distinct ID; no default wins. Enter literal
@@ -15,8 +28,7 @@ read. Prepare an editable unsent task with account-qualified evidence. It makes 
 clinical interpretation or inferred appointment/action. Device dictation can feed
 the same input if enabled by the user; physical dictation is not verified here.
 
-The independent Gemini integration is coordinated with PR1563 and must be applied
-after its settled shared-file changes. `createMailHandoffReceiver` accepts short,
+The reviewed Gemini handoff is integrated with the settled PR1563 shared-file changes. `createMailHandoffReceiver` accepts short,
 one-use, owner-bound reviewed text in memory only. No selected account, grant or
 consent crosses that boundary. Caller ends voice/releases audio and clears provider
 consent before handoff; the destination requires fresh mail account/task review.
@@ -24,7 +36,7 @@ consent before handoff; the destination requires fresh mail account/task review.
 ## Boundaries
 
 - GET `/api/do/mail` checks only connected-account metadata: no mailbox probe,
-  credentials or raw errors. `scopeVerified: false` is deliberate. Configured and
+  credentials or raw errors. `scopeVerified: false` disables reading. Configured and
   healthy are distinct from actual grant verification.
 - POST: authenticated `getUser`, same origin, strict 4 KB JSON, owner comparison,
   owner-based per-process rate backstop, 45-second total deadline. Request IDs
@@ -77,7 +89,9 @@ consent before handoff; the destination requires fresh mail account/task review.
 7. Signed-in GET `/api/do/mail` is the metadata-only readiness check. Inspect
    owner/account/state flags privately. No live provider call was made while
    implementing/testing this change; don't copy private account metadata into PRs.
-8. A later owner-approved small read must verify actual scopes/account, expiry
+8. Implement and review the authoritative Gmail grant verifier before enabling any
+   read; configuration, consent UI and healthy status are insufficient.
+   A later owner-approved small read must verify actual scopes/account, expiry
    behaviour and provider response shape. Mail model use additionally requires
    named-provider disclosure/consent and source validation. Existing Personal DO
    “no tools” policy is unchanged.
@@ -92,9 +106,13 @@ mocked accounts, owner switch, second Gmail, cancellation, injection and drafts.
 The hosted **Personal DO mail review** workflow runs typecheck, scoped lint,
 focused tests, guarded build and browser proof without provider secrets.
 
-Remaining gates: live Gmail scopes/account proof, Outlook grant verifier/reader,
-physical voice/dictation proof, review of separate shared-file voice integration,
-and production approval. No merge, SQL/security change or persistent grant.
+Remaining gates: implemented authoritative Gmail grant verification and live account
+proof, Outlook grant verifier/reader, physical voice/dictation proof, and production
+approval. Ordinary Personal DO chat has no mail tool; tasks are editable in-memory
+drafts without durable storage or action execution. The dedicated mail proof does
+not establish success of unrelated core/Shopper checks. Another actor merged the
+prior version through #1568; this task did not merge or activate production. This
+follow-up must be reviewed separately. No SQL/security change or persistent grant.
 Rollback: revert feature and independent integration commits; no data migration.
 
 ## Primary references checked
