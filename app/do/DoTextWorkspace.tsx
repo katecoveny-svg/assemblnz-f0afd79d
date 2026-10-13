@@ -2,6 +2,7 @@
 
 import { useNativeReview } from '@/apps/do/shared/use-native-review';
 import { DO_TEXT_PROVIDER_CONSENT_VERSION } from '@/apps/do/shared/provider-consent';
+import { readWritingOwner, useWritingOwner } from '@/apps/do/shared/use-writing-owner';
 import { DoShareButton } from '@/components/do/DoShareButton';
 import { DoMark } from './DoAppearance';
 
@@ -12,7 +13,7 @@ const subscribeLocation = () => () => {};
 const currentSearch = () => window.location.search;
 import { ArrowUpRight, Check, Copy, Download, LoaderCircle, Trash2 } from 'lucide-react';
 import { cleanSourceUrl, DO_BRIEF_LIMIT, DO_SOURCE_LIMIT, DO_TASKS, draftAsMarkdown, type DoAvailability, type DoPreparedDraft, type DoTask } from '@/apps/do/shared/preparation';
-import { editDoDraft, readLocalDrafts, removeLocalDraft, saveLocalDraft, type SavedDoDraft } from '@/apps/do/shared/local-drafts';
+import { changeLocalDrafts, DO_DRAFTS_KEY, editDoDraft, readLocalDrafts, removeLocalDraft, saveLocalDraft, type SavedDoDraft } from '@/apps/do/shared/local-drafts';
 
 const EXAMPLES = [
   { title: 'Message · sample', text: 'Example message: Hi, could you send the updated outline before our meeting on Thursday? We need to agree who is doing each part and confirm whether the timeline still works. Please suggest a time to review the open questions.' },
@@ -33,7 +34,19 @@ async function readRuntime(signal?: AbortSignal): Promise<RuntimeStatus> {
   return response.json();
 }
 
-export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embedded = false, onSettled, focus = false, focusRequest = 0, offeredContext, onSourceChange, onNativeReveal }: { initialBrief?: string; initialTask?: DoTask; embedded?: boolean; onSettled?: () => void; focus?: boolean; focusRequest?: number; offeredContext?: { text: string; id: number }; onSourceChange?: (value: string) => void; onNativeReveal?: () => void }) {
+type WritingProps = { initialBrief?: string; initialTask?: DoTask; embedded?: boolean; onSettled?: () => void; focus?: boolean; focusRequest?: number; offeredContext?: { text: string; id: number }; onSourceChange?: (value: string) => void; onNativeReveal?: () => void };
+export function DoTextWorkspace(props: WritingProps) {
+  const query = useSyncExternalStore(subscribeLocation, currentSearch, () => '');
+  const native = props.focus && new URLSearchParams(query).get('nativeReview') === '1';
+  const identity = useWritingOwner(!native);
+  if (native) return <WritingEditor {...props} storageOwner={null} storageReady={false} />;
+  return <>
+    {!identity.ready && <p role="status">{identity.failed ? <>Draft ownership could not be verified. Reconnect to reopen this editor. <button onClick={() => window.dispatchEvent(new Event('assembl:do-writing-retry'))}>Retry drafts</button></> : 'Checking whose drafts to open…'}</p>}
+    {identity.owner && <div hidden={!identity.ready}><WritingEditor key={identity.owner} {...props} storageOwner={identity.owner === 'guest' ? null : identity.owner} storageReady={identity.ready} /></div>}
+  </>;
+}
+
+function WritingEditor({ initialBrief = '', initialTask = 'reply', embedded = false, onSettled, focus = false, focusRequest = 0, offeredContext, onSourceChange, onNativeReveal , storageOwner, storageReady }: WritingProps & { storageOwner: string | null; storageReady: boolean }) {
   const [task, setTask] = useState<DoTask>(initialTask);
   const [source, setSourceState] = useState(initialBrief);
   const editorRevision = useRef(0);
@@ -52,11 +65,13 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
   const [draft, setDraft] = useState<DoPreparedDraft | null>(null);
   const [reviewer, setReviewer] = useState('');
   const [saved, setSaved] = useState<SavedDoDraft[]>([]);
+  const openedSnapshot = useRef<SavedDoDraft | null>(null);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [sourceForDraft, setSourceForDraft] = useState('');
   const [briefForDraft, setBriefForDraft] = useState('');
   const abort = useRef<AbortController | null>(null);
+  const storageAllowed = useRef(false);
   const resultRef = useRef<HTMLElement>(null);
   const sourceRef = useRef<HTMLTextAreaElement>(null);
   useEffect(() => {
@@ -66,6 +81,11 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
   }, [focusRequest]);
   const currentDraft = useRef(draft);
   const reviewGeneration = useRef(0);
+  useLayoutEffect(() => {
+    storageAllowed.current = storageReady;
+    if (!storageReady) { reviewGeneration.current++; abort.current?.abort(); }
+    return () => { storageAllowed.current = false; };
+  }, [storageReady]);
   useLayoutEffect(() => { currentDraft.current = draft; });
   useEffect(() => () => { reviewGeneration.current++; }, []);
 
@@ -101,11 +121,19 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
   useEffect(() => {
     const controller = new AbortController();
     void readRuntime(AbortSignal.any([controller.signal, AbortSignal.timeout(10_000)])).then(applyRuntime).catch(() => {});
+    return () => { controller.abort(); abort.current?.abort(); };
+  }, [applyRuntime]);
+
+  useEffect(() => {
+    if (embedded || nativeOrigin || !storageOwner || !storageReady) return;
     const restore = requestAnimationFrame(() => {
-      try { if (!embedded && !(focus && new URLSearchParams(location.search).get('nativeReview') === '1')) setSaved(readLocalDrafts(localStorage)); } catch { /* Storage is optional. */ }
+      try {
+        setSaved(readLocalDrafts(localStorage, storageOwner));
+        if (localStorage.getItem(DO_DRAFTS_KEY) !== null) setNotice('Older device drafts have no recorded owner. They remain untouched and are not opened in this account.');
+      } catch { setSaved([]); setError('Saved drafts could not be read. Existing data is unchanged; retry after checking browser storage.'); }
     });
-    return () => { cancelAnimationFrame(restore); controller.abort(); abort.current?.abort(); };
-  }, [embedded, focus, applyRuntime]);
+    return () => cancelAnimationFrame(restore);
+  }, [embedded, nativeOrigin, storageOwner, storageReady]);
 
   useEffect(() => { onSourceChange?.(source); }, [source, onSourceChange]);
   useEffect(() => {
@@ -158,15 +186,15 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
         body: JSON.stringify({ ...(expectedOwner ? { nativeExpectedOwner: expectedOwner } : {}), task, source, brief, sourceTitle: sourceTitle || 'Pasted text', sourceUrl, consent, providerConsentVersion: DO_TEXT_PROVIDER_CONSENT_VERSION }),
       });
       const data = await response.json();
-      if (controller.signal.aborted || (expectedOwner && nativeReview.owner.current !== expectedOwner)) return;
+      if (controller.signal.aborted || generation !== reviewGeneration.current || revision !== editorRevision.current || (expectedOwner && nativeReview.owner.current !== expectedOwner)) return;
       if (!response.ok || !data.draft) {
         if (data.error === 'sign_in_required') setNeedsSignIn(true);
         throw new Error(data.message || 'DO could not finish this preparation.');
       }
-      setDraft(data.draft); setReviewer(''); setSourceForDraft(source.trim()); setBriefForDraft(brief.trim());
+      openedSnapshot.current = null; setDraft(data.draft); setReviewer(''); setSourceForDraft(source.trim()); setBriefForDraft(brief.trim());
       requestAnimationFrame(() => resultRef.current?.focus());
     } catch (cause) {
-      if (expectedOwner && nativeReview.owner.current !== expectedOwner) return;
+      if (generation !== reviewGeneration.current || (expectedOwner && nativeReview.owner.current !== expectedOwner)) return;
       setError(cause instanceof Error && cause.name === 'AbortError' ? 'Preparation stopped. Your text is still here.' : cause instanceof Error ? cause.message : 'Preparation failed. Your text is still here.');
     } finally { if (abort.current === controller) { setBusy(false); abort.current = null; onSettled?.(); } }
   }
@@ -187,17 +215,30 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
     } catch { if (generation === reviewGeneration.current && currentDraft.current === reviewedDraft) setError('The review could not be recorded in this browser. You can still download the draft.'); }
   }
 
+  async function changeSaved(change: (owner: string) => SavedDoDraft[]) {
+    setNotice('');
+    if (!storageOwner || !storageAllowed.current) { setError('Sign in and verify this workspace to save a browser copy. Download a copy of anonymous work before signing in.'); return; }
+    try {
+      const next = await changeLocalDrafts(storageOwner, () => readWritingOwner(AbortSignal.timeout(10_000)), () => storageAllowed.current, () => change(storageOwner));
+      if (!storageAllowed.current) return;
+      setSaved(next); setError(''); setNotice('Browser copy updated for this account. It is not synced to other devices.');
+    } catch (cause) { if (storageAllowed.current) setError(cause instanceof Error ? cause.message : 'Browser storage could not be updated. Existing copies are unchanged.'); }
+  }
+
   function save() {
     if (!draft) return;
     if (isNativeDocument()) { setError('This app review session is transient. Download a copy instead.'); return; }
-    try {
-      setSaved(saveLocalDraft(localStorage, { draft, source: sourceForDraft, brief: briefForDraft }));
-      setNotice('Saved in this browser. The text will remain on this device until you remove it.');
-    } catch { setError('This browser could not save the draft. Download a copy instead.'); }
+    const expected = openedSnapshot.current;
+    void changeSaved(owner => {
+      const next = saveLocalDraft(localStorage, { draft, source: sourceForDraft, brief: briefForDraft }, owner, expected);
+      openedSnapshot.current = next.find(item => item.draft.id === draft.id) ?? null;
+      return next;
+    });
   }
 
   function openSaved(entry: SavedDoDraft) {
-    if (isNativeDocument()) return;
+    if (isNativeDocument() || !storageAllowed.current) return;
+    openedSnapshot.current = entry;
     setDraft(entry.draft); setTask(entry.draft.task); setSource(entry.source); setBrief(entry.brief);
     setSourceForDraft(entry.source); setBriefForDraft(entry.brief);
     setSourceTitle(entry.draft.evidence.sourceTitle); setSourceUrl(entry.draft.evidence.sourceUrl);
@@ -218,6 +259,7 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
       <p className="do-runtime-note">{availability?.note || 'Preparation status is checked when you run a task.'}</p>
     </form>
     {task !== 'extract' && needsSignIn && <p className="do-error" role="status">Model preparation needs your signed-in account and configured access. Exact extraction needs no model or subscription. <a href={`/login?redirect=${encodeURIComponent(nativeOrigin ? '/do/widget?nativeReview=1' : doReturnPath(pathname || '/do/widget', query))}`} target={nativeOrigin ? undefined : '_blank'} rel="noopener noreferrer">{nativeOrigin ? 'Sign in in this app' : 'Sign in in a new tab'}</a>, then return here. Your text stays on this page. <button type="button" className="do-quiet-button" onClick={() => void readRuntime(AbortSignal.timeout(10_000)).then(applyRuntime).then(() => setError('')).catch(cause => setError(cause instanceof Error ? cause.message : 'Connection could not be checked.'))}>Check connection</button></p>}
+    {!embedded && !nativeOrigin && !storageOwner && <p className="do-review-note">Anonymous writing stays on this page. Download a copy before signing in or leaving; it will not be assigned to the next account.</p>}
     {error && <p className="do-error" role="alert">{error}</p>}
     {notice && <p className="do-success" role="status">{notice}</p>}
     {draft && <section ref={resultRef} tabIndex={-1} className="do-prepared" aria-label="Prepared draft">
@@ -228,7 +270,7 @@ export function DoTextWorkspace({ initialBrief = '', initialTask = 'reply', embe
       <div className="do-export-actions"><DoShareButton label="Share draft" disabled={draft.status !== 'reviewed'} content={{ title: draft.title, text: draft.text, filename: 'do-draft.txt' }} /><button type="button" onClick={async () => { try { await navigator.clipboard.writeText(draft.text); setNotice('Draft copied.'); } catch { setError('Copy is unavailable here. Download the draft instead.'); } }}><Copy size={16} />Copy text</button><button type="button" onClick={() => downloadText(`do-${draft.id.slice(0, 8)}.md`, draftAsMarkdown(draft), 'text/markdown;charset=utf-8')}><Download size={16} />Draft + receipt</button><button type="button" onClick={() => downloadText(`do-${draft.id.slice(0, 8)}.json`, JSON.stringify(draft, null, 2), 'application/json')}><Download size={16} />Receipt JSON</button>{!embedded && !nativeOrigin && <button type="button" onClick={save}>Save in this browser</button>}</div>
       <details className="do-evidence"><summary>What DO used and what happened</summary><dl><div><dt>Source</dt><dd>{draft.evidence.sourceTitle} · {draft.evidence.sourceCharacters.toLocaleString()} characters</dd></div><div><dt>Method</dt><dd>{draft.evidence.model || 'Exact text matching; no model'}</dd></div><div><dt>Prepared</dt><dd>{new Date(draft.createdAt).toLocaleString()}</dd></div><div><dt>Boundary</dt><dd>{draft.evidence.boundary}</dd></div><div><dt>Source fingerprint</dt><dd className="do-hash">{draft.evidence.sourceHash}</dd></div></dl><p>The receipt records the original source and output fingerprints. Editing a reviewed draft clears its review.</p></details>
     </section>}
-    {!embedded && !nativeOrigin && saved.length > 0 && <section className="do-saved"><div className="do-section-head"><h3>Kept on this device</h3><span>Up to eight drafts · this browser only</span></div>{saved.map(entry => <div className="do-saved-row" key={entry.draft.id}><button onClick={() => openSaved(entry)}><strong>{entry.draft.title}</strong><small>{entry.draft.status === 'reviewed' ? 'Reviewed draft' : 'Draft'} · {new Date(entry.draft.createdAt).toLocaleDateString()}</small></button><button aria-label={`Remove ${entry.draft.title} from this browser`} onClick={() => { try { setSaved(removeLocalDraft(localStorage, entry.draft.id)); setNotice('Saved copy removed from this browser.'); } catch { setError('The saved copy could not be removed.'); } }}><Trash2 size={17} /></button></div>)}</section>}
+    {!embedded && !nativeOrigin && saved.length > 0 && <section className="do-saved"><div className="do-section-head"><h3>Kept on this device</h3><span>Up to eight drafts · this account and browser only</span></div>{saved.map(entry => <div className="do-saved-row" key={entry.draft.id}><button onClick={() => openSaved(entry)}><strong>{entry.draft.title}</strong><small>{entry.draft.status === 'reviewed' ? 'Reviewed draft' : 'Draft'} · {new Date(entry.draft.createdAt).toLocaleDateString()}</small></button><button aria-label={`Remove ${entry.draft.title} from this browser`} onClick={() => void changeSaved(owner => removeLocalDraft(localStorage, entry.draft.id, owner, entry))}><Trash2 size={17} /></button></div>)}</section>}
     {embedded && <a className="do-widget-brand" href="/do" target="_blank" rel="noreferrer">DO by assembl <ArrowUpRight size={14} /></a>}
   </div>;
 }

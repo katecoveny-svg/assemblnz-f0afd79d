@@ -23,28 +23,47 @@ const savedSchema = z.object({
   }),
 });
 
-export function readLocalDrafts(storage: LocalStorage): SavedDoDraft[] {
-  try {
-    const raw = storage.getItem(DO_DRAFTS_KEY);
-    if (!raw || raw.length > 1_000_000) return [];
-    const value = JSON.parse(raw) as unknown;
-    if (!Array.isArray(value)) return [];
-    return value.slice(0, 8).flatMap(item => {
-      const parsed = savedSchema.safeParse(item); return parsed.success ? [parsed.data] : [];
-    });
-  } catch { return []; }
+/** The unowned v1 key is deliberately never read, moved or deleted by account operations. */
+export function localDraftsKey(owner: string): string {
+  return `${DO_DRAFTS_KEY}:${z.string().uuid().parse(owner)}`;
 }
 
-export function saveLocalDraft(storage: LocalStorage, entry: SavedDoDraft): SavedDoDraft[] {
+export function readLocalDrafts(storage: LocalStorage, owner: string): SavedDoDraft[] {
+  const raw = storage.getItem(localDraftsKey(owner));
+  if (raw === null) return [];
+  if (raw.length > 1_000_000) throw new Error('Saved drafts need recovery; existing data was preserved.');
+  // Reject the entire record rather than overwrite unreadable or partially corrupt data.
+  return z.array(savedSchema).max(8).parse(JSON.parse(raw));
+}
+
+export function saveLocalDraft(storage: LocalStorage, entry: SavedDoDraft, owner: string, expected?: SavedDoDraft | null): SavedDoDraft[] {
   const parsed = savedSchema.parse(entry);
-  const next = [parsed, ...readLocalDrafts(storage).filter(item => item.draft.id !== entry.draft.id)].slice(0, 8);
-  storage.setItem(DO_DRAFTS_KEY, JSON.stringify(next)); return next;
+  const previous = readLocalDrafts(storage, owner);
+  if (expected !== undefined && JSON.stringify(previous.find(item => item.draft.id === entry.draft.id) ?? null) !== JSON.stringify(expected === null ? null : savedSchema.parse(expected))) {
+    throw new Error('This draft changed in another tab. Download your edit, then reopen the saved copy before replacing it.');
+  }
+  if (previous.length >= 8 && !previous.some(item => item.draft.id === entry.draft.id)) {
+    throw new Error('Eight drafts are already saved. Download or remove one before saving another.');
+  }
+  const next = [parsed, ...previous.filter(item => item.draft.id !== entry.draft.id)];
+  storage.setItem(localDraftsKey(owner), JSON.stringify(next)); return next;
 }
 
-export function removeLocalDraft(storage: LocalStorage, id: string): SavedDoDraft[] {
-  const next = readLocalDrafts(storage).filter(item => item.draft.id !== id);
-  if (next.length) storage.setItem(DO_DRAFTS_KEY, JSON.stringify(next)); else storage.removeItem(DO_DRAFTS_KEY);
+export function removeLocalDraft(storage: LocalStorage, id: string, owner: string, expected?: SavedDoDraft): SavedDoDraft[] {
+  const previous = readLocalDrafts(storage, owner);
+  if (expected && JSON.stringify(previous.find(item => item.draft.id === id)) !== JSON.stringify(expected === null ? null : savedSchema.parse(expected))) throw new Error('This draft changed in another tab. Reopen it before removing it.');
+  const next = previous.filter(item => item.draft.id !== id);
+  if (next.length) storage.setItem(localDraftsKey(owner), JSON.stringify(next)); else storage.removeItem(localDraftsKey(owner));
   return next;
+}
+
+/** Serialize read/modify/write across same-origin tabs; unsupported browsers fail without a write. */
+export async function changeLocalDrafts<T>(owner: string, verify: () => Promise<string>, current: () => boolean, change: () => T): Promise<T> {
+  if (!navigator.locks) throw new Error('Safe browser saving is unavailable. Download a copy instead.');
+  return navigator.locks.request(localDraftsKey(owner), async () => {
+    if (await verify() !== owner || !current()) throw new Error('The account changed. Reopen your own workspace before saving.');
+    return change();
+  });
 }
 
 /** An edit invalidates the recorded review; it must be reviewed again. */
