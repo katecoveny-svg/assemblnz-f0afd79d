@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { playVideoWhenAllowed } from './video-readiness';
-import { chromeMarkup, footerMarkup, leadMarkup, entryMarkup, trailMarkup } from './markup';
+import { chromeMarkup, footerMarkup, leadMarkup, trailMarkup } from './markup';
 import { TryDo, type TryDoSignals } from './TryDo';
 import './direction-4c.css';
 
@@ -121,7 +121,7 @@ export function Direction4cHome() {
       root.toggleAttribute('data-paused', paused || media.matches);
       world?.setPaused(paused || media.matches || document.hidden);
       if (!playbackGate.allowed()) { video.pause(); stopReveal?.(); stopReveal = undefined; }
-      if (paused && !mobile.matches) {
+      if (paused) {
         // Finish a visible text fade before freezing it; never strand reading at partial opacity.
         for (const name of ['kickRef', 'cueRef', 'subRef', 'msgRef', 'markRef']) {
           const el = ref(name);
@@ -159,14 +159,15 @@ export function Direction4cHome() {
       if (media.matches) return;
       startup = new AbortController();
       const signal = startup.signal;
+      // Footage is a backdrop, not a dependency: it starts alongside the engine, and the
+      // flock still flies over the plum sky when playback is denied or the file is missing.
+      video.src = footage;
+      void playVideoWhenAllowed(video, signal, playbackGate).then(() => {
+        if (disposed || current !== generation) return;
+        initialized = true; root.dataset.videoReady = 'true';
+      }).catch(() => { if (!disposed && current === generation && !signal.aborted) noFootage(); });
       try {
-        video.src = footage;
-        await playVideoWhenAllowed(video, signal, playbackGate);
-        if (disposed || current !== generation || media.matches) return;
-        initialized = true;
-        root.dataset.videoReady = 'true';
-        if (mobile.matches) { updatePause(); return; }
-        if (playbackGate.allowed() && 'IntersectionObserver' in window) stopReveal = revealText(root);
+        if ('IntersectionObserver' in window) stopReveal = revealText(root);
         await loadScript('/direction-4c/vendor/three.min.js');
         await loadScript('/direction-4c/assembl-tide.js');
         if (disposed || current !== generation || media.matches) return;
@@ -205,6 +206,8 @@ export function Direction4cHome() {
       video.removeAttribute('src'); video.load();
       updatePause();
     };
+    // Without footage the plate stays dark and the scene carries on; only a lost renderer goes static.
+    const noFootage = () => { initialized = false; delete root.dataset.videoReady; if (video.src) { video.removeAttribute('src'); video.load(); } };
     const recover = () => {
       if (recovery || !initialized || !startup || startup.signal.aborted) return recovery;
       const current = generation;
@@ -212,13 +215,13 @@ export function Direction4cHome() {
         if (disposed || current !== generation) return;
         root.dataset.videoReady = 'true';
         if (world?.api) root.dataset.ready = 'true';
-      }).catch(() => { if (!disposed && current === generation) lost(); }).finally(() => {
+      }).catch(() => { if (!disposed && current === generation) noFootage(); }).finally(() => {
         if (current === generation) recovery = undefined;
       });
       return recovery;
     };
     const waiting = () => {
-      delete root.dataset.videoReady; delete root.dataset.ready;
+      delete root.dataset.videoReady;
       // Wait for the next decoded frame directly: recovery need not emit playing.
       void recover();
     };
@@ -228,7 +231,7 @@ export function Direction4cHome() {
     };
     video.addEventListener('waiting', waiting);
     video.addEventListener('stalled', stalled);
-    video.addEventListener('error', lost);
+    video.addEventListener('error', noFootage);
     ref('canvasRef')?.addEventListener('webglcontextlost', lost);
     button.addEventListener('click', toggle);
     media.addEventListener('change', start);
@@ -240,7 +243,7 @@ export function Direction4cHome() {
       video.removeEventListener('waiting', waiting); video.removeEventListener('stalled', stalled);
       mobile.removeEventListener('change', start);
       button.removeEventListener('click', toggle); media.removeEventListener('change', start);
-      document.removeEventListener('visibilitychange', visibility); video.removeEventListener('error', lost);
+      document.removeEventListener('visibilitychange', visibility); video.removeEventListener('error', noFootage);
       ref('canvasRef')?.removeEventListener('webglcontextlost', lost);
     };
   }, []);
@@ -250,11 +253,7 @@ export function Direction4cHome() {
         <Static html={chromeMarkup} />
         <div style={{ position: 'relative', zIndex: 1 }}>
           <Static html={leadMarkup} />
-          <Static html={entryMarkup} />
-          <details className="clear-demo-disclosure">
-            <summary>Explore a simulated DO example</summary>
-            <TryDo signals={signals} />
-          </details>
+          <TryDo signals={signals} />
           <Static html={trailMarkup} />
         </div>
         <Static html={footerMarkup} />
