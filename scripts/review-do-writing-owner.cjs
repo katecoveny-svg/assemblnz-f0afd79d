@@ -46,7 +46,17 @@ const stubs = {
       await page.getByRole('button', { name: /Owner B private.*Reviewed draft/ }).click();
       assert.equal(await page.locator('#do-result').inputValue(), 'Owner B private reviewed text');
       checks.push(`${phase}: ${event} supersedes delayed A identity; only B's populated draft can reopen`);
-      console.log('PASS ' + checks.at(-1)); await context.close();
+      console.log('PASS ' + checks.at(-1));
+      if (phase === 'post-invalidation' && event === 'USER_UPDATED') {
+        await page.getByRole('button', { name: 'Remove Owner B private from this browser', exact: true }).click();
+        await page.waitForFunction(B => localStorage.getItem('assembl:do:drafts:v1:' + B) === null, B);
+        await page.getByRole('button', { name: 'Save in this browser', exact: true }).click();
+        await page.waitForFunction(B => localStorage.getItem('assembl:do:drafts:v1:' + B) !== null, B, { timeout: 5000 });
+        assert.equal(await page.locator('#do-result').inputValue(), 'Owner B private reviewed text');
+        checks.push('removing the current saved copy preserves its open draft and allows an explicit fresh save');
+        console.log('PASS ' + checks.at(-1));
+      }
+      await context.close();
     }
     assert.deepEqual(errors, []); fs.writeFileSync(path.join(out, 'results.json'), JSON.stringify({ checks, errors, scope: 'Actual standalone writing editor; fictional SDK events, delayed identity responses and populated draft storage.' }, null, 2));
   } finally { await browser.close(); }

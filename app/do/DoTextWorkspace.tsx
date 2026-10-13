@@ -243,7 +243,18 @@ function WritingEditor({ initialBrief = '', initialTask = 'reply', embedded = fa
     const expected = openedSnapshot.current;
     void changeSaved(owner => {
       const next = saveLocalDraft(localStorage, { draft, source: sourceForDraft, brief: briefForDraft }, owner, expected);
-      openedSnapshot.current = next.find(item => item.draft.id === draft.id) ?? null;
+      if (currentDraft.current?.id === draft.id) openedSnapshot.current = next.find(item => item.draft.id === draft.id) ?? null;
+      return next;
+    });
+  }
+
+  function removeSaved(entry: SavedDoDraft) {
+    const expected = draft?.id === entry.draft.id ? openedSnapshot.current ?? entry : entry;
+    void changeSaved(owner => {
+      const next = removeLocalDraft(localStorage, entry.draft.id, owner, expected);
+      // Only our successful removal releases this opened revision for an explicit fresh save.
+      // Another tab's deletion must continue to conflict with a stale open editor.
+      if (currentDraft.current?.id === entry.draft.id) openedSnapshot.current = null;
       return next;
     });
   }
@@ -282,7 +293,7 @@ function WritingEditor({ initialBrief = '', initialTask = 'reply', embedded = fa
       <div className="do-export-actions"><DoShareButton label="Share draft" disabled={draft.status !== 'reviewed'} content={{ title: draft.title, text: draft.text, filename: 'do-draft.txt' }} /><button type="button" onClick={async () => { try { await navigator.clipboard.writeText(draft.text); setNotice('Draft copied.'); } catch { setError('Copy is unavailable here. Download the draft instead.'); } }}><Copy size={16} />Copy text</button><button type="button" onClick={() => downloadText(`do-${draft.id.slice(0, 8)}.md`, draftAsMarkdown(draft), 'text/markdown;charset=utf-8')}><Download size={16} />Draft + receipt</button><button type="button" onClick={() => downloadText(`do-${draft.id.slice(0, 8)}.json`, JSON.stringify(draft, null, 2), 'application/json')}><Download size={16} />Receipt JSON</button>{!embedded && !nativeOrigin && <button type="button" onClick={save}>Save in this browser</button>}</div>
       <details className="do-evidence"><summary>What DO used and what happened</summary><dl><div><dt>Source</dt><dd>{draft.evidence.sourceTitle} · {draft.evidence.sourceCharacters.toLocaleString()} characters</dd></div><div><dt>Method</dt><dd>{draft.evidence.model || 'Exact text matching; no model'}</dd></div><div><dt>Prepared</dt><dd>{new Date(draft.createdAt).toLocaleString()}</dd></div><div><dt>Boundary</dt><dd>{draft.evidence.boundary}</dd></div><div><dt>Source fingerprint</dt><dd className="do-hash">{draft.evidence.sourceHash}</dd></div></dl><p>The receipt records the original source and output fingerprints. Editing a reviewed draft clears its review.</p></details>
     </section>}
-    {!embedded && !nativeOrigin && saved.length > 0 && <section className="do-saved"><div className="do-section-head"><h3>Kept on this device</h3><span>Up to eight drafts · this account and browser only</span></div>{saved.map(entry => <div className="do-saved-row" key={entry.draft.id}><button onClick={() => openSaved(entry)}><strong>{entry.draft.title}</strong><small>{entry.draft.status === 'reviewed' ? 'Reviewed draft' : 'Draft'} · {new Date(entry.draft.createdAt).toLocaleDateString()}</small></button><button aria-label={`Remove ${entry.draft.title} from this browser`} onClick={() => void changeSaved(owner => removeLocalDraft(localStorage, entry.draft.id, owner, draft?.id === entry.draft.id ? openedSnapshot.current ?? entry : entry))}><Trash2 size={17} /></button></div>)}</section>}
+    {!embedded && !nativeOrigin && saved.length > 0 && <section className="do-saved"><div className="do-section-head"><h3>Kept on this device</h3><span>Up to eight drafts · this account and browser only</span></div>{saved.map(entry => <div className="do-saved-row" key={entry.draft.id}><button onClick={() => openSaved(entry)}><strong>{entry.draft.title}</strong><small>{entry.draft.status === 'reviewed' ? 'Reviewed draft' : 'Draft'} · {new Date(entry.draft.createdAt).toLocaleDateString()}</small></button><button aria-label={`Remove ${entry.draft.title} from this browser`} onClick={() => removeSaved(entry)}><Trash2 size={17} /></button></div>)}</section>}
     {embedded && <a className="do-widget-brand" href="/do" target="_blank" rel="noreferrer">DO by assembl <ArrowUpRight size={14} /></a>}
   </div>;
 }
