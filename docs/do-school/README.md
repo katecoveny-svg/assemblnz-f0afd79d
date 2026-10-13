@@ -34,6 +34,20 @@ This is configuration evidence, **not Kate's account status**. No cookies, crede
 
 `lib/connectors/pipedream.ts` uses `DO_GMAIL_OAUTH_APP_ID`, an owner key derived from authenticated Supabase identity (`do:user:<uuid>`), a healthy Gmail account, and GET-only Gmail message proxy. Scope is configured in the custom OAuth app, not verified by this code or status response. `docs/DO-FAMILY-GMAIL.md` requires `https://www.googleapis.com/auth/gmail.readonly` plus necessary identity scopes. Granted scopes, exact Google account and attachment coverage are **unverified**. Existing Family DO reads at most 20 messages, up to 4,000 text characters each, marks truncation/pagination and skips attachments. The school PDF helper reads explicitly supplied local bytes only (2 MiB, 20 pages, 16,000 characters/page); no mailbox attachment fetch was added.
 
+## What is extracted, supplied, saved and reviewed
+
+The mounted preview calls `readFile` on the shipped fictional PDF, then PDF.js `getDocument` / `getTextContent` on those bytes. It replaces the source's fixture `pages` with the extracted page text before `extractSchoolRows` runs. This is real deterministic PDF text extraction followed by a deliberately narrow six-column row parser; it is neither model extraction nor OCR/general timetable understanding. The fixture generator originally creates those PDFs from fictional text. Unit tests of the comparison engine can supply fixture rows directly; the PDF tests, API and browser flow use actual bytes.
+
+Sender/school identity, received/check times, fictional child mappings and the earlier baseline are supplied fixtures. They are not inferred from PDF text. The baseline is reloaded on each preview request, not accumulated from previously read mail. Results/review decisions exist only in page memory and disappear on clear/reload. No school history database, cross-device recall or persistent private owner store exists. Pure owner/revision rejection tests are not proof of deployed account-isolated persistence. “Mark draft reviewed” only marks that proposal; it never creates a calendar event, reminder, notification or retained baseline.
+
+## Existing Gmail UI and smallest setup
+
+The existing UI is `/do/family`, **Your Gmail**, below the fictional comparison. A signed-out pilot user sees DO account sign-in; a signed-in user without a healthy connection sees **Connect Gmail**, followed by **I have connected — check again**. It uses GET/POST/DELETE `/api/do/family/connection` for status/connect/disconnect. The connection POST creates a Pipedream link for the authenticated DO owner and selects `app=gmail` plus the configured custom `oauthAppId`; it does not request or inspect a literal scope list in this code.
+
+The documented required grant is `https://www.googleapis.com/auth/gmail.readonly` plus necessary identity scopes. No Gmail modify/send or Calendar write scope is requested by this school slice. Actual granted scopes must still be verified in the custom OAuth application and Google's consent screen. At code level, the existing Family reader constrains requests to Gmail message GETs; this is distinct from proving the OAuth grant is narrow.
+
+For the **existing one-off email digest**, the minimum user steps are own-account DO sign-in, separately reviewed Gmail connection (only if not already connected), exact school sender selection, 7/14/30-day lookback, then the named **OpenAI (GPT-6 Astra) + TypeSafe** processing consent before Prepare. Pipedream proxies Gmail content; TypeSafe receives selected email context for routing and OpenAI receives it for an admitted draft request. That digest still skips attachments and does not compare saved history. Connecting Gmail alone cannot enable this PR's live school comparison: its ingestion adapter is unconditionally closed, and the persistence/attachment gates below require implementation and verification first.
+
 ## Exact private-pilot steps and consent
 
 The following are prerequisites, not permissions already granted by volunteering to test:
@@ -47,6 +61,8 @@ The following are prerequisites, not permissions already granted by volunteering
 Stop the pilot if any gate fails. Do not use private data as a fixture, screenshot, log or model test. No external provider call is needed to reproduce this PR.
 
 ## Validation and reproduction
+
+`School briefing validation` runs the complete synthetic school suite on the exact PR head, separately from the existing DO core workflow (whose test filter includes the school API but not the new `apps/do/school` unit suite). No secrets, access grants or provider calls are required.
 
 - `node --import tsx scripts/generate-school-fixtures.ts` regenerates six fictional PDF notices.
 - `pnpm exec vitest run apps/do/school apps/do/services/family.test.ts apps/do/services/family-server.test.ts apps/do/services/gmail-ownership.test.ts app/api/do/family`.
