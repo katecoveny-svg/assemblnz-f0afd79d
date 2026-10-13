@@ -35,7 +35,7 @@ export type MailDraft = {
   operation: 'search' | 'read'; sources: MailSource[]; moreAvailable: boolean;
   checkedAt: string; stored: false; modelUsed: false;
 };
-export type MailReadiness = { ownerId: string; accounts: MailAccount[]; metadataOnly: true; mailboxRead: false; accountsAvailable: boolean };
+export type MailReadiness = { ownerId: string; accounts: MailAccount[]; metadataOnly: true; mailboxRead: false; accountsAvailable: boolean; gmailConfigured: boolean; outlookReadVerified: false };
 
 export function gmailSearchQuery(search: z.infer<typeof mailSearch>): string {
   const parsed = mailSearch.parse(search);
