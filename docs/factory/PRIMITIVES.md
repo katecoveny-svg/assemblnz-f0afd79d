@@ -193,3 +193,7 @@ Extends Family DO selected-sender validation, HouseholdPerson type and reviewed-
 ### Public Pursuit → Studio storyboard (review implementation, 13 October)
 
 Extends the existing fictional Pursuit examples and extracts the browser-only motion renderer into `lib/studio/motion-video.ts`, retaining the private Studio compatibility import. Creates `lib/studio/public-project.ts`: strict bounded, text-only versioned project import/export. `/pursuit/studio` is an anonymous local brief → four scenes → playable export workflow. No private content, provider calls, cloud persistence, cloning or avatars. Caption cues follow scenes, not speech. Tests and production-browser proof: `docs/PUBLIC-PURSUIT-STUDIO.md`; deployment remains a separate review gate.
+
+### DO saved live-call voice (13 October review implementation)
+
+Extends the existing `do_personal_profiles.voice_name` preference and constrained Gemini Live token. `apps/do/shared/voice-options.ts` is the common curated allowlist; `apps/do/services/voice-preference.ts` binds the reviewed voice/revision to the authenticated owner. All hosted call entry surfaces use the saved choice on the next call with fresh consent; active session configuration is not replaced. No new storage or provider authority. Sources, integration boundaries and synthetic proof: `docs/DO-VOICE-CHOICE-20261013.md`.
