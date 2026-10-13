@@ -104,6 +104,11 @@ const output = "output/loyalty-do";
       "changed plan invalidates approval",
     );
   }
+  // The prior viewport deliberately skipped. Start a fresh demo for the non-skip branch.
+  await page.getByRole("button", { name: "Reset demonstration" }).click();
+  await page.getByRole("checkbox").check();
+  await page.getByRole("button", { name: "Make a plan", exact: true }).click();
+  await page.getByRole("button", { name: "Review the basket", exact: true }).click();
   await page.getByRole("checkbox").check();
   await page.getByRole("button", { name: "Continue to handoff" }).click();
   await page
