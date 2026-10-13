@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
-const mocks = vi.hoisted(() => ({ owner: vi.fn(), client: vi.fn(), rows: new Map<string, Record<string, unknown>>(), filters: [] as string[], fault: false }));
+const mocks = vi.hoisted(() => ({ owner: vi.fn(), client: vi.fn(), rows: new Map<string, Record<string, unknown>>(), filters: [] as string[], fault: false, acknowledgement: 'ok' as 'ok' | 'error' | 'invalid' }));
 vi.mock('@/apps/do/services/owner', () => ({ doOwner: mocks.owner,
   privateDoHeaders: { 'Cache-Control': 'private, no-store', Vary: 'Cookie' },
   sameDoOrigin: (request: Request) => request.headers.get('origin') === new URL(request.url).origin }));
@@ -28,6 +28,8 @@ function fakeClient() {
       } else if (operation === 'update') {
         rows = rows.map(row => { const next = { ...row, ...payload }; mocks.rows.set(`${row.owner_id}:${row.id}`, next); return next; });
       }
+      if (operation !== 'read' && mocks.acknowledgement === 'error') return { data: null, error: { message: 'acknowledgement lost after commit' } };
+      if (operation !== 'read' && mocks.acknowledgement === 'invalid') rows = rows.map(row => ({ ...row, revision: 0 }));
       return { data: single ? rows[0] ?? null : rows, error: null };
     };
     const chain = {
@@ -41,12 +43,12 @@ function fakeClient() {
     }; return chain;
   } };
 }
-beforeEach(() => { vi.clearAllMocks(); mocks.rows.clear(); mocks.filters = []; mocks.fault = false; mocks.owner.mockResolvedValue({ id: a }); mocks.client.mockImplementation(async () => fakeClient()); vi.stubEnv('DO_SAVED_DURABLE_ENABLED', 'true'); });
+beforeEach(() => { vi.clearAllMocks(); mocks.rows.clear(); mocks.filters = []; mocks.fault = false; mocks.acknowledgement = 'ok'; mocks.owner.mockResolvedValue({ id: a }); mocks.client.mockImplementation(async () => fakeClient()); vi.stubEnv('DO_SAVED_DURABLE_ENABLED', 'true'); });
 afterEach(() => vi.unstubAllEnvs());
 it('is disabled by default and never touches auth, data or client while closed', async () => {
   vi.stubEnv('DO_SAVED_DURABLE_ENABLED', '');
   for (const response of [await GET(request()), await POST(request(save))]) {
-    expect(response.status).toBe(503); expect(await response.json()).toMatchObject({ durable: false });
+    expect(response.status).toBe(503); expect(await response.json()).toMatchObject({ durable: false, message: 'Account saving is unavailable. Nothing was saved online.' });
     expect(response.headers.get('cache-control')).toBe('private, no-store');
   }
   expect(mocks.owner).not.toHaveBeenCalled(); expect(mocks.client).not.toHaveBeenCalled();
@@ -94,4 +96,29 @@ it('accepts ordinary same-origin GET without Origin while requiring workspace an
   const read = new Request('https://assembl.test/api/do/saved', { headers: { 'X-DO-Workspace': a } });
   expect((await GET(read)).status).toBe(200);
   expect((await GET(new Request('https://assembl.test/api/do/saved'))).status).toBe(409);
+});
+
+it.each(['error', 'invalid'] as const)('reports unknown outcome after committed save with %s acknowledgement, then reconciles by owner/id', async acknowledgement => {
+  mocks.acknowledgement = acknowledgement;
+  const response = await POST(request(save));
+  expect(response.status).toBe(503);
+  const body = await response.json();
+  expect(body).toMatchObject({ durable: false, outcome: 'unknown', reconciliation: { workspaceKey: a, id, expectedRevision: 0, action: 'save' } });
+  expect(body.message).not.toContain('Nothing was saved');
+  expect(mocks.rows.size).toBe(1);
+  mocks.acknowledgement = 'ok';
+  const replay = await POST(request(save));
+  expect(replay.status).toBe(409); expect((await replay.json()).durable).toBe(false);
+  const receipt = await GET(new Request(`https://assembl.test/api/do/saved?id=${id}`, { headers: { 'X-DO-Workspace': a } }));
+  expect((await receipt.json()).items).toMatchObject([{ ownerId: a, id, revision: 1, content }]);
+  expect(mocks.rows.size).toBe(1);
+});
+it.each(['error', 'invalid'] as const)('reports unknown outcome after committed removal with %s acknowledgement, then reads tombstone', async acknowledgement => {
+  await POST(request(save)); mocks.acknowledgement = acknowledgement;
+  const response = await POST(request({ action: 'remove', id, expectedRevision: 1 }));
+  expect(response.status).toBe(503);
+  expect(await response.json()).toMatchObject({ durable: false, outcome: 'unknown', reconciliation: { workspaceKey: a, id, expectedRevision: 1, action: 'remove' } });
+  mocks.acknowledgement = 'ok';
+  const receipt = await GET(new Request(`https://assembl.test/api/do/saved?id=${id}`, { headers: { 'X-DO-Workspace': a } }));
+  expect((await receipt.json()).items).toMatchObject([{ ownerId: a, id, revision: 2, content: null, deleted: true }]);
 });

@@ -55,3 +55,7 @@ Existing continuity is controlled by `DO_CONTINUITY_DURABLE_ENABLED`; it does no
 - [ ] Review staging/production publication separately. Normal PR preview verification is authorised; production promotion, migration apply, security/config change and native installation remain separate approvals.
 
 Rollback: omit/revert this isolated route and modules. No production state to migrate or erase. Screenshots remain local under `output/playwright/`; never upload them.
+
+## Ambiguous write acknowledgement
+
+Only the default-disabled pre-storage path says nothing was saved online. A storage/returned-record failure after a save or removal returns 503 with `outcome: unknown` and the verified workspace, stable item ID, action and expected revision. A write may already have committed. Reconcile with GET for that same ID/account and compare the persisted revision and content/tombstone; preserve the original intent until resolved. Never generate a new ID for retry, infer success from a conflict, or treat an empty read as a verified replay receipt. If the owner changes, the read fails, or a newer revision exists, keep the outcome unresolved for review. No automatic retries or UI activation are introduced.

@@ -16,8 +16,15 @@ const command = z.discriminatedUnion('action', [
     content: saveIntentSchema, consent: z.literal(true), consentVersion: z.literal('do-saved-v1') }).strict(),
   z.object({ action: z.literal('remove'), id: idSchema, expectedRevision: z.number().int().positive() }).strict(),
 ]);
-function failure(error: unknown) {
-  if (!(error instanceof SavedError) || error.code === 'unavailable') return closed();
+type Reconciliation = { workspaceKey: string; id: string; expectedRevision: number; action: 'save' | 'remove' };
+function failure(error: unknown, reconciliation?: Reconciliation) {
+  if (!(error instanceof SavedError) || error.code === 'unavailable') return json({
+    error: 'unavailable', durable: false,
+    ...(reconciliation ? { outcome: 'unknown', reconciliation } : {}),
+    message: reconciliation
+      ? 'The change could not be confirmed. It may already have been applied online. Read this same item with the same account and compare its revision and content before deciding what to do next. Do not create a new item to retry.'
+      : 'Saved items could not be loaded. Try reading them again with the same account.',
+  }, 503);
   return json({ error: error.code, durable: false, message: 'The saved item changed or is unavailable. Reload before reviewing a new save.' }, error.code === 'not_found' ? 404 : error.code === 'quota' ? 429 : 409);
 }
 async function access(request: Request) {
@@ -52,5 +59,5 @@ export async function POST(request: Request) {
       ? await repo.save(owner.id, input.id, input.expectedRevision, input.content, new Date().toISOString())
       : await repo.remove(owner.id, input.id, input.expectedRevision, new Date().toISOString());
     return json({ item, workspaceKey: owner.id, durable: true });
-  } catch (error) { return failure(error); }
+  } catch (error) { return failure(error, { workspaceKey: owner.id, id: parsed.data.id, expectedRevision: parsed.data.expectedRevision, action: parsed.data.action }); }
 }
