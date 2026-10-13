@@ -8,6 +8,7 @@ import { DoDownloadCtas } from '@/components/do/DoDownloadCtas';
 import styles from './install.module.css';
 import '../do.css';
 import { InstallOptions } from './InstallOptions';
+import { AskDoShortcut } from './AskDoShortcut';
 
 export const metadata: Metadata = {
   title: { absolute: 'Keep DO close · DO by assembl' },
@@ -44,6 +45,8 @@ export default function DoInstallPage() {
         <p className={styles.note}>Share DO sends a public link. Share notes sends only the text you reviewed through your phone’s Share menu. Your recording and original source are not attached.</p>
         <p className={styles.note}>Keep DO open while recording. To bring context from another app, paste text or add a screenshot; the phone workspace does not float over other apps.</p>
       </section>
+
+      <AskDoShortcut />
 
       <InstallOptions>
         <DoDownloadCtas variant="sheet" />
