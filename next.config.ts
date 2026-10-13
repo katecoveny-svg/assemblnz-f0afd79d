@@ -2,10 +2,13 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // PDF.js loads its Node worker relative to the package at runtime.
+  serverExternalPackages: ['pdfjs-dist'],
   outputFileTracingRoot: process.cwd(),
   // Ship the committed winter-series markdown into the serverless bundles that
   // read it at runtime (the /admin approvals ingest action + the ingest API).
   outputFileTracingIncludes: {
+    '/api/do/family/school-preview': ['./public/do/school-fixtures/*.pdf'],
     '/opengraph-image': ['./public/brand/assembl-assembled-plum-og.png'],
     '/api/do/download': ['./apps/do/extension/**', './apps/do/macos/**'],
     '/admin/approvals': ['./content/spark-winter-series/**'],
