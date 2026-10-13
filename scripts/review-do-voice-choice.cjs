@@ -173,7 +173,7 @@ function check(label, result) { assert.ok(result, label); checks.push(label); co
     const idleMedia = await page.evaluate(() => window.__callTest.mediaRequests);
     const idleTokens = tokens.length;
     await saveHeader('Mira revised', 'New preferences must survive voice save.', 'Charon');
-    await page.waitForTimeout(300);
+    await panel.getByText('Call voice: Charon · male · informative', { exact: true }).first().waitFor({ timeout: 5000 }).catch(() => {});
     const reviewed = (await panel.textContent()).includes('Call voice: Charon · male · informative');
     record('header revision refreshes idle call and invalidates consent without microphone or token',
       reviewed && !await consent.isChecked() && await page.evaluate(() => window.__callTest.mediaRequests) === idleMedia && tokens.length === idleTokens,

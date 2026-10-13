@@ -39,14 +39,20 @@ function editable(profile: PersonalDoProfile): PersonalDoProfileInput {
   return input;
 }
 
-export function PersonalDoSettings({ onProfileChange, compact = false, voiceEntry = false, triggerRef }: {
+export function PersonalDoSettings({ onProfileChange, compact = false, voiceEntry = false, triggerRef, sharedProfile }: {
+  sharedProfile?: PersonalDoProfile | null;
   triggerRef?: RefObject<HTMLButtonElement | null>;
   compact?: boolean;
   voiceEntry?: boolean;
   onProfileChange: (profile: PersonalDoProfile | null) => void;
 }) {
-  const [profile, setProfile] = useState<PersonalDoProfile | null>(null);
-  const [saved, setSaved] = useState(false);
+  const [localProfile, setProfile] = useState<PersonalDoProfile | null>(null);
+  const [localSaved, setSaved] = useState(false);
+  // Personal DO owns one profile for both mounted settings entry points.
+  // Standalone surfaces retain their existing local loading behavior.
+  const profile = sharedProfile === undefined ? localProfile : sharedProfile;
+  const saved = sharedProfile === undefined ? localSaved : Boolean(sharedProfile?.updatedAt);
+  const [draftRevision, setDraftRevision] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [open, setOpen] = useState(false);
@@ -63,7 +69,11 @@ export function PersonalDoSettings({ onProfileChange, compact = false, voiceEntr
   const request = useRef<AbortController | null>(null);
   const saveRequest = useRef<AbortController | null>(null);
 
+  const hasSharedProfile = Boolean(sharedProfile);
   const load = useCallback(async () => {
+    // The owner already loaded this profile. Do not publish a second mount-time
+    // response over newer shared state or keep a competing editable snapshot.
+    if (hasSharedProfile) { setLoading(false); setError(""); return; }
     request.current?.abort();
     const controller = new AbortController();
     request.current = controller;
@@ -84,7 +94,7 @@ export function PersonalDoSettings({ onProfileChange, compact = false, voiceEntr
     } finally {
       if (!controller.signal.aborted) setLoading(false);
     }
-  }, [onProfileChange]);
+  }, [onProfileChange, hasSharedProfile]);
   useEffect(() => {
     mounted.current = true;
     // The state changes follow the asynchronous account-scoped fetch.
@@ -97,6 +107,8 @@ export function PersonalDoSettings({ onProfileChange, compact = false, voiceEntr
     else dialog.current?.close();
   }, [open, step]);
 
+  const staleDraft = open && draftRevision !== (profile?.updatedAt ?? null);
+
   function change<K extends keyof PersonalDoProfileInput>(key: K, value: PersonalDoProfileInput[K]) {
     setDraft(previous => ({ ...previous, [key]: value }));
     setConsent(false);
@@ -105,6 +117,7 @@ export function PersonalDoSettings({ onProfileChange, compact = false, voiceEntr
   }
   function edit() {
     setDraft(editable(profile ?? DEFAULT_PERSONAL_DO_PROFILE));
+    setDraftRevision(profile?.updatedAt ?? null);
     setConsent(false);
     setNotice("");
     setForgetting(false);
@@ -112,7 +125,7 @@ export function PersonalDoSettings({ onProfileChange, compact = false, voiceEntr
     setOpen(true);
   }
   async function save() {
-    if (lock.current || !consent) return;
+    if (lock.current || !consent || staleDraft) return;
     lock.current = true;
     setBusy(true);
     setNotice("");
@@ -215,10 +228,10 @@ export function PersonalDoSettings({ onProfileChange, compact = false, voiceEntr
               <p className={styles.hint}>Google describes Puck as upbeat and Charon as informative; both are male voices. Voice choice does not guarantee a New Zealand accent or te reo Māori fluency.</p>
               <label className={styles.consent}><input type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} /><span>{PERSONAL_DO_PROFILE_CONSENT}</span></label>
             </>}
-            <div role="status" aria-live="polite" className={styles.formNotice}>{notice}</div>
+            <div role="status" aria-live="polite" className={styles.formNotice}>{staleDraft ? "Your settings changed elsewhere. Close and reopen this dialog to review the latest preferences before saving." : notice}</div>
             <div className={styles.formActions}>
               {step > 0 && !voiceEntry ? <button type="button" className={styles.secondary} disabled={busy} onClick={() => setStep(step - 1)}><ArrowLeft size={16} /> Back</button> : <button type="button" className={styles.secondary} onClick={() => setOpen(false)}>Not now</button>}
-              {step < 2 ? <button type="button" className={styles.primary} disabled={!draft.displayName.trim()} onClick={() => setStep(step + 1)}>Next <ArrowRight size={16} /></button> : <button type="button" className={styles.primary} disabled={busy || !consent || !draft.displayName.trim()} onClick={() => void save()}>{busy ? "Saving…" : voiceEntry ? "Save call voice" : "Save my DO"}<Check size={16} /></button>}
+              {step < 2 ? <button type="button" className={styles.primary} disabled={!draft.displayName.trim()} onClick={() => setStep(step + 1)}>Next <ArrowRight size={16} /></button> : <button type="button" className={styles.primary} disabled={busy || !consent || staleDraft || !draft.displayName.trim()} onClick={() => void save()}>{busy ? "Saving…" : voiceEntry ? "Save call voice" : "Save my DO"}<Check size={16} /></button>}
             </div>
             {saved && !voiceEntry && <div className={styles.resetActions}><button type="button" className={styles.reset} disabled={busy} onClick={() => { setDraft(editable(DEFAULT_PERSONAL_DO_PROFILE)); setConsent(false); setNotice("Defaults selected. Save to apply them to your account."); }}>Use DO defaults</button><button type="button" className={styles.reset} disabled={busy} onClick={() => setForgetting(!forgetting)}>Forget my preferences</button></div>}
             {forgetting && <section className={styles.forget} aria-label="Confirm preference removal"><strong>Forget these saved preferences?</strong><p>This removes your name, character and communication preferences from your account and ends any current call. Your responsibility notes and drafts stay saved. It cannot recall information already shared with a provider.</p><button type="button" className={styles.primary} disabled={busy} onClick={() => void forget()}>{busy ? "Removing…" : "Remove saved preferences"}</button><button type="button" className={styles.secondary} disabled={busy} onClick={() => setForgetting(false)}>Keep them</button></section>}

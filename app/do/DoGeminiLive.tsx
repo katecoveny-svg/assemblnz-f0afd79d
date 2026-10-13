@@ -57,15 +57,18 @@ export function DoGeminiLive({
   context = "",
   onDraft,
   profile: initialProfile,
+  onProfileChange,
   draftTarget = "task",
 }: {
   context?: string;
   onDraft?: (text: string) => boolean;
   profile?: PersonalDoProfile;
+  onProfileChange?: (profile: PersonalDoProfile | null) => void;
   draftTarget?: "task" | "responsibility";
 }) {
   const active = useRef<Session | null>(null);
   const [profile, setProfile] = useState(initialProfile);
+  const [reviewedParentRevision, setReviewedParentRevision] = useState(initialProfile?.updatedAt);
   const availabilityRequest = useRef<AbortController | null>(null);
   const transcriptRef = useRef<DoVoiceTranscriptEntry[]>([]);
   const draftId = useId();
@@ -90,11 +93,13 @@ export function DoGeminiLive({
   const [draft, setDraft] = useState<string | null>(null);
   const [preparedBrief, setPreparedBrief] = useState("");
   // Any change to the reviewed disclosure invalidates its previous consent.
-  const consentScope = JSON.stringify([profile ?? null, mode, voiceName, availability?.voiceRevision, includeContext, includeContext ? context.slice(0, 6000) : ""]);
+  const consentScope = JSON.stringify([initialProfile?.updatedAt ?? null, profile ?? null, mode, voiceName, availability?.voiceRevision, includeContext, includeContext ? context.slice(0, 6000) : ""]);
   const consent = consentFor === consentScope;
   const live = state !== "idle";
 
   const includeSavedStyle = Boolean(initialProfile);
+  // A parent save invalidates the idle review immediately, before effects run.
+  const profileReviewPending = reviewedParentRevision !== initialProfile?.updatedAt;
   const refresh = useCallback(async () => {
     availabilityRequest.current?.abort();
     const request = new AbortController();
@@ -116,6 +121,7 @@ export function DoGeminiLive({
       }
       setAvailability(value);
       setAvailabilityError(false);
+      return true;
     } catch {
       if (!request.signal.aborted && !active.current) {
         setAvailability(null);
@@ -123,7 +129,11 @@ export function DoGeminiLive({
       }
     }
   }, [includeSavedStyle]);
-  const onVoiceSettings = useCallback(() => { setConsentFor(null); void refresh(); }, [refresh]);
+  const onVoiceSettings = useCallback((next: PersonalDoProfile | null) => {
+    onProfileChange?.(next);
+    setConsentFor(null);
+    void refresh();
+  }, [onProfileChange, refresh]);
   const end = useCallback((message = "Call ended. Your microphone is off.") => {
     const session = active.current;
     active.current = null;
@@ -134,6 +144,18 @@ export function DoGeminiLive({
     setNotice(message);
     void refresh();
   }, [refresh]);
+  useEffect(() => {
+    // Refresh idle reviews after a save through another mounted settings entry.
+    // Keep this separate from media cleanup: a revision must not end a live call.
+    if (active.current) return;
+    let cancelled = false;
+    const timer = window.setTimeout(() => {
+      void refresh().then(checked => {
+        if (checked && !cancelled) setReviewedParentRevision(initialProfile?.updatedAt);
+      });
+    }, 0);
+    return () => { cancelled = true; window.clearTimeout(timer); };
+  }, [initialProfile?.updatedAt, live, refresh]);
   useEffect(() => {
     // Explicitly forgetting a saved profile still ends its call. Ordinary edits
     // stay queued until the next call, without remounting the active session.
@@ -184,7 +206,7 @@ export function DoGeminiLive({
       session.ws.send(JSON.stringify({ realtimeInput: { audioStreamEnd: true } }));
   }
   async function start() {
-    if (active.current || !consent || !availability?.enabled || !availability.configured || !availability.signedIn || !availability.remaining || !availability.voiceRevision) return;
+    if (active.current || profileReviewPending || !consent || !availability?.enabled || !availability.configured || !availability.signedIn || !availability.remaining || !availability.voiceRevision) return;
     const s: Session = {
       request: new AbortController(),
       ready: false,
@@ -534,7 +556,7 @@ export function DoGeminiLive({
             </label>
             <div>
               <p>Call voice: {voiceLabel}</p>
-              {availability?.signedIn && <PersonalDoSettings voiceEntry onProfileChange={onVoiceSettings} />}
+              {availability?.signedIn && <PersonalDoSettings voiceEntry sharedProfile={onProfileChange ? initialProfile ?? null : undefined} onProfileChange={onVoiceSettings} />}
               <p>Changes apply to your next call across your signed-in DO surfaces.</p>
             </div>
           </div>
@@ -579,6 +601,7 @@ export function DoGeminiLive({
             type="button"
             disabled={
               !ready ||
+              profileReviewPending ||
               !availability?.voiceRevision ||
               !availability?.signedIn ||
               !availability?.remaining ||

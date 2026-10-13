@@ -32,3 +32,11 @@ No broad navigation, widget shell, Mac Swift or companion-entry hook changes. Th
 - Production build and exact-head CI results are recorded in the PR. An initial local build failed with ENOSPC before application compilation; this is not a product failure or a passing build.
 
 Rollback: revert this PR. There is no schema/data migration. Existing saved voice values are unchanged and compatible with the previous allowlist.
+
+## Review correction: shared settings and idle call revisions
+
+Independent review identified two cached full-profile settings instances in Personal DO. Regression-only commit `8392b4f86cfa19757dcae0d065aee1f465d85a6a` reproduced both save orders and stale idle consent in [CI run 38343755747](https://github.com/katecoveny-svg/assemblnz-f0afd79d/actions/runs/38343755747): voice then header restored Kore; header then voice restored the old name/preferences; the idle call still showed its old voice and checked consent. The populated fixture receipt is `output/playwright/voice-choice/review-reproduction/8392b4f.json`.
+
+The correction makes Personal DO's existing `personalProfile` state the shared source for both settings entry points. Successful saves update that owner state, and each dialog opens from it. Controlled dialogs no longer issue a redundant mount-time profile read. A dialog whose source revision changes while open blocks its old draft and asks the user to reopen it. Standalone widget settings retain their existing account loading behavior.
+
+The call panel keeps its separate reviewed session snapshot. A changed parent revision invalidates consent and blocks Start synchronously; an idle refresh must complete before the new revision is admitted. The refresh effect does not own microphone/socket cleanup. Active calls keep their original voice and socket; the new profile is reviewed after ending. The regression uses both real settings instances, populated unrelated fields, both save orders, idle consent, a fresh call and a header save during a call. Final exact-head CI is recorded in the PR. Heavy local builds were held after the Mac restart; focused lint and 28 lightweight unit tests passed locally.
