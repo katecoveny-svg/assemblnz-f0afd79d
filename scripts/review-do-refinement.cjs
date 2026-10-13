@@ -7,8 +7,8 @@ const checks=[],resultLayouts=[];const check=(name,value)=>{assert.ok(value,name
 try {
  let ready=false;for(let i=0;i<180;i++){try{const r=await fetch(origin+'/do/personal');if(r.ok){ready=true;break}}catch{}await new Promise(r=>setTimeout(r,500));}assert.ok(ready,'server ready');
  browser=await chromium.launch({executablePath:process.env.ASSEMBL_CHROMIUM_PATH||'/root/.cache/ms-playwright/chromium_headless_shell-1161/chrome-linux/headless_shell',headless:true});const context=await browser.newContext({viewport:{width:375,height:812},reducedMotion:'reduce'});const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
- const checkPhoneResult = async state => {
-  if(state==='restored') await page.getByRole('button').filter({has:page.locator('strong').filter({hasText:'School trip — fictional example'})}).click();
+ const checkPhoneResult = async (state, restoredTitle) => {
+  if(state==='restored') await page.getByRole('button').filter({has:page.locator('strong').filter({hasText:restoredTitle})}).click();
   await page.locator('#personal-do-result').waitFor({state:'visible'});
   for (const width of [320,375,430,600]) {
    await page.setViewportSize({width,height:812});
@@ -45,7 +45,7 @@ try {
  check('no automatic cloud upload',writes===0);check('save requires explicit consent',await page.getByRole('button',{name:'Save 1 checklist to my account'}).isDisabled());
  await consent.check();await page.getByRole('button',{name:'Save 1 checklist to my account'}).click();await page.getByText(/Checklists saved to your account/).waitFor();check('explicit save stores one collection',saved.plans.length===1&&writes===1);
  await page.reload({waitUntil:'networkidle'});check('no automatic retrieval on load',await page.locator('#personal-do-result').count()===0);await page.locator('summary').filter({hasText:'Saved checklists'}).click();await page.getByRole('button',{name:'Open saved checklists',exact:true}).click();await page.getByText('1 saved checklist opened.',{exact:false}).waitFor();check('saved work restores after refresh',await page.getByRole('button',{name:'Save 1 checklist to my account'}).isVisible());
- await checkPhoneResult('restored');
+ await checkPhoneResult('restored',saved.plans[0].title);
  await consent.check();conflict=true;await page.getByRole('button',{name:'Save 1 checklist to my account'}).click();await page.getByText(/Your saved collection changed on another device/).waitFor();check('conflict blocks another save until reloaded',await page.getByRole('button',{name:'Save 1 checklist to my account'}).count()===0);
  await page.getByRole('button',{name:'Open saved checklists',exact:true}).click();await consent.waitFor();await consent.check();await page.getByRole('button',{name:'Remove saved collection',exact:true}).click();await page.getByRole('button',{name:'Keep it',exact:true}).click();check('removal can be cancelled',saved.plans.length===1);await page.getByRole('button',{name:'Remove saved collection',exact:true}).click();await page.getByRole('button',{name:'Yes, remove saved collection'}).click();await page.getByText(/Saved collection removed. Open checklists/).waitFor();check('remove keeps open work but empties cloud',saved.plans.length===0&&await page.getByRole('button',{name:'Save 1 checklist to my account'}).isVisible());
  await page.getByText('Ongoing responsibilities',{exact:true}).click();check('missing heartbeat is visibly unverified',await page.getByText('Background checks not verified',{exact:true}).isVisible());
