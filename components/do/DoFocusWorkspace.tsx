@@ -1,5 +1,6 @@
 'use client';
 
+import ShopJourney from '@/app/do/shop/ShopJourney';
 import { DoLocalInformation } from './DoLocalInformation';
 import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
@@ -16,8 +17,9 @@ import type { PersonalDoProfile } from '@/apps/do/personal/profile';
 import type { CompanionEntry } from '@/apps/do/shared/companion-entry';
 import type { DoTask } from '@/apps/do/shared/preparation';
 
-type Mode = 'write' | 'talk' | 'look' | 'build';
-export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTask }) {
+type Mode = 'write' | 'talk' | 'look' | 'build' | 'shop';
+export function DoFocusWorkspace({ initialTask = 'reply', expectedWorkspace }: { initialTask?: DoTask; expectedWorkspace?: string }) {
+  const [shoppingBrief, setShoppingBrief] = useState<string | null>(null);
   const [mode, setMode] = useState<Mode>('write');
   const [builderOpened, setBuilderOpened] = useState(false);
   const [context, setContext] = useState('');
@@ -50,6 +52,11 @@ export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTa
     window.addEventListener('assembl:do-focus-image', image);
     return () => { window.removeEventListener('assembl:do-focus', focus); window.removeEventListener('assembl:do-focus-image', image); };
   }, [enter]);
+  function acceptShoppingBrief(text: string) {
+    // This component is keyed and unmounted by the existing verified owner boundary.
+    if (!expectedWorkspace || shoppingBrief !== null || !text.trim() || text.length > 6000) return false;
+    setShoppingBrief(text.trim()); setMode('shop'); return true;
+  }
   function acceptContext(text: string) {
     if (!text.trim() || text.length > 12000) return false;
     setOfferedContext({ text, id: Date.now() }); enter('write'); return true;
@@ -65,6 +72,7 @@ export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTa
       <nav className={styles.workspaceModes} aria-label="Ways to work with DO">
         <button aria-pressed={mode === 'write'} onClick={() => enter('write')}><FileText size={15} />Write</button>
         <button aria-pressed={mode === 'talk'} disabled={!talk.canOpen} aria-describedby="do-talk-readiness" onClick={() => enter('talk', profile)}><Mic size={15} />Talk</button>
+        {shoppingBrief !== null && <button aria-pressed={mode === 'shop'} onClick={() => setMode('shop')}>Shopping plan</button>}
         <button aria-pressed={mode === 'look'} onClick={() => { setRequestedTalk(false); setMode('look'); }}><Eye size={15} />Add image</button>
       </nav>
       <p id="do-talk-readiness" role="status" className={styles.help}>{talk.message} <button type="button" className={styles.textButton} onClick={() => void refresh()}>Check Talk</button></p>
@@ -75,9 +83,13 @@ export function DoFocusWorkspace({ initialTask = 'reply' }: { initialTask?: DoTa
         <p className={styles.help}>Open this tool in its own window for sign-in and device permissions. Your draft stays here. No source text is transferred automatically.</p>
         <Link className={styles.primary} style={{ color: '#FFFDFB', textDecoration: 'none' }} href={`/do/widget?tool=${mode}`} target="_blank" rel="noopener noreferrer">{mode === 'talk' ? 'Open voice in a full window' : 'Open vision in a full window'}</Link>
       </section> : <>
-        {mode === 'talk' && <div className={styles.toolSurface}><DoGeminiLive profile={talkProfile} context={context} onDraft={acceptContext} /></div>}
+        {mode === 'talk' && <div className={styles.toolSurface}><DoGeminiLive profile={talkProfile} context={context} onShoppingDraft={acceptShoppingBrief} onDraft={acceptContext} /></div>}
         <section hidden={mode !== 'look'} className={styles.toolSurface} aria-label="Show DO an image"><DoVision active={mode === 'look'} onUse={acceptContext} /></section>
       </>}
+      {shoppingBrief !== null && <section hidden={mode !== 'shop'} aria-label="Shopping plan from reviewed call">
+        <button type="button" className={styles.textButton} onClick={() => { if (window.confirm('Discard this unsaved shopping plan?')) { setShoppingBrief(null); enter('write'); } }}>Discard shopping plan</button>
+        <ShopJourney embedded initialBrief={shoppingBrief} expectedWorkspace={expectedWorkspace} />
+      </section>}
       {mode === 'write' && <DoLocalInformation />}
       <details className={styles.secondaryDetails} onToggle={e => { if (!e.currentTarget.open && mode === 'build') setMode('write'); }}>
         <summary><Settings2 size={13} aria-hidden="true" style={{ display: 'inline', marginRight: 8 }} />Tools &amp; examples</summary>

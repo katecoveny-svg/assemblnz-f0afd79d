@@ -10,6 +10,7 @@ import type { DoTask } from '@/apps/do/shared/preparation';
 /** Identity events only invalidate. The existing server contract verifies ownership. */
 export function DoWidgetPrivacyBoundary({ initialTask }: { initialTask: DoTask }) {
   const [scope, setScope] = useState<string | null>(null);
+  const [checking, setChecking] = useState(true);
   const [error, setError] = useState(false);
   useEffect(() => {
     let mounted = true;
@@ -17,16 +18,17 @@ export function DoWidgetPrivacyBoundary({ initialTask }: { initialTask: DoTask }
     let generation = 0;
     let request: AbortController | null = null;
     async function revalidate() {
+      setChecking(true);
       const attempt = ++generation;
       const controller = replacePersonalLoad(request);
       request = controller;
       try {
         const next = await readWritingOwner(AbortSignal.any([controller.signal, AbortSignal.timeout(10_000)]));
         if (!mounted || controller.signal.aborted || attempt !== generation) return;
-        verified = next; setScope(next); setError(false);
+        verified = next; setScope(next); setError(false); setChecking(false);
       } catch {
         if (!mounted || controller.signal.aborted || attempt !== generation) return;
-        verified = null; setScope(null); setError(true);
+        verified = null; setScope(null); setError(true); setChecking(false);
       }
     }
     const invalidate = () => {
@@ -49,5 +51,5 @@ export function DoWidgetPrivacyBoundary({ initialTask }: { initialTask: DoTask }
     return () => { mounted = false; generation++; request?.abort(); unsubscribe?.(); window.removeEventListener('focus', focus); window.removeEventListener(WRITING_OWNER_CHANGED_EVENT, invalidate); };
   }, []);
   if (!scope) return <div role="status">{error ? <>DO could not verify this workspace. <button onClick={() => window.dispatchEvent(new Event('focus'))}>Retry workspace</button></> : 'Checking this workspace…'}</div>;
-  return <DoFocusWorkspace key={scope} initialTask={initialTask} />;
+  return <><div hidden={checking} inert={checking}><DoFocusWorkspace key={scope} initialTask={initialTask} expectedWorkspace={checking ? undefined : scope} /></div>{checking && <div role="status">Checking this workspace…</div>}</>;
 }

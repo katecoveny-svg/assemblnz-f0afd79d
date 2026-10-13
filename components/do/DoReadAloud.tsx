@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { claimDoAudio } from "@/apps/do/shared/audio-exclusion";
 import { Square, Volume2 } from "lucide-react";
 import { DO_PRONUNCIATION_SAMPLE, DO_READOUT_VOICE_KEY, doReadoutVoiceIdentity, doReadoutVoiceLabel, localDoReadoutVoices, selectedDoReadoutVoice } from "@/apps/do/shared/read-aloud";
 import styles from "./do-share.module.css";
@@ -16,6 +17,7 @@ export function DoReadAloud({ text }: { text: string }) {
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [selected, setSelected] = useState("");
   const [notice, setNotice] = useState("");
+  const releaseAudio = useRef<(() => void) | null>(null);
   const utterance = useRef<SpeechSynthesisUtterance | null>(null);
   const controller = useRef<{ stop: () => void } | null>(null);
 
@@ -36,6 +38,7 @@ export function DoReadAloud({ text }: { text: string }) {
 
   useEffect(() => {
     const cancel = () => {
+      releaseAudio.current?.(); releaseAudio.current = null;
       if (utterance.current) {
         utterance.current.onend = null;
         utterance.current.onerror = null;
@@ -50,6 +53,7 @@ export function DoReadAloud({ text }: { text: string }) {
   }, [text]);
 
   function stop() {
+    releaseAudio.current?.(); releaseAudio.current = null;
     if (utterance.current) {
       utterance.current.onend = null;
       utterance.current.onerror = null;
@@ -70,7 +74,10 @@ export function DoReadAloud({ text }: { text: string }) {
       setNotice(selected ? "Your selected on-device voice is unavailable. Choose another explicitly; no replacement was used." : "No on-device English voice is available here. Your draft has not been sent to a voice service.");
       return;
     }
+    const release = claimDoAudio('readout', stop);
+    if (!release) { setNotice('End the live DO call before using read-aloud.'); return; }
     activeReadout?.stop();
+    releaseAudio.current = release;
     const speech = new SpeechSynthesisUtterance(content);
     speech.voice = voice;
     speech.lang = voice.lang;

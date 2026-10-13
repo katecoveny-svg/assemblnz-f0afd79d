@@ -1,0 +1,18 @@
+.shell { max-width: 850px; margin: 0 auto; padding: 32px 20px 90px; color: #492b3e; font-family: var(--font-body), sans-serif; background: #fffdfb; min-height: 100vh; overflow-wrap: anywhere; }
+.shell nav, .actions { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+.shell a { text-decoration: underline; color: inherit; }
+.shell h1 { font-size: clamp(1.8rem, 5vw, 3rem); line-height: 1.12; margin: 20px 0; }
+.shell h2 { font-size: 1.5rem; }
+.shell p { line-height: 1.6; }
+.eyebrow, .evidence { font-family: var(--font-mono), monospace; font-size: .8rem; }
+.review { margin-top: 32px; display: grid; gap: 16px; }
+.review label { display: grid; gap: 8px; font-weight: 500; }
+.review input, .review select, .review textarea { width: 100%; min-width: 0; padding: 12px; border: 1px solid #916a70; border-radius: 8px; color: #492b3e; background: #fffdfb; font: inherit; }
+.review textarea { resize: vertical; }
+.review button { border: 1px solid #492b3e; border-radius: 24px; padding: 12px 20px; color: #fffdfb; background: #240b21; font: inherit; cursor: pointer; min-height: 44px; }
+.review button:disabled { opacity: .5; cursor: default; }
+.review .check { display: flex; align-items: flex-start; font-weight: 400; line-height: 1.5; }
+.check input { width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px; }
+.source { background: #f5f1f2; border: 1px solid #eac8df; border-radius: 12px; padding: 18px; margin: 16px 0; }
+.source pre { font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
+.review :focus-visible { outline: 3px solid #916a70; outline-offset: 3px; }

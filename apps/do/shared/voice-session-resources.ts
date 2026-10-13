@@ -1,5 +1,6 @@
 /** Browser-only resources for one explicitly started call. No persistence or reconnect. */
 export type VoiceSessionResources = {
+  releaseAudio?: () => void;
   ws?: WebSocket;
   stream?: MediaStream;
   input?: AudioContext;
@@ -34,6 +35,8 @@ export function stopVoiceAudio(session: VoiceSessionResources) {
 /** Caller invalidates the active session first, so late async completions cannot publish. */
 export function releaseVoiceSession(session: VoiceSessionResources | null) {
   if (!session) return;
+  release(() => session.releaseAudio?.());
+  session.releaseAudio = undefined;
   session.ready = false;
   // Release capture before socket/audio cleanup: a failing close must never retain the mic.
   for (const track of session.stream?.getTracks() ?? []) release(() => track.stop());

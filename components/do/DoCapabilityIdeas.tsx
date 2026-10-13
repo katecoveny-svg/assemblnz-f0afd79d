@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowUpRight, Plus } from 'lucide-react';
+import { ArrowUpRight, Plus, NotebookPen, CalendarDays } from 'lucide-react';
 import { DO_ENTRY_IDEAS } from '@/apps/do/shared/entry-capabilities';
 import styles from './do-capability-ideas.module.css';
 
@@ -11,9 +11,16 @@ export function DoCapabilityIdeas({ onChoose, disabled = false }: { onChoose: (p
   </button>);
   return <section className={styles.ideas} aria-label="Ideas to get started">
     <h2>Start with something useful</h2>
+    <div className={styles.outcomes} aria-label="Open a working tool">
+      <a target="_blank" rel="noopener noreferrer" href="/do/shop"><span className={styles.mealPhoto} style={{ backgroundImage: "url(/do/shop/meal-ideas-v1.png)" }} aria-hidden="true" /><strong>Plan the shop</strong><span>Dinners → pantry → aisle checklist</span><small>Working planning · no cart connection</small><b>Open Shopper DO ↗</b></a>
+      <a target="_blank" rel="noopener noreferrer" href="/do/messages"><NotebookPen size={28} aria-hidden="true" /><strong>Prepare a reply</strong><span>Your notes → an editable message</span><small>Review before sharing</small><b>Open messages ↗</b></a>
+      <a target="_blank" rel="noopener noreferrer" href="/do/travel"><CalendarDays size={28} aria-hidden="true" /><strong>Organise a trip</strong><span>Dates → plans → packing list</span><small>Planning · no bookings</small><b>Open Travel DO ↗</b></a>
+    </div>
+    <details><summary>Draft something else <Plus size={16} aria-hidden="true" /></summary>
     <div className={styles.choices}>{choices(DO_ENTRY_IDEAS.slice(0, 3))}</div>
     <details><summary>More ways DO can help <Plus size={16} aria-hidden="true" /></summary><div className={styles.choices}>{choices(DO_ENTRY_IDEAS.slice(3))}</div></details>
-    <p>Have a bill ready? <a href="/do/bills">Review a CSV or invoice</a>, or <a href="/do/bills/compare">compare NZ bill options</a>. These tools open their own review and consent steps.</p>
-    <p>These are draft starters, not connected services. Choose one to add to your draft. Nothing is sent, purchased or booked.</p>
+    </details>
+    <p>Have a bill ready? <a target="_blank" rel="noopener noreferrer" href="/do/bills">Review a CSV or invoice</a>, or <a target="_blank" rel="noopener noreferrer" href="/do/bills/compare">compare NZ bill options</a>. These tools open their own review and consent steps.</p>
+    <p>Draft starters add text to your current draft. Tools open their own review steps. Nothing is sent, purchased or booked.</p>
   </section>;
 }

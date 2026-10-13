@@ -6,7 +6,7 @@ import { budgetSummary, fingerprint, type Budget } from '../preparation/contract
  * beyond the patterns below. Anything not recognised stays in `unrecognised` for the person. */
 export type ShopBrief = {
   servings: number; nights: number; budget: Budget | null;
-  vegetarian: boolean; excludedAllergens: string[];
+  vegetarian: boolean; vegan?: boolean; dietaryReviewRequired?: boolean; excludedAllergens: string[];
   pantryHints: { id: string; name: string }[];
   unrecognised: string[];
 };
@@ -14,7 +14,8 @@ const ALLERGEN_WORDS: Record<string, string[]> = { gluten: ['gluten', 'gluten-fr
 export function parseShopBrief(text: string): ShopBrief {
   const source = text.replace(/\s+/g, ' ').trim();
   const lower = source.toLowerCase();
-  const people = lower.match(/(?:for|feed|feeds|feeding)\s+(\d{1,2})\b|(\d{1,2})\s*(?:people|adults|of us|pax)\b|family of\s+(\d{1,2})/);
+  const peopleSource = lower.replace(/\b\d{1,2}\s*(?:nights?|dinners?|days?|meals?)\b/g, '');
+  const people = peopleSource.match(/(?:for|feed|feeds|feeding)\s+(\d{1,2})\b|(\d{1,2})\s*(?:people|adults|of us|pax)\b|family of\s+(\d{1,2})/);
   const servings = Math.min(12, Math.max(1, Number(people?.[1] ?? people?.[2] ?? people?.[3] ?? 4)));
   const nightsMatch = lower.match(/\b(\d{1,2})\s*(?:nights?|dinners?|days?|meals?)\b/) ?? (/\b(a )?week\b|weekly/.test(lower) ? ['', '5'] : null);
   const nights = Math.min(7, Math.max(1, Number(nightsMatch?.[1] ?? 5)));
@@ -33,12 +34,17 @@ export function parseShopBrief(text: string): ShopBrief {
     }
   }
   const unrecognised = source.split(/[.;]\s*/).map(part => part.trim()).filter(part => part && !/(for|feed)\s+\d|\d\s*(people|adults|nights?|dinners?|days?)|\$|dollars|budget|vegetarian|veggie|have|got|week|gluten|dairy|nut|egg|fish|soy/i.test(part));
-  return { servings, nights, budget, vegetarian, excludedAllergens, pantryHints, unrecognised };
+  // Retain every dietary clause for review, including clauses attached to recognised counts.
+  const dietaryReviewRequired = /allerg|intoleran|sesame|shellfish|celery|mustard|sulphite|lupin|halal|kosher|low.sodium|diabet|keto/i.test(source);
+  if (dietaryReviewRequired) unrecognised.push('Dietary requirements need manual review; this catalogue cannot verify allergy safety.');
+  return { servings, nights, budget, vegetarian, dietaryReviewRequired, vegan: /\bvegan\b/.test(lower), excludedAllergens, pantryHints, unrecognised };
 }
 
 /** Pick dinners for the brief: rotate the catalogue, honour vegetarian and allergen limits,
  * never repeat a dinner before every eligible one has been used. */
-export function planMeals(brief: Pick<ShopBrief, 'servings' | 'nights' | 'vegetarian' | 'excludedAllergens'>, catalogue: CatalogueMeal[] = MEALS): MealChoice[] {
+export function planMeals(brief: Pick<ShopBrief, 'servings' | 'nights' | 'vegetarian' | 'vegan' | 'dietaryReviewRequired' | 'excludedAllergens'>, catalogue: CatalogueMeal[] = MEALS): MealChoice[] {
+  // Catalogue does not verify animal-derived ingredients in sauces or packaged goods.
+  if (brief.vegan || brief.dietaryReviewRequired) return [];
   const eligible = catalogue.filter(meal => (!brief.vegetarian || meal.tags.includes('vegetarian'))
     && !meal.ingredients.some(item => ingredientById(item.id)?.allergens.some(allergen => brief.excludedAllergens.includes(allergen))));
   if (!eligible.length) return [];
@@ -97,3 +103,21 @@ export function listText(groups: AisleGroup[], title = 'Shopping list'): string 
 }
 export function shopDigest(value: { brief: ShopBrief; choices: MealChoice[]; pantry: Pantry[]; lines: ListLine[] }): string { return fingerprint(value); }
 export const CATALOGUE_INGREDIENT_IDS = INGREDIENTS.map(item => item.id);
+
+export type ShopNight = { mealId: string; servings: number };
+/** Keep different serving counts separate; consolidate sums their exact quantities. */
+export function choicesFromNights(nights: ShopNight[]): MealChoice[] {
+  const choices = new Map<string, MealChoice>();
+  for (const night of nights) {
+    const key = `${night.mealId}:${night.servings}`;
+    const previous = choices.get(key);
+    if (previous) previous.occurrences += 1;
+    else choices.set(key, { ...night, occurrences: 1 });
+  }
+  return [...choices.values()];
+}
+
+/** UI boundary: empty and fractional edits remain drafts, never quantities. */
+export function validShopCount(raw: string, max: number): boolean {
+  return /^\d+$/.test(raw) && Number.isSafeInteger(Number(raw)) && Number(raw) >= 1 && Number(raw) <= max;
+}
