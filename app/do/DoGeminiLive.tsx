@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import type { PersonalDoProfile } from "@/apps/do/personal/profile";
 import { appendVoiceTranscript, voiceTranscriptForReview, type DoVoiceTranscriptEntry } from "@/apps/do/shared/gemini-live-session";
+import { releaseVoiceSession as destroy, stopVoiceAudio as stopAudio, type VoiceSessionResources as Session } from "@/apps/do/shared/voice-session-resources";
 import type { LiveConnectConfig, LiveServerMessage } from "@google/genai";
 import {
   DO_VOICE_VOICES,
@@ -12,22 +13,6 @@ import {
 } from "@/apps/do/shared/gemini-live";
 import "./do-live.css";
 
-type Session = {
-  ws?: WebSocket;
-  stream?: MediaStream;
-  input?: AudioContext;
-  output?: AudioContext;
-  recorder?: AudioWorkletNode;
-  sources: Set<AudioBufferSourceNode>;
-  nextAudio: number;
-  ready: boolean;
-  muted: boolean;
-  request: AbortController;
-  deadline?: ReturnType<typeof setTimeout>;
-  setupTimer?: ReturnType<typeof setTimeout>;
-  tools: Map<string, AbortController>;
-  calls: number;
-};
 type IssuedSession = {
   token: string;
   model: string;
@@ -40,17 +25,6 @@ function toBase64(buffer: ArrayBuffer) {
   let text = "";
   for (const byte of bytes) text += String.fromCharCode(byte);
   return btoa(text);
-}
-function stopAudio(s: Session) {
-  for (const source of s.sources) {
-    try {
-      source.stop();
-    } catch {
-      /* Already ended. */
-    }
-  }
-  s.sources.clear();
-  s.nextAudio = s.output?.currentTime ?? 0;
 }
 function play(s: Session, encoded: string) {
   const audio = s.output;
@@ -75,21 +49,6 @@ function play(s: Session, encoded: string) {
   s.nextAudio = Math.max(audio.currentTime + 0.015, s.nextAudio);
   source.start(s.nextAudio);
   s.nextAudio += buffer.duration;
-}
-function destroy(s: Session | null) {
-  if (!s) return;
-  s.ready = false;
-  s.request.abort();
-  for (const request of s.tools.values()) request.abort();
-  s.tools.clear();
-  clearTimeout(s.deadline);
-  clearTimeout(s.setupTimer);
-  if (s.ws && s.ws.readyState < WebSocket.CLOSING) s.ws.close();
-  s.recorder?.disconnect();
-  s.stream?.getTracks().forEach((track) => track.stop());
-  stopAudio(s);
-  void s.input?.close().catch(() => {});
-  void s.output?.close().catch(() => {});
 }
 
 export function DoGeminiLive({
@@ -166,11 +125,23 @@ export function DoGeminiLive({
       if (document.hidden && active.current)
         end("Call ended because this page was hidden. Your microphone is off.");
     };
+    const onPageHide = () => { if (active.current) end("Call ended because this page was closed. Your microphone is off."); };
+    const onOffline = () => { if (active.current) end("The connection is offline. Your microphone is off. Start a new call when you are connected."); };
+    // Availability reads only. Reconnecting never reacquires the mic or resends context.
+    const onReturn = () => { void refresh(); };
     document.addEventListener("visibilitychange", onHidden);
+    window.addEventListener("pagehide", onPageHide);
+    window.addEventListener("offline", onOffline);
+    window.addEventListener("online", onReturn);
+    window.addEventListener("pageshow", onReturn);
     return () => {
       window.clearTimeout(initialCheck);
       availabilityRequest.current?.abort();
       document.removeEventListener("visibilitychange", onHidden);
+      window.removeEventListener("pagehide", onPageHide);
+      window.removeEventListener("offline", onOffline);
+      window.removeEventListener("online", onReturn);
+      window.removeEventListener("pageshow", onReturn);
       const session = active.current;
       active.current = null;
       destroy(session);
@@ -206,9 +177,6 @@ export function DoGeminiLive({
     const current = () => active.current === s;
     setState("starting");
     setNotice("Choose microphone access to start.");
-    transcriptRef.current = [];
-    setTranscript([]);
-    setPreparedBrief("");
     setMuted(false);
     const reviewedContext = includeContext ? context.slice(0, 6000) : "";
     try {
@@ -223,6 +191,13 @@ export function DoGeminiLive({
         return;
       }
       s.stream = media;
+      media.getTracks().forEach((track) =>
+        track.addEventListener("ended", () => { if (current()) end(); }),
+      );
+      // Bound all work while capture is held, including audio setup and token fetch.
+      s.setupTimer = setTimeout(() => {
+        if (current()) end("The voice connection timed out. Your microphone is off. Check your connection before trying again.");
+      }, 30_000);
       s.input = new AudioContext();
       s.output = new AudioContext();
       await Promise.all([
@@ -249,10 +224,6 @@ export function DoGeminiLive({
       s.ws = ws;
       // Decode messages synchronously so interruption cannot be overtaken by an older Blob.
       ws.binaryType = "arraybuffer";
-      s.setupTimer = setTimeout(() => {
-        if (current())
-          end("The voice connection timed out. Your microphone is off.");
-      }, 15_000);
       s.deadline = setTimeout(
         () => {
           if (current())
@@ -261,11 +232,6 @@ export function DoGeminiLive({
             );
         },
         Math.max(0, new Date(issued.expiresAt).getTime() - Date.now()),
-      );
-      media.getTracks().forEach((track) =>
-        track.addEventListener("ended", () => {
-          if (current()) end();
-        }),
       );
       ws.onopen = () => {
         if (!current()) {
@@ -335,7 +301,8 @@ export function DoGeminiLive({
                   }),
                 );
             };
-            input.createMediaStreamSource(media).connect(recorder);
+            s.microphone = input.createMediaStreamSource(media);
+            s.microphone.connect(recorder);
             recorder.connect(input.destination);
             if (reviewedContext)
               ws.send(
@@ -355,6 +322,10 @@ export function DoGeminiLive({
                   },
                 }),
               );
+            // Keep the previous notes until both socket and recorder setup succeed.
+            transcriptRef.current = [];
+            setTranscript([]);
+            setPreparedBrief("");
             setState("listening");
             setNotice(
               "Listening. You can interrupt, or end voice at any time.",
@@ -373,13 +344,15 @@ export function DoGeminiLive({
           append(displayName, content?.outputTranscription?.text || "");
           for (const part of content?.modelTurn?.parts ?? [])
             if (
-              part.inlineData?.data &&
+              !content?.interrupted && part.inlineData?.data &&
               part.inlineData.mimeType?.startsWith("audio/")
             )
               play(s, part.inlineData.data);
           for (const id of message.toolCallCancellation?.ids ?? [])
             s.tools.get(id)?.abort();
           for (const call of message.toolCall?.functionCalls ?? []) {
+            // A previous tool in this same message may have awaited while the call ended.
+            if (!current()) return;
             if (!call.id || s.tools.has(call.id)) continue;
             const request = new AbortController();
             s.tools.set(call.id, request);
