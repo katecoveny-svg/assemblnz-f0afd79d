@@ -81,3 +81,60 @@ it("does not fall back to service-role output reads when the cookie client fails
  await expect(personalState(owner)).rejects.toThrow("Fictional unavailable session");
  expect(db.from).not.toHaveBeenCalled();
 });
+
+describe("Worksheet wake-ups (no provider)", () => {
+  const on = () => { vi.stubEnv("DO_PERSONAL_WAKEUPS_ENABLED", "true"); vi.stubEnv("DO_PERSONAL_WORKER_MODE", "worksheet"); };
+  it("stays off unless both the wake-up migration flag and the worksheet mode are set", async () => {
+    vi.stubEnv("DO_PERSONAL_WORKER_MODE", "worksheet");
+    expect(personalWorkerConfigured()).toBe(false);
+    await expect(runPersonal(owner, id)).rejects.toThrow("renewed OpenAI and TypeSafe permission");
+    vi.stubEnv("DO_PERSONAL_WAKEUPS_ENABLED", "true"); vi.stubEnv("DO_PERSONAL_WORKER_MODE", "model");
+    expect(personalWorkerConfigured()).toBe(false);
+    expect(db.rpc).not.toHaveBeenCalled();
+  });
+  it("claims with the reason, prepares a worksheet from the saved notes only and publishes it for review", async () => {
+    on();
+    const result = await runPersonal(owner, id, { note: "Focus on the proposal" });
+    expect(result).toEqual({ claimed: true, published: true });
+    expect(db.rpc).toHaveBeenNthCalledWith(1, "do_personal_claim", { p_owner: owner, p_id: id, p_trigger: "message", p_note: "Focus on the proposal" });
+    const [name, args] = db.rpc.mock.calls[1] as [string, { p_run: string; p_output: string; p_evidence: Record<string, unknown>; p_failed: boolean }];
+    expect(name).toBe("do_personal_finish");
+    expect(args.p_run).toBe(run); expect(args.p_failed).toBe(false);
+    expect(args.p_output).toContain("DO woke up for your note");
+    expect(args.p_output).toContain("A proposal is due Friday.");
+    expect(args.p_evidence).toMatchObject({ method: "worksheet", model: null, provider: "none", trigger: "message", note: "Focus on the proposal", notesUpdatedAt: item.updated_at, externalAction: "none" });
+    expect(prepareDoDraft).not.toHaveBeenCalled(); expect(getPersonalDoProfile).not.toHaveBeenCalled(); expect(db.from).not.toHaveBeenCalled();
+  });
+  it("runs the scheduled worker without an owner and reports nothing claimed when nothing is due", async () => {
+    on();
+    db.rpc.mockResolvedValue({ data: [], error: null });
+    expect(await runPersonal()).toEqual({ claimed: false, published: false });
+    expect(db.rpc).toHaveBeenCalledWith("do_personal_claim", { p_owner: null, p_id: null, p_trigger: "scheduled", p_note: null });
+    expect(db.rpc).toHaveBeenCalledTimes(1);
+  });
+  it("fails the run instead of preparing when the claimed row is another owner's", async () => {
+    on();
+    db.rpc.mockImplementation(async (name: string) => name === "do_personal_claim" ? { data: [{ run_id: run, responsibility: { ...item, owner_id: "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb" } }], error: null } : { data: true, error: null });
+    expect(await runPersonal(owner, id)).toEqual({ claimed: true, published: false });
+    expect(db.rpc.mock.calls[1]).toEqual(["do_personal_finish", { p_run: run, p_output: "", p_evidence: { error: "owner_mismatch" }, p_failed: true }]);
+  });
+  it("does not report a draft when finish declines (paused, expired or edited meanwhile)", async () => {
+    on();
+    db.rpc.mockImplementation(async (name: string) => name === "do_personal_claim" ? { data: [{ run_id: run, responsibility: item }], error: null } : { data: false, error: null });
+    expect(await runPersonal(owner, id)).toEqual({ claimed: true, published: false });
+  });
+  it("schedules through the owner-checked RPC and surfaces conflicts", async () => {
+    vi.stubEnv("DO_PERSONAL_WAKEUPS_ENABLED", "true");
+    const { schedulePersonal, PersonalStorageConflict } = await import("./service");
+    const input = { action: "schedule" as const, id, cadence: "weekly" as const, weekday: 5, localHour: 7, timezone: "Pacific/Auckland", consent: true as const, expectedRevision: 1 };
+    db.rpc.mockResolvedValue({ data: { id, revision: 1, cadence: "weekly", active: true, consentUntil: "2026-10-20T00:00:00Z", nextRunAt: "2026-10-15T18:00:00Z" }, error: null });
+    expect(await schedulePersonal(owner, input)).toMatchObject({ cadence: "weekly", nextRunAt: "2026-10-15T18:00:00Z" });
+    expect(db.rpc).toHaveBeenCalledWith("do_personal_schedule", { p_owner: owner, p_id: id, p_cadence: "weekly", p_weekday: 5, p_hour: 7, p_timezone: "Pacific/Auckland", p_run_once_at: null, p_expected_revision: 1 });
+    db.rpc.mockResolvedValue({ data: null, error: { message: "responsibility_conflict" } });
+    await expect(schedulePersonal(owner, input)).rejects.toBeInstanceOf(PersonalStorageConflict);
+    db.rpc.mockResolvedValue({ data: { id }, error: null });
+    await expect(schedulePersonal(owner, input)).rejects.toThrow("No wake-up change was confirmed");
+    vi.stubEnv("DO_PERSONAL_WAKEUPS_ENABLED", "false");
+    await expect(schedulePersonal(owner, input)).rejects.toThrow("not enabled");
+  });
+});

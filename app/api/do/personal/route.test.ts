@@ -12,6 +12,8 @@ vi.mock("@/apps/do/personal/service", () => ({
   runPersonal: vi.fn(),
   personalHeartbeat: vi.fn(),
   personalWorkerConfigured: vi.fn().mockReturnValue(true),
+  personalWorkerMode: vi.fn().mockReturnValue('worksheet'),
+  schedulePersonal: vi.fn(),
 }));
 import { doOwner } from "@/apps/do/services/owner";
 import {
@@ -100,7 +102,14 @@ describe("Personal DO HTTP boundaries", () => {
       published: false,
     });
     expect((await run(request({ id }))).status).toBe(409);
-    expect(runPersonal).toHaveBeenCalledWith(owner.id, id);
+    expect(runPersonal).toHaveBeenCalledWith(owner.id, id, { note: undefined });
+  });
+  it("passes a bounded note through as the reason for a manual wake-up", async () => {
+    vi.mocked(runPersonal).mockResolvedValue({ claimed: true, published: true });
+    expect((await run(request({ id, note: " Focus on the quote " }))).status).toBe(200);
+    expect(runPersonal).toHaveBeenCalledWith(owner.id, id, { note: "Focus on the quote" });
+    expect((await run(request({ id, note: "x".repeat(501) }))).status).toBe(400);
+    expect(runPersonal).toHaveBeenCalledTimes(1);
   });
   it("rejects unset and wrong cron secrets before starting work", async () => {
     vi.stubEnv("CRON_SECRET", "");
@@ -135,7 +144,7 @@ describe("Personal DO HTTP boundaries", () => {
         headers: { authorization: "Bearer test-secret" },
       }),
     );
-    expect(await response.json()).toEqual({ claimed: 3, published: 3, followupsPrepared: 0, personal: { status: 'enabled' } });
+    expect(await response.json()).toEqual({ claimed: 3, published: 3, followupsPrepared: 0, personal: { status: 'enabled', mode: 'worksheet' } });
     expect(personalHeartbeat).toHaveBeenCalledOnce();
     expect(runPersonal).toHaveBeenCalledTimes(3);
     vi.unstubAllEnvs();
@@ -147,4 +156,21 @@ it("saves only the authenticated owner's paused responsibility and returns an ho
  const body={action:'save',id:'11111111-1111-4111-8111-111111111111',title:'Synthetic responsibility',goal:'Review fictional notes',notes:'Fictional only',timezone:'Pacific/Auckland',localHour:7,consent:true,expectedRevision:0};
  const response=await POST(request(body));expect(response.status).toBe(200);expect(await response.json()).toEqual({id,saved:true,preparation:'off'});expect(savePersonal).toHaveBeenCalledWith(owner.id,body);
  vi.mocked(doOwner).mockResolvedValue(null);vi.mocked(savePersonal).mockClear();expect((await POST(request(body))).status).toBe(401);expect(savePersonal).not.toHaveBeenCalled();
+});
+
+describe("Wake-up schedule boundary", () => {
+  it("routes a schedule request to the owner-checked service and returns its receipt", async () => {
+    const { POST } = await import("./route");
+    const { schedulePersonal } = await import("@/apps/do/personal/service");
+    const receipt = { id, revision: 1, cadence: "daily", active: true, consentUntil: "2026-10-20T00:00:00Z", nextRunAt: "2026-10-13T18:00:00Z" };
+    vi.mocked(schedulePersonal).mockResolvedValue(receipt as Awaited<ReturnType<typeof schedulePersonal>>);
+    const body = { action: "schedule", id, cadence: "daily", localHour: 7, timezone: "Pacific/Auckland", consent: true, expectedRevision: 1 };
+    const response = await POST(request(body));
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({ schedule: receipt });
+    expect(schedulePersonal).toHaveBeenCalledWith(owner.id, body);
+    expect((await POST(request({ ...body, consent: false }))).status).toBe(400);
+    expect((await POST(request({ ...body, cadence: "weekly" }))).status).toBe(400);
+    expect(schedulePersonal).toHaveBeenCalledTimes(1);
+  });
 });

@@ -1,5 +1,5 @@
 import { timingSafeEqual } from "node:crypto";
-import { personalHeartbeat, personalWorkerConfigured, runPersonal } from "@/apps/do/personal/service";
+import { personalHeartbeat, personalWorkerConfigured, personalWorkerMode, runPersonal } from "@/apps/do/personal/service";
 import { prepareEnquiryFollowups } from '@/apps/do/enquiries/service';
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -30,7 +30,7 @@ export async function GET(request: Request) {
     }
     await personalHeartbeat();
     return Response.json(
-      { claimed, published, followupsPrepared, personal: personalEnabled ? { status: 'enabled' } : { status: 'disabled', reason: 'provider_permission_renewal_required' } },
+      { claimed, published, followupsPrepared, personal: personalEnabled ? { status: 'enabled', mode: personalWorkerMode() } : { status: 'disabled', reason: 'provider_permission_renewal_required' } },
       { headers: { "Cache-Control": "no-store" } },
     );
   } catch {
