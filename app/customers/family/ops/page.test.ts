@@ -27,6 +27,11 @@ describe('synthetic-only family demo', () => {
     expect(html).not.toContain('<form');
     expect(html).not.toContain('type="submit"');
   });
+  it('keeps every synthetic section reachable in the shell navigation', () => {
+    const source = readFileSync(new URL('./layout.tsx', import.meta.url), 'utf8');
+    const tabs = [...source.matchAll(/\['[^']+', '\?tab=([^']+)'\]/g)].map(match => match[1]);
+    expect(tabs).toEqual(Object.keys(FAMILY_DEMO.sections));
+  });
   it('keeps the page dependency boundary limited to navigation and synthetic data', () => {
     const source = readFileSync(new URL('./page.tsx', import.meta.url), 'utf8');
     const imports = [...source.matchAll(/from\s+['"]([^'"]+)['"]/g)].map(match => match[1]);

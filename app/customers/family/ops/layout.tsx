@@ -21,6 +21,7 @@ const NAV: Array<[string, string]> = [
   ['Kitchen', '?tab=kitchen'],
   ['Money', '?tab=money'],
   ['Inbox', '?tab=inbox'],
+  ['Genome', '?tab=genome'],
 ];
 
 export default function FamilyOpsLayout({ children }: { children: ReactNode }) {
