@@ -3,11 +3,14 @@ import asyncio, json, os, re, hashlib, subprocess
 from pathlib import Path
 from urllib.parse import urlparse, parse_qs
 from playwright.async_api import async_playwright, expect
-ORIGIN=os.environ.get('ASSEMBL_REVIEW_ORIGIN','http://127.0.0.1:3000')
+# Match Next's local route origin so the unauthenticated POST reaches the session guard.
+ORIGIN=os.environ.get('ASSEMBL_REVIEW_ORIGIN','http://localhost:3000')
 OUT=Path('visual-evidence/studio-ci'); OUT.mkdir(parents=True,exist_ok=True)
 FIXTURE='/studio-ci-fixture'
 ID='00000000-0000-4000-8000-000000000011'
 REPORT={'checkedSha':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),'componentSha256':hashlib.sha256(Path('components/client-hub-migration/original/app/hub/concept-studio.tsx').read_bytes()).hexdigest(),'fixtureOnly':True,'accountPersistenceProven':False,'ownerAuthenticationProven':False,'providerCalls':0,'cases':[]}
+async def accept_dialog(dialog): await dialog.accept()
+async def dismiss_dialog(dialog): await dialog.dismiss()
 async def mode(page,value): await page.evaluate('(v)=>window.__studioCi.mode=v',value)
 async def posts(page): return await page.evaluate("window.__studioCi.requests.filter(r=>r.method==='POST')")
 async def close_panel(page):
@@ -22,7 +25,7 @@ async def brief(page):
     await page.get_by_role('combobox',name='Starting point',exact=True).select_option('prospect')
     await page.get_by_role('combobox',name='Audience',exact=True).select_option('GM')
     await page.get_by_role('combobox',name='Position this piece for',exact=True).select_option('Both')
-    await page.get_by_label('Job advertisement or prospect brief',exact=True).fill('FICTIONAL authored brief: demonstrate a useful selected project handoff for a GM.')
+    await page.get_by_role('textbox',name='Job advertisement or prospect brief',exact=True).fill('FICTIONAL authored brief: demonstrate a useful selected project handoff for a GM.')
     await page.get_by_role('button',name='Use this brief',exact=True).click()
 async def backup(page,name):
     await close_panel(page)
@@ -50,7 +53,7 @@ async def fixture_context(browser,width):
             api.append(route.request.url);await route.abort();return
         await route.continue_()
     await page.route('**/*',network)
-    page.on('dialog',lambda d:d.accept())
+    page.on('dialog',accept_dialog)
     await fresh(page)
     await expect(page.get_by_role('note')).to_contain_text('FICTIONAL LOCAL UI VERIFICATION')
     assert await page.locator('[data-nextjs-dialog], nextjs-portal').count()==0
@@ -106,7 +109,11 @@ async def journey(page,width):
     await expect(page.get_by_role('alert').filter(has_text='Save outcome uncertain')).to_be_visible()
     await page.get_by_role('button',name='Refresh saved projects',exact=True).click()
     await page.get_by_role('button',name=re.compile('Open saved .*revision 2')).click()
-    await close_panel(page);await mode(page,'ack');await page.locator('.cs-save').click()
+    # Successful async reopen closes the panel itself; do not race it with a second close.
+    await expect(page.get_by_role('button',name='Close panel',exact=True)).to_have_count(0)
+    await expect(page.get_by_title('Client demonstrator')).to_be_visible()
+    await expect(page.locator('.cs-save')).to_be_enabled()
+    await mode(page,'ack');await page.locator('.cs-save').click()
     await expect(page.get_by_text('Hub saved to your private workspace.',exact=False)).to_be_visible()
     assert (await posts(page))[-1]['body']['revision']==2
     await page.reload();await page.locator('.cs-save').wait_for()
@@ -139,15 +146,15 @@ async def legacy_export(page,width):
     assert 'CREATIVE_TITLE_SENTINEL' not in html and 'CREATIVE_CLAIM_SENTINEL' not in html
     assert 'FICTIONAL factual reference' in html
     await page.get_by_role('button',name=re.compile('The opportunity')).click()
-    original=await page.get_by_label('What do you want to demonstrate?',exact=True).input_value();assert len(original)>4700
+    original=await page.get_by_role('textbox',name='What do you want to demonstrate?',exact=True).input_value();assert len(original)>4700
     # Reject replacement confirmation; original full Hub must survive.
-    page.remove_all_listeners('dialog');page.on('dialog',lambda d:d.dismiss())
+    page.remove_listener('dialog',accept_dialog);page.on('dialog',dismiss_dialog)
     await page.get_by_role('button',name='Prepare a replacement job or prospect brief',exact=True).click()
-    await page.get_by_label('Job advertisement or prospect brief',exact=True).fill('FICTIONAL proposed replacement brief')
+    await page.get_by_role('textbox',name='Job advertisement or prospect brief',exact=True).fill('FICTIONAL proposed replacement brief')
     await page.get_by_role('button',name='Use this brief',exact=True).click()
     await page.get_by_role('button',name='Keep the existing brief',exact=True).click()
-    assert await page.get_by_label('What do you want to demonstrate?',exact=True).input_value()==original
-    page.remove_all_listeners('dialog');page.on('dialog',lambda d:d.accept())
+    assert await page.get_by_role('textbox',name='What do you want to demonstrate?',exact=True).input_value()==original
+    page.remove_listener('dialog',dismiss_dialog);page.on('dialog',accept_dialog)
     for label,value in [('Campaign objective','FICTIONAL bounded handoff'),('Content audience','FICTIONAL GM'),('Core proposition','FICTIONAL useful proposed workflow'),('Brand voice','Plain supplied draft'),('Call to action','Review the fictional pilot')]:
         await page.get_by_label(label,exact=True).fill(value)
     await page.get_by_role('button',name='Create local channel templates',exact=True).click()
