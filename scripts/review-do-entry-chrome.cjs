@@ -87,7 +87,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   await menu.locator('summary').first().click();
   check('legacy tools are secondary, not deleted',!await menu.getByRole('link',{name:'Builder · prepare a plan'}).isVisible());
   await menu.locator('summary').filter({hasText:'Tools & examples'}).click();
-  check('legacy routes remain reachable',await menu.getByRole('link',{name:'Builder · prepare a plan'}).getAttribute('href')==='/do/builder' && await menu.getByRole('link',{name:'Bills · examples and CSV'}).getAttribute('href')==='/do/bills');
+  check('legacy routes remain reachable',await menu.getByRole('link',{name:'Builder · prepare a plan'}).getAttribute('href')==='/do/builder' && await menu.getByRole('link',{name:'Bills · CSV and invoice review'}).getAttribute('href')==='/do/bills');
   await menu.locator('summary').filter({hasText:'Tools & examples'}).press('Escape');
   check('Escape closes menu and restores focus',await menu.evaluate(e=>!e.open&&document.activeElement===e.querySelector('summary')));
   check('navigation and shortcuts never start microphone or submit data',posts.length===0&&await page.evaluate(()=>window.__media===0));

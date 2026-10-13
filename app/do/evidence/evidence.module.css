@@ -1,0 +1,33 @@
+.workspace { color: #492b3e; max-width: 1180px; margin: auto; padding: 32px 24px 80px; font-family: var(--font-body), sans-serif; }
+.intro { max-width: 760px; margin: 24px 0 32px; }
+.intro h1 { font-size: clamp(2.1rem, 4vw, 3.5rem); line-height: 1.08; letter-spacing: -.03em; margin-bottom: 24px; text-wrap: balance; }
+.workspace p { line-height: 1.6; max-width: 72ch; }
+.notice { background: #f5f1f2; padding: 16px; border-radius: 12px; }
+.controls { display: flex; flex-wrap: wrap; gap: 12px; }
+.workspace button { background: #240b21; color: #fffdfb; padding: 12px 18px; border: 1px solid transparent; border-radius: 10px; cursor: pointer; min-height: 44px; }
+.workspace button:hover { background: #654a4e; }
+.workspace button:disabled { background: #f5f1f2; color: #654a4e; border-color: #916a70; cursor: not-allowed; }
+.workspace :is(button,input,textarea,summary):focus-visible { outline: 3px solid #916a70; outline-offset: 4px; }
+.workspace ::selection { background: #eac8df; color: #240b21; }
+.status { min-height: 48px; padding: 12px 0; }
+.columns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 48px; align-items: start; }
+.workspace h2 { font-size: 1.5rem; letter-spacing: -.02em; margin: 0 0 16px; }
+.workspace h3 { font-size: 1.05rem; margin: 16px 0 8px; }
+.source { padding: 16px 0 24px; border-bottom: 1px solid #d9cdd1; }
+.source blockquote { margin: 20px 0; line-height: 1.7; font-size: 1.1rem; }
+.meta { font-family: var(--font-mono), monospace; font-size: .75rem; overflow-wrap: anywhere; color: #654a4e; font-variant-numeric: tabular-nums; }
+.workspace details { padding: 20px 0; }
+.workspace summary { cursor: pointer; padding: 8px 0; }
+.statement { margin: 20px 0 28px; }
+.statement strong { display: block; text-transform: capitalize; margin-bottom: 8px; }
+.workspace label { display: block; margin: 16px 0; }
+.workspace :is(textarea,input:not([type=checkbox])) { display: block; width: 100%; background: #fffdfb; border: 1px solid #916a70; border-radius: 8px; padding: 12px; color: #492b3e; font: inherit; margin-top: 8px; caret-color: #492b3e; }
+.workspace textarea { min-height: 112px; resize: vertical; line-height: 1.5; }
+.workspace fieldset { margin-top: 32px; padding: 16px; border: 1px solid #916a70; border-radius: 12px; }
+.check { display: flex !important; align-items: start; gap: 12px; line-height: 1.5; }
+.check input { width: 22px; height: 22px; flex-shrink: 0; accent-color: #492b3e; }
+.review { background: #f5f1f2; border-radius: 16px; padding: 28px; margin-top: 48px; }
+.receipts { margin-top: 48px; }
+.receipts article { padding: 20px 0; border-top: 1px solid #d9cdd1; }
+.srOnly { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+@media (max-width: 700px) { .workspace { padding: 20px 16px 60px; } .columns { grid-template-columns: 1fr; gap: 40px; } .review { padding: 20px; } .controls button { flex-grow: 1; } }

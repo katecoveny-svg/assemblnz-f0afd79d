@@ -59,12 +59,14 @@ export function DoGeminiLive({
   profile: initialProfile,
   onProfileChange,
   draftTarget = "task",
+  signInReturnTo,
 }: {
   context?: string;
   onDraft?: (text: string) => boolean;
   profile?: PersonalDoProfile;
   onProfileChange?: (profile: PersonalDoProfile | null) => void;
   draftTarget?: "task" | "responsibility";
+  signInReturnTo?: "/do/loyalty/everyday-rewards";
 }) {
   const active = useRef<Session | null>(null);
   const [profile, setProfile] = useState(initialProfile);
@@ -521,7 +523,7 @@ export function DoGeminiLive({
             </button>
           </div>
         ) : availability && !availability.signedIn ? (
-          <Link href={draftTarget === "responsibility" ? "/login?redirect=%2Fdo%2Fpersonal" : "/login?redirect=%2Fdo%3Fopen%3D1"}>Sign in to call</Link>
+          <><Link href={signInReturnTo ? `/login?redirect=${encodeURIComponent(signInReturnTo)}` : draftTarget === "responsibility" ? "/login?redirect=%2Fdo%2Fpersonal" : "/login?redirect=%2Fdo%3Fopen%3D1"} target={signInReturnTo ? "_blank" : undefined} rel={signInReturnTo ? "noopener noreferrer" : undefined}>{signInReturnTo ? "Sign in in a new tab" : "Sign in to call"}</Link>{signInReturnTo && <button type="button" onClick={()=>void refresh()}>Check call availability after sign-in</button>}</>
         ) : (
           <button
             type="button"

@@ -2,12 +2,13 @@
 
 import { useEffect, useRef } from 'react';
 import { playVideoWhenAllowed } from './video-readiness';
-import { directionMarkup } from './markup';
+import { chromeMarkup, footerMarkup, leadMarkup, entryMarkup, trailMarkup } from './markup';
+import { TryDo, type TryDoSignals } from './TryDo';
 import './direction-4c.css';
 
 type TideWorld = {
   ready: Promise<void>;
-  api: { setKnock(value: number): void; setArrive(value: number): void } | null;
+  api: { setKnock(value: number): void; setArrive(value: number): void; setLit(value: number): void; pulse(): void } | null;
   setPaused(value: boolean): void;
   dispose(): void;
 };
@@ -28,8 +29,59 @@ function loadScript(src: string): Promise<void> {
   });
 }
 
+// Static, server-rendered design markup. `display: contents` keeps the design's layout tree intact.
+function Static({ html }: { html: string }) {
+  return <div style={{ display: 'contents' }} dangerouslySetInnerHTML={{ __html: html }} />;
+}
+
+// Headlines gather word by word out of a blur; mono kickers decode into place. Returns cleanup.
+function revealText(root: HTMLElement): () => void {
+  const timers: number[] = [];
+  const words = (el: Element) => Array.from(el.querySelectorAll<HTMLElement>('[data-w]'));
+  // The real copy is captured before any decode runs, so cleanup can restore it mid-scramble.
+  const kickers = new Map<HTMLElement, string>(Array.from(root.querySelectorAll<HTMLElement>('[data-scramble]'), el => [el, el.textContent ?? '']));
+  const scramble = (el: HTMLElement) => {
+    const final = kickers.get(el) ?? el.textContent ?? '', n = final.length, pool = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let frame = 0;
+    const id = window.setInterval(() => {
+      frame++;
+      const settled = Math.floor((frame * n) / 16);
+      let out = '';
+      for (let i = 0; i < n; i++) out += i < settled || final[i] === ' ' || final[i] === '·' ? final[i] : pool[Math.floor(Math.random() * pool.length)];
+      el.textContent = out;
+      if (settled >= n) { clearInterval(id); el.textContent = final; }
+    }, 34);
+    timers.push(id);
+  };
+  const show = (w: HTMLElement) => { w.style.opacity = '1'; w.style.transform = 'none'; w.style.filter = 'none'; };
+  const io = new IntersectionObserver(entries => entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const el = entry.target as HTMLElement;
+    io.unobserve(el);
+    if (el.hasAttribute('data-split')) words(el).forEach((w, i) => {
+      const d = i * 70;
+      w.style.transition = `opacity .9s ease ${d}ms, transform 1.1s cubic-bezier(.16,1,.3,1) ${d}ms, filter 1s ease ${d}ms`;
+      show(w);
+    });
+    if (el.hasAttribute('data-scramble') && !root.hasAttribute('data-paused')) scramble(el);
+  }), { rootMargin: '0px 0px -12% 0px' });
+  const split = Array.from(root.querySelectorAll<HTMLElement>('[data-split]'));
+  split.forEach(el => {
+    words(el).forEach(w => { w.style.opacity = '0'; w.style.transform = 'translateY(.45em) rotate(4deg)'; w.style.transformOrigin = '0 100%'; w.style.filter = 'blur(14px)'; });
+    io.observe(el);
+  });
+  kickers.forEach((_, el) => io.observe(el));
+  return () => {
+    io.disconnect();
+    timers.forEach(id => clearInterval(id));
+    split.forEach(el => words(el).forEach(w => { w.style.transition = 'none'; show(w); }));
+    kickers.forEach((text, el) => { el.textContent = text; });
+  };
+}
+
 export function Direction4cHome() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const signals = useRef<TryDoSignals | null>(null);
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
@@ -44,9 +96,12 @@ export function Direction4cHome() {
       subscribe: (listener: () => void) => { playbackListeners.add(listener); return () => { playbackListeners.delete(listener); }; },
     };
     let world: TideWorld | undefined;
+    let lit = 0, stopReveal: (() => void) | undefined;
+    signals.current = { setLit: value => { lit = value; world?.api?.setLit(value); }, pulse: () => world?.api?.pulse() };
     const video = root.querySelector<HTMLVideoElement>('[data-coastal-video]')!;
     video.muted = true; video.defaultMuted = true; video.playsInline = true; video.preload = 'auto';
     video.loop = true;
+    const footage = `/direction-4c/assets/footage/bay-of-islands.${video.canPlayType('video/mp4; codecs="avc1.42E01E"') ? 'mp4' : 'webm'}`;
     const ref = (name: string) => root.querySelector<HTMLElement>(`[data-ref="${name}"]`);
     const button = root.querySelector<HTMLButtonElement>('[data-pause]')!;
     const clamp = (x: number) => Math.max(0, Math.min(1, x));
@@ -60,11 +115,11 @@ export function Direction4cHome() {
       delete root.dataset.ready; delete root.dataset.videoReady;
       root.querySelectorAll<HTMLElement>('[data-rv]').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
     };
-    const stop = () => { initialized = false; recovery = undefined; startup?.abort(); startup = undefined; cancelAnimationFrame(frame); frame = 0; world?.dispose(); world = undefined; video.pause(); fallback(); };
+    const stop = () => { stopReveal?.(); stopReveal = undefined; initialized = false; recovery = undefined; startup?.abort(); startup = undefined; cancelAnimationFrame(frame); frame = 0; world?.dispose(); world = undefined; video.pause(); fallback(); };
     const updatePause = () => {
       root.toggleAttribute('data-paused', paused || media.matches);
       world?.setPaused(paused || media.matches || document.hidden);
-      if (!playbackGate.allowed()) video.pause();
+      if (!playbackGate.allowed()) { video.pause(); stopReveal?.(); stopReveal = undefined; }
       playbackListeners.forEach(listener => listener());
       if (initialized && playbackGate.allowed() && video.paused) void recover();
       // Engine has a document-wide pause switch; contain it to this page.
@@ -97,12 +152,13 @@ export function Direction4cHome() {
       startup = new AbortController();
       const signal = startup.signal;
       try {
-        video.src = '/direction-4c/assets/footage/bay-of-islands.mp4';
+        video.src = footage;
         await playVideoWhenAllowed(video, signal, playbackGate);
         if (disposed || current !== generation || media.matches) return;
         initialized = true;
         root.dataset.videoReady = 'true';
         if (mobile.matches) { updatePause(); return; }
+        if (playbackGate.allowed() && 'IntersectionObserver' in window) stopReveal = revealText(root);
         await loadScript('/direction-4c/vendor/three.min.js');
         await loadScript('/direction-4c/assembl-tide.js');
         if (disposed || current !== generation || media.matches) return;
@@ -125,6 +181,7 @@ export function Direction4cHome() {
         await next.ready;
         if (disposed || current !== generation) { next.dispose(); return; }
         if (!world.api) { lost(); return; }
+        world.api.setLit(lit);
         root.dataset.ready = 'true';
         updatePause(); tick();
       } catch { if (!disposed && current === generation) lost(); }
@@ -171,7 +228,7 @@ export function Direction4cHome() {
     document.addEventListener('visibilitychange', visibility);
     void start();
     return () => {
-      disposed = true; generation++; stop(); video.removeAttribute('src'); video.load();
+      disposed = true; generation++; stop(); signals.current = null; video.removeAttribute('src'); video.load();
       video.removeEventListener('waiting', waiting); video.removeEventListener('stalled', stalled);
       mobile.removeEventListener('change', start);
       button.removeEventListener('click', toggle); media.removeEventListener('change', start);
@@ -179,5 +236,21 @@ export function Direction4cHome() {
       ref('canvasRef')?.removeEventListener('webglcontextlost', lost);
     };
   }, []);
-  return <div ref={rootRef} className="direction-4c" dangerouslySetInnerHTML={{ __html: directionMarkup }} />;
+  return (
+    <div ref={rootRef} className="direction-4c">
+      <div style={{ position: 'relative', minHeight: '100vh', overflowX: 'clip', background: '#0E040D' }}>
+        <Static html={chromeMarkup} />
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <Static html={leadMarkup} />
+          <Static html={entryMarkup} />
+          <details className="clear-demo-disclosure">
+            <summary>Explore a simulated DO example</summary>
+            <TryDo signals={signals} />
+          </details>
+          <Static html={trailMarkup} />
+        </div>
+        <Static html={footerMarkup} />
+      </div>
+    </div>
+  );
 }

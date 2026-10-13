@@ -1109,3 +1109,176 @@
 .loyalty-do h3 {
   color: inherit;
 }
+/* Grocery review: observations become confirmed quantities, never inferred stock. */
+.ld-ingredients > p,
+.ld-grocery-photo > p {
+  font-size: 14px;
+  margin: 12px 0 20px;
+  max-width: 65ch;
+}
+.ld-ingredients fieldset {
+  border: 1px solid #ccd1bd;
+  padding: 18px;
+  margin: 16px 0;
+}
+.ld-ingredients legend {
+  font-size: 12px;
+  padding: 0 7px;
+}
+.ld-ingredient-fields {
+  display: grid;
+  grid-template-columns: 1fr 110px 90px 44px;
+  gap: 12px;
+  align-items: end;
+}
+.ld-ingredient-fields label,
+.ld-grocery-photo label {
+  display: block;
+  font-size: 13px;
+}
+.ld-ingredient-fields input,
+.ld-ingredient-fields select,
+.ld-plan-paper input {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid #bdc4af;
+  background: #fffdf8;
+  color: var(--ld-green);
+  padding: 8px;
+  font: inherit;
+  margin-top: 6px;
+  border-radius: 3px;
+}
+.ld-ingredient-fields button {
+  display: grid;
+  place-items: center;
+}
+.ld-uncertainty {
+  font-size: 12px;
+  margin: 12px 0 !important;
+  color: #52614f;
+}
+.ld-ingredients .ld-check {
+  margin: 14px 0 0;
+  font-size: 13px;
+}
+.ld-ingredient-notice {
+  padding: 12px 0;
+  font-size: 13px;
+}
+.ld-grocery-photo {
+  padding: 26px 0;
+  border-bottom: 1px solid #ccd1bd;
+  margin-bottom: 26px;
+}
+.ld-grocery-photo textarea {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #bdc4af;
+  font: inherit;
+  background: #fffdf8;
+  color: var(--ld-green);
+  margin: 10px 0;
+}
+.ld-file input {
+  display: block;
+  max-width: 100%;
+  min-height: 44px;
+  margin: 12px 0;
+}
+.ld-photo-preview {
+  margin: 20px 0;
+  max-width: 450px;
+}
+.ld-photo-preview img {
+  max-height: 350px;
+  max-width: 100%;
+  object-fit: contain;
+}
+.ld-receipt dd {
+  overflow-wrap: anywhere;
+}
+.ld-caption {
+  display: inline-block;
+  background: #faf7ef;
+  padding: 5px 8px;
+  font-size: 12px;
+  color: #17472b;
+}
+.ld-plan-paper input {
+  margin-bottom: 16px;
+}
+.ld-pantry > div > p {
+  font-size: 14px;
+  margin-top: 16px;
+}
+.ld-session,
+.ld-task-top,
+.ld-footer p,
+.ld-basket small,
+.ld-total small {
+  font-size: 12px;
+}
+.ld-proposal {
+  font-size: 12px;
+}
+.ld-side li {
+  font-size: 14px;
+}
+@media (max-width: 650px) {
+  .ld-ingredient-fields {
+    grid-template-columns: 1fr 1fr 44px;
+  }
+  .ld-ingredient-fields label:first-child {
+    grid-column: 1/-1;
+  }
+  .ld-ingredient-fields label:nth-child(2) {
+    grid-column: 1;
+  }
+  .ld-ingredient-fields label:nth-child(3) {
+    grid-column: 2;
+  }
+  .ld-ingredient-fields button {
+    grid-column: 3;
+  }
+  .ld-ingredients fieldset {
+    padding: 14px;
+  }
+  .ld-caption {
+    font-size: 12px !important;
+    max-width: 280px;
+  }
+  .ld-proposal {
+    font-size: 11px;
+  }
+  .ld-side li {
+    font-size: 11px;
+  }
+  .ld-session {
+    font-size: 12px !important;
+  }
+  .ld-check,
+  .ld-next p,
+  .ld-basket small,
+  .ld-total small,
+  .ld-footer p,
+  .ld-task-top,
+  .ld-notes > span,
+  .ld-secondary-actions button {
+    font-size: 12px !important;
+  }
+  .ld-side .ld-text-button {
+    font-size: 12px !important;
+  }
+  .ld-task-top > span:last-child {
+    display: none;
+  }
+  .ld-pantry {
+    grid-template-columns: 1fr;
+  }
+  .ld-plan-paper h3 {
+    font-size: 31px;
+  }
+}

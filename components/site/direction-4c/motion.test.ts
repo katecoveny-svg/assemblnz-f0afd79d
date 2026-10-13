@@ -123,9 +123,9 @@ async function controllerFixture() {
   const button = { setAttribute: vi.fn(), addEventListener: (name: string, fn: () => void) => buttonEvents.set(name, fn), removeEventListener: (name: string) => buttonEvents.delete(name), textContent: '', disabled: false };
   const canvas = { addEventListener: vi.fn(), removeEventListener: vi.fn() };
   const root = { dataset: {} as Record<string, string>, toggleAttribute: vi.fn(), querySelectorAll: () => [], querySelector: (selector: string) => selector === '[data-coastal-video]' ? video : selector === '[data-pause]' ? button : selector.includes('canvasRef') ? canvas : null };
-  const video = { readyState: 2, videoWidth: 1280, paused: true, muted: false, playsInline: false, preload: '', duration: 24, currentTime: 0, seeking: false, src: '', play: vi.fn(async () => { video.paused = false; }), pause: vi.fn(() => { video.paused = true; }), load: vi.fn(), removeAttribute: vi.fn(), addEventListener: (name: string, fn: () => void) => { if (!videoListeners.has(name)) videoListeners.set(name, new Set()); videoListeners.get(name)!.add(fn); videoEvents.set(name, () => [...(videoListeners.get(name) ?? [])].forEach(listener => listener())); }, removeEventListener: (name: string, fn: () => void) => { videoListeners.get(name)?.delete(fn); if (!videoListeners.get(name)?.size) videoEvents.delete(name); } };
+  const video = { canPlayType: () => 'probably', readyState: 2, videoWidth: 1280, paused: true, muted: false, playsInline: false, preload: '', duration: 24, currentTime: 0, seeking: false, src: '', play: vi.fn(async () => { video.paused = false; }), pause: vi.fn(() => { video.paused = true; }), load: vi.fn(), removeAttribute: vi.fn(), addEventListener: (name: string, fn: () => void) => { if (!videoListeners.has(name)) videoListeners.set(name, new Set()); videoListeners.get(name)!.add(fn); videoEvents.set(name, () => [...(videoListeners.get(name) ?? [])].forEach(listener => listener())); }, removeEventListener: (name: string, fn: () => void) => { videoListeners.get(name)?.delete(fn); if (!videoListeners.get(name)?.size) videoEvents.delete(name); } };
   let resolveAttach!: () => void;
-  const world = { ready: new Promise<void>(resolve => { resolveAttach = resolve; }), api: { setKnock: vi.fn(), setArrive: vi.fn() }, setPaused: vi.fn(), dispose: vi.fn() };
+  const world = { ready: new Promise<void>(resolve => { resolveAttach = resolve; }), api: { setKnock: vi.fn(), setArrive: vi.fn(), setLit: vi.fn(), pulse: vi.fn() }, setPaused: vi.fn(), dispose: vi.fn() };
   const attach = vi.fn((_options: { onFail(): void }) => world);
   let cleanup!: () => void;
   const exported: { Direction4cHome?: () => void } = {};
@@ -136,7 +136,7 @@ async function controllerFixture() {
   const pageDocument = { hidden: false, createElement: () => video, querySelector: () => ({ dataset: { loaded: 'true' } }), documentElement: { removeAttribute: vi.fn(), scrollHeight: 1000 }, addEventListener: (name: string, fn: () => void) => documentEvents.set(name, fn), removeEventListener: (name: string) => documentEvents.delete(name) };
   runInNewContext(js, {
     exports: exported, AbortController,
-    require: (name: string) => name === 'react' ? { useRef: () => ({ current: root }), useEffect: (fn: () => () => void) => { cleanup = fn(); } } : name === './video-readiness' ? { playVideoWhenAllowed } : name === 'react/jsx-runtime' ? { jsx: () => null } : {},
+    require: (name: string) => name === 'react' ? { useRef: () => ({ current: root }), useEffect: (fn: () => () => void) => { cleanup = fn(); } } : name === './video-readiness' ? { playVideoWhenAllowed } : name === 'react/jsx-runtime' ? { jsx: () => null, jsxs: () => null } : {},
     document: pageDocument,
     window: { AssemblTide: { attach } }, matchMedia: (query: string) => query.includes('max-width') ? mobile : media, scrollY: 0, innerHeight: 800, performance: { now: () => 0 },
     cancelAnimationFrame: (id: number) => frames.delete(id), requestAnimationFrame: (fn: () => void) => { frames.set(frames.size + 1, fn); return frames.size; },
@@ -221,4 +221,37 @@ it('defers initialization while the page is hidden and resumes on visibility', a
   expect(f.root.dataset.static).toBeUndefined();
   f.pageDocument.hidden = false; f.documentEvents.get('visibilitychange')!(); await f.flush();
   expect(f.root.dataset.videoReady).toBe('true'); f.cleanup();
+});
+
+// Run the shipping reveal helper against a stub DOM: a decode interrupted by cleanup
+// (renderer lost, reduced motion) must leave the real copy, not random letters.
+async function revealFixture() {
+  const { transpileModule, ModuleKind } = await import('typescript');
+  const component = readFileSync('components/site/direction-4c/Direction4cHome.tsx', 'utf8');
+  const snippet = component.slice(component.indexOf('function revealText('), component.indexOf('export function Direction4cHome'));
+  const js = transpileModule(snippet + '\nrevealText;', { compilerOptions: { module: ModuleKind.CommonJS } }).outputText;
+  const kicker = { textContent: 'evidence · why it is built this way', hasAttribute: (name: string) => name === 'data-scramble', querySelectorAll: () => [] };
+  const root = { hasAttribute: () => false, querySelectorAll: (selector: string) => selector === '[data-scramble]' ? [kicker] : [] };
+  const intervals = new Map<number, () => void>();
+  const cleared = new Set<number>();
+  const observers: Array<{ fire(): void }> = [];
+  const context = {
+    IntersectionObserver: class { cb: (entries: unknown[]) => void; constructor(cb: (entries: unknown[]) => void) { this.cb = cb; observers.push({ fire: () => cb([{ isIntersecting: true, target: kicker }]) }); } observe() {} unobserve() {} disconnect() {} },
+    window: { setInterval: (fn: () => void) => { intervals.set(intervals.size + 1, fn); return intervals.size; } },
+    clearInterval: (id: number) => cleared.add(id),
+  };
+  const revealText = runInNewContext(js, context);
+  return { revealText: () => revealText(root) as () => void, kicker, intervals, cleared, fire: () => observers.at(-1)!.fire(), tick: (n: number) => { for (let i = 0; i < n; i++) intervals.get(intervals.size)!(); } };
+}
+it('restores kicker copy when a decode is interrupted and decodes cleanly on restart', async () => {
+  const f = await revealFixture();
+  const original = f.kicker.textContent;
+  const cleanup = f.revealText();
+  f.fire(); f.tick(3);
+  expect(f.kicker.textContent).not.toBe(original);
+  cleanup();
+  expect(f.kicker.textContent).toBe(original);
+  expect(f.cleared.has(1)).toBe(true);
+  f.revealText(); f.fire(); f.tick(16);
+  expect(f.kicker.textContent).toBe(original);
 });

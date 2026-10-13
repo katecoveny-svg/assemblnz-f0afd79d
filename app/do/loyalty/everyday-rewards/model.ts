@@ -49,19 +49,62 @@ export const meals: Meal[] = [
     ],
   },
 ];
+meals.push(
+  {
+    id: "rice-night",
+    name: "Tomato & aubergine rice bowls",
+    baseServings: 4,
+    ingredients: [
+      { id: "tomato", name: "Tomatoes", quantity: { amount: 600, unit: "g" } },
+      {
+        id: "aubergine",
+        name: "Aubergine",
+        quantity: { amount: 2, unit: "each" },
+      },
+      { id: "rice", name: "Rice", quantity: { amount: 400, unit: "g" } },
+      { id: "basil", name: "Basil", quantity: { amount: 1, unit: "each" } },
+    ],
+  },
+  {
+    id: "eggs-toast",
+    name: "Tomato eggs on toast",
+    baseServings: 4,
+    ingredients: [
+      { id: "tomato", name: "Tomatoes", quantity: { amount: 600, unit: "g" } },
+      { id: "egg", name: "Eggs", quantity: { amount: 8, unit: "each" } },
+      {
+        id: "bread",
+        name: "Bread slices",
+        quantity: { amount: 8, unit: "each" },
+      },
+      { id: "basil", name: "Basil", quantity: { amount: 1, unit: "each" } },
+    ],
+  },
+);
 const packs = [
   { id: "tomato", amount: 500, unit: "g", price: 450 },
   { id: "aubergine", amount: 1, unit: "each", price: 350 },
   { id: "pasta", amount: 500, unit: "g", price: 250 },
   { id: "basil", amount: 1, unit: "each", price: 300 },
+  { id: "rice", amount: 1000, unit: "g", price: 400 },
+  { id: "egg", amount: 6, unit: "each", price: 600 },
+  { id: "bread", amount: 20, unit: "each", price: 400 },
 ] as const;
+export const recipeDescriptions: Record<string, string> = {
+  "pasta-night":
+    "Roast tomatoes and aubergine, cook pasta and toss with basil.",
+  "rice-night":
+    "Cook rice and serve with roasted tomato and aubergine, finished with basil.",
+  "eggs-toast":
+    "Cook the eggs and tomatoes thoroughly and serve on toast with basil.",
+};
 export const fixtureTime = "2026-10-13T00:00:00Z";
 const offers: Offer[] = packs.map((p) => ({
   id: p.id,
   ingredientId: p.id,
   merchant: "Fictional demonstration store",
   seller: "Synthetic fixture",
-  product: pantryTemplate.find((i) => i.id === p.id)!.name,
+  product: p.id,
   variant: "Demo pack",
   store: "No real store",
   observedAt: fixtureTime,
@@ -75,7 +118,11 @@ const offers: Offer[] = packs.map((p) => ({
   variableWeight: false,
   allergens: {
     status: "reviewed",
-    contains: p.id === "pasta" ? ["wheat"] : [],
+    contains: ["pasta", "bread"].includes(p.id)
+      ? ["wheat"]
+      : p.id === "egg"
+        ? ["egg"]
+        : [],
     mayContain: [],
   },
 }));
@@ -84,11 +131,12 @@ export function planShop(
   servings: number,
   reviewed: boolean,
   budget = 4000,
+  mealId = "pasta-night",
 ) {
   return prepareShop(
     {
       mission: "occasion",
-      choices: [{ mealId: "pasta-night", servings, occurrences: 1 }],
+      choices: [{ mealId, servings, occurrences: 1 }],
       pantry,
       pantryReviewed: reviewed,
       excludedAllergens: [],

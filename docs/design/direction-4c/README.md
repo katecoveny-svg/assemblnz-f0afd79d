@@ -14,26 +14,15 @@ This is an intentionally homepage-specific composition. It reuses the supplied e
 
 ## Deliberate differences requiring review
 
-- Simulated DO execution, microphone/file handlers and fake receipts are replaced by a glass entry card linking to existing `/do?tool=write`, `/do?tool=talk`, and `/do` routes. The established DO menu/voice implementation is unchanged. The existing site-wide Ask DO launcher remains.
-- Product links use `/pursuit`, `/creative-studio`, `/do`; contact/install links remain on the current origin. No private `/studio` link is introduced.
-- Mobile primary navigation remains visible in a second row; the reference hides it below 900px. Hardcoded accent-word widths/heights are removed to avoid clipped phone text.
-- Reduced motion uses a static plum composition and visible useful-work message; no video or WebGL engine is started. The supplied reference still runs a rendering loop and scrubs video when scrolling.
-- Review-only theme/clip replacement controls are omitted.
-- Original CSS is scoped to this homepage, keyframes are namespaced, Next font variables are used, and headings explicitly retain white against plum despite global site heading rules.
-- The reference's word-by-word blur and randomized text decoding are omitted; the supplied engine's section reveal/parallax and birds remain.
+Revised 13 October 2026 after user review of the first implementation (Claude Code session):
 
-## Copy review — do not treat as verified product claims
-
-The original reference remains the record of requested wording. Pending product/legal review, these implementation strings are safer provisional copy:
-
-| Original | Review concern | Implementation |
-| --- | --- | --- |
-| Every receipt is sealed. | No universal tamper-evident receipt guarantee established. | Keep a record of the work; evidence/receipt coverage varies by tool. |
-| Indirect collection must be notified; Privacy Act IPP 3A | Absolute legal shorthand with no exceptions/context verified. | Make information use clear; explicit design principle, no legal claim. |
-| Nothing sends without a named person / nothing leaves without your yes | Universal approval claim not established across every integration. | Review consequential actions; approval at the action boundary. |
-| Every email, booking and post is a draft… | Unsupported universal behavior; the design demo cannot prove real actions. | Tool-specific permissions/review and availability caveat. |
-
-The exact supplied hero wording (“agentic AI…”) and lilac/rose accents are preserved under the explicit design request, rather than silently rewritten to the general copy/brand preferences. This review does not promote the design into company-wide canon.
+- **Try DO is restored** as the design's interactive, explicitly simulated job (`TryDo.tsx`): Write/Talk/Add, example jobs, More and Customise, six-step progress, Approve / Not now, receipt and the engine light/pulse. Every simulated surface keeps its label ("try DO · simulated", "voice is simulated on this page", "simulated · nothing is uploaded on this page", "Try a fictional example", "· simulated" on the receipt action). Nothing is read, uploaded, sent or stored. "Open the full DO" goes to the real `/do?tool=write`; DO has no prefill parameter, so the typed job is not carried across.
+- **Word-by-word headline reveals and mono kicker decoding are restored** (skipped under reduced motion).
+- **Copy follows the design**, by user decision, with one change: "Every receipt is sealed." is now "Every job leaves a receipt." The hero line, evidence list and footer note use the design wording.
+- **Footage failure no longer drops the page to static.** Only a lost WebGL renderer does; the flock keeps flying without the plate. A VP9 `bay-of-islands.webm` (same 8-frame keyframe spacing for scrubbing) serves browsers without H.264.
+- Paused or reduced motion no longer freezes entrance fades at opacity 0.
+- A stray absolutely positioned glow (DOM residue at `top:-708px`) after Contact is removed.
+- Retained from the first pass: product links to `/pursuit`, `/creative-studio`, `/do`; mobile primary navigation in a second row; scoped CSS and Next font variables; legal links in the footer; review-only theme/clip controls omitted.
 
 ## Verification
 

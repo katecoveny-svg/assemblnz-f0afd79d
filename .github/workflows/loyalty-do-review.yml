@@ -32,8 +32,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @assembl/canvas build
       - run: pnpm typecheck
-      - run: pnpm exec eslint app/do/loyalty/everyday-rewards app/do/DoUtilityDock.tsx --max-warnings=0
-      - run: pnpm exec vitest run app/do/loyalty/everyday-rewards/model.test.ts lib/do/shop/preparation.test.ts
+      - run: pnpm exec eslint app/do/loyalty/everyday-rewards app/do/DoUtilityDock.tsx app/do/DoGeminiLive.tsx --max-warnings=0
+      - run: pnpm exec vitest run app/do/loyalty/everyday-rewards lib/do/shop/preparation.test.ts
       - run: pnpm lint:macrons
       - run: pnpm build
       - run: npm install --prefix /tmp/loyalty-review playwright
