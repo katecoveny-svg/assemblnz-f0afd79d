@@ -2,7 +2,7 @@
 
 import { useNativeReview } from '@/apps/do/shared/use-native-review';
 import { DO_TEXT_PROVIDER_CONSENT_VERSION } from '@/apps/do/shared/provider-consent';
-import { readWritingOwner, useWritingOwner } from '@/apps/do/shared/use-writing-owner';
+import { readWritingOwner, useWritingOwner, WRITING_OWNER_CHANGED_EVENT } from '@/apps/do/shared/use-writing-owner';
 import { DoShareButton } from '@/components/do/DoShareButton';
 import { DoMark } from './DoAppearance';
 
@@ -13,7 +13,7 @@ const subscribeLocation = () => () => {};
 const currentSearch = () => window.location.search;
 import { ArrowUpRight, Check, Copy, Download, LoaderCircle, Trash2 } from 'lucide-react';
 import { cleanSourceUrl, DO_BRIEF_LIMIT, DO_SOURCE_LIMIT, DO_TASKS, draftAsMarkdown, type DoAvailability, type DoPreparedDraft, type DoTask } from '@/apps/do/shared/preparation';
-import { changeLocalDrafts, DO_DRAFTS_KEY, editDoDraft, readLocalDrafts, removeLocalDraft, saveLocalDraft, type SavedDoDraft } from '@/apps/do/shared/local-drafts';
+import { changeLocalDrafts, DO_DRAFTS_KEY, LocalDraftOwnerChangedError, editDoDraft, readLocalDrafts, removeLocalDraft, saveLocalDraft, type SavedDoDraft } from '@/apps/do/shared/local-drafts';
 
 const EXAMPLES = [
   { title: 'Message · sample', text: 'Example message: Hi, could you send the updated outline before our meeting on Thursday? We need to agree who is doing each part and confirm whether the timeline still works. Please suggest a time to review the open questions.' },
@@ -225,7 +225,15 @@ function WritingEditor({ initialBrief = '', initialTask = 'reply', embedded = fa
       const next = await changeLocalDrafts(storageOwner, () => readWritingOwner(AbortSignal.timeout(10_000)), () => storageAllowed.current, () => change(storageOwner));
       if (!storageAllowed.current) return;
       setSaved(next); setError(''); setNotice('Browser copy updated for this account. It is not synced to other devices.');
-    } catch (cause) { if (storageAllowed.current) setError(cause instanceof Error ? cause.message : 'Browser storage could not be updated. Existing copies are unchanged.'); }
+    } catch (cause) {
+      if (!storageAllowed.current) return;
+      if (cause instanceof LocalDraftOwnerChangedError) {
+        storageAllowed.current = false;
+        // A mutation discovered a verified account change without a lifecycle notification.
+        // Revoke the old view immediately; no old draft is written into the new account.
+        window.dispatchEvent(new Event(WRITING_OWNER_CHANGED_EVENT));
+      } else setError(cause instanceof Error ? cause.message : 'Browser storage could not be updated. Existing copies are unchanged.');
+    }
     finally { storageBusy.current = false; }
   }
 

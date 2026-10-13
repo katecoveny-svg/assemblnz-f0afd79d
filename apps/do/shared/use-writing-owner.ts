@@ -5,6 +5,7 @@ import { shouldRevalidatePersonalOwner } from '@/apps/do/personal/session';
 import { createClient } from '@/lib/supabase/client';
 import { z } from 'zod';
 
+export const WRITING_OWNER_CHANGED_EVENT = 'assembl:do-writing-owner-changed';
 const identity = z.object({ workspaceKey: z.union([z.literal('guest'), z.string().uuid()]) });
 export async function readWritingOwner(signal?: AbortSignal): Promise<string> {
   const response = await fetch('/api/do/session', { cache: 'no-store', credentials: 'same-origin', signal });
@@ -48,6 +49,7 @@ export function useWritingOwner(enabled: boolean) {
     const events = ['pageshow', 'online', 'assembl:do-writing-retry'] as const;
     events.forEach(event => window.addEventListener(event, refresh));
     window.addEventListener('storage', storage);
+    window.addEventListener(WRITING_OWNER_CHANGED_EVENT, invalidate);
     let unsubscribe = () => {};
     try {
       const { data } = createClient().auth.onAuthStateChange((event, session) => {
@@ -56,7 +58,7 @@ export function useWritingOwner(enabled: boolean) {
       });
       unsubscribe = () => data.subscription.unsubscribe();
     } catch { /* Cookie verification remains required even without client auth configuration. */ }
-    return () => { active = false; generation++; request?.abort(); unsubscribe(); events.forEach(event => window.removeEventListener(event, refresh)); window.removeEventListener('storage', storage); window.removeEventListener('focus', focus); document.removeEventListener('visibilitychange', visible); };
+    return () => { active = false; generation++; request?.abort(); unsubscribe(); events.forEach(event => window.removeEventListener(event, refresh)); window.removeEventListener('storage', storage); window.removeEventListener(WRITING_OWNER_CHANGED_EVENT, invalidate); window.removeEventListener('focus', focus); document.removeEventListener('visibilitychange', visible); };
   }, [enabled]);
   return state;
 }

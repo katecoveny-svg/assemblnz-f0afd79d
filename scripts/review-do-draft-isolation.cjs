@@ -14,7 +14,7 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
   fs.mkdirSync(out, { recursive: true }); fs.rmSync(out + '/results.json', { force: true });
   const browser = await chromium.launch({ executablePath: process.env.ASSEMBL_CHROMIUM_PATH, headless: true });
   try {
-    const context = await browser.newContext({ viewport: { width: 375, height: 812 } });
+    const context = await browser.newContext({ viewport: { width: 375, height: 812 }, serviceWorkers: 'block' });
     let owner = A, unavailable = false;
     const errors = [], mutations = [];
     await context.route('**/api/do/**', async route => {
@@ -34,6 +34,21 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
     await page.getByRole('button', { name: /Fixture 1 Reviewed draft/ }).click();
     check('populated reviewed draft reopens for A', await page.locator('#do-result').inputValue() === fixture.draft.text && await page.locator('#do-reviewer').inputValue() === 'Fixture A');
     await page.screenshot({ path: out + '/owner-a-375.png', fullPage: true, animations: 'disabled' });
+    const originalA = await page.evaluate(({ key, A }) => localStorage.getItem(key + ':' + A), { key, A });
+    await page.locator('#do-result').fill('Unsaved A edit retained on network failure');
+    unavailable = true;
+    await page.getByRole('button', { name: 'Save in this browser', exact: true }).evaluate(button => button.click());
+    await page.getByRole('alert').filter({ hasText: 'Reconnect to verify' }).waitFor();
+    check('save verification network failure preserves visible unsaved work and saved storage', await page.locator('#do-result').isVisible() && await page.locator('#do-result').inputValue() === 'Unsaved A edit retained on network failure' && await page.evaluate(({ key, A, originalA }) => localStorage.getItem(key + ':' + A) === originalA, { key, A, originalA }));
+    unavailable = false; owner = B;
+    // Programmatic click avoids focus/auth/storage notifications: Save alone learns the new owner.
+    await page.getByRole('button', { name: 'Save in this browser', exact: true }).evaluate(button => button.click());
+    try { await page.waitForFunction(() => document.querySelector('#do-source')?.value === '' && !document.querySelector('#do-result'), null, { timeout: 5000 }); }
+    catch (error) { console.error('Mutation identity fixture state', await page.evaluate(() => ({ text: document.querySelector('#do-result')?.value, body: document.body.innerText }))); throw error; }
+    check('Save discovering B without lifecycle events revokes A content and preserves A storage', await page.evaluate(({ key, A, B, originalA }) => localStorage.getItem(key + ':' + A) === originalA && localStorage.getItem(key + ':' + B) === null, { key, A, B, originalA }));
+    owner = A; await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+    await page.getByRole('button', { name: /Fixture 1 Reviewed draft/ }).click();
+
     owner = B; await page.evaluate(() => window.dispatchEvent(new Event('focus')));
     await page.waitForFunction(() => document.querySelector('#do-source')?.value === '');
     check('account switch removes populated draft and source from editor', await page.locator('#do-result').count() === 0 && !await page.getByText('Fixture 1', { exact: true }).count());

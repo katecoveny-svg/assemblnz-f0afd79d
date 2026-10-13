@@ -57,11 +57,18 @@ export function removeLocalDraft(storage: LocalStorage, id: string, owner: strin
   return next;
 }
 
+/** A verified different owner is distinct from transport failure or a cancelled editor. */
+export class LocalDraftOwnerChangedError extends Error {
+  constructor() { super('The account changed. Reopen your own workspace before saving.'); this.name = 'LocalDraftOwnerChangedError'; }
+}
+
 /** Serialize read/modify/write across same-origin tabs; unsupported browsers fail without a write. */
 export async function changeLocalDrafts<T>(owner: string, verify: () => Promise<string>, current: () => boolean, change: () => T): Promise<T> {
   if (!navigator.locks) throw new Error('Safe browser saving is unavailable. Download a copy instead.');
   return navigator.locks.request(localDraftsKey(owner), async () => {
-    if (await verify() !== owner || !current()) throw new Error('The account changed. Reopen your own workspace before saving.');
+    const verified = await verify();
+    if (!current()) throw new Error('The account changed. Reopen your own workspace before saving.');
+    if (verified !== owner) throw new LocalDraftOwnerChangedError();
     return change();
   });
 }

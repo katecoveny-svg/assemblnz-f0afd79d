@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { changeLocalDrafts } from './local-drafts';
+import { changeLocalDrafts, LocalDraftOwnerChangedError } from './local-drafts';
 const owner = '11111111-1111-4111-8111-111111111111';
 afterEach(() => { vi.unstubAllGlobals(); });
 function locks() {
@@ -16,13 +16,14 @@ describe('browser draft transaction boundary', () => {
   });
   it('does not write when queued identity or editor lifetime changes', async () => {
     locks(); const change = vi.fn();
-    await expect(changeLocalDrafts(owner, async () => 'guest', () => true, change)).rejects.toThrow('account changed');
+    await expect(changeLocalDrafts(owner, async () => 'guest', () => true, change)).rejects.toBeInstanceOf(LocalDraftOwnerChangedError);
     await expect(changeLocalDrafts(owner, async () => owner, () => false, change)).rejects.toThrow('account changed');
     expect(change).not.toHaveBeenCalled();
   });
   it('fails without writing when verification or cross-tab locking is unavailable', async () => {
     locks(); const change = vi.fn();
-    await expect(changeLocalDrafts(owner, async () => { throw Error('offline'); }, () => true, change)).rejects.toThrow('offline');
+    const offline = new Error('offline');
+    await expect(changeLocalDrafts(owner, async () => { throw offline; }, () => true, change)).rejects.toBe(offline);
     vi.stubGlobal('navigator', {});
     await expect(changeLocalDrafts(owner, async () => owner, () => true, change)).rejects.toThrow('unavailable');
     expect(change).not.toHaveBeenCalled();
