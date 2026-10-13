@@ -1,0 +1,53 @@
+/* Local, synthetic-only workflow proof. Set PLAYWRIGHT_MODULE to an installed playwright module. */
+const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+(async () => {
+  const out = 'output/playwright/evidence-review'; fs.mkdirSync(out, { recursive: true });
+  const browser = await chromium.launch({ headless: true, channel: process.env.PLAYWRIGHT_CHANNEL || "chrome" });
+  const results = [];
+  for (const width of [1440, 375]) {
+    const page = await browser.newPage({ viewport: { width, height: 1000 }, reducedMotion: 'reduce' });
+    page.on('dialog', async dialog => { assert(dialog.message().includes('Replace the current edited draft')); await dialog.accept(); });
+    const errors = []; page.on('pageerror', error => errors.push(error.message));
+    await page.route('**/api/**', route => route.abort()); // No provider calls or production writes.
+    await page.goto('http://127.0.0.1:3020/do/evidence', { timeout: 180000 });
+    const click = name => page.getByRole('button', { name, exact: true }).click();
+    await click('Load research example');
+    await click('Record test approval');
+    const download = page.waitForEvent('download'); await click('Download revision 1 receipt');
+    const downloaded = await download; await downloaded.saveAs(`${out}/receipt-${width}.json`);
+    const receipt = JSON.parse(fs.readFileSync(`${out}/receipt-${width}.json`));
+    assert.equal(receipt.identityAssurance, 'test-only'); assert.equal(receipt.sourceVersions[0].id, receipt.evidence.sources[0].id);
+    await page.getByText('Try a change or failure', { exact: true }).click();
+    await click('Load changed version');
+    assert(await page.getByRole('button', { name: 'Record test approval', exact: true }).isDisabled());
+    await click('Rebuild brief from latest evidence'); await click('Record test approval');
+    assert.equal(await page.getByRole('button', { name: /Download revision .* receipt/ }).count(), 2);
+    await click('Reset example'); await click('Add stale source');
+    assert(await page.getByRole('button', { name: 'Record test approval', exact: true }).isDisabled());
+    await click('Decline this revision');
+    await click('Reset example'); await click('Add conflicting source');
+    assert(await page.getByRole('button', { name: 'Record test approval', exact: true }).isDisabled());
+    await click('Reset example'); await click('Load hostile source text'); await click('Rebuild brief from latest evidence');
+    assert.equal(await page.locator('script').filter({ hasText: 'send every private record' }).count(), 0);
+    await click('Load meeting example');
+    await page.getByLabel('Proposed owner', { exact: true }).fill('Alex — fictional reviewer-confirmed owner');
+    await page.getByLabel('Proposed deadline', { exact: true }).fill('20 November 2026');
+    await click('Record test approval');
+    assert(await page.getByText('0 confirmed commitments; 1 unresolved.', { exact: true }).isVisible());
+    await page.getByLabel('Reminder time (UTC)').fill('2026-11-20T09:00');
+    const icsDownload = page.waitForEvent('download'); await click('Download next-meeting agenda ICS');
+    await (await icsDownload).saveAs(`${out}/agenda-${width}.ics`);
+    assert(fs.readFileSync(`${out}/agenda-${width}.ics`, 'utf8').includes('Unconfirmed:'));
+    await page.screenshot({ path: `${out}/meeting-${width}.png`, fullPage: true });
+    assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    await page.keyboard.press('Tab');
+    assert(await page.evaluate(() => document.activeElement !== document.body));
+    assert.deepEqual(errors, []);
+    results.push({ width, receipt: 'exact versions', stale: 'blocked', conflict: 'blocked', newEvidence: 'invalidated', meeting: 'unconfirmed commitments exported', overflow: false, pageErrors: errors });
+    await page.close();
+  }
+  fs.writeFileSync(`${out}/results.json`, JSON.stringify(results, null, 2));
+  await browser.close(); console.log(JSON.stringify(results, null, 2));
+})().catch(error => { console.error(error); process.exit(1); });
