@@ -47,9 +47,10 @@ export function dateIn(text: string, today: Date): string | null {
   if (m) return iso(nearYear(today, MONTHS.indexOf(m[1]) + 1, Number(m[2])), MONTHS.indexOf(m[1]) + 1, Number(m[2]));
   if (/\btoday\b|\btonight\b/.test(lower)) return key(today);
   if (/\btomorrow\b/.test(lower)) return key(addDays(today, 1));
-  m = lower.match(/\b(?:(this|next)\s+)?(sun|mon|tue|wed|thu|fri|sat)[a-z]*\b/);
+  // Whole weekday names and their usual short forms only: "monthly", "wedding" and "sunset" are not dates.
+  m = lower.match(/\b(?:(this|next)\s+)?(sun(?:day)?|mon(?:day)?|tue(?:s|sday)?|wed(?:s|nesday)?|thu(?:r|rs|rsday)?|fri(?:day)?|sat(?:urday)?)\b/);
   if (m) {
-    const target = DAYS.indexOf(m[2]);
+    const target = DAYS.indexOf(m[2].slice(0, 3));
     const ahead = (target - today.getUTCDay() + 7) % 7;
     // "Friday" on a Friday is today; "next Friday" on a Friday is a week away.
     return key(addDays(today, m[1] === "next" && ahead === 0 ? 7 : ahead));
@@ -62,11 +63,12 @@ function iso(y: number, m: number, d: number) {
   const date = new Date(Date.UTC(y, m - 1, d));
   return date.getUTCMonth() === m - 1 ? key(date) : null;
 }
-/** A day/month without a year means the nearest upcoming one (allowing a week of lateness). */
+/** A day/month without a year means the nearest one not more than a week in the past, so late December read in early January is still the overdue one. */
 function nearYear(today: Date, month: number, day: number) {
   const year = today.getUTCFullYear();
-  const candidate = new Date(Date.UTC(year, month - 1, day));
-  return candidate.getTime() < today.getTime() - 7 * 864e5 ? year + 1 : year;
+  const floor = today.getTime() - 7 * 864e5;
+  for (const y of [year - 1, year, year + 1]) if (Date.UTC(y, month - 1, day) >= floor) return y;
+  return year + 1;
 }
 
 export function worksheetItems(notes: string, today: Date): Item[] {

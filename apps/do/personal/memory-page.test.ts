@@ -33,8 +33,10 @@ describe('memory page helpers', () => {
   });
   it('observed day never lands in the future and tolerates bad input', () => {
     const clock = new Date('2026-10-13T09:00:00.000Z');
-    expect(toObservedAt('2026-10-10', clock)).toBe('2026-10-10T23:59:59.000Z');
-    expect(toObservedAt('2026-10-13', clock)).toBe(clock.toISOString());
+    expect(toObservedAt('2026-10-10', clock)).toBe('2026-10-10T00:00:00.000Z');
+    expect(new Intl.DateTimeFormat('en-NZ', { day: 'numeric', month: 'short', timeZone: 'Pacific/Auckland' }).format(new Date(toObservedAt('2026-10-10', clock)))).toBe('10 Oct');
+    expect(toObservedAt('2026-10-13', clock)).toBe('2026-10-13T00:00:00.000Z');
+    expect(toObservedAt('2026-10-14', clock)).toBe(clock.toISOString());
     expect(toObservedAt('not a day', clock)).toBe(clock.toISOString());
   });
   it('sorts active notes first, newest first, and counts remaining days', () => {

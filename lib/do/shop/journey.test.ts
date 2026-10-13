@@ -18,6 +18,9 @@ describe('shop brief parsing', () => {
     expect(brief.unrecognised).toEqual(['Kids hate mushrooms']);
     expect(parseShopBrief('feed 40 people for 9 nights').servings).toBe(12);
     expect(parseShopBrief('feed 40 people for 9 nights').nights).toBe(7);
+    expect(parseShopBrief('dinners for 10 nights').nights).toBe(7);
+    expect(parseShopBrief('we have coconut milk and peanut butter').excludedAllergens).toEqual([]);
+    expect(parseShopBrief('one of us has a nut allergy').excludedAllergens).toEqual(['nuts']);
   });
   it('never invents a pantry item from an unknown word', () => {
     expect(parseShopBrief('we have truffles and caviar').pantryHints).toEqual([]);

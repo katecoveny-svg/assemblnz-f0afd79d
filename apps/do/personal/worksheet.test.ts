@@ -33,6 +33,17 @@ describe("dateIn", () => {
     expect(dateIn("Version 31/13 shipped", today)).toBeNull();
     expect(dateIn("Buy milk", today)).toBeNull();
   });
+  it("does not read ordinary words as weekdays", () => {
+    for (const text of ["Pay the monthly bill", "Plan the wedding", "Walk at sunset", "Move money", "Thursdays are busy"]) expect(dateIn(text, today)).toBeNull();
+    expect(dateIn("Standup Tues", today)).toBe("2026-10-13");
+    expect(dateIn("Gym Thurs", today)).toBe("2026-10-15");
+  });
+  it("keeps a late-December day/month in the year that just ended when read in early January", () => {
+    const january = new Date("2027-01-03T09:00:00Z");
+    expect(dateIn("Return the hire gear 30/12", january)).toBe("2026-12-30");
+    expect(dateIn("Bach booked 28 Dec", january)).toBe("2026-12-28");
+    expect(dateIn("Rates due 20 Dec", january)).toBe("2027-12-20");
+  });
 });
 
 describe("worksheetItems", () => {
