@@ -9,12 +9,14 @@ const timing = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('timed'), range: windowSchema }).strict(),
   z.object({ kind: z.literal('all-day'), startDate: localDateSchema, endDateExclusive: localDateSchema }).strict().refine(x => x.endDateExclusive > x.startDate),
 ]);
+const calendarEventSchema = z.object({ id: z.string().min(1).max(512), etag: z.string().min(1).max(512), title: z.string().min(1).max(240),
+  sourceUrl: z.string().refine(x => Boolean(safeSchoolLink(x))), timing, status: z.enum(['confirmed', 'cancelled']) }).strict();
+type CalendarEvent = z.infer<typeof calendarEventSchema>;
 export const agendaCalendarSchema = z.object({
   ownerId: z.string().min(1), connectionId: z.string().min(1), connectionRevision: z.number().int().positive(),
   calendarId: z.string().min(1).max(512), timezone: z.literal('Pacific/Auckland'),
   observedAt: zoned, range: windowSchema, complete: z.boolean(),
-  events: z.array(z.object({ id: z.string().min(1).max(512), etag: z.string().min(1).max(512), title: z.string().min(1).max(240),
-    sourceUrl: z.string().refine(x => Boolean(safeSchoolLink(x))), timing, status: z.enum(['confirmed', 'cancelled']) }).strict()).max(50),
+  events: z.array(calendarEventSchema).max(50),
 }).strict().superRefine((x, ctx) => { if (new Set(x.events.map(e => e.id)).size !== x.events.length) ctx.addIssue({ code: 'custom', message: 'Duplicate calendar event identity' });
   if (x.events.some(e => !overlaps(eventRange(e), x.range))) ctx.addIssue({ code: 'custom', message: 'Calendar event outside observed range' });
 });
@@ -32,7 +34,7 @@ export function calendarReadInput(calendarId: string, range: Window) {
   if (!checked.ok) throw new Error('Calendar read scope invalid');
   return checked.data;
 }
-function eventRange(event: AgendaCalendar['events'][number]): Window {
+function eventRange(event: CalendarEvent): Window {
   return event.timing.kind === 'timed' ? event.timing.range : { start: aucklandInstant(event.timing.startDate, '00:00')!, end: aucklandInstant(event.timing.endDateExclusive, '00:00')! };
 }
 const overlaps = (a: Window, b: Window) => Date.parse(a.start) < Date.parse(b.end) && Date.parse(b.start) < Date.parse(a.end);
