@@ -35,8 +35,11 @@ export function DoWidgetPrivacyBoundary({ initialTask }: { initialTask: DoTask }
       generation++; request?.abort(); verified = null;
       setScope(null); setError(false); void revalidate();
     };
-    const focus = () => { void revalidate(); };
+    // Focusing the embedded editor is not an account transition; hiding it here steals keystrokes.
+    const focus = () => { if (window === window.top) void revalidate(); };
     void revalidate();
+    const retry = () => { void revalidate(); };
+    window.addEventListener('assembl:do-widget-owner-retry', retry);
     window.addEventListener('focus', focus);
     window.addEventListener(WRITING_OWNER_CHANGED_EVENT, invalidate);
     let unsubscribe: (() => void) | undefined;
@@ -48,8 +51,8 @@ export function DoWidgetPrivacyBoundary({ initialTask }: { initialTask: DoTask }
       });
       unsubscribe = () => subscription.data.subscription.unsubscribe();
     } catch { /* Existing local guest contract still verifies through the server. */ }
-    return () => { mounted = false; generation++; request?.abort(); unsubscribe?.(); window.removeEventListener('focus', focus); window.removeEventListener(WRITING_OWNER_CHANGED_EVENT, invalidate); };
+    return () => { mounted = false; generation++; request?.abort(); unsubscribe?.(); window.removeEventListener('focus', focus); window.removeEventListener('assembl:do-widget-owner-retry', retry); window.removeEventListener(WRITING_OWNER_CHANGED_EVENT, invalidate); };
   }, []);
-  if (!scope) return <div role="status">{error ? <>DO could not verify this workspace. <button onClick={() => window.dispatchEvent(new Event('focus'))}>Retry workspace</button></> : 'Checking this workspace…'}</div>;
+  if (!scope) return <div role="status">{error ? <>DO could not verify this workspace. <button onClick={() => window.dispatchEvent(new Event('assembl:do-widget-owner-retry'))}>Retry workspace</button></> : 'Checking this workspace…'}</div>;
   return <><div hidden={checking} inert={checking}><DoFocusWorkspace key={scope} initialTask={initialTask} expectedWorkspace={checking ? undefined : scope} /></div>{checking && <div role="status">Checking this workspace…</div>}</>;
 }

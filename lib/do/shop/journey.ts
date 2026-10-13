@@ -10,7 +10,7 @@ export type ShopBrief = {
   pantryHints: { id: string; name: string }[];
   unrecognised: string[];
 };
-const ALLERGEN_WORDS: Record<string, string[]> = { gluten: ['gluten', 'gluten-free', 'gluten free', 'coeliac', 'celiac'], milk: ['dairy', 'dairy-free', 'dairy free', 'lactose'], egg: ['egg-free', 'egg free', 'no eggs', 'no egg'], fish: ['no fish', 'fish-free'], soy: ['no soy', 'soy-free', 'soy free'], nuts: ['no nuts', 'no nut', 'nut-free', 'nut free', 'nut allerg', 'allergic to nuts', 'no peanuts', 'peanut allerg', 'peanut-free', 'peanut free'] };
+const ALLERGEN_WORDS: Record<string, string[]> = { gluten: ['no wheat', 'wheat-free', 'wheat free', 'gluten', 'gluten-free', 'gluten free', 'coeliac', 'celiac'], milk: ['no milk', 'milk-free', 'milk free', 'dairy', 'dairy-free', 'dairy free', 'lactose'], egg: ['egg-free', 'egg free', 'no eggs', 'no egg'], fish: ['no fish', 'fish-free'], soy: ['no soy', 'soy-free', 'soy free'], nuts: ['no nuts', 'no nut', 'nut-free', 'nut free', 'nut allerg', 'allergic to nuts', 'no peanuts', 'peanut allerg', 'peanut-free', 'peanut free'] };
 export function parseShopBrief(text: string): ShopBrief {
   const source = text.replace(/\s+/g, ' ').trim();
   const lower = source.toLowerCase();
@@ -35,8 +35,9 @@ export function parseShopBrief(text: string): ShopBrief {
   }
   const unrecognised = source.split(/[.;]\s*/).map(part => part.trim()).filter(part => part && !/(for|feed)\s+\d|\d\s*(people|adults|nights?|dinners?|days?)|\$|dollars|budget|vegetarian|veggie|have|got|week|gluten|dairy|nut|egg|fish|soy/i.test(part));
   // Retain every dietary clause for review, including clauses attached to recognised counts.
-  const dietaryReviewRequired = /allerg|intoleran|sesame|shellfish|celery|mustard|sulphite|lupin|halal|kosher|low.sodium|diabet|keto/i.test(source);
-  if (dietaryReviewRequired) unrecognised.push('Dietary requirements need manual review; this catalogue cannot verify allergy safety.');
+  const dietaryRemainder = Object.values(ALLERGEN_WORDS).flat().sort((a, b) => b.length - a.length).reduce((remaining, phrase) => remaining.split(phrase).join(' '), lower).replace(/\bno meat\b|\bmeat-free\b/g, ' ');
+  const dietaryReviewRequired = /\b(?:no|without|avoid|exclude)\s+[a-z]|\b[a-z]+[- ]free\b/.test(dietaryRemainder) || /allerg|intoleran|sesame|shellfish|celery|mustard|sulphite|lupin|halal|kosher|low.sodium|diabet|keto/i.test(source);
+  if (dietaryReviewRequired) unrecognised.push(`Dietary requirements need manual review; this catalogue cannot verify allergy safety. Review the full brief: ${source}`);
   return { servings, nights, budget, vegetarian, dietaryReviewRequired, vegan: /\bvegan\b/.test(lower), excludedAllergens, pantryHints, unrecognised };
 }
 
