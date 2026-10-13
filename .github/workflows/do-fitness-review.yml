@@ -1,0 +1,46 @@
+name: DO Fitness bounded review
+on:
+  push:
+    branches: ['codex/do-fitness-bounded']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: do-fitness-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      NODE_OPTIONS: --max-old-space-size=6144
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: {version: 9.15.9, run_install: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @assembl/canvas build
+      - run: pnpm typecheck
+      - run: pnpm exec vitest run lib/do/fitness lib/health/strong lib/do/shop apps/do/shared/office.test.ts --maxWorkers=2
+      - run: pnpm exec eslint app/do/fitness lib/do/fitness lib/health/strong/engine.ts lib/health/strong/catalogue.ts components/health/StrongDashboard.tsx app/do/DoUtilityDock.tsx middleware.ts
+      - run: pnpm build
+      - run: pip install playwright==1.55.0 && playwright install --with-deps chromium
+      - name: Review desktop and 375px with no external effects
+        run: |
+          pnpm start >/tmp/do-fitness-server.log 2>&1 &
+          server=$!
+          trap 'kill "$server" || true' EXIT
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:3000/do/fitness >/dev/null && break; sleep 2; done
+          python scripts/review-do-fitness.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: do-fitness-review
+          path: |
+            output/playwright/do-fitness/
+            /tmp/do-fitness-server.log
+          retention-days: 14

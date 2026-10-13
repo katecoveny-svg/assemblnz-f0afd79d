@@ -223,6 +223,10 @@ Extends the existing `do_personal_profiles.voice_name` preference and constraine
 
 `apps/do/browser/` creates a bounded cart contract and deterministic fixture DOM executor; reuses verified DO ownership and the review/permit/verify lifecycle. `/api/do/browser-actions` is authenticated and fails closed; `capability.ts` supplies one unavailable projection for surface owners and generated companion copy. Atomic durable authority storage/pairing is an unbound port, not an in-memory production substitute. Woolworths execution is explicitly rejected until separate reviewed activation and retailer validation. See [browser cart foundation](../do-action-cloud/BROWSER-CART-FOUNDATION.md) for scope, tests and the staged/applied/deployed ledger.
 
+### DO Fitness reviewed synthetic handoff (draft)
+
+**Uses/extends:** Strong sample catalogue and engine, Shop quantity consolidation, portable AgentSpec and Office projection. `lib/do/fitness/contracts.ts` bounds chief→Fitness requests and rebuilds reviewed food-only Shop payloads with revision checks, whole-selection food constraints and explicit unsupported-unit blocking. `/do/fitness` is in-memory synthetic adult proof, not authenticated health storage or autonomous execution. Equipment/location and failed-swap donor safety fixes are shared. Tests and release gates: `docs/do-fitness/REVIEW.md`.
+
 ### Reviewed voice → Shopper DO (14 October draft)
 
 Extends `DoGeminiLive` reviewed output and the existing `ShopJourney`; `lib/do/shop/voice-handoff.ts` bounds a page-owned brief without URLs, browser storage or carried consent. Personal DO and the hosted widget preserve the mounted planner across internal back/return and clear it at their existing owner boundary. `apps/do/shared/audio-exclusion.ts` coordinates read-aloud and live-call output on one page; it never starts audio. See `docs/reviews/SHOPPER-VOICE-20261014.md` for synthetic evidence and DB/Vercel/persistence/listening release gates. Real cart execution and durable editable plans are not provided.
