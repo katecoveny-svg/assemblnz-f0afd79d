@@ -83,7 +83,7 @@ async def journey(page,width):
     await page.get_by_role('button',name='Try the concept',exact=True).click()
     await expect(page.get_by_title('Client demonstrator')).to_be_visible()
     await page.get_by_role('button',name='Prepare the pitch',exact=True).click()
-    await expect(page.get_by_text('FICTIONAL useful manual concept',exact=True).first).to_be_visible()
+    await expect(page.get_by_role('heading',name='FICTIONAL useful manual concept',level=2,exact=True)).to_be_visible()
     await mode(page,'lost');await page.locator('.cs-save').click()
     await expect(page.get_by_role('alert').filter(has_text='Save outcome uncertain')).to_be_visible()
     submitted=(await posts(page))[0]['body'];assert submitted['revision']==0
