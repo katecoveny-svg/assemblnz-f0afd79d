@@ -1,10 +1,10 @@
 import { PDFDocument, StandardFonts } from 'pdf-lib';
 import { mkdir, writeFile } from 'node:fs/promises';
-import { schoolDemoPrevious, schoolDemoCurrent, schoolDemoSources } from '../apps/do/school/fixtures';
+import { schoolDemoBaseline, schoolDemoCurrent, schoolDemoSources } from '../apps/do/school/fixtures';
 async function main() {
 const dir = 'public/do/school-fixtures';
 await mkdir(dir, { recursive: true });
-const all = [...schoolDemoPrevious, ...schoolDemoCurrent, ...schoolDemoSources('conflict'), ...schoolDemoSources('missing')];
+const all = [...schoolDemoBaseline('baseline-conflict'), ...schoolDemoCurrent, ...schoolDemoSources('conflict'), ...schoolDemoSources('missing')];
 for (const source of new Map(all.map(s => [s.id, s])).values()) {
   const pdf = await PDFDocument.create();
   pdf.setTitle('Fictional school notice — DO local test');

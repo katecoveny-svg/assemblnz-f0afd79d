@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { z } from 'zod';
 import { prepareSchoolBriefing, schoolSelection, type SchoolSource } from '@/apps/do/school/briefing';
-import { SCHOOL_DEMO_NOW, SCHOOL_DEMO_OWNER, schoolDemoChildren, schoolDemoPrevious, schoolDemoSources } from '@/apps/do/school/fixtures';
+import { SCHOOL_DEMO_NOW, SCHOOL_DEMO_OWNER, schoolDemoChildren, schoolDemoBaseline, schoolDemoSources } from '@/apps/do/school/fixtures';
 import { extractSchoolPdf } from '@/apps/do/school/pdf';
 import { privateDoHeaders, sameDoOrigin } from '@/apps/do/services/owner';
 import { admitDoRequest, readDoJson } from '@/apps/do/shared/http';
@@ -11,7 +11,7 @@ export const runtime = 'nodejs';
 const requestSchema = schoolSelection.extend({
   senders: z.array(z.enum(['office@harbour.example', 'office@hill.example'])).min(1).max(2),
   confirmed: z.boolean(),
-  scenario: z.enum(['revised', 'duplicate', 'conflict', 'missing', 'stale', 'unavailable']),
+  scenario: z.enum(['revised', 'duplicate', 'conflict', 'baseline-conflict', 'missing', 'stale', 'unavailable']),
 }).strict();
 /** Public synthetic-only recipe. Never accepts private text, files, owner IDs or URLs.
  * No connection lookup, OAuth, model, persistence, calendar or notification call. */
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
     return { ...source, pages: extracted.pages, state: extracted.needsManualReview ? 'partial' : source.state };
   }
   try {
-    const previous = await Promise.all(schoolDemoPrevious.map(readFixture));
+    const previous = await Promise.all(schoolDemoBaseline(scenario).map(readFixture));
     const current = await Promise.all(schoolDemoSources(scenario).map(readFixture));
     const brief = prepareSchoolBriefing({ ownerId: SCHOOL_DEMO_OWNER, revision: crypto.randomUUID(), now: SCHOOL_DEMO_NOW,
       selection: { senders, days }, children: schoolDemoChildren.map((c, i) => ({ ...c, confirmedAudiences: confirmed ? [i ? 'Year 7' : 'Year 9'] : [] })), previous, current });

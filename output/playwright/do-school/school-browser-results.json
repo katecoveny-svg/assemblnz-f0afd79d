@@ -1,0 +1,39 @@
+{
+  "classification": "Fictional school route proof; no live provider or account",
+  "origin": "http://localhost:3139",
+  "viewports": [
+    {
+      "width": 375,
+      "baselineConflictSources": 2,
+      "currentSources": 1,
+      "approvalBlocked": true,
+      "reviewDismissClear": true,
+      "inputInvalidation": true,
+      "noHorizontalOverflow": true,
+      "noShellOverlap": true
+    },
+    {
+      "width": 320,
+      "baselineConflictSources": 2,
+      "currentSources": 1,
+      "approvalBlocked": true,
+      "reviewDismissClear": true,
+      "inputInvalidation": true,
+      "noHorizontalOverflow": true,
+      "noShellOverlap": true
+    },
+    {
+      "width": 1440,
+      "baselineConflictSources": 2,
+      "currentSources": 1,
+      "approvalBlocked": true,
+      "reviewDismissClear": true,
+      "inputInvalidation": true,
+      "noHorizontalOverflow": true,
+      "noShellOverlap": true
+    }
+  ],
+  "blockedNonlocal": [],
+  "errors": [],
+  "status": "passed"
+}
