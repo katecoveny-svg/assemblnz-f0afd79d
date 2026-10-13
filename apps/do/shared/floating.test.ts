@@ -44,7 +44,7 @@ function setup(embedded = false, legacyPosition?: string, pathname = embedded ? 
   const window: any = { dispatchEvent, addEventListener: (k: string, f: (e: any) => void) => { listeners[k] = f; }, removeEventListener: vi.fn() };
   window.self = window; window.top = embedded ? {} : window;
   runInNewContext(doWidgetScript(DO_DISTRIBUTION_ORIGIN), {
-    document: { createElement: () => new Element(), body, get activeElement() { return active.current; }, createTreeWalker: query, querySelector: selector,
+    document: { createElement: () => new Element(), createElementNS: () => new Element(), body, get activeElement() { return active.current; }, createTreeWalker: query, querySelector: selector,
       elementFromPoint: () => area, createRange: () => ({ selectNodeContents() {}, getClientRects: () => [area.getBoundingClientRect()] }),
       addEventListener: (k: string, fn: (e: any) => void) => { documentListeners[k] = fn; },
       removeEventListener: (k: string) => { delete documentListeners[k]; },

@@ -8,7 +8,7 @@ Write opens/focuses the existing draft. Speak opens the existing full-window ava
 
 ## Evidence
 
-- Local focused entry/portable/hydration tests: 3 files, 4 tests passed (including the portable contract subprocess).
+- Local focused entry/portable/hydration tests passed. After hosted CI exposed an SVG-fixture/source-mirror mismatch, the fixture gained `createElementNS` and `apps/do/extension/floating.js` was regenerated through the existing generator. All 27 focused floating/entry/portable tests pass; this is source parity, not an installed update.
 - Changed-file ESLint, brand guard and macron guard passed.
 - Actual `/about` panel reviewed at 390px and desktop 1440px; 375px overflow check passed; reduced-motion exercised. Original groceries/email/travel scenes and school/briefing rows inspected.
 - Write focus, school starter population and declined draft-close preservation exercised. Speak destination inspected only: voice service is not established by UI proof.
