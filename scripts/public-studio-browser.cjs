@@ -106,9 +106,13 @@ function tone(seconds = 20) {
   for (const format of ['landscape', 'portrait', 'square']) {
     await page.getByRole('combobox', { name: 'Frame', exact: true }).selectOption(format);
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${format} overflow`);
+    await page.waitForFunction(format => document.querySelector('canvas').parentElement.dataset.format === format, format);
+    await page.waitForFunction(format => document.querySelector('canvas').width === (format === 'portrait' ? 720 : format === 'square' ? 1080 : 1280), format);
+    // Global reduced-motion CSS still gives transitions a 0.01ms duration. Wait for layout to settle.
+    await page.waitForFunction(format => { const rect = document.querySelector('canvas').getBoundingClientRect(); const wanted = format === 'portrait' ? 9 / 16 : format === 'square' ? 1 : 16 / 9; return Math.abs(rect.width / rect.height - wanted) < .01; }, format, { timeout: 5000 });
     const ratio = await page.locator('canvas').evaluate(element => { const rect = element.getBoundingClientRect(); return rect.width / rect.height; });
     const wanted = format === 'portrait' ? 9 / 16 : format === 'square' ? 1 : 16 / 9;
-    assert(Math.abs(ratio - wanted) < .01, `${format} distorted: ${ratio}`);
+    assert(Math.abs(ratio - wanted) < .01, `${format} distorted: ${ratio}; ${await page.locator('canvas').evaluate(c => JSON.stringify({style: c.getAttribute('style'), width: getComputedStyle(c).width, height: getComputedStyle(c).height, aspect: getComputedStyle(c).aspectRatio, parent: c.parentElement.outerHTML.slice(0, 500)}))}`);
   }
   await page.getByRole('combobox', { name: 'Frame', exact: true }).selectOption('portrait');
   await page.evaluate(() => window.scrollTo(0, 0));

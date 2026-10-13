@@ -39,6 +39,6 @@ Remaining proof limits: automated browser is Chromium; physical iOS/Safari/Firef
 - 69 focused tests passed, including existing auth/session/voice/image route tests.
 - Typecheck, changed-file ESLint, brand guard, macron guard and production build passed.
 - Production-server Chromium run: 1440px and 375px; zero page errors and zero POST submissions; private demo/journey responses remain 401.
-- Real MP4 with H.264 video and Opus audio: 1280×720, 16.13 seconds; both tracks begin at 0. Synthetic narration is clipped to the film. Browser playback advanced and downloads reopened successfully.
+- Real MP4 with H.264 video and Opus audio: 1280×720, 16.08 seconds; both tracks begin at 0. Synthetic narration is clipped to the film. Browser playback advanced and downloads reopened successfully.
 - Screenshots: `output/playwright/studio-desktop-brief.png`, `studio-desktop-storyboard.png`, `studio-desktop-export.png`, `studio-mobile-storyboard.png`, `studio-mobile-export.png`, `studio-unsupported.png`. Machine report: `studio-report.json`. CI retains the generated film, project JSON and VTT as artifacts.
 - Full-repository lint: 1,411 findings (1,169 errors / 242 warnings) across unrelated application/legacy/generated files. No changed-file lint findings remain. This is a recorded repository limitation, not a passed global gate.
