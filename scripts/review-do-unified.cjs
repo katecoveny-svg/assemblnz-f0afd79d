@@ -244,7 +244,7 @@ async function verifyFunctionalMark(page, root, label) {
     await clean.waitForFunction(() => document.querySelector('.direction-4c[data-ready="true"]'));
     check('scene returns after reduced-motion preference changes', await scene.locator('canvas').isVisible());
     const fallback = await context.newPage();
-    await fallback.addInitScript(() => { const original = HTMLCanvasElement.prototype.getContext; HTMLCanvasElement.prototype.getContext = function(type, ...args) { if (String(type).startsWith('webgl')) return null; return original.call(this, type, ...args); }; });
+    await fallback.addInitScript(() => { const original = HTMLCanvasElement.prototype.getContext; HTMLCanvasElement.prototype.getContext = function(type, ...args) { if (/^(webgl|experimental-webgl)/.test(String(type))) return null; return original.call(this, type, ...args); }; });
     await fallback.emulateMedia({ reducedMotion: 'no-preference' });
     await fallback.goto(origin + '/', { waitUntil: 'networkidle' });
     await fallback.waitForFunction(() => document.querySelector('.direction-4c[data-static="true"]'));
