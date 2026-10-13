@@ -4,8 +4,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
-import { X } from 'lucide-react';
+import { X, PenLine, Mic, ArrowUpRight } from 'lucide-react';
 import { publicDoAssistantIsolated } from '@/apps/do/shared/public-assistant-routes';
+import { GlassIdentity } from '@/components/brand/GlassIdentity';
 import { DoBrand } from '@/components/do/DoBrand';
 import { PersonalDoAssistant } from '@/app/do/personal/PersonalDoAssistant';
 import { createClient } from '@/lib/supabase/client';
@@ -77,10 +78,14 @@ export function AssemblConciergeWidget() {
       <header><DoBrand /><button type="button" aria-label="Close DO" onClick={close}><X size={20} /></button></header>
       <p>Prepare a reply, organise a plan or sort a life-admin note. Only what you choose to type is shared after confirmation.</p>
       <p>No page, inbox or customer records are read. Drafts need your review and stay in this open panel; copy anything you want to keep.</p>
+      <p>Speak opens a full window to check voice availability. Nothing starts recording automatically.</p>
       {!owner && <Link href="/login?redirect=%2Fdo">Sign in to DO</Link>}
       <PersonalDoAssistant key={`${pathname}:${owner ?? 'signed-out'}:${epoch}`} onWorkChange={work => { dirty.current = work.dirty; }} />
     </section>}
-    <button ref={trigger} type="button" className={styles.trigger} aria-expanded={open} aria-controls="site-do-workspace" onClick={() => open ? close() : setOpen(true)}>Ask DO</button>
+    <div className={styles.launcher}>
+    <button ref={trigger} type="button" className={styles.trigger} aria-expanded={open} aria-controls="site-do-workspace" onClick={() => open ? close() : setOpen(true)}><GlassIdentity kind="do" size={52} /><span>Ask DO</span></button>
+    <div className={styles.entryActions} aria-label="Start with DO"><button type="button" onClick={() => { setOpen(true); requestAnimationFrame(() => dispatchEvent(new Event('assembl:do-focus'))); }}><PenLine size={16} aria-hidden="true" />Write</button><Link href="/do/widget?entry=talk" target="_blank" rel="noopener noreferrer" aria-label="Speak with DO — check availability in a new window"><Mic size={16} aria-hidden="true" />Speak<ArrowUpRight size={14} aria-hidden="true" /></Link></div>
+    </div>
   </aside>;
   return connectedHomeHost ? createPortal(widget, connectedHomeHost) : widget;
 }

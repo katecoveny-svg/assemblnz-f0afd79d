@@ -234,3 +234,7 @@ Creates `lib/do/saved/save-intent.ts` and `/do/saved`: strict selected text/link
 ### Reviewed voice → Shopper DO (14 October draft)
 
 Extends `DoGeminiLive` reviewed output and the existing `ShopJourney`; `lib/do/shop/voice-handoff.ts` bounds a page-owned brief without URLs, browser storage or carried consent. Personal DO and the hosted widget preserve the mounted planner across internal back/return and clear it at their existing owner boundary. `apps/do/shared/audio-exclusion.ts` coordinates read-aloud and live-call output on one page; it never starts audio. See `docs/reviews/SHOPPER-VOICE-20261014.md` for synthetic evidence and DB/Vercel/persistence/listening release gates. Real cart execution and durable editable plans are not provided.
+
+### DO task illustration system (review)
+
+`components/do/DoTaskScene.tsx` supplies original, static, decorative SVG still lifes for groceries, school, writing, briefings, travel, bills, pets, car and home. `DoCapabilityIdeas` reuses them in full and embedded task spaces. Unique gradient IDs support repeated instances; text, availability and links stay semantic HTML. These scenes supplement the locked `GlassIdentity`, never replace it or imply completed work. The site launcher and shared portable `distribution.ts` expose Write and availability-gated Speak destinations; source changes do not update installed extensions.

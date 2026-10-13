@@ -77,10 +77,10 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   const frameIdentity=await page.locator('iframe').elementHandle();
   const pageTools=page.locator('.context-tools');
   const contextToggle=page.locator('.context-tools summary');
-  check('page tools begin collapsed without duplicate primary entry controls',!(await pageTools.evaluate(e=>e.open)) && await page.getByRole('button',{name:'Write',exact:true}).count()===0 && !(await page.getByRole('button',{name:'Point at an area',exact:true}).isVisible()));
+  check('Write and availability-only Speak remain visible while page capture tools start collapsed',!(await pageTools.evaluate(e=>e.open)) && await page.getByRole('button',{name:'Write',exact:true}).isVisible() && await page.getByRole('link',{name:'Speak · check availability',exact:true}).getAttribute('href')===origin+'/do/widget?entry=talk' && !(await page.getByRole('button',{name:'Point at an area',exact:true}).isVisible()));
   await contextToggle.focus();await page.keyboard.press('Enter');
-  check('keyboard opens optional page context actions',await page.getByRole('button',{name:'Point at an area',exact:true}).isVisible() && await page.getByRole('button',{name:'Use selected text',exact:true}).isVisible() && await page.getByRole('link',{name:'Share a screen ↗',exact:true}).isVisible());
-  await page.getByRole('button',{name:'Return to writing',exact:true}).click();
+  check('keyboard opens optional page context actions',await page.getByRole('button',{name:'Point at an area',exact:true}).isVisible() && await page.getByRole('button',{name:'Use selected text',exact:true}).isVisible() && await page.getByRole('link',{name:'Share a screen',exact:true}).isVisible());
+  await page.getByRole('button',{name:'Write',exact:true}).click();
   const child=page.frames().find(frame=>frame.url().includes('/do/widget'));
   await child.waitForFunction(()=>document.activeElement?.id==='do-source');
   check('embedded Write keeps the same iframe and draft',await frameIdentity.evaluate(e=>e===document.querySelector('[data-do-companion]').shadowRoot.querySelector('iframe'))&&await iframe.locator('#do-source').inputValue()==='Fictional embedded note.');
