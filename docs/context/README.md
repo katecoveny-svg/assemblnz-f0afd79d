@@ -68,6 +68,8 @@ If working on the flexible journey builder, Sponsored Agent module or `/pursuit/
 
 ### DO
 
+For the current proposed build sequence, read [DO master roadmap](../do/MASTER-ROADMAP-20261013.md). Its register is a dated baseline; the linked integration review records this UI draft, and `CURRENT.md` remains the live evidence/owner index.
+
 Load execution/tool/authority context.
 
 DO should preview meaningful risky work, obtain approval at the correct boundary, execute within granted limits, verify where possible and leave a receipt.

@@ -14,7 +14,7 @@ const stubs = {
 };
 (async () => {
   fs.mkdirSync(out, { recursive: true }); fs.rmSync(path.join(out, 'results.json'), { force: true });
-  const bundle = await build({ stdin: { contents: `import React from 'react';import {createRoot} from 'react-dom/client';import {DoTextWorkspace} from './app/do/DoTextWorkspace';createRoot(document.getElementById('root')).render(React.createElement(DoTextWorkspace));`, resolveDir: process.cwd(), loader: 'tsx' }, bundle: true, write: false, platform: 'browser', format: 'iife', define: { 'process.env.NODE_ENV': '"production"' }, plugins: [{ name: 'fictional-auth', setup(b) { b.onResolve({ filter: /.*/ }, a => stubs[a.path] ? { path: a.path, namespace: 'fixture' } : undefined); b.onLoad({ filter: /.*/, namespace: 'fixture' }, a => ({ contents: stubs[a.path], loader: 'js' })); } }] });
+  const bundle = await build({ stdin: { contents: `import React from 'react';import {createRoot} from 'react-dom/client';import {DoTextWorkspace} from './app/do/DoTextWorkspace';createRoot(document.getElementById('root')).render(React.createElement(DoTextWorkspace));`, resolveDir: process.cwd(), loader: 'tsx' }, bundle: true, write: false, loader: { '.css': 'empty', '.module.css': 'empty' }, platform: 'browser', format: 'iife', define: { 'process.env.NODE_ENV': '"production"' }, plugins: [{ name: 'fictional-auth', setup(b) { b.onResolve({ filter: /.*/ }, a => stubs[a.path] ? { path: a.path, namespace: 'fixture' } : undefined); b.onLoad({ filter: /.*/, namespace: 'fixture' }, a => ({ contents: stubs[a.path], loader: 'js' })); } }] });
   const browser = await chromium.launch({ headless: true, executablePath: process.env.ASSEMBL_CHROMIUM_PATH });
   const checks = [], errors = [];
   try {

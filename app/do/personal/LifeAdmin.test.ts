@@ -8,8 +8,8 @@ describe('Personal DO visual entry', () => {
   it('lets guests start their own note before opting into fictional examples', () => {
     const html = renderToStaticMarkup(createElement(LifeAdmin, { storageScope: 'guest' }));
     expect(html).not.toContain('data-example=');
-    expect(html).toContain('aria-label="Try fictional school notice"');
-    expect(html).toContain('Fictional example · on this device');
+    expect(html).not.toContain('aria-label="Try fictional school notice"');
+    expect(html).toContain('Try a fictional example');
     expect(html).toContain('aria-expanded="false"');
     expect(html).toContain('<h1 id="life-admin-heading">What would you like done?</h1>');
     expect(html).toContain('Start');
@@ -23,7 +23,8 @@ describe('Personal DO visual entry', () => {
     const html = renderToStaticMarkup(createElement(LifeAdmin, { storageScope: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', assistant }));
     expect(html.match(/data-do-primary-input="true"/g)).toHaveLength(1);
     expect(html).toContain('id="personal-assistant-input"');
-    expect(html).toContain('Make a checklist');
+    expect(html).toContain('Note or checklist');
+    expect(html).toContain('>Write</button>');
     expect(html).toContain('id="personal-local-checklist" hidden=""');
     expect(html).toContain('Saved checklists');
     expect(html).toContain('Photo');

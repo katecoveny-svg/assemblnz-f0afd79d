@@ -1,5 +1,6 @@
 'use client';
 
+import { DoCapabilityIdeas } from '@/components/do/DoCapabilityIdeas';
 import { useNativeReview } from '@/apps/do/shared/use-native-review';
 import { DO_TEXT_PROVIDER_CONSENT_VERSION } from '@/apps/do/shared/provider-consent';
 import { readWritingOwner, useWritingOwner, WRITING_OWNER_CHANGED_EVENT } from '@/apps/do/shared/use-writing-owner';
@@ -281,6 +282,11 @@ function WritingEditor({ initialBrief = '', initialTask = 'reply', embedded = fa
       <div className="do-prepare-actions"><button className="do-primary" disabled={busy || (task !== 'extract' && needsSignIn) || !consent || !source.trim() || (task !== 'extract' && availability?.preparation === 'unavailable')} type="submit">{busy ? <LoaderCircle className="do-spin" size={18} /> : <span className="do-action-mark" aria-hidden><DoMark /></span>}{busy ? 'Preparing your draft…' : DO_TASKS.find(option => option.id === task)!.title}<ArrowUpRight size={18} /></button>{busy && <button type="button" className="do-quiet-button" onClick={() => abort.current?.abort()}>Stop</button>}</div>
       <p className="do-runtime-note">{availability?.note || 'Preparation status is checked when you run a task.'}</p>
     </form>
+    {focus && <DoCapabilityIdeas disabled={busy} onChoose={prompt => {
+      const next = source.trim() ? `${source}\n\n${prompt}` : prompt;
+      if (next.length > DO_SOURCE_LIMIT) { setNotice('Your draft is full. Shorten it before adding this idea.'); return; }
+      setSource(next); setConsent(false); setNotice('An idea added to your draft. Nothing was sent.'); sourceRef.current?.focus();
+    }} />}
     {task !== 'extract' && needsSignIn && <p className="do-error" role="status">Model preparation needs your signed-in account and configured access. Exact extraction needs no model or subscription. <a href={`/login?redirect=${encodeURIComponent(nativeOrigin ? '/do/widget?nativeReview=1' : doReturnPath(pathname || '/do/widget', query))}`} target={nativeOrigin ? undefined : '_blank'} rel="noopener noreferrer">{nativeOrigin ? 'Sign in in this app' : 'Sign in in a new tab'}</a>, then return here. Your text stays on this page. <button type="button" className="do-quiet-button" onClick={() => void readRuntime(AbortSignal.timeout(10_000)).then(applyRuntime).then(() => setError('')).catch(cause => setError(cause instanceof Error ? cause.message : 'Connection could not be checked.'))}>Check connection</button></p>}
     {!embedded && !nativeOrigin && !storageOwner && <p className="do-review-note">Anonymous writing stays on this page. Copy or download your work before signing in or leaving; it will not be assigned to the next account.</p>}
     {error && <p className="do-error" role="alert">{error}</p>}

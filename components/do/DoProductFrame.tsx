@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSyncExternalStore, type ReactNode } from 'react';
+import { DoSecondaryNavigation } from './DoSecondaryNavigation';
 import { DoShareButton } from './DoShareButton';
 import { DoBrand } from './DoBrand';
 import { DoInstallPwaCta } from './DoInstallPwaCta';
@@ -28,25 +29,10 @@ export function DoProductFrame({ product, children }: {
   return <main className={styles.shell}>
     <header className={styles.header}>
       <div><DoBrand {...linkProps} /><span className={styles.surfaceName}>{product}</span></div>
-      <div className={styles.headerActions}><DoShareButton /><details className={styles.menu}>
-        <summary aria-label="More DO tools">More <span aria-hidden="true">＋</span></summary>
-        <div className={styles.menuPanel}>
-          <p className={styles.kicker}>YOUR WORKSPACE</p>
-          <Link href="/do" {...linkProps}>Back to DO</Link>
-          <Link href="/do/widget?entry=write" {...linkProps}>Write · type or device dictation</Link>
-          <Link href="/do/widget?entry=talk" {...linkProps}>Talk · check live conversation</Link>
-          <Link href="/do/meetings" {...linkProps}>Meeting notes</Link>
-          <Link href="/do/messages" {...linkProps}>Conversations and replies</Link>
-          <Link href="/creative-studio/voices" {...linkProps}>Voice studio</Link>
-          <Link href="/do/enquiries" {...linkProps}>Enquiry replies · private pilot</Link>
-          <Link href="/do/bills" {...linkProps}>Bills · examples and CSV</Link>
-          <Link href="/do/builder" {...linkProps}>Builder · prepare a plan</Link>
-          <Link href="/do/household" {...linkProps}>Household · sample family floor</Link>
-          <Link href={`/login?redirect=${encodeURIComponent(doReturnPath(pathname || "/do", query))}`} {...linkProps}>Sign in</Link>
-          <Link href="/do/install" {...linkProps}>Install DO</Link>
-          {!embedded && <DoInstallPwaCta compact />}
-        </div>
-      </details></div>
+      <div className={styles.headerActions}><DoShareButton /><DoSecondaryNavigation embedded={embedded}>
+        <Link href={`/login?redirect=${encodeURIComponent(doReturnPath(pathname || "/do", query))}`} {...linkProps}>Sign in</Link>
+        {!embedded && <DoInstallPwaCta compact />}
+      </DoSecondaryNavigation></div>
     </header>
     {children}
     <footer className={styles.footer}><span>DO by assembl</span><Link href="/legal/privacy" {...linkProps}>Privacy</Link></footer>

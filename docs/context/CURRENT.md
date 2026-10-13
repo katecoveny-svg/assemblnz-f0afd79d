@@ -8,6 +8,10 @@ This file answers: **where is assembl at right now?**
 
 It is intentionally shorter and more changeable than the long-term strategy documents.
 
+## 13 October entry draft — not a release
+
+The [one DO entry integration](../reviews/DO-ENTRY-INTEGRATION-20261013.md) is a draft branch rebased onto `2063e00` (initial audit `6a09eb0`): shared secondary navigation, working Write/Talk/Add entry, prompt shortcuts and compact launcher. Build and bounded browser evidence are recorded there; no merge/deployment or durable shared memory is claimed. The [user-reviewed master roadmap](../do/MASTER-ROADMAP-20261013.md) is the dated proposed sequence. Reliability/voice and public discovery retain separate ownership. Older release evidence below is preserved, not promoted by this draft.
+
 ## 13 October delivery and coordination baseline
 
 This section is the current, scoped delivery record. Durable direction is in [assembl context](../assembl-context.md#accepted-do-interaction-and-continuity-direction--13-october-2026); visual authority remains [the brand system](../assembl-brand-system.md) and [DESIGN.md](../../DESIGN.md). The [Claude handoff snapshot](handoffs/2026-10-13-claude-handoff.md) ends at **10:18 NZDT**. Its earlier open-release/failed-deployment labels are superseded only where the fresh evidence below establishes a newer result. It does not grant new approval or make other historical checks current.

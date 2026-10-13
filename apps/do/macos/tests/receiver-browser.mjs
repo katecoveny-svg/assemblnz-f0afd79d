@@ -13,8 +13,10 @@ const stubs={
  '@/components/do/DoShareButton':`export function DoShareButton(){return null;}`,
  '@/lib/supabase/client':`export const createClient=()=>({auth:{onAuthStateChange(callback){window.__authListeners??=new Set();window.__authListeners.add(callback);window.__auth=(...args)=>{for(const listener of [...window.__authListeners])listener(...args)};callback('INITIAL_SESSION',{user:{id:window.__owner}});return {data:{subscription:{unsubscribe(){window.__authListeners.delete(callback);if(!window.__authListeners.size)window.__auth=null}}}};}}});`,
 };
-const bundle=await build({stdin:{contents:`import React from 'react';import {createRoot} from 'react-dom/client';import {DoTextWorkspace} from './app/do/DoTextWorkspace';window.__root=createRoot(document.getElementById('root'));window.__root.render(React.createElement(DoTextWorkspace,{focus:true,onNativeReveal:()=>{window.__reveals++}}));`,resolveDir:process.cwd(),loader:'tsx'},bundle:true,write:false,platform:'browser',format:'iife',define:{'process.env.NODE_ENV':'"production"'},plugins:[{name:'fictional-only',setup(b){b.onResolve({filter:/.*/},a=>stubs[a.path]?{path:a.path,namespace:'fixture'}:undefined);b.onLoad({filter:/.*/,namespace:'fixture'},a=>({contents:stubs[a.path],loader:'js'}));}}]});
-const script=bundle.outputFiles[0].text;await writeFile(resolve(out,'actual-receiver.js'),script);
+const bundle=await build({stdin:{contents:`import React from 'react';import {createRoot} from 'react-dom/client';import {DoTextWorkspace} from './app/do/DoTextWorkspace';window.__root=createRoot(document.getElementById('root'));window.__root.render(React.createElement(DoTextWorkspace,{focus:true,onNativeReveal:()=>{window.__reveals++}}));`,resolveDir:process.cwd(),loader:'tsx'},bundle:true,write:false,outdir:resolve(out,'receiver-bundle'),platform:'browser',format:'iife',define:{'process.env.NODE_ENV':'"production"'},plugins:[{name:'fictional-only',setup(b){b.onResolve({filter:/.*/},a=>stubs[a.path]?{path:a.path,namespace:'fixture'}:undefined);b.onLoad({filter:/.*/,namespace:'fixture'},a=>({contents:stubs[a.path],loader:'js'}));}}]});
+const script=bundle.outputFiles.find(file=>file.path.endsWith('.js')).text;
+const css=bundle.outputFiles.filter(file=>file.path.endsWith('.css')).map(file=>file.text).join('\n');
+await writeFile(resolve(out,'actual-receiver.js'),script);await writeFile(resolve(out,'actual-receiver.css'),css);
 const browser=await chromium.launch({headless:true,...(process.env.DO_BROWSER_EXECUTABLE?{executablePath:process.env.DO_BROWSER_EXECUTABLE}:{})});
 function pngChunk(name,data){
  const type=Buffer.from(name);let crc=0xffffffff;
@@ -51,7 +53,7 @@ async function fixture({url='https://www.assembl.co.nz/do/widget?nativeReview=1'
    window.__providers++;throw Error('real work forbidden');
   };
  },{owner:A});
- await page.goto(url);await page.addScriptTag({content:script});if(expectReceiver)await page.waitForFunction(()=>typeof window.assemblDoNativeReview==='function');else await page.locator('#do-source').waitFor();return {page,context};
+ await page.goto(url);await page.addStyleTag({content:css});await page.addScriptTag({content:script});if(expectReceiver)await page.waitForFunction(()=>typeof window.assemblDoNativeReview==='function');else await page.locator('#do-source').waitFor();return {page,context};
 }
 async function binding(page,revision=1){return page.evaluate(async revision=>{const m=await window.assemblDoNativeReview({version:1,action:'lookup'});if(m.status!=='recipient')throw Error(JSON.stringify(m));return {version:1,documentId:m.documentId,owner:m.owner,scope:m.scope,generation:m.generation,editorRevision:m.editorRevision,navigationGeneration:0,reviewRevision:revision,offerId:crypto.randomUUID()};},revision)}
 const request=(page,value)=>page.evaluate(async value=>{const receipt=await window.assemblDoNativeReview(value);if(value.action==='commit'&&receipt.status==='accepted'&&document.querySelector('#do-source').value!==value.text)throw Error('receipt preceded actual editor commit');return receipt;},value);
@@ -140,7 +142,7 @@ try{
 
  {
   const {page,context}=await fixture(),old=await binding(page),c=await offer(page,old,'Fictional reload context');assert.equal((await request(page,c)).status,'accepted');
-  await page.reload();await page.addScriptTag({content:script});await page.waitForFunction(()=>typeof window.assemblDoNativeReview==='function');
+  await page.reload();await page.addStyleTag({content:css});await page.addScriptTag({content:script});await page.waitForFunction(()=>typeof window.assemblDoNativeReview==='function');
   assert.equal(await page.locator('#do-source').inputValue(),'');assert.equal((await request(page,{...old,action:'receipt'})).status,'rejected');await clean(page);checks.push('actual reload creates new document and restores no native context');await context.close();
  }
  for(const url of ['https://www.assembl.co.nz:444/do/widget?nativeReview=1','http://www.assembl.co.nz/do/widget?nativeReview=1','https://elsewhere.example/do/widget?nativeReview=1','https://www.assembl.co.nz/do/personal?nativeReview=1']){
@@ -149,7 +151,7 @@ try{
  {
   const {page,context}=await fixture();await page.evaluate(()=>{const f=document.createElement('iframe');f.src='https://www.assembl.co.nz/do/widget?nativeReview=1';document.body.append(f)});
   await page.waitForFunction(()=>document.querySelector('iframe')?.contentDocument?.querySelector('#root'));
-  const frame=page.frames().find(f=>f!==page.mainFrame());await frame.addScriptTag({content:script});await frame.locator('#do-source').waitFor();
+  const frame=page.frames().find(f=>f!==page.mainFrame());await frame.addStyleTag({content:css});await frame.addScriptTag({content:script});await frame.locator('#do-source').waitFor();
   assert.equal(await frame.evaluate(()=>typeof window.assemblDoNativeReview),'undefined');assert.deepEqual(await frame.evaluate(()=>window.__storage),[]);checks.push('actual child-frame receiver absent and native transient store untouched');await context.close();
  }
 

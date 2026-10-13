@@ -8,40 +8,31 @@ const checks = [];
 const check = (label, condition) => { assert.ok(condition, label); checks.push(label); console.log('PASS ' + label); };
 const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLength: 'balanced', initiative: 'gentle', preferences: '', voiceName: 'Kore', onboardingCompleted: false, updatedAt: null };
 
-// WCAG relative luminance for the actual computed text and its opaque backing.
-// Reject unmeasured images/translucency rather than assuming a light background.
+// Measure actual gradient pixels behind the heading, with only its ink temporarily hidden.
 async function headingContrast(page) {
-  return page.locator('#life-admin-heading').evaluate(el => {
-    const rgb = value => {
-      const match = value.match(/^rgba?\(([^)]+)\)$/);
-      if (!match) throw new Error('Unmeasured colour format: ' + value);
-      const parts = match[1].split(',').map(Number);
-      if (parts.length !== 3 && parts.length !== 4) throw new Error('Unmeasured colour: ' + value);
-      return [...parts.slice(0, 3), parts[3] ?? 1];
-    };
-    const foreground = rgb(getComputedStyle(el).color);
-    if (foreground[3] !== 1) throw new Error('Translucent heading requires pixel contrast measurement');
-    let background;
-    for (let node = el; node; node = node.parentElement) {
-      const style = getComputedStyle(node);
-      if (Number(style.opacity) !== 1 || style.backgroundImage !== 'none') throw new Error('Unmeasured heading backing');
-      const colour = rgb(style.backgroundColor);
-      if (colour[3] === 0) continue;
-      if (colour[3] !== 1) throw new Error('Translucent heading backing requires pixel measurement');
-      background = colour;
-      break;
-    }
-    if (!background) throw new Error('No measured opaque heading backing');
-    const luminance = colour => {
-      const linear = colour.slice(0, 3).map(channel => {
-        const srgb = channel / 255;
-        return srgb <= 0.04045 ? srgb / 12.92 : ((srgb + 0.055) / 1.055) ** 2.4;
-      });
-      return linear[0] * 0.2126 + linear[1] * 0.7152 + linear[2] * 0.0722;
-    };
-    const values = [luminance(foreground), luminance(background)].sort((a, b) => b - a);
-    return { foreground, background, ratio: (values[0] + 0.05) / (values[1] + 0.05) };
-  });
+  const heading = page.locator('#life-admin-heading');
+  await heading.scrollIntoViewIfNeeded();
+  const foreground = await heading.evaluate(el => getComputedStyle(el).color.match(/[\d.]+/g).map(Number));
+  assert(foreground.length === 3 || foreground[3] === 1, 'Heading ink must be opaque');
+  const previous = await heading.getAttribute('style');
+  let pixels;
+  try {
+    await heading.evaluate(el => { el.style.setProperty('color', 'transparent', 'important'); el.style.setProperty('text-shadow', 'none', 'important'); });
+    pixels = await require('sharp')(await heading.screenshot()).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+  } finally {
+    await heading.evaluate((el, value) => { if (value === null) el.removeAttribute('style'); else el.setAttribute('style', value); }, previous);
+  }
+  const luminance = colour => {
+    const linear = colour.slice(0, 3).map(channel => { const value = channel / 255; return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4; });
+    return linear[0] * 0.2126 + linear[1] * 0.7152 + linear[2] * 0.0722;
+  };
+  const ink = luminance(foreground);
+  let ratio = Infinity;
+  for (let i = 0; i < pixels.data.length; i += pixels.info.channels) {
+    const backing = luminance([...pixels.data.subarray(i, i + 3)]);
+    ratio = Math.min(ratio, (Math.max(ink, backing) + .05) / (Math.min(ink, backing) + .05));
+  }
+  return { foreground, ratio, method: 'Lowest contrast across rendered gradient pixels behind heading' };
 }
 
 (async () => {
@@ -55,10 +46,11 @@ async function headingContrast(page) {
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     let profile = { ...defaults }, saved = false, failSave = false, signedIn = true;
+    let workspaceOwner = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
     const mutations = [];
     await page.route('**/api/**', route => route.fulfill({ status: 503, json: { error: 'Fictional test: provider unavailable' } }));
     await page.route('**/api/do/personal', route => signedIn
-      ? route.fulfill({ json: { workspaceKey: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', responsibilities: [], runs: [], worker: { configured: true, lastSeenAt: new Date().toISOString() } } })
+      ? route.fulfill({ json: { workspaceKey: workspaceOwner, responsibilities: [], runs: [], worker: { configured: true, lastSeenAt: new Date().toISOString() } } })
       : route.fulfill({ status: 401, json: { workspaceKey: 'guest', error: 'Sign in for cloud responsibilities.' } }));
     await page.route('**/api/do/personal/assistant', route => route.fulfill({ status: signedIn ? 200 : 401, json: { signedIn, ready: signedIn, reason: signedIn ? null : 'sign_in_required', message: signedIn ? 'Fictional configured status; not live provider proof.' : 'Sign in to ask your Personal DO.', model: 'gpt-6-astra', externalActions: false } }));
     await page.route('**/api/do/live-token', route => route.fulfill({ json: { enabled: false, configured: false, signedIn: true, remaining: null, dailyLimit: 3, sessionSeconds: 300, model: 'test-fixture' } }));
@@ -148,7 +140,8 @@ async function headingContrast(page) {
     check('320px page fits', await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
     await page.setViewportSize({ width: 375, height: 812 });
     await page.locator('summary').filter({ hasText: 'Choose a checklist' }).click();
-    await page.getByRole('button', { name: 'Make a checklist', exact: true }).click();
+    await page.getByRole('navigation', { name: 'Choose how to start' }).locator('summary').click();
+    await page.getByRole('button', { name: 'Note or checklist', exact: true }).click();
     check('all twelve workflow choices remain available', await page.locator('[aria-label="Everyday NZ checklists"] button').count() === 12);
     await page.locator('#life-admin-source').fill('Fictional school trip on Friday 9 October 2026, 9 am to 3 pm. Bring a coat and lunch. Permission reply needed Thursday.');
     await page.getByLabel('Kind of admin').selectOption('school');
@@ -174,11 +167,11 @@ async function headingContrast(page) {
     await page.getByRole('button', { name: 'Undo last checklist change', exact: false }).click();
     check('undo restores the prior checklist state', await page.getByRole('button', { name: 'I’ve done this', exact: true }).count() === 3);
     await page.screenshot({ path: out + '/personal-checklist-mobile.png', fullPage: true });
-    await page.getByText('Care, health & later life', { exact: true }).first().click();
+    await page.locator('summary').filter({hasText:'Care & later-life guides'}).first().click();
     await page.getByRole('button', { name: 'Aa · Larger text', exact: true }).click();
     check('care navigation has an accessible larger-text mode', await page.getByRole('button', { name: 'Aa · Standard text', exact: true }).getAttribute('aria-pressed') === 'true');
     await page.locator('#nz-care-navigation').screenshot({ path: out + '/personal-care-mobile.png' });
-    await page.getByText('Weather & public updates', { exact: true }).click();
+    await page.locator('summary').filter({hasText:'Weather & public updates'}).click();
     await page.getByText('Weather for your day', { exact: true }).click();
     await page.getByLabel('Choose a city or town').selectOption('auckland');
     await page.getByRole('button', { name: 'Check city forecast', exact: false }).click();
@@ -188,10 +181,32 @@ async function headingContrast(page) {
     check('reduced motion keeps the task available', await page.locator('#life-admin-source').isVisible());
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.screenshot({ path: out + '/personal-integrated-desktop.png', fullPage: true });
+    // A server-discovered owner change must abort and discard the previous city's check.
+    await page.evaluate(() => {
+      const original = window.fetch;
+      window.fetch = function(input, init) {
+        if (String(input).includes('/api/do/nz-local-updates?source=weather')) {
+          window.__ownerWeatherSignal = init.signal;
+          return new Promise(resolve => { window.__releaseOwnerWeather = () => resolve(new Response('{}', { status: 503 })); });
+        }
+        return original.call(this, input, init);
+      };
+    });
+    await page.getByRole('button', { name: 'Check city forecast', exact: false }).click();
+    await page.getByRole('button', { name: 'Checking forecast…', exact: true }).waitFor();
+    workspaceOwner = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
+    await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+    await page.waitForFunction(() => window.__ownerWeatherSignal?.aborted === true);
+    check('owner change aborts the prior pending weather request', await page.evaluate(() => window.__ownerWeatherSignal.aborted));
+    check('owner change clears the previous city', await page.getByLabel('Choose a city or town').inputValue() === '');
+    await page.evaluate(async () => { window.__releaseOwnerWeather(); await new Promise(resolve => setTimeout(resolve, 0)); });
+    check('late prior-owner response cannot show forecast or error', await page.getByText('This source could not be checked. Try again or open the official source below.', { exact: true }).count() === 0 && await page.getByText('Retrieved from source', { exact: false }).count() === 0);
+    check('new owner has no pending forecast', await page.getByRole('button', { name: 'Check city forecast', exact: true, includeHidden: true }).isDisabled());
     signedIn = false;
     await page.reload({ waitUntil: 'networkidle' });
     await page.setViewportSize({ width: 375, height: 812 });
-    await page.getByRole('button', { name: 'Make a checklist', exact: true }).click();
+    await page.getByRole('navigation', { name: 'Choose how to start' }).locator('summary').click();
+    await page.getByRole('button', { name: 'Note or checklist', exact: true }).click();
     await page.locator('#life-admin-source').fill('Fictional unfinished guest note.');
     await page.getByRole('navigation', { name: 'DO', exact: true }).getByRole('link', { name: 'Sign in', exact: true }).click();
     await page.getByRole('dialog', { name: 'Your checklist is in this page.' }).waitFor();

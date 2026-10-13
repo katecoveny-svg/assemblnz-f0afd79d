@@ -185,3 +185,22 @@ Creates `lib/do/shop/preparation.ts` for explicit recipe quantities, unit-compat
 ### Shared preparation envelope and canonical demo target (phase one)
 
 Extends `lib/do/preparation/contracts.ts` using existing journey run IDs, validated `EvidenceRecord` provenance and proposed/approved/rejected action statuses. Shop and Travel share version/revision-bound prepared/reviewed/declined records, cancellation and idempotent preparation; domain calculations and manual itinerary validation remain separate. `lib/demos/catalogue.ts` accepts an explicit canonical HTTPS target without changing historical slug URLs. `/demos` retains its gate/noindex while exposing one independently hosted Woolworths concept and preserving earlier references. See `docs/CONSOLIDATION-PHASE-ONE.md`; auth, durable memory, provider/reward access and other portfolio concepts remain outside this slice.
+
+### School source comparison (closed pilot foundation)
+
+Extends Family DO selected-sender validation, HouseholdPerson type and reviewed-action vocabulary via `apps/do/school/` and the existing `/do/family` surface. Actual fictional PDF bytes produce page-cited old/new comparisons, bounded NZ/Auckland dates, explicit child audience matching, conflict/failure gates and owner/revision-bound draft decisions. No private roster defaults, model, live ingestion, durable school store, calendar writes or notifications. Existing Gmail dependency is deliberately closed until specific processing consent and isolated persistence are verified. See `docs/do-school/README.md` for capability matrix, tests and exact private-pilot prerequisites.
+
+### Public Pursuit → Studio storyboard (review implementation, 13 October)
+
+Extends the existing fictional Pursuit examples and extracts the browser-only motion renderer into `lib/studio/motion-video.ts`, retaining the private Studio compatibility import. Creates `lib/studio/public-project.ts`: strict bounded, text-only versioned project import/export. `/pursuit/studio` is an anonymous local brief → four scenes → playable export workflow. No private content, provider calls, cloud persistence, cloning or avatars. Caption cues follow scenes, not speech. Tests and production-browser proof: `docs/PUBLIC-PURSUIT-STUDIO.md`; deployment remains a separate review gate.
+
+### DO entry capability presentation (review draft, 13 October)
+
+- **Creates:** `apps/do/shared/entry-capabilities.ts` and `DoCapabilityIdeas` for one presentation catalog across Personal DO and the hosted widget used by the browser/Mac companions. These are draft ideas and labelled routes, not execution permissions or a new agent runtime.
+- **Extends:** existing navigation with `DoEntryDisclosure`: viewport-bounded panels, mutually exclusive More/Add, keyboard/outside dismissal and mounted-editor preservation. Parent navigation styles must target direct children; nested dropdowns declare their own layout.
+- **Reuses:** existing official local-information components in `DoLocalInformation`, existing editor consent and tool routes. No new provider, calendar, bank or native-widget connection.
+- **Proof:** `scripts/review-do-more-capabilities.cjs` covers expanded panels, responsive geometry and shared actions, alongside the existing entry/settings/companion regressions. See `docs/reviews/DO-MORE-CAPABILITIES-20261013.md` for the cross-surface matrix and platform limits. Draft status until review and release.
+
+### DO saved live-call voice (13 October review implementation)
+
+Extends the existing `do_personal_profiles.voice_name` preference and constrained Gemini Live token. `apps/do/shared/voice-options.ts` is the common curated allowlist; `apps/do/services/voice-preference.ts` binds the reviewed voice/revision to the authenticated owner. All hosted call entry surfaces use the saved choice on the next call with fresh consent; active session configuration is not replaced. No new storage or provider authority. Sources, integration boundaries and synthetic proof: `docs/DO-VOICE-CHOICE-20261013.md`.

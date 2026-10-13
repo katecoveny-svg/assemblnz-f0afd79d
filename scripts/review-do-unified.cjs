@@ -71,16 +71,16 @@ async function verifyFunctionalMark(page, root, label) {
     await page.locator('#life-admin-source').waitFor();
     check('one click from Assembl reaches a working input', new URL(page.url()).pathname === '/do' && await page.locator('#life-admin-source').isVisible());
     const personal = page.locator('.do-app-shell > main[data-do-identity="assembled-glass"]');
-    check('personal DO has the approved scoped chalk canvas and plum identity role', await personal.evaluate(el => {
+    check('personal DO retains scoped brand tokens with the reviewed rose/lilac gradient', await personal.evaluate(el => {
       const style = getComputedStyle(el);
       return style.getPropertyValue('--do-chalk').trim().toUpperCase() === '#F5F1F2'
         && style.getPropertyValue('--do-plum').trim().toUpperCase() === '#240B21'
-        && style.backgroundColor === 'rgb(245, 241, 242)' && style.backgroundImage === 'none';
+        && style.backgroundColor === 'rgb(250, 246, 247)' && style.backgroundImage.includes('radial-gradient');
     }));
     const artwork = personal.locator('[data-renderer="static-art"] img');
     await artwork.evaluate(el => el.decode());
-    check('approved assembled plum glass artwork is loaded as static art in reduced motion', await artwork.evaluate(el =>
-      new URL(el.src).pathname === '/brand/do-assembled-plum.webp' && el.complete && el.naturalWidth > 0)
+    check('canonical D artwork loads without a canvas in reduced motion', await artwork.evaluate(el =>
+      new URL(el.src).pathname === '/brand/do-glass-D-transparent.png' && el.complete && el.naturalWidth > 0)
       && await personal.locator('[data-renderer="static-art"] canvas').count() === 0);
     await verifyFunctionalMark(page, personal.getByRole('link', { name: 'DO by assembl, home', exact: true }), 'personal DO');
     check('canonical title has no duplicated product suffix', await page.title() === 'DO by assembl | Your personal agent for useful work');
@@ -91,6 +91,7 @@ async function verifyFunctionalMark(page, root, label) {
     check('mobile has no horizontal overflow', await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
     check('mobile composer and action are above the fold', await page.locator('#life-admin-source').evaluate(e => e.getBoundingClientRect().bottom < innerHeight) && await page.getByRole('button', { name: 'Start', exact: true }).evaluate(e => e.getBoundingClientRect().bottom < innerHeight));
     await page.screenshot({ path: out + '/03-do-375.png' });
+    await page.getByRole('button', { name: 'Try a fictional example', exact: true }).click();
     await page.getByRole('button', { name: 'Try fictional school notice', exact: true }).click();
     check('example produces real reviewable local work', await page.locator('#personal-do-result').isVisible());
     check('example remains labelled fictional', (await page.locator('body').innerText()).includes('Fictional example'));
@@ -172,7 +173,7 @@ async function verifyFunctionalMark(page, root, label) {
     await clean.setViewportSize({ width: 1440, height: 1000 });
 
     await clean.goto(origin + '/do/widget?tool=look', { waitUntil: 'networkidle' });
-    await clean.locator('summary[aria-label="More DO tools"]').click();
+    await clean.locator('details').filter({has:clean.locator('nav[aria-label="More DO tools"]')}).locator(':scope > summary').click();
     const signIn = clean.getByRole('link', { name: 'Sign in', exact: true }).first();
     check('sign-in retains the selected portable tool', (await signIn.getAttribute('href')).includes('%3Ftool%3Dlook'));
     check('consumer menu does not expose seeded developer board', await clean.getByRole('link', { name: 'Saved tasks', exact: true }).count() === 0);
@@ -265,7 +266,7 @@ async function verifyFunctionalMark(page, root, label) {
         // Existing main DoProductFrame intentionally exposes voice setup inside More DO tools.
         // Review this exact shared sub-tool while continuing to reject other product doors.
         const voiceSetup = clean.locator('a[href="/creative-studio/voices"]');
-        if (await voiceSetup.count()) check(`voice setup stays inside More DO tools on ${path} at ${width}px`, await voiceSetup.count() === 1 && await voiceSetup.evaluate(el => Boolean(el.closest('details')?.querySelector('summary[aria-label="More DO tools"]'))));
+        if (await voiceSetup.count()) check(`voice setup stays inside More DO tools on ${path} at ${width}px`, await voiceSetup.count() === 1 && await voiceSetup.evaluate(el => Boolean(el.closest('nav[aria-label="More DO tools"]')&&el.closest('details'))));
         check(`no unrelated cross-product links on ${path} at ${width}px`, destinations.every(destination => destination === '/creative-studio/voices' || !/^\/(pursuit|creative-studio|hub|hubs|customers)(\/|$)/.test(destination)));
         check(`no horizontal overflow on ${path} at ${width}px`, await clean.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
         if (path === '/do' || path === '/do/bills') {
