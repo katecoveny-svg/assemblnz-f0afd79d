@@ -28,7 +28,7 @@ export const EXERCISES: Exercise[] = [
   {
     id: 'leg-press', name: 'Supported leg press', locations: ['gym'], movement: 'squat',
     equipment: ['leg press'], restrictionTags: ['deep-knee-flexion'],
-    coachingCue: 'Keep the pelvis supported and use the clinician-approved depth.',
+    coachingCue: 'Keep the pelvis supported and use a comfortable, controlled depth.',
     progression: 'Add the smallest plate after all reps feel steady.', regression: 'Shorten the range.',
   },
   {

@@ -48,6 +48,15 @@ function prescribeExercise(exercise: Exercise, profile: StrongProfile, sets: num
   };
 }
 
+/** Exact catalogue aliases only; a gym location never implies available equipment. */
+export function isExerciseCompatible(exercise: Exercise, profile: Pick<StrongProfile, 'equipment' | 'locations'>, location: TrainingLocation): boolean {
+  const available = new Set(profile.equipment);
+  if (available.has('adjustable dumbbells')) { available.add('dumbbell'); available.add('dumbbells'); }
+  if (available.has('dumbbells')) available.add('dumbbell');
+  return profile.locations.includes(location) && exercise.locations.includes(location) && exercise.equipment.every(item =>
+    item === 'band or cable' ? available.has('long resistance band') || available.has('cable') : available.has(item));
+}
+
 export function buildSession(profile: StrongProfile, location: TrainingLocation, minutes = profile.availableMinutes): SessionPlan {
   const sets = minutes <= 20 ? 2 : 3;
   const maximumExercises = minutes <= 20 ? 4 : minutes <= 35 ? 6 : 7;
@@ -55,13 +64,14 @@ export function buildSession(profile: StrongProfile, location: TrainingLocation,
 
   for (const id of LOCATION_EXERCISES[location]) {
     const exercise = getExercise(id);
-    const prescription = prescribeExercise(exercise, profile, sets);
-    if (prescription) {
+    const prescription = isExerciseCompatible(exercise, profile, location) ? prescribeExercise(exercise, profile, sets) : null;
+    if (prescription && !prescriptions.some(item => item.exercise.id === exercise.id)) {
       prescriptions.push(prescription);
     } else {
       const fallbackId = FALLBACK_EXERCISE[exercise.movement];
       if (fallbackId && !prescriptions.some((item) => item.exercise.id === fallbackId)) {
-        const fallback = prescribeExercise(getExercise(fallbackId), profile, sets);
+        const candidate = getExercise(fallbackId);
+        const fallback = isExerciseCompatible(candidate, profile, location) ? prescribeExercise(candidate, profile, sets) : null;
         if (fallback) prescriptions.push(fallback);
       }
     }
@@ -114,7 +124,18 @@ export function totalDayNutrition(day: MealPlanDay) {
 
 export type SwapMode = 'faster' | 'higher-protein' | 'vegetarian' | 'family';
 
-export function findMealSwap(currentRecipeId: string, mode: SwapMode, profile: StrongProfile): Recipe {
+export function recipeMatchesProfile(recipe: Recipe, profile: Pick<StrongProfile, 'allergens' | 'dietaryPattern'>): boolean {
+  return !recipe.allergens.some(allergen => profile.allergens.includes(allergen)) &&
+    (profile.dietaryPattern !== 'vegetarian' || recipe.tags.includes('vegetarian')) &&
+    (profile.dietaryPattern !== 'pescatarian' || recipe.tags.includes('vegetarian') || recipe.tags.includes('pescatarian'));
+}
+
+/** Validate every meal, not just a replacement. Catalogue declarations are not product-label proof. */
+export function mealPlanIssues(days: MealPlanDay[], profile: Pick<StrongProfile, 'allergens' | 'dietaryPattern'>): string[] {
+  return days.flatMap(day => recipesForDay(day).filter(recipe => !recipeMatchesProfile(recipe, profile)).map(recipe => `${day.day}: ${recipe.name} conflicts with the entered food constraints`));
+}
+
+export function findMealSwap(currentRecipeId: string, mode: SwapMode, profile: StrongProfile): Recipe | null {
   const current = RECIPE_BY_ID.get(currentRecipeId);
   if (!current) throw new Error(`Unknown recipe: ${currentRecipeId}`);
   const candidates = RECIPES.filter((recipe) => {
@@ -127,7 +148,7 @@ export function findMealSwap(currentRecipeId: string, mode: SwapMode, profile: S
     if (mode === 'vegetarian') return recipe.tags.includes('vegetarian');
     return recipe.tags.includes('family');
   });
-  return candidates.sort((a, b) => b.proteinGrams - a.proteinGrams || a.minutes - b.minutes)[0] ?? current;
+  return candidates.sort((a, b) => b.proteinGrams - a.proteinGrams || a.minutes - b.minutes)[0] ?? (recipeMatchesProfile(current, profile) ? current : null);
 }
 
 export function replaceMeal(day: MealPlanDay, currentRecipeId: string, replacementId: string): MealPlanDay {

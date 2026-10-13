@@ -48,7 +48,7 @@ describe('Strong meal and shopping engine', () => {
   });
 
   it('finds a deterministic vegetarian dinner swap', () => {
-    expect(findMealSwap('beef-tacos', 'vegetarian', FICTIONAL_STRONG_PROFILE).id).toBe('lentil-pasta');
+    expect(findMealSwap('beef-tacos', 'vegetarian', FICTIONAL_STRONG_PROFILE)?.id).toBe('lentil-pasta');
   });
 
   it('consolidates duplicate ingredients and produces a reviewable list', () => {
