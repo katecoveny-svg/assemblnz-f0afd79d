@@ -46,10 +46,11 @@ async function headingContrast(page) {
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     let profile = { ...defaults }, saved = false, failSave = false, signedIn = true;
+    let workspaceOwner = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
     const mutations = [];
     await page.route('**/api/**', route => route.fulfill({ status: 503, json: { error: 'Fictional test: provider unavailable' } }));
     await page.route('**/api/do/personal', route => signedIn
-      ? route.fulfill({ json: { workspaceKey: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', responsibilities: [], runs: [], worker: { configured: true, lastSeenAt: new Date().toISOString() } } })
+      ? route.fulfill({ json: { workspaceKey: workspaceOwner, responsibilities: [], runs: [], worker: { configured: true, lastSeenAt: new Date().toISOString() } } })
       : route.fulfill({ status: 401, json: { workspaceKey: 'guest', error: 'Sign in for cloud responsibilities.' } }));
     await page.route('**/api/do/personal/assistant', route => route.fulfill({ status: signedIn ? 200 : 401, json: { signedIn, ready: signedIn, reason: signedIn ? null : 'sign_in_required', message: signedIn ? 'Fictional configured status; not live provider proof.' : 'Sign in to ask your Personal DO.', model: 'gpt-6-astra', externalActions: false } }));
     await page.route('**/api/do/live-token', route => route.fulfill({ json: { enabled: false, configured: false, signedIn: true, remaining: null, dailyLimit: 3, sessionSeconds: 300, model: 'test-fixture' } }));
@@ -180,6 +181,27 @@ async function headingContrast(page) {
     check('reduced motion keeps the task available', await page.locator('#life-admin-source').isVisible());
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.screenshot({ path: out + '/personal-integrated-desktop.png', fullPage: true });
+    // A server-discovered owner change must abort and discard the previous city's check.
+    await page.evaluate(() => {
+      const original = window.fetch;
+      window.fetch = function(input, init) {
+        if (String(input).includes('/api/do/nz-local-updates?source=weather')) {
+          window.__ownerWeatherSignal = init.signal;
+          return new Promise(resolve => { window.__releaseOwnerWeather = () => resolve(new Response('{}', { status: 503 })); });
+        }
+        return original.call(this, input, init);
+      };
+    });
+    await page.getByRole('button', { name: 'Check city forecast', exact: false }).click();
+    await page.getByRole('button', { name: 'Checking forecast…', exact: true }).waitFor();
+    workspaceOwner = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
+    await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+    await page.waitForFunction(() => window.__ownerWeatherSignal?.aborted === true);
+    check('owner change aborts the prior pending weather request', await page.evaluate(() => window.__ownerWeatherSignal.aborted));
+    check('owner change clears the previous city', await page.getByLabel('Choose a city or town').inputValue() === '');
+    await page.evaluate(async () => { window.__releaseOwnerWeather(); await new Promise(resolve => setTimeout(resolve, 0)); });
+    check('late prior-owner response cannot show forecast or error', await page.getByText('This source could not be checked. Try again or open the official source below.', { exact: true }).count() === 0 && await page.getByText('Retrieved from source', { exact: false }).count() === 0);
+    check('new owner has no pending forecast', await page.getByRole('button', { name: 'Check city forecast', exact: true, includeHidden: true }).isDisabled());
     signedIn = false;
     await page.reload({ waitUntil: 'networkidle' });
     await page.setViewportSize({ width: 375, height: 812 });
