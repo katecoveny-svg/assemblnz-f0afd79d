@@ -53,6 +53,13 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
     await page.waitForFunction(() => document.querySelector('#do-source')?.value === '');
     check('account switch removes populated draft and source from editor', await page.locator('#do-result').count() === 0 && !await page.getByText('Fixture 1', { exact: true }).count());
     check('legacy draft is hidden instead of assigned to B', await page.evaluate(({ key, B }) => localStorage.getItem(key + ':' + B) === null && localStorage.getItem(key) !== null, { key, B }));
+    const recovery = page.getByRole('region', { name: 'Older draft recovery' });
+    await recovery.locator('summary').click();
+    await recovery.getByText('If your only copy is here', { exact: true }).waitFor();
+    await page.screenshot({ path: out + '/legacy-recovery-375.png', fullPage: true, animations: 'disabled' });
+    check('recovery options fit the phone and do not reveal or adopt legacy work', await page.evaluate(({ key, B }) => document.documentElement.scrollWidth <= innerWidth && localStorage.getItem(key + ':' + B) === null, { key, B }) && !await page.getByText('Fixture 1', { exact: true }).count());
+    await recovery.getByRole('button', { name: 'Continue with my own copy' }).click();
+    check('using an independently retained copy only focuses the existing empty editor', await page.locator('#do-source').inputValue() === '' && await page.locator('#do-source').evaluate(e => e === document.activeElement) && mutations.length === 0);
     await page.screenshot({ path: out + '/owner-b-375.png', fullPage: true, animations: 'disabled' });
     owner = A; await page.evaluate(() => window.dispatchEvent(new Event('focus')));
     await page.getByRole('button', { name: /Fixture 1 Reviewed draft/ }).click();

@@ -24,6 +24,14 @@ const stubs = {
       await page.addInitScript(({ A, B, entries, phase }) => {
         window.__owner = A; window.__hold = phase === 'initial'; window.__requests = 0;
         localStorage.setItem('assembl:do:drafts:v1:' + A, JSON.stringify([entries[0]])); localStorage.setItem('assembl:do:drafts:v1:' + B, JSON.stringify([entries[1]]));
+        const legacyKey = 'assembl:do:drafts:v1' + (phase === 'initial' ? ':guest' : '');
+        localStorage.setItem(legacyKey, 'Fictional unowned content: not even valid JSON');
+        const get = Storage.prototype.getItem;
+        window.__legacyReads = 0;
+        Storage.prototype.getItem = function(key) {
+          if (key === 'assembl:do:drafts:v1' || key === 'assembl:do:drafts:v1:guest') { window.__legacyReads++; throw Error('Legacy content must not be read'); }
+          return get.call(this, key);
+        };
         window.fetch = async url => {
           if (url === '/api/do/runtime') return Response.json({ signedIn: true });
           if (url !== '/api/do/session') throw Error('No provider request allowed');
@@ -56,6 +64,19 @@ const stubs = {
         checks.push('removing the current saved copy preserves its open draft and allows an explicit fresh save');
         console.log('PASS ' + checks.at(-1));
       }
+      const recovery = page.getByRole('region', { name: 'Older draft recovery' });
+      await recovery.locator('summary').click();
+      const sourceBefore = await page.locator('#do-source').inputValue();
+      await recovery.getByRole('button', { name: 'Continue with my own copy' }).click();
+      assert.equal(await page.locator('#do-source').inputValue(), sourceBefore);
+      assert.equal(await page.locator('#do-source').evaluate(e => e === document.activeElement), true);
+      assert.equal(await page.evaluate(() => window.__legacyReads), 0);
+      assert.equal((await page.locator('body').innerText()).includes('Fictional unowned content'), false);
+      await page.evaluate(A => { window.__owner = A; window.__auth('SIGNED_IN', { user: { id: A } }); }, A);
+      await page.getByRole('button', { name: /Owner A private.*Reviewed draft/ }).waitFor();
+      assert.equal(await recovery.locator('details').evaluate(e => e.open), false);
+      checks.push(`${phase}: recovery guidance never reads unowned bytes, preserves editor, and resets across accounts`);
+      console.log('PASS ' + checks.at(-1));
       await context.close();
     }
     assert.deepEqual(errors, []); fs.writeFileSync(path.join(out, 'results.json'), JSON.stringify({ checks, errors, scope: 'Actual standalone writing editor; fictional SDK events, delayed identity responses and populated draft storage.' }, null, 2));

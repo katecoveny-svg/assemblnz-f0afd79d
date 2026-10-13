@@ -23,6 +23,15 @@ const savedSchema = z.object({
   }),
 });
 
+/** Detect quarantine by key names only: never parse or read unowned content. */
+export function hasUnownedLocalDrafts(storage: Pick<Storage, 'length' | 'key'>): boolean {
+  for (let index = 0; index < storage.length; index++) {
+    const key = storage.key(index);
+    if (key === DO_DRAFTS_KEY || key === `${DO_DRAFTS_KEY}:guest`) return true;
+  }
+  return false;
+}
+
 /** The unowned v1 key is deliberately never read, moved or deleted by account operations. */
 export function localDraftsKey(owner: string): string {
   return `${DO_DRAFTS_KEY}:${z.string().uuid().parse(owner)}`;

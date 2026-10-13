@@ -54,7 +54,7 @@ A populated two-tab reproduction showed that the original sidebar Remove action 
 
 ### Existing users and the recovery gate
 
-For an existing unscoped draft, the bytes remain, but the saved title and content no longer appear in the usable list. Signed-in, nonembedded writing shows: “Older device drafts have no recorded owner. They remain untouched and are not opened in this account.” Anonymous users see the page-only writing explanation. A historical `:guest` key stays untouched but does not itself trigger the unscoped-key notice. There is no recovery button or importer in this candidate. Legitimate users may therefore lose application access to old work even though it is preserved.
+For an existing unscoped draft, the bytes remain, but the saved title and content no longer appear in the usable list. Signed-in, nonembedded writing shows: “Older device drafts have no recorded owner. They remain untouched and are not opened in this account.” Anonymous users see the page-only writing explanation. Both the unscoped and historical `:guest` key now trigger signed-in recovery guidance using key names only. The owner opens “Recovery options” explicitly; it never reads the stored unowned content. There is no legacy importer or export action in this candidate. Legitimate users may therefore lose application access to old work even though it is preserved.
 
 Users with separately retained downloads can recover their known content into their own documents without opening the shared unknown list. Any supervised recovery must establish original-user authority and individual-item provenance outside the unowned key before disclosure; sign-in/device possession alone is insufficient on a shared profile. Copy only verified items with a visible destination and explicit approval; retain originals privately on-device. If provenance cannot be established, keep the data quarantined—there is no safe automatic recovery. General release requires accepting this access limitation or separately reviewing a recovery process. Do not claim migration is complete.
 
@@ -65,3 +65,14 @@ The same-editor recovery test also covers Remove → Save: a successful removal 
 ### Current-main integration
 
 Merged main `7a8c40305062fa102a46ff0b47fbedf05dd8623c` into this review branch without rewriting its reviewed history. Retained newer voice/profile synchronization, Google auth, entry chrome and capability ideas. CI runs both ownership and the newer voice/menu suites; the new synthetic UI fixtures explicitly return the verified identity endpoint. The standalone ownership harness ignores imported CSS modules because its assertions concern state, while full browser CI covers styled integration. Regenerated Mac source mirrors from the combined tree; only the receiver fixture differs from main's ZIP contents. No legacy adoption, schema activation or deployment is introduced.
+
+
+### Safe legacy recovery fallback
+
+The historical schema has no owner ID, signed ownership record or other independently verifiable binding. Current authentication, an ownership checkbox, a remembered title or device possession cannot supply that missing evidence. A content-matching challenge would prove knowledge, not exclusive ownership; a broad preview/export would disclose other people's drafts. Neither is implemented.
+
+The minimal safe path is owner-initiated guidance: open “Recovery options”, then use a download/document independently retained and known to be the user's own. “Continue with my own copy” only focuses the existing source field and preserves its contents. The user manually pastes their own copy; existing preparation consent/review and explicit account-scoped saving remain separate. This reconstructs work from an independently held copy; it does not recover or adopt the quarantined record.
+
+If the only copy is quarantined, guidance says to leave browser data intact and not send the shared collection to support or a conversation. It starts no support request. Item-level recovery requires separately established ownership before disclosure; when that evidence is unavailable, quarantine remains. The product gap is therefore reduced to actionable, truthful guidance, not solved by claiming automatic migration.
+
+Synthetic coverage includes both unscoped and guest-only keys, malformed legacy bytes with content reads actively blocked, unchanged editor contents when following the guidance, closed guidance after account changes, byte-for-byte preservation, no provider/database mutation and 375px screenshot/overflow checks. Only fixture text is used in evidence.

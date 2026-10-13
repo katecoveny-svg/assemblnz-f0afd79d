@@ -14,7 +14,7 @@ const subscribeLocation = () => () => {};
 const currentSearch = () => window.location.search;
 import { ArrowUpRight, Check, Copy, Download, LoaderCircle, Trash2 } from 'lucide-react';
 import { cleanSourceUrl, DO_BRIEF_LIMIT, DO_SOURCE_LIMIT, DO_TASKS, draftAsMarkdown, type DoAvailability, type DoPreparedDraft, type DoTask } from '@/apps/do/shared/preparation';
-import { changeLocalDrafts, DO_DRAFTS_KEY, LocalDraftOwnerChangedError, editDoDraft, readLocalDrafts, removeLocalDraft, saveLocalDraft, type SavedDoDraft } from '@/apps/do/shared/local-drafts';
+import { changeLocalDrafts, hasUnownedLocalDrafts, LocalDraftOwnerChangedError, editDoDraft, readLocalDrafts, removeLocalDraft, saveLocalDraft, type SavedDoDraft } from '@/apps/do/shared/local-drafts';
 
 const EXAMPLES = [
   { title: 'Message · sample', text: 'Example message: Hi, could you send the updated outline before our meeting on Thursday? We need to agree who is doing each part and confirm whether the timeline still works. Please suggest a time to review the open questions.' },
@@ -66,6 +66,7 @@ function WritingEditor({ initialBrief = '', initialTask = 'reply', embedded = fa
   const [draft, setDraft] = useState<DoPreparedDraft | null>(null);
   const [reviewer, setReviewer] = useState('');
   const [saved, setSaved] = useState<SavedDoDraft[]>([]);
+  const [legacyPresent, setLegacyPresent] = useState(false);
   const openedSnapshot = useRef<SavedDoDraft | null>(null);
   const storageBusy = useRef(false);
   const [error, setError] = useState('');
@@ -131,7 +132,7 @@ function WritingEditor({ initialBrief = '', initialTask = 'reply', embedded = fa
     const restore = requestAnimationFrame(() => {
       try {
         setSaved(readLocalDrafts(localStorage, storageOwner));
-        if (localStorage.getItem(DO_DRAFTS_KEY) !== null) setNotice('Older device drafts have no recorded owner. They remain untouched and are not opened in this account.');
+        setLegacyPresent(hasUnownedLocalDrafts(localStorage));
       } catch { setSaved([]); setError('Saved drafts could not be read. Existing data is unchanged; retry after checking browser storage.'); }
     });
     return () => cancelAnimationFrame(restore);
@@ -271,6 +272,19 @@ function WritingEditor({ initialBrief = '', initialTask = 'reply', embedded = fa
 
   return <div className={`do-workspace ${embedded ? 'do-workspace-embedded' : ''}`}>
     <div className="do-workspace-intro"><span className="do-small-label">WRITING & TASK PREPARATION</span><h2>What do you want to DO?</h2><p>Choose an agent. Add your text. Get work you can edit, copy and use.</p></div>
+    {!embedded && !nativeOrigin && storageOwner && legacyPresent && <section className="do-review-note" aria-label="Older draft recovery">
+      <p>Older device drafts have no recorded owner. They remain untouched and are not opened in this account.</p>
+      <details>
+        <summary>Recovery options</summary>
+        <p>Signing in or using this device cannot prove who wrote those drafts. DO cannot safely show, export or assign them to you.</p>
+        <h3>If you already have your own copy</h3>
+        <p>Use a download or document you independently kept and know is yours. Paste only that copy into “Text DO can use” below, review it, and choose whether to prepare a new draft. Nothing is imported or saved by opening these options. Preparation and saving still need their separate actions.</p>
+        <button type="button" className="do-quiet-button" disabled={busy} onClick={() => sourceRef.current?.focus()}>Continue with my own copy</button>
+        <h3>If your only copy is here</h3>
+        <p>Leave browser data intact. There is no automatic recovery for these records. Individual recovery would need ownership established independently before anyone opens the content. A title, device access or an ownership checkbox is not enough. If ownership cannot be established, the drafts must stay quarantined.</p>
+        <p>Do not send the shared draft collection to support or paste it into a conversation. These options do not start a recovery request or contact anyone.</p>
+      </details>
+    </section>}
     <form onSubmit={prepare} className="do-preparation-form">
       {focus ? <label className="do-focus-task">What should DO prepare?<select aria-label="Task" value={task} disabled={busy} onChange={e => { editorRevision.current++; setTask(e.target.value as DoTask); setConsent(false); }}>{DO_TASKS.map(option => <option value={option.id} key={option.id}>{option.title}</option>)}</select></label> : <fieldset className="do-task-picker" disabled={busy}><legend>Choose your agent</legend>{DO_TASKS.map(option => <label key={option.id} className={task === option.id ? 'is-selected' : ''}><input type="radio" name="do-task" value={option.id} checked={task === option.id} onChange={() => { editorRevision.current++; setTask(option.id); setConsent(false); }} /><span className="do-task-glyph" aria-hidden>{option.glyph}</span><span><strong>{option.title}</strong><small>{option.description}</small></span></label>)}</fieldset>}
       <div className="do-field-head"><label htmlFor="do-source">Text DO can use</label><span>{source.length.toLocaleString()} / 12,000</span></div>

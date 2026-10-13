@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { changeLocalDrafts, LocalDraftOwnerChangedError } from './local-drafts';
+import { changeLocalDrafts, hasUnownedLocalDrafts, DO_DRAFTS_KEY, LocalDraftOwnerChangedError } from './local-drafts';
 const owner = '11111111-1111-4111-8111-111111111111';
 afterEach(() => { vi.unstubAllGlobals(); });
 function locks() {
@@ -29,3 +29,18 @@ describe('browser draft transaction boundary', () => {
     expect(change).not.toHaveBeenCalled();
   });
 });
+
+describe('legacy quarantine discovery', () => {
+  it('finds legacy and guest keys without retrieving their content', () => {
+    for (const legacy of [DO_DRAFTS_KEY, `${DO_DRAFTS_KEY}:guest`]) {
+      const getItem = vi.fn(() => { throw new Error('Unowned content must not be read'); });
+      const storage = { length: 2, key: (index: number) => [localStorageKey, legacy][index], getItem };
+      expect(hasUnownedLocalDrafts(storage)).toBe(true);
+      expect(getItem).not.toHaveBeenCalled();
+    }
+  });
+  it('does not treat an account key as an unowned record', () => {
+    expect(hasUnownedLocalDrafts({ length: 1, key: () => localStorageKey })).toBe(false);
+  });
+});
+const localStorageKey = `${DO_DRAFTS_KEY}:${owner}`;
