@@ -14,18 +14,31 @@ type Props = {
   onWake: (note?: string) => Promise<boolean>;
 };
 
-/** Wake-up schedule and "wake DO now" controls for one responsibility. Server re-validates everything. */
-export function WakeupControls({ item, now, busy, workerReady, onSchedule, onWake }: Props) {
-  const summary = wakeupSummary(item, now);
-  const [open, setOpen] = useState(false);
-  const [form, setForm] = useState(() => ({
+function formFrom(item: Responsibility) {
+  return {
     cadence: (item.cadence ?? "daily") as Cadence,
     weekday: item.weekday ?? 1,
     localHour: item.local_hour,
     timezone: item.timezone,
     runOnceAt: "",
-  }));
+  };
+}
+
+/** Wake-up schedule and "wake DO now" controls for one responsibility. Server re-validates everything. */
+export function WakeupControls({ item, now, busy, workerReady, onSchedule, onWake }: Props) {
+  const summary = wakeupSummary(item, now);
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState(() => formFrom(item));
   const [consent, setConsent] = useState(false);
+  // The saved schedule changed underneath an open form (notes edited, another device): restart from what is saved
+  // so consent is only ever given to the hour and zone the owner can see.
+  const saved = `${item.cadence ?? ""}|${item.weekday ?? ""}|${item.local_hour}|${item.timezone}`;
+  const [seenSaved, setSeenSaved] = useState(saved);
+  if (saved !== seenSaved) {
+    setSeenSaved(saved);
+    setForm(formFrom(item));
+    setConsent(false);
+  }
   const [note, setNote] = useState("");
   const canWake = workerReady && summary.on && !busy;
   async function submit(event: FormEvent) {

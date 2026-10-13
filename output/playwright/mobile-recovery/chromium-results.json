@@ -1,0 +1,64 @@
+[
+  {
+    "width": 375,
+    "mode": "normal",
+    "engine": "chromium",
+    "passed": true,
+    "entryTargets": [
+      {
+        "href": "/do?tool=write",
+        "x": 20.625,
+        "y": 337.953125,
+        "width": 333.75,
+        "height": 48
+      },
+      {
+        "href": "/do?tool=talk",
+        "x": 20.625,
+        "y": 397.953125,
+        "width": 333.75,
+        "height": 48
+      },
+      {
+        "href": "/do",
+        "x": 20.625,
+        "y": 457.953125,
+        "width": 333.75,
+        "height": 48
+      }
+    ],
+    "pausedCopyChecks": []
+  },
+  {
+    "width": 375,
+    "mode": "blocked",
+    "engine": "chromium",
+    "passed": true,
+    "entryTargets": [],
+    "pausedCopyChecks": []
+  },
+  {
+    "width": 375,
+    "mode": "denied",
+    "engine": "chromium",
+    "passed": true,
+    "entryTargets": [],
+    "pausedCopyChecks": []
+  },
+  {
+    "width": 375,
+    "mode": "no-frame",
+    "engine": "chromium",
+    "passed": true,
+    "entryTargets": [],
+    "pausedCopyChecks": []
+  },
+  {
+    "width": 375,
+    "mode": "reduce",
+    "engine": "chromium",
+    "passed": true,
+    "entryTargets": [],
+    "pausedCopyChecks": []
+  }
+]
