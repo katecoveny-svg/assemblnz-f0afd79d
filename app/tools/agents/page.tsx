@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { PUBLIC_KNOWLEDGE_VERSION } from '@/lib/pursuit/public-knowledge';
-export const metadata = { title: 'Assembl knowledge and tools for agents', description: 'Public Assembl knowledge search, MCP connection details, API schemas and the current limits of the research trial.' };
+export const metadata = { alternates: { canonical: 'https://www.assembl.co.nz/tools/agents' }, title: 'Assembl knowledge and tools for agents', description: 'Public Assembl knowledge search, MCP connection details, API schemas and the current limits of the research trial.' };
 export default function AgentToolsPage() {
   return <main style={{maxWidth:1000,margin:'auto',padding:'70px 24px',color:'#240B21',fontFamily:'var(--font-body), sans-serif'}}>
     <p style={{fontSize:11,letterSpacing:'.12em'}}>ASSEMBL / FOR AGENTS AND DEVELOPERS</p><h1 style={{fontSize:'clamp(42px,7vw,80px)',lineHeight:1.03,letterSpacing:'-.055em'}}>Find the knowledge.<br />Call the right tool.</h1>

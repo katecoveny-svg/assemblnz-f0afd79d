@@ -13,6 +13,8 @@ const CORE_PATHS = [
   ...PRODUCT_PATHS,
   '/do/install',
   '/agent-schema',
+  '/tools/agents',
+  '/docs/mcp',
   '/ai-ready',
   // The public agent builder (per-agent share pages are deliberately not
   // listed — they're visitor-made and unreviewed).
