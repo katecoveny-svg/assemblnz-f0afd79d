@@ -39,10 +39,11 @@
 .direction-4c .clear-hover-18:hover{text-decoration:none;color:#EAC8DF}
 .direction-4c{font-family:var(--font-body),"Instrument Sans",sans-serif;isolation:isolate}
 .direction-4c [data-fallback]{display:contents}
-.direction-4c [data-fallback]>*{transition:opacity .45s ease}
-.direction-4c[data-ready] [data-fallback]>*{opacity:0;pointer-events:none}
-.direction-4c [data-ref="canvasRef"]{opacity:0;transition:opacity .45s ease}
-.direction-4c[data-ready] [data-ref="canvasRef"]{opacity:1}
+/* Hand off the wordmark first; only the background layers crossfade. */
+.direction-4c[data-ready] [data-fallback]>*{opacity:0;pointer-events:none;transition:opacity .45s ease .16s}
+.direction-4c[data-ready] [data-fallback]>p{transition:opacity .16s ease}
+.direction-4c [data-ref="canvasRef"]{opacity:0}
+.direction-4c[data-ready] [data-ref="canvasRef"]{opacity:1;transition:opacity .45s ease .16s}
 .direction-4c[data-paused] *, .direction-4c[data-paused] *::before,.direction-4c[data-paused] *::after{animation-play-state:paused!important;transition:none!important}
 @media(max-width:900px){.direction-4c header{flex-wrap:wrap!important;border-radius:26px!important}.direction-4c header nav{order:3;width:100%;justify-content:center}.direction-4c header nav a{flex:1;justify-content:center}.direction-4c header button{padding:0 8px!important;font-size:10px!important}.direction-4c header>div>a{padding:0 12px!important}.direction-4c [data-ref="kickRef"]{font-size:9px!important;letter-spacing:.12em!important}.direction-4c [data-ref="msgRef"] p:nth-child(3){font-size:16px!important}}
 @media(prefers-reduced-motion:reduce){.direction-4c #top{height:100svh!important;min-height:700px}.direction-4c [data-ref="msgRef"]{opacity:1!important;visibility:visible!important;top:62%!important;transform:translateY(-50%)!important}.direction-4c [data-ref="subRef"],.direction-4c [data-ref="cueRef"]{display:none}.direction-4c [data-ref="kickRef"]{top:190px!important}.direction-4c [data-fallback] p{top:32%!important;font-size:18vw!important}.direction-4c [data-ref="markRef"]{opacity:1!important}}

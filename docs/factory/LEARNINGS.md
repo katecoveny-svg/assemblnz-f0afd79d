@@ -113,3 +113,5 @@ A visible HTML poster does not prove the backdrop when an opaque WebGL canvas si
 ### Homepage startup is a sequence, not an endpoint (14 October 2026)
 
 A correct final frame can hide several competing loading scenes. Record fresh and warm first-ten-second loads with delayed/blocked media, and correlate actual canvas samplers with page readiness flags. Keep raw media texture-only when an opaque compositor owns the final scene; decode the fallback before marking the compositor ready. See `docs/reviews/HOMEPAGE-STARTUP-20261014.md` and `scripts/homepage-startup-proof.cjs`.
+
+- Homepage startup handoff: do not crossfade differently sized HTML and canvas wordmarks at the same time. Sequence their visibility and inspect actual intermediate painted frames; endpoint screenshots and media readiness assertions miss overlapping lettering.

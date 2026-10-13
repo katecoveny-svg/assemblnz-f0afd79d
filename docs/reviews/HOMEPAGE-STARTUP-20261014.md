@@ -22,7 +22,7 @@ Extend the existing renderer and fallback, with no new storage or service:
 
 - The HTML video remains texture-only; never expose a standalone raw-video scene.
 - Decode the intrinsic-size poster before allocating/exposing the composed renderer. A bounded three-second decode deadline retains the intentional procedural/flock fallback if both media sources fail; optional media never disables the renderer.
-- Crossfade the existing readable fallback and composed canvas over 450 ms.
+- Fade the HTML fallback wordmark out over 160 ms, then crossfade the background and composed canvas over 450 ms. The differently sized wordmarks never overlap.
 - Blend late footage from the poster inside the same graded composition over 600 ms. Failed footage is discarded immediately, retaining existing safety behavior. Paused rendering does not advance the blend.
 - Preserve the chosen flock, artwork, poster, copy, arrows, DO targets, scroll readability and pause/reduced-motion behavior.
 
@@ -55,3 +55,13 @@ All eight local cases passed: Chromium/WebKit × 390/1440px × slow/failed poste
 ### Hosted timing correction
 
 The first hosted run on `98f4a08` completed in about 34 minutes. Build, typecheck, lint, 23 tests and all existing mobile/painted-canvas cases passed. One new startup assertion failed on 1440px Chromium: deliberately delayed video remained unavailable, so the real six-second media deadline correctly retained the poster instead of producing a blend. The test had incorrectly required successful recovery in every delayed case. The corrected proof requires blending when video recovers, or a painted poster plus a stopped/discarded video when it does not. It does not change the production deadline or renderer. The workflow budget is 50 minutes to accommodate the measured software-rendering cost and added poster cases.
+
+### Single-wordmark correction
+
+Direct review of the original draft recordings at 700 ms found two differently sized wordmarks overlapping during the simultaneous crossfade. This was a visual acceptance blocker despite the earlier source and media checks passing. The prior head `ddd5e852a1828739c4deb98e9ed0683920bc8e52` subsequently passed hosted run 38479552929, including both browser suites; that result does not cover this correction.
+
+The bounded correction changes only CSS transition sequencing: the existing HTML wordmark fades out for 160 ms before the composed canvas/background crossfade starts. The final artwork, geometry, renderer, poster and video behavior are unchanged. Initial canvas opacity has no transition until readiness, and removing readiness restores the fallback immediately. Pause still completes transitions atomically. There is a brief dim handoff rather than an overlapping wordmark; this is not a claim that the two existing wordmark treatments have identical geometry.
+
+Proof now records both computed opacities and rejects simultaneous visible wordmarks. Local before evidence remains in `output/playwright/startup/{phone,desktop}-crossfade-700ms.png`; after recordings, transition strips, actual painted screenshots and timelines are in `output/playwright/startup-single-wordmark/`. Fresh production build/typecheck, scoped lint, 23 tests, syntax/diff checks passed. Mobile scroll, blocked media, paused breakpoint, real DO destinations and sample interruption checks passed at 375/390/430px in both browser engines. Early-pause and reduced-motion/failed-renderer/both-media-failed checks passed. One redundant fallback invocation lacked the WebKit browser path; the correctly configured invocation passed all six fallback cases.
+
+Independent visual acceptance and terminal hosted CI on the correction's exact head remain the release gate. No merge or deployment was performed.

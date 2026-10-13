@@ -52,7 +52,7 @@ for(const width of (process.env.PROOF_WIDTHS||'390,1440').split(',').map(Number)
 
  await page.addInitScript(()=>{
  window.__timeline=[];
- const stamp=()=>{const root=document.querySelector('.direction-4c'),v=document.querySelector('video'),canvas=document.querySelector('[data-ref="canvasRef"]'); if(root)window.__timeline.push({ms:Math.round(performance.now()),ready:root.hasAttribute('data-ready'),videoReady:root.hasAttribute('data-video-ready'),static:root.hasAttribute('data-static'),sample:window.__plateDrawSource||null,blend:window.__plateBlend,videoState:v?.readyState,videoTime:v?.currentTime,canvasOpacity:canvas&&getComputedStyle(canvas).opacity,videoOpacity:v&&getComputedStyle(v).opacity,fallback:getComputedStyle(root.querySelector('[data-fallback]')||root).display});};
+ const stamp=()=>{const root=document.querySelector('.direction-4c'),v=document.querySelector('video'),canvas=document.querySelector('[data-ref="canvasRef"]'); if(root)window.__timeline.push({ms:Math.round(performance.now()),ready:root.hasAttribute('data-ready'),videoReady:root.hasAttribute('data-video-ready'),static:root.hasAttribute('data-static'),sample:window.__plateDrawSource||null,blend:window.__plateBlend,videoState:v?.readyState,videoTime:v?.currentTime,canvasOpacity:canvas&&getComputedStyle(canvas).opacity,videoOpacity:v&&getComputedStyle(v).opacity,fallback:getComputedStyle(root.querySelector('[data-fallback]')||root).display,wordmarkOpacity:getComputedStyle(root.querySelector('[data-fallback]>p')||root).opacity});};
  setInterval(stamp,50);
  // Normal runs retain the real browser HTTP cache: no request routing.
  const fetch0=window.fetch;window.fetch=(u,o)=>{const url=new URL(typeof u==='string'?u:u.url,location.href);return /\/api\//.test(url.pathname)||(o?.method&&o.method!=='GET')?Promise.reject(new Error('Diagnostic blocks API')):fetch0(u,o);};
@@ -92,6 +92,7 @@ results.push({name,width,mode,captures,timeline,painted,videoOutcome,network:[..
   const assert=require('node:assert/strict');
   assert(timeline.some(x=>x.ready),'composed scene becomes ready');
   assert(!timeline.some(x=>x.videoReady&&x.videoOpacity!=='0'),'raw video never becomes a separate scene');
+  assert(!timeline.some(x=>x.ready&&Number(x.canvasOpacity)>.02&&Number(x.wordmarkOpacity)>.02),'HTML and canvas wordmarks never overlap during handoff');
   assert(painted.some((v,i)=>i%4!==3&&v>0),'canvas actually paints colour');
   if(!posterCase) assert(!timeline.some(x=>x.ready&&!x.sample),'available poster/video supplies the ready canvas');
   if(posterCase){
