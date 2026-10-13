@@ -54,3 +54,18 @@
 @media(prefers-reduced-motion:reduce){.direction-4c [data-ref="canvasRef"]{display:none!important}.direction-4c [data-fallback]{display:contents!important}.direction-4c [data-ref="kickRef"]{opacity:1!important;visibility:visible!important}}
 .direction-4c section[id]{scroll-margin-top:80px}
 @media(max-width:900px){.direction-4c section[id]{scroll-margin-top:140px}}
+/* Static hero uses normal flow so short screens and enlarged text cannot overlap. */
+@media(prefers-reduced-motion:reduce){
+  .direction-4c #top{height:auto!important;min-height:0}
+  .direction-4c #top>div{position:relative!important;height:auto!important;min-height:100svh;padding:180px 5.5% 70px;display:flex;flex-direction:column;align-items:center;gap:30px}
+  .direction-4c [data-ref="kickRef"]{position:static!important;order:0;transform:none!important}
+  .direction-4c [data-fallback] p{position:static!important;order:1;transform:none!important;font-size:min(18vw,200px)!important}
+  .direction-4c [data-ref="msgRef"]{position:relative!important;order:2;top:auto!important;left:auto!important;right:auto!important;width:100%;transform:none!important}
+}
+.direction-4c[data-static] [data-ref="canvasRef"]{display:none}
+.direction-4c[data-static] #top{height:auto!important;min-height:0}
+.direction-4c[data-static] #top>div{position:relative!important;height:auto!important;min-height:100svh;padding:180px 5.5% 70px;display:flex;flex-direction:column;align-items:center;gap:30px}
+.direction-4c[data-static] [data-ref="kickRef"]{position:static!important;order:0;transform:none!important;opacity:1!important;visibility:visible!important}
+.direction-4c[data-static] [data-fallback] p{position:static!important;order:1;transform:none!important;font-size:min(18vw,200px)!important}
+.direction-4c[data-static] [data-ref="msgRef"]{position:relative!important;order:2;top:auto!important;left:auto!important;right:auto!important;width:100%;transform:none!important;opacity:1!important;visibility:visible!important}
+.direction-4c[data-static] [data-ref="subRef"],.direction-4c[data-static] [data-ref="cueRef"]{display:none}

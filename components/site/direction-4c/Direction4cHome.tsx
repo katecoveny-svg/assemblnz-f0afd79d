@@ -49,10 +49,10 @@ export function Direction4cHome() {
       delete root.dataset.ready;
       root.querySelectorAll<HTMLElement>('[data-rv]').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
     };
-    const stop = () => { cancelAnimationFrame(frame); world?.dispose(); world = undefined; video.pause(); fallback(); };
+    const stop = () => { cancelAnimationFrame(frame); frame = 0; world?.dispose(); world = undefined; video.pause(); fallback(); };
     const updatePause = () => {
       root.toggleAttribute('data-paused', paused || media.matches);
-      world?.setPaused(paused || document.hidden);
+      world?.setPaused(paused || media.matches || document.hidden);
       // Engine has a document-wide pause switch; contain it to this page.
       document.documentElement.removeAttribute('data-paused');
       button.setAttribute('aria-pressed', String(paused || media.matches));
@@ -60,7 +60,7 @@ export function Direction4cHome() {
       button.disabled = media.matches;
     };
     const tick = () => {
-      if (disposed || media.matches) return;
+      if (disposed || media.matches || !world?.api) return;
       frame = requestAnimationFrame(tick);
       if (paused || document.hidden) return;
       const hero = ref('heroRef');
@@ -84,7 +84,7 @@ export function Direction4cHome() {
     let generation = 0;
     const start = async () => {
       const current = ++generation;
-      stop(); updatePause();
+      stop(); delete root.dataset.static; updatePause();
       if (media.matches) return;
       try {
         await loadScript('/direction-4c/vendor/three.min.js');
@@ -94,7 +94,7 @@ export function Direction4cHome() {
         const engine = (window as Window & { AssemblTide?: Tide }).AssemblTide;
         if (!engine) throw new Error('Motion engine unavailable');
         const next = await engine.attach({
-          canvas: ref('canvasRef') as HTMLCanvasElement, plate: video, onFail: fallback,
+          canvas: ref('canvasRef') as HTMLCanvasElement, plate: video, onFail: lost,
           extra: { tone: 'film', gliders: false, knockZoom: true, outline: .7, glass: false,
             count: 900, arrive: .22, birdScale: 1.2, silhouette: 1,
             slots: ['cloud', 'signal', 'pin', 'DO', 'bubble', 'tick', 'frame', 'sparkle', 'padlock', 'seal', 'amark', 'word'],
@@ -107,13 +107,18 @@ export function Direction4cHome() {
         });
         if (disposed || current !== generation) { next.dispose(); return; }
         world = next;
-        if (world.api) root.dataset.ready = 'true';
+        if (!world.api) { lost(); return; }
+        root.dataset.ready = 'true';
         updatePause(); tick();
-      } catch { fallback(); tick(); }
+      } catch { if (!disposed && current === generation) lost(); }
     };
     const toggle = () => { paused = !paused; updatePause(); };
     const visibility = () => updatePause();
-    const lost = () => { stop(); tick(); };
+    const lost = () => {
+      generation++; // A pending attach must never revive a failed scene.
+      stop(); root.dataset.static = 'true';
+      video.removeAttribute('src'); video.load();
+    };
     video.addEventListener('error', lost);
     ref('canvasRef')?.addEventListener('webglcontextlost', lost);
     button.addEventListener('click', toggle);

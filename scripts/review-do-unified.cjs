@@ -59,12 +59,17 @@ async function verifyFunctionalMark(page, root, label) {
     page.on('pageerror', error => errors.push(page.url() + ": " + error.message));
     const visit = async path => { const response = await page.goto(origin + path, { waitUntil: 'networkidle' }); assert.ok(response?.ok(), path); await page.evaluate(() => document.fonts.ready); return response; };
     await visit('/');
-    await page.getByRole('heading', { name: 'Agentic AI solutions, assembled for your business.', level: 1, exact: true }).waitFor();
-    check('homepage has one assembl invitation', await page.getByRole('heading', { name: 'Agentic AI solutions, assembled for your business.', level: 1, exact: true }).count() === 1);
+    await page.getByRole('heading', { name: 'assembl. Useful work.', level: 1, exact: true }).waitFor({ state: 'attached' });
+    check('homepage has one accessible assembl invitation', await page.getByRole('heading', { name: 'assembl. Useful work.', level: 1, exact: true }).count() === 1);
     check('Open DO goes directly to the product', await page.getByRole('link', { name: 'Open DO', exact: true }).first().getAttribute('href') === '/do');
-    await page.waitForFunction(() => document.querySelector('[data-chapter][data-static="true"]'));
-    check('reduced-motion homepage has a static scene and complete work loop', await page.locator('[data-world="atelier"] canvas').count() === 0 && await page.getByLabel('The complete work loop', { exact: true }).isVisible());
-    check('deeper atelier remains optional and unmounted', !await page.locator('.refined-atelier').evaluate(el => el.open) && await page.locator('.refined-atelier canvas').count() === 0);
+    await page.locator('.direction-4c[data-paused]').waitFor();
+    check('reduced-motion homepage has a static scene and readable invitation', await page.locator('.direction-4c canvas').evaluate(el => getComputedStyle(el).display === 'none')
+      && !await page.locator('.direction-4c').evaluate(el => el.hasAttribute('data-ready'))
+      && await page.locator('[data-ref="msgRef"]').isVisible());
+    check('all three product sections and public destinations remain available', await page.locator('#pursuit, #do, #studio').count() === 3
+      && await page.getByRole('link', { name: 'Explore Pursuit', exact: true }).getAttribute('href') === '/pursuit'
+      && await page.getByRole('link', { name: 'Explore Studio', exact: true }).getAttribute('href') === '/creative-studio');
+    check('reduced motion does not start the decorative engine', await page.locator('script[src="/direction-4c/assembl-tide.js"]').count() === 0);
     await page.screenshot({ path: out + '/01-home-desktop.png' });
     await page.getByRole('link', { name: 'Open DO', exact: true }).first().click();
     await page.locator('#life-admin-source').waitFor();

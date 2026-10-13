@@ -33,6 +33,6 @@ jobs:
       - run: pnpm --filter @assembl/canvas build
       - run: pnpm typecheck
       - run: pnpm exec eslint components/site/direction-4c app/page.tsx --max-warnings=0
-      - run: pnpm exec vitest run lib/do/navigation.test.ts
+      - run: pnpm exec vitest run lib/do/navigation.test.ts components/site/direction-4c/motion.test.ts
       - run: pnpm lint:macrons
       - run: pnpm build

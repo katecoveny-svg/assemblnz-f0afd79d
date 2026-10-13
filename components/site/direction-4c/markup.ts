@@ -122,6 +122,7 @@ export const directionMarkup = `<div style="position:relative;min-height:100vh;o
       <a href="/do" style="display:flex;align-items:center;min-height:44px;color:#FFFDFB;border-bottom:1px solid rgba(234,200,223,.16)" class="clear-hover-16">DO</a>
       <a href="/do/install" style="display:flex;align-items:center;min-height:44px;color:#FFFDFB;border-bottom:1px solid rgba(234,200,223,.16)" class="clear-hover-17">Install DO</a>
       <a href="/contact" style="display:flex;align-items:center;min-height:44px;color:#FFFDFB;border-bottom:1px solid rgba(234,200,223,.16)" class="clear-hover-18">Contact</a>
+      <a href="/legal/privacy" style="display:flex;align-items:center;min-height:44px;color:#FFFDFB;border-bottom:1px solid rgba(234,200,223,.16)">Privacy</a>
     </nav>
     <div style="display:flex;flex-direction:column;gap:10px;padding:20px 22px;border-radius:24px;background:rgba(255,253,251,.06);box-shadow:inset 0 0 0 1px rgba(234,200,223,.2)">
       <p style="margin:0;font:400 10.5px/1.4 var(--font-mono),'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:#EAC8DF">review before action</p>

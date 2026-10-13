@@ -616,10 +616,12 @@ async function mount(canvas, opts = {}) {
 
 // Page wiring shared by the assembl murmuration pages: scroll position → world shape, parallax, reveals, pointer, pause.
 async function attach({ canvas, preset, theme, plate, grade, onFail, engine, extra }) {
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');
+  let reduced = motionQuery.matches, paused = reduced, disposed = false;
   let io = null, api = null, raf = 0;
+  const savedStyles = Array.from(document.querySelectorAll('[data-par], [data-rv]'), el => [el, el.style.transform, el.style.opacity, el.style.transition]);
   if (!reduced && 'IntersectionObserver' in window) {
-    io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'none'; io.unobserve(e.target); } }), { rootMargin: '0px 0px -10% 0px' });
+    io = new IntersectionObserver(es => es.forEach(e => { if (!paused && !disposed && e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'none'; io.unobserve(e.target); } }), { rootMargin: '0px 0px -10% 0px' });
     document.querySelectorAll('[data-rv]').forEach(el => {
       const d = parseInt(el.getAttribute('data-rv'), 10) || 0;
       el.style.opacity = '0'; el.style.transform = 'translateY(30px)';
@@ -640,26 +642,54 @@ async function attach({ canvas, preset, theme, plate, grade, onFail, engine, ext
     return pts[pts.length - 1][1];
   };
   const par = () => {
-    if (reduced) return;
+    if (reduced || paused || disposed) return;
     const vh = innerHeight;
     document.querySelectorAll('[data-par]').forEach(el => { const r = el.parentElement.getBoundingClientRect(); el.style.transform = 'translate3d(0,' + (((r.top + r.height / 2) - vh / 2) * 0.12).toFixed(1) + 'px,0)'; });
   };
-  const tick = () => { raf = 0; if (api) api.setForm(formAt()); par(); };
-  const onScroll = () => { if (!raf) raf = requestAnimationFrame(tick); };
-  const onMove = e => { if (api) api.setPointer((e.clientX / innerWidth) * 2 - 1, (e.clientY / innerHeight) * 2 - 1); };
-  const onResize = () => { if (api) api.setWide(innerWidth > 900); tick(); };
-  addEventListener('scroll', onScroll, { passive: true });
-  addEventListener('pointermove', onMove, { passive: true });
-  addEventListener('resize', onResize);
+  const tick = () => { raf = 0; if (paused || reduced || disposed) return; if (api) api.setForm(formAt()); par(); };
+  const onScroll = () => { if (!paused && !reduced && !disposed && !raf) raf = requestAnimationFrame(tick); };
+  const onMove = e => { if (!paused && !reduced && !disposed && api) api.setPointer((e.clientX / innerWidth) * 2 - 1, (e.clientY / innerHeight) * 2 - 1); };
+  const onResize = () => { if (paused || reduced || disposed) return; if (api) api.setWide(innerWidth > 900); tick(); };
+  const bindMotion = () => {
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('pointermove', onMove, { passive: true });
+    addEventListener('resize', onResize);
+  };
+  const unbindMotion = () => {
+    removeEventListener('scroll', onScroll);
+    removeEventListener('pointermove', onMove);
+    removeEventListener('resize', onResize);
+  };
+  if (!reduced) bindMotion();
   tick();
   try {
     api = await mount(canvas, { preset, theme, plate, grade, ...(extra || {}) });
     onResize();
   } catch (err) { console.warn('assembl world unavailable', err); if (onFail) onFail(); }
+  const setPaused = p => {
+    paused = Boolean(p) || reduced;
+    if (api) api.setPaused(paused);
+    document.documentElement.toggleAttribute('data-paused', paused);
+    if (paused) {
+      unbindMotion();
+      document.querySelectorAll('[data-par]').forEach(el => { el.style.transform = 'none'; });
+      if (raf) cancelAnimationFrame(raf);
+      raf = 0;
+      // Pausing must not strand unrevealed content at opacity zero.
+      document.querySelectorAll('[data-rv]').forEach(el => { el.style.transition = 'none'; el.style.opacity = '1'; el.style.transform = 'none'; });
+    } else { bindMotion(); onResize(); }
+  };
+  const onMotionChange = () => {
+    reduced = motionQuery.matches;
+    if (reduced) document.querySelectorAll('[data-par]').forEach(el => { el.style.transform = 'none'; });
+    setPaused(paused || reduced);
+  };
+  motionQuery.addEventListener('change', onMotionChange);
+  if (reduced) setPaused(true);
   return {
     get api() { return api; },
-    setPaused(p) { if (api) api.setPaused(p); document.documentElement.toggleAttribute('data-paused', p); },
-    dispose() { removeEventListener('scroll', onScroll); removeEventListener('pointermove', onMove); removeEventListener('resize', onResize); if (raf) cancelAnimationFrame(raf); if (io) io.disconnect(); if (api) api.dispose(); document.documentElement.removeAttribute('data-paused'); },
+    setPaused,
+    dispose() { disposed = true; motionQuery.removeEventListener('change', onMotionChange); savedStyles.forEach(([el, transform, opacity, transition]) => { el.style.transform = transform; el.style.opacity = opacity; el.style.transition = transition; }); unbindMotion(); if (raf) cancelAnimationFrame(raf); if (io) io.disconnect(); if (api) api.dispose(); document.documentElement.removeAttribute('data-paused'); },
   };
 }
 
