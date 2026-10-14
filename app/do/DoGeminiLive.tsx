@@ -1,6 +1,8 @@
 "use client";
 import { handoffReviewedMail } from "@/apps/do/mail/voice-handoff";
 
+import { VoiceResumption } from "@/apps/do/shared/voice-resumption";
+import type { VoiceCostQuote } from "@/apps/do/shared/voice-lease";
 import Link from "next/link";
 import { typedLivePacket } from "@/apps/do/shared/companion-live-input";
 import { claimDoAudio } from "@/apps/do/shared/audio-exclusion";
@@ -24,7 +26,9 @@ type IssuedSession = {
   model: string;
   mode: DoVoiceMode;
   config: LiveConnectConfig;
-  expiresAt: string;
+  expiresAt: string | number;
+  leaseId?: string;
+  sessionSeconds?: number;
 };
 function toBase64(buffer: ArrayBuffer) {
   const bytes = new Uint8Array(buffer);
@@ -97,6 +101,11 @@ export function DoGeminiLive({
   const [state, setState] = useState<
     "idle" | "starting" | "listening" | "working"
   >("idle");
+  const [requestedSeconds, setRequestedSeconds] = useState<300 | 600 | 900>(300);
+  const [quote, setQuote] = useState<VoiceCostQuote | null>(null);
+  const [quoting, setQuoting] = useState(false);
+  const quoteGeneration = useRef(0);
+  const leaseEnabled = availability?.leaseEnabled === true;
   const [expanded, setExpanded] = useState(false);
   const [consentFor, setConsentFor] = useState<string | null>(null);
   const [includeContext, setIncludeContext] = useState(false);
@@ -113,7 +122,7 @@ export function DoGeminiLive({
   const [draft, setDraft] = useState<string | null>(null);
   const [preparedBrief, setPreparedBrief] = useState("");
   // Any change to the reviewed disclosure invalidates its previous consent.
-  const consentScope = JSON.stringify([initialProfile?.updatedAt ?? null, profile ?? null, mode, voiceName, availability?.voiceRevision, includeContext, includeContext ? context.slice(0, 6000) : ""]);
+  const consentScope = JSON.stringify([initialProfile?.updatedAt ?? null, leaseEnabled ? null : profile ?? null, mode, quote?.quoteId ?? null, requestedSeconds, voiceName, availability?.voiceRevision, includeContext, includeContext ? context.slice(0, 6000) : ""]);
   const consent = consentFor === consentScope;
   const live = state !== "idle";
   useEffect(() => { onLiveChange?.(live); }, [live, onLiveChange]);
@@ -183,6 +192,7 @@ export function DoGeminiLive({
       end("Call ended because your saved preferences were removed. Your microphone is off.");
   }, [initialProfile?.updatedAt, profile?.updatedAt, end]);
   useEffect(() => {
+    const quoteLifetime = quoteGeneration;
     const initialCheck = window.setTimeout(() => void refresh(), 0);
     const onHidden = () => {
       if (document.hidden && active.current)
@@ -206,6 +216,7 @@ export function DoGeminiLive({
       window.removeEventListener('message', onCompanionHidden);
       window.clearTimeout(initialCheck);
       availabilityRequest.current?.abort();
+      quoteLifetime.current++;
       document.removeEventListener("visibilitychange", onHidden);
       window.removeEventListener("pagehide", onPageHide);
       window.removeEventListener("offline", onOffline);
@@ -242,8 +253,26 @@ export function DoGeminiLive({
     if (session.muted && session.ws?.readyState === WebSocket.OPEN)
       session.ws.send(JSON.stringify({ realtimeInput: { audioStreamEnd: true } }));
   }
+  useEffect(() => {
+    if (!quote) return;
+    const timer = setTimeout(() => { setQuote(null); setConsentFor(null); }, Math.max(0, quote.expiresAt - Date.now()));
+    return () => clearTimeout(timer);
+  }, [quote]);
+  async function reviewDuration(seconds: 300 | 600 | 900) {
+    const generation = ++quoteGeneration.current;
+    setRequestedSeconds(seconds); setQuote(null); setConsentFor(null); setQuoting(true);
+    try {
+      const response = await fetch('/api/do/live-lease', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'quote',requestedSeconds:seconds,voiceRevision:availability?.voiceRevision}),signal:AbortSignal.timeout(10000)});
+      const data = await response.json(); const q = data.quote as VoiceCostQuote | undefined;
+      if (generation !== quoteGeneration.current) return;
+      if (!response.ok || !q || q.requestedSeconds !== seconds || q.voiceRevision !== availability?.voiceRevision || q.voiceName !== voiceName || q.provider !== 'google' || q.funding !== 'assembl_included' || q.additionalChargeCents !== 0 || q.usageBasis !== 'reserved_connection_seconds' || q.expiresAt <= Date.now()) throw new Error('Duration unavailable. Check your account allowance again.');
+      setQuote(q); setNotice('Review the included time, then choose Start call.');
+    } catch { if (generation === quoteGeneration.current) setNotice('A call quote could not be confirmed. No microphone or paid call started.'); }
+    finally { if (generation === quoteGeneration.current) setQuoting(false); }
+  }
   async function start() {
     if (active.current || profileReviewPending || !consent || !availability?.enabled || !availability.configured || !availability.signedIn || !availability.remaining || !availability.voiceRevision) return;
+    if (leaseEnabled && (!quote || quote.expiresAt <= Date.now() || quote.voiceRevision !== availability.voiceRevision || quote.requestedSeconds !== requestedSeconds)) return;
     const s: Session = {
       request: new AbortController(),
       ready: false,
@@ -290,40 +319,68 @@ export function DoGeminiLive({
         s.input.audioWorklet.addModule("/do/audio/pcm-recorder.js"),
       ]);
       if (!current()) return;
-      const response = await fetch("/api/do/live-token", {
+      if (leaseEnabled && (!quote || quote.expiresAt <= Date.now())) throw new Error("Call quote expired. Review the duration again.");
+      const response = await fetch(leaseEnabled ? "/api/do/live-lease" : "/api/do/live-token", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mode, voiceName, voiceRevision: availability?.voiceRevision, consent: true, ...(profile ? { includeProfile: true, profileUpdatedAt: profile.updatedAt } : {}) }),
+        body: JSON.stringify(leaseEnabled ? {action:"start",requestId:crypto.randomUUID(),quoteId:quote!.quoteId,consent:true} : { mode, voiceName, voiceRevision: availability?.voiceRevision, consent: true, ...(profile ? { includeProfile: true, profileUpdatedAt: profile.updatedAt } : {}) }),
         signal: s.request.signal,
       });
       const issued = (await response.json()) as IssuedSession & {
         error?: string;
       };
-      if (!current()) return;
+      const revoke = () => { if (issued.leaseId) void fetch('/api/do/live-lease', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'revoke',leaseId:issued.leaseId}),keepalive:true}).catch(() => {}); };
+      if (!current()) { revoke(); return; }
+      s.releaseResume = revoke;
       if (!response.ok || !issued.token)
         throw new Error(issued.error || "Voice could not start.");
-      if (!Number.isFinite(Date.parse(issued.expiresAt)) || Date.parse(issued.expiresAt) <= Date.now()) throw new Error("Call permission expired. Review and start again.");
-      setPaidDeadline(issued.expiresAt);
+      const deadline = typeof issued.expiresAt === "number" ? issued.expiresAt : Date.parse(issued.expiresAt);
+      if (leaseEnabled && (!issued.leaseId || issued.sessionSeconds !== requestedSeconds || issued.model !== quote?.model)) throw new Error("Call admission changed. Review again.");
+      if (!Number.isFinite(deadline) || deadline <= Date.now()) throw new Error("Call permission expired. Review and start again.");
+      setPaidDeadline(new Date(deadline).toISOString());
       const issuedVoice = issued.config.speechConfig?.voiceConfig?.prebuiltVoiceConfig?.voiceName;
       if (issuedVoice !== voiceName) throw new Error("The issued voice differs from the one you reviewed. Review call options again.");
       setDiagnostic(voiceDiagnostic(issued.model, issuedVoice, 'issued'));
+      s.deadline = setTimeout(() => { if (current()) end("This approved conversation has ended. Your microphone is off."); }, Math.max(0, deadline - Date.now()));
+      const resumption = new VoiceResumption(deadline);
+      const issuedMode = issued.leaseId ? "standard" : mode;
+      s.releaseResume = () => { resumption.revoke(); revoke(); };
+      let reconnecting = false;
+      let started = false;
+      const reconnect = async () => {
+        if (!current() || reconnecting || !issued.leaseId || !started) return false;
+        reconnecting = true; s.ready = false;
+        if (s.ws) { s.ws.onmessage = s.ws.onclose = s.ws.onerror = s.ws.onopen = null; s.ws.close(); }
+        for (const request of s.tools.values()) request.abort();
+        s.stream?.getAudioTracks().forEach(track => { track.enabled = false; });
+        stopAudio(s); setState("starting"); setNotice("Reconnecting this approved call. Microphone paused; no extra time is reserved.");
+        try {
+          const handle = await resumption.take(async () => {
+            const response = await fetch('/api/do/live-lease', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'resume',leaseId:issued.leaseId}),signal:s.request.signal});
+            if (!response.ok) return {};
+            const result = await response.json();
+            return result.leaseId === issued.leaseId ? result : {};
+          });
+          if (!current()) return true;
+          if (!handle) { end("This call could not resume safely. Your microphone is off; your conversation stays here."); return true; }
+          connect(handle); return true;
+        } catch { if (current()) end("Call resumption was unavailable. Your microphone is off."); return true; }
+      };
+      const connect = (handle?: string) => {
+        if (!current() || Date.now() >= deadline) return;
+        const previous = s.ws;
+        if (previous) { previous.onmessage = previous.onclose = previous.onerror = previous.onopen = null; previous.close(); }
+        clearTimeout(s.setupTimer);
+        s.setupTimer = setTimeout(() => { if (current()) end("Voice connection timed out. Your microphone is off."); }, Math.min(15000, deadline - Date.now()));
       const ws = new WebSocket(
         `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContentConstrained?access_token=${encodeURIComponent(issued.token)}`,
       );
       s.ws = ws;
+      const socketCurrent = () => current() && s.ws === ws;
       // Decode messages synchronously so interruption cannot be overtaken by an older Blob.
       ws.binaryType = "arraybuffer";
-      s.deadline = setTimeout(
-        () => {
-          if (current())
-            end(
-              "This five-minute conversation has ended. Your microphone is off.",
-            );
-        },
-        Math.max(0, new Date(issued.expiresAt).getTime() - Date.now()),
-      );
       ws.onopen = () => {
-        if (!current()) {
+        if (!socketCurrent()) {
           ws.close();
           return;
         }
@@ -344,6 +401,8 @@ export function DoGeminiLive({
                 parts: [{ text: config.systemInstruction }],
               },
               tools: config.tools,
+              ...(config.sessionResumption ? { sessionResumption: {...config.sessionResumption, ...(handle ? {handle} : {})} } : {}),
+              ...(config.contextWindowCompression ? {contextWindowCompression:config.contextWindowCompression} : {}),
               inputAudioTranscription: {},
               outputAudioTranscription: {},
             },
@@ -351,13 +410,13 @@ export function DoGeminiLive({
         );
       };
       ws.onmessage = async (event) => {
-        if (!current()) return;
+        if (!socketCurrent()) return;
         try {
           const raw =
             typeof event.data === "string"
               ? event.data
               : new TextDecoder().decode(event.data as ArrayBuffer);
-          if (!current()) return;
+          if (!socketCurrent()) return;
           if (raw.length > 2_000_000)
             throw new Error("The voice response was too large.");
           const message = JSON.parse(raw) as LiveServerMessage & {
@@ -371,16 +430,22 @@ export function DoGeminiLive({
             clearTimeout(s.setupTimer);
             s.ready = true;
             setDiagnostic(value => value ? { ...value, lifecycle: "listening" } : null);
+            reconnecting = false;
+            s.stream?.getAudioTracks().forEach(track => { track.enabled = !s.muted; });
+            if (started) { setState("listening"); setNotice("Conversation resumed within the same approved time."); }
+            else {
+            started = true;
             const input = s.input!;
             const recorder = new AudioWorkletNode(input, "do-pcm-recorder");
             s.recorder = recorder;
             recorder.port.onmessage = (e) => {
-              if (current() && ws.bufferedAmount > 512_000) {
+              const recordingSocket = s.ws;
+              if (current() && (recordingSocket?.bufferedAmount ?? 0) > 512_000) {
                 end("The connection fell behind. Your microphone is off. Please start again.");
                 return;
               }
-              if (current() && s.ready && !s.muted && ws.readyState === WebSocket.OPEN)
-                ws.send(
+              if (current() && s.ready && !s.muted && recordingSocket?.readyState === WebSocket.OPEN)
+                recordingSocket.send(
                   JSON.stringify({
                     realtimeInput: {
                       audio: {
@@ -422,16 +487,18 @@ export function DoGeminiLive({
               "Listening. You can interrupt, or end voice at any time.",
             );
             void refresh();
+            }
           }
           const total = message.usageMetadata?.totalTokenCount;
           if (typeof total === 'number' && Number.isSafeInteger(total) && total >= 0) setProviderTokens(total);
-          if (message.goAway) setNotice('The voice connection will end soon. Your conversation stays here; another call needs a fresh review.');
+          if (message.sessionResumptionUpdate) resumption.update(message.sessionResumptionUpdate);
+          if (message.goAway) { if (issued.leaseId) { void reconnect(); return; } setNotice('This connection is ending. Your conversation stays here.'); }
           const content = message.serverContent;
           if (content?.interrupted) stopAudio(s);
           if (content?.interactionStatus === "IN_PROGRESS") setState("working");
           else if (
             content?.interactionStatus === "IDLE" ||
-            (mode === "standard" && content?.turnComplete)
+            (issuedMode === "standard" && content?.turnComplete)
           )
             setState("listening");
           append("You", content?.inputTranscription?.text || "");
@@ -446,7 +513,7 @@ export function DoGeminiLive({
             s.tools.get(id)?.abort();
           for (const call of message.toolCall?.functionCalls ?? []) {
             // A previous tool in this same message may have awaited while the call ended.
-            if (!current()) return;
+            if (!socketCurrent()) return;
             if (!call.id || s.tools.has(call.id)) continue;
             const request = new AbortController();
             s.tools.set(call.id, request);
@@ -482,7 +549,7 @@ export function DoGeminiLive({
                 active: false,
                 approvalPolicy: "prepare-only",
               };
-              if (current() && !request.signal.aborted && callNumber === s.calls)
+              if (socketCurrent() && !request.signal.aborted && callNumber === s.calls)
                 setPreparedBrief(String(data.spec?.brief || brief).slice(0, 6000));
             } catch {
               output = {
@@ -490,7 +557,7 @@ export function DoGeminiLive({
               };
             }
             if (
-              current() &&
+              socketCurrent() &&
               !request.signal.aborted &&
               ws.readyState === WebSocket.OPEN
             )
@@ -502,7 +569,7 @@ export function DoGeminiLive({
                         id: call.id,
                         name: call.name,
                         response: output,
-                        ...(mode === "standard"
+                        ...(issuedMode === "standard"
                           ? { scheduling: "WHEN_IDLE" }
                           : {}),
                       },
@@ -513,7 +580,7 @@ export function DoGeminiLive({
             // Retain the ID to avoid executing a duplicate tool call.
           }
         } catch (error) {
-          if (current())
+          if (socketCurrent())
             end(
               error instanceof Error
                 ? error.message
@@ -522,12 +589,14 @@ export function DoGeminiLive({
         }
       };
       ws.onerror = () => {
-        if (current())
+        if (socketCurrent())
           end("The voice connection failed. Your microphone is off.");
       };
       ws.onclose = () => {
-        if (current()) end("Voice ended. Your microphone is off.");
+        if (socketCurrent() && !reconnecting) void reconnect().then(resumed => { if (!resumed && socketCurrent()) end("Voice ended. Your microphone is off."); });
       };
+      };
+      connect();
     } catch (error) {
       if (current())
         end(
@@ -551,13 +620,13 @@ export function DoGeminiLive({
           : availability.remaining === null
             ? "Your call allowance could not be checked. Try again in a moment."
             : availability.remaining === 0
-              ? "You have used today's three calls. You can call again tomorrow."
+              ? "You have used today's included call time. You can call again tomorrow."
               : "Talk through the work, then review anything you want to keep.";
   return (
     <section className="do-live-panel" aria-label={`Call ${displayName}`}>
       <div className="do-live-dock">
         <div>
-          <span aria-hidden="true" style={{ display: "inline-block", width: 18, height: 18, borderRadius: "50%", marginRight: 10, background: live ? "#916A70" : "#F5F1F2", boxShadow: live ? "0 0 0 6px #916A7026" : "inset 0 0 0 1px #916A7066" }} /><span className="do-small-label">{live ? muted ? "MIC MUTED" : "VOICE ON" : "MIC OFF"}</span>
+          <span aria-hidden="true" style={{ display: "inline-block", width: 18, height: 18, borderRadius: "50%", marginRight: 10, background: live ? "#916A70" : "#F5F1F2", boxShadow: live ? "0 0 0 6px #916A7026" : "inset 0 0 0 1px #916A7066" }} /><span className="do-small-label">{live ? state === "starting" ? "MIC PAUSED" : muted ? "MIC MUTED" : "VOICE ON" : "MIC OFF"}</span>
           <strong>
             {state === "working"
               ? `${displayName} is preparing your next step.`
@@ -594,7 +663,7 @@ export function DoGeminiLive({
           <p>{availabilityNotice}</p>
           {(availabilityError || availability?.remaining === null || !availability?.voiceRevision) && <button type="button" onClick={() => void refresh()}>Check call availability</button>}
           <div className="do-live-choice">
-            <label>
+            {!leaseEnabled && <label>
               Conversation
               <select
                 aria-label="Conversation"
@@ -604,7 +673,7 @@ export function DoGeminiLive({
                 <option value="standard">Quick conversation</option>
                 <option value="extended">Think it through</option>
               </select>
-            </label>
+            </label>}
             <div>
               <p>Call voice: {voiceLabel}</p>
               {availability?.signedIn && <PersonalDoSettings voiceEntry sharedProfile={onProfileChange ? initialProfile ?? null : undefined} onProfileChange={onVoiceSettings} />}
@@ -612,7 +681,7 @@ export function DoGeminiLive({
             </div>
           </div>
           <details className="do-live-profile"><summary>Call context &amp; sharing details</summary>
-          {profile && <details className="do-live-profile">
+          {!leaseEnabled && profile && <details className="do-live-profile">
             <summary>Profile shared for this call</summary>
             <p>Name: {profile.displayName} · voice: {profile.voiceName}</p>
             <p>Tone: {profile.tone} · replies: {profile.responseLength} · initiative: {profile.initiative.replaceAll("_", " ")}</p>
@@ -641,16 +710,22 @@ export function DoGeminiLive({
               checked={consent}
               onChange={(e) => setConsentFor(e.target.checked ? consentScope : null)}
             />
-            Use my microphone with Google Gemini for this call{profile ? ", and share the DO name, voice, conversation style and preferences shown above" : ""}{includeContext ? ", including the reviewed conversation and attached text" : ""}. Sharing
+            Use my microphone with Google Gemini for this call{!leaseEnabled && profile ? ", and share the DO name, voice, conversation style and preferences shown above" : ""}{includeContext ? ", including the reviewed conversation and attached text" : ""}. Sharing
             stops when I end the call or leave this page.
           </label>
-          <p>{availability?.remaining ?? "—"} of {availability?.dailyLimit ?? 3} daily five-minute pilot calls left.</p>
+          {leaseEnabled && <div>
+            <label>Included call time <select aria-label="Included call time" value={requestedSeconds} disabled={quoting} onChange={event => void reviewDuration(Number(event.target.value) as 300 | 600 | 900)}>{[300,600,900].map(seconds => <option key={seconds} value={seconds}>{seconds / 60} minutes</option>)}</select></label>
+            <button type="button" disabled={quoting} onClick={() => void reviewDuration(requestedSeconds)}>{quoting ? 'Checking…' : 'Review included time'}</button>
+            {quote && <p>{quote.requestedSeconds / 60} minutes reserved from your assembl allowance · no additional charge. This quote expires at {new Date(quote.expiresAt).toLocaleTimeString()}. Ending early does not refund reserved time.</p>}
+          </div>}
+          <p>{availability?.remaining ?? "—"} of {availability?.dailyLimit ?? 3} five-minute allowance units left.</p>
           <details><summary>Call limits &amp; privacy</summary>
             <p>DO does not save this call automatically. Google processes shared audio and text under its own data terms. Calls discuss and prepare drafts. Saving a responsibility needs separate review and permission. Saved voice changes apply to the next call.</p>
           </details>
           <button
             type="button"
             disabled={
+              (leaseEnabled && (!quote || quote.voiceRevision !== availability?.voiceRevision)) ||
               !ready ||
               profileReviewPending ||
               !availability?.voiceRevision ||
@@ -665,7 +740,7 @@ export function DoGeminiLive({
         </div>
       )}
       {paidDeadline && <details><summary>Call usage &amp; time</summary>
-        <p>This approved call ends at {new Date(paidDeadline).toLocaleTimeString()}. Automatic renewal is not enabled.</p>
+        <p>This approved call ends at {new Date(paidDeadline).toLocaleTimeString()}. A permitted reconnect keeps this same deadline. Another paid window needs a new review.</p>
         <p>{providerTokens === null ? 'Provider usage not yet reported.' : `Latest provider-reported total: ${providerTokens} tokens.`} This is not a billing total.</p>
       </details>}
       {diagnostic && <details className="do-live-transcript"><summary>Call diagnostics</summary><p>Build: {diagnostic.build} · model: {diagnostic.model} · voice: {diagnostic.voice} · prompt: {diagnostic.promptVersion} · {diagnostic.lifecycle}</p><p>Accent consistency needs listening review; this metadata does not verify an accent.</p></details>}

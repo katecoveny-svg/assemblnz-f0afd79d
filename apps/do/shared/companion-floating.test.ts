@@ -42,7 +42,7 @@ describe('actual generated floating companion in a DOM-shaped fixture', () => {
     f.win.assemblDo.close(); expect(f.panel.hidden).toBe(true);
     expect(f.frame.contentWindow.postMessage).toHaveBeenCalledWith({ type: 'assembl-do:hidden' }, DO_DISTRIBUTION_ORIGIN);
     f.win.assemblDo.open(); expect(f.panel.hidden).toBe(false); expect(f.nodes.filter(n => n.tagName === 'IFRAME')).toHaveLength(1);
-    expect(f.frame.attrs.allow).toBe(`microphone ${DO_DISTRIBUTION_ORIGIN}; clipboard-write; web-share`);
+    expect(f.frame.attrs.allow).toBe(`microphone ${DO_DISTRIBUTION_ORIGIN}; display-capture ${DO_DISTRIBUTION_ORIGIN}; clipboard-write; web-share`);
   });
   it('moves with keyboard and offers bounded text only after explicit Use', () => {
     const f = fixture(); f.win.assemblDo.open({ text: 'Fictional public text', title: 'Public example', url: 'https://public.invalid/private-path?token=secret#fragment' });

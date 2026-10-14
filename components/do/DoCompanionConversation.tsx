@@ -1,4 +1,6 @@
 'use client';
+import { DoCompanionHandoff } from './DoCompanionHandoff';
+import { conversationBytes, CONVERSATION_BYTES_LIMIT, CONVERSATION_TURN_LIMIT } from '@/apps/do/personal/conversation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { PersonalDoAssistant } from '@/app/do/personal/PersonalDoAssistant';
 import { DoGeminiLive } from '@/app/do/DoGeminiLive';
@@ -32,6 +34,11 @@ export function DoCompanionConversation({ profile, snapshot, talkOpened, focusRe
     </details>}
     {attachment?.text && <p role="status">Reviewed text attached for review. Provider sharing still needs your permission. <button disabled={live || working} onClick={() => setAttachment({ text: '', revision: Date.now() })}>Remove attachment</button></p>}
     <div hidden={live}><PersonalDoAssistant focusRequest={focusRequest} profile={profile} returnTo="/do/widget" conversation={{ turns, change: setTurns }} attachedContext={attachment} onWorkingChange={setWorking} /></div>
+    <DoCompanionHandoff disabled={live || working} context={companionVoiceContext(turns, attachment?.text ?? '')} onResult={text => {
+      const next: ConversationTurn[] = [...turns,{role:'user',text,at:new Date().toISOString(),draft:null,label:'Assistant handoff evidence'}];
+      if(next.length>CONVERSATION_TURN_LIMIT||conversationBytes(next)>CONVERSATION_BYTES_LIMIT)return false;
+      setTurns(next);return true;
+    }} />
     {talkOpened && <fieldset disabled={working} style={{ border: 0, padding: 0 }}>
       <legend>Talk or type in the same call</legend>
       <DoGeminiLive visible={visible} onShoppingDraft={onShoppingDraft} profile={profile} context={companionVoiceContext(turns, attachment?.text ?? '')}

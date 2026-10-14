@@ -1,5 +1,6 @@
-/** Browser-only resources for one explicitly started call. No persistence or reconnect. */
+/** Browser-only resources for one explicitly started call. No persistent credentials. */
 export type VoiceSessionResources = {
+  releaseResume?: () => void;
   releaseAudio?: () => void;
   ws?: WebSocket;
   stream?: MediaStream;
@@ -35,6 +36,8 @@ export function stopVoiceAudio(session: VoiceSessionResources) {
 /** Caller invalidates the active session first, so late async completions cannot publish. */
 export function releaseVoiceSession(session: VoiceSessionResources | null) {
   if (!session) return;
+  release(() => session.releaseResume?.());
+  session.releaseResume = undefined;
   release(() => session.releaseAudio?.());
   session.releaseAudio = undefined;
   session.ready = false;

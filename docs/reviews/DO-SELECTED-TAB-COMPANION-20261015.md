@@ -1,5 +1,7 @@
 # Selected-tab reader and conversational companion — local review
 
+Historical evidence for preserved candidate `7749934523`. See [the subsequent integration report](DO-COMPANION-INTEGRATION-20261015.md) for actual extension image/text binding, bounded voice resumption and the shared work board. Remaining-gap statements below describe the first candidate.
+
 Base: `5b990e31034d9ea0c4248996a34760ad3e459c04`.
 Branch: `codex/do-selected-tab-foundation-20261015`.
 Status: local code and controlled tests, not installed, published or live-verified.

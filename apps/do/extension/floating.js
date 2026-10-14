@@ -85,7 +85,7 @@
   const review=make('div','review','');review.hidden=true;
   const label=make('label','','Context for DO');const text=make('textarea','','');text.maxLength=12000;text.rows=4;label.append(text);
   const provenance=make('small','','');const actions=make('div','review-actions','');const use=button('use','Use in DO');const discard=button('','Discard');const copy=button('','Copy context');actions.append(use,copy,discard);review.append(label,provenance,actions);
-  const frame=make('iframe','','');frame.title='DO — prepare and review';frame.referrerPolicy='no-referrer';frame.setAttribute('allow','microphone '+origin+'; clipboard-write; web-share');frame.setAttribute('sandbox','allow-scripts allow-forms allow-same-origin allow-downloads allow-popups allow-popups-to-escape-sandbox');
+  const frame=make('iframe','','');frame.title='DO — prepare and review';frame.referrerPolicy='no-referrer';frame.setAttribute('allow','microphone '+origin+'; display-capture '+origin+'; clipboard-write; web-share');frame.setAttribute('sandbox','allow-scripts allow-forms allow-same-origin allow-downloads allow-popups allow-popups-to-escape-sandbox');
   const pickerBar=make('div','picker-bar','');pickerBar.hidden=true;const pickerText=make('span','','Point or tap an area to choose it. Escape cancels.');const cancel=button('','Cancel');pickerBar.append(pickerText,cancel);
   const outline=make('div','outline','');outline.hidden=true;const preview=make('div','picker-preview','');preview.hidden=true;preview.setAttribute('aria-hidden','true');
   let pendingEntry=null;let loaded=false, pending=null, captured=null, picking=false, candidate=null, readingFrame=0, lastPoint=null, targetText=null, awaitingId=null;

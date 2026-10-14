@@ -1,5 +1,6 @@
 'use client';
 
+import { selectedTextOffer, selectedImageOffer } from '@/apps/do/browser/selected-tab/attachment';
 import ShopJourney from '@/app/do/shop/ShopJourney';
 import { DoLocalInformation } from './DoLocalInformation';
 import { useCallback, useEffect, useState } from 'react';
@@ -22,6 +23,7 @@ export function DoFocusWorkspace({ initialTask = 'reply', expectedWorkspace }: {
   const [mode, setMode] = useState<Mode>('write');
   const [builderOpened, setBuilderOpened] = useState(false);
   const [context, setContext] = useState('');
+  const [offeredImage, setOfferedImage] = useState<{image:string;source:string;id:number}>();
   const [offeredContext, setOfferedContext] = useState<{ text: string; id: number }>();
   const embedded = useDoEmbeddedSurface();
   const [focusRequest, setFocusRequest] = useState(0);
@@ -52,6 +54,22 @@ export function DoFocusWorkspace({ initialTask = 'reply', expectedWorkspace }: {
     window.addEventListener('assembl:do-focus-image', image);
     return () => { window.removeEventListener('assembl:do-focus', focus); window.removeEventListener('assembl:do-focus-image', image); };
   }, [enter]);
+  useEffect(() => {
+    const receive = (event: MessageEvent) => {
+      if (window.parent === window || event.source !== window.parent || !/^chrome-extension:\/\/[a-p]{32}$/.test(event.origin)) return;
+      if (event.data?.type === 'assembl-do:selected-image') {
+        const image = selectedImageOffer(event.data.evidence, expectedWorkspace);
+        if (image) { setOfferedImage({...image,id:Date.now()}); setMode('look'); }
+        return;
+      }
+      if (event.data?.type !== 'assembl-do:selected-text') return;
+      const text = selectedTextOffer(event.data.evidence, expectedWorkspace);
+      if (!text) return;
+      setOfferedContext({ text, id: Date.now() }); enter('write');
+    };
+    window.addEventListener('message', receive);
+    return () => window.removeEventListener('message', receive);
+  }, [expectedWorkspace, enter]);
   function acceptShoppingBrief(text: string) {
     // This component is keyed and unmounted by the existing verified owner boundary.
     if (!expectedWorkspace || shoppingBrief !== null || !text.trim() || text.length > 6000) return false;
@@ -79,7 +97,7 @@ export function DoFocusWorkspace({ initialTask = 'reply', expectedWorkspace }: {
       <div hidden={mode !== 'write' && mode !== 'talk'}><DoCompanionConversation focusRequest={mode === 'write' ? focusRequest : 0} profile={talkProfile ?? profile} snapshot={context} talkOpened={talkOpened} onShoppingDraft={acceptShoppingBrief} visible={mode === 'write' || mode === 'talk'} onDraft={acceptContext} /></div>
       <div hidden={mode !== 'draft'}><DoTextWorkspace embedded={embedded} initialTask={initialTask} focus focusRequest={mode === 'draft' ? focusRequest : 0} offeredContext={offeredContext} onSourceChange={setContext} onNativeReveal={() => enter('write')} /></div>
       {mode !== 'write' && <button type="button" className={styles.textButton} onClick={() => enter('write')}>Back to Write</button>}
-      <section hidden={mode !== 'look'} className={styles.toolSurface} aria-label="Show DO an image"><DoVision active={mode === 'look'} onUse={acceptContext} /></section>
+      <section hidden={mode !== 'look'} className={styles.toolSurface} aria-label="Show DO an image"><DoVision key={offeredImage?.id ?? 'default'} offeredImage={offeredImage} active={mode === 'look'} onUse={acceptContext} /></section>
       {shoppingBrief !== null && <section hidden={mode !== 'shop'} aria-label="Shopping plan from reviewed call">
         <button type="button" className={styles.textButton} onClick={() => { if (window.confirm('Discard this unsaved shopping plan?')) { setShoppingBrief(null); enter('write'); } }}>Discard shopping plan</button>
         <ShopJourney embedded initialBrief={shoppingBrief} expectedWorkspace={expectedWorkspace} />

@@ -251,7 +251,7 @@ The loyalty `mealChoiceCards` projection reuses `planShop` for three accessible 
 
 ### Selected-tab read and conversational companion (15 October local review)
 
-Creates `apps/do/browser/selected-tab/` for ephemeral owner/tab/document/origin-bound read-only evidence and cancellation; its native host is still unbound. Extends the existing floating companion, typed assistant, voice transport and opt-in kept conversations with shared turns, explicit context attachment and in-panel Talk. No new persistence or execution authority. See [implementation, synthetic evidence and live gaps](../reviews/DO-SELECTED-TAB-COMPANION-20261015.md).
+Creates `apps/do/browser/selected-tab/` for ephemeral owner/tab/document/origin-bound read-only evidence and cancellation; its extension host is now bound in the later source candidate; native Mac runtime proof remains pending. Extends the existing floating companion, typed assistant, voice transport and opt-in kept conversations with shared turns, explicit context attachment and in-panel Talk. No new persistence or execution authority. See [implementation, synthetic evidence and live gaps](../reviews/DO-SELECTED-TAB-COMPANION-20261015.md).
 ### Pet weekly local review
 
 Pet weekly routines extend LifeAdmin's plan/review/completion/export contract without
@@ -268,3 +268,7 @@ Extends the existing per-owner/day unique reservation slots with `apps/do/servic
 ### DO logical call lease and trusted usage port (15 October local)
 
 Extends per-owner voice admission with a server-funded consent quote, CAS ledger, fixed-deadline same-token resume and logical revocation. Default-off `/api/do/live-lease` replaces legacy admission only when configured; schema remains a review proposal. Trusted usage ingestion is a separate server-only adapter interface, not client billing. Sources, contract, limitations and test gates: `docs/reviews/voice-lease/README.md`.
+
+### Companion selected-page host, bounded voice and shared work board (15 October local)
+
+Extends the selected-tab primitive with real MV3 image/text capture; extends the voice lease with client quote/revoke/resume; reuses Office jobs/events/receipts for a three-part shared board and a deterministic Clear worker. Existing Library handover is linked, not copied or synced. Builder saved-plan acceptance is not execution, and Codex remains manual until a supported bridge is paired. [Combined source/proof/runtime gaps](../reviews/DO-COMPANION-INTEGRATION-20261015.md).
