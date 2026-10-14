@@ -16,6 +16,6 @@ No provider/model/effort fallback, token-limit increase, automatic retry, new en
 
 ## Proof and remaining acceptance
 
-19 focused tests passed: actual SDK request serialization, successful synthetic structured response/null normalization, invalid URL, fabricated quote, wrong model and incomplete finish rejection; diagnostic privacy and HTTP status; existing assistant boundaries. TypeScript and scoped ESLint passed. Production build/release checks recorded in PR.
+19 focused tests passed: actual SDK request serialization, successful synthetic structured response/null normalization, invalid URL, fabricated quote, wrong model and incomplete finish rejection; diagnostic privacy and HTTP status; existing assistant boundaries. TypeScript and scoped ESLint passed. The full CI DO core command passed locally: 172 test files, 1,874 tests (one file/two tests skipped). Existing provider mocks now include the required nullable citation, including the forged-evidence fixture so it still reaches evidence validation. Hosted production build/release checks are recorded in PR.
 
 After deployment, use the existing signed-in widget and explicit sharing consent for one short synthetic draft request within the existing allowance. Success must render a validated Astra draft. If it fails, inspect only the new sanitized diagnostic category/status; do not expose provider response bodies or widen model/budget policy. Local tests do not establish live provider acceptance.
