@@ -59,28 +59,30 @@ jobs:
             app/api/do/download
             components/do
             public/do
+            public/brand
             scripts
       - name: Run portable contracts
         run: node --test scripts/check-do-portable.cjs
       - name: Package the exact extension file list
         run: |
           python3 - <<'PY'
-          import os, re, zipfile
+          import json, os, re, zipfile
           from pathlib import Path
-          route = Path('app/api/do/download/route.ts').read_text()
+          route = Path('apps/do/shared/extension-files.ts').read_text()
+          version = json.loads(Path('apps/do/shared/distribution-versions.json').read_text())['extension']
           section = route.split('export const EXTENSION_FILES = [', 1)[1].split('] as const;', 1)[0]
           names = re.findall(r"'([^']+)'", section)
           assert names and 'portable-worker.js' in names
-          target = Path(os.environ['RUNNER_TEMP']) / 'assembl-do-extension-1.6.0.zip'
+          target = Path(os.environ['RUNNER_TEMP']) / f'assembl-do-extension-{version}.zip'
           with zipfile.ZipFile(target, 'w', zipfile.ZIP_DEFLATED) as archive:
               for name in names:
                   archive.write(Path('apps/do/extension') / name, name)
-              archive.writestr('README.md', '# DO browser extension 1.6.0\n\nUnzip this inner ZIP, then use Chrome/Edge Extensions > Developer mode > Load unpacked. Pin DO and click its toolbar icon. Choose a movable workspace, explicitly selected text, meeting recording or TypeSafe. Normal Assembl sign-in and separate provider/microphone permissions apply. Existing advanced side panel is available via the back link. No automatic sends, screen capture or payments.\n')
+              archive.writestr('README.md', f'# DO browser extension {version}\n\nUnzip this inner ZIP, then use Chrome/Edge Extensions > Developer mode > Load unpacked. Pin DO and click its toolbar icon. Choose a movable workspace, explicitly selected text, meeting recording or TypeSafe. Normal Assembl sign-in and separate provider/microphone permissions apply. Existing advanced side panel is available via the back link. No automatic sends, screen capture or payments.\n')
           print(target)
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: DO-Chrome-Edge-extension-1.6.0
-          path: ${{ runner.temp }}/assembl-do-extension-1.6.0.zip
+          name: DO-Chrome-Edge-extension
+          path: ${{ runner.temp }}/assembl-do-extension-*.zip
           retention-days: 7
           if-no-files-found: error

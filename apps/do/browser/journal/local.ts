@@ -49,8 +49,8 @@ function transaction<T>(db: IDBDatabase, run: (state: IDBObjectStore, claims: ID
     safe(() => run(proxy(state), proxy(claims), value => { result = value; }));
   });
 }
-/** Staged extension-origin persistence primitive. Not imported by the worker or
- * any page relay. One global mutation lock deliberately bounds the local pilot. */
+/** Extension-origin persistence primitive. No page relay may initialize or
+ * reconcile it. One global mutation lock deliberately bounds the local pilot. */
 export class LocalMutationJournal {
   private constructor(private db: IDBDatabase, private epoch: string, private boot: string) {}
   /** Call only from a separately reviewed explicit setup/reset flow. Existing
@@ -76,6 +76,15 @@ export class LocalMutationJournal {
         state.put({ ...meta, boot }, 'meta'); done(undefined);
       };
     }); return new LocalMutationJournal(db, epoch, boot); } catch (e) { db.close(); throw e; }
+  }
+  /** Resume an existing installation only. Missing/corrupt storage never initializes. */
+  static async resume(factory: IDBFactory, name: string) {
+    const db = await open(factory, name, false);
+    let epoch: string;
+    try { epoch = await transaction<string>(db, (state, _claims, done) => {
+      const r = state.get('meta'); r.onsuccess = () => done(metaSchema.parse(r.result).epoch);
+    }); } finally { db.close(); }
+    return LocalMutationJournal.start(factory, name, epoch);
   }
   close() { this.db.close(); }
   private async bindings(owner: string, raw: CartProposal) {
@@ -152,7 +161,7 @@ export class LocalMutationJournal {
         if (lockSchema.parse(l.result).key !== key) throw new Error('Recovery lock mismatch');
         const r = claims.get(key); r.onsuccess = () => {
           const record: RecordValue = recordSchema.parse(r.result);
-          if (record.boot === this.boot || !['claimed', 'uncertain'].includes(record.state) || record.owner !== ownerHash || record.context !== contextHash) throw new Error('Recovery binding mismatch');
+          if ((record.boot === this.boot && record.state === 'claimed') || !['claimed', 'uncertain'].includes(record.state) || record.owner !== ownerHash || record.context !== contextHash) throw new Error('Recovery binding mismatch');
           assertCurrent(); // Synchronous fence immediately before the reconciliation write.
           claims.put({ ...record, state: 'reconciled', reconciliationDigest: reviewedObservationDigest });
           state.delete('lock'); done(undefined);

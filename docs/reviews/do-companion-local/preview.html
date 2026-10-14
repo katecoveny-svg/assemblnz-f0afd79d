@@ -1,0 +1,2063 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DO companion · static local review</title><style>/* components/do/do-companion-board.css */
+.do_companion_board_do-companion-board {
+  border: 1px solid #916a7040;
+  border-radius: 20px;
+  background: #fffdfb;
+  padding: 16px;
+  margin: 20px 0;
+  color: #492b3e;
+}
+.do_companion_board_do-companion-board > summary {
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.do_companion_board_do-companion-board section {
+  border-top: 1px solid #916a7026;
+  padding: 16px 0;
+}
+.do_companion_board_do-companion-board h3 {
+  font-size: 1rem;
+  margin: 4px 0 12px;
+}
+.do_companion_board_do-companion-board label {
+  display: block;
+  margin: 10px 0;
+}
+.do_companion_board_do-companion-board textarea,
+.do_companion_board_do-companion-board select,
+.do_companion_board_do-companion-board input:not([type=checkbox]) {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid #916a7060;
+  border-radius: 10px;
+  padding: 9px;
+  background: #fffdfb;
+  color: #492b3e;
+}
+.do_companion_board_do-companion-board textarea {
+  min-height: 90px;
+}
+.do_companion_board_do-companion-board button {
+  border: 1px solid #916a7070;
+  border-radius: 18px;
+  padding: 9px 12px;
+  margin: 5px 6px 5px 0;
+  background: #f5f1f2;
+  color: #492b3e;
+}
+.do_companion_board_do-companion-board button:disabled {
+  opacity: .5;
+}
+.do_companion_board_do-companion-board p,
+.do_companion_board_do-companion-board li {
+  font-size: .9rem;
+  line-height: 1.5;
+}
+.do_companion_board_do-companion-board pre {
+  overflow-wrap: anywhere;
+  font-size: .85rem;
+  padding: 12px;
+  background: #f5f1f2;
+  border-radius: 12px;
+}
+.do_companion_board_do-companion-board svg {
+  width: 120px;
+  max-width: 120px;
+  height: auto;
+}
+.do_companion_board_do-board-task {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  align-items: center;
+  gap: 8px;
+  border-radius: 14px;
+  background: #f5f1f2;
+  padding: 8px;
+  margin: 10px 0;
+}
+.do_companion_board_do-board-task svg {
+  grid-row: span 2;
+  width: 70px;
+}
+.do_companion_board_do-board-task span {
+  font-size: .8rem;
+}
+.do_companion_board_do-companion-board a {
+  color: inherit;
+  text-underline-offset: 3px;
+}
+
+/* components/do/do-share.module.css */
+.do_share_wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  max-width: 100%;
+  position: relative;
+}
+.do_share_button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 15px;
+  border: 1px solid #916a7033;
+  border-radius: 24px;
+  background: #fffdfbb3;
+  color: #240b21;
+  font:
+    13px/1.4 var(--font-body),
+    "Instrument Sans",
+    system-ui,
+    sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.do_share_button:hover:not(:disabled) {
+  background: #f5f1f2;
+  box-shadow: 0 4px 18px #916a701a;
+}
+.do_share_button:disabled {
+  opacity: .45;
+  cursor: default;
+}
+.do_share_button:focus-visible,
+.do_share_copy:focus-visible {
+  outline: 3px solid #916a70;
+  outline-offset: 3px;
+}
+.do_share_notice {
+  display: block;
+  flex-basis: 100%;
+  font:
+    12px/1.6 var(--font-body),
+    "Instrument Sans",
+    system-ui,
+    sans-serif;
+  color: #654a4e;
+  max-width: 270px;
+  overflow-wrap: anywhere;
+}
+.do_share_copy {
+  border: 0;
+  background: transparent;
+  min-height: 44px;
+  color: #240b21;
+  text-decoration: underline;
+  font:
+    13px var(--font-body),
+    "Instrument Sans",
+    system-ui,
+    sans-serif;
+  cursor: pointer;
+}
+@media (max-width: 600px) {
+  .do_share_button {
+    font-size: 12px;
+    padding: 10px 12px;
+  }
+  .do_share_notice {
+    max-width: 200px;
+  }
+}
+
+/* components/do/do-capability-ideas.module.css */
+.do_capability_ideas_ideas {
+  margin: 28px 0 12px;
+  color: #492b3e;
+  font:
+    14px/1.5 var(--font-body),
+    "Instrument Sans",
+    sans-serif;
+  text-align: left;
+}
+.do_capability_ideas_ideas.do_capability_ideas_ideas h2 {
+  font:
+    500 21px/1.3 var(--font-body),
+    "Instrument Sans",
+    sans-serif;
+  letter-spacing: -.025em;
+  color: #492b3e;
+  margin: 0 0 15px;
+}
+.do_capability_ideas_choices {
+  background: #ead8e3;
+  border-radius: 24px;
+  padding: 4px 20px;
+}
+.do_capability_ideas_ideas.do_capability_ideas_ideas button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  min-width: 0;
+  min-height: 90px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  padding: 17px 4px;
+  text-align: left;
+  border: 0;
+  border-bottom: 1px solid #916a7040;
+  border-radius: 0;
+  background: transparent;
+  color: #492b3e;
+  box-shadow: none;
+  transform: none;
+  transition: background 150ms;
+}
+.do_capability_ideas_ideas.do_capability_ideas_ideas button:last-child {
+  border-bottom: 0;
+}
+.do_capability_ideas_ideas.do_capability_ideas_ideas button:hover:not(:disabled) {
+  background: #fffdfb70;
+  transform: none;
+}
+.do_capability_ideas_ideas.do_capability_ideas_ideas button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+.do_capability_ideas_copy {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+.do_capability_ideas_name {
+  font-size: 12px;
+  color: #654a4e;
+}
+.do_capability_ideas_copy strong {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.do_capability_ideas_detail {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #654a4e;
+  max-width: 52ch;
+}
+.do_capability_ideas_state {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  flex: 0 0 130px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #654a4e;
+}
+.do_capability_ideas_state svg {
+  flex-shrink: 0;
+}
+.do_capability_ideas_ideas > details {
+  margin-top: 8px;
+}
+.do_capability_ideas_ideas > details > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  cursor: pointer;
+  list-style: none;
+  padding: 8px 4px;
+  font-size: 14px;
+}
+.do_capability_ideas_ideas > details > summary::-webkit-details-marker {
+  display: none;
+}
+.do_capability_ideas_ideas > details .do_capability_ideas_choices {
+  background: #f1e7ef;
+}
+.do_capability_ideas_ideas > p {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #654a4e;
+  margin: 12px 4px 0;
+}
+.do_capability_ideas_ideas.do_capability_ideas_ideas :is(button, summary):focus-visible {
+  outline: 3px solid #654a4e;
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+@media (max-width: 600px) {
+  .do_capability_ideas_choices {
+    padding: 4px 16px;
+  }
+  .do_capability_ideas_ideas.do_capability_ideas_ideas button {
+    align-items: flex-start;
+    gap: 9px;
+    flex-direction: column;
+    padding: 16px 0;
+  }
+  .do_capability_ideas_state {
+    flex: auto;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .do_capability_ideas_ideas.do_capability_ideas_ideas h2 {
+    font-size: 20px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .do_capability_ideas_ideas.do_capability_ideas_ideas button {
+    transition: none;
+  }
+}
+.do_capability_ideas_ideas > p a {
+  display: inline-block;
+  min-height: 44px;
+  padding: 12px 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: #492b3e;
+}
+.do_capability_ideas_ideas > p a:focus-visible {
+  outline: 3px solid #654a4e;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.do_capability_ideas_outcomes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.do_capability_ideas_outcomes a {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 22px 18px;
+  border-radius: 24px;
+  background:
+    linear-gradient(
+      145deg,
+      #fffdfbe6,
+      #ead8e380);
+  color: #492b3e;
+  text-decoration: none;
+  box-shadow: 0 8px 26px #240b210a;
+}
+.do_capability_ideas_outcomes a:hover {
+  background: #ead8e3;
+}
+.do_capability_ideas_outcomes strong {
+  font-size: 19px;
+  font-weight: 500;
+}
+.do_capability_ideas_outcomes span {
+  font-size: 13px;
+}
+.do_capability_ideas_outcomes small {
+  font-size: 11px;
+  color: #654a4e;
+  line-height: 1.5;
+}
+.do_capability_ideas_outcomes b {
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: auto;
+  padding-top: 8px;
+}
+.do_capability_ideas_outcomes a:focus-visible {
+  outline: 3px solid #654a4e;
+  outline-offset: 3px;
+}
+@media (max-width: 600px) {
+  .do_capability_ideas_outcomes {
+    grid-template-columns: 1fr;
+  }
+  .do_capability_ideas_outcomes a {
+    gap: 8px;
+    padding: 20px;
+  }
+}
+.do_capability_ideas_scene {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1.6;
+  flex-shrink: 0;
+  margin: -8px 0 0;
+}
+.do_capability_ideas_outcomes b {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.do_capability_ideas_outcomes b svg {
+  flex-shrink: 0;
+}
+.do_capability_ideas_outcomes a {
+  transition: background 160ms ease-out;
+}
+.do_capability_ideas_choiceScene {
+  display: block;
+  width: 112px;
+  height: 84px;
+  flex-shrink: 0;
+}
+.do_capability_ideas_copy {
+  flex: 1;
+}
+.do_capability_ideas_choices {
+  background: #f5f1f2;
+}
+.do_capability_ideas_ideas.do_capability_ideas_ideas button {
+  gap: 16px;
+}
+.do_capability_ideas_ideas > details > details {
+  margin-top: 12px;
+}
+@media (max-width: 600px) {
+  .do_capability_ideas_ideas.do_capability_ideas_ideas button {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr);
+    gap: 8px 12px;
+  }
+  .do_capability_ideas_choiceScene {
+    width: 80px;
+    height: 72px;
+  }
+  .do_capability_ideas_state {
+    grid-column: 2;
+  }
+  .do_capability_ideas_outcomes a {
+    padding: 16px 20px 22px;
+  }
+  .do_capability_ideas_scene {
+    max-height: 180px;
+    margin: 0 auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .do_capability_ideas_outcomes a {
+    transition: none;
+  }
+}
+.do_capability_ideas_ideas {
+  container-type: inline-size;
+}
+.do_capability_ideas_outcomes {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+}
+@container (max-width:600px) {
+  .do_capability_ideas_ideas .do_capability_ideas_choices button {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr);
+    gap: 8px 12px;
+  }
+  .do_capability_ideas_choiceScene {
+    width: 80px;
+    height: 72px;
+  }
+  .do_capability_ideas_state {
+    grid-column: 2;
+    flex: auto;
+    width: 100%;
+    justify-content: space-between;
+  }
+  .do_capability_ideas_outcomes a {
+    padding: 16px 20px 22px;
+  }
+  .do_capability_ideas_scene {
+    max-height: 180px;
+    margin: 0 auto;
+  }
+}
+
+/* app/do/personal/personal-assistant.module.css */
+.personal_assistant_panel {
+  position: relative;
+  min-width: 0;
+  padding: 1.2rem;
+  border: 1px solid rgba(255, 253, 251, .8);
+  border-radius: 1.7rem;
+  background:
+    linear-gradient(
+      135deg,
+      var(--do-paper, #fffdfb),
+      var(--do-chalk, #f5f1f2));
+  color: var(--do-ink, #240b21);
+  box-shadow: 0 18px 60px #10061128, inset 0 1px 0 #fff;
+  font-family: var(--font-body), sans-serif;
+  text-align: left;
+}
+.personal_assistant_panel form {
+  display: block;
+  margin: 0;
+}
+.personal_assistant_panel .personal_assistant_inputLabel {
+  display: block;
+  margin: 0 0 .6rem;
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--do-ink, #654a4e);
+}
+.personal_assistant_panel textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: .85rem 1rem;
+  border: 1px solid #bca9ad;
+  border-radius: 1rem;
+  background: var(--do-paper, #fffdfb);
+  color: var(--do-ink, #240b21);
+  line-height: 1.55;
+  font: inherit;
+  resize: vertical;
+  box-shadow: inset 0 2px 5px #240b2104;
+}
+.personal_assistant_panel textarea::placeholder {
+  color: #75626a;
+}
+.personal_assistant_panel textarea:focus-visible,
+.personal_assistant_panel button:focus-visible,
+.personal_assistant_panel summary:focus-visible,
+.personal_assistant_panel input:focus-visible,
+.personal_assistant_panel a:focus-visible {
+  outline: 3px solid var(--do-plum, #916a70);
+  outline-offset: 4px;
+}
+.personal_assistant_panel textarea:disabled {
+  opacity: .7;
+}
+.personal_assistant_composerFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: .7rem;
+}
+.personal_assistant_composerFooter > span {
+  max-width: 24rem;
+  color: var(--do-ink, #654a4e);
+  font-size: .71rem;
+  line-height: 1.5;
+}
+.personal_assistant_panel button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  min-height: 44px;
+  padding: .45rem .75rem;
+  border: 1px solid #cbbabf;
+  border-radius: 99px;
+  background: var(--do-paper, #fffdfb);
+  color: var(--do-ink, #240b21);
+  font: inherit;
+  font-size: .78rem;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: none;
+  transition: transform .15s, box-shadow .15s;
+}
+.personal_assistant_panel button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+  transform: none;
+}
+.personal_assistant_panel button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 9px #240b2110;
+}
+.personal_assistant_panel .personal_assistant_send {
+  min-height: 46px;
+  padding: .7rem 1.15rem;
+  border: 1px solid #76505d;
+  background:
+    linear-gradient(
+      135deg,
+      var(--do-ink, #654a4e) 0%,
+      #35132d 58%,
+      var(--do-ink, #240b21) 100%);
+  color: var(--do-paper, #fffdfb);
+  box-shadow:
+    inset 0 1px 1px #c49b9e80,
+    0 4px 0 #20071d,
+    0 8px 20px #916a7050;
+  font-weight: 600;
+}
+.personal_assistant_panel .personal_assistant_stop {
+  background: #f3e9ec;
+  border-color: #bca4ae;
+}
+.personal_assistant_notes {
+  margin-top: .7rem;
+}
+.personal_assistant_panel summary {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  width: fit-content;
+  padding: .4rem 0;
+  font-size: .77rem;
+  font-weight: 500;
+  cursor: pointer;
+  list-style: none;
+  color: var(--do-ink, #654a4e);
+}
+.personal_assistant_panel summary::-webkit-details-marker {
+  display: none;
+}
+.personal_assistant_panel details[open] > summary svg {
+  transform: rotate(180deg);
+}
+.personal_assistant_notes > label {
+  display: block;
+  margin: .5rem 0;
+  font-size: .8rem;
+}
+.personal_assistant_notes > p,
+.personal_assistant_evidence p {
+  font-size: .76rem;
+  line-height: 1.55;
+  color: var(--do-ink, #654a4e);
+}
+.personal_assistant_consent {
+  margin-top: .7rem;
+  padding: .9rem 1rem;
+  border: 1px solid #d9cbd0;
+  border-radius: 1rem;
+  background: var(--do-chalk, #f0e9ec);
+}
+.personal_assistant_consent label {
+  display: flex;
+  align-items: flex-start;
+  gap: .65rem;
+  font-size: .75rem;
+  line-height: 1.6;
+}
+.personal_assistant_consent label + label {
+  margin-top: .7rem;
+}
+.personal_assistant_consent input {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  margin-top: .18rem;
+  accent-color: var(--do-ink, #654a4e);
+}
+.personal_assistant_status p,
+.personal_assistant_error {
+  margin: .65rem 0 0;
+  font-size: .77rem;
+  line-height: 1.6;
+}
+.personal_assistant_status p {
+  color: var(--do-ink, #654a4e);
+}
+.personal_assistant_status p > svg {
+  vertical-align: middle;
+  margin-right: .35rem;
+}
+.personal_assistant_status a {
+  color: var(--do-ink, #240b21);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.personal_assistant_status button {
+  margin-left: .3rem;
+  font-size: .72rem;
+  min-height: 44px;
+}
+.personal_assistant_error {
+  padding: .7rem .8rem;
+  border-radius: .7rem;
+  background: #f4e6e8;
+  color: #61273a;
+}
+.personal_assistant_exchange {
+  display: grid;
+  gap: .9rem;
+  margin-bottom: 1.4rem;
+}
+.personal_assistant_userMessage {
+  justify-self: end;
+  max-width: 90%;
+  margin: 0;
+  padding: .65rem .9rem;
+  border-radius: 1rem 1rem .2rem 1rem;
+  background: var(--do-lilac, #eadfe4);
+  color: var(--do-ink, #462b3f);
+  font-size: .88rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.personal_assistant_response {
+  min-width: 0;
+  padding-top: .2rem;
+}
+.personal_assistant_responseTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .7rem;
+}
+.personal_assistant_responseTop h3 {
+  margin: 0;
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--do-ink, #654a4e);
+}
+.personal_assistant_panel .personal_assistant_responseTop button {
+  font-size: .7rem;
+  min-height: 44px;
+  padding: .3rem .55rem;
+}
+.personal_assistant_reply {
+  font-size: .95rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.personal_assistant_draft {
+  padding: 1rem;
+  border: 1px solid #d8c9ce;
+  border-radius: 1rem;
+  background: var(--do-lilac, #eee6e9);
+}
+.personal_assistant_draft > label {
+  display: block;
+  margin-bottom: .6rem;
+  font-size: .8rem;
+  font-weight: 600;
+}
+.personal_assistant_draft button {
+  margin-top: .65rem;
+}
+.personal_assistant_question {
+  font-weight: 600;
+  font-size: .9rem;
+  line-height: 1.6;
+}
+.personal_assistant_evidence {
+  margin-top: .8rem;
+}
+.personal_assistant_evidence h4 {
+  margin: .7rem 0 .3rem;
+  font-size: .76rem;
+}
+.personal_assistant_evidence ul {
+  padding-left: 1.1rem;
+  margin: .3rem 0;
+  font-size: .78rem;
+  line-height: 1.6;
+}
+.personal_assistant_evidence li {
+  margin: .3rem 0;
+  overflow-wrap: anywhere;
+}
+.personal_assistant_evidence li > span {
+  color: #75616b;
+  font-size: .7rem;
+}
+@media (max-width: 600px) {
+  .personal_assistant_panel {
+    padding: 1rem;
+    border-radius: 1.35rem;
+  }
+  .personal_assistant_composerFooter {
+    align-items: flex-start;
+    gap: .7rem;
+  }
+  .personal_assistant_composerFooter > span {
+    max-width: 11rem;
+    font-size: .66rem;
+  }
+  .personal_assistant_panel .personal_assistant_send {
+    min-height: 44px;
+    padding: .65rem .8rem;
+    font-size: .77rem;
+  }
+  .personal_assistant_panel textarea {
+    font-size: 16px;
+  }
+  .personal_assistant_consent {
+    padding: .8rem;
+  }
+  .personal_assistant_draft {
+    padding: .8rem;
+  }
+  .personal_assistant_userMessage {
+    max-width: 95%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .personal_assistant_panel button,
+  .personal_assistant_panel summary svg {
+    transition: none;
+  }
+  .personal_assistant_panel button:hover:not(:disabled) {
+    transform: none;
+  }
+}
+.personal_assistant_panel {
+  padding: 19px 22px 15px;
+  border-radius: 26px;
+  background: var(--do-paper, #fffdfb);
+  border: 1px solid var(--do-chalk, #ded0db);
+  box-shadow:
+    0 5px 10px #240b2106,
+    0 13px 35px #240b2107,
+    inset 0 1px 0 #fff;
+}
+.personal_assistant_panel .personal_assistant_inputLabel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.personal_assistant_panel form > textarea {
+  padding: 4px 0;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+  min-height: 76px;
+}
+.personal_assistant_panel form > textarea::placeholder {
+  color: var(--do-ink, #654a4e);
+  opacity: 1;
+}
+.personal_assistant_panel .personal_assistant_send {
+  border-radius: 16px;
+  box-shadow:
+    inset 0 1px 1px #eac8df88,
+    0 2px 0 var(--do-ink, #240b21),
+    0 8px 15px #240b2120;
+}
+.personal_assistant_composerFooter > span {
+  font-size: 10px;
+}
+.personal_assistant_panel .personal_assistant_notes > summary {
+  font-size: 11px;
+}
+.personal_assistant_panel .personal_assistant_status:empty {
+  display: none;
+}
+@media (max-width: 600px) {
+  .personal_assistant_panel {
+    padding: 16px;
+    border-radius: 23px;
+  }
+  .personal_assistant_panel form > textarea {
+    font-size: 16px;
+  }
+  .personal_assistant_composerFooter > span {
+    font-size: 9px;
+  }
+}
+.personal_assistant_consent small {
+  display: block;
+  margin-top: 5px;
+  font-size: .72rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--do-ink, #654a4e);
+}
+.personal_assistant_panel {
+  border-radius: 32px 42px 32px 38px;
+  box-shadow: 0 14px 36px color-mix(in srgb, var(--do-ink) 4.31%, transparent);
+}
+.personal_assistant_panel .personal_assistant_send {
+  background: var(--do-plum, #240b21);
+  border-color: transparent;
+  border-radius: 999px;
+  box-shadow: none;
+}
+.personal_assistant_panel .personal_assistant_send:hover:not(:disabled) {
+  background: var(--do-hover, #240b21);
+}
+.personal_assistant_panel .personal_assistant_send:active:not(:disabled) {
+  background: var(--do-active, #240b21);
+}
+.personal_assistant_panel button:disabled {
+  opacity: 1;
+  background: var(--do-chalk, #f5f1f2);
+  color: var(--do-ink, #654a4e);
+  border-color: transparent;
+}
+.personal_assistant_panel form > textarea {
+  min-height: 94px;
+}
+.personal_assistant_composerFooter > span {
+  font-size: 11px;
+}
+.personal_assistant_panel .personal_assistant_consent,
+.personal_assistant_panel .personal_assistant_draft {
+  border-radius: 24px;
+}
+.personal_assistant_panel .personal_assistant_reply {
+  color: var(--do-ink, #240b21);
+}
+.personal_assistant_panel {
+  border-radius: 38px;
+  background: var(--do-paper);
+  border: 1px solid #ffffffaa;
+  backdrop-filter: blur(18px);
+  padding: 22px 24px 18px;
+}
+.personal_assistant_panel form > textarea {
+  min-height: 74px;
+}
+@media (max-width: 760px) {
+  .personal_assistant_panel {
+    padding: 20px;
+    border-radius: 32px;
+  }
+  .personal_assistant_panel form > textarea {
+    min-height: 62px;
+  }
+}
+.personal_assistant_panel {
+  max-width: none;
+  width: 100%;
+}
+.personal_assistant_panel form {
+  border-radius: 30px;
+  background:
+    linear-gradient(
+      140deg,
+      #fffdfb 40%,
+      #f7e9f0);
+  border: 1px solid #e2ccd9;
+  box-shadow: 0 12px 35px #492b3e0d;
+  padding: 24px;
+}
+.personal_assistant_panel textarea {
+  font-size: 18px;
+  line-height: 1.6;
+}
+.personal_assistant_panel form > .personal_assistant_inputLabel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  clip-path: inset(50%);
+  overflow: hidden;
+}
+.personal_assistant_panel .personal_assistant_send {
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      135deg,
+      #654a4e,
+      #240b21);
+  min-height: 46px;
+}
+.personal_assistant_panel .personal_assistant_notes > summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+}
+.personal_assistant_panel .personal_assistant_notes {
+  border: 0;
+}
+.personal_assistant_starters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 18px 0 0;
+}
+.personal_assistant_starters button {
+  border: 1px solid #e4cdd9;
+  border-radius: 23px;
+  padding: 18px;
+  text-align: left;
+  min-height: 96px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #492b3e;
+  background:
+    linear-gradient(
+      145deg,
+      #f6e6ed,
+      #edcddf);
+  transition: transform 160ms, box-shadow 160ms;
+}
+.personal_assistant_starters button:nth-child(2) {
+  background:
+    linear-gradient(
+      145deg,
+      #f1e8f7,
+      #dfd4ed);
+}
+.personal_assistant_starters button:nth-child(3) {
+  background:
+    linear-gradient(
+      145deg,
+      #f8efe8,
+      #eddcd1);
+}
+.personal_assistant_starters button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px #492b3e12;
+}
+.personal_assistant_starters button:focus-visible {
+  outline: 3px solid #654a4e;
+  outline-offset: 3px;
+}
+.personal_assistant_starters span {
+  display: block;
+  font:
+    11px/1.5 var(--font-mono),
+    "IBM Plex Mono",
+    monospace;
+  margin-bottom: 8px;
+}
+.personal_assistant_starters p {
+  grid-column: 1/-1;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #654a4e;
+  margin: 0 4px;
+}
+@media (max-width: 600px) {
+  .personal_assistant_panel form {
+    padding: 20px;
+    border-radius: 27px;
+  }
+  .personal_assistant_panel textarea {
+    font-size: 16px;
+  }
+  .personal_assistant_starters {
+    gap: 8px;
+  }
+  .personal_assistant_starters button {
+    padding: 14px 12px;
+    font-size: 13px;
+    border-radius: 20px;
+  }
+  .personal_assistant_starters span {
+    font-size: 11px;
+  }
+  .personal_assistant_starters p {
+    font-size: 11px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .personal_assistant_starters button {
+    transition: none;
+  }
+  .personal_assistant_starters button:hover {
+    transform: none;
+  }
+}
+.personal_assistant_panel {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+.personal_assistant_panel .personal_assistant_starters button {
+  display: block;
+  white-space: normal;
+  font-size: 14px;
+  border-radius: 23px;
+  min-width: 0;
+  text-align: left;
+  line-height: 1.5;
+}
+.personal_assistant_panel .personal_assistant_starters button:disabled {
+  opacity: .6;
+}
+.personal_assistant_panel .personal_assistant_starters span {
+  display: block;
+}
+.personal_assistant_panel form {
+  min-width: 0;
+}
+.personal_assistant_panel .personal_assistant_composerFooter > span {
+  font-size: 12px;
+}
+@media (max-width: 600px) {
+  .personal_assistant_panel .personal_assistant_starters button {
+    font-size: 13px;
+    padding: 14px 12px;
+  }
+  .personal_assistant_panel .personal_assistant_composerFooter > span {
+    font-size: 11px;
+  }
+}
+.personal_assistant_panel .personal_assistant_starters button:first-child {
+  background:
+    linear-gradient(
+      145deg,
+      #f6e6ed,
+      #edcddf);
+}
+@media (prefers-reduced-motion: reduce) {
+  .personal_assistant_panel .personal_assistant_starters button {
+    transition: none !important;
+    animation: none !important;
+  }
+  .personal_assistant_panel .personal_assistant_starters button:hover {
+    transform: none;
+  }
+}
+.personal_assistant_keptMeta {
+  margin: .4rem 0 .9rem;
+  font:
+    400 11px/1.6 var(--font-mono),
+    "IBM Plex Mono",
+    monospace;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--do-ink, #654a4e);
+}
+.personal_assistant_panel .personal_assistant_keptMeta button {
+  min-height: 32px;
+  padding: .2rem .6rem;
+  font-size: 11px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.personal_assistant_keptList {
+  margin: 14px 0 0;
+  display: grid;
+  gap: 8px;
+}
+.personal_assistant_keptList h3 {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--do-ink, #654a4e);
+}
+.personal_assistant_panel .personal_assistant_keptList button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  white-space: normal;
+  text-align: left;
+  padding: 12px 16px;
+  border-radius: 18px;
+  background:
+    linear-gradient(
+      145deg,
+      #fffdfb,
+      #f5ecf1);
+  font-size: 14px;
+  line-height: 1.4;
+}
+.personal_assistant_panel .personal_assistant_keptList small {
+  font:
+    400 11px/1.4 var(--font-mono),
+    "IBM Plex Mono",
+    monospace;
+  color: var(--do-ink, #654a4e);
+}
+
+/* components/do/do-presence.module.css */
+.do_presence_presence {
+  --presence-size:180px;
+  display: inline-grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  place-items: center;
+  width: var(--presence-size);
+  height: var(--presence-size);
+  flex-shrink: 0;
+  pointer-events: none;
+}
+.do_presence_presence[data-size=small] {
+  --presence-size:48px;
+}
+.do_presence_presence[data-size=large] {
+  --presence-size:240px;
+}
+.do_presence_sculpture {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 8px 8px #240b2114);
+  transition: transform 300ms ease;
+}
+.do_presence_sculpture > [data-glass-identity] {
+  width: 100% !important;
+  height: 100% !important;
+}
+.do_presence_presence[data-size=small] .do_presence_sculpture {
+  filter: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .do_presence_presence[data-working] .do_presence_sculpture {
+    transform: translateY(-2px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .do_presence_sculpture {
+    transition: none;
+  }
+}
+
+/* app/do/personal/identity.module.css */
+.identity_identity {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 25px 30px;
+  border: 1px solid #916a7033;
+  border-radius: 28px;
+  background:
+    linear-gradient(
+      110deg,
+      #f5f1f2,
+      #fffdfb 65%);
+  margin: 10px 0 32px;
+}
+.identity_identityText {
+  flex: 1;
+  min-width: 0;
+}
+.identity_eyebrow {
+  font: 10px/1.6 var(--font-mono), monospace;
+  letter-spacing: .08em;
+  margin: 0;
+}
+.identity_identity h2 {
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -.045em;
+  margin: 4px 0 7px;
+  overflow-wrap: anywhere;
+}
+.identity_identityText > p:last-child {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #654a4e;
+  margin: 0;
+  max-width: 620px;
+}
+.identity_identity > button {
+  border: 1px solid #240b2129;
+  border-radius: 30px;
+  padding: 14px 20px;
+  background: #fffdfb;
+  color: #240b21;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  flex-shrink: 0;
+  font-size: 13px;
+}
+.identity_character {
+  display: inline-flex;
+  width: 195px;
+  height: 195px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 15px 16px #240b2122);
+}
+.identity_character[data-small] {
+  width: 68px;
+  height: 68px;
+}
+.identity_character svg {
+  width: 100%;
+  height: 100%;
+}
+.identity_savedNotice {
+  font-size: 13px;
+  margin: -15px 0 30px;
+  color: #654a4e;
+}
+.identity_backdrop {
+  inset: 0;
+  position: fixed;
+  margin: 0;
+  padding: 28px;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  border: 0;
+  background: #240b2199;
+  backdrop-filter: blur(10px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  z-index: 10000;
+  color: #240b21;
+}
+.identity_backdrop::backdrop {
+  background: #240b2170;
+}
+.identity_backdrop:not([open]) {
+  display: none;
+}
+.identity_sheet {
+  background: #fffdfb;
+  border: 1px solid #ffffff40;
+  border-radius: 32px;
+  width: min(1030px, 100%);
+  margin: 15px auto;
+  overflow: hidden;
+  box-shadow: 0 30px 110px #16081255;
+}
+.identity_sheetBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 18px 25px 0 35px;
+}
+.identity_close {
+  border: 0;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  color: inherit;
+  border-radius: 50%;
+}
+.identity_close:hover {
+  background: #f5f1f2;
+}
+.identity_progress {
+  display: flex;
+  padding: 18px 35px 22px;
+  gap: 20px;
+  border-bottom: 1px solid #240b2112;
+}
+.identity_progress > span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #654a4e;
+}
+.identity_progress b {
+  width: 23px;
+  height: 23px;
+  font: 10px var(--font-mono), monospace;
+  border: 1px solid #916a7050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+.identity_progress [data-current=true] {
+  color: #240b21;
+}
+.identity_progress [data-current=true] b,
+.identity_progress [data-done=true] b {
+  color: #fffdfb;
+  background: #240b21;
+  border-color: #240b21;
+}
+.identity_sheetGrid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+}
+.identity_form {
+  padding: 30px 35px;
+  min-width: 0;
+}
+.identity_form h2 {
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(32px, 3.2vw, 44px);
+  font-weight: 500;
+  letter-spacing: -.06em;
+  line-height: 1.04;
+  margin: 6px 0 17px;
+  outline: none;
+}
+.identity_introduction {
+  color: #654a4e;
+  font-size: 14px;
+  line-height: 1.65;
+  margin: 0 0 24px;
+}
+.identity_label {
+  font-size: 13px;
+  display: grid;
+  gap: 9px;
+  margin: 20px 0;
+}
+.identity_label input,
+.identity_label textarea,
+.identity_label select {
+  width: 100%;
+  min-width: 0;
+  font-size: 16px;
+  color: #240b21;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #916a7070;
+  background: #fffdfb;
+  min-height: 48px;
+  outline-offset: 3px;
+}
+.identity_label textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+.identity_fieldset {
+  border: 0;
+  margin: 24px 0 12px;
+  padding: 0;
+  min-width: 0;
+}
+.identity_fieldset legend {
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+.identity_characters {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.identity_characters button {
+  min-width: 0;
+  background: #f5f1f270;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  padding: 8px 4px 13px;
+  color: #240b21;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.identity_characters button[aria-pressed=true] {
+  border-color: #916a70;
+  background: #f5f1f2;
+  box-shadow: inset 0 0 0 1px #916a70;
+}
+.identity_characters strong {
+  font-size: 12px;
+  font-weight: 500;
+}
+.identity_characters button > span:last-child {
+  font-size: 10px;
+  line-height: 1.3;
+  max-width: 70px;
+  color: #654a4e;
+  margin-top: 3px;
+}
+.identity_characters .identity_character {
+  width: 60px;
+  height: 60px;
+}
+.identity_choices {
+  display: grid;
+  gap: 8px;
+}
+.identity_choices button {
+  background: #fffdfb;
+  border: 1px solid #916a703a;
+  border-radius: 14px;
+  text-align: left;
+  padding: 13px 16px;
+  color: #240b21;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+.identity_choices button[aria-pressed=true] {
+  border-color: #916a70;
+  background: #f5f1f2;
+}
+.identity_choices strong {
+  font-size: 14px;
+  display: block;
+  font-weight: 500;
+}
+.identity_choices small {
+  font-size: 12px;
+  color: #654a4e;
+  display: block;
+  margin-top: 5px;
+  line-height: 1.5;
+}
+.identity_radio {
+  display: grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  border: 1px solid #916a70;
+  flex-shrink: 0;
+}
+.identity_choices [aria-pressed=true] .identity_radio {
+  background: #240b21;
+  color: #fffdfb;
+  border-color: #240b21;
+}
+.identity_hint {
+  font-size: 12px;
+  color: #654a4e;
+  line-height: 1.6;
+  margin: 14px 0;
+}
+.identity_consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  background: #f5f1f2;
+  border-radius: 15px;
+  padding: 14px;
+  margin: 25px 0 0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.identity_consent input {
+  appearance: auto;
+  accent-color: #240b21;
+  width: 21px;
+  height: 21px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.identity_formNotice {
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 18px;
+}
+.identity_formActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+}
+.identity_primary,
+.identity_secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 25px;
+  min-height: 48px;
+  padding: 12px 20px;
+  font-size: 14px;
+}
+.identity_primary {
+  background: #240b21;
+  color: #fffdfb;
+  border: 1px solid #240b21;
+}
+.identity_secondary {
+  background: transparent;
+  color: #654a4e;
+  border: 1px solid transparent;
+  padding-left: 0;
+}
+.identity_reset {
+  background: transparent;
+  border: 0;
+  color: #654a4e;
+  padding: 10px 0;
+  min-height: 44px;
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  margin-top: 10px;
+}
+.identity_resetActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 25px;
+}
+.identity_forget {
+  background: #f5f1f2;
+  border-radius: 16px;
+  padding: 18px;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.identity_forget p {
+  font-size: 12px;
+  line-height: 1.65;
+  color: #654a4e;
+}
+.identity_forget button {
+  margin-right: 15px;
+  margin-top: 8px;
+  font-size: 12px;
+}
+.identity_preview {
+  background:
+    radial-gradient(
+      ellipse at 55% 32%,
+      #916a7077,
+      transparent 65%),
+    #240b21;
+  color: #fffdfb;
+  padding: 40px 32px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 0;
+}
+.identity_preview > .identity_eyebrow {
+  color: #dbc7cd;
+}
+.identity_preview > .identity_character {
+  margin-top: 15px;
+  filter: drop-shadow(0 0 35px #d4aebd55);
+}
+.identity_preview h3 {
+  font-family: var(--font-body), sans-serif;
+  font-size: 38px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -.05em;
+  margin: 3px 0 30px;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+}
+.identity_preview h3 span {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0;
+  font-weight: 400;
+  opacity: .7;
+  margin-top: 9px;
+}
+.identity_sample {
+  background: #fffdfb0d;
+  border: 1px solid #fffdfb22;
+  padding: 20px;
+  border-radius: 19px;
+  text-align: left;
+  width: 100%;
+}
+.identity_sample .identity_eyebrow {
+  color: #dac7ce;
+  font-size: 9px;
+}
+.identity_sample p {
+  margin: 11px 0 0;
+  font-size: 16px;
+  line-height: 1.65;
+  letter-spacing: -.01em;
+}
+.identity_previewNote {
+  font-size: 11px;
+  line-height: 1.6;
+  color: #dbc7cd;
+  margin: 14px 8px 25px;
+}
+.identity_assurance {
+  margin-top: auto;
+  padding-top: 15px;
+  display: flex;
+  text-align: left;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  line-height: 1.7;
+  color: #e5d7dc;
+}
+.identity_assurance svg {
+  flex-shrink: 0;
+}
+@media (max-width: 760px) {
+  .identity_identity {
+    padding: 22px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .identity_identity > .identity_character {
+    width: 55px;
+    height: 55px;
+  }
+  .identity_identity h2 {
+    font-size: 25px;
+  }
+  .identity_identityText {
+    flex-basis: calc(100% - 70px);
+  }
+  .identity_identity > button {
+    width: 100%;
+    margin-top: 8px;
+  }
+  .identity_backdrop {
+    padding: 10px;
+  }
+  .identity_sheet {
+    margin: 0 auto;
+    border-radius: 23px;
+  }
+  .identity_sheetBar {
+    padding: 11px 11px 0 20px;
+  }
+  .identity_sheetBar .identity_eyebrow {
+    font-size: 9px;
+  }
+  .identity_progress {
+    padding: 15px 20px;
+    gap: 10px;
+    justify-content: space-between;
+  }
+  .identity_progress > span {
+    gap: 5px;
+  }
+  .identity_progress > span > span {
+    display: none;
+  }
+  .identity_progress > span[data-current=true] > span {
+    display: inline;
+    font-size: 11px;
+  }
+  .identity_sheetGrid {
+    grid-template-columns: 1fr;
+  }
+  .identity_form {
+    padding: 25px 20px;
+  }
+  .identity_form h2 {
+    font-size: 35px;
+  }
+  .identity_characters {
+    gap: 6px;
+  }
+  .identity_characters .identity_character {
+    width: 52px;
+    height: 52px;
+  }
+  .identity_characters button > span:last-child {
+    font-size: 9px;
+  }
+  .identity_preview {
+    padding: 25px 25px 30px;
+  }
+  .identity_preview > .identity_character {
+    width: 120px;
+    height: 120px;
+    margin-top: 5px;
+  }
+  .identity_preview h3 {
+    font-size: 29px;
+    margin-bottom: 20px;
+  }
+  .identity_sample p {
+    font-size: 14px;
+  }
+  .identity_assurance {
+    width: 100%;
+    justify-content: center;
+  }
+}
+.identity_identity[data-compact] {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  gap: 0;
+}
+.identity_identity[data-compact] > .identity_character,
+.identity_identity[data-compact] .identity_identityText {
+  display: none;
+}
+.identity_identity[data-compact] > button {
+  min-height: 44px;
+  padding: 10px 15px;
+  font-size: 12px;
+  border-radius: 11px;
+  background: #f5f1f2;
+  border-color: #e4d8dd;
+  gap: 9px;
+  max-width: 220px;
+}
+.identity_character {
+  filter: drop-shadow(0 13px 12px #240b2129);
+}
+.identity_preview > .identity_character {
+  width: 235px;
+  height: 235px;
+  margin-top: 0;
+  filter: drop-shadow(8px 18px 12px #14051166);
+}
+.identity_preview {
+  background: #240b21;
+}
+.identity_sample {
+  border-radius: 12px;
+  background: #fffdfb0a;
+}
+@media (max-width: 760px) {
+  .identity_identity[data-compact] {
+    flex-wrap: nowrap;
+  }
+  .identity_identity[data-compact] > button {
+    width: auto;
+    margin: 0;
+    font-size: 11px;
+    min-height: 44px;
+    padding: 10px 11px;
+    max-width: 185px;
+  }
+  .identity_preview > .identity_character {
+    width: 160px;
+    height: 160px;
+  }
+}
+.identity_preview h3 {
+  color: #fffdfb;
+}
+.identity_backdrop .identity_label input,
+.identity_backdrop .identity_label textarea,
+.identity_backdrop .identity_label select {
+  font-size: 16px;
+}
+.identity_character > span {
+  --presence-size:100% !important;
+  width: 100%;
+  height: 100%;
+}
+.identity_character[data-character=orbit] {
+  transform: rotate(6deg);
+}
+.identity_character[data-character=spark] {
+  transform: rotate(-6deg);
+}
+.identity_character {
+  position: relative;
+}
+.identity_character > .identity_personalOrbit {
+  position: absolute;
+  inset: 32% 12%;
+  width: auto !important;
+  height: auto !important;
+  border: 1px solid #916a7090;
+  border-radius: 50%;
+  transform: rotate(-30deg);
+}
+.identity_character > .identity_personalSpark {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  width: auto !important;
+  height: auto !important;
+  font-size: 20px;
+  color: #916a70;
+}
+
+/* app/do/do-live.css */
+.do_live_do-live-dock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  border: 1px solid rgba(67, 25, 51, 0.16);
+  border-radius: 18px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(250, 245, 248, 0.96),
+      rgba(255, 255, 255, 0.98));
+  box-shadow: 0 18px 50px rgba(43, 12, 31, 0.08);
+}
+.do_live_do-live-dock > div {
+  min-width: 0;
+}
+.do_live_do-live-dock strong {
+  display: block;
+  overflow-wrap: anywhere;
+  margin-top: 3px;
+  color: #2c1023;
+  font-size: 16px;
+  line-height: 1.2;
+}
+.do_live_do-live-dock p {
+  margin: 5px 0 0;
+  color: rgba(44, 16, 35, 0.7);
+  font-size: 12px;
+  line-height: 1.4;
+}
+.do_live_do-live-dock button {
+  flex: 0 0 auto;
+  min-height: 44px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: #35152b;
+  color: white;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.do_live_do-live-dock button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+@media (max-width: 680px) {
+  .do_live_do-live-dock {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+.do_live_do-live-panel {
+  margin: 20px 0;
+  color: #240b21;
+}
+.do_live_do-live-panel .do_live_do-live-dock {
+  margin-bottom: 0;
+}
+.do_live_do-live-panel :is(button, a) {
+  touch-action: manipulation;
+}
+.do_live_do-live-dock a,
+.do_live_do-live-options > button,
+.do_live_do-live-draft > button,
+.do_live_do-live-transcript > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 16px;
+  min-height: 44px;
+  border: 1px solid #654a4e40;
+  border-radius: 9px;
+  background: #35152b;
+  color: #fffdfb;
+  font: inherit;
+  font-size: 13px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.do_live_do-live-panel button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.do_live_do-live-panel :is(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid #916a70;
+  outline-offset: 4px;
+}
+.do_live_do-live-options,
+.do_live_do-live-transcript,
+.do_live_do-live-draft {
+  padding: 20px;
+  margin-top: 10px;
+  border: 1px solid #654a4e30;
+  border-radius: 14px;
+  background: #fffdfb;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.do_live_do-live-options > p {
+  color: #654a4e;
+  margin: 14px 0;
+}
+.do_live_do-live-choice {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.do_live_do-live-choice label,
+.do_live_do-live-draft label {
+  display: grid;
+  gap: 7px;
+  font-weight: 500;
+}
+.do_live_do-live-choice select,
+.do_live_do-live-draft textarea {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #654a4e50;
+  border-radius: 7px;
+  background: #f5f1f2;
+  color: #240b21;
+  font: inherit;
+}
+.do_live_do-live-draft textarea {
+  margin: 9px 0 12px;
+  resize: vertical;
+}
+.do_live_do-live-consent {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-top: 16px;
+  cursor: pointer;
+}
+.do_live_do-live-consent input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  flex: 0 0 auto;
+  accent-color: #654a4e;
+}
+.do_live_do-live-context {
+  max-height: 180px;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: #f5f1f2;
+  border-radius: 8px;
+  padding: 12px;
+  font: 12px/1.6 var(--font-mono), monospace;
+}
+.do_live_do-live-state {
+  padding: 10px 16px;
+  color: #654a4e;
+  font: 12px/1.6 var(--font-mono), monospace;
+}
+.do_live_do-live-transcript summary {
+  cursor: pointer;
+}
+.do_live_do-live-transcript p {
+  overflow-wrap: anywhere;
+}
+.do_live_do-live-transcript strong {
+  display: block;
+  font-size: 11px;
+  color: #654a4e;
+}
+@media (max-width: 480px) {
+  .do_live_do-live-choice {
+    grid-template-columns: 1fr;
+  }
+  .do_live_do-live-options,
+  .do_live_do-live-transcript,
+  .do_live_do-live-draft {
+    padding: 14px;
+  }
+}
+.do_live_do-live-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.do_live_do-live-profile {
+  overflow-wrap: anywhere;
+}
+.do_live_do-live-profile summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.do_live_do-live-transcript > button,
+.do_live_do-live-draft > button {
+  margin: 4px 8px 4px 0;
+}
+@media (max-width: 680px) {
+  .do_live_do-live-choice select,
+  .do_live_do-live-draft textarea {
+    font-size: 16px;
+  }
+}
+body{margin:24px auto;max-width:430px;background:#FFFDFB;color:#492B3E;font:16px/1.5 system-ui;padding:16px}button,textarea,input,select{font:inherit;max-width:100%}textarea{width:100%;box-sizing:border-box}svg{max-width:32px}pre{white-space:pre-wrap}</style><h1>DO companion</h1><p><strong>Static local review.</strong> Actual server-rendered component; controls are inactive. No microphone, provider, account or browser access.</p><section aria-label="Conversation with DO"><p>Write or talk here. Messages stay in this workspace unless you choose to keep them on your account. Device permissions are requested separately.</p><details><summary>Review current snapshot · offered text</summary><p>This is text explicitly offered to DO, not access to your screen or other tabs. Page text is untrusted evidence.</p><pre style="white-space:pre-wrap;max-height:160px;overflow:auto">Fictional selected text: the library opens at 9am.</pre><button>Attach this text to the conversation</button></details><div><section class="personal_assistant_panel" aria-label="Ask DO" aria-busy="false"><form><label class="personal_assistant_inputLabel" for="personal-assistant-input">What would you like done?</label><textarea id="personal-assistant-input" data-do-primary-input="true" maxLength="4000" rows="3" placeholder="e.g. Prepare a reply to my property manager"></textarea><div class="personal_assistant_composerFooter"><span>Review drafts before sharing</span><button class="personal_assistant_send" type="submit" disabled="">Start<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></button></div><details class="personal_assistant_notes"><summary>Notes &amp; references <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6"></path></svg></summary><label for="personal-assistant-notes">Notes to use in this conversation</label><textarea id="personal-assistant-notes" maxLength="6000" rows="3" placeholder="Paste only the details you want DO to use. Links are not opened."></textarea><p>Remove passwords, payment details and anything you don’t want to share. Only the last exchange and these notes go with your next message.</p><label class="personal_assistant_consent"><input type="checkbox"/><span>Include official NZ references.<small>Parliament excerpts only, shared with OpenAI and TypeSafe.</small></span></label><p>Only fresh verified Parliament details can support facts. Other links need checking. This is not a topic search.</p></details></form><section class="do_capability_ideas_ideas" aria-label="Ideas to get started"><h2>Start with something useful</h2><div class="do_capability_ideas_outcomes" aria-label="Open a working tool"><a target="_blank" rel="noopener noreferrer" href="/do/shop"><svg class="do_capability_ideas_scene" viewBox="0 0 320 200" fill="none" aria-hidden="true" focusable="false" data-do-task-scene="shop"><defs><linearGradient id="R5ac-paper" x1="95" y1="30" x2="214" y2="178" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB"></stop><stop offset="1" stop-color="#E8DDE2"></stop></linearGradient><linearGradient id="R5ac-glass" x1="98" y1="45" x2="235" y2="162" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB" stop-opacity=".92"></stop><stop offset=".36" stop-color="#EAC8DF" stop-opacity=".65"></stop><stop offset="1" stop-color="#916A70" stop-opacity=".8"></stop></linearGradient><linearGradient id="R5ac-chrome" x1="93" y1="60" x2="211" y2="153" gradientUnits="userSpaceOnUse"><stop stop-color="#654A4E"></stop><stop offset=".35" stop-color="#FFFDFB"></stop><stop offset=".5" stop-color="#D5CDD1"></stop><stop offset="1" stop-color="#492B3E"></stop></linearGradient><radialGradient id="R5ac-shadow"><stop stop-color="#240B21" stop-opacity=".17"></stop><stop offset="1" stop-color="#240B21" stop-opacity="0"></stop></radialGradient></defs><ellipse cx="160" cy="171" rx="124" ry="20" fill="url(#R5ac-shadow)"></ellipse><g><path d="M102 106 113 53h26l5 65" fill="url(#R5ac-paper)" stroke="#916A70"></path><path d="m113 53 11-12 15 12" fill="#654A4E"></path><path d="M164 120c-24-24-25-62-5-81 22 13 28 47 5 81Z" fill="#654A4E"></path><path d="M167 118c-1-40 15-64 37-64 10 27-5 51-37 64Z" fill="#916A70"></path><path d="m164 119 20-46" stroke="#FFFDFB" stroke-opacity=".6" stroke-width="2"></path><ellipse cx="211" cy="108" rx="23" ry="27" fill="#916A70"></ellipse><path d="m207 81 6-10" stroke="#492B3E" stroke-width="4" stroke-linecap="round"></path><path d="M82 103h155l-18 61H101Z" fill="url(#R5ac-glass)" stroke="#FFFDFB" stroke-width="2"></path><path d="M101 106 126 75h62l31 31" stroke="url(#R5ac-chrome)" stroke-width="7" stroke-linecap="round"></path><path d="m114 121 5 25m28-25 1 25m28-25-1 25m28-25-5 25" stroke="#FFFDFB" stroke-opacity=".7" stroke-width="4" stroke-linecap="round"></path></g></svg><strong>Plan the shop</strong><span>Dinners, pantry and an aisle checklist</span><small>Working planning · no cart connection</small><b>Open Shopper DO <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></b></a><a target="_blank" rel="noopener noreferrer" href="/do/messages"><svg class="do_capability_ideas_scene" viewBox="0 0 320 200" fill="none" aria-hidden="true" focusable="false" data-do-task-scene="writing"><defs><linearGradient id="R6ac-paper" x1="95" y1="30" x2="214" y2="178" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB"></stop><stop offset="1" stop-color="#E8DDE2"></stop></linearGradient><linearGradient id="R6ac-glass" x1="98" y1="45" x2="235" y2="162" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB" stop-opacity=".92"></stop><stop offset=".36" stop-color="#EAC8DF" stop-opacity=".65"></stop><stop offset="1" stop-color="#916A70" stop-opacity=".8"></stop></linearGradient><linearGradient id="R6ac-chrome" x1="93" y1="60" x2="211" y2="153" gradientUnits="userSpaceOnUse"><stop stop-color="#654A4E"></stop><stop offset=".35" stop-color="#FFFDFB"></stop><stop offset=".5" stop-color="#D5CDD1"></stop><stop offset="1" stop-color="#492B3E"></stop></linearGradient><radialGradient id="R6ac-shadow"><stop stop-color="#240B21" stop-opacity=".17"></stop><stop offset="1" stop-color="#240B21" stop-opacity="0"></stop></radialGradient></defs><ellipse cx="160" cy="171" rx="124" ry="20" fill="url(#R6ac-shadow)"></ellipse><g><g transform="rotate(8 161 100)"><rect x="101" y="32" width="119" height="120" rx="11" fill="url(#R6ac-paper)" stroke="#916A70" stroke-opacity=".3"></rect><path d="M122 56h65m-65 15h47m-47 16h65" stroke="#654A4E" stroke-width="3" stroke-linecap="round"></path></g><path d="M76 87h166v79H76Z" fill="url(#R6ac-glass)" stroke="#FFFDFB" stroke-width="2"></path><path d="m77 89 82 55 82-55M77 165l57-44m107 44-57-44" stroke="#FFFDFB" stroke-width="2"></path><path d="m225 52 16 9-37 66-16 10 1-19Z" fill="url(#R6ac-chrome)" stroke="#654A4E" stroke-width="1.5"></path></g></svg><strong>Prepare a reply</strong><span>Your notes, one editable message</span><small>Review before sharing</small><b>Open messages <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></b></a><a target="_blank" rel="noopener noreferrer" href="/do/travel"><svg class="do_capability_ideas_scene" viewBox="0 0 320 200" fill="none" aria-hidden="true" focusable="false" data-do-task-scene="travel"><defs><linearGradient id="R7ac-paper" x1="95" y1="30" x2="214" y2="178" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB"></stop><stop offset="1" stop-color="#E8DDE2"></stop></linearGradient><linearGradient id="R7ac-glass" x1="98" y1="45" x2="235" y2="162" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB" stop-opacity=".92"></stop><stop offset=".36" stop-color="#EAC8DF" stop-opacity=".65"></stop><stop offset="1" stop-color="#916A70" stop-opacity=".8"></stop></linearGradient><linearGradient id="R7ac-chrome" x1="93" y1="60" x2="211" y2="153" gradientUnits="userSpaceOnUse"><stop stop-color="#654A4E"></stop><stop offset=".35" stop-color="#FFFDFB"></stop><stop offset=".5" stop-color="#D5CDD1"></stop><stop offset="1" stop-color="#492B3E"></stop></linearGradient><radialGradient id="R7ac-shadow"><stop stop-color="#240B21" stop-opacity=".17"></stop><stop offset="1" stop-color="#240B21" stop-opacity="0"></stop></radialGradient></defs><ellipse cx="160" cy="171" rx="124" ry="20" fill="url(#R7ac-shadow)"></ellipse><g><path d="m65 71 59-21 64 21 54-20v106l-54 20-64-21-59 21Z" fill="url(#R7ac-paper)" stroke="#916A70" stroke-opacity=".4"></path><path d="M124 51v105m64-85v106" stroke="#916A70" stroke-opacity=".35"></path><path d="M86 127c42-75 58 47 127-28" stroke="#916A70" stroke-width="3" stroke-dasharray="5 6"></path><path d="M189 71c0-26 39-26 39 0 0 18-20 35-20 35s-19-17-19-35Z" fill="#492B3E"></path><circle cx="209" cy="69" r="7" fill="#FFFDFB"></circle><rect x="90" y="99" width="66" height="65" rx="14" fill="url(#R7ac-glass)" stroke="#FFFDFB" stroke-width="2"></rect><path d="M112 99v-9h23v9m-24 19v29m23-29v29" stroke="url(#R7ac-chrome)" stroke-width="5" stroke-linecap="round"></path></g></svg><strong>Organise a trip</strong><span>Dates, plans and a packing list</span><small>Planning · no bookings</small><b>Open Travel DO <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></b></a></div><details><summary>Draft something else <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></summary><div class="do_capability_ideas_choices"><button type="button" data-do-idea="school" aria-label="School &amp; household: Turn this notice into next steps"><svg class="do_capability_ideas_choiceScene" viewBox="0 0 320 200" fill="none" aria-hidden="true" focusable="false" data-do-task-scene="school"><defs><linearGradient id="Rmec-paper" x1="95" y1="30" x2="214" y2="178" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB"></stop><stop offset="1" stop-color="#E8DDE2"></stop></linearGradient><linearGradient id="Rmec-glass" x1="98" y1="45" x2="235" y2="162" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB" stop-opacity=".92"></stop><stop offset=".36" stop-color="#EAC8DF" stop-opacity=".65"></stop><stop offset="1" stop-color="#916A70" stop-opacity=".8"></stop></linearGradient><linearGradient id="Rmec-chrome" x1="93" y1="60" x2="211" y2="153" gradientUnits="userSpaceOnUse"><stop stop-color="#654A4E"></stop><stop offset=".35" stop-color="#FFFDFB"></stop><stop offset=".5" stop-color="#D5CDD1"></stop><stop offset="1" stop-color="#492B3E"></stop></linearGradient><radialGradient id="Rmec-shadow"><stop stop-color="#240B21" stop-opacity=".17"></stop><stop offset="1" stop-color="#240B21" stop-opacity="0"></stop></radialGradient></defs><ellipse cx="160" cy="171" rx="124" ry="20" fill="url(#Rmec-shadow)"></ellipse><g><g transform="rotate(-8 155 100)"><rect x="106" y="37" width="104" height="132" rx="12" fill="url(#Rmec-paper)" stroke="#916A70" stroke-opacity=".3"></rect><path d="M126 66h55M126 79h35" stroke="#654A4E" stroke-width="4" stroke-linecap="round"></path><g><rect x="124" y="96" width="10" height="10" rx="3" fill="#916A70" fill-opacity=".35"></rect><path d="M145 102h42" stroke="#654A4E" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"></path></g><g><rect x="124" y="117" width="10" height="10" rx="3" fill="#916A70" fill-opacity=".35"></rect><path d="M145 123h42" stroke="#654A4E" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"></path></g><g><rect x="124" y="138" width="10" height="10" rx="3" fill="#916A70" fill-opacity=".35"></rect><path d="M145 144h42" stroke="#654A4E" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"></path></g></g><path d="M76 95c0-20 58-20 58 0v66H76Z" fill="#654A4E"></path><path d="M94 81v-9h20v9" stroke="url(#Rmec-chrome)" stroke-width="5"></path><rect x="83" y="122" width="44" height="31" rx="9" fill="url(#Rmec-glass)"></rect><path d="m222 68 10 3-25 88-11 10-1-15Z" fill="#916A70" stroke="#FFFDFB" stroke-width="2"></path></g></svg><span class="do_capability_ideas_copy"><span class="do_capability_ideas_name">School &amp; household</span><strong>Turn this notice into next steps</strong><span class="do_capability_ideas_detail">Dates, things to bring and a reply to review.</span></span><span class="do_capability_ideas_state">Draft from your notes<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></button><button type="button" data-do-idea="agenda" aria-label="My day &amp; week: Help me plan the week ahead"><svg class="do_capability_ideas_choiceScene" viewBox="0 0 320 200" fill="none" aria-hidden="true" focusable="false" data-do-task-scene="agenda"><defs><linearGradient id="Rqec-paper" x1="95" y1="30" x2="214" y2="178" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB"></stop><stop offset="1" stop-color="#E8DDE2"></stop></linearGradient><linearGradient id="Rqec-glass" x1="98" y1="45" x2="235" y2="162" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB" stop-opacity=".92"></stop><stop offset=".36" stop-color="#EAC8DF" stop-opacity=".65"></stop><stop offset="1" stop-color="#916A70" stop-opacity=".8"></stop></linearGradient><linearGradient id="Rqec-chrome" x1="93" y1="60" x2="211" y2="153" gradientUnits="userSpaceOnUse"><stop stop-color="#654A4E"></stop><stop offset=".35" stop-color="#FFFDFB"></stop><stop offset=".5" stop-color="#D5CDD1"></stop><stop offset="1" stop-color="#492B3E"></stop></linearGradient><radialGradient id="Rqec-shadow"><stop stop-color="#240B21" stop-opacity=".17"></stop><stop offset="1" stop-color="#240B21" stop-opacity="0"></stop></radialGradient></defs><ellipse cx="160" cy="171" rx="124" ry="20" fill="url(#Rqec-shadow)"></ellipse><g><g transform="rotate(-8 155 100)"><rect x="106" y="37" width="104" height="132" rx="12" fill="url(#Rqec-paper)" stroke="#916A70" stroke-opacity=".3"></rect><path d="M126 66h55M126 79h35" stroke="#654A4E" stroke-width="4" stroke-linecap="round"></path><g><rect x="124" y="96" width="10" height="10" rx="3" fill="#916A70" fill-opacity=".35"></rect><path d="M145 102h42" stroke="#654A4E" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"></path></g><g><rect x="124" y="117" width="10" height="10" rx="3" fill="#916A70" fill-opacity=".35"></rect><path d="M145 123h42" stroke="#654A4E" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"></path></g><g><rect x="124" y="138" width="10" height="10" rx="3" fill="#916A70" fill-opacity=".35"></rect><path d="M145 144h42" stroke="#654A4E" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"></path></g></g><circle cx="218" cy="128" r="38" fill="url(#Rqec-glass)" stroke="#FFFDFB" stroke-width="3"></circle><circle cx="218" cy="128" r="28" fill="url(#Rqec-paper)"></circle><path d="M218 108v20l15 8" stroke="#492B3E" stroke-width="3" stroke-linecap="round"></path><path d="M111 37v16m25-20v16m25-20v16m25-20v16" stroke="url(#Rqec-chrome)" stroke-width="6" stroke-linecap="round"></path></g></svg><span class="do_capability_ideas_copy"><span class="do_capability_ideas_name">My day &amp; week</span><strong>Help me plan the week ahead</strong><span class="do_capability_ideas_detail">Draft a daily or weekly briefing from dates and notes you add. Connected calendar agendas and proactive briefings are not live here.</span></span><span class="do_capability_ideas_state">Week draft<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></button><button type="button" data-do-idea="bills" aria-label="Bills &amp; savings: Review my bills"><svg class="do_capability_ideas_choiceScene" viewBox="0 0 320 200" fill="none" aria-hidden="true" focusable="false" data-do-task-scene="bills"><defs><linearGradient id="Ruec-paper" x1="95" y1="30" x2="214" y2="178" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB"></stop><stop offset="1" stop-color="#E8DDE2"></stop></linearGradient><linearGradient id="Ruec-glass" x1="98" y1="45" x2="235" y2="162" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB" stop-opacity=".92"></stop><stop offset=".36" stop-color="#EAC8DF" stop-opacity=".65"></stop><stop offset="1" stop-color="#916A70" stop-opacity=".8"></stop></linearGradient><linearGradient id="Ruec-chrome" x1="93" y1="60" x2="211" y2="153" gradientUnits="userSpaceOnUse"><stop stop-color="#654A4E"></stop><stop offset=".35" stop-color="#FFFDFB"></stop><stop offset=".5" stop-color="#D5CDD1"></stop><stop offset="1" stop-color="#492B3E"></stop></linearGradient><radialGradient id="Ruec-shadow"><stop stop-color="#240B21" stop-opacity=".17"></stop><stop offset="1" stop-color="#240B21" stop-opacity="0"></stop></radialGradient></defs><ellipse cx="160" cy="171" rx="124" ry="20" fill="url(#Ruec-shadow)"></ellipse><g><g transform="rotate(-8 155 100)"><rect x="106" y="37" width="104" height="132" rx="12" fill="url(#Ruec-paper)" stroke="#916A70" stroke-opacity=".3"></rect><path d="M126 66h55M126 79h35" stroke="#654A4E" stroke-width="4" stroke-linecap="round"></path><g><rect x="124" y="96" width="10" height="10" rx="3" fill="#916A70" fill-opacity=".35"></rect><path d="M145 102h42" stroke="#654A4E" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"></path></g><g><rect x="124" y="117" width="10" height="10" rx="3" fill="#916A70" fill-opacity=".35"></rect><path d="M145 123h42" stroke="#654A4E" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"></path></g><g><rect x="124" y="138" width="10" height="10" rx="3" fill="#916A70" fill-opacity=".35"></rect><path d="M145 144h42" stroke="#654A4E" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"></path></g></g><rect x="185" y="89" width="66" height="82" rx="12" fill="#492B3E"></rect><rect x="195" y="101" width="46" height="17" rx="4" fill="url(#Ruec-glass)"></rect><circle cx="201" cy="132" r="4" fill="#FFFDFB" fill-opacity=".8"></circle><circle cx="218" cy="132" r="4" fill="#FFFDFB" fill-opacity=".8"></circle><circle cx="235" cy="132" r="4" fill="#FFFDFB" fill-opacity=".8"></circle><circle cx="201" cy="151" r="4" fill="#FFFDFB" fill-opacity=".8"></circle><circle cx="218" cy="151" r="4" fill="#FFFDFB" fill-opacity=".8"></circle><circle cx="235" cy="151" r="4" fill="#FFFDFB" fill-opacity=".8"></circle></g></svg><span class="do_capability_ideas_copy"><span class="do_capability_ideas_name">Bills &amp; savings</span><strong>Review my bills</strong><span class="do_capability_ideas_detail">Compare details you supply and draft questions. No bank connection or verified savings.</span></span><span class="do_capability_ideas_state">Review only<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></button></div><details><summary>More ways DO can help <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></summary><div class="do_capability_ideas_choices"><button type="button" data-do-idea="shop" aria-label="Shop: Plan this week’s shop"><svg class="do_capability_ideas_choiceScene" viewBox="0 0 320 200" fill="none" aria-hidden="true" focusable="false" data-do-task-scene="shop"><defs><linearGradient id="R4rec-paper" x1="95" y1="30" x2="214" y2="178" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB"></stop><stop offset="1" stop-color="#E8DDE2"></stop></linearGradient><linearGradient id="R4rec-glass" x1="98" y1="45" x2="235" y2="162" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB" stop-opacity=".92"></stop><stop offset=".36" stop-color="#EAC8DF" stop-opacity=".65"></stop><stop offset="1" stop-color="#916A70" stop-opacity=".8"></stop></linearGradient><linearGradient id="R4rec-chrome" x1="93" y1="60" x2="211" y2="153" gradientUnits="userSpaceOnUse"><stop stop-color="#654A4E"></stop><stop offset=".35" stop-color="#FFFDFB"></stop><stop offset=".5" stop-color="#D5CDD1"></stop><stop offset="1" stop-color="#492B3E"></stop></linearGradient><radialGradient id="R4rec-shadow"><stop stop-color="#240B21" stop-opacity=".17"></stop><stop offset="1" stop-color="#240B21" stop-opacity="0"></stop></radialGradient></defs><ellipse cx="160" cy="171" rx="124" ry="20" fill="url(#R4rec-shadow)"></ellipse><g><path d="M102 106 113 53h26l5 65" fill="url(#R4rec-paper)" stroke="#916A70"></path><path d="m113 53 11-12 15 12" fill="#654A4E"></path><path d="M164 120c-24-24-25-62-5-81 22 13 28 47 5 81Z" fill="#654A4E"></path><path d="M167 118c-1-40 15-64 37-64 10 27-5 51-37 64Z" fill="#916A70"></path><path d="m164 119 20-46" stroke="#FFFDFB" stroke-opacity=".6" stroke-width="2"></path><ellipse cx="211" cy="108" rx="23" ry="27" fill="#916A70"></ellipse><path d="m207 81 6-10" stroke="#492B3E" stroke-width="4" stroke-linecap="round"></path><path d="M82 103h155l-18 61H101Z" fill="url(#R4rec-glass)" stroke="#FFFDFB" stroke-width="2"></path><path d="M101 106 126 75h62l31 31" stroke="url(#R4rec-chrome)" stroke-width="7" stroke-linecap="round"></path><path d="m114 121 5 25m28-25 1 25m28-25-1 25m28-25-5 25" stroke="#FFFDFB" stroke-opacity=".7" stroke-width="4" stroke-linecap="round"></path></g></svg><span class="do_capability_ideas_copy"><span class="do_capability_ideas_name">Shop</span><strong>Plan this week’s shop</strong><span class="do_capability_ideas_detail">Meals, a list and a budget to check. No purchases.</span></span><span class="do_capability_ideas_state">Shopping-list draft<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></button><button type="button" data-do-idea="travel" aria-label="Travel: Organise a weekend away"><svg class="do_capability_ideas_choiceScene" viewBox="0 0 320 200" fill="none" aria-hidden="true" focusable="false" data-do-task-scene="travel"><defs><linearGradient id="R5bec-paper" x1="95" y1="30" x2="214" y2="178" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB"></stop><stop offset="1" stop-color="#E8DDE2"></stop></linearGradient><linearGradient id="R5bec-glass" x1="98" y1="45" x2="235" y2="162" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB" stop-opacity=".92"></stop><stop offset=".36" stop-color="#EAC8DF" stop-opacity=".65"></stop><stop offset="1" stop-color="#916A70" stop-opacity=".8"></stop></linearGradient><linearGradient id="R5bec-chrome" x1="93" y1="60" x2="211" y2="153" gradientUnits="userSpaceOnUse"><stop stop-color="#654A4E"></stop><stop offset=".35" stop-color="#FFFDFB"></stop><stop offset=".5" stop-color="#D5CDD1"></stop><stop offset="1" stop-color="#492B3E"></stop></linearGradient><radialGradient id="R5bec-shadow"><stop stop-color="#240B21" stop-opacity=".17"></stop><stop offset="1" stop-color="#240B21" stop-opacity="0"></stop></radialGradient></defs><ellipse cx="160" cy="171" rx="124" ry="20" fill="url(#R5bec-shadow)"></ellipse><g><path d="m65 71 59-21 64 21 54-20v106l-54 20-64-21-59 21Z" fill="url(#R5bec-paper)" stroke="#916A70" stroke-opacity=".4"></path><path d="M124 51v105m64-85v106" stroke="#916A70" stroke-opacity=".35"></path><path d="M86 127c42-75 58 47 127-28" stroke="#916A70" stroke-width="3" stroke-dasharray="5 6"></path><path d="M189 71c0-26 39-26 39 0 0 18-20 35-20 35s-19-17-19-35Z" fill="#492B3E"></path><circle cx="209" cy="69" r="7" fill="#FFFDFB"></circle><rect x="90" y="99" width="66" height="65" rx="14" fill="url(#R5bec-glass)" stroke="#FFFDFB" stroke-width="2"></rect><path d="M112 99v-9h23v9m-24 19v29m23-29v29" stroke="url(#R5bec-chrome)" stroke-width="5" stroke-linecap="round"></path></g></svg><span class="do_capability_ideas_copy"><span class="do_capability_ideas_name">Travel</span><strong>Organise a weekend away</strong><span class="do_capability_ideas_detail">Options, a budget and a packing list. No bookings or live availability.</span></span><span class="do_capability_ideas_state">Trip draft<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></button><button type="button" data-do-idea="pets" aria-label="Pets: Make a plan for my pet’s care"><svg class="do_capability_ideas_choiceScene" viewBox="0 0 320 200" fill="none" aria-hidden="true" focusable="false" data-do-task-scene="pets"><defs><linearGradient id="R5rec-paper" x1="95" y1="30" x2="214" y2="178" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB"></stop><stop offset="1" stop-color="#E8DDE2"></stop></linearGradient><linearGradient id="R5rec-glass" x1="98" y1="45" x2="235" y2="162" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB" stop-opacity=".92"></stop><stop offset=".36" stop-color="#EAC8DF" stop-opacity=".65"></stop><stop offset="1" stop-color="#916A70" stop-opacity=".8"></stop></linearGradient><linearGradient id="R5rec-chrome" x1="93" y1="60" x2="211" y2="153" gradientUnits="userSpaceOnUse"><stop stop-color="#654A4E"></stop><stop offset=".35" stop-color="#FFFDFB"></stop><stop offset=".5" stop-color="#D5CDD1"></stop><stop offset="1" stop-color="#492B3E"></stop></linearGradient><radialGradient id="R5rec-shadow"><stop stop-color="#240B21" stop-opacity=".17"></stop><stop offset="1" stop-color="#240B21" stop-opacity="0"></stop></radialGradient></defs><ellipse cx="160" cy="171" rx="124" ry="20" fill="url(#R5rec-shadow)"></ellipse><g><g transform="rotate(-8 155 100)"><rect x="106" y="37" width="104" height="132" rx="12" fill="url(#R5rec-paper)" stroke="#916A70" stroke-opacity=".3"></rect><path d="M126 66h55M126 79h35" stroke="#654A4E" stroke-width="4" stroke-linecap="round"></path><g><rect x="124" y="96" width="10" height="10" rx="3" fill="#916A70" fill-opacity=".35"></rect><path d="M145 102h42" stroke="#654A4E" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"></path></g><g><rect x="124" y="117" width="10" height="10" rx="3" fill="#916A70" fill-opacity=".35"></rect><path d="M145 123h42" stroke="#654A4E" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"></path></g><g><rect x="124" y="138" width="10" height="10" rx="3" fill="#916A70" fill-opacity=".35"></rect><path d="M145 144h42" stroke="#654A4E" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"></path></g></g><path d="M66 130h101l-12 35H78Z" fill="url(#R5rec-glass)" stroke="#FFFDFB" stroke-width="2"></path><ellipse cx="116" cy="130" rx="50" ry="12" fill="url(#R5rec-chrome)"></ellipse><path d="M211 107c-25-19-40 10-21 22l21 15 21-15c19-12 4-41-21-22Z" fill="#916A70"></path></g></svg><span class="do_capability_ideas_copy"><span class="do_capability_ideas_name">Pets</span><strong>Make a plan for my pet’s care</strong><span class="do_capability_ideas_detail">Organise your own routines and questions for a vet. No medical advice or appointments.</span></span><span class="do_capability_ideas_state">Draft from your notes<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></button><button type="button" data-do-idea="car" aria-label="Car: Organise my car’s next service and key dates"><svg class="do_capability_ideas_choiceScene" viewBox="0 0 320 200" fill="none" aria-hidden="true" focusable="false" data-do-task-scene="car"><defs><linearGradient id="R6bec-paper" x1="95" y1="30" x2="214" y2="178" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB"></stop><stop offset="1" stop-color="#E8DDE2"></stop></linearGradient><linearGradient id="R6bec-glass" x1="98" y1="45" x2="235" y2="162" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB" stop-opacity=".92"></stop><stop offset=".36" stop-color="#EAC8DF" stop-opacity=".65"></stop><stop offset="1" stop-color="#916A70" stop-opacity=".8"></stop></linearGradient><linearGradient id="R6bec-chrome" x1="93" y1="60" x2="211" y2="153" gradientUnits="userSpaceOnUse"><stop stop-color="#654A4E"></stop><stop offset=".35" stop-color="#FFFDFB"></stop><stop offset=".5" stop-color="#D5CDD1"></stop><stop offset="1" stop-color="#492B3E"></stop></linearGradient><radialGradient id="R6bec-shadow"><stop stop-color="#240B21" stop-opacity=".17"></stop><stop offset="1" stop-color="#240B21" stop-opacity="0"></stop></radialGradient></defs><ellipse cx="160" cy="171" rx="124" ry="20" fill="url(#R6bec-shadow)"></ellipse><g><path d="m89 100 22-43h94l27 43" fill="url(#R6bec-glass)" stroke="#FFFDFB" stroke-width="3"></path><path d="M75 103q85-23 168 0v48H75Z" fill="#654A4E"></path><rect x="82" y="142" width="23" height="27" rx="9" fill="#240B21"></rect><rect x="213" y="142" width="23" height="27" rx="9" fill="#240B21"></rect><path d="M91 119h26m83 0h26m-89 12h44" stroke="url(#R6bec-chrome)" stroke-width="8" stroke-linecap="round"></path><path d="M119 68h73" stroke="#FFFDFB" stroke-opacity=".7" stroke-width="3"></path></g></svg><span class="do_capability_ideas_copy"><span class="do_capability_ideas_name">Car</span><strong>Organise my car’s next service and key dates</strong><span class="do_capability_ideas_detail">Check dates from your documents and prepare an enquiry. No vehicle lookup or booking.</span></span><span class="do_capability_ideas_state">Service enquiry draft<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></button><button type="button" data-do-idea="property" aria-label="Home &amp; property: Plan the jobs around my home"><svg class="do_capability_ideas_choiceScene" viewBox="0 0 320 200" fill="none" aria-hidden="true" focusable="false" data-do-task-scene="property"><defs><linearGradient id="R6rec-paper" x1="95" y1="30" x2="214" y2="178" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB"></stop><stop offset="1" stop-color="#E8DDE2"></stop></linearGradient><linearGradient id="R6rec-glass" x1="98" y1="45" x2="235" y2="162" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB" stop-opacity=".92"></stop><stop offset=".36" stop-color="#EAC8DF" stop-opacity=".65"></stop><stop offset="1" stop-color="#916A70" stop-opacity=".8"></stop></linearGradient><linearGradient id="R6rec-chrome" x1="93" y1="60" x2="211" y2="153" gradientUnits="userSpaceOnUse"><stop stop-color="#654A4E"></stop><stop offset=".35" stop-color="#FFFDFB"></stop><stop offset=".5" stop-color="#D5CDD1"></stop><stop offset="1" stop-color="#492B3E"></stop></linearGradient><radialGradient id="R6rec-shadow"><stop stop-color="#240B21" stop-opacity=".17"></stop><stop offset="1" stop-color="#240B21" stop-opacity="0"></stop></radialGradient></defs><ellipse cx="160" cy="171" rx="124" ry="20" fill="url(#R6rec-shadow)"></ellipse><g><path d="m75 97 80-58 83 58" stroke="url(#R6rec-chrome)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"></path><path d="M92 95 155 51l65 44v70H92Z" fill="url(#R6rec-glass)" stroke="#FFFDFB" stroke-width="2"></path><path d="M139 165v-47h32v47" fill="#654A4E"></path><rect x="105" y="105" width="21" height="22" rx="4" fill="url(#R6rec-paper)"></rect><rect x="183" y="105" width="21" height="22" rx="4" fill="url(#R6rec-paper)"></rect></g></svg><span class="do_capability_ideas_copy"><span class="do_capability_ideas_name">Home &amp; property</span><strong>Plan the jobs around my home</strong><span class="do_capability_ideas_detail">Sort repairs, a moving list or questions for a tradie. No quotes or orders placed.</span></span><span class="do_capability_ideas_state">Home-task draft<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></button><button type="button" data-do-idea="writing" aria-label="Writing &amp; meetings: Turn my notes into a clear reply or meeting agenda"><svg class="do_capability_ideas_choiceScene" viewBox="0 0 320 200" fill="none" aria-hidden="true" focusable="false" data-do-task-scene="writing"><defs><linearGradient id="R7bec-paper" x1="95" y1="30" x2="214" y2="178" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB"></stop><stop offset="1" stop-color="#E8DDE2"></stop></linearGradient><linearGradient id="R7bec-glass" x1="98" y1="45" x2="235" y2="162" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB" stop-opacity=".92"></stop><stop offset=".36" stop-color="#EAC8DF" stop-opacity=".65"></stop><stop offset="1" stop-color="#916A70" stop-opacity=".8"></stop></linearGradient><linearGradient id="R7bec-chrome" x1="93" y1="60" x2="211" y2="153" gradientUnits="userSpaceOnUse"><stop stop-color="#654A4E"></stop><stop offset=".35" stop-color="#FFFDFB"></stop><stop offset=".5" stop-color="#D5CDD1"></stop><stop offset="1" stop-color="#492B3E"></stop></linearGradient><radialGradient id="R7bec-shadow"><stop stop-color="#240B21" stop-opacity=".17"></stop><stop offset="1" stop-color="#240B21" stop-opacity="0"></stop></radialGradient></defs><ellipse cx="160" cy="171" rx="124" ry="20" fill="url(#R7bec-shadow)"></ellipse><g><g transform="rotate(8 161 100)"><rect x="101" y="32" width="119" height="120" rx="11" fill="url(#R7bec-paper)" stroke="#916A70" stroke-opacity=".3"></rect><path d="M122 56h65m-65 15h47m-47 16h65" stroke="#654A4E" stroke-width="3" stroke-linecap="round"></path></g><path d="M76 87h166v79H76Z" fill="url(#R7bec-glass)" stroke="#FFFDFB" stroke-width="2"></path><path d="m77 89 82 55 82-55M77 165l57-44m107 44-57-44" stroke="#FFFDFB" stroke-width="2"></path><path d="m225 52 16 9-37 66-16 10 1-19Z" fill="url(#R7bec-chrome)" stroke="#654A4E" stroke-width="1.5"></path></g></svg><span class="do_capability_ideas_copy"><span class="do_capability_ideas_name">Writing &amp; meetings</span><strong>Turn my notes into a clear reply or meeting agenda</strong><span class="do_capability_ideas_detail">Draft from text you add. Meeting capture is a separate tool with its own permissions.</span></span><span class="do_capability_ideas_state">Draft from your notes<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right" aria-hidden="true"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg></span></button></div></details></details><p>Have a bill ready? <a target="_blank" rel="noopener noreferrer" href="/do/bills">Review a CSV or invoice</a>, or <a target="_blank" rel="noopener noreferrer" href="/do/bills/compare">compare NZ bill options</a>. These tools open their own review and consent steps.</p><p>Draft starters add text to your current draft. Tools open their own review steps. Nothing is sent, purchased or booked.</p></section><div class="personal_assistant_status" aria-live="polite" role="status"><p><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-loader-circle"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> Checking availability…</p></div></section></div><details class="do-companion-board"><summary>Shared work board</summary><fieldset style="border:0;padding:0"><section aria-label="Shared brief and decisions"><h3>1 · Brief &amp; decisions</h3><p><a href="https://chatgpt.com/api/library/files/libfile_018ba3e0f6388191b53afc80a188460f/download" target="_blank" rel="noreferrer">Existing Library working handover</a> · linked, not synced</p><label>Existing master document reference<input maxLength="500" placeholder="Paste the existing document link or reference" value="https://chatgpt.com/api/library/files/libfile_018ba3e0f6388191b53afc80a188460f/download"/></label><p>The master stays where it is. A reference is saved with this task; DO does not claim to read or update an unconnected document.</p><label>Destination <select><option value="clear">DO Clear · local writing checks</option><option value="builder" selected="">DO Builder · planning queue</option><option value="codex">Codex · manual handoff</option></select></label><label>Shared brief<textarea maxLength="2000" placeholder="What should we work out, and who should do what?"></textarea></label><button type="button">Bring conversation context for review</button><label>Chosen context &amp; current decisions<textarea maxLength="1500"></textarea></label><p>Plan only. Execution needs separate scope and permission.</p><button type="button" disabled="">Prepare handoff</button></section><section aria-label="Tasks and owners"><h3>2 · Tasks &amp; owners</h3><button type="button">Load my shared tasks</button></section><section aria-label="Results and review"><h3>3 · Results &amp; review</h3><p>No task result acknowledged here yet. A saved plan is not a completed specialist run.</p><details><summary>Activity &amp; daily catch-up</summary><p>No activity records loaded for this task. Check task receipts to refresh. Codex and Claude are not automatically connected.</p><p>Artwork identifies the work type; it is not a screenshot or proof of work. Result pictures appear only when an actual supported artifact is available.</p></details><p role="status"></p></section></fieldset></details><fieldset style="border:0;padding:0"><legend>Talk or type in the same call</legend><section class="do-live-panel" aria-label="Call DO"><div class="do-live-dock"><div><span aria-hidden="true" style="display:inline-block;width:18px;height:18px;border-radius:50%;margin-right:10px;background:#F5F1F2;box-shadow:inset 0 0 0 1px #916A7066"></span><span class="do-small-label">MIC OFF</span><strong>Say it. Let DO help.</strong><p role="status">Checking call availability…</p><p>Call voice: Saved voice not yet checked</p></div><button type="button">Call DO</button></div></section></fieldset></section></html>

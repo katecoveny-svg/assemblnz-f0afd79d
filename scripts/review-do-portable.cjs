@@ -58,7 +58,7 @@ const fixture = `<!doctype html><meta name="viewport" content="width=device-widt
     const restored = await page.locator('.launch').boundingBox();
     check('Only D position survives reload', Math.abs(restored.y - keyboardMoved.y) < 1 && await page.evaluate(() => Object.keys(localStorage).every(k => k === 'assembl:do:portable-position:v2')));
     await visit('/do/widget'); await page.locator('.launch').tap();
-    check('Full-window D focuses its existing editor', await focused('do-source'));
+    check('Full-window D focuses its shared conversation composer', await focused('personal-assistant-input'));
     check('Full-window workspace has no nested workspace request', await page.locator('.panel iframe').getAttribute('src') === null);
     await visit('/do/install'); await page.locator('.launch').tap();
     check('Other pages retain the movable workspace', await page.locator('.panel').isVisible() && (await page.locator('.panel iframe').getAttribute('src')) === origin + '/do/widget');

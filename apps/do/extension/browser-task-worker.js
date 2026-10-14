@@ -1,7 +1,24 @@
 'use strict';
 importScripts('browser-task-core.js');
 (() => {
-  const { ConnectionBroker, isWorkspaceUrl, isFixtureUrl } = globalThis.DoTaskConnection;
+  const { ConnectionBroker, LocalMutationJournal, isWorkspaceUrl, isFixtureUrl } = globalThis.DoTaskConnection;
+  const journalName = 'do-browser-mutation-journal-v1';
+  let journalError = '', settingUp = false;
+  let journalReady = LocalMutationJournal.resume(indexedDB, journalName).catch(() => { journalError = 'Local recovery is not ready. Set it up explicitly before any cart edit. Existing records are never reset.'; return null; });
+  async function requireJournal() {
+    const journal = await journalReady;
+    if (!journal) throw new Error(journalError);
+    await journal.current();
+    return journal;
+  }
+  async function companionView(data) {
+    const journal = await journalReady;
+    let ready = false;
+    if (journal) { try { await journal.current(); ready = true; } catch { journalError = 'Local recovery storage changed. Cart edits are blocked.'; } }
+    let recoveryNeeded = false;
+    if (ready && data?.connected) { try { recoveryNeeded = Boolean(await journal.pending(data.owner)); } catch { recoveryNeeded = true; } }
+    return { ...data, recoveryNeeded, journal: { ready, message: ready ? 'Local recovery is ready. Consent is never restored after restart.' : journalError } };
+  }
   const one = results => { if (results.length !== 1 || !results[0].documentId) throw new Error('Tab document unavailable.'); return results[0]; };
   const target = tab => ({ tabId: tab.tabId, documentIds: [tab.documentId] });
   async function identify(tabId) {
@@ -43,7 +60,7 @@ importScripts('browser-task-core.js');
     if (!input || !button || button.disabled) throw new Error('Control unavailable.');
     input.value = String(quantity); button.click();
   }
-  const broker = new ConnectionBroker({ owner, current, adapter: (tab, scope) => ({ mode: 'controlled_fixture',
+  const broker = new ConnectionBroker({ owner, current, journal: requireJournal, adapter: (tab, scope) => ({ mode: 'controlled_fixture',
     observe: async () => one(await chrome.scripting.executeScript({ target: target(tab), func: readProducts, args: [scope] })).result,
     setQuantity: async (_scope, revision, id, quantity) => { await chrome.scripting.executeScript({ target: target(tab), func: editProduct, args: [revision, id, quantity] }); },
   }) });
@@ -54,6 +71,24 @@ importScripts('browser-task-core.js');
       return broker.command({ tabId: sender.tab.id, documentId: sender.documentId, url: sender.url }, message.command);
     }
     if (!trusted(sender)) throw new Error('Use the companion connection controls.');
+    if (message.action === 'setup-journal') {
+      if (settingUp) throw new Error('Local recovery setup is already running.');
+      settingUp = true;broker.revoke();
+      try {
+        if (await journalReady) throw new Error('Recovery is already set up. Existing records cannot be reset.');
+        const epoch = crypto.randomUUID();
+        await LocalMutationJournal.initialize(indexedDB, journalName, epoch);
+        journalReady = LocalMutationJournal.start(indexedDB, journalName, epoch).catch(() => { journalError = 'Recovery setup could not finish. Restart the companion; existing records are preserved.'; return null; });
+        if (!await journalReady) throw new Error(journalError);
+        journalError = '';
+        return companionView(broker.snapshot());
+      } finally { settingUp = false; }
+    }
+    if (message.action === 'recover-read') return companionView(await broker.recoverInCompanion(message.connectionId));
+    if (message.action === 'recover-ack') {
+      if (typeof message.digest !== 'string' || !/^[a-f0-9]{64}$/.test(message.digest)) throw new Error('Exact recovery review required.');
+      return companionView(await broker.recoverInCompanion(message.connectionId, message.digest));
+    }
     if (message.action === 'inspect') {
       const [selected] = await chrome.tabs.query({ active: true, currentWindow: true });
       const tabs = await chrome.tabs.query({ currentWindow: true });
@@ -61,7 +96,7 @@ importScripts('browser-task-core.js');
         : !selected.url ? 'Tab access is unavailable. Select the fictional cart and click the DO toolbar icon again.'
         : !isFixtureUrl(selected.url) ? 'The selected tab is not the exact supported fictional cart URL.' : null;
       return { selected: selected && isFixtureUrl(selected.url || '') ? { id: selected.id, url: selected.url } : null, selectionIssue,
-        workspaces: tabs.filter(tab => isWorkspaceUrl(tab.url || '')).map(tab => ({ id: tab.id, url: tab.url })), connection: await broker.companionStatus() };
+        workspaces: tabs.filter(tab => isWorkspaceUrl(tab.url || '')).map(tab => ({ id: tab.id, url: tab.url })), connection: await companionView(await broker.companionStatus()) };
     }
     if (message.action === 'connect') {
       const [active] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -72,12 +107,12 @@ importScripts('browser-task-core.js');
       await broker.connect(storefront, workspace);
       try { await chrome.scripting.executeScript({ target: target(workspace), files: ['browser-task-relay.js'] }); }
       catch (error) { broker.revoke(); throw error; }
-      return broker.snapshot();
+      return companionView(broker.snapshot());
     }
-    if (message.action === 'allow-read') return broker.allowReadInCompanion(message.connectionId);
-    if (message.action === 'approve') return broker.approveInCompanion(message.connectionId, message.digest);
-    if (message.action === 'cancel') { broker.revoke(); return broker.snapshot(); }
-    if (message.action === 'status') return broker.companionStatus();
+    if (message.action === 'allow-read') return companionView(await broker.allowReadInCompanion(message.connectionId));
+    if (message.action === 'approve') return companionView(await broker.approveInCompanion(message.connectionId, message.digest));
+    if (message.action === 'cancel') { broker.revoke(); return companionView(broker.snapshot()); }
+    if (message.action === 'status') return companionView(await broker.companionStatus());
     throw new Error('Unsupported companion command.');
   }
   chrome.runtime.onMessage.addListener((message, sender, reply) => {

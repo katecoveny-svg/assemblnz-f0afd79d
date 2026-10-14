@@ -45,6 +45,15 @@ const {chromium}=require(process.env.ASSEMBL_PLAYWRIGHT_MODULE||'playwright');
  assert.equal(await page.locator('#items').innerText(),'');assert.equal(await page.locator('#receipt').innerText(),'');
  assert.match(await page.locator('#status').innerText(),/Connection ended/);
  assert.equal(await page.evaluate(()=>calls.filter(m=>m.action==='approve').length),approvalsBeforeExpiry);
+ await page.evaluate(()=>{state={connected:true,connectionId:'recovery-connection',expiresAt:Date.now()+120000,target:{url:'http://127.0.0.1:4198/cart-fixture.html'},readGranted:true,recoveryNeeded:true,journal:{ready:true},recovery:{digest:'a'.repeat(64),items:[{sku:'fictional-oats',before:0,target:2,current:1}]}};});
+ await page.locator('#recovery').waitFor({state:'visible'});
+ assert.match(await page.locator('#recovery-items').innerText(),/before 0, requested 2, current 1/);
+ assert.equal(await page.locator('#review').isVisible(),false);
+ for(const width of [320,900]){await page.setViewportSize({width,height:900});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);await page.screenshot({path:`${out}/recovery-${width}.png`,fullPage:true});}
+ assert.equal(await page.evaluate(()=>calls.some(m=>m.action==='recover-ack')),false);
+ await page.locator('#recover-ack').click();
+ assert.deepEqual(await page.evaluate(()=>calls.find(m=>m.action==='recover-ack')),{type:'do:browser-companion',action:'recover-ack',connectionId:'recovery-connection',digest:'a'.repeat(64)});
+ console.log('PASS recovery quantities, explicit digest-bound acknowledgement, no automatic retry, narrow/wide layout.');
  console.log('PASS keyboard focus, keyboard setup, error announcement/retry, expired status removes stale approval; supported image copy.');
  console.log('PASS companion: 3 entry links, idle disclosure, explicit connect/read/review/cancel, exact approval binding, readable receipt, 320/375/900px no overflow. Synthetic UI transport only; no native execution claim.');
  }finally{await browser.close();}})().catch(e=>{console.error(e);process.exitCode=1;});
