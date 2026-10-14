@@ -23,6 +23,9 @@ export async function GET(request: Request) {
     console.warn('[do-worker]', secret ? 'cron_bearer_mismatch' : 'cron_secret_missing');
     return Response.json({ error: "Unauthorized" }, { status: 401, headers: { 'Cache-Control': 'no-store' } });
   }
+  // Run independently gated retention work before optional enquiries or Personal work.
+  // Their failure must not prevent the existing cleanup/readiness checks.
+  const maintenance = { responsibilities: await settle(maintainPersonalResponsibilityStorage), memory: await settle(maintainPersonalMemory) };
   try {
     const followupsPrepared = await prepareEnquiryFollowups();
     let claimed = 0,
@@ -34,7 +37,6 @@ export async function GET(request: Request) {
       claimed++;
       if (result.published) published++;
     }
-    const maintenance = { responsibilities: await settle(maintainPersonalResponsibilityStorage), memory: await settle(maintainPersonalMemory) };
     await personalHeartbeat();
     return Response.json(
       { claimed, published, followupsPrepared, maintenance, personal: personalEnabled ? { status: 'enabled', mode: personalWorkerMode() } : { status: 'disabled', reason: 'provider_permission_renewal_required' } },
