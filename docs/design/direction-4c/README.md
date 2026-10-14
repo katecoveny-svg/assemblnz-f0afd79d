@@ -24,6 +24,22 @@ Revised 13 October 2026 after user review of the first implementation (Claude Co
 - A stray absolutely positioned glow (DOM residue at `top:-708px`) after Contact is removed.
 - Retained from the first pass: product links to `/pursuit`, `/creative-studio`, `/do`; mobile primary navigation in a second row; scoped CSS and Next font variables; legal links in the footer; review-only theme/clip controls omitted.
 
+## Second pass, 14 October 2026
+
+Kate's live capture of 14 October read as near-black with a sketchy flock. PR #1590 fixed what could be fixed in code (plum grade floor on the film tone, time-based kicker decode) and left a brief for a design pass, which Kate ran through Claude Design: canvas https://claude.ai/artifact/UX3oPAksD2zRt371NatU8t, zip SHA-256 `5189f5997c37253782915c3c495b5b1be0e68d74abba7eacb117a4411155a106`. The updated design file and its change table are preserved unchanged in `second-pass/`.
+
+Ported, with the design's own values:
+
+- **Footage.** `coast-gen-c` (generated sea glide toward a low sun, 10 s, 1280 × 720, keyframe every 8 frames, darkest frame luma 121 of 255) replaces `bay-of-islands` (darkest frame 46). The poster is the clip's own first frame, so the startup crossfade runs between two copies of the same image. Generated footage is never captioned as a real place; the only "Bay of Islands" left on the page is the Talk example in Try DO, which is about a trip, not the picture.
+- **Field.** `uField` is deep plum `#240B21` (was about `#1B0818`, which read as black under the vignette). `opts.field` overrides.
+- **Flock at rest.** `arrive` starts at 0.5 (half the flock already in the cloud) and the scroll mapping is `a0 + (1 − a0) × smooth((p − 0.48) / 0.34)`, same window as before. The design's "Scatter, small" alternative (a0 0.22 with waiting birds at 45%) is available through `waitScale` / `api.setWait` but not used.
+- **Birds on retina.** Wing chord 1.25 (front edge forward, back edge aft, span unchanged; gliders stay 1.0; `opts.wingChord`). Pixel ratio cap 2 on desktops reporting 8 or more logical cores, else 1.5, 1.25 under 900 px; `opts.dprCap` overrides.
+- **Kept from PR #1590.** The film grade (exp 1.1, con 1.08, duo 0.26, vig 0.38, th 0.8, bloom 0.28, glow 0.05) and the 520 ms decode.
+
+Left out on purpose: the review-only `filmv1` tone, and the design's scroll-scrub start time, which has no counterpart because the site plays the clip on a loop instead of scrubbing it with scroll.
+
+Open before this is called finished: the pixel-ratio-2 path costs about 1.8 times the scene-pass pixels and needs a frame-time check on a mid-range retina laptop. The cloud build runs software GL and cannot stand in for that.
+
 ## Verification
 
 See `VERIFICATION.md` for checks and captured evidence. Visual captures are snapshots of a time-varying engine, not a claim of deterministic pixel identity. No authenticated action or external work was submitted.

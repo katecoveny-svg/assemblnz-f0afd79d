@@ -6,6 +6,9 @@ import { chromeMarkup, footerMarkup, leadMarkup, trailMarkup } from './markup';
 import { TryDo, type TryDoSignals } from './TryDo';
 import './direction-4c.css';
 
+// Share of the flock already gathered in the cloud before anyone scrolls (Claude Design second pass, 14 Oct 2026: Gathering a0 = .5).
+const ARRIVE_AT_REST = .5;
+
 type TideWorld = {
   ready: Promise<void>;
   api: { setKnock(value: number): void; setArrive(value: number): void; setLit(value: number): void; pulse(): void } | null;
@@ -103,7 +106,8 @@ export function Direction4cHome() {
     const video = root.querySelector<HTMLVideoElement>('[data-coastal-video]')!;
     video.muted = true; video.defaultMuted = true; video.playsInline = true; video.preload = 'auto';
     video.loop = true;
-    const footage = `/direction-4c/assets/footage/bay-of-islands.${video.canPlayType('video/mp4; codecs="avc1.42E01E"') ? 'mp4' : 'webm'}`;
+    // Generated coastal footage (second pass, 14 Oct 2026): a sea glide toward a low sun with no dark frames. Never caption it as a real place.
+    const footage = `/direction-4c/assets/footage/coast-gen-c.${video.canPlayType('video/mp4; codecs="avc1.42E01E"') ? 'mp4' : 'webm'}`;
     const ref = (name: string) => root.querySelector<HTMLElement>(`[data-ref="${name}"]`);
     const button = root.querySelector<HTMLButtonElement>('[data-pause]')!;
     const clamp = (x: number) => Math.max(0, Math.min(1, x));
@@ -146,7 +150,8 @@ export function Direction4cHome() {
         const rect = hero.getBoundingClientRect();
         const p = clamp(-rect.top / Math.max(1, rect.height - innerHeight));
         world?.api?.setKnock(clamp((p - .1) / .62));
-        world?.api?.setArrive(.22 + .78 * smooth((p - .48) / .34));
+        // Flock at rest: half the flock is already gathered before anyone scrolls (a0 = .5); the rest streams in between 48% and 82% of the hero scroll, as before.
+        world?.api?.setArrive(ARRIVE_AT_REST + (1 - ARRIVE_AT_REST) * smooth((p - .48) / .34));
         // Phone scrolling can stop anywhere: reveal the reading block at full contrast.
         const card = 1 - smooth(p / .14), msg = mobile.matches ? (p >= .64 ? 1 : 0) : smooth((p - .64) / .18);
         set('kickRef', card); set('cueRef', card); set('subRef', card); set('markRef', smooth((p - .58) / .2));
@@ -178,7 +183,7 @@ export function Direction4cHome() {
         const next = engine.attach({
           canvas: ref('canvasRef') as HTMLCanvasElement, plate: video, onFail: () => { if (!disposed && current === generation) lost(); },
           extra: { poster: root.querySelector('.clear-coastal-poster'), plateReady: () => root.dataset.videoReady === 'true', tone: 'film', gliders: false, knockZoom: true, outline: .7, glass: false,
-            count: 900, arrive: .22, birdScale: 1.2, silhouette: 1,
+            count: 900, arrive: ARRIVE_AT_REST, birdScale: 1.2, silhouette: 1,
             slots: ['cloud', 'signal', 'pin', 'DO', 'bubble', 'tick', 'frame', 'sparkle', 'padlock', 'seal', 'amark', 'word'],
             onLayout: (layout: { cy: number; h: number }) => {
               const kick = ref('kickRef'), sub = ref('subRef');

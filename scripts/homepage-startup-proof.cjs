@@ -60,7 +60,7 @@ for(const width of (process.env.PROOF_WIDTHS||'390,1440').split(',').map(Number)
  const posterCase = mode.startsWith('poster-');
  let releasePoster = () => {};
  const posterGate = new Promise(resolve => { releasePoster = resolve; });
- if(posterCase) await page.route('**/bay-of-islands-poster.jpg', async route => {
+ if(posterCase) await page.route('**/coast-gen-c-poster.jpg', async route => {
   if(mode==='poster-failed') return route.abort();
   await posterGate; return route.continue();
  });
