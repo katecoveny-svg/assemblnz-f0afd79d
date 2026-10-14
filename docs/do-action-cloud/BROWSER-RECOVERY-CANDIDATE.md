@@ -1,6 +1,6 @@
 # Local browser recovery candidate
 
-Base: `f62bf077a`. Scope: bounded broker race fixes, synthetic service-worker restart proof and sanitized native evidence. Uses the existing connection broker, executor and local journal; no new persistence, native permission or user interface is activated.
+Base: `f62bf077a`. Race fixes are isolated in `24bd1acf`; candidate `8222ef17` wires the existing extension-origin IndexedDB journal into the packaged MV3 worker and adds explicit companion setup and recovery controls. The local candidate therefore includes persistence and visible UI changes. Installed production and pilot files remain unchanged; no new native permissions, production schema or flags are activated. Follow-up `6ab3d286` preserves the blocked actual-MV3 interruption attempt and its reproducible platform evidence.
 
 ## Demonstrated defects and correction
 
@@ -20,7 +20,7 @@ Both cut points are exercised: durable claim committed before DOM effect, and fi
 
 **This is real web service-worker lifecycle evidence with a simulated host, not installed MV3 proof.** It covers neither extension-origin storage retention across browser restart nor native Chrome message/document routing during suspension. The installed worker remains unchanged; the local continuation below now imports the journal into the candidate package.
 
-## Separate MV3 continuation (local, awaiting independent review)
+## Separate MV3 continuation (local, independently reviewed bounded scope)
 
 The packaged worker now resumes an existing extension-origin journal at startup and supplies it to the actual connection broker. Missing/corrupt storage blocks edits; only the trusted companion page can explicitly initialize it. Existing records cannot be reset. Durable claims and the global unresolved-action lock survive task cancellation, reconnect and restart. Connection, read and action consent remain memory-only and expire normally.
 
@@ -32,9 +32,11 @@ New evidence:
 - `review-do-browser-mv3.cjs` loads the exact pilot ZIP/manifest in a disposable full Chromium profile. Four checks pass: explicit missing-storage setup, trusted companion setup, actual worker restart (changed persisted boot UUID), and full browser restart retaining setup without connection/read consent. No host permissions or activeTab grant are added.
 - Companion synthetic UI checks cover explicit digest-bound recovery acknowledgement, keyboard/error/expiry behaviour, and 320/375/900px layouts. Narrow recovery was visually inspected locally; no capture uploaded.
 
-**Remaining gap:** actual packaged MV3 interruption while a cart effect is dispatched is not proved. The headless setup test does not simulate a native toolbar activeTab grant or claim cart execution. Before/after-effect termination remains the separately labelled web service-worker/synthetic-host proof above. Native transport/document routing during an uncertain effect needs a separately reviewed isolated native fixture run. No retailer readiness claim follows from any of these checks.
+**Remaining gap:** actual packaged MV3 interruption while a cart effect is dispatched is blocked by the available runtime and native activeTab invocation boundary, and is not proved. The headless setup test does not simulate a native toolbar activeTab grant or claim cart execution. Before/after-effect termination remains the separately labelled web service-worker/synthetic-host proof above. Native transport/document routing during an uncertain effect needs a separately reviewed isolated native fixture run. No retailer readiness claim follows from any of these checks.
 
-The synchronous recovery fence protects observed revocation/expiry at commit; external owner/cart changes cannot be made atomic with an IndexedDB transaction. Storage deletion/corruption and capacity exhaustion fail closed; recovery never silently discards tombstones. Independent review is required before publication, and explicit approval before any installed-file update/reload.
+The attempt recorded in `6ab3d286` reached the real companion connection handler, which rejected missing tab access. Chromium `141.0.7390.37` rejected browser-level `Extensions.triggerAction` with `wasn't found`; the read-only scripting probe was also denied and both fictional quantities stayed zero. Neither interruption cut point reached execution. See [reproduction and next gate](MV3-INTERRUPTION-NEXT-GATE.md) and [exact evidence](MV3-INTERRUPTION-BOUNDARY.json). No manifest broadening or synthetic permission grant was used.
+
+The synchronous recovery fence protects observed revocation/expiry at commit; external owner/cart changes cannot be made atomic with an IndexedDB transaction. Storage deletion/corruption and capacity exhaustion fail closed; recovery never silently discards tombstones. Independent review has cleared `8222ef17` only for the bounded fictional-cart journal/setup/recovery source scope. This is not clearance of actual interrupted-cart execution or retailer readiness. Publication remains unapproved, and any installed-file update/reload requires explicit approval.
 
 ## Smallest Woolworths gap
 
@@ -44,8 +46,8 @@ The smallest implementation step is a bounded product-facts binding against a cu
 
 ## Review and release
 
-This branch is local only. No publication, merge, installation, reload, database or flag change. Existing glass companion presentation is preserved. Review the runtime source and regenerated archives together; do not treat the service-worker harness as a production transport. Rollback is the broker source/tests/bundle/archive commit; proof files are inert test assets.
+This branch is local only. No publication, merge, installed-file update, reload, production database or flag change. The candidate adds local journal setup and recovery UI within the existing glass companion presentation; disposable test profiles exercised journal initialization. Review the runtime source and regenerated archives together; do not treat the service-worker harness as a production transport. Rollback is the broker source/tests/bundle/archive commit; proof files are inert test assets.
 
-Validation on this candidate: 126 unit tests across browser/action/download paths; full TypeScript check and scoped ESLint; 21 existing connection/DOM browser assertions, seven dedicated-worker recovery assertions, 22 journal assertions and 18 new service-worker restart assertions. All pass. The three original broker regression failures were observed before the fixes. No new visible UI was introduced.
+Author validation: 126 unit tests across browser/action/download paths, full TypeScript and scoped ESLint, 33 IndexedDB assertions, four packaged MV3 setup/restart checks, companion UI checks and 18 web service-worker restart assertions pass. Earlier race-fix validation also passed 21 connection/DOM and seven dedicated-worker assertions. The independent reviewer separately reran 108 unit tests, all 33 IndexedDB assertions and all four packaged MV3 setup/restart checks successfully. These are distinct test scopes, not additive totals. The three original broker regression failures were observed before the fixes. The actual MV3 interrupted-cart proof remains blocked as documented above.
 
 Local disk exhaustion was recovered by removing only the obsolete clean extension-parity checkout after confirming it had no uncommitted files (its committed branch/head `4f563402e` remains recoverable). No user files, installed pilot, shared dependencies or another agent's release checkouts were removed.
