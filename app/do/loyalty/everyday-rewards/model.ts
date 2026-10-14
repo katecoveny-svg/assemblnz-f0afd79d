@@ -1,3 +1,5 @@
+import { parseShopBrief } from '@/lib/do/shop/journey';
+import { lowerCostAlternative, missionChoices, type ShopMission } from '@/lib/do/shop/missions';
 import {
   prepareShop,
   type Meal,
@@ -132,14 +134,18 @@ export function planShop(
   reviewed: boolean,
   budget = 4000,
   mealId = "pasta-night",
+  mission: ShopMission = "tonight",
+  dietaryText = "",
 ) {
-  return prepareShop(
+  const diet = parseShopBrief(dietaryText);
+  const eligible = demoEligibleMeals(dietaryText);
+  const plan = prepareShop(
     {
       mission: "occasion",
-      choices: [{ mealId, servings, occurrences: 1 }],
+      choices: eligible.some(m => m.id === mealId) ? [{ mealId, servings, occurrences: mission === "extra" ? 2 : 1 }] : [],
       pantry,
       pantryReviewed: reviewed,
-      excludedAllergens: [],
+      excludedAllergens: diet.excludedAllergens.map(a => a === "gluten" ? "wheat" : a),
       selectedOffers: Object.fromEntries(packs.map((p) => [p.id, p.id])),
       budget: { currency: "NZD", limitMinor: budget, feeMinor: 0 },
     },
@@ -147,7 +153,26 @@ export function planShop(
     offers,
     fixtureTime,
   );
+  if (!eligible.length) plan.blockers.push('Dietary requirements need manual review; these sample recipes cannot verify suitability.');
+  return plan;
 }
+export function demoEligibleMeals(dietaryText: string) {
+  const diet = parseShopBrief(dietaryText);
+  if (diet.vegan || diet.dietaryReviewRequired || diet.unrecognised.length) return [];
+  const excluded = diet.excludedAllergens.map(a => a === 'gluten' ? 'wheat' : a);
+  return meals.filter(meal => !meal.ingredients.some(ingredient => offers.find(o => o.ingredientId === ingredient.id)?.allergens.contains.some(a => excluded.includes(a))));
+}
+export function demoMissionRecipe(mission: ShopMission, pantry: Pantry[], servings: number, current: string, dietaryText = '') {
+  return missionChoices(mission, demoEligibleMeals(dietaryText), pantry, servings, current)[0]?.mealId ?? null;
+}
+export function demoAlternative(pantry: Pantry[], servings: number, reviewed: boolean, budget: number, recipe: string, mission: ShopMission, dietaryText = '') {
+  if (!reviewed) return null;
+  const eligible = demoEligibleMeals(dietaryText);
+  if (!eligible.some(m => m.id === recipe)) return null;
+  return lowerCostAlternative([{ mealId: recipe, servings, occurrences: mission === 'extra' ? 2 : 1 }], eligible, choices =>
+    planShop(pantry, servings, true, budget, choices[0].mealId, mission, dietaryText).estimatedMinor);
+}
+
 export const money = (minor: number) =>
   new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD" }).format(
     minor / 100,

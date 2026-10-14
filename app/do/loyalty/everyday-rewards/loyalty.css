@@ -1282,3 +1282,4 @@
     font-size: 31px;
   }
 }
+.ld-missions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:24px 0}.ld-missions button{display:grid;gap:10px;text-align:left;white-space:normal;padding:20px;border:1px solid #d8c9d3;border-radius:24px;background:#fffdfb;color:#492b3e}.ld-missions button[aria-pressed=true]{background:#ead8e3;border-color:#916a70}.ld-missions span{font-size:26px;color:#916a70}.ld-missions strong{font-size:18px}.ld-missions small{line-height:1.5}.ld-alternative{padding:24px;border-radius:24px;background:#ead8e3;margin:20px 0;color:#492b3e}@media(max-width:600px){.ld-missions{grid-template-columns:1fr}}
