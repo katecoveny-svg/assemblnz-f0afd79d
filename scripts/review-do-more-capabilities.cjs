@@ -80,7 +80,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
     await page.setViewportSize({width,height:900});await page.goto(origin+url);await page.locator('#personal-assistant-input').waitFor();
     const actual=await page.getByRole('region',{name:'Conversation with DO',exact:true}).locator('[data-do-idea]').evaluateAll(es=>es.map(e=>({id:e.dataset.doIdea,label:e.getAttribute('aria-label')})));
     check(surface+' uses the same capability definitions',JSON.stringify(actual)===JSON.stringify(expected));
-    await page.locator('summary').filter({hasText:'Tools & examples'}).click();await page.getByRole('button',{name:'Open draft tools',exact:true}).click();
+    await page.locator('summary').filter({hasText:/^Tools & examples$/}).click();await page.getByRole('button',{name:'Open draft tools',exact:true}).click();
     await page.locator('#do-source').fill('Separate fictional tool draft.');await page.locator('.do-source-details>summary').click();await page.locator('#do-source-title').fill('Fictional source title');await page.locator('#do-source-url').fill('https://example.com/notes');
     await page.getByRole('button',{name:'Write',exact:true}).click();await page.locator('#personal-assistant-input').fill('Fictional existing widget draft.');await page.getByRole('region',{name:'Conversation with DO',exact:true}).getByText('Draft something else', {exact:true}).click();await page.getByRole('region',{name:'Conversation with DO',exact:true}).locator('[data-do-idea=agenda]').click();
     await page.waitForFunction(()=>document.querySelector('#personal-assistant-input').value.includes('Help me plan'));

@@ -60,9 +60,9 @@ const checks = [], check = (name, ok) => { assert.ok(ok, name); checks.push(name
   await workspace.goto(tabs.get(8).url);await storefront.goto(tabs.get(4).url);
   await storefront.evaluate(()=>{document.querySelectorAll('[data-set-quantity]').forEach(button=>button.addEventListener('click',()=>{const row=button.closest('[data-product]');row.querySelector('output').value=row.querySelector('input').value;const root=document.querySelector('[data-do-cart-fixture]');root.dataset.revision=String(Number(root.dataset.revision)+1);}));});
   await companion.goto('http://127.0.0.1:4199/browser-connection.html');
+  await companion.locator('#setup summary').click();
   await companion.getByRole('button',{name:'Set up local recovery',exact:true}).click();
   await companion.locator('#journal-status').filter({hasText:'Local recovery is ready.'}).waitFor();
-  await companion.locator('#setup summary').click();
   await companion.getByRole('button',{name:'Find my test tab',exact:true}).click();
   await companion.getByRole('button',{name:'Connect for two minutes'}).click();
   await companion.locator('#status').filter({hasText:'Test cart connected.'}).waitFor();
