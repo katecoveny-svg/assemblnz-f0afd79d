@@ -1,7 +1,33 @@
 import { describe, expect, it } from "vitest";
-import { canApprove, demoAlternative, demoEligibleMeals, demoMissionRecipe, pantryTemplate, planShop } from "./model";
+import { canApprove, demoAlternative, demoEligibleMeals, demoMissionRecipe, mealChoiceCards, pantryTemplate, planShop } from "./model";
 
 describe("loyalty DO preparation boundary", () => {
+  it('projects all three cards with confirmed deductions, missing packs and complete cost', () => {
+    const cards = mealChoiceCards(pantryTemplate, 4, true, 4000, 'tonight', '');
+    expect(cards.map(c => [c.id, c.totalMinor, c.missing.map(l => [l.ingredientId, l.packs])])).toEqual([
+      ['pasta-night', 1050, [['tomato', 1], ['aubergine', 1], ['pasta', 1]]],
+      ['rice-night', 1200, [['tomato', 1], ['aubergine', 1], ['rice', 1]]],
+      ['eggs-toast', 2050, [['tomato', 1], ['egg', 2], ['bread', 1]]],
+    ]);
+    expect(cards.map(c => c.used.map(l => [l.ingredientId, l.pantryUsed, l.unit]))).toEqual([
+      [['tomato', 400, 'g'], ['aubergine', 1, 'each'], ['basil', 1, 'each']],
+      [['tomato', 400, 'g'], ['aubergine', 1, 'each'], ['basil', 1, 'each']],
+      [['tomato', 400, 'g'], ['basil', 1, 'each']],
+    ]);
+    expect(cards.every(c => !c.blockers.length)).toBe(true);
+  });
+  it('recalculates every extra-dinner card with pantry deducted once', () => {
+    const cards = mealChoiceCards(pantryTemplate, 4, true, 4000, 'extra', '');
+    expect(cards.map(c => c.totalMinor)).toEqual([3200, 2650, 3400]);
+    expect(cards.map(c => c.used.find(l => l.ingredientId === 'tomato')?.pantryUsed)).toEqual([400, 400, 400]);
+  });
+  it('withholds card calculations without review and blocks unsupported diets or budgets', () => {
+    expect(mealChoiceCards(pantryTemplate, 4, false, 4000, 'tonight', '').every(c => c.totalMinor === null && c.blockers.length)).toBe(true);
+    for (const diet of ['vegan', 'gluten free and high protein']) expect(mealChoiceCards(pantryTemplate, 4, true, 4000, 'tonight', diet).every(c => c.totalMinor === null && c.blockers.length)).toBe(true);
+    const gluten = mealChoiceCards(pantryTemplate, 4, true, 4000, 'tonight', 'gluten free');
+    expect(gluten.map(c => c.totalMinor)).toEqual([null, 1200, null]);
+    expect(mealChoiceCards(pantryTemplate, 4, true, 100, 'tonight', '').every(c => c.blockers.includes('Estimated basket exceeds the NZD budget'))).toBe(true);
+  });
   it('cooks two dinners with one pantry deduction and exact pack leftovers', () => {
     const extra = planShop(pantryTemplate, 4, true, 4000, 'pasta-night', 'extra');
     expect(extra.estimatedMinor).toBe(3200);
