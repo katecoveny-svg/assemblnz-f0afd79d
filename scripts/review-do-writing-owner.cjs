@@ -14,7 +14,7 @@ const stubs = {
 };
 (async () => {
   fs.mkdirSync(out, { recursive: true }); fs.rmSync(path.join(out, 'results.json'), { force: true });
-  const bundle = await build({ stdin: { contents: `import React from 'react';import {createRoot} from 'react-dom/client';import {DoTextWorkspace} from './app/do/DoTextWorkspace';createRoot(document.getElementById('root')).render(React.createElement(DoTextWorkspace));`, resolveDir: process.cwd(), loader: 'tsx' }, bundle: true, write: false, loader: { '.css': 'empty', '.module.css': 'empty' }, platform: 'browser', format: 'iife', define: { 'process.env.NODE_ENV': '"production"' }, plugins: [{ name: 'fictional-auth', setup(b) { b.onResolve({ filter: /.*/ }, a => stubs[a.path] ? { path: a.path, namespace: 'fixture' } : undefined); b.onLoad({ filter: /.*/, namespace: 'fixture' }, a => ({ contents: stubs[a.path], loader: 'js' })); } }] });
+  const bundle = await build({ stdin: { contents: `import React from 'react';import {createRoot} from 'react-dom/client';import {DoTextWorkspace} from './app/do/DoTextWorkspace';createRoot(document.getElementById('root')).render(React.createElement(DoTextWorkspace,window.__props||{}));`, resolveDir: process.cwd(), loader: 'tsx' }, bundle: true, write: false, loader: { '.css': 'empty', '.module.css': 'empty' }, platform: 'browser', format: 'iife', define: { 'process.env.NODE_ENV': '"production"' }, plugins: [{ name: 'fictional-auth', setup(b) { b.onResolve({ filter: /.*/ }, a => stubs[a.path] ? { path: a.path, namespace: 'fixture' } : undefined); b.onLoad({ filter: /.*/, namespace: 'fixture' }, a => ({ contents: stubs[a.path], loader: 'js' })); } }] });
   const browser = await chromium.launch({ headless: true, executablePath: process.env.ASSEMBL_CHROMIUM_PATH });
   const checks = [], errors = [];
   try {
@@ -77,6 +77,43 @@ const stubs = {
       assert.equal(await recovery.locator('details').evaluate(e => e.open), false);
       checks.push(`${phase}: recovery guidance never reads unowned bytes, preserves editor, and resets across accounts`);
       console.log('PASS ' + checks.at(-1));
+      await context.close();
+    }
+    // Embedded specialist navigation must not replace the source/draft editor.
+    {
+      const context = await browser.newContext(); const page = await context.newPage();
+      page.on('pageerror', e => errors.push(e.message));
+      await context.route('**/*', r => r.request().resourceType() === 'document' ? r.fulfill({ contentType: 'text/html', body: '<div id="root"></div>' }) : r.abort());
+      await page.addInitScript(({ A, draft }) => {
+        window.__owner = A; window.__props = { embedded: true, focus: true, initialTask: 'extract' };
+        window.fetch = async url => {
+          if (url === '/api/do/session') return Response.json({ workspaceKey: A });
+          if (url === '/api/do/runtime') return Response.json({ signedIn: true });
+          if (url === '/api/do/prepare') return Response.json({ draft });
+          throw Error('No provider request allowed');
+        };
+      }, { A, draft: entry(A, 'Embedded test').draft });
+      await page.goto('https://fixture.invalid/do/widget?embedded=1');
+      await page.addScriptTag({ content: bundle.outputFiles[0].text });
+      await page.locator('#do-source').fill('Fictional source: school picnic Friday. Bring a hat.');
+      await page.getByRole('checkbox', { name: /Use this text for this preparation/ }).check();
+      await page.getByRole('button', { name: 'Find the details', exact: true }).click();
+      await page.locator('#do-result').fill('Reviewed synthetic draft: bring a hat on Friday.');
+      const source = await page.locator('#do-source').inputValue();
+      const draft = await page.locator('#do-result').inputValue();
+      for (const destination of ['/do/bills', '/do/bills/compare']) {
+        const link = page.locator(`a[href="${destination}"]`);
+        assert.equal(await link.getAttribute('target'), '_blank');
+        assert.equal(await link.getAttribute('rel'), 'noopener noreferrer');
+        const opened = context.waitForEvent('page'); await link.click(); const popup = await opened;
+        await popup.waitForURL('https://fixture.invalid' + destination);
+        assert.equal(page.url(), 'https://fixture.invalid/do/widget?embedded=1');
+        assert.equal(await page.locator('#do-source').inputValue(), source);
+        assert.equal(await page.locator('#do-result').inputValue(), draft);
+        checks.push(`Embedded ${destination}: separate tab, source and edited draft preserved`);
+        await popup.close();
+      }
+      await page.screenshot({ path: path.join(out, 'embedded-bills-preserved.jpg') });
       await context.close();
     }
     assert.deepEqual(errors, []); fs.writeFileSync(path.join(out, 'results.json'), JSON.stringify({ checks, errors, scope: 'Actual standalone writing editor; fictional SDK events, delayed identity responses and populated draft storage.' }, null, 2));
