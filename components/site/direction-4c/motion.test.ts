@@ -240,13 +240,16 @@ async function revealFixture() {
   const intervals = new Map<number, () => void>();
   const cleared = new Set<number>();
   const observers: Array<{ fire(): void }> = [];
+  // The decode settles on elapsed time, so the fixture owns the clock: each tick is one 34 ms interval.
+  let now = 0;
   const context = {
     IntersectionObserver: class { cb: (entries: unknown[]) => void; constructor(cb: (entries: unknown[]) => void) { this.cb = cb; observers.push({ fire: () => cb([{ isIntersecting: true, target: kicker }]) }); } observe() {} unobserve() {} disconnect() {} },
     window: { setInterval: (fn: () => void) => { intervals.set(intervals.size + 1, fn); return intervals.size; } },
     clearInterval: (id: number) => cleared.add(id),
+    Date: { now: () => now },
   };
   const revealText = runInNewContext(js, context);
-  return { revealText: () => revealText(root) as () => void, kicker, intervals, cleared, fire: () => observers.at(-1)!.fire(), tick: (n: number) => { for (let i = 0; i < n; i++) intervals.get(intervals.size)!(); } };
+  return { revealText: () => revealText(root) as () => void, kicker, intervals, cleared, fire: () => observers.at(-1)!.fire(), tick: (n: number) => { for (let i = 0; i < n; i++) { now += 34; intervals.get(intervals.size)!(); } } };
 }
 it('restores kicker copy when a decode is interrupted and decodes cleanly on restart', async () => {
   const f = await revealFixture();

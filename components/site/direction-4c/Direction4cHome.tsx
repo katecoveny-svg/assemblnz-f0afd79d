@@ -43,10 +43,11 @@ function revealText(root: HTMLElement): () => void {
   const scramble = (el: HTMLElement) => {
     const final = kickers.get(el) ?? el.textContent ?? '';
     const n = final.length;
-    let frame = 0;
+    // Settle on elapsed time, not on tick count: a busy GPU thread starves intervals, and a
+    // frame-counted decode can keep scrambling for many seconds on a loaded machine.
+    const began = Date.now(), duration = 520;
     const id = window.setInterval(() => {
-      frame++;
-      const settled = Math.floor((frame * n) / 16);
+      const settled = Math.floor(Math.min(1, (Date.now() - began) / duration) * n);
       let out = '';
       for (let i = 0; i < n; i++) out += i < settled || final[i] === ' ' || final[i] === '·' ? final[i] : 'abcdefghijklmnopqrstuvwxyz0123456789'[Math.floor(Math.random() * 36)];
       el.textContent = out;
