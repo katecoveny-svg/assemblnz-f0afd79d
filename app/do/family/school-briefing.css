@@ -3,3 +3,19 @@
 /* A companion loaded on an earlier SPA route must not cover this focused page.
    Scoped to the mounted Family surface; shared companion implementation stays untouched. */
 body:has(.family-do) [data-do-companion]{display:none!important}
+
+.school-briefing{border-radius:28px;box-shadow:0 16px 48px #492B3E08;margin-bottom:32px}
+.school-heading .family-kicker{margin:0 0 12px}.school-label{background:#EAC8DF66;color:#492B3E;border:1px solid #916A7026;border-radius:20px;display:inline-block;font-weight:600}
+.school-preview-note{padding:14px 18px;border-left:3px solid #916A70;background:#F5F1F2;border-radius:0 12px 12px 0;color:#654A4E;font-size:14px;max-width:85ch}
+.school-boundary{font-size:13px;max-width:85ch;margin-bottom:20px}.school-boundary p{padding:0 0 12px}
+.school-config{padding:22px;border-radius:22px;background:#F5F1F2;border:1px solid #916A7026}.school-config .school-controls{margin:0 0 22px}.school-config .school-actions{margin-bottom:0}
+.family-do .school-controls fieldset label{min-height:44px}.school-match{padding:14px 0}
+.school-ready{display:grid;grid-template-columns:220px 1fr;gap:24px;align-items:center;margin:24px 0;padding:18px 28px;border-radius:22px;background:linear-gradient(115deg,#DAD2F455,#FFFDFB)}
+.school-ready svg{width:100%}.school-ready h3{font-size:27px;letter-spacing:-.025em;margin:8px 0}.school-ready p:last-child{max-width:65ch;color:#654A4E;font-size:14px}
+.school-change{border:1px solid #916A7033;background:#FFFDFB;border-radius:24px;padding:26px;margin:24px 0;box-shadow:0 8px 24px #492B3E05}
+.school-comparison{gap:18px}.school-comparison>.school-evidence,.school-comparison>p{padding:18px;border-radius:16px;background:#F5F1F2;margin:0}.school-comparison>.school-evidence:last-child{background:#EAC8DF33;border:1px solid #916A7033}
+.school-evidence blockquote{background:#FFFDFBCC;border-left:2px solid #916A70;border-radius:0 10px 10px 0}.school-evidence a{padding:8px 0}.school-warning{border:1px solid #916A7033;border-radius:12px}.school-warning li{margin-left:10px}
+.school-agenda{background:linear-gradient(150deg,#DAD2F444,#F5F1F2)}.school-agenda-title{display:flex;gap:18px;align-items:center}.school-agenda-title>svg{width:140px;flex-shrink:0}.school-agenda-title h3{font-size:28px;letter-spacing:-.03em;margin:0}
+.school-agenda-entry{padding:22px;margin:18px 0;border:1px solid #916A7033;border-radius:18px;background:#FFFDFB}.school-agenda-entry-head{display:flex;gap:18px;align-items:center}.school-agenda-entry-head h4{font-size:21px;color:#492B3E;margin:10px 0}.school-date-chip{padding:16px 12px;min-width:110px;border-radius:14px;background:#492B3E;color:#FFFDFB;text-align:center;font-size:14px;overflow-wrap:anywhere}.school-date-chip small{display:block;margin-top:8px;font-size:12px}
+.school-limits{color:#654A4E}.school-source-review{margin-top:18px}.school-source-review>.school-evidence{padding:16px;background:#F5F1F2;border-radius:14px;margin:12px 0}
+@media(max-width:700px){.school-briefing{border-radius:22px;padding:22px 16px}.school-config{padding:16px}.school-ready{grid-template-columns:1fr;padding:18px;gap:0}.school-ready svg{max-width:220px;margin:auto}.school-ready h3{font-size:24px}.school-change{padding:18px 14px;border-radius:18px}.school-comparison>.school-evidence,.school-comparison>p{padding:14px}.school-agenda-title{gap:8px}.school-agenda-title>svg{width:88px}.school-agenda-title h3{font-size:23px}.school-agenda-entry{padding:16px 12px}.school-agenda-entry-head{gap:12px;align-items:flex-start}.school-date-chip{min-width:90px;padding:14px 8px;font-size:12px}.school-agenda-entry-head h4{font-size:18px}.school-heading .school-label{order:0}.school-actions button{max-width:100%;text-align:left}.school-controls{gap:20px}}
