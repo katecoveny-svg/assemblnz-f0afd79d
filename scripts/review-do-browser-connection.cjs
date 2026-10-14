@@ -28,8 +28,8 @@ const checks = [], check = (name, ok) => { assert.ok(ok, name); checks.push(name
   }
   if(url.href==='http://127.0.0.1:4198/cart-fixture.html')return route.fulfill({contentType:'text/html',body:fs.readFileSync('test/fixtures/do-browser/cart-fixture.html','utf8').replace(/<script[^>]*>[\s\S]*?<\/script>/g,'')});
   if(url.origin==='http://127.0.0.1:4199') {
-   const file=url.pathname.slice(1);if(!['browser-connection.html','browser-connection.js','portable.css'].includes(file))return route.abort();
-   return route.fulfill({contentType:file.endsWith('.js')?'text/javascript':file.endsWith('.css')?'text/css':'text/html',body:fs.readFileSync('apps/do/extension/'+file,'utf8')});
+   const file=url.pathname.slice(1);if(!['browser-connection.html','browser-connection.js','browser-connection.css','icons/do-glass.webp'].includes(file))return route.abort();
+   return route.fulfill({contentType:file.endsWith('.js')?'text/javascript':file.endsWith('.css')?'text/css':file.endsWith('.webp')?'image/webp':'text/html',body:fs.readFileSync('apps/do/extension/'+file)});
   }
   return route.abort();
  });
@@ -59,16 +59,17 @@ const checks = [], check = (name, ok) => { assert.ok(ok, name); checks.push(name
   await workspace.goto(tabs.get(8).url);await storefront.goto(tabs.get(4).url);
   await storefront.evaluate(()=>{document.querySelectorAll('[data-set-quantity]').forEach(button=>button.addEventListener('click',()=>{const row=button.closest('[data-product]');row.querySelector('output').value=row.querySelector('input').value;const root=document.querySelector('[data-do-cart-fixture]');root.dataset.revision=String(Number(root.dataset.revision)+1);}));});
   await companion.goto('http://127.0.0.1:4199/browser-connection.html');
-  await companion.getByRole('button',{name:'Check selected tab and DO windows'}).click();
-  await companion.getByRole('button',{name:'Connect this tab for two minutes'}).click();
-  await companion.locator('#status').filter({hasText:'Connected only'}).waitFor();
+  await companion.locator('#setup summary').click();
+  await companion.getByRole('button',{name:'Find my test tab',exact:true}).click();
+  await companion.getByRole('button',{name:'Connect for two minutes'}).click();
+  await companion.locator('#status').filter({hasText:'Test cart connected.'}).waitFor();
   const deniedRead=await invoke({type:'do:browser-page',command:{action:'observe',connectionId:(await invoke({type:'do:browser-companion',action:'status'},{id:'synthetic',url:extensionUrl})).data.connectionId}},{id:'synthetic',tab:{id:8},documentId:'do-doc',url:tabs.get(8).url});
   check('page read is rejected before extension-owned grant',!deniedRead.ok);
   check('connection reads no product data',await storefront.locator('output').first().textContent()==='0');
   await workspace.locator('#personal-assistant-input').fill('Please prepare two fictional oats');
   await workspace.getByRole('button',{name:'Review this as a browser task'}).click();
   const panel=workspace.getByRole('region',{name:'Browser task review'});
-  await companion.getByRole('button',{name:'Allow product/cart reads for this connection'}).click();
+  await companion.getByRole('button',{name:'Allow this cart read'}).click();
   await panel.getByRole('button',{name:'Check companion connection'}).click();
   await panel.getByRole('checkbox',{name:/Read fictional product/}).check();
   await panel.getByRole('button',{name:'Read reviewed product fields'}).click();
@@ -80,7 +81,7 @@ const checks = [], check = (name, ok) => { assert.ok(ok, name); checks.push(name
   check('Personal DO preview alone cannot mutate',await storefront.locator('output').first().textContent()==='0');
   await companion.locator('#items').filter({hasText:'ID/SKU: oats'}).waitFor();
   check('companion approval identifies exact proposal product ID', (await companion.locator('#items').textContent()).includes('ID/SKU: oats'));
-  await companion.getByRole('button',{name:'Approve these fixture quantities'}).click();
+  await companion.getByRole('button',{name:'Approve these test quantities'}).click();
   await panel.getByRole('heading',{name:'Fixture changes verified'}).waitFor();
   check('actual fixture DOM quantity verified',await storefront.locator('output').first().textContent()==='2');
   const receipt=JSON.parse(await companion.locator('#receipt').textContent());
@@ -94,9 +95,9 @@ const checks = [], check = (name, ok) => { assert.ok(ok, name); checks.push(name
   check('reviewed voice enters same review component without authority',(await panel.getByLabel('Reviewed task').inputValue()).includes('Reviewed voice'));
   await workspace.setViewportSize({width:375,height:812});await workspace.screenshot({path:out+'/voice-375.png',fullPage:true});
   check('375px review fits viewport',await workspace.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
-  await companion.getByRole('button',{name:'Connect this tab for two minutes'}).click();
-  await companion.locator('#status').filter({hasText:'Connected only'}).waitFor();
-  await companion.getByRole('button',{name:'Allow product/cart reads for this connection'}).click();
+  await companion.getByRole('button',{name:'Connect for two minutes'}).click();
+  await companion.locator('#status').filter({hasText:'Test cart connected.'}).waitFor();
+  await companion.getByRole('button',{name:'Allow this cart read'}).click();
   await panel.getByRole('button',{name:'Check companion connection'}).click();
   await panel.getByRole('checkbox',{name:/Read fictional product/}).check();
   await panel.getByRole('button',{name:'Read reviewed product fields'}).click();
