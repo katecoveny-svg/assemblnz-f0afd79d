@@ -140,7 +140,11 @@ export function lifeAdminPack(plan: LifeAdminPlan): string {
   const template = lifeAdminTemplate(plan.category);
   return [
     plan.title, `${template.name} · ${plan.reviewedAt ? 'Reviewed checklist' : 'Draft checklist'}`,
-    '', 'Your details', ...template.fields.map((field) => `${field.label}: ${plan.fields[field.key] || '[Still needed]'}`),
+    '', 'Your details', ...template.fields.map((field) => {
+      const value = plan.fields[field.key];
+      const emptyPetDay = plan.category === 'pets' && PET_DAYS.some(day => day === field.key) && !value?.trim();
+      return `${field.label}: ${emptyPetDay ? 'No routine supplied for this day' : value || '[Still needed]'}`;
+    }),
     '', 'Next steps', ...plan.tasks.map((task, index) => `${index + 1}. [${task.status.replaceAll('_', ' ')}] ${task.title}\n   ${task.detail}${task.waitingFor ? `\n   Waiting for: ${task.waitingFor}; check on ${task.followUpOn}` : ''}${task.evidence ? `\n   ${task.evidence.kind === 'review' ? 'Review' : 'Recorded by you'} (${task.evidence.at}): ${task.evidence.note}${task.evidence.url ? `\n   Evidence link: ${task.evidence.url}` : ''}` : ''}`),
     '', 'Source you supplied', `${plan.source.title}${plan.source.url ? ` · ${plan.source.url}` : ''}`, `Captured: ${plan.source.capturedAt}; method: ${plan.source.method}`, plan.source.text,
     '', 'Exact text matches to check', extractDetails(plan.source.text),

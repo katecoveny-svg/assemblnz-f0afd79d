@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { PET_DAYS } from './templates';
-import { createPetRoutine, lifeAdminPack, lifeAdminPlanSchema, lifeAdminPreparationBrief, lifeAdminPreparationSchema, parseLifeAdminStore, reviewLifeAdminPlan, serialiseLifeAdminStore, transitionLifeAdminTask, updateLifeAdminField } from './engine';
+import { createLifeAdminPlan, createPetRoutine, lifeAdminPack, lifeAdminPlanSchema, lifeAdminPreparationBrief, lifeAdminPreparationSchema, parseLifeAdminStore, reviewLifeAdminPlan, serialiseLifeAdminStore, transitionLifeAdminTask, updateLifeAdminField } from './engine';
 import { checklistCloudSaveSchema, checklistCloudStateSchema } from './cloud';
 import { DO_TEXT_PROVIDER_CONSENT_VERSION } from '../../shared/provider-consent';
 const owner = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
@@ -15,6 +15,21 @@ describe('session-only Pet routines', () => {
     expect(plan.source.text).toBe(input.routine);
     expect(plan.fields.Tuesday).toBe('');
     expect(lifeAdminPack(plan)).toContain(input.routine);
+  });
+  it('exports empty Pet days distinctly while preserving wording and required-field placeholders', () => {
+    const plan = make();
+    const pack = lifeAdminPack(plan);
+    for (const day of PET_DAYS) {
+      expect(pack).toContain(`${day}: ${plan.fields[day] || 'No routine supplied for this day'}`);
+    }
+    expect(pack).not.toContain('[Still needed]');
+    expect(lifeAdminPack(updateLifeAdminField(plan, 'Tuesday', '   '))).toContain('Tuesday: No routine supplied for this day');
+    expect(pack).toContain(`Monday: ${input.routine}`);
+    expect(pack).toContain(`Sunday: ${input.routine}`);
+    expect(lifeAdminPack(updateLifeAdminField(plan, 'nickname', ''))).toContain('Pet nickname: [Still needed]');
+    const school = createLifeAdminPlan({category: 'school', source: 'A supplied notice without additional details.'});
+    expect(lifeAdminPack(school)).toContain('[Still needed]');
+    expect(lifeAdminPack(school)).not.toContain('No routine supplied for this day');
   });
   it('rejects empty, ambiguous and duplicate days without inventing a schedule', () => {
     for (const bad of [{...input, days: []}, {...input, days: ['weekdays']}, {...input, days: ['Monday', 'Monday']}, {...input, routine: '   '}, {...input, nickname: ''}]) expect(() => createPetRoutine(bad as typeof input)).toThrow();
