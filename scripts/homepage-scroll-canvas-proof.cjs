@@ -84,7 +84,7 @@ fs.mkdirSync(output, { recursive: true });
         assert.equal(opacity, p >= .64 ? 1 : 0, `readability at ${p}`);
         await shot(`p${Math.round(p * 100)}`);
       }
-      if (mode === 'blocked') assert(await page.evaluate(() => window.__plateDrawSource?.tag === 'IMG' && window.__plateDrawSource.src.includes('bay-of-islands-poster.jpg')), 'actual poster uploaded to canvas');
+      if (mode === 'blocked') assert(await page.evaluate(() => window.__plateDrawSource?.tag === 'IMG' && window.__plateDrawSource.src.includes('coast-gen-c-poster.jpg')), 'actual poster uploaded to canvas');
       if (width === 390 && mode === 'normal') {
         // Synthetic visibility event exercises the same browser gate without OS/device claims.
         await page.evaluate(() => { Object.defineProperty(document, 'hidden', { configurable: true, value: true }); document.dispatchEvent(new Event('visibilitychange')); });

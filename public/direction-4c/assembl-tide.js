@@ -78,15 +78,16 @@ function parts(fn) {
   return g;
 }
 // tara: slim body, black cap, long angled wings with a wrist, deep tail fork. x right, y up, forward +z.
-const ternGeometry = () => parts((tri, both) => {
-  const v = (x, y, z) => [x * 0.8, y * 0.8, z * 0.8];
+// chord > 1 widens the wing front to back around its own line, so at 25 to 40 css px a bird still reads as a shape, not a hairline
+const ternGeometry = (chord = 1.25) => parts((tri, both) => {
+  const v = (x, y, z) => [x * 0.8, y * 0.8, z * 0.8], d = (chord - 1) * 0.012, fwd = p => [p[0], p[1], p[2] + d * 0.8], aft = p => [p[0], p[1], p[2] - d * 0.8];
   tri(v(0, 0, 0.058), v(-0.011, 0, 0.022), v(0.011, 0, 0.022), 0);
   tri(v(-0.011, 0, 0.022), v(0, 0, -0.036), v(0.011, 0, 0.022), 0);
   tri(v(0, 0.009, 0.05), v(0, -0.009, 0.012), v(0, 0.003, -0.036), 0);
   tri(v(0, 0.0015, 0.062), v(-0.0075, 0.0015, 0.043), v(0.0075, 0.0015, 0.043), 1);
   tri(v(0, 0.011, 0.047), v(0, 0.003, 0.064), v(0, -0.002, 0.044), 1);
   tri(v(0, 0.001, 0.084), v(-0.0028, 0.001, 0.061), v(0.0028, 0.001, 0.061), 5);
-  const rf = v(0.009, 0, 0.024), rb = v(0.009, 0, -0.002), wf = v(0.056, 0, 0.02), wb = v(0.051, 0, -0.006), le = v(0.083, 0, 0.006), tip = v(0.108, 0, -0.024);
+  const rf = fwd(v(0.009, 0, 0.024)), rb = aft(v(0.009, 0, -0.002)), wf = fwd(v(0.056, 0, 0.02)), wb = aft(v(0.051, 0, -0.006)), le = fwd(v(0.083, 0, 0.006)), tip = aft(v(0.108, 0, -0.024));
   both(rf, rb, wf, 2); both(wf, rb, wb, 2); both(wf, wb, le, 3); both(le, wb, tip, 3);
   tri(v(-0.008, 0, -0.033), v(0.008, 0, -0.033), v(0, 0, -0.058), 4);
   tri(v(-0.008, 0, -0.033), v(0, 0, -0.058), v(-0.019, 0, -0.09), 4);
@@ -262,7 +263,7 @@ void main(){
 const TERN_VS = `
 attribute vec3 aFA; attribute vec3 aFB;
 attribute vec4 aSeed; attribute float aPart;
-uniform float uTime, uA, uB, uT, uMillA, uMillB, uSpin, uLit, uPulse, uFormed, uSweep, uRip, uGlow, uSize, uArrive, uInk;
+uniform float uTime, uA, uB, uT, uMillA, uMillB, uSpin, uLit, uPulse, uFormed, uSweep, uRip, uGlow, uSize, uArrive, uInk, uWait;
 uniform vec3 uCA, uCB, uHaze, uL; uniform vec2 uPtr;
 varying vec3 vCol;
 vec3 mill(vec3 p, vec3 c, out vec3 tg){
@@ -303,7 +304,8 @@ void main(){
   // bank into the circle when milling, a gentle rock when holding a shape, so the wing shape reads
   float ml = mix(uMillA, uMillB, e), bank = ml*(0.7 + 0.25*sin(uTime*0.6 + aSeed.y*12.0)) + (1.0 - ml)*0.28*sin(uTime*0.5 + aSeed.y*9.0);
   r = r*cos(bank) + u*sin(bank); u = cross(f, r);
-  float s = aSeed.z*uSize*(1.0 + band*0.3 + ring*0.25);
+  // uWait: size of a bird still waiting above the frame (1 = full size); it grows to full size as it arrives
+  float s = aSeed.z*uSize*(1.0 + band*0.3 + ring*0.25)*mix(uWait, 1.0, arr);
   vec3 lp = position*s;
   lp.z *= 1.0 + tr*0.5;
   // wingbeat: the arm lifts, the hand follows a beat later and sweeps back on the upstroke
@@ -415,7 +417,9 @@ async function mount(canvas, opts = {}) {
   const SLOTS = (opts.slots || DEFAULT_SLOTS).filter(n => SHAPES[n]).map(n => [n, ...SHAPES[n]]);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches, narrow0 = innerWidth < 900;
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: 'high-performance' });
-  const dpr = Math.min(window.devicePixelRatio || 1, narrow0 ? 1.25 : 1.5);
+  // pixel ratio: 2 on a capable desktop so the terns hold their shape on retina, 1.5 elsewhere, 1.25 on narrow screens; opts.dprCap overrides
+  const capable = !narrow0 && (navigator.hardwareConcurrency || 4) >= 8;
+  const dpr = Math.min(window.devicePixelRatio || 1, opts.dprCap || (narrow0 ? 1.25 : capable ? 2 : 1.5));
   renderer.setPixelRatio(dpr);
   const gl = renderer.getContext(), gl2 = renderer.capabilities.isWebGL2;
   const canFloat = gl2 && !!(gl.getExtension('EXT_color_buffer_float') || gl.getExtension('EXT_color_buffer_half_float'));
@@ -428,7 +432,8 @@ async function mount(canvas, opts = {}) {
   const T = JSON.parse(JSON.stringify(toneT));
   const G = { uTime: { value: 0 }, uPtr: { value: new THREE.Vector2() }, uLit: { value: 0 }, uPulse: { value: 0 }, uGlow: { value: T.glow }, uHaze: { value: new THREE.Vector3(...T.haze) }, uL: { value: new THREE.Vector3(-0.4, 0.3, -0.86).normalize() } };
   const PL = { tPoster: { value: null }, uPosterAspect: { value: 16 / 9 }, uPlateMix: { value: 1 }, tPlate: { value: null }, tMask: { value: null }, uHas: { value: 0 }, uAspect: { value: 1 }, uPlateAspect: { value: 16 / 9 }, uZoom: { value: 1.05 }, uPtr: G.uPtr, uRes: { value: new THREE.Vector2(2, 2) },
-    uExp: { value: 1 }, uCon: { value: 1 }, uSat: { value: 1 }, uSplit: { value: 0 }, uDuo: { value: 0 }, uVig: { value: 0 }, uSh: { value: new THREE.Vector3(0.5, 0.5, 0.5) }, uHi: { value: new THREE.Vector3(0.5, 0.5, 0.5) }, uField: { value: new THREE.Vector3(0.105, 0.032, 0.095) },
+    // field: deep plum #240B21 (was 0.105, 0.032, 0.095, about #1B0818, which read as black once the vignette landed on it); opts.field overrides
+    uExp: { value: 1 }, uCon: { value: 1 }, uSat: { value: 1 }, uSplit: { value: 0 }, uDuo: { value: 0 }, uVig: { value: 0 }, uSh: { value: new THREE.Vector3(0.5, 0.5, 0.5) }, uHi: { value: new THREE.Vector3(0.5, 0.5, 0.5) }, uField: { value: new THREE.Vector3(...(opts.field || [0.141, 0.043, 0.129])) },
     uKC: { value: new THREE.Vector2() }, uKAnchor: { value: new THREE.Vector2(0.5, 0.5) }, uKW: { value: 1 }, uKA: { value: 3.6 }, uKS: { value: 1 }, uKOn: { value: 0 }, uKLine: { value: opts.outline === false ? 0 : typeof opts.outline === 'number' ? opts.outline : 1 },
     tBevel: { value: null }, tTint: { value: null }, uBT: { value: new THREE.Vector2(0.001, 0.001) }, uKBase: { value: 0.08 }, uGlass: { value: opts.glass === false ? 0 : 1 }, uTime: G.uTime, uAur: { value: 0 }, uStar: { value: 0 }, uPaua: { value: 0 } };
   const plate = opts.plate || null;
@@ -445,7 +450,7 @@ async function mount(canvas, opts = {}) {
   const sky = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({ uniforms: PL, vertexShader: FS_VS, fragmentShader: PLATE_FS, depthWrite: false, depthTest: false }));
   sky.frustumCulled = false; sky.renderOrder = -1; scene.add(sky);
 
-  const R = rng(7), N = opts.count ? Math.round(opts.count * (narrow0 ? 0.62 : 1)) : (narrow0 ? 460 : 760), base = ternGeometry(), geo = new THREE.InstancedBufferGeometry();
+  const R = rng(7), N = opts.count ? Math.round(opts.count * (narrow0 ? 0.62 : 1)) : (narrow0 ? 460 : 760), base = ternGeometry(opts.wingChord ?? 1.25), geo = new THREE.InstancedBufferGeometry();
   geo.setAttribute('position', base.getAttribute('position')); geo.setAttribute('aPart', base.getAttribute('aPart'));
   const FORMS = SLOTS.map(([name, cy]) => new Float32Array(build(name, cy, N, R).flat()));
   let curA = 0, curB = Math.min(1, FORMS.length - 1);
@@ -455,7 +460,7 @@ async function mount(canvas, opts = {}) {
   for (let i = 0; i < N; i++) { seed[i * 4] = Math.min(1, (i / N) * 0.8 + R() * 0.12); seed[i * 4 + 1] = R(); seed[i * 4 + 2] = 0.95 + R() * 0.5; seed[i * 4 + 3] = R(); }
   geo.setAttribute('aSeed', new THREE.InstancedBufferAttribute(seed, 4));
   geo.instanceCount = N;
-  const U = { uTime: G.uTime, uPtr: G.uPtr, uLit: G.uLit, uPulse: G.uPulse, uGlow: G.uGlow, uHaze: G.uHaze, uL: G.uL, uSize: { value: 1 }, uInk: { value: 0 }, uA: { value: 0 }, uB: { value: 0 }, uT: { value: 0 }, uMillA: { value: 1 }, uMillB: { value: 1 }, uSpin: { value: 0.2 }, uFormed: { value: 1 }, uSweep: { value: 0 }, uRip: { value: 0 }, uCA: { value: new THREE.Vector3() }, uCB: { value: new THREE.Vector3() }, uArrive: { value: reduced ? 1 : (opts.arrive ?? 1) } };
+  const U = { uTime: G.uTime, uPtr: G.uPtr, uLit: G.uLit, uPulse: G.uPulse, uGlow: G.uGlow, uHaze: G.uHaze, uL: G.uL, uSize: { value: 1 }, uInk: { value: 0 }, uA: { value: 0 }, uB: { value: 0 }, uT: { value: 0 }, uMillA: { value: 1 }, uMillB: { value: 1 }, uSpin: { value: 0.2 }, uFormed: { value: 1 }, uSweep: { value: 0 }, uRip: { value: 0 }, uCA: { value: new THREE.Vector3() }, uCB: { value: new THREE.Vector3() }, uArrive: { value: reduced ? 1 : (opts.arrive ?? 1) }, uWait: { value: opts.waitScale ?? 1 } };
   const terns = new THREE.Mesh(geo, new THREE.ShaderMaterial({ uniforms: U, vertexShader: TERN_VS, fragmentShader: COL_FS, side: THREE.DoubleSide }));
   terns.frustumCulled = false;
   const pivot = new THREE.Group(); pivot.position.y = 1.8; rig.add(pivot); pivot.add(terns); terns.position.y = -1.8;
@@ -478,7 +483,7 @@ async function mount(canvas, opts = {}) {
     U.uSweep.value = sw < 1 ? sw : 0; U.uRip.value = sw < 1 ? Math.min(1, sw * 1.15) : 0;
   };
 
-  const albGeo = ternGeometry(), TRN = 110, TRAIL_AGE = 1.1;
+  const albGeo = ternGeometry(1), TRN = 110, TRAIL_AGE = 1.1;
   const trailMat = new THREE.ShaderMaterial({ vertexShader: TRAIL_VS, fragmentShader: TRAIL_FS, transparent: true, depthWrite: false, side: THREE.DoubleSide });
   const mkTrail = () => {
     const g = new THREE.BufferGeometry(), idx = [], S = new Float32Array(TRN * 2);
@@ -659,6 +664,7 @@ async function mount(canvas, opts = {}) {
     setKnockZoom: on => { kZoom = !!on; },
     setOutline: on => { PL.uKLine.value = typeof on === 'number' ? on : on ? 1 : 0; },
     setArrive: v => { if (!reduced) U.uArrive.value = Math.max(0, Math.min(1, v)); },
+    setWait: v => { U.uWait.value = Math.max(0.1, Math.min(1, v)); },
     setGliders: on => { albOn = !!on; if (!albOn) alb.forEach(a => { a.on = false; a.mesh.visible = false; a.trail.hist.length = 0; a.trail.mesh.visible = false; }); },
     setGlass: on => { PL.uGlass.value = on ? 1 : 0; },
     setPaused: p => { paused = p; },
@@ -755,5 +761,6 @@ function attach({ canvas, preset, theme, plate, grade, onFail, engine, extra }) 
   };
 }
 
-window.AssemblTide = { attach, mount, TONES };
+// ternGeometry is exported for the bird study artboard; it needs THREE before any mount has run
+window.AssemblTide = { attach, mount, TONES, ternGeometry: chord => { THREE = window.THREE; return ternGeometry(chord); } };
 })();

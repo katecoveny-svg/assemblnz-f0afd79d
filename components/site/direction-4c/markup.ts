@@ -6,8 +6,8 @@ const arrow = `<svg class="clear-arrow" aria-hidden="true" viewBox="0 0 24 24" w
 const forwardArrow = `<svg class="clear-arrow" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16m-6-6 6 6-6 6"/></svg>`;
 
 /** Fixed canvas, static fallback backdrop and the floating header. */
-export const chromeMarkup = `<img class="clear-coastal-poster" src="/direction-4c/assets/footage/bay-of-islands-poster.jpg" alt="" fetchpriority="high" aria-hidden="true">
-<video data-coastal-video class="clear-coastal-video" muted playsinline loop preload="none" poster="/direction-4c/assets/footage/bay-of-islands-poster.jpg" aria-hidden="true" tabindex="-1"></video>
+export const chromeMarkup = `<img class="clear-coastal-poster" src="/direction-4c/assets/footage/coast-gen-c-poster.jpg" alt="" fetchpriority="high" aria-hidden="true">
+<video data-coastal-video class="clear-coastal-video" muted playsinline loop preload="none" poster="/direction-4c/assets/footage/coast-gen-c-poster.jpg" aria-hidden="true" tabindex="-1"></video>
 <canvas data-ref="canvasRef" aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none"></canvas>
 <div data-fallback><div aria-hidden="true" style="position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,rgba(36,11,33,.12),rgba(36,11,33,.35))"></div></div>
 
