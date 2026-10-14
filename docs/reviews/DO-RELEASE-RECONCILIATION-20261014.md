@@ -1,0 +1,32 @@
+# DO release reconciliation — 14 October 2026
+
+This is a dated, nonsecret evidence snapshot at 03:31 UTC, not a capability activation or claim that all local work is published. Later reviewed releases supersede the exact deployment below.
+
+## Code and production
+
+Main `88ef267911e0c958c81a7a595e70ba197459e249` includes [cron isolation #1586](https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1586). Reviewed head `b530df35100e866a65218f9c0257b0cdf894314e` and the merged tree are identical. [Exact-head core 38505528267](https://github.com/katecoveny-svg/assemblnz-f0afd79d/actions/runs/38505528267) passed; 33 focused tests, typecheck and lint passed locally. Production `dpl_3mrdnbMZwVeKS7KaytdpFPuStHrM` is READY; both public aliases resolve to that exact SHA and `/do` returned HTTP 200 with matching deployment assets. The fix runs existing independently settled maintenance before optional enquiry/worker preparation, after unchanged cron authentication. It does not activate retention or create a new cleanup operation.
+
+## Database and operational readiness
+
+The independently supplied read-only Supabase audit found all five persistence migrations `20261013090000` through `20261013094000` applied, with 24 normalized function bodies, ACLs and RLS matching code. No new SQL is justified by that audit. This is attributed audit evidence, not a new database query in this reconciliation.
+
+At the audit, the storage pilot was enabled with retention reviewed and an October 20 expiry, but readiness was false: last cleanup at October 13 21:33:46 UTC was older than 90 minutes. Expired responsibility and memory counts were both zero at 03:24:50 UTC. Memory maintenance had never attempted/completed and worker heartbeat was null. Continuity had zero opted-in scopes. The durable Saved adapter and provider-memory proposals remain staged; `do_saved_items` was absent. The user-cancelled database cron-catalog read was not retried or routed around.
+
+Vercel project metadata (`decrypt=false`, 62 entries, hidden production count zero) listed neither `CRON_SECRET` nor the eight requested DO flags, including the personal storage/purge and continuity flags. Metadata does not establish inherited runtime configuration. Source schedules `/api/do/personal/cron` hourly at minute 05; actual scheduler invocation remains unverified. Missing secret rejects authentication; maintenance flags fail closed. All-user availability is distinct from per-owner enrollment, readiness and responsibility permission checks, which remain intact.
+
+Cleanup approval and secure credential setup are pending. Responsibility retention removes whole expired records and cascading run/output/evidence data; memory retention clears contents while retaining ID/revision tombstones. These operations are global across owners, including paused/withdrawn records. No secret, flag, SQL, grant or production data changed in this audit. Secret values must stay out of chat, repository, tool arguments and logs. Any approved configuration needs a production redeploy and authenticated scheduler/receipt verification.
+
+## Review queue
+
+- [#1587](https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1587): visual meal choices. Original head `0d4825047304862e863acf3e6b1373a585ae7ba8` passed independent source/visual review and hosted core/Loyalty checks. Clean main integration `eb279f90a7b47789adc3f4d933913412169ece79` imports only reviewed cron files. A requested decorative SVG-arrow follow-up is pending final-head checks; no retailer or issued-reward capability is implied.
+- [#1417](https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1417): genuinely unmerged native development source. Reconciled head `0bf630411acb47baf64c1f1224ad1ef69580c10d` preserves current docs and adds dated limitations; no native runtime changes in integration. Fresh unsigned hosted proof and exact resolved-head review are pending. No account namespace/logout clearing, per-record OS isolation, signed-device proof, signing, installation or store publication is claimed.
+- [#1544](https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1544): embedded Bills navigation behavior already exists on main. Review any useful test coverage separately; do not merge stale UI wholesale.
+- [#1567](https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1567): superseded by #1568 and fail-closed #1570; do not merge the old gateway.
+
+## Preserved-work inventory and limits
+
+The remote snapshot against preceding main `a92ffbbf` contained 900 branch heads: 716 contained by ancestry; 58 exact-head merged PRs with non-ancestor history; 88 exact-head closed-unmerged PRs; 18 histories differing from a merged PR head; 17 without matching PR; three original open PR branches. Seven historical asset/evidence branches had no common ancestor. A non-ancestor merged PR is not automatically novel work. No branches were deleted.
+
+154 local Git roots were discovered; 90 matched this repository. Full status completed for 28 (11 dirty, 17 clean at snapshot) and timed out for 62. Some historical checkouts reported thousands of changed/missing files; all were preserved. Of 161 unique local branch heads, 97 matched remote heads, 32 were already contained in main, 27 returned no commit found in direct GitHub lookup, and five diverged. The 27 missing exact commits may still have patches represented by squashes/rebases; owner and patch review is required before pushing. Known divergence includes newly pushed work and previously verified byte-identical journal rebases. Broad fetch failed with unresolved pack deltas; narrow main reads and API comparisons worked. A fresh isolated native clone also succeeded. This does not certify every local checkout as clean, pushed or safe to merge.
+
+Detailed machine-local inventory is retained by the coordinator as `release-evidence/remote-branch-inventory.json`, `local-work-inventory.json`, `local-head-classification.json` and `configuration-audit.json`. These local evidence paths are not repository links or a claim that raw local paths/private metadata were published. This checked-in summary carries the useful cross-agent state without uploading unrelated local work.

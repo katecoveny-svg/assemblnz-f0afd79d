@@ -385,3 +385,7 @@ At the end of a meaningful workday:
 6. never let an automated process silently rewrite brand or product canon.
 
 **2 October glass identity:** DO07 merged in PR1463 (`d568e6c4`) and was verified live with the 69 KB artwork and 256 production-built fictional browser checks. The earlier wider PR1471 rollout was merged externally; root verified production on main `9c3544f5`. Kate subsequently rejected its dark/mobile composition and reconstructed marks, locking the exact supplied glass originals as primary. DO08 daylight correction is local, unpushed review work: compact phone header, #492B3E ink, exact artwork planes inside the real moving room and a fictional notice using the existing local checklist handler. This does not claim exact modular glass geometry, authorised signed-in preview, real-device Safari or installed-native parity. Useful Pursuit demo, copy strategy and portable-native owners retain their boundaries.
+
+## 14 October 2026 — release and preserved-work reconciliation
+
+[The dated release reconciliation](../reviews/DO-RELEASE-RECONCILIATION-20261014.md) records verified main/production, matching migration audit, operational configuration and retention blockers, remaining PRs and local-work inventory limits. Read its timestamp before using its exact deployment as current. Merged source is not all-user activation; cleanup consent, secure configuration, owner enrollment and native proof remain separate gates. No blanket push, merge or cleanup of historical work is authorized by this record.
