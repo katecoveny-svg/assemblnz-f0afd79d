@@ -247,8 +247,8 @@ const output = "output/loyalty-do";
   await page.getByRole("checkbox", { name: "Confirm entire pantry" }).check();
   await page.getByRole("button", { name: "Make a plan", exact: true }).click();
   await page
-    .getByLabel("Sample recipe", { exact: true })
-    .selectOption("rice-night");
+    .getByRole("button", { name: "Choose Tomato & aubergine rice bowls", exact: true })
+    .click();
   await page
     .getByRole("button", { name: "Review the basket", exact: true })
     .click();
