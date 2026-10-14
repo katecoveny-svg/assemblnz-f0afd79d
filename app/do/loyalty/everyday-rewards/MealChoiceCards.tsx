@@ -1,5 +1,6 @@
 "use client";
 import { useId } from 'react';
+import { ArrowUpRight } from 'lucide-react';
 import { mealChoiceCards, money } from './model';
 
 /** Original vector still lifes. Decorative sample dishes, not product photographs. */
@@ -50,7 +51,7 @@ export function MealChoiceCards({ cards, selected, onChoose }: { cards: ReturnTy
           <h5>Still to get</h5><ul className="ld-meal-missing">{card.missing.map(line=><li key={line.ingredientId}><span>{line.name}</span><strong>{line.packs} {line.packs===1?'pack':'packs'}</strong></li>)}</ul>{!card.missing.length&&<p className="ld-meal-note">Covered by your confirmed pantry.</p>}
         </>:<p className="ld-meal-note">Calculation awaits review.</p>}
         {card.blockers.map(reason=><p key={reason} className="ld-meal-blocker">{reason}</p>)}
-        <button type="button" className="ld-dark" aria-label={`Choose ${card.name}`} aria-pressed={selected===card.id} disabled={card.blockers.length>0} onClick={()=>onChoose(card.id)}>{selected===card.id?'Selected dinner':'Choose this dinner'}<span aria-hidden="true">↗</span></button>
+        <button type="button" className="ld-dark" aria-label={`Choose ${card.name}`} aria-pressed={selected===card.id} disabled={card.blockers.length>0} onClick={()=>onChoose(card.id)}>{selected===card.id?'Selected dinner':'Choose this dinner'}<ArrowUpRight size={17} aria-hidden="true" focusable="false" /></button>
       </div>
     </article>)}</div>
   </section>;

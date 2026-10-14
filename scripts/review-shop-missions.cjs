@@ -67,6 +67,7 @@ const output = 'output/shop-missions';
     await page.locator('.ld-meal-choices').screenshot({ path: `${output}/${name}-meal-choices.png`, animations: 'disabled' });
     for (const [id, title, cost] of [['pasta-night','Roasted tomato & aubergine pasta','$10.50'], ['rice-night','Tomato & aubergine rice bowls','$12.00'], ['eggs-toast','Tomato eggs on toast','$20.50']]) {
       const card = page.locator(`.ld-meal-card[data-meal="${id}"]`);
+      check(name + ': ' + id + ' uses a decorative SVG arrow', await card.getByRole('button', { name: `Choose ${title}`, exact: true }).locator('svg[aria-hidden="true"][focusable="false"]').count() === 1 && !(await card.innerText()).includes('↗'));
       check(name + ': ' + id + ' shows pantry, packs and verified cost', await card.innerText().then(s => s.includes(cost) && s.includes('Tomatoes · 400 g') && s.includes('pack')));
       await card.getByRole('button', { name: `Choose ${title}`, exact: true }).click();
       check(name + ': ' + id + ' choice updates actual plan', await page.locator('.ld-plan-paper h3').innerText() === title && await card.getByRole('button').getAttribute('aria-pressed') === 'true');
