@@ -38,7 +38,7 @@ async function device(browser, name, viewport) {
   check(name + ': electricity card shows the monthly equivalent and the unmatched-provider label', (await power.innerText()).includes('224.50') && (await power.innerText()).includes('PROVIDER NOT MATCHED'));
   check(name + ': research link carries only the category and a rounded monthly figure', await power.getByRole('link', { name: /Research with sources/ }).getAttribute('href') === '/do/bills/compare?category=electricity&monthly=224.50');
   const watch = await power.getByRole('link', { name: 'Ask DO to watch this' }).getAttribute('href');
-  check(name + ': watch goes through the reviewed Ask DO entry and forbids switching', watch.startsWith('/do/ask?q=Watch+my+electricity') && decodeURIComponent(watch).includes('Do not switch'));
+  check(name + ': watch goes through the reviewed Ask DO entry and forbids switching', watch.startsWith('/do/ask?q=Watch+my+electricity') && new URLSearchParams(watch.slice(watch.indexOf('?'))).get('q').includes('Do not switch, cancel or contact anyone.'));
   await page.screenshot({ path: path.join(output, name + '-what-you-pay.png'), fullPage: false });
   await power.getByRole('button', { name: 'Hunt for a better deal' }).click();
   await power.getByText('Fixture Energy · Flat').waitFor();
@@ -47,7 +47,7 @@ async function device(browser, name, viewport) {
   check(name + ': the stale offer is flagged and the dearer offer is not offered', hunted.includes('older than 45 days, check before acting') && !hunted.includes('Dearer Co'));
   check(name + ': possible saving is capped wording, not a promise', hunted.includes('Possible saving of up to') && !/guaranteed|will save/i.test(hunted));
   await page.screenshot({ path: path.join(output, name + '-hunt.png'), fullPage: false });
-  await page.fill('input[aria-label="Minimum monthly difference in NZD"]', '60');
+  await page.fill('input[aria-label="Minimum monthly difference in NZD"]', '80');
   await power.getByRole('button', { name: 'Check again' }).click();
   await power.getByText(/No advertised offer in the price book is at least/).waitFor();
   check(name + ': the person’s own threshold removes smaller differences', !(await power.innerText()).includes('Fixture Energy · Flat'));
@@ -60,6 +60,7 @@ async function device(browser, name, viewport) {
   await page.getByText('Could this').waitFor();
   check(name + ': the research page is prefilled from the card', await page.locator('select').first().inputValue() === 'electricity' && await page.locator('input[type=number]').first().inputValue() === '224.50');
   await page.screenshot({ path: path.join(output, name + '-research-prefilled.png'), fullPage: false });
+  if (errors.length) console.error('ERRORS', JSON.stringify(errors, null, 2));
   check(name + ': no page or console errors', errors.length === 0);
   await context.close();
 }

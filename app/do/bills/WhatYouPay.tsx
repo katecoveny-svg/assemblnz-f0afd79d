@@ -57,7 +57,7 @@ export function WhatYouPay({ services, demo, busy }: { services: HouseholdServic
           <div className={styles.buttons}>
             {canHunt(service) && <button disabled={busy || state.status === 'busy'} onClick={() => void hunt(service)}>{state.status === 'busy' ? 'Checking public offers…' : state.status === 'done' ? 'Check again' : 'Hunt for a better deal'}</button>}
             {research && <Link className={styles.linkButton} href={research}>Research with sources ↗</Link>}
-            <Link className={styles.linkButton} href={watchHref(service)}>Ask DO to watch this</Link>
+            <Link className={styles.linkButton} href={watchHref(service)} prefetch={false}>Ask DO to watch this</Link>
           </div>
           {state.status === 'error' && <p className={styles.small} role="alert">{state.message}</p>}
           {state.status === 'done' && <div className={styles.offers}>
