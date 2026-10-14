@@ -3,6 +3,7 @@ vi.mock('@/apps/do/services/owner', async original => ({ ...(await original<type
 vi.mock('@/apps/do/personal/life-admin/cloud-service', () => ({ loadCloudChecklists: vi.fn(), saveCloudChecklists: vi.fn(), ChecklistConflict: class extends Error {} }));
 import { doOwner } from '@/apps/do/services/owner';
 import { loadCloudChecklists, saveCloudChecklists, ChecklistConflict } from '@/apps/do/personal/life-admin/cloud-service';
+import { createPetRoutine } from '@/apps/do/personal/life-admin/engine';
 import { GET, POST } from './route';
 const owner = { id: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', externalId: 'do:user:a' };
 const payload = { plans: [], expectedRevision: 3, consent: true };
@@ -41,4 +42,11 @@ describe('checklist owner boundary', () => {
     vi.mocked(loadCloudChecklists).mockRejectedValue(new Error('internal query'));
     for (const r of [await GET(request()), await POST(request())]) { expect(r.status).toBe(503); expect(JSON.stringify(await r.json())).not.toContain('internal'); }
   });
+});
+
+it('rejects direct Pet save payloads before storage access', async () => {
+ const pet = createPetRoutine({nickname:'Demo pet',routine:'Put the blue toy away.',days:['Monday']});
+ const response = await POST(request({...payload,plans:[pet]}));
+ expect(response.status).toBe(400); expect(await response.text()).toContain('session-only');
+ expect(saveCloudChecklists).not.toHaveBeenCalled();
 });

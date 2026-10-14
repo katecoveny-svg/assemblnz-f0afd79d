@@ -1,7 +1,7 @@
 import { DO_TEXT_PROVIDER_CONSENT_VERSION } from '../../shared/provider-consent';
 import { z } from 'zod';
 import { cleanSourceUrl, extractDetails } from '@/apps/do/shared/preparation';
-import { LIFE_ADMIN_CATEGORIES, lifeAdminTemplate, type LifeAdminCategory } from './templates';
+import { LIFE_ADMIN_CATEGORIES, PET_DAYS, lifeAdminTemplate, type LifeAdminCategory } from './templates';
 export const LIFE_ADMIN_SOURCE_LIMIT = 12_000;
 export const LIFE_ADMIN_STORAGE_KEY = 'assembl:personal:life-admin:v1';
 export const lifeAdminOwnerScopeSchema = z.string().uuid();
@@ -26,14 +26,15 @@ export const lifeAdminTaskSchema = z.object({
 }).strict().refine((task) => task.status !== 'done' || task.evidence !== null, 'A completed item needs evidence.');
 export const lifeAdminPlanSchema = z.object({
   version: z.literal(1), id: z.string().uuid(), category: z.enum(LIFE_ADMIN_CATEGORIES), title: z.string().trim().min(1).max(160),
-  source: z.object({ title: z.string().max(160), text: z.string().trim().min(1).max(LIFE_ADMIN_SOURCE_LIMIT), url: z.string().max(1_000).refine((v) => !v || cleanSourceUrl(v) === v), method: z.enum(['pasted-text', 'reviewed-observation', 'reviewed-call']), capturedAt: timestamp }).strict(),
+  source: z.object({ title: z.string().max(160), text: z.string().min(1).max(LIFE_ADMIN_SOURCE_LIMIT).refine(value => Boolean(value.trim())), url: z.string().max(1_000).refine((v) => !v || cleanSourceUrl(v) === v), method: z.enum(['pasted-text', 'reviewed-observation', 'reviewed-call']), capturedAt: timestamp }).strict(),
   fields: z.record(z.string().max(60), shortText), tasks: z.array(lifeAdminTaskSchema).min(1).max(12),
   createdAt: timestamp, updatedAt: timestamp, reviewedAt: timestamp.nullable(),
   followUpOn: localDateSchema.nullable(),
   generated: z.object({ text: z.string().max(16_000), model: z.string().max(160).nullable(), sourceHash: z.string().max(64), outputHash: z.string().max(64), createdAt: timestamp }).strict().nullable(),
 }).strict().superRefine((plan, ctx) => {
   const template = lifeAdminTemplate(plan.category);
-  const expected = template.steps.map((step) => step.key);
+  const expected = plan.category === 'pets' ? PET_DAYS.filter(day => Boolean(plan.fields[day]?.trim())) : template.steps.map((step) => step.key);
+  if (plan.category === 'pets' && (plan.generated !== null || plan.followUpOn !== null || (plan.fields.nickname?.length ?? 0) > 80 || PET_DAYS.some(day => (plan.fields[day]?.length ?? 0) > 600) || plan.tasks.some(task => task.kind !== 'personal-action' || task.detail !== plan.fields[task.key] || task.title !== task.key || (task.evidence !== null && task.evidence.kind !== 'user-recorded')))) ctx.addIssue({ code: 'custom', message: 'Pet routines must use only supplied wording and user-recorded activities.' });
   if (new Set(plan.tasks.map((task) => task.id)).size !== plan.tasks.length || new Set(plan.tasks.map((task) => task.key)).size !== expected.length || !expected.every((key) => plan.tasks.some((task) => task.key === key))) ctx.addIssue({ code: 'custom', message: 'This checklist does not match its workflow.' });
   if (Object.keys(plan.fields).some((key) => !template.fields.some((field) => field.key === key))) ctx.addIssue({ code: 'custom', message: 'Unknown workflow field.' });
 });
@@ -68,6 +69,7 @@ export function extractLifeAdminFields(category: LifeAdminCategory, source: stri
 }
 export function createLifeAdminPlan(input: z.input<typeof lifeAdminIntakeSchema>, options: { id?: string; now?: string } = {}): LifeAdminPlan {
   const value = lifeAdminIntakeSchema.parse(input);
+  if (value.category === 'pets') throw new Error('Use the Pet weekly routine organiser and choose explicit days.');
   const template = lifeAdminTemplate(value.category);
   const id = options.id ?? crypto.randomUUID();
   const now = options.now ?? new Date().toISOString();
@@ -83,6 +85,7 @@ export function missingLifeAdminFields(plan: LifeAdminPlan) {
   return lifeAdminTemplate(plan.category).fields.filter((field) => field.required && !plan.fields[field.key]?.trim());
 }
 export function updateLifeAdminField(plan: LifeAdminPlan, key: string, value: string, now = new Date().toISOString()): LifeAdminPlan {
+  if (plan.category === 'pets') return updatePetRoutine(plan, key, value, now);
   if (!lifeAdminTemplate(plan.category).fields.some((field) => field.key === key)) throw new Error('Unknown field.');
   return lifeAdminPlanSchema.parse({ ...plan, fields: { ...plan.fields, [key]: value }, updatedAt: now, reviewedAt: null, generated: null,
     // Changing the basis invalidates pending review and preparation, but never erases historical external completion evidence.
@@ -137,7 +140,11 @@ export function lifeAdminPack(plan: LifeAdminPlan): string {
   const template = lifeAdminTemplate(plan.category);
   return [
     plan.title, `${template.name} · ${plan.reviewedAt ? 'Reviewed checklist' : 'Draft checklist'}`,
-    '', 'Your details', ...template.fields.map((field) => `${field.label}: ${plan.fields[field.key] || '[Still needed]'}`),
+    '', 'Your details', ...template.fields.map((field) => {
+      const value = plan.fields[field.key];
+      const emptyPetDay = plan.category === 'pets' && PET_DAYS.some(day => day === field.key) && !value?.trim();
+      return `${field.label}: ${emptyPetDay ? 'No routine supplied for this day' : value || '[Still needed]'}`;
+    }),
     '', 'Next steps', ...plan.tasks.map((task, index) => `${index + 1}. [${task.status.replaceAll('_', ' ')}] ${task.title}\n   ${task.detail}${task.waitingFor ? `\n   Waiting for: ${task.waitingFor}; check on ${task.followUpOn}` : ''}${task.evidence ? `\n   ${task.evidence.kind === 'review' ? 'Review' : 'Recorded by you'} (${task.evidence.at}): ${task.evidence.note}${task.evidence.url ? `\n   Evidence link: ${task.evidence.url}` : ''}` : ''}`),
     '', 'Source you supplied', `${plan.source.title}${plan.source.url ? ` · ${plan.source.url}` : ''}`, `Captured: ${plan.source.capturedAt}; method: ${plan.source.method}`, plan.source.text,
     '', 'Exact text matches to check', extractDetails(plan.source.text),
@@ -147,7 +154,8 @@ export function lifeAdminPack(plan: LifeAdminPlan): string {
     ...(plan.followUpOn ? [`Your follow-up date: ${plan.followUpOn}. On-screen only; no reminder scheduled.`] : []),
   ].join('\n');
 }
-export const lifeAdminStoreSchema = z.object({ version: z.literal(1), ownerScope: lifeAdminOwnerScopeSchema, plans: z.array(lifeAdminPlanSchema).max(30), savedAt: timestamp }).strict().refine((store) => new Set(store.plans.map((plan) => plan.id)).size === store.plans.length, 'Duplicate saved checklist.');
+export const persistentLifeAdminPlanSchema = lifeAdminPlanSchema.refine(plan => plan.category !== 'pets', 'Pet routines are session-only. Export the routine before leaving.');
+export const lifeAdminStoreSchema = z.object({ version: z.literal(1), ownerScope: lifeAdminOwnerScopeSchema, plans: z.array(persistentLifeAdminPlanSchema).max(30), savedAt: timestamp }).strict().refine((store) => new Set(store.plans.map((plan) => plan.id)).size === store.plans.length, 'Duplicate saved checklist.');
 export function parseLifeAdminStore(raw: string, expectedScope: string): LifeAdminPlan[] {
   if (raw.length > 1_500_000) throw new Error('This saved workspace is too large.');
   const store = lifeAdminStoreSchema.parse(JSON.parse(raw));
@@ -177,11 +185,43 @@ export const lifeAdminPreparationSchema = z.object({
   category: z.enum(LIFE_ADMIN_CATEGORIES), source: z.string().trim().min(5).max(LIFE_ADMIN_SOURCE_LIMIT),
   title: z.string().trim().max(160), fields: z.record(z.string().max(60), shortText), providerConsentVersion: z.literal(DO_TEXT_PROVIDER_CONSENT_VERSION), consent: z.literal(true),
 }).strict().superRefine((input, ctx) => {
+  if (input.category === 'pets') ctx.addIssue({ code: 'custom', message: 'Pet routines are session-only and cannot be sent for provider drafting.' });
   const template = lifeAdminTemplate(input.category);
   if (Object.keys(input.fields).some((key) => !template.fields.some((field) => field.key === key))) ctx.addIssue({ code: 'custom', message: 'Unknown workflow field.' });
   if (hasLifeAdminSecretLabel([input.source, input.title, ...Object.values(input.fields)].join('\n'))) ctx.addIssue({ code: 'custom', message: 'Remove credentials, identity numbers and payment details before sending.' });
 });
 export function lifeAdminPreparationBrief(category: LifeAdminCategory) {
+  if (category === 'pets') throw new Error('Pet routines cannot be sent for provider drafting.');
   const template = lifeAdminTemplate(category);
   return `Prepare a useful ${template.packTitle} in plain New Zealand English. Organise the supplied notes and user-confirmed fields into: Established details; Draft checklist or message to review; Missing information; Smallest next step. Make this specific to ${template.description} Preserve exact dates, amounts and qualifiers. A date mentioned in a notice is not automatically a deadline. Use placeholders for missing details. If this is school admin, separate event dates, return times, permission, gear, kai and costs. For vehicle admin separate WoF, rego and distance-based RUC. For tradie work provide a ready-to-edit scope and quote request. For meals provide a practical list using only supplied requirements, with quantities to confirm. For complaints produce a factual timeline and a draft request without inventing allegations. ${template.guardrail} ${LIFE_ADMIN_BOUNDARY}`;
+}
+
+/** No interpretation, recurrence expansion, provider or storage: explicit weekly slots only. */
+export const petRoutineInputSchema = z.object({
+  nickname: z.string().min(1).max(80).refine(value => Boolean(value.trim()), 'Add a nickname.'),
+  routine: z.string().min(1).max(600).refine(value => Boolean(value.trim()), 'Add your own routine wording.'),
+  days: z.array(z.enum(PET_DAYS)).min(1, 'Choose at least one day.').max(7).refine(days => new Set(days).size === days.length, 'Choose each day once.'),
+}).strict();
+export type PetRoutineInput = z.infer<typeof petRoutineInputSchema>;
+function petTasks(id: string, fields: Record<string, string>): LifeAdminTask[] {
+  return PET_DAYS.filter(day => fields[day]?.trim()).map(day => ({ id: `${id}:${day}`, key: day, title: day, detail: fields[day], kind: 'personal-action', status: 'needs_review', followUpOn: null, waitingFor: '', evidence: null }));
+}
+export function createPetRoutine(input: PetRoutineInput, options: { id?: string; now?: string } = {}): LifeAdminPlan {
+  const value = petRoutineInputSchema.parse(input);
+  const id = options.id ?? crypto.randomUUID(); const now = options.now ?? new Date().toISOString();
+  const fields = { nickname: value.nickname, ...Object.fromEntries(PET_DAYS.map(day => [day, value.days.includes(day) ? value.routine : ''])) };
+  return lifeAdminPlanSchema.parse({ version: 1, id, category: 'pets', title: `${value.nickname} · weekly routine`,
+    source: { title: 'Owner-supplied routine', text: value.routine, url: '', method: 'pasted-text', capturedAt: now },
+    fields, tasks: petTasks(id, fields), createdAt: now, updatedAt: now, reviewedAt: null, followUpOn: null, generated: null });
+}
+function updatePetRoutine(plan: LifeAdminPlan, key: string, value: string, now: string): LifeAdminPlan {
+  if (key !== 'nickname' && !PET_DAYS.some(day => day === key)) throw new Error('Unknown routine field.');
+  if (value.length > (key === 'nickname' ? 80 : 600)) throw new Error('Shorten this routine detail.');
+  const fields = { ...plan.fields, [key]: value };
+  if (!PET_DAYS.some(day => fields[day]?.trim())) throw new Error('Keep at least one routine day.');
+  return lifeAdminPlanSchema.parse({ ...plan, fields, title: `${fields.nickname || 'Pet'} · weekly routine`, reviewedAt: null, generated: null, updatedAt: now,
+    tasks: petTasks(plan.id, fields).map(task => {
+      const previous = plan.tasks.find(item => item.id === task.id);
+      return previous?.detail === task.detail && previous.status === 'done' ? previous : task;
+    }) });
 }
