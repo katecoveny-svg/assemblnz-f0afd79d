@@ -18,11 +18,23 @@ Five focused tests cover these failures plus owner changes during a read guard a
 
 Both cut points are exercised: durable claim committed before DOM effect, and fictional effect applied before acknowledgement/receipt. Each verifies destroyed realm, no restored connection/read consent, fresh-ID rejection while uncertain, correct fresh quantity readback, rejected wrong acknowledgement digest, acknowledgement without retry, nonrepeatable acknowledgement, and no extra effect (18 assertions). A test-only claim cut point is never bundled in the extension.
 
-**This is real web service-worker lifecycle evidence with a simulated host, not installed MV3 proof.** It covers neither extension-origin storage retention across browser restart nor native Chrome message/document routing during suspension. The installed worker still uses the ephemeral broker and does not import the staged journal.
+**This is real web service-worker lifecycle evidence with a simulated host, not installed MV3 proof.** It covers neither extension-origin storage retention across browser restart nor native Chrome message/document routing during suspension. The installed worker remains unchanged; the local continuation below now imports the journal into the candidate package.
 
-## Smallest next native gate
+## Separate MV3 continuation (local, awaiting independent review)
 
-Integrate the existing journal into the actual MV3 broker behind a separately reviewed explicit setup flow, with an installation epoch, missing-storage fail-closed behavior and extension-owned recovery review. Exercise suspension/restart in an isolated extension profile, then obtain the required approval for any installed-file update/manual reload. Reconnect must not release an uncertain cart lock. Do not market the current in-memory claims as durable.
+The packaged worker now resumes an existing extension-origin journal at startup and supplies it to the actual connection broker. Missing/corrupt storage blocks edits; only the trusted companion page can explicitly initialize it. Existing records cannot be reset. Durable claims and the global unresolved-action lock survive task cancellation, reconnect and restart. Connection, read and action consent remain memory-only and expire normally.
+
+Companion recovery requires reconnection and a newly approved read. It displays SKU plus before/requested/current quantities. A separate acknowledgement is bound to a fresh observation digest and rechecks owner, tab, document, expiry and cart facts. Acknowledgement records reconciliation, never success or retry; consumed action IDs remain stored. A same-boot claimed/in-flight record cannot be reconciled. Finished uncertain records can be acknowledged in the same boot. The page protocol has no setup or recovery command.
+
+New evidence:
+- 126 browser/action/download unit tests, full TypeScript and scoped ESLint pass.
+- 33 actual IndexedDB assertions pass, including actual broker integration with synthetic cart transport: uncertain receipt lock, fresh-ID rejection after reconnect, restart without consent, before/requested/current review, wrong/changed digest rejection and acknowledgement without replay.
+- `review-do-browser-mv3.cjs` loads the exact pilot ZIP/manifest in a disposable full Chromium profile. Four checks pass: explicit missing-storage setup, trusted companion setup, actual worker restart (changed persisted boot UUID), and full browser restart retaining setup without connection/read consent. No host permissions or activeTab grant are added.
+- Companion synthetic UI checks cover explicit digest-bound recovery acknowledgement, keyboard/error/expiry behaviour, and 320/375/900px layouts. Narrow recovery was visually inspected locally; no capture uploaded.
+
+**Remaining gap:** actual packaged MV3 interruption while a cart effect is dispatched is not proved. The headless setup test does not simulate a native toolbar activeTab grant or claim cart execution. Before/after-effect termination remains the separately labelled web service-worker/synthetic-host proof above. Native transport/document routing during an uncertain effect needs a separately reviewed isolated native fixture run. No retailer readiness claim follows from any of these checks.
+
+The synchronous recovery fence protects observed revocation/expiry at commit; external owner/cart changes cannot be made atomic with an IndexedDB transaction. Storage deletion/corruption and capacity exhaustion fail closed; recovery never silently discards tombstones. Independent review is required before publication, and explicit approval before any installed-file update/reload.
 
 ## Smallest Woolworths gap
 
