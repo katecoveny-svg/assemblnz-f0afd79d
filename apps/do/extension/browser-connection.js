@@ -19,7 +19,7 @@
   const fail = error => { $('status').textContent = error instanceof Error ? error.message : 'Connection unavailable.'; };
   $('inspect').onclick = async () => { try {
     const data = await send({ action: 'inspect' }); selected = data.selected;
-    $('selected').textContent = selected ? `Selected: ${selected.url}` : 'Select the supported local storefront tab. Other websites are unavailable.';
+    $('selected').textContent = selected ? `Selected: ${selected.url}` : (data.selectionIssue || 'Select the supported local storefront tab. Other websites are unavailable.');
     $('workspace').replaceChildren(...data.workspaces.map(tab => { const option = document.createElement('option'); option.value = String(tab.id); option.textContent = `Tab ${tab.id}: ${tab.url}`; return option; }));
     $('connect').disabled = !selected || !data.workspaces.length; render(data.connection);
   } catch (error) { fail(error); } };
