@@ -9,7 +9,7 @@
  */
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
-import { REMEMBER_COOKIE, isRemembered, tuneAuthCookieOptions } from './session-policy';
+import { REMEMBER_COOKIE, BROWSER_REMEMBER_COOKIE, browserRememberCookieOptions, isRemembered, tuneAuthCookieOptions } from './session-policy';
 
 const PROTECTED_PREFIXES = ['/app', '/account', '/dashboard', '/internal'];
 
@@ -41,7 +41,9 @@ export async function updateSession(request: NextRequest) {
         // on the same lifetime the visitor chose at sign-in.
         const remember = isRemembered(request.cookies.get(REMEMBER_COOKIE)?.value);
         cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
+        request.cookies.set(BROWSER_REMEMBER_COOKIE, remember ? '1' : '0');
         response = NextResponse.next({ request });
+        response.cookies.set(BROWSER_REMEMBER_COOKIE, remember ? '1' : '0', browserRememberCookieOptions(remember));
         Object.entries(headers ?? {}).forEach(([name, value]) => response.headers.set(name, value));
         cookiesToSet.forEach(({ name, value, options }) =>
           response.cookies.set(name, value, tuneAuthCookieOptions(name, options ?? {}, remember)),

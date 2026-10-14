@@ -12,6 +12,7 @@ export function ChecklistCloud({ plans, onRestore, ownerId, disabled = false }: 
 }) {
   const [saved, setSaved] = useState<ChecklistCloudState | null>(null);
   const [consentFor, setConsentFor] = useState<string | null>(null);
+  const savableCount = plans.filter(plan => plan.category !== 'pets').length;
   const fingerprint = JSON.stringify(plans);
   const consent = consentFor === fingerprint;
   const setConsent = (value: boolean) => setConsentFor(value ? fingerprint : null);
@@ -28,7 +29,7 @@ export function ChecklistCloud({ plans, onRestore, ownerId, disabled = false }: 
     if (action !== 'open' && (!saved || !consent)) return;
     const controller = new AbortController(); request.current = controller; setBusy(true); setNotice('');
     try {
-      const snapshot = action === 'remove' ? [] : current.current;
+      const snapshot = action === 'remove' ? [] : current.current.filter(plan => plan.category !== 'pets');
       const body = action === 'open' ? undefined : checklistCloudSaveSchema.parse({ plans: snapshot, expectedRevision: saved!.revision, consent: true });
       const response = await fetch('/api/do/personal/checklists', {
         method: action === 'open' ? 'GET' : 'POST', cache: 'no-store', signal: controller.signal,
@@ -58,13 +59,14 @@ export function ChecklistCloud({ plans, onRestore, ownerId, disabled = false }: 
   }
   return <details className={styles.cloudStorage}>
     <summary><Cloud size={18} /> Saved checklists <span>Continue on another device</span></summary>
+    {plans.some(plan => plan.category === 'pets') && <p>Pet routines are excluded from account saves. They stay in this session; use Download Pet routines before leaving.</p>}
     <p>Keep a private copy in your Assembl account. This saves your checklist notes, details, drafts and completion records. It does not save the chat or schedule reminders.</p>
     <div className={styles.taskActions}><button type="button" disabled={busy || disabled} onClick={() => void run('open')}><RefreshCw size={15} /> Open saved checklists</button></div>
     {saved && <>
-      <p className={styles.hint}>{saved.savedAt ? `Last saved: ${new Date(saved.savedAt).toLocaleString('en-NZ')}. ${saved.plans.length} saved.` : 'No saved collection yet.'} Saving replaces your saved collection with the {plans.length} checklist{plans.length === 1 ? '' : 's'} open here.</p>
+      <p className={styles.hint}>{saved.savedAt ? `Last saved: ${new Date(saved.savedAt).toLocaleString('en-NZ')}. ${saved.plans.length} saved.` : 'No saved collection yet.'} Saving replaces your saved collection with the {savableCount} checklist{savableCount === 1 ? '' : 's'} open here.</p>
       <label className={styles.consent}><input type="checkbox" disabled={busy || disabled} checked={consent} onChange={event => setConsent(event.target.checked)} />I want to save or remove this checklist collection in my private Assembl account.</label>
       <div className={styles.taskActions}>
-        <button type="button" disabled={!consent || busy || disabled || !plans.length} onClick={() => void run('save')}>Save {plans.length} checklist{plans.length === 1 ? '' : 's'} to my account</button>
+        <button type="button" disabled={!consent || busy || disabled || !savableCount} onClick={() => void run('save')}>Save {savableCount} checklist{savableCount === 1 ? '' : 's'} to my account</button>
         <button type="button" disabled={!consent || busy || disabled || !saved.plans.length} onClick={() => setRemove(true)}>Remove saved collection</button>
       </div>
       {remove && <div className={styles.confirm}><p>Remove the saved collection from your account? Open checklists on this device will stay here.</p><button type="button" disabled={!consent || busy || disabled} onClick={() => void run('remove')}>Yes, remove saved collection</button><button type="button" disabled={busy} onClick={() => setRemove(false)}>Keep it</button></div>}

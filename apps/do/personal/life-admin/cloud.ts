@@ -1,9 +1,9 @@
 import { z } from 'zod';
-import { hasLifeAdminSecretLabel, lifeAdminPlanSchema, type LifeAdminPlan } from './engine';
+import { hasLifeAdminSecretLabel, persistentLifeAdminPlanSchema, type LifeAdminPlan } from './engine';
 
 export const CHECKLIST_CLOUD_LIMIT = 500_000;
 export const checklistCloudSaveSchema = z.object({
-  plans: z.array(lifeAdminPlanSchema).max(30),
+  plans: z.array(persistentLifeAdminPlanSchema).max(30),
   expectedRevision: z.number().int().min(0).max(2_000_000_000),
   consent: z.literal(true),
 }).strict().superRefine((input, ctx) => {
@@ -17,7 +17,7 @@ export const checklistCloudSaveSchema = z.object({
 });
 export type ChecklistCloudSave = z.infer<typeof checklistCloudSaveSchema>;
 export const checklistCloudStateSchema = z.object({
-  plans: z.array(lifeAdminPlanSchema).max(30),
+  plans: z.array(persistentLifeAdminPlanSchema).max(30),
   revision: z.number().int().min(0),
   savedAt: z.string().datetime({ offset: true }).nullable(),
 }).strict();

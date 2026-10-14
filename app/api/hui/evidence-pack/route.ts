@@ -1,5 +1,7 @@
+import { SaxesParser } from "saxes";
+import { sanitizeNotes } from "@/lib/hui/notes-safety";
 import { NextResponse } from "next/server";
-import { hashPack, type Block, type EvidencePack, type Section } from "@/lib/evidence/pack-spec";
+import { hashPack, type EvidencePack, type Section } from "@/lib/evidence/pack-spec";
 import { getHuiTemplate } from "@/lib/hui/templates";
 import { renderHuiEvidencePdf } from "@/lib/hui/evidence-pdf";
 
@@ -15,45 +17,43 @@ export const dynamic = "force-dynamic";
  * as a draft: a named human reviews and seals it before it is relied on.
  */
 
-function stripTags(value: string) {
-  return value
-    .replace(/<[^>]+>/g, "")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-/** Parse the structured-notes HTML (h2 + p + ul/li) into evidence-pack blocks. */
+/** Consume sanitized markup in document order, including headingless notes. */
 function htmlToSections(html: string): Section[] {
   const sections: Section[] = [];
-  const parts = html.split(/<h2>/i).slice(1);
-  for (const part of parts) {
-    const headingMatch = part.match(/^(.*?)<\/h2>/i);
-    const heading = headingMatch ? stripTags(headingMatch[1]) : "Section";
-    const rest = part.replace(/^.*?<\/h2>/i, "");
-    const body: Block[] = [];
-
-    const paragraphs = rest.match(/<p>([\s\S]*?)<\/p>/gi) ?? [];
-    for (const p of paragraphs) {
-      const text = stripTags(p);
-      if (text) body.push({ kind: "paragraph", text });
-    }
-
-    const items = (rest.match(/<li>([\s\S]*?)<\/li>/gi) ?? []).map(stripTags).filter(Boolean);
-    if (items.length) body.push({ kind: "list", items });
-
-    if (body.length === 0) body.push({ kind: "paragraph", text: "None recorded." });
-
-    sections.push({
-      id: heading.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "section",
-      title: { en: heading, mi: heading },
-      draftedBy: "hui meeting agent",
-      body,
-    });
-  }
+  let current: Section | undefined;
+  let text = "";
+  let heading = false;
+  const createSection = (title: string) => {
+    current = {
+      id: `notes-${sections.length + 1}`,
+      title: { en: title, mi: title },
+      draftedBy: "unverified prepared draft",
+      body: [],
+    };
+    sections.push(current);
+  };
+  const flush = () => {
+    const value = text.replace(/\s+/g, " ").trim();
+    text = "";
+    if (!value) return;
+    if (!current) createSection("Meeting notes");
+    current!.body.push({ kind: "paragraph", text: value });
+  };
+  const parser = new SaxesParser({ fragment: true });
+  parser.on("opentag", tag => {
+    if (tag.name === "h2") { flush(); heading = true; }
+    else if (!heading && ["p", "h3", "ul", "li"].includes(tag.name)) flush();
+  });
+  parser.on("text", value => { text += value; });
+  parser.on("closetag", tag => {
+    if (tag.name === "h2") {
+      createSection(text.replace(/\s+/g, " ").trim() || "Section");
+      text = "";
+      heading = false;
+    } else if (!heading && ["p", "h3", "ul", "li"].includes(tag.name)) flush();
+  });
+  parser.write(html).close();
+  flush();
   return sections;
 }
 
@@ -63,7 +63,14 @@ function safeName(value: string) {
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => null);
-  const html = String(body?.html ?? "").trim();
+  if (!body || typeof body !== 'object' || typeof body.html !== 'string' || body.html.length > 80000 ||
+      typeof body.templateId !== 'string' || (body.title !== undefined && typeof body.title !== 'string') ||
+      (body.attendees !== undefined && typeof body.attendees !== 'string')) {
+    return NextResponse.json({ error: 'Invalid or oversized meeting input.' }, { status: 400 });
+  }
+  const html = sanitizeNotes(String(body?.html ?? "").trim());
+  const provenance = body?.provenance === "raw-notes-fallback" ? "raw-notes-fallback" : body?.provenance === "provider-draft" ? "provider-draft" : "unverified-draft";
+  const author = provenance === "raw-notes-fallback" ? "user-supplied raw notes" : "unverified prepared draft";
   const templateId = String(body?.templateId ?? "").trim();
   const title = String(body?.title ?? "").trim().slice(0, 160) || "Untitled meeting";
   const attendees = String(body?.attendees ?? "").trim().slice(0, 400);
@@ -77,18 +84,22 @@ export async function POST(req: Request) {
   }
 
   const issuedAt = new Date().toISOString();
-  const recordSections = htmlToSections(html);
+  const recordSections = htmlToSections(html).map(section => ({ ...section, draftedBy: author }));
+
+  if (!recordSections.some(section => section.body.length > 0)) {
+    return NextResponse.json({ error: "Meeting notes contain no exportable content." }, { status: 400 });
+  }
 
   const sections: Section[] = [
     {
       id: "tuapapa",
       title: { en: "Foundation", mi: "Tūāpapa" },
-      draftedBy: "hui meeting agent",
+      draftedBy: author,
       body: [
         {
           kind: "callout",
           tone: "draft",
-          text: "Draft evidence pack. This record was drafted by the hui meeting agent and is not yet reviewed, signed, or sealed. A named human must review it before it is filed or relied on.",
+          text: `Source: ${provenance}. ${provenance === "raw-notes-fallback" ? "User-supplied raw notes; service unavailable. No decisions or actions inferred." : "Prepared draft; source and contents require review."} This record is not reviewed, signed or sealed.`,
         },
         {
           kind: "paragraph",
@@ -100,7 +111,7 @@ export async function POST(req: Request) {
     {
       id: "whakapono",
       title: { en: "Attestation", mi: "Whakapono" },
-      draftedBy: "hui meeting agent",
+      draftedBy: author,
       body: [
         {
           kind: "paragraph",
@@ -125,7 +136,7 @@ export async function POST(req: Request) {
     issuedAt,
     status: "draft",
     reviewer: null,
-    agentLoadout: [{ agent: `hui-${template.kete}`, sectionIds: sections.map((s) => s.id) }],
+    agentLoadout: [{ agent: author, sectionIds: sections.map((s) => s.id) }],
     sections,
     citations: [],
     hashChain: { prevHash: "", thisHash: "", sealedAt: null, verifierUrl: "" },
