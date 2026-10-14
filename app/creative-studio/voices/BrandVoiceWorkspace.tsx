@@ -50,6 +50,6 @@ export function BrandVoiceWorkspace() {
     <label>Restore a brand kit<input type="file" accept="application/json,.json" onChange={async e => { const f = e.target.files?.[0]; if (!f) return; if (f.size > 16000) { setNotice('Choose a small brand kit JSON file.'); return; } try { const next = brandVoiceDraftSchema.parse(JSON.parse(await f.text())); setDraft(next); setAudio(undefined); setTranscript(''); setConsent(false); setNotice('Settings restored as an unauditioned local draft. Reselect the private reference separately.'); } catch { setNotice('This file is not a supported brand kit.'); } }} /></label>
     <p role="status">{notice}</p>
     <h3>Next: preview, listen, approve</h3><p>Own-voice cloning needs a compatible Base engine and owner-bound private storage. The current Qwen worker is VoiceDesign with fixed presets; these brand settings do not change its requests. Provider-specific controls must be supported before use. No brand preview or approved default has been created.</p>
-    <p>The three legacy Warm, Clear and Bright examples failed Kate’s NZ-accent listening test. They remain rejected audition evidence, not approved NZ brand voices.</p>
+    <p>Legacy examples have not passed NZ-accent acceptance and are not approved defaults.</p>
   </section>;
 }
