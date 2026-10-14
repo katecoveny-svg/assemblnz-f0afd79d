@@ -280,6 +280,14 @@ Intended flow:
 
 Recording/transcription and smart-note product work exists. Broader DO Meet hosted-video, meeting-bot and production-integration work remains staged unless specifically verified. Read `docs/do-meet/` before making capability claims.
 
+### preemptive DO
+
+Accepted direction, 14 October 2026. A DO should know a person's current state from permitted records, notice what changed or could be better, go and find the evidence, prepare the next step with sources, and ask. It never acts first.
+
+The shape is **know → hunt → prepare → ask → receipt**. Bills is the first worked example: what you pay by service, cheaper dated public offers, an editable enquiry, a reviewed watch request to Personal DO, and a receipt. Shop, Household, Travel, Fitness and Meetings should follow the same shape on their own records.
+
+Preemptive never means autonomous. Switching, paying, sending, booking and signing remain separately approved actions with their own receipts. A found saving is possible until a provider's quote and the person's decision make it real.
+
 ### agent-ready tools
 
 Assembl can expose small, bounded tools that other agents can call.

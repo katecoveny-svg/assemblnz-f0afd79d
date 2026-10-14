@@ -65,6 +65,10 @@ This section is the current, scoped delivery record. Durable direction is in [as
 
 ## Earlier dated operating context
 
+## 14 October: preemptive Bills, know → hunt → prepare → ask
+
+`/do/bills` gains a **What you pay** layer: recurring candidates become service cards (provider matched from public NZ statement wording, monthly equivalent, rhythm, rise), a yearly total, **Hunt for a better deal** against the dated public price book through the read-only `/api/do/bills/offers` (source host, verified date, stale flag over 45 days, the person's own threshold, own provider excluded), **Research with sources** prefilled with only category and a rounded monthly figure, and **Ask DO to watch this** through the reviewed Ask DO entry. Nothing switches, cancels, pays or contacts a provider; possible savings are worded before fees and never promised. The bank-connection path (Redbark first, Akahu-shaped alternative) is written down with a custody schema proposal in `docs/do-bills/PREEMPTIVE-BILLS.md` and `bank-connection-proposal.sql`; it needs Kate's Redbark account and provider confirmation before any build. The master handover's browser-shopping priority is untouched by this slice. A Claude Design brief for the DO task pages is at `docs/do-design/claude-design-brief-do-task-pages-20261014.md`.
+
 ## 14 October: Ask DO from the phone
 
 `/do/ask?q=…` is a GET entry for Siri Shortcuts, Spotlight and Android long-press (manifest shortcut "Ask DO"). The words are untrusted intake: the same nonce-bound review page as the share target shows them, and they reach Personal DO only when the person taps Open, through the existing 30-minute session handoff. Without a question it just opens Personal DO. The install page gains an "Ask DO from Spotlight and Siri" recipe because a website cannot register itself in Spotlight; the one-minute Shortcut does. No account write, provider call, link retrieval or schema change.
