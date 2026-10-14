@@ -53,6 +53,7 @@ function request(
 beforeEach(() => {
   vi.clearAllMocks();
   vi.stubEnv("DO_GEMINI_LIVE_ENABLED", "true");
+  vi.stubEnv("DO_VOICE_LEASE_ENABLED", "false");
   vi.stubEnv("GEMINI_API_KEY", "test-server-key");
   calls.owner.mockResolvedValue({ id: "test-owner" });
   calls.read.mockResolvedValue(3);
@@ -64,6 +65,15 @@ beforeEach(() => {
 });
 afterEach(() => vi.unstubAllEnvs());
 describe("DO voice token boundary", () => {
+  it("discriminates unavailable lease mode without granting a second legacy budget", async () => {
+    vi.stubEnv("DO_VOICE_LEASE_ENABLED", "true");
+    vi.stubEnv("DO_VOICE_LEASE_ACCOUNTS_JSON", "{}");
+    expect(await (await GET()).json()).toMatchObject({ leaseEnabled: true, allowance: null, remaining: null });
+    expect((await POST(request())).status).toBe(503);
+    expect(calls.reserve).not.toHaveBeenCalled();
+    expect(calls.token).not.toHaveBeenCalled();
+  });
+
   it("reports the configured reserved-time budget without minting or expanding a token", async () => {
     vi.stubEnv("DO_VOICE_DAILY_SECONDS", "1200");
     expect(await (await GET()).json()).toMatchObject({ dailyLimit: 4, dailyReservedSecondsLimit: 1200, sessionSeconds: 300, usageBasis: "reserved_connection_seconds" });

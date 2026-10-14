@@ -1,3 +1,4 @@
+import { voiceLeaseRuntime } from "@/apps/do/services/voice-lease/runtime";
 import { readDoVoicePolicy } from "@/apps/do/services/voice-policy";
 import { voiceRevision } from "@/apps/do/services/voice-preference";
 import { GoogleGenAI } from "@google/genai";
@@ -33,8 +34,23 @@ export async function GET() {
   catch { return Response.json({ error: "Voice budget is unavailable." }, { status: 503, headers }); }
   const owner = await doOwner();
   const saved = owner ? await getPersonalDoProfile(owner.id).catch(() => null) : null;
+  const leaseEnabled = process.env.DO_VOICE_LEASE_ENABLED === "true";
+  if (leaseEnabled) {
+    let allowance = null;
+    try { if (owner) allowance = await voiceLeaseRuntime().availability(owner.id); }
+    catch { /* Remain in lease mode but unavailable. Never fall back to legacy quota. */ }
+    return Response.json({ enabled: enabled(), configured: Boolean(key()), signedIn: Boolean(owner), leaseEnabled: true,
+      remaining: allowance ? Math.floor(allowance.remainingSeconds / 300) : null,
+      dailyLimit: allowance ? Math.floor(allowance.dailyReservedSecondsLimit / 300) : null,
+      sessionSeconds: 300, model: DO_VOICE_MODELS.standard,
+      voiceName: saved?.profile.voiceName ?? null,
+      voiceRevision: owner && saved ? voiceRevision(owner.id, saved.profile) : null,
+      allowance,
+    }, { headers });
+  }
   return Response.json(
     {
+      leaseEnabled: false,
       enabled: enabled(),
       configured: Boolean(key()),
       signedIn: Boolean(owner),
@@ -69,6 +85,8 @@ export async function POST(request: Request) {
       { error: "Sign in to your own assembl account to use voice." },
       401,
     );
+  // Prevent parallel legacy and lease ledgers from granting two daily budgets.
+  if (process.env.DO_VOICE_LEASE_ENABLED === "true") return json({ error: "Review your voice allowance in the ongoing-call interface." }, 503);
   if (!enabled() || !key())
     return json({ error: "Live voice is not available here yet." }, 503);
   const parsed = doVoiceRequest.safeParse(

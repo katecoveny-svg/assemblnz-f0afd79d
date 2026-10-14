@@ -1,5 +1,7 @@
 # DO voice readiness — 15 October 2026 NZDT
 
+The later local lease implementation and remaining release gates are recorded in [ongoing voice lease review](reviews/voice-lease/README.md); acoustic acceptance below remains failed.
+
 ## Verified status
 
 Production Vercel `dpl_5iYGiq7yKkwsCEcyKM4jnyJCrH4Q` was READY at `20ee05f4aee57a155a5cc687f4521217e1d975e2`. Voice choices PR1533 merged as `d5eafa88d52d959660cc01e09544e96375f0846f`. Source uses Google Gemini `gemini-3.8-live` (optional extended-thinking model), saved Kore/Aoede/Puck/Charon, and server-constrained `do-nz-en-v2` instructions. Kore is default; the user's actual selected voice was not independently observed. PCM16k input and the reviewed call lifecycle remain unchanged by this patch.

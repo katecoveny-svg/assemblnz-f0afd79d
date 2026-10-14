@@ -79,6 +79,8 @@ export function doVoiceConfig(
 }
 
 export type DoVoiceAvailability = {
+  leaseEnabled?: boolean;
+  allowance?: import("./voice-lease").VoiceLeaseAllowance | null;
   enabled: boolean;
   configured: boolean;
   signedIn: boolean;

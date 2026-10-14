@@ -264,3 +264,7 @@ separation when adding future local-only categories. See
 ### DO server voice time-budget preparation (15 October local)
 
 Extends the existing per-owner/day unique reservation slots with `apps/do/services/voice-policy.ts`; operator-only finite time budget, unchanged deployed fallback, no schema or provider change. Reserved time is not measured usage or a currency cap. Continuous renewal remains a separate owner-bound lease implementation. NZ accent acceptance is user-reported failed despite the existing v2 prompt; synthetic tests cannot override it. See `docs/DO-VOICE-READINESS-20261015.md`.
+
+### DO logical call lease and trusted usage port (15 October local)
+
+Extends per-owner voice admission with a server-funded consent quote, CAS ledger, fixed-deadline same-token resume and logical revocation. Default-off `/api/do/live-lease` replaces legacy admission only when configured; schema remains a review proposal. Trusted usage ingestion is a separate server-only adapter interface, not client billing. Sources, contract, limitations and test gates: `docs/reviews/voice-lease/README.md`.
