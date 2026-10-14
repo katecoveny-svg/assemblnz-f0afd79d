@@ -68,6 +68,7 @@ const checks = [], check = (name, ok) => { assert.ok(ok, name); checks.push(name
   await panel.getByRole('button',{name:'Check companion connection'}).click();
   await panel.getByRole('checkbox',{name:/Read fictional product/}).check();
   await panel.getByRole('button',{name:'Read reviewed product fields'}).click();
+  await panel.getByLabel('Fixture oats (oats) target quantity', {exact:true}).waitFor();
   check('quantity control accessible name includes canonical product ID', await panel.getByLabel('Fixture oats (oats) target quantity', {exact:true}).count() === 1);
   await panel.getByLabel('Fixture oats (oats) target quantity', {exact:true}).fill('2');
   await panel.getByRole('button',{name:'Preview these fixture edits'}).click();
