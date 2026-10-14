@@ -27,8 +27,8 @@ it('builds an explicit redeploy at the same SHA so new environment settings appl
 });
 it('still skips a documentation-only new commit', () => {
   const { dir, git, decision } = fixture();
-  mkdirSync(join(dir, 'docs'));
-  writeFileSync(join(dir, 'docs', 'note.md'), 'Documentation only.');
+  mkdirSync(join(dir, 'docs', 'context'), { recursive: true });
+  writeFileSync(join(dir, 'docs', 'context', 'note.md'), 'Documentation only.');
   git('add', '.'); git('commit', '-qm', 'docs');
   expect(decision()).toBe(0);
 });

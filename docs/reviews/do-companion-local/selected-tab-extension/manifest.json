@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "DO selected page — read only",
   "version": "1.9.0",
-  "description": "Explicit selected-text snapshots for your DO conversation. No page actions.",
+  "description": "Explicit image and selected-text snapshots for your DO conversation. No page actions.",
   "minimum_chrome_version": "116",
   "permissions": [
     "activeTab",
