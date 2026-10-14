@@ -1,3 +1,4 @@
+import { sanitizeNotes } from "@/lib/hui/notes-safety";
 import { NextResponse } from "next/server";
 import { hashPack, type Block, type EvidencePack, type Section } from "@/lib/evidence/pack-spec";
 import { getHuiTemplate } from "@/lib/hui/templates";
@@ -50,7 +51,7 @@ function htmlToSections(html: string): Section[] {
     sections.push({
       id: heading.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "section",
       title: { en: heading, mi: heading },
-      draftedBy: "hui meeting agent",
+      draftedBy: "unverified prepared draft",
       body,
     });
   }
@@ -63,7 +64,14 @@ function safeName(value: string) {
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => null);
-  const html = String(body?.html ?? "").trim();
+  if (!body || typeof body !== 'object' || typeof body.html !== 'string' || body.html.length > 80000 ||
+      typeof body.templateId !== 'string' || (body.title !== undefined && typeof body.title !== 'string') ||
+      (body.attendees !== undefined && typeof body.attendees !== 'string')) {
+    return NextResponse.json({ error: 'Invalid or oversized meeting input.' }, { status: 400 });
+  }
+  const html = sanitizeNotes(String(body?.html ?? "").trim());
+  const provenance = body?.provenance === "raw-notes-fallback" ? "raw-notes-fallback" : body?.provenance === "provider-draft" ? "provider-draft" : "unverified-draft";
+  const author = provenance === "raw-notes-fallback" ? "user-supplied raw notes" : "unverified prepared draft";
   const templateId = String(body?.templateId ?? "").trim();
   const title = String(body?.title ?? "").trim().slice(0, 160) || "Untitled meeting";
   const attendees = String(body?.attendees ?? "").trim().slice(0, 400);
@@ -77,18 +85,18 @@ export async function POST(req: Request) {
   }
 
   const issuedAt = new Date().toISOString();
-  const recordSections = htmlToSections(html);
+  const recordSections = htmlToSections(html).map(section => ({ ...section, draftedBy: author }));
 
   const sections: Section[] = [
     {
       id: "tuapapa",
       title: { en: "Foundation", mi: "Tūāpapa" },
-      draftedBy: "hui meeting agent",
+      draftedBy: author,
       body: [
         {
           kind: "callout",
           tone: "draft",
-          text: "Draft evidence pack. This record was drafted by the hui meeting agent and is not yet reviewed, signed, or sealed. A named human must review it before it is filed or relied on.",
+          text: `Source: ${provenance}. ${provenance === "raw-notes-fallback" ? "User-supplied raw notes; service unavailable. No decisions or actions inferred." : "Prepared draft; source and contents require review."} This record is not reviewed, signed or sealed.`,
         },
         {
           kind: "paragraph",
@@ -100,7 +108,7 @@ export async function POST(req: Request) {
     {
       id: "whakapono",
       title: { en: "Attestation", mi: "Whakapono" },
-      draftedBy: "hui meeting agent",
+      draftedBy: author,
       body: [
         {
           kind: "paragraph",
@@ -125,7 +133,7 @@ export async function POST(req: Request) {
     issuedAt,
     status: "draft",
     reviewer: null,
-    agentLoadout: [{ agent: `hui-${template.kete}`, sectionIds: sections.map((s) => s.id) }],
+    agentLoadout: [{ agent: author, sectionIds: sections.map((s) => s.id) }],
     sections,
     citations: [],
     hashChain: { prevHash: "", thisHash: "", sealedAt: null, verifierUrl: "" },
