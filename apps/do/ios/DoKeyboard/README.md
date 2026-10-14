@@ -1,17 +1,9 @@
-# DO Keyboard: offline development foundation
+# DO keyboard
 
-This is source, not an installed keyboard or a tested App Store build. UIKit cannot be compiled in this Linux environment.
+Part of the `DO` XcodeGen project one directory up. Development source; no installed App Store keyboard is established.
 
-The existing scaffold has been replaced with ordinary letter/number input, shift, space, delete, return and next-keyboard controls. **DO · review text** explicitly reads the selection or limited nearby field text and shows up to 2,000 characters. **Insert reviewed text** inserts only after a second tap. This may replace a selection or duplicate nearby text at the cursor: review before inserting. Moving the selection, editing or leaving clears the review.
+Load draft reads the app's explicitly reviewed, time-limited shared draft. A second tap inserts it. Before insertion the keyboard checks that the record still exists, has the same identity and has not expired. The full preview scrolls. No automatic insertion, sending, network call or clipboard read.
 
-No clipboard access, private host-bundle lookup, microphone, API call, telemetry or storage. Full Access is disabled and unnecessary. This is an offline context-review foundation, not model-backed rewriting or an execution agent.
+Review field explicitly captures the selection or limited nearby text (up to 2,000 characters). Inserting it can replace a selection or duplicate context at the cursor. Read it first. Field changes, selection changes and leaving the keyboard clear the in-memory preview.
 
-## Device build
-
-Create an iOS application target in Xcode and a Custom Keyboard Extension target. Add these Swift files and Info.plist to the extension, set the principal class, sign both targets with your development team and run on an authorised iPhone. Add DO in Settings → General → Keyboard → Keyboards. Test Globe switching, secure-field fallback, selections, cursor movement, insertion and rotation in several apps. App Store/TestFlight distribution needs signing, a useful containing app, privacy disclosures and review; none has been completed here.
-
-## Next boundary
-
-Add a native companion with scoped authentication and revocation before connecting cloud preparation. Do not impersonate a browser by changing Origin headers or put provider secrets in the extension. Show exact context and task, require per-request permission, validate success/error responses and retain a separate explicit insertion step. Provider responses cannot send messages. Keep all normal typing available without Full Access. Do not attempt to launch other apps from a keyboard action.
-
-Primary constraints: https://developer.apple.com/app-store/review/guidelines/#extensions and https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/CustomKeyboard.html
+The keyboard does not write shared storage and keeps RequestsOpenAccess false. Read-only App Group behaviour must be checked on a signed physical iPhone. Ordinary typing and Globe switching do not depend on the shared draft. See ../README.md for signing and limitations.

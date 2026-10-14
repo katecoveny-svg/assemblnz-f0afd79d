@@ -244,3 +244,7 @@ The loyalty `mealChoiceCards` projection reuses `planShop` for three accessible 
 ### DO task illustration system (review)
 
 `components/do/DoTaskScene.tsx` supplies original, static, decorative SVG still lifes for groceries, school, writing, briefings, travel, bills, pets, car and home. `DoCapabilityIdeas` reuses them in full and embedded task spaces. Unique gradient IDs support repeated instances; text, availability and links stay semantic HTML. These scenes supplement the locked `GlassIdentity`, never replace it or imply completed work. The site launcher and shared portable `distribution.ts` expose Write and availability-gated Speak destinations; source changes do not update installed extensions.
+
+## Native reviewed draft handoff — 14 October development integration
+
+`apps/do/ios/Shared/DOStore.swift` supplies a local-only app/Share Sheet/keyboard handoff. Saving does not approve insertion; explicit review releases a draft for one hour, and the keyboard rechecks identity and expiry before insertion. A shared App Group is not account isolation or per-record OS isolation; expiry is not secure deletion. Tests are in `apps/do/ios/Tests`; unsigned simulator and signed-device proof remain distinct. No cloud execution, generic cross-app context, signing or installation is claimed.
