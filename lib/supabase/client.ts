@@ -6,7 +6,8 @@
  * (project ref `wurwcrgxjjwqdaxqceey`, Sydney region — the "Lovable"-lineage
  * project that IS live assembl-prod, confirmed by Kate 2026-05-09).
  */
-import { createBrowserClient } from '@supabase/ssr';
+import { createBrowserClient, parseCookieHeader, serializeCookieHeader } from '@supabase/ssr';
+import { BROWSER_REMEMBER_COOKIE, isRemembered, tuneAuthCookieOptions } from './session-policy';
 
 export function createClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -18,5 +19,23 @@ export function createClient() {
     );
   }
 
-  return createBrowserClient(url, anon);
+  return createBrowserClient(url, anon, {
+    cookies: {
+      getAll() {
+        return typeof document === 'undefined' ? [] : parseCookieHeader(document.cookie)
+          .map(({ name, value }) => ({ name, value: value ?? '' }));
+      },
+      setAll(cookiesToSet) {
+        if (typeof document === 'undefined') return;
+        // Read the server-issued preference on every refresh, not once at creation.
+        // Missing/expired mirror defaults to 24h rather than SSR's 400-day default.
+        const remember = isRemembered(parseCookieHeader(document.cookie)
+          .find(({ name }) => name === BROWSER_REMEMBER_COOKIE)?.value);
+        cookiesToSet.forEach(({ name, value, options }) => {
+          document.cookie = serializeCookieHeader(name, value,
+            tuneAuthCookieOptions(name, options ?? {}, remember));
+        });
+      },
+    },
+  });
 }

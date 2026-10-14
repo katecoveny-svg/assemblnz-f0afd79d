@@ -252,7 +252,7 @@ The loyalty `mealChoiceCards` projection reuses `planShop` for three accessible 
 ### Selected-tab read and conversational companion (15 October local review)
 
 Creates `apps/do/browser/selected-tab/` for ephemeral owner/tab/document/origin-bound read-only evidence and cancellation; its extension host is now bound in the later source candidate; native Mac runtime proof remains pending. Extends the existing floating companion, typed assistant, voice transport and opt-in kept conversations with shared turns, explicit context attachment and in-panel Talk. No new persistence or execution authority. See [implementation, synthetic evidence and live gaps](../reviews/DO-SELECTED-TAB-COMPANION-20261015.md).
-### Pet weekly local review
+### Session-only LifeAdmin category boundary (local review)
 
 Pet weekly routines extend LifeAdmin's plan/review/completion/export contract without
 inheriting provider drafting or persistence. `persistentLifeAdminPlanSchema` rejects
