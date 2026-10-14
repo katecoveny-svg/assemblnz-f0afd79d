@@ -68,7 +68,8 @@ const checks = [], check = (name, ok) => { assert.ok(ok, name); checks.push(name
   await panel.getByRole('button',{name:'Check companion connection'}).click();
   await panel.getByRole('checkbox',{name:/Read fictional product/}).check();
   await panel.getByRole('button',{name:'Read reviewed product fields'}).click();
-  await panel.getByLabel('Fixture oats target quantity').fill('2');
+  check('quantity control accessible name includes canonical product ID', await panel.getByLabel('Fixture oats (oats) target quantity', {exact:true}).count() === 1);
+  await panel.getByLabel('Fixture oats (oats) target quantity', {exact:true}).fill('2');
   await panel.getByRole('button',{name:'Preview these fixture edits'}).click();
   await panel.getByRole('heading',{name:'Awaiting companion approval'}).waitFor();
   check('Personal DO preview alone cannot mutate',await storefront.locator('output').first().textContent()==='0');
@@ -93,10 +94,10 @@ const checks = [], check = (name, ok) => { assert.ok(ok, name); checks.push(name
   await panel.getByRole('button',{name:'Check companion connection'}).click();
   await panel.getByRole('checkbox',{name:/Read fictional product/}).check();
   await panel.getByRole('button',{name:'Read reviewed product fields'}).click();
-  await panel.getByLabel('Fixture oats target quantity').waitFor();
+  await panel.getByLabel('Fixture oats (oats) target quantity').waitFor();
   owner='guest';await panel.getByRole('button',{name:'Check companion connection'}).click();
-  await panel.getByLabel('Fixture oats target quantity').waitFor({state:'detached'});
-  check('owner loss clears observed product review',await panel.getByLabel('Fixture oats target quantity').count()===0);
+  await panel.getByLabel('Fixture oats (oats) target quantity').waitFor({state:'detached'});
+  check('owner loss clears observed product review',await panel.getByLabel('Fixture oats (oats) target quantity').count()===0);
   updated(4,{url:'https://example.com'});removed(8);
   check('no browser runtime errors',errors.length===0);
   fs.writeFileSync(out+'/results.json',JSON.stringify({checks,errors,chromeApiSimulated:true,ownerSynthetic:true,extensionInstalled:false,realRetailer:false,requested},null,2));
