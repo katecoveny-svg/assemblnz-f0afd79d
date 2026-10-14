@@ -11,7 +11,7 @@
       $('status').textContent = `Connected only to ${data.target.url}. Expires ${new Date(data.expiresAt).toLocaleTimeString()}.`;
       $('origin').textContent = data.target.url;
       $('brief').textContent = data.brief;
-      $('items').replaceChildren(...(data.proposal?.items || []).map(item => { const li = document.createElement('li'); li.textContent = `${item.name}: ${item.quantity} → ${item.targetQuantity}, NZD ${(item.unitPriceCents / 100).toFixed(2)} each`; return li; }));
+      $('items').replaceChildren(...(data.proposal?.items || []).map(item => { const li = document.createElement('li'); li.textContent = `${item.name} · ID/SKU: ${item.productId}: ${item.quantity} → ${item.targetQuantity}, NZD ${(item.unitPriceCents / 100).toFixed(2)} each`; return li; }));
       $('receipt').textContent = data.receipt ? JSON.stringify(data.receipt, null, 2) : '';
     } else { $('status').textContent = data?.reason || 'Disconnected.'; $('receipt').textContent = ''; $('items').replaceChildren(); $('brief').textContent = ''; }
   }

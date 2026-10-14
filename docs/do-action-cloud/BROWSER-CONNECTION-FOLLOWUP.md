@@ -25,3 +25,13 @@ Run `node scripts/build-do-browser-connection.mjs`, focused Vitest tests, and th
 ## Outstanding gates
 
 The installed v1.3.0 companion has not been replaced. Its installed manifest could not be inspected through the permitted browser route, and that denial must not be circumvented. User-supplied manifest/permission review and approved desktop update/testing remain necessary. Native Chrome sender/document/activeTab behaviour needs an explicitly authorised test installation before claiming operational readiness. Woolworths UI/terms, selectors and account/cart execution are unvalidated; no real shopping account was used. Persistent or phone pairing, broader browser permissions, durable jobs and new retailer access require separate design/review and user approval.
+
+## Security review gates before widening beyond the fixture
+
+Final companion approval must show canonical product IDs/SKUs beside names, quantities and prices, so similarly named products remain distinguishable. The IDs displayed are the exact proposal product IDs bound by the digest; the present fixture IDs are not validated retailer SKUs.
+
+The read-consent checkbox currently belongs to trusted first-party UI; it is not an extension-enforced read grant. Other scripts in that first-party document can send the typed observe request. Before private real-site reads, add an extension-owned, bounded read authorisation that the broker enforces independently of page UI.
+
+Same-window response events can be forged by other first-party scripts. Website connection status, observations and receipts therefore do not independently authenticate the extension. The extension-owned confirmation remains authoritative for approval; page messages cannot invoke approval or execution. Before a broader rollout, review how each surface distinguishes authenticated transport from display-only data.
+
+Native Chrome sender identity, document IDs, activeTab lifetime and identity verification still require an authorised native extension test. Installed manifest/permissions, real retailer access and phone transport remain unvalidated. The fixture proof establishes no real browser-shopping integration, and this review found no demonstrated final-approval bypass within its fixture-only scope.

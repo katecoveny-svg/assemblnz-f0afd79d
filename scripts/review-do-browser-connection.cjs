@@ -72,6 +72,8 @@ const checks = [], check = (name, ok) => { assert.ok(ok, name); checks.push(name
   await panel.getByRole('button',{name:'Preview these fixture edits'}).click();
   await panel.getByRole('heading',{name:'Awaiting companion approval'}).waitFor();
   check('Personal DO preview alone cannot mutate',await storefront.locator('output').first().textContent()==='0');
+  await companion.locator('#items').filter({hasText:'ID/SKU: oats'}).waitFor();
+  check('companion approval identifies exact proposal product ID', (await companion.locator('#items').textContent()).includes('ID/SKU: oats'));
   await companion.getByRole('button',{name:'Approve these fixture quantities'}).click();
   await panel.getByRole('heading',{name:'Fixture changes verified'}).waitFor();
   check('actual fixture DOM quantity verified',await storefront.locator('output').first().textContent()==='2');
