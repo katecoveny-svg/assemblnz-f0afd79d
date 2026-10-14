@@ -27,6 +27,7 @@ export const EXTENSION_FILES = [
   'browser-capability.js',
   'browser-connection.html',
   'browser-connection.js',
+  'browser-connection.css',
   'browser-task-core.js',
   'browser-task-worker.js',
   'browser-task-relay.js',

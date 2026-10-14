@@ -1,11 +1,26 @@
-<!doctype html><html lang="en-NZ"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Connect a tab to Personal DO</title><link rel="stylesheet" href="portable.css"><body class="do-portable-page"><main class="do-portable">
-<a href="portable.html">Back to DO</a><h1>Use a tab with DO</h1>
-<p>This staged connection supports the fictional local storefront only. No retailer, checkout or phone-to-desktop connection.</p>
-<button id="inspect" type="button">Check selected tab and DO windows</button>
-<p id="selected"></p><label>Personal DO window <select id="workspace"></select></label>
-<button id="connect" type="button" disabled>Connect this tab for two minutes</button>
-<p>Connect shares only tab identity. Allow product/cart reads here, choose exact quantities in Personal DO, then return here to approve the edits.</p>
-<p id="status" role="status">Open the synthetic storefront and a signed-in Personal DO tab in this Chrome window.</p>
-<p>Product/cart reads require your approval here. Only fictional product names, IDs, prices, availability and quantities in the selected tab are included; no other page content.</p><button id="allow-read" type="button" disabled>Allow product/cart reads for this connection</button><section id="review" hidden><h2>Review proposed edits</h2><p id="origin"></p><p id="brief"></p><ul id="items"></ul><p>No order or payment will be placed.</p><button id="approve" type="button">Approve these fixture quantities</button></section>
-<button id="cancel" type="button">Disconnect and cancel remaining actions</button>
-<pre id="receipt"></pre></main><script src="browser-connection.js"></script></body></html>
+<!doctype html>
+<html lang="en-NZ"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DO alongside your browser</title><link rel="stylesheet" href="browser-connection.css"></head>
+<body><main>
+<header><img src="icons/do-glass.webp" width="64" height="64" alt=""><div><strong>DO <small>by assembl</small></strong><p>Alongside your browser.</p></div></header>
+<h1>What would you<br>like done?</h1>
+<p class="intro">Start in your DO workspace. You choose what to share.</p>
+<nav aria-label="Choose how to start">
+<a href="https://www.assembl.co.nz/do/widget?entry=write" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 16 12-12 4 4-12 12H4v-4ZM13 7l4 4"/></svg><span>Write<small>Put it into words</small></span><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"/></svg></a>
+<a href="https://www.assembl.co.nz/do/widget?entry=talk" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4M8 22h8"/></svg><span>Speak<small>Talk it through with DO</small></span><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"/></svg></a>
+<a href="https://www.assembl.co.nz/do/widget?tool=look" target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16"/></svg><span>Add<small>Bring a file or something to look at</small></span><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M7 6h11v11"/></svg></a>
+</nav><p class="hint">Opens a DO window. Nothing from this page is shared automatically.</p>
+<section class="browser" aria-labelledby="browser-title"><div class="section-heading"><h2 id="browser-title">Browser actions</h2><span class="badge">Fictional test only</span></div>
+<p id="status" role="status">Not connected. Everyday shopping is not available in this pilot.</p>
+<p id="error" role="alert" hidden></p>
+<details id="setup"><summary>Try the fictional cart</summary><p>Open the local test cart, select its tab, then click the DO toolbar icon. Keep a signed-in Personal DO tab in the same Chrome window.</p>
+<button id="inspect" type="button">Find my test tab</button><p id="selected"></p>
+<div id="connection-choice" hidden><label for="workspace">Use this Personal DO tab</label><select id="workspace"></select><p>Connect shares tab identity only. Access ends after two minutes.</p><button id="connect" type="button" disabled>Connect for two minutes</button></div>
+</details>
+<section id="read-step" hidden><h3>Let DO read the test cart?</h3><p>Share only fictional product names, IDs, prices, availability and quantities from the connected tab. No other page content is included.</p><button id="allow-read" type="button" disabled>Allow this cart read</button></section>
+<p id="next-step" hidden>Choose exact items and quantities in Personal DO. Come back here to review before anything changes.</p>
+<section id="review" hidden><h3>Review these cart changes</h3><p id="brief"></p><p id="origin" class="hint"></p><ul id="items"></ul><p>No order or payment will be placed.</p><button id="approve" type="button">Approve these test quantities</button></section>
+<section id="result" hidden><h3 id="result-title">Cart result</h3><ul id="result-items"></ul><details><summary>Technical receipt</summary><pre id="receipt"></pre></details></section>
+<button id="cancel" class="cancel" type="button" hidden>Disconnect &amp; cancel remaining actions</button>
+<details class="limits"><summary>What this pilot can access</summary><p>Only the fictional local cart is supported. Real shops, checkout, payment and phone-to-desktop pairing are unavailable.</p><p>Task and read access expire after two minutes. The installed assembl.co.nz site permission remains until you revoke it or remove the extension. Disconnect stops remaining actions; it cannot undo an edit already made.</p></details>
+</section><footer><a href="https://www.assembl.co.nz/do/personal" target="_blank" rel="noreferrer">Open Personal DO</a></footer>
+</main><script src="browser-connection.js"></script></body></html>
