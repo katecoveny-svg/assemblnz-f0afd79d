@@ -152,7 +152,8 @@ describe('Evidence receipt PREVIEW — checklist #1198 craft locks', () => {
     expect(blob).toContain('port_2fa');
     expect(blob).toContain('layer');
     expect(blob).toContain('independent concept');
-    expect(blob).toContain('not engage people benchmarks');
+    expect(blob).toContain('not third-party benchmarks');
+    expect(blob).not.toContain('engage people');
   });
 
   it('hard-fails banned AI-slop / bare AI / mana / kete in preview copy', () => {

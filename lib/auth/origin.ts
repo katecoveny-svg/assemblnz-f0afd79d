@@ -8,7 +8,7 @@
  * cookies never reach the operator hub.
  */
 
-import { isDoReturn } from './redirect';
+import { isDoReturn, isStudioOwnerReturn } from './redirect';
 export const DEMO_AUTH_ORIGIN = 'https://demo.assembl.co.nz';
 
 const DEMO_HOSTS = new Set(['demo.assembl.co.nz']);
@@ -32,6 +32,8 @@ export function resolveAuthOrigin(opts: {
   const redirectTo = opts.redirectTo ?? '';
   const host = (opts.host ?? '').split(':')[0]?.toLowerCase() ?? '';
   const proto = opts.proto ?? 'https';
+
+  if (MARKETING_HOSTS.has(host) && isStudioOwnerReturn(redirectTo)) return `https://${host}`;
 
   if (MARKETING_HOSTS.has(host) && isDoReturn(redirectTo)) return 'https://www.assembl.co.nz';
 

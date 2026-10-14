@@ -11,7 +11,10 @@ extension CompanionModel {
         type: WKMediaCaptureType,
         decisionHandler: @escaping (WKPermissionDecision) -> Void
     ) {
-        let allowedPaths = ["/do/widget", "/do/meetings"]
+#if DO_WIDGET_FIXTURE
+        decisionHandler(.deny)
+#else
+        let allowedPaths = ["/do", "/do/personal", "/do/widget", "/do/meetings"]
         let trusted = origin.protocol == "https"
             && origin.host == "www.assembl.co.nz"
             && (origin.port == 0 || origin.port == 443)
@@ -20,5 +23,6 @@ extension CompanionModel {
             && webView.url?.host == "www.assembl.co.nz"
             && allowedPaths.contains(webView.url?.path ?? "")
         decisionHandler(trusted && type == .microphone ? .prompt : .deny)
+#endif
     }
 }

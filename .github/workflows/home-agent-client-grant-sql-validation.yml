@@ -1,0 +1,166 @@
+# UNMOUNTED REVIEW ONLY. No publication or remote run authorised.
+name: Unapplied home-agent client-grant synthetic SQL proof
+on:
+  pull_request:
+    types: [synchronize]
+    branches: [main]
+    paths:
+      - '.github/workflows/home-agent-client-grant-sql-validation.yml'
+      - 'docs/integrations/proposals/home-agent-client-grant-fixture/**'
+permissions:
+  contents: read
+concurrency:
+  group: home-client-proof-${{ github.run_id }}-${{ github.run_attempt }}
+  cancel-in-progress: false
+jobs:
+  client-grant-fixture:
+    if: >-
+      github.run_attempt == 1 &&
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.number == 1497 &&
+      github.repository == 'katecoveny-svg/assemblnz-f0afd79d' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'audit/ingestion-health-20261003'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Prepare owned proof directory
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/home-agent-client-grant-proof"
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /.github/workflows/home-agent-client-grant-sql-validation.yml
+            /.github/workflows/rss-adapter-validation.yml
+            /.github/ingestion-validation-manifest.json
+            /docs/integrations/proposals/home-agent-client-grant-fixture/
+      - name: Verify one exact parent transition, packet leaf bytes and companion ledger
+        env:
+          REVIEWED_HEAD: ${{ github.event.pull_request.head.sha }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 - <<'PY'
+          import hashlib,json,os,pathlib,re,subprocess
+          head=os.environ['REVIEWED_HEAD']
+          parent='ae980b9e00e73dd574a2d2875f0d43e692ccef07'
+          source_packet_sha256='bad5967394bc9700b29d56a2a88ad91e5d6f0126408e37f6b3e8d8e1ab475804'
+          if os.environ['RUN_ATTEMPT']!='1' or re.fullmatch('[0-9a-f]{40}',head) is None:raise RuntimeError('unapproved event/attempt')
+          def git(*args):return subprocess.check_output(['/usr/bin/git',*args],timeout=10)
+          if git('rev-parse','HEAD').decode().strip()!=head:raise RuntimeError('wrong checkout')
+          if git('rev-list','--parents','-n','1',head).decode().strip().split()!=[head,parent]:raise RuntimeError('only one reviewed parent transition allowed')
+          expected_transition={'.github/ingestion-validation-manifest.json': 'M', '.github/workflows/home-agent-client-grant-sql-validation.yml': 'M', '.github/workflows/rss-adapter-validation.yml': 'M', 'docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/forward.sql': 'M', 'docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/rollback.sql': 'M', 'docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/run_fixture.py': 'M', 'docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/test_offline.py': 'M'}
+          fields=git('diff','--no-renames','--name-status','-z',parent,head).split(b'\0')
+          if fields[-1:]!=[b''] or len(fields[:-1])%2:raise RuntimeError('malformed transition')
+          actual={fields[i+1].decode():fields[i].decode() for i in range(0,len(fields)-1,2)}
+          if len(actual)*2!=len(fields)-1 or actual!=expected_transition:raise RuntimeError('unapproved changed path/status')
+          for name in actual:
+              if not git('ls-tree',head,'--',name).startswith(b'100644 blob '):raise RuntimeError('unexpected mode')
+          expected={'docs/integrations/proposals/home-agent-client-grant-fixture/baseline.json': '5a05f3808d1a3e55ce0df07566da2784bf7e14e883ff894138830838ea30ed22', 'docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/bootstrap.sql': 'fcf817ded226a5a81d83d6d7c34956981109034c1229f968c6770cc218d54aef', 'docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/cleanup_owned.py': '982583de98f02ee615f9403a475f8b89de225042934e2ed3ae717120bb6c13fb', 'docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/client-denial.sql': '5a78b95a1f9fd3376cced14b99b1112403690bffdf46b18db9f60b0fdca95b8e', 'docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/forward.sql': '89eda42b91d36aa322899d0e1bf6ad039d2fb1531b53c40ea7e5b778bd74c355', 'docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/rollback.sql': '3a3957b62e012ab72ab1692a07dc64529386fdeb9ba07a24aa4d6cdb8b711b4c', 'docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/run-owned-fixture.sh': '88ebabf615cd1c0f931fb0064014a14a5d5ed032e199c2c670cef5b814e3732a', 'docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/run_fixture.py': 'b55fd42c42d2a3dfd92b6ccfd1ad89b5d19794b8293f48dd2de3e06103e13c20', 'docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/service-check.sql': '96ad03cdb228de914aa36b497bbd6e64bbb3b3785cdf3c4c67cfbbee509fc37f', 'docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/test_offline.py': '666b091013ddfb6a2e88a8690b1d348b75178de3741434d4ae760a2c9654131f', 'docs/integrations/proposals/home-agent-client-grant-fixture/poststate.json': 'fa2b591fc5abf3e67e4028d8ed1d8cfccdbfee39a81d332168604370c2d054ad'}
+          root=pathlib.Path('docs/integrations/proposals/home-agent-client-grant-fixture')
+          actual_files={str(p) for p in root.rglob('*') if p.is_file()}
+          if actual_files!=set(expected):raise RuntimeError('unexpected/missing synthetic fixture payload')
+          for name,want in expected.items():
+              p=pathlib.Path(name)
+              if p.is_symlink() or hashlib.sha256(p.read_bytes()).hexdigest()!=want:raise RuntimeError('reviewed fixture bytes differ')
+          # Companion pins the ledger without a workflow/manifest self-hash cycle.
+          rss=pathlib.Path('.github/workflows/rss-adapter-validation.yml').read_text()
+          pins=re.findall(r"const approvedManifestSha256 = '([0-9a-f]{64})';",rss)
+          if len(pins)!=1:raise RuntimeError('missing/duplicate companion ledger pin')
+          manifest_bytes=pathlib.Path('.github/ingestion-validation-manifest.json').read_bytes()
+          if hashlib.sha256(manifest_bytes).hexdigest()!=pins[0]:raise RuntimeError('companion manifest digest mismatch')
+          manifest=json.loads(manifest_bytes)
+          inherited=manifest['inherited_main_commit']
+          git('merge-base','--is-ancestor',inherited,head)
+          allowed=set(manifest['allowed_changed_paths'])
+          changed=set(git('diff','--no-renames','--name-only','-z',inherited,head).decode().split('\0'))-{''}
+          if not changed.issubset(allowed):raise RuntimeError('inherited changed path outside ledger allowlist')
+          for name,record in manifest['files'].items():
+              if name.startswith('/') or '..' in name.split('/'):raise RuntimeError('invalid ledger path')
+              data=git('show',head+':'+name)
+              if len(data)!=record['bytes'] or hashlib.sha256(data).hexdigest()!=record['sha256']:raise RuntimeError('ledger content mismatch')
+              if git('rev-parse',head+':'+name).decode().strip()!=record['git_blob']:raise RuntimeError('ledger Git blob mismatch')
+              if not git('ls-tree',head,'--',name).startswith(('100644 blob '+record['git_blob']+'\t').encode()):raise RuntimeError('ledger mode mismatch')
+          evidence=pathlib.Path(os.environ['RUNNER_TEMP'])/'home-agent-client-grant-proof'
+          (evidence/'integrity.json').write_text(json.dumps({'head':head,'parent':parent,'attempt':1,
+            'transition':actual,'fixture_files':expected,'source_packet_sha256':source_packet_sha256,
+            'manifest_sha256':pins[0],'scope':'synthetic fixture only; no production apply path'},indent=2))
+          PY
+      - name: Offline fixture contracts, normal and optimized
+        timeout-minutes: 1
+        shell: bash
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/run_fixture.py --offline-contract
+          /usr/bin/python3 -O docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/run_fixture.py --offline-contract
+          /bin/bash -n docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/run-owned-fixture.sh
+      - name: Provision only the pinned reviewed official PostgreSQL image
+        timeout-minutes: 4
+        shell: bash
+        run: |
+          set -euo pipefail
+          proof_dir="$RUNNER_TEMP/home-agent-client-grant-proof"
+          docker_config="$proof_dir/docker-config"
+          mkdir -p "$docker_config"
+          image='postgres:17.11-bookworm@sha256:639ab7ceb90e13123085b741fb31ef493fba25463002f6da665352e7b534b652'
+          /usr/bin/timeout --signal=TERM --kill-after=10s 180s /usr/bin/env -i PATH=/usr/bin:/bin HOME="$docker_config" DOCKER_CONFIG="$docker_config" \
+            /usr/bin/docker --host unix:///var/run/docker.sock --config "$docker_config" pull "$image" \
+            > "$proof_dir/image-pull.log" 2>&1
+          /usr/bin/timeout --signal=TERM --kill-after=5s 10s /usr/bin/env -i PATH=/usr/bin:/bin HOME="$docker_config" DOCKER_CONFIG="$docker_config" \
+            /usr/bin/docker --host unix:///var/run/docker.sock --config "$docker_config" image inspect "$image" \
+            > "$proof_dir/image-inspect.json"
+      - name: Bounded owned synthetic client-grant fixture only
+        timeout-minutes: 4
+        shell: bash
+        run: |
+          set -euo pipefail
+          proof_dir="$RUNNER_TEMP/home-agent-client-grant-proof"
+          /bin/bash docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/run-owned-fixture.sh \
+            > "$proof_dir/proof.json" 2> "$proof_dir/proof.stderr.log"
+      - name: Independent always-cleanup with create-ack recovery
+        if: always()
+        timeout-minutes: 1
+        shell: bash
+        run: |
+          set -euo pipefail
+          /usr/bin/timeout --signal=TERM --kill-after=5s 30s /usr/bin/env -i PATH=/usr/bin:/bin HOME=/tmp \
+            GITHUB_ACTIONS="$GITHUB_ACTIONS" GITHUB_RUN_ID="$GITHUB_RUN_ID" \
+            GITHUB_RUN_ATTEMPT="$GITHUB_RUN_ATTEMPT" RUNNER_TEMP="$RUNNER_TEMP" \
+            /usr/bin/python3 - <<'PY'
+          import hashlib,json,os,pathlib,sys,types
+          directory=pathlib.Path(os.environ['RUNNER_TEMP'])/'home-agent-client-grant-proof'
+          directory.mkdir(exist_ok=True)
+          if not (directory/'owner.json').exists():
+              (directory/'cleanup.json').write_text(json.dumps({'state':'no_container_ownership_record','removed':False}))
+              raise SystemExit(0)
+          expected_modules={'docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/cleanup_owned.py': '982583de98f02ee615f9403a475f8b89de225042934e2ed3ae717120bb6c13fb', 'docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/run_fixture.py': 'b55fd42c42d2a3dfd92b6ccfd1ad89b5d19794b8293f48dd2de3e06103e13c20'}
+          loaded={}
+          for name,want in expected_modules.items():
+              path=pathlib.Path(name)
+              if path.is_symlink() or not path.is_file():raise RuntimeError('unverified cleanup module path')
+              data=path.read_bytes()
+              if hashlib.sha256(data).hexdigest()!=want:raise RuntimeError('unverified cleanup module bytes')
+              loaded[name]=data
+          # Execute only immutable, already hash-verified bytes. No source reopen/import.
+          runner_name='docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/run_fixture.py'
+          cleanup_name='docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/cleanup_owned.py'
+          module=types.ModuleType('run_fixture');module.__file__=runner_name
+          sys.modules['run_fixture']=module
+          exec(compile(loaded[runner_name],runner_name,'exec'),module.__dict__)
+          exec(compile(loaded[cleanup_name],cleanup_name,'exec'),{'__name__':'__main__','__file__':cleanup_name})
+          PY
+      - name: Retain exact-head evidence, failures and cleanup outcome
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: home-client-grant-proof-${{ github.run_id }}-${{ github.run_attempt }}-${{ github.event.pull_request.head.sha }}
+          path: ${{ runner.temp }}/home-agent-client-grant-proof/
+          if-no-files-found: error
+          retention-days: 14

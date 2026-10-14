@@ -1,9 +1,10 @@
-[data-do-sign-in] .cta-primary {
-  background: #240b21;
-  color: #fffdfb;
-  border: 1px solid #240b21;
-  box-shadow: 0 8px 25px #916a7020;
-}
-[data-do-sign-in] input[type="checkbox"] { accent-color: #654a4e; }
-[data-do-sign-in] input:focus { border-color: #916a70; box-shadow: 0 0 0 2px #916a7026; }
-[data-do-sign-in] :is(a,button,input):focus-visible { outline: 2px solid #916a70; outline-offset: 4px; }
+[data-do-sign-in]{background:#fffdfb!important;--text-primary:#492b3e!important}
+[data-do-sign-in] .glass-card{background:transparent;border:0;border-radius:0;box-shadow:none;padding:24px 0}
+[data-do-sign-in] h1{text-transform:none!important;letter-spacing:-.055em!important}
+[data-do-sign-in] form{background:transparent;border:0;box-shadow:none;padding:0}
+[data-do-sign-in] input:not([type="checkbox"]){min-height:48px;font-size:16px;border-radius:14px}
+[data-do-sign-in] .cta-primary{min-height:48px;background:#240b21;color:#fffdfb;border:1px solid #240b21;border-radius:14px;box-shadow:0 6px 18px #240b2112}
+[data-do-sign-in] input[type="checkbox"]{accent-color:#654a4e}
+[data-do-sign-in] input:focus{border-color:#916a70;box-shadow:0 0 0 2px #916a7026}
+[data-do-sign-in] :is(a,button,input):focus-visible{outline:2px solid #916a70;outline-offset:4px}
+@media(max-width:480px){[data-do-sign-in]{padding:24px 20px;min-height:calc(100svh - 72px)}[data-do-sign-in] .glass-card{padding:12px 0}}

@@ -3,7 +3,7 @@
 Use this file to decide what context to load. The goal is one coherent source of truth without loading the entire company history into every task.
 
 Machine-readable routing: `config/context-manifest.json`.  
-Fast-moving working context: `docs/context/CURRENT.md`.
+Fast-moving working context: `docs/context/CURRENT.md`. Its 13 October matrix distinguishes merged/deployed evidence from local work and records owners and next verification gates. The [dated Claude handoff](handoffs/2026-10-13-claude-handoff.md) is supporting reference only; latest explicit direction and fresh target evidence take precedence.
 
 ## precedence
 
@@ -67,6 +67,8 @@ Pursuit should create evidence-backed opportunities, not speculative certainty. 
 If working on the flexible journey builder, Sponsored Agent module or `/pursuit/playground`, check current runtime status. Preview surfaces must stay labelled as preview/draft unless the backing integrations are verified.
 
 ### DO
+
+For the current proposed build sequence, read [DO master roadmap](../do/MASTER-ROADMAP-20261013.md). Its register is a dated baseline; the linked integration review records this UI draft, and `CURRENT.md` remains the live evidence/owner index.
 
 Load execution/tool/authority context.
 

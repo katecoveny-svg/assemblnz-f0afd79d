@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { DO_TEXT_PROVIDER_CONSENT_VERSION } from './provider-consent';
 
 export const DO_SOURCE_LIMIT = 12_000;
 export const DO_BRIEF_LIMIT = 2_000;
@@ -34,6 +35,7 @@ export const preparationInputSchema = z.object({
   source: z.string().trim().min(1, 'Add the text you want DO to use.').max(DO_SOURCE_LIMIT),
   sourceTitle: z.string().trim().max(160).default('Pasted text'),
   sourceUrl: z.string().max(2_000).default('').transform(cleanSourceUrl),
+  providerConsentVersion: z.literal(DO_TEXT_PROVIDER_CONSENT_VERSION).optional(),
   consent: z.literal(true, { error: 'Confirm that DO may use this text for this task.' }),
 }).strict();
 export type DoPreparationInput = z.infer<typeof preparationInputSchema>;
@@ -43,6 +45,8 @@ export type DoPreparedDraft = {
   status: 'draft' | 'reviewed'; reviewedAt?: string; reviewedTextHash?: string; reviewer?: string;
   evidence: {
     method: 'model' | 'exact-extraction'; model: string | null;
+    reasoning?: { provider: 'typesafe'; model: string; action: string };
+    providerConsentVersion?: string;
     sourceTitle: string; sourceUrl: string; sourceHash: string; sourceCharacters: number;
     instructionHash: string; outputHash: string; consentAt: string; boundary: string;
   };

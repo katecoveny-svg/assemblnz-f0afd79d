@@ -1,0 +1,21 @@
+{
+  "result": "passed",
+  "mode": "fictional API fixtures; no external email",
+  "checks": [
+    "real signed-out state and return link",
+    "mobile width 375 without overflow",
+    "draft edit invalidates review",
+    "explicit checkbox required",
+    "approval uses saved revision and current owner",
+    "one send request",
+    "provider receipt visible",
+    "outcome evidence and counter",
+    "no page errors"
+  ],
+  "calls": [
+    "receive",
+    "edit",
+    "approve",
+    "answered"
+  ]
+}

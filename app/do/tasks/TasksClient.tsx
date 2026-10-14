@@ -183,13 +183,13 @@ export function TasksClient() {
             ))}
           </ul>
           <p className={styles.persistNote}>
-            Saved on this {signedIn ? 'signed-in owner' : 'device'} · primary lists live on each DO page · not synced to Linear.app
+            Saved on this {signedIn ? 'signed-in account' : 'device'} · primary lists live on each DO page
           </p>
           <button
             type="button"
             className={styles.reset}
             onClick={() => {
-              if (window.confirm('Reset all per-DO task boards on this device/owner to the Assembl seed list?')) {
+              if (window.confirm('Reset all per-DO task boards on this device to the sample list?')) {
                 persist(resetDoTaskStore(window.localStorage, ownerKey));
                 setSelectedId(null);
               }
@@ -205,7 +205,7 @@ export function TasksClient() {
               <p className={styles.eyebrow}>{board.glyph} To-do list</p>
               <h1>{board.title}</h1>
               <p className={styles.lede}>
-                Linear-inspired rows for this DO. Edit freely — seed reflects open Assembl work as of 16 Sep 2026. Prefer the panel on the DO surface itself when you are working there.
+                Simple rows for this DO. Edit freely — sample tasks only. Prefer the panel on the DO surface itself when you are working there.
               </p>
             </div>
             <Link className={styles.openSurface} href={board.href}>

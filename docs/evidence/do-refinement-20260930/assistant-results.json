@@ -1,0 +1,26 @@
+{
+  "checks": [
+    "primary composer needs no category",
+    "typing does not call a provider",
+    "named provider consent is initially unselected",
+    "editing the message clears consent",
+    "reply receives keyboard focus",
+    "portable focus returns to the same composer",
+    "one consented request carries no invented authority",
+    "reply is editable before reuse",
+    "copy uses only the edited draft",
+    "actual fixture model and TypeSafe source are reviewable",
+    "375px conversation fits",
+    "follow-up includes only the last visible exchange",
+    "failure retains the message and reviewed draft",
+    "repeated send clicks create one in-flight request",
+    "stop preserves input and clears consent",
+    "cancelled response cannot replace the reviewed draft",
+    "new conversation clears only this local exchange",
+    "no browser runtime errors"
+  ],
+  "errors": [],
+  "fixtureOnly": true,
+  "liveProviderTested": false,
+  "realAccountTested": false
+}

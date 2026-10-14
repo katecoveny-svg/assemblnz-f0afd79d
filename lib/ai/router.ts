@@ -33,6 +33,7 @@ import {
   type ToolSet,
 } from 'ai';
 import { recordModelFallback } from './fallback-log';
+import { generationCompletion, type GenerationCompletion } from './completion';
 
 export type ModelRung = {
   /** ladder id, e.g. 'claude-sonnet-4-6', 'gemini-2.5-flash', 'groq:llama-3.3-70b-versatile' */
@@ -75,6 +76,15 @@ function openaiProvider() {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) return null;
   return createOpenAI({ apiKey });
+}
+
+/** Explicit OpenAI Responses route for consented, no-fallback experiences. */
+export function openaiResponsesRung(id: string): ModelRung | null {
+  const apiKey = process.env.OPENAI_API_KEY?.trim();
+  if (!apiKey) return null;
+  // A provider-specific consent must not silently route through OPENAI_BASE_URL.
+  const provider = createOpenAI({ apiKey, baseURL: 'https://api.openai.com/v1' });
+  return { id, label: id, model: provider.responses(id), isPrimary: true };
 }
 
 function xaiProvider() {
@@ -182,22 +192,27 @@ export async function generateWithFallback(opts: {
   /** Optional request limits for small public chat surfaces. */
   maxOutputTokens?: number;
   abortSignal?: AbortSignal;
-}): Promise<{ ok: true; text: string; rung: ModelRung } | { ok: false }> {
+  /** One consented dispatch: no SDK retries, fallback or in-text fallback chatter. */
+  fallback?: "allow" | "none";
+}): Promise<{ ok: true; text: string; rung: ModelRung; completion?: GenerationCompletion } | { ok: false }> {
   const { ladder, messages, agentSlug, userId, tools, maxToolSteps = 3 } = opts;
   const { recordModelCall, providerFromModelId } = await import('./call-log');
-  for (let i = 0; i < ladder.length; i++) {
-    const rung = ladder[i];
-    const system = rung.isPrimary ? opts.system : `${opts.system}\n\n${FALLBACK_DISCLOSURE}`;
+  const dispatchLadder = opts.fallback === "none" ? ladder.slice(0, 1) : ladder;
+  for (let i = 0; i < dispatchLadder.length; i++) {
+    const rung = dispatchLadder[i];
+    const system = rung.isPrimary || opts.fallback === "none" ? opts.system : `${opts.system}\n\n${FALLBACK_DISCLOSURE}`;
     const started = Date.now();
     try {
-      const { text, usage } = await generateText({
+      const result = await generateText({
         model: rung.model,
         system,
         messages,
+        ...(opts.fallback === "none" ? { maxRetries: 0 } : {}),
         ...(opts.maxOutputTokens ? { maxOutputTokens: opts.maxOutputTokens } : {}),
         ...(opts.abortSignal ? { abortSignal: opts.abortSignal } : {}),
         ...(tools ? { tools, stopWhen: stepCountIs(maxToolSteps) } : {}),
       });
+      const { text, usage } = result;
       void recordModelCall({
         tenant: opts.tenant,
         agent: agentSlug,
@@ -210,7 +225,7 @@ export async function generateWithFallback(opts: {
         tokensOut: usage?.outputTokens,
         ok: true,
       });
-      return { ok: true, text, rung };
+      return { ok: true, text, rung, completion: generationCompletion(result) };
     } catch (err) {
       if (opts.abortSignal?.aborted) break;
       const reason = err instanceof Error ? err.message : String(err);
@@ -229,7 +244,7 @@ export async function generateWithFallback(opts: {
         agentSlug,
         userId,
         primaryModel: rung.id,
-        fallbackModel: ladder[i + 1]?.id ?? null,
+        fallbackModel: dispatchLadder[i + 1]?.id ?? null,
         reason,
       });
     }

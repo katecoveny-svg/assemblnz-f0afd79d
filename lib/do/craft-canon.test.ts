@@ -119,7 +119,8 @@ describe('DO Spatial C craft canon', () => {
       expect(code).not.toMatch(/Meet your To/i);
     }
 
-    const doHome = read('app/do/DoHome.tsx');
+    expect(read('app/do/DoHome.tsx')).toContain('<PersonalDo />');
+    const doHome = read('app/do/DoStory.tsx');
     const doHomePublic = doHome
       .replace(/\/\*[\s\S]*?\*\//g, '')
       .replace(/^\s*\/\/.*$/gm, '')
@@ -137,10 +138,10 @@ describe('DO Spatial C craft canon', () => {
     expect(doHome).not.toMatch(/Take DO with you/i);
     expect(doHome).not.toMatch(/PUBLIC DO\s*·\s*TWO TOOLS/i);
 
-    const meeting = read('app/do/meetings/MeetingDo.tsx');
-    expect(meeting).toMatch(/Turn audio into notes/);
+    const meeting = read('app/do/meetings/MeetingDo.tsx') + read('app/do/meetings/MeetingDoExperience.tsx');
+    expect(meeting).toMatch(/Create transcript/);
     expect(meeting).not.toMatch(/Whisper-class transcript/i);
-    expect(meeting).toMatch(/I approve sharing this audio for transcription/);
+    expect(meeting).toMatch(/Share this recording with Deepgram to make a transcript/);
     expect(meeting).not.toMatch(/sharing this audio with Deepgram/i);
 
     const homeCss = read('app/do/do-home.module.css');

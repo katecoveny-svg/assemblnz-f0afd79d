@@ -1,0 +1,97 @@
+// Synthetic local proof: no providers, merchant requests or persistence writes.
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const { chromium } = require(process.env.ASSEMBL_PLAYWRIGHT_MODULE || 'playwright');
+const origin = process.env.ASSEMBL_REVIEW_ORIGIN || 'http://localhost:3149';
+if (!['localhost', '127.0.0.1'].includes(new URL(origin).hostname)) throw new Error('Local origin required');
+const output = 'output/shop-missions';
+(async () => {
+  fs.mkdirSync(output, { recursive: true });
+  const browser = await chromium.launch({ headless: true, ...(process.env.ASSEMBL_CHROME_PATH ? { executablePath: process.env.ASSEMBL_CHROME_PATH } : {}) });
+  const context = await browser.newContext({ serviceWorkers: 'block' });
+  const writes = [], errors = [], checks = [];
+  const check = (name, value) => { assert(value, name); checks.push(name); console.log('PASS ' + name); };
+  await context.route('**/*', route => {
+    const request = route.request(), url = new URL(request.url());
+    if (request.method() !== 'GET') { writes.push(url.pathname); return route.abort(); }
+    if (url.origin !== origin) return route.abort();
+    if (url.pathname.startsWith('/api/')) return route.fulfill({ status: 503, json: { enabled: false, configured: false, durable: false, state: 'unavailable' } });
+    return route.continue();
+  });
+  const page = await context.newPage();
+  page.on('pageerror', e => errors.push(e.message));
+  const shot = async name => {
+    await page.addStyleTag({ content: '*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}nextjs-portal{display:none!important}' });
+    await page.screenshot({ path: `${output}/${name}.png`, fullPage: true, animations: 'disabled', timeout: 60000 });
+  };
+  for (const [name, width, height] of [['desktop',1440,1000],['phone',375,812]]) {
+    await page.setViewportSize({ width, height });
+    await page.goto(origin + '/do/shop', { timeout: 120000 });
+    await page.getByLabel('Your brief').fill('Dinner for 4 for 3 nights, budget $120');
+    await page.getByRole('button', { name: 'Review brief', exact: true }).click();
+    await page.getByRole('button', { name: 'Use these details · plan dinners' }).click();
+    check(name + ': pantry mission requires review', await page.getByRole('button', { name: /Use what I have/ }).isDisabled());
+    await page.getByLabel('Night 1 servings', { exact: true }).fill('6');
+    await page.getByRole('button', { name: /Dinner tonight/ }).click();
+    check(name + ': tonight is one dinner', await page.locator('.shop-night').count() === 1);
+    check(name + ': tonight preserves edited servings', await page.getByLabel('Night 1 servings', { exact: true }).inputValue() === '6');
+    await page.getByRole('button', { name: /Cook extra for tomorrow/ }).click();
+    check(name + ': extra is two dinners', await page.locator('.shop-night').count() === 2);
+    check(name + ': extra preserves edited servings for both dinners', await page.getByLabel('Night 1 servings', { exact: true }).inputValue() === '6' && await page.getByLabel('Night 2 servings', { exact: true }).inputValue() === '6');
+    await page.getByRole('checkbox', { name: 'I reviewed my pantry' }).check();
+    await page.getByRole('button', { name: /Use what I have/ }).click();
+    check(name + ': pantry mission selects one dinner', await page.locator('.shop-night').count() === 1);
+    check(name + ': pantry mission preserves edited servings', await page.getByLabel('Night 1 servings', { exact: true }).inputValue() === '6');
+    await page.getByText('Why each ingredient is needed', { exact: true }).click();
+    check(name + ': ingredient calculation is explained', await page.locator('.shop-calculations').innerText().then(s => /Required.*pantry used.*need/s.test(s)));
+    const accept = page.getByRole('button', { name: 'Accept lower-cost alternative' });
+    await accept.waitFor({ state: 'visible' });
+    check(name + ': required six-person alternative compares full verified totals', await page.locator('.shop-alternative').innerText().then(s => s.includes('$54.00') && s.includes('$29.90') && s.includes('Mince and veg pasta') && s.includes('Chickpea and vegetable curry with rice')));
+    const approval = page.getByRole('checkbox', { name: 'I checked the quantities, swaps and allergen flags' });
+    const saveReceipt = page.getByRole('button', { name: 'Save a prepared receipt' });
+    await approval.check();
+    await saveReceipt.click();
+    await page.getByText('prepared · nothing ordered', { exact: true }).waitFor();
+    check(name + ': original receipt contains original total', await page.locator('.shop-receipt').innerText().then(s => s.includes('$54.00')));
+    await accept.click();
+    check(name + ': accepted alternative changes meal and complete total', await page.locator('.shop-night strong').innerText().then(s => s === 'Chickpea and vegetable curry with rice') && await page.getByText(/About \$29\.90 against/).isVisible());
+    check(name + ': acceptance clears actual receipt and approval', await page.locator('.shop-receipt').count() === 0 && !await approval.isChecked() && await saveReceipt.isDisabled());
+    check(name + ': Shop fits viewport', await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+    await shot(`${name}-shop`);
+
+    await page.goto(origin + '/do/loyalty/everyday-rewards', { timeout: 120000 });
+    await page.getByRole('button', { name: 'Let’s make dinner' }).click();
+    await page.getByRole('checkbox', { name: 'Confirm entire pantry' }).check();
+    await page.getByRole('button', { name: 'Make a plan', exact: true }).click();
+    await page.getByRole('button', { name: /Cook extra for tomorrow/ }).click();
+    check(name + ': demo extra portions explicit', await page.getByText(/Cook 8 portions/).isVisible());
+    await shot(`${name}-demo-missions`);
+    await page.getByRole('button', { name: /Dinner tonight/ }).click();
+    await page.getByLabel('Sample recipe', { exact: true }).selectOption('rice-night');
+    await page.getByRole('button', { name: 'Review the basket', exact: true }).click();
+    check(name + ': complete totals shown before acceptance', await page.locator('.ld-alternative').innerText().then(s => s.includes('$12.00') && s.includes('$10.50')));
+    check(name + ': no live merchant claims', await page.locator('.ld-alternative').innerText().then(s => s.includes('Fictional prices')));
+    await page.getByRole('checkbox', { name: 'Confirm simulated basket' }).check();
+    await page.getByRole('button', { name: 'Accept lower-cost alternative' }).click();
+    check(name + ': accepting swap invalidates approval', !await page.getByRole('checkbox', { name: 'Confirm simulated basket' }).isChecked() && await page.getByRole('button', { name: 'Continue to handoff' }).isDisabled());
+    check(name + ': demo fits viewport', await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+    await shot(`${name}-demo-basket`);
+    await page.getByRole('button', { name: 'Edit the plan', exact: true }).click();
+    await page.getByLabel('Dietary requirements', { exact: true }).fill('vegan');
+    check(name + ': unsupported dietary choice explained', await page.getByRole('alert').filter({ hasText: 'This recipe cannot satisfy' }).isVisible());
+    await page.getByRole('button', { name: 'Review the basket', exact: true }).click();
+    check(name + ': unsupported diet cannot approve', await page.getByRole('button', { name: 'Continue to handoff' }).isDisabled());
+    await page.getByRole('button', { name: 'Edit the plan', exact: true }).click();
+    await page.getByLabel('Dietary requirements', { exact: true }).fill('gluten free and high protein');
+    check(name + ': mixed unsupported requirement remains blocked', await page.getByRole('alert').filter({ hasText: 'This recipe cannot satisfy' }).isVisible());
+    await page.getByRole('button', { name: /Cook extra for tomorrow/ }).click();
+    await page.getByRole('button', { name: 'Reset demonstration', exact: true }).click();
+    await page.getByRole('checkbox', { name: 'Confirm entire pantry' }).check();
+    await page.getByRole('button', { name: 'Make a plan', exact: true }).click();
+    check(name + ': reset clears diet and extra dinner state', await page.getByLabel('Dietary requirements', { exact: true }).inputValue() === '' && await page.getByText('4 portions for one dinner.', { exact: true }).isVisible());
+  }
+  check('no writes attempted', writes.length === 0);
+  check('no page errors', errors.length === 0);
+  fs.writeFileSync(`${output}/checks.json`, JSON.stringify({ checks, writes, errors }, null, 2));
+  await browser.close();
+})().catch(e => { console.error(e); process.exit(1); });

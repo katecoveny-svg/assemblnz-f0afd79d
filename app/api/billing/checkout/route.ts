@@ -9,6 +9,7 @@
  * into public.subscriptions; entitlement is never trusted from the client.
  */
 import { NextResponse } from 'next/server';
+import { sameDoOrigin } from '@/apps/do/services/owner';
 import { createClient } from '@/lib/supabase/server';
 import { getStripe } from '@/lib/stripe/client';
 import { getOrCreateCustomer } from '@/lib/stripe/customer';
@@ -19,6 +20,7 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
+  if (!sameDoOrigin(req)) return NextResponse.json({ error: 'Origin not allowed' }, { status: 403 });
   let body: { tier?: string };
   try {
     body = (await req.json()) as { tier?: string };
@@ -59,7 +61,7 @@ export async function POST(req: Request) {
       contactEmail: user.email ?? undefined,
     });
 
-    const origin = req.headers.get('origin') ?? new URL(req.url).origin;
+    const origin = new URL(req.url).origin;
     const stripe = getStripe();
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',

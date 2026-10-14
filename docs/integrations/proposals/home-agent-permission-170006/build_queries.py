@@ -1,0 +1,78 @@
+from pathlib import Path
+import re,json,hashlib
+ROOT=Path(__file__).resolve().parent
+
+def build(direction,db='acl_fixture',version=170006,precommit='',postdrift=''):
+ s=(ROOT/(direction+'.sql.txt')).read_text()
+ snapshot=s.split('AS $snapshot$\n',1)[1].split('\n$snapshot$;',1)[0].rstrip(';\n')
+ # Explicit catalog identities prevent pg_temp/public relation/type shadowing.
+ names=['pg_roles','pg_class','pg_depend','pg_namespace','pg_attribute','pg_attrdef','pg_constraint','pg_auth_members','pg_default_acl','pg_policies','pg_trigger']
+ for name in names:snapshot=re.sub(r'(?<![\w.])'+name+r'\b','pg_catalog.'+name,snapshot)
+ snapshot=snapshot.replace('COLLATE "C"','COLLATE pg_catalog."C"')
+ expected=re.findall(r'\$expected\$(.*?)\$expected\$::jsonb',s,re.S)
+ assert len(expected)==2
+ body=s.split('-- Exact baseline',1)[-1] if direction=='forward' else s
+ actions='\n'.join(line for line in body.splitlines() if line.startswith(('REVOKE ','GRANT ',' TO ')))
+ # Snapshot JSON is retained byte-for-byte; the action body is copied without reconstruction.
+ if direction=='forward':actions=s[s.index('REVOKE ALL PRIVILEGES'):s.index('\nDO $assert$',s.index('REVOKE ALL PRIVILEGES'))].strip()
+ else:
+  start=s.index('GRANT SELECT, INSERT');actions=s[start:s.index('\nDO $assert$',start)].strip()
+ return f'''-- DISPOSABLE acl_fixture ONLY; no production routing or execution approval.
+BEGIN;
+SET LOCAL search_path = pg_catalog, public;
+SET LOCAL lock_timeout = '5s';
+SET LOCAL statement_timeout = '20s';
+SET LOCAL idle_in_transaction_session_timeout = '5s';
+SET LOCAL transaction_timeout = '30s';
+DO $identity$ BEGIN
+ IF current_database() <> '{db}' OR current_user <> 'postgres' OR session_user <> 'postgres'
+ OR current_setting('server_version_num')::integer <> {version}
+ THEN RAISE EXCEPTION 'Wrong fixture target/executor/version'; END IF;
+END $identity$;
+LOCK TABLE public.home_agent_log IN ACCESS EXCLUSIVE MODE;
+DO $change$
+DECLARE actual jsonb;
+BEGIN
+ {snapshot} INTO actual;
+ IF actual IS DISTINCT FROM $expected${expected[0]}$expected$::jsonb
+ THEN RAISE EXCEPTION 'Pre-action metadata/effective-privilege drift'; END IF;
+ IF pg_catalog.pg_get_serial_sequence('public.home_agent_log','id') IS DISTINCT FROM 'public.home_agent_log_id_seq'
+ THEN RAISE EXCEPTION 'Sequence association drift'; END IF;
+ {actions}
+ {postdrift}
+ {snapshot} INTO actual;
+ IF actual IS DISTINCT FROM $expected${expected[1]}$expected$::jsonb
+ THEN RAISE EXCEPTION 'Before commit metadata/effective-privilege drift'; END IF;
+END $change$;
+{precommit}
+COMMIT;
+SELECT 'fixture_commit_request_completed' AS observation;
+'''
+
+def snapshot():
+ s=build('forward');start=s.index(' WITH roles') if ' WITH roles' in s else s.index('WITH roles')
+ end=s.index(' INTO actual;',start)
+ return 'SET search_path = pg_catalog, public;\n'+s[start:end].strip()+';\n'
+
+def generate():
+ d=ROOT/'queries';d.mkdir(exist_ok=True)
+ for name,args in {
+  'forward':('forward',{}),'rollback':('rollback',{}),
+  'wrong-target':('forward',{'db':'not_acl_fixture'}),
+  'wrong-version':('forward',{'version':170010}),
+  'poststate-drift':('forward',{'postdrift':'GRANT SELECT ON TABLE public.home_agent_log TO anon;'}),
+  'precommit-error':('forward',{'precommit':"DO $injected$ BEGIN RAISE EXCEPTION 'Injected before COMMIT'; END $injected$;"}),
+  'active-deadline':('forward',{'precommit':'SELECT pg_catalog.pg_sleep(40);'}),
+ }.items():
+  q=build(args[0],**args[1])
+  if name=='active-deadline':q=q.replace("statement_timeout = '20s'","statement_timeout = '0'").replace("transaction_timeout = '30s'","transaction_timeout = '2s'")
+  (d/(name+'.sql')).write_text(q)
+ (d/'snapshot.sql').write_text(snapshot())
+ (d/'idle-deadline.sql').write_text("BEGIN; SET LOCAL search_path=pg_catalog,public; SET LOCAL statement_timeout='0'; SET LOCAL transaction_timeout='3s'; SET LOCAL idle_in_transaction_session_timeout='1s'; LOCK TABLE public.home_agent_log IN ACCESS EXCLUSIVE MODE; REVOKE ALL ON public.home_agent_log FROM anon,authenticated; SELECT 'idle_ready';\n")
+ (d/'idle-total-deadline.sql').write_text((d/'idle-deadline.sql').read_text().replace("idle_in_transaction_session_timeout='1s'","idle_in_transaction_session_timeout='0'"))
+ (d/'lock-holder.sql').write_text("BEGIN; SET LOCAL transaction_timeout='10s'; LOCK TABLE public.home_agent_log IN ACCESS EXCLUSIVE MODE; SELECT 'holder_ready';\n")
+ # One statement_timeout covers only acquisition/statement; scaled lock test keeps production logic intact.
+ (d/'lock-wait.sql').write_text(build('forward').replace("lock_timeout = '5s'","lock_timeout = '1s'"))
+ (d/'backend-observation.sql').write_text("SELECT pg_catalog.json_build_object('backends',(SELECT count(*) FROM pg_catalog.pg_stat_activity WHERE datname='acl_fixture' AND application_name='home-client-no-prompt'), 'locks',(SELECT count(*) FROM pg_catalog.pg_locks l JOIN pg_catalog.pg_stat_activity a ON a.pid=l.pid WHERE a.datname='acl_fixture' AND a.application_name='home-client-no-prompt'));\n")
+ return d
+if __name__=='__main__':generate()

@@ -1,0 +1,361 @@
+{
+  "table": {
+    "acl": [
+      "postgres=arwdDxtm/postgres",
+      "service_role=arwdDxtm/postgres"
+    ],
+    "rls": true,
+    "owner": "postgres",
+    "force_rls": false
+  },
+  "sequence": {
+    "acl": [
+      "postgres=rwU/postgres",
+      "service_role=rwU/postgres"
+    ],
+    "name": "public.home_agent_log_id_seq",
+    "owner": "postgres",
+    "column": "id",
+    "dependency_type": "a"
+  },
+  "columns": [
+    {
+      "name": "id",
+      "type": "bigint",
+      "default": "nextval('home_agent_log_id_seq'::regclass)",
+      "identity": "",
+      "not_null": true
+    },
+    {
+      "name": "session_id",
+      "type": "text",
+      "default": null,
+      "identity": "",
+      "not_null": true
+    },
+    {
+      "name": "ip_hash",
+      "type": "text",
+      "default": null,
+      "identity": "",
+      "not_null": false
+    },
+    {
+      "name": "role",
+      "type": "text",
+      "default": null,
+      "identity": "",
+      "not_null": true
+    },
+    {
+      "name": "message",
+      "type": "text",
+      "default": null,
+      "identity": "",
+      "not_null": true
+    },
+    {
+      "name": "model",
+      "type": "text",
+      "default": null,
+      "identity": "",
+      "not_null": false
+    },
+    {
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "default": "now()",
+      "identity": "",
+      "not_null": true
+    },
+    {
+      "name": "agent_slug",
+      "type": "text",
+      "default": "'home-guide'::text",
+      "identity": "",
+      "not_null": true
+    }
+  ],
+  "column_acls": [],
+  "constraints": [
+    {
+      "name": "home_agent_log_pkey",
+      "type": "p",
+      "validated": true,
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "home_agent_log_role_check",
+      "type": "c",
+      "validated": true,
+      "definition": "CHECK ((role = ANY (ARRAY['user'::text, 'assistant'::text])))"
+    }
+  ],
+  "roles": [
+    {
+      "rolname": "anon",
+      "rolsuper": false,
+      "rolinherit": true,
+      "rolcanlogin": false,
+      "rolbypassrls": false
+    },
+    {
+      "rolname": "authenticated",
+      "rolsuper": false,
+      "rolinherit": true,
+      "rolcanlogin": false,
+      "rolbypassrls": false
+    },
+    {
+      "rolname": "authenticator",
+      "rolsuper": false,
+      "rolinherit": false,
+      "rolcanlogin": true,
+      "rolbypassrls": false
+    },
+    {
+      "rolname": "postgres",
+      "rolsuper": false,
+      "rolinherit": true,
+      "rolcanlogin": true,
+      "rolbypassrls": true
+    },
+    {
+      "rolname": "service_role",
+      "rolsuper": false,
+      "rolinherit": true,
+      "rolcanlogin": false,
+      "rolbypassrls": true
+    }
+  ],
+  "memberships": [
+    {
+      "set": true,
+      "role": "anon",
+      "admin": false,
+      "member": "authenticator",
+      "inherit": false
+    },
+    {
+      "set": true,
+      "role": "authenticated",
+      "admin": false,
+      "member": "authenticator",
+      "inherit": false
+    },
+    {
+      "set": true,
+      "role": "service_role",
+      "admin": false,
+      "member": "authenticator",
+      "inherit": false
+    },
+    {
+      "set": true,
+      "role": "postgres",
+      "admin": false,
+      "member": "cli_login_postgres",
+      "inherit": false
+    },
+    {
+      "set": true,
+      "role": "anon",
+      "admin": true,
+      "member": "postgres",
+      "inherit": true
+    },
+    {
+      "set": true,
+      "role": "authenticated",
+      "admin": true,
+      "member": "postgres",
+      "inherit": true
+    },
+    {
+      "set": true,
+      "role": "authenticator",
+      "admin": true,
+      "member": "postgres",
+      "inherit": true
+    },
+    {
+      "set": true,
+      "role": "pg_create_subscription",
+      "admin": true,
+      "member": "postgres",
+      "inherit": true
+    },
+    {
+      "set": true,
+      "role": "pg_monitor",
+      "admin": true,
+      "member": "postgres",
+      "inherit": true
+    },
+    {
+      "set": true,
+      "role": "pg_read_all_data",
+      "admin": true,
+      "member": "postgres",
+      "inherit": true
+    },
+    {
+      "set": true,
+      "role": "pg_signal_backend",
+      "admin": true,
+      "member": "postgres",
+      "inherit": true
+    },
+    {
+      "set": true,
+      "role": "service_role",
+      "admin": true,
+      "member": "postgres",
+      "inherit": true
+    },
+    {
+      "set": true,
+      "role": "supabase_privileged_role",
+      "admin": false,
+      "member": "postgres",
+      "inherit": true
+    },
+    {
+      "set": true,
+      "role": "authenticator",
+      "admin": false,
+      "member": "supabase_storage_admin",
+      "inherit": false
+    }
+  ],
+  "schema": {
+    "acl": [
+      "=U/pg_database_owner",
+      "anon=U/pg_database_owner",
+      "authenticated=U/pg_database_owner",
+      "pg_database_owner=UC/pg_database_owner",
+      "postgres=U/pg_database_owner",
+      "service_role=U/pg_database_owner"
+    ],
+    "owner": "pg_database_owner"
+  },
+  "default_acls": [
+    {
+      "acl": [
+        "anon=rwU/postgres",
+        "authenticated=rwU/postgres",
+        "postgres=rwU/postgres",
+        "service_role=rwU/postgres"
+      ],
+      "owner": "postgres",
+      "schema": "public",
+      "object_type": "S"
+    },
+    {
+      "acl": [
+        "anon=X/postgres",
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "owner": "postgres",
+      "schema": "public",
+      "object_type": "f"
+    },
+    {
+      "acl": [
+        "anon=arwdDxtm/postgres",
+        "authenticated=arwdDxtm/postgres",
+        "postgres=arwdDxtm/postgres",
+        "service_role=arwdDxtm/postgres"
+      ],
+      "owner": "postgres",
+      "schema": "public",
+      "object_type": "r"
+    }
+  ],
+  "effective": [
+    {
+      "role": "anon",
+      "seq_usage": false,
+      "seq_select": false,
+      "seq_update": false,
+      "schema_usage": true,
+      "table_delete": false,
+      "table_insert": false,
+      "table_select": false,
+      "table_update": false,
+      "schema_create": false,
+      "table_trigger": false,
+      "table_maintain": false,
+      "table_truncate": false,
+      "table_references": false
+    },
+    {
+      "role": "authenticated",
+      "seq_usage": false,
+      "seq_select": false,
+      "seq_update": false,
+      "schema_usage": true,
+      "table_delete": false,
+      "table_insert": false,
+      "table_select": false,
+      "table_update": false,
+      "schema_create": false,
+      "table_trigger": false,
+      "table_maintain": false,
+      "table_truncate": false,
+      "table_references": false
+    },
+    {
+      "role": "authenticator",
+      "seq_usage": false,
+      "seq_select": false,
+      "seq_update": false,
+      "schema_usage": true,
+      "table_delete": false,
+      "table_insert": false,
+      "table_select": false,
+      "table_update": false,
+      "schema_create": false,
+      "table_trigger": false,
+      "table_maintain": false,
+      "table_truncate": false,
+      "table_references": false
+    },
+    {
+      "role": "postgres",
+      "seq_usage": true,
+      "seq_select": true,
+      "seq_update": true,
+      "schema_usage": true,
+      "table_delete": true,
+      "table_insert": true,
+      "table_select": true,
+      "table_update": true,
+      "schema_create": true,
+      "table_trigger": true,
+      "table_maintain": true,
+      "table_truncate": true,
+      "table_references": true
+    },
+    {
+      "role": "service_role",
+      "seq_usage": true,
+      "seq_select": true,
+      "seq_update": true,
+      "schema_usage": true,
+      "table_delete": true,
+      "table_insert": true,
+      "table_select": true,
+      "table_update": true,
+      "schema_create": false,
+      "table_trigger": true,
+      "table_maintain": true,
+      "table_truncate": true,
+      "table_references": true
+    }
+  ],
+  "policies": [],
+  "triggers": []
+}

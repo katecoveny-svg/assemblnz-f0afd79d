@@ -2,7 +2,7 @@
 /** Shared only by extension-owned pages and its worker. No credentials or page reads. */
 (() => {
   const ORIGIN = 'https://www.assembl.co.nz';
-  const PATHS = Object.freeze({ workspace: '/do/widget', meeting: '/do/meetings', typesafe: '/do/typesafe' });
+  const PATHS = Object.freeze({ workspace: '/do/widget', write: '/do/widget?entry=write', talk: '/do/widget?entry=talk', add: '/do/widget?tool=look', meeting: '/do/meetings', typesafe: '/do/typesafe' });
   function context(value) {
     if (!value || typeof value !== 'object' || typeof value.text !== 'string') return null;
     const text = value.text.trim().slice(0, 12000);

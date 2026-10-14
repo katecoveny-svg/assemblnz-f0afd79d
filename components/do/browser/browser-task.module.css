@@ -1,0 +1,9 @@
+.panel { display: grid; gap: 14px; padding: 24px; margin-block: 24px; border: 1px solid #d7cbd3; border-radius: 20px; background: #fffdfb; color: #492b3e; overflow-wrap: anywhere; }
+.panel h2, .panel h3, .panel p { margin: 0; }
+.panel label { display: grid; gap: 8px; }
+.panel textarea, .panel input, .panel button { font: inherit; max-width: 100%; }
+.panel textarea, .panel input { border: 1px solid #916a70; border-radius: 8px; padding: 10px; box-sizing: border-box; }
+.panel input[type='checkbox'] { justify-self: start; }
+.panel button { justify-self: start; padding: 10px 16px; border: 1px solid #916a70; border-radius: 999px; color: inherit; background: #fffdfb; min-height: 44px; }
+.panel button:disabled { opacity: .55; }
+.panel fieldset { min-width: 0; display: grid; gap: 14px; border: 1px solid #d7cbd3; }

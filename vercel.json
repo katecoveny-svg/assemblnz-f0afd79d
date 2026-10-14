@@ -15,6 +15,10 @@
     {
       "path": "/api/dash/payouts/run",
       "schedule": "0 2 * * *"
+    },
+    {
+      "path": "/api/do/personal/cron",
+      "schedule": "5 * * * *"
     }
   ],
   "redirects": [
@@ -23,5 +27,13 @@
       "destination": "/echo-dashboard.html",
       "permanent": false
     }
-  ]
+  ],
+  "git": {
+    "deploymentEnabled": {
+      "codex/assembl-rebuild-20261012": false,
+      "codex/do-persistence-reliability": false,
+      "codex/do-draft-account-isolation": false,
+      "codex/school-agenda-pilot-staging": false
+    }
+  }
 }

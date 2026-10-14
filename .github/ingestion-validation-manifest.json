@@ -1,0 +1,392 @@
+{
+  "schema_version": 1,
+  "repository": "katecoveny-svg/assemblnz-f0afd79d",
+  "frozen_source_commit": "625908d8b6ec66bc1d74d4b322ca72c6d42a8bc7",
+  "frozen_candidate_commit": "ecbe667115aff3fe6b1f9d291ba0bdd23842d9bf",
+  "frozen_source_zip_sha256": "1a6105c1e8f3a6eadad32ca53b8b455bf7f9b3fd2495f2abe719a915b20e809f",
+  "inherited_main_commit": "36cf989b3e54304bb40dd117b4ee38d3ae28813d",
+  "files": {
+    ".github/workflows/atomic-ingestion-sql-validation.yml": {
+      "sha256": "57a85da8bf51286d45983b596da47a94166471980f37b3cea1588d9e45291fe3",
+      "git_blob": "ced0914d3a97a6d79082daf93180be7010170c74",
+      "bytes": 11273
+    },
+    ".github/workflows/home-agent-client-grant-sql-validation.yml": {
+      "sha256": "e2a0f3b7bd0e12bcf00ce06c44c756b2821bc9488433855e14fbeaa8004e2aaf",
+      "git_blob": "fa29d86e687d73e87d099d7e0fa2cbe364bdb36f",
+      "bytes": 12761
+    },
+    "docs/integrations/ingestion-audit-20261003.md": {
+      "sha256": "a2980f1099d8a5041c357d5f37e25eaa2bd51fecd8b50ef7cdbe20aa63855334",
+      "git_blob": "2def48cccd9495ee4935986a843dc68a5e35bde3",
+      "bytes": 19190
+    },
+    "docs/integrations/ingestion-health-20261003.json": {
+      "sha256": "261efb8c62d21e9ceef8c430bce79ee216e05631b0dad43cb69698d434776571",
+      "git_blob": "47e804118b4e8da84fff4b6054d9adafb54bea78",
+      "bytes": 40060
+    },
+    "docs/integrations/proposals/atomic-contract-model.test.mjs": {
+      "sha256": "72daaa913bba1f4491c616d99aecff9f20cfb21c9c08330d6e2dd299ab25376c",
+      "git_blob": "d6958651791d7e5b40764f293280bd9b3190ae71",
+      "bytes": 11330
+    },
+    "docs/integrations/proposals/atomic-ingestion-finalization-tests.sql": {
+      "sha256": "6121d900ad890ac9fc51e13687570182778da9993824a9fceeaa0348208b2c51",
+      "git_blob": "c1e7faa7287737b2540fb57ee35ae43c8c573858",
+      "bytes": 485
+    },
+    "docs/integrations/proposals/atomic-ingestion-finalization.md": {
+      "sha256": "9e2d109822e717620a2549d6bc2a8a3763f55417937f6d8199e52200a8297872",
+      "git_blob": "f5e84ae37a319104dbb007273f4b5f227c7ddc1f",
+      "bytes": 7722
+    },
+    "docs/integrations/proposals/atomic-ingestion-finalization.sql": {
+      "sha256": "d279822428858598341cbca6ba610439e88e84a277a7ee284be42d4347639d0c",
+      "git_blob": "5953e545624f55a2a31f9da527c2d3ba5984bd80",
+      "bytes": 10972
+    },
+    "docs/integrations/proposals/atomic-postgres-harness.py": {
+      "sha256": "2094b2230c63e286a098cff155b6f4532813137fc78891250474d22682abf11c",
+      "git_blob": "968b0321763ac01e5e341d3ac949f9de78675711",
+      "bytes": 42431
+    },
+    "docs/integrations/proposals/atomic-postgres-preflight.test.py": {
+      "sha256": "fc9f89eabdbdd3953db59a7c262421709f29d4fa56f0173651c0606daf65554f",
+      "git_blob": "9d68a7a0ca359984ec6e9a2512e2a3af8d3473aa",
+      "bytes": 14845
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/baseline.json": {
+      "sha256": "5a05f3808d1a3e55ce0df07566da2784bf7e14e883ff894138830838ea30ed22",
+      "git_blob": "50db303fb24fb79eaf68bb9591d0a7503a59f961",
+      "bytes": 7944
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/bootstrap.sql": {
+      "sha256": "fcf817ded226a5a81d83d6d7c34956981109034c1229f968c6770cc218d54aef",
+      "git_blob": "c1322f588b84d3a7814da6df43cac65b61f607b8",
+      "bytes": 2552
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/cleanup_owned.py": {
+      "sha256": "982583de98f02ee615f9403a475f8b89de225042934e2ed3ae717120bb6c13fb",
+      "git_blob": "d368b0e49b803b345818651111dbe7210640c9e7",
+      "bytes": 1300
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/client-denial.sql": {
+      "sha256": "5a78b95a1f9fd3376cced14b99b1112403690bffdf46b18db9f60b0fdca95b8e",
+      "git_blob": "693595be28527a6916bc88e19587a4f904628571",
+      "bytes": 1766
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/forward.sql": {
+      "sha256": "89eda42b91d36aa322899d0e1bf6ad039d2fb1531b53c40ea7e5b778bd74c355",
+      "git_blob": "2f8c76c4f02c12bf1ecd0373272425762a44de6f",
+      "bytes": 17825
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/rollback.sql": {
+      "sha256": "3a3957b62e012ab72ab1692a07dc64529386fdeb9ba07a24aa4d6cdb8b711b4c",
+      "git_blob": "78bb3de733c9dd8e58bc93134bcf011b449d9e1d",
+      "bytes": 17957
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/run-owned-fixture.sh": {
+      "sha256": "88ebabf615cd1c0f931fb0064014a14a5d5ed032e199c2c670cef5b814e3732a",
+      "git_blob": "2206d028fa84a589819a40998bca9742840644a6",
+      "bytes": 1161
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/run_fixture.py": {
+      "sha256": "b55fd42c42d2a3dfd92b6ccfd1ad89b5d19794b8293f48dd2de3e06103e13c20",
+      "git_blob": "eadfbdd0dc73a58f368b67ab6ed691aae3661d91",
+      "bytes": 24052
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/service-check.sql": {
+      "sha256": "96ad03cdb228de914aa36b497bbd6e64bbb3b3785cdf3c4c67cfbbee509fc37f",
+      "git_blob": "a611c48cad3797d80c3938b543c4a88b602686f9",
+      "bytes": 849
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/test_offline.py": {
+      "sha256": "666b091013ddfb6a2e88a8690b1d348b75178de3741434d4ae760a2c9654131f",
+      "git_blob": "168dff50b0a26817aee400f2e1e192160ab1d63b",
+      "bytes": 22288
+    },
+    "docs/integrations/proposals/home-agent-client-grant-fixture/poststate.json": {
+      "sha256": "fa2b591fc5abf3e67e4028d8ed1d8cfccdbfee39a81d332168604370c2d054ad",
+      "git_blob": "a5831fda199a109c9fb440507c8850e428a24180",
+      "bytes": 7830
+    },
+    "supabase/functions/_shared/opportunity-envelope.ts": {
+      "sha256": "bf404578afa41f9d258ea8a9040c22e1d13315c1ec233b6ed34e4e004b3549a4",
+      "git_blob": "edf884216ca5bf650dfb01380c7456370ec9f9a2",
+      "bytes": 2197
+    },
+    "supabase/functions/adapter-html/challenge.test.ts": {
+      "sha256": "55df468b83753d005a52305a15b9a583361cbb2eba01e12c7a4ba665da94c840",
+      "git_blob": "7d14caee61321fbbe49852019f238a4a84f807d9",
+      "bytes": 1266
+    },
+    "supabase/functions/adapter-html/challenge.ts": {
+      "sha256": "9e8d4eeff91631f8831399f4a524a391f2c08897c84fc68c541ad27a873a2855",
+      "git_blob": "187bfc01d7cf08d24a2bc9673644c5bce627d3d9",
+      "bytes": 836
+    },
+    "supabase/functions/adapter-html/durability.ts": {
+      "sha256": "892d796e892bc1c972e59fb0e85174dffadf186dc162965dff734f2ed482ab9f",
+      "git_blob": "304234d140ca205f286fbfe9c831c6dc7546a9a0",
+      "bytes": 711
+    },
+    "supabase/functions/adapter-html/index.ts": {
+      "sha256": "aaea9ea3f1ecaa53f008eba7608cf71435eaf769a63fdab063100bfcf60688b1",
+      "git_blob": "b85cf15740692892e8e3c49bed0fe846a84df0f9",
+      "bytes": 13397
+    },
+    "supabase/functions/adapter-html/observation.test.ts": {
+      "sha256": "91746f43ea43d6a421b1fcbe3527ec39ddbb5c3ff25f3d1efeec6b97c98ee101",
+      "git_blob": "069a6b4c4655fcbf0ce7efa53d77eed8c204a7f7",
+      "bytes": 612
+    },
+    "supabase/functions/adapter-html/observation.ts": {
+      "sha256": "c1f901bbe5ec16832bac6a9aefa146852e805ba3dfabbde38abf43c85c929c26",
+      "git_blob": "d344e7c382c743d7970a82b27cb9bc61db4e6860",
+      "bytes": 343
+    },
+    "supabase/functions/adapter-html/tests/durability-handler.test.ts": {
+      "sha256": "80653a3acd986c6fd6656cb2a9c47dcbbc317a04f47bee86cc0225109ac5aa10",
+      "git_blob": "709793049328e44ccd32ec8aebb70a021d3dc871",
+      "bytes": 9273
+    },
+    "supabase/functions/adapter-html/tests/handler.test.ts": {
+      "sha256": "cfdfe040eed6e5fe442561ee57ef5d1d0dbc501bdd5563aced4aa50221058c95",
+      "git_blob": "f9f64184773950f854688cdb2cbdec013c406d29",
+      "bytes": 2649
+    },
+    "supabase/functions/adapter-html/tests/import-map.json": {
+      "sha256": "e6181f02830f585d2ff95372233be384ac6d3237df13e732d8c01735d73464bf",
+      "git_blob": "418739134e647a8847f617078184cfa07587838c",
+      "bytes": 95
+    },
+    "supabase/functions/adapter-html/tests/pinned-client.test.ts": {
+      "sha256": "ec89cc3cc336b1323527798773a3186b871d19ba8afd6ca8806b1add1a5a2cef",
+      "git_blob": "01719ead1b2bcde6f4415843bd9a829a441fe745",
+      "bytes": 2835
+    },
+    "supabase/functions/adapter-html/tests/supabase-stub.ts": {
+      "sha256": "f5d4537c9e75e85c930a90a46ea551b35eef511120b11bffe3e809abc9fbd8e2",
+      "git_blob": "d5b9f0090edd13cab2f35cd3a110ea83aa0c3144",
+      "bytes": 5072
+    },
+    "supabase/functions/adapter-jsonapi/durability.ts": {
+      "sha256": "892d796e892bc1c972e59fb0e85174dffadf186dc162965dff734f2ed482ab9f",
+      "git_blob": "304234d140ca205f286fbfe9c831c6dc7546a9a0",
+      "bytes": 711
+    },
+    "supabase/functions/adapter-jsonapi/index.ts": {
+      "sha256": "502054132a17267f382d02c64433da941b8d72257d9879741652c1553ecb2a28",
+      "git_blob": "3983a48e8a0b551d6a5cff1e31dde840593d8a7c",
+      "bytes": 12730
+    },
+    "supabase/functions/adapter-jsonapi/normalization.test.ts": {
+      "sha256": "9522ef5a9f67217c252d40f63f331e552b3da31e35a4eb2c41d43474d9b00c6b",
+      "git_blob": "d6c45e7e77320183f0d0259fe2ea99dffdd85278",
+      "bytes": 4825
+    },
+    "supabase/functions/adapter-jsonapi/normalization.ts": {
+      "sha256": "69302d0f142758f5ad328d2f7d44afd2ccaed25510348424265a3f11422faa4d",
+      "git_blob": "ef1127bf43fe731319cc2a132a0889be86895724",
+      "bytes": 5242
+    },
+    "supabase/functions/adapter-jsonapi/tests/durability-handler.test.ts": {
+      "sha256": "ce2ed96a79766aac175e14baf8b6f4dfa4fc46b0cf9fdb9728395eb290570cdc",
+      "git_blob": "0c06706a5e0da8bdd08bb0108fecd76015028655",
+      "bytes": 9342
+    },
+    "supabase/functions/adapter-jsonapi/tests/handler.test.ts": {
+      "sha256": "9541a58be039c76d0b198ca36ad605307bbfe76da981505beb13d09adbaeff75",
+      "git_blob": "dfe3805a57ddc56ec6de05294d3cab1409d2d456",
+      "bytes": 2446
+    },
+    "supabase/functions/adapter-jsonapi/tests/import-map.json": {
+      "sha256": "e6181f02830f585d2ff95372233be384ac6d3237df13e732d8c01735d73464bf",
+      "git_blob": "418739134e647a8847f617078184cfa07587838c",
+      "bytes": 95
+    },
+    "supabase/functions/adapter-jsonapi/tests/pinned-client.test.ts": {
+      "sha256": "ec89cc3cc336b1323527798773a3186b871d19ba8afd6ca8806b1add1a5a2cef",
+      "git_blob": "01719ead1b2bcde6f4415843bd9a829a441fe745",
+      "bytes": 2835
+    },
+    "supabase/functions/adapter-jsonapi/tests/supabase-stub.ts": {
+      "sha256": "f5d4537c9e75e85c930a90a46ea551b35eef511120b11bffe3e809abc9fbd8e2",
+      "git_blob": "d5b9f0090edd13cab2f35cd3a110ea83aa0c3144",
+      "bytes": 5072
+    },
+    "supabase/functions/adapter-parliament-proposals/index.ts": {
+      "sha256": "4eb2f75f69dd7a9c19e189af35bd0556f46a2a97d782387a8eecf1c94041c98b",
+      "git_blob": "ce6b7f27ea6d470475da658741f29ad845275ca9",
+      "bytes": 12728
+    },
+    "supabase/functions/adapter-parliament/index.ts": {
+      "sha256": "45dfc4477ff768e80198ade29684b0cc285d4dfc4b89731ac9120058d3958d42",
+      "git_blob": "6bf71956305cfb1615406dc891acd4772899aba6",
+      "bytes": 13982
+    },
+    "supabase/functions/adapter-pco/index.ts": {
+      "sha256": "547b5479a04ab8c3398ab18241b612e8fd549a019d23b3f696752e8b446c0dc5",
+      "git_blob": "f77ae2bdd14ccdf40dda101e13d69ae29f35e658",
+      "bytes": 11507
+    },
+    "supabase/functions/adapter-rss/durability.ts": {
+      "sha256": "892d796e892bc1c972e59fb0e85174dffadf186dc162965dff734f2ed482ab9f",
+      "git_blob": "304234d140ca205f286fbfe9c831c6dc7546a9a0",
+      "bytes": 711
+    },
+    "supabase/functions/adapter-rss/feed-response.test.ts": {
+      "sha256": "b4b92c975999600d0541c4c0d3810122990a67a5651ccf4fa26be6354c3fd666",
+      "git_blob": "781755b4d76100e4cdf831e0eaff7e62e4b257a2",
+      "bytes": 3272
+    },
+    "supabase/functions/adapter-rss/feed-response.ts": {
+      "sha256": "ae1f06cd64addf31f22bee1bd13e02a574e36159d3e1b80f47e472b165d34da2",
+      "git_blob": "0d1023ae5f4056f99c256d679eda138e59d37cb8",
+      "bytes": 2062
+    },
+    "supabase/functions/adapter-rss/index.ts": {
+      "sha256": "3558e7977d83591493602328c29ed3c12161742ba55a0cae2fd3998a366e7eee",
+      "git_blob": "0a4598dde09ee8c742831d70fc7b330f829475e7",
+      "bytes": 12206
+    },
+    "supabase/functions/adapter-rss/tests/durability-handler.test.ts": {
+      "sha256": "b1b9555e2aafff58f0b2b11129e9dc1e9e1be28b06a0484e3a72c5be99faf917",
+      "git_blob": "88152bc1b35064c67b53645ba4137f3b42dc54c8",
+      "bytes": 8430
+    },
+    "supabase/functions/adapter-rss/tests/handler.test.ts": {
+      "sha256": "4d096f0ecacb711bd562b2743aa407a68ff578ea170eca47770e10c428d61c27",
+      "git_blob": "d97a5d863c591d325e626b439e3d8b504da90b12",
+      "bytes": 3601
+    },
+    "supabase/functions/adapter-rss/tests/import-map.json": {
+      "sha256": "e6181f02830f585d2ff95372233be384ac6d3237df13e732d8c01735d73464bf",
+      "git_blob": "418739134e647a8847f617078184cfa07587838c",
+      "bytes": 95
+    },
+    "supabase/functions/adapter-rss/tests/pinned-client.test.ts": {
+      "sha256": "ec89cc3cc336b1323527798773a3186b871d19ba8afd6ca8806b1add1a5a2cef",
+      "git_blob": "01719ead1b2bcde6f4415843bd9a829a441fe745",
+      "bytes": 2835
+    },
+    "supabase/functions/adapter-rss/tests/supabase-stub.ts": {
+      "sha256": "f5d4537c9e75e85c930a90a46ea551b35eef511120b11bffe3e809abc9fbd8e2",
+      "git_blob": "d5b9f0090edd13cab2f35cd3a110ea83aa0c3144",
+      "bytes": 5072
+    },
+    "supabase/functions/live-feed-gets-poll/capability-matcher.ts": {
+      "sha256": "1948bbbe88ac1ecee3c175db86ab99469c52b49ea02fc07e6a6c46890a5623a2",
+      "git_blob": "5cbfd66101c38a740c44645eccf2e10e3d60ab27",
+      "bytes": 8450
+    },
+    "supabase/functions/live-feed-gets-poll/extractor.ts": {
+      "sha256": "55a192f01a2133385680336c66c8e5ba149b29d8b8c1117218dfd658db95c913",
+      "git_blob": "d3d312a9e0b137de7aa80a76e5db9418f8be3018",
+      "bytes": 5741
+    },
+    "supabase/functions/live-feed-gets-poll/gets-client.ts": {
+      "sha256": "374be16dcf1a9fd7002e98c31756a51d9c44e4167ac062da49fb71f3af0f471f",
+      "git_blob": "948d531a6c42405aa21156f55d592ef35a417306",
+      "bytes": 4008
+    },
+    "supabase/functions/live-feed-gets-poll/index.ts": {
+      "sha256": "bbe61941b6ba25e8eb56e957cd756f7e3197852ac6065d7aa482ff82ac159ed1",
+      "git_blob": "1287cd8f0286ee0588ecff6fec3518c2504d3b5c",
+      "bytes": 18058
+    },
+    "supabase/functions/live-feed-gets-poll/response-template.ts": {
+      "sha256": "41de309e1133a7cd06b648165f56066b9630f516a907b0c3e49e32820ab9d088",
+      "git_blob": "34adf5660b2106e2971407d00801e38cd39c63dd",
+      "bytes": 7716
+    }
+  },
+  "allowed_changed_paths": [
+    ".github/ingestion-validation-manifest.json",
+    ".github/workflows/atomic-ingestion-sql-validation.yml",
+    ".github/workflows/home-agent-client-grant-sql-validation.yml",
+    ".github/workflows/rss-adapter-validation.yml",
+    "docs/integrations/ingestion-audit-20261003.md",
+    "docs/integrations/ingestion-health-20261003.json",
+    "docs/integrations/proposals/atomic-contract-model.test.mjs",
+    "docs/integrations/proposals/atomic-ingestion-finalization-tests.sql",
+    "docs/integrations/proposals/atomic-ingestion-finalization.md",
+    "docs/integrations/proposals/atomic-ingestion-finalization.sql",
+    "docs/integrations/proposals/atomic-postgres-harness.py",
+    "docs/integrations/proposals/atomic-postgres-preflight.test.py",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/baseline.json",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/bootstrap.sql",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/cleanup_owned.py",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/client-denial.sql",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/forward.sql",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/rollback.sql",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/run-owned-fixture.sh",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/run_fixture.py",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/service-check.sql",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/fixtures/test_offline.py",
+    "docs/integrations/proposals/home-agent-client-grant-fixture/poststate.json",
+    "supabase/functions/adapter-html/challenge.test.ts",
+    "supabase/functions/adapter-html/challenge.ts",
+    "supabase/functions/adapter-html/durability.ts",
+    "supabase/functions/adapter-html/index.ts",
+    "supabase/functions/adapter-html/observation.test.ts",
+    "supabase/functions/adapter-html/observation.ts",
+    "supabase/functions/adapter-html/tests/durability-handler.test.ts",
+    "supabase/functions/adapter-html/tests/handler.test.ts",
+    "supabase/functions/adapter-html/tests/import-map.json",
+    "supabase/functions/adapter-html/tests/pinned-client.test.ts",
+    "supabase/functions/adapter-html/tests/supabase-stub.ts",
+    "supabase/functions/adapter-jsonapi/durability.ts",
+    "supabase/functions/adapter-jsonapi/index.ts",
+    "supabase/functions/adapter-jsonapi/normalization.test.ts",
+    "supabase/functions/adapter-jsonapi/normalization.ts",
+    "supabase/functions/adapter-jsonapi/tests/durability-handler.test.ts",
+    "supabase/functions/adapter-jsonapi/tests/handler.test.ts",
+    "supabase/functions/adapter-jsonapi/tests/import-map.json",
+    "supabase/functions/adapter-jsonapi/tests/pinned-client.test.ts",
+    "supabase/functions/adapter-jsonapi/tests/supabase-stub.ts",
+    "supabase/functions/adapter-rss/durability.ts",
+    "supabase/functions/adapter-rss/index.ts",
+    "supabase/functions/adapter-rss/tests/durability-handler.test.ts",
+    "supabase/functions/adapter-rss/tests/handler.test.ts",
+    "supabase/functions/adapter-rss/tests/pinned-client.test.ts",
+    "supabase/functions/adapter-rss/tests/supabase-stub.ts"
+  ],
+  "adapter_roots": [
+    "supabase/functions/adapter-rss/",
+    "supabase/functions/adapter-jsonapi/",
+    "supabase/functions/adapter-html/"
+  ],
+  "test_only_correction": {
+    "previous_reviewed_head": "ae799e90e12534510c681feee800a98b7c2c7ad1",
+    "corrected_test_paths": [
+      "supabase/functions/adapter-rss/tests/durability-handler.test.ts",
+      "supabase/functions/adapter-jsonapi/tests/durability-handler.test.ts",
+      "supabase/functions/adapter-html/tests/durability-handler.test.ts"
+    ],
+    "reason": "TS2367: read mutable fixture success timestamp through explicit string-returning helper; runtime assertion unchanged",
+    "adapter_runtime_v2_unchanged": true
+  },
+  "client_grant_fixture_proposal": {
+    "expected_parent": "ae980b9e00e73dd574a2d2875f0d43e692ccef07",
+    "source_packet_sha256": "bad5967394bc9700b29d56a2a88ad91e5d6f0126408e37f6b3e8d8e1ab475804",
+    "review_scope": "only bounded synthetic database test proposal; no production apply SQL/runner",
+    "production_adapters_unchanged": true,
+    "production_sql_and_migration_history_unchanged": true,
+    "fixture_locale_correction": {
+      "initdb_args": "--lc-collate=C --encoding=UTF8",
+      "evidence": "actual cluster and fixture database collation, ctype, encoding and provider retained before baseline comparison",
+      "strict_snapshot_equality_unchanged": true
+    },
+    "negative_exit_correction": {
+      "scope": "fixture wrong-target prefix and commit-refusal tail only; unchanged grant statements and guards",
+      "supported_failure": "RAISE EXCEPTION with ON_ERROR_STOP and VERBOSITY=terse; exit 3, empty stdout, exact ERROR: two-space diagnostic",
+      "refusal_locus": "actual staged path and final refusal-statement line derived from frozen SQL bytes, retained with SQL SHA256",
+      "permission_statements_and_guards_unchanged": true,
+      "fixture_action_tail_changed": true,
+      "fixture_tail_failure": "explicit ROLLBACK then exact RAISE EXCEPTION; exit 3",
+      "production_references_still_defective_unapproved": true
+    }
+  }
+}

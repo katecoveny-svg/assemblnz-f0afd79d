@@ -1,0 +1,67 @@
+name: Direction 4c homepage review
+on:
+  pull_request:
+    paths:
+      - 'components/site/direction-4c/**'
+      - 'public/direction-4c/**'
+      - 'app/page.tsx'
+      - 'scripts/direction-4c-mobile-proof.cjs'
+      - 'scripts/homepage-scroll-canvas-proof.cjs'
+      - 'scripts/homepage-startup-proof.cjs'
+      - '.github/workflows/direction-4c-review.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: direction-4c-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    # Both full browser suites include software-WebGL screenshots and media failure waits.
+    timeout-minutes: 50
+    env:
+      NODE_OPTIONS: --max-old-space-size=6144
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @assembl/canvas build
+      - run: pnpm typecheck
+      - run: pnpm exec eslint components/site/direction-4c app/page.tsx --max-warnings=0
+      - run: pnpm exec vitest run lib/do/navigation.test.ts components/site/direction-4c
+      - run: pnpm lint:macrons
+      - run: pnpm build
+      - run: npm install --prefix /tmp/mobile-proof playwright@1.56.1
+      - run: /tmp/mobile-proof/node_modules/.bin/playwright install --with-deps chrome webkit
+      - name: Mobile Chromium and WebKit proof
+        env:
+          PLAYWRIGHT_MODULE: /tmp/mobile-proof/node_modules/playwright
+          HOMEPAGE_URL: http://127.0.0.1:3000
+        run: |
+          pnpm start > /tmp/homepage-server.log 2>&1 &
+          for i in $(seq 1 60); do curl -fsS http://127.0.0.1:3000/ > /dev/null && break; sleep 2; done
+          result=0
+          PROOF_BROWSER=chromium PROOF_CHANNEL=chrome node scripts/direction-4c-mobile-proof.cjs || result=1
+          PROOF_BROWSER=webkit node scripts/direction-4c-mobile-proof.cjs || result=1
+          PROOF_BROWSER=chromium PROOF_CHANNEL=chrome node scripts/homepage-scroll-canvas-proof.cjs || result=1
+          PROOF_BROWSER=webkit node scripts/homepage-scroll-canvas-proof.cjs || result=1
+          PROOF_ASSERT=1 PROOF_BROWSER=chromium PROOF_CHANNEL=chrome node scripts/homepage-startup-proof.cjs || result=1
+          PROOF_ASSERT=1 PROOF_BROWSER=webkit node scripts/homepage-startup-proof.cjs || result=1
+          exit "$result"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mobile-homepage-proof
+          path: |
+            output/playwright/mobile-recovery
+            output/playwright/homepage-regression
+            output/playwright/startup

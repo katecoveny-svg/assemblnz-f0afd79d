@@ -1,0 +1,48 @@
+name: DO task artwork and launcher review
+on:
+  push:
+    branches: ['codex/do-task-art-launcher']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: do-task-art-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      NODE_OPTIONS: --max-old-space-size=6144
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: {version: 9.15.9, run_install: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: 24}
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @assembl/canvas build
+      - run: pnpm typecheck
+      - name: Full DO core and entry regressions
+        run: pnpm exec vitest run apps/do/shared app/api/do components/do components/site/assembl-the-work/GlowDoWidget.test.ts app/do/personal
+      - run: pnpm exec eslint components/do/DoTaskScene.tsx components/do/DoCapabilityIdeas.tsx components/do/DoWorkspaceLinks.tsx components/site/AssemblConciergeWidget.tsx apps/do/shared/distribution.ts
+      - run: pnpm lint:macrons
+      - run: pnpm build
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install playwright==1.55.0 && playwright install --with-deps chromium
+      - name: Phone and desktop interaction proof
+        run: |
+          pnpm start > /tmp/do-task-art.log 2>&1 &
+          server=$!
+          trap 'kill "$server" || true' EXIT
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:3000/about >/dev/null && break; sleep 2; done
+          python scripts/review-do-task-art.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: do-task-art-proof
+          path: |
+            output/playwright/do-task-art/
+            /tmp/do-task-art.log
+          retention-days: 14

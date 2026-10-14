@@ -2,16 +2,23 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRef, useState } from 'react';
+import { useRef, useState, useSyncExternalStore } from 'react';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { ArrowDown, ArrowUpRight, Pause, Play } from 'lucide-react';
 import styles from './studio-assembly-hero.module.css';
+
+const subscribeToHydration = () => () => {};
+const clientSnapshot = () => true;
+const serverSnapshot = () => false;
 
 /** Generated concept art, with restrained camera movement. Not a captured 3D scene. */
 export function StudioAssemblyHero() {
   const ref = useRef<HTMLElement>(null);
   const [paused, setPaused] = useState(false);
-  const reduced = useReducedMotion();
+  const prefersReducedMotion = useReducedMotion();
+  const mounted = useSyncExternalStore(subscribeToHydration, clientSnapshot, serverSnapshot);
+  // Match the server markup before applying the browser motion preference.
+  const reduced = mounted && prefersReducedMotion;
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
   const scale = useTransform(scrollYProgress, [0, 1], [1.025, 1.12]);
@@ -27,9 +34,9 @@ export function StudioAssemblyHero() {
       <nav aria-label="Primary"><Link href="/pursuit">Pursuit</Link><Link href="/do">DO</Link><Link href="/creative-studio" aria-current="page">Studio</Link></nav>
     </header>
     <div className={styles.copy}>
-      <p className={styles.kicker}>STUDIO / SHOW IT.</p>
-      <h1 id="studio-heading">Give the idea<br />a world<br /><span>of its own.</span></h1>
-      <p className={styles.lede}>A brief becomes a place to explore.<br />A story to watch. Something to try.</p>
+      <p className={styles.kicker}>STUDIO / A WORKING VERSION.</p>
+      <h1 id="studio-heading">Give the idea<br /><span>a working version.</span></h1>
+      <p className={styles.lede}>Develop a demo, a pitch or a customer experience.<br />Something people can see, test and discuss.</p>
       <div className={styles.actions}>
         <Link href="/creative-studio/assembl?tool=image">Make an image<ArrowUpRight size={18} aria-hidden="true" /></Link>
         <a href="#studio-work">See the work<ArrowDown size={18} aria-hidden="true" /></a>

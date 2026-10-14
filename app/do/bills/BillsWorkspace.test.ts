@@ -19,7 +19,14 @@ describe('Bills entry and connection honesty', () => {
     expect(html).toContain('Prepare renewal questions');
     expect(html).toContain('type="file"');
     expect(html).toContain('href="/do/bills/compare"');
-    expect(html).toContain('aria-label="DO home"');
-    expect(html).not.toMatch(/<button[^>]*>(?:Connect bank|Pay now|Switch now|Send)/);
+    expect(html).toContain('What you pay');
+    expect(html).toContain('PROVIDER NOT MATCHED');
+    expect(html).toContain('Hunt for a better deal');
+    expect(html).toContain('href="/do/bills/compare?category=electricity&amp;monthly=224.50"');
+    expect(html).toContain('href="/do/ask?q=Watch+my+electricity');
+    expect(html).toContain('a year across 3 services');
+    expect(html).toContain('What unlocks it');
+    expect(html).toContain('aria-label="DO by assembl, home"');
+    expect(html).not.toMatch(/<button[^>]*>(?:Connect bank|Pay now|Switch now|Switch|Send)/);
   });
 });

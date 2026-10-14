@@ -1,0 +1,58 @@
+# REVIEW ONLY. Share/reuse this single discovery job with Hub owner; not published.
+name: Hub shared 17.6 pre-write image discovery
+on:
+  workflow_dispatch:
+    inputs:
+      reviewed_sha:
+        description: Exact reviewed sole-parent candidate commit
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: studio-owner-run-sql-isolated
+  cancel-in-progress: false
+jobs:
+  isolated-sql:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      EXPECTED_PARENT: 93327b541749c3d458a1d433782ac0334d5b64bb
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ inputs.reviewed_sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Exact attempt and sole parent guard
+        shell: bash
+        env:
+          REVIEWED_SHA: ${{ inputs.reviewed_sha }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          test "$GITHUB_SHA" = "$REVIEWED_SHA"
+          test "$(git rev-parse HEAD)" = "$REVIEWED_SHA"
+          test "$(git rev-list --parents -n 1 HEAD)" = "$REVIEWED_SHA $EXPECTED_PARENT"
+          echo 'ccd4cd49775b236591590b74487591371c3faf0d0feaa9aba9ec78d26922ae2a  docs/integrations/proposals/postgres-170006-discovery/INPUT-SHA256SUMS' | sha256sum --check --strict
+          sha256sum --check --strict docs/integrations/proposals/postgres-170006-discovery/INPUT-SHA256SUMS
+      - name: One owned immutable-image discovery
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=5s 420s python3 docs/integrations/proposals/postgres-170006-discovery/discover.py
+      - name: Independent owned-container cleanup
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f "$RUNNER_TEMP/postgres-170006-discovery/owner.json" || exit 0
+          echo '84ca482837ac88010f1fa1ed013c5a5e9312e2b103ef029c99e38a1f874d5a0a  docs/integrations/proposals/postgres-170006-discovery/discover.py' | sha256sum --check --strict
+          timeout --signal=TERM --kill-after=5s 40s python3 docs/integrations/proposals/postgres-170006-discovery/discover.py --cleanup-only
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: postgres-170006-discovery-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/postgres-170006-discovery
+          if-no-files-found: error
+          retention-days: 7

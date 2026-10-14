@@ -1,4 +1,7 @@
+import { voiceRevision } from "@/apps/do/services/voice-preference";
 import { GoogleGenAI } from "@google/genai";
+import { getPersonalDoProfile } from "@/apps/do/personal/profile-service";
+import type { PersonalDoProfile } from "@/apps/do/personal/profile";
 import { admitDoRequest, readDoJson } from "@/apps/do/shared/http";
 import { chatClientIp, checkChatRateLimit } from "@/lib/agents/chat-rate-limit";
 import {
@@ -27,6 +30,7 @@ const enabled = () => process.env.DO_GEMINI_LIVE_ENABLED === "true";
 
 export async function GET() {
   const owner = await doOwner();
+  const saved = owner ? await getPersonalDoProfile(owner.id).catch(() => null) : null;
   return Response.json(
     {
       enabled: enabled(),
@@ -38,6 +42,8 @@ export async function GET() {
       dailyLimit: DO_VOICE_DAILY_SESSIONS,
       sessionSeconds: DO_VOICE_SECONDS,
       model: DO_VOICE_MODELS.standard,
+      voiceName: saved?.profile.voiceName ?? null,
+      voiceRevision: owner && saved ? voiceRevision(owner.id, saved.profile) : null,
     },
     { headers },
   );
@@ -76,12 +82,30 @@ export async function POST(request: Request) {
       429,
     );
 
+  // Load only this authenticated owner's reviewed profile. Never accept identity,
+  // preferences, tools or system instructions supplied by the browser.
+  let savedProfile: PersonalDoProfile;
+  try {
+    ({ profile: savedProfile } = await getPersonalDoProfile(owner.id));
+  } catch {
+    return json({ error: "Your saved call voice could not be checked. Check call availability and try again." }, 503);
+  }
+  if (parsed.data.voiceRevision !== voiceRevision(owner.id, savedProfile) || parsed.data.voiceName !== savedProfile.voiceName)
+    return json({ error: "Your account or call voice changed. Check call availability and review it before calling." }, 409);
+  const profile = parsed.data.includeProfile ? savedProfile : undefined;
+  if (profile && profile.updatedAt !== parsed.data.profileUpdatedAt)
+    return json({ error: "Your DO profile changed. Refresh and review it before calling." }, 409);
+  if (request.signal.aborted)
+    return json({ error: "This call was cancelled before connecting." }, 499);
+
   let reservation: Awaited<ReturnType<typeof reserveDoVoice>> | undefined;
   try {
     reservation = await reserveDoVoice(owner.id);
-    const { mode, voiceName } = parsed.data;
+    if (request.signal.aborted) throw new Error("cancelled");
+    const { mode } = parsed.data;
+    const voiceName = savedProfile.voiceName;
     const model = DO_VOICE_MODELS[mode];
-    const config = doVoiceConfig(mode, voiceName);
+    const config = doVoiceConfig(mode, voiceName, profile);
     // Google rejects subsequent messages after expiry; this is not just a UI timer.
     const expiresAt = new Date(
       Date.now() + DO_VOICE_SECONDS * 1000,
@@ -102,6 +126,7 @@ export async function POST(request: Request) {
         ]),
       },
     });
+    if (request.signal.aborted) throw new Error("cancelled");
     if (!token.name) throw new Error("incomplete_token");
     // Never log or persist the temporary token. It is used only by this browser session.
     return json(
@@ -110,6 +135,7 @@ export async function POST(request: Request) {
         model,
         mode,
         voiceName,
+        displayName: profile?.displayName ?? "DO",
         config,
         expiresAt,
         sessionSeconds: DO_VOICE_SECONDS,
@@ -118,6 +144,8 @@ export async function POST(request: Request) {
     );
   } catch (error) {
     if (reservation) await reservation.release().catch(() => {});
+    if (request.signal.aborted)
+      return json({ error: "This call was cancelled before connecting." }, 499);
     if (error instanceof DoVoiceAllowanceError)
       return json(
         { error: error.message },

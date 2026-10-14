@@ -12,13 +12,13 @@
   "categories": ["business", "productivity", "education"],
   "icons": [
     {
-      "src": "/icons/assembl-icon-192x192.png",
+      "src": "/icons/assembl-icon-192x192.png?v=glass-v1",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icons/assembl-icon-512x512.png",
+      "src": "/icons/assembl-icon-512x512.png?v=glass-v1",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
@@ -30,21 +30,21 @@
       "short_name": "Meeting",
       "description": "Record, transcribe and review useful meeting notes.",
       "url": "/do/meetings",
-      "icons": [{ "src": "/icons/assembl-icon-192x192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "/icons/assembl-icon-192x192.png?v=glass-v1", "sizes": "192x192" }]
     },
     {
       "name": "Household DO",
       "short_name": "Household",
       "description": "Generic demo household chores board.",
       "url": "/do/household",
-      "icons": [{ "src": "/icons/assembl-icon-192x192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "/icons/assembl-icon-192x192.png?v=glass-v1", "sizes": "192x192" }]
     },
     {
       "name": "Open Studio",
       "short_name": "Studio",
       "description": "Turn a brief into working proof and creative experiences.",
       "url": "/creative-studio",
-      "icons": [{ "src": "/icons/assembl-icon-192x192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "/icons/assembl-icon-192x192.png?v=glass-v1", "sizes": "192x192" }]
     }
   ]
 }

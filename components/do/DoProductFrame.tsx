@@ -3,49 +3,38 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSyncExternalStore, type ReactNode } from 'react';
+import { DoSecondaryNavigation } from './DoSecondaryNavigation';
 import { DoShareButton } from './DoShareButton';
-import { DoPresence } from './DoPresence';
+import { DoBrand } from './DoBrand';
 import { DoInstallPwaCta } from './DoInstallPwaCta';
 import styles from './do-product-focus.module.css';
+import { doReturnPath } from '@/lib/do/navigation';
 
 const subscribe = () => () => {};
 const isEmbedded = () => window.self !== window.top;
+const currentQuery = () => window.location.search;
 /** Same embed rule as the existing DoWorkspaceLinks. No cookie or permission changes. */
 export function useDoEmbeddedSurface() {
   return useSyncExternalStore(subscribe, isEmbedded, () => true);
 }
 
 /** Shared task chrome. Secondary tools do not compete with the task in front of you. */
-export function DoProductFrame({ product, children, board = 'portable-widget' }: {
+export function DoProductFrame({ product, children }: {
   product: string; children: ReactNode; board?: string;
 }) {
   const embedded = useDoEmbeddedSurface();
   const pathname = usePathname();
+  const query = useSyncExternalStore(subscribe, currentQuery, () => "");
   const linkProps = embedded ? { target: '_blank', rel: 'noopener noreferrer' } : {};
   return <main className={styles.shell}>
     <header className={styles.header}>
-      <Link href="/do" {...linkProps} className={styles.brand} aria-label="DO home">
-        <DoPresence size="small" /><span>DO <small>/ {product}</small></span>
-      </Link>
-      <div className={styles.headerActions}><DoShareButton /><details className={styles.menu}>
-        <summary aria-label="More DO tools">More <span aria-hidden="true">＋</span></summary>
-        <div className={styles.menuPanel}>
-          <p className={styles.kicker}>YOUR WORKSPACE</p>
-          <Link href="/do" {...linkProps}>DO home</Link>
-          <Link href="/do/widget" {...linkProps}>Writing, voice &amp; vision</Link>
-          <Link href="/do/meetings" {...linkProps}>Meeting notes</Link>
-          <Link href="/do/bills" {...linkProps}>Watch my bills</Link>
-          <Link href="/do/flex" {...linkProps}>Household flexibility · simulation</Link>
-          <Link href="/do/office" {...linkProps}>Office</Link>
-          <Link href={`/do/tasks?board=${encodeURIComponent(board)}`} {...linkProps}>Saved tasks</Link>
-          <Link href="/do/connections" {...linkProps}>Connections</Link>
-          <Link href={`/login?redirect=${encodeURIComponent(pathname || "/do")}`} {...linkProps}>Sign in</Link>
-          <Link href="/do/install" {...linkProps}>Install DO</Link>
-          {!embedded && <DoInstallPwaCta compact />}
-        </div>
-      </details></div>
+      <div><DoBrand {...linkProps} /><span className={styles.surfaceName}>{product}</span></div>
+      <div className={styles.headerActions}><DoShareButton /><DoSecondaryNavigation embedded={embedded}>
+        <Link href={`/login?redirect=${encodeURIComponent(doReturnPath(pathname || "/do", query))}`} {...linkProps}>Sign in</Link>
+        {!embedded && <DoInstallPwaCta compact />}
+      </DoSecondaryNavigation></div>
     </header>
     {children}
-    <footer className={styles.footer}><Link href="/" {...linkProps}>by assembl</Link><span>your context. your call.</span></footer>
+    <footer className={styles.footer}><span>DO by assembl</span><Link href="/legal/privacy" {...linkProps}>Privacy</Link></footer>
   </main>;
 }

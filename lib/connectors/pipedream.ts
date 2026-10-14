@@ -16,9 +16,12 @@
  * docs/PIPEDREAM-CONNECT-SETUP.md.
  */
 import 'server-only';
+import { verifyPersonalMailGrant, verifiedMailGrant } from '@/apps/do/mail/capability';
 import { actionMapFromPack } from '@/apps/do/shared/do-connector-pack';
 import { validateConnectorInput } from '@/apps/do/shared/connector-contracts';
 import { verifyPipedreamResult, type RunActionResult } from './pipedream-results';
+import { gmailSearchQuery, mailAccountId, mailMessageId, mailSearch } from '@/apps/do/mail/contract';
+import type { MailRequest } from '@/apps/do/mail/contract';
 
 const API = 'https://api.pipedream.com/v1';
 
@@ -55,7 +58,8 @@ export function doConnectorConfigured(app: string): boolean {
 
 let tokenCache: { token: string; expiresAt: number } | null = null;
 
-async function accessToken(cfg: PdConfig): Promise<string> {
+async function accessToken(cfg: PdConfig, signal?: AbortSignal): Promise<string> {
+  signal?.throwIfAborted();
   if (tokenCache && Date.now() < tokenCache.expiresAt - 60_000) return tokenCache.token;
   const res = await fetch(`${API}/oauth/token`, {
     method: 'POST',
@@ -65,7 +69,7 @@ async function accessToken(cfg: PdConfig): Promise<string> {
       client_id: cfg.clientId,
       client_secret: cfg.clientSecret,
     }),
-    signal: AbortSignal.timeout(10_000),
+    signal: signal ? AbortSignal.any([signal, AbortSignal.timeout(10_000)]) : AbortSignal.timeout(10_000),
   });
   if (!res.ok) throw new Error(`pipedream oauth failed: HTTP ${res.status}`);
   const body = (await res.json()) as { access_token: string; expires_in?: number };
@@ -76,8 +80,10 @@ async function accessToken(cfg: PdConfig): Promise<string> {
   return body.access_token;
 }
 
-async function pd<T>(cfg: PdConfig, method: 'GET' | 'POST' | 'DELETE', path: string, body?: unknown): Promise<T> {
-  const token = await accessToken(cfg);
+async function pd<T>(cfg: PdConfig, method: 'GET' | 'POST' | 'DELETE', path: string, body?: unknown, bounded?: { signal: AbortSignal; maxBytes: number }): Promise<T> {
+  bounded?.signal.throwIfAborted();
+  const token = await accessToken(cfg, bounded?.signal);
+  bounded?.signal.throwIfAborted();
   const res = await fetch(`${API}${path}`, {
     method,
     headers: {
@@ -86,8 +92,28 @@ async function pd<T>(cfg: PdConfig, method: 'GET' | 'POST' | 'DELETE', path: str
       'X-PD-Environment': cfg.environment,
     },
     body: body === undefined ? undefined : JSON.stringify(body),
-    signal: AbortSignal.timeout(15_000),
+    signal: bounded ? AbortSignal.any([bounded.signal, AbortSignal.timeout(15_000)]) : AbortSignal.timeout(15_000),
+    redirect: bounded ? 'error' : 'follow',
   });
+  if (bounded) {
+    // Private mail/provider errors must never expose bodies or credentials.
+    if (!res.ok) { await res.body?.cancel(); throw new Error('mail_provider_unavailable'); }
+    const reader = res.body?.getReader();
+    if (!reader) throw new Error('mail_provider_unavailable');
+    const chunks: Uint8Array[] = []; let bytes = 0;
+    try {
+      for (;;) {
+        bounded.signal.throwIfAborted();
+        const { done, value } = await reader.read();
+        if (done) break;
+        bytes += value.byteLength;
+        if (bytes > bounded.maxBytes) throw new Error('mail_response_too_large');
+        chunks.push(value);
+      }
+      bounded.signal.throwIfAborted();
+      return JSON.parse(Buffer.concat(chunks).toString('utf8')) as T;
+    } finally { await reader.cancel().catch(() => {}); reader.releaseLock(); }
+  }
   if (!res.ok) {
     const text = await res.text().catch(() => '');
     throw new Error(`pipedream ${method} ${path} failed: HTTP ${res.status}${text ? ` — ${text.slice(0, 200)}` : ''}`);
@@ -160,15 +186,46 @@ export async function disconnectDoGmail(externalUserId: string) {
 }
 
 /** Accounts a customer has connected under our project. */
-export async function listConnectedAccounts(externalUserId: string): Promise<ConnectedAccount[]> {
+export async function listConnectedAccounts(externalUserId: string, signal?: AbortSignal): Promise<ConnectedAccount[]> {
   const cfg = pipedreamConfig();
   if (!cfg) return [];
   const body = await pd<{ data?: ConnectedAccount[]; accounts?: ConnectedAccount[] }>(
     cfg,
     'GET',
     `/connect/${cfg.projectId}/accounts?external_user_id=${encodeURIComponent(externalUserId)}`,
+    undefined,
+    signal ? { signal, maxBytes: 128_000 } : undefined,
   );
   return body.data ?? body.accounts ?? [];
+}
+
+/** Personal mail's only provider port. Fixed GET endpoints; no attachments or writes.
+ * The gateway re-lists search membership before detail reads. Ownership is checked
+ * again here immediately before every proxy request, including duplicate IDs.
+ */
+export async function doPersonalMailRead(owner: string, accountId: string, operation:
+  | { kind: 'search'; search: MailRequest['search'] }
+  | { kind: 'message'; messageId: string; full: boolean }, signal: AbortSignal): Promise<unknown> {
+  if (!/^do:user:[0-9a-f-]{36}$/.test(owner)) throw new Error('mail_owner_required');
+  mailAccountId.parse(accountId);
+  const cfg = pipedreamConfig();
+  if (!cfg || !process.env.DO_GMAIL_OAUTH_APP_ID?.trim()) throw new Error('mail_setup_needed');
+  let path: string;
+  if (operation.kind === 'search') {
+    const search = mailSearch.parse(operation.search);
+    if (search.accountId !== accountId) throw new Error('mail_account_mismatch');
+    path = `messages?${new URLSearchParams({ q: gmailSearchQuery(search), maxResults: '10', includeSpamTrash: 'false' })}`;
+  } else {
+    const id = mailMessageId.parse(operation.messageId);
+    path = `messages/${id}?format=${operation.full ? 'full' : 'metadata'}`;
+    if (!operation.full) path += '&metadataHeaders=Subject&metadataHeaders=From&metadataHeaders=Date';
+  }
+  if (!verifiedMailGrant(await verifyPersonalMailGrant(owner, accountId, signal), owner, accountId)) throw new Error('gmail_read_unverified');
+  const matches = (await listConnectedAccounts(owner, signal)).filter(account => account.id === accountId);
+  if (matches.length !== 1 || accountOwner(matches[0]) !== owner || (matches[0].external_user_id && matches[0].external_user_id !== owner) || (matches[0].external_id && matches[0].external_id !== owner) || matches[0].healthy !== true || matches[0].app?.name_slug !== 'gmail') throw new Error('mail_account_unavailable');
+  signal.throwIfAborted();
+  const url = Buffer.from(`https://gmail.googleapis.com/gmail/v1/users/me/${path}`).toString('base64url');
+  return pd(cfg, 'GET', `/connect/${cfg.projectId}/proxy/${url}?external_user_id=${encodeURIComponent(owner)}&account_id=${encodeURIComponent(accountId)}`, undefined, { signal, maxBytes: operation.kind === 'search' ? 16_000 : 256_000 });
 }
 
 /** Every account connected under the project, whoever owns it — the

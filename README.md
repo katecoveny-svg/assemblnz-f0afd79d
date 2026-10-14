@@ -142,3 +142,7 @@ Do not merge or deploy automatically unless the current task explicitly authoris
 **Build the factory, then build through the factory.**
 
 Before adding shared infrastructure, inspect [`docs/factory/PRIMITIVES.md`](./docs/factory/PRIMITIVES.md). Before making a durable architectural/product decision, check [`docs/factory/DECISIONS.md`](./docs/factory/DECISIONS.md). Record repeated lessons in [`docs/factory/LEARNINGS.md`](./docs/factory/LEARNINGS.md).
+
+### Public company copy · 4 October 2026
+
+The approved homepage headline is “Agentic AI solutions, assembled for your business.” Its explanation and “Built for all New Zealand businesses.” strapline come from `components/site/assembl-the-work/copy.ts`. SME and enterprise solutions are described below the visual entry. The original glass scene, interactive Pursuit → DO → Studio chapters and approval boundaries remain intact. Contact and about use matching light company chrome. `/pricing` remains available with its commercial terms and checkout, but is `noindex, follow` and excluded from the sitemap; search refresh is asynchronous.

@@ -44,7 +44,7 @@ function dependencies(options = {}) {
 }
 test('DO provider consent is explicit, not truthy or inferred', () => {
   for (const raw of [null, [], {}, { shareWithDo: false }, { shareWithDo: 'true' }, { shareWithDo: 1 }]) assert.throws(() => flow.requireDoWorkflowConsent(raw));
-  assert.doesNotThrow(() => flow.requireDoWorkflowConsent({ shareWithDo: true }));
+  assert.doesNotThrow(() => flow.requireDoWorkflowConsent({ shareWithDo: true, providerConsentVersion: 'do-openai-typesafe-v1' }));
 });
 for (const [action, task] of [['prepare_brief', 'brief'], ['studio_handoff', 'plan'], ['extract_facts', 'extract']]) test(`maps ${action} into existing DO ${task}`, () => {
   const prepared = flow.preparationForDecision(input(), pilot(action));
@@ -102,7 +102,8 @@ function routeHarness(options = {}) {
   const read = loader({
     '@/apps/do/services/owner': { doOwner: async () => options.unsigned ? null : { id: 'verified-owner' }, sameDoOrigin: r => r.headers.get('origin') === new URL(r.url).origin, privateDoHeaders: { 'Cache-Control': 'private, no-store' } },
     '@/apps/do/shared/http': { readDoJson: r => r.json(), admitDoRequest: key => { assert.equal(key, 'typesafe:verified-owner'); return !options.localRate; } },
-    '@/apps/do/shared/trial': { reserveDoTrial: async (_ip, context) => { assert.equal(context.signedInOwnerId, 'verified-owner'); return d.deps.reserve(); } },
+    '@/lib/billing/personal-do-plan': { enabledPersonalDoPlan: () => options.noBudget ? null : { maxInputBytes: 12000 } },
+    '@/lib/billing/personal-do-access': { admitPersonalDoUsage: async owner => { assert.equal(owner, 'verified-owner'); if(options.noEntitlement) throw new PilotError('entitlement_required',403,'No access'); d.counts.reserved++; return { finish: async () => {} }; } },
     '@/apps/do/shared/preparation-server': { prepareDoDraft: d.deps.prepare },
     '@/lib/agents/chat-rate-limit': { chatClientIp: () => 'test-ip', checkChatRateLimit: async (_ip, slug) => { assert.equal(slug, 'do-preparation'); return { allowed: !options.durableRate }; } },
     '@/lib/typesafe/core': { PilotError, parseInput: raw => { if (raw.shareWithTypeSafe !== true) throw new PilotError('invalid_input', 400, 'Consent required'); return input(); } },
@@ -110,8 +111,8 @@ function routeHarness(options = {}) {
   });
   return { route: read('app/api/do/decision/prepare/route.ts'), d, providerCalls: () => providerCalls, actor: () => actor };
 }
-const request = (body = { ...input(), shareWithDo: true }, origin = 'https://assembl.test') => new Request('https://assembl.test/api/do/decision/prepare', { method: 'POST', headers: { origin, 'content-type': 'application/json' }, body: JSON.stringify(body) });
-for (const [name, options, status] of [['unsigned', { unsigned: true }, 401], ['unlisted', { unlisted: true }, 403], ['owner rate limited', { localRate: true }, 429], ['durable rate limited', { durableRate: true }, 429]]) test(`HTTP blocks ${name} before model access`, async () => {
+const request = (body = { ...input(), shareWithDo: true, providerConsentVersion: 'do-openai-typesafe-v1' }, origin = 'https://assembl.test') => new Request('https://assembl.test/api/do/decision/prepare', { method: 'POST', headers: { origin, 'content-type': 'application/json' }, body: JSON.stringify(body) });
+for (const [name, options, status] of [['unsigned', { unsigned: true }, 401], ['unlisted', { unlisted: true }, 403], ['owner rate limited', { localRate: true }, 429], ['durable rate limited', { durableRate: true }, 429], ['missing budget', { noBudget: true }, 503], ['missing entitlement', { noEntitlement: true }, 403]]) test(`HTTP blocks ${name} before model access`, async () => {
   const h = routeHarness(options); assert.equal((await h.route.POST(request())).status, status); assert.equal(h.providerCalls(), 0); assert.equal(h.d.counts.reserved, 0);
 });
 test('HTTP rejects foreign origins, including arbitrary extension origins', async () => {
@@ -122,7 +123,7 @@ test('HTTP rejects foreign origins, including arbitrary extension origins', asyn
 test('HTTP requires both TypeSafe and DO provider consent', async () => {
   const h = routeHarness();
   assert.equal((await h.route.POST(request(input()))).status, 400);
-  assert.equal((await h.route.POST(request({ ...input(), shareWithTypeSafe: false, shareWithDo: true }))).status, 400);
+  assert.equal((await h.route.POST(request({ ...input(), shareWithTypeSafe: false, shareWithDo: true, providerConsentVersion: 'do-openai-typesafe-v1' }))).status, 400);
   assert.equal(h.providerCalls(), 0);
 });
 test('HTTP rejects invalid JSON before provider access', async () => {
@@ -133,18 +134,18 @@ test('provider failure cannot fall back to a fabricated workflow outcome', async
   const h = routeHarness({ providerFail: true }); assert.equal((await h.route.POST(request())).status, 502); assert.equal(h.d.counts.prepared, 0);
 });
 test('HTTP uses authenticated owner and server decision, not client-posted replacements', async () => {
-  const h = routeHarness(); const response = await h.route.POST(request({ ...input(), shareWithDo: true, ownerId: 'someone-else', decision: { action: 'send_money' }, draft: { text: 'FAKE' } }));
+  const h = routeHarness(); const response = await h.route.POST(request({ ...input(), shareWithDo: true, providerConsentVersion: 'do-openai-typesafe-v1', ownerId: 'someone-else', decision: { action: 'send_money' }, draft: { text: 'FAKE' } }));
   const r = await response.json(); assert.equal(response.status, 200); assert.equal(h.actor(), 'verified-owner'); assert.equal(h.providerCalls(), 1);
   assert.equal(r.workflow.state, 'prepared'); assert.equal(r.workflow.draft.id, 'draft-test'); assert.equal(r.workflow.persisted, false); assert.equal(r.workflow.externalActions, false);
   assert.match(response.headers.get('cache-control'), /no-store/);
 });
 test('HTTP retains the TypeSafe judgement when DO fails', async () => {
   const h = routeHarness({ prepareFail: true }); const r = await (await h.route.POST(request())).json();
-  assert.equal(r.mode, 'live'); assert.equal(r.workflow.state, 'failed'); assert.equal(r.workflow.draft, null); assert.equal(h.d.counts.released, 1);
+  assert.equal(r.mode, 'live'); assert.equal(r.workflow.state, 'failed'); assert.equal(r.workflow.draft, null); assert.equal(h.d.counts.released, 0);
 });
-test('HTTP consumes no drafting allowance when TypeSafe asks for clarification', async () => {
+test('HTTP reserves the real TypeSafe check but no extra generation when clarification is required', async () => {
   const h = routeHarness({ action: 'ask_user' }); const r = await (await h.route.POST(request())).json();
-  assert.equal(r.workflow.state, 'needs_input'); assert.equal(h.d.counts.reserved, 0);
+  assert.equal(r.workflow.state, 'needs_input'); assert.equal(h.d.counts.reserved, 1); assert.equal(h.d.counts.prepared, 0);
 });
 test('UI contains separate opt-in consent and never calls the new bridge during rehearsal', () => {
   const ui = fs.readFileSync(path.join(root, 'components/do/TypeSafePilot.tsx'), 'utf8');

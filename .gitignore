@@ -66,3 +66,12 @@ research/_shotcache/
 
 # DO Agent OS v0 local persistence (DEMO)
 apps/do/data/
+
+# Local design and owned speech runtime caches
+.agents/skills/impeccable/scripts/bin/
+.venv*/
+services/assembl-voice/models/
+services/assembl-voice/output/
+
+# Local browser-proof output (review scripts write screenshots and results here)
+output/playwright/

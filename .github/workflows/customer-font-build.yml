@@ -1,0 +1,62 @@
+name: Customer font production builds
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'lib/fonts/**'
+      - 'lib/brand/fonts.ts'
+      - 'app/layout.tsx'
+      - 'app/customers/**/layout.tsx'
+      - 'app/alphassembl/layout.tsx'
+      - 'app/mana-receipts/layout.tsx'
+      - 'app/pilot/layout.tsx'
+      - 'app/agents/layout.tsx'
+      - 'app/assembling/fonts.ts'
+      - 'app/demo/toa-architects/page.tsx'
+      - 'components/homepage/HeroGolden.tsx'
+      - 'components/ops/toa/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'next.config.ts'
+      - 'scripts/build-next.mjs'
+      - '.github/workflows/customer-font-build.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: customer-font-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      NODE_OPTIONS: --max-old-space-size=6144
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @assembl/canvas build
+      - run: pnpm typecheck
+      - name: Font identity, glyph coverage and existing declaration contracts
+        run: pnpm test lib/fonts/customer-fonts.test.ts
+      - run: pnpm exec eslint lib/fonts/customer-fonts.test.ts
+      - name: First full production build
+        run: pnpm build
+      - name: Preserve first output and start without a Next build cache
+        run: mv .next /tmp/customer-font-first-build
+      - name: Second full production build
+        run: pnpm build

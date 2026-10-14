@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0",
+  "case_label": "CASE-A",
+  "questions": [
+    {
+      "id": "Q1a",
+      "source_number": "1(a)",
+      "text": "Current window schedule?"
+    },
+    {
+      "id": "Q1b",
+      "source_number": "1(b)",
+      "text": "Reconcile W03 material."
+    },
+    {
+      "id": "Q2",
+      "source_number": "2",
+      "text": "Provide TR-01."
+    },
+    {
+      "id": "Q3",
+      "source_number": "3",
+      "text": "Identify current services drawing."
+    },
+    {
+      "id": "Q4",
+      "source_number": "4",
+      "text": "Energy assessment evidence?"
+    }
+  ],
+  "documents": [
+    {
+      "id": "DOC-A",
+      "lineage_id": "A201",
+      "revision": "C",
+      "state": "current"
+    },
+    {
+      "id": "DOC-S",
+      "lineage_id": "SPEC",
+      "revision": "A",
+      "state": "current"
+    },
+    {
+      "id": "DOC-B",
+      "lineage_id": "A301",
+      "revision": "B",
+      "state": "superseded"
+    },
+    {
+      "id": "DOC-C",
+      "lineage_id": "A301",
+      "revision": "C",
+      "state": "current"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "EV-A",
+      "document_id": "DOC-A",
+      "page_1_based": 2,
+      "statement": "Fictional W03 aluminium.",
+      "fact_key": "W03.frame",
+      "fact_value": "aluminium"
+    },
+    {
+      "id": "EV-S",
+      "document_id": "DOC-S",
+      "page_1_based": 3,
+      "statement": "Fictional W03 timber.",
+      "fact_key": "W03.frame",
+      "fact_value": "timber"
+    },
+    {
+      "id": "EV-B",
+      "document_id": "DOC-B",
+      "page_1_based": 4,
+      "statement": "Fictional datum to confirm."
+    },
+    {
+      "id": "EV-C",
+      "document_id": "DOC-C",
+      "page_1_based": 1,
+      "statement": "Fictional DEMO-DATUM-01."
+    }
+  ],
+  "mappings": [
+    {
+      "question_id": "Q1a",
+      "evidence_ids": [
+        "EV-A"
+      ]
+    },
+    {
+      "question_id": "Q1b",
+      "evidence_ids": [
+        "EV-A",
+        "EV-S"
+      ]
+    },
+    {
+      "question_id": "Q3",
+      "evidence_ids": [
+        "EV-B"
+      ]
+    }
+  ],
+  "required_attachments": [
+    {
+      "question_id": "Q2",
+      "expected_document_id": "TR-01",
+      "description": "User-declared fictional attachment."
+    }
+  ]
+}

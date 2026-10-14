@@ -1,0 +1,11 @@
+.menu{position:relative;color:#492b3e;font:14px/1.5 var(--font-body),'Instrument Sans',sans-serif;z-index:40}
+.menu summary{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:44px;padding:10px 16px;list-style:none;cursor:pointer;border-radius:24px;background:#ead8e3}
+.menu summary::-webkit-details-marker{display:none}
+/* Explicit layout prevents host header/navigation rules leaking into this panel. */
+.menu>.panel{position:fixed;display:block;right:auto;top:calc(100% + 8px);width:min(360px,calc(100vw - 32px));max-height:min(680px,calc(100dvh - 100px));overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;padding:16px;background:#ead8e3;border:1px solid #d5b9ca;border-radius:26px;box-shadow:0 18px 55px #492b3e25;scrollbar-color:#916a70 #ead8e3;scrollbar-width:thin}
+.panel>.title{margin:3px 12px 12px;font-size:18px;font-weight:500;letter-spacing:-.025em;color:#492b3e}
+.menu .panel a{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;width:100%;min-width:0;min-height:44px;padding:10px 12px;border-radius:12px;text-decoration:none;color:#492b3e;font-size:14px;line-height:1.5;white-space:normal;overflow-wrap:anywhere}
+.panel a small{font-size:12px;color:#654a4e;line-height:1.5}
+.menu .panel a:hover{background:#fffdfb}.tools{margin:10px 0;padding:8px 0;border-block:1px solid #916a7040}.tools>summary{background:transparent;border-radius:12px}.tools>p{margin:5px 12px 8px;font-size:12px;line-height:1.5}
+.menu :is(a,summary,button):focus-visible{outline:3px solid #654a4e;outline-offset:-3px}
+@media(max-width:600px){.menu>summary{padding:10px 12px;gap:8px;font-size:13px}.menu>.panel{position:fixed;left:16px;right:16px;top:84px;width:auto;max-height:calc(100dvh - 100px);padding:12px;border-radius:22px}}

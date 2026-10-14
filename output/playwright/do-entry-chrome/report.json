@@ -1,0 +1,24 @@
+{
+  "checks": [
+    "capability shortcut appends to existing draft",
+    "Talk and Write preserve the actual mounted editor",
+    "unsupported uploads are explicit",
+    "local checklist draft survives entry changes",
+    "Add closes after choosing a capture mode",
+    "legacy tools are secondary, not deleted",
+    "legacy routes remain reachable",
+    "Escape closes menu and restores focus",
+    "navigation and shortcuts never start microphone or submit data",
+    "375px no horizontal overflow",
+    "320px no horizontal overflow",
+    "768px no horizontal overflow",
+    "1440px no horizontal overflow",
+    "reduced motion disables shortcut transitions",
+    "editor focus is visible",
+    "/do/personal uses the same entry",
+    "no runtime errors"
+  ],
+  "posts": [],
+  "errors": [],
+  "scope": "Synthetic browser checks. No installed PWA/native or live account/provider claim."
+}

@@ -1,0 +1,6 @@
+.hero{width:228px;height:170px;flex-shrink:0;display:grid;place-items:center;perspective:700px}
+.hero>[data-glass-identity]{transform:rotateX(var(--do-tilt-x,0deg)) rotateY(var(--do-tilt-y,0deg));transition:transform 220ms ease-out}
+.hero[data-embedded]{width:80px;height:80px}
+.hero[data-embedded]>[data-glass-identity]{width:80px!important;height:80px!important}
+@media(max-width:600px){.hero:not([data-embedded]){width:200px;height:145px}.hero:not([data-embedded])>[data-glass-identity]{width:145px!important;height:145px!important}}
+@media(prefers-reduced-motion:reduce){.hero>[data-glass-identity]{transform:none;transition:none}}

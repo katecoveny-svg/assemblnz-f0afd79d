@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import { REMEMBER_COOKIE, rememberCookieOptions } from '@/lib/supabase/session-policy';
 import { resolveAuthOrigin } from '@/lib/auth/origin';
 import { safeReturnPath } from '@/lib/auth/redirect';
+import { getReadyAuthProviders, type SocialProvider } from '@/lib/auth/providers';
 
 /**
  * Sign-in server actions.
@@ -29,7 +30,7 @@ import { safeReturnPath } from '@/lib/auth/redirect';
  */
 
 type Result = { ok: true } | { ok: false; error: string };
-export type SendMagicLinkResult = Result;
+export type SendMagicLinkResult = { ok: true } | { ok: false; error: string; retryAfter?: number };
 export type PasswordSignInResult = Result;
 export type SendPasswordResetResult = Result;
 
@@ -95,7 +96,9 @@ export async function sendMagicLinkAction(
   });
 
   if (error) {
-    return { ok: false, error: error.message };
+    return error.status === 429
+      ? { ok: false, error: 'Too many sign-in requests. Wait a minute before trying again. If this continues, email delivery needs to be checked.', retryAfter: 60 }
+      : { ok: false, error: error.message };
   }
   return { ok: true };
 }
@@ -170,4 +173,26 @@ export async function sendPasswordResetAction(
     return { ok: false, error: error.message };
   }
   return { ok: true };
+}
+
+/** Existing Supabase PKCE session flow; no custom identity matching or merging. */
+export async function socialSignInAction(formData: FormData): Promise<{ ok: true; url: string } | { ok: false; error: string }> {
+  const provider = formData.get('provider');
+  if (provider !== 'google' && provider !== 'apple') return { ok: false, error: 'Choose an available sign-in option.' };
+  const available = await getReadyAuthProviders();
+  if (!available[provider as SocialProvider]) return { ok: false, error: 'This sign-in option is not available yet. Use email or your existing password.' };
+  const next = safeReturnPath(formData.get('redirectTo'));
+  if (new URLSearchParams(next.split('?')[1] || '').get('nativeReview') === '1') {
+    return { ok: false, error: 'Provider sign-in opens a separate browser. Use your existing password inside the companion.' };
+  }
+  const remember = readRemember(formData);
+  await writeRememberPreference(remember);
+  const origin = await requestAuthOrigin(next);
+  const callback = `${origin}/auth/callback?next=${encodeURIComponent(next)}&remember=${remember ? '1' : '0'}`;
+  const client = await createClient();
+  const { data, error } = await client.auth.signInWithOAuth({
+    provider, options: { redirectTo: callback, skipBrowserRedirect: true },
+  });
+  if (error || !data.url) return { ok: false, error: 'Provider sign-in could not start. Try email or your existing password.' };
+  return { ok: true, url: data.url };
 }

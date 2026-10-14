@@ -6,6 +6,8 @@ Start with [`START_HERE.md`](./START_HERE.md), then use [`docs/context/README.md
 
 Do **not** preload every strategy, research or historical file. Repository context should be routed, not dumped.
 
+For the agreed product direction and delivery baseline, read [`docs/assembl-context.md`](./docs/assembl-context.md) and the dated evidence/owner table in [`docs/context/CURRENT.md`](./docs/context/CURRENT.md). The [13 October Claude handoff](./docs/context/handoffs/2026-10-13-claude-handoff.md) is supporting history, not a second canon or new authority. Repository product context is public and nonsecret; never put private user memory, credentials or session material here.
+
 ## 1. instruction precedence
 
 When instructions conflict:
@@ -103,20 +105,22 @@ Mixed/non-shipping areas such as `research/`, `marketing/`, root-level audits/br
 
 Visual source of truth: `docs/assembl-brand-system.md`.
 
-Current tokens:
+Company/DO roles (Kate’s exact locked glass identities and latest daylight correction are recorded in the same canon):
 
-- deep plum `#240B21`
+- visible light-field ink `#492B3E`
+- deep plum `#240B21` for dark fields and action fills
 - muted plum `#654A4E`
 - dusty rose `#916A70`
 - chalk `#F5F1F2`
 - paper `#FFFDFB`
+- Primary identities: exact user-locked glass lowercase company a and uppercase DO D-dot, source contract `public/brand/canonical/glass-v1/manifest.json`, shared `GlassIdentity`. Do not reinstate reconstructed meshes or opaque vector primary logos. Tiny derivatives preserve the locked silhouette/material colours and dot. Current corrected room uses artwork planes inside real 3D architecture; exact glass geometry is not claimed. Native installation remains a separate owner/proof task. Verified client brands remain unchanged.
 
 Typography:
 
 - Instrument Sans — headlines/body/navigation/controls
 - IBM Plex Mono — wait-state labels/evidence/timestamps/proof
 
-Wordmark: lowercase `assembl`.
+Wordmark: lowercase `assembl`. Company letter mark/favicon: lowercase `a`, never capital A. DO intentionally retains the uppercase D and interior dot. `docs/assembl-brand-system.md` is the single visual canon; historical root guides and old skills cannot override it.
 
 No chatbot/robot imagery. Prefer editorial or sculptural product photography and visual metaphors of assembly.
 

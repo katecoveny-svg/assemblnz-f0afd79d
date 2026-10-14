@@ -9,6 +9,9 @@ import { editFinancialDraft, financialReceipt, prepareFinancialDraft, reviewFina
 import { financialCsv, FINANCIAL_CSV_EXAMPLE, FINANCIAL_CSV_LIMIT } from '@/apps/do/finance/csv';
 import { DEMO_CHECKED_INVOICES, DEMO_FINANCIAL_SNAPSHOT } from '@/apps/do/finance/demo';
 import { checkedInvoice, moneyText, parseCents, type CheckedInvoice, type FinancialSnapshot } from '@/apps/do/finance/model';
+import { householdServices } from '@/apps/do/finance/services';
+import { energyUsageCheck, readBillFromMail, type BillReading, type UsageObservation } from '@/apps/do/finance/mail-bills';
+import { WhatYouPay } from './WhatYouPay';
 import styles from './bills-workspace.module.css';
 
 function today() {
@@ -37,10 +40,14 @@ export function BillsWorkspace() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [reading, setReading] = useState<BillReading | null>(null);
+  const [prefill, setPrefill] = useState<{ id: string; payee: string; reference: string; amount: string; issuedOn: string; dueOn: string; source: string } | null>(null);
+  const [usage, setUsage] = useState<UsageObservation[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
   const draftRef = useRef<HTMLElement>(null);
   const demo = snapshot.mode === 'demo';
   const recurring = useMemo(() => recurringPayments(snapshot), [snapshot]);
+  const services = useMemo(() => householdServices(snapshot), [snapshot]);
   const calendar = useMemo(() => billCalendar(invoices, snapshot.asOf), [invoices, snapshot.asOf]);
   const matches = useMemo(() => matchInvoices(invoices, snapshot), [invoices, snapshot]);
   const increases = recurring.filter(value => value.increase);
@@ -87,6 +94,21 @@ export function BillsWorkspace() {
       setError(cause instanceof Error && cause.name !== 'ZodError' ? cause.message : 'Check all required details, use real dates and an amount above zero. A due date cannot precede the invoice date.');
     }
   }
+  function readEmail(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const text = String(data.get('emailText') || '');
+    if (text.trim().length < 20) { setError('Paste the bill email text, at least a few lines.'); return; }
+    setError('');
+    setReading(readBillFromMail({ from: String(data.get('emailFrom') || '').slice(0, 500), subject: String(data.get('emailSubject') || '').slice(0, 500), date: today(), text: text.slice(0, 20000) }));
+  }
+  function useReading() {
+    if (!reading) return;
+    setPrefill({ id: crypto.randomUUID(), payee: reading.provider ?? '', reference: '', amount: reading.totalCents === null ? '' : (reading.totalCents / 100).toFixed(2), issuedOn: reading.periodTo ?? '', dueOn: reading.dueOn ?? '', source: 'Bill email' + (reading.periodFrom && reading.periodTo ? ' for ' + reading.periodFrom + ' to ' + reading.periodTo : '') });
+    if (reading.usageKwh && reading.periodFrom && reading.periodTo) setUsage(values => [...values.filter(value => value.periodTo !== reading.periodTo), { periodFrom: reading.periodFrom!, periodTo: reading.periodTo!, usageKwh: reading.usageKwh! }].slice(-24));
+    setMessage('Figures copied into the form below. Check each one against the actual bill, add the reference, then tick that you checked them.');
+  }
+  const usageCheck = usage.length ? energyUsageCheck(usage) : null;
   async function prepare(target: RecurringPayment | CheckedInvoice, action: FinancialAction) {
     if (busy) return;
     setBusy(true); setError(''); setMessage('');
@@ -114,9 +136,9 @@ export function BillsWorkspace() {
     <div className={styles.page}>
       <section className={styles.hero} aria-labelledby="bills-title">
         <div className={styles.heroCopy}>
-        <p className={styles.kicker}>DO BILLS · LESS ADMIN, MORE MAHI.</p>
-        <h1 id="bills-title">Know what’s coming.<br />Get the next step ready.</h1>
-        <p>Find recurring payments, check bill dates and prepare the questions worth asking.</p>
+        <p className={styles.kicker}>DO BILLS</p>
+        <h1 id="bills-title">Bills</h1>
+        <p>Know what you pay, hunt for a better deal, and check payments and dates from an example or your CSV.</p>
         <Link className={styles.textLink} href="/do/bills/compare">Compare a bill against current offers ↗</Link>
         </div><DoPresence className={styles.heroPresence} working={busy} />
       </section>
@@ -124,7 +146,7 @@ export function BillsWorkspace() {
       <section className={styles.sourcePanel} aria-labelledby="source-title">
         <div className={styles.sectionHead}>
           <div><p className={styles.kicker}>{demo ? 'FICTIONAL HOUSEHOLD' : 'YOUR RECORDS · THIS PAGE ONLY'}</p>
-            <h2 id="source-title">{demo ? 'Try the example.' : 'Your bill check.'}</h2></div>
+            <h2 id="source-title">{demo ? 'Example bills' : 'My bills'}</h2></div>
           <span className={styles.badge}>No bank connected</span>
         </div>
         <p>{demo ? 'All names, transactions and invoices below are fictional. Explore the complete draft-and-review flow.' : 'CSV rows and checked bills stay in this open page. Download any draft you want to keep before leaving or refreshing.'}</p>
@@ -156,9 +178,11 @@ export function BillsWorkspace() {
         <div><p className={styles.kicker}>WORTH CHECKING</p><strong>{increases.length + renewals.length + overdue.length}</strong><p>{increases.length} higher charges · {renewals.length} renewals · {overdue.length} past due dates</p></div>
       </section>
 
+      <WhatYouPay services={services} demo={demo} busy={busy} />
+
       <div className={styles.columns}>
         <section aria-labelledby="recurring-title">
-          <div className={styles.sectionHead}><div><p className={styles.kicker}>01 · FIND</p><h2 id="recurring-title">Payments to look at.</h2></div></div>
+          <div className={styles.sectionHead}><div><p className={styles.kicker}>01 · FIND</p><h2 id="recurring-title">Recurring payments</h2></div></div>
           <p className={styles.small}>Candidates from the supplied records. Check the merchant, service and usage before deciding a charge is wrong.</p>
           {recurring.length === 0 && <div className={styles.empty}>No recurring pattern found. Add at least three payments to the same merchant, or add a checked bill.</div>}
           <div className={styles.cards}>{recurring.map(payment => <article key={payment.id} className={styles.card}>
@@ -173,7 +197,7 @@ export function BillsWorkspace() {
         </section>
 
         <section aria-labelledby="calendar-title">
-          <div className={styles.sectionHead}><div><p className={styles.kicker}>02 · CHECK</p><h2 id="calendar-title">Dates from the bill.</h2></div></div>
+          <div className={styles.sectionHead}><div><p className={styles.kicker}>02 · CHECK</p><h2 id="calendar-title">Bill dates</h2></div></div>
           <p className={styles.small}>Dates come from checked invoices or renewal notices. Transaction timing is never used as a due date.</p>
           {invoices.length === 0 && <div className={styles.empty}>No checked bills yet. Add details from an actual invoice or notice below.</div>}
           <div className={styles.cards}>{[...invoices].sort((a, b) => (a.dueOn || '9999').localeCompare(b.dueOn || '9999')).map(invoice => <article key={invoice.id} className={styles.card}>
@@ -191,15 +215,40 @@ export function BillsWorkspace() {
             </div>
           </article>)}</div>
           {!demo && <details className={styles.details}>
+            <summary>Add a bill from an email</summary>
+            <p>Paste the text of a bill email. DO reads the provider, total, due date, period and any kWh out of it, in this page, with no model and no upload. Account numbers and links are left out of the evidence. You still check the figures against the bill.</p>
+            <form className={styles.form} onSubmit={readEmail}><fieldset disabled={busy}>
+              <label>From (as shown in your mail app)<input name="emailFrom" autoComplete="off" maxLength={500} placeholder="Contact Energy <noreply@…>" /></label>
+              <label>Subject<input name="emailSubject" autoComplete="off" maxLength={500} /></label>
+              <label>Email text<textarea name="emailText" rows={8} maxLength={20000} required /></label>
+              <button className={styles.primary}>Read the bill</button>
+            </fieldset></form>
+            {reading && <div className={styles.reading} aria-live="polite">
+              <p className={styles.kicker}>READ FROM THE EMAIL · {reading.confidence.toUpperCase()} CONFIDENCE · NOT YET CHECKED</p>
+              <dl>
+                <div><dt>Provider</dt><dd>{reading.provider ?? 'Not found'}</dd></div>
+                <div><dt>Total due</dt><dd>{reading.totalCents === null ? 'Not found' : moneyText({ amount: reading.totalCents, currency: 'NZD' })}</dd></div>
+                <div><dt>Due date</dt><dd>{reading.dueOn ?? 'Not found'}</dd></div>
+                <div><dt>Period</dt><dd>{reading.periodFrom && reading.periodTo ? reading.periodFrom + ' to ' + reading.periodTo : 'Not found'}</dd></div>
+                <div><dt>Usage</dt><dd>{reading.usageKwh === null ? 'Not stated' : reading.usageKwh.toLocaleString('en-NZ') + ' kWh'}</dd></div>
+              </dl>
+              {reading.evidence.length > 0 && <ul>{reading.evidence.map(line => <li key={line} className={styles.small}>{line}</li>)}</ul>}
+              {reading.notices.map(notice => <p key={notice} className={styles.small}>{notice}</p>)}
+              <div className={styles.buttons}><button type="button" disabled={busy || reading.totalCents === null} onClick={useReading}>Use these figures in the form</button></div>
+            </div>}
+            {usageCheck && <p className={usageCheck.status === 'unusual' ? styles.callout : styles.small}>{usageCheck.status === 'unusual' ? 'Unusually high energy use. ' : ''}{usageCheck.note}</p>}
+            <p className={styles.small}>When Personal DO&rsquo;s own mail reading is verified, the same reader runs on the bills that arrive, and DO raises them here before you ask.</p>
+          </details>}
+          {!demo && <details className={styles.details} open={Boolean(prefill)}>
             <summary>Add a checked bill or renewal</summary>
-            <form className={styles.form} onSubmit={addInvoice}><fieldset disabled={busy}>
-              <label>Provider or business<input name="payee" autoComplete="off" maxLength={160} required /></label>
-              <label>Invoice or notice reference<input name="reference" autoComplete="off" maxLength={160} required /></label>
-              <label>Amount including GST (NZD)<input name="amount" inputMode="decimal" placeholder="89.00" required /></label>
-              <label>Invoice or notice date<input name="issuedOn" type="date" max={snapshot.asOf} required /></label>
-              <label>Due date, if stated<input name="dueOn" type="date" /></label>
+            <form key={prefill?.id ?? 'blank'} className={styles.form} onSubmit={addInvoice}><fieldset disabled={busy}>
+              <label>Provider or business<input name="payee" autoComplete="off" maxLength={160} defaultValue={prefill?.payee} required /></label>
+              <label>Invoice or notice reference<input name="reference" autoComplete="off" maxLength={160} defaultValue={prefill?.reference} required /></label>
+              <label>Amount including GST (NZD)<input name="amount" inputMode="decimal" placeholder="89.00" defaultValue={prefill?.amount} required /></label>
+              <label>Invoice or notice date<input name="issuedOn" type="date" max={snapshot.asOf} defaultValue={prefill?.issuedOn} required /></label>
+              <label>Due date, if stated<input name="dueOn" type="date" defaultValue={prefill?.dueOn} /></label>
               <label>Renewal date, if stated<input name="renewalOn" type="date" /></label>
-              <label>Source you checked<input name="source" placeholder="September invoice PDF, page 1" maxLength={240} required /></label>
+              <label>Source you checked<input name="source" placeholder="September invoice PDF, page 1" maxLength={240} defaultValue={prefill?.source} required /></label>
               <label className={styles.check}><input name="paid" type="checkbox" /><span>I have confirmed this bill is already paid.</span></label>
               <label className={styles.check}><input name="checked" type="checkbox" required /><span>I checked these figures and dates against the actual invoice or notice. Blank dates are unknown.</span></label>
               <button className={styles.primary}>Add checked bill</button>
@@ -210,7 +259,7 @@ export function BillsWorkspace() {
 
       <section ref={draftRef} tabIndex={-1} className={styles.draftPanel} aria-labelledby="draft-title">
         <p className={styles.kicker}>03 · PREPARE → REVIEW → KEEP THE EVIDENCE</p>
-        <h2 id="draft-title">{draft ? draft.title : 'A useful next step, ready to check.'}</h2>
+        <h2 id="draft-title">{draft ? draft.title : 'Draft a reply'}</h2>
         {draft ? <>
           <p>{draft.mode === 'demo' ? 'Fictional example draft. ' : ''}Nothing has been sent. Preparing another enquiry replaces this draft; download it first if you want to keep it.</p>
           <label className={styles.draftLabel}>Edit your enquiry<textarea rows={12} maxLength={12000} disabled={busy} value={draft.text} onChange={event => setDraft(editFinancialDraft(draft, event.target.value))} /></label>
@@ -232,8 +281,8 @@ export function BillsWorkspace() {
 
       <aside className={styles.connector} aria-labelledby="connector-title">
         <div className={styles.sectionHead}><h2 id="connector-title">Bank connection</h2><span className={styles.badge}>Not enabled</span></div>
-        <p>Redbark is planned as an optional, read-only source for DO Bills, Money, Business and Tradie. This release uses the example or your local CSV. It does not connect to your bank.</p>
-        <p className={styles.small}>Connecting later will require your own authorisation and account choices. Sending, cancelling, switching and payments each need a separate approved action.</p>
+        <p>Redbark is planned as an optional, read-only source for DO Bills, Money, Business and Tradie, so DO can see what you pay without a CSV. The read adapter is built and tested; this release still uses the example or your local CSV and does not connect to your bank.</p>
+        <p className={styles.small}>What unlocks it: assembl&rsquo;s own Redbark account, your own sign-in to your bank through Redbark, your choice of accounts, and a working disconnect. DO will never ask for internet-banking passwords. Sending, cancelling, switching and payments each need a separate approved action.</p>
         {snapshot.notices.map(notice => <p className={styles.small} key={notice}>{notice}</p>)}
       </aside>
     </div>

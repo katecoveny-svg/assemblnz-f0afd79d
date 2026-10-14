@@ -1,0 +1,14 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DO fictional recovery review</title>
+<style>body{font:16px system-ui;max-width:640px;margin:24px;background:#fffdfb;color:#492b3e}button{margin:8px;padding:12px}pre{white-space:pre-wrap}</style>
+<h1>Fictional cart recovery</h1>
+<p>Test harness only. No retailer, account or installed extension.</p>
+<button id="read">Approve fresh fictional-cart read</button>
+<pre id="review">No recovery review</pre>
+<button id="ack" disabled>Acknowledge uncertainty — do not retry</button>
+<p id="result"></p>
+<script>
+let review;
+document.getElementById('read').onclick=async()=>{try{await window.fixtureCommand({action:'allow-read'});review=await window.fixtureCommand({action:'recover-read'});document.getElementById('review').textContent=JSON.stringify(review,null,2);document.getElementById('ack').disabled=false;}catch(e){document.getElementById('result').textContent=String(e);}};
+document.getElementById('ack').onclick=async()=>{try{const result=await window.fixtureCommand({action:'recover-ack',digest:review.digest});document.getElementById('result').textContent=JSON.stringify(result);document.getElementById('ack').disabled=true;}catch(e){document.getElementById('result').textContent=String(e);}};
+</script>

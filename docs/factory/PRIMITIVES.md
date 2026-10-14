@@ -1,11 +1,26 @@
 # assembl primitive registry
 
+### Personal DO bounded mail review (review build)
+
+Extends verified owner, Pipedream account ownership, Gmail decoding and writing-owner
+invalidation with `apps/do/mail/`, `/api/do/mail` and `/do/mail`. Explicit account,
+literal bounded search, source/account evidence, cancellation and in-memory reviewed
+task drafts; no model, mailbox writes or persistent state. Outlook reading fails
+closed pending verified delegated Mail.Read. Reusable text/voice handoff carries no
+consent. Synthetic tests, setup steps and limits: [Personal mail read](../DO-PERSONAL-MAIL-READ.md).
+
 A primitive is a reusable capability that makes later products faster, safer or better.
 
 Do not extract something merely because it might be reused. Prefer extraction after a second real use or when the mechanic is clearly cross-product infrastructure.
 
 | Primitive | Status | Location | Used by | Tests/evals | Notes |
 |---|---|---|---|---|---|
+| Evidence revision/review contract | draft synthetic preview | `apps/do/evidence/`, `/do/evidence` | Pursuit provenance projection + Meeting DO synthetic review | `apps/do/evidence/model.test.ts`, `scripts/evidence-review-browser.cjs` | Exact source versions, stale/conflict gates, review invalidation, test-only receipts; reuses DO evidence and Meeting ICS; no durable/authenticated approval. See `docs/DO-EVIDENCE-REVIEW.md` |
+| NZ evidence service contracts | inactive review slice | `lib/nz-evidence/` | future authenticated connected dots; no runtime registration | `lib/nz-evidence/service.test.ts` | closed auth/NZBN adapters, mock-tested official wire contract, owner/version/page-cited fictional preparation receipts; no provider, charging, ingestion or production change; see `docs/services/nz-evidence-pilot.md` |
+| NZ freight / redacted RFI public transforms | unpublished callable candidates; HTTP unmounted | `lib/nz-evidence/{freight,customs-public,architecture}.ts`, `plugins/mcp-servers/mcp-nz-evidence/` | portable freight and architecture development packages | candidate/transport suites + 16 executed MCP cases | exact public Customs code/FX references, deterministic non-identifying shipment packet and user-supplied RFI register/compare/CSV; no source-PDF verification, model, private account, storage, billing or submission; see `docs/services/nz-plugin-candidates.md` |
+| NZ plugin hosting admission / ZIP normalization | inactive closed proposal; local proof | `security-proposals/nz-plugin-hosting/policy.ts`, `scripts/lib/nz-plugin-zip.mjs` | future public stateless freight/RFI endpoints; no mounts | hosting contract tests and full four-timezone package parity | closed distributed port, strict host/body/metric contracts, proposed atomic limits and deterministic development ZIP headers; DB/WAF/DNS/hosting/cost/identity release gates remain; see `docs/services/nz-plugin-hosting-proposal.md` |
+| DO reviewed message workspace | recovery branch, local only | `apps/do/messages/`, `/do/messages` | DO Messages | model/storage tests and browser proof in recovery evidence | Extends native sharing and meeting ICS export; explicit exact-reply review, isolated threads, opt-in local save; no inbox integration, autonomous sending or delivery claims |
+| Assembl-owned voice jobs | recovery branch, separate worker required | `lib/voice/assembl/`, `services/assembl-voice/`, `/creative-studio/voices` | Studio voice options | route/ownership/offline tests, real CPU samples and HTTP proof | Uses existing Assembl owner auth and canonical glass assets; creates a private bounded Qwen queue. NZ accent review pending; no Māori support or telephone calling. No ElevenLabs API used |
 | CustomerJourney foundation | existing | `lib/journey/` | journey surfaces | see journey docs/evals | reusable journey runtime |
 | Business/customer context | existing | `lib/customers/` + related genome/context code | customer workspaces/journeys | audit needed | consolidate semantics before expanding |
 | Model routing | existing | `lib/ai/router.ts`, `lib/os/routing.ts` | agent/model work | routing tests | model is replaceable; route by task capability, measured performance, privacy, latency and cost |
@@ -15,9 +30,12 @@ Do not extract something merely because it might be reused. Prefer extraction af
 | Meeting follow-through | review branch | `apps/do/shared/meeting-followthrough.ts`, `apps/do/services/meeting-followup.ts`, `/api/do/meetings/follow-up` | Meeting DO | helper, route, ownership and action-request retry tests | Extends existing operator action queue with owner-scoped retry IDs; reuses browser task store; agenda/ICS export only; no autonomous sending, calendar booking or completed-work claims; see `docs/do-meet/MEETING-FOLLOW-THROUGH.md` |
 | Canvas/design primitives | existing | `packages/canvas/` | UI surfaces | package build required | use current canon palette |
 | Journey proof/eval | existing | `lib/journey/` + `pnpm eval:journeys` | journeys | existing eval command | expand before creating parallel proof systems |
+| DO bounded text reasoning | review branch, explicit config | `apps/do/shared/reasoning-server.ts`, `provider-consent.ts` | text/Life Admin/meeting drafts, decision preparation, family digest | reasoning wire, preparation/route/family tests | Extends proven Personal TypeSafe → GPT-6 Astra orchestration and durable owner admission; no fallback/tools; named request consent; old background grants paused pending durable renewal; private allowlisted Personal path remains scoped. See `docs/do-personal/ASTRA-COORDINATION.md`. |
 | DO AgentSpec runtime | existing / active | `apps/do/shared/` | browser extension, hosted DO, Mac/mobile surfaces | DO tests need expansion | portable agent definition, policy, compile/router/evidence spine; surface ≠ agent |
+| DO travel preparation | review module | `lib/do/travel/preparation.ts`, `manual-input.ts` | existing editable DO trip; UI integration pending | travel preparation/manual-input tests | extends shared travel; synthetic import and real manual-field review controller, explicit timezone/offset, session-only originals, private-field allowlist, stale evidence, opens Uber only; no booking permission; see `docs/do-travel/README.md` |
 | Studio Task DO Maker | active foundation | `lib/studio/task-do-maker.ts`, `/studio/do-maker`, `/do/maker/partner/*` | Pursuit overview handoff + partner-facing skins + DO Office session intake | `lib/studio/task-do-maker.test.ts` | shared core for Mode A (Pursuit pitch) and Mode B (partner chrome, rewarded-wait); offline `bp`/`warehouse` skins; drafts-only AgentSpec export |
 | DO approval/evidence boundary | existing / active | `apps/do/shared/policy.ts`, approval/evidence primitives | all DO surfaces | audit/expand | consequential actions remain approval-gated and should leave evidence |
+| DO appointment availability | review branch / disconnected | `lib/do/availability/` | personal appointment/tradie preparation | `availability.test.ts` | Creates bounded read-only provider/directory adapters, dated slot evidence and exact review/enquiry objects; uses DO demo fixtures and prepare/review conventions. No live feeds, bookings, holds or messages. Synthetic mode cannot prepare live actions; see `docs/DO-APPOINTMENT-AVAILABILITY.md`. |
 | Builderdoo job contract | active foundation | `apps/do/shared/builder.ts`, `/api/do/builder/plan`, `/do/builder` | Builderdoo + future repo execution adapters | `apps/do/shared/builder.test.ts` | persistent build identity/context/authority/proof contract; provider is selected separately |
 | Builderdoo durable Office jobs | active foundation | `apps/do/shared/office-jobs.ts`, `apps/do/services/office-jobs.ts`, `/api/do/builder/jobs`, `do_agents`/`do_receipts`/`do_job_events` | Builder + Office | `apps/do/shared/office-jobs.test.ts`, `app/api/do/builder/jobs/route.test.ts` | owner-scoped save/list/reopen; database provenance; missing storage returns unavailable, never hidden memory fallback; `job_accepted` means saved plan, never build success |
 | DO Office coordination projection | active foundation | `apps/do/shared/office.ts`, `docs/DO-OFFICE-ARCHITECTURE.md` | DO Office + future voice/companion coordination | add tests before wider use | Personal/Work/Client workspaces, structured handoffs, visible approvals/evidence; not a second agent runtime |
@@ -104,6 +122,127 @@ When a feature creates reusable mechanics, update this registry before closing t
 
 Extends `apps/do/shared/distribution.ts`, shared by the website and generated extension: clamps launcher/panel to `visualViewport`, preserves safe areas, supports touch dragging and reset position, and keeps context review separate from movement. Proof: `floating.test.ts` and `scripts/review-do-mobile.cjs`. Physical iPhone QA remains separate. The iOS keyboard is an offline development foundation, not a native agent runtime or installable release.
 
-## Native reviewed draft handoff · 30 Sep 2026
+### Personal DO responsibilities (30 Sep 2026)
 
-`apps/do/ios/Shared/DOStore.swift` is the local-only native handoff primitive. App/Share Sheet saves never approve keyboard access; explicit review releases one draft for one hour; keyboard reads only, checks identity/expiry again before insertion, and clears its preview on context change. XCTest contracts live in `apps/do/ios/Tests`. Unsigned compiler proof and signed App Group/device proof remain separate. This is not a cloud execution or generic cross-app context bridge.
+**Creates:** `apps/do/personal/` + `/api/do/personal` and the `do_personal_*` tables/RPCs: owner-scoped saved context, expiring preparation consent, atomic daily claims, revocation-aware finish, independent quota and review history. **Uses:** existing DO owner verification, preparation provider ladder, evidence hashes and reviewed sharing. Cloud scheduling requires production cron configuration; no account monitoring, native push or autonomous external action is implied. See `docs/DO-PERSONAL-20260930.md` and its repeatable SQL/API/browser checks.
+
+### Personal DO identity, calls and NZ life admin (30 Sep review implementation)
+
+- **Creates:** owner-scoped `apps/do/personal/profile*.ts` identity/style contract and `/api/do/personal/profile`. **Extends:** existing preparation and Gemini live calls with bounded style, explicit consent, owner/revision checks and reviewed unsaved handoffs. Production profile-migration application and real audio proof require verification.
+- **Creates:** twelve-workflow `apps/do/personal/life-admin/` review/evidence flow, UUID-scoped optional snapshots, guest work-loss warnings, local exports and calendar files. Uses existing vision and draft providers only after consent. No automatic external completion or reminders.
+- **Creates:** `/do/receive` and `apps/do/shared/share-intake.ts`, a scoped text/link PWA handoff with escaped review, expiry, owner binding and URL token stripping. Old share API remains retired; OS support must be checked.
+- **Creates:** `lib/do/nz-public-data.ts` and `/api/do/nz-public-data`, fixed-upstream, bounded, no-store NZTA public reads. **Uses:** existing rate backstop. Live source/route HTTP 200/400/503 proved; no user data, keys or private records sent.
+- **Extends public-source reads:** `apps/do/personal/local-updates.ts`, `lib/do/nz-local-updates.ts` and `/api/do/nz-local-updates` add explicit city-centre MET Norway model forecasts and dated national GeoNet headlines, with source attribution, bounded provider caching, conditional validation and honest stale/unavailable UI states. No household login, precise location, private context or emergency monitoring. Fifty focused tests and live outbound adapter reads passed; combined preview/mobile proof remains a release gate. See `docs/integrations/nz-local-updates.md`.
+- **Creates:** `DoReadAloud` / `read-aloud.ts`, explicit local-English-only speech output with safe unavailability. Device runtime proof pending.
+- **Proof and rollout:** `docs/DO-PERSONAL-CUSTOMISATION-20260930.md`, focused API/domain tests, profile SQL suite, repeatable browser scripts. Do not turn passing unit tests into a live-provider or physical-device claim.
+
+### Personal DO conversational reasoning and portable focus (30 Sep follow-up review)
+
+- **Extends:** existing `lib/typesafe` vendor choice transport and `lib/ai/router.ts` OpenAI setup for `apps/do/personal/assistant*` and `/api/do/personal/assistant`. The primary conversation uses explicit named-provider consent, a bounded TypeSafe request check and validated Astra-only Responses output. No fallback, executor or durable conversation storage is introduced. Existing scheduled/checklist drafting and Google voice retain their distinct providers and consent; see `docs/DO-PERSONAL-ASTRA-TYPESAFE-20260930.md`.
+- **Extends:** the shared distribution launcher to focus an already-open Personal DO rather than open a duplicate workspace. PWA installation keeps its identity and opens `/do/personal`; the older `/do/widget` remains a separate reviewed-capture surface. Source/generated-extension parity and fictional browser proof are tracked in `docs/DO-PORTABLE-UNIFICATION-20260930.md`.
+- **Hardens:** the existing Android IME development scaffold with explicit local clipboard review/insertion and a fixed web-app handoff. No network permission, background clipboard capture or fake preparation success remains. Source checks are not a compiled or installed Android release.
+
+### Private checklist snapshots and worker health (30 Sep 2026)
+
+**Extends:** the existing life-admin schema, verified DO owner and Supabase service pattern with `/api/do/personal/checklists`, `ChecklistCloud`, `cloud*.ts` and `do_personal_save_checklists`. Explicit consent, owner/session-scope matching, full-schema validation, bounded collections and atomic expected-revision writes are reusable. Empty snapshots retain their revision to prevent stale resurrection. Restore preserves open edits. No automatic sync, chat storage, household sharing or model invocation. **Extends:** scheduled-worker presentation with heartbeat freshness; configuration is not operational proof. See `docs/ASSEMBL-DELIVERY-AUDIT-20260930.md` and repeatable SQL/API/browser checks.
+# Enquiry execution primitive (30 September 2026)
+
+`apps/do/enquiries` extends verified DO ownership, Supabase storage, the existing
+Brevo sender, the Personal DO scheduler and MCP membership permissions. Approval
+is an atomic database claim bound to a saved draft revision; uncertain transport
+results are not retried. Durable job evidence distinguishes provider acceptance
+from recorded replies and bookings. Per-owner webhook keys accept idempotent
+intake and outcome events; three-day follow-ups are fresh approval-required jobs.
+`/api/mcp` exposes owner-scoped preparation/status/evidence, with no send tool.
+See `docs/DO-ENQUIRIES-RUNBOOK.md` for activation, validation and limits.
+
+### Unified DO entry and identity (30 Sep review implementation)
+
+**Extends:** existing PersonalDo at `/do`, retaining `/do/personal` for PWA and reviewed share intake. Keeps `/do/widget` as the exact-path capture receiver; known legacy task links resolve there. Uses existing owner/session/consent logic unchanged. No notes enter navigation URLs.
+
+**Extends:** `DoMark` through shared `DoPresence`, `DoBrand`, optional `DoEntryObject`/`DoObjectCanvas`, and `scripts/generate-do-identity.mjs`. Real bevelled geometry is progressive enhancement with static/reduced-motion fallback; no hosted provider or continuous render loop is needed. Consumer menus no longer label the seeded developer board as saved user tasks. Native source changes are not an installed/signed Mac release.
+
+**Creates:** `lib/do/navigation.ts` for non-content DO sign-in return selectors, with explicit task/tool allowlists. Proof: `navigation.test.ts`, existing consent/owner/capture regression tests, and `scripts/review-do-unified.cjs`. See `docs/DO-UNIFIED-20260930.md` for actual check results and remaining release gates.
+## Reviewed NZ public link boundary — review foundation
+
+**Extends** kb_sources/kb_documents via `lib/public-nz/` and homepage/knowledge-search/general Pursuit. Code-reviewed GETS/Bills identity and URL constraints, anonymous bounded reads, no stored content/metadata output, explicit unknown publication/status and per-source stale/error telemetry. It supplies discovery links, not substantive intelligence or current opportunity claims. Proof: `lib/public-nz/model.test.ts`, `lib/public-nz/server.test.ts`; see `docs/PUBLIC-NZ-LINK-BOUNDARY.md` for DO integration and ingestion guarantees still required. No new ingestion, permissions, database changes or deployment.
+
+**Review-stage extension:** `lib/public-nz/parliament.ts` independently reads fixed official bill UUID detail endpoints with a shared 2-second deadline, 128 KiB body cap and maximum two records. Strict identity/selected-field validation yields inert public title/excerpt/status plus explicitly named introduction/activity dates. Fresh factual evidence and discovery remain distinct within one 4,000-character context budget; stale evidence is excluded. Read-only live proof succeeded; DO integration remains with its owning worker. See the same boundary document for the contract and remaining release gates.
+
+### Optional Personal DO context and review queue (review build)
+
+Extends existing `apps/do/personal` responsibilities, runs and worker health with `memory.ts`, `memory-service.ts` and `review-queue.ts`. Owner-only self context has explicit notice/consent, provenance, retention and CAS/tombstone forgetting; memory is never model input in this phase. Family roles are fictional preview metadata with no authority. SQL proposal remains outside migrations and the feature is inactive. Proof: personal unit/API suite plus `scripts/test-do-memory-sql.cjs` with isolated PostgreSQL concurrency mode. See `docs/do-personal/README.md` for activation blockers and adapter contract.
+
+The separate inactive provider-use stage extends this with `memory-use.ts`, `memory-use-server.ts`, `memory-use-storage.ts` and `preparation-controls.ts`. Confirmed self goals/preferences/constraints require separate versioned OpenAI+TypeSafe consent, exact owner/purpose/revisions and fresh dispatch/publication checks; collection-only records remain rejected. An unapplied SQL proposal adds CAS/tombstones, consistent retrieval and unique job-bound novelty reservations that survive restarts. Context changes revoke derived drafts. No route, scheduler or provider wiring activates this capability. See `docs/do-personal/PROVIDER-MEMORY.md` and isolated `scripts/test-do-provider-memory-sql.cjs` for contract and proof.
+
+### EA-to-EA diary coordination (fictional review foundation)
+
+Creates `apps/do/coordination/protocol.ts` and `/do/coordination`: strict synthetic envelopes, exact-window disclosure, deterministic overlap, revision/digest-bound dual review, expiry/revocation, idempotent delivery and three-round cap. Uses canonical DO frame/identity. Session-only two-adult fixtures; no production peer identity, memory access, calendar permissions, durable delivery or booking. See `docs/DO-EA-COORDINATION.md` for audited boundaries, tests and live adapter gates.
+
+### Authenticated EA coordination (inactive durable proposal)
+
+Adds `apps/do/coordination/durable/*` and `/api/do/coordination` behind an off-by-default pilot flag and a reject-all pairing adapter. Authenticated session-bound commands and private snapshots use proposed isolated participant storage, exact disclosure/proposal approval, CAS, bounded rounds/quotas and durable replay tombstones. SQL remains `docs/do-coordination/schema-review.sql` outside migrations; no real pairing, calendar/provider action or external transport. Public fictional review stays unchanged. See `docs/do-coordination/README.md` for PostgreSQL proof and activation gates.
+
+- **Assembled glass identity:** `components/brand/AssembledGlassMarks.tsx` reuses canonical lowercase assembl a and uppercase DO D-dot contours as real scene geometry; `AssemblGlassMark` supplies the small opaque vector. Keep the demand-rendered atelier and complete real-scene fallbacks; raster artwork never substitutes for motion proof.
+### Freight-only closed hosting review
+
+Extends the inactive NZ hosting proposal with a minimal closed Node entry/build, quota-only driver, separate cleanup role/RPC and fixed health receipts. Actual local PostgreSQL/Node-driver and HTTP proofs are recorded in the source review artifact; only the approved empty protected project/hostname association is created; no deployment, DNS record, route, login, grant, Cron or provider is activated. See `docs/services/nz-freight-owner-permission.md` for the narrowly scoped protected-setup boundary, with verified US$0 incremental empty setup cost and setup completed under explicit owner permission; no database/Cron/public/spending authority is included.
+
+### Shop/Travel fixture preparation and simulated rewarded review
+
+Creates `lib/do/shop/preparation.ts` for explicit recipe quantities, unit-compatible consolidation, pantry deducted once, packs/leftovers, merchant-neutral needs and separately sourced offers. Creates `lib/do/preparation/contracts.ts` for shared NZD budget, revision-bound prepared receipts and idempotent fictional sponsored reward events; extends existing manual Travel preparation through `/do/travel`. `/do/shop` is a fictional weekly/occasion dinner preparation surface. Session-only; no real partner, booking, checkout, earning or persistence. Human review is the genuine wait; optional utility never delays completion. See `docs/DO-SHOP-TRAVEL-PREPARATION.md` for proof, auth-owner adapter gates and provisional visual scope.
+
+### Shared preparation envelope and canonical demo target (phase one)
+
+Extends `lib/do/preparation/contracts.ts` using existing journey run IDs, validated `EvidenceRecord` provenance and proposed/approved/rejected action statuses. Shop and Travel share version/revision-bound prepared/reviewed/declined records, cancellation and idempotent preparation; domain calculations and manual itinerary validation remain separate. `lib/demos/catalogue.ts` accepts an explicit canonical HTTPS target without changing historical slug URLs. `/demos` retains its gate/noindex while exposing one independently hosted Woolworths concept and preserving earlier references. See `docs/CONSOLIDATION-PHASE-ONE.md`; auth, durable memory, provider/reward access and other portfolio concepts remain outside this slice.
+
+### School source comparison (closed pilot foundation)
+
+Extends Family DO selected-sender validation, HouseholdPerson type and reviewed-action vocabulary via `apps/do/school/` and the existing `/do/family` surface. Actual fictional PDF bytes produce page-cited old/new comparisons, bounded NZ/Auckland dates, explicit child audience matching, conflict/failure gates and owner/revision-bound draft decisions. No private roster defaults, model, live ingestion, durable school store, calendar writes or notifications. Existing Gmail dependency is deliberately closed until specific processing consent and isolated persistence are verified. See `docs/do-school/README.md` for capability matrix, tests and exact private-pilot prerequisites.
+
+### Public Pursuit → Studio storyboard (review implementation, 13 October)
+
+Extends the existing fictional Pursuit examples and extracts the browser-only motion renderer into `lib/studio/motion-video.ts`, retaining the private Studio compatibility import. Creates `lib/studio/public-project.ts`: strict bounded, text-only versioned project import/export. `/pursuit/studio` is an anonymous local brief → four scenes → playable export workflow. No private content, provider calls, cloud persistence, cloning or avatars. Caption cues follow scenes, not speech. Tests and production-browser proof: `docs/PUBLIC-PURSUIT-STUDIO.md`; deployment remains a separate review gate.
+
+### School agenda projection and closed pilot port
+
+`apps/do/school/agenda.ts` extends the existing school evidence primitive with Auckland civil-day/week windows, explicit calendar event links, start-time conflicts and snapshot-bound draft review. `apps/do/school/staging.ts` reuses owner/CAS, connector input, digest and source contracts behind an unbound server port; `/api/do/family/school-pilot` remains closed. No parallel browser storage, live reader, job or writer. [Pilot adapter and consent gates](../do-school/PRIVATE-PILOT-STAGING.md).
+
+### DO entry capability presentation (review draft, 13 October)
+
+- **Creates:** `apps/do/shared/entry-capabilities.ts` and `DoCapabilityIdeas` for one presentation catalog across Personal DO and the hosted widget used by the browser/Mac companions. These are draft ideas and labelled routes, not execution permissions or a new agent runtime.
+- **Extends:** existing navigation with `DoEntryDisclosure`: viewport-bounded panels, mutually exclusive More/Add, keyboard/outside dismissal and mounted-editor preservation. Parent navigation styles must target direct children; nested dropdowns declare their own layout.
+- **Reuses:** existing official local-information components in `DoLocalInformation`, existing editor consent and tool routes. No new provider, calendar, bank or native-widget connection.
+- **Proof:** `scripts/review-do-more-capabilities.cjs` covers expanded panels, responsive geometry and shared actions, alongside the existing entry/settings/companion regressions. See `docs/reviews/DO-MORE-CAPABILITIES-20261013.md` for the cross-surface matrix and platform limits. Draft status until review and release.
+
+### DO saved live-call voice (13 October review implementation)
+
+Extends the existing `do_personal_profiles.voice_name` preference and constrained Gemini Live token. `apps/do/shared/voice-options.ts` is the common curated allowlist; `apps/do/services/voice-preference.ts` binds the reviewed voice/revision to the authenticated owner. All hosted call entry surfaces use the saved choice on the next call with fresh consent; active session configuration is not replaced. No new storage or provider authority. Sources, integration boundaries and synthetic proof: `docs/DO-VOICE-CHOICE-20261013.md`.
+
+## Reviewed browser cart foundation — review build
+
+`apps/do/browser/` creates a bounded cart contract and deterministic fixture DOM executor; reuses verified DO ownership and the review/permit/verify lifecycle. `/api/do/browser-actions` is authenticated and fails closed; `capability.ts` supplies one unavailable projection for surface owners and generated companion copy. Atomic durable authority storage/pairing is an unbound port, not an in-memory production substitute. Woolworths execution is explicitly rejected until separate reviewed activation and retailer validation. See [browser cart foundation](../do-action-cloud/BROWSER-CART-FOUNDATION.md) for scope, tests and the staged/applied/deployed ledger.
+
+### Reviewed Save-to-DO visual board (inactive persistence proposal)
+
+Creates `lib/do/saved/save-intent.ts` and `/do/saved`: strict selected text/link/note contracts, explicitly chosen local image previews, search, source-linked task drafts and session-only visual review using canonical glass identity and approved fictional art. The server-only repository port supplies owner expectations, CAS and erase tombstones; SQL remains outside migrations; a cookie-scoped adapter and `/api/do/saved` are bound behind the default-off DO_SAVED_DURABLE_ENABLED gate. The visual UI remains session-only. No URL fetching, provider, silent capture or cross-device claim. Proof and release gates: `docs/do-saved/README.md` and `lib/do/saved/save-intent.test.ts`.
+
+### DO Fitness reviewed synthetic handoff (draft)
+
+**Uses/extends:** Strong sample catalogue and engine, Shop quantity consolidation, portable AgentSpec and Office projection. `lib/do/fitness/contracts.ts` bounds chief→Fitness requests and rebuilds reviewed food-only Shop payloads with revision checks, whole-selection food constraints and explicit unsupported-unit blocking. `/do/fitness` is in-memory synthetic adult proof, not authenticated health storage or autonomous execution. Equipment/location and failed-swap donor safety fixes are shared. Tests and release gates: `docs/do-fitness/REVIEW.md`.
+
+### Reviewed voice → Shopper DO (14 October draft)
+
+Extends `DoGeminiLive` reviewed output and the existing `ShopJourney`; `lib/do/shop/voice-handoff.ts` bounds a page-owned brief without URLs, browser storage or carried consent. Personal DO and the hosted widget preserve the mounted planner across internal back/return and clear it at their existing owner boundary. `apps/do/shared/audio-exclusion.ts` coordinates read-aloud and live-call output on one page; it never starts audio. See `docs/reviews/SHOPPER-VOICE-20261014.md` for synthetic evidence and DB/Vercel/persistence/listening release gates. Real cart execution and durable editable plans are not provided.
+
+### Bounded shopping missions (14 October review draft)
+
+`lib/do/shop/missions.ts` extends existing meal choices and quantity consolidation with one-dinner, confirmed-pantry coverage and cook-extra missions. Lower-cost alternatives compare whole-plan pack-rounded totals for a single recipe replacement; callers provide the eligible catalogue and price calculation. Both ShopJourney and the fictional loyalty demonstrator require explicit acceptance and invalidate prior review. No execution authority or persistence is created. [Evidence and release gates](../reviews/SHOP-MISSIONS-20261014.md).
+
+### DO task illustration system (review)
+
+`components/do/DoTaskScene.tsx` supplies original, static, decorative SVG still lifes for groceries, school, writing, briefings, travel, bills, pets, car and home. `DoCapabilityIdeas` reuses them in full and embedded task spaces. Unique gradient IDs support repeated instances; text, availability and links stay semantic HTML. These scenes supplement the locked `GlassIdentity`, never replace it or imply completed work. The site launcher and shared portable `distribution.ts` expose Write and availability-gated Speak destinations; source changes do not update installed extensions.
+
+## Native reviewed draft handoff — 14 October development integration
+
+`apps/do/ios/Shared/DOStore.swift` supplies a local-only app/Share Sheet/keyboard handoff. Saving does not approve insertion; explicit review releases a draft for one hour, and the keyboard rechecks identity and expiry before insertion. A shared App Group is not account isolation or per-record OS isolation; expiry is not secure deletion. Tests are in `apps/do/ios/Tests`; unsigned simulator and signed-device proof remain distinct. No cloud execution, generic cross-app context, signing or installation is claimed.

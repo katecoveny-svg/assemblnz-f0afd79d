@@ -1,0 +1,33 @@
+{
+  "results": [
+    {
+      "mode": "pointer",
+      "selected": "Role-Ready Research Pack",
+      "heading": "Role-Ready Research Pack",
+      "header": "relative",
+      "reduced": true,
+      "heroReduced": "true",
+      "backgroundImage": false,
+      "diagram": true,
+      "diagramLoaded": true,
+      "animation": "none",
+      "width": 1352,
+      "scrollWidth": 1352
+    },
+    {
+      "mode": "touch",
+      "selected": "Role-Ready Research Pack",
+      "heading": "Role-Ready Research Pack",
+      "header": "relative",
+      "reduced": true,
+      "heroReduced": "false",
+      "backgroundImage": false,
+      "diagram": true,
+      "diagramLoaded": true,
+      "animation": "none",
+      "width": 351,
+      "scrollWidth": 351
+    }
+  ],
+  "limits": "Native Chrome CDP mouse/touch emulation on isolated synthetic local review; not physical phone or production owner persistence."
+}

@@ -1,0 +1,56 @@
+name: Loyalty DO concept review
+on:
+  pull_request:
+    paths:
+      - 'app/do/loyalty/everyday-rewards/**'
+      - 'public/loyalty/everyday-rewards/**'
+      - 'scripts/review-loyalty-do.cjs'
+      - 'scripts/review-shop-missions.cjs'
+      - 'lib/do/shop/**'
+      - 'app/do/shop/**'
+      - '.github/workflows/loyalty-do-review.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: loyalty-do-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      NODE_OPTIONS: --max-old-space-size=6144
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @assembl/canvas build
+      - run: pnpm typecheck
+      - run: pnpm exec eslint app/do/loyalty/everyday-rewards app/do/DoUtilityDock.tsx app/do/DoGeminiLive.tsx --max-warnings=0
+      - run: pnpm exec vitest run app/do/loyalty/everyday-rewards lib/do/shop
+      - run: pnpm lint:macrons
+      - run: pnpm build
+      - run: npm install --prefix /tmp/loyalty-review playwright
+      - run: /tmp/loyalty-review/node_modules/.bin/playwright install --with-deps chromium
+      - name: Exercise production route and capture evidence
+        run: |
+          pnpm start --port 3047 > /tmp/loyalty-server.log 2>&1 &
+          for i in $(seq 1 60); do curl -fsS http://localhost:3047/do/loyalty/everyday-rewards > /dev/null && break; sleep 2; done
+          ASSEMBL_PLAYWRIGHT_MODULE=/tmp/loyalty-review/node_modules/playwright node scripts/review-loyalty-do.cjs
+          ASSEMBL_REVIEW_ORIGIN=http://localhost:3047 ASSEMBL_PLAYWRIGHT_MODULE=/tmp/loyalty-review/node_modules/playwright node scripts/review-shop-missions.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: loyalty-do-review
+          path: |
+            output/loyalty-do
+            output/shop-missions

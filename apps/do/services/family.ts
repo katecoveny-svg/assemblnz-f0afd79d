@@ -1,9 +1,11 @@
 import { z } from 'zod';
+import { DO_TEXT_PROVIDER_CONSENT_VERSION } from '../shared/provider-consent';
 
 export const familyRequest = z.object({
   senders: z.array(z.string().trim().email().max(254).regex(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i)).min(1).max(8),
   days: z.union([z.literal(7), z.literal(14), z.literal(30)]),
   consent: z.literal(true),
+  providerConsentVersion: z.literal(DO_TEXT_PROVIDER_CONSENT_VERSION),
 }).strict();
 export const familyResult = z.object({
   summary: z.string().max(1200),
@@ -25,7 +27,7 @@ export type GmailMessage = { id?: string; payload?: GmailPayload; snippet?: stri
 
 export function familyQuery(senders: string[], days: 7 | 14 | 30) {
   // Validation precedes interpolation. No free-form Gmail search or whole-inbox scan.
-  const parsed = familyRequest.parse({ senders, days, consent: true });
+  const parsed = familyRequest.omit({ providerConsentVersion: true }).parse({ senders, days, consent: true });
   return `{${parsed.senders.map(sender => `from:(${sender})`).join(' ')}} newer_than:${days}d -in:spam -in:trash`;
 }
 export function senderAddress(value: string) {

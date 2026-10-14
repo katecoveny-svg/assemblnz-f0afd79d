@@ -1,0 +1,33 @@
+{
+  "checkedAt": "2026-10-01T12:53:56.566Z",
+  "schemaSha256": "130b100a88d4adc5807ba0e7912c43d651c793805b4ade8efbe7853736398ceb",
+  "storage": "isolated PostgreSQL 17",
+  "authentication": "fictional Supabase Auth stubs",
+  "realCrossDeviceProven": false,
+  "checks": [
+    "inherited Supabase-style ACL revocation including service_role",
+    "owner isolation",
+    "scope isolation",
+    "same-ID save retry",
+    "separate-session reopen",
+    "concurrent preparation CAS",
+    "editable-result reopen",
+    "maximum ASCII/Unicode input",
+    "Unicode direct-RPC UTF16 boundaries",
+    "atomic owner count quota",
+    "owner byte quota on output growth",
+    "bounded lifetime ID quota",
+    "owner-lock wallclock expiry",
+    "row-lock wallclock expiry",
+    "numeric context-ID rejection",
+    "revocation",
+    "direct table denial",
+    "retention purge",
+    "day-100 replay denied",
+    "zero proposal-enabled owners",
+    "RPC execute does not enrol an owner",
+    "owner/scoped/expiring DB enablement including lock wait",
+    "same-ID retry owner access expiry during row-lock wait"
+  ],
+  "passed": true
+}

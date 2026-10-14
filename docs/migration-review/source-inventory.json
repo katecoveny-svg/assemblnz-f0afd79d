@@ -1,0 +1,298 @@
+{
+  "siteId": "appgprj_6aa356a9700081919f7959cc70c9f6d8",
+  "sourceCommit": "f9c752ed5d5107ebac9f675aa6d14bce116c01c1",
+  "productionReconciled": false,
+  "files": [
+    {
+      "path": "lib/enterprise-plan.ts",
+      "sha256": "5f763051104da2474ccfca8067d2b5db5ff1cda4aabf892449f41af304aa7967",
+      "bytes": 11575
+    },
+    {
+      "path": "lib/enterprise-security.ts",
+      "sha256": "17ebf2ba93ddb55ea6f37d0478f075b11eb71664d79bf25b185a0712f0e62787",
+      "bytes": 14288
+    },
+    {
+      "path": "lib/idea-board.ts",
+      "sha256": "066e14280645379b223a3bba10301dd72cdaa6340991c08f4eb681ae772f1dcd",
+      "bytes": 1860
+    },
+    {
+      "path": "lib/client-brand-assets.ts",
+      "sha256": "bf1f74c3601a50c8150c9056641f11a7eff618f642e21f0be00f973150f10d00",
+      "bytes": 15955
+    },
+    {
+      "path": "lib/client-brand.ts",
+      "sha256": "9ed7d686864e8a5dc3982a383cfa9b5e74027064808bea1aeff33867bbc6a5c0",
+      "bytes": 3127
+    },
+    {
+      "path": "lib/seller-brand.ts",
+      "sha256": "7b0f73174733c165df35ac6eba374809f31a85e1e95223c1da21e6446611de41",
+      "bytes": 2470
+    },
+    {
+      "path": "lib/creative-direction.ts",
+      "sha256": "0ad528b3887148ac26a53cece238de63835e8594b44fe80aae6849a4aa6c2dcb",
+      "bytes": 7567
+    },
+    {
+      "path": "lib/concept-engine.ts",
+      "sha256": "c47ee3431629598c8959a7c450b5f73302002456b735e5b537198bfa761b56d7",
+      "bytes": 35793
+    },
+    {
+      "path": "lib/radar-scope.ts",
+      "sha256": "2b00b163597f6624e96a015bfd1fb72635668df5f7a6587846f22d931ce15b80",
+      "bytes": 6659
+    },
+    {
+      "path": "lib/pursuit-companies.ts",
+      "sha256": "ba8defff36ed9a81effdd04ec3e85269cc1e39f747149030df162afb4a5a40b2",
+      "bytes": 3522
+    },
+    {
+      "path": "lib/client-studios.ts",
+      "sha256": "eca12c7318caa6fb7106dc0969077c46f427f323f39ab0ea9c6066ffdcf98883",
+      "bytes": 3389
+    },
+    {
+      "path": "lib/hub-visuals.ts",
+      "sha256": "6fc0393a569f60b884570d8631404cf16cdeb932d5c850425f570cb82366c246",
+      "bytes": 5013
+    },
+    {
+      "path": "lib/demo-cinema.ts",
+      "sha256": "ef581df00bd6ba68dcbaeacf8784eaa0fa05abc05c84b7d9c3355b75eb9fc409",
+      "bytes": 3219
+    },
+    {
+      "path": "lib/creative-export-style.ts",
+      "sha256": "bbade6c71b5409e58064d61f532fb6b57e5f420f997dcdf2435ab962fb8a74cd",
+      "bytes": 4983
+    },
+    {
+      "path": "lib/creative.ts",
+      "sha256": "aad7b6285561a53daaf1d98a6cfe524ffdfadac1856f0821c2f019030559fb27",
+      "bytes": 18449
+    },
+    {
+      "path": "lib/radar-hub-contract.ts",
+      "sha256": "6e5199530841173b73122022d4377a870f69899910b27b4c4a615fd8425f82ac",
+      "bytes": 338
+    },
+    {
+      "path": "lib/cinematic-presentation.ts",
+      "sha256": "17ac65c5ef688a99fba6014395eb751319fd9269c611d5f428391ac315017d1d",
+      "bytes": 13236
+    },
+    {
+      "path": "lib/sap-presentation-fonts.ts",
+      "sha256": "23c244ab0dc0b919f5fc110352b2e11a54ee1fcf691ef2b5e1a78aa332f8b1fc",
+      "bytes": 75747
+    },
+    {
+      "path": "lib/branded-experience.ts",
+      "sha256": "e177ecaaf91eb4287478ef59dafaab7c4dc2d6de2846e9b129a671789da96731",
+      "bytes": 15805
+    },
+    {
+      "path": "lib/concept-experience.ts",
+      "sha256": "b7e851e3bfcd4980ac6c93902a31fa637616a3eaa052220afba2d860f7b5c8c2",
+      "bytes": 37601
+    },
+    {
+      "path": "lib/radar-contract.ts",
+      "sha256": "e58ebbcaa4fde7ec4c1322e3081ff3d121b67fde0ea4fa4311b58bde3b3cac52",
+      "bytes": 4447
+    },
+    {
+      "path": "lib/pursuit-hub.ts",
+      "sha256": "4f601a9bf02912ce015a011866e29af604a56dc83e32bf6bfd91755971caf8f4",
+      "bytes": 27117
+    },
+    {
+      "path": "lib/workspace-identity.ts",
+      "sha256": "a341416b050bdf0b62f766a0687c494604d09e82f865fb132c5e0f1d447aee76",
+      "bytes": 1071
+    },
+    {
+      "path": "lib/company-hub.ts",
+      "sha256": "06059ca554e32e69459fb5bfe84b42f078b39af5273c16b9bfdae98ce0ec71dd",
+      "bytes": 1018
+    },
+    {
+      "path": "app/hub/../studios/share-hub.tsx",
+      "sha256": "6ed56dfdabfac4ad5025976607e4bb18ee4c69c4559dc92a54d677522906bdd9",
+      "bytes": 1491
+    },
+    {
+      "path": "app/hub/../creative/media-studio.css",
+      "sha256": "770d889ca9a015e3deca38ae1b4c10162da00622459dfb31b2bbbae42b07d5d5",
+      "bytes": 9464
+    },
+    {
+      "path": "app/hub/../creative/media-studio.tsx",
+      "sha256": "6507f8d63e2c6dcaace4d2a1d6552d32028d5bbd04105828f967c0ba7f7cd6d2",
+      "bytes": 10931
+    },
+    {
+      "path": "app/hub/cinema-studio.css",
+      "sha256": "cfca0bfeb3a33ca78c53534333b0a723dfb6355e4e991df41dfdf517c153b029",
+      "bytes": 2420
+    },
+    {
+      "path": "app/hub/art-direction.tsx",
+      "sha256": "6e2e86b446a0563cd110b139e13d2369b7a048e1411c4ff350d92c3e99cbe153",
+      "bytes": 3193
+    },
+    {
+      "path": "app/hub/cinema-studio.tsx",
+      "sha256": "eda5c5607553867d536b8d0304d2c58f20272e5cc8272ac7e5758dbbe8f8b591",
+      "bytes": 5864
+    },
+    {
+      "path": "lib/utils.ts",
+      "sha256": "53f3d3d070f0a9082934da25b875f9499855c2b0693868dd28be8c23d8730f68",
+      "bytes": 177
+    },
+    {
+      "path": "components/ui/button.tsx",
+      "sha256": "cc36af0f8b5019c33cc039fbf03bb952a513072b15b55b53c592b78af3e5f4c4",
+      "bytes": 2392
+    },
+    {
+      "path": "lib/motion-video.ts",
+      "sha256": "5d8d240c4f51e1dd94c453ca36fa6ea8e62c1517158f43dd82617ffa8e021c59",
+      "bytes": 7073
+    },
+    {
+      "path": "app/hub/../creative/video-studio.tsx",
+      "sha256": "7e850a145decb83aa15bd980588ff0eb99e521e1043fe8f097c1f0ecacce20ca",
+      "bytes": 9036
+    },
+    {
+      "path": "app/hub/../creative/studio.css",
+      "sha256": "4070e0e4ef62b99fe789a50711e4a6f0deb01eb81922a7a24a3cd9a68e2039b8",
+      "bytes": 28484
+    },
+    {
+      "path": "app/hub/concept-studio.css",
+      "sha256": "b2b9e888acf72d1ebfe5b07d9dca7de6f7273cd858e2d6e095d777a8abbefae2",
+      "bytes": 27463
+    },
+    {
+      "path": "app/hub/client-brand-editor.tsx",
+      "sha256": "85cdc74042a1be2c7afc2f8c63c8c6531b773b1cc30e7dc410f463602ce3fd08",
+      "bytes": 4585
+    },
+    {
+      "path": "app/hub/seller-brand-editor.tsx",
+      "sha256": "e579f4d0bb51cbe859b5eb8d51ac185cf6fb58286e094f9b7040a6156bb4756b",
+      "bytes": 6817
+    },
+    {
+      "path": "app/hub/agent-answer.tsx",
+      "sha256": "36f185e4eb1abf19fbe27474817712652ddba9d89518bc1e044a6fa546fd7db4",
+      "bytes": 1232
+    },
+    {
+      "path": "lib/company-knowledge.ts",
+      "sha256": "49c9efdb34f25369925384b08918f3a16193b9f9157b54e545317dad2072051c",
+      "bytes": 2656
+    },
+    {
+      "path": "lib/agent-connection-brief.ts",
+      "sha256": "2e0da02f08e612834f6c62c2c3e3f28ead50a4270c10589ac0cde05d4bcabd01",
+      "bytes": 3824
+    },
+    {
+      "path": "app/hub/sales-agent-studio.tsx",
+      "sha256": "3ef2654745fa6340048206274cfca5d879b0c3e86227d82c2246872c5ae9b25a",
+      "bytes": 9944
+    },
+    {
+      "path": "lib/document-text.ts",
+      "sha256": "d2dd1c5e57c8cef8d9f36a3fff4e3d82924e6b69dea97a8873225575dde9c2d5",
+      "bytes": 2593
+    },
+    {
+      "path": "app/hub/knowledge-library.tsx",
+      "sha256": "3d2b4c7bf8c4c700f38a8bcd43c879d3688a38128eaa9e79b00391e0524beb39",
+      "bytes": 7247
+    },
+    {
+      "path": "app/hub/enterprise-planner.tsx",
+      "sha256": "31a4a6fbb5264494932d2e4fc2e365aede20c587b87b684fb6f16b9a02771c4e",
+      "bytes": 11752
+    },
+    {
+      "path": "app/hub/campaign-dashboard.tsx",
+      "sha256": "1c3e9e521c83c4dacfecd995ff4ef7ef2f70993e952121a336c85bbb38ed9f3e",
+      "bytes": 9044
+    },
+    {
+      "path": "app/hub/security-studio.css",
+      "sha256": "ae7705fc3ce9b78b063fc88a32e869b198e096bb6c2ad3c41bca3c600110fc1e",
+      "bytes": 2098
+    },
+    {
+      "path": "app/hub/security-studio.tsx",
+      "sha256": "9d3a42208e5951fa1c5fb98ac58ad32e32b6c946183288768076d01aaf9ec2b1",
+      "bytes": 9234
+    },
+    {
+      "path": "app/hub/enterprise.css",
+      "sha256": "b1f6e278ac3ec88030d93438d36577bb70069dc8237d916cb1088e4675939964",
+      "bytes": 13317
+    },
+    {
+      "path": "app/hub/../studios/studios.css",
+      "sha256": "9cd636d2f84e3b4062a5d76abe828a80bd36f96d757b0247bead46b020d12ce1",
+      "bytes": 8722
+    },
+    {
+      "path": "app/hub/idea-board.css",
+      "sha256": "fbff725b5d5e6422843101c4f9c52f6c86af704280bf1d3d009dd12268cbe72f",
+      "bytes": 10015
+    },
+    {
+      "path": "app/hub/idea-board.tsx",
+      "sha256": "e01761c52a3a740abcb59c24eef30f58dcd120cd0f7aa7734fd08d70d31f840a",
+      "bytes": 11168
+    },
+    {
+      "path": "lib/radar-client.ts",
+      "sha256": "a13646e68b3185f77dac3633f6a6851cf6ab8a344a570584573dd62ce8e7aade",
+      "bytes": 4120
+    },
+    {
+      "path": "lib/radar-hub-client.ts",
+      "sha256": "ffbeeb5ca648fe14bb9b4c1bc3cbd02ff42f3a316c5c82f3ffdd3691fe243ef4",
+      "bytes": 1769
+    },
+    {
+      "path": "lib/radar-handoff.ts",
+      "sha256": "0568d20cfbca617badf561c4fc16d31b28e665365709bb3e0539f46ba2480cf7",
+      "bytes": 4894
+    },
+    {
+      "path": "app/hub/radar-studio.css",
+      "sha256": "03df047c5e4c4249bd5d23347a0211d01ee3de955d9d51192f9e3404acf76b46",
+      "bytes": 7760
+    },
+    {
+      "path": "app/hub/radar-studio.tsx",
+      "sha256": "9faf75c2003ede2794d325b4efc5183af317b52b157627c409bda7c52a4f9aaa",
+      "bytes": 21906
+    },
+    {
+      "path": "app/hub/concept-studio.tsx",
+      "sha256": "042880f4a05c118a1d7a3b397a1b2ceb94cebf10f1b52770bea8152632cbd3b1",
+      "bytes": 60667
+    }
+  ],
+  "missing": []
+}

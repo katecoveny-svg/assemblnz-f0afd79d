@@ -1,0 +1,28 @@
+{
+  "state": {
+    "Status": "running",
+    "Running": true,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 2357,
+    "ExitCode": 0,
+    "Error": "",
+    "StartedAt": "2026-10-04T08:35:22.90701938Z",
+    "FinishedAt": "0001-01-01T00:00:00Z",
+    "Health": {
+      "Status": "healthy",
+      "FailingStreak": 0,
+      "Log": [
+        {
+          "Start": "2026-10-04T08:35:25.020357265Z",
+          "End": "2026-10-04T08:35:25.045770499Z",
+          "ExitCode": 0,
+          "Output": "localhost:5432 - accepting connections\n"
+        }
+      ]
+    }
+  },
+  "restart_count": "0"
+}

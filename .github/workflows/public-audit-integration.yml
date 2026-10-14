@@ -1,0 +1,58 @@
+name: Public audit full application integration
+on:
+  push:
+    branches: ['local/public-audit-integration']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @assembl/canvas build
+      - run: pnpm typecheck
+      - run: pnpm exec eslint app/contact/audit/page.tsx components/business-audit/PublicAuditDiagnostic.tsx lib/business-audit --max-warnings=0
+      - run: pnpm test lib/business-audit/public-handoff.test.ts
+      - name: Full unchanged application production build and guards
+        run: pnpm build
+      - name: Install isolated browser tooling
+        run: |
+          npm install --prefix /tmp/audit-browser --no-package-lock playwright@1.55.0
+          /tmp/audit-browser/node_modules/.bin/playwright install --with-deps chromium
+      - name: Verify actual production Next route without email or provider submissions
+        env:
+          PLAYWRIGHT_MODULE: /tmp/audit-browser/node_modules/playwright
+          AUDIT_REVIEW_MODE: full-app-production
+        run: |
+          pnpm start > /tmp/public-audit-next.log 2>&1 &
+          app_pid=$!
+          trap 'kill "$app_pid" 2>/dev/null || true' EXIT
+          for i in $(seq 1 40); do
+            curl -sf http://127.0.0.1:3000/contact/audit >/dev/null && break
+            sleep 2
+          done
+          node scripts/review-public-audit.cjs
+      - name: Record exact candidate
+        if: always()
+        run: |
+          mkdir -p output/playwright/public-audit
+          git rev-parse HEAD > output/playwright/public-audit/candidate-sha.txt
+          cp /tmp/public-audit-next.log output/playwright/public-audit/next.log 2>/dev/null || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: public-audit-full-app-proof-${{ github.sha }}
+          path: output/playwright/public-audit
+          retention-days: 14

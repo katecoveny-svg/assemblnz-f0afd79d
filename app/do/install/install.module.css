@@ -126,3 +126,7 @@
     align-items: flex-start;
   }
 }
+
+/* One product, with consumer setup first and developer packages on request. */
+.page{max-width:920px;padding:0 28px 90px;background:#fffdfb}.header{min-height:88px;margin-bottom:25px}.navLink{min-height:44px;display:flex;align-items:center}.hero{text-align:center;padding:10px 0 50px}.hero>span{--presence-size:170px}.heroTitle{font-size:clamp(38px,5vw,54px);font-weight:500}.hero .heroCopy{margin:15px auto 25px}.cta{border-radius:16px;min-height:48px;align-items:center;justify-content:center;background:linear-gradient(165deg,#654a4e,#240b21);border:1px solid #654a4e;box-shadow:inset 0 1px 0 #eac8df80,0 2px 0 #240b21,0 8px 18px #240b2118}.card{border:0;border-radius:30px;background:#f5f1f2;padding:30px}.card[id=phone]{background:#dad2f4}.note{background:#fffdfb99}.developer{margin:35px 0}.developer>summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;min-height:70px;border-top:1px solid #240b2118;font-size:18px;letter-spacing:-.02em;list-style:none}.developer>summary::-webkit-details-marker{display:none}.developer .card{margin-top:20px}.developer[open]>summary span{transform:rotate(45deg)}
+@media(max-width:600px){.page{padding:0 20px 70px}.header{min-height:76px;gap:10px}.nav{gap:12px;font-size:11px}.nav>a:nth-child(2){display:none}.hero{padding:0 0 35px}.hero>span{--presence-size:145px}.heroCopy{font-size:14px}.card{padding:23px;border-radius:24px}.developer>summary{font-size:17px}}

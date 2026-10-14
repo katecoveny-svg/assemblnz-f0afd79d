@@ -1,0 +1,18 @@
+# Recipient access design — not activated
+
+Each immutable snapshot belongs to an owner and a specific workspace/revision. Its recipient projection is generated from an explicit allowlist: selected concept, reviewed public evidence, approved branding and authorised media. Exclude private notes, private research, alternative concepts, contractor evidence, work documents, draft answers and unrelated workspaces by construction. Store the projection separately from the owner payload.
+
+Grant schema: UUID id, owner_user_id, recipient_user_id, snapshot_id, positive revision, active/revoked status, expires_at, created_at and revoked_at. One recipient/snapshot grant at a time; authenticated user IDs, never display names or a bearer URL. Grant creation belongs to a server owner action after review; recipient cannot create/update a grant or change recipient identity. No grants or invites exist in this review build.
+
+Read path: obtain user identity from the existing main server auth primitive, look up the authoritative grant scoped to that identity and requested snapshot, apply `canReadRecipientSnapshot`, then return only the immutable projection. Deny by default if authentication, lookup, status, expiry or schema is unavailable. Apply private/no-store caching. Deny owner payload endpoints to recipients. Returning 404 avoids disclosure of snapshot existence.
+
+Media path: recipient media endpoint repeats the same grant check and verifies media belongs to the selected projection. Private storage; no permanent public object URL, no broad bucket access. Either proxy authorised bytes or use short-lived URLs after grant checking, with a documented revocation window. Video range requests require the same checks. Never let client-submitted company/id select another owner's object.
+
+RLS design: owner records select/update only for `auth.uid() = owner_user_id`; recipients have no policy on owner records. Snapshots select only through a matching active grant with `recipient_user_id = auth.uid()` and future expiry. Direct inserts/updates of recipient grants by ordinary recipients denied. Prefer reviewed server RPC for atomic snapshot + grant creation, with explicit owner identity validation; service-role use is not an alternative to that check. Storage policies align with snapshot media membership.
+
+Acceptance matrix: unauthenticated, wrong user, guessed valid snapshot ID, copied URL, revoked/expired grant, malformed grant, unrelated company, owner-only API and direct media URL denied. Correct recipient receives one reviewed projection only; no studio listing or discovery of other clients. Concurrency/revocation and media caching tested before live sharing. This document is a schema/design proposal, not an applied migration or production access claim.
+
+
+## V1 review correction — recipient/media inactive
+
+The archived V1 SQL/Storage policies were rejected. Owner-only activation creates no recipient tables/policies. This design is not implementable acceptance proof. Future projection must have a complete bounded allowlist schema and forbid owner notes/research/alternate ideas/customer documents. Snapshot revision, owner and selected media must be bound together; object paths must be generated in verified owned namespaces. Audit every existing bucket/policy for permissive-policy OR leakage before adding a policy. Test forged membership, cross-owner objects, stale snapshot media and delivery caching. Grant revocation stops subsequent authorised requests, but an already issued presigned URL may remain valid until its TTL; state that window honestly. Prefer checked byte serving if immediate revocation is required. Independent review remains required.

@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { DEMOS, SUPERSEDED, url } from '@/lib/demos/catalogue';
 import { DemosGate } from './DemosGate';
 import { DEMOS_COOKIE } from './gate-shared';
+import { GlassIdentity } from '@/components/brand/GlassIdentity';
 import './demos.css';
 
 export const metadata: Metadata = {
@@ -39,19 +40,19 @@ export default async function DemosPage() {
   const flagged = DEMOS.filter((d) => d.caution && d.tier !== 'parked');
 
   return (
-    <main className="dm">
+    <div className="dm">
       <div className="dm-wrap">
-        <header className="dm-head">
+        <header className="dm-head"><GlassIdentity kind="assembl" size={48} />
           <p className="dm-kick">assembl · internal · not indexed</p>
           <h1>
             The concept fleet.<br />
             <span className="dm-metal">One link per lead.</span>
           </h1>
           <p className="dm-lede">
-            The 1 August framework stack: {now.length} to send now, {next.length} for this month,
-            {' '}{exhibits.length} evidence exhibits, {parked.length} parked. Every demo from here is
-            built on the five-beat spine &mdash; commitment, the wait made visible, three useful
-            moments, value earned, the receipt.
+            Current discovery links with dated verification: {now.length} priority reviews,
+            {' '}{next.length} next reviews, {exhibits.length} references and {parked.length} parked.
+            Legacy priorities are retained for navigation; they do not establish current readiness
+            or authorise outreach. Only the Woolworths canonical destination was rechecked in this slice.
           </p>
           <p className="dm-note">
             Every concept is independent: not commissioned by, affiliated with or endorsed by the
@@ -62,7 +63,7 @@ export default async function DemosPage() {
 
         {flagged.length > 0 && (
           <section className="dm-flags">
-            <h2>Check these before you send</h2>
+            <h2>Check before external use</h2>
             <ul>
               {flagged.map((d) => (
                 <li key={d.slug}>
@@ -75,20 +76,20 @@ export default async function DemosPage() {
 
         {[
           {
-            title: 'Send now',
-            sub: 'Warm or ready this week: Nectar, Sharesies, and the flagship. Build order per the 1 Aug framework — Aironaut instrumentation first (no new build), then these.',
+            title: 'Priority review',
+            sub: 'Current primary links. Review the dated behavior and limitations before using a concept externally.',
             list: now,
             tight: false,
           },
           {
-            title: 'This month',
-            sub: 'The retirement stack (door order: Oceania → Metlifecare → Karaka Pines/Hopper), My Food Bag, and holds: Southbase builds after the Benny coffee; Hnry builds when a design-partner conversation is booked; Woolworths/bp is the Q2 prize track.',
+            title: 'Next review',
+            sub: 'Preserved discovery priorities from the earlier catalogue. Current access and provider behavior require verification.',
             list: next,
             tight: false,
           },
           {
             title: 'Evidence exhibits — no further build',
-            sub: 'Kept as proof, not pitches: Air NZ is the Delta +25 NPS slide, Southern Cross the claims-wait exhibit, Ledgerline the Nectar compliance support, Fernmarket the My Food Bag bones, the construction demonstrator folds into Southbase.',
+            sub: 'Historical examples for inspection and reuse. Their presence is not a production-readiness claim.',
             list: exhibits,
             tight: true,
           },
@@ -104,7 +105,7 @@ export default async function DemosPage() {
                       <p className="dm-sector">{d.sector}</p>
                       <h3>{d.company}</h3>
                     </div>
-                    <a className="dm-open" href={url(d.slug)} target="_blank" rel="noopener">
+                    <a className="dm-open" href={url(d)} target="_blank" rel="noopener">
                       open &rarr;
                     </a>
                   </div>
@@ -112,21 +113,22 @@ export default async function DemosPage() {
                   <p className="dm-show">{g.tight ? d.showpiece : <><b>Worth showing:</b> {d.showpiece}</>}</p>
                   {d.caution && !g.tight && <p className="dm-caution">{d.caution}</p>}
                   <div className="dm-meta">
-                    <code className="dm-url">{url(d.slug)}</code>
+                    <code className="dm-url">{url(d)}</code>
                     {!g.tight && (
                       <span className="dm-has">
                         {[
-                          d.has.waits && 'six waits',
+                          d.has.waits && 'wait concepts',
                           d.has.accept && 'accept panel',
                           d.has.scratch && 'scratch',
-                          d.has.agent && 'live agent',
+                          d.has.agent && 'agent concept',
                         ].filter(Boolean).join(' · ') || 'bespoke build'}
                       </span>
                     )}
                   </div>
+                  {d.verification && <p className="dm-caution">Verified {d.verification.observedAt} · {d.verification.access} · {d.verification.behavior} {d.verification.readiness}</p>}
                   {d.superseded && !g.tight && (
                     <p className="dm-sup">
-                      Replaces {d.superseded.map((s) => s.slug).join(' and ')} &mdash;{' '}
+                      Preserved references: {d.superseded.map((s) => s.slug).join(' and ')} &mdash;{' '}
                       {d.superseded[0]!.note}
                     </p>
                   )}
@@ -139,15 +141,13 @@ export default async function DemosPage() {
         <section className="dm-dead">
           <h2>Parked &mdash; not for outreach</h2>
           <p className="dm-sub">
-            Per the 1 Aug framework: Seek killed; Tower, AIG, real estate, energy, NZ Post and
-            Instant Finance parked; Trade Me warm in six months (re-approach the Property GM with an
-            agency-side journey once a live customer exists). Pages stay live because links are in
-            inboxes &mdash; nothing here goes in a new email.
+            Kept for reference under their earlier catalogue classification. No outreach is
+            authorised by this index. Access and integration status have not been reverified here.
           </p>
           <ul>
             {parked.map((d) => (
               <li key={d.slug}>
-                <code>{url(d.slug)}</code>
+                <code>{url(d)}</code>
                 <span>{d.company} &mdash; {d.sector}</span>
               </li>
             ))}
@@ -198,20 +198,20 @@ export default async function DemosPage() {
         </section>
 
         <section className="dm-dead">
-          <h2>Superseded &mdash; do not send</h2>
+          <h2>Preserved earlier references</h2>
           <p className="dm-sub">
-            Still live, because links are already in inboxes. Nothing here is the current build.
+            Original destinations are preserved without redirects or deletion. Their current availability is unverified; use the canonical destination for the current concept.
           </p>
           <ul>
             {SUPERSEDED.map((s) => (
               <li key={s.slug}>
-                <code>{url(s.slug)}</code>
+                <a href={url(s.slug)} target="_blank" rel="noopener"><code>{url(s.slug)}</code></a>
                 <span>
-                  {s.company} &mdash; {s.note}. Send{' '}
-                  <a href={url(s.replacedBy)} target="_blank" rel="noopener">
+                  {s.company} &mdash; {s.note}. Current:{' '}
+                  <a href={s.replacedByTarget} target="_blank" rel="noopener">
                     {s.replacedBy}
                   </a>{' '}
-                  instead.
+                  .
                 </span>
               </li>
             ))}
@@ -220,11 +220,11 @@ export default async function DemosPage() {
 
         <footer className="dm-foot">
           <p>
-            assembl &mdash; intuitive agentic customer journeys. Every figure on every concept
-            carries its source; anything unsourced was left out.
+            assembl &mdash; intuitive agentic customer journeys. Sample concepts and historical
+            references require their own evidence checks; this index does not certify production readiness.
           </p>
         </footer>
       </div>
-    </main>
+    </div>
   );
 }

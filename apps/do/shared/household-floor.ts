@@ -232,8 +232,8 @@ export function installHouseholdFloor(input: InstallHouseholdFloorInput): Househ
         kind: 'note',
         title: 'Household Floor installed',
         summary: input.template.shareable
-          ? 'Public template installed on this device. Place the DO, install the browser seat extension, then run the evening board.'
-          : 'Owner-private seed installed. Do not share this instance publicly — it carries personal household context.',
+          ? 'Sample template installed on this device. Place the DO, install the browser extension, then run the evening board.'
+          : 'Private household context is not available on this public page. Use the sample template instead.',
         createdAt: now,
         evidence: {
           templateId: input.template.id,

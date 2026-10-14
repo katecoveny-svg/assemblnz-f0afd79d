@@ -71,7 +71,7 @@ export function DoTaskStrip({ boardId, limit = 3, label }: Props) {
       ) : (
         <p className={styles.empty}>No open tasks on this DO.</p>
       )}
-      <p className={styles.note}>Local per-DO list · not Linear.app sync</p>
+      <p className={styles.note}>Local per-DO list · stays on this device</p>
     </section>
   );
 }

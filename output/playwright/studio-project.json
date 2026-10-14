@@ -1,0 +1,28 @@
+{
+  "kind": "assembl-public-storyboard",
+  "version": 1,
+  "example": "customer",
+  "title": "Daily Market",
+  "brief": "A retailer adds click & collect.",
+  "concept": "Prepare a collection checklist the customer can review.",
+  "format": "landscape",
+  "seconds": 4,
+  "scenes": [
+    {
+      "title": "Make the wait useful.",
+      "body": "One small choice. A more useful collection."
+    },
+    {
+      "title": "An opening to explore.",
+      "body": "A retailer adds click & collect."
+    },
+    {
+      "title": "Ready for collection.",
+      "body": "Prepare a collection checklist the customer can review."
+    },
+    {
+      "title": "Start a conversation.",
+      "body": "Check the actual journey, customer needs and permissions."
+    }
+  ]
+}

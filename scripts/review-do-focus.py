@@ -60,7 +60,7 @@ async def main():
    await expect(page.get_by_role('heading',name='First, check the words.')).to_be_visible()
    await expect(page.get_by_role('checkbox',name='Use this transcript with DO’s preparation provider to write my notes.')).not_to_be_checked()
    await page.goto(BASE+'/do/widget',wait_until='networkidle')
-   await expect(page.get_by_role('heading',name='What needs doing?')).to_be_visible()
+   await expect(page.get_by_role('heading',name='What would you like done?')).to_be_visible()
    await expect(page.get_by_role('combobox',name='Task',exact=True)).to_be_visible()
    assert not await page.get_by_text('This DO · next tasks',exact=True).count()
    assert not await page.evaluate('document.documentElement.scrollWidth > innerWidth + 1')
@@ -70,8 +70,8 @@ async def main():
    await page.get_by_role('checkbox',name='Use this text for this preparation.',exact=False).check()
    await page.get_by_role('button',name='Write a reply',exact=False).click()
    await expect(page.get_by_role('region',name='Prepared draft')).to_be_visible()
-   await page.get_by_role('button',name='Talk',exact=True).click()
-   await page.get_by_role('button',name='Write',exact=True).click()
+   await page.get_by_role('button',name='Voice',exact=True).click()
+   await page.get_by_role('button',name='Notes',exact=True).click()
    await expect(page.locator('#do-source')).to_have_value('Please prepare a clear reply asking when the reviewed draft is needed.')
    assert len([c for c in calls if c[1]=='POST'])==3,calls
    assert not errors,errors

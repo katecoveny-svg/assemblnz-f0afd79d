@@ -2,6 +2,7 @@
 No sign-in, form submission, credentials, paid generation or external writes.
 """
 import asyncio
+import os
 import json
 import sys
 from pathlib import Path
@@ -10,7 +11,7 @@ from playwright.async_api import async_playwright, expect
 OUT = Path('visual-evidence')
 OUT.mkdir(exist_ok=True)
 LOCAL = '--local' in sys.argv
-ORIGIN = 'http://127.0.0.1:3000' if LOCAL else 'https://www.assembl.co.nz'
+ORIGIN = os.environ.get('ASSEMBL_REVIEW_ORIGIN', 'http://127.0.0.1:3000' if LOCAL else 'https://www.assembl.co.nz')
 PAGES = [('/', 'home'), ('/pursuit', 'pursuit'), ('/do', 'do'), ('/creative-studio', 'studio')]
 
 async def read_only(route):
@@ -22,12 +23,22 @@ async def read_only(route):
 async def capture(page, name):
     await page.screenshot(path=str(OUT / f'{name}.png'), timeout=90000)
 
-async def decoded_gallery(gallery):
+async def decoded_gallery(page, gallery, alt):
     # A title update alone does not prove the newly selected image is visible.
     image = gallery.locator('img')
     await expect(image).to_be_visible()
-    await image.evaluate('(img) => img.decode()')
-    assert await image.evaluate('(img) => img.complete && img.naturalWidth > 0'), 'Gallery image did not decode'
+    await expect(image).to_have_attribute('alt', alt)
+    # A source swap can cancel the previous decode. Poll the current connected image,
+    # but still fail if the intended image never decodes.
+    for _ in range(20):
+        decoded = await image.evaluate("async img => { try { await Promise.race([img.decode(), new Promise((_, reject) => setTimeout(() => reject(new Error('decode timeout')), 1000))]); return img.isConnected && img.complete && img.naturalWidth > 0; } catch { return false; } }")
+        if decoded:
+            # React can replace the source immediately after an old decode resolves.
+            await page.wait_for_timeout(100)
+            if await image.evaluate('(img) => img.complete && img.naturalWidth > 0'):
+                return
+        await page.wait_for_timeout(100)
+    raise AssertionError('Gallery image did not decode')
 
 async def separated_brief_controls(page):
     gap = await page.locator('#how-it-works [data-step]').evaluate('''stage => {
@@ -84,11 +95,19 @@ async def main():
                         await hold_scene(page)
                     await capture(page, f'{name}-{width}-top')
                     if name == 'home' and LOCAL:
+                        # The assembl scene leads the homepage; the deeper brief remains optional.
+                        atelier = page.locator('details.refined-atelier')
+                        await expect(page.get_by_role('heading', name='Agentic AI solutions, assembled for your business.', level=1, exact=True)).to_have_count(1)
+                        await expect(page.locator('[data-chapter]')).to_have_count(1)
+                        await expect(page.locator('#how-it-works')).to_have_count(0)
+                        await expect(page.locator('[data-chapter]')).to_be_visible()
                         await page.get_by_role('button', name='View DO scene', exact=True).click()
                         await page.wait_for_timeout(3500)
                         await expect(page.locator('[data-chapter]')).to_have_attribute('data-chapter','1',timeout=10000)
                         await hold_scene(page)
                         await capture(page, f'{name}-{width}-chapter-do')
+                        await atelier.locator('summary').click()
+                        await expect(atelier).to_have_attribute('open', '')
                         await page.locator('#how-it-works').scroll_into_view_if_needed()
                         await page.locator('#how-it-works button').nth(1).click()
                         await expect(page.locator('#how-it-works h3')).to_have_text('The work takes shape.')
@@ -105,9 +124,9 @@ async def main():
                         await page.wait_for_timeout(1200)
                         await capture(page,f'{name}-{width}-products')
                         if width > 1000:
-                            await page.locator('article[data-product="do"]').hover(position={'x':24,'y':24})
+                            await page.locator('#products [data-product="do"]').hover(position={'x':24,'y':24})
                             await page.wait_for_timeout(500)
-                            result['hoverTransform'] = await page.locator('article[data-product="do"]').evaluate('(e)=>getComputedStyle(e).transform')
+                            result['hoverTransform'] = await page.locator('#products [data-product="do"]').evaluate('(e)=>getComputedStyle(e).transform')
                             await capture(page,f'{name}-{width}-hover')
                         for ending in ['/studios','/agency']:
                             assert any(a['href'] == 'https://assembl-pursuit.katecoveny.chatgpt.site' + ending for a in result['page']['links']), 'Missing exact workspace destination'
@@ -115,18 +134,18 @@ async def main():
                     elif name == 'studio' and LOCAL:
                         gallery = page.locator('#studio-work')
                         await gallery.scroll_into_view_if_needed()
-                        await decoded_gallery(gallery)
+                        await decoded_gallery(page, gallery, 'Assembl’s imagined atelier, built as an interactive 3D scene')
                         await capture(page,f'{name}-{width}-spatial')
                         await gallery.locator('[aria-label="Choose a visual example"] button').nth(1).click()
                         await expect(gallery.locator('h3')).to_have_text('An identity with movement.')
-                        await decoded_gallery(gallery)
+                        await decoded_gallery(page, gallery, 'An identity with movement.')
                         await capture(page,f'{name}-{width}-motion')
                         await gallery.get_by_role('button',name='Play film',exact=True).click()
                         await expect(gallery.locator('video')).to_be_visible()
                         await gallery.locator('video').evaluate('(e)=>e.pause()')
                         await gallery.locator('[aria-label="Choose a visual example"] button').nth(2).click()
                         await expect(gallery.locator('h3')).to_have_text('A small mark. A whole world.')
-                        await decoded_gallery(gallery)
+                        await decoded_gallery(page, gallery, 'A small mark. A whole world.')
                         await capture(page,f'{name}-{width}-identity')
                         result['interactions']=['gallery selection','user-initiated video','identity selection']
                     else:
@@ -154,7 +173,7 @@ async def main():
                 await capture(page,f'home-375-{label}')
                 if LOCAL:
                     await expect(page.locator('#products h2')).to_be_visible()
-                    await expect(page.locator('article[data-product="do"]')).to_be_visible()
+                    await expect(page.locator('#products [data-product="do"]')).to_be_visible()
                     assert await page.locator('a[href="https://assembl-pursuit.katecoveny.chatgpt.site/studios"]').count() > 0
                 result['passed']=True
             except Exception as e:

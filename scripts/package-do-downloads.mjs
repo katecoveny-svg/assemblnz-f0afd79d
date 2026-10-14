@@ -4,11 +4,13 @@ import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import JSZip from 'jszip';
-const VERSION = '1.7.0';
+const versions = JSON.parse(await readFile(new URL('../apps/do/shared/distribution-versions.json', import.meta.url), 'utf8'));
+const VERSION = versions.extension;
+const MAC_VERSION = versions.mac;
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outDir = path.join(root, 'public/do/downloads');
 const extensionRoot = path.join(root, 'apps/do/extension');
-const macosRoot = path.join(root, 'apps/do/macos');
+const MACOS_ROOT = path.join(root, 'apps/do/macos');
 const EXTENSION_FILES = [
   'manifest.json',
   'background.js',
@@ -21,6 +23,13 @@ const EXTENSION_FILES = [
   'portable-background.js',
   'portable-launcher.js',
   'portable.css',
+  'browser-capability.js',
+  'browser-connection.html',
+  'browser-connection.js',
+  'browser-task-core.js',
+  'browser-task-worker.js',
+  'browser-task-relay.js',
+  'icons/do-glass.webp',
   'floating.js',
   'selection-badge.js',
   'popup.html',
@@ -50,13 +59,13 @@ if (process.argv.includes('--extension-only')) {
   process.exit(0);
 }
 const macos = new JSZip();
-await addDir(macos, macosRoot, 'macos');
+await addDir(macos, MACOS_ROOT, 'macos');
 for (const size of [192, 512]) {
-  macos.file(`macos/resources/do-${size}.png`, await readFile(path.join(root, `public/do/icons/do-${size}.png`)));
+  macos.file(`macos/resources/do-${size}.png`, await readFile(path.join(MACOS_ROOT, `resources/do-${size}.png`)));
 }
-macos.file('README.md', `# DO for Mac · development source · v${VERSION}\n\nNo notarised public installer. On a Mac with Xcode Command Line Tools: cd macos && bash build.sh ~/Desktop/do-mac-build. Source includes required icon resources. Review macOS microphone/Accessibility prompts yourself.\nhttps://www.assembl.co.nz/do/install#mac\n`);
+macos.file('README.md', `# DO for Mac · development source · v${MAC_VERSION}\n\nNo notarised public installer. On a Mac with Xcode Command Line Tools: cd macos && bash build.sh ~/Desktop/do-mac-build. Source includes required icon resources. Review macOS microphone/Accessibility prompts yourself.\nhttps://www.assembl.co.nz/do/install#mac\n`);
 const macosBuf = await macos.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' });
 await writeFile(path.join(outDir, 'DO-mac-companion.zip'), macosBuf);
-await writeFile(path.join(outDir, `assembl-do-macos-${VERSION}.zip`), macosBuf);
-await writeFile(path.join(outDir, 'README.md'), `# DO portable downloads\n\nStatic mirrors: assembl-do-extension-${VERSION}.zip, DO-mac-companion.zip and assembl-do-macos-${VERSION}.zip.\nPrefer /api/do/download?format=extension or format=mac for the source version deployed now.\nRefresh mirrors with node scripts/package-do-downloads.mjs. Source changes alone do not regenerate binary mirrors.\n`);
+await writeFile(path.join(outDir, `assembl-do-macos-${MAC_VERSION}.zip`), macosBuf);
+await writeFile(path.join(outDir, 'README.md'), `# DO portable downloads\n\nStatic mirrors: assembl-do-extension-${VERSION}.zip, DO-mac-companion.zip and assembl-do-macos-${MAC_VERSION}.zip.\nPrefer /api/do/download?format=extension or format=mac for the source version deployed now.\nRefresh mirrors with node scripts/package-do-downloads.mjs. Source changes alone do not regenerate binary mirrors.\n`);
 console.log('DO download mirrors refreshed at', outDir);

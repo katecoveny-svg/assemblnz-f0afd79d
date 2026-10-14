@@ -1,0 +1,224 @@
+/* Repeatable UI proof. All account/provider data is fictional and intercepted. */
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const { chromium } = require(process.env.ASSEMBL_PLAYWRIGHT_MODULE || '/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const origin = process.env.ASSEMBL_REVIEW_ORIGIN || 'http://127.0.0.1:3117';
+const out = process.env.ASSEMBL_REVIEW_OUTPUT || '/tmp/assembl-personal-settings-review';
+const checks = [];
+const check = (label, condition) => { assert.ok(condition, label); checks.push(label); console.log('PASS ' + label); };
+const defaults = { displayName: 'DO', avatar: 'bloom', tone: 'warm', responseLength: 'balanced', initiative: 'gentle', preferences: '', voiceName: 'Kore', onboardingCompleted: false, updatedAt: null };
+
+// Measure actual gradient pixels behind the heading, with only its ink temporarily hidden.
+async function headingContrast(page) {
+  const heading = page.locator('#life-admin-heading');
+  await heading.scrollIntoViewIfNeeded();
+  const foreground = await heading.evaluate(el => getComputedStyle(el).color.match(/[\d.]+/g).map(Number));
+  assert(foreground.length === 3 || foreground[3] === 1, 'Heading ink must be opaque');
+  const previous = await heading.getAttribute('style');
+  let pixels;
+  try {
+    await heading.evaluate(el => { el.style.setProperty('color', 'transparent', 'important'); el.style.setProperty('text-shadow', 'none', 'important'); });
+    pixels = await require('sharp')(await heading.screenshot()).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+  } finally {
+    await heading.evaluate((el, value) => { if (value === null) el.removeAttribute('style'); else el.setAttribute('style', value); }, previous);
+  }
+  const luminance = colour => {
+    const linear = colour.slice(0, 3).map(channel => { const value = channel / 255; return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4; });
+    return linear[0] * 0.2126 + linear[1] * 0.7152 + linear[2] * 0.0722;
+  };
+  const ink = luminance(foreground);
+  let ratio = Infinity;
+  for (let i = 0; i < pixels.data.length; i += pixels.info.channels) {
+    const backing = luminance([...pixels.data.subarray(i, i + 3)]);
+    ratio = Math.min(ratio, (Math.max(ink, backing) + .05) / (Math.min(ink, backing) + .05));
+  }
+  return { foreground, ratio, method: 'Lowest contrast across rendered gradient pixels behind heading' };
+}
+
+(async () => {
+  fs.mkdirSync(out, { recursive: true });
+  const browser = await chromium.launch({ executablePath: process.env.ASSEMBL_CHROMIUM_PATH || '/usr/bin/chromium', headless: true });
+  let proofPage;
+  try {
+    const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+    const page = await context.newPage();
+    proofPage = page;
+    const errors = [];
+    page.on('pageerror', error => errors.push(error.message));
+    let profile = { ...defaults }, saved = false, failSave = false, signedIn = true;
+    let workspaceOwner = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+    const mutations = [];
+    await page.route('**/api/**', route => route.fulfill({ status: 503, json: { error: 'Fictional test: provider unavailable' } }));
+    await page.route('**/api/do/personal', route => signedIn
+      ? route.fulfill({ json: { workspaceKey: workspaceOwner, responsibilities: [], runs: [], worker: { configured: true, lastSeenAt: new Date().toISOString() } } })
+      : route.fulfill({ status: 401, json: { workspaceKey: 'guest', error: 'Sign in for cloud responsibilities.' } }));
+    await page.route('**/api/do/personal/assistant', route => route.fulfill({ status: signedIn ? 200 : 401, json: { signedIn, ready: signedIn, reason: signedIn ? null : 'sign_in_required', message: signedIn ? 'Fictional configured status; not live provider proof.' : 'Sign in to ask your Personal DO.', model: 'gpt-6-astra', externalActions: false } }));
+    await page.route('**/api/do/live-token', route => route.fulfill({ json: { enabled: false, configured: false, signedIn: true, remaining: null, dailyLimit: 3, sessionSeconds: 300, model: 'test-fixture' } }));
+    await page.route('**/api/do/personal/profile', route => {
+      const request = route.request();
+      if (request.method() === 'POST') {
+        mutations.push(request.postDataJSON());
+        if (failSave) return route.fulfill({ status: 503, json: { error: 'Fictional storage failure. Please retry.' } });
+        const { consent, ...input } = request.postDataJSON();
+        assert.equal(consent, true);
+        profile = { ...input, updatedAt: new Date().toISOString() }; saved = true;
+      }
+      if (request.method() === 'DELETE') { mutations.push({ action: 'delete' }); profile = { ...defaults }; saved = false; }
+      return route.fulfill({ json: { profile, saved } });
+    });
+    await page.goto(origin + '/do/personal', { waitUntil: 'networkidle', timeout: 120000 });
+    await page.getByRole('button', { name: 'Make DO mine' }).waitFor();
+    await page.addStyleTag({ content: 'nextjs-portal{display:none!important}' });
+    await page.screenshot({ path: out + '/personal-arrival-desktop.png', fullPage: true });
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.screenshot({ path: out + '/personal-arrival-mobile.png', fullPage: true });
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    check('account settings render without a provider', await page.getByRole('button', { name: 'Make DO mine' }).isVisible());
+    const contrast = [];
+    for (const width of [1440, 375]) {
+      await page.setViewportSize({ width, height: width === 375 ? 812 : 1000 });
+      const measured = await headingContrast(page);
+      contrast.push({ width, ...measured });
+      check(`headline contrast meets WCAG AA text minimum at ${width}px (${measured.ratio.toFixed(2)}:1)`, measured.ratio >= 4.5);
+    }
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.getByRole('button', { name: 'Make DO mine' }).click();
+    const dialog = page.getByRole('dialog');
+    check('onboarding is a real modal', await page.getByRole('dialog', { name: 'Name and appearance', exact: true }).isVisible());
+    await page.getByLabel('What shall we call your DO?').fill('Pip');
+    await page.getByRole('button', { name: 'Pebble A steady presence' }).click();
+    check('selected character has pressed state', await page.getByRole('button', { name: 'Pebble A steady presence' }).getAttribute('aria-pressed') === 'true');
+    await page.getByRole('button', { name: 'Next', exact: true }).click();
+    await page.getByRole('button', { name: 'Straight to it The answer, then the next step.' }).click();
+    await page.getByLabel('How much detail?').selectOption('brief');
+    await page.getByLabel('When we’re talking').selectOption('on_request');
+    await page.screenshot({ path: out + '/personal-style-desktop.png' });
+    await page.getByRole('button', { name: 'Next', exact: true }).click();
+    await page.getByLabel('Anything else about how you like to work?').fill('Fictional test: use New Zealand spelling.');
+    await page.getByLabel('Your call voice').selectOption('Aoede');
+    check('consent is not selected automatically', !(await dialog.getByRole('checkbox').isChecked()));
+    check('save is blocked before consent', await page.getByRole('button', { name: 'Save my DO' }).isDisabled());
+    await dialog.getByRole('checkbox').check();
+    await page.getByLabel('Your call voice').selectOption('Kore');
+    check('editing clears previous consent', !(await dialog.getByRole('checkbox').isChecked()));
+    await page.setViewportSize({ width: 375, height: 812 });
+    check('375px dialog has no horizontal overflow', await page.getByRole('dialog').evaluate(el => el.scrollWidth <= el.clientWidth));
+    check('phone inputs use at least 16px', await page.getByLabel('Anything else about how you like to work?').evaluate(el => parseFloat(getComputedStyle(el).fontSize) >= 16));
+    await page.screenshot({ path: out + '/personal-consent-mobile.png' });
+    await dialog.getByRole('checkbox').check();
+    await page.getByRole('button', { name: 'Save my DO' }).click();
+    await page.getByRole('button', { name: 'Customise Pip' }).waitFor();
+    check('one explicit save carries the correct settings', mutations.length === 1 && mutations[0].displayName === 'Pip' && mutations[0].tone === 'direct');
+    await page.reload({ waitUntil: 'networkidle' });
+    check('settings return after reload', await page.getByRole('navigation', { name: 'DO', exact: true }).getByRole('button', { name: 'Customise Pip', exact: true }).isVisible());
+    await page.screenshot({ path: out + '/personal-workspace-mobile.png', fullPage: true });
+    await page.getByRole('button', { name: 'Customise Pip' }).click();
+    await page.getByLabel('What shall we call your DO?').fill('Unsaved name');
+    await page.getByRole('button', { name: 'Close customisation' }).click();
+    check('closing discards edits', await page.getByRole('navigation', { name: 'DO', exact: true }).getByRole('button', { name: 'Customise Pip', exact: true }).isVisible());
+    await page.getByRole('button', { name: 'Customise Pip' }).click();
+    check('reopening restores saved name', await page.getByLabel('What shall we call your DO?').inputValue() === 'Pip');
+    await page.getByRole('button', { name: 'Next', exact: true }).click();
+    await page.getByRole('button', { name: 'Back', exact: true }).click();
+    check('step back is internal, route remains stable', page.url().endsWith('/do/personal'));
+    await page.getByRole('button', { name: 'Next', exact: true }).click();
+    await page.getByRole('button', { name: 'Next', exact: true }).click();
+    await dialog.getByRole('checkbox').check(); failSave = true;
+    await page.getByRole('button', { name: 'Save my DO' }).click();
+    await page.getByText('Fictional storage failure. Please retry.').waitFor();
+    check('save failure retains editable form', await page.getByRole('dialog').isVisible());
+    await page.getByRole('button', { name: 'Close customisation' }).click();
+    await page.getByRole('button', { name: 'Customise Pip' }).click();
+    await page.getByRole('button', { name: 'Forget my preferences', exact: true }).click();
+    await page.getByRole('button', { name: 'Keep them', exact: true }).click();
+    check('cancel forget makes no deletion', !mutations.some(item => item.action === 'delete'));
+    await page.getByRole('button', { name: 'Forget my preferences', exact: true }).click();
+    await page.getByRole('button', { name: 'Remove saved preferences', exact: true }).click();
+    await page.getByRole('button', { name: 'Make DO mine' }).waitFor();
+    check('explicit forget returns to defaults', !saved && profile.displayName === 'DO');
+    await page.setViewportSize({ width: 320, height: 640 });
+    check('320px page fits', await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.locator('summary').filter({ hasText: 'Choose a checklist' }).click();
+    await page.getByRole('navigation', { name: 'Choose how to start' }).locator('summary').click();
+    await page.getByRole('button', { name: 'Note or checklist', exact: true }).click();
+    check('all twelve workflow choices remain available', await page.locator('[aria-label="Everyday NZ checklists"] button').count() === 12);
+    await page.locator('#life-admin-source').fill('Fictional school trip on Friday 9 October 2026, 9 am to 3 pm. Bring a coat and lunch. Permission reply needed Thursday.');
+    await page.getByLabel('Kind of admin').selectOption('school');
+    await page.locator('#personal-local-checklist').getByRole('button', { name: 'Start', exact: true }).click();
+    await page.getByRole('button', { name: 'See my next steps', exact: false }).click();
+    await page.waitForFunction(() => document.activeElement?.id === 'life-admin-active-title', null, { timeout: 5000 });
+    check('next steps transfers keyboard focus to the checklist heading', await page.locator('#life-admin-active-title').evaluate(el => document.activeElement === el));
+    check('source excerpts are prefilled for review', (await page.getByLabel('What is happening?').inputValue()).includes('Fictional school trip'));
+    await page.getByLabel('What is happening?').fill('');
+    await page.getByLabel('What is happening?').pressSequentially('Fictional school trip');
+    const typedDetails = await page.getByLabel('What is happening?').inputValue();
+    check(`typing spaces preserves ordinary multiword details (actual: ${JSON.stringify(typedDetails)})`, typedDetails === 'Fictional school trip');
+    await page.getByLabel('Dates and times to check').fill('Friday 9 October 2026, 9 am–3 pm. Reply Thursday.');
+    await page.getByLabel('Gear, kai and costs').fill('Coat and lunch. Cost not stated.');
+    await page.getByLabel('Permission or reply needed').fill('Reply through the school’s normal channel.');
+    await page.getByRole('checkbox', { name: /I’ve checked the source, details and proposed steps/ }).check();
+    await page.getByRole('button', { name: 'Review these steps together', exact: true }).click();
+    check('review creates actionable steps without completing them', await page.getByRole('button', { name: 'I’ve done this', exact: true }).count() === 3);
+    await page.getByRole('button', { name: 'I’ve done this', exact: true }).first().click();
+    await page.getByLabel('What confirms it is done?').fill('Fictional confirmation received and checked.');
+    await page.getByRole('button', { name: 'Save this record', exact: true }).click();
+    check('done is labelled as the user’s record', await page.getByText('Done · recorded by you', { exact: true }).isVisible());
+    await page.getByRole('button', { name: 'Undo last checklist change', exact: false }).click();
+    check('undo restores the prior checklist state', await page.getByRole('button', { name: 'I’ve done this', exact: true }).count() === 3);
+    await page.screenshot({ path: out + '/personal-checklist-mobile.png', fullPage: true });
+    await page.locator('summary').filter({hasText:'Care & later-life guides'}).first().click();
+    await page.getByRole('button', { name: 'Aa · Larger text', exact: true }).click();
+    check('care navigation has an accessible larger-text mode', await page.getByRole('button', { name: 'Aa · Standard text', exact: true }).getAttribute('aria-pressed') === 'true');
+    await page.locator('#nz-care-navigation').screenshot({ path: out + '/personal-care-mobile.png' });
+    await page.locator('summary').filter({hasText:'Weather & public updates'}).click();
+    await page.getByText('Weather for your day', { exact: true }).click();
+    await page.getByLabel('Choose a city or town').selectOption('auckland');
+    await page.getByRole('button', { name: 'Check city forecast', exact: false }).click();
+    await page.getByText('This source could not be checked. Try again or open the official source below.', { exact: true }).waitFor();
+    check('weather failure stays honest', await page.getByText('This source could not be checked. Try again or open the official source below.', { exact: true }).isVisible());
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    check('reduced motion keeps the task available', await page.locator('#life-admin-source').isVisible());
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.screenshot({ path: out + '/personal-integrated-desktop.png', fullPage: true });
+    // A server-discovered owner change must abort and discard the previous city's check.
+    await page.evaluate(() => {
+      const original = window.fetch;
+      window.fetch = function(input, init) {
+        if (String(input).includes('/api/do/nz-local-updates?source=weather')) {
+          window.__ownerWeatherSignal = init.signal;
+          return new Promise(resolve => { window.__releaseOwnerWeather = () => resolve(new Response('{}', { status: 503 })); });
+        }
+        return original.call(this, input, init);
+      };
+    });
+    await page.getByRole('button', { name: 'Check city forecast', exact: false }).click();
+    await page.getByRole('button', { name: 'Checking forecast…', exact: true }).waitFor();
+    workspaceOwner = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
+    await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+    await page.waitForFunction(() => window.__ownerWeatherSignal?.aborted === true);
+    check('owner change aborts the prior pending weather request', await page.evaluate(() => window.__ownerWeatherSignal.aborted));
+    check('owner change clears the previous city', await page.getByLabel('Choose a city or town').inputValue() === '');
+    await page.evaluate(async () => { window.__releaseOwnerWeather(); await new Promise(resolve => setTimeout(resolve, 0)); });
+    check('late prior-owner response cannot show forecast or error', await page.getByText('This source could not be checked. Try again or open the official source below.', { exact: true }).count() === 0 && await page.getByText('Retrieved from source', { exact: false }).count() === 0);
+    check('new owner has no pending forecast', await page.getByRole('button', { name: 'Check city forecast', exact: true, includeHidden: true }).isDisabled());
+    signedIn = false;
+    await page.reload({ waitUntil: 'networkidle' });
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.getByRole('navigation', { name: 'Choose how to start' }).locator('summary').click();
+    await page.getByRole('button', { name: 'Note or checklist', exact: true }).click();
+    await page.locator('#life-admin-source').fill('Fictional unfinished guest note.');
+    await page.getByRole('navigation', { name: 'DO', exact: true }).getByRole('link', { name: 'Sign in', exact: true }).click();
+    await page.getByRole('dialog', { name: 'Your unsaved work is in this page.' }).waitFor();
+    check('guest sign-in warns before losing current work', await page.getByRole('button', { name: 'Stay and keep my work', exact: true }).isVisible());
+    await page.screenshot({ path: out + '/personal-guest-leave-mobile.png' });
+    await page.getByRole('button', { name: 'Stay and keep my work', exact: true }).click();
+    check('cancelling navigation preserves the guest note', await page.locator('#life-admin-source').inputValue() === 'Fictional unfinished guest note.');
+    check('no runtime errors', errors.length === 0);
+    fs.writeFileSync(out + '/results.json', JSON.stringify({ checks, errors, contrast, apiMode: 'Fictional intercepted fixtures; no provider/account proof', physicalDeviceTested: false }, null, 2));
+  } finally {
+    if (proofPage) await proofPage.screenshot({ path: out + '/final-state.png', fullPage: true }).catch(() => {});
+    if (!fs.existsSync(out + '/results.json')) fs.writeFileSync(out + '/results.json', JSON.stringify({ checks, completed: false, apiMode: 'Fictional fixtures only; see CI failure log', liveProviderTested: false }, null, 2));
+    await browser.close();
+  }
+})().catch(error => { console.error(error); process.exitCode = 1; });

@@ -1,0 +1,2 @@
+Put the Bay of Islands clip here as bay-of-islands.mp4 to see the reference page with footage.
+In the site repo the clip goes at public/video/bay-of-islands.mp4 (see ../../README.md, "Footage").

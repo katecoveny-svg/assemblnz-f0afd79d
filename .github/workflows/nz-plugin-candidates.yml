@@ -1,0 +1,108 @@
+name: Unpublished NZ plugin candidates
+on:
+  pull_request:
+    paths:
+      - 'lib/nz-evidence/**'
+      - 'plugins/assembl-nz-freight/**'
+      - 'plugins/assembl-nz-architecture/**'
+      - 'plugins/mcp-servers/mcp-nz-evidence/**'
+      - 'scripts/build-nz-plugin-candidates.mjs'
+      - 'scripts/review-nz-plugin-candidates.mjs'
+      - 'scripts/lib/nz-plugin-zip.mjs'
+      - 'scripts/nz-plugin-zip.test.mjs'
+      - 'scripts/verify-nz-plugin-packaging.mjs'
+      - 'scripts/*freight*proposal*.mjs'
+      - 'scripts/nz-freight-worker.test.mjs'
+      - 'scripts/nz-plugin-process-proof.test.mjs'
+      - 'scripts/nz-quota-driver.test.mjs'
+      - 'scripts/build-nz-freight-closed-host.mjs'
+      - 'scripts/nz-freight-closed-host.test.mjs'
+      - 'scripts/nz-quota-driver-proof.mjs'
+      - 'scripts/nz-quota-*-proof.py'
+      - 'docs/services/nz-freight-owner-permission.md'
+      - 'security-proposals/nz-plugin-hosting/**'
+      - 'docs/services/nz-plugin-hosting-proposal.md'
+      - 'docs/services/nz-plugin-candidates.md'
+      - '.github/workflows/nz-plugin-candidates.yml'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+permissions:
+  contents: read
+concurrency:
+  group: nz-plugin-candidates-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  focused:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: pnpm install --frozen-lockfile
+      - name: Deterministic ZIP headers and timezone-independent complete packages
+        run: |
+          node --test scripts/nz-plugin-zip.test.mjs
+          node scripts/verify-nz-plugin-packaging.mjs
+      - name: Deterministic facts, provenance, boundaries and actual MCP transports
+        run: pnpm exec vitest run lib/nz-evidence/service.test.ts lib/nz-evidence/candidates.test.ts lib/nz-evidence/transport.test.ts lib/nz-evidence/hosting-proposal.test.ts
+      - name: Explicit plugin type coverage (excluded from root tsconfig)
+        run: pnpm exec tsc --noEmit --skipLibCheck --esModuleInterop --target es2022 --moduleResolution bundler --module esnext plugins/mcp-servers/mcp-nz-evidence/src/*.ts
+      - name: Offline freight worker and native memory boundary
+        run: |
+          node scripts/build-nz-freight-proposal-worker.mjs
+          node scripts/build-nz-freight-closed-host.mjs
+          node --test scripts/nz-freight-worker.test.mjs scripts/nz-plugin-process-proof.test.mjs scripts/nz-quota-driver.test.mjs scripts/nz-freight-closed-host.test.mjs
+      - name: Strict inactive hosting policy contract
+        run: pnpm exec tsc --noEmit --strict --skipLibCheck --esModuleInterop --target es2022 --moduleResolution bundler --module esnext security-proposals/nz-plugin-hosting/*.ts
+      - run: pnpm exec eslint lib/nz-evidence plugins/mcp-servers/mcp-nz-evidence/src security-proposals/nz-plugin-hosting/*.ts security-proposals/nz-plugin-hosting/*.mjs scripts/build-nz-freight-proposal-worker.mjs scripts/nz-freight-worker.test.mjs scripts/nz-plugin-process-proof.test.mjs scripts/lib/nz-plugin-zip.mjs scripts/nz-plugin-zip.test.mjs scripts/verify-nz-plugin-packaging.mjs --max-warnings=0
+      - run: git diff --check
+
+  isolated-quota-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Pinned proof-only driver (root dependency graph unchanged)
+        run: npm ci --prefix security-proposals/nz-plugin-hosting/driver-proof --ignore-scripts --no-audit --no-fund
+      - name: Exact isolated PostgreSQL image
+        run: |
+          docker pull postgres@sha256:742f40ea20b9ff2ff31db5458d127452988a2164df9e17441e191f3b72252193
+          docker tag postgres@sha256:742f40ea20b9ff2ff31db5458d127452988a2164df9e17441e191f3b72252193 postgres:17-alpine
+      - name: Actual quota SQL, concurrency and least-privilege proof
+        run: |
+          docker run -d --name assembl-nz-quota-proof-task3 --network none --memory 256m --cpus 0.5 --pids-limit 64 --tmpfs /var/lib/postgresql/data:rw,size=128m -e POSTGRES_HOST_AUTH_METHOD=trust postgres:17-alpine
+          for attempt in $(seq 1 30); do docker exec assembl-nz-quota-proof-task3 pg_isready -U postgres && break; sleep 1; done
+          docker exec assembl-nz-quota-proof-task3 psql -U postgres -v ON_ERROR_STOP=1 -c 'CREATE ROLE anon; CREATE ROLE authenticated;'
+          docker exec -i assembl-nz-quota-proof-task3 psql -U postgres -v ON_ERROR_STOP=1 < security-proposals/nz-plugin-hosting/quota-review.sql
+          python3 scripts/nz-quota-postgres-proof.py
+          docker rm -f assembl-nz-quota-proof-task3
+      - name: Independent cleanup and actual Node driver termination
+        run: |
+          docker network create --internal assembl-nz-driver-proof-task3
+          docker run -d --name assembl-nz-driver-proof-task3 --network assembl-nz-driver-proof-task3 --memory 256m --cpus 0.5 --pids-limit 64 --tmpfs /var/lib/postgresql/data:rw,size=128m -e POSTGRES_HOST_AUTH_METHOD=trust postgres:17-alpine
+          for attempt in $(seq 1 30); do docker exec assembl-nz-driver-proof-task3 pg_isready -U postgres && break; sleep 1; done
+          docker exec assembl-nz-driver-proof-task3 psql -U postgres -v ON_ERROR_STOP=1 -c 'CREATE ROLE anon; CREATE ROLE authenticated;'
+          docker exec -i assembl-nz-driver-proof-task3 psql -U postgres -v ON_ERROR_STOP=1 < security-proposals/nz-plugin-hosting/quota-review.sql
+          docker exec -i assembl-nz-driver-proof-task3 psql -U postgres -v ON_ERROR_STOP=1 < security-proposals/nz-plugin-hosting/cleanup-review.sql
+          node scripts/nz-quota-driver-proof.mjs
+          python3 scripts/nz-quota-cleanup-proof.py
+      - name: Remove task-owned fixtures
+        if: always()
+        run: |
+          docker rm -f assembl-nz-quota-proof-task3 assembl-nz-driver-proof-task3 || true
+          docker network rm assembl-nz-driver-proof-task3 || true

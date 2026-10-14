@@ -26,7 +26,7 @@ type Props = {
 };
 
 /**
- * Compact Linear-inspired to-do panel for a single DO surface.
+ * Compact to-do panel for a single DO surface.
  * Check off, add task, persist to the shared per-owner/device store.
  */
 export function DoTaskPanel({ boardId, limit = 8, title }: Props) {
@@ -158,7 +158,7 @@ export function DoTaskPanel({ boardId, limit = 8, title }: Props) {
         <button type="submit">Add</button>
       </form>
       <p className={styles.note}>
-        Saved on this device{nextOpenTodos(board, 99).length ? ` · ${nextOpenTodos(board, 99).length} open` : ''} · not synced to Linear.app
+        Saved on this device{nextOpenTodos(board, 99).length ? ` · ${nextOpenTodos(board, 99).length} open` : ''}
       </p>
     </section>
   );

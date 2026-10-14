@@ -1,0 +1,11 @@
+{
+  "nonce": "5037e9dd2e9b4be1a79cbffb50011a56",
+  "name": "assembl-pg-discovery-5037e9dd2e9b4be1a79cbffb50011a56",
+  "container_id": "83b3e5fc699cf3a20627fd2aa936b4ee510d7291950306b8b3c8b14f36a4aa8d",
+  "image": "public.ecr.aws/supabase/postgres@sha256:2f907f53ca8d59b4a620cdcbefe21854046f5409b20e96887e2fa2289c902bdb",
+  "config": "sha256:2b35381bd3f617b535b605f185d4aebf314f2e3d13710f88c737bc0aca06c047",
+  "run_id": "37189368804",
+  "attempt": "1",
+  "create_state": "acknowledged",
+  "removal_confirmed": true
+}

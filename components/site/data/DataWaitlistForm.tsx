@@ -31,9 +31,9 @@ const COPY: Record<
     useCasePlaceholder: 'e.g. Commerce Commission decisions for our compliance dashboard',
   },
   'talk-to-kate': {
-    heading: 'Talk to Kate',
-    sub: 'Tell us what you need — all sources, a custom feed, an SLA. Kate replies herself, usually within a working day.',
-    cta: 'Send it to Kate',
+    heading: 'Talk to assembl',
+    sub: 'Tell us what you need — all sources, a custom feed, an SLA. We’ll review your requirements and get back to you.',
+    cta: 'Send your enquiry',
     useCaseLabel: 'What are you building? (optional)',
     useCasePlaceholder: 'e.g. a sanctions-screening step inside our onboarding flow',
   },
@@ -122,7 +122,7 @@ export function DataWaitlistForm() {
                   : 'text-[color:var(--assembl-muted-plum)] hover:text-[color:var(--assembl-deep-plum)]'
               }`}
             >
-              {value === 'api-key' ? 'Free API key' : 'Talk to Kate'}
+              {value === 'api-key' ? 'Free API key' : 'Talk to assembl'}
             </button>
           );
         })}
@@ -140,12 +140,12 @@ export function DataWaitlistForm() {
           <Check className="mt-0.5 h-5 w-5 shrink-0 text-[color:var(--assembl-dusty-rose)]" aria-hidden />
           <div>
             <p className="text-sm font-medium text-[color:var(--assembl-deep-plum)]">
-              {intent === 'api-key' ? "You're on the list." : 'Sent to Kate.'}
+              {intent === 'api-key' ? "You're on the list." : 'Enquiry received.'}
             </p>
             <p className="mt-1 text-sm leading-relaxed text-[color:var(--assembl-muted-plum)]">
               {intent === 'api-key'
                 ? 'We email your Pulse key the moment the endpoint opens. Watch your inbox.'
-                : 'Kate has it and will reply herself, usually within a working day.'}
+                : 'assembl has your enquiry. We’ll review it and get back to you.'}
             </p>
           </div>
         </div>

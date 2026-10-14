@@ -1,0 +1,28 @@
+'use client';
+import {useState,type CSSProperties} from 'react';
+import type {Hub} from '@/components/client-hub-migration/original/lib/pursuit-hub';
+import {nodeIds,nodeNames,type Frame,type NodeId} from '@/components/client-hub-migration/original/lib/creative';
+import {compareStudioDirections,sectionLimits,type StudioCheckpoint,type StudioComparison} from '@/lib/private-showpiece/section-controls';
+import './section-editor.css';
+import SectionPatchPanel from './SectionPatchReview';
+import ReviewedExport from './ReviewedExport';
+import type {SectionPatchProposal} from '@/lib/private-showpiece/section-patch';
+export default function SectionEditor({hub,workspaceKey,epoch,revision,busy,checkpoints,onPatch,onEdit,onCheckpoint,onRestore,onDirection,onDiscard}:{hub:Hub;workspaceKey:string;epoch:number;revision:number;busy:boolean;onPatch:(proposal:SectionPatchProposal)=>Promise<boolean>;checkpoints:StudioCheckpoint[];onEdit:(node:NodeId,value:string)=>void;onCheckpoint:()=>void;onRestore:(id:string)=>void;onDirection:(comparison:StudioComparison,id:string)=>void;onDiscard:(id:string)=>void}){
+ const [selected,setSelected]=useState<NodeId>('headline'),[mode,setMode]=useState<'site'|'deck'>('site'),[mobile,setMobile]=useState(false),[comparison,setComparison]=useState<StudioComparison>(),[message,setMessage]=useState('');
+ const frame=hub.design.frame;
+ function compare(){try{setComparison(compareStudioDirections(hub,workspaceKey,epoch));setMessage('Three local compositions prepared. Choose one to apply; no agent was called.');}catch(e){setMessage((e as Error).message);}}
+ return <section className="studio-sections" aria-label="Linked section editor"><header><span className="cs-eyebrow">ONE STORY / SITE + DECK</span><h2>Shape each section.</h2><p>Edit the original six sections together. Checkpoints keep this Hub’s full context in this tab; Save concept and Hub backup do not include checkpoints. Local reviewed text/JSON export is available below. Sending, hosted sharing and durable account persistence remain unavailable.</p></header>
+ <fieldset disabled={busy}><div className="section-toolbar"><button aria-pressed={mode==='site'} onClick={()=>setMode('site')}>Site preview</button><button aria-pressed={mode==='deck'} onClick={()=>setMode('deck')}>Deck preview</button><button aria-pressed={!mobile} onClick={()=>setMobile(false)}>Desktop preview</button><button aria-pressed={mobile} onClick={()=>setMobile(true)}>Mobile preview</button></div>
+ <div className="section-workspace"><aside><nav aria-label="Named story sections">{nodeIds.map(n=><button key={n} aria-pressed={selected===n} onClick={()=>setSelected(n)}>{nodeNames[n]}</button>)}</nav><label>{nodeNames[selected]}<textarea aria-label={`Section ${selected}`} rows={7} maxLength={sectionLimits[selected]} value={frame.content[selected]} onChange={e=>onEdit(selected,e.target.value)}/></label><small>Shared site, deck and chosen idea · {sectionLimits[selected]} character limit</small><div className="cs-actions"><button className="cs-secondary" onClick={compare}>Compare three layouts</button><button className="cs-secondary" onClick={onCheckpoint}>Keep full-context checkpoint</button></div></aside>
+ <div className={`section-preview ${mobile?'section-mobile':''}`} aria-label={`${mode} section preview`}><StoryFrame hub={hub} frame={frame} selected={mode==='deck'?selected:undefined} onSelect={setSelected}/></div></div>
+ {comparison&&<section aria-label="Layout comparisons"><p>Same copy and typeface. Choosing a composition retains the previous full-context checkpoint.</p><div className="section-comparisons">{comparison.directions.map(d=><article key={d.id}><h3>{d.name}</h3><StoryFrame hub={hub} frame={d.frame} selected="headline"/><button className="cs-secondary" onClick={()=>onDirection(comparison,d.id)}>Use {d.frame.tokens.layout} layout</button></article>)}</div></section>}
+ {!!checkpoints.length&&<details><summary>Full-context checkpoints · {checkpoints.length}</summary>{checkpoints.map((c,i)=><p key={c.id}>{i+1} · {c.label} · {c.hub.buyer} <button className="cs-secondary" disabled={c.workspaceKey!==workspaceKey} onClick={()=>onRestore(c.id)}>Restore checkpoint {i+1} as draft</button> <button className="cs-text" onClick={()=>{if(window.confirm('Discard this checkpoint? Restore it first to recover its full Hub before removing it.'))onDiscard(c.id);}}>Discard checkpoint {i+1}</button>{c.workspaceKey!==workspaceKey&&<small> Original workspace required.</small>}</p>)}</details>}
+ <SectionPatchPanel hub={hub} scope={{workspaceKey,epoch,revision}} busy={busy} onApply={onPatch}/>
+ <ReviewedExport hub={hub} scope={{workspaceKey,epoch,revision}} busy={busy}/>
+ </fieldset>{message&&<p role="status">{message}</p>}
+ </section>;
+}
+function StoryFrame({hub,frame,selected,onSelect}:{hub:Hub;frame:Frame;selected?:NodeId;onSelect?:(n:NodeId)=>void}){
+ const style={'--c-ink':frame.tokens.ink,'--c-accent':frame.tokens.accent,'--c-paper':frame.tokens.paper} as CSSProperties;
+ return <div className={`cr-site-frame cr-layout-${frame.tokens.layout} section-story`} style={style}><div className="cr-site-nav"><b>{hub.seller}</b><span>{hub.buyer}</span></div>{(selected?[selected]:nodeIds).map(n=><button className={`cr-design-node cr-node-${n}`} type="button" disabled={!onSelect} key={n} onClick={()=>onSelect?.(n)}><span className="cr-frame-eyebrow">{nodeNames[n]}</span>{n==='headline'?<h1>{frame.content[n]}</h1>:<p>{frame.content[n]||'Add this section in the editor.'}</p>}{selected==='headline'&&<p>{frame.content.intro}</p>}</button>)}<footer className="cr-site-footer">Working draft / no approval or publication</footer></div>;
+}

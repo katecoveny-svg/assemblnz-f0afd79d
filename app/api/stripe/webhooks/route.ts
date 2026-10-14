@@ -10,9 +10,8 @@
  * Signature verification is mandatory — we reject with 401 if the
  * Stripe-Signature header is missing or doesn't verify against
  * STRIPE_WEBHOOK_SECRET. Every event writes an audit row regardless of whether
- * a domain table is updated. We return 200 as fast as we safely can so Stripe
- * doesn't retry on a slow DB write; processing failures are logged + audited but
- * still ack'd (we don't want Stripe hammering retries on our own bugs).
+ * a domain table is updated. Return 200 only after durable processing succeeds;
+ * failed audit or domain writes return 503 so Stripe can redeliver.
  *
  * Events handled (per the marketplace commerce spec):
  *   - checkout.session.completed       → record the install / subscription
@@ -73,13 +72,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     await processEvent(event);
   } catch (err) {
-    // Log but still 200 — Stripe retries on non-2xx, and our processing
-    // failures are recorded via the audit row written below / inside handlers.
-    // eslint-disable-next-line no-console
+    // Retry failed durable writes; never acknowledge lost entitlement updates.
     console.error(
       `stripe/webhooks: processing error for ${event.type} (${event.id}):`,
       err instanceof Error ? err.message : err,
     );
+    return NextResponse.json({ error: 'Webhook processing unavailable' }, { status: 503 });
   }
 
   return NextResponse.json({ received: true, type: event.type, id: event.id }, { status: 200 });
@@ -87,7 +85,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
 async function processEvent(event: Stripe.Event): Promise<void> {
   // Every event audits regardless of whether it is one we mirror.
-  await writeAuditRow({
+  const auditId = await writeAuditRow({
     tenantId: SENTINEL_TENANT,
     action: `stripe.${event.type}`,
     agent_slug: 'marketplace',
@@ -98,6 +96,7 @@ async function processEvent(event: Stripe.Event): Promise<void> {
     },
     tool_output: { livemode: event.livemode },
   });
+  if (!auditId) throw new Error('Webhook audit persistence unavailable');
 
   if (!HANDLED_EVENTS.has(event.type)) return;
 
@@ -162,10 +161,7 @@ async function onCheckoutCompleted(session: Stripe.Checkout.Session): Promise<vo
     .from('agent_installs')
     .upsert(rows, { onConflict: 'user_id,agent_slug', ignoreDuplicates: false });
 
-  if (error && !isMissingTable(error)) {
-    // eslint-disable-next-line no-console
-    console.error(`onCheckoutCompleted: ${error.message}`);
-  }
+  if (error) throw new Error('Marketplace entitlement write failed');
 }
 
 async function onSubscriptionUpdated(sub: Stripe.Subscription): Promise<void> {
@@ -183,10 +179,7 @@ async function onSubscriptionUpdated(sub: Stripe.Subscription): Promise<void> {
     .update({ plan: entitled ? plan : 'free' })
     .eq('stripe_subscription_id', sub.id);
 
-  if (error && !isMissingTable(error)) {
-    // eslint-disable-next-line no-console
-    console.error(`onSubscriptionUpdated: ${error.message}`);
-  }
+  if (error) throw new Error('Marketplace entitlement write failed');
 }
 
 async function onSubscriptionDeleted(sub: Stripe.Subscription): Promise<void> {
@@ -198,10 +191,7 @@ async function onSubscriptionDeleted(sub: Stripe.Subscription): Promise<void> {
     .delete()
     .eq('stripe_subscription_id', sub.id);
 
-  if (error && !isMissingTable(error)) {
-    // eslint-disable-next-line no-console
-    console.error(`onSubscriptionDeleted: ${error.message}`);
-  }
+  if (error) throw new Error('Marketplace entitlement write failed');
 }
 
 /**
@@ -219,15 +209,5 @@ async function onPayoutPaid(event: Stripe.Event): Promise<void> {
     .update({ last_payout_at: new Date().toISOString() })
     .eq('stripe_account_id', accountId);
 
-  if (error && !isMissingTable(error)) {
-    // eslint-disable-next-line no-console
-    console.error(`onPayoutPaid: ${error.message}`);
-  }
-}
-
-function isMissingTable(error: { code?: string; message?: string } | null | undefined): boolean {
-  if (!error) return false;
-  if (error.code === '42P01') return true;
-  const m = (error.message ?? '').toLowerCase();
-  return m.includes('does not exist') || m.includes('could not find the table');
+  if (error) throw new Error('Marketplace entitlement write failed');
 }

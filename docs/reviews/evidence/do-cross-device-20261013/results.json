@@ -1,0 +1,22 @@
+{
+  "checkedAt": "2026-10-13T09:22:13.047Z",
+  "origin": "http://localhost:3100",
+  "storage": "fictional in-memory API fixture shared by two browser contexts",
+  "realCrossDeviceProven": false,
+  "hostedAuth": false,
+  "checks": [
+    "Desktop saves a memory note to the account",
+    "Phone sees the note the desktop saved",
+    "Phone edits the note at the current revision",
+    "Desktop stale edit is refused and the latest version reloads",
+    "Phone sees the pause the desktop made",
+    "Phone delete empties the desktop list",
+    "Desktop shows sync off and no task content before consent",
+    "Desktop saves and prepares a task with sync on",
+    "Phone reopens the desktop task from the account",
+    "Desktop reopens the phone edit",
+    "Turning sync off on the phone closes it on the desktop too",
+    "No uncaught page errors on desktop",
+    "No uncaught page errors on phone"
+  ]
+}

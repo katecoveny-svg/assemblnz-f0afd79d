@@ -1,0 +1,4 @@
+-- Recipient/Storage work is excluded from owner-only activation.
+-- Previous policy is rejected; see archive/storage-policy-v1-rejected.sql for provenance only.
+-- Require bounded projection, snapshot revision/media binding, owned namespace and existing bucket-policy audit.
+-- No Storage bucket, grants, URLs or policies are created by this owner-only proposal.

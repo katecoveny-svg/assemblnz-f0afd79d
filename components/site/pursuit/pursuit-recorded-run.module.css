@@ -1,0 +1,14 @@
+.section { max-width: 1440px; margin: 0 auto; padding: clamp(48px,7vw,100px) clamp(24px,5vw,72px); color: #492b3e; }
+.heading { max-width: 860px; margin-bottom: 32px; }
+.kicker { font: 10px/1.5 var(--font-mono),monospace; letter-spacing: .08em; text-transform: uppercase; color: #654a4e; }
+.heading h2 { margin: 16px 0 22px; font-size: clamp(36px,5.5vw,76px); line-height: 1.04; letter-spacing: -.055em; font-weight: 500; text-wrap: balance; }
+.heading > p:last-child { max-width: 64ch; font-size: clamp(15px,1.5vw,18px); line-height: 1.65; color: #654a4e; }
+.film { margin: 0; border: 1px solid #916a7038; border-radius: 24px; overflow: hidden; background: #fffdfb; box-shadow: 0 20px 70px #240b210a; }
+.film video { display: block; width: 100%; aspect-ratio: 36/25; background: #f5f1f2; }
+.film figcaption { padding: 20px 24px; font-size: 13px; line-height: 1.65; color: #654a4e; }
+.evidence { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 28px; }
+.evidence > div { min-width: 0; }
+.evidence a { display: block; width: fit-content; max-width: 100%; margin: 10px 0; font-size: 14px; line-height: 1.5; text-decoration: underline; text-underline-offset: 4px; overflow-wrap: anywhere; }
+.evidence a:focus-visible { outline: 2px solid #916a70; outline-offset: 5px; border-radius: 2px; }
+.evidence p:last-child { max-width: 60ch; font-size: 13px; line-height: 1.65; color: #654a4e; }
+@media (max-width: 600px) { .evidence { grid-template-columns: 1fr; gap: 16px; } .film { border-radius: 16px; } .film figcaption { padding: 16px; } }

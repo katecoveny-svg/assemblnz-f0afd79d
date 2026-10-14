@@ -1,3 +1,7 @@
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { DO_TOOL_LINKS } from '@/apps/do/shared/entry-capabilities';
+import { DoSecondaryNavigation } from '@/components/do/DoSecondaryNavigation';
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -74,23 +78,22 @@ describe('public DO entry boundaries', () => {
     expect(errors).toEqual([]);
   });
 
-  it('opens existing tasks before the preserved product story', () => {
+  it('opens the working DO directly and keeps specialist routes in its contextual menu', () => {
     const doHome = readFileSync(join(root, 'app/do/DoHome.tsx'), 'utf8');
-    const doHomePublic = doHome
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/^\s*\/\/.*$/gm, '')
-      .replace(/\bpaused=\{[^}]*\}/g, '');
-    expect(doHome).toMatch(/small agent that sits where you already work/);
-    expect(doHome).toMatch(/atelier-poster\.png/);
-    expect(doHomePublic).not.toMatch(/\bpaused\b/i);
-    expect(doHome).not.toMatch(/PUBLIC_DO_SPECIALISTS/);
-    expect(doHome).not.toMatch(/DoLivingBlob/);
-    expect(doHome).toMatch(/href="\/do\/bills"/);
-    expect(doHome).toMatch(/href="\/do\/meetings"/);
-    expect(doHome).toMatch(/href="\/do\/widget"/);
-    expect(doHome).toMatch(/href="\/do\/widget\?task=plan"/);
-    expect(doHome.indexOf('id="do-start"')).toBeLessThan(doHome.indexOf('ref={rail}'));
-    expect(doHome).toContain('SIGN IN FOR NOTES');
-    expect(doHome).not.toMatch(/href="\/do\/household"/);
+    const workspace = readFileSync(join(root, 'app/do/personal/PersonalDo.tsx'), 'utf8');
+    expect(doHome).toContain('<PersonalDo />');
+    const navigation = readFileSync(join(root, 'components/do/DoSecondaryNavigation.tsx'), 'utf8');
+    expect(workspace).toContain('<DoSecondaryNavigation />');
+    const rendered = renderToStaticMarkup(createElement(DoSecondaryNavigation));
+    for (const href of ['/do/widget', '/do/meetings', '/do/bills', '/do/enquiries', '/do/install', '/do/household']) expect(rendered).toContain(`href="${href}"`);
+    expect(DO_TOOL_LINKS.map(item => item.href)).toEqual(expect.arrayContaining(['/do/meetings', '/do/bills', '/do/enquiries', '/do/household']));
+    for (const item of DO_TOOL_LINKS) expect(rendered).toContain(`href="${item.href}"`);
+    expect(navigation).toContain('Tools &amp; examples');
+
+    expect(workspace).not.toContain('href="/do/household"');
+    expect(workspace).not.toContain('href="/do/tasks');
+    const story = readFileSync(join(root, 'app/do/DoStory.tsx'), 'utf8');
+    expect(story).toContain('DoAtelierHeroStage');
+    expect(story).toContain('atelier-poster.png');
   });
 });

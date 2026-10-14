@@ -1,0 +1,6 @@
+-- HISTORICAL acceptance fixture superseded by atomic-postgres-harness.py.
+-- The old timestamp API has been removed. This file intentionally contains no SQL.
+-- Neither prior fixture nor revised database harness has been executed.
+-- Do not mount a migration, connect a DB, install tooling or activate a workflow.
+-- Review the fixed task-owned network-none/socket transport, exact SQL and offline
+-- evidence first. Only separately approved disposable execution can establish proof.

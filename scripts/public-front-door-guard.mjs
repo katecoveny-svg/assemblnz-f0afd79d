@@ -14,23 +14,38 @@
  * See docs/DO-VISUAL-BASELINE.md.
  */
 import { existsSync, readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 const errors = [];
 const read = path => readFileSync(path, 'utf8');
 const checks = [
-  ['app/page.tsx', /AssemblTheWorkHome/],
+  ['app/page.tsx', /import \{ (?:AssemblTheWorkHome|Direction4cHome) \}/],
   ['app/do/page.tsx', /<DoHome\s*\/>/],
   ['components/site/assembl-the-work/AssemblTheWorkHome.tsx', /<DoFilm\s*\/>/],
-  ['app/do/DoHome.tsx', /Work from the place/],
-  ['app/do/DoHome.tsx', /small agent that sits where you already work/],
-  ['app/do/DoHome.tsx', /atelier-poster\.png/],
+  ['app/do/DoHome.tsx', /<PersonalDo\s*\/>/],
+  ['app/do/DoStory.tsx', /Work from the place/],
+  ['app/do/DoStory.tsx', /small agent that sits where you already work/],
+  ['app/do/DoStory.tsx', /atelier-poster\.png/],
   // Movability now belongs to the shared website/extension companion. Retain its legacy position migration.
   ['components/site/assembl-the-work/GlowDoWidget.tsx', /src="\/api\/do\/widget"/],
   ['apps/do/shared/distribution.ts', /COMPANION_POSITION_KEY/],
   ['apps/do/shared/distribution.ts', /draggable\(launch,launch\)/],
-  ['components/do/DoMark.tsx', /do-identity-dot/],
+  ['components/do/DoMark.tsx', /DO_FUNCTIONAL_MARK_ASSET = '\/brand\/canonical\/do-vector-v1\/DO-D-mono\.svg'/],
+  ['components/do/DoMark.tsx', /<image href="\/brand\/do-glass-D-transparent\.png\?v=cutout1"/],
+  ['components/do/DoPresence.tsx', /<GlassIdentity kind="do" size=\{pixels\}/],
+  ['components/brand/GlassIdentity.tsx', /src="\/brand\/do-glass-D-transparent\.png\?v=cutout1"/],
 ];
 for (const [path, pattern] of checks) {
   if (!pattern.test(read(path))) errors.push(`${path}: the accepted front-door feature is missing (${pattern})`);
+}
+
+// Preserve the compatibility vector, but primary controls use the locked glass artwork.
+const doVectorPath = 'public/brand/canonical/do-vector-v1/DO-D-mono.svg';
+if (!existsSync(doVectorPath) || createHash('sha256').update(readFileSync(doVectorPath)).digest('hex') !== '5225a6b6452ac667e179abc732319f9127909d37a9ea967e6effa0a87bc02f0e') {
+  errors.push(`${doVectorPath}: missing or changed reviewed functional D master`);
+}
+const doGlassPath = 'public/brand/do-glass-D-transparent.png';
+if (!existsSync(doGlassPath) || createHash('sha256').update(readFileSync(doGlassPath)).digest('hex') !== '1ac1808b169b631eb2a5cb3066a3935cfcea3f6bb4abf111822b9a74e5289091') {
+  errors.push(`${doGlassPath}: missing or changed locked glass D artwork`);
 }
 
 // Homepage spatial hero: dual-accept legacy company DoSpatialScene OR WorldScene fly-through.
@@ -115,8 +130,11 @@ for (const path of publicFiles) {
   if (/\bDOO\b|\bDoo\b|Builderdoo/i.test(text)) {
     errors.push(`${path}: product is DO; specialist is Builder DO`);
   }
+  // Kate requested Personal DO on 30 Sep. Permit only its explicit DO-home entry;
+  // this does not reopen the retired specialist shelf or company homepage promos.
+  const promoText = path === 'app/do/DoHome.tsx' ? text.replace('<Link href="/do/personal">Personal DO</Link>', '') : text;
   for (const promo of bannedPromos) {
-    if (text.includes(promo)) errors.push(`${path}: banned public promo "${promo}"`);
+    if (promoText.includes(promo)) errors.push(`${path}: banned public promo "${promo}"`);
   }
   for (const href of bannedHrefs) {
     if (text.includes(href)) errors.push(`${path}: banned public ${href}`);
@@ -134,7 +152,11 @@ const companyCss = read('components/site/assembl-the-work/assembl-the-work.css')
 if (/font-family:Georgia|font-family:[^;}]*Times New Roman/.test(companyCss)) {
   errors.push('Company typography must use Instrument Sans, not the retired serif font');
 }
-const doHome = read('app/do/DoHome.tsx');
+// The September 30 unified brief supersedes a mandatory chooser: /do is the app.
+const doHome = read('app/do/DoStory.tsx');
+const doWorkspace = read('app/do/personal/PersonalDo.tsx');
+const doNavigation = read('components/do/DoSecondaryNavigation.tsx');
+if (!doWorkspace.includes('<DoSecondaryNavigation />')) errors.push('Public DO must mount the shared secondary navigation');
 const doHomePublic = doHome
   .replace(/\/\*[\s\S]*?\*\//g, '')
   .replace(/^\s*\/\/.*$/gm, '')
@@ -161,11 +183,13 @@ if (!/small agent that sits where you already work/.test(doHome)) {
 if (!/atelier-poster\.png/.test(doHome)) {
   errors.push('Public /do must use the daylight atelier still (atelier-poster.png)');
 }
+const doEntryCatalog = read('apps/do/shared/entry-capabilities.ts');
+if (!doNavigation.includes('DO_TOOL_LINKS.map')) errors.push('DO menu must render the shared capability links');
 // Product access must not regress to a contact-only explanation page again.
-for (const href of ['/do/bills', '/do/widget', '/do/meetings', '/do/widget?task=plan']) {
-  if (!doHome.includes(`href="${href}"`)) errors.push(`Public /do is missing its task entry: ${href}`);
+for (const href of ['/do/bills', '/do/personal', '/do/meetings', '/do/widget']) {
+  if (href !== '/do/personal' && !doNavigation.includes(`href="${href}"`) && !doEntryCatalog.includes(`href: '${href}'`)) errors.push(`Public /do is missing its task entry: ${href}`);
 }
-if (!doHome.includes('SIGN IN FOR NOTES')) errors.push('Meeting entry must explain the sign-in requirement');
+if (!doEntryCatalog.includes('Meeting notes · sign in')) errors.push('Meeting entry must explain the sign-in requirement');
 
 const meetingUi = read('app/do/meetings/MeetingDo.tsx') + (existsSync('app/do/meetings/MeetingDoExperience.tsx') ? read('app/do/meetings/MeetingDoExperience.tsx') : '');
 const meetingChrome = meetingUi.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
@@ -201,5 +225,5 @@ if (errors.length) {
   process.exit(1);
 }
 console.log(
-  'public-front-door-guard: working DO entry links, preserved atelier, private-data and capability boundaries',
+  'public-front-door-guard: direct working DO entry, contextual tools, preserved atelier and permission boundaries',
 );

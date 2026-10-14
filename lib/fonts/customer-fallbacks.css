@@ -1,0 +1,158 @@
+/* Preserve the pre-migration next/font/google fallback metrics. */
+
+@font-face {
+  font-family: 'Inter Build Fallback';
+  src: local('Arial');
+  ascent-override: 90.44%;
+  descent-override: 22.52%;
+  line-gap-override: 0.00%;
+  size-adjust: 107.12%;
+}
+
+@font-face {
+  font-family: 'Inter Tight Build Fallback';
+  src: local('Arial');
+  ascent-override: 100.51%;
+  descent-override: 25.03%;
+  line-gap-override: 0.00%;
+  size-adjust: 96.39%;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond Build Fallback';
+  src: local('Times New Roman');
+  ascent-override: 95.27%;
+  descent-override: 29.59%;
+  line-gap-override: 0.00%;
+  size-adjust: 96.98%;
+}
+
+@font-face {
+  font-family: 'Fraunces Build Fallback';
+  src: local('Times New Roman');
+  ascent-override: 84.71%;
+  descent-override: 22.09%;
+  line-gap-override: 0.00%;
+  size-adjust: 115.45%;
+}
+
+@font-face {
+  font-family: 'Montserrat Build Fallback';
+  src: local('Arial');
+  ascent-override: 85.79%;
+  descent-override: 22.25%;
+  line-gap-override: 0.00%;
+  size-adjust: 112.83%;
+}
+
+@font-face {
+  font-family: 'DM Sans Build Fallback';
+  src: local('Arial');
+  ascent-override: 94.90%;
+  descent-override: 29.66%;
+  line-gap-override: 0.00%;
+  size-adjust: 104.53%;
+}
+
+@font-face {
+  font-family: 'Lato Build Fallback';
+  src: local('Arial');
+  ascent-override: 101.03%;
+  descent-override: 21.80%;
+  line-gap-override: 0.00%;
+  size-adjust: 97.69%;
+}
+
+@font-face {
+  font-family: 'Space Mono Build Fallback';
+  src: local('Arial');
+  ascent-override: 81.58%;
+  descent-override: 26.30%;
+  line-gap-override: 0.00%;
+  size-adjust: 137.28%;
+}
+
+@font-face {
+  font-family: 'Zilla Slab Build Fallback';
+  src: local('Times New Roman');
+  ascent-override: 88.36%;
+  descent-override: 23.96%;
+  line-gap-override: 0.00%;
+  size-adjust: 106.83%;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono Build Fallback';
+  src: local('Arial');
+  ascent-override: 75.79%;
+  descent-override: 22.29%;
+  line-gap-override: 0.00%;
+  size-adjust: 134.59%;
+}
+
+@font-face {
+  font-family: 'Manrope Build Fallback';
+  src: local('Arial');
+  ascent-override: 103.31%;
+  descent-override: 29.07%;
+  line-gap-override: 0.00%;
+  size-adjust: 103.19%;
+}
+
+@font-face {
+  font-family: 'Playfair Display Build Fallback';
+  src: local('Times New Roman');
+  ascent-override: 97.25%;
+  descent-override: 22.56%;
+  line-gap-override: 0.00%;
+  size-adjust: 111.26%;
+}
+
+@font-face {
+  font-family: 'Orbitron Build Fallback';
+  src: local('Arial');
+  ascent-override: 81.50%;
+  descent-override: 19.59%;
+  line-gap-override: 0.00%;
+  size-adjust: 124.05%;
+}
+
+@font-face {
+  font-family: 'Public Sans Build Fallback';
+  src: local('Arial');
+  ascent-override: 90.59%;
+  descent-override: 21.46%;
+  line-gap-override: 0.00%;
+  size-adjust: 104.87%;
+}
+
+@font-face {
+  font-family: 'Poppins Build Fallback';
+  src: local('Arial');
+  ascent-override: 93.62%;
+  descent-override: 31.21%;
+  line-gap-override: 8.92%;
+  size-adjust: 112.16%;
+}
+
+@font-face {
+  font-family: 'Archivo Black Build Fallback';
+  src: local('Arial');
+  ascent-override: 70.78%;
+  descent-override: 16.93%;
+  line-gap-override: 0.00%;
+  size-adjust: 124.05%;
+}
+
+@font-face {
+  font-family: 'Roboto Build Fallback';
+  src: local('Arial');
+  ascent-override: 92.98%;
+  descent-override: 24.47%;
+  line-gap-override: 0.00%;
+  size-adjust: 99.78%;
+}
+
+/* Restore single-style Google class metadata for multi-face local loaders. */
+.assembl-local-font-normal { font-style: normal; }
+.assembl-local-font-italic { font-style: italic; }

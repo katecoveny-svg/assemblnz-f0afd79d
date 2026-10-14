@@ -1,0 +1,12 @@
+{
+  "command_sha256": "b8fb066cfc33095513f6ddfa7c49d4018d3fbe7f21bfe4de17b7f75edb62dd60",
+  "operation": "exec",
+  "returncode": 127,
+  "stdout": "",
+  "stderr": "env: can't execute '/usr/bin/cat': No such file or directory\n",
+  "partial": false,
+  "fault": null,
+  "primary_fault": null,
+  "nonce": "0ba7760542ba448c9448952568f52bec",
+  "container_id": "32dd74c70c3cc9c62bf9f2c830bc1d998f07d1075cfd76abca8fa48db7b6c53e"
+}

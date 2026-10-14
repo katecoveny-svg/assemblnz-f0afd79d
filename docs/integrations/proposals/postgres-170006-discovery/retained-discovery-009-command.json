@@ -1,0 +1,25 @@
+{
+  "argv": [
+    "exec",
+    "--user",
+    "postgres",
+    "9ffc1aed9baa12a5fb0dabf1664c6aebbb05664c103ec949f0a655ac33a2c65c",
+    "/usr/bin/env",
+    "-i",
+    "PATH=/usr/lib/postgresql/17/bin:/usr/local/bin:/usr/bin:/bin",
+    "HOME=/tmp",
+    "/usr/bin/readlink",
+    "-e",
+    "/usr/bin/postgres"
+  ],
+  "code": 1,
+  "complete": true,
+  "fault": {
+    "type": "RuntimeError",
+    "message": "Docker command failed; retained receipt"
+  },
+  "stdout": "",
+  "stderr": "/usr/bin/readlink: unrecognized option: e\nBusyBox v1.37.0 (2025-12-16 14:19:28 UTC) multi-call binary.\n\nUsage: readlink [-fnv] FILE\n\nDisplay the value of a symlink\n\n\t-n\tDon't add newline\n\t-f\tCanonicalize by following all symlinks\n\t-v\tVerbose\n",
+  "cap_bytes": 4194304,
+  "retained_bytes": 242
+}

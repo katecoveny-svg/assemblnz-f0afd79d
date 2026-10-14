@@ -1,5 +1,7 @@
+
+import localFont from 'next/font/local';
 import Image from 'next/image';
-import { Cormorant_Garamond, Zilla_Slab } from 'next/font/google';
+
 import type { BrandConfig } from '@/lib/brand/brand-config';
 
 /**
@@ -15,18 +17,23 @@ import type { BrandConfig } from '@/lib/brand/brand-config';
  * Concept framing is structural, not small print: the eyebrow says this is
  * a concept, and nothing in the band claims a partnership.
  */
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['400', '500'],
+const cormorant = localFont({
+  src: '../../../lib/fonts/assets/cormorant-garamond-normal.woff2',
+  weight: '400 500',
+  style: 'normal',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Cormorant Garamond Build Fallback'],
 });
 // Stand-in for TOA's Archer slab (licensed) — used only for the italic
 // tone-contract line, mirroring the italic serif quotes on toa.nz.
-const zilla = Zilla_Slab({
-  subsets: ['latin'],
-  weight: ['400'],
-  style: ['italic'],
+const zilla = localFont({
+  src: '../../../lib/fonts/assets/zilla-slab-italic-400.woff2',
+  weight: '400',
+  style: 'italic',
   display: 'swap',
+  adjustFontFallback: false,
+  fallback: ['Zilla Slab Build Fallback'],
 });
 
 const CHAMPAGNE = '#bfa37a';

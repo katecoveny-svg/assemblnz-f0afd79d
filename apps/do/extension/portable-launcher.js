@@ -1,5 +1,7 @@
 'use strict';
 (() => {
+  const capability = document.getElementById('browser-capability');
+  if (capability && globalThis.DoBrowserCapability) capability.textContent = globalThis.DoBrowserCapability.reason;
   const status = document.getElementById('portable-status');
   const buttons = [...document.querySelectorAll('[data-portable-mode]')];
   const place = document.getElementById('place-do');

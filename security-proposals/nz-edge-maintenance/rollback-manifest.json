@@ -1,0 +1,36 @@
+{
+  "projectId": "wurwcrgxjjwqdaxqceey",
+  "retrievedAt": "2026-10-01",
+  "functions": [
+    {
+      "slug": "mcp-nz-govt",
+      "version": 115,
+      "verify_jwt": false,
+      "bundleSha256": "220eb03c30b4ddd61c033c17d75604ed6357fffddba921925d842a68c419fc58",
+      "entrypoint": "mcp-nz-govt/index.ts",
+      "files": [
+        {
+          "name": "mcp-nz-govt/index.ts",
+          "sha256": "7a0cbb31d5669530d760a8c5a71c359c838ba70838b1653e6037afa11abe20fe"
+        }
+      ]
+    },
+    {
+      "slug": "compliance-scanner",
+      "version": 102,
+      "verify_jwt": false,
+      "bundleSha256": "07bb6055aa5036487f1b9bd8389fe06aa9ec2f4f201d98908d61b5225a46e533",
+      "entrypoint": "functions/compliance-scanner/index.ts",
+      "files": [
+        {
+          "name": "functions/compliance-scanner/index.ts",
+          "sha256": "6fb160fab98b9cd5fb436ac58caf9c3befbb8849542aae3ff0d9f698d06b0559"
+        },
+        {
+          "name": "functions/_shared/model-router.ts",
+          "sha256": "b71f3411f875f1b1e014fc94ac666c7c8e6c9d562aa59b46fdf729a9e34491be"
+        }
+      ]
+    }
+  ]
+}

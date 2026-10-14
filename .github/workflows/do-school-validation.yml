@@ -1,0 +1,72 @@
+name: School briefing validation
+on:
+  pull_request:
+    paths:
+      - 'apps/do/school/**'
+      - 'apps/do/services/family*'
+      - 'apps/do/services/gmail-ownership.test.ts'
+      - 'app/api/do/family/**'
+      - 'app/do/family/**'
+      - 'public/do/school-fixtures/**'
+      - 'scripts/generate-school-fixtures.ts'
+      - 'scripts/review-do-school.cjs'
+      - 'app/do/DoUtilityDock.tsx'
+      - 'next.config.ts'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/do-school-validation.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  synthetic-school-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Verify exact candidate HEAD
+        env:
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: pnpm install --frozen-lockfile
+      - name: Fictional PDF, change, consent and owner contracts
+        run: pnpm exec vitest run --maxWorkers=1 --testTimeout=30000 apps/do/school apps/do/services/family.test.ts apps/do/services/family-server.test.ts apps/do/services/gmail-ownership.test.ts app/api/do/family
+      - name: Scoped lint
+        run: pnpm exec eslint apps/do/school app/api/do/family/school-preview app/api/do/family/school-pilot app/do/family/SchoolAgenda.tsx app/do/family/SchoolBriefing.tsx app/do/family/FamilyDo.tsx next.config.ts scripts/generate-school-fixtures.ts scripts/review-do-school.cjs app/do/DoUtilityDock.tsx --max-warnings=0
+      - name: Build the actual Family DO route
+        run: |
+          pnpm --filter @assembl/canvas build
+          pnpm typecheck
+          pnpm build
+      - name: Install isolated browser tools
+        run: |
+          npm install --prefix /tmp/school-browser --no-save playwright@1.55.0
+          node /tmp/school-browser/node_modules/playwright/cli.js install --with-deps chromium
+      - name: School interactions, historical evidence and mobile shell (fictional only)
+        env:
+          ASSEMBL_PLAYWRIGHT_MODULE: /tmp/school-browser/node_modules/playwright
+          ASSEMBL_REVIEW_ORIGIN: http://localhost:3138
+          ASSEMBL_REVIEW_OUTPUT: output/playwright/do-school-ci
+        run: |
+          set -euo pipefail
+          pnpm exec next start --hostname 127.0.0.1 --port 3138 > /tmp/school-browser-server.log 2>&1 &
+          server=$!
+          trap 'kill "$server" || true' EXIT
+          for i in $(seq 1 40); do curl -sf http://localhost:3138/do/family >/dev/null && break; sleep 2; done
+          node scripts/review-do-school.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: school-browser-proof
+          path: output/playwright/do-school-ci/
+          retention-days: 7

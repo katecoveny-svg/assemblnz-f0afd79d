@@ -26,7 +26,7 @@ export const PRODUCT_DESTINATIONS = {
   do: {
     label: 'DO',
     overview: '/do',
-    workspace: '/do/widget',
+    workspace: '/do',
   },
   studio: {
     label: 'Creative Studio',

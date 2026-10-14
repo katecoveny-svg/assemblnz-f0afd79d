@@ -1,5 +1,6 @@
+import { DoPresence } from './DoPresence';
 import './do-spark.css';
-/** DO's code-native identity stays crisp from toolbar scale to hero scale. */
+/** Compatibility wrapper: older task surfaces now use the same canonical D. */
 export function DoSpark({ working = false }: { working?: boolean }) {
-  return <span className={`do-spark${working ? ' do-spark-working' : ''}`} aria-hidden="true"><span className="do-spark-core"/><span className="do-spark-star"/><span className="do-spark-dot"/></span>;
+  return <span className="do-spark" aria-hidden="true"><DoPresence size="small" working={working} /></span>;
 }

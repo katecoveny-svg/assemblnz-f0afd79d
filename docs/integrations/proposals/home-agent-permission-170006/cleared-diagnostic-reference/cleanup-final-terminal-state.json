@@ -1,0 +1,10 @@
+{
+  "command_sha256": "0ec4432417a21e3cd30925b4c39fbe95e7d6c067deda62212893bdc12580a797",
+  "operation": "inspect",
+  "returncode": 0,
+  "stdout": "{\"Status\":\"running\",\"Running\":true,\"Paused\":false,\"Restarting\":false,\"OOMKilled\":false,\"Dead\":false,\"Pid\":2588,\"ExitCode\":0,\"Error\":\"\",\"StartedAt\":\"2026-10-04T09:44:26.137748527Z\",\"FinishedAt\":\"0001-01-01T00:00:00Z\",\"Health\":{\"Status\":\"starting\",\"FailingStreak\":0,\"Log\":[]}}\n",
+  "stderr": "",
+  "partial": false,
+  "fault": null,
+  "primary_fault": null
+}

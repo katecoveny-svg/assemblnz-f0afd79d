@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { useRef, useState } from 'react';
 import { ArrowUpRight, CalendarDays, Check, Download, Mail, RefreshCw } from 'lucide-react';
 import { MEETING_EMAIL_SENDER, meetingFollowupSchema, meetingFollowupStatus, meetingFollowthroughFromNotes, meetingReminderCalendar, type MeetingFollowupReceipt } from '@/apps/do/shared/meeting-followthrough';
@@ -75,6 +76,7 @@ export function MeetingFollowThrough({ notes, reviewed, signedIn }: { notes: str
     } catch (error) { setMessage(error instanceof Error ? error.message : 'Check the reminder date and time.'); }
   }
   return <section className={`${styles.document} ${follow.panel}`} aria-label="Meeting follow-through">
+    <p><Link href="/do/evidence">Try source-linked decision review</Link> · synthetic Evidence preview; your meeting notes are not transferred.</p>
     <div className={styles.documentHead}><span className={styles.kicker}>FROM CONVERSATION TO WORK</span><span className={follow.badge}><Check size={12} />{reviewed ? 'Notes reviewed' : 'Review needed'}</span></div>
     <h2 className={follow.title}>Take the next step.</h2>
     <p className={styles.help}>Choose the work to take forward. Review each output before sharing or saving.</p>

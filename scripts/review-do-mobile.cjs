@@ -26,7 +26,7 @@ const check=(label,value)=>{assert.ok(value,label);checks.push(label);console.lo
   await visit('/do/widget');await fit('Workspace 375px');await snap('workspace-mobile');
   const source=page.locator('textarea').first();await source.fill('Please prepare a short reply about the Friday proposal.');
   check('Phone editor avoids auto zoom',await source.evaluate(e=>parseFloat(getComputedStyle(e).fontSize)>=16));
-  await page.getByRole('button',{name:'Talk',exact:true}).click();
+  await page.getByRole('button',{name:'Photo',exact:true}).click();
   await page.getByRole('button',{name:'Write',exact:true}).click();
   check('Mode switch preserves writing',await source.inputValue()==='Please prepare a short reply about the Friday proposal.');
   await page.setViewportSize({width:320,height:640});await fit('Workspace 320px');
@@ -51,9 +51,10 @@ const check=(label,value)=>{assert.ok(value,label);checks.push(label);console.lo
   // Simulate the visual viewport shrinking as the phone software keyboard opens.
   await page.evaluate(()=>{Object.defineProperty(window,'visualViewport',{configurable:true,value:{width:375,height:350,offsetLeft:0,offsetTop:0}});dispatchEvent(new Event('resize'));});
   const small=await panel.boundingBox();check('Companion stays in keyboard viewport',small.y>=8&&small.y+small.height<=343);
-  await page.locator('.dock').tap();check('Reset keeps header reachable',(await panel.boundingBox()).y===8);
+  await page.getByRole('button',{name:'Reset DO position',exact:true}).tap();check('Reset keeps header reachable',(await panel.boundingBox()).y===8);
   await page.evaluate(()=>{delete window.visualViewport;dispatchEvent(new Event('resize'));});
-  await page.locator('.tools button').first().tap();
+  await page.locator('.context-tools summary').tap();
+  await page.getByRole('button',{name:'Point at an area',exact:true}).tap();
   await page.locator('#brief').tap();
   check('Touch context requires review',await page.locator('.review').isVisible());
   check('Only chosen text reaches review',(await page.locator('.review textarea').inputValue()).includes('Thursday proposal'));

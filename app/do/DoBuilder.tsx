@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import dynamic from "next/dynamic";
 import DoMemory from "./live/DoMemory";
 import { DoVision } from "./DoVision";
@@ -67,12 +68,14 @@ export function DoBuilder({
   initialTemplate,
   initialName = "My DO",
   embedded = false,
+  active = true,
 }: {
   initialBrief?: string;
   initialTask?: DoSkill;
   initialTemplate?: string;
   initialName?: string;
   embedded?: boolean;
+  active?: boolean;
 }) {
   const localPreview = useSyncExternalStore(
     subscribeToHost,
@@ -115,6 +118,14 @@ export function DoBuilder({
   const [ratio, setRatio] = useState("1:1");
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
+  const imageRequest = useRef<AbortController | null>(null);
+  const imageGeneration = useRef(0);
+  useEffect(() => {
+    if (!active) { imageGeneration.current++; imageRequest.current?.abort(); imageRequest.current = null; }
+    const frame = requestAnimationFrame(() => { setConsent(false); if (!imageRequest.current) setBusy(false); });
+    return () => cancelAnimationFrame(frame);
+  }, [active]);
+  useEffect(() => () => { imageGeneration.current++; imageRequest.current?.abort(); }, []);
   async function refreshTrial() {
     try {
       const r = await fetch("/api/do/runtime");
@@ -127,6 +138,7 @@ export function DoBuilder({
     }
   }
   useEffect(() => {
+    if (!active) return;
     const frame = requestAnimationFrame(() => {
       void refreshTrial();
     });
@@ -152,7 +164,7 @@ export function DoBuilder({
       cancelAnimationFrame(frame);
       window.removeEventListener("message", receive);
     };
-  }, [embedded]);
+  }, [embedded, active]);
   const instruction = [
     direction,
     context,
@@ -240,13 +252,16 @@ export function DoBuilder({
     }
   }
   async function runImage() {
-    if (!consent || busy || instruction.length < 10) return;
+    if (!active || !consent || busy || instruction.length < 10 || imageRequest.current) return;
+    const attempt = ++imageGeneration.current;
+    const controller = new AbortController(); imageRequest.current = controller;
     setBusy(true);
     setError("");
     try {
       const r = await fetch("/api/do/image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
         body: JSON.stringify({
           prompt: instruction,
           aspectRatio: ratio,
@@ -254,6 +269,7 @@ export function DoBuilder({
         }),
       });
       const data = await r.json();
+      if (attempt !== imageGeneration.current || controller.signal.aborted) return;
       if (!r.ok) {
         if (r.status === 402) setRemaining(0);
         throw new Error(data.message || "Image generation failed.");
@@ -261,10 +277,9 @@ export function DoBuilder({
       setImages(data.images);
       setNotice("Generated image ready for your review.");
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Image generation failed.");
+      if (attempt === imageGeneration.current) setError(e instanceof Error ? e.message : "Image generation failed.");
     } finally {
-      setBusy(false);
-      void refreshTrial();
+      if (attempt === imageGeneration.current) { imageRequest.current = null; setBusy(false); void refreshTrial(); }
     }
   }
   return (
@@ -286,7 +301,7 @@ export function DoBuilder({
         </div>
         <span className="dob-allowance">
           {trialBypassed
-            ? "Signed in · unlimited prepare"
+            ? "Configured access"
             : remaining === null
               ? `${trialLimit} free sandbox tasks`
               : `${remaining} of ${trialLimit} sandbox tasks left`}
@@ -295,20 +310,20 @@ export function DoBuilder({
       <div className="dob-trial">
         <span>
           {trialBypassed
-            ? "Signed-in Assembl users are not limited by the public sandbox. Anonymous tries still share a per-network free allowance."
-            : `Public sandbox: ${trialLimit} free tasks per network. Sign in for unlimited prepare. Failed generations do not use a task.`}
+            ? "Provider tasks require a checked allowance. Sign-in does not grant unlimited use."
+            : `Public sandbox: ${trialLimit} free tasks per network. Sign-in does not grant unlimited use. Failed adapter generations do not use a trial task.`}
         </span>
         {trialBypassed ? (
-          <a href="/do/connections">
+          <Link href="/do/connections">
             Connections <ArrowUpRight size={14} />
-          </a>
+          </Link>
         ) : (
           <a href={ENQUIRE}>
             Enquire about more <ArrowUpRight size={14} />
           </a>
         )}
       </div>
-      <DoGeminiLive context={instruction} onDraft={(text) => {
+      {active && <DoGeminiLive context={instruction} onDraft={(text) => {
         const next = `${context}${context ? "\n\n" : ""}Voice brief:\n${text}`;
         if (next.length > 12000) return false;
         setContext(next);
@@ -316,7 +331,7 @@ export function DoBuilder({
         setRunningRecipe(null);
         setNotice("Your voice brief is in the task. Check the context, then approve preparation.");
         return true;
-      }} />
+      }} />}
       <DoCanvas
         name={name}
         onName={setName}
@@ -506,12 +521,11 @@ export function DoBuilder({
               <div className="dob-gate">
                 <h3>Your free sandbox tasks on this network are used.</h3>
                 <p>
-                  Sign in to your Assembl account for unlimited prepare, or enquire
-                  to arrange continued access. Your work stays in the editor.
+                  Enquire about configured access and usage limits. Sign-in does not grant unlimited provider use. Your work stays in the editor.
                 </p>
-                <a href="/login?redirect=%2Fdo">
-                  Sign in for unlimited prepare <ArrowUpRight size={17} />
-                </a>
+                <Link href="/login?redirect=%2Fdo">
+                  Sign in to DO <ArrowUpRight size={17} />
+                </Link>
                 <a href={ENQUIRE}>
                   Open an enquiry email <ArrowUpRight size={17} />
                 </a>
@@ -572,7 +586,7 @@ export function DoBuilder({
           </div>
         </section>
       </div>
-      <DoVision
+      <DoVision active={active} contextId="do-builder-vision-context"
         onUse={(text) => {
           if (context.length + text.length + 2 > 12000) {
             setError(
@@ -634,7 +648,7 @@ export function DoBuilder({
         </p>
       )}
       {notice && <p role="status">{notice}</p>}
-      {runningRecipe && (
+      {active && runningRecipe && (
         <div>
           {runningRecipe.webSearch || runningRecipe.agent ? (
             <LiveDo

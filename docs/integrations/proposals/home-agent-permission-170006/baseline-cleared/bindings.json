@@ -1,0 +1,12 @@
+{
+  "live_client.py": "f4f7ceab0f40c0f54800c811bd1108c9e215d3761fe570c6fd1aec0e88e6faf5",
+  "budget.py": "27169186a8ec23d65c22960c5a07d89febda6528e217bf95efb9332065b95fbf",
+  "run_deadline_proof.py": "a9e5fecaec249dce83fd57882b96bd0c455d88659931a39e3d7dd9fea1e1a632",
+  "forward.sql.txt": "7c421926e5d8e226e4d358206540696d512e6b911dc24aecdbb8861ddc1dfa6a",
+  "rollback.sql.txt": "e8c24fe0f729064d355b2b45b7645bbd73c6e60b5a11504547f2c34687e2110f",
+  "owned-fixture/bootstrap.sql": "fcf817ded226a5a81d83d6d7c34956981109034c1229f968c6770cc218d54aef",
+  "owned-fixture/cleanup_owned.py": "982583de98f02ee615f9403a475f8b89de225042934e2ed3ae717120bb6c13fb",
+  "owned-fixture/run_fixture.py": "b55fd42c42d2a3dfd92b6ccfd1ad89b5d19794b8293f48dd2de3e06103e13c20",
+  "build_queries.py": "6b6bb8f5d2c35d5d2058d870910b833f524e2da6ba37bfd0255b270a2859ba7f",
+  "test_budget.py": "0cfdfb47d693e9f4e4cf70dffad3fd3520d1a7f10461d329217411c8a68cfcd3"
+}

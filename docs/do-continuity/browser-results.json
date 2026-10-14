@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "checkedAt": "2026-10-01T13:06:25.191Z",
+  "realCrossDeviceProven": false,
+  "authentication": "none; fictional local fixture and inactive API response",
+  "checks": [
+    "Save confirms one stable fixture task ID",
+    "Preparation is explicitly inert",
+    "Edited result keeps the same stable ID",
+    "Phone layout has no horizontal overflow",
+    "Fresh reload retains edited result",
+    "Closed tab reopens same fixture and result",
+    "Refresh after authoritative fixture deletion clears stale task/result",
+    "Scope switch clears selected context and consent",
+    "Revocation clears selected context and result",
+    "Cancellation clears selected context",
+    "Offline request is not submitted",
+    "Inactive transport retry preserves unsaved request",
+    "Unavailable storage has no false saved ID",
+    "Reopen of expired cached task reads current storage and clears preparation",
+    "Fixture flow has no application exceptions"
+  ]
+}
