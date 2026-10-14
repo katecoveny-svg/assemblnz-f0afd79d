@@ -484,3 +484,7 @@ Everything the studio draws is a canon token (deep plum, ink, muted plum, dusty 
 | presets.ts | ocean | label | Ocean Interference | Tide Interference |
 | presets.ts | ocean | blurb | deeper teals with more layers | deeper plum with more layers |
 | presets.ts | whisper | blurb | paper-cream, near-monochrome, ultra-soft | paper and chalk, near-monochrome, ultra-soft |
+
+## Evidence
+
+Captures from a local build with software GL, in `docs/design/generative-assembly/`: `species-and-grounds.jpg` (starling spelling "kia ora" on paper, kōtuku as the a mark on chalk, corvid as the padlock on plum, an aihe pod milling), `still-and-loop-frames.jpg` (a PNG export and the first and last frames of a WebM loop, with wordmark and receipt), `all-families-on-canon.jpg` (all 19 families after the regrade; DLA was still growing at capture time), `studio-page.jpg`.
