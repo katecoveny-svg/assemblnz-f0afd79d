@@ -57,7 +57,10 @@ importScripts('browser-task-core.js');
     if (message.action === 'inspect') {
       const [selected] = await chrome.tabs.query({ active: true, currentWindow: true });
       const tabs = await chrome.tabs.query({ currentWindow: true });
-      return { selected: selected && isFixtureUrl(selected.url || '') ? { id: selected.id, url: selected.url } : null,
+      const selectionIssue = !selected ? 'No selected browser tab was returned.'
+        : !selected.url ? 'Tab access is unavailable. Select the fictional cart and click the DO toolbar icon again.'
+        : !isFixtureUrl(selected.url) ? 'The selected tab is not the exact supported fictional cart URL.' : null;
+      return { selected: selected && isFixtureUrl(selected.url || '') ? { id: selected.id, url: selected.url } : null, selectionIssue,
         workspaces: tabs.filter(tab => isWorkspaceUrl(tab.url || '')).map(tab => ({ id: tab.id, url: tab.url })), connection: await broker.companionStatus() };
     }
     if (message.action === 'connect') {
