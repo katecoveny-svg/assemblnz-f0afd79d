@@ -246,7 +246,7 @@ const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLe
     await consent.check(); await start.click();
     await page.waitForFunction(() => window.__callTest.sockets.at(-1).readyState === 1);
     await page.clock.runFor(30_001);
-    await panel.getByText('The voice connection timed out. Your microphone is off. Check your connection before trying again.', { exact: true }).waitFor();
+    await panel.getByText('Voice connection timed out. Your microphone is off.', { exact: true }).waitFor();
     check('missing socket setup acknowledgement releases microphone and socket', await page.evaluate(() => window.__callTest.tracks.at(-1).stopped && window.__callTest.sockets.at(-1).readyState === 3));
     await page.evaluate(() => { window.__callTest.autoSetup = true; });
     await consent.check(); await start.click();
