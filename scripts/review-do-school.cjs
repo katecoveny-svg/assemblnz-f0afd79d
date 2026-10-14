@@ -12,7 +12,7 @@ async function main() {
   const report = { classification: 'Fictional school route proof; no live provider or account', origin, viewports: [], blockedNonlocal: [], errors: [] };
   let requestCount = 0;
   try {
-    for (const width of [375, 320, 1440]) {
+    for (const width of [375, 390, 320, 1440]) {
       const context = await browser.newContext({ viewport: { width, height: 900 }, reducedMotion: 'reduce' });
       const forbidden = [];
       await context.route('**/*', async route => {
@@ -32,13 +32,20 @@ async function main() {
       await page.goto(`${origin}/do/family`, { waitUntil: 'networkidle' });
       const preview = page.getByRole('region', { name: 'What changed at school?' });
       await preview.getByText('Fictional preview', { exact: true }).waitFor();
+      await preview.locator('.school-boundary summary').click();
       assert.match(await preview.locator('.school-boundary').innerText(), /separate live service.*Pipedream.*TypeSafe.*OpenAI/);
+      await preview.locator('.school-boundary summary').click();
       assert.equal(await page.locator('.do-utility-dock').count(), 0);
       assert.equal(await page.locator('[data-do-companion]').count(), 0);
       // Simulate the real companion host surviving SPA navigation from another route.
       await page.evaluate(() => { const host = document.createElement('div'); host.dataset.doCompanion = ''; const root = host.attachShadow({ mode: 'open' }); root.innerHTML = '<button style="position:fixed;inset:0;z-index:2147483000">Prior route companion</button>'; document.body.append(host); });
       assert.equal(await page.locator('[data-do-companion]').evaluate(e => getComputedStyle(e).display), 'none');
-      await preview.getByRole('checkbox', { name: /For this fictional example/ }).check();
+      await page.screenshot({ path: path.join(output, `school-workspace-${width}.png`), fullPage: true });
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      const match = preview.getByRole('checkbox', { name: /For this fictional example/ });
+      await match.focus(); await page.keyboard.press('Space'); assert(await match.isChecked());
+      await page.keyboard.press('Tab');
+      assert.equal(await page.evaluate(() => document.activeElement?.textContent), 'Compare sample notices');
       const compare = preview.getByRole('button', { name: 'Compare sample notices', exact: true });
       async function prepare(scenario) {
         // Exercise the real six-per-minute limiter without disabling it.
@@ -53,6 +60,7 @@ async function main() {
         return data;
       }
       await prepare('revised');
+      await page.screenshot({ path: path.join(output, `school-compared-${width}.png`), fullPage: true });
       const agenda = preview.getByRole('region', { name: 'School and calendar agenda' });
       await agenda.getByText(/no scheduled job or notification/).waitFor();
       assert.match(await agenda.innerText(), /Possible calendar conflict/);
@@ -66,6 +74,13 @@ async function main() {
       await agenda.getByLabel('Agenda starting').selectOption('2026-10-19');
       assert.match(await agenda.innerText(), /proposed · no calendar write/);
       assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      if (width <= 390) {
+        const head = agenda.locator('.school-agenda-entry-head').first();
+        const chip = await head.locator('.school-date-chip').boundingBox();
+        const title = await head.locator('h4').boundingBox();
+        assert(chip && title && title.y >= chip.y + chip.height, 'Phone agenda title must sit below its date badge');
+        assert(title.width >= 170, 'Phone agenda title needs readable line width');
+      }
       await agenda.screenshot({ path: path.join(output, `school-agenda-${width}.png`) });
       const exam = preview.locator('article').filter({ has: page.getByRole('heading', { name: 'Mathematics exam', exact: true }) });
       assert.match(await exam.innerText(), /20\/10\/2026/); assert.match(await exam.innerText(), /22\/10\/2026/);

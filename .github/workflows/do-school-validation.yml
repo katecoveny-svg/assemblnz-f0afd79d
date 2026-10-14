@@ -46,6 +46,7 @@ jobs:
       - name: Build the actual Family DO route
         run: |
           pnpm --filter @assembl/canvas build
+          pnpm typecheck
           pnpm build
       - name: Install isolated browser tools
         run: |

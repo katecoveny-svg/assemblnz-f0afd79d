@@ -1,5 +1,6 @@
 'use client';
 import { useRef, useState } from 'react';
+import { DoTaskScene } from '@/components/do/DoTaskScene';
 import { prepareSchoolAgenda, agendaDigest, reviewAgendaAction, type SchoolAgenda as Agenda } from '@/apps/do/school/agenda';
 import { schoolCalendarFixture, schoolCalendarLinks } from '@/apps/do/school/agenda-fixtures';
 import { SCHOOL_DEMO_NOW } from '@/apps/do/school/fixtures';
@@ -14,14 +15,14 @@ export function SchoolAgenda({ brief }: { brief: SchoolBriefing }) {
     try { const next = await reviewAgendaAction(agenda, { ownerId: brief.ownerId, revision: brief.revision, digest: await agendaDigest(agenda), cardId, decision, now: SCHOOL_DEMO_NOW }); if (run === generation.current) setReviewed(next); }
     catch { setError('Prepare the agenda again before reviewing.'); }
   }
-  return <section aria-labelledby="school-agenda-heading" className="school-change">
-    <h3 id="school-agenda-heading">School and calendar agenda</h3>
+  return <section aria-labelledby="school-agenda-heading" className="school-change school-agenda">
+    <div className="school-agenda-title"><DoTaskScene kind="agenda"/><div><p className="family-kicker">YOUR REVIEW DESK</p><h3 id="school-agenda-heading">School and calendar agenda</h3></div></div>
     <p>Fictional calendar · Pacific/Auckland. Daily and weekly are views; no scheduled job or notification is enabled. Event links below are explicitly selected fixture matches.</p>
     <div className="school-controls"><label>Agenda view<select value={days} onChange={e => { generation.current++; setReviewed(null); setDays(Number(e.target.value) as 1 | 7); }}><option value={1}>Daily</option><option value={7}>Weekly</option></select></label>
       <label>Agenda starting<select value={startDate} onChange={e => { generation.current++; setReviewed(null); setStartDate(e.target.value); }}>{['19', '20', '21', '22', '23'].map(d => <option key={d} value={`2026-10-${d}`}>{d}/10/2026</option>)}</select></label></div>
     {agenda.notices.map(n => <p className="school-warning" key={n}>{n}</p>)}
-    {agenda.entries.map(({ card, position, action, clashes }) => <article key={card.id} className="school-evidence">
-      <h4>{card.childName}: {card.after.title}</h4><p>{card.before ? `${card.before.date} ${card.before.time} → ` : ''}{card.after.date} {card.after.time} · {card.after.location} · {card.change}</p>
+    {agenda.entries.map(({ card, position, action, clashes }) => <article key={card.id} className="school-evidence school-agenda-entry">
+      <div className="school-agenda-entry-head"><span className="school-date-chip">{card.after.date}<small>{card.after.time}</small></span><div><span className="school-label">{card.change}</span><h4>{card.childName}: {card.after.title}</h4></div></div><p>{card.before ? `Previously: ${card.before.date} ${card.before.time}. ` : ''}Current notice: {card.after.date} {card.after.time} · {card.after.location}</p>
       <p>{position === 'moved_out' ? 'Moved out of this agenda window; previous date retained for review.' : position === 'needs_date' ? 'Date needs confirmation.' : 'In this agenda window.'}</p>
       <p><a href={safeSchoolLink(card.after.source.url) ?? undefined} target="_blank" rel="noopener noreferrer">Current school source · page {card.after.page}</a></p>
       {clashes.length > 0 && <p className="school-warning">Possible calendar conflict: {clashes.map(id => agenda.calendarEvents.find(e => e.id === id)?.title ?? id).join(', ')}</p>}
