@@ -35,9 +35,9 @@ export function SecurityPackForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) {
-        const body = (await res.json().catch(() => null)) as { error?: string } | null;
-        throw new Error(body?.error ?? "Something went wrong. Please try again.");
+      const body = await res.json().catch(() => null);
+      if (!res.ok || body?.ok !== true || body?.accepted !== true) {
+        throw new Error(body?.error ?? "Receipt is uncertain. Your fields remain here. Continue by email or try again.");
       }
       setStatus("ok");
       form.reset();
@@ -55,15 +55,16 @@ export function SecurityPackForm() {
       >
         <p className="font-display text-2xl font-light">Request received.</p>
         <p className="mt-2 text-[15px] leading-7 text-[color:var(--text-secondary)]">
-          Our security team will review and reply from security@assembl.co.nz. If your
-          request is urgent, email us directly and reference your organisation.
+          Your request was recorded or delivered. This form does not collect a reply email.
+          For a conversation, email security@assembl.co.nz and reference your organisation.
         </p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+    <form onSubmit={handleSubmit} noValidate>
+      <fieldset disabled={status === "submitting"} className="space-y-5">
       <div>
         <label htmlFor="tc-name" className={labelClass}>
           Name
@@ -127,6 +128,7 @@ export function SecurityPackForm() {
       >
         {status === "submitting" ? "Sending…" : "Request the security pack"}
       </button>
+      </fieldset>
     </form>
   );
 }

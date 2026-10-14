@@ -1,0 +1,36 @@
+name: Trust and Hui receipt proof
+on:
+  pull_request:
+    paths:
+      - 'app/api/trust-pack-request/**'
+      - 'app/api/hui/**'
+      - 'lib/hui/**'
+      - 'components/trust/SecurityPackForm.tsx'
+      - 'components/hui/HuiStudio.tsx'
+      - 'scripts/review-trust-receipt.cjs'
+      - '.github/workflows/truthful-handoffs.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec vitest run app/api/trust-pack-request app/api/hui lib/hui/notes-safety.test.ts
+      - run: pnpm exec eslint app/api/trust-pack-request app/api/hui/generate-notes app/api/hui/evidence-pack lib/hui/notes-safety.ts components/trust/SecurityPackForm.tsx components/hui/HuiStudio.tsx --max-warnings=0
+      - run: npm install --prefix /tmp/trust-proof playwright@1.56.1
+      - run: /tmp/trust-proof/node_modules/.bin/playwright install --with-deps chromium
+      - run: ASSEMBL_PLAYWRIGHT_MODULE=/tmp/trust-proof/node_modules/playwright node scripts/review-trust-receipt.cjs

@@ -27,3 +27,13 @@ it('expired/revoked sessions redirect while retaining deletion cookies', async (
   expect(response.cookies.get('sb-fictional-auth-token.0')?.maxAge).toBe(0);
   expect(response.headers.get('cache-control')).toBe('private, no-store');
 });
+it('mirrors each request preference independently across synthetic owners', async () => {
+  fixture.user = { id: 'owner-a' };
+  const a = await updateSession(new NextRequest('https://fixture.invalid/account', { headers: {cookie:'assembl-remember=1'} }));
+  fixture.user = { id: 'owner-b' };
+  const b = await updateSession(new NextRequest('https://fixture.invalid/account', { headers: {cookie:'assembl-remember=0'} }));
+  expect(a.cookies.get('assembl-session-retention')?.value).toBe('1');
+  expect(b.cookies.get('assembl-session-retention')?.value).toBe('0');
+  expect(b.cookies.get('sb-fictional-auth-token.0')?.maxAge).toBe(SESSION_MAX_AGE);
+  expect(b.headers.get('cache-control')).toBe('private, no-store');
+});

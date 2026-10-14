@@ -34,6 +34,7 @@ export default function HuiStudio() {
   const [loading, setLoading] = useState(false);
   const [busyLabel, setBusyLabel] = useState("");
   const [error, setError] = useState("");
+  const [provenance, setProvenance] = useState("unverified-draft");
   const [html, setHtml] = useState("");
   const [downloading, setDownloading] = useState(false);
 
@@ -52,12 +53,17 @@ export default function HuiStudio() {
       .then((r) => r.json())
       .then((d) => setTranscribeConfigured(Boolean(d?.configured)))
       .catch(() => setTranscribeConfigured(false));
-    try {
-      setUnlocked(localStorage.getItem(UNLOCKED_KEY) === "true");
-      setFreeRunUsed(localStorage.getItem(FREE_RUN_KEY) === "true");
-    } catch {
-      /* ignore */
-    }
+    let alive = true;
+    queueMicrotask(() => {
+      if (!alive) return;
+      try {
+        setUnlocked(localStorage.getItem(UNLOCKED_KEY) === "true");
+        setFreeRunUsed(localStorage.getItem(FREE_RUN_KEY) === "true");
+      } catch {
+        /* ignore */
+      }
+    });
+    return () => { alive = false; };
   }, []);
 
   useEffect(() => {
@@ -152,7 +158,9 @@ export default function HuiStudio() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Could not generate the record.");
+      if (typeof data.html !== "string") throw new Error("The record response was incomplete.");
       setHtml(data.html);
+      setProvenance(data.provenance === "raw-notes-fallback" ? "raw-notes-fallback" : "provider-draft");
       try {
         localStorage.setItem(FREE_RUN_KEY, "true");
       } catch {
@@ -203,7 +211,7 @@ export default function HuiStudio() {
       const res = await fetch("/api/hui/evidence-pack", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ html, templateId, title, attendees }),
+        body: JSON.stringify({ html, templateId, title, attendees, provenance }),
       });
       if (!res.ok) {
         const d = await res.json().catch(() => ({}));
@@ -446,6 +454,7 @@ export default function HuiStudio() {
       {/* Output */}
       {html && (
         <section className="mt-6 rounded-[10px] border border-[rgba(35,33,31,0.10)] bg-white p-6 md:p-8">
+          <p role="status">{provenance === "raw-notes-fallback" ? "Raw notes only. The drafting service was unavailable. No decisions or actions were inferred." : "Prepared draft. Check the source notes and review before relying on it."}</p>
           <div className="mb-4 flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f3f5f3] px-3 py-1 font-mono text-[12px] uppercase tracking-[0.16em] text-[#313c42]">
               <CheckCircle2 className="h-3.5 w-3.5" /> {template.label}

@@ -39,6 +39,18 @@ export function LoginForm({
   const [error, setError] = useState<string | null>(initialError);
   const [pending, startTransition] = useTransition();
   const inFlight = useRef(false);
+  const requestVersion = useRef(0);
+  // UI responses belong to the submitted form, never a later identity or mode.
+  // Invalidating does not cancel a server action or undo its session cookies.
+  function invalidateResponse() { requestVersion.current += 1; }
+  function switchMode(next: Mode) {
+    invalidateResponse(); setMode(next); setSent(false); setError(null);
+  }
+  useEffect(() => {
+    const invalidatePending = () => { if (inFlight.current) invalidateResponse(); };
+    window.addEventListener('blur', invalidatePending);
+    return () => { invalidateResponse(); window.removeEventListener('blur', invalidatePending); };
+  }, []);
   const [cooldown, setCooldown] = useState(0);
   useEffect(() => {
     if (cooldown <= 0) return;
@@ -57,6 +69,7 @@ export function LoginForm({
   }, []);
 
   function persistRemember(next: boolean) {
+    invalidateResponse();
     setRemember(next);
     try {
       window.localStorage.setItem(REMEMBER_STORAGE_KEY, next ? '1' : '0');
@@ -77,12 +90,15 @@ export function LoginForm({
 
     if (cooldown > 0) return;
     inFlight.current = true;
+    const version = ++requestVersion.current;
     startTransition(async () => {
       try {
         const result = await sendMagicLinkAction(null, fd);
+        if (version !== requestVersion.current) return;
         if (result.ok) { setSent(true); setCooldown(60); }
         else { setError(result.error); if (result.retryAfter) setCooldown(result.retryAfter); }
       } catch {
+        if (version !== requestVersion.current) return;
         setError('The request was interrupted. Delivery could not be confirmed. Wait before trying again.');
         setCooldown(60);
       } finally { inFlight.current = false; }
@@ -100,9 +116,11 @@ export function LoginForm({
     fd.set('remember', remember ? '1' : '0');
 
     inFlight.current = true;
+    const version = ++requestVersion.current;
     startTransition(async () => {
       try {
         const result = await passwordSignInAction(null, fd);
+        if (version !== requestVersion.current) return;
         if (result.ok) {
           // Full navigation so the middleware sees the fresh session cookie.
           window.location.href = redirectTo;
@@ -110,6 +128,7 @@ export function LoginForm({
           setError(result.error);
         }
       } catch {
+        if (version !== requestVersion.current) return;
         setError('Sign-in was interrupted. Try again.');
       } finally {
         inFlight.current = false;
@@ -117,7 +136,7 @@ export function LoginForm({
     });
   }
 
-  if (sent) {
+  if (sent && mode === 'magic') {
     return (
       <div className="rounded-card border border-[rgba(58,56,50,0.18)] bg-white/60 p-6 text-center">
         <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-[color:var(--assembl-gold,#BFA37A)]">
@@ -132,7 +151,7 @@ export function LoginForm({
         <button type="button" disabled={pending || cooldown > 0} onClick={() => { setSent(false); }} className={quietLinkClass}>
           {cooldown > 0 ? `Try again in ${cooldown}s` : 'Request another link'}
         </button>
-        <button type="button" disabled={pending} onClick={() => { setSent(false); setMode('password'); }} className={quietLinkClass}>Use password instead</button>
+        <button type="button" disabled={pending} onClick={() => { switchMode('password'); }} className={quietLinkClass}>Use password instead</button>
         <button type="button" disabled={pending} onClick={() => setSent(false)} className={quietLinkClass}>
           use a different email
         </button>
@@ -143,6 +162,7 @@ export function LoginForm({
   function handleSocial(provider: SocialProvider) {
     if (inFlight.current) return;
     inFlight.current = true;
+    const version = ++requestVersion.current;
     setError(null);
     const fd = new FormData();
     fd.set('provider', provider);
@@ -151,9 +171,10 @@ export function LoginForm({
     startTransition(async () => {
       try {
         const result = await socialSignInAction(fd);
+        if (version !== requestVersion.current) return;
         if (result.ok) window.location.assign(result.url);
         else setError(result.error);
-      } catch { setError('Sign-in was interrupted. Try again.'); }
+      } catch { if (version === requestVersion.current) setError('Sign-in was interrupted. Try again.'); }
       finally { inFlight.current = false; }
     });
   }
@@ -203,7 +224,7 @@ export function LoginForm({
             name="email"
             required
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => { invalidateResponse(); setEmail(e.target.value); }}
             autoComplete="email"
             autoFocus
             className={inputClass}
@@ -221,7 +242,7 @@ export function LoginForm({
             name="password"
             required
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => { invalidateResponse(); setPassword(e.target.value); }}
             autoComplete="current-password"
             className={inputClass}
             placeholder="your password"
@@ -245,7 +266,7 @@ export function LoginForm({
         <button
           type="button"
           onClick={() => {
-            setMode('magic');
+            switchMode('magic');
             setError(null);
           }}
           className={quietLinkClass}
@@ -272,7 +293,7 @@ export function LoginForm({
           name="email"
           required
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => { invalidateResponse(); setEmail(e.target.value); }}
           autoComplete="email"
           autoFocus
           className={inputClass}
@@ -297,7 +318,7 @@ export function LoginForm({
       <button
         type="button"
         onClick={() => {
-          setMode('password');
+          switchMode('password');
           setError(null);
         }}
         className={quietLinkClass}

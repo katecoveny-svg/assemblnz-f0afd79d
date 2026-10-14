@@ -1,0 +1,36 @@
+.composer,.week{color:#492B3E;background:#FFFDFB;padding:clamp(16px,3vw,32px);border-radius:16px;min-width:0}
+.composer{margin-block:24px;border:1px solid #d8ccd2}
+.header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.header h2,.header h4{font-size:clamp(24px,4vw,36px);font-weight:500;letter-spacing:-.03em;margin:0}
+.header p{margin:8px 0;font-size:14px;color:#654A4E}
+.art{width:140px;max-width:30%;height:auto;flex-shrink:0}
+.composer>p,.week>p{max-width:65ch;line-height:1.6}
+.composer label,.day label{display:grid;gap:8px;font-size:14px;margin-block:16px}
+.composer input:not([type=checkbox]),.composer textarea,.day textarea{width:100%;box-sizing:border-box;border:1px solid #916A70;border-radius:8px;padding:12px;font:inherit;background:#FFFDFB;color:#492B3E;caret-color:#492B3E}
+.composer fieldset{border:0;padding:0;margin:24px 0}
+.dayChoices{display:flex;flex-wrap:wrap;gap:8px}
+.dayChoices label{display:flex;align-items:center;gap:8px;min-height:44px;padding:0 12px;background:#F5F1F2;border-radius:8px;margin:0}
+.dayChoices input{accent-color:#492B3E;width:18px;height:18px}
+.composer button,.week button{min-height:44px;border:1px solid #916A70;border-radius:8px;background:#FFFDFB;color:#492B3E;padding:10px 14px;font:inherit;cursor:pointer;margin:4px 4px 4px 0}
+.composer button[type=submit],.week>button{background:#240B21;color:#FFFDFB;border-color:#240B21}
+.composer button:hover,.week button:hover{background:#F5F1F2;color:#240B21}
+.composer button:disabled,.week button:disabled{opacity:.5;cursor:default}
+.composer :focus-visible,.week :focus-visible{outline:3px solid #916A70;outline-offset:3px}
+.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));margin-block:28px;border-block:1px solid #d8ccd2}
+.day{min-width:0;padding:16px 12px;border-right:1px solid #d8ccd2;background:#F5F1F2}
+.day:last-child{border-right:0}
+.day h5{font-size:15px;margin:0 0 20px;font-weight:600}
+.day p{font-size:14px;line-height:1.6;overflow-wrap:anywhere}
+.wording{white-space:pre-wrap;min-height:64px}
+.day small{display:block;color:#654A4E;line-height:1.5;margin:12px 0}
+.day[data-complete=true]{background:#ebe2e6}
+.evidence{border-top:1px solid #d8ccd2;padding-top:12px}
+.quiet,.week>small{color:#654A4E;font-size:13px;line-height:1.6}
+.srOnly{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.day{border-bottom:1px solid #d8ccd2}.day:last-child{grid-column:1/-1}}
+@media(max-width:480px){.grid{grid-template-columns:1fr}.day{border-right:0;padding:20px 12px}.wording{min-height:0}.art{width:80px}.composer,.week{padding:16px}.dayChoices{gap:4px}.dayChoices label{padding:0 8px}}
+.week { padding: 16px 0; }
+.day h5 { color: #492B3E; }
+.week pre { white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; line-height: 1.6; }
+.week details { margin: 20px 0; font-size: 14px; }
+.week summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; }

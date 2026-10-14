@@ -522,3 +522,12 @@
 
 /* Optional example sheets on the unified daylight surface. */
 .workspace .exampleHeading>span,.workspace .exampleHeading button,.workspace .exampleNote{color:var(--muted)}.workspace .exampleCard{box-shadow:0 3px 0 color-mix(in srgb, var(--ink) 6.27%, transparent),0 12px 24px color-mix(in srgb, var(--ink) 4.71%, transparent);border:1px solid var(--paper);background:var(--chalk)}.workspace .exampleCard[data-example=school]{background:var(--do-chalk)}.workspace .exampleCard[data-example=bills]{background:var(--do-petal)}.workspace .exampleCard:hover{box-shadow:0 4px 0 color-mix(in srgb, var(--ink) 6.27%, transparent),0 17px 28px color-mix(in srgb, var(--ink) 7.84%, transparent);transform:translateY(-3px);border-color:var(--paper)}.workspace .exampleBadge{background:color-mix(in srgb, var(--paper) 74.9%, transparent)}.workspace .exampleResult{font-size:12px}.workspace .exampleNote{font-size:10px}.workspace .exampleHeading button{min-height:44px}
+
+.board[data-pet=true] { grid-template-columns: minmax(0, 1fr); }
+.board[data-pet=true] .planList { display: flex; overflow-x: auto; gap: 12px; }
+.board[data-pet=true] .planCard { min-width: 200px; max-width: 280px; }
+.board[data-pet=true] .detail { min-width: 0; }
+@media (max-width:480px) {
+  .board[data-pet=true] .detail { padding: 12px; }
+  .board[data-pet=true] .detailHeader h3 { font-size: 20px; }
+}

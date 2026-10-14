@@ -6,6 +6,8 @@ fs.mkdirSync(out,{recursive:true});
 (async()=>{
 const browser=await ({chromium,webkit}[engine]).launch(engine==='chromium'?{...(process.env.PROOF_CHANNEL?{channel:process.env.PROOF_CHANNEL}:{}),...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),args:['--enable-unsafe-swiftshader']} : {});
 const results=[];
+// Chrome can refuse one capture while a navigation commits ("Unable to capture screenshot"). Retry that once, logged; any second failure still fails the proof.
+const shoot=async(page,file)=>{try{await page.screenshot({path:file});}catch(e){if(!/Unable to capture screenshot/.test(String(e)))throw e;console.log('RETRY screenshot',file);await new Promise(r=>setTimeout(r,250));await page.screenshot({path:file});}};
 for(const width of (process.env.PROOF_WIDTHS||'390,1440').split(',').map(Number)) for(const mode of (process.env.PROOF_MODES||'normal,delayed,blocked,poster-slow,poster-failed').split(',')) {
  const context=await browser.newContext({viewport:{width,height:844},recordVideo:{dir:out,size:{width,height:844}}});
  const page=await context.newPage();
@@ -74,7 +76,7 @@ for(const width of (process.env.PROOF_WIDTHS||'390,1440').split(',').map(Number)
  const captures=[];
  for(const target of [0,250,500,1000,2000,3000,4000,5000,6000,7000,10000]){
  await new Promise(r=>setTimeout(r,Math.max(0,start+target-Date.now())));
- const file=`${out}/${name}-${target}.png`;await page.screenshot({path:file});
+ const file=`${out}/${name}-${target}.png`;await shoot(page,file);
  captures.push({target,actual:Date.now()-start,file});
  }
  await posterRecovery;
