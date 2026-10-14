@@ -675,7 +675,6 @@ export function DoGeminiLive({
               </select>
             </label>}
             <div>
-              <p>Call voice: {voiceLabel}</p>
               {availability?.signedIn && <PersonalDoSettings voiceEntry sharedProfile={onProfileChange ? initialProfile ?? null : undefined} onProfileChange={onVoiceSettings} />}
 
             </div>

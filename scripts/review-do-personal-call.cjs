@@ -95,6 +95,7 @@ const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLe
     const start = panel.getByRole('button', { name: 'Start call', exact: true });
     check('no microphone or token before consent', tokens.length === 0 && await page.evaluate(() => window.__callTest.mediaRequests === 0));
     check('call requires separate unselected consent', !await consent.isChecked() && await start.isDisabled());
+    await panel.getByText('Call context & sharing details', { exact: true }).click();
     await panel.getByText('Profile shared for this call', { exact: true }).click();
     check('personal profile sharing is reviewable', await panel.getByText(profile.preferences, { exact: true }).isVisible());
     check('saved voice is shown and cannot diverge silently', (await panel.textContent()).includes('Aoede · female · breezy') && await panel.getByRole('button', { name: 'Choose call voice', exact: true }).isVisible());
