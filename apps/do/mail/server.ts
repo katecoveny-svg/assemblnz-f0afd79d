@@ -105,7 +105,9 @@ export async function readMail(raw: unknown, owner: Owner, signal: AbortSignal, 
       subject: decoded.subject, from: decoded.from, date: decoded.date, text: text.slice(0, limit), truncated: decoded.truncated || text.length > limit,
       attachmentsRead: false, trust: 'untrusted_correspondence' });
   }
-  await guard(); // Revoke/switch/cancel while awaiting a provider never publishes a draft.
+  // Reject observed metadata/owner changes and cancellation before publication.
+  // This cannot detect revocation that the provider has not exposed in metadata.
+  await guard();
   return { ownerId: owner.id, requestId: request.requestId, search: request.search, operation: request.operation, status: 'review', sources, moreAvailable: Boolean(listed.nextPageToken), checkedAt: new Date().toISOString(), stored: false, modelUsed: false };
 }
 

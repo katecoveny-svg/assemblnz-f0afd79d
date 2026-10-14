@@ -1,11 +1,14 @@
+import { gmailGrantSnapshot } from './pipedream-mail-grant';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 const grantVerifier = vi.hoisted(() => vi.fn());
 vi.mock('@/apps/do/mail/capability', async importOriginal => ({ ...await importOriginal<typeof import('@/apps/do/mail/capability')>(), verifyPersonalMailGrant: grantVerifier }));
 const owner = 'do:user:11111111-1111-4111-8111-111111111111';
 let fetcher: ReturnType<typeof vi.fn>;
 const search = { accountId: 'second', terms: 'Example Clinic', days: 7 as const };
-const rows = [{ id: 'first', healthy: true, app: { name_slug: 'gmail' }, external_user_id: owner }, { id: 'second', healthy: true, app: { name_slug: 'gmail' }, external_user_id: owner }];
-beforeEach(() => { vi.resetModules(); grantVerifier.mockImplementation(async (externalOwner, accountId, signal) => { signal.throwIfAborted(); return { externalOwner, accountId, provider: 'gmail', source: 'provider_grant_metadata', revision: 'a'.repeat(64), scopes: ['https://www.googleapis.com/auth/gmail.readonly'], checkedAt: Date.now(), expiresAt: Date.now() + 300_000 }; }); vi.stubEnv('PIPEDREAM_CLIENT_ID', 'synthetic'); vi.stubEnv('PIPEDREAM_CLIENT_SECRET', 'synthetic'); vi.stubEnv('PIPEDREAM_PROJECT_ID', 'proj_fixture'); vi.stubEnv('DO_GMAIL_OAUTH_APP_ID', 'oa_fixture'); fetcher = vi.fn(); vi.stubGlobal('fetch', fetcher); });
+const grantFields = { dead: false, authorized_scopes: ['https://www.googleapis.com/auth/gmail.readonly'],
+  created_at: new Date(Date.now() - 120_000).toISOString(), updated_at: new Date(Date.now() - 60_000).toISOString(), expires_at: new Date(Date.now() + 300_000).toISOString() };
+const rows = [{ ...grantFields, id: 'first', healthy: true, app: { name_slug: 'gmail' }, external_user_id: owner }, { ...grantFields, id: 'second', healthy: true, app: { name_slug: 'gmail' }, external_user_id: owner }];
+beforeEach(() => { vi.resetModules(); vi.stubEnv('DO_PERSONAL_MAIL_READ_ENABLED', 'true'); grantVerifier.mockImplementation(async (externalOwner, accountId, signal) => { signal.throwIfAborted(); return gmailGrantSnapshot(rows.find(row => row.id === accountId), externalOwner, accountId, Date.now()); }); vi.stubEnv('PIPEDREAM_CLIENT_ID', 'synthetic'); vi.stubEnv('PIPEDREAM_CLIENT_SECRET', 'synthetic'); vi.stubEnv('PIPEDREAM_PROJECT_ID', 'proj_fixture'); vi.stubEnv('DO_GMAIL_OAUTH_APP_ID', 'oa_fixture'); fetcher = vi.fn(); vi.stubGlobal('fetch', fetcher); });
 afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); });
 function setup(accounts = rows) { fetcher.mockResolvedValueOnce(Response.json({ access_token: 'synthetic', expires_in: 3600 })).mockResolvedValueOnce(Response.json({ data: accounts })); }
 describe('mail transport allowlist', () => {

@@ -46,12 +46,24 @@ existing bounded server transport. It requires:
 
 The gateway pins this snapshot for the whole search/detail/draft transaction.
 Direct transport independently checks before and after each Gmail proxy call.
+Its final account list is parsed through the same complete metadata validator and
+compared with the pinned snapshot immediately before proxy dispatch. Healthy=true
+cannot conceal newly dead, expanded-scope or expired metadata at this boundary.
 Cancellation propagates; failures return null or generic mail error codes.
 Bounded requests are no-store, reject redirects and cap response bytes. There is
 no grant cache, client-supplied evidence, environment bypass or fallback to default
 Gmail OAuth. Existing explicit search consent and account selection remain intact.
 
+`DO_PERSONAL_MAIL_READ_ENABLED` is a separate server-side release gate, default off.
+Only exact `true` allows verification/read code to proceed; review deployments must
+leave it unset or false. The production verifier, adapter configuration and direct
+read entry enforce it, with another check at final dispatch. It does not supply a
+grant or replace explicit user read consent. No production flag was changed.
+
 Provider metadata is a current observation, not an atomic authorization lease.
+The local revision hash only detects observed field changes; `updated_at` is not
+a documented grant-generation identifier. Credential expiry is not proof of
+ongoing user consent or instantaneous revocation status.
 Pipedream does not document a generation-pinned proxy request or instantaneous
 revocation visibility here. A provider-side reconnect between observations may
 precede detection; changed snapshots discard output but cannot undo a completed
@@ -142,7 +154,7 @@ Rollback is a code revert; there is no migration or persisted grant to unwind.
 
 ### Local check record
 
-- 687 tests passed across 14 mail, API, connector, Gmail ownership and connector
+- 700 tests passed across 14 mail, API, connector, Gmail ownership and connector
   contract suites, using synthetic fixtures and mocked fetch only.
 - Scoped TypeScript check of all eight changed TypeScript files plus their imported
   dependency graph passed. Scoped ESLint passed with zero warnings.
@@ -161,3 +173,13 @@ apps/do/services/gmail-ownership.test.ts apps/do/shared/connector-contracts.test
 apps/do/shared/do-connector-pack.test.ts apps/do/shared/do-connectors.test.ts` after
 a complete lockfile install. Locally the equivalent Vitest CLI was invoked directly
 because the saved pnpm executable returned no useful execution output.
+
+### Independent-review correction
+
+The final-list gap identified on `f0f2180` is fixed: full metadata validation and
+snapshot comparison precede proxy dispatch. Production-wiring tests change dead,
+effective scopes and credential expiry while leaving health true, and assert zero
+proxy calls. Default-off/invalid flag values make zero provider requests; enabling
+the flag without effective scopes still denies. The server comment now describes
+observed-change rejection rather than promising that all revocations are detected.
+Provider consistency/atomicity unknowns and live proof gates above remain open.

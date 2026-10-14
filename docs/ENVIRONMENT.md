@@ -176,3 +176,13 @@ Before adding one:
 - make a tracked `.env` the source of truth for an agent or build
 
 For current repo/runtime setup, also read `AGENTS.md`, `.env.local.example`, and the relevant product/runbook before changing environment configuration.
+
+## Personal DO mail release gate
+
+`DO_PERSONAL_MAIL_READ_ENABLED` defaults off; only the exact server-side value
+`true` permits the Gmail metadata-verification/read path to proceed. Keep it unset
+or `false` in review deployments. The flag grants no provider scope or user consent:
+account-specific metadata, explicit read consent and all fail-closed checks still
+apply. Outlook remains denied. Production activation requires separate approval
+and live metadata/revocation proof; no production setting was changed by this work.
+See [mail grant review](DO-MAIL-GRANT-VERIFICATION.md).

@@ -82,6 +82,7 @@ describe('authoritative Pipedream Gmail grant metadata', () => {
   });
   it('wires the production verifier to fixed bounded metadata GETs with credentials excluded', async () => {
     vi.resetModules();
+    vi.stubEnv('DO_PERSONAL_MAIL_READ_ENABLED', 'true');
     for (const key of ['PIPEDREAM_CLIENT_ID', 'PIPEDREAM_CLIENT_SECRET', 'PIPEDREAM_PROJECT_ID', 'DO_GMAIL_OAUTH_APP_ID']) vi.stubEnv(key, 'synthetic');
     const liveTime = Date.now();
     const fresh = { ...row, expires_at: new Date(liveTime + 300_000).toISOString(), created_at: new Date(liveTime - 120_000).toISOString(), updated_at: new Date(liveTime - 60_000).toISOString() };
@@ -99,4 +100,78 @@ describe('authoritative Pipedream Gmail grant metadata', () => {
     }
     expect(fetcher.mock.calls[2][0]).toBe('https://api.pipedream.com/v1/connect/synthetic/accounts/apn_second?include_credentials=false');
   });
+  it.each([
+    ['dead while healthy', { dead: true }],
+    ['expanded scopes while healthy', { authorized_scopes: [GMAIL_READ_SCOPE, 'https://www.googleapis.com/auth/gmail.send'] }],
+    ['expired while healthy', { expires_at: '2020-01-01T00:00:00Z' }],
+    ['missing scopes while healthy', { authorized_scopes: undefined }],
+    ['new expiry while healthy', { expires_at: '2099-01-01T00:00:00Z' }],
+    ['changed update timestamp', { updated_at: '2020-01-01T00:00:00Z' }],
+  ])('production transport blocks %s in the final list before any proxy request', async (_name, change) => {
+    vi.resetModules();
+    vi.stubEnv('DO_PERSONAL_MAIL_READ_ENABLED', 'true');
+    for (const key of ['PIPEDREAM_CLIENT_ID', 'PIPEDREAM_CLIENT_SECRET', 'PIPEDREAM_PROJECT_ID', 'DO_GMAIL_OAUTH_APP_ID']) vi.stubEnv(key, 'synthetic');
+    const time = Date.now();
+    const fresh = { ...row, expires_at: new Date(time + 300_000).toISOString(),
+      created_at: new Date(time - 120_000).toISOString(), updated_at: new Date(time - 60_000).toISOString() };
+    const fetcher = vi.fn().mockResolvedValueOnce(Response.json({ access_token: 'synthetic', expires_in: 3600 }))
+      .mockResolvedValueOnce(Response.json({ data: [fresh] }))
+      .mockResolvedValueOnce(Response.json(fresh))
+      .mockResolvedValueOnce(Response.json({ data: [fresh] }))
+      .mockResolvedValueOnce(Response.json({ data: [{ ...fresh, ...change }] }));
+    vi.stubGlobal('fetch', fetcher);
+    const { doPersonalMailRead } = await import('./pipedream');
+    await expect(doPersonalMailRead(owner, row.id, { kind: 'search', search: { accountId: row.id, terms: 'Example Clinic', days: 7 } }, signal())).rejects.toThrow('gmail_read_unverified');
+    expect(fetcher).toHaveBeenCalledTimes(5);
+    expect(fetcher.mock.calls.filter(([url]) => String(url).includes('/proxy/'))).toHaveLength(0);
+  });
+  it.each([undefined, '', 'false', 'TRUE', '1'])('default-off activation gate rejects %s without provider requests', async value => {
+    vi.resetModules();
+    vi.stubEnv('DO_PERSONAL_MAIL_READ_ENABLED', value);
+    for (const key of ['PIPEDREAM_CLIENT_ID', 'PIPEDREAM_CLIENT_SECRET', 'PIPEDREAM_PROJECT_ID', 'DO_GMAIL_OAUTH_APP_ID']) vi.stubEnv(key, 'synthetic');
+    const fetcher = vi.fn(); vi.stubGlobal('fetch', fetcher);
+    const { verifyPersonalMailGrant } = await import('@/apps/do/mail/capability');
+    const { verifyPipedreamMailGrant } = await import('./pipedream-mail-grant');
+    const { doPersonalMailRead } = await import('./pipedream');
+    expect(await verifyPersonalMailGrant(owner, row.id, signal())).toBeNull();
+    expect(await verifyPipedreamMailGrant(owner, row.id, signal())).toBeNull();
+    await expect(doPersonalMailRead(owner, row.id, { kind: 'search', search: { accountId: row.id, terms: 'Example Clinic', days: 7 } }, signal())).rejects.toThrow('gmail_read_unverified');
+    expect(fetcher).not.toHaveBeenCalled();
+  });
+  it('an enabled release gate cannot substitute for actual scopes', async () => {
+    vi.resetModules();
+    vi.stubEnv('DO_PERSONAL_MAIL_READ_ENABLED', 'true');
+    for (const key of ['PIPEDREAM_CLIENT_ID', 'PIPEDREAM_CLIENT_SECRET', 'PIPEDREAM_PROJECT_ID', 'DO_GMAIL_OAUTH_APP_ID']) vi.stubEnv(key, 'synthetic');
+    const time = Date.now();
+    const fresh = { ...row, authorized_scopes: [], expires_at: new Date(time + 300_000).toISOString(),
+      created_at: new Date(time - 120_000).toISOString(), updated_at: new Date(time - 60_000).toISOString() };
+    const fetcher = vi.fn().mockResolvedValueOnce(Response.json({ access_token: 'synthetic', expires_in: 3600 }))
+      .mockResolvedValueOnce(Response.json({ data: [fresh] }));
+    vi.stubGlobal('fetch', fetcher);
+    const { doPersonalMailRead } = await import('./pipedream');
+    await expect(doPersonalMailRead(owner, row.id, { kind: 'search', search: { accountId: row.id, terms: 'Example Clinic', days: 7 } }, signal())).rejects.toThrow('gmail_read_unverified');
+    expect(fetcher).toHaveBeenCalledTimes(2);
+    expect(fetcher.mock.calls.some(([url]) => String(url).includes('/proxy/'))).toBe(false);
+  });
+
+  it('production transport permits only a stable verified snapshot with explicit activation', async () => {
+    vi.resetModules(); vi.stubEnv('DO_PERSONAL_MAIL_READ_ENABLED', 'true');
+    for (const key of ['PIPEDREAM_CLIENT_ID', 'PIPEDREAM_CLIENT_SECRET', 'PIPEDREAM_PROJECT_ID', 'DO_GMAIL_OAUTH_APP_ID']) vi.stubEnv(key, 'synthetic');
+    const time = Date.now();
+    const fresh = { ...row, expires_at: new Date(time + 300_000).toISOString(),
+      created_at: new Date(time - 120_000).toISOString(), updated_at: new Date(time - 60_000).toISOString() };
+    const fetcher = vi.fn(async (url: string) => {
+      if (url.endsWith('/oauth/token')) return Response.json({ access_token: 'synthetic', expires_in: 3600 });
+      if (url.includes('/proxy/')) return Response.json({ messages: [] });
+      if (url.includes('/accounts/apn_second?')) return Response.json(fresh);
+      if (url.includes('/accounts?')) return Response.json({ data: [fresh] });
+      throw new Error('unexpected synthetic endpoint');
+    });
+    vi.stubGlobal('fetch', fetcher);
+    const { doPersonalMailRead } = await import('./pipedream');
+    expect(await doPersonalMailRead(owner, row.id, { kind: 'search', search: { accountId: row.id, terms: 'Example Clinic', days: 7 } }, signal())).toEqual({ messages: [] });
+    expect(fetcher).toHaveBeenCalledTimes(9);
+    expect(fetcher.mock.calls.filter(([url]) => url.includes('/proxy/'))).toHaveLength(1);
+  });
+
 });

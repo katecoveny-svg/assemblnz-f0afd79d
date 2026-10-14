@@ -22,9 +22,15 @@ export function verifiedMailGrant(value: unknown, owner: string, account: string
     grant.scopes.includes(GMAIL_READ_SCOPE) && grant.scopes.every(scope => scope === GMAIL_READ_SCOPE || identity.has(scope));
 }
 
+/** Release switch only: never supplies a grant or replaces request consent. Default off. */
+export function personalMailReadEnabled(): boolean {
+  return process.env.DO_PERSONAL_MAIL_READ_ENABLED === 'true';
+}
+
 /** Metadata-only provider adapter; never infers scopes from configuration or health. */
 export const verifyPersonalMailGrant: MailGrantVerifier = async (owner, account, signal) => {
   signal.throwIfAborted();
+  if (!personalMailReadEnabled()) return null;
   // Lazy import keeps the shared connector's transport -> validator dependency acyclic at init.
   const { verifyPipedreamMailGrant } = await import('@/lib/connectors/pipedream-mail-grant');
   return verifyPipedreamMailGrant(owner, account, signal);

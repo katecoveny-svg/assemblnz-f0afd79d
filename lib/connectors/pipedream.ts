@@ -17,7 +17,7 @@
  */
 import 'server-only';
 import { z } from 'zod';
-import { verifyPersonalMailGrant, verifiedMailGrant } from '@/apps/do/mail/capability';
+import { personalMailReadEnabled, verifyPersonalMailGrant, verifiedMailGrant } from '@/apps/do/mail/capability';
 import { actionMapFromPack } from '@/apps/do/shared/do-connector-pack';
 import { validateConnectorInput } from '@/apps/do/shared/connector-contracts';
 import { verifyPipedreamResult, type RunActionResult } from './pipedream-results';
@@ -218,6 +218,8 @@ export async function retrievePersonalMailAccountMetadata(owner: string, account
 export async function doPersonalMailRead(owner: string, accountId: string, operation:
   | { kind: 'search'; search: MailRequest['search'] }
   | { kind: 'message'; messageId: string; full: boolean }, signal: AbortSignal): Promise<unknown> {
+  signal.throwIfAborted();
+  if (!personalMailReadEnabled()) throw new Error('gmail_read_unverified');
   if (!/^do:user:[0-9a-f-]{36}$/.test(owner)) throw new Error('mail_owner_required');
   mailAccountId.parse(accountId);
   const cfg = pipedreamConfig();
@@ -234,8 +236,11 @@ export async function doPersonalMailRead(owner: string, accountId: string, opera
   }
   const grant = await verifyPersonalMailGrant(owner, accountId, signal);
   if (!verifiedMailGrant(grant, owner, accountId)) throw new Error('gmail_read_unverified');
+  const { gmailGrantSnapshot } = await import('./pipedream-mail-grant');
   const matches = (await listConnectedAccounts(owner, signal)).filter(account => account.id === accountId);
   if (matches.length !== 1 || accountOwner(matches[0]) !== owner || (matches[0].external_user_id && matches[0].external_user_id !== owner) || (matches[0].external_id && matches[0].external_id !== owner) || matches[0].healthy !== true || matches[0].app?.name_slug !== 'gmail') throw new Error('mail_account_unavailable');
+  const finalSnapshot = gmailGrantSnapshot(matches[0], owner, accountId, Date.now());
+  if (!personalMailReadEnabled() || !verifiedMailGrant(grant, owner, accountId) || !finalSnapshot || finalSnapshot.revision !== grant.revision) throw new Error('gmail_read_unverified');
   signal.throwIfAborted();
   const url = Buffer.from(`https://gmail.googleapis.com/gmail/v1/users/me/${path}`).toString('base64url');
   const result = await pd(cfg, 'GET', `/connect/${cfg.projectId}/proxy/${url}?external_user_id=${encodeURIComponent(owner)}&account_id=${encodeURIComponent(accountId)}`, undefined, { signal, maxBytes: operation.kind === 'search' ? 16_000 : 256_000 });

@@ -1,7 +1,7 @@
 import 'server-only';
 import { createHash } from 'node:crypto';
 import { z } from 'zod';
-import { GMAIL_READ_SCOPE, verifiedMailGrant, type MailGrantVerifier } from '@/apps/do/mail/capability';
+import { GMAIL_READ_SCOPE, personalMailReadEnabled, verifiedMailGrant, type MailGrantVerifier } from '@/apps/do/mail/capability';
 import { mailAccountId } from '@/apps/do/mail/contract';
 import { doConnectorConfigured, listConnectedAccounts, retrievePersonalMailAccountMetadata } from './pipedream';
 
@@ -24,7 +24,7 @@ export type MailMetadataPorts = {
   retrieve: (owner: string, account: string, signal: AbortSignal) => Promise<unknown>;
   now: () => number;
 };
-function snapshot(raw: unknown, owner: string, account: string, now: number) {
+export function gmailGrantSnapshot(raw: unknown, owner: string, account: string, now: number) {
   const parsed = metadata.safeParse(raw);
   if (!parsed.success) return null;
   const a = parsed.data;
@@ -54,13 +54,13 @@ export function createPipedreamMailGrantVerifier(ports: MailMetadataPorts): Mail
         !mailAccountId.safeParse(account).success || !ports.configured('gmail')) return null;
     const checkedAt = ports.now();
     try {
-      const first = snapshot(selected(await ports.accounts(owner, signal), account), owner, account, checkedAt);
+      const first = gmailGrantSnapshot(selected(await ports.accounts(owner, signal), account), owner, account, checkedAt);
       signal.throwIfAborted();
       if (!first) return null;
-      const exact = snapshot(await ports.retrieve(owner, account, signal), owner, account, checkedAt);
+      const exact = gmailGrantSnapshot(await ports.retrieve(owner, account, signal), owner, account, checkedAt);
       signal.throwIfAborted();
       if (!exact || exact.revision !== first.revision) return null;
-      const last = snapshot(selected(await ports.accounts(owner, signal), account), owner, account, checkedAt);
+      const last = gmailGrantSnapshot(selected(await ports.accounts(owner, signal), account), owner, account, checkedAt);
       signal.throwIfAborted();
       if (!last || last.revision !== first.revision || !verifiedMailGrant(first, owner, account, ports.now())) return null;
       return first;
@@ -71,6 +71,6 @@ export function createPipedreamMailGrantVerifier(ports: MailMetadataPorts): Mail
   };
 }
 export const verifyPipedreamMailGrant = createPipedreamMailGrantVerifier({
-  configured: doConnectorConfigured, accounts: listConnectedAccounts,
+  configured: app => personalMailReadEnabled() && doConnectorConfigured(app), accounts: listConnectedAccounts,
   retrieve: retrievePersonalMailAccountMetadata, now: () => Date.now(),
 });
