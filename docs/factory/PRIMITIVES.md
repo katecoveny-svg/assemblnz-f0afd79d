@@ -248,3 +248,7 @@ The loyalty `mealChoiceCards` projection reuses `planShop` for three accessible 
 ## Native reviewed draft handoff — 14 October development integration
 
 `apps/do/ios/Shared/DOStore.swift` supplies a local-only app/Share Sheet/keyboard handoff. Saving does not approve insertion; explicit review releases a draft for one hour, and the keyboard rechecks identity and expiry before insertion. A shared App Group is not account isolation or per-record OS isolation; expiry is not secure deletion. Tests are in `apps/do/ios/Tests`; unsigned simulator and signed-device proof remain distinct. No cloud execution, generic cross-app context, signing or installation is claimed.
+
+### Selected-tab read and conversational companion (15 October local review)
+
+Creates `apps/do/browser/selected-tab/` for ephemeral owner/tab/document/origin-bound read-only evidence and cancellation; its native host is still unbound. Extends the existing floating companion, typed assistant, voice transport and opt-in kept conversations with shared turns, explicit context attachment and in-panel Talk. No new persistence or execution authority. See [implementation, synthetic evidence and live gaps](../reviews/DO-SELECTED-TAB-COMPANION-20261015.md).

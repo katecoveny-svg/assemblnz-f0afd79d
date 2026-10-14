@@ -2,6 +2,7 @@
 import { handoffReviewedMail } from "@/apps/do/mail/voice-handoff";
 
 import Link from "next/link";
+import { typedLivePacket } from "@/apps/do/shared/companion-live-input";
 import { claimDoAudio } from "@/apps/do/shared/audio-exclusion";
 import { voiceDiagnostic, type VoiceDiagnostic } from "@/apps/do/shared/voice-diagnostics";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
@@ -65,7 +66,12 @@ export function DoGeminiLive({
   onProfileChange,
   draftTarget = "task",
   signInReturnTo,
+  onTranscriptChange, onCallStart, onLiveChange, visible = true,
 }: {
+  visible?: boolean;
+  onTranscriptChange?: (entries: DoVoiceTranscriptEntry[]) => void;
+  onCallStart?: () => void;
+  onLiveChange?: (live: boolean) => void;
   context?: string;
   onDraft?: (text: string) => boolean;
   onShoppingDraft?: (text: string) => boolean;
@@ -101,12 +107,16 @@ export function DoGeminiLive({
   const [availabilityError, setAvailabilityError] = useState(false);
   const [muted, setMuted] = useState(false);
   const [transcript, setTranscript] = useState<DoVoiceTranscriptEntry[]>([]);
+  const [providerTokens, setProviderTokens] = useState<number | null>(null);
+  const [paidDeadline, setPaidDeadline] = useState<string | null>(null);
+  const [typed, setTyped] = useState("");
   const [draft, setDraft] = useState<string | null>(null);
   const [preparedBrief, setPreparedBrief] = useState("");
   // Any change to the reviewed disclosure invalidates its previous consent.
   const consentScope = JSON.stringify([initialProfile?.updatedAt ?? null, profile ?? null, mode, voiceName, availability?.voiceRevision, includeContext, includeContext ? context.slice(0, 6000) : ""]);
   const consent = consentFor === consentScope;
   const live = state !== "idle";
+  useEffect(() => { onLiveChange?.(live); }, [live, onLiveChange]);
 
   const includeSavedStyle = Boolean(initialProfile);
   // A parent save invalidates the idle review immediately, before effects run.
@@ -157,6 +167,7 @@ export function DoGeminiLive({
     setNotice(message);
     void refresh();
   }, [refresh]);
+  useEffect(() => { if (!visible && active.current) end("Call ended because you left the conversation. Your microphone is off."); }, [visible, end]);
   useEffect(() => {
     // Refresh idle reviews after a save through another mounted settings entry.
     // Keep this separate from media cleanup: a revision must not end a live call.
@@ -177,6 +188,11 @@ export function DoGeminiLive({
       if (document.hidden && active.current)
         end("Call ended because this page was hidden. Your microphone is off.");
     };
+    const onCompanionHidden = (event: MessageEvent) => {
+      if (window.parent !== window && event.source === window.parent && event.data?.type === 'assembl-do:hidden' && active.current)
+        end("Call ended because DO was minimised. Your microphone is off; the conversation stays here.");
+    };
+    window.addEventListener('message', onCompanionHidden);
     const onPageHide = () => { if (active.current) end("Call ended because this page was closed. Your microphone is off."); };
     const onOffline = () => { if (active.current) end("The connection is offline. Your microphone is off. Start a new call when you are connected."); };
     // Availability reads only. Reconnecting never reacquires the mic or resends context.
@@ -187,6 +203,7 @@ export function DoGeminiLive({
     window.addEventListener("online", onReturn);
     window.addEventListener("pageshow", onReturn);
     return () => {
+      window.removeEventListener('message', onCompanionHidden);
       window.clearTimeout(initialCheck);
       availabilityRequest.current?.abort();
       document.removeEventListener("visibilitychange", onHidden);
@@ -204,6 +221,17 @@ export function DoGeminiLive({
     const entries = appendVoiceTranscript(transcriptRef.current, who, text);
     transcriptRef.current = entries;
     setTranscript(entries);
+    onTranscriptChange?.(entries);
+  }
+  function sendTyped() {
+    const session = active.current;
+    const text = typed.trim();
+    if (!session?.ready || session.ws?.readyState !== WebSocket.OPEN || !text || text.length > 4000) return;
+    try {
+      stopAudio(session);
+      session.ws.send(typedLivePacket(text));
+      append("You", text); setTyped("");
+    } catch { end("Typed message could not be confirmed. Your microphone is off."); }
   }
   function toggleMute() {
     const session = active.current;
@@ -231,6 +259,7 @@ export function DoGeminiLive({
     active.current = s;
     const current = () => active.current === s;
     setState("starting");
+    setProviderTokens(null); setPaidDeadline(null);
     setNotice("Choose microphone access to start.");
     setMuted(false);
     const reviewedContext = includeContext ? context.slice(0, 6000) : "";
@@ -273,6 +302,8 @@ export function DoGeminiLive({
       if (!current()) return;
       if (!response.ok || !issued.token)
         throw new Error(issued.error || "Voice could not start.");
+      if (!Number.isFinite(Date.parse(issued.expiresAt)) || Date.parse(issued.expiresAt) <= Date.now()) throw new Error("Call permission expired. Review and start again.");
+      setPaidDeadline(issued.expiresAt);
       const issuedVoice = issued.config.speechConfig?.voiceConfig?.prebuiltVoiceConfig?.voiceName;
       if (issuedVoice !== voiceName) throw new Error("The issued voice differs from the one you reviewed. Review call options again.");
       setDiagnostic(voiceDiagnostic(issued.model, issuedVoice, 'issued'));
@@ -382,6 +413,7 @@ export function DoGeminiLive({
                 }),
               );
             // Keep the previous notes until both socket and recorder setup succeed.
+            onCallStart?.();
             transcriptRef.current = [];
             setTranscript([]);
             setPreparedBrief("");
@@ -391,6 +423,9 @@ export function DoGeminiLive({
             );
             void refresh();
           }
+          const total = message.usageMetadata?.totalTokenCount;
+          if (typeof total === 'number' && Number.isSafeInteger(total) && total >= 0) setProviderTokens(total);
+          if (message.goAway) setNotice('The voice connection will end soon. Your conversation stays here; another call needs a fresh review.');
           const content = message.serverContent;
           if (content?.interrupted) stopAudio(s);
           if (content?.interactionStatus === "IN_PROGRESS") setState("working");
@@ -400,7 +435,7 @@ export function DoGeminiLive({
           )
             setState("listening");
           append("You", content?.inputTranscription?.text || "");
-          append(displayName, content?.outputTranscription?.text || "");
+          append(displayName === "You" ? "DO" : displayName, content?.outputTranscription?.text || "");
           for (const part of content?.modelTurn?.parts ?? [])
             if (
               !content?.interrupted && part.inlineData?.data &&
@@ -522,7 +557,7 @@ export function DoGeminiLive({
     <section className="do-live-panel" aria-label={`Call ${displayName}`}>
       <div className="do-live-dock">
         <div>
-          <span className="do-small-label">LIVE VOICE</span>
+          <span aria-hidden="true" style={{ display: "inline-block", width: 18, height: 18, borderRadius: "50%", marginRight: 10, background: live ? "#916A70" : "#F5F1F2", boxShadow: live ? "0 0 0 6px #916A7026" : "inset 0 0 0 1px #916A7066" }} /><span className="do-small-label">{live ? muted ? "MIC MUTED" : "VOICE ON" : "MIC OFF"}</span>
           <strong>
             {state === "working"
               ? `${displayName} is preparing your next step.`
@@ -573,9 +608,10 @@ export function DoGeminiLive({
             <div>
               <p>Call voice: {voiceLabel}</p>
               {availability?.signedIn && <PersonalDoSettings voiceEntry sharedProfile={onProfileChange ? initialProfile ?? null : undefined} onProfileChange={onVoiceSettings} />}
-              <p>Changes apply to your next call across your signed-in DO surfaces.</p>
+
             </div>
           </div>
+          <details className="do-live-profile"><summary>Call context &amp; sharing details</summary>
           {profile && <details className="do-live-profile">
             <summary>Profile shared for this call</summary>
             <p>Name: {profile.displayName} · voice: {profile.voiceName}</p>
@@ -598,21 +634,20 @@ export function DoGeminiLive({
               )}
             </>
           )}
+          </details>
           <label className="do-live-consent">
             <input
               type="checkbox"
               checked={consent}
               onChange={(e) => setConsentFor(e.target.checked ? consentScope : null)}
             />
-            Use my microphone with Google Gemini for this call{profile ? ", and share the DO name, voice, conversation style and preferences shown above" : ""}. Sharing
+            Use my microphone with Google Gemini for this call{profile ? ", and share the DO name, voice, conversation style and preferences shown above" : ""}{includeContext ? ", including the reviewed conversation and attached text" : ""}. Sharing
             stops when I end the call or leave this page.
           </label>
-          <p>
-            {availability?.remaining ?? "—"} of {availability?.dailyLimit ?? 3}{" "}
-            daily five-minute conversations available. DO does not save this
-            conversation automatically. Google processes the shared audio and text under its own data terms.
-          </p>
-          <p>Calls can discuss and prepare drafts. Saving a responsibility needs separate review and permission.</p>
+          <p>{availability?.remaining ?? "—"} of {availability?.dailyLimit ?? 3} daily five-minute pilot calls left.</p>
+          <details><summary>Call limits &amp; privacy</summary>
+            <p>DO does not save this call automatically. Google processes shared audio and text under its own data terms. Calls discuss and prepare drafts. Saving a responsibility needs separate review and permission. Saved voice changes apply to the next call.</p>
+          </details>
           <button
             type="button"
             disabled={
@@ -629,6 +664,10 @@ export function DoGeminiLive({
           </button>
         </div>
       )}
+      {paidDeadline && <details><summary>Call usage &amp; time</summary>
+        <p>This approved call ends at {new Date(paidDeadline).toLocaleTimeString()}. Automatic renewal is not enabled.</p>
+        <p>{providerTokens === null ? 'Provider usage not yet reported.' : `Latest provider-reported total: ${providerTokens} tokens.`} This is not a billing total.</p>
+      </details>}
       {diagnostic && <details className="do-live-transcript"><summary>Call diagnostics</summary><p>Build: {diagnostic.build} · model: {diagnostic.model} · voice: {diagnostic.voice} · prompt: {diagnostic.promptVersion} · {diagnostic.lifecycle}</p><p>Accent consistency needs listening review; this metadata does not verify an accent.</p></details>}
       {live && (
         <p className="do-live-state" role="status">
@@ -641,6 +680,12 @@ export function DoGeminiLive({
                 : "Microphone on · listening"}
         </p>
       )}
+      {live && state !== "starting" && <form onSubmit={event => { event.preventDefault(); sendTyped(); }}>
+        <label htmlFor={`${draftId}-typed`}>Type in this conversation</label>
+        <textarea id={`${draftId}-typed`} value={typed} maxLength={4000} onChange={event => setTyped(event.target.value)} />
+        <p>Your typed message goes to the same Google call. Replies can play aloud; mute the microphone to type quietly.</p>
+        <button type="submit" disabled={!typed.trim()}>Send to this call</button>
+      </form>}
       {transcript.length > 0 && (
         <details className="do-live-transcript">
           <summary>Conversation transcript · this session</summary>
