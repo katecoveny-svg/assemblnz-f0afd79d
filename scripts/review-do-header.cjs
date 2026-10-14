@@ -47,6 +47,8 @@ const path = require('node:path');
       assert(await header.getByRole('link', { name: 'Sign in', exact: true }).isVisible());
       await more.press('Enter');
       await page.screenshot({ path: path.join(output, `after-${width}.png`), fullPage: false });
+      await page.locator('summary').filter({hasText:/^Tools & examples$/}).click();
+      await page.getByRole('button',{name:'Open draft tools',exact:true}).click();
       const label = page.getByText('Text DO can use', { exact: true });
       const textarea = page.locator('#do-source');
       const submit = page.locator('.do-preparation-form button[type="submit"]');

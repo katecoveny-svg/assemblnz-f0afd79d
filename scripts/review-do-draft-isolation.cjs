@@ -31,6 +31,8 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
     await page.goto(origin + '/do/widget', { waitUntil: 'networkidle', timeout: 120000 });
     await page.evaluate(({ key, A, fixture }) => { localStorage.setItem(key, JSON.stringify([fixture])); localStorage.setItem(key + ':guest', JSON.stringify([fixture])); localStorage.setItem(key + ':' + A, JSON.stringify([fixture])); }, { key, A, fixture });
     await page.reload({ waitUntil: 'networkidle' });
+    await page.locator('summary').filter({ hasText: /^Tools & examples$/ }).click();
+    await page.getByRole('button', { name: 'Open draft tools', exact: true }).click();
     await page.getByRole('button', { name: /Fixture 1 Reviewed draft/ }).click();
     check('populated reviewed draft reopens for A', await page.locator('#do-result').inputValue() === fixture.draft.text && await page.locator('#do-reviewer').inputValue() === 'Fixture A');
     await page.screenshot({ path: out + '/owner-a-375.png', fullPage: true, animations: 'disabled' });
@@ -71,6 +73,8 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
     await page.locator('#do-result').waitFor();
     check('same-account reconnect recovers editor without transmission', await page.locator('#do-result').inputValue() === fixture.draft.text && mutations.length === 0);
     const second = await context.newPage(); await second.goto(origin + '/do/widget', { waitUntil: 'networkidle' });
+    await second.locator('summary').filter({ hasText: /^Tools & examples$/ }).click();
+    await second.getByRole('button', { name: 'Open draft tools', exact: true }).click();
     await second.getByRole('button', { name: /Fixture 1 Reviewed draft/ }).waitFor();
     await page.locator('#do-result').fill('Tab one changed text');
     await page.getByRole('button', { name: 'Save in this browser', exact: true }).click();
