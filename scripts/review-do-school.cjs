@@ -74,6 +74,13 @@ async function main() {
       await agenda.getByLabel('Agenda starting').selectOption('2026-10-19');
       assert.match(await agenda.innerText(), /proposed · no calendar write/);
       assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      if (width <= 390) {
+        const head = agenda.locator('.school-agenda-entry-head').first();
+        const chip = await head.locator('.school-date-chip').boundingBox();
+        const title = await head.locator('h4').boundingBox();
+        assert(chip && title && title.y >= chip.y + chip.height, 'Phone agenda title must sit below its date badge');
+        assert(title.width >= 170, 'Phone agenda title needs readable line width');
+      }
       await agenda.screenshot({ path: path.join(output, `school-agenda-${width}.png`) });
       const exam = preview.locator('article').filter({ has: page.getByRole('heading', { name: 'Mathematics exam', exact: true }) });
       assert.match(await exam.innerText(), /20\/10\/2026/); assert.match(await exam.innerText(), /22\/10\/2026/);
