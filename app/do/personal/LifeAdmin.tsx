@@ -6,6 +6,7 @@ import { DoEntryDisclosure } from '@/components/do/DoEntryDisclosure';
 import Link from 'next/link';
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { ArrowDownToLine, ArrowRight, ArrowUpRight, Check, ChevronRight, FileText, Mic, Plus, RotateCcw, ShieldCheck, Sparkles, X, Backpack, ReceiptText, CarFront } from 'lucide-react';
+import { TodayTasks } from './TodayTasks';
 import { PetRoutineComposer, PetWeekly } from './PetWeekly';
 import { ChecklistCloud } from './ChecklistCloud';
 import { LifeAdminTraffic } from './LifeAdminTraffic';
@@ -46,6 +47,7 @@ export function LifeAdmin(props: LifeAdminProps) {
 }
 function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false, profile, onCustomise, onTalk, intake, storageScope = 'unavailable', onIntakeAccepted, onGuestWorkChange }: LifeAdminProps) {
   const storageKey = lifeAdminStorageKey(storageScope);
+  const [entryOpen, setEntryOpen] = useState(Boolean(intake) || !assistant);
   const [petEditing, setPetEditing] = useState(false);
   const [petOpen, setPetOpen] = useState(false);
   const [source, setSource] = useState('');
@@ -91,21 +93,21 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
       if (intake.text.length > LIFE_ADMIN_SOURCE_LIMIT) { setNotice('That handoff is longer than 12,000 characters. Shorten it before adding it here. Nothing was sent.'); return; }
       // Never overwrite a note that the person is currently editing.
       if (source.trim()) { setNotice('Your new handoff is ready below. Finish or clear your current note, then choose “Use incoming note”.'); return; }
-      setLocalOpen(true); setSource(intake.text); setSourceIntakeId(intake.id); setTitle(intake.sourceTitle ?? 'Reviewed handoff'); setMethod('pasted-text'); setSourceUrl('');
+      setEntryOpen(true); setLocalOpen(true); setSource(intake.text); setSourceIntakeId(intake.id); setTitle(intake.sourceTitle ?? 'Reviewed handoff'); setMethod('pasted-text'); setSourceUrl('');
       setNotice('Your incoming note is ready to review. Nothing has been sent for drafting.'); sourceRef.current?.focus();
     });
     return () => cancelAnimationFrame(frame);
   }, [intake, source]);
   useEffect(() => {
-    // Both editors are already mounted. A deferred second focus can steal the
-    // next draft edit after the assistant's synchronous portable handoff.
+    // Keep focus synchronous for an already visible editor; only wait when revealing it.
     const focus = () => {
-      if (localOpen) sourceRef.current?.focus();
-      else document.getElementById('personal-assistant-input')?.focus();
+      const focusEditor = () => { if (localOpen) sourceRef.current?.focus(); else document.getElementById('personal-assistant-input')?.focus(); };
+      if (entryOpen) focusEditor();
+      else { setEntryOpen(true); requestAnimationFrame(focusEditor); }
     };
     window.addEventListener('assembl:do-focus', focus);
     return () => window.removeEventListener('assembl:do-focus', focus);
-  }, [localOpen]);
+  }, [localOpen, entryOpen]);
   const inferred = suggestLifeAdminCategory(source);
   const chosen = category === 'auto' ? inferred : category;
   const template = chosen ? lifeAdminTemplate(chosen) : null;
@@ -267,17 +269,18 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
         {!guideDismissed && (!profile?.onboardingCompleted || guideStarted) && <div className={styles.resultGuide}><span>Review before sharing.</span>{onCustomise && <button type="button" onClick={onCustomise}>Make DO mine <ArrowUpRight size={13} /></button>}<button type="button" onClick={() => setGuideDismissed(true)} aria-label="Dismiss first-result guide"><X size={14} /></button></div>}
       </section>}
       {assistant && <nav className={entry.composerTabs} aria-label="Choose how to start">
-        <button type="button" aria-pressed={!localOpen} onClick={() => { setLocalOpen(false); requestAnimationFrame(() => document.getElementById('personal-assistant-input')?.focus()); }}>Write</button>
-        {onTalk && <button type="button" onClick={() => { setCaptureMode('type'); onTalk(); }}>Talk</button>}
+        <button type="button" aria-pressed={entryOpen && !localOpen} onClick={() => { setEntryOpen(true); setLocalOpen(false); requestAnimationFrame(() => document.getElementById('personal-assistant-input')?.focus()); }}><DoActionIcon kind="note" /> Write</button>
+        {onTalk && <button type="button" onClick={() => { setCaptureMode('type'); onTalk(); }}><DoActionIcon kind="voice" /> Talk</button>}
         <DoEntryDisclosure className={entry.entryTools}><summary>Add <Plus size={15} /></summary><div data-do-overlay-panel="320">
-          <button type="button" onClick={event => { const menu = event.currentTarget.closest('details'); if (menu) menu.open = false; setLocalOpen(true); setCaptureMode('photo'); }}>Photo or image</button>
-          <button type="button" onClick={event => { const menu = event.currentTarget.closest('details'); if (menu) menu.open = false; setLocalOpen(true); setCaptureMode('forward'); requestAnimationFrame(() => sourceRef.current?.focus()); }}>Note or checklist</button>
+          <button type="button" onClick={event => { const menu = event.currentTarget.closest('details'); if (menu) menu.open = false; setEntryOpen(true); setLocalOpen(true); setCaptureMode('photo'); }}>Photo or image</button>
+          <button type="button" onClick={event => { const menu = event.currentTarget.closest('details'); if (menu) menu.open = false; setEntryOpen(true); setLocalOpen(true); setCaptureMode('forward'); requestAnimationFrame(() => sourceRef.current?.focus()); }}>Note or checklist</button>
           <p>Images and pasted text. PDF and other file uploads are not available here.</p>
         </div></DoEntryDisclosure>
       </nav>}
-      <div hidden={Boolean(assistant) && localOpen}>{assistant}</div>
-      <div id="personal-local-checklist" hidden={Boolean(assistant) && !localOpen}>{localComposer}</div>
-      {assistant && localOpen && <button type="button" className={entry.exampleToggle} onClick={() => { setLocalOpen(false); requestAnimationFrame(() => document.getElementById('personal-assistant-input')?.focus()); }}>Back to Write</button>}
+      <div hidden={!entryOpen || (Boolean(assistant) && localOpen)}>{assistant}</div>
+      <div id="personal-local-checklist" hidden={!entryOpen || (Boolean(assistant) && !localOpen)}>{localComposer}</div>
+      {entryOpen && assistant && localOpen && <button type="button" className={entry.exampleToggle} onClick={() => { setLocalOpen(false); requestAnimationFrame(() => document.getElementById('personal-assistant-input')?.focus()); }}>Back to Write</button>}
+      {entryOpen && <button type="button" className={entry.exampleToggle} onClick={() => { setEntryOpen(false); requestAnimationFrame(() => document.getElementById('personal-today-heading')?.scrollIntoView({ block: 'start' })); }}>Back to Today</button>}
       {!plans.length && showExamples && !source.trim() && !intake && <button className={entry.exampleObject} type="button" onClick={() => tryExample(LIFE_ADMIN_EXAMPLES[0])} aria-label="Try fictional school notice">
         <span className={entry.exampleFlag}>Fictional example · on this device</span>
         <span className={entry.examplePaper} aria-hidden="true"><Backpack size={22} /><strong>School trip</strong><small>FRIDAY · PACKED LUNCH</small><i /><i /></span>
@@ -287,7 +290,7 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
       </button>}
       {!plans.length && <button type="button" className={entry.exampleToggle} aria-expanded={showExamples} onClick={() => setShowExamples(!showExamples)}>{showExamples ? 'Hide examples' : 'Try a fictional example'}<ChevronRight size={16} /></button>}
       {!plans.length && showExamples && !source.trim() && !intake && <section className={styles.examples} aria-label="Try a fictional example">
-        <div className={styles.exampleHeading}><span>TRY ONE THING</span><button type="button" onClick={() => { setShowExamples(false); setGuideStarted(true); if (assistant) document.getElementById('personal-assistant-input')?.focus(); else sourceRef.current?.focus(); }}>Use my own note <ArrowRight size={14} /></button></div>
+        <div className={styles.exampleHeading}><span>TRY ONE THING</span><button type="button" onClick={() => { setShowExamples(false); setGuideStarted(true); setEntryOpen(true); setLocalOpen(!assistant); requestAnimationFrame(() => { if (assistant) document.getElementById('personal-assistant-input')?.focus(); else sourceRef.current?.focus(); }); }}>Use my own note <ArrowRight size={14} /></button></div>
         <div className={styles.exampleGrid}>{LIFE_ADMIN_EXAMPLES.map((example, index) => {
           const Icon = [Backpack, ReceiptText, CarFront][index];
           return <button className={styles.exampleCard} data-example={example.id} type="button" key={example.id} onClick={() => tryExample(example)} aria-label={example.action}>
@@ -302,11 +305,11 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
       </div>
       <button type="button" className={styles.textButton} aria-expanded={petOpen} onClick={() => setPetOpen(!petOpen)}>Pet weekly routine · session only</button>
       <div hidden={!petOpen}><PetRoutineComposer onCreate={plan => { if (petEditing) throw new Error('Finish or cancel the open routine edit first.'); if (plans.length >= 30) throw new Error('This workspace holds up to 30 checklists. Export before starting another.'); setPlans(current => [plan, ...current]); openPlan(plan); setBoardOpen(true); setPetOpen(false); setLane('needs-you'); requestAnimationFrame(() => activeHeading.current?.scrollIntoView({ block: 'start' })); }} /></div>
-      {!plans.length && <section className={entry.emptyTasks} aria-labelledby="do-empty-tasks"><h2 id="do-empty-tasks">Your tasks</h2><p>A little less on your mind.</p><small>Checklists you prepare appear here. Choose Add → Note or checklist to start one.</small></section>}
+      <TodayTasks today={counts('today')} needsYou={counts('needs-you')} done={counts('done')} onWrite={() => { setEntryOpen(true); setLocalOpen(!assistant); requestAnimationFrame(() => { if (assistant) document.getElementById('personal-assistant-input')?.focus(); else sourceRef.current?.focus(); }); }} onReview={() => { setBoardOpen(true); if (!petEditing) setLane(counts('needs-you') ? 'needs-you' : counts('today') ? 'today' : 'done'); requestAnimationFrame(() => document.getElementById('personal-task-board')?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' })); }} />
       {Boolean(plans.length) && <div className={styles.workspaceTools}><span className={styles.toolsCaption}>YOUR NEXT STEP</span><button className={styles.mode} type="button" aria-pressed={simple} onClick={() => setSimple(!simple)}>{simple ? 'Show the full picture' : 'I’m overwhelmed · just one thing'}<span aria-hidden="true">{simple ? '−' : '↘'}</span></button></div>}
       {storageScope === 'guest' && guestDirty && <aside className={styles.guest}><p>Guest work stays on this page. Download it before signing in, refreshing or leaving.</p><button type="button" onClick={() => { saveFile('do-guest-work.txt', [assistantWork?.exportText ? `Personal DO conversation\n${assistantWork.exportText}` : '', source.trim() ? `Unfinished note: ${title || 'Untitled'}\n${source}` : '', ...plans.map(lifeAdminPack)].filter(Boolean).join('\n\n────────\n\n')); setNotice('Your current note and guest checklists were downloaded. Nothing was sent or transferred to an account.'); }}>Download all guest work</button></aside>}
       <div hidden={!plans.length}>
-      <details className={styles.workUnderway} open={boardOpen} onToggle={event => setBoardOpen(event.currentTarget.open)}><summary><span>What’s underway <b>{plans.length}</b></span><Plus size={19} /></summary>
+      <details id="personal-task-board" className={styles.workUnderway} open={boardOpen} onToggle={event => setBoardOpen(event.currentTarget.open)}><summary><span>What’s underway <b>{plans.length}</b></span><Plus size={19} /></summary>
       <div className={styles.boardHeader}><nav className={styles.lanes} aria-label="Checklist status">{lanes.map((item) => <button key={item.id} type="button" disabled={petEditing} aria-pressed={lane === item.id} onClick={() => { setLane(item.id); setSelected(null); setTaskEditor(null); setProviderConsent(false); }}>{item.name}<span>{counts(item.id)}</span></button>)}</nav><span className={styles.device}>This open workspace · save is optional</span></div>
       <p className={styles.boardHint}>{lane === 'today' ? 'Reviewed steps ready to move. Follow-up dates are checked when you open this workspace.' : lane === 'needs-you' ? 'Missing details, review decisions and things waiting on someone.' : 'Completed or cancelled steps, with your recorded evidence. Prepared drafts alone are not completed external work.'}</p>
       <div className={styles.board} data-pet={active?.category === 'pets' || undefined} data-empty={!plans.length || undefined}>
@@ -340,7 +343,7 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
       </div>
 
       <section className={entry.keepGoing} aria-labelledby="do-keep-going"><header><div><span>YOUR WORK, YOUR NEXT MOVE.</span><h2 id="do-keep-going">Keep going.</h2></div><Link href="/do/continue">Pick up a draft <ArrowUpRight size={18} /></Link></header><div className={entry.utilityChoices}>
-      <details className={styles.moreChecklists}><summary>Choose a checklist <Plus size={17} /></summary><div className={styles.starters} aria-label="Everyday NZ checklists">{LIFE_ADMIN_TEMPLATES.filter(item => item.id !== 'pets').map((item, index) => <button type="button" key={item.id} aria-pressed={category === item.id} onClick={() => { setCategory(item.id); setShowExamples(false); setLocalOpen(true); requestAnimationFrame(() => sourceRef.current?.focus()); }}><span className={styles.starterIndex} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span><span>{item.name}</span><small>{item.description}</small><ChevronRight size={16} /></button>)}</div><button type="button" className={styles.textButton} onClick={() => { setShowExamples(true); document.getElementById('life-admin-heading')?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); }}>Show visual examples</button></details>
+      <details className={styles.moreChecklists}><summary>Choose a checklist <Plus size={17} /></summary><div className={styles.starters} aria-label="Everyday NZ checklists">{LIFE_ADMIN_TEMPLATES.filter(item => item.id !== 'pets').map((item, index) => <button type="button" key={item.id} aria-pressed={category === item.id} onClick={() => { setCategory(item.id); setShowExamples(false); setEntryOpen(true); setLocalOpen(true); requestAnimationFrame(() => sourceRef.current?.focus()); }}><span className={styles.starterIndex} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span><span>{item.name}</span><small>{item.description}</small><ChevronRight size={16} /></button>)}</div><button type="button" className={styles.textButton} onClick={() => { setShowExamples(true); document.getElementById('life-admin-heading')?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); }}>Show visual examples</button></details>
       <details className={styles.connections}><summary>Bring it from another app <ArrowUpRight size={15} /></summary><p>Start here without connecting anything. Add a browser companion when you want to bring in something from another page.</p><Link href="/do/install#chrome">Set up the browser companion <ArrowUpRight size={15} /></Link><br /><Link href="/do/widget">Open the writing workspace <ArrowUpRight size={15} /></Link><p className={styles.hint}>The companion can bring selected context back for review. It does not give DO permission to send, pay or change an account. A personal cloud computer is not connected here.</p></details>
       <div className={styles.notice} role="status" aria-live="polite">{!boardOpen ? notice : ''}</div>
       {plans.some(plan => plan.category === 'pets') && <aside className={styles.guest}><p>Pet routines are session-only and excluded from browser and account saves. Export them before leaving, refreshing or changing accounts.</p><button type="button" onClick={() => saveFile('do-pet-routines.txt', plans.filter(plan => plan.category === 'pets').map(lifeAdminPack).join('\n\n'))}>Download Pet routines</button></aside>}

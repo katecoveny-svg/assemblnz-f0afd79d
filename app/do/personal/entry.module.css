@@ -172,3 +172,7 @@
 /* Entry overlays use viewport geometry, never a filtered ancestor's containing block. */
 .workspace .composerTabs{backdrop-filter:none}
 .entryTools>div[data-do-overlay-panel]{position:fixed;max-width:calc(100vw - 32px);overflow-y:auto;overscroll-behavior:contain;background:#ead8e3}
+
+/* Mobile entry uses the existing mounted editors and capture disclosure. */
+.workspace .composerTabs button{display:inline-flex;align-items:center;justify-content:center;gap:8px}.workspace .composerTabs button>svg{width:18px;height:18px}.workspace .intro h1{letter-spacing:-.035em}.workspace .stage{padding-bottom:24px}
+@media(max-width:600px){.workspace .intro h1{font-size:36px;max-width:300px}.workspace .composerTabs{width:100%;justify-content:space-between}.workspace .composerTabs button{padding:10px 15px}.workspace .heading{margin-bottom:20px}}
