@@ -1,3 +1,4 @@
+const { openPersonalEntry } = require('./personal-entry-helpers.cjs');
 /* Exact companion worker/relay/UI + actual PersonalDoAssistant/BrowserTaskReview.
  * Chrome API transport is simulated; no extension installation or real session.
  * All network requests are intercepted; fictional identity and storefront only. */
@@ -66,6 +67,7 @@ const checks = [], check = (name, ok) => { assert.ok(ok, name); checks.push(name
   const deniedRead=await invoke({type:'do:browser-page',command:{action:'observe',connectionId:(await invoke({type:'do:browser-companion',action:'status'},{id:'synthetic',url:extensionUrl})).data.connectionId}},{id:'synthetic',tab:{id:8},documentId:'do-doc',url:tabs.get(8).url});
   check('page read is rejected before extension-owned grant',!deniedRead.ok);
   check('connection reads no product data',await storefront.locator('output').first().textContent()==='0');
+  await openPersonalEntry(workspace);
   await workspace.locator('#personal-assistant-input').fill('Please prepare two fictional oats');
   await workspace.getByRole('button',{name:'Review this as a browser task'}).click();
   const panel=workspace.getByRole('region',{name:'Browser task review'});

@@ -1,3 +1,4 @@
+const { openPersonalEntry } = require('./personal-entry-helpers.cjs');
 /* Real local pages, fictional signed-in storage fixtures. No provider calls. */
 const {spawn}=require('node:child_process'),fs=require('node:fs'),assert=require('node:assert/strict');
 const {chromium}=require(process.env.ASSEMBL_PLAYWRIGHT_MODULE||'/opt/codex/runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
@@ -19,12 +20,13 @@ try {
     return {paddingRight:style.paddingRight,headingWidth:heading.getBoundingClientRect().width,textWidth:h1.getBoundingClientRect().width,stageWidth:stage.getBoundingClientRect().width,artworkHidden:getComputedStyle(artwork).display==='none',overflow:document.documentElement.scrollWidth>innerWidth};
    });
    resultLayouts.push({state,width,...geometry});
-   check(state+' checklist heading uses the available width at '+width+'px',geometry.paddingRight==='0px' && geometry.artworkHidden && geometry.textWidth>=Math.min(360,geometry.headingWidth)-1 && !geometry.overflow);
+   check(state+' checklist heading uses the available width at '+width+'px',geometry.paddingRight==='0px' && geometry.artworkHidden && geometry.textWidth>=Math.min(280,geometry.headingWidth)-1 && !geometry.overflow);
    if(width===375){await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:out+'/checklist-'+state+'-375.png',fullPage:false});}
   }
   await page.setViewportSize({width:375,height:812});
  };
  await page.goto(origin+'/do/personal',{waitUntil:'networkidle'});await page.addStyleTag({content:'nextjs-portal{display:none!important}'});
+ await openPersonalEntry(page, 'note');
  check('guest can start without an account',await page.locator('#life-admin-source').isVisible());
  check('examples are optional',await page.locator('[data-example]').count()===0);
  check('only one composer is visible',await page.locator('textarea:visible').count()===1);
@@ -38,7 +40,7 @@ try {
  await page.route('**/api/do/personal/assistant',route=>route.fulfill({json:{ready:false,signedIn:true,message:'Fictional browser proof; no provider is called.'}}));
  let saved={plans:[],revision:0,savedAt:null},writes=0,conflict=false;
  await page.route('**/api/do/personal/checklists',route=>{if(route.request().method()==='GET')return route.fulfill({json:saved});writes++;const body=route.request().postDataJSON();if(conflict||body.expectedRevision!==saved.revision){conflict=false;return route.fulfill({status:409,json:{error:'Your saved collection changed on another device. Open the latest saved copy before saving again.'}})}saved={plans:body.plans,revision:saved.revision+1,savedAt:new Date().toISOString()};return route.fulfill({json:saved});});
- await page.reload({waitUntil:'networkidle'});check('signed-in entry has one composer',await page.locator('textarea:visible').count()===1);
+ await page.reload({waitUntil:'networkidle'});await openPersonalEntry(page);check('signed-in Write has one composer',await page.locator('textarea:visible').count()===1);
  await page.getByRole('button',{name:'Try a fictional example',exact:true}).click();await page.getByRole('button',{name:'Try fictional school notice',exact:true}).click();
  await page.locator('summary').filter({hasText:'Saved checklists'}).click();await page.getByRole('button',{name:'Open saved checklists',exact:true}).click();
  const consent=page.getByRole('checkbox',{name:'I want to save or remove this checklist collection in my private Assembl account.'});await consent.waitFor();

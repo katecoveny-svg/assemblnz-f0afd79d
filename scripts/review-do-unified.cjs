@@ -1,3 +1,4 @@
+const { openPersonalEntry } = require('./personal-entry-helpers.cjs');
 /** Real built pages; guest interactions use only fictional text. No provider or external action. */
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -73,8 +74,10 @@ async function verifyFunctionalMark(page, root, label) {
     check('reduced motion does not start the decorative engine', await page.locator('script[src="/direction-4c/assembl-tide.js"]').count() === 0);
     await page.screenshot({ path: out + '/01-home-desktop.png' });
     await page.getByRole('link', { name: 'Open DO', exact: true }).first().click();
-    await page.locator('#life-admin-source').waitFor();
-    check('one click from Assembl reaches a working input', new URL(page.url()).pathname === '/do' && await page.locator('#life-admin-source').isVisible());
+    await page.getByRole('heading', { name: 'Today', exact: true }).waitFor();
+    check('home opens to Today without a competing editor', await page.locator('textarea:visible').count() === 0);
+    await openPersonalEntry(page, 'note');
+    check('Add opens a working local input from the DO home', new URL(page.url()).pathname === '/do' && await page.locator('#life-admin-source').isVisible());
     const personal = page.locator('.do-app-shell > main[data-do-identity="assembled-glass"]');
     check('personal DO retains scoped brand tokens with the reviewed rose/lilac gradient', await personal.evaluate(el => {
       const style = getComputedStyle(el);
@@ -178,7 +181,7 @@ async function verifyFunctionalMark(page, root, label) {
     check('billing retains both visible functional shortcuts', await shortcuts.getByRole('link', { name: 'DO home', exact: true }).isVisible() && await shortcuts.getByRole('link', { name: 'Privacy', exact: true }).isVisible() && await shortcuts.getByRole('link', { name: 'DO home', exact: true }).getAttribute('href') === '/do' && await shortcuts.getByRole('link', { name: 'Privacy', exact: true }).getAttribute('href') === '/legal/privacy');
     await clean.screenshot({ path: out + '/11-billing-disabled-375.png', fullPage: true });
     await shortcuts.getByRole('link', { name: 'DO home', exact: true }).click();
-    await clean.locator('#life-admin-source').waitFor();
+    await clean.getByRole('heading', { name: 'Today', exact: true }).waitFor();
     check('billing phone shortcut opens the DO workspace', new URL(clean.url()).pathname === '/do');
     await clean.setViewportSize({ width: 1440, height: 1000 });
 

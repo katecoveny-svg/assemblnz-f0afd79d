@@ -4,9 +4,9 @@ import { DO_TEXT_PROVIDER_CONSENT_VERSION, DO_TEXT_PROVIDER_CONSENT } from '@/ap
 
 import { DoEntryDisclosure } from '@/components/do/DoEntryDisclosure';
 import Link from 'next/link';
-import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { ArrowDownToLine, ArrowRight, ArrowUpRight, Check, ChevronRight, FileText, Mic, Plus, RotateCcw, ShieldCheck, Sparkles, X, Backpack, ReceiptText, CarFront } from 'lucide-react';
-import { TodayTasks } from './TodayTasks';
+import { TodayTasks, type PersonalTaskIntent } from './TodayTasks';
 import { PetRoutineComposer, PetWeekly } from './PetWeekly';
 import { ChecklistCloud } from './ChecklistCloud';
 import { LifeAdminTraffic } from './LifeAdminTraffic';
@@ -47,6 +47,19 @@ export function LifeAdmin(props: LifeAdminProps) {
 }
 function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false, profile, onCustomise, onTalk, intake, storageScope = 'unavailable', onIntakeAccepted, onGuestWorkChange }: LifeAdminProps) {
   const storageKey = lifeAdminStorageKey(storageScope);
+  const pendingEntryFocus = useRef<string | null>(null);
+  function focusEntry(id: string) {
+    const target = document.getElementById(id);
+    if (target?.getClientRects().length) { pendingEntryFocus.current = null; target.focus(); }
+    else pendingEntryFocus.current = id;
+  }
+  // Focus the newly revealed surface in the commit, before another keyboard action.
+  useLayoutEffect(() => {
+    if (!pendingEntryFocus.current) return;
+    document.getElementById(pendingEntryFocus.current)?.focus();
+    pendingEntryFocus.current = null;
+  });
+  const [taskIntent, setTaskIntent] = useState<PersonalTaskIntent | null>(null);
   const [entryOpen, setEntryOpen] = useState(Boolean(intake) || !assistant);
   const [petEditing, setPetEditing] = useState(false);
   const [petOpen, setPetOpen] = useState(false);
@@ -226,7 +239,7 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
     if (!offer.result?.accepted) { setNotice(offer.result?.message ?? 'Ask DO is not ready to receive this note. Your original note is still here.'); return; }
     setLocalOpen(false);
     setNotice('Your note was copied to Ask DO for review. The original stays in your checklist editor. Nothing was saved or sent.');
-    requestAnimationFrame(() => document.getElementById('personal-assistant-input')?.focus());
+    focusEntry('personal-assistant-input');
   }
   const localComposer = (
       <div className={entry.intake}>
@@ -261,15 +274,8 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
           <p>{assistantWorking ? 'Preparing your reply…' : profile?.displayName && profile.displayName !== 'DO' ? `Your ${profile.displayName}, ready to help.` : 'Bring a question, a plan or the thing on your mind.'}</p>
         </div>
       </header>
-      {active && <section className={`${styles.quickResult} ${entry.review}`} aria-labelledby="personal-do-result">
-        <div className={styles.resultStamp}><Check size={19} /><span>{lifeAdminLane(active) === 'done' ? 'RECORDED BY YOU' : 'READY TO CHECK'}</span></div>
-        <h2 ref={resultHeading} tabIndex={-1} id="personal-do-result">{active.title}</h2><p>{nextLifeAdminStep(active)}</p>
-        <ul className={entry.previewSteps} aria-label="Checklist preview">{active.tasks.filter(task => task.kind !== 'preparation').slice(0, 2).map(task => <li key={task.id}><span aria-hidden="true">{task.status === 'done' ? '✓' : '○'}</span>{task.title}</li>)}</ul>
-        <button type="button" onClick={() => { setBoardOpen(true); requestAnimationFrame(() => { activeHeading.current?.focus({ preventScroll: true }); activeHeading.current?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); }); }}>See my next steps <ArrowRight size={17} /></button>
-        {!guideDismissed && (!profile?.onboardingCompleted || guideStarted) && <div className={styles.resultGuide}><span>Review before sharing.</span>{onCustomise && <button type="button" onClick={onCustomise}>Make DO mine <ArrowUpRight size={13} /></button>}<button type="button" onClick={() => setGuideDismissed(true)} aria-label="Dismiss first-result guide"><X size={14} /></button></div>}
-      </section>}
       {assistant && <nav className={entry.composerTabs} aria-label="Choose how to start">
-        <button type="button" aria-pressed={entryOpen && !localOpen} onClick={() => { setEntryOpen(true); setLocalOpen(false); requestAnimationFrame(() => document.getElementById('personal-assistant-input')?.focus()); }}><DoActionIcon kind="note" /> Write</button>
+        <button type="button" aria-pressed={entryOpen && !localOpen} onClick={() => { setEntryOpen(true); setLocalOpen(false); focusEntry('personal-assistant-input'); }}><DoActionIcon kind="note" /> Write</button>
         {onTalk && <button type="button" onClick={() => { setCaptureMode('type'); onTalk(); }}><DoActionIcon kind="voice" /> Talk</button>}
         <DoEntryDisclosure className={entry.entryTools}><summary>Add <Plus size={15} /></summary><div data-do-overlay-panel="320">
           <button type="button" onClick={event => { const menu = event.currentTarget.closest('details'); if (menu) menu.open = false; setEntryOpen(true); setLocalOpen(true); setCaptureMode('photo'); }}>Photo or image</button>
@@ -277,10 +283,21 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
           <p>Images and pasted text. PDF and other file uploads are not available here.</p>
         </div></DoEntryDisclosure>
       </nav>}
+      <div hidden={entryOpen}>
+      <TodayTasks today={counts('today')} needsYou={counts('needs-you')} done={counts('done')} onWrite={intent => { if (intent) setTaskIntent(intent); setEntryOpen(true); setLocalOpen(!assistant); focusEntry(assistant ? 'personal-assistant-input' : 'life-admin-source'); }} onReview={() => { setBoardOpen(true); if (!petEditing) setLane(counts('needs-you') ? 'needs-you' : counts('today') ? 'today' : 'done'); requestAnimationFrame(() => document.getElementById('personal-task-board-summary')?.focus()); }} />
+      </div>
+      {entryOpen && taskIntent && <aside className={entry.taskIntent} aria-label="Chosen task"><div><strong>{taskIntent.title}</strong><p>{taskIntent.detail}</p><small>Task context only. Your draft below stays unchanged.</small></div><button type="button" onClick={() => { setTaskIntent(null); focusEntry('personal-assistant-input'); }}>Clear task</button></aside>}
       <div hidden={!entryOpen || (Boolean(assistant) && localOpen)}>{assistant}</div>
       <div id="personal-local-checklist" hidden={!entryOpen || (Boolean(assistant) && !localOpen)}>{localComposer}</div>
-      {entryOpen && assistant && localOpen && <button type="button" className={entry.exampleToggle} onClick={() => { setLocalOpen(false); requestAnimationFrame(() => document.getElementById('personal-assistant-input')?.focus()); }}>Back to Write</button>}
-      {entryOpen && <button type="button" className={entry.exampleToggle} onClick={() => { setEntryOpen(false); requestAnimationFrame(() => document.getElementById('personal-today-heading')?.scrollIntoView({ block: 'start' })); }}>Back to Today</button>}
+      {entryOpen && assistant && localOpen && <button type="button" className={entry.exampleToggle} onClick={() => { setLocalOpen(false); focusEntry('personal-assistant-input'); }}>Back to Write</button>}
+      {entryOpen && <button type="button" className={entry.exampleToggle} onClick={() => { setEntryOpen(false); focusEntry('personal-today-heading'); }}>Back to Today</button>}
+      {active && <section className={`${styles.quickResult} ${entry.review}`} aria-labelledby="personal-do-result">
+        <div className={styles.resultStamp}><Check size={19} /><span>{lifeAdminLane(active) === 'done' ? 'RECORDED BY YOU' : 'READY TO CHECK'}</span></div>
+        <h2 ref={resultHeading} tabIndex={-1} id="personal-do-result">{active.title}</h2><p>{nextLifeAdminStep(active)}</p>
+        <ul className={entry.previewSteps} aria-label="Checklist preview">{active.tasks.filter(task => task.kind !== 'preparation').slice(0, 2).map(task => <li key={task.id}><span aria-hidden="true">{task.status === 'done' ? '✓' : '○'}</span>{task.title}</li>)}</ul>
+        <button type="button" onClick={() => { setBoardOpen(true); requestAnimationFrame(() => { activeHeading.current?.focus({ preventScroll: true }); activeHeading.current?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }); }); }}>See my next steps <ArrowRight size={17} /></button>
+        {!guideDismissed && (!profile?.onboardingCompleted || guideStarted) && <div className={styles.resultGuide}><span>Review before sharing.</span>{onCustomise && <button type="button" onClick={onCustomise}>Make DO mine <ArrowUpRight size={13} /></button>}<button type="button" onClick={() => setGuideDismissed(true)} aria-label="Dismiss first-result guide"><X size={14} /></button></div>}
+      </section>}
       {!plans.length && showExamples && !source.trim() && !intake && <button className={entry.exampleObject} type="button" onClick={() => tryExample(LIFE_ADMIN_EXAMPLES[0])} aria-label="Try fictional school notice">
         <span className={entry.exampleFlag}>Fictional example · on this device</span>
         <span className={entry.examplePaper} aria-hidden="true"><Backpack size={22} /><strong>School trip</strong><small>FRIDAY · PACKED LUNCH</small><i /><i /></span>
@@ -290,7 +307,7 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
       </button>}
       {!plans.length && <button type="button" className={entry.exampleToggle} aria-expanded={showExamples} onClick={() => setShowExamples(!showExamples)}>{showExamples ? 'Hide examples' : 'Try a fictional example'}<ChevronRight size={16} /></button>}
       {!plans.length && showExamples && !source.trim() && !intake && <section className={styles.examples} aria-label="Try a fictional example">
-        <div className={styles.exampleHeading}><span>TRY ONE THING</span><button type="button" onClick={() => { setShowExamples(false); setGuideStarted(true); setEntryOpen(true); setLocalOpen(!assistant); requestAnimationFrame(() => { if (assistant) document.getElementById('personal-assistant-input')?.focus(); else sourceRef.current?.focus(); }); }}>Use my own note <ArrowRight size={14} /></button></div>
+        <div className={styles.exampleHeading}><span>TRY ONE THING</span><button type="button" onClick={() => { setShowExamples(false); setGuideStarted(true); setEntryOpen(true); setLocalOpen(!assistant); focusEntry(assistant ? 'personal-assistant-input' : 'life-admin-source'); }}>Use my own note <ArrowRight size={14} /></button></div>
         <div className={styles.exampleGrid}>{LIFE_ADMIN_EXAMPLES.map((example, index) => {
           const Icon = [Backpack, ReceiptText, CarFront][index];
           return <button className={styles.exampleCard} data-example={example.id} type="button" key={example.id} onClick={() => tryExample(example)} aria-label={example.action}>
@@ -305,11 +322,11 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
       </div>
       <button type="button" className={styles.textButton} aria-expanded={petOpen} onClick={() => setPetOpen(!petOpen)}>Pet weekly routine · session only</button>
       <div hidden={!petOpen}><PetRoutineComposer onCreate={plan => { if (petEditing) throw new Error('Finish or cancel the open routine edit first.'); if (plans.length >= 30) throw new Error('This workspace holds up to 30 checklists. Export before starting another.'); setPlans(current => [plan, ...current]); openPlan(plan); setBoardOpen(true); setPetOpen(false); setLane('needs-you'); requestAnimationFrame(() => activeHeading.current?.scrollIntoView({ block: 'start' })); }} /></div>
-      <TodayTasks today={counts('today')} needsYou={counts('needs-you')} done={counts('done')} onWrite={() => { setEntryOpen(true); setLocalOpen(!assistant); requestAnimationFrame(() => { if (assistant) document.getElementById('personal-assistant-input')?.focus(); else sourceRef.current?.focus(); }); }} onReview={() => { setBoardOpen(true); if (!petEditing) setLane(counts('needs-you') ? 'needs-you' : counts('today') ? 'today' : 'done'); requestAnimationFrame(() => document.getElementById('personal-task-board')?.scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' })); }} />
+
       {Boolean(plans.length) && <div className={styles.workspaceTools}><span className={styles.toolsCaption}>YOUR NEXT STEP</span><button className={styles.mode} type="button" aria-pressed={simple} onClick={() => setSimple(!simple)}>{simple ? 'Show the full picture' : 'I’m overwhelmed · just one thing'}<span aria-hidden="true">{simple ? '−' : '↘'}</span></button></div>}
       {storageScope === 'guest' && guestDirty && <aside className={styles.guest}><p>Guest work stays on this page. Download it before signing in, refreshing or leaving.</p><button type="button" onClick={() => { saveFile('do-guest-work.txt', [assistantWork?.exportText ? `Personal DO conversation\n${assistantWork.exportText}` : '', source.trim() ? `Unfinished note: ${title || 'Untitled'}\n${source}` : '', ...plans.map(lifeAdminPack)].filter(Boolean).join('\n\n────────\n\n')); setNotice('Your current note and guest checklists were downloaded. Nothing was sent or transferred to an account.'); }}>Download all guest work</button></aside>}
       <div hidden={!plans.length}>
-      <details id="personal-task-board" className={styles.workUnderway} open={boardOpen} onToggle={event => setBoardOpen(event.currentTarget.open)}><summary><span>What’s underway <b>{plans.length}</b></span><Plus size={19} /></summary>
+      <details id="personal-task-board" className={styles.workUnderway} open={boardOpen} onToggle={event => setBoardOpen(event.currentTarget.open)}><summary id="personal-task-board-summary"><span>What’s underway <b>{plans.length}</b></span><Plus size={19} /></summary>
       <div className={styles.boardHeader}><nav className={styles.lanes} aria-label="Checklist status">{lanes.map((item) => <button key={item.id} type="button" disabled={petEditing} aria-pressed={lane === item.id} onClick={() => { setLane(item.id); setSelected(null); setTaskEditor(null); setProviderConsent(false); }}>{item.name}<span>{counts(item.id)}</span></button>)}</nav><span className={styles.device}>This open workspace · save is optional</span></div>
       <p className={styles.boardHint}>{lane === 'today' ? 'Reviewed steps ready to move. Follow-up dates are checked when you open this workspace.' : lane === 'needs-you' ? 'Missing details, review decisions and things waiting on someone.' : 'Completed or cancelled steps, with your recorded evidence. Prepared drafts alone are not completed external work.'}</p>
       <div className={styles.board} data-pet={active?.category === 'pets' || undefined} data-empty={!plans.length || undefined}>

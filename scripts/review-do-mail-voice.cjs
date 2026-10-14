@@ -1,3 +1,4 @@
+const { openPersonalEntry } = require('./personal-entry-helpers.cjs');
 /* Synthetic reviewed voice-to-mail handoff proof. No real media, provider, retailer or DB. */
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -78,6 +79,7 @@ const check = (label, result) => { assert.ok(result,label); checks.push(label); 
 
  try {
   await page.goto(origin+'/do/personal',{timeout:120000});
+  await openPersonalEntry(page);
   await page.locator('#personal-assistant-input').fill('');
   await page.getByRole('button',{name:'Talk',exact:true}).click();
   const panel=page.locator('.do-live-panel');

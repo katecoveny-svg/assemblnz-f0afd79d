@@ -1,3 +1,4 @@
+const { openPersonalEntry } = require('./personal-entry-helpers.cjs');
 /** Entry-only regression; all APIs fictional, all writes and media blocked. */
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
@@ -31,7 +32,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
  const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(30000);
  try{
   await page.goto(origin+'/do');
-  await page.locator('#personal-assistant-input').waitFor();
+  await openPersonalEntry(page);
   await page.evaluate(()=>document.fonts.ready);
   await page.addStyleTag({content:'nextjs-portal{display:none!important}'});
   await page.screenshot({path:out+'/do-desktop.png',fullPage:false});

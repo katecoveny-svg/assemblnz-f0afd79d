@@ -3,7 +3,7 @@ const { chromium } = require(process.env.ASSEMBL_PLAYWRIGHT_MODULE || '/tmp/do-b
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const origin = process.env.ASSEMBL_REVIEW_ORIGIN || 'http://127.0.0.1:3192';
-const out = process.env.ASSEMBL_REVIEW_OUTPUT || 'output/personal-mobile';
+const out = process.env.ASSEMBL_REVIEW_OUTPUT || 'output/personal-mobile-r2';
 const checks = [], errors = [], writes = [];
 const check = (name, value) => { assert.ok(value, name); checks.push(name); console.log('PASS '+name); };
 (async () => {
@@ -23,23 +23,38 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
    if(url.pathname === '/api/do/live-token') return route.fulfill({json:{enabled:false,configured:false,signedIn:false,remaining:0}});
    return route.fulfill({status:503,json:{error:'Synthetic connection unavailable',enabled:false}});
   });
-  const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
+  const page=await context.newPage();
+  async function home() { const back=page.getByRole('button',{name:'Back to Today',exact:true}); if(await back.isVisible()) { await back.focus(); await page.keyboard.press('Enter'); await page.waitForFunction(()=>document.activeElement?.id==='personal-today-heading'); } }
+  page.on('pageerror',e=>errors.push(e.message));
   for(const width of [375,320,1440]) {
    await page.setViewportSize({width,height:1000});
    await page.goto(origin+'/do/personal');
    await page.getByRole('heading',{name:'Today',exact:true}).waitFor();
+   check(width+': Today directly follows entry controls',await page.evaluate(()=>{const nav=document.querySelector('nav[aria-label="Choose how to start"]'); const today=document.querySelector('#personal-today-heading'); return nav.compareDocumentPosition(today)&Node.DOCUMENT_POSITION_FOLLOWING && today.getBoundingClientRect().top-nav.getBoundingClientRect().bottom<45;}));
+   check(width+': compact two-column phone cards',await page.locator('[data-task]').evaluateAll((cards,width)=>width>600 || Math.abs(cards[0].getBoundingClientRect().top-cards[1].getBoundingClientRect().top)<2,width));
    check(width+': six visual task cards',await page.locator('[data-task]').count()===6);
    check(width+': no horizontal overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
    check(width+': no invented calendar activity',await page.getByText('No inbox or calendar has been read for this view.').isVisible());
+   await page.addStyleTag({content:'nextjs-portal{display:none!important}'});
+   await page.screenshot({path:`${out}/home-${width}.png`,fullPage:true});
+   await page.screenshot({path:`${out}/today-${width}.png`});
    const nav=page.getByRole('navigation',{name:'Choose how to start'});
    await nav.getByRole('button',{name:'Write',exact:true}).click();
    await page.locator('#personal-assistant-input').fill('Synthetic existing draft: keep this wording.');
-   await page.locator('[data-task="dinner"] button').first().click();
+   await home();
+   check(width+': Back to Today moves keyboard focus',await page.locator('#personal-today-heading').evaluate(el=>el===document.activeElement));
+   await page.locator('[data-task="dinner"] button').first().focus();
+   await page.keyboard.press('Enter');
+   await page.keyboard.press('Tab');
+   check(width+': keyboard opens task and reaches its action',await page.getByRole('button',{name:'Write a dinner request',exact:true}).evaluate(el=>el===document.activeElement));
    check(width+': dinner cannot claim booking',await page.getByText('Write what you have in mind and prepare a request. DO cannot check restaurant availability or reserve a table here.').isVisible());
    await page.getByRole('button',{name:'Write a dinner request',exact:true}).click();
    check(width+': task entry preserves unfinished text',await page.locator('#personal-assistant-input').inputValue()==='Synthetic existing draft: keep this wording.');
    await page.waitForFunction(() => document.activeElement?.id === 'personal-assistant-input');
    check(width+': task entry focuses shared composer',await page.locator('#personal-assistant-input').evaluate(el=>el===document.activeElement));
+   check(width+': selected dinner intent is visible beside draft',await page.getByRole('complementary',{name:'Chosen task'}).isVisible() && (await page.getByRole('complementary',{name:'Chosen task'}).innerText()).includes('A table for us'));
+   await page.screenshot({path:`${out}/intent-${width}.png`});
+   await home();
    await page.locator('[data-task="travel"] button').first().click();
    check(width+': one open task detail',await page.locator('[data-task] button[aria-expanded="true"]').count()===1);
    check(width+': existing travel route retained',await page.getByRole('link',{name:'Open travel workspace'}).getAttribute('href')==='/do/travel');
@@ -48,21 +63,33 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
    await page.locator('[data-task="meals"] button').first().click();
    check(width+': meal route retained',await page.getByRole('link',{name:'Open meal planner'}).getAttribute('href')==='/do/shop');
    await page.locator('[data-task="meals"] button').first().click();
+   for (const [id,action,title] of [['appointments','Write a service request','Appointments'],['shopping','Write a shopping request','Clothes & gifts']]) {
+    await page.locator(`[data-task="${id}"] button`).first().click();
+    await page.getByRole('button',{name:action,exact:true}).click();
+    check(width+': '+id+' retains distinct intent', (await page.getByRole('complementary',{name:'Chosen task'}).innerText()).includes(title));
+    check(width+': '+id+' does not overwrite draft',await page.locator('#personal-assistant-input').inputValue()==='Synthetic existing draft: keep this wording.');
+    await home();
+   }
+   await nav.getByRole('button',{name:'Write',exact:true}).click();
+   await page.getByRole('button',{name:'Clear task',exact:true}).click();
+   check(width+': clearing intent preserves draft',await page.locator('#personal-assistant-input').inputValue()==='Synthetic existing draft: keep this wording.' && await page.getByRole('complementary',{name:'Chosen task'}).count()===0);
    await page.locator('#personal-assistant-input').fill('');
    await nav.getByText('Add',{exact:true}).click();
    await page.getByRole('button',{name:'Note or checklist',exact:true}).click();
    check(width+': Add uses existing local editor',await page.locator('#life-admin-source').isVisible());
    await nav.getByRole('button',{name:'Write',exact:true}).click();
-   await page.getByRole('button',{name:'Back to Today',exact:true}).click();
+   await home();
    await page.evaluate(()=>window.scrollTo(0,0));
-   await page.screenshot({path:`${out}/home-${width}.png`,fullPage:true});
-   await page.getByRole('heading',{name:'Today',exact:true}).scrollIntoViewIfNeeded();
-   await page.screenshot({path:`${out}/today-${width}.png`});
+   await page.screenshot({path:`${out}/returned-${width}.png`,fullPage:true});
+   await page.evaluate(()=>window.scrollTo(0,0));
+   await page.screenshot({path:`${out}/returned-focus-${width}.png`});
   }
   await page.getByRole('button',{name:'Try a fictional example',exact:true}).click();
   await page.getByRole('button',{name:'Try fictional school notice',exact:true}).click();
   check('actual local task updates Today',await page.getByRole('heading',{name:'1 thing needs you',exact:true}).isVisible());
   await page.getByRole('button',{name:'Review my tasks',exact:true}).click();
+  await page.waitForFunction(()=>document.activeElement?.id==='personal-task-board-summary');
+  check('Review tasks moves focus to board summary',await page.locator('#personal-task-board-summary').evaluate(el=>el===document.activeElement));
   check('Today opens existing review board',await page.locator('#personal-task-board').getAttribute('open')!==null);
   check('review retains distinction from external action',(await page.locator('#personal-task-board').innerText()).includes('does not approve sending, payments, bookings or submissions'));
   await page.screenshot({path:`${out}/review-desktop.png`,fullPage:true});
@@ -72,11 +99,14 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
   await page.waitForFunction(()=>!document.body.textContent.includes('1 thing needs you'));
   await page.getByRole('navigation',{name:'Choose how to start'}).getByRole('button',{name:'Write',exact:true}).click();
   await page.locator('#personal-assistant-input').fill('Synthetic owner A private draft');
+  await home();
   await page.locator('[data-task="shopping"] button').first().click();
+  await page.getByRole('button',{name:'Write a shopping request',exact:true}).click();
   owner='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
   await page.evaluate(()=>window.dispatchEvent(new Event('focus')));
   await page.waitForFunction(()=>document.querySelector('#personal-assistant-input')?.value === '');
   check('owner switch clears old draft',await page.locator('#personal-assistant-input').inputValue()==='');
+  check('owner switch clears chosen intent',await page.getByRole('complementary',{name:'Chosen task'}).count()===0);
   check('owner switch resets expanded task',await page.locator('[data-task] button[aria-expanded="true"]').count()===0);
   check('owner switch returns to Today',!await page.locator('#personal-assistant-input').isVisible());
   await page.getByRole('navigation',{name:'Choose how to start'}).getByRole('button',{name:'Talk',exact:true}).click();
