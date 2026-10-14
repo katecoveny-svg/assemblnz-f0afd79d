@@ -12,6 +12,7 @@ const {chromium}=require(process.env.ASSEMBL_PLAYWRIGHT_MODULE||'playwright');
   await page.goto('http://127.0.0.1:4198');await page.addScriptTag({content:bundle.outputFiles[0].text});
   const results=await page.evaluate(()=>JournalProof.runJournalProofs());
   results['quota failure aborts claim and lock atomically']=await page.evaluate(()=>JournalProof.runStorageFailureProof());
+  results['capacity limit blocks new claims without dropping tombstones']=await page.evaluate(()=>JournalProof.runCapacityProof());
   const restart=await page.evaluate(()=>JournalProof.preparePageRestartProof());
   await page.close();page=await context.newPage();
   await page.route('**/*',r=>r.fulfill({contentType:'text/html',body:'<h1>Restarted fictional worker</h1>'}));
