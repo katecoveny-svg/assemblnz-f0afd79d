@@ -5,7 +5,7 @@ import type { BuilderJob } from '@/apps/do/shared/builder';
 import { useEffect, useRef, useState } from 'react';
 import { companionHandoff, copyableHandoff, handoffAcknowledgement } from '@/apps/do/shared/companion-handoff';
 /** Owner-keyed by the companion. No background dispatch or microphone loop. */
-export function DoCompanionHandoff({context,disabled,onResult}:{context:string;disabled:boolean;onResult:(text:string)=>boolean}) {
+export function DoCompanionHandoff({context,disabled,onResult,onWorkingChange}:{context:string;disabled:boolean;onResult:(text:string)=>boolean;onWorkingChange?:(busy:boolean)=>void}) {
   const [brief,setBrief]=useState(''),[chosen,setChosen]=useState(''),[destination,setDestination]=useState('builder');
   const [payload,setPayload]=useState<ReturnType<typeof companionHandoff>|null>(null);
   const [savedTask,setSavedTask]=useState(false);
@@ -16,6 +16,7 @@ export function DoCompanionHandoff({context,disabled,onResult}:{context:string;d
   const [notice,setNotice]=useState(''),[busy,setBusy]=useState(false),[consent,setConsent]=useState(false),[result,setResult]=useState('');
   const request=useRef<AbortController|null>(null),seen=useRef(new Set<string>());
   useEffect(()=>()=>request.current?.abort(),[]);
+  useEffect(()=>{onWorkingChange?.(busy);},[busy,onWorkingChange]);
   function edit(){setSavedTask(false);setPayload(null);setConsent(false);setResult('');setNotice('');setReceiptText('');setEvents([]);}
   async function send(check=false){
     if(!payload||busy||disabled||(!check&&(!consent||savedTask)))return;
@@ -49,7 +50,7 @@ export function DoCompanionHandoff({context,disabled,onResult}:{context:string;d
     <button type="button" onClick={()=>{edit();setChosen(context.slice(0,1500));}}>Bring conversation context for review</button>
     <label>Chosen context &amp; current decisions<textarea maxLength={1500} value={chosen} onChange={e=>{edit();setChosen(e.target.value);}} /></label>
     <p>Plan only. Execution needs separate scope and permission.</p>
-    <button type="button" disabled={brief.trim().length<8} onClick={()=>{try{setPayload(companionHandoff(brief,chosen,crypto.randomUUID(),new Date().toISOString(),master));setConsent(false);setNotice('Brief prepared. Nothing sent.');}catch{setNotice('Review the brief and context lengths.');}}}>Prepare handoff</button>
+    <button type="button" disabled={brief.trim().length<8} onClick={()=>{try{const next=companionHandoff(brief,chosen,crypto.randomUUID(),new Date().toISOString(),master);edit();setPayload(next);setConsent(false);setNotice('Brief prepared. Nothing sent.');}catch{setNotice('Review the brief and context lengths.');}}}>Prepare handoff</button>
     </section><section aria-label="Tasks and owners"><h3>2 · Tasks &amp; owners</h3>
     <button type="button" onClick={()=>void loadJobs()}>Load my shared tasks</button>
     {jobs.map(row=><article key={row.job.id} className="do-board-task"><DoTaskScene kind={row.job.scope.includes('Specialist: clear-local.v1')?'writing':'agenda'} /><button type="button" onClick={()=>{setDestination(row.job.scope.includes('Specialist: clear-local.v1')?'clear':'builder');setSavedTask(true);setPayload({job:row.job,models:[],executionBoundary:row.executionBoundary,idempotencyKey:`companion-handoff:${row.job.id}`});setConsent(false);setReceiptText('');setEvents([]);setNotice('Saved plan selected. Check its receipts for acknowledged progress.');}}>{row.job.title}</button><span>Owner: {row.job.scope.includes('Specialist: clear-local.v1')?'DO Clear local checks':'Builder review queue'} · stored task</span></article>)}

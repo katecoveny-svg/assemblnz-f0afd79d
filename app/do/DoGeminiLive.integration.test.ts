@@ -12,6 +12,8 @@ vi.mock('./personal/PersonalDoSettings',()=>({PersonalDoSettings:()=>null}));
 vi.mock('@/apps/do/shared/audio-exclusion',()=>({claimDoAudio:()=>()=>{}}));
 import { DoCompanionHandoff } from '@/components/do/DoCompanionHandoff';
 import { DoGeminiLive } from './DoGeminiLive';
+import { DoCompanionConversation } from '@/components/do/DoCompanionConversation';
+vi.mock('./personal/PersonalDoAssistant',()=>({PersonalDoAssistant:()=>null}));
 class Socket {
   static OPEN=1; static instances:Socket[]=[];readyState=1;bufferedAmount=0;binaryType='';
   onopen:any;onmessage:any;onclose:any;onerror:any;sent:string[]=[];
@@ -71,6 +73,20 @@ describe('shared board component against mocked existing Office API',()=>{
     nodes(tree).find(n=>n.type==='textarea').props.onChange({target:{value:'Prepare a shared project plan'}});tree=board();button(tree,'Prepare handoff').props.onClick();tree=board();expect(request).not.toHaveBeenCalled();expect(button(tree,'Send to Builder review').props.disabled).toBe(true);
     nodes(tree).find(n=>n.type==='input'&&n.props.type==='checkbox').props.onChange({target:{checked:true}});tree=board();
     request.mockImplementation(async(_url:string,options:any)=>{const payload=JSON.parse(options.body);expect(payload.job.authority).toBe('plan_only');return {ok:true,json:async()=>({job:payload.job,durable:true,receipt:{id:'receipt',kind:'job_accepted',summary:'Plan received'},events:[{eventId:'event-one',kind:'job_accepted',createdAt:'2026-10-15T00:00:00Z'}]})};});
-    button(tree,'Send to Builder review').props.onClick();await flush();tree=board();expect(result).toHaveBeenCalledTimes(1);expect(result.mock.calls[0][0]).toContain('execution not started');expect(button(tree,'Send to Builder review').props.disabled).toBe(true);preview('shared-board',tree);expect(nodes(tree).filter(n=>n.type==='li')).toHaveLength(1);nodes(tree).find(n=>n.type==='textarea').props.onChange({target:{value:'A different reviewed brief'}});tree=board();expect(nodes(tree).filter(n=>n.type==='li')).toHaveLength(0);
+    button(tree,'Send to Builder review').props.onClick();await flush();tree=board();expect(result).toHaveBeenCalledTimes(1);expect(result.mock.calls[0][0]).toContain('execution not started');expect(button(tree,'Send to Builder review').props.disabled).toBe(true);preview('shared-board',tree);button(tree,'Prepare handoff').props.onClick();tree=board();nodes(tree).find(n=>n.type==='input'&&n.props.type==='checkbox').props.onChange({target:{checked:true}});tree=board();expect(button(tree,'Send to Builder review').props.disabled).toBe(false);expect(nodes(tree).filter(n=>n.type==='li')).toHaveLength(0);nodes(tree).find(n=>n.type==='textarea').props.onChange({target:{value:'A different reviewed brief'}});tree=board();expect(nodes(tree).filter(n=>n.type==='li')).toHaveLength(0);
+  });
+});
+
+describe('conversation receipt races',()=>{
+  it('keeps newer typed and voice turns when a previously captured receipt callback resolves',()=>{
+    const companion=()=>{hooks.index=0;return DoCompanionConversation({snapshot:'',talkOpened:true,focusRequest:0,visible:true,onShoppingDraft:()=>true,onDraft:()=>true});};
+    let tree=companion();const staleResult=nodes(tree).find(n=>n.type===DoCompanionHandoff).props.onResult;
+    const text={role:'user',text:'Newer typed turn',at:'2026-10-15T00:00:00Z',draft:null,label:null};
+    nodes(tree).find(n=>n.props.conversation).props.conversation.change([text]);
+    tree=companion();let call=nodes(tree).find(n=>n.type===DoGeminiLive);call.props.onCallStart();call.props.onTranscriptChange([{who:'You',text:'Spoken continuation'}]);
+    expect(staleResult('Acknowledged receipt')).toBe(true);
+    tree=companion();call=nodes(tree).find(n=>n.type===DoGeminiLive);call.props.onTranscriptChange([{who:'You',text:'Spoken continuation'},{who:'DO',text:'Reply'}]);
+    tree=companion();const turns=nodes(tree).find(n=>n.props.conversation).props.conversation.turns;
+    expect(turns.map((turn:any)=>turn.text)).toEqual(['Newer typed turn','Acknowledged receipt','Spoken continuation','Reply']);
   });
 });
