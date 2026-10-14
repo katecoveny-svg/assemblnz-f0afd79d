@@ -54,7 +54,15 @@ const fs = require('node:fs'); const os = require('node:os'); const path = requi
   check('delete removes content but preserves retry protection',(await db.query('select record,revision from public.do_personal_memory where owner_id=$1',[a])).rows[0].record===null);
   await assert.rejects(() => change(a,0,record)); await assert.rejects(() => change(a,2,{...record,revision:3})); check('delayed create and edit cannot resurrect deletion',true);
   check('deletion cannot remove another owner context',(await db.query('select record from public.do_personal_memory where owner_id=$1',[b])).rows[0].record.text==='Other fictional context.');
-  await db.query("update public.do_personal_memory set record=record || $2::jsonb,expires_at=($2::jsonb->>'expiresAt')::timestamptz where owner_id=$1", [b, { consentedAt: new Date(Date.now()-86400000).toISOString(), observedAt: new Date(Date.now()-86400000).toISOString(), reviewedAt: new Date(Date.now()-86400000).toISOString(), updatedAt: new Date(Date.now()-86400000).toISOString(), expiresAt: new Date(Date.now()-3600000).toISOString(), retentionDays: 90 }]);
+  // One clock sample keeps synthetic provenance ordered even across a millisecond boundary.
+  const expiredNow = Date.now(), expiredPast = new Date(expiredNow-86400000).toISOString();
+  const expiredRecord = { consentedAt: expiredPast, observedAt: expiredPast, reviewedAt: expiredPast, updatedAt: expiredPast, expiresAt: new Date(expiredNow-3600000).toISOString(), retentionDays: 90 };
+  const expireRecord = value => db.query("update public.do_personal_memory set record=record || $2::jsonb,expires_at=($2::jsonb->>'expiresAt')::timestamptz where owner_id=$1", [b, value]);
+  // Reproduce the CI fixture's consent-before-observation drift; the real constraint must still reject it.
+  await assert.rejects(() => expireRecord({...expiredRecord, consentedAt: new Date(Date.parse(expiredPast)-1).toISOString()}), error => error.code==='23514' && error.constraint==='do_personal_memory_check1');
+  check('one-millisecond provenance inversion is rejected by the unchanged constraint',true);
+  await expireRecord(expiredRecord);
+  check('expired fixture with one shared provenance timestamp is accepted',true);
   const expiredChange = await change(b,1,{...record,revision:2});
   check('expiry before purge commits tombstone and rejects renewal',expiredChange.rows[0].do_personal_memory_change===false);
   await assert.rejects(() => change(b,2,{...record,revision:3})); check('expiry ABA cannot restore context',true);
