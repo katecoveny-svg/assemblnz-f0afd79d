@@ -8,11 +8,11 @@ export interface ConstellationPalette {
 }
 
 export const CONSTELLATION_PALETTES: Record<string, ConstellationPalette> = {
-  paper:    { ground: '#FBF7EE', node: '#2B6B57', edge: '#5B5049', edgeStrong: '#23211F' },
-  ink:      { ground: '#F6F5F0', node: '#0B0B0F', edge: '#4A4A55', edgeStrong: '#0B0B0F' },
-  night:    { ground: '#0D1119', node: '#F4CE7A', edge: '#4C8BE0', edgeStrong: '#8A56D0' },
-  linen:    { ground: '#F4EFE4', node: '#8F3A22', edge: '#B29B7B', edgeStrong: '#5B2418' },
-  slate:    { ground: '#1F262D', node: '#F5F1E8', edge: '#8AB9C4', edgeStrong: '#4A97A9' },
+  paper:    { ground: '#F8F4F3', node: '#705460', edge: '#604B5A', edgeStrong: '#30172C' },
+  ink:      { ground: '#F6F5F0', node: '#280F24', edge: '#594353', edgeStrong: '#280F24' },
+  night:    { ground: '#2D1328', node: '#BFA7AA', edge: '#9F8287', edgeStrong: '#8D6D75' },
+  linen:    { ground: '#F3EEED', node: '#6F4D58', edge: '#AC999F', edgeStrong: '#543544' },
+  slate:    { ground: '#341B2F', node: '#F5F0EF', edge: '#BBABAF', edgeStrong: '#9C838A' },
 };
 
 const SLIDERS = [
@@ -28,35 +28,35 @@ const PRESETS: FamilyPreset[] = [
   {
     id: 'paper',
     label: 'Paper Network',
-    blurb: 'pounamu nodes on paper — the assembl register',
+    blurb: 'muted plum nodes on paper · the assembl register',
     sliders: SLIDERS,
     defaults: { nodes: 110, radius: 110, speed: 0.55, nodeSize: 3.5, edgeAlpha: 0.28, edgeWidth: 0.9 },
   },
   {
     id: 'ink',
     label: 'Ink Network',
-    blurb: 'black nodes, editorial diagram',
+    blurb: 'deep plum nodes, editorial diagram',
     sliders: SLIDERS,
     defaults: { nodes: 140, radius: 100, speed: 0.4, nodeSize: 3.0, edgeAlpha: 0.35, edgeWidth: 0.8 },
   },
   {
     id: 'night',
     label: 'Night Sky',
-    blurb: 'golden nodes on midnight, drifting',
+    blurb: 'dusty rose nodes on deep plum, drifting',
     sliders: SLIDERS,
     defaults: { nodes: 160, radius: 130, speed: 0.35, nodeSize: 2.5, edgeAlpha: 0.20, edgeWidth: 0.7 },
   },
   {
     id: 'linen',
     label: 'Linen',
-    blurb: 'warm coral network on cream',
+    blurb: 'warm plum network on chalk',
     sliders: SLIDERS,
     defaults: { nodes: 90, radius: 120, speed: 0.5, nodeSize: 3.8, edgeAlpha: 0.24, edgeWidth: 1.0 },
   },
   {
     id: 'slate',
     label: 'Slate',
-    blurb: 'pearl nodes on slate',
+    blurb: 'chalk nodes on deep plum',
     sliders: SLIDERS,
     defaults: { nodes: 120, radius: 110, speed: 0.6, nodeSize: 3.0, edgeAlpha: 0.30, edgeWidth: 0.9 },
   },
@@ -66,7 +66,7 @@ export const CONSTELLATION_FAMILY: Family = {
   id: 'constellation',
   label: 'Constellation',
   blurb: 'algorithmic — nodes and edges, the assembl signature',
-  ground: '#FBF7EE',
+  ground: '#F8F4F3',
   presets: PRESETS,
   supportsPngDownload: true,
   supportsSvgDownload: false,

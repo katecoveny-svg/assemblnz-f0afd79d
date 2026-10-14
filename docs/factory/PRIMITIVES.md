@@ -248,3 +248,7 @@ The loyalty `mealChoiceCards` projection reuses `planShop` for three accessible 
 ## Native reviewed draft handoff — 14 October development integration
 
 `apps/do/ios/Shared/DOStore.swift` supplies a local-only app/Share Sheet/keyboard handoff. Saving does not approve insertion; explicit review releases a draft for one hour, and the keyboard rechecks identity and expiry before insertion. A shared App Group is not account isolation or per-record OS isolation; expiry is not secure deletion. Tests are in `apps/do/ios/Tests`; unsigned simulator and signed-device proof remain distinct. No cloud execution, generic cross-app context, signing or installation is claimed.
+
+### Generative assembly studio (14 October 2026)
+
+`/creative-studio/generate` mounts the homepage tide engine as the Assembly family in the shared generative shell. `lib/generative-art/species.ts` is the species registry (silhouette, motion, flock, size, canon tones); `lib/generative-art/canon.ts` is the canon palette for generative work (tokens, mixes, the plum-to-paper ramp with a dusty rose pull, contrast flips); `lib/generative-art/loop-export.ts` encodes MP4, WebM and GIF in the browser from a frame callback; `lib/generative-art/receipt.ts` writes the export receipt. Engine studio options and calls are listed in `docs/design/generative-assembly.md`.
