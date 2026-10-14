@@ -1,8 +1,11 @@
+import { WOOLWORTHS_BLOCKERS } from './retailers/gate';
 /** One truthful capability projection for web, voice, Mac, PWA and extension. */
 export function browserActionCapability() {
   return {
     protocol: 'do.cart.v1',
     state: 'unavailable',
+    implementation: 'gated_retailer_adapter',
+    liveBlockers: WOOLWORTHS_BLOCKERS,
     retailer: 'woolworths_nz',
     canObserve: false,
     canMutateCart: false,

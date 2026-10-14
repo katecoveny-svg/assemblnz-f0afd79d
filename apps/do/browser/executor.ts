@@ -1,3 +1,4 @@
+import { requireWoolworthsRelease } from './retailers/gate';
 import { cartObservation, cartProposal, type BrowserScope, type CartObservation, type CartProposal, type CartReceipt, type ItemReceipt } from './contract';
 
 export type Approval = {
@@ -15,7 +16,7 @@ export interface AuthorityStore {
   finish(ownerId: string, receipt: CartReceipt): Promise<void>;
 }
 export interface CartAdapter {
-  mode: 'controlled_fixture';
+  mode: 'controlled_fixture' | 'retailer_dom';
   observe(): Promise<CartObservation>;
   /** Static adapter implementation, never JS/selectors supplied by a model. Must
    * recheck document and revision immediately before its one bounded DOM action. */
@@ -28,6 +29,7 @@ export async function proposalDigest(input: CartProposal): Promise<string> {
   return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)), b => b.toString(16).padStart(2, '0')).join('');
 }
 function checkObservation(value: CartObservation, proposal: CartProposal, now: number) {
+  if (!same(value.retailerContext, proposal.retailerContext)) throw new Error('Retailer account, store or cart changed');
   if (!same(value.scope, proposal.scope) || now - value.observedAt > 30000 || value.observedAt > now) throw new Error('Scope or observation expired');
 }
 export async function executeReviewedCart(input: {
@@ -35,8 +37,10 @@ export async function executeReviewedCart(input: {
   ownerId: string; approvalId: string; proposal: CartProposal;
 }, store: AuthorityStore, adapter: CartAdapter, now = () => Date.now()): Promise<CartReceipt> {
   const proposal = cartProposal.parse(input.proposal);
-  // This slice intentionally cannot run against a live retailer, even if given a permit.
-  if (adapter.mode !== 'controlled_fixture' || proposal.scope.origin !== 'http://127.0.0.1:4198') throw new Error('Live retailer adapter unavailable');
+  if (adapter.mode === 'retailer_dom') {
+    requireWoolworthsRelease(); // Closed even with a valid review/permit; no live effects in this release.
+    if (proposal.scope.origin !== 'https://www.woolworths.co.nz' || !proposal.retailerContext || proposal.items.some(i => !i.retailerProduct || i.productId !== i.retailerProduct.sku)) throw new Error('Retailer identity required');
+  } else if (adapter.mode !== 'controlled_fixture' || proposal.scope.origin !== 'http://127.0.0.1:4198') throw new Error('Live retailer adapter unavailable');
   const digest = await proposalDigest(proposal);
   async function authority() {
     const connected = await store.isConnected(input.ownerId, proposal.scope);
@@ -56,7 +60,7 @@ export async function executeReviewedCart(input: {
   }
   // Claim before the first effect; loss of a receipt never authorises replay.
   if (!await store.claim(input.ownerId, proposal.actionId)) throw new Error('Already claimed; reconcile observed cart before a new review');
-  const receipts: ItemReceipt[] = proposal.items.map(i => ({ productId: i.productId, requestedQuantity: i.targetQuantity, beforeQuantity: i.quantity, observedQuantity: null, beforeRevision: null, afterRevision: null, status: 'not_attempted' }));
+  const receipts: ItemReceipt[] = proposal.items.map(i => ({ productId: i.productId, ...(i.retailerProduct ? { retailerProduct: i.retailerProduct } : {}), requestedQuantity: i.targetQuantity, beforeQuantity: i.quantity, observedQuantity: null, beforeRevision: null, afterRevision: null, status: 'not_attempted' }));
   let stopped = false;
   for (let index = 0; index < proposal.items.length; index++) {
     const item = proposal.items[index];
@@ -82,7 +86,7 @@ export async function executeReviewedCart(input: {
       observed = after;
     } catch { stopped = true; break; }
   }
-  const receipt: CartReceipt = { actionId: proposal.actionId, revision: proposal.revision, digest, scope: proposal.scope, finishedAt: now(), mode: 'controlled_fixture', retailerExecuted: false, status: stopped ? 'stopped' : 'verified', items: receipts };
+  const receipt: CartReceipt = { actionId: proposal.actionId, revision: proposal.revision, digest, scope: proposal.scope, finishedAt: now(), mode: adapter.mode, retailerExecuted: adapter.mode === 'retailer_dom', ...(proposal.retailerContext ? { retailerContext: proposal.retailerContext } : {}), status: stopped ? 'stopped' : 'verified', items: receipts };
   await store.finish(input.ownerId, receipt); // failure remains claimed, never retry mutation
   return receipt;
 }
