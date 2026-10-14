@@ -17,7 +17,7 @@ function fixture(rows = accounts) {
   const read = vi.fn<MailPorts['read']>().mockImplementation(async (_owner, _account, op) => op.kind === 'search' ? { messages: [{ id: 'msg1' }, { id: 'msg1' }], nextPageToken: 'never-followed' } : {
     id: op.messageId, snippet: 'Synthetic Example Clinic opening hours.', payload: { mimeType: 'text/plain', headers: [{ name: 'From', value: 'Example Clinic <clinic@example.invalid>' }, { name: 'Subject', value: '<img src=x onerror=alert(1)> Opening hours' }], body: { data: Buffer.from(injection).toString('base64url') } },
   });
-  return { verifyGrant: vi.fn().mockImplementation(async (externalOwner, accountId) => ({ externalOwner, accountId, provider: 'gmail', source: 'provider_grant_metadata', scopes: [GMAIL_READ_SCOPE], checkedAt: Date.now(), expiresAt: Date.now() + 300_000 })), accounts: vi.fn().mockResolvedValue(rows), read, configured: vi.fn().mockReturnValue(true) } satisfies MailPorts;
+  return { verifyGrant: vi.fn().mockImplementation(async (externalOwner, accountId) => ({ externalOwner, accountId, provider: 'gmail', source: 'provider_grant_metadata', revision: 'a'.repeat(64), scopes: [GMAIL_READ_SCOPE], checkedAt: Date.now(), expiresAt: Date.now() + 300_000 })), accounts: vi.fn().mockResolvedValue(rows), read, configured: vi.fn().mockReturnValue(true) } satisfies MailPorts;
 }
 const signal = () => new AbortController().signal;
 const recheck = async () => owner;
@@ -39,6 +39,16 @@ describe('Personal DO bounded mail', () => {
   it('rechecks capability revocation before publishing', async () => {
     const ports = fixture(); ports.read.mockImplementationOnce(async () => { ports.verifyGrant.mockResolvedValue(null); return { messages: [] }; });
     await expect(readMail(request, owner, signal(), recheck, ports)).rejects.toThrow('gmail_read_unverified');
+  });
+  it('discards a result after reconnect even when the account ID and scopes stay the same', async () => {
+    const ports = fixture();
+    const grant = await ports.verifyGrant(owner.externalId, 'gmail_two');
+    ports.read.mockImplementationOnce(async () => {
+      ports.verifyGrant.mockResolvedValue({ ...grant, revision: 'b'.repeat(64) });
+      return { messages: [] };
+    });
+    await expect(readMail(request, owner, signal(), recheck, ports)).rejects.toThrow('mail_account_changed');
+    expect(ports.read).toHaveBeenCalledTimes(1);
   });
   it('uses the explicit second Gmail account, deduplicates messages and returns account/source evidence', async () => {
     const ports = fixture(); const result = await readMail(request, owner, signal(), recheck, ports);

@@ -5,7 +5,7 @@ const owner = 'do:user:11111111-1111-4111-8111-111111111111';
 let fetcher: ReturnType<typeof vi.fn>;
 const search = { accountId: 'second', terms: 'Example Clinic', days: 7 as const };
 const rows = [{ id: 'first', healthy: true, app: { name_slug: 'gmail' }, external_user_id: owner }, { id: 'second', healthy: true, app: { name_slug: 'gmail' }, external_user_id: owner }];
-beforeEach(() => { vi.resetModules(); grantVerifier.mockImplementation(async (externalOwner, accountId, signal) => { signal.throwIfAborted(); return { externalOwner, accountId, provider: 'gmail', source: 'provider_grant_metadata', scopes: ['https://www.googleapis.com/auth/gmail.readonly'], checkedAt: Date.now(), expiresAt: Date.now() + 300_000 }; }); vi.stubEnv('PIPEDREAM_CLIENT_ID', 'synthetic'); vi.stubEnv('PIPEDREAM_CLIENT_SECRET', 'synthetic'); vi.stubEnv('PIPEDREAM_PROJECT_ID', 'proj_fixture'); vi.stubEnv('DO_GMAIL_OAUTH_APP_ID', 'oa_fixture'); fetcher = vi.fn(); vi.stubGlobal('fetch', fetcher); });
+beforeEach(() => { vi.resetModules(); grantVerifier.mockImplementation(async (externalOwner, accountId, signal) => { signal.throwIfAborted(); return { externalOwner, accountId, provider: 'gmail', source: 'provider_grant_metadata', revision: 'a'.repeat(64), scopes: ['https://www.googleapis.com/auth/gmail.readonly'], checkedAt: Date.now(), expiresAt: Date.now() + 300_000 }; }); vi.stubEnv('PIPEDREAM_CLIENT_ID', 'synthetic'); vi.stubEnv('PIPEDREAM_CLIENT_SECRET', 'synthetic'); vi.stubEnv('PIPEDREAM_PROJECT_ID', 'proj_fixture'); vi.stubEnv('DO_GMAIL_OAUTH_APP_ID', 'oa_fixture'); fetcher = vi.fn(); vi.stubGlobal('fetch', fetcher); });
 afterEach(() => { vi.unstubAllEnvs(); vi.unstubAllGlobals(); });
 function setup(accounts = rows) { fetcher.mockResolvedValueOnce(Response.json({ access_token: 'synthetic', expires_in: 3600 })).mockResolvedValueOnce(Response.json({ data: accounts })); }
 describe('mail transport allowlist', () => {
@@ -25,6 +25,16 @@ describe('mail transport allowlist', () => {
     expect(upstream.origin + upstream.pathname).toBe('https://gmail.googleapis.com/gmail/v1/users/me/messages');
     expect(upstream.searchParams.get('maxResults')).toBe('10');
     expect(upstream.searchParams.get('q')).toBe('"Example" "Clinic" newer_than:7d -in:spam -in:trash');
+  });
+  it('discards direct transport results if the grant changes during the proxy call', async () => {
+    setup(); fetcher.mockImplementationOnce(async () => {
+      grantVerifier.mockResolvedValue({ externalOwner: owner, accountId: 'second', provider: 'gmail',
+        source: 'provider_grant_metadata', revision: 'b'.repeat(64),
+        scopes: ['https://www.googleapis.com/auth/gmail.readonly'], checkedAt: Date.now(), expiresAt: Date.now() + 300_000 });
+      return Response.json({ messages: [] });
+    });
+    const { doPersonalMailRead } = await import('./pipedream');
+    await expect(doPersonalMailRead(owner, 'second', { kind: 'search', search }, new AbortController().signal)).rejects.toThrow('gmail_read_unverified');
   });
   it('rejects foreign or duplicate selected accounts without a proxy call', async () => {
     setup([rows[1], rows[1]]); const { doPersonalMailRead } = await import('./pipedream');

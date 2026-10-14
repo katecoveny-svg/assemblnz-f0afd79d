@@ -16,6 +16,7 @@
  * docs/PIPEDREAM-CONNECT-SETUP.md.
  */
 import 'server-only';
+import { z } from 'zod';
 import { verifyPersonalMailGrant, verifiedMailGrant } from '@/apps/do/mail/capability';
 import { actionMapFromPack } from '@/apps/do/shared/do-connector-pack';
 import { validateConnectorInput } from '@/apps/do/shared/connector-contracts';
@@ -94,6 +95,7 @@ async function pd<T>(cfg: PdConfig, method: 'GET' | 'POST' | 'DELETE', path: str
     body: body === undefined ? undefined : JSON.stringify(body),
     signal: bounded ? AbortSignal.any([bounded.signal, AbortSignal.timeout(15_000)]) : AbortSignal.timeout(15_000),
     redirect: bounded ? 'error' : 'follow',
+    ...(bounded ? { cache: 'no-store' as const } : {}),
   });
   if (bounded) {
     // Private mail/provider errors must never expose bodies or credentials.
@@ -192,11 +194,21 @@ export async function listConnectedAccounts(externalUserId: string, signal?: Abo
   const body = await pd<{ data?: ConnectedAccount[]; accounts?: ConnectedAccount[] }>(
     cfg,
     'GET',
-    `/connect/${cfg.projectId}/accounts?external_user_id=${encodeURIComponent(externalUserId)}`,
+    `/connect/${cfg.projectId}/accounts?external_user_id=${encodeURIComponent(externalUserId)}&include_credentials=false`,
     undefined,
     signal ? { signal, maxBytes: 128_000 } : undefined,
   );
   return body.data ?? body.accounts ?? [];
+}
+
+/** Documented account metadata only; credentials are explicitly excluded. */
+export async function retrievePersonalMailAccountMetadata(owner: string, accountId: string, signal: AbortSignal): Promise<unknown> {
+  signal.throwIfAborted();
+  if (!owner.startsWith('do:user:') || !z.uuid().safeParse(owner.slice(8)).success) throw new Error('mail_owner_required');
+  mailAccountId.parse(accountId);
+  const cfg = pipedreamConfig();
+  if (!cfg) throw new Error('mail_setup_needed');
+  return pd(cfg, 'GET', `/connect/${cfg.projectId}/accounts/${encodeURIComponent(accountId)}?include_credentials=false`, undefined, { signal, maxBytes: 16_000 });
 }
 
 /** Personal mail's only provider port. Fixed GET endpoints; no attachments or writes.
@@ -220,12 +232,17 @@ export async function doPersonalMailRead(owner: string, accountId: string, opera
     path = `messages/${id}?format=${operation.full ? 'full' : 'metadata'}`;
     if (!operation.full) path += '&metadataHeaders=Subject&metadataHeaders=From&metadataHeaders=Date';
   }
-  if (!verifiedMailGrant(await verifyPersonalMailGrant(owner, accountId, signal), owner, accountId)) throw new Error('gmail_read_unverified');
+  const grant = await verifyPersonalMailGrant(owner, accountId, signal);
+  if (!verifiedMailGrant(grant, owner, accountId)) throw new Error('gmail_read_unverified');
   const matches = (await listConnectedAccounts(owner, signal)).filter(account => account.id === accountId);
   if (matches.length !== 1 || accountOwner(matches[0]) !== owner || (matches[0].external_user_id && matches[0].external_user_id !== owner) || (matches[0].external_id && matches[0].external_id !== owner) || matches[0].healthy !== true || matches[0].app?.name_slug !== 'gmail') throw new Error('mail_account_unavailable');
   signal.throwIfAborted();
   const url = Buffer.from(`https://gmail.googleapis.com/gmail/v1/users/me/${path}`).toString('base64url');
-  return pd(cfg, 'GET', `/connect/${cfg.projectId}/proxy/${url}?external_user_id=${encodeURIComponent(owner)}&account_id=${encodeURIComponent(accountId)}`, undefined, { signal, maxBytes: operation.kind === 'search' ? 16_000 : 256_000 });
+  const result = await pd(cfg, 'GET', `/connect/${cfg.projectId}/proxy/${url}?external_user_id=${encodeURIComponent(owner)}&account_id=${encodeURIComponent(accountId)}`, undefined, { signal, maxBytes: operation.kind === 'search' ? 16_000 : 256_000 });
+  const current = await verifyPersonalMailGrant(owner, accountId, signal);
+  if (!verifiedMailGrant(current, owner, accountId) || current.revision !== grant.revision) throw new Error('gmail_read_unverified');
+  signal.throwIfAborted();
+  return result;
 }
 
 /** Every account connected under the project, whoever owns it — the

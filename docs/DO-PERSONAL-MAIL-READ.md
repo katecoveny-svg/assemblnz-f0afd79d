@@ -5,18 +5,21 @@ backstops, Gmail decoding and writing-owner invalidation. Creates a shared mail
 read contract and in-memory review destination. No production activation, account
 linking, OAuth grant/configuration change or mailbox write was performed.
 
-## Current live-access blocker
+## Gmail verification candidate; live proof still required
 
-Gmail and Outlook reads are unavailable in this follow-up until authoritative,
-account-specific scope and expiry evidence can be obtained. The current production
-`verifyPersonalMailGrant` returns no capability: healthy metadata and the custom
-OAuth client do not enable reads. Both the gateway and direct provider transport
-reject unverified Gmail before mailbox access. No environment override exists.
-The server validator requires exact owner/account binding, fresh evidence, unexpired
-grant, gmail.readonly and only explicitly allowed identity scopes; write, send,
-contacts, full-mail and unknown scopes fail closed. A real provider-backed verifier
-is not implemented and requires separately reviewed work. Tests inject synthetic
-server evidence only, not client claims or a production switch.
+The local follow-up implements a server-only Pipedream account-metadata verifier.
+The documented `authorized_scopes` field represents scopes effectively granted to
+that account; `expires_at` represents credential expiry. Requests explicitly exclude
+credentials. Missing fields, broad scopes, expired credentials, unknown health,
+revoked accounts, conflicting owners and changed snapshots deny access. No live
+provider metadata or mailbox was requested during implementation.
+
+Both gateway and direct transport still verify Gmail independently. They now pin a
+grant snapshot through the operation and discard results after an observed change.
+The adapter compares the owner-filtered list, exact-account retrieval and a second
+list without caching. Configuration and healthy status alone never enable reading.
+This is local implementation with synthetic proof, not deployed/live account proof.
+Outlook remains denied. See [grant investigation and briefing gates](DO-MAIL-GRANT-VERIFICATION.md).
 
 ## Synthetic working slice
 
@@ -36,7 +39,7 @@ consent before handoff; the destination requires fresh mail account/task review.
 ## Boundaries
 
 - GET `/api/do/mail` checks only connected-account metadata: no mailbox probe,
-  credentials or raw errors. `scopeVerified: false` disables reading. Configured and
+  credentials or raw errors. Unverified accounts have `scopeVerified: false`, disabling reading. Configured and
   healthy are distinct from actual grant verification.
 - POST: authenticated `getUser`, same origin, strict 4 KB JSON, owner comparison,
   owner-based per-process rate backstop, 45-second total deadline. Request IDs
@@ -89,8 +92,9 @@ consent before handoff; the destination requires fresh mail account/task review.
 7. Signed-in GET `/api/do/mail` is the metadata-only readiness check. Inspect
    owner/account/state flags privately. No live provider call was made while
    implementing/testing this change; don't copy private account metadata into PRs.
-8. Implement and review the authoritative Gmail grant verifier before enabling any
-   read; configuration, consent UI and healthy status are insufficient.
+8. Review the metadata adapter and verify that the intended account supplies the
+   documented fields without credentials; configuration, consent UI and healthy
+   status are insufficient.
    A later owner-approved small read must verify actual scopes/account, expiry
    behaviour and provider response shape. Mail model use additionally requires
    named-provider disclosure/consent and source validation. Existing Personal DO
@@ -106,7 +110,7 @@ mocked accounts, owner switch, second Gmail, cancellation, injection and drafts.
 The hosted **Personal DO mail review** workflow runs typecheck, scoped lint,
 focused tests, guarded build and browser proof without provider secrets.
 
-Remaining gates: implemented authoritative Gmail grant verification and live account
+Remaining gates: review of the local Gmail metadata adapter and live account
 proof, Outlook grant verifier/reader, physical voice/dictation proof, and production
 approval. Ordinary Personal DO chat has no mail tool; tasks are editable in-memory
 drafts without durable storage or action execution. The dedicated mail proof does
