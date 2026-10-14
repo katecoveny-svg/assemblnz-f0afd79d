@@ -15,8 +15,6 @@ export const DO_VOICE_MODELS = {
   extended: "gemini-3.8-live-extended-thinking",
 } as const;
 export const DO_VOICE_PROMPT_VERSION = "do-nz-en-v2";
-export const DO_VOICE_SECONDS = 300;
-export const DO_VOICE_DAILY_SESSIONS = 3;
 export const doVoiceRequest = z
   .object({
     mode: z.enum(["standard", "extended"]).default("standard"),

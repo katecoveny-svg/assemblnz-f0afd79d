@@ -64,6 +64,21 @@ beforeEach(() => {
 });
 afterEach(() => vi.unstubAllEnvs());
 describe("DO voice token boundary", () => {
+  it("reports the configured reserved-time budget without minting or expanding a token", async () => {
+    vi.stubEnv("DO_VOICE_DAILY_SECONDS", "1200");
+    expect(await (await GET()).json()).toMatchObject({ dailyLimit: 4, dailyReservedSecondsLimit: 1200, sessionSeconds: 300, usageBasis: "reserved_connection_seconds" });
+    expect(calls.read).toHaveBeenCalledWith("test-owner", { dailySeconds: 1200, dailySessions: 4, sessionSeconds: 300 });
+    expect(calls.token).not.toHaveBeenCalled();
+  });
+  it("fails closed for invalid operator budgets before quota or provider calls", async () => {
+    vi.stubEnv("DO_VOICE_DAILY_SECONDS", "unlimited");
+    expect((await GET()).status).toBe(503);
+    expect((await POST(request())).status).toBe(503);
+    expect(calls.read).not.toHaveBeenCalled();
+    expect(calls.reserve).not.toHaveBeenCalled();
+    expect(calls.token).not.toHaveBeenCalled();
+  });
+
   it("reports readiness without minting a token or exposing the provider key", async () => {
     const response = await GET();
     const body = await response.json();
@@ -141,7 +156,7 @@ describe("DO voice token boundary", () => {
     expect(
       body.config.speechConfig.voiceConfig.prebuiltVoiceConfig.voiceName,
     ).toBe("Aoede");
-    expect(calls.reserve).toHaveBeenCalledWith("test-owner");
+    expect(calls.reserve).toHaveBeenCalledWith("test-owner", { dailySeconds: 900, dailySessions: 3, sessionSeconds: 300 });
     expect(calls.release).not.toHaveBeenCalled();
     expect(calls.profile).toHaveBeenCalledWith("test-owner");
   });

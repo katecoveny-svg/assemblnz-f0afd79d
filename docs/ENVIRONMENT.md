@@ -176,3 +176,5 @@ Before adding one:
 - make a tracked `.env` the source of truth for an agent or build
 
 For current repo/runtime setup, also read `AGENTS.md`, `.env.local.example`, and the relevant product/runbook before changing environment configuration.
+
+**DO voice time budget (local implementation, not a deployed budget change):** `DO_VOICE_DAILY_SECONDS` is an operator-only positive whole-second daily reservation budget, divisible by 300, range 300–86400. Omitted means the existing 900 seconds/day; invalid values disable admission instead of allowing unlimited use. Increasing it requires an approved spend decision and release; do not put it in `NEXT_PUBLIC_` variables or client requests. Each existing five-minute token reserves its full window; this is conservative reserved time, **not measured audio duration or a currency meter**. Apply budget changes consistently across instances, preferably at the New Zealand day boundary. If earlier reservations occupy slots outside a reduced budget, further admission stays closed for that day. This preparation does not implement continuous renewal. See `docs/DO-VOICE-READINESS-20261015.md`.

@@ -252,3 +252,15 @@ The loyalty `mealChoiceCards` projection reuses `planShop` for three accessible 
 ### Selected-tab read and conversational companion (15 October local review)
 
 Creates `apps/do/browser/selected-tab/` for ephemeral owner/tab/document/origin-bound read-only evidence and cancellation; its native host is still unbound. Extends the existing floating companion, typed assistant, voice transport and opt-in kept conversations with shared turns, explicit context attachment and in-panel Talk. No new persistence or execution authority. See [implementation, synthetic evidence and live gaps](../reviews/DO-SELECTED-TAB-COMPANION-20261015.md).
+### Pet weekly local review
+
+Pet weekly routines extend LifeAdmin's plan/review/completion/export contract without
+inheriting provider drafting or persistence. `persistentLifeAdminPlanSchema` rejects
+session-only Pet payloads on both browser/cloud reads and writes; preparation rejects
+them separately. Mixed saves disclose exclusions and offer export. Preserve this
+separation when adding future local-only categories. See
+[Pet weekly local review](../reviews/PET-WEEKLY-LOCAL-20261014.md) for proof and limits.
+
+### DO server voice time-budget preparation (15 October local)
+
+Extends the existing per-owner/day unique reservation slots with `apps/do/services/voice-policy.ts`; operator-only finite time budget, unchanged deployed fallback, no schema or provider change. Reserved time is not measured usage or a currency cap. Continuous renewal remains a separate owner-bound lease implementation. NZ accent acceptance is user-reported failed despite the existing v2 prompt; synthetic tests cannot override it. See `docs/DO-VOICE-READINESS-20261015.md`.
