@@ -77,6 +77,20 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
    await nav.getByText('Add',{exact:true}).click();
    await page.getByRole('button',{name:'Note or checklist',exact:true}).click();
    check(width+': Add uses existing local editor',await page.locator('#life-admin-source').isVisible());
+   // Review regression: clear a selected task after changing to the checklist editor.
+   await page.locator('#life-admin-source').fill('Synthetic checklist note to preserve.');
+   await home();
+   await page.locator('[data-task="dinner"] button').first().click();
+   await page.getByRole('button',{name:'Write a dinner request',exact:true}).click();
+   await nav.getByText('Add',{exact:true}).click();
+   await page.getByRole('button',{name:'Note or checklist',exact:true}).click();
+   await page.getByRole('button',{name:'Clear task',exact:true}).focus();
+   await page.keyboard.press('Enter');
+   check(width+': Clear task focuses the visible checklist editor',await page.locator('#life-admin-source').evaluate(el=>el===document.activeElement && el.getClientRects().length>0));
+   check(width+': Clear task preserves checklist note and hides task context',await page.locator('#life-admin-source').inputValue()==='Synthetic checklist note to preserve.' && await page.getByRole('complementary',{name:'Chosen task'}).count()===0);
+   check(width+': Clear task never focuses hidden Write editor',!await page.locator('#personal-assistant-input').isVisible() && !await page.locator('#personal-assistant-input').evaluate(el=>el===document.activeElement));
+   await page.locator('#life-admin-source').fill('');
+
    await nav.getByRole('button',{name:'Write',exact:true}).click();
    await home();
    await page.evaluate(()=>window.scrollTo(0,0));

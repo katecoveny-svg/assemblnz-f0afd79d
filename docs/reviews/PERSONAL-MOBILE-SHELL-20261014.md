@@ -54,3 +54,11 @@ Validation at the corrected source:
 Fresh local evidence: `output/personal-mobile-r2/today-{320,375,1440}.png` are untouched initial viewport captures; `home-*.png` are full-page captures; `intent-*.png` show preserved draft plus selected task; `returned-focus-*.png` and `review-desktop.png` show return/review states. Actual initial 320/375/desktop and selected-intent pixels were inspected. Results are in `output/personal-mobile-r2/results.json`; legacy results under `output/mobile-{entry,capabilities,assistant}-regression/`. No artifact is claimed to prove native iPhone operation or live connected services.
 
 Coordination message to selected-tab owner `01a13be4-d7dd-7447-b412-6860301760e2` was rejected by automatic approval review for lack of recognised trusted outbound-message authorization. It was not retried. Parent should relay the private-callback scope above; no shared-runtime conflict exists in this candidate. No push/publication/permission/provider changes. Independent visual review, full intended release checks and physical iPhone acceptance remain pending.
+
+## Visible-editor Clear task correction
+
+Independent review cleared the original visual, focus and intent findings at `29f34157`, then identified one remaining sequence: select a task → Add → Note or checklist → Clear task focused the hidden Write input. The handler now selects `life-admin-source` when the local editor is open (or no assistant exists), otherwise the visible Write input. No callback contract, shared runtime, provider or persistence changes.
+
+The synthetic mobile proof now executes this sequence with keyboard activation at 320/375/1440px, asserts visible-editor focus, preserved checklist text, removed task context and no focus on the hidden Write input. Synthetic fixture text is then cleared explicitly before the existing example checks. Evidence is kept separately under `output/mobile-clear-focus/`.
+
+Validation: all 84 synthetic mobile checks passed with zero API writes and zero browser errors; full TypeScript, scoped ESLint, script syntax and diff checks passed. No publication.
