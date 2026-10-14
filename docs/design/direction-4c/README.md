@@ -40,6 +40,14 @@ Left out on purpose: the review-only `filmv1` tone, and the design's scroll-scru
 
 Open before this is called finished: the pixel-ratio-2 path costs about 1.8 times the scene-pass pixels and needs a frame-time check on a mid-range retina laptop. The cloud build runs software GL and cannot stand in for that.
 
+## Hero edge, pre-ready composition and footage resolution, 14 October 2026
+
+Kate's capture of the live second pass showed three things: a soft, stepped edge on the wordmark cut-out during the fly-through, the footage landing full-frame before the plum field arrived, and the footage itself reading soft.
+
+- **Crisp edge at every zoom.** The knockout mask was a coverage bitmap drawn at a 640 px font and magnified up to 28 times during the fly-through, so its edge blurred and stepped. It is now a signed distance field (exact Euclidean distance transform, Felzenszwalb and Huttenlocher) rendered at the largest size the GPU accepts (up to 4096 px wide, 2048 on narrow screens), and the shader covers one screen pixel either side of the edge whatever the zoom (`uKAa`). The glass bevel and module tint still come from the coverage bitmap at quarter size, as before.
+- **Footage only ever through the letters.** Before the engine is ready the page showed the raw poster full-frame with a white HTML wordmark on top; with a bright clip that read as the video landing first. The pre-ready layer is now the plum field with its halo, and the HTML wordmark shows the poster's horizon through the letters (`background-clip: text`), so the handoff to the composed canvas is plum to plum. The static and reduced-motion fallbacks share the same look.
+- **Footage resolution is a source limit.** `coast-gen-c` is a 1280 × 720 generation at about 2.4 Mbit/s, drawn at up to 2880 × 1800 on a retina laptop. No shader change adds detail. The honest fix is a higher-resolution source: an AI upscale of the clip (the connected Higgsfield account had 0.8 credits when checked, below any upscale's cost), or a fresh generation at 1920 × 1080 or above. Both need Kate's say and spend.
+
 ## Verification
 
 See `VERIFICATION.md` for checks and captured evidence. Visual captures are snapshots of a time-varying engine, not a claim of deterministic pixel identity. No authenticated action or external work was submitted.

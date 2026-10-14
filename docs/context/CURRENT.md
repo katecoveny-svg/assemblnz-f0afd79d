@@ -65,6 +65,10 @@ This section is the current, scoped delivery record. Durable direction is in [as
 
 ## Earlier dated operating context
 
+## 14 October: hero edge and pre-ready composition
+
+After the second pass went live, Kate's capture showed a soft, stepped wordmark edge during the fly-through, the footage landing full-frame before the plum field, and soft footage. Fixed in code: the knockout mask is now a signed distance field (up to 4096 px wide) with a one-screen-pixel edge at any zoom, and the pre-ready layer is the plum field with the poster's horizon inside the HTML wordmark, so the handoff is plum to plum. Not fixable in code: the clip is a 1280 × 720 generation drawn at up to 2880 × 1800; a higher-resolution source (AI upscale, needing credits, or a fresh generation at 1080p or above) is Kate's call. Details in `docs/design/direction-4c/README.md`.
+
 ## 14 October: homepage hero, second pass from Claude Design
 
 Kate ran the hero brief through Claude Design (canvas "Homepage Hero · Second Pass", https://claude.ai/artifact/UX3oPAksD2zRt371NatU8t) and handed back a zip (SHA-256 `5189f5997c37253782915c3c495b5b1be0e68d74abba7eacb117a4411155a106`). Ported to the site: generated coastal footage `coast-gen-c` (10 s, darkest frame luma 121 of 255, never captioned as a real place) with its own first frame as poster, replacing the Bay of Islands clip; plum field `#240B21` in the engine; the flock half gathered at rest (`a0 = 0.5`, scroll window unchanged); wing chord 1.25 so a head-on tern is a shape, not a hairline; pixel ratio 2 on desktops with 8 or more logical cores (1.5 otherwise, 1.25 under 900 px); `waitScale`/`setWait` and `opts.field`, `opts.dprCap`, `opts.wingChord` overrides. The PR #1590 grade and time-based decode stay. Not ported, by the design's own note: the review-only `filmv1` tone. Not applicable here: the design's scroll-scrub start, because the site plays the clip rather than scrubbing it. Still to check on real hardware before calling it done: frame time at pixel ratio 2 on a mid-range retina laptop; the cloud build only has software GL. Design files preserved under `docs/design/direction-4c/second-pass/`.

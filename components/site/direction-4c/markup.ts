@@ -9,7 +9,7 @@ const forwardArrow = `<svg class="clear-arrow" aria-hidden="true" viewBox="0 0 2
 export const chromeMarkup = `<img class="clear-coastal-poster" src="/direction-4c/assets/footage/coast-gen-c-poster.jpg" alt="" fetchpriority="high" aria-hidden="true">
 <video data-coastal-video class="clear-coastal-video" muted playsinline loop preload="none" poster="/direction-4c/assets/footage/coast-gen-c-poster.jpg" aria-hidden="true" tabindex="-1"></video>
 <canvas data-ref="canvasRef" aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none"></canvas>
-<div data-fallback><div aria-hidden="true" style="position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,rgba(36,11,33,.12),rgba(36,11,33,.35))"></div></div>
+<div data-fallback><div aria-hidden="true" style="position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(42% 34% at 50% 42%,rgba(99,31,80,.55),rgba(36,11,33,0) 100%),linear-gradient(180deg,#2B0D28 0%,#240B21 55%,#1D091B 100%)"></div></div>
 
 
 <header style="position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:20;width:min(1400px,calc(100% - 28px));display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 7px 7px 7px;border-radius:999px;background:rgba(36,11,33,.5);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);box-shadow:0 14px 40px -26px rgba(14,4,13,.6),inset 0 0 0 1px rgba(234,200,223,.2)">
@@ -30,7 +30,7 @@ export const leadMarkup = `<section id="top" data-ref="heroRef" data-form="0" da
     <div style="position:sticky;top:0;height:100svh;overflow:hidden">
       <h1 style="position:absolute;width:1px;height:1px;margin:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">assembl. Useful work.</h1>
       <div data-fallback>
-        <p aria-hidden="true" style="position:absolute;left:0;right:0;top:42svh;margin:0;transform:translateY(-58%);text-align:center;font-size:min(21vw,36svh);font-weight:600;line-height:1;letter-spacing:-.055em;color:#FFFDFB">assembl</p>
+        <p aria-hidden="true" style="position:absolute;left:0;right:0;top:42svh;margin:0;transform:translateY(-58%);text-align:center;font-size:min(21vw,36svh);font-weight:600;line-height:1;letter-spacing:-.055em;color:#FFFDFB;background:url(/direction-4c/assets/footage/coast-gen-c-poster.jpg) center 58%/cover no-repeat;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">assembl</p>
       </div>
       <p data-ref="kickRef" data-scramble="" style="position:absolute;left:5.5%;right:5.5%;top:calc(42svh - min(11vw,18svh) - 48px);margin:0;text-align:center;font:400 11px/1.5 var(--font-mono),'IBM Plex Mono',monospace;letter-spacing:.22em;text-transform:uppercase;color:#F2E6EB">agentic AI · built in Aotearoa New Zealand</p>
       <p data-ref="subRef" style="position:absolute;left:5.5%;right:5.5%;top:calc(42svh + min(11vw,18svh) + 26px);margin:0;text-align:center"><span class="clear-accent" style="display:inline-block;font-size:clamp(19px,1.8vw,26px);font-weight:500;line-height:1.3;letter-spacing:-.03em;background-image:var(--sub,linear-gradient(90deg,#DCC8FA 0%,#E9C5E6 50%,#F2C0CA 100%));-webkit-background-clip:text;background-clip:text;color:transparent;text-wrap:balance;animation:clear-fade .9s ease .5s both">Agentic AI solutions for your business.</span></p>
