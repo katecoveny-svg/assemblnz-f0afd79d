@@ -9,6 +9,8 @@ import { editFinancialDraft, financialReceipt, prepareFinancialDraft, reviewFina
 import { financialCsv, FINANCIAL_CSV_EXAMPLE, FINANCIAL_CSV_LIMIT } from '@/apps/do/finance/csv';
 import { DEMO_CHECKED_INVOICES, DEMO_FINANCIAL_SNAPSHOT } from '@/apps/do/finance/demo';
 import { checkedInvoice, moneyText, parseCents, type CheckedInvoice, type FinancialSnapshot } from '@/apps/do/finance/model';
+import { householdServices } from '@/apps/do/finance/services';
+import { WhatYouPay } from './WhatYouPay';
 import styles from './bills-workspace.module.css';
 
 function today() {
@@ -41,6 +43,7 @@ export function BillsWorkspace() {
   const draftRef = useRef<HTMLElement>(null);
   const demo = snapshot.mode === 'demo';
   const recurring = useMemo(() => recurringPayments(snapshot), [snapshot]);
+  const services = useMemo(() => householdServices(snapshot), [snapshot]);
   const calendar = useMemo(() => billCalendar(invoices, snapshot.asOf), [invoices, snapshot.asOf]);
   const matches = useMemo(() => matchInvoices(invoices, snapshot), [invoices, snapshot]);
   const increases = recurring.filter(value => value.increase);
@@ -116,7 +119,7 @@ export function BillsWorkspace() {
         <div className={styles.heroCopy}>
         <p className={styles.kicker}>DO BILLS</p>
         <h1 id="bills-title">Bills</h1>
-        <p>Check payments and dates from an example or your CSV.</p>
+        <p>Know what you pay, hunt for a better deal, and check payments and dates from an example or your CSV.</p>
         <Link className={styles.textLink} href="/do/bills/compare">Compare a bill against current offers ↗</Link>
         </div><DoPresence className={styles.heroPresence} working={busy} />
       </section>
@@ -155,6 +158,8 @@ export function BillsWorkspace() {
         <div><p className={styles.kicker}>RECURRING CANDIDATES</p><strong>{recurring.length}</strong><p>At least three recorded payments</p></div>
         <div><p className={styles.kicker}>WORTH CHECKING</p><strong>{increases.length + renewals.length + overdue.length}</strong><p>{increases.length} higher charges · {renewals.length} renewals · {overdue.length} past due dates</p></div>
       </section>
+
+      <WhatYouPay services={services} demo={demo} busy={busy} />
 
       <div className={styles.columns}>
         <section aria-labelledby="recurring-title">
@@ -232,8 +237,8 @@ export function BillsWorkspace() {
 
       <aside className={styles.connector} aria-labelledby="connector-title">
         <div className={styles.sectionHead}><h2 id="connector-title">Bank connection</h2><span className={styles.badge}>Not enabled</span></div>
-        <p>Redbark is planned as an optional, read-only source for DO Bills, Money, Business and Tradie. This release uses the example or your local CSV. It does not connect to your bank.</p>
-        <p className={styles.small}>Connecting later will require your own authorisation and account choices. Sending, cancelling, switching and payments each need a separate approved action.</p>
+        <p>Redbark is planned as an optional, read-only source for DO Bills, Money, Business and Tradie, so DO can see what you pay without a CSV. The read adapter is built and tested; this release still uses the example or your local CSV and does not connect to your bank.</p>
+        <p className={styles.small}>What unlocks it: assembl&rsquo;s own Redbark account, your own sign-in to your bank through Redbark, your choice of accounts, and a working disconnect. DO will never ask for internet-banking passwords. Sending, cancelling, switching and payments each need a separate approved action.</p>
         {snapshot.notices.map(notice => <p className={styles.small} key={notice}>{notice}</p>)}
       </aside>
     </div>
