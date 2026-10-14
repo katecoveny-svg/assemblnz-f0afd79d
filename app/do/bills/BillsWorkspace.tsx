@@ -10,6 +10,7 @@ import { financialCsv, FINANCIAL_CSV_EXAMPLE, FINANCIAL_CSV_LIMIT } from '@/apps
 import { DEMO_CHECKED_INVOICES, DEMO_FINANCIAL_SNAPSHOT } from '@/apps/do/finance/demo';
 import { checkedInvoice, moneyText, parseCents, type CheckedInvoice, type FinancialSnapshot } from '@/apps/do/finance/model';
 import { householdServices } from '@/apps/do/finance/services';
+import { energyUsageCheck, readBillFromMail, type BillReading, type UsageObservation } from '@/apps/do/finance/mail-bills';
 import { WhatYouPay } from './WhatYouPay';
 import styles from './bills-workspace.module.css';
 
@@ -39,6 +40,9 @@ export function BillsWorkspace() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [reading, setReading] = useState<BillReading | null>(null);
+  const [prefill, setPrefill] = useState<{ id: string; payee: string; reference: string; amount: string; issuedOn: string; dueOn: string; source: string } | null>(null);
+  const [usage, setUsage] = useState<UsageObservation[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
   const draftRef = useRef<HTMLElement>(null);
   const demo = snapshot.mode === 'demo';
@@ -90,6 +94,21 @@ export function BillsWorkspace() {
       setError(cause instanceof Error && cause.name !== 'ZodError' ? cause.message : 'Check all required details, use real dates and an amount above zero. A due date cannot precede the invoice date.');
     }
   }
+  function readEmail(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const text = String(data.get('emailText') || '');
+    if (text.trim().length < 20) { setError('Paste the bill email text, at least a few lines.'); return; }
+    setError('');
+    setReading(readBillFromMail({ from: String(data.get('emailFrom') || '').slice(0, 500), subject: String(data.get('emailSubject') || '').slice(0, 500), date: today(), text: text.slice(0, 20000) }));
+  }
+  function useReading() {
+    if (!reading) return;
+    setPrefill({ id: crypto.randomUUID(), payee: reading.provider ?? '', reference: '', amount: reading.totalCents === null ? '' : (reading.totalCents / 100).toFixed(2), issuedOn: reading.periodTo ?? '', dueOn: reading.dueOn ?? '', source: 'Bill email' + (reading.periodFrom && reading.periodTo ? ' for ' + reading.periodFrom + ' to ' + reading.periodTo : '') });
+    if (reading.usageKwh && reading.periodFrom && reading.periodTo) setUsage(values => [...values.filter(value => value.periodTo !== reading.periodTo), { periodFrom: reading.periodFrom!, periodTo: reading.periodTo!, usageKwh: reading.usageKwh! }].slice(-24));
+    setMessage('Figures copied into the form below. Check each one against the actual bill, add the reference, then tick that you checked them.');
+  }
+  const usageCheck = usage.length ? energyUsageCheck(usage) : null;
   async function prepare(target: RecurringPayment | CheckedInvoice, action: FinancialAction) {
     if (busy) return;
     setBusy(true); setError(''); setMessage('');
@@ -196,15 +215,40 @@ export function BillsWorkspace() {
             </div>
           </article>)}</div>
           {!demo && <details className={styles.details}>
+            <summary>Add a bill from an email</summary>
+            <p>Paste the text of a bill email. DO reads the provider, total, due date, period and any kWh out of it, in this page, with no model and no upload. Account numbers and links are left out of the evidence. You still check the figures against the bill.</p>
+            <form className={styles.form} onSubmit={readEmail}><fieldset disabled={busy}>
+              <label>From (as shown in your mail app)<input name="emailFrom" autoComplete="off" maxLength={500} placeholder="Contact Energy <noreply@…>" /></label>
+              <label>Subject<input name="emailSubject" autoComplete="off" maxLength={500} /></label>
+              <label>Email text<textarea name="emailText" rows={8} maxLength={20000} required /></label>
+              <button className={styles.primary}>Read the bill</button>
+            </fieldset></form>
+            {reading && <div className={styles.reading} aria-live="polite">
+              <p className={styles.kicker}>READ FROM THE EMAIL · {reading.confidence.toUpperCase()} CONFIDENCE · NOT YET CHECKED</p>
+              <dl>
+                <div><dt>Provider</dt><dd>{reading.provider ?? 'Not found'}</dd></div>
+                <div><dt>Total due</dt><dd>{reading.totalCents === null ? 'Not found' : moneyText({ amount: reading.totalCents, currency: 'NZD' })}</dd></div>
+                <div><dt>Due date</dt><dd>{reading.dueOn ?? 'Not found'}</dd></div>
+                <div><dt>Period</dt><dd>{reading.periodFrom && reading.periodTo ? reading.periodFrom + ' to ' + reading.periodTo : 'Not found'}</dd></div>
+                <div><dt>Usage</dt><dd>{reading.usageKwh === null ? 'Not stated' : reading.usageKwh.toLocaleString('en-NZ') + ' kWh'}</dd></div>
+              </dl>
+              {reading.evidence.length > 0 && <ul>{reading.evidence.map(line => <li key={line} className={styles.small}>{line}</li>)}</ul>}
+              {reading.notices.map(notice => <p key={notice} className={styles.small}>{notice}</p>)}
+              <div className={styles.buttons}><button type="button" disabled={busy || reading.totalCents === null} onClick={useReading}>Use these figures in the form</button></div>
+            </div>}
+            {usageCheck && <p className={usageCheck.status === 'unusual' ? styles.callout : styles.small}>{usageCheck.status === 'unusual' ? 'Unusually high energy use. ' : ''}{usageCheck.note}</p>}
+            <p className={styles.small}>When Personal DO&rsquo;s own mail reading is verified, the same reader runs on the bills that arrive, and DO raises them here before you ask.</p>
+          </details>}
+          {!demo && <details className={styles.details} open={Boolean(prefill)}>
             <summary>Add a checked bill or renewal</summary>
-            <form className={styles.form} onSubmit={addInvoice}><fieldset disabled={busy}>
-              <label>Provider or business<input name="payee" autoComplete="off" maxLength={160} required /></label>
-              <label>Invoice or notice reference<input name="reference" autoComplete="off" maxLength={160} required /></label>
-              <label>Amount including GST (NZD)<input name="amount" inputMode="decimal" placeholder="89.00" required /></label>
-              <label>Invoice or notice date<input name="issuedOn" type="date" max={snapshot.asOf} required /></label>
-              <label>Due date, if stated<input name="dueOn" type="date" /></label>
+            <form key={prefill?.id ?? 'blank'} className={styles.form} onSubmit={addInvoice}><fieldset disabled={busy}>
+              <label>Provider or business<input name="payee" autoComplete="off" maxLength={160} defaultValue={prefill?.payee} required /></label>
+              <label>Invoice or notice reference<input name="reference" autoComplete="off" maxLength={160} defaultValue={prefill?.reference} required /></label>
+              <label>Amount including GST (NZD)<input name="amount" inputMode="decimal" placeholder="89.00" defaultValue={prefill?.amount} required /></label>
+              <label>Invoice or notice date<input name="issuedOn" type="date" max={snapshot.asOf} defaultValue={prefill?.issuedOn} required /></label>
+              <label>Due date, if stated<input name="dueOn" type="date" defaultValue={prefill?.dueOn} /></label>
               <label>Renewal date, if stated<input name="renewalOn" type="date" /></label>
-              <label>Source you checked<input name="source" placeholder="September invoice PDF, page 1" maxLength={240} required /></label>
+              <label>Source you checked<input name="source" placeholder="September invoice PDF, page 1" maxLength={240} defaultValue={prefill?.source} required /></label>
               <label className={styles.check}><input name="paid" type="checkbox" /><span>I have confirmed this bill is already paid.</span></label>
               <label className={styles.check}><input name="checked" type="checkbox" required /><span>I checked these figures and dates against the actual invoice or notice. Blank dates are unknown.</span></label>
               <button className={styles.primary}>Add checked bill</button>
