@@ -1,6 +1,7 @@
+import { SaxesParser } from "saxes";
 import { sanitizeNotes } from "@/lib/hui/notes-safety";
 import { NextResponse } from "next/server";
-import { hashPack, type Block, type EvidencePack, type Section } from "@/lib/evidence/pack-spec";
+import { hashPack, type EvidencePack, type Section } from "@/lib/evidence/pack-spec";
 import { getHuiTemplate } from "@/lib/hui/templates";
 import { renderHuiEvidencePdf } from "@/lib/hui/evidence-pdf";
 
@@ -16,45 +17,43 @@ export const dynamic = "force-dynamic";
  * as a draft: a named human reviews and seals it before it is relied on.
  */
 
-function stripTags(value: string) {
-  return value
-    .replace(/<[^>]+>/g, "")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-/** Parse the structured-notes HTML (h2 + p + ul/li) into evidence-pack blocks. */
+/** Consume sanitized markup in document order, including headingless notes. */
 function htmlToSections(html: string): Section[] {
   const sections: Section[] = [];
-  const parts = html.split(/<h2>/i).slice(1);
-  for (const part of parts) {
-    const headingMatch = part.match(/^(.*?)<\/h2>/i);
-    const heading = headingMatch ? stripTags(headingMatch[1]) : "Section";
-    const rest = part.replace(/^.*?<\/h2>/i, "");
-    const body: Block[] = [];
-
-    const paragraphs = rest.match(/<p>([\s\S]*?)<\/p>/gi) ?? [];
-    for (const p of paragraphs) {
-      const text = stripTags(p);
-      if (text) body.push({ kind: "paragraph", text });
-    }
-
-    const items = (rest.match(/<li>([\s\S]*?)<\/li>/gi) ?? []).map(stripTags).filter(Boolean);
-    if (items.length) body.push({ kind: "list", items });
-
-    if (body.length === 0) body.push({ kind: "paragraph", text: "None recorded." });
-
-    sections.push({
-      id: heading.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") || "section",
-      title: { en: heading, mi: heading },
+  let current: Section | undefined;
+  let text = "";
+  let heading = false;
+  const createSection = (title: string) => {
+    current = {
+      id: `notes-${sections.length + 1}`,
+      title: { en: title, mi: title },
       draftedBy: "unverified prepared draft",
-      body,
-    });
-  }
+      body: [],
+    };
+    sections.push(current);
+  };
+  const flush = () => {
+    const value = text.replace(/\s+/g, " ").trim();
+    text = "";
+    if (!value) return;
+    if (!current) createSection("Meeting notes");
+    current!.body.push({ kind: "paragraph", text: value });
+  };
+  const parser = new SaxesParser({ fragment: true });
+  parser.on("opentag", tag => {
+    if (tag.name === "h2") { flush(); heading = true; }
+    else if (!heading && ["p", "h3", "ul", "li"].includes(tag.name)) flush();
+  });
+  parser.on("text", value => { text += value; });
+  parser.on("closetag", tag => {
+    if (tag.name === "h2") {
+      createSection(text.replace(/\s+/g, " ").trim() || "Section");
+      text = "";
+      heading = false;
+    } else if (!heading && ["p", "h3", "ul", "li"].includes(tag.name)) flush();
+  });
+  parser.write(html).close();
+  flush();
   return sections;
 }
 
@@ -86,6 +85,10 @@ export async function POST(req: Request) {
 
   const issuedAt = new Date().toISOString();
   const recordSections = htmlToSections(html).map(section => ({ ...section, draftedBy: author }));
+
+  if (!recordSections.some(section => section.body.length > 0)) {
+    return NextResponse.json({ error: "Meeting notes contain no exportable content." }, { status: 400 });
+  }
 
   const sections: Section[] = [
     {

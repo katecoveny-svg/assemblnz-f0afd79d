@@ -9,3 +9,5 @@ Hui output is reconstructed through a small HTML allowlist without attributes. P
 Validation: 19 focused route/sanitizer tests; full typecheck; scoped ESLint. Synthetic browser script scripts/review-trust-receipt.cjs exercises 503, malformed JSON, unconfirmed 200 and confirmed acceptance, draft preservation and pending edit lock. All requests intercepted; no live providers, persisted submissions or private records.
 
 Local candidate only. Independent review and hosted CI remain pending; no push, PR, merge or deploy requested for this overnight extraction.
+
+Independent review correction: the previous export parser silently discarded headingless/preamble content and reordered lists after paragraphs. Export now walks sanitized markup in document order, retaining headingless, preamble, subheading and list-item text; heading-only output is explicitly rejected. Four added regressions cover paragraph-only actual content, mixed order, malformed markup escaped by sanitizer, and empty-body rejection. 23 focused tests pass, with full typecheck and scoped route lint. New exact head requires independent re-review; previous candidate is superseded.
