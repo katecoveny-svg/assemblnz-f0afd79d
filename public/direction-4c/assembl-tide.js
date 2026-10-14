@@ -35,7 +35,8 @@ const DEFAULT_SLOTS = ['cloud', 'signal', 'DO', 'frame', 'seal', 'word'];
 const TRIG = [[0.45, 1, 3.0], [2.45, -1, 3.2], [4.45, 1, 3.4]];
 // sh/hi are soft-light tints (0.5 is neutral) for shadows and highlights; duo pulls toward a plum-to-paper duotone
 const TONES = {
-  film: { exp: 1.02, con: 1.1, sat: 0.9, split: 0.55, sh: [0.42, 0.36, 0.5], hi: [0.6, 0.53, 0.5], duo: 0, vig: 0.42, th: 0.85, bloom: 0.2, glow: 0, haze: [0.74, 0.62, 0.7], ink: 0.75 },
+  // film: the footage keeps its light but every frame is pulled toward the plum-to-paper duotone, so a dark stretch of the clip still reads as assembl plum rather than black.
+  film: { exp: 1.1, con: 1.08, sat: 0.9, split: 0.55, sh: [0.42, 0.36, 0.5], hi: [0.6, 0.53, 0.5], duo: 0.26, vig: 0.38, th: 0.8, bloom: 0.28, glow: 0.05, haze: [0.74, 0.62, 0.7], ink: 0.75 },
   shot: { exp: 1.0, con: 1.04, sat: 1.0, split: 0, sh: [0.5, 0.5, 0.5], hi: [0.5, 0.5, 0.5], duo: 0, vig: 0.3, th: 0.9, bloom: 0.16, glow: 0, haze: [0.72, 0.6, 0.7], ink: 0.7 },
   glow: { exp: 1.06, con: 1.12, sat: 1.14, split: 0.85, sh: [0.4, 0.29, 0.46], hi: [0.68, 0.53, 0.5], duo: 0, vig: 0.45, th: 0.68, bloom: 0.5, glow: 0.08, haze: [0.8, 0.64, 0.7], ink: 0.85 },
   ink: { exp: 1.0, con: 1.32, sat: 0.7, split: 0, sh: [0.5, 0.5, 0.5], hi: [0.5, 0.5, 0.5], duo: 0.84, vig: 0.4, th: 0.8, bloom: 0.3, glow: 0, haze: [0.6, 0.5, 0.58], ink: 0.8 },
