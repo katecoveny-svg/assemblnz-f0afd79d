@@ -14,6 +14,8 @@ import {
   type WakeTrigger,
 } from "./contract";
 import { prepareWorksheet } from "./worksheet";
+import { prepareBillsWatch, readWatchRequest } from "./bills-watch";
+import { getPriceBook } from "@/lib/bills/provider-prices";
 
 // Callers must verify doOwner() or CRON_SECRET before entering this module.
 // Wake-up columns and RPCs exist only once 20261013093000_do_personal_wakeups.sql is applied.
@@ -185,7 +187,20 @@ export async function runPersonal(ownerId?: string, id?: string, wake?: { note?:
     failed = true; evidence = { error: "owner_mismatch" };
   } else {
     try {
-      output = prepareWorksheet({ title: r.title, goal: r.goal, notes: r.notes, timezone: r.timezone, now: new Date(preparedAt), trigger: evidence.trigger as WakeTrigger, note: wake?.note ?? null });
+      // A watched bill compares the saved figures against the dated public price book; every
+      // other responsibility gets the notes worksheet. Both are provider-free and act on nothing.
+      const watch = readWatchRequest(r.goal + "\n" + r.notes);
+      if (watch) {
+        const book = await getPriceBook();
+        const offers = book.plans.filter(plan => plan.category === watch.category && plan.sourceUrl.startsWith("https://")).map(plan => ({
+          id: plan.id, category: watch.category, provider: plan.provider, planName: plan.planName, monthlyCost: plan.monthlyCost, features: plan.features.slice(0, 12),
+          eligibilityNotes: plan.eligibilityNotes, sourceUrl: plan.sourceUrl, sourceHost: plan.sourceHost, lastVerified: plan.lastVerified, trustTier: plan.trustTier,
+        }));
+        output = prepareBillsWatch(watch, { live: book.live && offers.length > 0, offers, lastVerified: offers.map(offer => offer.lastVerified).sort().at(-1) ?? null }, new Date(preparedAt));
+        evidence = { ...evidence, method: "bills-watch", priceBook: { live: book.live, offers: offers.length, lastVerified: book.lastVerified } };
+      } else {
+        output = prepareWorksheet({ title: r.title, goal: r.goal, notes: r.notes, timezone: r.timezone, now: new Date(preparedAt), trigger: evidence.trigger as WakeTrigger, note: wake?.note ?? null });
+      }
     } catch { failed = true; evidence = { ...evidence, error: "worksheet_failed" }; }
   }
   const finish = await db.rpc("do_personal_finish", { p_run: claimed.run_id, p_output: output, p_evidence: evidence, p_failed: failed });

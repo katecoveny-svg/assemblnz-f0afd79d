@@ -90,3 +90,7 @@
 .evidenceLine{font:11px/1.6 var(--font-mono),"IBM Plex Mono",monospace;color:var(--muted);letter-spacing:.02em;overflow-wrap:anywhere}.evidenceLine a{color:inherit}
 @media(max-width:720px){.payPanel h2{font-size:30px}.payGrid{grid-template-columns:1fr}.threshold{width:100%}}
 @media(max-width:400px){.payCard{padding:18px}.buttons>.linkButton{width:100%}}
+
+/* Solar outlook and email intake */
+.solarFacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px 18px;margin:16px 0 4px;padding:14px 0 0;border-top:1px solid #240b2117}.solarFacts div{min-width:0}.solarFacts dt{font:10px/1.6 var(--font-mono),"IBM Plex Mono",monospace;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}.solarFacts dd{margin:3px 0 0;font-size:17px;font-weight:550;letter-spacing:-.025em;overflow-wrap:anywhere}
+.reading{margin-top:14px;padding:14px 16px;border:1px solid #916a7040;border-radius:12px;background:var(--paper)}.reading dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px 16px;margin:10px 0 0}.reading dt{font:10px/1.6 var(--font-mono),"IBM Plex Mono",monospace;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}.reading dd{margin:2px 0 0;font-size:15px;font-weight:550;overflow-wrap:anywhere}

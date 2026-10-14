@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { canHunt, compareOffers, offerBook, researchHref, watchHref, OFFER_FRESH_DAYS, type OfferBook, type OfferComparison } from '@/apps/do/finance/offers';
 import { SERVICE_LABEL, yearlyServiceTotals, type HouseholdService } from '@/apps/do/finance/services';
 import { moneyText } from '@/apps/do/finance/model';
+import { SolarOutlookCard } from './SolarOutlookCard';
 import styles from './bills-workspace.module.css';
 
 function dateLabel(value: string) {
@@ -59,6 +60,7 @@ export function WhatYouPay({ services, demo, busy }: { services: HouseholdServic
             {research && <Link className={styles.linkButton} href={research}>Research with sources ↗</Link>}
             <Link className={styles.linkButton} href={watchHref(service)} prefetch={false}>Ask DO to watch this</Link>
           </div>
+          {service.category === 'electricity' && service.monthlyEquivalent?.currency === 'NZD' && <SolarOutlookCard monthlyCents={service.monthlyEquivalent.amount} />}
           {state.status === 'error' && <p className={styles.small} role="alert">{state.message}</p>}
           {state.status === 'done' && <div className={styles.offers}>
             {!state.book.live && <p className={styles.small}>No current public offers are held for {SERVICE_LABEL[service.category].toLocaleLowerCase('en-NZ')}. Use the sourced research instead.</p>}
@@ -74,7 +76,7 @@ export function WhatYouPay({ services, demo, busy }: { services: HouseholdServic
           </div>}
         </article>;
       })}</div>
-      <p className={styles.small}>Hunting compares a monthly equivalent against assembl&rsquo;s public price book, where every row has a source and a verification date. Electricity depends on the supply address and tariffs, so a quote is still needed. DO will not switch, cancel or contact a provider; &ldquo;Ask DO to watch this&rdquo; shows the request for your review first, and you set the schedule in Personal DO.</p>
+      <p className={styles.small}>Fuel is a bill too: <Link href="/do/fuel">DO fuel watch</Link> says whether to fill up today from the weekly national price and your own tank. Hunting compares a monthly equivalent against assembl&rsquo;s public price book, where every row has a source and a verification date. Electricity depends on the supply address and tariffs, so a quote is still needed. DO will not switch, cancel or contact a provider; &ldquo;Ask DO to watch this&rdquo; shows the request for your review first, and you set the schedule in Personal DO.</p>
     </>}
   </section>;
 }

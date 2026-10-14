@@ -3,10 +3,12 @@ vi.mock("@/lib/supabase/service", () => ({ getServiceClient: vi.fn() }));
 vi.mock("@/lib/supabase/server", () => ({ createClient: vi.fn() }));
 vi.mock("@/apps/do/shared/preparation-server", () => ({ getDoAvailability: vi.fn(), prepareDoDraft: vi.fn() }));
 vi.mock("./profile-service", () => ({ getPersonalDoProfile: vi.fn() }));
+vi.mock("@/lib/bills/provider-prices", () => ({ getPriceBook: vi.fn() }));
 import { getServiceClient } from "@/lib/supabase/service";
 import { createClient as createOwnerClient } from "@/lib/supabase/server";
 import { getDoAvailability, prepareDoDraft } from "@/apps/do/shared/preparation-server";
 import { getPersonalDoProfile } from "./profile-service";
+import { getPriceBook } from "@/lib/bills/provider-prices";
 import { DEFAULT_PERSONAL_DO_PROFILE } from "./profile";
 import { runPersonal, personalState, personalWorkerConfigured } from "./service";
 
@@ -104,6 +106,25 @@ describe("Worksheet wake-ups (no provider)", () => {
     expect(args.p_output).toContain("A proposal is due Friday.");
     expect(args.p_evidence).toMatchObject({ method: "worksheet", model: null, provider: "none", trigger: "message", note: "Focus on the proposal", notesUpdatedAt: item.updated_at, externalAction: "none" });
     expect(prepareDoDraft).not.toHaveBeenCalled(); expect(getPersonalDoProfile).not.toHaveBeenCalled(); expect(db.from).not.toHaveBeenCalled();
+  });
+  it("compares a watched bill against the price book instead of the notes worksheet, still with no model", async () => {
+    on();
+    const watched = { ...item, title: "Watch my electricity", goal: "Watch my electricity with Example Power. I pay about NZD 224.50 a month, last paid 2026-09-05. Each month, check whether a current public offer would cost less.", notes: "Do not switch, cancel or contact anyone." };
+    db.rpc.mockImplementation(async (name: string) => name === "do_personal_claim" ? { data: [{ run_id: run, responsibility: watched }], error: null } : { data: true, error: null });
+    vi.mocked(getPriceBook).mockResolvedValue({ live: true, lastVerified: "2026-10-11T16:00:02.229+00:00", plans: [
+      { id: "p1", category: "electricity", provider: "Fixture Energy", planName: "Flat", monthlyCost: 150, features: ["No fixed term"], eligibilityNotes: null, sourceUrl: "https://fixture.example/plans", sourceHost: "fixture.example", lastVerified: "2026-10-11T16:00:02.229+00:00", trustTier: "A", status: "active" },
+      { id: "p2", category: "broadband", provider: "Other", planName: "Fibre", monthlyCost: 79, features: [], eligibilityNotes: null, sourceUrl: "https://other.example", sourceHost: "other.example", lastVerified: "2026-10-11T16:00:02.229+00:00", trustTier: "A", status: "active" },
+    ] });
+    expect(await runPersonal()).toEqual({ claimed: true, published: true });
+    const [, args] = db.rpc.mock.calls[1] as [string, { p_output: string; p_evidence: Record<string, unknown>; p_failed: boolean }];
+    expect(args.p_failed).toBe(false);
+    expect(args.p_output).toContain("Watching your electricity with Example Power");
+    expect(args.p_output).toContain("Fixture Energy · Flat");
+    expect(args.p_output).toContain("source fixture.example");
+    expect(args.p_output).not.toContain("Other · Fibre");
+    expect(args.p_output).toContain("Nothing was switched, cancelled or sent.");
+    expect(args.p_evidence).toMatchObject({ method: "bills-watch", model: null, provider: "none", externalAction: "none", priceBook: { live: true, offers: 1 } });
+    expect(prepareDoDraft).not.toHaveBeenCalled();
   });
   it("runs the scheduled worker without an owner and reports nothing claimed when nothing is due", async () => {
     on();
