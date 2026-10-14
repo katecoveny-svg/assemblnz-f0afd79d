@@ -20,9 +20,11 @@ export type ConnectionSnapshot = ReturnType<ConnectionBroker['snapshot']>;
 export class ConnectionBroker {
   private task: Task | null = null;
   private generation = 0;
+  private connecting: { generation: number; tabs: number[] } | null = null;
+  private executing = false;
   constructor(private host: ConnectionHost, private now = () => Date.now()) {}
   revoke() { this.generation++; if (this.task) { this.task.revoked = true; this.task.observation = null; this.task.proposal = null; this.task.approval = null; this.task.receipt = null; this.task.brief = ''; } this.task = null; }
-  revokeTab(tabId: number) { if (this.task && [this.task.target.tabId, this.task.workspace.tabId].includes(tabId)) this.revoke(); }
+  revokeTab(tabId: number) { if (this.connecting?.tabs.includes(tabId) || (this.task && [this.task.target.tabId, this.task.workspace.tabId].includes(tabId))) this.revoke(); }
   snapshot() {
     const t = this.task;
     if (!t || t.revoked || t.expiresAt <= this.now()) return { protocol: CONNECTION_PROTOCOL, connected: false as const, mode: 'synthetic_storefront' as const, remote: false as const, reason: 'No current companion task connection.' };
@@ -33,14 +35,21 @@ export class ConnectionBroker {
   }
   async connect(target: TabIdentity, workspace: TabIdentity) {
     this.revoke();
+    if (this.executing) throw new Error('Wait for the dispatched action to settle before reconnecting.');
     const generation = this.generation;
+    const check = () => { if (generation !== this.generation) throw new Error('Connection cancelled.'); };
     if (!isFixtureUrl(target.url) || !isWorkspaceUrl(workspace.url) || target.tabId === workspace.tabId) throw new Error('Supported storefront and Personal DO tab required.');
-    const owner = await this.host.owner(workspace);
-    if (!owner || owner === 'guest' || !await this.host.current(target) || !await this.host.current(workspace)) throw new Error('Sign in to Personal DO, then reconnect these tabs.');
-    if (generation !== this.generation) throw new Error('Connection cancelled.');
-    const id = crypto.randomUUID();
-    this.task = { id, owner, target, workspace, scope: { connectionId: id, tabId: target.tabId, documentId: target.documentId, origin: 'http://127.0.0.1:4198', navigationRevision: 0 }, expiresAt: this.now() + TASK_LIFETIME_MS, readGranted: false, revoked: false, busy: false, claims: new Set(), observation: null, proposal: null, digest: null, brief: '', approval: null, receipt: null };
-    return this.snapshot();
+    this.connecting = { generation, tabs: [target.tabId, workspace.tabId] };
+    try {
+      const owner = await this.host.owner(workspace);check();
+      if (!owner || owner === 'guest' || !await this.host.current(target) || !await this.host.current(workspace)) throw new Error('Sign in to Personal DO, then reconnect these tabs.');
+      check();
+      const finalOwner = await this.host.owner(workspace);check();
+      if (finalOwner !== owner) throw new Error('Owner changed during connection.');
+      const id = crypto.randomUUID();
+      this.task = { id, owner, target, workspace, scope: { connectionId: id, tabId: target.tabId, documentId: target.documentId, origin: 'http://127.0.0.1:4198', navigationRevision: 0 }, expiresAt: this.now() + TASK_LIFETIME_MS, readGranted: false, revoked: false, busy: false, claims: new Set(), observation: null, proposal: null, digest: null, brief: '', approval: null, receipt: null };
+      return this.snapshot();
+    } finally { if (this.connecting?.generation === generation) this.connecting = null; }
   }
   async allowReadInCompanion(connectionId: string) {
     const t = this.task;
@@ -55,7 +64,8 @@ export class ConnectionBroker {
   }
   private async guard(t: Task) {
     let owner: string | null, current: boolean;
-    try { owner = await this.host.owner(t.workspace); current = await this.host.current(t.target) && await this.host.current(t.workspace); }
+    try { owner = await this.host.owner(t.workspace); current = await this.host.current(t.target) && await this.host.current(t.workspace);
+      if (owner !== await this.host.owner(t.workspace)) owner = null; }
     catch { if (this.task === t) this.revoke(); throw new Error('Identity or tab verification unavailable. Reconnect explicitly.'); }
     if (this.task !== t || t.revoked || t.expiresAt <= this.now() || owner !== t.owner || !current) {
       if (this.task === t) this.revoke();
@@ -98,6 +108,7 @@ export class ConnectionBroker {
     const t = this.task;
     if (!t || t.id !== connectionId || !t.proposal || t.digest !== digest || t.busy) throw new Error('Review changed or an action is running.');
     t.busy = true;
+    this.executing = true;
     try {
       await this.guard(t);
       t.approval = { id: crypto.randomUUID(), ownerId: t.owner, actionId: t.proposal.actionId, revision: t.proposal.revision, digest, scope: t.scope, expiresAt: t.expiresAt, revoked: false };
@@ -110,6 +121,6 @@ export class ConnectionBroker {
       await this.guard(t);
       t.receipt = receipt;
       return this.snapshot();
-    } finally { t.busy = false; }
+    } finally { t.busy = false; this.executing = false; }
   }
 }

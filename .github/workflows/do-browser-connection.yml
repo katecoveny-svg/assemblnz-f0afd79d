@@ -1,7 +1,7 @@
 name: DO browser connection proof
 on:
   pull_request:
-    paths: ['apps/do/browser/**', 'apps/do/extension/**', 'components/do/browser/**', 'app/do/personal/**', 'test/fixtures/do-browser-connection/**', 'test/fixtures/do-browser/**', 'scripts/*do-browser-connection*', 'scripts/review-do-browser-journal.cjs', 'scripts/review-do-browser-journal-worker.cjs', 'scripts/review-do-companion.cjs', '.github/workflows/do-browser-connection.yml']
+    paths: ['apps/do/browser/**', 'apps/do/extension/**', 'components/do/browser/**', 'app/do/personal/**', 'test/fixtures/do-browser-connection/**', 'test/fixtures/do-browser/**', 'scripts/*do-browser-connection*', 'scripts/review-do-browser-journal.cjs', 'scripts/review-do-browser-journal-worker.cjs', 'scripts/review-do-companion.cjs', 'scripts/review-do-browser-service-worker.cjs', '.github/workflows/do-browser-connection.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -33,6 +33,7 @@ jobs:
           ASSEMBL_PLAYWRIGHT_MODULE="$RUNNER_TEMP/connection-browser/node_modules/playwright" node scripts/review-do-browser-connection.cjs
           ASSEMBL_PLAYWRIGHT_MODULE="$RUNNER_TEMP/connection-browser/node_modules/playwright" node scripts/review-do-browser-journal.cjs
           ASSEMBL_PLAYWRIGHT_MODULE="$RUNNER_TEMP/connection-browser/node_modules/playwright" node scripts/review-do-browser-journal-worker.cjs
+          ASSEMBL_PLAYWRIGHT_MODULE="$RUNNER_TEMP/connection-browser/node_modules/playwright" node scripts/review-do-browser-service-worker.cjs
           ASSEMBL_PLAYWRIGHT_MODULE="$RUNNER_TEMP/connection-browser/node_modules/playwright" node scripts/review-do-companion.cjs
       - uses: actions/upload-artifact@v4
         if: always()
