@@ -51,7 +51,11 @@ fs.mkdirSync(output, { recursive: true });
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'no horizontal overflow');
         const top = await capture(page, width, mode, 'top', 0);
         assert.equal(top.scrollY, 0);
-        if (playingMode) { assert.equal(top.paused, false); assert(top.readyState >= 2); assert.equal(top.videoReady, 'true'); }
+        if (playingMode) {
+          assert.equal(top.paused, false);
+          // A looping clip reports HAVE_METADATA for a moment at its seam; wait for the next decoded frame instead of sampling one instant.
+          if (top.readyState < 2 || top.videoReady !== 'true') await page.waitForFunction(() => document.querySelector('[data-coastal-video]').readyState >= 2 && document.querySelector('.direction-4c').dataset.videoReady === 'true', undefined, { timeout: 5000 });
+        }
         if (mode === 'webm') assert.match(await page.locator('video').evaluate(v => v.currentSrc), /\.webm$/);
         if (width < 901) {
           await capture(page, width, mode, 'midscroll', 240);
