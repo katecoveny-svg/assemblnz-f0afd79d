@@ -1,19 +1,4 @@
-/**
- * POST /api/trust-pack-request — security pack request from the Trust Centre.
- *
- * Captures the procurement-officer details from /trust and routes them to the
- * security team. Two delivery paths, both fail-soft so a flaky dependency never
- * loses the lead:
- *   1. Durable capture: a row in public.trust_pack_requests (if the service
- *      client is configured).
- *   2. Live notification: a Slack ping via TRUST_SLACK_WEBHOOK_URL.
- *
- * Email routing to security@assembl.co.nz is pending a transactional email
- * provider — see TODO below. Until then the Supabase row + Slack ping are the
- * durable record, and SECURITY_PACK_NOTIFY_EMAIL records the intended inbox.
- *
- * Body: { name, org, role, intendedUse, ndaSigned }
- */
+/** Security pack capture: accepted only after a confirmed delivery or durable write. */
 
 import { NextResponse } from "next/server";
 import { z } from "zod";
@@ -25,16 +10,16 @@ export const dynamic = "force-dynamic";
 const SECURITY_INBOX = "security@assembl.co.nz";
 
 const BodySchema = z.object({
-  name: z.string().min(1, "Name is required").max(120),
-  org: z.string().min(1, "Organisation is required").max(160),
-  role: z.string().min(1, "Role is required").max(120),
-  intendedUse: z.string().min(1, "Tell us how you'll use the pack").max(2000),
+  name: z.string().trim().min(1, "Name is required").max(120),
+  org: z.string().trim().min(1, "Organisation is required").max(160),
+  role: z.string().trim().min(1, "Role is required").max(120),
+  intendedUse: z.string().trim().min(1, "Tell us how you'll use the pack").max(2000),
   ndaSigned: z.boolean(),
 });
 
-async function notifySlack(payload: z.infer<typeof BodySchema>): Promise<void> {
+async function notifySlack(payload: z.infer<typeof BodySchema>): Promise<boolean> {
   const webhook = process.env.TRUST_SLACK_WEBHOOK_URL;
-  if (!webhook) return; // Slack is optional — silently skip if unconfigured.
+  if (!webhook) return false; // Slack is optional — silently skip if unconfigured.
 
   const text = [
     ":lock: *New security pack request* (Trust Centre)",
@@ -47,17 +32,20 @@ async function notifySlack(payload: z.infer<typeof BodySchema>): Promise<void> {
   ].join("\n");
 
   try {
-    await fetch(webhook, {
+    const response = await fetch(webhook, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text }),
+      signal: AbortSignal.timeout(5000),
     });
+    return response.ok;
   } catch (error) {
-    // Non-blocking: a Slack failure must never fail the request.
+    // Other confirmed legs can still accept the request.
     console.error("trust-pack-request slack notify failed", {
       message: error instanceof Error ? error.message : String(error),
     });
   }
+  return false;
 }
 
 export async function POST(req: Request) {
@@ -78,8 +66,8 @@ export async function POST(req: Request) {
 
   const data = parsed.data;
 
-  // 1. Durable capture (fail-soft). The request still succeeds for the user
-  //    even if the table or service client isn't available yet.
+  let persisted = false;
+  // A confirmed durable write is one valid acceptance path.
   try {
     const service = getServiceClient();
     const { error } = await service.from("trust_pack_requests").insert({
@@ -90,6 +78,7 @@ export async function POST(req: Request) {
       nda_signed: data.ndaSigned,
       notify_email: SECURITY_INBOX,
     });
+    persisted = !error;
     if (error) {
       console.error("trust-pack-request insert failed", { message: error.message });
     }
@@ -100,8 +89,8 @@ export async function POST(req: Request) {
   }
 
   // 2. Live notification (fail-soft): Slack ping + email to Kate's inbox.
-  await notifySlack(data);
-  await notifyLead({
+  const slackNotified = await notifySlack(data);
+  const notified = await notifyLead({
     formName: "Trust Centre — security pack request",
     name: data.name,
     fields: {
@@ -113,7 +102,10 @@ export async function POST(req: Request) {
     },
     sourceUrl: req.headers.get("referer"),
     ip: clientIpFromHeaders(req.headers),
-  });
+  }).catch(() => false);
 
-  return NextResponse.json({ ok: true });
+  const accepted = persisted || slackNotified || notified;
+  if (!accepted) return NextResponse.json({ ok: false, accepted: false,
+    error: 'We could not confirm receipt. Your fields are still here. Continue by email or try again.' }, { status: 503 });
+  return NextResponse.json({ ok: true, accepted: true });
 }
