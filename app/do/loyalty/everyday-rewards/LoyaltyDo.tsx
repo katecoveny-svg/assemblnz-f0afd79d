@@ -32,6 +32,7 @@ import { DoGeminiLive } from "../../DoGeminiLive";
 import { GlassIdentity } from "@/components/brand/GlassIdentity";
 import {
   demoAlternative,
+  mealChoiceCards,
   demoEligibleMeals,
   demoMissionRecipe,
   pantryTemplate,
@@ -44,6 +45,7 @@ import {
 
 import { SHOP_MISSIONS, type ShopMission } from "@/lib/do/shop/missions";
 import "./loyalty.css";
+import { MealChoiceCards } from "./MealChoiceCards";
 
 const sampleRows = (): IngredientRow[] =>
   pantryTemplate.map((p) => ({
@@ -592,6 +594,7 @@ export default function LoyaltyDo() {
                   if (next) setRecipe(next);
                   setMission(item.id); invalidatePlan();
                 }}><span aria-hidden="true">{item.symbol}</span><strong>{item.title}</strong><small>{item.detail}</small></button>)}</div>
+                <MealChoiceCards cards={mealChoiceCards(stock.pantry, servings, usable && !stock.issues.length && budgetValid, budgetValid ? budgetMinor : 4000, mission, dietaryText)} selected={recipe} onChoose={id => { setRecipe(id); invalidatePlan(); }} />
                 <div className="ld-plan-paper">
                   <div className="ld-plan-heading">
                     <Leaf size={30} />
@@ -602,24 +605,6 @@ export default function LoyaltyDo() {
                     {recipeDescriptions[recipe]} Follow a suitable recipe and
                     check food safety before cooking.
                   </p>
-                  <label>
-                    Sample recipe
-                    <select
-                      aria-label="Sample recipe"
-                      value={recipe}
-                      onChange={(e) => {
-                        setRecipe(e.target.value);
-                        setReviewed(null);
-                        setApproved(null);
-                      }}
-                    >
-                      {meals.map((m) => (
-                        <option key={m.id} value={m.id}>
-                          {m.name}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
                   <label>Dietary requirements (optional)<input aria-label="Dietary requirements" value={dietaryText} maxLength={300} onChange={e => { setDietaryText(e.target.value); invalidatePlan(); }} /></label>
                   <p>Catalogue filters only. Unsupported requirements stop preparation; check real labels and suitability.</p>
                   {!demoEligibleMeals(dietaryText).some(m => m.id === recipe) && <p role="alert">This recipe cannot satisfy the stated requirements in this sample catalogue. Choose a supported recipe or review the requirements before continuing.</p>}

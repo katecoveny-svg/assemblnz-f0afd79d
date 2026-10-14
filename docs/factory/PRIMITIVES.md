@@ -239,6 +239,8 @@ Extends `DoGeminiLive` reviewed output and the existing `ShopJourney`; `lib/do/s
 
 `lib/do/shop/missions.ts` extends existing meal choices and quantity consolidation with one-dinner, confirmed-pantry coverage and cook-extra missions. Lower-cost alternatives compare whole-plan pack-rounded totals for a single recipe replacement; callers provide the eligible catalogue and price calculation. Both ShopJourney and the fictional loyalty demonstrator require explicit acceptance and invalidate prior review. No execution authority or persistence is created. [Evidence and release gates](../reviews/SHOP-MISSIONS-20261014.md).
 
+The loyalty `mealChoiceCards` projection reuses `planShop` for three accessible visual choices, confirmed pantry deductions and missing whole-pack costs. Original decorative SVG plates require no provider or image asset pipeline. [Visual choice evidence and the next honest asynchronous wait-state slice](../reviews/LOYALTY-MEAL-CARDS-20261014.md).
+
 ### DO task illustration system (review)
 
 `components/do/DoTaskScene.tsx` supplies original, static, decorative SVG still lifes for groceries, school, writing, briefings, travel, bills, pets, car and home. `DoCapabilityIdeas` reuses them in full and embedded task spaces. Unique gradient IDs support repeated instances; text, availability and links stay semantic HTML. These scenes supplement the locked `GlassIdentity`, never replace it or imply completed work. The site launcher and shared portable `distribution.ts` expose Write and availability-gated Speak destinations; source changes do not update installed extensions.

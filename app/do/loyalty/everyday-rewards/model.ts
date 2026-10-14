@@ -177,6 +177,22 @@ export const money = (minor: number) =>
   new Intl.NumberFormat("en-NZ", { style: "currency", currency: "NZD" }).format(
     minor / 100,
   );
+
+/** Presentation projection only: the same reviewed inputs and plan used by the basket. */
+export function mealChoiceCards(pantry: Pantry[], servings: number, reviewed: boolean, budget: number, mission: ShopMission, dietaryText: string) {
+  const eligible = demoEligibleMeals(dietaryText);
+  return meals.map(meal => {
+    const supported = eligible.some(m => m.id === meal.id);
+    const plan = reviewed && supported ? planShop(pantry, servings, true, budget, meal.id, mission, dietaryText) : null;
+    return {
+      id: meal.id, name: meal.name,
+      used: plan?.requirements.filter(line => line.pantryUsed > 0) ?? [],
+      missing: plan?.basket.filter(line => line.packs > 0) ?? [],
+      totalMinor: plan?.estimatedMinor ?? null,
+      blockers: !supported ? ['Requirements need review; this sample recipe cannot verify suitability.'] : !reviewed ? ['Confirm pantry quantities and a valid budget first.'] : plan!.blockers,
+    };
+  });
+}
 export function canApprove(
   reviewedDigest: string | null,
   currentDigest: string,

@@ -63,11 +63,26 @@ const output = 'output/shop-missions';
     await page.getByRole('button', { name: 'Let’s make dinner' }).click();
     await page.getByRole('checkbox', { name: 'Confirm entire pantry' }).check();
     await page.getByRole('button', { name: 'Make a plan', exact: true }).click();
+    await page.addStyleTag({ content: 'nextjs-portal{display:none!important}' });
+    await page.locator('.ld-meal-choices').screenshot({ path: `${output}/${name}-meal-choices.png`, animations: 'disabled' });
+    for (const [id, title, cost] of [['pasta-night','Roasted tomato & aubergine pasta','$10.50'], ['rice-night','Tomato & aubergine rice bowls','$12.00'], ['eggs-toast','Tomato eggs on toast','$20.50']]) {
+      const card = page.locator(`.ld-meal-card[data-meal="${id}"]`);
+      check(name + ': ' + id + ' shows pantry, packs and verified cost', await card.innerText().then(s => s.includes(cost) && s.includes('Tomatoes · 400 g') && s.includes('pack')));
+      await card.getByRole('button', { name: `Choose ${title}`, exact: true }).click();
+      check(name + ': ' + id + ' choice updates actual plan', await page.locator('.ld-plan-paper h3').innerText() === title && await card.getByRole('button').getAttribute('aria-pressed') === 'true');
+    }
+    await page.getByRole('button', { name: 'Review the basket', exact: true }).click();
+    await page.getByRole('checkbox', { name: 'Confirm simulated basket' }).check();
+    await page.getByRole('button', { name: 'Edit the plan', exact: true }).click();
+    await page.getByRole('button', { name: 'Choose Roasted tomato & aubergine pasta', exact: true }).click();
+    await page.getByRole('button', { name: 'Review the basket', exact: true }).click();
+    check(name + ': choosing another meal clears basket approval', !await page.getByRole('checkbox', { name: 'Confirm simulated basket' }).isChecked() && await page.getByRole('button', { name: 'Continue to handoff' }).isDisabled());
+    await page.getByRole('button', { name: 'Edit the plan', exact: true }).click();
     await page.getByRole('button', { name: /Cook extra for tomorrow/ }).click();
     check(name + ': demo extra portions explicit', await page.getByText(/Cook 8 portions/).isVisible());
     await shot(`${name}-demo-missions`);
     await page.getByRole('button', { name: /Dinner tonight/ }).click();
-    await page.getByLabel('Sample recipe', { exact: true }).selectOption('rice-night');
+    await page.getByRole('button', { name: 'Choose Tomato & aubergine rice bowls', exact: true }).click();
     await page.getByRole('button', { name: 'Review the basket', exact: true }).click();
     check(name + ': complete totals shown before acceptance', await page.locator('.ld-alternative').innerText().then(s => s.includes('$12.00') && s.includes('$10.50')));
     check(name + ': no live merchant claims', await page.locator('.ld-alternative').innerText().then(s => s.includes('Fictional prices')));
