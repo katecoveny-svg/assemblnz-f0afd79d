@@ -65,6 +65,10 @@ This section is the current, scoped delivery record. Durable direction is in [as
 
 ## Earlier dated operating context
 
+## 14 October: hero footage upscaled
+
+Kate authorised a Topaz 2x upscale of `coast-gen-c` at fal.ai (2560 × 1440 HEVC, 43.3 MB, request `01a139a8-5a31-7a00-ad91-e2bcd65be09c`). A blocked session parked it in 42 checksummed pieces in `public.hero_tmp_chunks`; the next session pulled them through SQL, verified every piece and the total size, and re-encoded two tiers with the old keyframe spacing (every 8 frames, no audio): `coast-gen-c-1440.mp4/.webm` (8.1 / 6.1 MB) for screens drawing the hero wider than 1600 device pixels, and `coast-gen-c.mp4/.webm` (3.5 / 2.9 MB, 720p from the upscale) for everything else or Save-Data. Poster is the upscale's first frame at 1280 × 720. Darkest frame luma is still 121. The temporary `hero_tmp_*` tables and the `hero-clip-upscale` edge function are cleanup for Kate to approve. Details in `docs/design/direction-4c/README.md`.
+
 ## 14 October: hero edge and pre-ready composition
 
 After the second pass went live, Kate's capture showed a soft, stepped wordmark edge during the fly-through, the footage landing full-frame before the plum field, and soft footage. Fixed in code: the knockout mask is now a signed distance field (up to 4096 px wide) with a one-screen-pixel edge at any zoom, and the pre-ready layer is the plum field with the poster's horizon inside the HTML wordmark, so the handoff is plum to plum. Not fixable in code: the clip is a 1280 × 720 generation drawn at up to 2880 × 1800; a higher-resolution source (AI upscale, needing credits, or a fresh generation at 1080p or above) is Kate's call. Details in `docs/design/direction-4c/README.md`.
