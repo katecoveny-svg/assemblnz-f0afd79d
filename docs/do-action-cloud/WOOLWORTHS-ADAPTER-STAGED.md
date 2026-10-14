@@ -20,6 +20,8 @@ Native Chrome sender/document/activeTab lifecycle and account/store/cart binding
 
 Kate reported removing the old extension on 14 October; do not request its old Details again. The separately packaged `assembl-do-browser-pilot-1.9.0.zip` is a **fixture-only installation candidate**, not installed software or live shopping. Its manifest lives at `apps/do/extension/pilot/manifest.json` and requests only activeTab, scripting, sidePanel and the Assembl first-party host needed to verify the chosen Personal DO session. No global content scripts, tabs/storage permission, optional third-party hosts or external connection grant. The normal legacy-feature extension package remains separate and retains its existing manifest.
 
+The `https://www.assembl.co.nz/*` host permission persists until revoked or the extension is removed. The two-minute expiry bounds task/read authority, not the browser host grant. Installation consent must disclose this distinction.
+
 Before loading this unpacked candidate, review the exact archive/manifest and obtain action-time approval for installation and the specific fixture-tab access. No remote-debugging or DevTools autoConnect setup is needed or authorised. A Chrome-team guide is technical reference, not permission. Do not work around prior blocked browser/file routes.
 
 ## First live-item dependencies and acceptance
@@ -33,3 +35,9 @@ Before loading this unpacked candidate, review the exact archive/manifest and ob
 ## Official site research — 14 October 2026
 
 [Woolworths online/website/app terms](https://www.woolworths.co.nz/help/terms-conditions/online-shopping-website-app) describe household/workplace use and restrict resale; general clauses6/11 distinguish personal use from copying/scraping/distribution requiring consent. They are not a blanket grant for a multi-user automation service. Pricing/range vary by store, and weighted products/substitutions can change totals. Those facts motivate context binding and excluding weighted/substituted items in this pilot. The [terms index](https://www.woolworths.co.nz/help/terms-conditions) links separate loyalty and privacy terms. This is an implementation/access-review note, not a legal determination or retailer partnership claim.
+
+## Pending native fixture approval: exact scope
+
+Use only the separately reviewed `assembl-do-browser-pilot-1.9.0.zip`, never substitute the normal companion archive. Approval is pending. After explicit approval, verify that exact pilot package and manifest, load it using supported Chrome UI, and exercise only the local fictional cart plus the explicitly selected Personal DO session-verification tab. Disclose activeTab/scripting/sidePanel and persistent Assembl host access independently of the two-minute task limit.
+
+Native acceptance: reject fictional product reads before companion approval; approve product/cart reads in the companion; review the exact fictional SKU and quantity; require separate final edit approval; verify the fictional quantity and receipt; cancel and verify further reads/edits fail. Also test expiry and document navigation invalidation without accessing another site's data. No retailer account, real trolley, login, checkout, payment, broader host permission, remote debugging, or phone pairing participates. If supported Chrome UI cannot complete installation, report that blocker without an alternate permission route.

@@ -31,7 +31,8 @@ function build(doc: Document, origin: string, bindings: RetailerDOMBindings, ass
       const afterInput = snapshot();
       const { observedAt: _beforeTime, ...beforeFacts } = s;
       const { observedAt: _afterTime, ...afterFacts } = afterInput;
-      if (!input.isConnected || !button.isConnected || button.disabled || button.type !== 'button' || input.value !== String(command.targetQuantity) || !same(afterFacts, beforeFacts)) throw new Error('Cart or controls changed during quantity entry');
+      const resolved = bindings.quantityControl(doc, p.sku);
+      if (resolved.input !== input || resolved.button !== button || input.ownerDocument !== doc || button.ownerDocument !== doc || !input.isConnected || !button.isConnected || input.disabled || input.readOnly || input.type !== 'number' || (input.max !== '' && (!Number.isFinite(Number(input.max)) || command.targetQuantity > Number(input.max))) || button.disabled || button.type !== 'button' || input.value !== String(command.targetQuantity) || !same(afterFacts, beforeFacts)) throw new Error('Cart or controls changed during quantity entry');
       button.click(); // Exactly one fixed mapped action. No retry; runtime performs readback.
     },
   };

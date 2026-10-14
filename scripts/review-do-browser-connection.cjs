@@ -108,6 +108,8 @@ const checks = [], check = (name, ok) => { assert.ok(ok, name); checks.push(name
   await storefront.addScriptTag({content:retailerBundle.outputFiles[0].text});
   const retailerProof=await storefront.evaluate(()=>RetailerDOMProof.runRetailerDOMProof());
   check('retailer adapter changes exact SKU through real fixture DOM with readback',retailerProof.receipt.status==='verified' && retailerProof.receipt.items[0].observedQuantity===3 && retailerProof.grants>=3 && retailerProof.receipt.retailerExecuted===false);
+  const mutations=await storefront.evaluate(()=>RetailerDOMProof.runControlMutationProofs());
+  for(const [name,passed] of Object.entries(mutations))check('rejects post-input '+name+' change before click',passed);
   check('no browser runtime errors',errors.length===0);
   fs.writeFileSync(out+'/results.json',JSON.stringify({checks,errors,chromeApiSimulated:true,ownerSynthetic:true,extensionInstalled:false,realRetailer:false,requested},null,2));
  } catch(error) { fs.writeFileSync(out+'/failure.json',JSON.stringify({errors,text:await workspace.locator('body').innerText()},null,2));await workspace.screenshot({path:out+'/failure.png',fullPage:true});throw error; } finally {await browser.close();}
