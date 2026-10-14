@@ -10,7 +10,7 @@ export interface ConnectionHost {
 }
 type Task = {
   id: string; owner: string; target: TabIdentity; workspace: TabIdentity; scope: BrowserScope;
-  expiresAt: number; revoked: boolean; busy: boolean; claims: Set<string>;
+  expiresAt: number; readGranted: boolean; revoked: boolean; busy: boolean; claims: Set<string>;
   observation: CartObservation | null; proposal: CartProposal | null; digest: string | null;
   brief: string; approval: Approval | null; receipt: CartReceipt | null;
 };
@@ -27,7 +27,7 @@ export class ConnectionBroker {
     const t = this.task;
     if (!t || t.revoked || t.expiresAt <= this.now()) return { protocol: CONNECTION_PROTOCOL, connected: false as const, mode: 'synthetic_storefront' as const, remote: false as const, reason: 'No current companion task connection.' };
     return { protocol: CONNECTION_PROTOCOL, connected: true as const, mode: 'synthetic_storefront' as const, remote: false as const,
-      connectionId: t.id, owner: t.owner, target: t.target, expiresAt: t.expiresAt, busy: t.busy,
+      connectionId: t.id, owner: t.owner, target: t.target, expiresAt: t.expiresAt, readGranted: t.readGranted, busy: t.busy,
       observation: t.observation, proposal: t.proposal, digest: t.digest, brief: t.brief, receipt: t.receipt,
       reason: 'Only this fictional storefront tab is connected. No real retailer access.' };
   }
@@ -39,7 +39,14 @@ export class ConnectionBroker {
     if (!owner || owner === 'guest' || !await this.host.current(target) || !await this.host.current(workspace)) throw new Error('Sign in to Personal DO, then reconnect these tabs.');
     if (generation !== this.generation) throw new Error('Connection cancelled.');
     const id = crypto.randomUUID();
-    this.task = { id, owner, target, workspace, scope: { connectionId: id, tabId: target.tabId, documentId: target.documentId, origin: 'http://127.0.0.1:4198', navigationRevision: 0 }, expiresAt: this.now() + TASK_LIFETIME_MS, revoked: false, busy: false, claims: new Set(), observation: null, proposal: null, digest: null, brief: '', approval: null, receipt: null };
+    this.task = { id, owner, target, workspace, scope: { connectionId: id, tabId: target.tabId, documentId: target.documentId, origin: 'http://127.0.0.1:4198', navigationRevision: 0 }, expiresAt: this.now() + TASK_LIFETIME_MS, readGranted: false, revoked: false, busy: false, claims: new Set(), observation: null, proposal: null, digest: null, brief: '', approval: null, receipt: null };
+    return this.snapshot();
+  }
+  async allowReadInCompanion(connectionId: string) {
+    const t = this.task;
+    if (!t || t.id !== connectionId) throw new Error('Connection changed.');
+    await this.guard(t);
+    t.readGranted = true;
     return this.snapshot();
   }
   async companionStatus() {
@@ -67,7 +74,8 @@ export class ConnectionBroker {
     t.busy = true;
     try {
       if (command.action === 'observe') {
-        // User explicitly approved this bounded product/quantity read, not page text.
+        if (!t.readGranted) throw new Error('Approve the bounded product/cart read in the companion first.');
+        // Grant was issued by the extension-owned UI, not this page command.
         const observation = cartObservation.parse(await this.host.adapter(t.target, t.scope).observe());
         await this.guard(t);
         if (JSON.stringify(observation.scope) !== JSON.stringify(t.scope)) throw new Error('Tab scope changed.');
@@ -76,7 +84,7 @@ export class ConnectionBroker {
         if (!t.observation || this.now() - t.observation.observedAt > 30000) throw new Error('Read the current products again before reviewing.');
         if (new Set(command.quantities.map(i => i.productId)).size !== command.quantities.length) throw new Error('Duplicate products.');
         const proposal = cartProposal.parse({ protocol: 'do.cart.v1', actionId: crypto.randomUUID(), revision: 1, scope: t.scope,
-          observedRevision: t.observation.revision, expiresAt: t.expiresAt,
+          observedRevision: t.observation.revision, ...(t.observation.retailerContext ? { retailerContext: t.observation.retailerContext } : {}), expiresAt: t.expiresAt,
           items: command.quantities.map(q => ({ ...t.observation!.items.find(i => i.productId === q.productId), targetQuantity: q.quantity })) });
         const digest = await proposalDigest(proposal);
         await this.guard(t);

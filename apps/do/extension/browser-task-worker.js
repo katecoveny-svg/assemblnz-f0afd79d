@@ -71,6 +71,7 @@ importScripts('browser-task-core.js');
       catch (error) { broker.revoke(); throw error; }
       return broker.snapshot();
     }
+    if (message.action === 'allow-read') return broker.allowReadInCompanion(message.connectionId);
     if (message.action === 'approve') return broker.approveInCompanion(message.connectionId, message.digest);
     if (message.action === 'cancel') { broker.revoke(); return broker.snapshot(); }
     if (message.action === 'status') return broker.companionStatus();

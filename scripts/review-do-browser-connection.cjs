@@ -11,6 +11,7 @@ const out = 'output/playwright/browser-connection';
 const checks = [], check = (name, ok) => { assert.ok(ok, name); checks.push(name); console.log('PASS ' + name); };
 (async () => {
  fs.mkdirSync(out, { recursive: true });
+ const retailerBundle = await build({entryPoints:['test/fixtures/do-browser/retailer-dom-proof.ts'],bundle:true,format:'iife',globalName:'RetailerDOMProof',write:false});
  await build({ entryPoints:['test/fixtures/do-browser-connection/entry.tsx'],bundle:true,format:'iife',outfile:out+'/ui.js',jsx:'automatic',define:{'process.env.NODE_ENV':'"production"'},loader:{'.png':'dataurl','.webp':'dataurl'}});
  const browser = await chromium.launch({headless:true,...(process.env.ASSEMBL_CHROMIUM_PATH?{executablePath:process.env.ASSEMBL_CHROMIUM_PATH}:{})});
  const context = await browser.newContext({viewport:{width:1000,height:1000},serviceWorkers:'block'});
@@ -61,10 +62,13 @@ const checks = [], check = (name, ok) => { assert.ok(ok, name); checks.push(name
   await companion.getByRole('button',{name:'Check selected tab and DO windows'}).click();
   await companion.getByRole('button',{name:'Connect this tab for two minutes'}).click();
   await companion.locator('#status').filter({hasText:'Connected only'}).waitFor();
+  const deniedRead=await invoke({type:'do:browser-page',command:{action:'observe',connectionId:(await invoke({type:'do:browser-companion',action:'status'},{id:'synthetic',url:extensionUrl})).data.connectionId}},{id:'synthetic',tab:{id:8},documentId:'do-doc',url:tabs.get(8).url});
+  check('page read is rejected before extension-owned grant',!deniedRead.ok);
   check('connection reads no product data',await storefront.locator('output').first().textContent()==='0');
   await workspace.locator('#personal-assistant-input').fill('Please prepare two fictional oats');
   await workspace.getByRole('button',{name:'Review this as a browser task'}).click();
   const panel=workspace.getByRole('region',{name:'Browser task review'});
+  await companion.getByRole('button',{name:'Allow product/cart reads for this connection'}).click();
   await panel.getByRole('button',{name:'Check companion connection'}).click();
   await panel.getByRole('checkbox',{name:/Read fictional product/}).check();
   await panel.getByRole('button',{name:'Read reviewed product fields'}).click();
@@ -92,6 +96,7 @@ const checks = [], check = (name, ok) => { assert.ok(ok, name); checks.push(name
   check('375px review fits viewport',await workspace.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await companion.getByRole('button',{name:'Connect this tab for two minutes'}).click();
   await companion.locator('#status').filter({hasText:'Connected only'}).waitFor();
+  await companion.getByRole('button',{name:'Allow product/cart reads for this connection'}).click();
   await panel.getByRole('button',{name:'Check companion connection'}).click();
   await panel.getByRole('checkbox',{name:/Read fictional product/}).check();
   await panel.getByRole('button',{name:'Read reviewed product fields'}).click();
@@ -100,6 +105,9 @@ const checks = [], check = (name, ok) => { assert.ok(ok, name); checks.push(name
   await panel.getByLabel('Fixture oats (oats) target quantity').waitFor({state:'detached'});
   check('owner loss clears observed product review',await panel.getByLabel('Fixture oats (oats) target quantity').count()===0);
   updated(4,{url:'https://example.com'});removed(8);
+  await storefront.addScriptTag({content:retailerBundle.outputFiles[0].text});
+  const retailerProof=await storefront.evaluate(()=>RetailerDOMProof.runRetailerDOMProof());
+  check('retailer adapter changes exact SKU through real fixture DOM with readback',retailerProof.receipt.status==='verified' && retailerProof.receipt.items[0].observedQuantity===3 && retailerProof.grants>=3 && retailerProof.receipt.retailerExecuted===false);
   check('no browser runtime errors',errors.length===0);
   fs.writeFileSync(out+'/results.json',JSON.stringify({checks,errors,chromeApiSimulated:true,ownerSynthetic:true,extensionInstalled:false,realRetailer:false,requested},null,2));
  } catch(error) { fs.writeFileSync(out+'/failure.json',JSON.stringify({errors,text:await workspace.locator('body').innerText()},null,2));await workspace.screenshot({path:out+'/failure.png',fullPage:true});throw error; } finally {await browser.close();}

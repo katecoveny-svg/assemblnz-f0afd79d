@@ -1,7 +1,7 @@
 name: DO browser connection proof
 on:
   pull_request:
-    paths: ['apps/do/browser/**', 'apps/do/extension/**', 'components/do/browser/**', 'app/do/personal/**', 'test/fixtures/do-browser-connection/**', 'scripts/*do-browser-connection*', '.github/workflows/do-browser-connection.yml']
+    paths: ['apps/do/browser/**', 'apps/do/extension/**', 'components/do/browser/**', 'app/do/personal/**', 'test/fixtures/do-browser-connection/**', 'test/fixtures/do-browser/**', 'scripts/*do-browser-connection*', '.github/workflows/do-browser-connection.yml']
   workflow_dispatch:
 permissions:
   contents: read

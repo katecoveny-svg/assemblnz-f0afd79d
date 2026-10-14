@@ -3,6 +3,16 @@
 globalThis.DoBrowserCapability = Object.freeze({
   "protocol": "do.cart.v1",
   "state": "unavailable",
+  "implementation": "gated_retailer_adapter",
+  "liveBlockers": [
+    "installed_extension_permissions_unverified",
+    "native_tab_identity_unverified",
+    "extension_owned_read_grant_unverified",
+    "retailer_dom_mapping_unverified",
+    "account_store_cart_binding_unverified",
+    "durable_claims_unconfigured",
+    "personal_pilot_site_access_review_pending"
+  ],
   "retailer": "woolworths_nz",
   "canObserve": false,
   "canMutateCart": false,

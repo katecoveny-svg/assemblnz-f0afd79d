@@ -24,13 +24,13 @@ Run `node scripts/build-do-browser-connection.mjs`, focused Vitest tests, and th
 
 ## Outstanding gates
 
-The installed v1.3.0 companion has not been replaced. Its installed manifest could not be inspected through the permitted browser route, and that denial must not be circumvented. User-supplied manifest/permission review and approved desktop update/testing remain necessary. Native Chrome sender/document/activeTab behaviour needs an explicitly authorised test installation before claiming operational readiness. Woolworths UI/terms, selectors and account/cart execution are unvalidated; no real shopping account was used. Persistent or phone pairing, broader browser permissions, durable jobs and new retailer access require separate design/review and user approval.
+Kate reported removing the old companion on 14 October. A fresh installation is not yet authorised. Its installed manifest could not be inspected through the permitted browser route, and that denial must not be circumvented. Review the new package manifest and obtain narrow installation/tab-access approval before native testing; do not keep requesting evidence from the removed installation. Native Chrome sender/document/activeTab behaviour needs an explicitly authorised test installation before claiming operational readiness. Woolworths UI/terms, selectors and account/cart execution are unvalidated; no real shopping account was used. Persistent or phone pairing, broader browser permissions, durable jobs and new retailer access require separate design/review and user approval.
 
 ## Security review gates before widening beyond the fixture
 
 Final companion approval must show canonical product IDs/SKUs beside names, quantities and prices, so similarly named products remain distinguishable. The IDs displayed are the exact proposal product IDs bound by the digest; the present fixture IDs are not validated retailer SKUs.
 
-The read-consent checkbox currently belongs to trusted first-party UI; it is not an extension-enforced read grant. Other scripts in that first-party document can send the typed observe request. Before private real-site reads, add an extension-owned, bounded read authorisation that the broker enforces independently of page UI.
+The companion now issues a broker-enforced product/cart read grant from its extension-owned screen. Page messages cannot mint the grant, and reconnect drops it. Native enforcement remains to be verified on Chrome before private real-site reads. The page checkbox alone does not confer authority.
 
 Same-window response events can be forged by other first-party scripts. Website connection status, observations and receipts therefore do not independently authenticate the extension. The extension-owned confirmation remains authoritative for approval; page messages cannot invoke approval or execution. Before a broader rollout, review how each surface distinguishes authenticated transport from display-only data.
 

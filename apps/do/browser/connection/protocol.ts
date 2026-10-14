@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { cartObservation, cartProposal, browserScope } from '../contract';
+import { cartObservation, cartProposal, browserScope, retailerContext, retailerProduct } from '../contract';
 
 export const CONNECTION_PROTOCOL = 'do.browser.connection.v1';
 export const FIXTURE_URL = 'http://127.0.0.1:4198/cart-fixture.html';
@@ -17,8 +17,8 @@ export function isWorkspaceUrl(value: string) {
 }
 export function isFixtureUrl(value: string) { return value === FIXTURE_URL; }
 
-const receipt = z.object({ actionId: z.string().uuid(), revision: z.number(), digest: z.string().regex(/^[a-f0-9]{64}$/), scope: browserScope, finishedAt: z.number(), mode: z.literal('controlled_fixture'), retailerExecuted: z.literal(false), status: z.enum(['verified', 'stopped']), items: z.array(z.object({ productId: z.string().max(80), requestedQuantity: z.number(), beforeQuantity: z.number(), observedQuantity: z.number().nullable(), beforeRevision: z.string().nullable(), afterRevision: z.string().nullable(), status: z.enum(['verified', 'uncertain', 'not_attempted']) })).max(20) });
+const receipt = z.object({ actionId: z.string().uuid(), revision: z.number(), digest: z.string().regex(/^[a-f0-9]{64}$/), scope: browserScope, finishedAt: z.number(), mode: z.enum(['controlled_fixture', 'retailer_dom']), retailerExecuted: z.boolean(), retailerContext: retailerContext.optional(), status: z.enum(['verified', 'stopped']), items: z.array(z.object({ productId: z.string().max(80), retailerProduct: retailerProduct.optional(), requestedQuantity: z.number(), beforeQuantity: z.number(), observedQuantity: z.number().nullable(), beforeRevision: z.string().nullable(), afterRevision: z.string().nullable(), status: z.enum(['verified', 'uncertain', 'not_attempted']) })).max(20) }).refine(r => r.mode === 'retailer_dom' ? r.retailerExecuted && Boolean(r.retailerContext) : !r.retailerExecuted, 'Receipt mode mismatch');
 export const connectionSnapshot = z.discriminatedUnion('connected', [
   z.object({ protocol: z.literal(CONNECTION_PROTOCOL), connected: z.literal(false), mode: z.literal('synthetic_storefront'), remote: z.literal(false), reason: z.string().max(300) }),
-  z.object({ protocol: z.literal(CONNECTION_PROTOCOL), connected: z.literal(true), mode: z.literal('synthetic_storefront'), remote: z.literal(false), connectionId: z.string().uuid(), owner: z.string().uuid(), target: z.object({ tabId: z.number().int().positive(), documentId: z.string().max(100), url: z.literal(FIXTURE_URL) }), expiresAt: z.number(), busy: z.boolean(), observation: cartObservation.nullable(), proposal: cartProposal.nullable(), digest: z.string().nullable(), brief: z.string().max(6000), receipt: receipt.nullable(), reason: z.string().max(300) }),
+  z.object({ protocol: z.literal(CONNECTION_PROTOCOL), connected: z.literal(true), mode: z.literal('synthetic_storefront'), remote: z.literal(false), connectionId: z.string().uuid(), owner: z.string().uuid(), target: z.object({ tabId: z.number().int().positive(), documentId: z.string().max(100), url: z.literal(FIXTURE_URL) }), expiresAt: z.number(), readGranted: z.boolean(), busy: z.boolean(), observation: cartObservation.nullable(), proposal: cartProposal.nullable(), digest: z.string().nullable(), brief: z.string().max(6000), receipt: receipt.nullable(), reason: z.string().max(300) }),
 ]);
