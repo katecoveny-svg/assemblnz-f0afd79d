@@ -1,8 +1,9 @@
 /** NZ-first, reviewable workflows. These are preparation recipes, never connectors. */
 export const LIFE_ADMIN_CATEGORIES = [
   'school', 'bills', 'vehicle', 'home', 'tradie', 'meals', 'transport',
-  'returns', 'government', 'care', 'moving', 'travel',
+  'returns', 'government', 'care', 'moving', 'travel', 'pets',
 ] as const;
+export const PET_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] as const;
 export type LifeAdminCategory = (typeof LIFE_ADMIN_CATEGORIES)[number];
 export type LifeAdminTemplate = {
   id: LifeAdminCategory;
@@ -120,6 +121,14 @@ export const LIFE_ADMIN_TEMPLATES: LifeAdminTemplate[] = [
     fields: [field('trip', 'Trip and dates', 'Destinations, dates and whether each booking is confirmed'), field('documents', 'Requirements to verify', 'Passport validity, entry/transit rules and insurance questions; no document numbers'), field('logistics', 'Travel details still to sort', 'Transfers, baggage, check-in, accommodation and cancellations')],
     steps: [step('brief', 'Review the travel admin pack', 'Keep confirmed bookings separate from ideas.', 'preparation'), step('requirements', 'Verify current official travel requirements', 'Nationality, transit and destination can change the requirements.'), step('logistics', 'Handle bookings and travel logistics', 'Review the provider, final total, dates and cancellation terms yourself.'), step('ready', 'Record confirmations and final checks', 'Keep documents privately and recheck times with the provider.')],
     packTitle: 'Travel admin checklist', guardrail: 'No booking, check-in, insurance purchase or visa/entry decision is made. Current rules and provider confirmations must be checked separately.', resources: [{ title: 'SafeTravel: before you go', url: 'https://www.safetravel.govt.nz/before-you-go', note: 'Official travel-advisory and preparation guidance.' }, { title: 'Govt.nz: before you travel', url: 'https://www.govt.nz/browse/leaving-nz/before-you-travel/', note: 'Public document and planning guidance. Verify the requirements for your exact trip.' }],
+  },
+  {
+  id: 'pets', name: 'Pet weekly routine', description: 'Your wording, arranged across seven days.',
+  prompt: 'Use the weekly routine organiser to choose explicit days.', keywords: /$a/,
+  fields: [field('nickname', 'Pet nickname', 'A nickname is enough'), ...PET_DAYS.map(day => field(day, day, 'No routine supplied', false))],
+  steps: PET_DAYS.map(day => step(day, day, 'Your supplied routine.')),
+  packTitle: 'Pet weekly routine',
+  guardrail: 'Session-only local routine organiser. No recommendations, reminders or external actions. Times and responsibility stay unknown unless you supply them. Medical and behaviour-treatment requests are outside this organiser.', resources: [],
   },
 ];
 export function lifeAdminTemplate(category: LifeAdminCategory) {

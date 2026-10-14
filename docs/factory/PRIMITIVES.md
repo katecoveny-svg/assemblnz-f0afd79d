@@ -248,3 +248,12 @@ The loyalty `mealChoiceCards` projection reuses `planShop` for three accessible 
 ## Native reviewed draft handoff — 14 October development integration
 
 `apps/do/ios/Shared/DOStore.swift` supplies a local-only app/Share Sheet/keyboard handoff. Saving does not approve insertion; explicit review releases a draft for one hour, and the keyboard rechecks identity and expiry before insertion. A shared App Group is not account isolation or per-record OS isolation; expiry is not secure deletion. Tests are in `apps/do/ios/Tests`; unsigned simulator and signed-device proof remain distinct. No cloud execution, generic cross-app context, signing or installation is claimed.
+
+### Session-only LifeAdmin category boundary (local review)
+
+Pet weekly routines extend LifeAdmin's plan/review/completion/export contract without
+inheriting provider drafting or persistence. `persistentLifeAdminPlanSchema` rejects
+session-only Pet payloads on both browser/cloud reads and writes; preparation rejects
+them separately. Mixed saves disclose exclusions and offer export. Preserve this
+separation when adding future local-only categories. See
+[Pet weekly local review](../reviews/PET-WEEKLY-LOCAL-20261014.md) for proof and limits.

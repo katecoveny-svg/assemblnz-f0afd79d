@@ -74,3 +74,9 @@ describe('Life-admin provider preparation boundary', () => {
     expect(await response.json()).toEqual({ error: 'The draft could not be prepared. Your local checklist is unchanged.' });
   });
 });
+
+it('rejects a direct Pet drafting request before providers or profile access', async () => {
+ const response = await POST(request({...valid,category:'pets',fields:{nickname:'Demo pet',Monday:'Put the blue toy away.'}}));
+ expect(response.status).toBe(400); expect(await response.text()).toContain('session-only');
+ expect(prepareDoDraft).not.toHaveBeenCalled(); expect(getPersonalDoProfile).not.toHaveBeenCalled();
+});
