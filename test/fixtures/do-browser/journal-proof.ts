@@ -71,3 +71,13 @@ export async function runStorageFailureProof() {
  const empty=await journal.pending(owner)===null;
  journal.close();return failed && empty;
 }
+
+export async function runCapacityProof() {
+ const name='fictional-capacity-'+crypto.randomUUID(),p=proposal();
+ await LocalMutationJournal.initialize(indexedDB,name,epoch);
+ const journal=await LocalMutationJournal.start(indexedDB,name,epoch);
+ await journal.claim(owner,p,()=>1000);const sample=await journal.pending(owner);journal.close();
+ await new Promise<void>((resolve,reject)=>{const r=indexedDB.open(name);r.onsuccess=()=>{const db=r.result,tx=db.transaction(['claims','state'],'readwrite');tx.objectStore('claims').clear();tx.objectStore('state').delete('lock');for(let i=0;i<256;i++)tx.objectStore('claims').put({...sample,key:i.toString(16).padStart(64,'0'),state:'verified'});tx.oncomplete=()=>{db.close();resolve();};tx.onabort=()=>reject(new Error('Fixture seed failed'));};});
+ const resumed=await LocalMutationJournal.start(indexedDB,name,epoch);
+ const blocked=await rejects(()=>resumed.claim(owner,proposal(),()=>1000));resumed.close();return blocked;
+}

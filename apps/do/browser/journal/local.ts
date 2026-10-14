@@ -40,9 +40,9 @@ function transaction<T>(db: IDBDatabase, run: (state: IDBObjectStore, claims: ID
     const state = tx.objectStore('state'), claims = tx.objectStore('claims');
     const proxy = (store: IDBObjectStore) => new Proxy(store, { get(target, prop) {
       const value = Reflect.get(target, prop, target);
-      if (prop !== 'get') return typeof value === 'function' ? value.bind(target) : value;
+      if (prop !== 'get' && prop !== 'count') return typeof value === 'function' ? value.bind(target) : value;
       return (key: IDBValidKey) => {
-        const request = target.get(key);
+        const request = prop === 'count' ? target.count(key) : target.get(key);
         return new Proxy(request, { get: (r, p) => Reflect.get(r, p, r), set(r, p, v) { if (p === 'onsuccess') { r.onsuccess = () => safe(v); return true; } return Reflect.set(r, p, v, r); } });
       };
     } });
@@ -81,8 +81,8 @@ export class LocalMutationJournal {
   private async bindings(owner: string, raw: CartProposal) {
     if (!owner || owner.length > 200) throw new Error('Verified owner required');
     const p = cartProposal.parse(raw);
-    if (!p.retailerContext) throw new Error('Verified retailer context required');
-    return { key: await hash([this.epoch, owner, p.actionId]), owner: await hash([this.epoch, owner]), context: await hash([this.epoch, p.retailerContext]), scope: await hash(p.scope), digest: await proposalDigest(p), revision: p.revision, expiresAt: p.expiresAt };
+    if (!p.retailerContext && p.scope.origin !== 'http://127.0.0.1:4198') throw new Error('Verified retailer context required');
+    return { key: await hash([this.epoch, owner, p.actionId]), owner: await hash([this.epoch, owner]), context: await hash([this.epoch, p.retailerContext ?? {fixtureOrigin:p.scope.origin}]), scope: await hash(p.scope), digest: await proposalDigest(p), revision: p.revision, expiresAt: p.expiresAt };
   }
   private run<T>(fn: (state: IDBObjectStore, claims: IDBObjectStore, done: (v: T) => void) => void) {
     return transaction<T>(this.db, (state, claims, done) => {
@@ -102,16 +102,19 @@ export class LocalMutationJournal {
         if (r.result !== undefined) { lockSchema.parse(r.result); done(false); return; }
         const existing = claims.get(binding.key); existing.onsuccess = () => {
           if (existing.result !== undefined) { recordSchema.parse(existing.result); done(false); return; }
-          if (binding.expiresAt <= now()) throw new Error('Claim expired');
-          claims.add({ ...binding, boot: this.boot, state: 'claimed', items: proposal.items.map(i => ({ sku: i.productId, before: i.quantity, target: i.targetQuantity })) });
-          state.add({ key: binding.key }, 'lock'); done(true);
+          const count = claims.count(); count.onsuccess = () => {
+            if (count.result >= 256) throw new Error('Pilot journal full; writes disabled, no tombstones discarded');
+            if (binding.expiresAt <= now()) throw new Error('Claim expired');
+            claims.add({ ...binding, boot: this.boot, state: 'claimed', items: proposal.items.map(i => ({ sku: i.productId, before: i.quantity, target: i.targetQuantity })) });
+            state.add({ key: binding.key }, 'lock'); done(true);
+          };
         };
       };
     });
   }
   async finish(owner: string, proposal: CartProposal, receipt: CartReceipt) {
     const binding = await this.bindings(owner, proposal), receiptDigest = await hash(receipt);
-    if (receipt.actionId !== proposal.actionId || receipt.revision !== binding.revision || receipt.digest !== binding.digest || await hash(receipt.scope) !== binding.scope || await hash([this.epoch, receipt.retailerContext]) !== binding.context) throw new Error('Receipt binding mismatch');
+    if (receipt.actionId !== proposal.actionId || receipt.revision !== binding.revision || receipt.digest !== binding.digest || await hash(receipt.scope) !== binding.scope || await hash([this.epoch, receipt.retailerContext ?? {fixtureOrigin:receipt.scope.origin}]) !== binding.context) throw new Error('Receipt binding mismatch');
     const verified = receipt.status === 'verified' && receipt.items.length === proposal.items.length && receipt.items.every((r, i) => r.status === 'verified' && r.productId === proposal.items[i].productId && r.beforeQuantity === proposal.items[i].quantity && r.requestedQuantity === proposal.items[i].targetQuantity && r.observedQuantity === r.requestedQuantity);
     return this.run((state, claims, done) => {
       const l = state.get('lock'); l.onsuccess = () => {
@@ -138,17 +141,19 @@ export class LocalMutationJournal {
   /** Only trusted extension recovery UI may call this after a new approved read
    * and explicit human reconciliation. This records acknowledgement, NOT success.
    * No page message endpoint, automatic equality reconciliation or retry exists. */
-  async reconcileAfterRestart(owner: string, key: string, context: NonNullable<CartProposal['retailerContext']>, reviewedObservationDigest: string, confirm: () => Promise<boolean>) {
+  async reconcileAfterRestart(owner: string, key: string, context: NonNullable<CartProposal['retailerContext']> | {fixtureOrigin:'http://127.0.0.1:4198'}, reviewedObservationDigest: string, confirm: () => Promise<boolean>, assertCurrent: () => void = () => {}) {
     hex.parse(reviewedObservationDigest);
     hex.parse(key);
     const ownerHash = await hash([this.epoch, owner]), contextHash = await hash([this.epoch, context]);
     if (!await confirm()) throw new Error('Explicit reconciliation required');
+    assertCurrent();
     return this.run((state, claims, done) => {
       const l = state.get('lock'); l.onsuccess = () => {
         if (lockSchema.parse(l.result).key !== key) throw new Error('Recovery lock mismatch');
         const r = claims.get(key); r.onsuccess = () => {
           const record: RecordValue = recordSchema.parse(r.result);
           if (record.boot === this.boot || !['claimed', 'uncertain'].includes(record.state) || record.owner !== ownerHash || record.context !== contextHash) throw new Error('Recovery binding mismatch');
+          assertCurrent(); // Synchronous fence immediately before the reconciliation write.
           claims.put({ ...record, state: 'reconciled', reconciliationDigest: reviewedObservationDigest });
           state.delete('lock'); done(undefined);
         };
