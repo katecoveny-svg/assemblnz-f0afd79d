@@ -389,3 +389,7 @@ At the end of a meaningful workday:
 ## 14 October 2026 — native development-source reconciliation (#1417)
 
 The 30 September SwiftUI app, Share Sheet, local reviewed-draft keyboard handoff and WidgetKit source are being reconciled with current main. This is local development source, not a signed or installed release. One App Group stores local drafts without a native account namespace or logout clearing; review limits are code-enforced rather than per-record OS isolation. One-hour availability expiry blocks insertion, not secure deletion or automatic preview clearing. RequestsOpenAccess remains false. Unsigned simulator checks do not prove signed-device App Group behavior. No signing, device installation, TestFlight or App Store publication is authorized by this integration. See [native evidence](../DO-IOS-20260930.md).
+
+## 14 October 2026 — release and preserved-work reconciliation
+
+[The dated release reconciliation](../reviews/DO-RELEASE-RECONCILIATION-20261014.md) records verified main/production, matching migration audit, operational configuration and retention blockers, remaining PRs and local-work inventory limits. Read its timestamp before using its exact deployment as current. Merged source is not all-user activation; cleanup consent, secure configuration, owner enrollment and native proof remain separate gates. No blanket push, merge or cleanup of historical work is authorized by this record.
