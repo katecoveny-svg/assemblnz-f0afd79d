@@ -141,17 +141,19 @@ export class LocalMutationJournal {
   /** Only trusted extension recovery UI may call this after a new approved read
    * and explicit human reconciliation. This records acknowledgement, NOT success.
    * No page message endpoint, automatic equality reconciliation or retry exists. */
-  async reconcileAfterRestart(owner: string, key: string, context: NonNullable<CartProposal['retailerContext']> | {fixtureOrigin:'http://127.0.0.1:4198'}, reviewedObservationDigest: string, confirm: () => Promise<boolean>) {
+  async reconcileAfterRestart(owner: string, key: string, context: NonNullable<CartProposal['retailerContext']> | {fixtureOrigin:'http://127.0.0.1:4198'}, reviewedObservationDigest: string, confirm: () => Promise<boolean>, assertCurrent: () => void = () => {}) {
     hex.parse(reviewedObservationDigest);
     hex.parse(key);
     const ownerHash = await hash([this.epoch, owner]), contextHash = await hash([this.epoch, context]);
     if (!await confirm()) throw new Error('Explicit reconciliation required');
+    assertCurrent();
     return this.run((state, claims, done) => {
       const l = state.get('lock'); l.onsuccess = () => {
         if (lockSchema.parse(l.result).key !== key) throw new Error('Recovery lock mismatch');
         const r = claims.get(key); r.onsuccess = () => {
           const record: RecordValue = recordSchema.parse(r.result);
           if (record.boot === this.boot || !['claimed', 'uncertain'].includes(record.state) || record.owner !== ownerHash || record.context !== contextHash) throw new Error('Recovery binding mismatch');
+          assertCurrent(); // Synchronous fence immediately before the reconciliation write.
           claims.put({ ...record, state: 'reconciled', reconciliationDigest: reviewedObservationDigest });
           state.delete('lock'); done(undefined);
         };

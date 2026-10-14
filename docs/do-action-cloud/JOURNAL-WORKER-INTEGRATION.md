@@ -17,3 +17,11 @@ A stopped worker cannot recall an already dispatched DOM effect. The native desi
 The journal now hard-stops at 256 claims per installation epoch. It deletes no replay tombstones automatically. This bounds local storage while retaining replay protection. Capacity exhaustion requires a separately reviewed disposal/reset workflow after all uncertain effects are resolved; no such destructive control is exposed here. Removal/reset must invalidate old authority and must never resume an old proposal. No real user data was persisted in this work.
 
 Finder was not opened; the existing manual installation folder remains unchanged. No new permissions or provider calls are introduced. Live retailer gate remains off.
+
+## Controller race correction
+
+The initial controller could restore a connection after cancellation and released its busy flag before executor settlement. The corrected controller increments a generation on cancel/reconnect, rechecks session identity and expiry after asynchronous steps, revalidates owner after tab/journal checks, and awaits the executor within its busy lifetime. Reconnect attempts during an operation invalidate the old generation but remain busy until that operation settles. No stale continuation may clear a newer session. Adapter calls are guarded before and after; an already-dispatched effect cannot be recalled and remains uncertain on cancellation.
+
+Recovery reads guard pending-record and digest continuations. Reconciliation supplies a synchronous session fence immediately before the journal transaction write, in addition to the asynchronous authority confirmation. Native integration still must deliver owner/tab revocation into this controller; remote state cannot be made atomic with IndexedDB by polling alone.
+
+Proof: 32 deferred-promise regression tests cover connection cancellation at owner/tab/journal/final-owner waits, cancellation/expiry/owner switch/reconnect in guards, held mutation busy lifetime, and observation/pending/digest/reconciliation races. Existing seven real-worker and 22 real-IndexedDB checks remain green; scoped lint and full typecheck pass. These are staged controlled-fixture proofs, not installed MV3 evidence.
