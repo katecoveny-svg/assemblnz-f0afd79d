@@ -111,7 +111,37 @@ function boxBlur(src, w, h, r) {
   }
   return a;
 }
-function makeMask() {
+// exact Euclidean distance transform (Felzenszwalb and Huttenlocher), one dimension; f holds squared distances, INF where empty
+const EDT_INF = 1e20;
+function edt1d(f, d, v, z, n) {
+  let k = 0; v[0] = 0; z[0] = -EDT_INF; z[1] = EDT_INF;
+  for (let q = 1; q < n; q++) {
+    let s = 0;
+    for (;;) { const r = v[k]; s = ((f[q] + q * q) - (f[r] + r * r)) / (2 * q - 2 * r); if (s <= z[k] && k > 0) k--; else break; }
+    k++; v[k] = q; z[k] = s; z[k + 1] = EDT_INF;
+  }
+  k = 0;
+  for (let q = 0; q < n; q++) { while (z[k + 1] < q) k++; const r = v[k]; d[q] = (q - r) * (q - r) + f[r]; }
+}
+function edt2d(g, w, h) {
+  const n = Math.max(w, h), f = new Float64Array(n), d = new Float64Array(n), v = new Int32Array(n), z = new Float64Array(n + 1);
+  for (let x = 0; x < w; x++) { for (let y = 0; y < h; y++) f[y] = g[y * w + x]; edt1d(f, d, v, z, h); for (let y = 0; y < h; y++) g[y * w + x] = d[y]; }
+  for (let y = 0; y < h; y++) { const o = y * w; for (let x = 0; x < w; x++) f[x] = g[o + x]; edt1d(f, d, v, z, w); for (let x = 0; x < w; x++) g[o + x] = d[x]; }
+}
+// signed distance field of a coverage image: positive inside the ink, in pixels, encoded as 0.5 + d / (2 * spread)
+function signedDistance(alpha, w, h, spread) {
+  const n = w * h, inside = new Float64Array(n), outside = new Float64Array(n);
+  for (let i = 0; i < n; i++) { const ink = alpha[i] >= 0.5; inside[i] = ink ? EDT_INF : 0; outside[i] = ink ? 0 : EDT_INF; }
+  edt2d(inside, w, h); edt2d(outside, w, h);
+  const out = new Uint8ClampedArray(n);
+  for (let i = 0; i < n; i++) {
+    // the antialiased coverage at an edge pixel refines the distance by a fraction of a pixel
+    const d = alpha[i] >= 0.5 ? Math.sqrt(inside[i]) - 0.5 + (alpha[i] - 0.5) : -(Math.sqrt(outside[i]) - 0.5 + (0.5 - alpha[i]));
+    out[i] = Math.round((0.5 + d / (2 * spread)) * 255);
+  }
+  return out;
+}
+function makeMask(maxTexture = 4096) {
   const F = 640, WORD = 'assembl', q = 0.25, c = document.createElement('canvas'), g = c.getContext('2d');
   const setup = x => { x.font = `600 ${F}px ${FONT}`; x.letterSpacing = `${-0.055 * F}px`; x.textBaseline = 'alphabetic'; };
   setup(g);
@@ -121,6 +151,18 @@ function makeMask() {
   c.width = W; c.height = H; setup(g); g.fillStyle = '#fff';
   const ox = pad + m.actualBoundingBoxLeft, oy = pad + asc;
   g.fillText(WORD, ox, oy);
+  // the knockout edge is a signed distance field at the largest size the GPU takes, so the letters stay crisp at every zoom of the fly-through
+  const F2 = Math.max(64, Math.floor(F * Math.min(maxTexture / W, 6.4) * 0.98)), scale = F2 / F;
+  const sc = document.createElement('canvas'), sg = sc.getContext('2d', { willReadFrequently: true });
+  const W2 = Math.ceil(W * scale), H2 = Math.ceil(H * scale), spread = pad * scale;
+  sc.width = W2; sc.height = H2; sg.font = `600 ${F2}px ${FONT}`; sg.letterSpacing = `${-0.055 * F2}px`; sg.textBaseline = 'alphabetic'; sg.fillStyle = '#fff';
+  sg.fillText(WORD, ox * scale, oy * scale);
+  const sid = sg.getImageData(0, 0, W2, H2), sd = sid.data, cov = new Float32Array(W2 * H2);
+  for (let i = 0; i < cov.length; i++) cov[i] = sd[i * 4 + 3] / 255;
+  const t0 = performance.now(), dist = signedDistance(cov, W2, H2, spread);
+  if (performance.measure) try { performance.measure('assembl-mask-sdf', { start: t0, detail: { width: W2, height: H2 } }); } catch (e) { /* older browsers */ }
+  for (let i = 0; i < cov.length; i++) { sd[i * 4] = sd[i * 4 + 1] = sd[i * 4 + 2] = dist[i]; sd[i * 4 + 3] = 255; }
+  sg.putImageData(sid, 0, 0);
   const lx = ox + mb.width + (ml.actualBoundingBoxRight - ml.actualBoundingBoxLeft) / 2, ly = oy - ml.actualBoundingBoxAscent * 0.5;
   // quarter-size fields for the glass: red is the rounded bevel, green a wide glow
   const bw = Math.ceil(W * q), bh = Math.ceil(H * q), mkc = () => { const k = document.createElement('canvas'); k.width = bw; k.height = bh; return k; };
@@ -144,14 +186,15 @@ function makeMask() {
     for (const [u0, u1, y0, y1, k] of MOD[ch] || MOD.s) { lg.fillStyle = GLASS[k]; lg.fillRect(x0 + u0 * w, Y[y0], (u1 - u0) * w, Y[y1] - Y[y0]); }
     tg.drawImage(lc, 0, 0);
   }
-  const tex = new THREE.CanvasTexture(c), bevel = new THREE.CanvasTexture(bc), tint = new THREE.CanvasTexture(tc);
-  return { tex, bevel, tint, texel: [1 / bw, 1 / bh], base: (pad + des) / H, aspect: W / H, ink: (asc + des) / W, ax: lx / W, ay: 1 - ly / H };
+  const tex = new THREE.CanvasTexture(sc), bevel = new THREE.CanvasTexture(bc), tint = new THREE.CanvasTexture(tc);
+  // aa: distance-field units per horizontal uv unit, so the shader can size its edge to one screen pixel at any zoom
+  return { tex, bevel, tint, texel: [1 / bw, 1 / bh], base: (pad + des) / H, aspect: W / H, ink: (asc + des) / W, ax: lx / W, ay: 1 - ly / H, aa: W2 / (2 * spread) };
 }
 
 const FS_VS = `varying vec2 vUv; void main(){ vUv = position.xy*0.5 + 0.5; gl_Position = vec4(position.xy, 0.0, 1.0); }`;
 const PLATE_FS = `varying vec2 vUv;
 uniform sampler2D tPlate, tPoster, tMask, tBevel, tTint;
-uniform float uHas, uPosterAspect, uPlateMix, uAspect, uPlateAspect, uZoom, uExp, uCon, uSat, uSplit, uDuo, uVig, uKW, uKA, uKS, uKOn, uKLine, uKBase, uGlass, uTime, uAur, uStar, uPaua;
+uniform float uHas, uPosterAspect, uPlateMix, uAspect, uPlateAspect, uZoom, uExp, uCon, uSat, uSplit, uDuo, uVig, uKW, uKA, uKS, uKOn, uKLine, uKBase, uGlass, uTime, uAur, uStar, uPaua, uKAa;
 uniform vec2 uPtr, uRes, uKC, uKAnchor, uBT; uniform vec3 uSh, uHi, uField;
 vec3 sl(vec3 b, vec3 s){ return mix(2.0*b*s + b*b*(1.0 - 2.0*s), sqrt(max(b, 0.0))*(2.0*s - 1.0) + 2.0*b*(1.0 - s), step(0.5, s)); }
 vec3 dusk(vec2 uv){
@@ -226,8 +269,10 @@ void main(){
     vec2 sp = vUv*uRes, size = vec2(uKW, uKW/uKA), A = uKC + (uKAnchor - 0.5)*size;
     vec2 m2 = (A + (sp - A)/uKS - uKC)/size + 0.5, rl = 2.4/(size*uKS), ex = vec2(uBT.x, 0.0), ey = vec2(0.0, uBT.y);
     float inb = step(0.0, m2.x)*step(m2.x, 1.0)*step(0.0, m2.y)*step(m2.y, 1.0);
-    float m = texture2D(tMask, m2).a*inb, dl = 0.0;
-    for (int i = 0; i < 8; i++){ vec2 o = vec2(cos(float(i)*0.7854), sin(float(i)*0.7854)); dl = max(dl, texture2D(tMask, m2 + o*rl).a); }
+    // the mask is a signed distance field: cover one screen pixel either side of the edge, however far the view has flown in
+    float px = uKAa/(uKW*uKS);
+    float m = smoothstep(0.5 - 0.7*px, 0.5 + 0.7*px, texture2D(tMask, m2).r)*inb, dl = 0.0;
+    for (int i = 0; i < 8; i++){ vec2 o = vec2(cos(float(i)*0.7854), sin(float(i)*0.7854)); dl = max(dl, smoothstep(0.5 - 0.7*px, 0.5 + 0.7*px, texture2D(tMask, m2 + o*rl).r)); }
     dl *= inb;
     vec2 bv = texture2D(tBevel, m2).rg*inb;
     vec2 g = vec2(texture2D(tBevel, m2 + ex).r - texture2D(tBevel, m2 - ex).r, texture2D(tBevel, m2 + ey).r - texture2D(tBevel, m2 - ey).r)*inb;
@@ -434,7 +479,7 @@ async function mount(canvas, opts = {}) {
   const PL = { tPoster: { value: null }, uPosterAspect: { value: 16 / 9 }, uPlateMix: { value: 1 }, tPlate: { value: null }, tMask: { value: null }, uHas: { value: 0 }, uAspect: { value: 1 }, uPlateAspect: { value: 16 / 9 }, uZoom: { value: 1.05 }, uPtr: G.uPtr, uRes: { value: new THREE.Vector2(2, 2) },
     // field: deep plum #240B21 (was 0.105, 0.032, 0.095, about #1B0818, which read as black once the vignette landed on it); opts.field overrides
     uExp: { value: 1 }, uCon: { value: 1 }, uSat: { value: 1 }, uSplit: { value: 0 }, uDuo: { value: 0 }, uVig: { value: 0 }, uSh: { value: new THREE.Vector3(0.5, 0.5, 0.5) }, uHi: { value: new THREE.Vector3(0.5, 0.5, 0.5) }, uField: { value: new THREE.Vector3(...(opts.field || [0.141, 0.043, 0.129])) },
-    uKC: { value: new THREE.Vector2() }, uKAnchor: { value: new THREE.Vector2(0.5, 0.5) }, uKW: { value: 1 }, uKA: { value: 3.6 }, uKS: { value: 1 }, uKOn: { value: 0 }, uKLine: { value: opts.outline === false ? 0 : typeof opts.outline === 'number' ? opts.outline : 1 },
+    uKC: { value: new THREE.Vector2() }, uKAnchor: { value: new THREE.Vector2(0.5, 0.5) }, uKW: { value: 1 }, uKA: { value: 3.6 }, uKS: { value: 1 }, uKOn: { value: 0 }, uKAa: { value: 1 }, uKLine: { value: opts.outline === false ? 0 : typeof opts.outline === 'number' ? opts.outline : 1 },
     tBevel: { value: null }, tTint: { value: null }, uBT: { value: new THREE.Vector2(0.001, 0.001) }, uKBase: { value: 0.08 }, uGlass: { value: opts.glass === false ? 0 : 1 }, uTime: G.uTime, uAur: { value: 0 }, uStar: { value: 0 }, uPaua: { value: 0 } };
   const plate = opts.plate || null;
   let plateTex = null, plateDirty = true;
@@ -445,8 +490,8 @@ async function mount(canvas, opts = {}) {
   const posterTex = poster ? new THREE.Texture(poster) : null;
   const hasPoster = () => poster && poster.complete && poster.naturalWidth;
   let posterUploaded = false, videoBlend = 1;
-  const mask = opts.knock === false ? null : makeMask();
-  if (mask) { PL.tMask.value = mask.tex; PL.tBevel.value = mask.bevel; PL.tTint.value = mask.tint; PL.uBT.value.set(...mask.texel); PL.uKBase.value = mask.base; PL.uKA.value = mask.aspect; PL.uKAnchor.value.set(mask.ax, mask.ay); PL.uKOn.value = 1; }
+  const mask = opts.knock === false ? null : makeMask(Math.min(renderer.capabilities.maxTextureSize || 4096, narrow0 ? 2048 : 4096));
+  if (mask) { PL.uKAa.value = mask.aa; PL.tMask.value = mask.tex; PL.tBevel.value = mask.bevel; PL.tTint.value = mask.tint; PL.uBT.value.set(...mask.texel); PL.uKBase.value = mask.base; PL.uKA.value = mask.aspect; PL.uKAnchor.value.set(mask.ax, mask.ay); PL.uKOn.value = 1; }
   const sky = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({ uniforms: PL, vertexShader: FS_VS, fragmentShader: PLATE_FS, depthWrite: false, depthTest: false }));
   sky.frustumCulled = false; sky.renderOrder = -1; scene.add(sky);
 
