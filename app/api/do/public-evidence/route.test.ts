@@ -1,0 +1,12 @@
+import { beforeEach, expect, it, vi } from 'vitest';
+const m = vi.hoisted(() => ({owner:vi.fn(),origin:vi.fn(),admit:vi.fn(),read:vi.fn()}));
+vi.mock('@/apps/do/services/owner',()=>({doOwner:m.owner,sameDoOrigin:m.origin,privateDoHeaders:{'Cache-Control':'no-store'}}));
+vi.mock('@/apps/do/shared/http',()=>({readDoJson:(r:Request)=>r.json(),admitDoRequest:m.admit}));
+vi.mock('@/lib/public-nz/evidence-tool',()=>({readPublicNzEvidence:m.read}));
+import { POST } from './route';
+const req=(body:unknown)=>new Request('https://assembl.co.nz/api/do/public-evidence',{method:'POST',body:JSON.stringify(body)});
+beforeEach(()=>{vi.resetAllMocks();vi.stubEnv('DO_GEMINI_LIVE_ENABLED','true');m.origin.mockReturnValue(true);m.owner.mockResolvedValue({id:'owner'});m.admit.mockReturnValue(true);m.read.mockResolvedValue({status:'unavailable',sources:[]});});
+it('requires origin and owner before retrieval',async()=>{m.origin.mockReturnValue(false);expect((await POST(req({}))).status).toBe(403);m.origin.mockReturnValue(true);m.owner.mockResolvedValue(null);expect((await POST(req({}))).status).toBe(401);expect(m.read).not.toHaveBeenCalled();});
+it('rejects missing consent, private text and arbitrary source URLs',async()=>{for(const body of [{topic:'parliament'},{topic:'parliament',consent:true,query:'private'},{topic:'https://example.com',consent:true}])expect((await POST(req(body))).status).toBe(400);expect(m.read).not.toHaveBeenCalled();});
+it('preserves disabled and rate-limited boundaries',async()=>{vi.stubEnv('DO_GEMINI_LIVE_ENABLED','false');expect((await POST(req({topic:'parliament',consent:true}))).status).toBe(503);vi.stubEnv('DO_GEMINI_LIVE_ENABLED','true');m.admit.mockReturnValue(false);expect((await POST(req({topic:'parliament',consent:true}))).status).toBe(429);expect(m.read).not.toHaveBeenCalled();});
+it('returns a truthful unavailable result without paid calls',async()=>{const res=await POST(req({topic:'parliament',consent:true}));expect(res.status).toBe(200);expect(await res.json()).toEqual({status:'unavailable',sources:[]});expect(res.headers.get('cache-control')).toBe('no-store');});

@@ -65,6 +65,10 @@ This section is the current, scoped delivery record. Durable direction is in [as
 
 ## Earlier dated operating context
 
+## 14 October: generative assembly studio
+
+One studio at `/creative-studio/generate`, reached from the Studio door. The playground and the older static studio redirect to it (query strings kept). The homepage tide engine is mounted as the first family, Assembly: twelve species (tara, kererū, pīwakawaka, tūī, kōtuku, tākapu, tāmure, kahawai, aihe, starling, corvid, plankton) assembling any of the twelve assembl shapes or a typed word, on plum, paper or chalk. Stills and MP4, WebM and GIF loops are rendered in the browser with a fixed step and stamped once with the wordmark and a receipt line (family, species, formation, seed). Every family now draws only canon colours (329 values regraded, attractor hues replaced, 87 preset names changed, ids kept). No third-party service by default: the static studio and its external image service are unreachable, and Chrome and Waves light from a local HDR. The engine changes leave the homepage pixel-identical. Not yet: the static studio's other engines, real-hardware export timing. Details in `docs/design/generative-assembly.md`.
+
 ## 14 October: hero edge and pre-ready composition
 
 After the second pass went live, Kate's capture showed a soft, stepped wordmark edge during the fly-through, the footage landing full-frame before the plum field, and soft footage. Fixed in code: the knockout mask is now a signed distance field (up to 4096 px wide) with a one-screen-pixel edge at any zoom, and the pre-ready layer is the plum field with the poster's horizon inside the HTML wordmark, so the handoff is plum to plum. Not fixable in code: the clip is a 1280 × 720 generation drawn at up to 2880 × 1800; a higher-resolution source (AI upscale, needing credits, or a fresh generation at 1080p or above) is Kate's call. Details in `docs/design/direction-4c/README.md`.

@@ -8,11 +8,11 @@ export interface ChladniPalette {
 }
 
 export const CHLADNI_PALETTES: Record<string, ChladniPalette> = {
-  paper:  { ground: '#F5F1E8', plate: '#F5F1E8', sand: '#231F1B', edge: '#8A8678' },
-  ink:    { ground: '#0F1116', plate: '#141821', sand: '#F5F1E8', edge: '#4A4A55' },
-  metal:  { ground: '#DCDDE0', plate: '#DCDDE0', sand: '#2A3038', edge: '#8A93A0' },
-  brass:  { ground: '#F7EBCF', plate: '#F7EBCF', sand: '#5C3212', edge: '#B08A4A' },
-  midnight:{ ground: '#101319', plate: '#151A22', sand: '#79A6B2', edge: '#3C7FA0' },
+  paper:  { ground: '#F5F0EF', plate: '#F5F0EF', sand: '#2E152A', edge: '#91808A' },
+  ink:    { ground: '#2A1025', plate: '#2E1428', sand: '#F5F0EF', edge: '#594353' },
+  metal:  { ground: '#E1DBDD', plate: '#E1DBDD', sand: '#3E2639', edge: '#9D8D95' },
+  brass:  { ground: '#EAE1E0', plate: '#EAE1E0', sand: '#523343', edge: '#A3898F' },
+  midnight:{ ground: '#2B1126', plate: '#2D1328', sand: '#AA989E', edge: '#896E77' },
 };
 
 const SLIDERS = [
@@ -30,9 +30,9 @@ const PRESETS: FamilyPreset[] = [
     defaults: { m: 4, n: 6, blend: 0.35, contrast: 1.7, grain: 0.25 } },
   { id: 'metal',    label: 'Steel',          blurb: 'physics-textbook plate',        sliders: SLIDERS,
     defaults: { m: 5, n: 4, blend: 0.20, contrast: 1.8, grain: 0.35 } },
-  { id: 'brass',    label: 'Brass Plate',    blurb: 'warm brass with dark sand',     sliders: SLIDERS,
+  { id: 'brass',    label: 'Rose Plate',    blurb: 'warm rose plate, dark sand',     sliders: SLIDERS,
     defaults: { m: 6, n: 3, blend: 0.30, contrast: 1.5, grain: 0.30 } },
-  { id: 'midnight', label: 'Midnight',       blurb: 'teal ripples on ink',           sliders: SLIDERS,
+  { id: 'midnight', label: 'Midnight',       blurb: 'dusty rose ripples on deep plum',           sliders: SLIDERS,
     defaults: { m: 7, n: 5, blend: 0.40, contrast: 1.9, grain: 0.28 } },
 ];
 
@@ -40,7 +40,7 @@ export const CHLADNI_FAMILY: Family = {
   id: 'chladni',
   label: 'Chladni',
   blurb: 'physics — sand on a vibrating plate, live in a shader',
-  ground: '#F5F1E8',
+  ground: '#F5F0EF',
   presets: PRESETS,
   supportsPngDownload: true,
   supportsSvgDownload: false,

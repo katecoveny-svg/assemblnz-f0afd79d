@@ -12,8 +12,8 @@ function harness() {
  sidePanel:{setPanelBehavior:async(v:unknown)=>{behavior.push(v);},open:async(v:unknown)=>{opens.push(v);}},
  tabs:{query:async(q:{active?:boolean})=>q.active?[{...selected,...(grant?{url:fixture}:{})}]:[{id:19,url:'https://www.assembl.co.nz/do/personal'}],onUpdated:{addListener:()=>{}},onRemoved:{addListener:()=>{}}},
  scripting:{executeScript:async()=>{effects++;throw new Error('No read expected');}}};
- const context=vm.createContext({chrome,Number,globalThis:null,importScripts:()=>{}});context.globalThis=context;
- context.DoTaskConnection={ConnectionBroker:Broker,isFixtureUrl:(s:string)=>s===fixture,isWorkspaceUrl:(s:string)=>s==='https://www.assembl.co.nz/do/personal'};
+ const context=vm.createContext({chrome,Number,indexedDB:{},globalThis:null,importScripts:()=>{}});context.globalThis=context;
+ context.DoTaskConnection={ConnectionBroker:Broker,LocalMutationJournal:{resume:async()=>null},isFixtureUrl:(s:string)=>s===fixture,isWorkspaceUrl:(s:string)=>s==='https://www.assembl.co.nz/do/personal'};
  vm.runInContext(readFileSync('apps/do/extension/browser-task-worker.js','utf8'),context);
  vm.runInContext(readFileSync('apps/do/extension/pilot/worker.js','utf8'),context);
  return{behavior,opens,get effects(){return effects;},select:(v:typeof selected)=>{selected=v;},click:()=>{grant=true;action?.({...selected,url:fixture});},

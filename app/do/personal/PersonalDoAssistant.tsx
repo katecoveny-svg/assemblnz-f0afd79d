@@ -24,7 +24,7 @@ function lastExchange(turns: ConversationTurn[]): PersonalAssistantInput['histor
 
 /** Mount with the verified owner scope as the React key; never persist conversation across accounts. */
 export type PersonalAssistantWork = { dirty: boolean; exportText: string };
-export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, onBrowserDraft, returnTo = "/do" }: { onBrowserDraft?: (text: string) => boolean; returnTo?: "/do" | "/do/household"; profile?: PersonalDoProfile; onWorkingChange?: (working: boolean) => void; onWorkChange?: (work: PersonalAssistantWork) => void }) {
+export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, onBrowserDraft, returnTo = "/do", conversation, attachedContext, focusRequest = 0 }: { focusRequest?: number; conversation?: { turns: ConversationTurn[]; change: (turns: ConversationTurn[]) => void }; attachedContext?: { text: string; revision: number }; onBrowserDraft?: (text: string) => boolean; returnTo?: "/do" | "/do/household" | "/do/widget"; profile?: PersonalDoProfile; onWorkingChange?: (working: boolean) => void; onWorkChange?: (work: PersonalAssistantWork) => void }) {
   const [message, setMessage] = useState('');
   const [context, setContext] = useState('');
   const [consent, setConsent] = useState(false);
@@ -44,11 +44,24 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, on
   const kept = useKeptConversations();
   const [keep, setKeep] = useState(false);
   const [active, setActive] = useState<ActiveConversation | null>(null);
-  const [transcript, setTranscript] = useState<ConversationTurn[]>([]);
+  const [localTranscript, setLocalTranscript] = useState<ConversationTurn[]>([]);
+  const transcript = conversation?.turns ?? localTranscript;
+  const setTranscript = conversation?.change ?? setLocalTranscript;
+  useLayoutEffect(() => {
+    if (!attachedContext) return;
+    // Revoke the previous provider consent before an attached snapshot can be submitted.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setContext(attachedContext.text); setConsent(false); setReviewOpen(false);
+  }, [attachedContext]);
   const attempt = useRef<{ body: string; id: string } | null>(null);
   const request = useRef<AbortController | null>(null);
   const statusRequest = useRef<AbortController | null>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  useEffect(() => {
+    if (!focusRequest) return;
+    const frame = requestAnimationFrame(() => { if (!inputRef.current?.closest('[hidden]')) inputRef.current?.focus(); });
+    return () => cancelAnimationFrame(frame);
+  }, [focusRequest]);
   const consentRef = useRef<HTMLInputElement>(null);
   const resultRef = useRef<HTMLHeadingElement>(null);
   // Focus only a newly committed reply, never a later draft edit or parent render.
@@ -137,7 +150,7 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, on
     setError(''); setNotice('');
     if (!message.trim()) { inputRef.current?.focus(); return; }
     if (!reviewOpen || !consent) { setReviewOpen(true); requestAnimationFrame(() => consentRef.current?.focus()); return; }
-    const history: PersonalAssistantInput['history'] = result ? [
+    const history: PersonalAssistantInput['history'] = result && transcript.at(-1)?.text === result.reply ? [
       { role: 'user', text: lastMessage },
       { role: 'assistant', text: [result.reply, draft].filter(Boolean).join('\n\n') },
     ] : lastExchange(transcript);
@@ -186,8 +199,8 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, on
   }
 
   return <section className={styles.panel} aria-label={`Ask ${profile?.displayName ?? 'DO'}`} aria-busy={working}>
-    {!result && transcript.length > 0 && <div className={styles.exchange} aria-label="Kept conversation">
-      {transcript.length > 6 && <p className={styles.keptMeta}>Earlier messages are kept too; the last six are shown.</p>}
+    {(!result || conversation) && transcript.length > 0 && <div className={styles.exchange} aria-label="Conversation">
+      {transcript.length > 6 && <p className={styles.keptMeta}>The last six messages are shown. Keeping on your account is a separate choice.</p>}
       {transcript.slice(-6).map((turn, index) => turn.role === 'user'
         ? <p key={index} className={styles.userMessage}>{turn.text}</p>
         : <div key={index} className={styles.response}><p className={styles.reply}>{turn.text}</p>{turn.draft && <details className={styles.evidence}><summary>{turn.label ?? 'Draft from that reply'} <ChevronDown size={14} /></summary><p className={styles.reply}>{turn.draft}</p></details>}</div>)}
@@ -216,6 +229,19 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, on
     </div>}
     {result?.officialSourcesRequested && <details className={styles.notes}><summary>Official references checked for this request</summary>{result.officialSources?.length ? result.officialSources.map(source => <article key={source.citation}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a><p>{source.status || 'Status not provided'}{source.stage ? ` · ${source.stage}` : ''}</p><p>{source.excerpt}</p><p>Checked {source.verifiedAt}. Introduction: {source.introducedAt || 'unknown'}. Stage activity: {source.activityAt || 'unknown'}. Original publication unknown. A bill is not necessarily enacted law; recheck at the source.</p></article>) : <p>No fresh verified Parliament evidence was available for this request. Discovery links do not establish current facts.</p>}</details>}
     {transcript.length + 2 > CONVERSATION_TURN_LIMIT && <p className={styles.keptMeta} role="status">This conversation has reached its {CONVERSATION_TURN_LIMIT}-message limit. Saved messages stay on your account. <button type="button" onClick={clearConversation} disabled={working}>Start a new conversation</button></p>}
+    {conversation && transcript.length > 0 && kept.storage === 'account' && <details className={styles.notes}>
+      <summary>Keep this conversation across devices</summary><p>{CONVERSATION_NOTICE}</p>
+      <button type="button" disabled={working} onClick={async () => {
+        if (lock.current) return;
+        lock.current = true; setWorking(true); workingCallback.current?.(true);
+        try {
+          const saved = await kept.keep(active, transcript);
+          if (!alive.current) return;
+          if (saved.ok) { setActive(saved.active); setKeep(true); setNotice('Conversation kept on your account.'); }
+          else setNotice(`Not kept: ${saved.error}`);
+        } finally { lock.current = false; if (alive.current) { setWorking(false); workingCallback.current?.(false); } }
+      }}>Keep these reviewed messages</button>
+    </details>}
     <form onSubmit={event => void submit(event)}>
       <label className={styles.inputLabel} htmlFor="personal-assistant-input">{result ? 'What would help next?' : 'What would you like done?'}</label>
       <textarea ref={inputRef} id="personal-assistant-input" data-do-primary-input value={message} maxLength={4000} rows={3} disabled={working} placeholder="e.g. Prepare a reply to my property manager" onChange={event => { setMessage(event.target.value); setConsent(false); setNotice(''); }} />

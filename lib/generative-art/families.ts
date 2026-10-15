@@ -1,6 +1,7 @@
 import type { BackgroundId } from './backgrounds';
+import type { LoopFormat } from './loop-export';
 
-export type FamilyId = 'line' | 'chrome' | 'flow' | 'constellation' | 'grid' | 'waves' | 'reaction' | 'boids' | 'attractors' | 'growth' | 'chladni' | 'verlet' | 'marble' | 'terrain' | 'sandpile' | 'ripples' | 'dla' | 'orbit';
+export type FamilyId = 'line' | 'chrome' | 'flow' | 'constellation' | 'grid' | 'waves' | 'reaction' | 'boids' | 'attractors' | 'growth' | 'chladni' | 'verlet' | 'marble' | 'terrain' | 'sandpile' | 'ripples' | 'dla' | 'orbit' | 'assembly';
 
 export interface SliderSpec {
   key: string;
@@ -10,6 +11,20 @@ export interface SliderSpec {
   step: number;
   /** Return the display string for the current value. */
   format?: (value: number) => string;
+  /** Named choices: the value is the index, drawn as chips instead of a range. */
+  options?: string[];
+}
+
+/** A loop export request from the shell. `stamp` adds the wordmark and receipt to each finished frame. */
+export interface LoopExportOptions {
+  format: LoopFormat;
+  width: number;
+  height: number;
+  seconds: number;
+  fps: number;
+  stamp: (ctx: CanvasRenderingContext2D, width: number, height: number) => void;
+  onProgress?: (done: number, total: number) => void;
+  signal?: AbortSignal;
 }
 
 export interface FamilyPreset {
@@ -52,6 +67,8 @@ export interface RendererProps {
      * current sim because the trails ARE the current sim.
      */
     renderAtSize?: (width: number, height: number) => Promise<Blob | null>;
+    /** Render a loop frame by frame (families with `supportsLoop`). */
+    loop?: (options: LoopExportOptions) => Promise<Blob>;
   }) => void;
 }
 
@@ -68,6 +85,8 @@ export interface Family {
   supportsBackground?: boolean;
   /** True when the family weaves a text string into the composition. */
   supportsText?: boolean;
+  /** True when the family can export MP4, WebM and GIF loops. */
+  supportsLoop?: boolean;
 }
 
 export function getPreset(family: Family, id: string): FamilyPreset {

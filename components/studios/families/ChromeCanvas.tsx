@@ -214,7 +214,7 @@ export function ChromeCanvas({ presetId, values, seed, onExportersReady }: Rende
       ref={canvasHostRef}
       className="relative mx-auto ga-canvas w-full overflow-hidden rounded-[3px] border border-[color:var(--assembl-cloud)]"
       style={{
-        background: `radial-gradient(circle at 45% 40%, ${palette.ground}FF 0%, ${palette.ground} 55%, #DADCDE 100%)`,
+        background: `radial-gradient(circle at 45% 40%, ${palette.ground}FF 0%, ${palette.ground} 55%, #E0DADB 100%)`,
       }}
     >
       <Canvas
@@ -227,10 +227,10 @@ export function ChromeCanvas({ presetId, values, seed, onExportersReady }: Rende
       >
         <Suspense fallback={null}>
           <ambientLight intensity={0.55} />
-          <directionalLight position={[3, 4, 3]} intensity={1.4} color="#FFFFFF" />
-          <directionalLight position={[-4, 2, -3]} intensity={0.9} color="#E7F0FF" />
-          <directionalLight position={[0, -3, 2]} intensity={0.5} color="#FFF3E7" />
-          <Environment preset="studio" background={false} />
+          <directionalLight position={[3, 4, 3]} intensity={1.4} color="#FFFDFB" />
+          <directionalLight position={[-4, 2, -3]} intensity={0.9} color="#F3EDEC" />
+          <directionalLight position={[0, -3, 2]} intensity={0.5} color="#F4EEED" />
+          <Environment files="/brand/watch/studio-lighting-final.hdr" background={false} />
           <Piece
             shape={shape}
             palette={palette}

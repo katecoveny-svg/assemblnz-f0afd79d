@@ -183,9 +183,9 @@ export function WavesCanvas({ presetId, values, seed, background, onAdjust, onEx
       >
         <Suspense fallback={null}>
           <ambientLight intensity={0.5} />
-          <directionalLight position={[3, 5, 2]} intensity={1.2} color="#FFFFFF" />
-          <directionalLight position={[-3, 3, -2]} intensity={0.6} color="#E7F0FF" />
-          <Environment preset="studio" background={false} />
+          <directionalLight position={[3, 5, 2]} intensity={1.2} color="#FFFDFB" />
+          <directionalLight position={[-3, 3, -2]} intensity={0.6} color="#F3EDEC" />
+          <Environment files="/brand/watch/studio-lighting-final.hdr" background={false} />
           <Sheet palette={palette} amp={amp} freq={freq} speed={speed} tilt={tilt} roughness={roughness} seed={seed} />
         </Suspense>
       </Canvas>

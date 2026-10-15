@@ -11,38 +11,7 @@ const MAC_VERSION = versions.mac;
 const WIDGET_VERSION = versions.widget;
 const EXTENSION_ROOT = path.join(process.cwd(), 'apps/do/extension');
 const MACOS_ROOT = path.join(process.cwd(), 'apps/do/macos');
-/** Keep in sync with scripts/package-do-downloads.mjs. */
-export const EXTENSION_FILES = [
-  'manifest.json',
-  'background.js',
-  'sidepanel.html',
-  'sidepanel.js',
-  'sidepanel.css',
-  'portable.html',
-  'portable-worker.js',
-  'portable-core.js',
-  'portable-background.js',
-  'portable-launcher.js',
-  'portable.css',
-  'browser-capability.js',
-  'browser-connection.html',
-  'browser-connection.js',
-  'browser-connection.css',
-  'browser-task-core.js',
-  'browser-task-worker.js',
-  'browser-task-relay.js',
-  'icons/do-glass.webp',
-  'floating.js',
-  'selection-badge.js',
-  'popup.html',
-  'popup.js',
-  'popup.css',
-  'icons/icon16.png',
-  'icons/icon32.png',
-  'icons/icon48.png',
-  'icons/icon128.png',
-  'icons/do-spark.svg',
-] as const;
+import { EXTENSION_FILES } from '@/apps/do/shared/extension-files';
 
 async function addDir(zip: JSZip, dir: string, prefix: string) {
   for (const entry of await readdir(dir, { withFileTypes: true })) {

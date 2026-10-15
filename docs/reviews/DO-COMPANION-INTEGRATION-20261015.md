@@ -1,0 +1,57 @@
+# DO companion integration — local review, 15 October
+
+Extends and preserves candidate `77499345232d99e0d23238efec5390c3c8148355` on `codex/do-selected-tab-foundation-20261015`. Voice owner commits `93b384c29` and `d444b109a` imported locally as `ea9dce009` and `c9be5a2e3`. Nothing pushed, installed, activated or deployed. Recovery worktree and installed extension untouched.
+
+## Review the result
+
+Open [preview index](do-companion-local/index.html), [shared work board](do-companion-local/shared-board.html), [call consent](do-companion-local/voice-options.html), [resumed call](do-companion-local/voice-connected.html), or [conversation](do-companion-local/preview.html). These are static renders of actual components with controlled fixtures, clearly labelled. No real screenshot, audio or browser rendering proof is claimed. The 375px review frame is a layout aid, not mobile browser acceptance.
+
+Reviewable MV3 package: [selected-tab-extension](do-companion-local/selected-tab-extension/manifest.json). Rebuild with `node scripts/build-do-selected-tab.cjs`. It is a separate read-only candidate; fictional cart mutation pilot remains isolated and unchanged. Do not open its panel as an ordinary web preview: it contains the real hosted workspace iframe.
+
+## Completion matrix
+
+| Capability | Local implementation and proof | Remaining runtime gate |
+|---|---|---|
+| Visible browser image snapshot | Actual `captureVisibleTab` binding; toolbar grant, selected document, owner, 60s expiry, before/after checks; preview then attach to existing image consent flow. Browser API fixtures exercise worker. | Candidate install and isolated browser test require permission; receiver must be served from this candidate. No installed proof. |
+| Selected text | Fixed isolated-world reader, exact selection offsets, private/form/hidden/offscreen rejection, no script parameters, origin-only provenance and strict bounded evidence. | Browser restrictions/unsupported documents fail unavailable. No retailer integration. |
+| Screen/window image | Existing `getDisplayMedia({video:true,audio:false})` picker takes one frame, stops tracks, then asks provider consent. Source iframe delegation now includes `display-capture` only for Assembl origin. | Browser/embedding policy and OS chooser permission; native Mac screen-capture support not exercised. This is not ambient desktop access. |
+| Voice + typing | One mounted conversation; typed call messages use the same socket/audio path; transcript continues in text mode. | Audible input/output, NZ accent, interruption and cross-talk remain unverified here; Kate's NZ drift report remains failed acceptance. |
+| Longer call + resume | Default-off owner lease API integrated; quoted 5/10/15min explicit consent, same token/config and absolute deadline; server-approved resume, max2 attempts, consumed memory-only handles, no replay/reacquisition. | Ledger SQL proposal unapplied, per-owner allocation/config unset, provider test absent. Direct browser token revocation cannot forcibly terminate a malicious client; see voice owner report. |
+| Floating controls | Existing frame retained across Write/Talk/minimise; hiding, offline, owner unmount ends voice; movement tests retained. | Native/Chromium interruption test awaits unlock and approval. |
+| Shared work board | Brief/decisions, canonical master reference, existing owner-scoped Office task list, receipts/results/activity; actual backend reuse, no parallel datastore. | Actual Office tables/config and signed-in cross-device read/write have not been tested. |
+| Internal specialist | DO Clear's existing deterministic function actually runs through new bounded endpoint; existing Office job/events/result receipt, idempotent result and source-conflict checks. | Runtime requires existing Office storage. No provider credentials needed for Clear; tests use controlled storage. Not general reasoning, research, coding or a model-backed worker. |
+| Builder delegation | Explicit saved plan, only server receipt acknowledges acceptance; no claim that saving starts a worker. | Execution harness not connected through this path. |
+| Codex / Claude | Codex copyable brief + manually reviewed result linked by handoff ID; no automatic assistant loop. | No DO connection to this desktop conversation or Claude. Native supported bridge and authenticated pairing still needed. |
+| Cross-device continuity | Existing opt-in kept conversations and Office owner APIs reused. Phone uses responsive web + image upload/share route. | Live saved-turn/receipt availability and account isolation across devices need acceptance tests. No universal app access or automatic whole-history sync. |
+
+## Capture permission and data boundary
+
+Manifest permissions exactly equal pilot source: `activeTab`, `scripting`, `sidePanel`; host permission remains `https://www.assembl.co.nz/*`. No `tabs`, `<all_urls>`, `desktopCapture`, cookie access or new native grant. New panel/background files replace candidate entrypoints only. Iframe source delegation adds `display-capture https://www.assembl.co.nz`; browser chooser and top-level Permissions Policy still govern access. Microphone remains separately consented. Source permission changes do not modify installed grants.
+
+Click toolbar once on the signed-in first-party DO workspace to register its exact document and authenticated owner. On the chosen ordinary HTTP(S) page, click toolbar, then choose **Snapshot visible page** or **Snapshot selected text**. The panel renders scope/expiry and local evidence. **Offer to conversation** rechecks the binding; DO verifies owner/provenance/age, displays the offered content, and requires separate provider permission. An image may contain visible personal information: the capture UI says so before capture. Image understanding uses the existing explicitly consented vision route; its observations can be attached to typed/voice context after review.
+
+Only the active tab is queried; one explicitly registered first-party document is queried for account identity. No background tab discovery/content scan. URLs in released evidence omit path/query/fragment. Page material is untrusted reference. Unsupported internal pages, frames, forms/text selections, missing identity/status, browser capture restrictions and stale navigation fail closed. No real shopping, Air NZ, appointment or page mutation support is claimed.
+
+## Shared work and master
+
+Canonical reference supplied and verified by document owner: `/DO delivery/DO-master-working-handover-2026-10-13.md`, Library ID `libfile_018ba3e0f6388191b53afc80a188460f`, version18. The board links [the existing Library handover](https://chatgpt.com/api/library/files/libfile_018ba3e0f6388191b53afc80a188460f/download). It does not read, replace or sync that document. Its reference is saved in the task scope. No competing master created.
+
+Voice transcript and typed conversation can be brought into the same editable handoff context. Destination and exact brief are reviewed before any send. Builder queue acknowledgement is distinct from specialist acceptance/running/completion. Clear uses `clearHeuristics`, `saveOwnerBuilderJob`, `recordOwnerJobEvent` and `recordOwnerReceipt`; its successful result is a `note` receipt with worker/source hash/result, not a fabricated `build_succeeded` receipt. Stored job status stays a plan container. The board exposes real receipt/event records and explicitly labels deterministic work; decorative existing `DoTaskScene` artwork is never a result screenshot. No fabricated picture preview or contact log. Daily catch-up means user-triggered task/receipt refresh, not a scheduled monitor or autonomous agent access.
+
+External route recommendation: a paired Mac helper using Codex App Server's supported local transport, mapping DO task ID to its own thread/turn IDs, forwarding approval requests to the user and accepting progress/results only from correlated server events. Do not expose an unauthenticated localhost WebSocket or inject prompts into an assumed desktop thread. SDK/app-server availability is not registration, authentication or access to this particular conversation. Current product offers manual transfer while that bridge is absent.
+
+## Verification
+
+128 Vitest tests across26 suites plus18 Node contract tests pass (146 total). Includes actual worker source in a browser-API fixture; actual call/board components with mocked hooks/transport; real Clear function with controlled Office storage; existing lease/CAS/allowance/owner routes. Tests cover changed owner/document/URL, expired/cancelled capture, private selected text, image binding, narrow manifest parity, same-token reconnect, mute retention, one mic/worklet, typed-send-once, pending resume on hide, fixed deadline, durable acknowledgement, source conflict and owner isolation. These are synthetic runtime tests, not a live browser/provider/database pass.
+
+Scoped ESLint, brand guard and macron checks pass. TypeScript passed before the build attempt generated Next route types; the final full rerun fails on four generated checks for existing admin leads, DO download, Xero callback and legal data-deletion exports/props. These files were not changed by this candidate; full TypeScript is therefore a remaining gate, not a clean final pass. Turbopack compile build failed because existing dependency symlink points outside its filesystem root; no dependency installation was performed. Webpack compile-only retry also could not complete because `fonts.googleapis.com` could not resolve; it exited without a successful build. Details are in `do-companion-local/checks.txt`. Full prerender/production build and real browser/375px visual acceptance remain release gates.
+
+Exact paths: [changed files](do-companion-local/changed-files.txt). Check summaries: [checks](do-companion-local/checks.txt).
+
+## Smallest next decisions
+
+1. Review local UI/package; authorize the previously pending temporary isolated Chromium/native test after unlocking the Mac. This is separate from installation. Test first-party identity, actual selected-page image/text, cancellation, owner switch, iframe policy, mobile layout and native minimise/interruption.
+2. For longer calls, review/apply the default-off ledger proposal in a suitable test environment, configure one explicit finite account allocation, and authorize a bounded provider listening/resume test. Keep headset/Codex silent; do not call NZ consistency fixed.
+3. For genuine shared persistence, verify the existing Office storage with two owner fixtures and two devices. Clear needs that storage only. Builder code execution needs a separately reviewed execution adapter; Codex needs native bridge pairing/auth/approval routing. No deployment or account connection is authorized by this report.
+
+Sources checked: [Chrome tabs](https://developer.chrome.com/docs/extensions/reference/api/tabs), [display-capture policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Permissions-Policy/display-capture), [Google same-token resumption](https://ai.google.dev/gemini-api/docs/live-api/ephemeral-tokens), [session lifecycle](https://ai.google.dev/gemini-api/docs/live-api/session-management), [Codex App Server](https://learn.chatgpt.com/docs/app-server), [Codex SDK](https://learn.chatgpt.com/docs/codex-sdk), [Supabase RLS/grants](https://supabase.com/docs/guides/database/postgres/row-level-security). Supabase changelog markdown fetch was unavailable; no new database schema was applied.

@@ -154,7 +154,7 @@ export const BUILD_AN_AGENT = {
         id: 'marketing-studio',
         title: 'Marketing studio',
         body: 'Ads, posts and images in your own look — generated, not outsourced. The art on this page came out of it.',
-        href: '/creative-playground',
+        href: '/creative-studio/generate',
         cta: 'make something now',
       },
       {

@@ -13,6 +13,8 @@ self.onmessage=async(event:MessageEvent)=>{
   if(m.action==='boot'){
    if(m.initialize)await LocalMutationJournal.initialize(indexedDB,m.name,m.epoch);
    const journal=await LocalMutationJournal.start(indexedDB,m.name,m.epoch);
+   // Test-only cut point after the durable claim commits, before any effect.
+   if(m.pauseAfterClaim){const claim=journal.claim.bind(journal);journal.claim=async(...args)=>{const claimed=await claim(...args);if(claimed)await hostCall('claim-committed');return claimed;};}
    controller=new JournalFixtureWorker(journal,{companion:sender=>sender==='fixture-companion',owner:async()=>await hostCall('owner') as string,current:async(scope)=>await hostCall('current',scope) as boolean,adapter:{mode:'controlled_fixture',observe:async()=>await hostCall('observe') as never,setQuantity:async(scope,revision,sku,quantity)=>{await hostCall('effect',{scope,revision,sku,quantity});}}});
    postMessage({id:m.id,ok:true,value:{ready:true}});return;
   }
