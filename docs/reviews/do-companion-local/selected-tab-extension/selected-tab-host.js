@@ -242,7 +242,7 @@ var DoSelectedTab = (() => {
         supports: (url) => Boolean(this.target && url.href === this.target.url && ["https:", "http:"].includes(url.protocol) && !url.username && !url.password),
         read: async (binding, signal) => {
           if (!this.target || signal.aborted || this.target.tabId !== binding.tabId || this.target.documentId !== binding.documentId) throw new Error("Changed selection");
-          return port.read(this.target, format);
+          return port.read(this.target, format, signal);
         },
         decode: (raw) => {
           if (!raw || typeof raw !== "object" || Array.isArray(raw)) throw new Error("Unavailable");

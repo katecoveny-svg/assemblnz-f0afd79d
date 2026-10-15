@@ -6,7 +6,7 @@ export interface BrowserPort {
   active(): Promise<Tab | null>;
   identify(tabId: number): Promise<Identity>;
   owner(workspace: Identity): Promise<string | null>;
-  read(target: Identity, format?: 'text' | 'image'): Promise<unknown>;
+  read(target: Identity, format?: 'text' | 'image', signal?: AbortSignal): Promise<unknown>;
   show(status: Status): void;
 }
 export type TextEvidence = Evidence<{ text?: string; image?: string }>;
@@ -27,7 +27,7 @@ export class SelectedTabExtension {
       supports: url => Boolean(this.target && url.href === this.target.url && ['https:', 'http:'].includes(url.protocol) && !url.username && !url.password),
       read: async (binding, signal) => {
         if (!this.target || signal.aborted || this.target.tabId !== binding.tabId || this.target.documentId !== binding.documentId) throw new Error('Changed selection');
-        return port.read(this.target, format);
+        return port.read(this.target, format, signal);
       },
       decode: raw => {
         if (!raw || typeof raw !== 'object' || Array.isArray(raw)) throw new Error('Unavailable');
