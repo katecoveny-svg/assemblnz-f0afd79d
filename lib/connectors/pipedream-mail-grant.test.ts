@@ -80,9 +80,9 @@ describe('authoritative Pipedream Gmail grant metadata', () => {
     expect(await verify(owner, '../credentials', signal())).toBeNull();
     expect(ports.accounts).not.toHaveBeenCalled();
   });
-  it('wires the production verifier to fixed bounded metadata GETs with credentials excluded', async () => {
+  it.each(['true', 'false'])('verifies metadata with activation %s using fixed GETs and excluded credentials', async activation => {
     vi.resetModules();
-    vi.stubEnv('DO_PERSONAL_MAIL_READ_ENABLED', 'true');
+    vi.stubEnv('DO_PERSONAL_MAIL_READ_ENABLED', activation);
     for (const key of ['PIPEDREAM_CLIENT_ID', 'PIPEDREAM_CLIENT_SECRET', 'PIPEDREAM_PROJECT_ID', 'DO_GMAIL_OAUTH_APP_ID']) vi.stubEnv(key, 'synthetic');
     const liveTime = Date.now();
     const fresh = { ...row, expires_at: new Date(liveTime + 300_000).toISOString(), created_at: new Date(liveTime - 120_000).toISOString(), updated_at: new Date(liveTime - 60_000).toISOString() };
@@ -130,11 +130,7 @@ describe('authoritative Pipedream Gmail grant metadata', () => {
     vi.stubEnv('DO_PERSONAL_MAIL_READ_ENABLED', value);
     for (const key of ['PIPEDREAM_CLIENT_ID', 'PIPEDREAM_CLIENT_SECRET', 'PIPEDREAM_PROJECT_ID', 'DO_GMAIL_OAUTH_APP_ID']) vi.stubEnv(key, 'synthetic');
     const fetcher = vi.fn(); vi.stubGlobal('fetch', fetcher);
-    const { verifyPersonalMailGrant } = await import('@/apps/do/mail/capability');
-    const { verifyPipedreamMailGrant } = await import('./pipedream-mail-grant');
     const { doPersonalMailRead } = await import('./pipedream');
-    expect(await verifyPersonalMailGrant(owner, row.id, signal())).toBeNull();
-    expect(await verifyPipedreamMailGrant(owner, row.id, signal())).toBeNull();
     await expect(doPersonalMailRead(owner, row.id, { kind: 'search', search: { accountId: row.id, terms: 'Example Clinic', days: 7 } }, signal())).rejects.toThrow('gmail_read_unverified');
     expect(fetcher).not.toHaveBeenCalled();
   });

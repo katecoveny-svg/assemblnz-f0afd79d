@@ -9,8 +9,10 @@ linking, OAuth grant/configuration change or mailbox write was performed.
 
 The local follow-up implements a server-only Pipedream account-metadata verifier.
 `DO_PERSONAL_MAIL_READ_ENABLED` defaults off: review deployments keep it unset or
-false. Only separately approved activation allows verification to proceed, and the
-flag never replaces effective grant evidence or explicit read consent.
+false. Metadata-only verification runs independently of this switch. A verified
+grant with reading disabled reports `activation_off`; missing or invalid evidence
+reports `gmail_read_unverified`. Both gateway and transport require activation
+before mailbox access; the flag never replaces grant evidence or read consent.
 The documented `authorized_scopes` field represents scopes effectively granted to
 that account; `expires_at` represents credential expiry. Requests explicitly exclude
 credentials. Missing fields, broad scopes, expired credentials, unknown health,

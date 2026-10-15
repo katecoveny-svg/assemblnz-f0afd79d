@@ -245,7 +245,7 @@ export async function doPersonalMailRead(owner: string, accountId: string, opera
   const url = Buffer.from(`https://gmail.googleapis.com/gmail/v1/users/me/${path}`).toString('base64url');
   const result = await pd(cfg, 'GET', `/connect/${cfg.projectId}/proxy/${url}?external_user_id=${encodeURIComponent(owner)}&account_id=${encodeURIComponent(accountId)}`, undefined, { signal, maxBytes: operation.kind === 'search' ? 16_000 : 256_000 });
   const current = await verifyPersonalMailGrant(owner, accountId, signal);
-  if (!verifiedMailGrant(current, owner, accountId) || current.revision !== grant.revision) throw new Error('gmail_read_unverified');
+  if (!personalMailReadEnabled() || !verifiedMailGrant(current, owner, accountId) || current.revision !== grant.revision) throw new Error('gmail_read_unverified');
   signal.throwIfAborted();
   return result;
 }
