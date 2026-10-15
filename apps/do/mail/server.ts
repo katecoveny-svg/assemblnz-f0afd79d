@@ -69,6 +69,7 @@ export async function readMail(raw: unknown, owner: Owner, signal: AbortSignal, 
   verifyOwner(owner);
   const request = mailRequest.parse(raw);
   if (request.ownerId !== owner.id) throw new MailError('owner_changed', 409);
+  let revision: string | undefined;
   const guard = async () => {
     signal.throwIfAborted();
     const current = await recheckOwner();
@@ -79,7 +80,10 @@ export async function readMail(raw: unknown, owner: Owner, signal: AbortSignal, 
     if (matches[0].app?.name_slug === 'microsoft_outlook') throw new MailError('outlook_read_unverified', 503);
     if (matches[0].app?.name_slug !== 'gmail' || matches[0].healthy !== true) throw new MailError('account_unavailable', 403);
     if (!dependencies.configured('gmail')) throw new MailError('setup_needed', 503);
-    if (!verifiedMailGrant(await dependencies.verifyGrant(owner.externalId, request.search.accountId, signal), owner.externalId, request.search.accountId)) throw new MailError('gmail_read_unverified', 503);
+    const grant = await dependencies.verifyGrant(owner.externalId, request.search.accountId, signal);
+    if (!verifiedMailGrant(grant, owner.externalId, request.search.accountId)) throw new MailError('gmail_read_unverified', 503);
+    if (revision !== undefined && revision !== grant.revision) throw new MailError('mail_account_changed', 409);
+    revision = grant.revision;
     signal.throwIfAborted();
     return matches[0];
   };
@@ -101,7 +105,9 @@ export async function readMail(raw: unknown, owner: Owner, signal: AbortSignal, 
       subject: decoded.subject, from: decoded.from, date: decoded.date, text: text.slice(0, limit), truncated: decoded.truncated || text.length > limit,
       attachmentsRead: false, trust: 'untrusted_correspondence' });
   }
-  await guard(); // Revoke/switch/cancel while awaiting a provider never publishes a draft.
+  // Reject observed metadata/owner changes and cancellation before publication.
+  // This cannot detect revocation that the provider has not exposed in metadata.
+  await guard();
   return { ownerId: owner.id, requestId: request.requestId, search: request.search, operation: request.operation, status: 'review', sources, moreAvailable: Boolean(listed.nextPageToken), checkedAt: new Date().toISOString(), stored: false, modelUsed: false };
 }
 

@@ -9,6 +9,10 @@ task drafts; no model, mailbox writes or persistent state. Outlook reading fails
 closed pending verified delegated Mail.Read. Reusable text/voice handoff carries no
 consent. Synthetic tests, setup steps and limits: [Personal mail read](../DO-PERSONAL-MAIL-READ.md).
 
+Local Gmail follow-up: server-only effective-scope/credential-expiry metadata verification,
+explicit account selection and snapshot-change rejection; no live account proof or
+Outlook activation. See [grant evidence and briefing gates](../DO-MAIL-GRANT-VERIFICATION.md).
+
 A primitive is a reusable capability that makes later products faster, safer or better.
 
 Do not extract something merely because it might be reused. Prefer extraction after a second real use or when the mechanic is clearly cross-product infrastructure.
