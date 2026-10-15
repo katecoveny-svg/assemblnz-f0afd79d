@@ -1,4 +1,5 @@
 "use client";
+import { callPublicEvidenceTool } from "@/apps/do/shared/public-evidence-client";
 import { handoffReviewedMail } from "@/apps/do/mail/voice-handoff";
 
 import { VoiceResumption } from "@/apps/do/shared/voice-resumption";
@@ -108,6 +109,9 @@ export function DoGeminiLive({
   const leaseEnabled = availability?.leaseEnabled === true;
   const [expanded, setExpanded] = useState(false);
   const [consentFor, setConsentFor] = useState<string | null>(null);
+  const [includePublicNz, setIncludePublicNz] = useState(false);
+  const [publicEvidenceSources, setPublicEvidenceSources] = useState<Array<{url:string; title:string; expiresAt:string}>>([]);
+  const [publicEvidenceNote, setPublicEvidenceNote] = useState("");
   const [includeContext, setIncludeContext] = useState(false);
   const [mode, setMode] = useState<DoVoiceMode>("standard");
   const voiceName = availability?.voiceName ?? DEFAULT_DO_VOICE;
@@ -122,7 +126,7 @@ export function DoGeminiLive({
   const [draft, setDraft] = useState<string | null>(null);
   const [preparedBrief, setPreparedBrief] = useState("");
   // Any change to the reviewed disclosure invalidates its previous consent.
-  const consentScope = JSON.stringify([initialProfile?.updatedAt ?? null, leaseEnabled ? null : profile ?? null, mode, quote?.quoteId ?? null, requestedSeconds, voiceName, availability?.voiceRevision, includeContext, includeContext ? context.slice(0, 6000) : ""]);
+  const consentScope = JSON.stringify([includePublicNz, initialProfile?.updatedAt ?? null, leaseEnabled ? null : profile ?? null, mode, quote?.quoteId ?? null, requestedSeconds, voiceName, availability?.voiceRevision, includeContext, includeContext ? context.slice(0, 6000) : ""]);
   const consent = consentFor === consentScope;
   const live = state !== "idle";
   useEffect(() => { onLiveChange?.(live); }, [live, onLiveChange]);
@@ -282,6 +286,7 @@ export function DoGeminiLive({
       nextAudio: 0,
       calls: 0,
     };
+    setPublicEvidenceNote(""); setPublicEvidenceSources([]);
     const releaseAudio = claimDoAudio('call', () => end());
     if (!releaseAudio) { setNotice('Another DO call is active on this page. End it before starting this call.'); return; }
     s.releaseAudio = releaseAudio;
@@ -520,10 +525,17 @@ export function DoGeminiLive({
             let output: Record<string, unknown>;
             const callNumber = ++s.calls;
             try {
-              if (call.name !== "compile_do_agent" || callNumber > 8)
+              if (!["compile_do_agent", "read_public_nz_evidence"].includes(call.name ?? "") || callNumber > 8)
                 throw new Error(
                   "This session can only prepare a small number of DO briefs.",
                 );
+              if (call.name === "read_public_nz_evidence") {
+                output = await callPublicEvidenceTool(call.args, includePublicNz, request.signal);
+                if (socketCurrent() && !request.signal.aborted) {
+                  setPublicEvidenceSources(Array.isArray(output.sources) ? output.sources : []);
+                  setPublicEvidenceNote(output.status === 'consent_required' ? 'Parliament source sharing is off. End the call to review this option.' : `Parliament records: ${output.status} · checked ${output.checkedAt}. Recent records only; not enacted law or topical search.`);
+                }
+              } else {
               const brief =
                 typeof call.args?.brief === "string"
                   ? call.args.brief.slice(0, 2000)
@@ -551,9 +563,11 @@ export function DoGeminiLive({
               };
               if (socketCurrent() && !request.signal.aborted && callNumber === s.calls)
                 setPreparedBrief(String(data.spec?.brief || brief).slice(0, 6000));
+              }
             } catch {
+              if (call.name === "read_public_nz_evidence" && socketCurrent() && !request.signal.aborted) { setPublicEvidenceSources([]); setPublicEvidenceNote("Parliament records could not be checked. No current source evidence is available."); }
               output = {
-                error: "The brief was not prepared. No action happened.",
+                error: "The tool could not complete. No verified evidence or completed action is established.",
               };
             }
             if (
@@ -703,6 +717,7 @@ export function DoGeminiLive({
             </>
           )}
           </details>
+          <label className="do-live-consent"><input type="checkbox" checked={includePublicNz} onChange={event => setIncludePublicNz(event.target.checked)} />Allow recent Parliament bill excerpts to be checked and shared with Google during this call. This is not topical search, enacted law, weather or general news.</label>
           <label className="do-live-consent">
             <input
               type="checkbox"
@@ -779,6 +794,7 @@ export function DoGeminiLive({
           </button>
         </details>
       )}
+          {publicEvidenceNote && <div role="status"><p>{publicEvidenceNote}</p>{publicEvidenceSources.map(source => <p key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a> · evidence expires {new Date(source.expiresAt).toLocaleTimeString()}</p>)}</div>}
       {preparedBrief && <div className="do-live-draft">
         <p>{displayName} prepared a brief. Review it before keeping anything.</p>
         <button type="button" disabled={draft !== null} onClick={() => { reviewApplied.current = false; setDraft(preparedBrief); setPreparedBrief(""); }}>Review prepared brief</button>
