@@ -1,8 +1,8 @@
 import 'server-only';
 import { enabledPersonalDoPlan } from '@/lib/billing/personal-do-plan';
 import { admitPersonalDoUsage } from '@/lib/billing/personal-do-access';
-import { retrieveVerifiedPublicNzKnowledge } from '@/lib/public-nz/server';
-import { publicNzEvidenceContext, type VerifiedBill } from '@/lib/public-nz/parliament';
+import { readPublicNzEvidence, relevantPublicNzTopic } from '@/lib/public-nz/evidence-tool';
+import { type VerifiedBill } from '@/lib/public-nz/parliament';
 import { randomUUID } from 'node:crypto';
 import { generateText, Output } from 'ai';
 import { z } from 'zod';
@@ -50,11 +50,9 @@ async function generateDoReasonedDraft(rawInput: PersonalAssistantInput, ownerId
   let officialSourceContext: string | undefined;
   let officialSources: VerifiedBill[] = [];
   if (input.usePublicNz) {
-    const officialData = await retrieveVerifiedPublicNzKnowledge({ query: input.message, limit: 4 });
-    officialSourceContext = publicNzEvidenceContext(officialData);
-    // Match UI/validation to exactly the complete fresh records admitted into the bounded provider context.
-    const payload = JSON.parse(officialSourceContext.slice(officialSourceContext.indexOf('\n') + 1));
-    officialSources = payload.verifiedEvidence as VerifiedBill[];
+    const evidence = await readPublicNzEvidence('parliament', relevantPublicNzTopic(input.message));
+    officialSourceContext = evidence.context;
+    officialSources = evidence.sources;
   }
   const typeSafePayload = personalTypeSafePayload(input, model);
   const boundedTypeSafePayload = { ...typeSafePayload, state: { ...(typeSafePayload.state as object), ...(officialSourceContext ? { officialSourceContext } : {}) } };
