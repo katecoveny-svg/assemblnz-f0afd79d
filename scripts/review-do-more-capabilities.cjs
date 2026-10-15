@@ -79,7 +79,9 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   await page.setViewportSize({width:375,height:812});check('all phone example text wraps within its control',await page.locator('[data-do-idea]').evaluateAll(es=>es.every(e=>e.scrollWidth<=e.clientWidth)));await page.getByRole('region',{name:'Ideas to get started'}).screenshot({path:out+'/capabilities-phone.png'});
   for(const [surface,url,width] of [['widget','/do/widget',1440],['phone-web','/do/widget',375],['native-hosted','/do/widget?nativeReview=1',430]]){
     await page.setViewportSize({width,height:900});await page.goto(origin+url);await page.locator('#personal-assistant-input').waitFor();
+    await page.getByRole('region',{name:'Conversation with DO',exact:true}).locator('[data-do-idea]').nth(expected.length-1).waitFor({state:'attached'});
     const actual=await page.getByRole('region',{name:'Conversation with DO',exact:true}).locator('[data-do-idea]').evaluateAll(es=>es.map(e=>({id:e.dataset.doIdea,label:e.getAttribute('aria-label')})));
+    assert.deepEqual(actual,expected,surface+' capability definitions');
     check(surface+' uses the same capability definitions',JSON.stringify(actual)===JSON.stringify(expected));
     await page.locator('summary').filter({hasText:/^Tools & examples$/}).click();await page.getByRole('button',{name:'Open draft tools',exact:true}).click();
     await page.locator('#do-source').fill('Separate fictional tool draft.');await page.locator('.do-source-details>summary').click();await page.locator('#do-source-title').fill('Fictional source title');await page.locator('#do-source-url').fill('https://example.com/notes');

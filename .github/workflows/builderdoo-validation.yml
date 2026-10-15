@@ -98,7 +98,7 @@ jobs:
           pnpm lint:macrons
       - name: Production build
         # Fictional public auth configuration enables the real cross-tab listener.
-        # Browser proofs intercept all API traffic; no live Supabase project is used.
+        # The account-boundary proof intercepts all API traffic; no live project is used.
         env:
           NEXT_PUBLIC_SUPABASE_URL: https://synthetic.supabase.co
           NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: synthetic-public-test-key
