@@ -279,7 +279,7 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
         {onTalk && <button type="button" onClick={() => { setCaptureMode('type'); onTalk(); }}><DoActionIcon kind="voice" /> Talk</button>}
         <DoEntryDisclosure className={entry.entryTools}><summary>Add <Plus size={15} /></summary><div data-do-overlay-panel="320">
           <button type="button" onClick={event => { const menu = event.currentTarget.closest('details'); if (menu) menu.open = false; setEntryOpen(true); setLocalOpen(true); setCaptureMode('photo'); }}>Photo or image</button>
-          <button type="button" onClick={event => { const menu = event.currentTarget.closest('details'); if (menu) menu.open = false; setEntryOpen(true); setLocalOpen(true); setCaptureMode('forward'); requestAnimationFrame(() => sourceRef.current?.focus()); }}>Note or checklist</button>
+          <button type="button" onClick={event => { const menu = event.currentTarget.closest('details'); if (menu) menu.open = false; setEntryOpen(true); setLocalOpen(true); setCaptureMode('forward'); focusEntry('life-admin-source'); }}>Note or checklist</button>
           <p>Images and pasted text. PDF and other file uploads are not available here.</p>
         </div></DoEntryDisclosure>
       </nav>}
