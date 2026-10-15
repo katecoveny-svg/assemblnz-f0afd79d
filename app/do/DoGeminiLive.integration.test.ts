@@ -35,7 +35,8 @@ function preview(name:string, tree:any){
   const css=readFileSync('app/do/do-live.css','utf8')+readFileSync('components/do/do-companion-board.css','utf8');
   writeFileSync(`docs/reviews/do-companion-local/${name}.html`,`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DO call · local fixture review</title><style>${css}body{max-width:430px;margin:24px auto;padding:16px;background:#fffdfb;color:#492b3e;font:16px/1.5 system-ui}button,input,select,textarea{max-width:100%;font:inherit}textarea{box-sizing:border-box;width:100%}</style><p><strong>Static fixture review.</strong> Actual call component with mocked account/transport. Controls inactive. No real call, microphone, sound or charge.</p>${renderToStaticMarkup(tree)}</html>`);
 }
-async function begin(){let tree=render();await flush();tree=render();button(tree,'Call DO').props.onClick();await flush();tree=render();await button(tree,'Review included time').props.onClick();await flush();tree=render();const checkbox=nodes(tree).filter(n=>n.type==='input'&&n.props.type==='checkbox').at(-1);checkbox.props.onChange({target:{checked:true}});tree=render();preview('voice-options',tree);button(tree,'Start call').props.onClick();await flush();const ws=Socket.instances[0];ws.onopen();await ws.message({setupComplete:{}});return ws;}
+async function startReviewedCall(){let tree=render();await flush();tree=render();button(tree,'Call DO').props.onClick();await flush();tree=render();await button(tree,'Review included time').props.onClick();await flush();tree=render();const checkbox=nodes(tree).filter(n=>n.type==='input'&&n.props.type==='checkbox').at(-1);checkbox.props.onChange({target:{checked:true}});tree=render();preview('voice-options',tree);button(tree,'Start call').props.onClick();await flush();}
+async function begin(){await startReviewedCall();const ws=Socket.instances[0];ws.onopen();await ws.message({setupComplete:{}});return ws;}
 beforeEach(()=>{
   vi.useFakeTimers();vi.setSystemTime(new Date('2026-10-15T00:00:00Z'));deadline=Date.now()+300000;hooks.slots=[];hooks.effects=[];hooks.cleanups=[];Socket.instances=[];recorderCount=0;
   track={enabled:true,stop:vi.fn(),addEventListener:vi.fn()};media={getTracks:()=>[track],getAudioTracks:()=>[track]};mic=vi.fn(async()=>media);
@@ -57,8 +58,20 @@ describe('actual call component with mocked transport',()=>{
   it('resumes same token/config, keeps mute, sends typed input once and acquires mic once',async()=>{
     const first=await begin();let tree=render();button(tree,'Mute microphone').props.onClick();tree=render();const typed=nodes(tree).find(n=>n.type==='textarea'&&n.props.id==='fixture-typed');typed.props.onChange({target:{value:'Continue by typing'}});tree=render();nodes(tree).find(n=>n.type==='form').props.onSubmit({preventDefault(){}});
     await first.message({sessionResumptionUpdate:{resumable:true,newHandle:'private-handle'}});await first.message({goAway:{timeLeft:'1s'}});await flush();const second=Socket.instances[1];expect(second.url).toBe(first.url);second.onopen();await second.message({setupComplete:{}});
-    expect(mic).toHaveBeenCalledTimes(1);expect(recorderCount).toBe(1);expect(track.enabled).toBe(false);expect(second.sent).toHaveLength(1);expect(JSON.parse(second.sent[0]).setup.sessionResumption.handle).toBe('private-handle');expect(JSON.parse(second.sent[0]).setup.contextWindowCompression).toEqual({slidingWindow:{}});expect(first.sent.filter(s=>s.includes('Continue by typing'))).toHaveLength(1);
+    expect(mic).toHaveBeenCalledWith({audio:{echoCancellation:true,noiseSuppression:true},video:false});expect(mic).toHaveBeenCalledTimes(1);expect(JSON.parse(first.sent[0]).setup.generationConfig.speechConfig).toEqual(config.speechConfig);expect(JSON.parse(second.sent[0]).setup.generationConfig.speechConfig).toEqual(JSON.parse(first.sent[0]).setup.generationConfig.speechConfig);expect(JSON.parse(second.sent[0]).setup.systemInstruction).toEqual(JSON.parse(first.sent[0]).setup.systemInstruction);expect(recorderCount).toBe(1);expect(track.enabled).toBe(false);expect(second.sent).toHaveLength(1);expect(JSON.parse(second.sent[0]).setup.sessionResumption.handle).toBe('private-handle');expect(JSON.parse(second.sent[0]).setup.contextWindowCompression).toEqual({slidingWindow:{}});expect(first.sent.filter(s=>s.includes('Continue by typing'))).toHaveLength(1);
     tree=render();preview('voice-connected',tree);button(tree,'End call').props.onClick();expect(track.stop).toHaveBeenCalled();expect(request.mock.calls.filter((c:any)=>c[1]?.body?.includes('"action":"start"'))).toHaveLength(1);
+  });
+  it('rejects a different issued voice before opening a provider socket and releases capture',async()=>{
+    const original=request.getMockImplementation();
+    request.mockImplementation(async(url:string,options:any)=>{
+      const response=await original(url,options);
+      if(options?.body && JSON.parse(options.body).action==='start')return {ok:true,json:async()=>({...await response.json(),config:{...config,speechConfig:{voiceConfig:{prebuiltVoiceConfig:{voiceName:'Charon'}}}}})};
+      return response;
+    });
+    await startReviewedCall();
+    expect(Socket.instances).toHaveLength(0);expect(track.stop).toHaveBeenCalled();
+    expect(request.mock.calls.some((c:any)=>c[1]?.body?.includes('"action":"revoke"'))).toBe(true);
+    expect(renderToStaticMarkup(render())).toContain('The issued voice differs from the one you reviewed.');
   });
   it('hidden page revokes pending resume and never reacquires audio',async()=>{
     const first=await begin();let resolve:any;request.mockImplementationOnce(()=>new Promise(r=>{resolve=r;}));await first.message({sessionResumptionUpdate:{resumable:true,newHandle:'h'}});await first.message({goAway:{}});(document as any).hidden=true;listeners.visibilitychange();resolve({ok:true,json:async()=>({leaseId,resumeAllowed:true,expiresAt:deadline,reuseExistingToken:true})});await flush();expect(Socket.instances).toHaveLength(1);expect(track.stop).toHaveBeenCalled();expect(mic).toHaveBeenCalledTimes(1);
