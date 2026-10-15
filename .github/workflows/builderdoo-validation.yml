@@ -97,6 +97,11 @@ jobs:
           node scripts/brand-guard.mjs
           pnpm lint:macrons
       - name: Production build
+        # Fictional public auth configuration enables the real cross-tab listener.
+        # Browser proofs intercept all API traffic; no live Supabase project is used.
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: https://synthetic.supabase.co
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: synthetic-public-test-key
         run: pnpm build
       - name: Install isolated browser verification tools
         run: |
@@ -130,6 +135,8 @@ jobs:
       - name: Personal DO browser proof with fictional account and audio fixtures
         env:
           ASSEMBL_REVIEW_ORIGIN: http://127.0.0.1:3117
+          NEXT_PUBLIC_SUPABASE_URL: https://synthetic.supabase.co
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: synthetic-public-test-key
         run: |
           set -euo pipefail
           node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3117 > /tmp/personal-do-server.log 2>&1 &
