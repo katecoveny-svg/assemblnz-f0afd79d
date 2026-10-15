@@ -17,9 +17,14 @@ const browserPort = {
     const row = one(await chrome.scripting.executeScript({ target: { tabId: workspace.tabId, documentIds: [workspace.documentId] }, func: workspaceOwner }));
     return row.documentId === workspace.documentId ? row.result : null;
   },
-  read: async (target, format) => {
+  read: async (target, format, signal) => {
+    if (signal?.aborted) throw new Error('Access cancelled.');
     if (format === 'image') {
       const tab = await chrome.tabs.get(target.tabId);
+      // captureVisibleTab targets a window, not a document. Recheck the active
+      // tab after asynchronous lookup and immediately before invoking capture.
+      const active = await browserPort.active();
+      if (signal?.aborted || !active || active.id !== target.tabId || active.windowId !== tab.windowId || active.url !== target.url) throw new Error('Selected page changed.');
       return {image: await chrome.tabs.captureVisibleTab(tab.windowId, {format:'jpeg',quality:80}), completeness:'partial'};
     }
     const row = one(await chrome.scripting.executeScript({ target: { tabId: target.tabId, documentIds: [target.documentId] }, func: selectedText }));
