@@ -147,6 +147,7 @@ async function verifyFunctionalMark(page, root, label) {
           await clean.getByLabel('Budget (NZD)', { exact: true }).fill('65');
           check('Shop edit removes stale receipt', await clean.getByRole('heading', { name: 'Prepared — nothing ordered', exact: true }).count() === 0);
         } else {
+          await clean.getByText('Already have exact flight details? Advanced itinerary check', { exact: true }).click();
           await clean.getByRole('button', { name: 'Prepare itinerary', exact: true }).dblclick();
           await clean.getByLabel('I reviewed every itinerary field, estimate and unknown fee').check();
           await clean.getByRole('button', { name: 'Save prepared receipt', exact: true }).dblclick();
