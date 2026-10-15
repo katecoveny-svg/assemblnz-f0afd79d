@@ -130,7 +130,8 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
   check('existing checklist shortcut still reveals editor',await page.locator('#life-admin-source').isVisible());
   await page.getByRole('navigation',{name:'Choose how to start'}).getByText('Add',{exact:true}).click();
   await page.getByRole('button',{name:'Photo or image',exact:true}).click();
-  await page.getByLabel('Choose an image for DO').setInputFiles({name:'synthetic.png',mimeType:'image/png',buffer:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64')});
+  await page.locator('#do-vision-context > summary').click();
+  await page.getByLabel('Choose an image for DO').setInputFiles({name:'synthetic.png',mimeType:'image/png',buffer:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGP4//8/AAX+Av4N70a4AAAAAElFTkSuQmCC','base64')});
   const photoConsent=page.getByRole('checkbox',{name:/Send this image and question/});
   await photoConsent.check();
   await home();
