@@ -14,23 +14,6 @@ function hexToRgb(hex: string): [number, number, number] {
   return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
 }
 
-function hslToRgb(h: number, s: number, l: number): [number, number, number] {
-  h = ((h % 360) + 360) % 360;
-  s /= 100;
-  l /= 100;
-  const c = (1 - Math.abs(2 * l - 1)) * s;
-  const hp = h / 60;
-  const x = c * (1 - Math.abs((hp % 2) - 1));
-  let r = 0, g = 0, b = 0;
-  if (hp < 1) { r = c; g = x; }
-  else if (hp < 2) { r = x; g = c; }
-  else if (hp < 3) { g = c; b = x; }
-  else if (hp < 4) { g = x; b = c; }
-  else if (hp < 5) { r = x; b = c; }
-  else { r = c; b = x; }
-  const m = l - c / 2;
-  return [Math.round((r + m) * 255), Math.round((g + m) * 255), Math.round((b + m) * 255)];
-}
 
 export function AttractorsCanvas({ presetId, values, seed, background, onAdjust, onExportersReady }: RendererProps) {
   const drag = useDragAdjust(onAdjust, (nx, ny) => ({ rotation: Number((nx * Math.PI * 2).toFixed(2)), zoom: Number((0.4 + (1 - ny) * 3.1).toFixed(2)) }));
@@ -42,9 +25,8 @@ export function AttractorsCanvas({ presetId, values, seed, background, onAdjust,
   const bg = backgroundById(background);
   const palette: AttractorPalette = useMemo(() => {
     if (!bg) return basePalette;
-    // Preserve palette hues; only override the ground and adjust the
-    // lightness so hue points stay visible on dark or bright grounds.
-    return { ...basePalette, ground: bg.ground };
+    // On a chosen ground the depth gradient runs between that ground's inks, so it stays legible.
+    return { ground: bg.ground, from: bg.ink, to: bg.inkSoft };
   }, [basePalette, bg]);
 
   const stateRef = useRef({ values, palette, seed, presetId });
@@ -114,7 +96,7 @@ export function AttractorsCanvas({ presetId, values, seed, background, onAdjust,
           const cy = h / 2 - ((maxV + minV) / 2) * fit;
 
           const alphaByte = Math.round(alpha * 255);
-          const hueSpan = pal.hueEnd - pal.hueStart;
+          const c0 = hexToRgb(pal.from), c1 = hexToRgb(pal.to);
           const zMin = points.reduce((m, pt) => (pt[2] < m ? pt[2] : m), Infinity);
           const zMax = points.reduce((m, pt) => (pt[2] > m ? pt[2] : m), -Infinity);
           const zSpan = zMax - zMin || 1;
@@ -123,8 +105,7 @@ export function AttractorsCanvas({ presetId, values, seed, background, onAdjust,
           for (let i = 0; i < points.length; i++) {
             const [u, vv, zi] = points[i];
             const hz = (zi - zMin) / zSpan;
-            const hue = pal.hueStart + hz * hueSpan;
-            const [r, g, b] = hslToRgb(hue, pal.sat, pal.light);
+            const r = c0[0] + (c1[0] - c0[0]) * hz, g = c0[1] + (c1[1] - c0[1]) * hz, b = c0[2] + (c1[2] - c0[2]) * hz;
             p.fill(r, g, b, alphaByte);
             p.circle(cx + u * fit, cy + vv * fit, 1.4);
           }

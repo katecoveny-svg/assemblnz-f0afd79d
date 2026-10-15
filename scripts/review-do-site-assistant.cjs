@@ -71,6 +71,8 @@ const result = message => ({ id: 'fictional-site-draft', createdAt: '2026-10-01T
     // Exhausted legacy allowance cannot disable provider-free extraction.
     await page.route('**/api/do/runtime', route => route.fulfill({ json: { signedIn: false, trial: { remaining: 0 }, availability: { preparation: 'unavailable', note: 'Fictional unavailable generation.' } } }));
     await page.goto(origin + '/do/widget?task=extract', { waitUntil: 'networkidle' });
+    await page.locator('summary').filter({ hasText: /^Tools & examples$/ }).click();
+    await page.getByRole('button', { name: 'Open draft tools', exact: true }).click();
     await page.locator('#do-source').fill('Fictional due date: 2 October 2026.');
     await page.locator('.do-consent input').check();
     const prepareButton = page.locator('.do-preparation-form .do-primary');

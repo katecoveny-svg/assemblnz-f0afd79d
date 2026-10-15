@@ -23,7 +23,7 @@ const P5_CDN = 'https://cdn.jsdelivr.net/npm/p5@1.11.3/lib/p5.min.js';
 function shellCode(title: string, body: string, ground: string, shareUrl?: string): string {
   const originComment = shareUrl
     ? `<!-- reproduce or remix this piece at ${shareUrl} -->`
-    : '<!-- made with the assembl creative playground · assembl.co.nz/creative-playground -->';
+    : '<!-- made with the assembl creative playground · assembl.co.nz/creative-studio/generate -->';
   return `<!doctype html>
 <html lang="en">
 <head>

@@ -21,6 +21,10 @@ import { TERRAIN_FAMILY } from '@/lib/generative-art/families/terrain';
 import { SANDPILE_FAMILY } from '@/lib/generative-art/families/sandpile';
 import { RIPPLES_FAMILY } from '@/lib/generative-art/families/ripples';
 import { DLA_FAMILY } from '@/lib/generative-art/families/dla';
+import { ASSEMBLY_FAMILY } from '@/lib/generative-art/families/assembly';
+import { receiptFor } from '@/lib/generative-art/receipt';
+import { LOOP_FORMATS, canEncode, type LoopFormat } from '@/lib/generative-art/loop-export';
+import type { LoopExportOptions } from '@/lib/generative-art/families';
 import { deleteSavedPreset, listSavedPresets, savePreset, type SavedPreset } from '@/lib/generative-art/my-presets';
 import { FAMILY_RENDERERS } from './family-renderers';
 import { buildCodeSnippet } from '@/lib/generative-art/code-export';
@@ -114,7 +118,7 @@ const SOCIAL_SIZES: { id: string; label: string; w: number; h: number }[] = [
  * banner alike, and auto-toned: light mark on dark art, ink mark on light art,
  * decided by sampling the corner it sits in.
  */
-function drawWordmark(ctx: CanvasRenderingContext2D, w: number, h: number) {
+export function drawWordmark(ctx: CanvasRenderingContext2D, w: number, h: number, receipt?: string) {
   const pad = Math.round(Math.min(w, h) * 0.045);
   const size = Math.max(13, Math.round(Math.min(w, h) * 0.028));
 
@@ -142,6 +146,14 @@ function drawWordmark(ctx: CanvasRenderingContext2D, w: number, h: number) {
   ctx.arc(w - pad - tw - size * 0.45, h - pad - size * 0.28, size * 0.13, 0, Math.PI * 2);
   ctx.fillStyle = '#916A70';
   ctx.fill();
+  // receipt: what made this piece, in IBM Plex Mono, so it can be regenerated exactly from the studio
+  if (receipt) {
+    const rs = Math.max(9, Math.round(size * 0.46));
+    ctx.textAlign = 'left';
+    ctx.font = `400 ${rs}px 'IBM Plex Mono', ui-monospace, monospace`;
+    ctx.fillStyle = light ? 'rgba(36,11,33,0.72)' : 'rgba(245,241,242,0.72)';
+    ctx.fillText(receipt, pad, h - pad);
+  }
   ctx.restore();
 }
 
@@ -155,6 +167,7 @@ async function compositeOverlay(
   overlay: TextOverlay,
   scale = 1,
   sizeId = 'native',
+  receipt?: string,
 ): Promise<Blob> {
   const img = new Image();
   const url = URL.createObjectURL(blob);
@@ -193,11 +206,13 @@ async function compositeOverlay(
       ctx.fillText(ln, overlay.x * out.width, overlay.y * out.height + (i - (lines.length - 1) / 2) * lh);
     });
   }
-  drawWordmark(ctx, outW, outH);
+  try { await document.fonts.load(`400 12px 'IBM Plex Mono'`); } catch { /* fallback stack */ }
+  drawWordmark(ctx, outW, outH, receipt);
   return await new Promise<Blob>((resolve) => out.toBlob((b) => resolve(b ?? blob), 'image/png'));
 }
 
 const FAMILIES: Family[] = [
+  ASSEMBLY_FAMILY,
   ORBIT_FAMILY,
   LINE_FAMILY,
   CONSTELLATION_FAMILY,
@@ -236,6 +251,7 @@ const FAMILY_MAP: Record<FamilyId, Family> = {
   sandpile: SANDPILE_FAMILY,
   ripples: RIPPLES_FAMILY,
   dla: DLA_FAMILY,
+  assembly: ASSEMBLY_FAMILY,
 };
 
 interface StudioState {
@@ -249,17 +265,18 @@ interface StudioState {
   overlay: TextOverlay;
 }
 
-function pickFamily(id: string | null): Family {
+function pickFamily(id: string | null, fallback: FamilyId = 'line'): Family {
   if (id && id in FAMILY_MAP) return FAMILY_MAP[id as FamilyId];
-  return LINE_FAMILY;
+  return FAMILY_MAP[fallback];
 }
+
 
 function pickPreset(family: Family, id: string | null): FamilyPreset {
   return family.presets.find((p) => p.id === id) ?? family.presets[0];
 }
 
-function stateFromSearch(sp: URLSearchParams | null): StudioState {
-  const family = pickFamily(sp?.get('family') ?? null);
+function stateFromSearch(sp: URLSearchParams | null, fallback: FamilyId = 'line'): StudioState {
+  const family = pickFamily(sp?.get('family') ?? null, fallback);
   const preset = pickPreset(family, sp?.get('preset') ?? null);
   const values = { ...preset.defaults };
   for (const slider of preset.sliders) {
@@ -333,6 +350,36 @@ interface SliderRowProps {
   onChange: (v: number) => void;
 }
 
+/** Named choices: chips in place of a range, the value is the chosen index. */
+function ChoiceRow({ label, value, options, onChange }: { label: string; value: number; options: string[]; onChange: (v: number) => void }) {
+  return (
+    <div className="flex flex-col gap-1.5 sm:col-span-2" role="group" aria-label={label}>
+      <div className="font-mono text-[12px] uppercase tracking-[0.18em] text-[color:var(--text-secondary)]">{label}</div>
+      <div className="flex flex-wrap gap-1.5">
+        {options.map((o, i) => {
+          const active = Math.round(value) === i;
+          return (
+            <button
+              key={o}
+              type="button"
+              aria-pressed={active}
+              onClick={() => onChange(i)}
+              className={[
+                'rounded-[2px] border px-2.5 py-1 font-mono text-[12px] uppercase tracking-[0.12em] transition',
+                active
+                  ? 'border-[color:var(--text-primary)] bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
+                  : 'border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] text-[color:var(--text-secondary)] hover:border-[color:var(--text-primary)] hover:text-[color:var(--text-primary)]',
+              ].join(' ')}
+            >
+              {o}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function SliderRow({ label, value, min, max, step, display, onChange }: SliderRowProps) {
   return (
     <label className="flex flex-col gap-1.5">
@@ -353,11 +400,12 @@ function SliderRow({ label, value, min, max, step, display, onChange }: SliderRo
   );
 }
 
-export function GenerativeArtCanvas() {
+export function GenerativeArtCanvas({ defaultFamily = 'line' }: { defaultFamily?: FamilyId } = {}) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const initial = useMemo(() => stateFromSearch(searchParams), []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const initial = useMemo(() => stateFromSearch(searchParams, defaultFamily), []);
   const [state, setState] = useState<StudioState>(initial);
   const [copied, setCopied] = useState<string | null>(null);
   /** Exact platform pixel sizes — Kate, 29 Jul: 'preset size export for all social media'. */
@@ -373,12 +421,14 @@ export function GenerativeArtCanvas() {
     return `${window.location.origin}${window.location.pathname}?${stateToSearch(state).toString()}`;
   }, [state]);
   const copy = useMemo(() => shareCopyFor(state.family, preset.label), [state.family, preset.label]);
+  const receipt = useMemo(() => receiptFor(family, preset, state.values, state.seed, state.text), [family, preset, state.values, state.seed, state.text]);
 
   const exportersRef = useRef<{
     png?: () => Promise<Blob | null> | Blob | null;
     svg?: () => string | null;
     code?: () => string | null;
     renderAtSize?: (w: number, h: number) => Promise<Blob | null>;
+    loop?: (options: LoopExportOptions) => Promise<Blob>;
   }>({});
   const onExportersReady = useCallback((exp: typeof exportersRef.current) => {
     exportersRef.current = exp;
@@ -491,8 +541,8 @@ export function GenerativeArtCanvas() {
     if (!png) return;
     const blob = await png();
     if (!blob) return;
-    await download(await compositeOverlay(blob, state.overlay, 1, socialSize), 'png');
-  }, [download, state.overlay, socialSize]);
+    await download(await compositeOverlay(blob, state.overlay, 1, socialSize, receipt), 'png');
+  }, [download, state.overlay, socialSize, receipt]);
 
   const downloadSvg = useCallback(() => {
     const svg = exportersRef.current.svg?.();
@@ -525,7 +575,8 @@ export function GenerativeArtCanvas() {
     setSharing(true);
     try {
       const pngExporter = exportersRef.current.png;
-      const png = pngExporter ? await pngExporter() : null;
+      const raw = pngExporter ? await pngExporter() : null;
+      const png = raw ? await compositeOverlay(raw, state.overlay, 1, socialSize, receipt) : null;
       const shared = await tryNativeShare({
         url: shareUrl,
         title: copy.title,
@@ -537,7 +588,7 @@ export function GenerativeArtCanvas() {
     } finally {
       setSharing(false);
     }
-  }, [copy.text, copy.title, shareUrl, state.family, state.presetId, state.seed]);
+  }, [copy.text, copy.title, shareUrl, state.family, state.presetId, state.seed, state.overlay, socialSize, receipt]);
 
   const intents = useMemo(() => shareIntents(shareUrl, copy.text), [shareUrl, copy.text]);
 
@@ -553,7 +604,7 @@ export function GenerativeArtCanvas() {
       try {
         const raw = await renderer(size.width, size.height);
         if (!raw) return;
-        const blob = await compositeOverlay(raw, state.overlay);
+        const blob = await compositeOverlay(raw, state.overlay, 1, 'native', receipt);
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -566,13 +617,66 @@ export function GenerativeArtCanvas() {
         setExportingSize(null);
       }
     },
-    [state.family, state.presetId, state.seed, state.overlay],
+    [state.family, state.presetId, state.seed, state.overlay, receipt],
   );
 
   const exportSizesForGroup = useMemo(
     () => ASSET_SIZES.filter((s) => s.group === exportGroup),
     [exportGroup],
   );
+
+  // Loop exports (families with supportsLoop): MP4, WebM or GIF at the chosen social size.
+  const [loopFormat, setLoopFormat] = useState<LoopFormat>('mp4');
+  const [loopSeconds, setLoopSeconds] = useState(6);
+  const [loopProgress, setLoopProgress] = useState<number | null>(null);
+  const [loopNote, setLoopNote] = useState<string | null>(null);
+  const loopAbort = useRef<AbortController | null>(null);
+  const exportLoop = useCallback(async () => {
+    const loop = exportersRef.current.loop;
+    if (!loop) return;
+    const target = SOCIAL_SIZES.find((z) => z.id === socialSize);
+    const [a, b] = (ASPECTS.find((x) => x.id === state.aspect) ?? ASPECTS[0]).ratio.split('/').map((n) => Number(n.trim()));
+    let w = target?.w || (a >= b ? 1280 : Math.round(1280 * (a / b)));
+    let h = target?.h || (a >= b ? Math.round(1280 * (b / a)) : 1280);
+    if (loopFormat === 'gif') { const k = Math.min(1, 720 / Math.max(w, h)); w = Math.round(w * k); h = Math.round(h * k); }
+    setLoopNote(null);
+    if (!(await canEncode(loopFormat, w, h))) {
+      setLoopNote(`${loopFormat.toUpperCase()} is not available in this browser. WebM or GIF may be.`);
+      return;
+    }
+    const ac = new AbortController();
+    loopAbort.current = ac;
+    setLoopProgress(0);
+    try {
+      try { await document.fonts.load(`400 12px 'IBM Plex Mono'`); } catch { /* fallback stack */ }
+      const overlay = state.overlay;
+      const blob = await loop({
+        format: loopFormat, width: w, height: h, seconds: loopSeconds, fps: loopFormat === 'gif' ? 15 : 30,
+        signal: ac.signal,
+        onProgress: (done, total) => setLoopProgress(done / total),
+        stamp: (ctx, W, H) => {
+          if (overlay.on && overlay.text.trim()) {
+            const fontPx = Math.max(8, Math.round(overlay.size * (W / 720)));
+            ctx.save();
+            ctx.font = `${overlay.weight} ${fontPx}px ${OVERLAY_FONTS[overlay.font].css}`;
+            ctx.fillStyle = OVERLAY_COLORS[overlay.color];
+            ctx.textAlign = overlay.align;
+            ctx.textBaseline = 'middle';
+            const lines = overlay.text.split('\n');
+            lines.forEach((ln, i) => ctx.fillText(ln, overlay.x * W, overlay.y * H + (i - (lines.length - 1) / 2) * fontPx * 1.18));
+            ctx.restore();
+          }
+          drawWordmark(ctx, W, H, receipt);
+        },
+      });
+      await download(blob, loopFormat);
+    } catch (e) {
+      if (!(e instanceof DOMException && e.name === 'AbortError')) setLoopNote('This browser could not encode the loop. Try another format.');
+    } finally {
+      setLoopProgress(null);
+      loopAbort.current = null;
+    }
+  }, [download, loopFormat, loopSeconds, receipt, socialSize, state.aspect, state.overlay]);
 
   // My presets — localStorage-backed named saves per family.
   const [myPresets, setMyPresets] = useState<SavedPreset[]>([]);
@@ -940,6 +1044,53 @@ export function GenerativeArtCanvas() {
               code
             </button>
           )}
+          {family.supportsLoop && (
+            <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="loop export">
+              {LOOP_FORMATS.map((f) => (
+                <button
+                  key={f.id}
+                  type="button"
+                  aria-pressed={loopFormat === f.id}
+                  onClick={() => setLoopFormat(f.id)}
+                  className={[
+                    'rounded-[2px] border px-2.5 py-1.5 font-mono text-[12px] uppercase tracking-[0.14em] transition',
+                    loopFormat === f.id
+                      ? 'border-[color:var(--text-primary)] bg-[color:var(--text-primary)] text-[color:var(--assembl-paper)]'
+                      : 'border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] text-[color:var(--text-secondary)] hover:border-[color:var(--text-primary)]',
+                  ].join(' ')}
+                >
+                  {f.label}
+                </button>
+              ))}
+              <select
+                value={loopSeconds}
+                onChange={(e) => setLoopSeconds(Number(e.target.value))}
+                aria-label="Loop length"
+                className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-2 py-1.5 font-mono text-[12px] uppercase tracking-[0.14em]"
+              >
+                {[4, 6, 8, 12].map((n) => <option key={n} value={n}>{n} s</option>)}
+              </select>
+              {loopProgress === null ? (
+                <button
+                  type="button"
+                  onClick={exportLoop}
+                  className="rounded-[2px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.16em] hover:border-[color:var(--text-primary)]"
+                >
+                  render loop
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => loopAbort.current?.abort()}
+                  className="rounded-[2px] border border-[color:var(--text-primary)] bg-[color:var(--assembl-paper)] px-3 py-1.5 font-mono text-[12px] uppercase tracking-[0.16em]"
+                  aria-live="polite"
+                >
+                  rendering {Math.round(loopProgress * 100)}% · cancel
+                </button>
+              )}
+              {loopNote && <span className="font-mono text-[12px] text-[color:var(--text-secondary)]" role="status">{loopNote}</span>}
+            </div>
+          )}
           <div className="relative">
             <button
               type="button"
@@ -1169,6 +1320,9 @@ export function GenerativeArtCanvas() {
         <div className="grid gap-4 rounded-[3px] border border-[color:var(--assembl-cloud)] bg-[color:var(--assembl-paper)] p-4 sm:grid-cols-2">
           {preset.sliders.map((slider) => {
             const value = state.values[slider.key] ?? preset.defaults[slider.key] ?? slider.min;
+            if (slider.options) {
+              return <ChoiceRow key={slider.key} label={slider.label} value={value} options={slider.options} onChange={(v) => patchValue(slider.key, v)} />;
+            }
             const display = slider.format ? slider.format(value) : String(value);
             return (
               <SliderRow

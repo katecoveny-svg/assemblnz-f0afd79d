@@ -4,8 +4,10 @@
  * whatever ground colour the family is running.
  */
 
-const BRAND_LINE_1 = 'assembl.';       // italic serif — the wordmark
-const BRAND_LINE_2 = 'assembl.co.nz';  // small mono — the address
+const BRAND_LINE_1 = 'assembl';        // Instrument Sans, lowercase, medium: the wordmark
+const BRAND_LINE_2 = 'assembl.co.nz';  // IBM Plex Mono: the address
+const SANS = "'Instrument Sans', system-ui, sans-serif";
+const MONO = "'IBM Plex Mono', ui-monospace, monospace";
 
 function hexToRgb(hex: string): [number, number, number] {
   const h = hex.replace('#', '');
@@ -26,17 +28,18 @@ function luminance(hex: string): number {
 }
 
 export function watermarkColor(ground: string): string {
-  return luminance(ground) > 0.55 ? '#23211F' : '#F5F1E8';
+  return luminance(ground) > 0.55 ? '#492B3E' : '#F5F1F2';
 }
 
 /**
- * Stamp the wordmark on a canvas. Returns a NEW canvas at the same size
- * so we never touch the live render. Pass the ground colour so the
- * contrast auto-picks.
+ * Raster exports are stamped once, by the studio shell (`compositeOverlay` in
+ * GenerativeArtCanvas: wordmark, rose dot and receipt line). Families still
+ * call this on their PNG paths; it now returns a clean copy so a piece never
+ * carries two marks. SVG and code exports keep their own mark below.
  */
 export function stampWatermarkOnCanvas(
   source: HTMLCanvasElement,
-  ground: string,
+  _ground: string,
 ): HTMLCanvasElement {
   const out = document.createElement('canvas');
   out.width = source.width;
@@ -44,32 +47,6 @@ export function stampWatermarkOnCanvas(
   const ctx = out.getContext('2d');
   if (!ctx) return source;
   ctx.drawImage(source, 0, 0);
-
-  // Size the mark relative to the shorter edge so it looks the same on
-  // any aspect. Clamp to sane pixel bounds.
-  const shortest = Math.min(out.width, out.height);
-  const displaySize = Math.max(11, Math.min(22, Math.round(shortest * 0.024)));
-  const monoSize = Math.max(8, Math.round(displaySize * 0.55));
-  const margin = Math.round(shortest * 0.028);
-  const gap = Math.round(displaySize * 0.15);
-
-  const color = watermarkColor(ground);
-  ctx.textBaseline = 'alphabetic';
-  ctx.textAlign = 'right';
-  ctx.fillStyle = color;
-
-  // Wordmark — italic serif. Falls back gracefully across platforms.
-  ctx.globalAlpha = 0.62;
-  ctx.font = `italic 500 ${displaySize}px 'Cormorant Garamond', Georgia, 'Times New Roman', serif`;
-  const wordY = out.height - margin - monoSize - gap;
-  ctx.fillText(BRAND_LINE_1, out.width - margin, wordY);
-
-  // URL — small mono.
-  ctx.globalAlpha = 0.48;
-  ctx.font = `${monoSize}px 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace`;
-  ctx.fillText(BRAND_LINE_2, out.width - margin, out.height - margin);
-
-  ctx.globalAlpha = 1;
   return out;
 }
 
@@ -93,12 +70,12 @@ export function stampWatermarkOnSvg(svg: string, ground: string): string {
   const wordY = h - margin - monoSize - gap;
   const stamp = `<g class="assembl-mark" pointer-events="none">
   <text x="${w - margin}" y="${wordY}" text-anchor="end"
-        fill="${color}" fill-opacity="0.62"
-        font-family="Cormorant Garamond, Georgia, 'Times New Roman', serif"
-        font-style="italic" font-weight="500" font-size="${displaySize}">${BRAND_LINE_1}</text>
+        fill="${color}" fill-opacity="0.82"
+        font-family="${SANS.replace(/'/g, '&apos;')}"
+        font-weight="500" font-size="${displaySize}">${BRAND_LINE_1}</text>
   <text x="${w - margin}" y="${h - margin}" text-anchor="end"
-        fill="${color}" fill-opacity="0.48"
-        font-family="JetBrains Mono, 'SF Mono', Menlo, Consolas, monospace"
+        fill="${color}" fill-opacity="0.6"
+        font-family="${MONO.replace(/'/g, '&apos;')}"
         font-size="${monoSize}">${BRAND_LINE_2}</text>
 </g>`;
 
@@ -126,16 +103,15 @@ export function watermarkHtmlSnippet(ground: string): string {
     z-index: 10;
   }
   .assembl-mark-word {
-    font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-    font-style: italic;
+    font-family: ${SANS};
     font-weight: 500;
     font-size: clamp(14px, 1.6vw, 20px);
-    opacity: 0.62;
+    opacity: 0.82;
   }
   .assembl-mark-url {
-    font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+    font-family: ${MONO};
     font-size: clamp(9px, 1vw, 12px);
-    opacity: 0.48;
+    opacity: 0.6;
     letter-spacing: 0.02em;
   }
 </style>`;

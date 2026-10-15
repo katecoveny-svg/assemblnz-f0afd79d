@@ -31,9 +31,9 @@ async function fitImage(
   return data;
 }
 
-export function DoVision({ onUse, active = true, contextId = "do-vision-context" }: { onUse: (text: string) => boolean; active?: boolean; contextId?: string }) {
+export function DoVision({ onUse, active = true, contextId = "do-vision-context", offeredImage }: { offeredImage?: {image:string;source:string;id:number}; onUse: (text: string) => boolean; active?: boolean; contextId?: string }) {
   const instance = useId();
-  const [picture, setPicture] = useState("");
+  const [picture, setPicture] = useState(offeredImage?.image ?? "");
   const [question, setQuestion] = useState(
     "What can you see, and what would help with this work?",
   );
@@ -42,7 +42,7 @@ export function DoVision({ onUse, active = true, contextId = "do-vision-context"
   const [capturing, setCapturing] = useState(false);
   const [result, setResult] = useState<DoVisionResult | null>(null);
   const [draft, setDraft] = useState("");
-  const [notice, setNotice] = useState("");
+  const [notice, setNotice] = useState(offeredImage ? `Snapshot from ${offeredImage.source}. Review the image before sharing with DO.` : "");
   const [canShare, setCanShare] = useState(false);
   const stream = useRef<MediaStream | null>(null);
   const request = useRef<AbortController | null>(null);

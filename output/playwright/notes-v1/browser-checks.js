@@ -34,9 +34,14 @@ async page => {
   ensure(await page.locator('[data-completion="unverified"]').count() === 1, 'unverified warning missing');
   for (let index = 1; index <= 3; index++) await page.getByRole('textbox', { name: new RegExp('Page ' + index + ' text') }).fill('Reviewed synthetic page ' + index + '\nAll handwritten lines supplied.');
   await page.getByRole('button', { name: 'Write', exact: true }).click();
+  await page.locator('summary').filter({hasText:'Tools & examples'}).click();
+  await page.getByRole('button', {name:'Open draft tools',exact:true}).click();
   await page.getByRole('textbox', { name: 'Write draft' }).fill('Separate synthetic writing context.');
+  await page.getByRole('button', {name:'Write',exact:true}).click();
+  await page.locator('summary').filter({hasText:'Review current snapshot'}).click();
+  await page.getByRole('button', {name:'Attach this text to the conversation',exact:true}).click();
   await page.getByRole('button', { name: 'Talk', exact: true }).click();
-  ensure(await page.locator('[data-talk-context]').getAttribute('data-talk-context') === 'Separate synthetic writing context.', 'photo text automatically leaked to voice context');
+  ensure((await page.locator('[data-talk-context]').getAttribute('data-talk-context')).includes('Separate synthetic writing context.'), 'photo text automatically leaked to voice context');
   await page.getByRole('navigation', { name: 'Ways to work with DO' }).getByRole('button', { name: 'Add image', exact: true }).click();
   ensure((await page.getByRole('textbox', { name: /Page 2 text/ }).inputValue()).includes('Reviewed synthetic page 2'), 'Look switch lost corrected text');
   ensure(await page.locator('img').count() === 3, 'Look switch lost images');

@@ -175,7 +175,7 @@ const check = (label, result) => { assert.ok(result,label); checks.push(label); 
   sessionFailure=false;
   await retryFrame.getByRole('button',{name:'Retry workspace'}).click();
   await retryFrame.getByRole('button',{name:'Write',exact:true}).waitFor();
-  check('embedded explicit Retry recovers failed verification without focus',await retryFrame.locator('#do-source').isVisible());
+  check('embedded explicit Retry recovers failed verification without focus',await retryFrame.locator('#personal-assistant-input').isVisible());
   await retryPage.close();
   check('widget performs no persistence write',writes.every(p=>p==='/api/do/live-token'));
   check('no uncaught errors',errors.length===0);

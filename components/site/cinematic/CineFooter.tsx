@@ -15,7 +15,7 @@ export function CineFooter() {
         <a href="/legal/terms">terms</a>
         <a href="/legal/disclaimer">disclaimer</a>
         <a href="/trust">trust centre</a>
-        <a href="/creative-playground">creative playground</a>
+        <a href="/creative-studio/generate">generative assembly</a>
         {/* Supabase auth lives on the demo host; www /login hard-redirects home. */}
         <a href="https://demo.assembl.co.nz/admin/login">sign in</a>
       </nav>

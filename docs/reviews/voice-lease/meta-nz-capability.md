@@ -1,0 +1,9 @@
+# Meta/Llama NZ speech capability check — 15 October 2026 NZDT
+
+Requested audible test, not provider replacement. Current official https://dev.meta.ai/docs/models lists Muse Voice Transcribe as audio-to-text and explicitly excludes synthesis and speech-to-speech. Wonder/Spark output text. Legacy llama developer model URL could not be read through the web tool (markdown content type); the help page required login. No documented usable speech-output endpoint was established. MODEL_API_KEY, META_API_KEY and LLAMA_API_KEY presence checks were all false in this checkout/environment. No secrets were printed, no private audio uploaded and no generation request made.
+
+Kate's neutral brief is preserved as style guidance: subtle contemporary Auckland New Zealand female voice, roughly30s, warm/friendly, relaxed natural cadence, slight unexaggerated upward inflection, clear enunciation, no American twang, clean studio audio, no music. Accurate Māori place-name pronunciation is a quality criterion. Do not clone Kate or infer identity/reference-video rights; the withdrawn identity phrase is excluded. Casual variant and Māori English influence were not selected.
+
+Synthetic script for the first supported authorised test: “Good morning. Let's make a simple plan for today. We can start in Auckland, check the time in Wellington, and leave room for a break. Six, seven, ten, twenty. What would you like to do first?”
+
+Exact next gate: an official speech synthesis endpoint/model with documented audio output and authorised credential access. Then one short generated clip using this neutral brief and synthetic script, report actual model/voice/config and playable output, and have Kate judge NZ consistency. If only a text model is available, it cannot prove the requested voice. No purchase, clone/upload, browser-cookie credential reuse or production switch is authorised.

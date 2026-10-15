@@ -24,7 +24,7 @@ export interface Preset {
 export const WUBIMONKEY_BLOOM: Preset = {
   id: 'bloom',
   label: 'Wubimonkey Bloom',
-  blurb: 'blue-teal shells stacked like tissue paper',
+  blurb: 'plum and rose shells stacked like tissue paper',
   shells: 28,
   warp: 0.78,
   hue: 200,
@@ -34,7 +34,7 @@ export const WUBIMONKEY_BLOOM: Preset = {
   noise: 1.5,
   palette: {
     ground: '#FDFCF9',
-    stops: ['#0D3B48', '#1A5164', '#2C6E7E', '#4A8A99', '#79A6B2', '#B7CED5'],
+    stops: ['#472A3C', '#5C404E', '#765B67', '#907780', '#AA989E', '#D1C6C9'],
     fillAlphaScale: 0.68,
     strokeAlphaScale: 1.15,
   },
@@ -43,7 +43,7 @@ export const WUBIMONKEY_BLOOM: Preset = {
 export const PETAL_SUNRISE: Preset = {
   id: 'sunrise',
   label: 'Petal Sunrise',
-  blurb: 'warm coral and terracotta at dawn',
+  blurb: 'dusty rose and muted plum at first light',
   shells: 26,
   warp: 0.82,
   hue: 18,
@@ -53,7 +53,7 @@ export const PETAL_SUNRISE: Preset = {
   noise: 1.6,
   palette: {
     ground: '#FDF9F4',
-    stops: ['#3D160C', '#5B2418', '#8F3A22', '#C7623D', '#E39274', '#F3C3AF'],
+    stops: ['#47293A', '#543544', '#6F4D58', '#987A80', '#BBA2A5', '#D9CBCC'],
     fillAlphaScale: 0.75,
     strokeAlphaScale: 1.0,
   },
@@ -61,8 +61,8 @@ export const PETAL_SUNRISE: Preset = {
 
 export const OCEAN_INTERFERENCE: Preset = {
   id: 'ocean',
-  label: 'Ocean Interference',
-  blurb: 'deeper teals with more layers',
+  label: 'Tide Interference',
+  blurb: 'deeper plum with more layers',
   shells: 36,
   warp: 0.72,
   hue: 190,
@@ -71,8 +71,8 @@ export const OCEAN_INTERFERENCE: Preset = {
   stroke: 1.05,
   noise: 1.75,
   palette: {
-    ground: '#F8FAFA',
-    stops: ['#08222A', '#0E2E36', '#164856', '#1F677A', '#4A97A9', '#8AB9C4'],
+    ground: '#FCF9F7',
+    stops: ['#371B2E', '#3A1E31', '#533747', '#705460', '#9C838A', '#BBABAF'],
     fillAlphaScale: 0.80,
     strokeAlphaScale: 1.05,
   },
@@ -81,7 +81,7 @@ export const OCEAN_INTERFERENCE: Preset = {
 export const WHISPER: Preset = {
   id: 'whisper',
   label: 'Whisper',
-  blurb: 'paper-cream, near-monochrome, ultra-soft',
+  blurb: 'paper and chalk, near-monochrome, ultra-soft',
   shells: 20,
   warp: 0.50,
   hue: 30,
@@ -90,8 +90,8 @@ export const WHISPER: Preset = {
   stroke: 0.95,
   noise: 1.15,
   palette: {
-    ground: '#FBF7F0',
-    stops: ['#3B2F22', '#5B4A38', '#8A7660', '#B39F87', '#D0C0AA', '#E8DECD'],
+    ground: '#FAF6F4',
+    stops: ['#41283A', '#5D4554', '#88737D', '#AE9DA3', '#CBBFC2', '#E5DDDD'],
     fillAlphaScale: 0.65,
     strokeAlphaScale: 0.9,
   },
