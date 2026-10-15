@@ -9,6 +9,20 @@ const checks=[],posts=[],errors=[],geometry=[];
 const visibleInPanel=async(link,panel)=>{const a=await link.boundingBox(),b=await panel.boundingBox();return a&&b&&a.y>=b.y&&a.y+a.height<=b.y+b.height};
 const inspect=async(panel)=>panel.evaluate(e=>{const r=e.getBoundingClientRect();return {display:getComputedStyle(e).display,x:r.x,y:r.y,width:r.width,height:r.height,viewport:[innerWidth,innerHeight],scrollWidth:e.scrollWidth,clientWidth:e.clientWidth,scrollHeight:e.scrollHeight,clientHeight:e.clientHeight,links:[...e.querySelectorAll('a')].filter(a=>a.getClientRects().length).map(a=>{const b=a.getBoundingClientRect();return {text:a.textContent,x:b.x,right:b.right,width:b.width,height:b.height,font:getComputedStyle(a).fontSize}})}});
 const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('PASS '+name)};
+async function waitForCapabilities(region, expected) {
+  // Auth initialization can remount this region between separate locator calls.
+  // Poll the complete expected content and return the same matching snapshot.
+  const deadline=Date.now()+30000;
+  let actual=[];
+  do {
+    actual=await region.locator('[data-do-idea]').evaluateAll(es=>es.map(e=>({id:e.dataset.doIdea,label:e.getAttribute('aria-label')})));
+    if(JSON.stringify(actual)===JSON.stringify(expected)) return actual;
+    await new Promise(resolve=>setTimeout(resolve,25));
+  } while(Date.now()<deadline);
+  assert.deepEqual(actual,expected,'capability definitions did not become ready');
+  return actual;
+}
+
 (async()=>{
  fs.mkdirSync(out,{recursive:true});
  const browser=await chromium.launch({headless:true,...(process.env.ASSEMBL_CHROMIUM_PATH?{executablePath:process.env.ASSEMBL_CHROMIUM_PATH}:{channel:'chrome'})});
@@ -79,8 +93,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   await page.setViewportSize({width:375,height:812});check('all phone example text wraps within its control',await page.locator('[data-do-idea]').evaluateAll(es=>es.every(e=>e.scrollWidth<=e.clientWidth)));await page.getByRole('region',{name:'Ideas to get started'}).screenshot({path:out+'/capabilities-phone.png'});
   for(const [surface,url,width] of [['widget','/do/widget',1440],['phone-web','/do/widget',375],['native-hosted','/do/widget?nativeReview=1',430]]){
     await page.setViewportSize({width,height:900});await page.goto(origin+url);await page.locator('#personal-assistant-input').waitFor();
-    await page.getByRole('region',{name:'Conversation with DO',exact:true}).locator('[data-do-idea]').nth(expected.length-1).waitFor({state:'attached'});
-    const actual=await page.getByRole('region',{name:'Conversation with DO',exact:true}).locator('[data-do-idea]').evaluateAll(es=>es.map(e=>({id:e.dataset.doIdea,label:e.getAttribute('aria-label')})));
+    const actual=await waitForCapabilities(page.getByRole('region',{name:'Conversation with DO',exact:true}),expected);
     assert.deepEqual(actual,expected,surface+' capability definitions');
     check(surface+' uses the same capability definitions',JSON.stringify(actual)===JSON.stringify(expected));
     await page.locator('summary').filter({hasText:/^Tools & examples$/}).click();await page.getByRole('button',{name:'Open draft tools',exact:true}).click();
@@ -96,8 +109,8 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   }
   await page.setViewportSize({width:500,height:900});await page.goto(origin+'/entry-fixture');await page.getByRole('button',{name:'Ask DO. Drag to move or use Alt and arrow keys.',exact:true}).click();
   const frame=page.frameLocator('iframe');await frame.locator('#personal-assistant-input').waitFor();
-  await frame.getByRole('region',{name:'Conversation with DO',exact:true}).locator('[data-do-idea]').nth(expected.length-1).waitFor({state:'attached'});
-  check('companion iframe uses the same capability definitions',JSON.stringify(await frame.getByRole('region',{name:'Conversation with DO',exact:true}).locator('[data-do-idea]').evaluateAll(es=>es.map(e=>({id:e.dataset.doIdea,label:e.getAttribute('aria-label')}))))===JSON.stringify(expected));
+  const embeddedCapabilities=await waitForCapabilities(frame.getByRole('region',{name:'Conversation with DO',exact:true}),expected);
+  check('companion iframe uses the same capability definitions',JSON.stringify(embeddedCapabilities)===JSON.stringify(expected));
   await frame.locator('#personal-assistant-input').fill('Fictional companion draft.');await frame.getByRole('region',{name:'Conversation with DO',exact:true}).getByText('Draft something else', {exact:true}).click();await frame.getByRole('region',{name:'Conversation with DO',exact:true}).locator('[data-do-idea=school]').click();
   await page.waitForTimeout(100);check('companion preserves draft when adding an idea',(await frame.locator('#personal-assistant-input').inputValue()).startsWith('Fictional companion draft.\n\n'));
   const menu=frame.locator('details[data-do-overlay]');await menu.locator('summary').first().click();await menu.locator('details>summary').click();
