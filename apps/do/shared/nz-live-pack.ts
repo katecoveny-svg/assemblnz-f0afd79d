@@ -118,6 +118,7 @@ export const NZ_LIVE_TOOLS: readonly NzLiveToolDef[] = [
     edgeFunction: 'bus-positions',
     upstream: 'https://api.at.govt.nz/realtime/legacy/vehiclelocations',
     envKeys: ['AT_API_KEY'],
+    secretScope: 'supabase_edge',
     baseStatus: 'needs_key',
     namedToolkit: 'travel_nz',
     priority: 'shipped',

@@ -148,6 +148,9 @@ export async function probePcoLegislationLive(): Promise<boolean> {
 }
 
 function toolNote(tool: NzLiveToolDef, edgeLive: Record<string, boolean>): string | undefined {
+  if (tool.toolId === 'at_bus_positions') {
+    return 'Uses the existing bus-positions adapter and its Supabase Edge key. Local key absence does not establish Edge configuration; verify vehicle timestamps on each response. Vehicle positions are not arrival predictions or a journey plan.';
+  }
   if (tool.toolId === 'pco_legislation') {
     return edgeLive.pco_legislation
       ? 'Live via mcp-nz-govt using Supabase edge secret PCO_API_KEY (same key as adapter-pco). Not mirrored into Next.js unless set locally for status.'
