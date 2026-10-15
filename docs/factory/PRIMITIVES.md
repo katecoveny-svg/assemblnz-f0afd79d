@@ -13,6 +13,11 @@ Local Gmail follow-up: server-only effective-scope/credential-expiry metadata ve
 explicit account selection and snapshot-change rejection; no live account proof or
 Outlook activation. See [grant evidence and briefing gates](../DO-MAIL-GRANT-VERIFICATION.md).
 
+Readiness follow-up reuses verified ownership and the existing SELECT-only storage
+readiness RPC: `/api/do/personal/readiness` returns configuration and owner readiness
+without content loaders or cleanup. Gmail metadata verification is independent of
+mailbox activation. See [readiness and activation proposal](../do-personal/READINESS-PREFLIGHT.md).
+
 A primitive is a reusable capability that makes later products faster, safer or better.
 
 Do not extract something merely because it might be reused. Prefer extraction after a second real use or when the mechanic is clearly cross-product infrastructure.

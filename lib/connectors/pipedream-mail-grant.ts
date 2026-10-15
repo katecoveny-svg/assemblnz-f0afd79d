@@ -1,7 +1,7 @@
 import 'server-only';
 import { createHash } from 'node:crypto';
 import { z } from 'zod';
-import { GMAIL_READ_SCOPE, personalMailReadEnabled, verifiedMailGrant, type MailGrantVerifier } from '@/apps/do/mail/capability';
+import { GMAIL_READ_SCOPE, verifiedMailGrant, type MailGrantVerifier } from '@/apps/do/mail/capability';
 import { mailAccountId } from '@/apps/do/mail/contract';
 import { doConnectorConfigured, listConnectedAccounts, retrievePersonalMailAccountMetadata } from './pipedream';
 
@@ -71,6 +71,6 @@ export function createPipedreamMailGrantVerifier(ports: MailMetadataPorts): Mail
   };
 }
 export const verifyPipedreamMailGrant = createPipedreamMailGrantVerifier({
-  configured: app => personalMailReadEnabled() && doConnectorConfigured(app), accounts: listConnectedAccounts,
+  configured: doConnectorConfigured, accounts: listConnectedAccounts,
   retrieve: retrievePersonalMailAccountMetadata, now: () => Date.now(),
 });

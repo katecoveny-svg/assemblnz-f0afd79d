@@ -16,6 +16,16 @@ describe('mail HTTP authority boundary', () => {
     expect(response.headers.get('cache-control')).toBe('private, no-store');
     expect(mocks.read).not.toHaveBeenCalled(); expect(mocks.owner).toHaveBeenCalledTimes(2);
   });
+  it('rejects caller-selected metadata owner queries before provider access', async () => {
+    expect((await GET(new Request('https://do.example.invalid/api/do/mail?ownerId=other'))).status).toBe(400);
+    expect(mocks.readiness).not.toHaveBeenCalled();
+  });
+  it('discards metadata cancelled during the final owner recheck', async () => {
+    const controller = new AbortController();
+    mocks.owner.mockResolvedValueOnce(owner).mockImplementationOnce(async () => { controller.abort(); return owner; });
+    const response = await GET(new Request('https://do.example.invalid/api/do/mail', { signal: controller.signal }));
+    expect(response.status).toBe(503); expect(await response.text()).not.toContain(owner.id);
+  });
   it('rejects a metadata response after owner switch', async () => {
     mocks.owner.mockResolvedValueOnce(owner).mockResolvedValueOnce(null);
     expect((await GET(new Request('https://do.example.invalid/api/do/mail'))).status).toBe(409);

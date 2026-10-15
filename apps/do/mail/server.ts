@@ -1,5 +1,5 @@
 import 'server-only';
-import { verifyPersonalMailGrant, verifiedMailGrant, type MailGrantVerifier } from './capability';
+import { personalMailReadEnabled, verifyPersonalMailGrant, verifiedMailGrant, type MailGrantVerifier } from './capability';
 import { z } from 'zod';
 import { accountOwner, doConnectorConfigured, doPersonalMailRead, listConnectedAccounts, type ConnectedAccount } from '@/lib/connectors/pipedream';
 import { decodeGmail, type GmailPayload } from '@/apps/do/services/family';
@@ -10,12 +10,13 @@ export class MailError extends Error {
 }
 type Owner = { id: string; externalId: string };
 export type MailPorts = {
+  enabled: () => boolean;
   verifyGrant: MailGrantVerifier;
   accounts: typeof listConnectedAccounts;
   read: typeof doPersonalMailRead;
   configured: typeof doConnectorConfigured;
 };
-const ports: MailPorts = { verifyGrant: verifyPersonalMailGrant, accounts: listConnectedAccounts, read: doPersonalMailRead, configured: doConnectorConfigured };
+const ports: MailPorts = { enabled: personalMailReadEnabled, verifyGrant: verifyPersonalMailGrant, accounts: listConnectedAccounts, read: doPersonalMailRead, configured: doConnectorConfigured };
 const owned = (a: ConnectedAccount, owner: Owner) => accountOwner(a) === owner.externalId &&
   (!a.external_user_id || a.external_user_id === owner.externalId) && (!a.external_id || a.external_id === owner.externalId);
 function verifyOwner(owner: Owner) {
@@ -43,7 +44,7 @@ export async function mailReadiness(owner: Owner, signal: AbortSignal, dependenc
     for (const account of ready) {
       if (account.state !== 'gmail_read_unverified') continue;
       const grant = await dependencies.verifyGrant(owner.externalId, account.id, signal);
-      if (verifiedMailGrant(grant, owner.externalId, account.id)) { account.state = 'read_available'; account.scopeVerified = true; }
+      if (verifiedMailGrant(grant, owner.externalId, account.id)) { account.state = dependencies.enabled() ? 'read_available' : 'activation_off'; account.scopeVerified = true; }
       signal.throwIfAborted();
     }
     return { ...base, accounts: ready, accountsAvailable: true };
@@ -72,6 +73,7 @@ export async function readMail(raw: unknown, owner: Owner, signal: AbortSignal, 
   let revision: string | undefined;
   const guard = async () => {
     signal.throwIfAborted();
+    if (!dependencies.enabled()) throw new MailError('activation_off', 503);
     const current = await recheckOwner();
     if (!current || current.id !== owner.id || current.externalId !== owner.externalId) throw new MailError('owner_changed', 409);
     const accounts = await dependencies.accounts(owner.externalId, signal);

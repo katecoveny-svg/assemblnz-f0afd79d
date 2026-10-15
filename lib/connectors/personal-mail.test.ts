@@ -29,6 +29,14 @@ describe('mail transport allowlist', () => {
     expect(upstream.searchParams.get('maxResults')).toBe('10');
     expect(upstream.searchParams.get('q')).toBe('"Example" "Clinic" newer_than:7d -in:spam -in:trash');
   });
+  it('discards direct transport results when activation turns off during the proxy call', async () => {
+    setup(); fetcher.mockImplementationOnce(async () => {
+      vi.stubEnv('DO_PERSONAL_MAIL_READ_ENABLED', 'false');
+      return Response.json({ messages: [] });
+    });
+    const { doPersonalMailRead } = await import('./pipedream');
+    await expect(doPersonalMailRead(owner, 'second', { kind: 'search', search }, new AbortController().signal)).rejects.toThrow('gmail_read_unverified');
+  });
   it('discards direct transport results if the grant changes during the proxy call', async () => {
     setup(); fetcher.mockImplementationOnce(async () => {
       grantVerifier.mockResolvedValue({ externalOwner: owner, accountId: 'second', provider: 'gmail',

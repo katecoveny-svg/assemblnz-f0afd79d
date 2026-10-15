@@ -30,7 +30,6 @@ export function personalMailReadEnabled(): boolean {
 /** Metadata-only provider adapter; never infers scopes from configuration or health. */
 export const verifyPersonalMailGrant: MailGrantVerifier = async (owner, account, signal) => {
   signal.throwIfAborted();
-  if (!personalMailReadEnabled()) return null;
   // Lazy import keeps the shared connector's transport -> validator dependency acyclic at init.
   const { verifyPipedreamMailGrant } = await import('@/lib/connectors/pipedream-mail-grant');
   return verifyPipedreamMailGrant(owner, account, signal);

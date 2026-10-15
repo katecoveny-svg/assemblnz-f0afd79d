@@ -179,7 +179,8 @@ because the saved pnpm executable returned no useful execution output.
 The final-list gap identified on `f0f2180` is fixed: full metadata validation and
 snapshot comparison precede proxy dispatch. Production-wiring tests change dead,
 effective scopes and credential expiry while leaving health true, and assert zero
-proxy calls. Default-off/invalid flag values make zero provider requests; enabling
+proxy calls. Default-off/invalid flag values make zero mailbox transport requests. Metadata-only
+readiness may check existing account grants independently of activation; enabling
 the flag without effective scopes still denies. The server comment now describes
 observed-change rejection rather than promising that all revocations are detected.
 Provider consistency/atomicity unknowns and live proof gates above remain open.

@@ -12,11 +12,14 @@ const json = (body: unknown, status = 200) => Response.json(body, { status, head
 export async function GET(req: Request) {
   const owner = await doOwner();
   if (!owner) return json({ error: 'sign_in_required' }, 401);
+  if (new URL(req.url).search) return json({ error: 'invalid_query' }, 400);
   if (!admitDoRequest(`mail-readiness:${owner.id}`)) return json({ error: 'rate_limited' }, 429);
   try {
-    const readiness = await mailReadiness(owner, AbortSignal.any([req.signal, AbortSignal.timeout(15_000)]));
+    const signal = AbortSignal.any([req.signal, AbortSignal.timeout(15_000)]);
+    const readiness = await mailReadiness(owner, signal);
     const current = await doOwner();
-    if (current?.id !== owner.id) return json({ error: 'owner_changed' }, 409);
+    signal.throwIfAborted();
+    if (current?.id !== owner.id || current.externalId !== owner.externalId) return json({ error: 'owner_changed' }, 409);
     return json(readiness);
   } catch { return json({ error: 'readiness_unavailable' }, 503); }
 }
