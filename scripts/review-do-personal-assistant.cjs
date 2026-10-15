@@ -1,3 +1,4 @@
+const { openPersonalEntry } = require('./personal-entry-helpers.cjs');
 /* Personal DO conversation proof. All account/model responses are fictional fixtures. */
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -40,6 +41,7 @@ const makeResult = message => ({
     });
     await page.addInitScript(() => { window.__assistantClipboard = []; Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async text => { window.__assistantClipboard.push(text); } } }); });
     await page.goto(origin + '/do/personal', { waitUntil: 'networkidle', timeout: 120_000 });
+    await openPersonalEntry(page);
     const panel = page.getByRole('region', { name: 'Ask Pip', exact: true });
     const input = panel.locator('#personal-assistant-input');
     await input.fill('Fictional request: prepare a short reply.');

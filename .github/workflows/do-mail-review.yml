@@ -3,7 +3,7 @@ on:
   push:
     branches: [codex/personal-do-mail-voice-review]
   pull_request:
-    paths: ['apps/do/mail/**', 'app/do/mail/**', 'app/api/do/mail/**', 'lib/connectors/personal-mail.test.ts', 'lib/connectors/pipedream.ts', 'scripts/review-do-mail.cjs', '.github/workflows/do-mail-review.yml']
+    paths: ['apps/do/mail/**', 'app/do/mail/**', 'app/api/do/mail/**', 'lib/connectors/personal-mail.test.ts', 'lib/connectors/pipedream.ts', 'scripts/review-do-mail.cjs', 'scripts/review-do-mail-voice.cjs', 'scripts/personal-entry-helpers.cjs', '.github/workflows/do-mail-review.yml']
   workflow_dispatch:
 permissions:
   contents: read

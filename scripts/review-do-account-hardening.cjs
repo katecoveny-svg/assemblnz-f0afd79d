@@ -1,3 +1,4 @@
+const { openPersonalEntry } = require('./personal-entry-helpers.cjs');
 /** Synthetic owner/race/limit proof. Every API and external origin is intercepted. No live providers or records. */
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -91,12 +92,18 @@ function check(name, value) { assert.ok(value, name); checks.push(name); console
   await page.locator('#memory-text').fill('Synthetic stale A draft'); await page.getByRole('checkbox').check(); owner = B;
   await page.getByRole('button', { name: 'Save note', exact: true }).click(); await page.getByText('Synthetic B note', { exact: true }).waitFor();
   check('Workspace-conflict response clears stale A draft before B can save', await page.locator('#memory-text').inputValue() === '' && posts.at(-1).owner === A);
+  // Cross-tab invalidation above is deliberately tested without focus. Bring the
+  // reviewed page forward only now, before Chromium captures its rendered fonts.
+  await page.bringToFront();
+  await page.getByText('Synthetic B note', { exact: true }).waitFor();
+  await page.evaluate(() => document.fonts.ready);
   await page.screenshot({ path: out + '/memory-desktop.png', fullPage: true });
   await page.setViewportSize({ width: 375, height: 812 });
   await page.screenshot({ path: out + '/memory-375.png', fullPage: true });
   check('Memory fits 375px', await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-  await page.setViewportSize({ width: 1280, height: 900 }); await page.goto(origin + '/do');
+  await page.setViewportSize({ width: 1280, height: 900 }); await page.goto(origin + '/do'); await openPersonalEntry(page);
   await page.getByRole('button', { name: /Synthetic kept conversation/ }).click();
+  await openPersonalEntry(page);
   await page.locator('#personal-assistant-input').fill('Synthetic next message');
   await page.getByRole('button', { name: 'Start', exact: true }).click();
   await page.getByRole('checkbox', { name: /Share this message/ }).check();

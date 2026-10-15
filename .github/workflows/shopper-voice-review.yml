@@ -11,6 +11,8 @@ on:
       - 'apps/do/shared/audio-exclusion*'
       - 'components/do/DoCapabilityIdeas.tsx'
       - 'components/do/DoFocusWorkspace.tsx'
+      - 'scripts/review-shopper-voice.cjs'
+      - 'scripts/personal-entry-helpers.cjs'
       - '.github/workflows/shopper-voice-review.yml'
 permissions:
   contents: read

@@ -97,6 +97,11 @@ jobs:
           node scripts/brand-guard.mjs
           pnpm lint:macrons
       - name: Production build
+        # Fictional public auth configuration enables the real cross-tab listener.
+        # The account-boundary proof intercepts all API traffic; no live project is used.
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: https://synthetic.supabase.co
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: synthetic-public-test-key
         run: pnpm build
       - name: Install isolated browser verification tools
         run: |
@@ -130,6 +135,8 @@ jobs:
       - name: Personal DO browser proof with fictional account and audio fixtures
         env:
           ASSEMBL_REVIEW_ORIGIN: http://127.0.0.1:3117
+          NEXT_PUBLIC_SUPABASE_URL: https://synthetic.supabase.co
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: synthetic-public-test-key
         run: |
           set -euo pipefail
           node node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3117 > /tmp/personal-do-server.log 2>&1 &
@@ -165,8 +172,12 @@ jobs:
           chrome_status=$?
           ASSEMBL_REVIEW_ORIGIN=http://localhost:3117 ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/more-capabilities node scripts/review-do-more-capabilities.cjs
           more_status=$?
+          ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/mobile node scripts/review-personal-mobile.cjs
+          mobile_status=$?
+          ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/account-hardening node scripts/review-do-account-hardening.cjs
+          account_status=$?
           set -e
-          test "$drafts_status" -eq 0 && test "$voice_status" -eq 0 && test "$header_status" -eq 0 && test "$settings_status" -eq 0 && test "$calls_status" -eq 0 && test "$portable_status" -eq 0 && test "$assistant_status" -eq 0 && test "$site_status" -eq 0 && test "$refinement_status" -eq 0 && test "$unified_status" -eq 0 && test "$entry_status" -eq 0 && test "$chrome_status" -eq 0 && test "$more_status" -eq 0
+          test "$drafts_status" -eq 0 && test "$voice_status" -eq 0 && test "$header_status" -eq 0 && test "$settings_status" -eq 0 && test "$calls_status" -eq 0 && test "$portable_status" -eq 0 && test "$assistant_status" -eq 0 && test "$site_status" -eq 0 && test "$refinement_status" -eq 0 && test "$unified_status" -eq 0 && test "$entry_status" -eq 0 && test "$chrome_status" -eq 0 && test "$more_status" -eq 0 && test "$mobile_status" -eq 0 && test "$account_status" -eq 0
       - uses: actions/upload-artifact@v4
         if: always()
         with:
