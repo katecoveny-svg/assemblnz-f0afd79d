@@ -24,7 +24,7 @@ describe('Personal DO visual entry', () => {
     expect(html.match(/data-do-primary-input="true"/g)).toHaveLength(1);
     expect(html).toContain('id="personal-assistant-input"');
     expect(html).toContain('Note or checklist');
-    expect(html).toContain('>Write</button>');
+    expect([...html.matchAll(/<button\b[^>]*>([\s\S]*?)<\/button>/g)].map(match => match[1].replace(/<[^>]*>/g, '').trim())).toContain('Write');
     expect(html).toContain('id="personal-local-checklist" hidden=""');
     expect(html).toContain('Saved checklists');
     expect(html).toContain('Photo');
