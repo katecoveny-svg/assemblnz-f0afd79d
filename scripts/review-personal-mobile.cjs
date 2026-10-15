@@ -87,7 +87,10 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
    await page.getByRole('button',{name:'Clear task',exact:true}).focus();
    await page.keyboard.press('Enter');
    check(width+': Clear task focuses the visible checklist editor',await page.locator('#life-admin-source').evaluate(el=>el===document.activeElement && el.getClientRects().length>0));
-   check(width+': Clear task preserves checklist note and hides task context',await page.locator('#life-admin-source').inputValue()==='Synthetic checklist note to preserve.' && await page.getByRole('complementary',{name:'Chosen task'}).count()===0);
+   // Focus is synchronous; task-context removal completes in the React commit.
+   await page.getByRole('complementary',{name:'Chosen task'}).waitFor({state:'detached'});
+   assert.equal(await page.locator('#life-admin-source').inputValue(),'Synthetic checklist note to preserve.',width+': Clear task must preserve the exact checklist note');
+   check(width+': Clear task preserves checklist note and hides task context',await page.getByRole('complementary',{name:'Chosen task'}).count()===0);
    check(width+': Clear task never focuses hidden Write editor',!await page.locator('#personal-assistant-input').isVisible() && !await page.locator('#personal-assistant-input').evaluate(el=>el===document.activeElement));
    await page.locator('#life-admin-source').fill('');
 
