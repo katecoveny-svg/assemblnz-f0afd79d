@@ -17,7 +17,7 @@ import { personalAssistantAvailability, checkedPersonalAssistantAvailability, ru
 
 const owner = 'test-owner';
 const input = personalAssistantInputSchema.parse({ message: 'Help me plan the house move.', consent: true });
-const output = { reply: 'Start with the moving date.', rationale: 'The date determines the order of work.', evidence: [{ source: 'message', quote: 'house move' }], missingInformation: ['Moving date'], nextStep: { kind: 'review_draft', label: 'Review this plan', draft: '1. Confirm the moving date.\n2. List the rooms to pack.' } };
+const output = { reply: 'Start with the moving date.', rationale: 'The date determines the order of work.', evidence: [{ source: 'message', citation: null, quote: 'house move' }], missingInformation: ['Moving date'], nextStep: { kind: 'review_draft', label: 'Review this plan', draft: '1. Confirm the moving date.\n2. List the rooms to pack.' } };
 const evaluation = (choice: 'prepare' | 'clarify' | 'unsupported' = 'prepare', confidence = 0.9) => ({ evaluation: { model: 'jev-1.13.0', action: { type: 'choice' as const, choice, confidence, probabilities: { prepare: 0.9, clarify: 0.08, unsupported: 0.02 } }, usage: { input_tokens: 100, output_tokens: 10 } }, elapsedMs: 50, attempts: 1 });
 beforeEach(() => {
   vi.clearAllMocks();
@@ -99,7 +99,7 @@ describe('Personal DO live-provider orchestration (mocked providers)', () => {
   });
   it('fails closed on forged evidence, wrong actual model, incomplete output and raw provider errors', async () => {
     for (const response of [
-      { output: { ...output, evidence: [{ source: 'notes', quote: 'invented' }] }, response: { modelId: 'gpt-6-astra' }, finishReason: 'stop' },
+      { output: { ...output, evidence: [{ source: 'notes', citation: null, quote: 'invented' }] }, response: { modelId: 'gpt-6-astra' }, finishReason: 'stop' },
       { output, response: { modelId: 'gpt-4.1-mini' }, finishReason: 'stop' },
       { output, response: { modelId: 'gpt-6-astra' }, finishReason: 'length' },
     ]) {

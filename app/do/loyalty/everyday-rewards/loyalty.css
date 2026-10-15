@@ -5,7 +5,7 @@
   --ld-muted: #52614f;
   background: var(--ld-paper);
   color: var(--ld-green);
-  font-family: var(--font-body), "Instrument Sans", Arial, sans-serif;
+  font-family: var(--font-body), "Instrument Sans", sans-serif;
   line-height: 1.5;
   isolation: isolate;
 }
@@ -52,7 +52,7 @@
 .loyalty-do h1,
 .loyalty-do h2,
 .loyalty-do h3 {
-  font-family: var(--font-display), "Instrument Sans", Arial, sans-serif;
+  font-family: var(--font-display), "Instrument Sans", sans-serif;
 }
 .ld-proposal {
   padding: 9px 20px;

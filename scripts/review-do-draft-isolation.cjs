@@ -31,6 +31,8 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
     await page.goto(origin + '/do/widget', { waitUntil: 'networkidle', timeout: 120000 });
     await page.evaluate(({ key, A, fixture }) => { localStorage.setItem(key, JSON.stringify([fixture])); localStorage.setItem(key + ':guest', JSON.stringify([fixture])); localStorage.setItem(key + ':' + A, JSON.stringify([fixture])); }, { key, A, fixture });
     await page.reload({ waitUntil: 'networkidle' });
+    await page.locator('summary').filter({ hasText: /^Tools & examples$/ }).click();
+    await page.getByRole('button', { name: 'Open draft tools', exact: true }).click();
     await page.getByRole('button', { name: /Fixture 1 Reviewed draft/ }).click();
     check('populated reviewed draft reopens for A', await page.locator('#do-result').inputValue() === fixture.draft.text && await page.locator('#do-reviewer').inputValue() === 'Fixture A');
     await page.screenshot({ path: out + '/owner-a-375.png', fullPage: true, animations: 'disabled' });
@@ -47,9 +49,15 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
     catch (error) { console.error('Mutation identity fixture state', await page.evaluate(() => ({ text: document.querySelector('#do-result')?.value, body: document.body.innerText }))); throw error; }
     check('Save discovering B without lifecycle events revokes A content and preserves A storage', await page.evaluate(({ key, A, B, originalA }) => localStorage.getItem(key + ':' + A) === originalA && localStorage.getItem(key + ':' + B) === null, { key, A, B, originalA }));
     owner = A; await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+    await page.locator('#personal-assistant-input').waitFor({ state: 'visible' });
+    await page.locator('summary').filter({ hasText: /^Tools & examples$/ }).click();
+    await page.getByRole('button', { name: 'Open draft tools', exact: true }).click();
     await page.getByRole('button', { name: /Fixture 1 Reviewed draft/ }).click();
 
     owner = B; await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+    await page.locator('#personal-assistant-input').waitFor({ state: 'visible' });
+    await page.locator('summary').filter({ hasText: /^Tools & examples$/ }).click();
+    await page.getByRole('button', { name: 'Open draft tools', exact: true }).click();
     await page.waitForFunction(() => document.querySelector('#do-source')?.value === '');
     check('account switch removes populated draft and source from editor', await page.locator('#do-result').count() === 0 && !await page.getByText('Fixture 1', { exact: true }).count());
     check('legacy draft is hidden instead of assigned to B', await page.evaluate(({ key, B }) => localStorage.getItem(key + ':' + B) === null && localStorage.getItem(key) !== null, { key, B }));
@@ -62,6 +70,9 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
     check('using an independently retained copy only focuses the existing empty editor', await page.locator('#do-source').inputValue() === '' && await page.locator('#do-source').evaluate(e => e === document.activeElement) && mutations.length === 0);
     await page.screenshot({ path: out + '/owner-b-375.png', fullPage: true, animations: 'disabled' });
     owner = A; await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+    await page.locator('#personal-assistant-input').waitFor({ state: 'visible' });
+    await page.locator('summary').filter({ hasText: /^Tools & examples$/ }).click();
+    await page.getByRole('button', { name: 'Open draft tools', exact: true }).click();
     await page.getByRole('button', { name: /Fixture 1 Reviewed draft/ }).click();
     check('original account recovers unchanged reviewed draft', await page.locator('#do-result').inputValue() === fixture.draft.text);
     unavailable = true; await page.evaluate(() => window.dispatchEvent(new Event('assembl:do-writing-retry')));
@@ -71,6 +82,8 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
     await page.locator('#do-result').waitFor();
     check('same-account reconnect recovers editor without transmission', await page.locator('#do-result').inputValue() === fixture.draft.text && mutations.length === 0);
     const second = await context.newPage(); await second.goto(origin + '/do/widget', { waitUntil: 'networkidle' });
+    await second.locator('summary').filter({ hasText: /^Tools & examples$/ }).click();
+    await second.getByRole('button', { name: 'Open draft tools', exact: true }).click();
     await second.getByRole('button', { name: /Fixture 1 Reviewed draft/ }).waitFor();
     await page.locator('#do-result').fill('Tab one changed text');
     await page.getByRole('button', { name: 'Save in this browser', exact: true }).click();
@@ -96,10 +109,16 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
     check('quota failure does not claim save or replace saved copy', await page.evaluate(({ key, A }) => JSON.parse(localStorage.getItem(key + ':' + A))[0].draft.text === 'Tab two newer edit', { key, A }));
     await page.evaluate(() => { Storage.prototype.setItem = window.__setItem; });
     owner = 'guest'; await second.evaluate(() => localStorage.setItem('sb-fixture-auth-token', 'signed-out'));
+    await page.locator('#personal-assistant-input').waitFor({ state: 'visible' });
+    await page.locator('summary').filter({ hasText: /^Tools & examples$/ }).click();
+    await page.getByRole('button', { name: 'Open draft tools', exact: true }).click();
     await page.waitForFunction(() => document.querySelector('#do-source')?.value === '');
     check('cross-tab signout clears populated editor', await page.locator('#do-result').count() === 0);
     await page.locator('#do-source').fill('Anonymous unsaved fixture');
     owner = B; await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+    await page.locator('#personal-assistant-input').waitFor({ state: 'visible' });
+    await page.locator('summary').filter({ hasText: /^Tools & examples$/ }).click();
+    await page.getByRole('button', { name: 'Open draft tools', exact: true }).click();
     await page.waitForFunction(() => document.querySelector('#do-source')?.value === '');
     check('anonymous to signed-in transition does not adopt anonymous text', await page.locator('#do-source').inputValue() === '');
     check('legacy and guest-scoped originals remain byte-for-byte intact', await page.evaluate(({ key, fixture }) => localStorage.getItem(key) === JSON.stringify([fixture]) && localStorage.getItem(key + ':guest') === JSON.stringify([fixture]), { key, fixture }));

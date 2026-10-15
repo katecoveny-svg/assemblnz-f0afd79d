@@ -1,6 +1,7 @@
 const esbuild = require(process.env.ASSEMBL_ESBUILD_MODULE || '../../../node_modules/.pnpm/esbuild@0.28.0/node_modules/esbuild');
 const fs = require('node:fs');
 const stubs = {
+  "@/app/do/personal/PersonalDoAssistant": "export function PersonalDoAssistant(){return <div>Synthetic typed conversation; no provider calls.</div>}",
   'next/image': 'export default function Image({priority,unoptimized,fill,...p}){return <img {...p}/>}',
   '@/app/do/DoTextWorkspace': 'export function DoTextWorkspace(p){return <label>Write draft<textarea aria-label="Write draft" onChange={e=>p.onSourceChange(e.target.value)} /></label>}',
   '@/app/do/DoGeminiLive': 'export function DoGeminiLive(p){return <div data-talk-context={p.context}>Synthetic voice surface; no media or provider calls.</div>}',

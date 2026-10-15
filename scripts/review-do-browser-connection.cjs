@@ -4,6 +4,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
+const { indexedDB } = require('fake-indexeddb'); // Test-only browser API; actual journal implementation stays unchanged.
 const { createRequire } = require('node:module');
 const { build } = createRequire(require.resolve('tsx'))('esbuild');
 const { chromium } = require(process.env.ASSEMBL_PLAYWRIGHT_MODULE || 'playwright');
@@ -42,7 +43,7 @@ const checks = [], check = (name, ok) => { assert.ok(ok, name); checks.push(name
  await workspace.exposeFunction('fixtureSend',message=>invoke(message,{id:'synthetic',tab:{id:8},documentId:tabs.get(8).documentId,url:tabs.get(8).url}));
  await companion.exposeFunction('fixtureSend',message=>invoke(message,{id:'synthetic',url:extensionUrl}));
  for(const page of [workspace,companion])await page.addInitScript(()=>{window.process={env:{NODE_ENV:'production'}};window.chrome={runtime:{sendMessage:message=>window.fixtureSend(message)}};});
- const sandbox={console,crypto:require('node:crypto').webcrypto,TextEncoder,setTimeout,clearTimeout,URL,AbortSignal};
+ const sandbox={console,indexedDB,structuredClone,crypto:require('node:crypto').webcrypto,TextEncoder,setTimeout,clearTimeout,URL,AbortSignal};
  sandbox.chrome={runtime:{id:'synthetic',getURL:file=>'chrome-extension://synthetic/'+file,onMessage:{addListener:fn=>{listener=fn;}}},tabs:{
   get:async id=>{const t=tabs.get(id);if(!t)throw Error('Tab closed');return{id,url:t.url};},
   query:async q=>q.active?[{id:4,url:tabs.get(4).url}]:[...tabs].map(([id,t])=>({id,url:t.url})),
@@ -53,13 +54,15 @@ const checks = [], check = (name, ok) => { assert.ok(ok, name); checks.push(name
   const result=await t.page.evaluate(({source,args})=>(0,eval)('('+source+')')(...args),{source:options.func.toString(),args:options.args||[]});
   return[{documentId:t.documentId,result}];
  }}};
+ try {
  vm.createContext(sandbox);sandbox.importScripts=file=>vm.runInContext(fs.readFileSync('apps/do/extension/'+file,'utf8'),sandbox);
  vm.runInContext(fs.readFileSync('apps/do/extension/browser-task-worker.js','utf8'),sandbox);
- try {
   await workspace.goto(tabs.get(8).url);await storefront.goto(tabs.get(4).url);
   await storefront.evaluate(()=>{document.querySelectorAll('[data-set-quantity]').forEach(button=>button.addEventListener('click',()=>{const row=button.closest('[data-product]');row.querySelector('output').value=row.querySelector('input').value;const root=document.querySelector('[data-do-cart-fixture]');root.dataset.revision=String(Number(root.dataset.revision)+1);}));});
   await companion.goto('http://127.0.0.1:4199/browser-connection.html');
   await companion.locator('#setup summary').click();
+  await companion.getByRole('button',{name:'Set up local recovery',exact:true}).click();
+  await companion.locator('#journal-status').filter({hasText:'Local recovery is ready.'}).waitFor();
   await companion.getByRole('button',{name:'Find my test tab',exact:true}).click();
   await companion.getByRole('button',{name:'Connect for two minutes'}).click();
   await companion.locator('#status').filter({hasText:'Test cart connected.'}).waitFor();

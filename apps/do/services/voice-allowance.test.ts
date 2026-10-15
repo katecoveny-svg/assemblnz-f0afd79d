@@ -47,6 +47,19 @@ afterEach(() => {
   vi.unstubAllEnvs();
 });
 describe("Persistent DO voice quota", () => {
+  it("uses the configured budget without resetting previously reserved slots", async () => {
+    vi.stubEnv("DO_VOICE_DAILY_SECONDS", "1200");
+    const results = await Promise.allSettled(Array.from({ length: 9 }, () => reserveDoVoice("alice")));
+    expect(results.filter(r => r.status === "fulfilled")).toHaveLength(4);
+    expect(await readDoVoiceAllowance("alice")).toBe(0);
+    expect(await readDoVoiceAllowance("bob")).toBe(4);
+    vi.stubEnv("DO_VOICE_DAILY_SECONDS", "900");
+    expect(await readDoVoiceAllowance("alice")).toBe(0);
+    await expect(reserveDoVoice("alice")).rejects.toMatchObject({ code: "exhausted" });
+    vi.stubEnv("DO_VOICE_DAILY_SECONDS", "1500");
+    expect(await readDoVoiceAllowance("alice")).toBe(1);
+  });
+
   it("arbitrates concurrent reservations through unique slots and isolates users", async () => {
     const results = await Promise.allSettled(
       Array.from({ length: 8 }, () => reserveDoVoice("alice")),
@@ -55,6 +68,15 @@ describe("Persistent DO voice quota", () => {
     expect(await readDoVoiceAllowance("alice")).toBe(0);
     expect(await readDoVoiceAllowance("bob")).toBe(3);
     expect(JSON.stringify([...db.rows.values()])).not.toContain("alice");
+  });
+  it("counts higher numbered earlier slots after reducing the budget", async () => {
+    vi.stubEnv("DO_VOICE_DAILY_SECONDS", "1200");
+    const first = await reserveDoVoice("alice");
+    await reserveDoVoice("alice"); await reserveDoVoice("alice"); await reserveDoVoice("alice");
+    await first.release();
+    vi.stubEnv("DO_VOICE_DAILY_SECONDS", "900");
+    expect(await readDoVoiceAllowance("alice")).toBe(0);
+    await expect(reserveDoVoice("alice")).rejects.toMatchObject({ code: "exhausted" });
   });
   it("releases only its own reservation and resets at New Zealand midnight", async () => {
     const alice = await reserveDoVoice("alice");

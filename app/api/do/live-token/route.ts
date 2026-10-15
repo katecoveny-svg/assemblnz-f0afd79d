@@ -1,3 +1,5 @@
+import { voiceLeaseRuntime } from "@/apps/do/services/voice-lease/runtime";
+import { readDoVoicePolicy } from "@/apps/do/services/voice-policy";
 import { voiceRevision } from "@/apps/do/services/voice-preference";
 import { GoogleGenAI } from "@google/genai";
 import { getPersonalDoProfile } from "@/apps/do/personal/profile-service";
@@ -15,9 +17,7 @@ import {
   reserveDoVoice,
 } from "@/apps/do/services/voice-allowance";
 import {
-  DO_VOICE_DAILY_SESSIONS,
   DO_VOICE_MODELS,
-  DO_VOICE_SECONDS,
   doVoiceConfig,
   doVoiceRequest,
 } from "@/apps/do/shared/gemini-live";
@@ -29,18 +29,38 @@ const key = () =>
 const enabled = () => process.env.DO_GEMINI_LIVE_ENABLED === "true";
 
 export async function GET() {
+  let policy;
+  try { policy = readDoVoicePolicy(); }
+  catch { return Response.json({ error: "Voice budget is unavailable." }, { status: 503, headers }); }
   const owner = await doOwner();
   const saved = owner ? await getPersonalDoProfile(owner.id).catch(() => null) : null;
+  const leaseEnabled = process.env.DO_VOICE_LEASE_ENABLED === "true";
+  if (leaseEnabled) {
+    let allowance = null;
+    try { if (owner) allowance = await voiceLeaseRuntime().availability(owner.id); }
+    catch { /* Remain in lease mode but unavailable. Never fall back to legacy quota. */ }
+    return Response.json({ enabled: enabled(), configured: Boolean(key()), signedIn: Boolean(owner), leaseEnabled: true,
+      remaining: allowance ? Math.floor(allowance.remainingSeconds / 300) : null,
+      dailyLimit: allowance ? Math.floor(allowance.dailyReservedSecondsLimit / 300) : null,
+      sessionSeconds: 300, model: DO_VOICE_MODELS.standard,
+      voiceName: saved?.profile.voiceName ?? null,
+      voiceRevision: owner && saved ? voiceRevision(owner.id, saved.profile) : null,
+      allowance,
+    }, { headers });
+  }
   return Response.json(
     {
+      leaseEnabled: false,
       enabled: enabled(),
       configured: Boolean(key()),
       signedIn: Boolean(owner),
       remaining: owner
-        ? await readDoVoiceAllowance(owner.id).catch(() => null)
+        ? await readDoVoiceAllowance(owner.id, policy).catch(() => null)
         : null,
-      dailyLimit: DO_VOICE_DAILY_SESSIONS,
-      sessionSeconds: DO_VOICE_SECONDS,
+      dailyLimit: policy.dailySessions,
+      dailyReservedSecondsLimit: policy.dailySeconds,
+      usageBasis: "reserved_connection_seconds",
+      sessionSeconds: policy.sessionSeconds,
       model: DO_VOICE_MODELS.standard,
       voiceName: saved?.profile.voiceName ?? null,
       voiceRevision: owner && saved ? voiceRevision(owner.id, saved.profile) : null,
@@ -65,6 +85,8 @@ export async function POST(request: Request) {
       { error: "Sign in to your own assembl account to use voice." },
       401,
     );
+  // Prevent parallel legacy and lease ledgers from granting two daily budgets.
+  if (process.env.DO_VOICE_LEASE_ENABLED === "true") return json({ error: "Review your voice allowance in the ongoing-call interface." }, 503);
   if (!enabled() || !key())
     return json({ error: "Live voice is not available here yet." }, 503);
   const parsed = doVoiceRequest.safeParse(
@@ -98,9 +120,12 @@ export async function POST(request: Request) {
   if (request.signal.aborted)
     return json({ error: "This call was cancelled before connecting." }, 499);
 
+  let policy;
+  try { policy = readDoVoicePolicy(); }
+  catch { return json({ error: "Voice budget is unavailable." }, 503); }
   let reservation: Awaited<ReturnType<typeof reserveDoVoice>> | undefined;
   try {
-    reservation = await reserveDoVoice(owner.id);
+    reservation = await reserveDoVoice(owner.id, policy);
     if (request.signal.aborted) throw new Error("cancelled");
     const { mode } = parsed.data;
     const voiceName = savedProfile.voiceName;
@@ -108,7 +133,7 @@ export async function POST(request: Request) {
     const config = doVoiceConfig(mode, voiceName, profile);
     // Google rejects subsequent messages after expiry; this is not just a UI timer.
     const expiresAt = new Date(
-      Date.now() + DO_VOICE_SECONDS * 1000,
+      Date.now() + policy.sessionSeconds * 1000,
     ).toISOString();
     const ai = new GoogleGenAI({
       apiKey: key()!,
@@ -138,7 +163,7 @@ export async function POST(request: Request) {
         displayName: profile?.displayName ?? "DO",
         config,
         expiresAt,
-        sessionSeconds: DO_VOICE_SECONDS,
+        sessionSeconds: policy.sessionSeconds,
       },
       200,
     );

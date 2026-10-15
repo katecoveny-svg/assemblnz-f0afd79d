@@ -56,7 +56,7 @@ const nzDate = (iso: string) =>
 export default async function LeadsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ key?: string }> | { key?: string };
+  searchParams: Promise<{ key?: string }>;
 }) {
   const params = await searchParams;
 

@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 const LAST_REVIEWED = '17 September 2026';
 
 type PageProps = {
-  searchParams?: Promise<{ code?: string }> | { code?: string };
+  searchParams?: Promise<{ code?: string }>;
 };
 
 export default async function MetaDataDeletionPage({ searchParams }: PageProps) {
-  const params = await Promise.resolve(searchParams ?? {});
+  const params: { code?: string } = (await searchParams) ?? {};
   const code = typeof params.code === 'string' ? params.code : null;
 
   return (

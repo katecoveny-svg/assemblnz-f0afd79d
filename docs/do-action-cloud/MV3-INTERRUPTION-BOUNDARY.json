@@ -1,0 +1,27 @@
+{
+  "selectionIssue": "Tab access is unavailable. Select the fictional cart and click the DO toolbar icon again.",
+  "workspaceFound": true,
+  "connect": {
+    "ok": false,
+    "error": "Select the supported storefront tab first."
+  },
+  "injectionError": "Cannot access contents of the page. Extension manifest must request permission to access the respective host.",
+  "quantity": [
+    {
+      "id": "oats",
+      "quantity": 0
+    },
+    {
+      "id": "milk",
+      "quantity": 0
+    }
+  ],
+  "browser": {
+    "protocolVersion": "1.3",
+    "product": "Chrome/141.0.7390.37",
+    "revision": "@9f043f63b0e5b728c8d09f3e3ddfc1681a4bd58e",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.0.0 Safari/537.36",
+    "jsVersion": "14.1.146.11"
+  },
+  "triggerAction": "cdpSession.send: Protocol error (Extensions.triggerAction): 'Extensions.triggerAction' wasn't found"
+}

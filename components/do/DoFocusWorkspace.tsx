@@ -1,12 +1,12 @@
 'use client';
 
+import { selectedTextOffer, selectedImageOffer } from '@/apps/do/browser/selected-tab/attachment';
 import ShopJourney from '@/app/do/shop/ShopJourney';
 import { DoLocalInformation } from './DoLocalInformation';
-import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import { FileText, Mic, Eye, Settings2 } from 'lucide-react';
 import { DoTextWorkspace } from '@/app/do/DoTextWorkspace';
-import { DoGeminiLive } from '@/app/do/DoGeminiLive';
+import { DoCompanionConversation } from './DoCompanionConversation';
 import { DoVision } from '@/app/do/DoVision';
 import { DoWorkspace } from '@/app/do/DoWorkspace';
 import { DoProductFrame, useDoEmbeddedSurface } from './DoProductFrame';
@@ -17,19 +17,21 @@ import type { PersonalDoProfile } from '@/apps/do/personal/profile';
 import type { CompanionEntry } from '@/apps/do/shared/companion-entry';
 import type { DoTask } from '@/apps/do/shared/preparation';
 
-type Mode = 'write' | 'talk' | 'look' | 'build' | 'shop';
+type Mode = 'write' | 'talk' | 'look' | 'build' | 'shop' | 'draft';
 export function DoFocusWorkspace({ initialTask = 'reply', expectedWorkspace }: { initialTask?: DoTask; expectedWorkspace?: string }) {
   const [shoppingBrief, setShoppingBrief] = useState<string | null>(null);
   const [mode, setMode] = useState<Mode>('write');
   const [builderOpened, setBuilderOpened] = useState(false);
   const [context, setContext] = useState('');
+  const [offeredImage, setOfferedImage] = useState<{image:string;source:string;id:number}>();
   const [offeredContext, setOfferedContext] = useState<{ text: string; id: number }>();
   const embedded = useDoEmbeddedSurface();
   const [focusRequest, setFocusRequest] = useState(0);
+  const [talkOpened, setTalkOpened] = useState(false);
   const [requestedTalk, setRequestedTalk] = useState(false);
   // Readiness admits a new panel; later checks must not tear down an admitted session.
   const [talkProfile, setTalkProfile] = useState<PersonalDoProfile>();
-  const enter = useCallback((entry: CompanionEntry, reviewedProfile?: PersonalDoProfile) => { setRequestedTalk(false); if (entry === 'talk') setTalkProfile(reviewedProfile); setMode(entry); if (entry === 'write') setFocusRequest(value => value + 1); }, []);
+  const enter = useCallback((entry: CompanionEntry, reviewedProfile?: PersonalDoProfile) => { setRequestedTalk(false); if (entry === 'talk') { setTalkProfile(reviewedProfile); setTalkOpened(true); } setMode(entry); if (entry === 'write') setFocusRequest(value => value + 1); }, []);
   const { talk, refresh, profile } = useDoCompanionEntry(enter);
   useEffect(() => {
     const entry = new URLSearchParams(location.search).get('entry');
@@ -52,6 +54,22 @@ export function DoFocusWorkspace({ initialTask = 'reply', expectedWorkspace }: {
     window.addEventListener('assembl:do-focus-image', image);
     return () => { window.removeEventListener('assembl:do-focus', focus); window.removeEventListener('assembl:do-focus-image', image); };
   }, [enter]);
+  useEffect(() => {
+    const receive = (event: MessageEvent) => {
+      if (window.parent === window || event.source !== window.parent || !/^chrome-extension:\/\/[a-p]{32}$/.test(event.origin)) return;
+      if (event.data?.type === 'assembl-do:selected-image') {
+        const image = selectedImageOffer(event.data.evidence, expectedWorkspace);
+        if (image) { setOfferedImage({...image,id:Date.now()}); setMode('look'); }
+        return;
+      }
+      if (event.data?.type !== 'assembl-do:selected-text') return;
+      const text = selectedTextOffer(event.data.evidence, expectedWorkspace);
+      if (!text) return;
+      setOfferedContext({ text, id: Date.now() }); enter('write');
+    };
+    window.addEventListener('message', receive);
+    return () => window.removeEventListener('message', receive);
+  }, [expectedWorkspace, enter]);
   function acceptShoppingBrief(text: string) {
     // This component is keyed and unmounted by the existing verified owner boundary.
     if (!expectedWorkspace || shoppingBrief !== null || !text.trim() || text.length > 6000) return false;
@@ -61,7 +79,7 @@ export function DoFocusWorkspace({ initialTask = 'reply', expectedWorkspace }: {
     if (!text.trim() || text.length > 12000) return false;
     setOfferedContext({ text, id: Date.now() }); enter('write'); return true;
   }
-  return <DoProductFrame product="Writing & capture">
+  return <DoProductFrame product="Conversation">
     <section className={`${styles.hero} ${styles.workspaceHero}`} data-embedded={embedded || undefined}>
       <div className={styles.workspaceIntro}>
       <h1>What would you like done?</h1>
@@ -76,16 +94,10 @@ export function DoFocusWorkspace({ initialTask = 'reply', expectedWorkspace }: {
         <button aria-pressed={mode === 'look'} onClick={() => { setRequestedTalk(false); setMode('look'); }}><Eye size={15} />Add image</button>
       </nav>
       <p id="do-talk-readiness" role="status" className={styles.help}>{talk.message} <button type="button" className={styles.textButton} onClick={() => void refresh()}>Check Talk</button></p>
-      <div hidden={mode !== 'write'}><DoTextWorkspace embedded={embedded} initialTask={initialTask} focus focusRequest={focusRequest} offeredContext={offeredContext} onSourceChange={setContext} onNativeReveal={() => enter('write')} /></div>
+      <div hidden={mode !== 'write' && mode !== 'talk'}><DoCompanionConversation focusRequest={mode === 'write' ? focusRequest : 0} profile={talkProfile ?? profile} snapshot={context} talkOpened={talkOpened} onShoppingDraft={acceptShoppingBrief} visible={mode === 'write' || mode === 'talk'} onDraft={acceptContext} /></div>
+      <div hidden={mode !== 'draft'}><DoTextWorkspace embedded={embedded} initialTask={initialTask} focus focusRequest={mode === 'draft' ? focusRequest : 0} offeredContext={offeredContext} onSourceChange={setContext} onNativeReveal={() => enter('write')} /></div>
       {mode !== 'write' && <button type="button" className={styles.textButton} onClick={() => enter('write')}>Back to Write</button>}
-      {embedded && (mode === 'talk' || mode === 'look') ? <section className={styles.toolSurface} aria-label="Open this tool in a full window">
-        <h2>{mode === 'talk' ? 'A conversation with DO.' : 'Show DO what you mean.'}</h2>
-        <p className={styles.help}>Open this tool in its own window for sign-in and device permissions. Your draft stays here. No source text is transferred automatically.</p>
-        <Link className={styles.primary} style={{ color: '#FFFDFB', textDecoration: 'none' }} href={`/do/widget?tool=${mode}`} target="_blank" rel="noopener noreferrer">{mode === 'talk' ? 'Open voice in a full window' : 'Open vision in a full window'}</Link>
-      </section> : <>
-        {mode === 'talk' && <div className={styles.toolSurface}><DoGeminiLive profile={talkProfile} context={context} onShoppingDraft={acceptShoppingBrief} onDraft={acceptContext} /></div>}
-        <section hidden={mode !== 'look'} className={styles.toolSurface} aria-label="Show DO an image"><DoVision active={mode === 'look'} onUse={acceptContext} /></section>
-      </>}
+      <section hidden={mode !== 'look'} className={styles.toolSurface} aria-label="Show DO an image"><DoVision key={offeredImage?.id ?? 'default'} offeredImage={offeredImage} active={mode === 'look'} onUse={acceptContext} /></section>
       {shoppingBrief !== null && <section hidden={mode !== 'shop'} aria-label="Shopping plan from reviewed call">
         <button type="button" className={styles.textButton} onClick={() => { if (window.confirm('Discard this unsaved shopping plan?')) { setShoppingBrief(null); enter('write'); } }}>Discard shopping plan</button>
         <ShopJourney embedded initialBrief={shoppingBrief} expectedWorkspace={expectedWorkspace} />
@@ -93,6 +105,7 @@ export function DoFocusWorkspace({ initialTask = 'reply', expectedWorkspace }: {
       {mode === 'write' && <DoLocalInformation />}
       <details className={styles.secondaryDetails} onToggle={e => { if (!e.currentTarget.open && mode === 'build') setMode('write'); }}>
         <summary><Settings2 size={13} aria-hidden="true" style={{ display: 'inline', marginRight: 8 }} />Tools &amp; examples</summary>
+        <button type="button" onClick={() => { setMode('draft'); setFocusRequest(value => value + 1); }}>Open draft tools</button>
         <p>Templates, appearance and the advanced builder. Your writing draft stays in this page.</p>
         <button className={styles.textButton} onClick={() => { setRequestedTalk(false); setBuilderOpened(true); setMode(mode === 'build' ? 'write' : 'build'); }}>{mode === 'build' ? 'Back to writing' : 'Open the builder'}</button>
       </details>

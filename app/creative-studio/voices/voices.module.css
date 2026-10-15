@@ -14,3 +14,7 @@
 .studio :is(button,a,textarea,input,summary):focus-visible{outline:3px solid #492b3e;outline-offset:4px}.studio ::selection{background:#eac8df;color:#240b21}
 @media(max-width:760px){.layout{grid-template-columns:1fr;gap:30px}.intro{display:block;margin:32px auto}.intro p{font-size:16px;margin-top:24px}.header{min-height:76px}.header nav{gap:14px;font-size:14px}.brand{font-size:21px;gap:4px}.header nav a:last-child{display:none}.empty{min-height:240px}.footer{margin-top:36px}.job{padding:20px 16px}}
 @media(prefers-reduced-motion:reduce){.studio button{transition:none}}
+
+.brief{border:1px solid #ded0d8;border-radius:20px;padding:20px;margin-bottom:32px}.brief details{border-top:1px solid #ded0d8;padding:12px 0}.brief summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:500}.brief label{display:flex;flex-direction:column;gap:8px}.brief textarea{min-height:130px}.brief p{font-size:14px}
+
+.studio>.brief{max-width:1280px;margin:0 auto 40px}.brief label{margin:12px 0}.brief input:not([type=checkbox]),.brief select{max-width:100%;min-height:44px;padding:10px;border:1px solid #bbaab3;border-radius:10px;font:inherit;color:var(--ink);background:var(--paper)}.brief audio{width:100%;margin:12px 0}

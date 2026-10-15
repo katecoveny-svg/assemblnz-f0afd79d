@@ -1,0 +1,225 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DO call · local fixture review</title><style>.do-live-dock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  border: 1px solid rgba(67, 25, 51, 0.16);
+  border-radius: 18px;
+  background: linear-gradient(
+    135deg,
+    rgba(250, 245, 248, 0.96),
+    rgba(255, 255, 255, 0.98)
+  );
+  box-shadow: 0 18px 50px rgba(43, 12, 31, 0.08);
+}
+
+.do-live-dock > div {
+  min-width: 0;
+}
+
+.do-live-dock strong {
+  display: block;
+  overflow-wrap: anywhere;
+  margin-top: 3px;
+  color: #2c1023;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.do-live-dock p {
+  margin: 5px 0 0;
+  color: rgba(44, 16, 35, 0.7);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.do-live-dock button {
+  flex: 0 0 auto;
+  min-height: 44px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: #35152b;
+  color: white;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.do-live-dock button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+@media (max-width: 680px) {
+  .do-live-dock {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+.do-live-panel {
+  margin: 20px 0;
+  color: #240b21;
+}
+.do-live-panel .do-live-dock {
+  margin-bottom: 0;
+}
+.do-live-panel :is(button, a) {
+  touch-action: manipulation;
+}
+.do-live-dock a,
+.do-live-options > button,
+.do-live-draft > button,
+.do-live-transcript > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 16px;
+  min-height: 44px;
+  border: 1px solid #654a4e40;
+  border-radius: 9px;
+  background: #35152b;
+  color: #fffdfb;
+  font: inherit;
+  font-size: 13px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.do-live-panel button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.do-live-panel :is(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid #916a70;
+  outline-offset: 4px;
+}
+.do-live-options,
+.do-live-transcript,
+.do-live-draft {
+  padding: 20px;
+  margin-top: 10px;
+  border: 1px solid #654a4e30;
+  border-radius: 14px;
+  background: #fffdfb;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.do-live-options > p {
+  color: #654a4e;
+  margin: 14px 0;
+}
+.do-live-choice {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.do-live-choice label,
+.do-live-draft label {
+  display: grid;
+  gap: 7px;
+  font-weight: 500;
+}
+.do-live-choice select,
+.do-live-draft textarea {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #654a4e50;
+  border-radius: 7px;
+  background: #f5f1f2;
+  color: #240b21;
+  font: inherit;
+}
+.do-live-draft textarea {
+  margin: 9px 0 12px;
+  resize: vertical;
+}
+.do-live-consent {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-top: 16px;
+  cursor: pointer;
+}
+.do-live-consent input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  flex: 0 0 auto;
+  accent-color: #654a4e;
+}
+.do-live-context {
+  max-height: 180px;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: #f5f1f2;
+  border-radius: 8px;
+  padding: 12px;
+  font:
+    12px/1.6 var(--font-mono),
+    monospace;
+}
+.do-live-state {
+  padding: 10px 16px;
+  color: #654a4e;
+  font:
+    12px/1.6 var(--font-mono),
+    monospace;
+}
+.do-live-transcript summary {
+  cursor: pointer;
+}
+.do-live-transcript p {
+  overflow-wrap: anywhere;
+}
+.do-live-transcript strong {
+  display: block;
+  font-size: 11px;
+  color: #654a4e;
+}
+@media (max-width: 480px) {
+  .do-live-choice {
+    grid-template-columns: 1fr;
+  }
+  .do-live-options,
+  .do-live-transcript,
+  .do-live-draft {
+    padding: 14px;
+  }
+}
+
+.do-live-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.do-live-profile {
+  overflow-wrap: anywhere;
+}
+.do-live-profile summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.do-live-transcript > button,
+.do-live-draft > button {
+  margin: 4px 8px 4px 0;
+}
+@media (max-width: 680px) {
+  .do-live-choice select,
+  .do-live-draft textarea {
+    font-size: 16px;
+  }
+}
+.do-companion-board{border:1px solid #916a7040;border-radius:20px;background:#fffdfb;padding:16px;margin:20px 0;color:#492b3e}.do-companion-board>summary{font-size:1.1rem;font-weight:600;cursor:pointer}.do-companion-board section{border-top:1px solid #916a7026;padding:16px 0}.do-companion-board h3{font-size:1rem;margin:4px 0 12px}.do-companion-board label{display:block;margin:10px 0}.do-companion-board textarea,.do-companion-board select,.do-companion-board input:not([type=checkbox]){box-sizing:border-box;display:block;width:100%;max-width:100%;border:1px solid #916a7060;border-radius:10px;padding:9px;background:#fffdfb;color:#492b3e}.do-companion-board textarea{min-height:90px}.do-companion-board button{border:1px solid #916a7070;border-radius:18px;padding:9px 12px;margin:5px 6px 5px 0;background:#f5f1f2;color:#492b3e}.do-companion-board button:disabled{opacity:.5}.do-companion-board p,.do-companion-board li{font-size:.9rem;line-height:1.5}.do-companion-board pre{overflow-wrap:anywhere;font-size:.85rem;padding:12px;background:#f5f1f2;border-radius:12px}.do-companion-board svg{width:120px;max-width:120px;height:auto}.do-board-task{display:grid;grid-template-columns:70px 1fr;align-items:center;gap:8px;border-radius:14px;background:#f5f1f2;padding:8px;margin:10px 0}.do-board-task svg{grid-row:span 2;width:70px}.do-board-task span{font-size:.8rem}.do-companion-board a{color:inherit;text-underline-offset:3px}
+body{max-width:430px;margin:24px auto;padding:16px;background:#fffdfb;color:#492b3e;font:16px/1.5 system-ui}button,input,select,textarea{max-width:100%;font:inherit}textarea{box-sizing:border-box;width:100%}</style><p><strong>Static fixture review.</strong> Actual call component with mocked account/transport. Controls inactive. No real call, microphone, sound or charge.</p><details class="do-companion-board"><summary>Shared work board</summary><fieldset style="border:0;padding:0"><section aria-label="Shared brief and decisions"><h3>1 · Brief &amp; decisions</h3><p><a href="https://chatgpt.com/api/library/files/libfile_018ba3e0f6388191b53afc80a188460f/download" target="_blank" rel="noreferrer">Existing Library working handover</a> · linked, not synced</p><label>Existing master document reference<input maxLength="500" placeholder="Paste the existing document link or reference" value="https://chatgpt.com/api/library/files/libfile_018ba3e0f6388191b53afc80a188460f/download"/></label><p>The master stays where it is. A reference is saved with this task; DO does not claim to read or update an unconnected document.</p><label>Destination <select><option value="clear">DO Clear · local writing checks</option><option value="builder" selected="">DO Builder · planning queue</option><option value="codex">Codex · manual handoff</option></select></label><label>Shared brief<textarea maxLength="2000" placeholder="What should we work out, and who should do what?">Prepare a shared project plan</textarea></label><button type="button">Bring conversation context for review</button><label>Chosen context &amp; current decisions<textarea maxLength="1500"></textarea></label><p>Plan only. Execution needs separate scope and permission.</p><button type="button">Prepare handoff</button></section><section aria-label="Tasks and owners"><h3>2 · Tasks &amp; owners</h3><button type="button">Load my shared tasks</button><p>Task dfba31e7-65fe-4d19-80c3-6baba0573a9a</p><pre style="white-space:pre-wrap">Prepare a shared project plan</pre><svg viewBox="0 0 320 200" fill="none" aria-hidden="true" focusable="false" data-do-task-scene="agenda"><defs><linearGradient id="fixture-paper" x1="95" y1="30" x2="214" y2="178" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB"></stop><stop offset="1" stop-color="#E8DDE2"></stop></linearGradient><linearGradient id="fixture-glass" x1="98" y1="45" x2="235" y2="162" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFDFB" stop-opacity=".92"></stop><stop offset=".36" stop-color="#EAC8DF" stop-opacity=".65"></stop><stop offset="1" stop-color="#916A70" stop-opacity=".8"></stop></linearGradient><linearGradient id="fixture-chrome" x1="93" y1="60" x2="211" y2="153" gradientUnits="userSpaceOnUse"><stop stop-color="#654A4E"></stop><stop offset=".35" stop-color="#FFFDFB"></stop><stop offset=".5" stop-color="#D5CDD1"></stop><stop offset="1" stop-color="#492B3E"></stop></linearGradient><radialGradient id="fixture-shadow"><stop stop-color="#240B21" stop-opacity=".17"></stop><stop offset="1" stop-color="#240B21" stop-opacity="0"></stop></radialGradient></defs><ellipse cx="160" cy="171" rx="124" ry="20" fill="url(#fixture-shadow)"></ellipse><g><g transform="rotate(-8 155 100)"><rect x="106" y="37" width="104" height="132" rx="12" fill="url(#fixture-paper)" stroke="#916A70" stroke-opacity=".3"></rect><path d="M126 66h55M126 79h35" stroke="#654A4E" stroke-width="4" stroke-linecap="round"></path><g><rect x="124" y="96" width="10" height="10" rx="3" fill="#916A70" fill-opacity=".35"></rect><path d="M145 102h42" stroke="#654A4E" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"></path></g><g><rect x="124" y="117" width="10" height="10" rx="3" fill="#916A70" fill-opacity=".35"></rect><path d="M145 123h42" stroke="#654A4E" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"></path></g><g><rect x="124" y="138" width="10" height="10" rx="3" fill="#916A70" fill-opacity=".35"></rect><path d="M145 144h42" stroke="#654A4E" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"></path></g></g><circle cx="218" cy="128" r="38" fill="url(#fixture-glass)" stroke="#FFFDFB" stroke-width="3"></circle><circle cx="218" cy="128" r="28" fill="url(#fixture-paper)"></circle><path d="M218 108v20l15 8" stroke="#492B3E" stroke-width="3" stroke-linecap="round"></path><path d="M111 37v16m25-20v16m25-20v16m25-20v16" stroke="url(#fixture-chrome)" stroke-width="6" stroke-linecap="round"></path></g></svg><p>Save to your signed-in DO Office planning queue. This acknowledges a plan; it does not start a specialist worker.</p><label><input type="checkbox" checked=""/>Save this exact brief and chosen context to my account for Builder review.</label><button type="button" disabled="">Send to Builder review</button><button type="button">Check task receipts</button></section><section aria-label="Results and review"><h3>3 · Results &amp; review</h3><pre style="white-space:pre-wrap">Builder task dfba31e7-65fe-4d19-80c3-6baba0573a9a
+Accepted for planning; execution not started
+Plan received</pre><details><summary>Activity &amp; daily catch-up</summary><p>No activity records loaded for this task. Check task receipts to refresh. Codex and Claude are not automatically connected.</p><p>Artwork identifies the work type; it is not a screenshot or proof of work. Result pictures appear only when an actual supported artifact is available.</p></details><p role="status">Accepted for planning; execution not started</p></section></fieldset></details></html>

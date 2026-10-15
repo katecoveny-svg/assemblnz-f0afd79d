@@ -95,6 +95,7 @@ const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLe
     const start = panel.getByRole('button', { name: 'Start call', exact: true });
     check('no microphone or token before consent', tokens.length === 0 && await page.evaluate(() => window.__callTest.mediaRequests === 0));
     check('call requires separate unselected consent', !await consent.isChecked() && await start.isDisabled());
+    await panel.getByText('Call context & sharing details', { exact: true }).click();
     await panel.getByText('Profile shared for this call', { exact: true }).click();
     check('personal profile sharing is reviewable', await panel.getByText(profile.preferences, { exact: true }).isVisible());
     check('saved voice is shown and cannot diverge silently', (await panel.textContent()).includes('Aoede · female · breezy') && await panel.getByRole('button', { name: 'Choose call voice', exact: true }).isVisible());
@@ -245,7 +246,7 @@ const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLe
     await consent.check(); await start.click();
     await page.waitForFunction(() => window.__callTest.sockets.at(-1).readyState === 1);
     await page.clock.runFor(30_001);
-    await panel.getByText('The voice connection timed out. Your microphone is off. Check your connection before trying again.', { exact: true }).waitFor();
+    await panel.getByText('Voice connection timed out. Your microphone is off.', { exact: true }).waitFor();
     check('missing socket setup acknowledgement releases microphone and socket', await page.evaluate(() => window.__callTest.tracks.at(-1).stopped && window.__callTest.sockets.at(-1).readyState === 3));
     await page.evaluate(() => { window.__callTest.autoSetup = true; });
     await consent.check(); await start.click();

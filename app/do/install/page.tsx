@@ -63,7 +63,7 @@ export default function DoInstallPage() {
         <ol className={styles.list}>
           <li className={styles.listItem}>
             Click <strong>Download Chrome DO</strong> — you get{' '}
-            <code className={styles.code}>assembl-do-extension-1.7.0.zip</code>.
+            <code className={styles.code}>assembl-do-extension-1.9.0.zip</code>.
           </li>
           <li className={styles.listItem}>
             Unzip the folder (keep <code className={styles.code}>manifest.json</code> at the top).
@@ -88,10 +88,23 @@ export default function DoInstallPage() {
         </a>
         <p className={styles.alt}>
           Static mirror (same package):{' '}
-          <a className={styles.altLink} href="/do/downloads/assembl-do-extension-1.7.0.zip" download>
-            /do/downloads/assembl-do-extension-1.7.0.zip
+          <a className={styles.altLink} href="/do/downloads/assembl-do-extension-1.9.0.zip" download>
+            /do/downloads/assembl-do-extension-1.9.0.zip
           </a>
         </p>
+      </section>
+
+      <section className={styles.card} id="selected-page">
+        <h2 className={styles.cardTitle}>Selected-page snapshots · Chrome</h2>
+        <p className={styles.heroCopy}>Review a picture of the visible page or selected text in your DO conversation. This separate read-only extension needs an explicit toolbar click each time.</p>
+        <a className={styles.cta} href="/do/downloads/assembl-do-selected-page.zip" download>Download selected-page DO</a>
+        <ol className={styles.list}>
+          <li className={styles.listItem}>Unzip and use Chrome’s Load unpacked option above. Pin “DO selected page”.</li>
+          <li className={styles.listItem}>Open your signed-in DO workspace and click this extension’s toolbar icon once to connect your account.</li>
+          <li className={styles.listItem}>On the page you choose, click the same icon, then Snapshot visible page or Snapshot selected text.</li>
+          <li className={styles.listItem}>Review the snapshot, then Offer to conversation. Permission to share with a provider is separate.</li>
+        </ol>
+        <p className={styles.note}>Access lasts one minute and cancels when the selected page changes. Images can include visible private information. No background pages, cookies or page actions; restricted pages are unavailable.</p>
       </section>
 
       <section className={styles.card} id="mac">

@@ -1,0 +1,61 @@
+Local source validation only. No installed/browser/audio/database/provider proof.
+
+Combined Vitest tests
+RUN  v4.1.5 /Users/kateharland/Documents/Codex/2026-10-15/task/do-selected-tab-foundation
+
+
+ Test Files  26 passed (26)
+      Tests  128 passed (128)
+   Start at  09:13:52
+   Duration  728ms (transform 1.29s, setup 0ms, import 2.48s, tests 567ms, environment 1ms)
+
+Node contract tests
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 64.130542
+
+Final lifecycle regression
+RUN  v4.1.5 /Users/kateharland/Documents/Codex/2026-10-15/task/do-selected-tab-foundation
+
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  09:17:04
+   Duration  331ms (transform 160ms, setup 0ms, import 242ms, tests 26ms, environment 0ms)
+
+Scoped lint
+Completed without diagnostics.
+
+Voice final lint
+Completed without diagnostics.
+
+Brand
+brand-guard: clean — canonical source is docs/assembl-brand-system.md
+
+Macrons
+Completed without diagnostics.
+
+TypeScript: passed before build-generated Next types. Final full rerun FAILED on four generated checks for existing untouched routes/pages; diagnostics below. Full typecheck remains a gate.
+.next/types/app/admin/(hub)/leads/page.ts(37,29): error TS2344: Type '{ searchParams: Promise<{ key?: string | undefined; }> | { key?: string | undefined; }; }' does not satisfy the constraint 'PageProps'.
+  Types of property 'searchParams' are incompatible.
+    Type 'Promise<{ key?: string | undefined; }> | { key?: string | undefined; }' is not assignable to type 'Promise<any> | undefined'.
+      Type '{ key?: string | undefined; }' is missing the following properties from type 'Promise<any>': then, catch, finally, [Symbol.toStringTag]
+.next/types/app/api/do/download/route.ts(14,13): error TS2344: Type 'OmitWithTag<typeof import("/Users/kateharland/Documents/Codex/2026-10-15/task/do-selected-tab-foundation/app/api/do/download/route"), "POST" | "GET" | "HEAD" | "PATCH" | "DELETE" | "dynamic" | ... 11 more ... | "maxDuration", "">' does not satisfy the constraint '{ [x: string]: never; }'.
+  Property 'EXTENSION_FILES' is incompatible with index signature.
+    Type 'readonly ["manifest.json", "background.js", "sidepanel.html", "sidepanel.js", "sidepanel.css", "portable.html", "portable-worker.js", "portable-core.js", "portable-background.js", ... 19 more ..., "icons/do-spark.svg"]' is not assignable to type 'never'.
+.next/types/app/api/xero/happy-tails/callback/route.ts(14,13): error TS2344: Type 'OmitWithTag<typeof import("/Users/kateharland/Documents/Codex/2026-10-15/task/do-selected-tab-foundation/app/api/xero/happy-tails/callback/route"), "POST" | "GET" | "HEAD" | "PATCH" | ... 13 more ... | "maxDuration", "">' does not satisfy the constraint '{ [x: string]: never; }'.
+  Property 'scopes' is incompatible with index signature.
+    Type '() => readonly ["openid", "profile", "email", "accounting.transactions", "accounting.contacts", "offline_access"]' is not assignable to type 'never'.
+.next/types/app/legal/meta-data-deletion/page.ts(37,29): error TS2344: Type 'PageProps' does not satisfy the constraint 'import("/Users/kateharland/Documents/Codex/2026-10-15/task/do-selected-tab-foundation/.next/types/app/legal/meta-data-deletion/page").PageProps'.
+  Types of property 'searchParams' are incompatible.
+    Type 'Promise<{ code?: string | undefined; }> | { code?: string | undefined; } | undefined' is not assignable to type 'Promise<any> | undefined'.
+      Type '{ code?: string | undefined; }' is missing the following properties from type 'Promise<any>': then, catch, finally, [Symbol.toStringTag]
+
+Turbopack compile: failed; dependency node_modules symlink is outside filesystem root.
+Webpack compile retry: could not complete; fonts.googleapis.com DNS ENOTFOUND. No network escalation/dependency change. Full production build not verified.
