@@ -96,6 +96,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   }
   await page.setViewportSize({width:500,height:900});await page.goto(origin+'/entry-fixture');await page.getByRole('button',{name:'Ask DO. Drag to move or use Alt and arrow keys.',exact:true}).click();
   const frame=page.frameLocator('iframe');await frame.locator('#personal-assistant-input').waitFor();
+  await frame.getByRole('region',{name:'Conversation with DO',exact:true}).locator('[data-do-idea]').nth(expected.length-1).waitFor({state:'attached'});
   check('companion iframe uses the same capability definitions',JSON.stringify(await frame.getByRole('region',{name:'Conversation with DO',exact:true}).locator('[data-do-idea]').evaluateAll(es=>es.map(e=>({id:e.dataset.doIdea,label:e.getAttribute('aria-label')}))))===JSON.stringify(expected));
   await frame.locator('#personal-assistant-input').fill('Fictional companion draft.');await frame.getByRole('region',{name:'Conversation with DO',exact:true}).getByText('Draft something else', {exact:true}).click();await frame.getByRole('region',{name:'Conversation with DO',exact:true}).locator('[data-do-idea=school]').click();
   await page.waitForTimeout(100);check('companion preserves draft when adding an idea',(await frame.locator('#personal-assistant-input').inputValue()).startsWith('Fictional companion draft.\n\n'));
