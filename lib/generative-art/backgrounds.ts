@@ -1,7 +1,10 @@
 /**
- * Universal background choices Kate asked for — ink, sea fog, paper white.
+ * Universal background choices, on the plum canon (docs/assembl-brand-system.md).
  * Families that opt in read the ground colour + the text colour from here
  * so a piece re-shot on a different ground stays legible.
+ *
+ * The ids are kept from the first set (paper white, ink, sea fog) so shared
+ * links still resolve: `ink` is now deep plum and `seaFog` is now chalk.
  */
 
 export type BackgroundId = 'paper' | 'ink' | 'seaFog';
@@ -20,24 +23,24 @@ export interface BackgroundSpec {
 export const BACKGROUNDS: BackgroundSpec[] = [
   {
     id: 'paper',
-    label: 'Paper White',
-    ground: '#FBF7EE',
-    ink: '#23211F',
-    inkSoft: '#5B5049',
+    label: 'Paper',
+    ground: '#FFFDFB',
+    ink: '#492B3E',
+    inkSoft: '#654A4E',
   },
   {
     id: 'ink',
-    label: 'Ink',
-    ground: '#0F1116',
-    ink: '#F5F1E8',
-    inkSoft: '#8A93A0',
+    label: 'Plum',
+    ground: '#240B21',
+    ink: '#F5F1F2',
+    inkSoft: '#916A70',
   },
   {
     id: 'seaFog',
-    label: 'Sea Fog',
-    ground: '#DDE5EA',
-    ink: '#1F2A32',
-    inkSoft: '#5A6B76',
+    label: 'Chalk',
+    ground: '#F5F1F2',
+    ink: '#492B3E',
+    inkSoft: '#916A70',
   },
 ];
 

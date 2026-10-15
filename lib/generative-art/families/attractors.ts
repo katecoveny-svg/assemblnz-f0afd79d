@@ -2,18 +2,17 @@ import type { Family, FamilyPreset } from '../families';
 
 export interface AttractorPalette {
   ground: string;
-  hueStart: number;   // 0-360
-  hueEnd: number;
-  sat: number;        // 0-100
-  light: number;      // 0-100
+  /** Depth gradient on the plum canon: near points take `from`, far points `to`. Replaced the HSL hue sweeps (blue, teal, orange) in October 2026. */
+  from: string;
+  to: string;
 }
 
 export const ATTRACTOR_PALETTES: Record<string, AttractorPalette> = {
-  lorenz:    { ground: '#F5F1E8', hueStart: 200, hueEnd: 260, sat: 45, light: 30 },
-  aizawa:    { ground: '#101216', hueStart: 30,  hueEnd: 180, sat: 60, light: 55 },
-  rossler:   { ground: '#F1EDE1', hueStart: 340, hueEnd: 20,  sat: 55, light: 32 },
-  halvorsen: { ground: '#F2EFE4', hueStart: 150, hueEnd: 210, sat: 45, light: 30 },
-  thomas:    { ground: '#181B22', hueStart: 40,  hueEnd: 320, sat: 50, light: 55 },
+  lorenz:    { ground: '#F5F0EF', from: '#240B21', to: '#916A70' },
+  aizawa:    { ground: '#280F24', from: '#916A70', to: '#F5F1F2' },
+  rossler:   { ground: '#F1ECEB', from: '#492B3E', to: '#916A70' },
+  halvorsen: { ground: '#F3EEED', from: '#654A4E', to: '#240B21' },
+  thomas:    { ground: '#2C1227', from: '#F5F1F2', to: '#916A70' },
 };
 
 const SLIDERS = [
@@ -29,7 +28,7 @@ const PRESETS: FamilyPreset[] = [
     defaults: { iterations: 40000, stepSize: 0.008, alpha: 0.06, zoom: 1.4, rotation: 0.6 } },
   { id: 'aizawa',    label: 'Aizawa',    blurb: 'spiralling helix in dark space',       sliders: SLIDERS,
     defaults: { iterations: 60000, stepSize: 0.008, alpha: 0.05, zoom: 1.2, rotation: 1.2 } },
-  { id: 'rossler',   label: 'Rössler',   blurb: 'coiled ribbon on cream',               sliders: SLIDERS,
+  { id: 'rossler',   label: 'Rössler',   blurb: 'coiled ribbon on chalk',               sliders: SLIDERS,
     defaults: { iterations: 40000, stepSize: 0.012, alpha: 0.05, zoom: 1.5, rotation: 0.9 } },
   { id: 'halvorsen', label: 'Halvorsen', blurb: 'three-lobed rotational symmetry',      sliders: SLIDERS,
     defaults: { iterations: 50000, stepSize: 0.006, alpha: 0.06, zoom: 1.6, rotation: 0.4 } },
@@ -41,7 +40,7 @@ export const ATTRACTORS_FAMILY: Family = {
   id: 'attractors',
   label: 'Attractors',
   blurb: 'physics — trace strange attractors in phase space',
-  ground: '#F5F1E8',
+  ground: '#F5F0EF',
   presets: PRESETS,
   supportsPngDownload: true,
   supportsSvgDownload: false,

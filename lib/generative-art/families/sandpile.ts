@@ -6,11 +6,11 @@ export interface SandpilePalette {
 }
 
 export const SANDPILE_PALETTES: Record<string, SandpilePalette> = {
-  paper:  { ground: '#F5F1E8', cells: ['#F5F1E8', '#D0C0AA', '#8A7660', '#4A4139', '#231F1B'] },
-  ink:    { ground: '#0F1116', cells: ['#0F1116', '#2A3038', '#5C6672', '#B4BAC4', '#F5F1E8'] },
-  ember:  { ground: '#F5EFDE', cells: ['#F5EFDE', '#F0B421', '#C7462B', '#5B2418', '#231F1B'] },
-  ocean:  { ground: '#E9EFF2', cells: ['#E9EFF2', '#A4C2CE', '#4A97A9', '#164856', '#08222A'] },
-  moss:   { ground: '#EBF0EC', cells: ['#EBF0EC', '#CDD9A7', '#8AAF6D', '#2E4529', '#101711'] },
+  paper:  { ground: '#F5F0EF', cells: ['#F5F0EF', '#CBBFC2', '#88737D', '#513B4B', '#2E152A'] },
+  ink:    { ground: '#2A1025', cells: ['#2A1025', '#3E2639', '#725E6B', '#C1B6BB', '#F5F0EF'] },
+  ember:  { ground: '#F2ECEB', cells: ['#F2ECEB', '#BBA3A6', '#8D6D75', '#543544', '#2E152A'] },
+  ocean:  { ground: '#F1EDEC', cells: ['#F1EDEC', '#C6B8BC', '#9C838A', '#533747', '#371B2E'] },
+  moss:   { ground: '#F2EDED', cells: ['#F2EDED', '#D8C9CA', '#B39A9E', '#503444', '#2C1227'] },
 };
 
 const SLIDERS = [
@@ -24,16 +24,16 @@ const SLIDERS = [
 const PRESETS: FamilyPreset[] = [
   { id: 'paper', label: 'Paper',  blurb: 'centre-drop pile on paper',        sliders: SLIDERS, defaults: { grid: 140, topple: 4, grainsPerStep: 40, dropRandom: 0.0,  speed: 8 } },
   { id: 'ink',   label: 'Ink',    blurb: 'bright grains on dark ground',     sliders: SLIDERS, defaults: { grid: 140, topple: 4, grainsPerStep: 30, dropRandom: 0.05, speed: 8 } },
-  { id: 'ember', label: 'Ember',  blurb: 'warm avalanche cascade',           sliders: SLIDERS, defaults: { grid: 130, topple: 4, grainsPerStep: 45, dropRandom: 0.10, speed: 10 } },
-  { id: 'ocean', label: 'Ocean',  blurb: 'teal grains, wider threshold',     sliders: SLIDERS, defaults: { grid: 150, topple: 5, grainsPerStep: 60, dropRandom: 0.10, speed: 12 } },
-  { id: 'moss',  label: 'Moss',   blurb: 'random-drop mossy growth',         sliders: SLIDERS, defaults: { grid: 140, topple: 4, grainsPerStep: 25, dropRandom: 1.00, speed: 6 } },
+  { id: 'ember', label: 'Rose Cascade',  blurb: 'warm avalanche cascade',           sliders: SLIDERS, defaults: { grid: 130, topple: 4, grainsPerStep: 45, dropRandom: 0.10, speed: 10 } },
+  { id: 'ocean', label: 'Tide',  blurb: 'plum grains, wider threshold',     sliders: SLIDERS, defaults: { grid: 150, topple: 5, grainsPerStep: 60, dropRandom: 0.10, speed: 12 } },
+  { id: 'moss',  label: 'Lichen',   blurb: 'random-drop lichen growth',         sliders: SLIDERS, defaults: { grid: 140, topple: 4, grainsPerStep: 25, dropRandom: 1.00, speed: 6 } },
 ];
 
 export const SANDPILE_FAMILY: Family = {
   id: 'sandpile',
   label: 'Sand pile',
   blurb: 'physics — Bak-Tang-Wiesenfeld avalanches',
-  ground: '#F5F1E8',
+  ground: '#F5F0EF',
   presets: PRESETS,
   supportsPngDownload: true,
   supportsSvgDownload: false,

@@ -6,11 +6,11 @@ export interface FlowPalette {
 }
 
 export const FLOW_PALETTES: Record<string, FlowPalette> = {
-  silk:   { ground: '#FBF7EE', stops: ['#4A4139', '#786754', '#B29B7B', '#DBC7A6'] },
-  ink:    { ground: '#F6F5F0', stops: ['#0B0B0F', '#1F1F27', '#3D3E48', '#7D7F8B'] },
-  aurora: { ground: '#0D1119', stops: ['#3EE7B3', '#4C8BE0', '#8A56D0', '#F0A5C6'] },
-  ember:  { ground: '#1B0F0B', stops: ['#F7E7A5', '#F4A25C', '#C7462B', '#7A1A14'] },
-  meadow: { ground: '#F1F4EA', stops: ['#2E4529', '#5A7245', '#9AAF6D', '#CDD9A7'] },
+  silk:   { ground: '#F8F4F3', stops: ['#513B4B', '#79636F', '#AC999F', '#D3C6C8'] },
+  ink:    { ground: '#F6F5F0', stops: ['#280F24', '#2F152A', '#4D3647', '#8B7A84'] },
+  aurora: { ground: '#2D1328', stops: ['#BDA4A7', '#9F8287', '#8D6D75', '#C4AEB1'] },
+  ember:  { ground: '#2F1529', stops: ['#D0BEBF', '#BAA1A4', '#8D6D75', '#664551'] },
+  meadow: { ground: '#F6F1F0', stops: ['#503444', '#7B606B', '#B69EA2', '#D8C9CA'] },
 };
 
 const SLIDERS = [
@@ -39,22 +39,22 @@ const PRESETS: FamilyPreset[] = [
   },
   {
     id: 'aurora',
-    label: 'Aurora',
-    blurb: 'green-purple ribbons on dark ground',
+    label: 'Night Veil',
+    blurb: 'dusty rose ribbons on deep plum',
     sliders: SLIDERS,
     defaults: { particles: 1600, speed: 0.7, noise: 0.85, alpha: 0.05, stroke: 1.2, life: 320 },
   },
   {
     id: 'ember',
-    label: 'Ember',
-    blurb: 'warm coal-fire particles rising',
+    label: 'Rose Sparks',
+    blurb: 'warm rose particles rising',
     sliders: SLIDERS,
     defaults: { particles: 1400, speed: 1.6, noise: 1.4, alpha: 0.07, stroke: 1.1, life: 160 },
   },
   {
     id: 'meadow',
     label: 'Meadow',
-    blurb: 'soft green strokes, spring air',
+    blurb: 'soft plum strokes, spring air',
     sliders: SLIDERS,
     defaults: { particles: 900, speed: 0.6, noise: 0.9, alpha: 0.05, stroke: 1.15, life: 260 },
   },
@@ -64,7 +64,7 @@ export const FLOW_FAMILY: Family = {
   id: 'flow',
   label: 'Flow',
   blurb: 'algorithmic — particles drifting through curl noise',
-  ground: '#FBF7EE',
+  ground: '#F8F4F3',
   presets: PRESETS,
   supportsPngDownload: true,
   supportsSvgDownload: false,

@@ -272,3 +272,7 @@ Extends per-owner voice admission with a server-funded consent quote, CAS ledger
 ### Companion selected-page host, bounded voice and shared work board (15 October local)
 
 Extends the selected-tab primitive with real MV3 image/text capture; extends the voice lease with client quote/revoke/resume; reuses Office jobs/events/receipts for a three-part shared board and a deterministic Clear worker. Existing Library handover is linked, not copied or synced. Builder saved-plan acceptance is not execution, and Codex remains manual until a supported bridge is paired. [Combined source/proof/runtime gaps](../reviews/DO-COMPANION-INTEGRATION-20261015.md).
+
+### Generative assembly studio (14 October 2026)
+
+`/creative-studio/generate` mounts the homepage tide engine as the Assembly family in the shared generative shell. `lib/generative-art/species.ts` is the species registry (silhouette, motion, flock, size, canon tones); `lib/generative-art/canon.ts` is the canon palette for generative work (tokens, mixes, the plum-to-paper ramp with a dusty rose pull, contrast flips); `lib/generative-art/loop-export.ts` encodes MP4, WebM and GIF in the browser from a frame callback; `lib/generative-art/receipt.ts` writes the export receipt. Engine studio options and calls are listed in `docs/design/generative-assembly.md`.

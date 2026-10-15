@@ -7,12 +7,12 @@ export interface GrowthPalette {
 }
 
 export const GROWTH_PALETTES: Record<string, GrowthPalette> = {
-  tree:       { ground: '#F6F3EB', trunk: '#3A2F24', leaf: '#5E8C7A' },
-  fern:       { ground: '#F1F5EC', trunk: '#2E4529', leaf: '#8AAF6D' },
-  dragon:     { ground: '#F5EFDE', trunk: '#8F3A22', leaf: '#231F1B' },
-  koch:       { ground: '#F7F4EE', trunk: '#23211F', leaf: '#5B5049' },
-  sierpinski: { ground: '#EBF0F4', trunk: '#1F5A6E', leaf: '#3C7FA0' },
-  wild:       { ground: '#101216', trunk: '#F4CE7A', leaf: '#3EE7B3' },
+  tree:       { ground: '#F6F2F1', trunk: '#41283A', leaf: '#907982' },
+  fern:       { ground: '#F7F2F1', trunk: '#503444', leaf: '#B39A9E' },
+  dragon:     { ground: '#F2ECEB', trunk: '#6F4D58', leaf: '#2E152A' },
+  koch:       { ground: '#F7F4EE', trunk: '#30172C', leaf: '#604B5A' },
+  sierpinski: { ground: '#F2EEED', trunk: '#654956', leaf: '#896E77' },
+  wild:       { ground: '#280F24', trunk: '#BFA7AA', leaf: '#BDA4A7' },
 };
 
 /**
@@ -88,7 +88,7 @@ export const GROWTH_FAMILY: Family = {
   id: 'growth',
   label: 'Growth',
   blurb: 'L-Systems — recursive grammars, botanical fractals',
-  ground: '#F6F3EB',
+  ground: '#F6F2F1',
   presets: PRESETS,
   supportsPngDownload: true,
   supportsSvgDownload: false,
