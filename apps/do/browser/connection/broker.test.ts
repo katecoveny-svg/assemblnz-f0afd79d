@@ -85,3 +85,35 @@ it('page cannot grant a read; companion approval is required and reconnect drops
   expect(next.readGranted).toBe(false);
   await expect(f.broker.command(workspace, {action:'observe',connectionId:next.connectionId})).rejects.toThrow('companion');
 });
+it('navigation during a pending connection invalidates the attempt before it becomes a task', async()=>{
+ const f=await setup();let release!:()=>void;let entered!:()=>void;const started=new Promise<void>(r=>entered=r);
+ f.host.owner=async()=>{entered();await new Promise<void>(r=>release=r);return ownerA;};
+ const connecting=f.broker.connect(target,workspace);const rejected=expect(connecting).rejects.toThrow();await started;
+ f.broker.revokeTab(target.tabId);release();await rejected;expect(f.broker.snapshot().connected).toBe(false);
+});
+it('owner switching during tab verification cannot establish authority under the prior owner',async()=>{
+ const f=await setup();f.host.current=async()=>{f.setOwner('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb');return true;};
+ await expect(f.broker.connect(target,workspace)).rejects.toThrow();expect(f.broker.snapshot().connected).toBe(false);
+});
+it('cancel and reconnect cannot run a second mutation while a dispatched effect is unsettled',async()=>{
+ const f=await setup();const prepared=await f.prepare();if(!prepared.connected||!prepared.digest)throw new Error('missing');
+ let release!:()=>void;let entered!:()=>void;const started=new Promise<void>(r=>entered=r);
+ f.edit.mockImplementationOnce(async()=>{entered();await new Promise<void>(r=>release=r);});
+ const running=f.broker.approveInCompanion(prepared.connectionId,prepared.digest);const rejected=expect(running).rejects.toThrow();await started;
+ f.broker.revoke();await expect(f.broker.connect(target,workspace)).rejects.toThrow('settle');
+ release();await rejected;expect(f.edit).toHaveBeenCalledTimes(1);
+});
+it('owner switch during a read guard prevents product observation',async()=>{
+ const f=await setup();await f.broker.allowReadInCompanion(f.status.connectionId);
+ f.host.current=async()=>{f.setOwner('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb');return true;};
+ await expect(f.command('observe')).rejects.toThrow();expect(f.read).not.toHaveBeenCalled();expect(f.broker.snapshot().connected).toBe(false);
+});
+it('duplicate approvals remain blocked for the full unsettled effect lifetime',async()=>{
+ const f=await setup();const prepared=await f.prepare();if(!prepared.connected||!prepared.digest)throw new Error('missing');
+ let release!:()=>void;let entered!:()=>void;const started=new Promise<void>(r=>entered=r);
+ const original=f.edit.getMockImplementation()!;
+ f.edit.mockImplementationOnce(async(...args)=>{entered();await new Promise<void>(r=>release=r);await original(...args);});
+ const running=f.broker.approveInCompanion(prepared.connectionId,prepared.digest);await started;
+ await expect(f.broker.approveInCompanion(prepared.connectionId,prepared.digest)).rejects.toThrow('running');
+ release();const result=await running;expect(result.connected&&result.receipt?.status).toBe('verified');expect(f.edit).toHaveBeenCalledTimes(1);
+});

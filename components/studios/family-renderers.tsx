@@ -4,6 +4,10 @@ import dynamic from 'next/dynamic';
 import type { ComponentType } from 'react';
 import type { FamilyId, RendererProps } from '@/lib/generative-art/families';
 
+const TideCanvas = dynamic(
+  () => import('./families/TideCanvas').then((m) => m.TideCanvas),
+  { ssr: false }
+);
 const LineCanvas = dynamic(
   () => import('./families/LineCanvas').then((m) => m.LineCanvas),
   { ssr: false }
@@ -78,6 +82,7 @@ const DlaCanvas = dynamic(
 );
 
 export const FAMILY_RENDERERS: Record<FamilyId, ComponentType<RendererProps>> = {
+  assembly: TideCanvas,
   line: LineCanvas,
   chrome: ChromeCanvas,
   flow: FlowCanvas,

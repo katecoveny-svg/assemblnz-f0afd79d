@@ -17,7 +17,7 @@ function fixture(rows = accounts) {
   const read = vi.fn<MailPorts['read']>().mockImplementation(async (_owner, _account, op) => op.kind === 'search' ? { messages: [{ id: 'msg1' }, { id: 'msg1' }], nextPageToken: 'never-followed' } : {
     id: op.messageId, snippet: 'Synthetic Example Clinic opening hours.', payload: { mimeType: 'text/plain', headers: [{ name: 'From', value: 'Example Clinic <clinic@example.invalid>' }, { name: 'Subject', value: '<img src=x onerror=alert(1)> Opening hours' }], body: { data: Buffer.from(injection).toString('base64url') } },
   });
-  return { verifyGrant: vi.fn().mockImplementation(async (externalOwner, accountId) => ({ externalOwner, accountId, provider: 'gmail', source: 'provider_grant_metadata', scopes: [GMAIL_READ_SCOPE], checkedAt: Date.now(), expiresAt: Date.now() + 300_000 })), accounts: vi.fn().mockResolvedValue(rows), read, configured: vi.fn().mockReturnValue(true) } satisfies MailPorts;
+  return { enabled: vi.fn().mockReturnValue(true), verifyGrant: vi.fn().mockImplementation(async (externalOwner, accountId) => ({ externalOwner, accountId, provider: 'gmail', source: 'provider_grant_metadata', revision: 'a'.repeat(64), scopes: [GMAIL_READ_SCOPE], checkedAt: Date.now(), expiresAt: Date.now() + 300_000 })), accounts: vi.fn().mockResolvedValue(rows), read, configured: vi.fn().mockReturnValue(true) } satisfies MailPorts;
 }
 const signal = () => new AbortController().signal;
 const recheck = async () => owner;
@@ -29,6 +29,21 @@ describe('Personal DO bounded mail', () => {
     expect(result).toMatchObject({ metadataOnly: true, mailboxRead: false });
     expect(result.accounts.map(a => a.scopeVerified)).toEqual([true, true, false]); expect(ports.read).not.toHaveBeenCalled();
   });
+  it('verifies metadata while activation is off, without reading any mailbox', async () => {
+    const ports = fixture(); ports.enabled.mockReturnValue(false);
+    const result = await mailReadiness(owner, signal(), ports);
+    expect(result.accounts[0]).toMatchObject({ state: 'activation_off', scopeVerified: true });
+    expect(ports.verifyGrant).toHaveBeenCalled();
+    await expect(readMail(request, owner, signal(), recheck, ports)).rejects.toThrow('activation_off');
+    expect(ports.read).not.toHaveBeenCalled();
+    ports.verifyGrant.mockResolvedValue(null);
+    expect((await mailReadiness(owner, signal(), ports)).accounts[0]).toMatchObject({ state: 'gmail_read_unverified', scopeVerified: false });
+  });
+  it('discards mailbox results when activation turns off during a read', async () => {
+    const ports = fixture();
+    ports.read.mockImplementationOnce(async () => { ports.enabled.mockReturnValue(false); return { messages: [] }; });
+    await expect(readMail(request, owner, signal(), recheck, ports)).rejects.toThrow('activation_off');
+  });
   it('blocks a healthy configured Gmail account without authoritative grant evidence', async () => {
     const ports = fixture(); ports.verifyGrant.mockResolvedValue(null);
     const readiness = await mailReadiness(owner, signal(), ports);
@@ -39,6 +54,16 @@ describe('Personal DO bounded mail', () => {
   it('rechecks capability revocation before publishing', async () => {
     const ports = fixture(); ports.read.mockImplementationOnce(async () => { ports.verifyGrant.mockResolvedValue(null); return { messages: [] }; });
     await expect(readMail(request, owner, signal(), recheck, ports)).rejects.toThrow('gmail_read_unverified');
+  });
+  it('discards a result after reconnect even when the account ID and scopes stay the same', async () => {
+    const ports = fixture();
+    const grant = await ports.verifyGrant(owner.externalId, 'gmail_two');
+    ports.read.mockImplementationOnce(async () => {
+      ports.verifyGrant.mockResolvedValue({ ...grant, revision: 'b'.repeat(64) });
+      return { messages: [] };
+    });
+    await expect(readMail(request, owner, signal(), recheck, ports)).rejects.toThrow('mail_account_changed');
+    expect(ports.read).toHaveBeenCalledTimes(1);
   });
   it('uses the explicit second Gmail account, deduplicates messages and returns account/source evidence', async () => {
     const ports = fixture(); const result = await readMail(request, owner, signal(), recheck, ports);

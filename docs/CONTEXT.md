@@ -33,7 +33,7 @@ output carries a record of how it was made.
 | `/concepts` | Five industries, one architecture. Client names redacted. Answers "does this only work for groceries?" |
 | `/agents`, `/pricing`, `/about`, `/pilots`, `/field-notes` | Cinematic marketing pages. |
 | `/legal/{privacy,terms,disclaimer}`, `/trust` | NZ legals — Privacy Act 2020 incl. IPP 3A, entity + NZBN. |
-| `/creative-playground` | Generative art studio, browser-only. |
+| `/creative-studio/generate` | Generative assembly: the tide engine and 18 generative families, browser-only. `/creative-playground` and `/generative-studio` redirect here. |
 
 Sign-in is **not** on www — `/login` hard-302s home by design. Supabase auth
 lives on **demo.assembl.co.nz/admin/login**.

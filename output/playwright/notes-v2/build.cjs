@@ -1,6 +1,7 @@
 const esbuild = require(process.env.ASSEMBL_ESBUILD_MODULE || '../../../node_modules/.pnpm/esbuild@0.28.0/node_modules/esbuild');
 const fs = require('node:fs');
 const stubs = {
+  "@/app/do/personal/PersonalDoAssistant": "export function PersonalDoAssistant(){return <div>Synthetic typed conversation; no provider calls.</div>}",
   'next/dynamic': 'export default function dynamic(){return ()=>null}',
   'next/image': 'export default function Image({priority,unoptimized,fill,...p}){return <img {...p}/>}',
   './ChecklistCloud': 'export function ChecklistCloud(){return null}',

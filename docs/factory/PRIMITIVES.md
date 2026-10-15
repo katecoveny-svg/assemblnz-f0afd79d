@@ -9,6 +9,15 @@ task drafts; no model, mailbox writes or persistent state. Outlook reading fails
 closed pending verified delegated Mail.Read. Reusable text/voice handoff carries no
 consent. Synthetic tests, setup steps and limits: [Personal mail read](../DO-PERSONAL-MAIL-READ.md).
 
+Local Gmail follow-up: server-only effective-scope/credential-expiry metadata verification,
+explicit account selection and snapshot-change rejection; no live account proof or
+Outlook activation. See [grant evidence and briefing gates](../DO-MAIL-GRANT-VERIFICATION.md).
+
+Readiness follow-up reuses verified ownership and the existing SELECT-only storage
+readiness RPC: `/api/do/personal/readiness` returns configuration and owner readiness
+without content loaders or cleanup. Gmail metadata verification is independent of
+mailbox activation. See [readiness and activation proposal](../do-personal/READINESS-PREFLIGHT.md).
+
 A primitive is a reusable capability that makes later products faster, safer or better.
 
 Do not extract something merely because it might be reused. Prefer extraction after a second real use or when the mechanic is clearly cross-product infrastructure.
@@ -249,6 +258,9 @@ The loyalty `mealChoiceCards` projection reuses `planShop` for three accessible 
 
 `apps/do/ios/Shared/DOStore.swift` supplies a local-only app/Share Sheet/keyboard handoff. Saving does not approve insertion; explicit review releases a draft for one hour, and the keyboard rechecks identity and expiry before insertion. A shared App Group is not account isolation or per-record OS isolation; expiry is not secure deletion. Tests are in `apps/do/ios/Tests`; unsigned simulator and signed-device proof remain distinct. No cloud execution, generic cross-app context, signing or installation is claimed.
 
+### Selected-tab read and conversational companion (15 October local review)
+
+Creates `apps/do/browser/selected-tab/` for ephemeral owner/tab/document/origin-bound read-only evidence and cancellation; its extension host is now bound in the later source candidate; native Mac runtime proof remains pending. Extends the existing floating companion, typed assistant, voice transport and opt-in kept conversations with shared turns, explicit context attachment and in-panel Talk. No new persistence or execution authority. See [implementation, synthetic evidence and live gaps](../reviews/DO-SELECTED-TAB-COMPANION-20261015.md).
 ### Session-only LifeAdmin category boundary (local review)
 
 Pet weekly routines extend LifeAdmin's plan/review/completion/export contract without
@@ -257,3 +269,19 @@ session-only Pet payloads on both browser/cloud reads and writes; preparation re
 them separately. Mixed saves disclose exclusions and offer export. Preserve this
 separation when adding future local-only categories. See
 [Pet weekly local review](../reviews/PET-WEEKLY-LOCAL-20261014.md) for proof and limits.
+
+### DO server voice time-budget preparation (15 October local)
+
+Extends the existing per-owner/day unique reservation slots with `apps/do/services/voice-policy.ts`; operator-only finite time budget, unchanged deployed fallback, no schema or provider change. Reserved time is not measured usage or a currency cap. Continuous renewal remains a separate owner-bound lease implementation. NZ accent acceptance is user-reported failed despite the existing v2 prompt; synthetic tests cannot override it. See `docs/DO-VOICE-READINESS-20261015.md`.
+
+### DO logical call lease and trusted usage port (15 October local)
+
+Extends per-owner voice admission with a server-funded consent quote, CAS ledger, fixed-deadline same-token resume and logical revocation. Default-off `/api/do/live-lease` replaces legacy admission only when configured; schema remains a review proposal. Trusted usage ingestion is a separate server-only adapter interface, not client billing. Sources, contract, limitations and test gates: `docs/reviews/voice-lease/README.md`.
+
+### Companion selected-page host, bounded voice and shared work board (15 October local)
+
+Extends the selected-tab primitive with real MV3 image/text capture; extends the voice lease with client quote/revoke/resume; reuses Office jobs/events/receipts for a three-part shared board and a deterministic Clear worker. Existing Library handover is linked, not copied or synced. Builder saved-plan acceptance is not execution, and Codex remains manual until a supported bridge is paired. [Combined source/proof/runtime gaps](../reviews/DO-COMPANION-INTEGRATION-20261015.md).
+
+### Generative assembly studio (14 October 2026)
+
+`/creative-studio/generate` mounts the homepage tide engine as the Assembly family in the shared generative shell. `lib/generative-art/species.ts` is the species registry (silhouette, motion, flock, size, canon tones); `lib/generative-art/canon.ts` is the canon palette for generative work (tokens, mixes, the plum-to-paper ramp with a dusty rose pull, contrast flips); `lib/generative-art/loop-export.ts` encodes MP4, WebM and GIF in the browser from a frame callback; `lib/generative-art/receipt.ts` writes the export receipt. Engine studio options and calls are listed in `docs/design/generative-assembly.md`.

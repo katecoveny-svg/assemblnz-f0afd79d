@@ -167,14 +167,14 @@ describe('portable DO companion', () => {
     const s = setup();
     s.window.assemblDo.open({ text: 'z'.repeat(13000), title: 'Source', url: 'https://example.nz/brief?secret=hidden#private' });
     const review = s.find('review'), textarea = review.children[0].children[0];
-    expect(textarea.value).toHaveLength(12000); expect(review.children[1].textContent).toBe('Source · https://example.nz/brief');
+    expect(textarea.value).toHaveLength(12000); expect(review.children[1].textContent).toBe('Source · https://example.nz');
     expect(s.frame.contentWindow.postMessage).not.toHaveBeenCalled();
     s.find('use').handlers.click(click);
     s.listeners.message({ source: s.frame.contentWindow, origin: 'https://evil.example', data: { type: 'assembl-do:ready' } });
     s.listeners.message({ source: {}, origin: DO_DISTRIBUTION_ORIGIN, data: { type: 'assembl-do:ready' } });
     expect(s.frame.contentWindow.postMessage).not.toHaveBeenCalled();
     s.listeners.message({ source: s.frame.contentWindow, origin: DO_DISTRIBUTION_ORIGIN, data: { type: 'assembl-do:ready' } });
-    expect(s.frame.contentWindow.postMessage).toHaveBeenCalledExactlyOnceWith({ type: 'assembl-do:context', contextId: 'context-test-id', text: 'z'.repeat(12000), title: 'Source', url: 'https://example.nz/brief' }, DO_DISTRIBUTION_ORIGIN);
+    expect(s.frame.contentWindow.postMessage).toHaveBeenCalledExactlyOnceWith({ type: 'assembl-do:context', contextId: 'context-test-id', text: 'z'.repeat(12000), title: 'Source', url: 'https://example.nz' }, DO_DISTRIBUTION_ORIGIN);
     expect(s.find('status').textContent).toContain('Waiting for the editor');
     s.listeners.message({ source: s.frame.contentWindow, origin: DO_DISTRIBUTION_ORIGIN, data: { type: 'assembl-do:context-received', contextId: 'context-test-id' } });
     expect(s.find('status').textContent).toContain('Context added');

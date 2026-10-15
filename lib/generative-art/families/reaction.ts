@@ -13,12 +13,12 @@ export interface ReactionPalette {
 }
 
 export const REACTION_PALETTES: Record<string, ReactionPalette> = {
-  coral:       { ground: '#FBF7EE', low: '#F5E7CC', high: '#B7412A', edge: '#5A1B10' },
-  leopard:     { ground: '#F1EDE1', low: '#E5D8B0', high: '#3A2612', edge: '#0F0A05' },
-  mitosis:     { ground: '#F5F5F0', low: '#E8E5DA', high: '#1D2A35', edge: '#08111A' },
-  bloom:       { ground: '#F5EAEF', low: '#F0C6D7', high: '#8A2A57', edge: '#3E102A' },
-  fingerprint: { ground: '#F7F5F0', low: '#DDD7C8', high: '#2E2A22', edge: '#0F0D07' },
-  emerald:     { ground: '#F1F5F1', low: '#CFE2D5', high: '#1F5A4A', edge: '#0A2B22' },
+  coral:       { ground: '#F8F4F3', low: '#EAE1E0', high: '#84646C', edge: '#5A3A48' },
+  leopard:     { ground: '#F1ECEB', low: '#E0D3D4', high: '#3C2033', edge: '#2B1126' },
+  mitosis:     { ground: '#F5F5F0', low: '#E9E3E3', high: '#381E31', edge: '#30152A' },
+  bloom:       { ground: '#F1ECEB', low: '#DDD0D1', high: '#6A4854', edge: '#4F3040' },
+  fingerprint: { ground: '#F7F5F0', low: '#DDD5D6', high: '#392134', edge: '#2B1126' },
+  emerald:     { ground: '#F7F3F2', low: '#E2DADA', high: '#614552', edge: '#3B1F31' },
 };
 
 /**
@@ -46,7 +46,7 @@ const PRESETS: FamilyPreset[] = [
     defaults: { feed: 0.050, kill: 0.062, stepsPerFrame: 10, seedDensity: 0.40, contrast: 1.15 } },
   { id: 'fingerprint', label: 'Fingerprint', blurb: 'labyrinth ridges — dermatoglyphs',        sliders: SLIDERS,
     defaults: { feed: 0.037, kill: 0.060, stepsPerFrame: 16, seedDensity: 0.35, contrast: 1.20 } },
-  { id: 'emerald',     label: 'Emerald Coral', blurb: 'coral in a green register',            sliders: SLIDERS,
+  { id: 'emerald',     label: 'Plum Coral', blurb: 'coral in a muted plum register',            sliders: SLIDERS,
     defaults: { feed: 0.062, kill: 0.062, stepsPerFrame: 12, seedDensity: 0.35, contrast: 1.10 } },
 ];
 
@@ -54,7 +54,7 @@ export const REACTION_FAMILY: Family = {
   id: 'reaction',
   label: 'Reaction',
   blurb: 'WebGL — Gray-Scott chemistry, alive on your GPU',
-  ground: '#FBF7EE',
+  ground: '#F8F4F3',
   presets: PRESETS,
   supportsPngDownload: true,
   supportsSvgDownload: false,

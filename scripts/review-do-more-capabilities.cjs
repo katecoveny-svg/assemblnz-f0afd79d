@@ -1,3 +1,4 @@
+const { openPersonalEntry } = require('./personal-entry-helpers.cjs');
 /** Entry-only regression; all APIs fictional, all writes and media blocked. */
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
@@ -8,6 +9,20 @@ const checks=[],posts=[],errors=[],geometry=[];
 const visibleInPanel=async(link,panel)=>{const a=await link.boundingBox(),b=await panel.boundingBox();return a&&b&&a.y>=b.y&&a.y+a.height<=b.y+b.height};
 const inspect=async(panel)=>panel.evaluate(e=>{const r=e.getBoundingClientRect();return {display:getComputedStyle(e).display,x:r.x,y:r.y,width:r.width,height:r.height,viewport:[innerWidth,innerHeight],scrollWidth:e.scrollWidth,clientWidth:e.clientWidth,scrollHeight:e.scrollHeight,clientHeight:e.clientHeight,links:[...e.querySelectorAll('a')].filter(a=>a.getClientRects().length).map(a=>{const b=a.getBoundingClientRect();return {text:a.textContent,x:b.x,right:b.right,width:b.width,height:b.height,font:getComputedStyle(a).fontSize}})}});
 const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('PASS '+name)};
+async function waitForCapabilities(region, expected) {
+  // Auth initialization can remount this region between separate locator calls.
+  // Poll the complete expected content and return the same matching snapshot.
+  const deadline=Date.now()+30000;
+  let actual=[];
+  do {
+    actual=await region.locator('[data-do-idea]').evaluateAll(es=>es.map(e=>({id:e.dataset.doIdea,label:e.getAttribute('aria-label')})));
+    if(JSON.stringify(actual)===JSON.stringify(expected)) return actual;
+    await new Promise(resolve=>setTimeout(resolve,25));
+  } while(Date.now()<deadline);
+  assert.deepEqual(actual,expected,'capability definitions did not become ready');
+  return actual;
+}
+
 (async()=>{
  fs.mkdirSync(out,{recursive:true});
  const browser=await chromium.launch({headless:true,...(process.env.ASSEMBL_CHROMIUM_PATH?{executablePath:process.env.ASSEMBL_CHROMIUM_PATH}:{channel:'chrome'})});
@@ -31,7 +46,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
  const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(30000);
  try{
   await page.goto(origin+'/do');
-  await page.locator('#personal-assistant-input').waitFor();
+  await openPersonalEntry(page);
   await page.evaluate(()=>document.fonts.ready);
   await page.addStyleTag({content:'nextjs-portal{display:none!important}'});
   await page.screenshot({path:out+'/do-desktop.png',fullPage:false});
@@ -77,22 +92,27 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   await page.getByRole('region',{name:'Ideas to get started'}).screenshot({path:out+'/capabilities-desktop.png'});
   await page.setViewportSize({width:375,height:812});check('all phone example text wraps within its control',await page.locator('[data-do-idea]').evaluateAll(es=>es.every(e=>e.scrollWidth<=e.clientWidth)));await page.getByRole('region',{name:'Ideas to get started'}).screenshot({path:out+'/capabilities-phone.png'});
   for(const [surface,url,width] of [['widget','/do/widget',1440],['phone-web','/do/widget',375],['native-hosted','/do/widget?nativeReview=1',430]]){
-    await page.setViewportSize({width,height:900});await page.goto(origin+url);await page.locator('#do-source').waitFor();
-    const actual=await page.locator('[data-do-idea]').evaluateAll(es=>es.map(e=>({id:e.dataset.doIdea,label:e.getAttribute('aria-label')})));
+    await page.setViewportSize({width,height:900});await page.goto(origin+url);await page.locator('#personal-assistant-input').waitFor();
+    const actual=await waitForCapabilities(page.getByRole('region',{name:'Conversation with DO',exact:true}),expected);
+    assert.deepEqual(actual,expected,surface+' capability definitions');
     check(surface+' uses the same capability definitions',JSON.stringify(actual)===JSON.stringify(expected));
-    await page.locator('#do-source').fill('Fictional existing widget draft.');await page.locator('.do-source-details>summary').click();await page.locator('#do-source-title').fill('Fictional source title');await page.locator('#do-source-url').fill('https://example.com/notes');await page.getByText('Draft something else', {exact:true}).click();await page.locator('[data-do-idea=agenda]').click();
-    await page.waitForFunction(()=>document.querySelector('#do-source').value.includes('Help me plan'));
-    check(surface+' appends and retains draft',await page.locator('#do-source').inputValue()==='Fictional existing widget draft.\n\nHelp me plan the week ahead');
+    await page.locator('summary').filter({hasText:/^Tools & examples$/}).click();await page.getByRole('button',{name:'Open draft tools',exact:true}).click();
+    await page.locator('#do-source').fill('Separate fictional tool draft.');await page.locator('.do-source-details>summary').click();await page.locator('#do-source-title').fill('Fictional source title');await page.locator('#do-source-url').fill('https://example.com/notes');
+    await page.getByRole('button',{name:'Write',exact:true}).click();await page.locator('#personal-assistant-input').fill('Fictional existing widget draft.');await page.getByRole('region',{name:'Conversation with DO',exact:true}).getByText('Draft something else', {exact:true}).click();await page.getByRole('region',{name:'Conversation with DO',exact:true}).locator('[data-do-idea=agenda]').click();
+    await page.waitForFunction(()=>document.querySelector('#personal-assistant-input').value.includes('Help me plan'));
+    check(surface+' appends and retains draft',await page.locator('#personal-assistant-input').inputValue()==='Fictional existing widget draft.\n\nHelp me plan the week ahead');
+    check(surface+' retains separate tool draft',await page.locator('#do-source').inputValue()==='Separate fictional tool draft.');
     check(surface+' retains source metadata',await page.locator('#do-source-title').inputValue()==='Fictional source title'&&await page.locator('#do-source-url').inputValue()==='https://example.com/notes');
     await page.evaluate(()=>window.scrollTo(0,0));const menu=page.locator('details[data-do-overlay]');await menu.locator('summary').first().click();await menu.locator('details>summary').click();
     const panel=page.getByRole('navigation',{name:'More DO tools'});const g=await inspect(panel);geometry.push({surface,width,...g});check(surface+' More remains inside viewport',g.x>=15&&g.x+g.width<=width-15&&g.scrollWidth<=g.clientWidth);
     await page.screenshot({path:out+'/'+surface+'-more.png'});await page.keyboard.press('Escape');check(surface+' never starts microphone',await page.evaluate(()=>window.__media===0));
   }
   await page.setViewportSize({width:500,height:900});await page.goto(origin+'/entry-fixture');await page.getByRole('button',{name:'Ask DO. Drag to move or use Alt and arrow keys.',exact:true}).click();
-  const frame=page.frameLocator('iframe');await frame.locator('#do-source').waitFor();
-  check('companion iframe uses the same capability definitions',JSON.stringify(await frame.locator('[data-do-idea]').evaluateAll(es=>es.map(e=>({id:e.dataset.doIdea,label:e.getAttribute('aria-label')}))))===JSON.stringify(expected));
-  await frame.locator('#do-source').fill('Fictional companion draft.');await frame.getByText('Draft something else', {exact:true}).click();await frame.locator('[data-do-idea=school]').click();
-  await page.waitForTimeout(100);check('companion preserves draft when adding an idea',(await frame.locator('#do-source').inputValue()).startsWith('Fictional companion draft.\n\n'));
+  const frame=page.frameLocator('iframe');await frame.locator('#personal-assistant-input').waitFor();
+  const embeddedCapabilities=await waitForCapabilities(frame.getByRole('region',{name:'Conversation with DO',exact:true}),expected);
+  check('companion iframe uses the same capability definitions',JSON.stringify(embeddedCapabilities)===JSON.stringify(expected));
+  await frame.locator('#personal-assistant-input').fill('Fictional companion draft.');await frame.getByRole('region',{name:'Conversation with DO',exact:true}).getByText('Draft something else', {exact:true}).click();await frame.getByRole('region',{name:'Conversation with DO',exact:true}).locator('[data-do-idea=school]').click();
+  await page.waitForTimeout(100);check('companion preserves draft when adding an idea',(await frame.locator('#personal-assistant-input').inputValue()).startsWith('Fictional companion draft.\n\n'));
   const menu=frame.locator('details[data-do-overlay]');await menu.locator('summary').first().click();await menu.locator('details>summary').click();
   check('embedded tool links open separately',await menu.getByRole('link',{name:'School briefing'}).getAttribute('target')==='_blank');
   const embeddedPanel=frame.getByRole('navigation',{name:'More DO tools'});const embeddedGeometry=await inspect(embeddedPanel);geometry.push({surface:'companion-iframe',...embeddedGeometry});check('companion menu fits its own viewport',embeddedGeometry.x>=15&&embeddedGeometry.x+embeddedGeometry.width<=embeddedGeometry.viewport[0]-15&&embeddedGeometry.y+embeddedGeometry.height<=embeddedGeometry.viewport[1]-15&&embeddedGeometry.scrollWidth<=embeddedGeometry.clientWidth);

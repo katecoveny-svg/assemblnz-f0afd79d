@@ -1,3 +1,4 @@
+const { openPersonalEntry } = require('./personal-entry-helpers.cjs');
 /* Synthetic voice-to-real-planner proof. No real media, provider, retailer or DB. */
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -77,6 +78,7 @@ const check = (label, result) => { assert.ok(result,label); checks.push(label); 
 
  try {
   await page.goto(origin+'/do/personal',{timeout:120000});
+  await openPersonalEntry(page);
   await page.locator('#personal-assistant-input').fill('');
   await page.addStyleTag({content:'nextjs-portal{display:none!important}'});
   await page.getByRole('region',{name:'Ideas to get started'}).screenshot({path:out+'/shared-tool-cards.png'});
@@ -173,7 +175,7 @@ const check = (label, result) => { assert.ok(result,label); checks.push(label); 
   sessionFailure=false;
   await retryFrame.getByRole('button',{name:'Retry workspace'}).click();
   await retryFrame.getByRole('button',{name:'Write',exact:true}).waitFor();
-  check('embedded explicit Retry recovers failed verification without focus',await retryFrame.locator('#do-source').isVisible());
+  check('embedded explicit Retry recovers failed verification without focus',await retryFrame.locator('#personal-assistant-input').isVisible());
   await retryPage.close();
   check('widget performs no persistence write',writes.every(p=>p==='/api/do/live-token'));
   check('no uncaught errors',errors.length===0);

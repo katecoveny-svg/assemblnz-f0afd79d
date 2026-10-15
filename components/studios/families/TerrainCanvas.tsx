@@ -282,9 +282,9 @@ export function TerrainCanvas({ presetId, values, seed, background, onAdjust, on
           <ambientLight intensity={0.85} />
           {/* Low sun so ridges cast long shadows; front fill keeps the
               near slope readable instead of silhouette-black. */}
-          <directionalLight position={[4, 2.4, 1.5]} intensity={1.5} color="#FFE7C7" />
-          <directionalLight position={[-3, 1.2, -2]} intensity={0.5} color="#B4C7D9" />
-          <directionalLight position={[0, 1.4, 5]} intensity={0.75} color="#FFF4E4" />
+          <directionalLight position={[4, 2.4, 1.5]} intensity={1.5} color="#E4D9D9" />
+          <directionalLight position={[-3, 1.2, -2]} intensity={0.5} color="#CDC1C4" />
+          <directionalLight position={[0, 1.4, 5]} intensity={0.75} color="#F2ECEB" />
           {/* No drei Environment here — the CDN HDR fetch could hang the
               whole terrain on slow networks; three directional lights carry
               the matte landscape fine. */}

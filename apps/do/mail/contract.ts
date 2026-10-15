@@ -24,7 +24,7 @@ export const mailRequest = z.object({
   }
 });
 export type MailRequest = z.infer<typeof mailRequest>;
-export type MailAccount = { id: string; provider: 'gmail' | 'microsoft_outlook'; label: string; state: 'read_available' | 'gmail_read_unverified' | 'reconnect' | 'setup_needed' | 'outlook_read_unverified'; scopeVerified: boolean };
+export type MailAccount = { id: string; provider: 'gmail' | 'microsoft_outlook'; label: string; state: 'read_available' | 'activation_off' | 'gmail_read_unverified' | 'reconnect' | 'setup_needed' | 'outlook_read_unverified'; scopeVerified: boolean };
 export type MailSource = {
   key: string; accountId: string; accountLabel: string; provider: 'gmail'; messageId: string;
   subject: string; from: string; date: string; text: string; truncated: boolean;

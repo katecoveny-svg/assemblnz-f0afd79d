@@ -17,7 +17,7 @@ describe("Gemini 3.8 voice contract", () => {
           ? (t.functionDeclarations?.map((f) => f.name) ?? [])
           : [],
       ),
-    ).toEqual(["compile_do_agent"]);
+    ).toEqual(["read_public_nz_evidence", "compile_do_agent"]);
     expect(config.inputAudioTranscription).toEqual({});
     expect(config.outputAudioTranscription).toEqual({});
     expect(config.systemInstruction).toContain(

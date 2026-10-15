@@ -94,12 +94,14 @@ const nextConfig: NextConfig = {
       { source: '/do/linda', destination: '/do/tasks', permanent: false },
       { source: '/do/linda/:path*', destination: '/do/tasks', permanent: false },
 
-      // The generative studio is a static file in public/generative-studio.
-      // This must be a REDIRECT, not a rewrite: index.html loads three.min.js
-      // with a relative src, so the browser URL has to sit inside the folder or
-      // it resolves to /three.min.js and every 3D engine dies quietly.
-      // Also note it is NOT at /studio — that path is the koro agent-builder.
-      { source: '/generative-studio', destination: '/generative-studio/index.html', permanent: false },
+      // Generative assembly (14 Oct 2026): one studio at /creative-studio/generate.
+      // The older static studio (public/generative-studio, which also loaded a
+      // third-party image service) and the playground both redirect there; query
+      // strings carry over, so existing playground share links keep their piece.
+      // The playground's agent avatars stay at /creative-playground/avatars.
+      { source: '/generative-studio', destination: '/creative-studio/generate', permanent: false },
+      { source: '/generative-studio/index.html', destination: '/creative-studio/generate', permanent: false },
+      { source: '/creative-playground', destination: '/creative-studio/generate', permanent: false },
 
       // Soft-deprecate any worlds/onenz outreach destination — loyalty demo
       // lives at /journeys/one-nz (preview, 2026-09).

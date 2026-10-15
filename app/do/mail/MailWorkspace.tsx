@@ -65,7 +65,7 @@ export function MailReview({ ownerId, initialTask = '' }: { ownerId: string; ini
     <p>Mail passes through Pipedream and assembl to this review. No model receives it. Nothing is sent, scheduled or saved; closing or rechecking this workspace clears it.</p>
     <label htmlFor={accountControl}>Mail account</label><select id={accountControl} value={accountId} disabled={busy} onChange={event => { invalidate(); setAccountId(event.target.value); }}>
       <option value="">Choose an account</option>
-      {readiness?.accounts.map(account => <option key={account.id} value={account.id} disabled={account.state !== 'read_available' || account.scopeVerified !== true}>{account.label} · {account.id} · {account.state === 'outlook_read_unverified' ? 'Outlook read setup unverified' : account.state === 'read_available' ? 'Gmail · read grant verified' : account.state.replaceAll('_', ' ')}</option>)}
+      {readiness?.accounts.map(account => <option key={account.id} value={account.id} disabled={account.state !== 'read_available' || account.scopeVerified !== true}>{account.label} · {account.id} · {account.state === 'outlook_read_unverified' ? 'Outlook read setup unverified' : account.state === 'activation_off' ? 'Gmail · grant verified, reading not activated' : account.state === 'read_available' ? 'Gmail · read grant verified' : account.state.replaceAll('_', ' ')}</option>)}
     </select>
     {readiness && !readiness.accountsAvailable && <p role="status">Account metadata is unavailable.</p>}
     {readiness?.gmailConfigured === false && <p role="status">Gmail reading needs platform setup. No account grant has been verified.</p>}

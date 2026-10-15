@@ -12,6 +12,24 @@
 -- ============================================================
 
 -- 1. Non-secret connection metadata (user-readable)
+-- Fresh migration replay reaches the April token-bearing shape before the
+-- later 20260917120000 repair. Perform that prerequisite here, before indexes
+-- or policies reference September-only columns. Retain old rows without
+-- copying tokens; the existing reconnect-required design remains unchanged.
+DO $$
+BEGIN
+  IF EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_schema = 'public' AND table_name = 'meta_connections'
+      AND column_name = 'access_token'
+  ) THEN
+    ALTER TABLE public.meta_connections RENAME TO meta_connections_legacy_insecure_202604;
+    ALTER TABLE public.meta_connections_legacy_insecure_202604 ENABLE ROW LEVEL SECURITY;
+    DROP POLICY IF EXISTS "Users manage own meta" ON public.meta_connections_legacy_insecure_202604;
+    REVOKE ALL ON public.meta_connections_legacy_insecure_202604 FROM public, anon, authenticated;
+  END IF;
+END $$;
+
 CREATE TABLE IF NOT EXISTS public.meta_connections (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,

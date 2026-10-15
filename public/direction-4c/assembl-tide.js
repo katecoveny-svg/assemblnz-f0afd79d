@@ -58,11 +58,11 @@ function sample(spec, n, R, cy) {
   if (pts.length < 40) return null;
   let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
   for (let i = 0; i < pts.length; i += 2) { x0 = Math.min(x0, pts[i]); x1 = Math.max(x1, pts[i]); y0 = Math.min(y0, pts[i + 1]); y1 = Math.max(y1, pts[i + 1]); }
-  const s = spec.fit[0] === 'h' ? spec.fit[1] / (y1 - y0) : spec.fit[1] / (x1 - x0), mx = (x0 + x1) / 2, my = (y0 + y1) / 2, out = [];
+  const s = spec.fit[0] === 'box' ? Math.min(spec.fit[1] / (x1 - x0), spec.fit[2] / (y1 - y0)) : spec.fit[0] === 'h' ? spec.fit[1] / (y1 - y0) : spec.fit[1] / (x1 - x0), mx = (x0 + x1) / 2, my = (y0 + y1) / 2, out = [];
   for (let i = 0; i < n; i++) { const k = Math.floor(R() * (pts.length / 2)) * 2; out.push([(pts[k] - mx + (R() - 0.5) * 2) * s, -(pts[k + 1] - my + (R() - 0.5) * 2) * s + cy, (R() - 0.5) * 0.45]); }
   return out.sort((p, q) => key(p) - key(q));
 }
-const build = (name, cy, n, R) => (name === 'cloud' ? null : sample(GLYPH[name], n, R, cy)) || blob(n, R, cy, 4.0, 0.95, 2.2);
+const build = (name, cy, n, R, glyphs = GLYPH) => (name === 'cloud' ? null : sample(glyphs[name], n, R, cy)) || blob(n, R, cy, 4.0, 0.95, 2.2);
 // geometry parts: 0 body, 1 cap, 2 arm (inner wing), 3 hand (outer wing), 4 tail, 5 bill
 function parts(fn) {
   const P = [], K = [], tri = (a, b, c, k) => { P.push(...a, ...b, ...c); K.push(k, k, k); };
@@ -93,6 +93,53 @@ const ternGeometry = (chord = 1.25) => parts((tri, both) => {
   tri(v(-0.008, 0, -0.033), v(0, 0, -0.058), v(-0.019, 0, -0.09), 4);
   tri(v(0.008, 0, -0.033), v(0.019, 0, -0.09), v(0, 0, -0.058), 4);
 });
+// Studio species (Generative assembly, October 2026). Same part ids as the tern, so the colour and motion code is shared:
+// 0 body, 1 cap or dorsal, 2 inner wing or pectoral, 3 outer wing, 4 tail or fluke, 5 bill or snout.
+// bird: span and chord scale the wing; tail 'fork' | 'fan' | 'wedge' | 'round'; neck lifts the head forward (kōtuku); bill is its length.
+const birdGeometry = (o = {}) => parts((tri, both) => {
+  const L = o.length ?? 1, G = o.girth ?? 1, S = o.span ?? 1, C = o.chord ?? 1.25, N = o.neck ?? 0, B = o.bill ?? 1;
+  const v = (x, y, z) => [x * 0.8, y * 0.8, z * 0.8], d = (C - 1) * 0.012, fwd = p => [p[0], p[1], p[2] + d * 0.8], aft = p => [p[0], p[1], p[2] - d * 0.8];
+  const hz = 0.058 * L + N * 0.05, hy = N * 0.012;
+  tri(v(0, hy, hz), v(-0.011 * G, 0, 0.022 * L), v(0.011 * G, 0, 0.022 * L), 0);
+  tri(v(-0.011 * G, 0, 0.022 * L), v(0, 0, -0.036 * L), v(0.011 * G, 0, 0.022 * L), 0);
+  tri(v(0, 0.009 * G + hy * 0.5, 0.05 * L), v(0, -0.009 * G, 0.012 * L), v(0, 0.003, -0.036 * L), 0);
+  tri(v(0, hy + 0.0015, hz + 0.004), v(-0.0075 * G, hy + 0.0015, hz - 0.015), v(0.0075 * G, hy + 0.0015, hz - 0.015), 1);
+  tri(v(0, hy + 0.001, hz + 0.004 + 0.022 * B), v(-0.0028, hy + 0.001, hz + 0.003), v(0.0028, hy + 0.001, hz + 0.003), 5);
+  const W = (x, z) => [x * S, 0, z], rf = fwd(v(0.009 * G, 0, 0.024 * L)), rb = aft(v(0.009 * G, 0, -0.002 * L)), wf = fwd(v(...W(0.056, 0.02))), wb = aft(v(...W(0.051, -0.006))), le = fwd(v(...W(0.083, 0.006))), tip = aft(v(...W(0.108, -0.024 * (o.sweep ?? 1))));
+  both(rf, rb, wf, 2); both(wf, rb, wb, 2); both(wf, wb, le, 3); both(le, wb, tip, 3);
+  const tz = -0.033 * L, T = o.tail || 'fork';
+  if (T === 'fork') { tri(v(-0.008, 0, tz), v(0.008, 0, tz), v(0, 0, tz - 0.025), 4); tri(v(-0.008, 0, tz), v(0, 0, tz - 0.025), v(-0.019, 0, tz - 0.057), 4); tri(v(0.008, 0, tz), v(0.019, 0, tz - 0.057), v(0, 0, tz - 0.025), 4); }
+  else if (T === 'fan') { for (let i = 0; i < 5; i++) { const a0 = -0.9 + i * 0.36, a1 = a0 + 0.36, r = 0.05; tri(v(0, 0, tz), v(Math.sin(a0) * r, 0, tz - Math.cos(a0) * r), v(Math.sin(a1) * r, 0, tz - Math.cos(a1) * r), 4); } }
+  else if (T === 'wedge') { tri(v(-0.009, 0, tz), v(0.009, 0, tz), v(0, 0, tz - 0.045), 4); }
+  else { tri(v(-0.012, 0, tz), v(0.012, 0, tz), v(0.008, 0, tz - 0.028), 4); tri(v(-0.012, 0, tz), v(0.008, 0, tz - 0.028), v(-0.008, 0, tz - 0.028), 4); }
+});
+// fish and dolphin: a long body in z, a vertical dorsal, small pectorals and a tail fin (vertical for fish, horizontal flukes for a dolphin)
+const swimmerGeometry = (o = {}) => parts((tri, both) => {
+  const L = o.length ?? 1, D = o.depth ?? 1, W = o.width ?? 1, fl = o.flukes;
+  const v = (x, y, z) => [x * 0.8, y * 0.8, z * 0.8], nose = 0.06 * L, tail = -0.05 * L, dy = 0.016 * D, dx = 0.009 * W;
+  both(v(0, 0, nose), v(dx, 0, 0.01 * L), v(0, dy, 0.012 * L), 0); both(v(0, 0, nose), v(0, -dy * 0.8, 0.012 * L), v(dx, 0, 0.01 * L), 0);
+  both(v(0, dy, 0.012 * L), v(dx, 0, 0.01 * L), v(0, 0, tail), 0); both(v(dx, 0, 0.01 * L), v(0, -dy * 0.8, 0.012 * L), v(0, 0, tail), 0);
+  tri(v(0, dy, 0.01 * L), v(0, dy + 0.014 * D * (o.dorsal ?? 1), -0.006 * L), v(0, dy * 0.6, -0.02 * L), 1);
+  both(v(dx, -dy * 0.3, 0.012 * L), v(dx + 0.016 * W * (o.pectoral ?? 1), -dy * 0.6, 0.0), v(dx, -dy * 0.3, -0.002 * L), 2);
+  if (fl) { both(v(0, 0, tail + 0.004), v(0.022 * W, 0, tail - 0.016), v(0.004, 0, tail - 0.006), 4); }
+  else { tri(v(0, 0, tail + 0.004), v(0, 0.02 * D, tail - 0.02), v(0, 0, tail - 0.008), 4); tri(v(0, 0, tail + 0.004), v(0, 0, tail - 0.008), v(0, -0.018 * D, tail - 0.02), 4); }
+  tri(v(0, 0.002, nose + 0.012 * (o.snout ?? 0)), v(-0.003, 0, nose - 0.002), v(0.003, 0, nose - 0.002), 5);
+});
+// plankton: a small double cone that pulses instead of beating
+const moteGeometry = (o = {}) => parts((tri, both) => {
+  const r = 0.012 * (o.size ?? 1), v = (x, y, z) => [x * 0.8, y * 0.8, z * 0.8];
+  for (let i = 0; i < 6; i++) { const a0 = (i / 6) * Math.PI * 2, a1 = ((i + 1) / 6) * Math.PI * 2; tri(v(0, r * 1.6, 0), v(Math.cos(a0) * r, 0, Math.sin(a0) * r), v(Math.cos(a1) * r, 0, Math.sin(a1) * r), i % 2 ? 0 : 1); tri(v(0, -r * 1.6, 0), v(Math.cos(a1) * r, 0, Math.sin(a1) * r), v(Math.cos(a0) * r, 0, Math.sin(a0) * r), i % 2 ? 2 : 4); }
+});
+const speciesGeometry = sp => sp.body === 'swimmer' ? swimmerGeometry(sp) : sp.body === 'mote' ? moteGeometry(sp) : birdGeometry(sp);
+const TERN_UP = [[0.95, 0.94, 0.95], [0.06, 0.035, 0.06], [0.79, 0.78, 0.84], [0.6, 0.58, 0.66], [0.94, 0.93, 0.95], [0.09, 0.05, 0.08]];
+const TERN_UN = [[0.98, 0.96, 0.97], [0.06, 0.035, 0.06], [0.97, 0.95, 0.97], [0.86, 0.83, 0.88], [0.97, 0.95, 0.97], [0.09, 0.05, 0.08]];
+// free text the flock can spell: measured at mount, fitted inside the same box as the wordmark formation
+function textGlyph(str) {
+  const s = String(str).slice(0, 24), m = document.createElement('canvas').getContext('2d');
+  m.font = `600 260px ${FONT}`;
+  const w = Math.max(200, Math.ceil(m.measureText(s).width) + 120);
+  return text(s, 600, 260, w, 360, 270, ['box', 6.6, 2.4]);
+}
 // each letter is split into glass modules like the brand marks: plum stems, lilac tops, rose bowls. [u from, u to, top, bottom, glass]
 const GLASS = ['#CCADF5', '#EDB2B6', '#5C1733'];
 const MOD = {
@@ -194,6 +241,7 @@ function makeMask(maxTexture = 4096) {
 const FS_VS = `varying vec2 vUv; void main(){ vUv = position.xy*0.5 + 0.5; gl_Position = vec4(position.xy, 0.0, 1.0); }`;
 const PLATE_FS = `varying vec2 vUv;
 uniform sampler2D tPlate, tPoster, tMask, tBevel, tTint;
+uniform vec4 uSolid;
 uniform float uHas, uPosterAspect, uPlateMix, uAspect, uPlateAspect, uZoom, uExp, uCon, uSat, uSplit, uDuo, uVig, uKW, uKA, uKS, uKOn, uKLine, uKBase, uGlass, uTime, uAur, uStar, uPaua, uKAa;
 uniform vec2 uPtr, uRes, uKC, uKAnchor, uBT; uniform vec3 uSh, uHi, uField;
 vec3 sl(vec3 b, vec3 s){ return mix(2.0*b*s + b*b*(1.0 - 2.0*s), sqrt(max(b, 0.0))*(2.0*s - 1.0) + 2.0*b*(1.0 - s), step(0.5, s)); }
@@ -250,7 +298,7 @@ vec3 pcol(float t){
   return t < 1.0 ? mix(a, b, smoothstep(0.0, 1.0, t)) : t < 2.0 ? mix(b, e, smoothstep(1.0, 2.0, t)) : t < 3.0 ? mix(e, f, smoothstep(2.0, 3.0, t)) : mix(f, a, smoothstep(3.0, 4.0, t));
 }
 void main(){
-  vec3 c = grade(src(vUv));
+  vec3 c = uSolid.a > 0.5 ? uSolid.rgb : grade(src(vUv));
   if (uAur > 0.001 || uStar > 0.001){
     float dk = 1.0 - smoothstep(0.16, 0.5, dot(c, vec3(0.299, 0.587, 0.114)));
     vec2 rv = vec2(vUv.x + (vn(vec2(vUv.x*30.0, vUv.y*140.0 + uTime*0.6)) - 0.5)*0.012, 1.0 - vUv.y);
@@ -302,14 +350,14 @@ void main(){
     vec3 lc = mix(vec3(0.93, 0.62, 0.84), vec3(1.0, 0.99, 0.985), smoothstep(-0.5, 0.5, dot(-g/max(length(g), 1e-5), vec2(-0.587, 0.809))));
     c = mix(c, lc, clamp(dl - m, 0.0, 1.0)*uKLine*uKOn);
   }
-  c = mix(c, c*vec3(0.32, 0.16, 0.3), uVig*smoothstep(0.35, 1.1, length((vUv - 0.5)*vec2(uAspect, 1.0))));
+  c = mix(c, c*vec3(0.32, 0.16, 0.3), uVig*(1.0 - uSolid.a)*smoothstep(0.35, 1.1, length((vUv - 0.5)*vec2(uAspect, 1.0))));
   gl_FragColor = vec4(c, 1.0);
 }`;
 const TERN_VS = `
 attribute vec3 aFA; attribute vec3 aFB;
 attribute vec4 aSeed; attribute float aPart;
-uniform float uTime, uA, uB, uT, uMillA, uMillB, uSpin, uLit, uPulse, uFormed, uSweep, uRip, uGlow, uSize, uArrive, uInk, uWait;
-uniform vec3 uCA, uCB, uHaze, uL; uniform vec2 uPtr;
+uniform float uTime, uA, uB, uT, uMillA, uMillB, uSpin, uLit, uPulse, uFormed, uSweep, uRip, uGlow, uSize, uArrive, uInk, uWait, uBeat, uAmp, uMode;
+uniform vec3 uCA, uCB, uHaze, uL; uniform vec2 uPtr; uniform vec3 uUp[6], uUn[6];
 varying vec3 vCol;
 vec3 mill(vec3 p, vec3 c, out vec3 tg){
   float ang = uTime*uSpin*(0.7 + aSeed.w*0.6);
@@ -354,21 +402,26 @@ void main(){
   vec3 lp = position*s;
   lp.z *= 1.0 + tr*0.5;
   // wingbeat: the arm lifts, the hand follows a beat later and sweeps back on the upstroke
-  float ax = abs(lp.x), wing = step(1.5, aPart)*step(aPart, 3.5), ph = uTime*(12.0 + aSeed.w*4.0) + aSeed.y*30.0;
-  float a1 = 0.72*sin(ph), a2 = 0.85*sin(ph - 0.8), upst = max(0.0, cos(ph));
+  float ax = abs(lp.x), wing = step(1.5, aPart)*step(aPart, 3.5)*(1.0 - step(0.5, uMode)), ph = uTime*(uBeat + aSeed.w*uBeat/3.0) + aSeed.y*30.0;
+  float a1 = 0.72*uAmp*sin(ph), a2 = 0.85*uAmp*sin(ph - 0.8), upst = uAmp*max(0.0, cos(ph));
   float arm = clamp(ax - 0.0072*s, 0.0, 0.0376*s), hand = max(ax - 0.0448*s, 0.0);
   float lift = wing*(arm*a1 + hand*(a1 + a2));
   lp.y += lift - 0.006*s*sin(ph);
   lp.z -= wing*hand*0.45*upst;
   lp.x -= wing*sign(lp.x)*hand*0.22*upst;
+  // swimmers bend from the head back: sideways for fish (mode 1), up and down for a dolphin (mode 2); plankton pulse (mode 3)
+  float bend = clamp((0.02*s - lp.z)/(0.08*s), 0.0, 1.0); bend *= bend*0.022*s*uAmp*sin(ph*0.5 - lp.z/(0.03*s));
+  lp.x += step(0.5, uMode)*(1.0 - step(1.5, uMode))*bend;
+  lp.y += step(1.5, uMode)*(1.0 - step(2.5, uMode))*bend;
+  lp *= 1.0 + step(2.5, uMode)*0.18*uAmp*sin(ph*0.25);
   vec4 w4 = modelMatrix*vec4(p + r*lp.x + u*lp.y + f*lp.z, 1.0);
   vec4 mv = viewMatrix*w4;
   gl_Position = projectionMatrix*mv;
   vec3 V = normalize(cameraPosition - w4.xyz);
   vec3 n = normalize(u - r*sign(lp.x)*lift/max(ax, 0.001));
   float top = step(0.0, dot(n, V)), dark = step(0.5, aPart)*step(aPart, 1.5) + step(4.5, aPart);
-  vec3 upper = aPart < 0.5 ? vec3(0.95, 0.94, 0.95) : aPart < 1.5 ? vec3(0.06, 0.035, 0.06) : aPart < 2.5 ? vec3(0.79, 0.78, 0.84) : aPart < 3.5 ? vec3(0.6, 0.58, 0.66) : aPart < 4.5 ? vec3(0.94, 0.93, 0.95) : vec3(0.09, 0.05, 0.08);
-  vec3 under = aPart < 0.5 ? vec3(0.98, 0.96, 0.97) : aPart < 1.5 ? vec3(0.06, 0.035, 0.06) : aPart < 2.5 ? vec3(0.97, 0.95, 0.97) : aPart < 3.5 ? vec3(0.86, 0.83, 0.88) : aPart < 4.5 ? vec3(0.97, 0.95, 0.97) : vec3(0.09, 0.05, 0.08);
+  vec3 upper = aPart < 0.5 ? uUp[0] : aPart < 1.5 ? uUp[1] : aPart < 2.5 ? uUp[2] : aPart < 3.5 ? uUp[3] : aPart < 4.5 ? uUp[4] : uUp[5];
+  vec3 under = aPart < 0.5 ? uUn[0] : aPart < 1.5 ? uUn[1] : aPart < 2.5 ? uUn[2] : aPart < 3.5 ? uUn[3] : aPart < 4.5 ? uUn[4] : uUn[5];
   vec3 c = mix(under, upper, top)*(0.56 + 0.44*abs(dot(n, uL)));
   c += vec3(1.0, 0.84, 0.88)*pow(1.0 - abs(dot(n, V)), 3.0)*0.3*(1.0 - dark);
   float lit = smoothstep(aSeed.x - 0.05, aSeed.x, uLit);
@@ -428,7 +481,7 @@ void main(){
   c += (texture2D(tSrc, vUv + o*3.2308).rgb + texture2D(tSrc, vUv - o*3.2308).rgb)*0.0702703;
   gl_FragColor = vec4(c, 1.0);
 }`;
-const COMP_FS = `varying vec2 vUv; uniform sampler2D tScene; uniform sampler2D tBloom; uniform float uStrength, uTime, uStreak; uniform vec2 uRes;
+const COMP_FS = `varying vec2 vUv; uniform sampler2D tScene; uniform sampler2D tBloom; uniform float uStrength, uTime, uStreak, uFlat; uniform vec2 uRes;
 float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5453); }
 void main(){
   vec3 c = texture2D(tScene, vUv).rgb + texture2D(tBloom, vUv).rgb*uStrength;
@@ -438,7 +491,7 @@ void main(){
     c += st*vec3(0.76, 0.62, 1.0)*0.15*uStreak;
   }
   c = clamp(c, 0.0, 1.0);
-  vec2 q = vUv - 0.5; c *= 1.0 - dot(q, q)*0.2;
+  vec2 q = vUv - 0.5; c *= 1.0 - dot(q, q)*0.2*(1.0 - uFlat);
   c += (hash(vUv*uRes + fract(uTime)*91.0) - 0.5)*0.018;
   gl_FragColor = vec4(c, 1.0);
 }`;
@@ -459,9 +512,11 @@ async function mount(canvas, opts = {}) {
     if (opts.signal?.aborted) throw new DOMException("Scene cancelled", "AbortError");
   }
   THREE = window.THREE;
-  const SLOTS = (opts.slots || DEFAULT_SLOTS).filter(n => SHAPES[n]).map(n => [n, ...SHAPES[n]]);
+  // opts.text: a word the flock can spell, used by the 'text' slot (studio)
+  const glyphs = opts.text ? { ...GLYPH, text: textGlyph(opts.text) } : GLYPH, shapes = opts.text ? { ...SHAPES, text: [2.75, 0, 0] } : SHAPES;
+  const SLOTS = (opts.slots || DEFAULT_SLOTS).filter(n => shapes[n]).map(n => [n, ...shapes[n]]);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches, narrow0 = innerWidth < 900;
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: 'high-performance' });
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false, powerPreference: 'high-performance', preserveDrawingBuffer: !!opts.preserveDrawingBuffer });
   // pixel ratio: 2 on a capable desktop so the terns hold their shape on retina, 1.5 elsewhere, 1.25 on narrow screens; opts.dprCap overrides
   const capable = !narrow0 && (navigator.hardwareConcurrency || 4) >= 8;
   const dpr = Math.min(window.devicePixelRatio || 1, opts.dprCap || (narrow0 ? 1.25 : capable ? 2 : 1.5));
@@ -478,7 +533,7 @@ async function mount(canvas, opts = {}) {
   const G = { uTime: { value: 0 }, uPtr: { value: new THREE.Vector2() }, uLit: { value: 0 }, uPulse: { value: 0 }, uGlow: { value: T.glow }, uHaze: { value: new THREE.Vector3(...T.haze) }, uL: { value: new THREE.Vector3(-0.4, 0.3, -0.86).normalize() } };
   const PL = { tPoster: { value: null }, uPosterAspect: { value: 16 / 9 }, uPlateMix: { value: 1 }, tPlate: { value: null }, tMask: { value: null }, uHas: { value: 0 }, uAspect: { value: 1 }, uPlateAspect: { value: 16 / 9 }, uZoom: { value: 1.05 }, uPtr: G.uPtr, uRes: { value: new THREE.Vector2(2, 2) },
     // field: deep plum #240B21 (was 0.105, 0.032, 0.095, about #1B0818, which read as black once the vignette landed on it); opts.field overrides
-    uExp: { value: 1 }, uCon: { value: 1 }, uSat: { value: 1 }, uSplit: { value: 0 }, uDuo: { value: 0 }, uVig: { value: 0 }, uSh: { value: new THREE.Vector3(0.5, 0.5, 0.5) }, uHi: { value: new THREE.Vector3(0.5, 0.5, 0.5) }, uField: { value: new THREE.Vector3(...(opts.field || [0.141, 0.043, 0.129])) },
+    uSolid: { value: new THREE.Vector4(...(opts.ground || [0, 0, 0]), opts.ground ? 1 : 0) }, uExp: { value: 1 }, uCon: { value: 1 }, uSat: { value: 1 }, uSplit: { value: 0 }, uDuo: { value: 0 }, uVig: { value: 0 }, uSh: { value: new THREE.Vector3(0.5, 0.5, 0.5) }, uHi: { value: new THREE.Vector3(0.5, 0.5, 0.5) }, uField: { value: new THREE.Vector3(...(opts.field || [0.141, 0.043, 0.129])) },
     uKC: { value: new THREE.Vector2() }, uKAnchor: { value: new THREE.Vector2(0.5, 0.5) }, uKW: { value: 1 }, uKA: { value: 3.6 }, uKS: { value: 1 }, uKOn: { value: 0 }, uKAa: { value: 1 }, uKLine: { value: opts.outline === false ? 0 : typeof opts.outline === 'number' ? opts.outline : 1 },
     tBevel: { value: null }, tTint: { value: null }, uBT: { value: new THREE.Vector2(0.001, 0.001) }, uKBase: { value: 0.08 }, uGlass: { value: opts.glass === false ? 0 : 1 }, uTime: G.uTime, uAur: { value: 0 }, uStar: { value: 0 }, uPaua: { value: 0 } };
   const plate = opts.plate || null;
@@ -495,9 +550,9 @@ async function mount(canvas, opts = {}) {
   const sky = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({ uniforms: PL, vertexShader: FS_VS, fragmentShader: PLATE_FS, depthWrite: false, depthTest: false }));
   sky.frustumCulled = false; sky.renderOrder = -1; scene.add(sky);
 
-  const R = rng(7), N = opts.count ? Math.round(opts.count * (narrow0 ? 0.62 : 1)) : (narrow0 ? 460 : 760), base = ternGeometry(opts.wingChord ?? 1.25), geo = new THREE.InstancedBufferGeometry();
+  const R = rng(opts.seed ?? 7), sp = opts.species || null, N = opts.count ? Math.round(opts.count * (narrow0 && !opts.exactCount ? 0.62 : 1)) : (narrow0 ? 460 : 760), base = sp ? speciesGeometry(sp) : ternGeometry(opts.wingChord ?? 1.25), geo = new THREE.InstancedBufferGeometry();
   geo.setAttribute('position', base.getAttribute('position')); geo.setAttribute('aPart', base.getAttribute('aPart'));
-  const FORMS = SLOTS.map(([name, cy]) => new Float32Array(build(name, cy, N, R).flat()));
+  const FORMS = SLOTS.map(([name, cy]) => new Float32Array(build(name, cy, N, R, glyphs).flat()));
   let curA = 0, curB = Math.min(1, FORMS.length - 1);
   const attA = new THREE.InstancedBufferAttribute(FORMS[curA].slice(), 3).setUsage(THREE.DynamicDrawUsage), attB = new THREE.InstancedBufferAttribute(FORMS[curB].slice(), 3).setUsage(THREE.DynamicDrawUsage);
   geo.setAttribute('aFA', attA); geo.setAttribute('aFB', attB);
@@ -505,7 +560,9 @@ async function mount(canvas, opts = {}) {
   for (let i = 0; i < N; i++) { seed[i * 4] = Math.min(1, (i / N) * 0.8 + R() * 0.12); seed[i * 4 + 1] = R(); seed[i * 4 + 2] = 0.95 + R() * 0.5; seed[i * 4 + 3] = R(); }
   geo.setAttribute('aSeed', new THREE.InstancedBufferAttribute(seed, 4));
   geo.instanceCount = N;
-  const U = { uTime: G.uTime, uPtr: G.uPtr, uLit: G.uLit, uPulse: G.uPulse, uGlow: G.uGlow, uHaze: G.uHaze, uL: G.uL, uSize: { value: 1 }, uInk: { value: 0 }, uA: { value: 0 }, uB: { value: 0 }, uT: { value: 0 }, uMillA: { value: 1 }, uMillB: { value: 1 }, uSpin: { value: 0.2 }, uFormed: { value: 1 }, uSweep: { value: 0 }, uRip: { value: 0 }, uCA: { value: new THREE.Vector3() }, uCB: { value: new THREE.Vector3() }, uArrive: { value: reduced ? 1 : (opts.arrive ?? 1) }, uWait: { value: opts.waitScale ?? 1 } };
+  const U = { uTime: G.uTime, uPtr: G.uPtr, uLit: G.uLit, uPulse: G.uPulse, uGlow: G.uGlow, uHaze: G.uHaze, uL: G.uL, uSize: { value: 1 }, uInk: { value: 0 }, uA: { value: 0 }, uB: { value: 0 }, uT: { value: 0 }, uMillA: { value: 1 }, uMillB: { value: 1 }, uSpin: { value: 0.2 }, uFormed: { value: 1 }, uSweep: { value: 0 }, uRip: { value: 0 }, uCA: { value: new THREE.Vector3() }, uCB: { value: new THREE.Vector3() }, uArrive: { value: reduced ? 1 : (opts.arrive ?? 1) }, uWait: { value: opts.waitScale ?? 1 },
+    uBeat: { value: sp?.beat ?? 12 }, uAmp: { value: sp?.amp ?? 1 }, uMode: { value: sp ? ({ bird: 0, fish: 1, dolphin: 2, mote: 3 })[sp.motion || 'bird'] ?? 0 : 0 },
+    uUp: { value: (sp?.upper || TERN_UP).map(c => new THREE.Vector3(...c)) }, uUn: { value: (sp?.under || TERN_UN).map(c => new THREE.Vector3(...c)) } };
   const terns = new THREE.Mesh(geo, new THREE.ShaderMaterial({ uniforms: U, vertexShader: TERN_VS, fragmentShader: COL_FS, side: THREE.DoubleSide }));
   terns.frustumCulled = false;
   const pivot = new THREE.Group(); pivot.position.y = 1.8; rig.add(pivot); pivot.add(terns); terns.position.y = -1.8;
@@ -598,11 +655,11 @@ async function mount(canvas, opts = {}) {
   const mk = (fs, u) => new THREE.ShaderMaterial({ uniforms: u, vertexShader: FS_VS, fragmentShader: fs, depthTest: false, depthWrite: false });
   const bright = mk(BRIGHT_FS, { tSrc: { value: rtScene.texture }, uTexel: { value: new THREE.Vector2() }, uTh: { value: T.th } });
   const blur = mk(BLUR_FS, { tSrc: { value: null }, uDir: { value: new THREE.Vector2() }, uTexel: { value: new THREE.Vector2() } });
-  const comp = mk(COMP_FS, { tScene: { value: rtScene.texture }, tBloom: { value: rtA.texture }, uStrength: { value: T.bloom }, uStreak: { value: 0 }, uTime: G.uTime, uRes: { value: new THREE.Vector2() } });
+  const comp = mk(COMP_FS, { uFlat: { value: opts.ground ? 1 : 0 }, tScene: { value: rtScene.texture }, tBloom: { value: rtA.texture }, uStrength: { value: T.bloom }, uStreak: { value: 0 }, uTime: G.uTime, uRes: { value: new THREE.Vector2() } });
   const pass = (m, target) => { quad.material = m; renderer.setRenderTarget(target); renderer.render(postScene, postCam); };
   const blurPass = (src, dst, x, y) => { blur.uniforms.tSrc.value = src.texture; blur.uniforms.uDir.value.set(x, y); pass(blur, dst); };
 
-  let fT = 0, fC = 0, lit = 0, litC = 0, pulse = 0, paused = false, lost = false, wide = innerWidth > 900, px = 0, py = 0, cx = 0, cy = 0, t = 0, raf = 0, last0 = performance.now();
+  let fT = 0, fC = 0, lit = 0, litC = 0, pulse = 0, paused = false, lost = false, wide = !opts.centred && innerWidth > 900, px = 0, py = 0, cx = 0, cy = 0, t = 0, raf = 0, last0 = performance.now();
   let kp = 0, kC = 0, kZoom = opts.knockZoom !== false;
   const layout = (w, h) => {
     if (!mask) return;
@@ -612,13 +669,14 @@ async function mount(canvas, opts = {}) {
   };
   let paintDirty = true;
   const resize = () => {
-    const w = canvas.clientWidth || innerWidth, h = canvas.clientHeight || innerHeight;
+    // opts.size [w, h] in css pixels: a studio export renders off-screen at an exact size
+    const w = opts.size?.[0] || canvas.clientWidth || innerWidth, h = opts.size?.[1] || canvas.clientHeight || innerHeight;
     renderer.setSize(w, h, false);
     const fw = Math.max(2, Math.floor(w * dpr)), fh = Math.max(2, Math.floor(h * dpr)), qw = Math.max(2, fw >> 2), qh = Math.max(2, fh >> 2);
     rtScene.setSize(fw, fh); rtA.setSize(qw, qh); rtB.setSize(qw, qh);
     camera.aspect = w / Math.max(1, h); camera.updateProjectionMatrix();
     PL.uAspect.value = camera.aspect; PL.uRes.value.set(fw, fh);
-    const fit = Math.min(1, (2 * TAN * 10.6 * camera.aspect * 0.92) / 6.8);
+    const fit = Math.min(1, (2 * TAN * 10.6 * camera.aspect * 0.92) / (opts.fitWidth || 6.8));
     pivot.scale.setScalar(fit); U.uSize.value = (1 + (1 - fit) * 1.2) * (opts.birdScale || 1);
     bright.uniforms.uTexel.value.set(1 / fw, 1 / fh); blur.uniforms.uTexel.value.set(1 / qw, 1 / qh); comp.uniforms.uRes.value.set(fw, fh);
     layout(w, h);
@@ -659,11 +717,15 @@ async function mount(canvas, opts = {}) {
     raf = requestAnimationFrame(frame);
     const dt = Math.max(0, Math.min((now - last0) / 1000, 0.05)); last0 = now;
     if (lost || document.hidden) return;
-    if (paused) {
+    if (paused || manual) {
       // Resize clears the drawing buffer. Repaint the frozen scene without advancing it.
       if (paintDirty || PL.tPlate.value !== backdrop()) paint(backdrop());
       return;
     }
+    advance(dt);
+  };
+  // One step of the world. The page loop calls it each frame; a studio export calls it with a fixed dt so a seed renders the same frames every time.
+  const advance = dt => {
     if (!reduced) t += dt;
     videoBlend = reduced ? 1 : Math.min(1, videoBlend + dt / .6);
     const fPrev = fC;
@@ -676,7 +738,7 @@ async function mount(canvas, opts = {}) {
     PL.uSh.value.set(...T.sh); PL.uHi.value.set(...T.hi); G.uGlow.value = T.glow; G.uHaze.value.set(...T.haze);
     PL.uAur.value = T.aur; PL.uStar.value = T.star; PL.uPaua.value = T.paua; comp.uniforms.uStreak.value = T.streak;
     U.uInk.value = T.ink * (opts.silhouette || 0) * (1 - PL.uKOn.value);
-    bright.uniforms.uTh.value = T.th; comp.uniforms.uStrength.value = T.bloom + pulse * 0.5;
+    bright.uniforms.uTh.value = T.th; comp.uniforms.uStrength.value = (T.bloom + pulse * 0.5) * bloomK;
     kC += (kp - kC) * (reduced ? 1 : 0.2);
     if (mask) {
       const z = kZoom && !reduced ? smooth(kC / 0.92) : 0;
@@ -688,19 +750,33 @@ async function mount(canvas, opts = {}) {
     rig.position.x += ((wide ? SLOTS[a][2] + (SLOTS[b][2] - SLOTS[a][2]) * e : 0) - rig.position.x) * 0.06;
     cx += (px - cx) * 0.04; cy += (py - cy) * 0.04;
     const drift = 0.35 * Math.sin(fC * 1.1);
-    camera.position.set(drift + cx * 0.5, 1.9 - cy * 0.3, 10.6);
-    camera.lookAt(drift * 0.6, 1.8, 0);
+    // opts.centred (studio): aim at the formation's own centre instead of the page's hero height
+    const aim = opts.centred ? 1.8 + (SLOTS[a][1] + (SLOTS[b][1] - SLOTS[a][1]) * e - 1.8) * pivot.scale.y : 1.8;
+    camera.position.set(drift + cx * 0.5, aim + 0.1 - cy * 0.3, 10.6);
+    camera.lookAt(drift * 0.6, aim, 0);
     if (albOn && !introDone && t > 1.6) { introDone = true; launch(-1, 2.55); }
     if (albOn) for (const [th, dir, y] of TRIG) if (fPrev < th && fC >= th) launch(dir, y);
     for (const al of alb) { if (al.on) fly(al); trail(al); }
     G.uTime.value = t; G.uLit.value = litC; G.uPulse.value = pulse * pulse; G.uPtr.value.set(cx, -cy);
-    paint(backdrop());
+    if (!skipPaint) paint(backdrop());
   };
+  // opts.manual: the host drives time with step(); opts.bloom scales the glow (0 on light grounds)
+  let manual = !!opts.manual, bloomK = opts.bloom ?? 1, skipPaint = false;
   // Readiness means a painted frame, including an initially paused mount.
   paint(backdrop());
   raf = requestAnimationFrame(frame);
   return {
     setForm: f => { fT = Math.max(0, Math.min(SLOTS.length - 1, Math.round(f))); },
+    // studio controls
+    step: (dt = 1 / 30, draw = true) => { skipPaint = !draw; advance(Math.max(0, Math.min(dt, 0.05))); skipPaint = false; },
+    setManual: on => { manual = !!on; last0 = performance.now(); },
+    jumpForm: f => { fT = fC = Math.max(0, Math.min(SLOTS.length - 1, f)); assign(fC); },
+    setGround: rgb => { if (rgb) PL.uSolid.value.set(rgb[0], rgb[1], rgb[2], 1); else PL.uSolid.value.w = 0; paintDirty = true; },
+    setBloom: k => { bloomK = Math.max(0, k); },
+    setSpeciesColours: (up, un) => { up.forEach((c, i) => U.uUp.value[i].set(...c)); un.forEach((c, i) => U.uUn.value[i].set(...c)); },
+    setBeat: (beat, amp) => { U.uBeat.value = beat; U.uAmp.value = amp; },
+    setSpin: v => { U.uSpin.value = v; },
+    time: () => t,
     setPointer: (x, y) => { px = x; py = y; },
     setLit: x => { lit = Math.max(0, Math.min(1, x)); },
     pulse: () => { pulse = 1; },
@@ -713,7 +789,7 @@ async function mount(canvas, opts = {}) {
     setGliders: on => { albOn = !!on; if (!albOn) alb.forEach(a => { a.on = false; a.mesh.visible = false; a.trail.hist.length = 0; a.trail.mesh.visible = false; }); },
     setGlass: on => { PL.uGlass.value = on ? 1 : 0; },
     setPaused: p => { paused = p; },
-    setWide: w => { wide = w; },
+    setWide: w => { wide = !opts.centred && w; },
     dispose: () => { cancelAnimationFrame(raf); removeEventListener('resize', resize); canvas.removeEventListener('webglcontextlost', onLost); if (plate) { plate.removeEventListener('seeked', mark); plate.removeEventListener('loadeddata', mark); } if (plateTex) plateTex.dispose(); if (posterTex) posterTex.dispose(); if (mask) { mask.tex.dispose(); mask.bevel.dispose(); mask.tint.dispose(); } alb.forEach(a => { a.trail.g.dispose(); a.mesh.material.dispose(); }); trailMat.dispose(); albGeo.dispose(); rtScene.dispose(); rtA.dispose(); rtB.dispose(); renderer.dispose(); },
   };
 }

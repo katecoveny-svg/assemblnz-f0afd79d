@@ -1,10 +1,12 @@
 import "server-only";
 import { createHmac } from "node:crypto";
 import { getServiceClient } from "@/lib/supabase/service";
-import { DO_VOICE_DAILY_SESSIONS } from "@/apps/do/shared/gemini-live";
+import { readDoVoicePolicy, type DoVoicePolicy } from "./voice-policy";
 
-const slots = Array.from(
-  { length: DO_VOICE_DAILY_SESSIONS },
+// Read every supported slot so lowering a budget cannot hide earlier reservations.
+const allSlots = Array.from({ length: 288 }, (_, i) => `do-voice-${i + 1}`);
+const slotsFor = (policy: DoVoicePolicy) => Array.from(
+  { length: policy.dailySessions },
   (_, i) => `do-voice-${i + 1}`,
 );
 export class DoVoiceAllowanceError extends Error {
@@ -30,18 +32,24 @@ function identity(ownerId: string, now = new Date()) {
     createHmac("sha256", secret).update(`${ownerId}:${day}`).digest("hex")
   );
 }
-export async function readDoVoiceAllowance(ownerId: string) {
-  const { count, error } = await getServiceClient()
-    .from("agent_chat_sessions")
-    .select("id", { count: "exact", head: true })
-    .eq("anon_id", identity(ownerId))
-    .in("agent_slug", slots);
-  if (error) throw new DoVoiceAllowanceError("unavailable");
-  return Math.max(0, DO_VOICE_DAILY_SESSIONS - (count ?? 0));
+export async function readDoVoiceAllowance(ownerId: string, policy = readDoVoicePolicy()) {
+  const db = getServiceClient();
+  const anonId = identity(ownerId);
+  const countSlots = (slots: string[]) => db.from("agent_chat_sessions")
+    .select("id", { count: "exact", head: true }).eq("anon_id", anonId).in("agent_slug", slots);
+  const [all, eligible] = await Promise.all([countSlots(allSlots), countSlots(slotsFor(policy))]);
+  if (all.error || eligible.error) throw new DoVoiceAllowanceError("unavailable");
+  // A reduced policy must not create new holes beneath previously used high slots.
+  // Stop admissions for the day in that case; concurrent inserts still share one
+  // fixed set of unique slots. Policy changes must be consistent across instances.
+  if ((all.count ?? 0) > (eligible.count ?? 0)) return 0;
+  return Math.max(0, policy.dailySessions - (all.count ?? 0));
 }
 /** The deployed unique (anon_id, agent_slug) index arbitrates concurrent server instances. */
-export async function reserveDoVoice(ownerId: string) {
+export async function reserveDoVoice(ownerId: string, policy = readDoVoicePolicy()) {
+  const slots = slotsFor(policy);
   try {
+    if (await readDoVoiceAllowance(ownerId, policy) === 0) throw new DoVoiceAllowanceError("exhausted");
     const db = getServiceClient();
     const anonId = identity(ownerId);
     for (const slot of slots) {

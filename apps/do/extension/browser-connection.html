@@ -13,11 +13,14 @@
 <p id="status" role="status">Not connected. Everyday shopping is not available in this pilot.</p>
 <p id="error" role="alert" hidden></p>
 <details id="setup"><summary>Try the fictional cart</summary><p>Open the local test cart, select its tab, then click the DO toolbar icon. Keep a signed-in Personal DO tab in the same Chrome window.</p>
+<section id="journal-setup" hidden><h3>Keep unfinished edits safe</h3><p>Store a small recovery record on this browser: product IDs, before/requested quantities and identity digests. No credentials or page content. Up to 256 records; existing records are never silently reset.</p><button id="setup-journal" type="button">Set up local recovery</button></section>
+<p id="journal-status" class="hint"></p>
 <button id="inspect" type="button">Find my test tab</button><p id="selected"></p>
 <div id="connection-choice" hidden><label for="workspace">Use this Personal DO tab</label><select id="workspace"></select><p>Connect shares tab identity only. Access ends after two minutes.</p><button id="connect" type="button" disabled>Connect for two minutes</button></div>
 </details>
 <section id="read-step" hidden><h3>Let DO read the test cart?</h3><p>Share only fictional product names, IDs, prices, availability and quantities from the connected tab. No other page content is included.</p><button id="allow-read" type="button" disabled>Allow this cart read</button></section>
 <p id="next-step" hidden>Choose exact items and quantities in Personal DO. Come back here to review before anything changes.</p>
+<section id="recovery" hidden><h3>An edit needs checking</h3><p>An earlier edit may or may not have happened. Read the cart again before acknowledging it. A matching quantity does not prove which action caused it.</p><button id="recover-read" type="button">Read cart for recovery</button><ul id="recovery-items"></ul><button id="recover-ack" type="button" hidden>Acknowledge this result without retrying</button></section>
 <section id="review" hidden><h3>Review these cart changes</h3><p id="brief"></p><p id="origin" class="hint"></p><ul id="items"></ul><p>No order or payment will be placed.</p><button id="approve" type="button">Approve these test quantities</button></section>
 <section id="result" hidden><h3 id="result-title">Cart result</h3><ul id="result-items"></ul><details><summary>Technical receipt</summary><pre id="receipt"></pre></details></section>
 <button id="cancel" class="cancel" type="button" hidden>Disconnect &amp; cancel remaining actions</button>

@@ -8,13 +8,20 @@
     current = data;
     const connected = Boolean(data?.connected);
     $('setup').hidden = connected;
+    $('journal-setup').hidden = data?.journal?.ready !== false;
+    $('journal-status').textContent = data?.journal?.message || '';
+    $('recovery').hidden = !connected || !data.readGranted || !(data.recoveryNeeded || data.recovery);
+    $('recover-read').disabled = busy || Boolean(data?.busy);
+    $('recover-ack').hidden = !connected || !data?.recovery;
+    $('recover-ack').disabled = busy || Boolean(data?.busy);
+    $('recovery-items').replaceChildren(...(data?.recovery?.items || []).map(item => { const li=document.createElement('li');li.textContent=`${item.sku}: before ${item.before}, requested ${item.target}, current ${item.current ?? 'unknown'}`;return li; }));
     $('cancel').hidden = !connected;
     $('read-step').hidden = !connected || data.readGranted;
-    $('next-step').hidden = !connected || !data.readGranted || Boolean(data.proposal) || Boolean(data.receipt);
+    $('next-step').hidden = !connected || !data.readGranted || Boolean(data.proposal) || Boolean(data.receipt) || Boolean(data.recoveryNeeded) || Boolean(data.recovery);
     $('result').hidden = !connected || !data.receipt;
     $('allow-read').disabled = !data?.connected || data.readGranted || busy;
-    $('review').hidden = !data?.connected || !data.proposal || Boolean(data.receipt);
-    $('approve').disabled = busy || !data?.connected || data.busy || !data.proposal;
+    $('review').hidden = !data?.connected || !data.proposal || Boolean(data.receipt) || Boolean(data.recoveryNeeded);
+    $('approve').disabled = busy || !data?.connected || data.busy || !data.proposal || data.journal?.ready === false || Boolean(data.recoveryNeeded);
     if (data?.connected) {
       $('status').textContent = `Test cart connected. Access ends at ${new Date(data.expiresAt).toLocaleTimeString()}.`;
       $('origin').textContent = data.target.url;
@@ -46,6 +53,14 @@
   $('approve').onclick = async () => { if (busy || !current?.connected) return; clearError(); busy = true; $('approve').disabled = true;
     try { render(await send({ action: 'approve', connectionId: current.connectionId, digest: current.digest })); } catch (error) { fail(error); } finally { busy = false; if (current) render(current); }
   };
+  for (const [id,action] of [['setup-journal','setup-journal'],['recover-read','recover-read'],['recover-ack','recover-ack']]) {
+    $(id).onclick = async () => {
+      if (busy) return;
+      clearError();busy=true;$(id).disabled=true;
+      try { render(await send({action,connectionId:current?.connectionId,...(action==='recover-ack'?{digest:current?.recovery?.digest}:{})})); }
+      catch(error){fail(error);}finally{busy=false;$(id).disabled=false;if(current)render(current);}
+    };
+  }
   void send({ action: 'status' }).then(render).catch(fail);
   // Poll only while the user is looking at the companion review. No automatic actions.
   setInterval(() => { if (!busy && !document.hidden) void send({ action: 'status' }).then(render).catch(fail); }, 2000);

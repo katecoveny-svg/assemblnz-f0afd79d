@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { XERO_SCOPES } from '@/lib/xero/happy-tails';
 
 /**
  * Xero OAuth 2.0 (PKCE) callback — Happy Tails × Keeper pilot.
@@ -81,9 +80,4 @@ export async function GET(req: Request) {
   } catch (e) {
     return NextResponse.json({ ok: false, error: String(e) }, { status: 500 });
   }
-}
-
-/** Report the scopes this pilot requests, without exposing secrets. */
-export function scopes() {
-  return XERO_SCOPES;
 }

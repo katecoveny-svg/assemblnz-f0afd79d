@@ -3,7 +3,7 @@ on:
   push:
     branches: [codex/personal-do-mail-voice-review]
   pull_request:
-    paths: ['apps/do/mail/**', 'app/do/mail/**', 'app/api/do/mail/**', 'lib/connectors/personal-mail.test.ts', 'lib/connectors/pipedream.ts', 'scripts/review-do-mail.cjs', '.github/workflows/do-mail-review.yml']
+    paths: ['apps/do/mail/**', 'app/do/mail/**', 'app/api/do/mail/**', 'lib/connectors/personal-mail.test.ts', 'lib/connectors/pipedream-mail-grant*', 'lib/connectors/pipedream.ts', 'scripts/review-do-mail.cjs', 'scripts/review-do-mail-voice.cjs', 'scripts/personal-entry-helpers.cjs', '.github/workflows/do-mail-review.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -29,8 +29,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @assembl/canvas build
       - run: pnpm typecheck
-      - run: pnpm exec eslint apps/do/mail app/do/mail app/api/do/mail lib/connectors/personal-mail.test.ts lib/connectors/pipedream.ts app/do/connections/DoConnections.tsx --max-warnings=0
-      - run: pnpm exec vitest run apps/do/mail app/api/do/mail lib/connectors/personal-mail.test.ts apps/do/services/gmail-ownership.test.ts lib/connectors/pipedream.test.ts app/do/connections --maxWorkers=2
+      - run: pnpm exec eslint apps/do/mail app/do/mail app/api/do/mail lib/connectors/personal-mail.test.ts lib/connectors/pipedream-mail-grant.ts lib/connectors/pipedream-mail-grant.test.ts lib/connectors/pipedream.ts app/do/connections/DoConnections.tsx --max-warnings=0
+      - run: pnpm exec vitest run apps/do/mail app/api/do/mail lib/connectors/personal-mail.test.ts lib/connectors/pipedream-mail-grant.test.ts apps/do/services/gmail-ownership.test.ts lib/connectors/pipedream.test.ts app/do/connections --maxWorkers=2
       - run: pnpm build
       - name: Synthetic browser proof, no live mail or providers
         shell: bash
