@@ -128,6 +128,16 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
   await page.getByText('Choose a checklist',{exact:true}).click();
   await page.getByRole('button').filter({hasText:'Care appointments'}).click();
   check('existing checklist shortcut still reveals editor',await page.locator('#life-admin-source').isVisible());
+  await page.getByRole('navigation',{name:'Choose how to start'}).getByText('Add',{exact:true}).click();
+  await page.getByRole('button',{name:'Photo or image',exact:true}).click();
+  await page.getByLabel('Choose an image for DO').setInputFiles({name:'synthetic.png',mimeType:'image/png',buffer:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=','base64')});
+  const photoConsent=page.getByRole('checkbox',{name:/Send this image and question/});
+  await photoConsent.check();
+  await home();
+  await page.getByRole('navigation',{name:'Choose how to start'}).getByText('Add',{exact:true}).click();
+  await page.getByRole('button',{name:'Photo or image',exact:true}).click();
+  check('Back to Today revokes photo consent',!await photoConsent.isChecked());
+  check('photo cannot resubmit without renewed consent',await page.getByRole('button',{name:'Ask DO to look · 1 task',exact:true}).isDisabled());
   check('no API writes',writes.length===0);check('no browser errors',errors.length===0);
   fs.writeFileSync(`${out}/results.json`,JSON.stringify({checks,errors,writes},null,2));
  } finally {await browser.close();}
