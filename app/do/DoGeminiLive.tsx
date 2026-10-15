@@ -717,6 +717,7 @@ export function DoGeminiLive({
             </>
           )}
           </details>
+          <p>For a clear conversation, use headphones and pause other voice assistants. Echo cancellation may not remove speech playing from another app.</p>
           <label className="do-live-consent"><input type="checkbox" checked={includePublicNz} onChange={event => setIncludePublicNz(event.target.checked)} />Allow recent Parliament bill excerpts to be checked and shared with Google during this call. This is not topical search, enacted law, weather or general news.</label>
           <label className="do-live-consent">
             <input
