@@ -24,12 +24,13 @@ function saveFile(name: string, text: string, type: string) {
   setTimeout(() => URL.revokeObjectURL(url), 2000);
 }
 
-export function LivePursuitCanvas({ homepage = false }: { homepage?: boolean }) {
+export function LivePursuitCanvas({ homepage = false, initialGoal = '' }: { homepage?: boolean; initialGoal?: string }) {
   const status = useResearchAvailability();
   const [directSource, setDirectSource] = useState(false);
   const [directFocus, setDirectFocus] = useState<DirectFocus>('goal-led');
   const [company, setCompany] = useState('');
-  const [goal, setGoal] = useState('');
+  // A question carried in from a launcher only fills the box. Research still needs consent and a submit.
+  const [goal, setGoal] = useState(initialGoal);
   const [consent, setConsent] = useState(false);
   const [useTypeSafe, setUseTypeSafe] = useState(false);
   const [busy, setBusy] = useState(false);
