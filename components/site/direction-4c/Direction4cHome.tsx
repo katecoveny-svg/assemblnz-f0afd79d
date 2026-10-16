@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { playVideoWhenAllowed } from './video-readiness';
+import { coastalFootage, playVideoWhenAllowed } from './video-readiness';
 import { chromeMarkup, footerMarkup, leadMarkup, trailMarkup } from './markup';
 import { TryDo, type TryDoSignals } from './TryDo';
 import './direction-4c.css';
@@ -107,7 +107,8 @@ export function Direction4cHome() {
     video.muted = true; video.defaultMuted = true; video.playsInline = true; video.preload = 'auto';
     video.loop = true;
     // Generated coastal footage (second pass, 14 Oct 2026): a sea glide toward a low sun with no dark frames. Never caption it as a real place.
-    const footage = `/direction-4c/assets/footage/coast-gen-c.${video.canPlayType('video/mp4; codecs="avc1.42E01E"') ? 'mp4' : 'webm'}`;
+    const nav = globalThis.navigator as (Navigator & { connection?: { saveData?: boolean } }) | undefined;
+    const footage = coastalFootage(globalThis.innerWidth ?? 0, globalThis.devicePixelRatio ?? 1, !!nav?.connection?.saveData, !!video.canPlayType('video/mp4; codecs="avc1.42E01E"'));
     const ref = (name: string) => root.querySelector<HTMLElement>(`[data-ref="${name}"]`);
     const button = root.querySelector<HTMLButtonElement>('[data-pause]')!;
     const clamp = (x: number) => Math.max(0, Math.min(1, x));
