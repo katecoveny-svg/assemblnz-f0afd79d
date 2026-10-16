@@ -80,7 +80,7 @@ export function DoFocusWorkspace({ initialTask = 'reply', expectedWorkspace }: {
     setOfferedContext({ text, id: Date.now() }); enter('write'); return true;
   }
   return <DoProductFrame product="Conversation">
-    <section className={`${styles.hero} ${styles.workspaceHero}`} data-embedded={embedded || undefined}>
+    <section className={`${styles.hero} ${styles.workspaceHero}`} data-embedded={embedded || undefined} data-entry={mode}>
       <div className={styles.workspaceIntro}>
       <h1>What would you like done?</h1>
       <p>Bring a question, a plan or the thing on your mind.</p>
@@ -94,7 +94,7 @@ export function DoFocusWorkspace({ initialTask = 'reply', expectedWorkspace }: {
         <button aria-pressed={mode === 'look'} onClick={() => { setRequestedTalk(false); setMode('look'); }}><Eye size={15} />Add image</button>
       </nav>
       <p id="do-talk-readiness" role="status" className={styles.help}>{talk.message} <button type="button" className={styles.textButton} onClick={() => void refresh()}>Check Talk</button></p>
-      <div hidden={mode !== 'write' && mode !== 'talk'}><DoCompanionConversation focusRequest={mode === 'write' ? focusRequest : 0} profile={talkProfile ?? profile} snapshot={context} talkOpened={talkOpened} onShoppingDraft={acceptShoppingBrief} visible={mode === 'write' || mode === 'talk'} onDraft={acceptContext} /></div>
+      <div hidden={mode !== 'write' && mode !== 'talk'}><DoCompanionConversation focusRequest={mode === 'write' ? focusRequest : 0} profile={talkProfile ?? profile} snapshot={context} talkOpened={talkOpened} talkSelected={mode === 'talk'} onShoppingDraft={acceptShoppingBrief} visible={mode === 'write' || mode === 'talk'} onDraft={acceptContext} /></div>
       <div hidden={mode !== 'draft'}><DoTextWorkspace embedded={embedded} initialTask={initialTask} focus focusRequest={mode === 'draft' ? focusRequest : 0} offeredContext={offeredContext} onSourceChange={setContext} onNativeReveal={() => enter('write')} /></div>
       {mode !== 'write' && <button type="button" className={styles.textButton} onClick={() => enter('write')}>Back to Write</button>}
       <section hidden={mode !== 'look'} className={styles.toolSurface} aria-label="Show DO an image"><DoVision key={offeredImage?.id ?? 'default'} offeredImage={offeredImage} active={mode === 'look'} onUse={acceptContext} /></section>

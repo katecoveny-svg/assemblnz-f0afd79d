@@ -51,6 +51,8 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   await page.getByRole('button',{name:'Talk',exact:true}).click();
   await page.getByRole('button',{name:'Back to Write',exact:true}).waitFor({state:'visible'});
   check('Talk opens real existing conversation controls with reviewed profile',await page.locator('.do-live-panel').count()===1 && (await page.locator('body').textContent()).includes('Fictional Alex'));
+  check('selected Talk hides but preserves the writing editor',!await page.locator('#personal-assistant-input').isVisible()&&await editor.evaluate(e=>e===document.querySelector('#personal-assistant-input')));
+  check('phone selected Talk exposes call control in first viewport',await page.getByRole('button',{name:'Call Fictional Alex',exact:true}).evaluate(e=>{const r=e.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight;}));
   check('opening Talk starts neither microphone nor speech playback',await page.evaluate(()=>window.__entryMicReads===0&&window.__entrySpeech===0)&&posts.length===0);
   await page.screenshot({animations:'disabled',path:out+'/talk-consent-375.png',fullPage:false});
   const talkPanel=await page.locator('.do-live-panel').elementHandle();
@@ -62,6 +64,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   check('Back to Write preserves text and editor identity',await page.locator('#personal-assistant-input').inputValue()==='Fictional note: prepare the Friday outline.'&&await editor.evaluate(e=>e===document.querySelector('#personal-assistant-input')));
   check('phone has no horizontal overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await page.setViewportSize({width:1440,height:1000});await page.screenshot({animations:'disabled',path:out+'/write-1440.png',fullPage:false});
+  ready=true;remaining=2;profileFailure=false;await page.setViewportSize({width:375,height:812});await page.goto(origin+'/do/widget?entry=talk');await page.getByRole('button',{name:'Call Fictional Alex',exact:true}).waitFor();check('direct Talk entry exposes call control on phone',await page.getByRole('button',{name:'Call Fictional Alex',exact:true}).evaluate(e=>{const r=e.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight;}));await page.screenshot({animations:'disabled',path:out+'/direct-talk-375.png',fullPage:false});
   ready=false;remaining=2;profileFailure=false;
   await page.goto(origin+'/do/widget?entry=talk');
   await page.waitForFunction(()=>window.assemblDoCompanionEntry?.readiness()==='unavailable');
