@@ -7,9 +7,11 @@ import { checklistCloudSaveSchema, checklistCloudStateSchema, restoreCloudCheckl
 import styles from './LifeAdmin.module.css';
 
 /** Parent is keyed by verified account identity. No automatic upload or model call. */
-export function ChecklistCloud({ plans, onRestore, ownerId, disabled = false }: {
+type Props = {
   ownerId: string; plans: LifeAdminPlan[]; onRestore: (plans: LifeAdminPlan[]) => void; disabled?: boolean;
-}) {
+};
+export function ChecklistCloud(props: Props) { return <OwnerChecklistCloud key={props.ownerId} {...props} />; }
+function OwnerChecklistCloud({ plans, onRestore, ownerId, disabled = false }: Props) {
   const [saved, setSaved] = useState<ChecklistCloudState | null>(null);
   const [consentFor, setConsentFor] = useState<string | null>(null);
   const savableCount = plans.filter(plan => plan.category !== 'pets').length;
@@ -20,7 +22,10 @@ export function ChecklistCloud({ plans, onRestore, ownerId, disabled = false }: 
   const [notice, setNotice] = useState('');
   const [remove, setRemove] = useState(false);
   const request = useRef<AbortController | null>(null);
+  const baseline = useRef<LifeAdminPlan[] | undefined>(undefined);
   const current = useRef(plans);
+  const restore = useRef(onRestore);
+  useEffect(() => { restore.current = onRestore; }, [onRestore]);
   useEffect(() => { current.current = plans; }, [plans]);
   useEffect(() => () => request.current?.abort(), []);
 
@@ -44,12 +49,13 @@ export function ChecklistCloud({ plans, onRestore, ownerId, disabled = false }: 
       }
       const next = checklistCloudStateSchema.parse(data);
       if (action === 'open') {
-        const restored = restoreCloudChecklists(current.current, next.plans);
-        onRestore(restored.plans);
-        setNotice(`${restored.added} saved checklist${restored.added === 1 ? '' : 's'} opened.${restored.conflicts ? ` ${restored.conflicts} already-open checklist${restored.conflicts === 1 ? '' : 's'} differed; your open edits were kept. Saving will replace the saved versions.` : ''}${!next.plans.length ? ' There are no checklists in your saved collection.' : ''}`);
+        const restored = restoreCloudChecklists(current.current, next.plans, baseline.current);
+        restore.current(restored.plans);
+        setNotice(`${restored.added} saved checklist${restored.added === 1 ? '' : 's'} opened.${restored.conflicts ? ` ${restored.conflicts} edited checklist${restored.conflicts === 1 ? '' : 's'} conflicted with saved changes or removals; your open edits were kept. Saving will replace the saved versions.` : ''}${!next.plans.length ? ' There are no checklists in your saved collection.' : ''}`);
       } else {
         setNotice(action === 'remove' ? 'Saved collection removed. Open checklists are still here. Nothing else was deleted.' : 'Checklists saved to your account. Open saved checklists on another device to continue. Later edits need another Save.');
       }
+      baseline.current = next.plans;
       setSaved(next); setConsent(false); setRemove(false);
     } catch (error) {
       if (!controller.signal.aborted) setNotice(error instanceof Error && !('issues' in error) ? error.message : 'Check the collection and remove credentials, ID numbers and payment details before saving.');
@@ -60,6 +66,7 @@ export function ChecklistCloud({ plans, onRestore, ownerId, disabled = false }: 
   return <details className={styles.cloudStorage}>
     <summary><Cloud size={18} /> Saved checklists <span>Continue on another device</span></summary>
     {plans.some(plan => plan.category === 'pets') && <p>Pet routines are excluded from account saves. They stay in this session; use Download Pet routines before leaving.</p>}
+    {saved && <p role="status">{JSON.stringify(plans.filter(plan => plan.category !== 'pets')) === JSON.stringify(saved.plans) ? 'This workspace matches the last opened or saved account copy.' : 'Unsaved changes on this device. Save explicitly to continue with them elsewhere.'}</p>}
     <p>Keep a private copy in your Assembl account. This saves your checklist notes, details, drafts and completion records. It does not save the chat or schedule reminders.</p>
     <div className={styles.taskActions}><button type="button" disabled={busy || disabled} onClick={() => void run('open')}><RefreshCw size={15} /> Open saved checklists</button></div>
     {saved && <>

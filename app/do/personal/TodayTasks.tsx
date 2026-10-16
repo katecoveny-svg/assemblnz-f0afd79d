@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
+import type { LifeAdminPlan } from '@/apps/do/personal/life-admin/engine';
 import Link from 'next/link';
 import { ArrowUpRight, Check, ChevronDown } from 'lucide-react';
 import styles from './TodayTasks.module.css';
@@ -23,8 +24,8 @@ export const PERSONAL_TASKS = [
 
 export type PersonalTaskIntent = { id: string; title: string; detail: string };
 
-type Props = { today: number; needsYou: number; done: number; onReview: () => void; onWrite: (intent?: PersonalTaskIntent) => void };
-export function TodayTasks({ today, needsYou, done, onReview, onWrite }: Props) {
+type Props = { plans?: LifeAdminPlan[]; savedControls?: ReactNode; onOpenPlan?: (plan: LifeAdminPlan) => void; disabled?: boolean; today: number; needsYou: number; done: number; onReview: () => void; onWrite: (intent?: PersonalTaskIntent) => void };
+export function TodayTasks({ plans = [], savedControls, onOpenPlan, disabled = false, today, needsYou, done, onReview, onWrite }: Props) {
   const [open, setOpen] = useState<string | null>(null);
   const total = today + needsYou + done;
   return <section className={styles.home} aria-labelledby="personal-today-heading">
@@ -37,6 +38,16 @@ export function TodayTasks({ today, needsYou, done, onReview, onWrite }: Props) 
       </div>
       <button type="button" onClick={() => total ? onReview() : onWrite()}>{total ? 'Review my tasks' : 'Start with a note'}<ArrowUpRight size={17} aria-hidden="true" /></button>
     </div>
+    {plans.length > 0 && <ul className={styles.actualTasks} aria-label="Your task list">
+      {plans.map(plan => {
+        const next = plan.tasks.find(task => task.status !== 'done' && task.status !== 'cancelled');
+        return <li key={plan.id}><button type="button" disabled={disabled} onClick={() => onOpenPlan?.(plan)} aria-label={`Review ${plan.title}`}>
+          <span className={styles.taskMarker} aria-hidden="true">{next ? <ArrowUpRight size={18} /> : <Check size={18} />}</span>
+          <span className={styles.actualCopy}><span className={styles.actualTitle}>{plan.title}</span><span>{next ? next.title : 'Handled or cancelled by you'}</span><small>{plan.category === 'pets' ? 'Session-only Pet routine' : 'Open checklist · review before acting'}</small></span>
+        </button></li>;
+      })}
+    </ul>}
+    {savedControls}
     <div className={styles.sectionHeading}><h3>What would make life easier?</h3><p>Choose a task to see what is available.</p></div>
     <div className={styles.tasks}>
       {PERSONAL_TASKS.map(({ id, title, subtitle, status, detail, action, ...destination }) => <article key={id} className={styles.task} data-task={id} data-expanded={open === id}>
