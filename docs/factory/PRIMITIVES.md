@@ -285,3 +285,5 @@ Extends the selected-tab primitive with real MV3 image/text capture; extends the
 ### Generative assembly studio (14 October 2026)
 
 `/creative-studio/generate` mounts the homepage tide engine as the Assembly family in the shared generative shell. `lib/generative-art/species.ts` is the species registry (silhouette, motion, flock, size, canon tones); `lib/generative-art/canon.ts` is the canon palette for generative work (tokens, mixes, the plum-to-paper ramp with a dusty rose pull, contrast flips); `lib/generative-art/loop-export.ts` encodes MP4, WebM and GIF in the browser from a frame callback; `lib/generative-art/receipt.ts` writes the export receipt. Engine studio options and calls are listed in `docs/design/generative-assembly.md`.
+
+| DO ruled-paper task starters | isolated review preview | `components/do/DoMiniatureList.tsx`, `DoMiniatureScene.tsx` | Today + compact companion | `docs/reviews/DO-RULED-MINIATURES-20261016.md` | Shared fictional navigation examples, procedural lit 3D miniatures, bounded demand motion; never writes owner tasks or drafts; saved work retains priority. |

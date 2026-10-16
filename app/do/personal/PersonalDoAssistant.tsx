@@ -243,7 +243,7 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, on
       }}>Keep these reviewed messages</button>
     </details>}
     <form onSubmit={event => void submit(event)}>
-      <label className={styles.inputLabel} htmlFor="personal-assistant-input">{result ? 'What would help next?' : 'What would you like done?'}</label>
+      <label className={styles.inputLabel} htmlFor="personal-assistant-input">{result ? 'What would help next?' : 'What would you like to do?'}</label>
       <textarea ref={inputRef} id="personal-assistant-input" data-do-primary-input value={message} maxLength={4000} rows={3} disabled={working} placeholder="e.g. Prepare a reply to my property manager" onChange={event => { setMessage(event.target.value); setConsent(false); setNotice(''); }} />
       <div className={styles.composerFooter}>
         <span>{working ? 'Checking the request and preparing your reply…' : 'Review drafts before sharing'}</span>

@@ -244,7 +244,7 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
   const localComposer = (
       <div className={entry.intake}>
         <form onSubmit={start}>
-          <div className={entry.intakeTop}><label htmlFor="life-admin-source">What would you like done?</label></div>
+          <div className={entry.intakeTop}><label htmlFor="life-admin-source">What would you like to do?</label></div>
           {captureMode === 'forward' && <p className={styles.captureHint}>Paste an email below, or use your phone’s share menu to send text into DO. No inbox is connected.</p>}
           <textarea ref={sourceRef} data-do-primary-input={localOpen || !assistant ? true : undefined} id="life-admin-source" value={source} onChange={(event) => { setSource(event.target.value); if (!event.target.value) setSourceIntakeId(null); setMethod('pasted-text'); }} maxLength={LIFE_ADMIN_SOURCE_LIMIT} rows={2} placeholder={template?.prompt ?? 'Paste a notice or tell DO what needs sorting…'} required />
           {intake && source !== intake.text && <button type="button" className={styles.textButton} disabled={Boolean(source.trim()) || intake.text.length > LIFE_ADMIN_SOURCE_LIMIT} onClick={() => { setSource(intake.text); setSourceIntakeId(intake.id); setTitle(intake.sourceTitle ?? 'Incoming note'); setSourceUrl(''); setMethod('pasted-text'); }}>Use incoming note</button>}
@@ -270,7 +270,7 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
       <header className={entry.heading}>
         <div className={entry.artwork} aria-hidden="true" data-renderer="static-art"><Image src="/brand/do-glass-D-transparent.png" alt="" width={240} height={240} priority unoptimized /></div>
         <div className={entry.intro}>
-          <h1 id="life-admin-heading">What would you like done?</h1>
+          <h1 id="life-admin-heading">What would you like to do?</h1>
           <p>{assistantWorking ? 'Preparing your reply…' : profile?.displayName && profile.displayName !== 'DO' ? `Your ${profile.displayName}, ready to help.` : 'Bring a question, a plan or the thing on your mind.'}</p>
         </div>
       </header>
