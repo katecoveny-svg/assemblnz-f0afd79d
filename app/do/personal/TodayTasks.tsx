@@ -48,7 +48,7 @@ export function TodayTasks({ plans = [], savedControls, onOpenPlan, disabled = f
 
     <div className={styles.todayWrap}><div className={styles.today} data-empty={!total || undefined}>
       <div className={styles.sheet}>
-        <h3>{total ? `${needsYou} ${needsYou === 1 ? 'thing needs' : 'things need'} you` : 'What shall we take care of?'}</h3>
+        <h3>{total ? `${needsYou} ${needsYou === 1 ? 'thing needs' : 'things need'} you` : 'Your list starts here'}</h3>
         {total ? <>
           {plans.length > 0 && <ul className={styles.rows} aria-label="Your task list">
             {plans.map((plan, index) => {
@@ -67,12 +67,12 @@ export function TodayTasks({ plans = [], savedControls, onOpenPlan, disabled = f
         </> : <>
           <ul className={styles.rows} aria-label="Your list">
             <li style={{ '--i': 0 } as CSSProperties}><button type="button" className={`${styles.row} ${styles.addRow}`} onClick={() => onWrite()}><span className={styles.tick} aria-hidden="true"><Plus size={15} strokeWidth={2.5} /></span><span className={styles.rowTitle}>Start with a note</span><ArrowUpRight className={styles.rowArrow} size={17} aria-hidden="true" /></button></li>
-            {[0.72, 0.5, 0.62].map((width, index) => <li key={width} aria-hidden="true" className={styles.ghost} style={{ '--i': index + 1, '--w': width } as CSSProperties}><span className={styles.tick} /><i /></li>)}
+
           </ul>
         </>}
         <small className={styles.nothingRead}><EyeOff size={13} aria-hidden="true" />Inbox and calendar not read</small>
       </div>
-      <Ring needsYou={needsYou} today={today} done={done} />
+      {total > 0 && <Ring needsYou={needsYou} today={today} done={done} />}
     </div></div>
     {savedControls && <div className={styles.saved}>{savedControls}</div>}
 
@@ -124,6 +124,6 @@ function Ring({ needsYou, today, done }: { needsYou: number; today: number; done
       {segments.map(({ lane, dash, offset }, index) => <circle key={lane} className={styles.segment} data-lane={lane} cx="50" cy="50" r={r} strokeDasharray={`${dash} ${c}`} strokeDashoffset={offset} style={{ '--i': index, '--len': dash } as CSSProperties} />)}
     </svg>
     <span className={styles.ringCount} aria-hidden="true">{total ? <><b>{done}</b><i>/{total}</i></> : <Check size={26} strokeWidth={2.5} />}</span>
-    {total > 0 && <span className={styles.legend} aria-hidden="true">{([['needs-you', needsYou, 'need you'], ['today', today, 'today'], ['done', done, 'done']] as const).filter(([, n]) => n).map(([lane, n, label]) => <span key={lane}><i data-lane={lane} />{n} {label}</span>)}</span>}
+    {total > 0 && <span className={styles.legend} aria-hidden="true">{([['needs-you', needsYou, 'need you'], ['today', today, 'today'], ['done', done, 'handled']] as const).filter(([, n]) => n).map(([lane, n, label]) => <span key={lane}><i data-lane={lane} />{n} {label}</span>)}</span>}
   </figure>;
 }

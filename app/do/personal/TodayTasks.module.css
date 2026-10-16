@@ -29,7 +29,7 @@
 .rowCopy{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
 .rowCopy .rowTitle{font-weight:500;color:var(--plum)}
 .rowNext{font-size:13px;line-height:1.4;color:var(--muted);overflow-wrap:anywhere}
-.rowCopy small{font-family:var(--font-mono),ui-monospace,monospace;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:#916a70b3}
+.rowCopy small{font-family:var(--font-mono),ui-monospace,monospace;font-size:11px;line-height:1.5;color:var(--muted)}
 .home button.row:has(.rowCopy){align-items:flex-start;padding-block:12px}
 .home button.row:has(.rowCopy) .tick,.home button.row:has(.rowCopy) .steps{margin-top:2px}
 .home button.row:disabled{cursor:default;opacity:.6}
@@ -52,7 +52,7 @@
 .steps i[data-on]{background:var(--rose)}
 .home .primary{display:inline-flex;align-items:center;gap:14px;margin:14px 0 0;padding:11px 16px 11px 20px;min-height:46px;border-radius:16px;border:1px solid var(--muted);background:linear-gradient(165deg,#654a4e 0%,#35122f 50%,#240b21 100%);color:var(--paper);font-size:13px;box-shadow:inset 0 1px 1px #eac8df88,0 2px 0 var(--plum),0 8px 15px #240b2120;cursor:pointer;transition:transform 150ms,box-shadow 150ms}
 .home .primary:hover{transform:translateY(-1px);box-shadow:inset 0 1px 1px #eac8df88,0 3px 0 var(--plum),0 11px 18px #240b2128}
-.nothingRead{display:flex;align-items:center;gap:7px;margin:12px 0 0 6px;font-family:var(--font-mono),ui-monospace,monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.nothingRead{display:flex;align-items:center;gap:7px;margin:12px 0 0 6px;font-family:var(--font-mono),ui-monospace,monospace;font-size:11px;line-height:1.5;color:var(--muted)}
 
 /* Ring: three lanes of real local checklists. */
 .ring{position:relative;display:grid;justify-items:center;gap:8px;margin:0;width:140px}
@@ -81,10 +81,10 @@
 .home .task:nth-child(1),.home .task:nth-child(6){grid-column:span 2}
 .task[data-task=briefing]{--tile:#f1e3ea;--piece:var(--petal)}
 .task[data-task=travel]{--tile:#e9e4f3;--piece:var(--lilac)}
-.task[data-task=dinner]{--tile:#f1e8e1;--piece:#e8d3c6}
+.task[data-task=dinner]{--tile:var(--chalk);--piece:var(--petal)}
 .task[data-task=appointments]{--tile:#ece5f2;--piece:#d9c9e6}
 .task[data-task=shopping]{--tile:#f4e7ea;--piece:var(--petal)}
-.task[data-task=meals]{--tile:#efe7dd;--piece:#e4cfbd}
+.task[data-task=meals]{--tile:var(--blush);--piece:var(--petal)}
 .home .task:hover{transform:translateY(-3px);box-shadow:0 16px 30px #654a4e1f}
 .home .taskButton{position:relative;display:grid;grid-template-rows:auto 1fr;gap:10px;width:100%;height:100%;min-height:236px;margin:0;padding:12px 16px 18px;border:0;border-radius:26px;background:transparent;color:var(--ink);text-align:left;cursor:pointer}
 .home .task:nth-child(1) .taskButton,.home .task:nth-child(6) .taskButton{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);grid-template-rows:1fr;align-items:end}
@@ -181,3 +181,11 @@
   .detail .lead{font-size:17px}
   .heading h2{font-size:30px}
 }
+
+/* Empty means ready to start, not loading or already complete. */
+.today[data-empty]{grid-template-columns:1fr}
+.today[data-empty] .sheet h3{min-height:0;padding-right:0;margin-bottom:14px}
+.today[data-empty] .addRow{background:var(--chalk);padding:12px 14px;min-height:52px}
+.today[data-empty] .addRow:hover{background:var(--blush)}
+.rowCopy .rowTitle{white-space:normal;overflow-wrap:anywhere}
+@media(max-width:760px){.home .row{font-size:16px}.rowNext{font-size:14px}.today[data-empty]{padding:20px 18px}.status{font-size:11px}}

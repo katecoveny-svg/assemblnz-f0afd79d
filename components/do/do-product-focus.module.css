@@ -85,3 +85,9 @@
 
 /* Selected Talk prioritises its explicit call controls on phones; the header retains the DO mark. */
 @media(max-width:600px){.workspaceHero[data-entry="talk"]{display:block;margin:12px auto 16px;text-align:left}.workspaceHero[data-entry="talk"] .workspaceIntro{max-width:100%}.workspaceHero[data-entry="talk"] h1{font-size:27px;line-height:1.1;margin:0;max-width:none}.workspaceHero[data-entry="talk"] .workspaceIntro>p:last-child,.workspaceHero[data-entry="talk"]>[data-do-widget-identity]{display:none}}
+
+/* Match the personal Today entry without changing compact Talk ordering. */
+.workspaceModes button{min-height:44px;transition:background 160ms,transform 160ms}
+.workspaceModes button[aria-pressed=true]{background:var(--plum,#240b21);color:var(--paper,#fffdfb)}
+.workspaceModes button:not(:disabled):active{transform:translateY(1px)}
+@media(prefers-reduced-motion:reduce){.workspaceModes button{transition:none;transform:none!important}}
