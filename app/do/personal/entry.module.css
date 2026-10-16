@@ -185,7 +185,7 @@
 .workspace .stage .composerTabs button[aria-pressed=true]{background:var(--do-plum,#240b21);box-shadow:none}
 .workspace .composerTabs :is(button,summary){transition:background 160ms,transform 160ms;border-radius:999px}
 .workspace .composerTabs button:not(:disabled):hover,.entryTools>summary:hover{background:#fffdfb;color:#492b3e}
-.workspace .stage .composerTabs button[aria-pressed=true]:hover{background:#654a4e;color:#fffdfb}
+.workspace .stage .composerTabs button[aria-pressed=true]:not(:disabled):hover{background:#654a4e;color:#fffdfb}
 .workspace .composerTabs button:not(:disabled):active,.entryTools>summary:active{transform:translateY(1px)}
 .entryTools[open]>summary{background:#fffdfb}
 @media(prefers-reduced-motion:reduce){.workspace .composerTabs :is(button,summary){transition:none;transform:none!important}}

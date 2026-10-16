@@ -13,10 +13,18 @@ The empty Today sheet now says “Your list starts here” with one actual actio
 - Context health: canonical context OK; 29 pre-existing legacy brand warnings outside this patch.
 - Existing personal mobile suite: 86 assertions at 320/375/1440, both before and after. Tablet variant: 38 assertions at 768, both before and after. No API writes or browser errors.
 - Existing companion-entry suite: 28 assertions, including draft/iframe identity, first-screen Talk, keyboard, optional capture disclosure and 320/375/768 widths. No microphone, speech, provider POST or foreign traffic.
-- Saved-checklist suite: all 37 assertions passed with fictional signed-in fixtures, including explicit save/restore, second-browser restore, concurrent edit protection, conflict handling, consent invalidation and anonymous denial. Temporary wrapper used the already-running server; after writing the successful results it raised a cleanup-only `ReferenceError: log is not defined`. This was a harness adaptation error, not an application failure; do not describe the process as exit-zero.
+- Saved-checklist suite: all 37 assertions passed with fictional signed-in fixtures, including explicit save/restore, second-browser restore, concurrent edit protection, conflict handling, consent invalidation and anonymous denial. Corrected the temporary wrapper cleanup and reran successfully with exit code 0.
 - Eight additional motion/layout checks: empty ring absent; resting and focused scenes settle; populated layouts fit 375/768/1440; normal and reduced motion.
 - Visually inspected phone/tablet/desktop empty states and populated phone state. Existing original imagery was reused; no new stock or generated imagery.
 
 Local captures/results are under `output/playwright/taste-before`, `taste-before-tablet`, `taste-after`, `taste-after-tablet`, `taste-companion`, and `taste-saved`. Output is ignored by Git and supplied separately with the patch. The screenshots reflect the host-local date; sample checklist is explicitly fictional. These are local Chromium checks, not physical iPhone/Safari or installed Mac proof. No private sessions, credentials or provider actions used.
 
 Not pushed, merged or deployed. Parent retains release/coordination ownership. Review the visuals before any publication. Reversal is limited to this follow-on patch; preserve the PR1613/main integration.
+
+## Independent review
+
+Independent source and visual review found no blocking regression. It inspected phone empty/populated and desktop captures, saved callbacks and owner handling, compact Talk/editor preservation, finite motion, focus styles and accessible labels. Its minor finding—selected-mode hover also styling disabled buttons—was fixed by adding `:not(:disabled)`. Review was source/capture inspection, not another browser run.
+
+## Attachment delivery
+
+Phone and desktop PNGs are prepared locally. Library tools are exposed, but the required prepared-upload helper skill became unavailable in this session (`skill package is not available`). No upload was attempted and no attachment ID was issued. Delivery remains blocked pending restoration of the supported helper; no alternate upload path was used.
