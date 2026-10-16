@@ -26,6 +26,15 @@
 .home button.row{cursor:pointer;transition:background 160ms,transform 160ms}
 .home button.row:hover{background:var(--blush)}
 .rowTitle{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rowCopy{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.rowCopy .rowTitle{font-weight:500;color:var(--plum)}
+.rowNext{font-size:13px;line-height:1.4;color:var(--muted);overflow-wrap:anywhere}
+.rowCopy small{font-family:var(--font-mono),ui-monospace,monospace;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:#916a70b3}
+.home button.row:has(.rowCopy){align-items:flex-start;padding-block:12px}
+.home button.row:has(.rowCopy) .tick,.home button.row:has(.rowCopy) .steps{margin-top:2px}
+.home button.row:disabled{cursor:default;opacity:.6}
+.home button.row:disabled:hover{background:transparent}
+.saved{margin:18px 0 0}
 .rowArrow{color:var(--rose);transition:transform 160ms}
 .home button.row:hover .rowArrow{transform:translate(2px,-2px)}
 .tick{flex-shrink:0;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;border:2px solid var(--rose);background:var(--paper);color:var(--paper)}

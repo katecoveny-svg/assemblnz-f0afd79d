@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useSyncExternalStore, type CSSProperties } from 'react';
+import { useState, useSyncExternalStore, type CSSProperties, type ReactNode } from 'react';
+import { lifeAdminLane, type LifeAdminPlan } from '@/apps/do/personal/life-admin/engine';
 import Link from 'next/link';
 import { ArrowUpRight, Check, EyeOff, Plus } from 'lucide-react';
 import styles from './TodayTasks.module.css';
@@ -27,21 +28,18 @@ export const PERSONAL_TASKS = [
 ] as const;
 
 export type PersonalTaskIntent = { id: string; title: string; detail: string };
-export type TodayPreview = { id: string; title: string; lane: 'today' | 'needs-you' | 'done'; done: number; total: number };
-
 type Props = {
+  /** Actual open checklists. Nothing here is read from an inbox or calendar. */
+  plans?: LifeAdminPlan[]; savedControls?: ReactNode; onOpenPlan?: (plan: LifeAdminPlan) => void; disabled?: boolean;
   today: number; needsYou: number; done: number;
-  /** Actual local checklists, most urgent first. Titles only; nothing here is read from an inbox or calendar. */
-  preview?: TodayPreview[];
-  onReview: () => void; onOpen?: (id: string) => void; onWrite: (intent?: PersonalTaskIntent) => void;
+  onReview: () => void; onWrite: (intent?: PersonalTaskIntent) => void;
 };
 
-export function TodayTasks({ today, needsYou, done, preview = [], onReview, onOpen, onWrite }: Props) {
+export function TodayTasks({ plans = [], savedControls, onOpenPlan, disabled = false, today, needsYou, done, onReview, onWrite }: Props) {
   const [open, setOpen] = useState<string | null>(null);
   // Empty on the server, the visitor's own date in the browser, so time zones never disagree at hydration.
   const date = useSyncExternalStore(noSubscription, todayLabel, noDate);
   const total = today + needsYou + done;
-  const rows = preview.slice(0, 3);
   return <section className={styles.home} aria-labelledby="personal-today-heading">
     <header className={styles.heading}>
       <h2 id="personal-today-heading" tabIndex={-1}>Today</h2>
@@ -52,17 +50,19 @@ export function TodayTasks({ today, needsYou, done, preview = [], onReview, onOp
       <div className={styles.sheet}>
         <h3>{total ? `${needsYou} ${needsYou === 1 ? 'thing needs' : 'things need'} you` : 'What shall we take care of?'}</h3>
         {total ? <>
-          <ul className={styles.rows} aria-label="On your list">
-            {rows.length ? rows.map((row, index) => <li key={row.id} style={{ '--i': index } as CSSProperties}>
-              <button type="button" className={styles.row} data-lane={row.lane} onClick={() => onOpen ? onOpen(row.id) : onReview()}>
-                <span className={styles.tick} aria-hidden="true">{row.lane === 'done' && <Check size={14} strokeWidth={3} />}</span>
-                <span className={styles.rowTitle}>{row.title}</span>
-                <Steps done={row.done} total={row.total} />
-              </button>
-            </li>) : ([['needs-you', needsYou, 'need you'], ['today', today, 'ready today'], ['done', done, 'done by you']] as const).filter(([, count]) => count).map(([lane, count, label], index) => <li key={lane} style={{ '--i': index } as CSSProperties}>
-              <span className={styles.row} data-lane={lane}><span className={styles.tick} aria-hidden="true">{lane === 'done' && <Check size={14} strokeWidth={3} />}</span><span className={styles.rowTitle}>{count} {label}</span></span>
-            </li>)}
-          </ul>
+          {plans.length > 0 && <ul className={styles.rows} aria-label="Your task list">
+            {plans.map((plan, index) => {
+              const next = plan.tasks.find(task => task.status !== 'done' && task.status !== 'cancelled');
+              const lane = lifeAdminLane(plan);
+              return <li key={plan.id} style={{ '--i': Math.min(index, 6) } as CSSProperties}>
+                <button type="button" className={styles.row} data-lane={lane} disabled={disabled} onClick={() => onOpenPlan?.(plan)} aria-label={`Review ${plan.title}`}>
+                  <span className={styles.tick} aria-hidden="true">{!next && <Check size={14} strokeWidth={3} />}</span>
+                  <span className={styles.rowCopy}><span className={styles.rowTitle}>{plan.title}</span><span className={styles.rowNext}>{next ? next.title : 'Handled or cancelled by you'}</span><small>{plan.category === 'pets' ? 'Session-only Pet routine' : 'Open checklist · review before acting'}</small></span>
+                  <Steps done={plan.tasks.filter(task => task.status === 'done').length} total={plan.tasks.length} />
+                </button>
+              </li>;
+            })}
+          </ul>}
           <button type="button" className={styles.primary} onClick={onReview}>Review my tasks<ArrowUpRight size={17} aria-hidden="true" /></button>
         </> : <>
           <ul className={styles.rows} aria-label="Your list">
@@ -74,6 +74,7 @@ export function TodayTasks({ today, needsYou, done, preview = [], onReview, onOp
       </div>
       <Ring needsYou={needsYou} today={today} done={done} />
     </div></div>
+    {savedControls && <div className={styles.saved}>{savedControls}</div>}
 
     <h3 className={styles.sectionHeading}>What would make life easier?</h3>
     <div className={styles.tasks}>
