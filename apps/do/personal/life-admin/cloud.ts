@@ -24,7 +24,25 @@ export const checklistCloudStateSchema = z.object({
 export type ChecklistCloudState = z.infer<typeof checklistCloudStateSchema>;
 
 /** Explicit restore never overwrites an open edit with an older cloud snapshot. */
-export function restoreCloudChecklists(local: LifeAdminPlan[], saved: LifeAdminPlan[]) {
+export function restoreCloudChecklists(local: LifeAdminPlan[], saved: LifeAdminPlan[], baseline?: LifeAdminPlan[]) {
+  if (baseline) {
+    const localById = new Map(local.map(plan => [plan.id, plan]));
+    const remoteById = new Map(saved.map(plan => [plan.id, plan]));
+    const baseById = new Map(baseline.map(plan => [plan.id, plan]));
+    const same = (a: LifeAdminPlan | undefined, b: LifeAdminPlan | undefined) => JSON.stringify(a) === JSON.stringify(b);
+    const plans: LifeAdminPlan[] = [];
+    let conflicts = 0, added = 0;
+    for (const id of new Set([...localById.keys(), ...remoteById.keys(), ...baseById.keys()])) {
+      const current = localById.get(id), remote = remoteById.get(id), before = baseById.get(id);
+      // Untouched local copies follow server edits/removals. Divergent local work stays explicit.
+      const clean = same(current, before);
+      const next = clean ? remote : current;
+      if (!clean && !same(remote, before) && !same(current, remote)) conflicts++;
+      if (next) { plans.push(next); if (!current) added++; }
+    }
+    if (plans.length > 30) throw new Error('Opening this collection would exceed 30 checklists.');
+    return { plans, added, conflicts };
+  }
   const ids = new Set(local.map(plan => plan.id));
   const additions = saved.filter(plan => !ids.has(plan.id));
   if (local.length + additions.length > 30) throw new Error('Opening this collection would exceed 30 checklists.');
