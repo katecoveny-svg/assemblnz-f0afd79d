@@ -34,7 +34,7 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
    check(width+': compact two-column phone cards',await page.locator('[data-task]').evaluateAll((cards,width)=>width>600 || Math.abs(cards[0].getBoundingClientRect().top-cards[1].getBoundingClientRect().top)<2,width));
    check(width+': six visual task cards',await page.locator('[data-task]').count()===6);
    check(width+': no horizontal overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
-   check(width+': no invented calendar activity',await page.getByText('No inbox or calendar has been read for this view.').isVisible());
+   check(width+': no invented calendar activity',await page.getByText('Inbox and calendar not read',{exact:true}).isVisible());
    await page.addStyleTag({content:'nextjs-portal{display:none!important}'});
    await page.screenshot({path:`${out}/home-${width}.png`,fullPage:true});
    await page.screenshot({path:`${out}/today-${width}.png`});
