@@ -6,20 +6,22 @@ import styles from './do-miniature-list.module.css';
 
 const Scene = dynamic(() => import('./DoMiniatureScene'), { ssr: false });
 export const DO_STARTERS = [
-  { id: 'groceries', title: 'Pick up the good things', note: 'Make a grocery list', detail: 'Fictional starter: help me plan a grocery list. Ask what I need; do not assume a budget, diet or retailer connection.' },
-  { id: 'newsletter', title: 'Put a little news together', note: 'Draft a newsletter', detail: 'Fictional starter: help me draft a newsletter. Ask for the audience and source material. Nothing is sent.' },
-  { id: 'flight', title: 'Plan a change of scenery', note: 'Sketch a trip', detail: 'Fictional starter: help me sketch a trip. Ask where and when. Live availability and booking are not connected.' },
-  { id: 'desk', title: 'Make room in the inbox', note: 'Sort a note into next steps', detail: 'Fictional starter: help me organise a note I choose to paste. No inbox has been read and nothing will be sent.' },
-  { id: 'weights', title: 'Make time to move', note: 'Plan a small movement break', detail: 'Fictional starter: help me make room for a movement break. Ask what I enjoy; do not assume health information.' },
+  { id: 'desk', title: 'assembl my day', note: 'Inbox, priorities & calendar', status: 'Choose what to share', detail: 'Start with the priorities or calendar details you choose to share. Mail review needs a verified account connection and permission. A combined inbox and calendar briefing is not connected.', href: '/do/mail', action: 'Open mail review' },
+  { id: 'flight', title: 'assembl my trip', note: 'Flights & stays', status: 'Plan with your details', detail: 'Tell DO where and when you want to go, or open the travel workspace to organise your own estimates. Live flight and room availability, quotes and booking are not connected.', href: '/do/travel', action: 'Open travel planner' },
+  { id: 'table', title: 'assembl a dinner date', note: 'Find a table', status: 'Prepare a request', detail: 'Start with the place, date and number of people. DO can help draft your restaurant request; it cannot check table availability or make a reservation here.' },
+  { id: 'meals', title: 'assembl dinner at home', note: 'Meals & ingredients', status: 'Meal planner available', detail: 'Start with ingredients you have and meals you enjoy, or open the meal planner. Example prices are fictional; live stock, retailer carts and checkout are not connected.', href: '/do/shop', action: 'Open meal planner' },
+  { id: 'gifts', title: 'assembl clothes and gifts', note: 'A good fit. A thoughtful gift.', status: 'Prepare a shortlist', detail: 'Start with who it is for, style and a budget you choose to share. DO can help organise your requirements or details you supply. Live catalogues, stock and purchasing are not connected.' },
+  { id: 'groceries', title: 'assembl my shopping basket', note: 'Your list, brought together', status: 'Plan a list', detail: 'Start with what you need and quantities. DO can help prepare a shopping list. It cannot fill a live browser cart, check stock or complete a purchase here.', href: '/do/shop', action: 'Open shopping planner' },
+  { id: 'calendar', title: 'assembl my appointments', note: 'Make room in the calendar', status: 'Prepare an enquiry', detail: 'Start with the service and times that suit you. Share only what is needed for an enquiry. DO cannot read your calendar, check appointment availability or book a service here.' },
 ] as const;
-export type DoStarter = { id: string; title: string; detail: string };
+export type DoStarter = { id: string; title: string; detail: string; href?: string; action?: string };
 
 /** Navigation examples only. Never writes tasks, storage, consent or an existing draft. */
 export function DoMiniatureList({ compact = false, disabled = false, onChoose }: { compact?: boolean; disabled?: boolean; onChoose: (intent: DoStarter) => void }) {
-  return <section className={styles.note} data-compact={compact || undefined} aria-label="Fictional task starters">
-    <header className={styles.caption}><span>Something to start with</span><small>Fictional ideas · choose one to make it yours</small></header>
-    <ol className={styles.list}>{DO_STARTERS.slice(0, compact ? 3 : 5).map((task, index) => <StarterRow key={task.id} task={task} index={index} disabled={disabled} onChoose={onChoose} />)}</ol>
-    <footer className={styles.footer}>Only ideas. Nothing read, saved, booked or sent.</footer>
+  return <section className={styles.note} data-compact={compact || undefined} aria-label="Task starters">
+    <header className={styles.caption}><span>A little less on your list</span><small>Choose a starting point</small></header>
+    <ol className={styles.list}>{DO_STARTERS.slice(0, compact ? 3 : DO_STARTERS.length).map((task, index) => <StarterRow key={task.id} task={task} index={index} disabled={disabled} onChoose={onChoose} />)}</ol>
+    <footer className={styles.footer}>Task starters, not saved tasks. Nothing runs until you choose.</footer>
   </section>;
 }
 function StarterRow({ task, index, disabled, onChoose }: { task: typeof DO_STARTERS[number]; index: number; disabled: boolean; onChoose: (intent: DoStarter) => void }) {
@@ -36,9 +38,9 @@ function StarterRow({ task, index, disabled, onChoose }: { task: typeof DO_START
     document.addEventListener('visibilitychange', visibility);
     return () => { observer.disconnect(); media.removeEventListener('change', update); document.removeEventListener('visibilitychange', visibility); };
   }, []);
-  return <li ref={ref} className={styles.item}><button type="button" disabled={disabled} onPointerEnter={() => setGesture(n => n + 1)} onFocus={() => setGesture(n => n + 1)} onClick={() => onChoose(task)} aria-label={`${task.title} · ${task.note} · fictional starter`}>
+  return <li ref={ref} className={styles.item}><button type="button" disabled={disabled} onPointerEnter={() => setGesture(n => n + 1)} onFocus={() => setGesture(n => n + 1)} onClick={() => onChoose(task)} aria-label={`${task.title} · ${task.note} · task starter`}>
     <span className={styles.number} aria-hidden="true">0{index + 1}</span>
-    <span className={styles.copy}><strong>{task.title}</strong><small>{task.note}<span aria-hidden="true"> ↗</span></small></span>
+    <span className={styles.copy}><strong>{task.title}</strong><small>{task.note}<span aria-hidden="true"> ↗</span></small><span className={styles.status}>{task.status}</span></span>
     <span className={styles.scene} aria-hidden="true" data-miniature={task.id}>{visible && <Scene kind={task.id} reduced={reduced} gesture={gesture} />}</span>
   </button></li>;
 }

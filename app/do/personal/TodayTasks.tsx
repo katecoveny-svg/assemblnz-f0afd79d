@@ -6,7 +6,7 @@ import { ArrowUpRight, Check, EyeOff, Plus } from 'lucide-react';
 import styles from './TodayTasks.module.css';
 import { DoMiniatureList } from '@/components/do/DoMiniatureList';
 
-export type PersonalTaskIntent = { id: string; title: string; detail: string };
+export type PersonalTaskIntent = { id: string; title: string; detail: string; href?: string; action?: string };
 type Props = {
   /** Actual open checklists. Nothing here is read from an inbox or calendar. */
   plans?: LifeAdminPlan[]; savedControls?: ReactNode; onOpenPlan?: (plan: LifeAdminPlan) => void; disabled?: boolean;

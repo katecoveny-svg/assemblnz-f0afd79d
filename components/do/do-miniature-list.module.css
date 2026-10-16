@@ -15,3 +15,4 @@
 .note .list .item button{display:grid;grid-template-columns:28px 1fr 170px;gap:16px;text-align:left;justify-content:initial;align-items:center;font:inherit}
 .note[data-compact] .list .item button{grid-template-columns:1fr 110px;gap:8px}
 @media(max-width:600px){.note .list .item button{grid-template-columns:1fr 120px;gap:4px}.note[data-compact] .list .item button{grid-template-columns:1fr 110px;gap:8px}}
+.copy .status{display:block;font-size:11px;line-height:1.4;color:#654a4e;margin-top:5px}

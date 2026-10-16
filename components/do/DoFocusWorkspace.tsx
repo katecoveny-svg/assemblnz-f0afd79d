@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 import { selectedTextOffer, selectedImageOffer } from '@/apps/do/browser/selected-tab/attachment';
 import ShopJourney from '@/app/do/shop/ShopJourney';
 import { DoLocalInformation } from './DoLocalInformation';
@@ -84,7 +86,7 @@ export function DoFocusWorkspace({ initialTask = 'reply', expectedWorkspace }: {
   return <DoProductFrame product="Conversation">
     <section className={`${styles.hero} ${styles.workspaceHero}`} data-embedded={embedded || undefined} data-entry={mode}>
       <div className={styles.workspaceIntro}>
-      <h1>What would you like to do?</h1>
+      <h1>What would make life easier?</h1>
       <p>Bring a question, a plan or the thing on your mind.</p>
       </div><DoGlassHero embedded={embedded} />
     </section>
@@ -96,7 +98,7 @@ export function DoFocusWorkspace({ initialTask = 'reply', expectedWorkspace }: {
         <button aria-pressed={mode === 'look'} onClick={() => { setRequestedTalk(false); setMode('look'); }}><Eye size={15} />Add image</button>
       </nav>
       <p id="do-talk-readiness" role="status" className={styles.help}>{talk.message} <button type="button" className={styles.textButton} onClick={() => void refresh()}>Check Talk</button></p>
-<div hidden={!starter || mode !== 'write'} className={styles.help} role="note"><strong>{starter?.title}</strong><p>{starter?.detail}</p><button type="button" onClick={() => setStarter(null)}>Clear idea</button><p>Your current draft stays unchanged.</p></div>
+<div hidden={!starter || mode !== 'write'} className={styles.help} role="note"><strong>{starter?.title}</strong><p>{starter?.detail}</p>{starter?.href && <Link prefetch={false} href={starter.href}>{starter.action}</Link>}<button type="button" onClick={() => setStarter(null)}>Clear idea</button><p>Your current draft stays unchanged.</p></div>
       <div hidden={mode !== 'write' && mode !== 'talk'}><DoCompanionConversation focusRequest={mode === 'write' ? focusRequest : 0} profile={talkProfile ?? profile} snapshot={context} talkOpened={talkOpened} talkSelected={mode === 'talk'} onShoppingDraft={acceptShoppingBrief} visible={mode === 'write' || mode === 'talk'} onDraft={acceptContext} /></div>
       <div hidden={mode !== 'draft'}><DoTextWorkspace embedded={embedded} initialTask={initialTask} focus focusRequest={mode === 'draft' ? focusRequest : 0} offeredContext={offeredContext} onSourceChange={setContext} onNativeReveal={() => enter('write')} /></div>
       {mode !== 'write' && <button type="button" className={styles.textButton} onClick={() => enter('write')}>Back to Write</button>}

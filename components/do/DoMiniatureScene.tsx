@@ -34,18 +34,6 @@ function Trolley() {
     <Ball at={[.18,.98,.08]} scale={[.07,.025,.1]} color={plum} />
   </group>;
 }
-function Newspaper({ flap }: { flap: React.RefObject<Group | null> }) {
-  return <group rotation={[.08,.1,-.08]} position={[0,.24,0]}>
-    {[0,.025,.05].map(y => <Block key={y} at={[0,y,0]} size={[1.12,.02,.8]} color={paper} />)}
-    <group ref={flap} position={[-.55,.07,0]}>
-      <Block at={[.55,0,0]} size={[1.1,.025,.8]} />
-      <Block at={[.55,.017,-.23]} size={[.82,.012,.09]} color={plum} />
-      <Block at={[.29,.018,.07]} size={[.3,.012,.3]} color={petal} />
-      {[0,.1,.2].map(z => <Block key={z} at={[.74,.018,z]} size={[.37,.012,.022]} color={rose} />)}
-      <Block at={[.55,.018,.31]} size={[.82,.012,.025]} color={rose} />
-    </group>
-  </group>;
-}
 function Plane() {
   return <group rotation={[0,-.25,0]} position={[0,.6,0]}>
     <Ball at={[0,0,0]} scale={[.68,.12,.14]} color={paper} />
@@ -67,11 +55,35 @@ function Desk({ flap }: { flap: React.RefObject<Group | null> }) {
     <Bar at={[.47,.63,-.23]} length={.24} radius={.07} color={petal} />
   </group>;
 }
-function Weights({ flap }: { flap: React.RefObject<Group | null> }) {
-  return <group position={[0,.25,0]} rotation={[0,.25,0]}><Block at={[0,-.17,0]} size={[1.25,.06,.68]} color={petal} />
-    <group ref={flap}><Bar at={[0,.13,0]} length={1.1} rotation={[0,0,Math.PI/2]} radius={.045} color={rose} />
-    {[-.42,.42].map(x => <group key={x}>{[-.06,.06].map(dx => <mesh key={dx} position={[x+dx,.13,0]} rotation={[0,0,Math.PI/2]} castShadow><cylinderGeometry args={[.23,.23,.1,12]} /><meshStandardMaterial color={dx < 0 ? plum : rose} roughness={.45} /></mesh>)}</group>)}
-  </group></group>;
+function Plate({ at }: { at: Vec }) {
+  return <mesh position={at} castShadow receiveShadow><cylinderGeometry args={[.24,.2,.035,32]} /><meshStandardMaterial color={paper} roughness={.35} /></mesh>;
+}
+function DinnerTable({ flap }: { flap: React.RefObject<Group | null> }) {
+  return <group><mesh position={[0,.49,0]} castShadow receiveShadow><cylinderGeometry args={[.65,.65,.08,40]} /><meshStandardMaterial color={rose} roughness={.55} /></mesh><Bar at={[0,.24,0]} length={.48} radius={.065} color={plum} /><Block at={[0,.025,0]} size={[.65,.045,.4]} color={plum} />
+    <group ref={flap}><Plate at={[-.29,.55,0]} /><Plate at={[.29,.55,0]} /></group>
+    <Bar at={[0,.68,-.24]} length={.3} radius={.03} color={paper} /><Ball at={[0,.86,-.24]} scale={[.035,.065,.035]} color={petal} />
+    {[-.48,.48].map(x => <Bar key={x} at={[x,.55,.12]} length={.3} radius={.012} rotation={[Math.PI/2,0,0]} color={plum} />)}
+  </group>;
+}
+function Supper({ flap }: { flap: React.RefObject<Group | null> }) {
+  return <group><Block at={[0,.06,0]} size={[1.2,.08,.8]} color={petal} /><mesh position={[0,.32,0]} castShadow><cylinderGeometry args={[.36,.28,.42,32]} /><meshStandardMaterial color={rose} roughness={.35} metalness={.2} /></mesh>
+    {[-.43,.43].map(x=><Block key={x} at={[x,.42,0]} size={[.22,.06,.12]} color={plum} />)}
+    <group ref={flap}><mesh position={[0,.55,0]} castShadow><sphereGeometry args={[.37,32,12,0,Math.PI*2,0,Math.PI/2]} /><meshStandardMaterial color={paper} roughness={.3} metalness={.15} /></mesh><Ball at={[0,.94,0]} scale={[.07,.045,.07]} color={plum} /></group>
+    <Ball at={[.46,.2,.25]} color={petal} /><Ball at={[-.4,.18,.25]} color={plum} scale={[.12,.07,.09]} />
+  </group>;
+}
+function Gifts({ flap }: { flap: React.RefObject<Group | null> }) {
+  return <group rotation={[0,.12,0]}><Block at={[0,.29,0]} size={[.65,.52,.6]} color={rose} /><Block at={[0,.3,.306]} size={[.09,.52,.018]} color={paper} />
+    <group ref={flap}><Block at={[0,.58,0]} size={[.71,.08,.66]} color={petal} /><Block at={[0,.628,0]} size={[.09,.015,.66]} color={paper} />{[-.13,.13].map(x=><mesh key={x} position={[x,.71,0]} rotation={[Math.PI/2,0,x>0?.35:-.35]} castShadow><torusGeometry args={[.13,.025,10,24]} /><meshStandardMaterial color={paper} roughness={.35} /></mesh>)}</group>
+    <Block at={[-.5,.15,.12]} size={[.28,.28,.37]} color={lilac} /><Block at={[-.5,.3,.12]} size={[.3,.04,.39]} color={paper} />
+  </group>;
+}
+function Calendar({ flap }: { flap: React.RefObject<Group | null> }) {
+  return <group rotation={[-.15,0,0]}><Block at={[0,.4,0]} size={[.85,.77,.07]} color={rose} /><Block at={[0,.04,.03]} size={[.95,.06,.42]} color={plum} />
+    <group ref={flap} position={[0,.73,.06]}><Block at={[0,-.33,0]} size={[.78,.65,.025]} color={paper} /><Block at={[0,-.07,.02]} size={[.65,.08,.012]} color={petal} />
+      {[-.23,0,.23].map(x=>[-.23,-.4,-.55].map(y=><Block key={`${x}${y}`} at={[x,y,.023]} size={[.09,.06,.012]} color={x===0&&y===-.4?plum:rose} />))}
+    </group>{[-.25,.25].map(x=><mesh key={x} position={[x,.78,0]} castShadow><torusGeometry args={[.055,.015,8,16]} /><meshStandardMaterial color={plum} metalness={.3} /></mesh>)}
+  </group>;
 }
 function Objects({ kind, reduced, gesture }: { kind: string; reduced: boolean; gesture: number }) {
   const root = useRef<Group>(null), flap = useRef<Group>(null), progress = useRef(3);
@@ -84,10 +96,13 @@ function Objects({ kind, reduced, gesture }: { kind: string; reduced: boolean; g
     root.current.position.x = kind === 'groceries' ? -.3 * (1-t)**2 : kind === 'flight' ? -.22*(1-t) : 0;
     root.current.position.y = kind === 'flight' ? wave*.2 : 0;
     root.current.rotation.z = kind === 'flight' ? settle*.18 : 0;
-    if (flap.current) { flap.current.rotation.z = kind === 'newsletter' ? .08 + wave*.55 : 0; flap.current.position.y = kind === 'desk' ? wave*.18 : kind === 'weights' ? wave*.22 : flap.current.position.y; }
+    if (flap.current) {
+      if (kind === 'calendar') flap.current.rotation.x = -wave*.5;
+      else flap.current.position.y = kind === 'meals' ? wave*.18 : kind === 'gifts' ? wave*.14 : kind === 'table' ? wave*.1 : wave*.18;
+    }
     if (t < 1 && !reduced) invalidate();
   });
-  return <group ref={root}>{kind==='groceries'?<Trolley />:kind==='newsletter'?<Newspaper flap={flap} />:kind==='flight'?<Plane />:kind==='desk'?<Desk flap={flap} />:<Weights flap={flap} />}</group>;
+  return <group ref={root}>{kind==='groceries'?<Trolley />:kind==='flight'?<Plane />:kind==='desk'?<Desk flap={flap} />:kind==='table'?<DinnerTable flap={flap} />:kind==='meals'?<Supper flap={flap} />:kind==='gifts'?<Gifts flap={flap} />:<Calendar flap={flap} />}</group>;
 }
 class SceneBoundary extends Component<{children: ReactNode}, {failed:boolean}> {
   state={failed:false}; static getDerivedStateFromError(){return {failed:true};}

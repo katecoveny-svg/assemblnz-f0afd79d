@@ -270,7 +270,7 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
       <header className={entry.heading}>
         <div className={entry.artwork} aria-hidden="true" data-renderer="static-art"><Image src="/brand/do-glass-D-transparent.png" alt="" width={240} height={240} priority unoptimized /></div>
         <div className={entry.intro}>
-          <h1 id="life-admin-heading">What would you like to do?</h1>
+          <h1 id="life-admin-heading">What would make life easier?</h1>
           <p>{assistantWorking ? 'Preparing your reply…' : profile?.displayName && profile.displayName !== 'DO' ? `Your ${profile.displayName}, ready to help.` : 'Bring a question, a plan or the thing on your mind.'}</p>
         </div>
       </header>
@@ -286,7 +286,7 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
       <div hidden={entryOpen}>
       <TodayTasks plans={plans} disabled={Boolean(busyId) || petEditing} onOpenPlan={plan => { setBoardOpen(true); setLane(lifeAdminLane(plan)); openPlan(plan); }} savedControls={storageKey ? <ChecklistCloud ownerId={storageScope} plans={plans} disabled={Boolean(busyId) || petEditing || Boolean(taskEditor)} onRestore={restored => { if (petEditing || taskEditor) throw new Error("Finish or cancel the open task edit before opening saved checklists."); setReviewChecked(false); setProviderConsent(false); setUndo(null); setPlans(restored); }} /> : undefined} today={counts('today')} needsYou={counts('needs-you')} done={counts('done')} onWrite={intent => { if (intent) setTaskIntent(intent); setEntryOpen(true); setLocalOpen(!assistant); focusEntry(assistant ? 'personal-assistant-input' : 'life-admin-source'); }} onReview={() => { setBoardOpen(true); if (!petEditing) setLane(counts('needs-you') ? 'needs-you' : counts('today') ? 'today' : 'done'); requestAnimationFrame(() => document.getElementById('personal-task-board-summary')?.focus()); }} />
       </div>
-      {entryOpen && taskIntent && <aside className={entry.taskIntent} aria-label="Chosen task"><div><strong>{taskIntent.title}</strong><p>{taskIntent.detail}</p><small>Task context only. Your draft below stays unchanged.</small></div><button type="button" onClick={() => { setTaskIntent(null); focusEntry(localOpen || !assistant ? 'life-admin-source' : 'personal-assistant-input'); }}>Clear task</button></aside>}
+      {entryOpen && taskIntent && <aside className={entry.taskIntent} aria-label="Chosen task"><div><strong>{taskIntent.title}</strong><p>{taskIntent.detail}</p>{taskIntent.href && <Link prefetch={false} href={taskIntent.href}>{taskIntent.action}</Link>}<small>Task context only. Your draft below stays unchanged.</small></div><button type="button" onClick={() => { setTaskIntent(null); focusEntry(localOpen || !assistant ? 'life-admin-source' : 'personal-assistant-input'); }}>Clear task</button></aside>}
       <div hidden={!entryOpen || (Boolean(assistant) && localOpen)}>{assistant}</div>
       <div id="personal-local-checklist" hidden={!entryOpen || (Boolean(assistant) && !localOpen)}>{localComposer}</div>
       {entryOpen && assistant && localOpen && <button type="button" className={entry.exampleToggle} onClick={() => { setLocalOpen(false); focusEntry('personal-assistant-input'); }}>Back to Write</button>}

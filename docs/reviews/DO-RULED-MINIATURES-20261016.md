@@ -26,3 +26,14 @@ A separate reviewer inspected source and 375/768/1440 captures: genuine depth is
 - Chromium desktop/mobile viewports only: physical Safari/iPhone, installed Mac and real authenticated owner sessions remain unverified. No provider execution, publication, merge or push.
 
 The installed pinned Taste redesign guidance informed composition, but explicit user direction and Assembl canon override generic fonts, scrolling, colour and fake-data advice. Reversal is a revert of this revision; preserve previous design/integration commits.
+
+
+## Kate's assembl task refinement
+
+The subsequent direction replaces the main question with “What would make life easier?”; the existing composer retains “What would you like to do?”. Seven starters now read: assembl my day; assembl my trip; assembl a dinner date; assembl dinner at home; assembl clothes and gifts; assembl my shopping basket; assembl my appointments. Calendar is covered by day/appointments rather than a duplicate category. These are navigation starters, not fictional owner tasks or completed work.
+
+Desk/mail, plane, dinner table, cooking pot, gift boxes, trolley and calendar use real procedural geometry. Plate placement, a lifting lid, gift lid/ribbon and calendar leaf extend the finite gesture renderer. Status hints stay modest; selected intent explains the useful next step and exact unavailable capability. Mail, travel and shopping offer existing workspace links after intent selection; no live reservation, stock, checkout or cart execution is implied.
+
+Fresh proof: 245 tests, typecheck, scoped lint and production build pass; 32 responsive/motion/intent checks plus three compact-companion checks pass. Every one of the seven intents preserves the draft; no API writes or runtime errors. Earlier saved/companion protection proofs remain relevant; their implementation did not change. Independent source/screenshot review found no new blocking issues and confirms visible depth, coherent ruled paper, truthful limits and preserved owner/draft priority. Reviewer could not complete an additional terminal check after its transport disconnected; the primary browser/build runs completed cleanly.
+
+Updated synthetic captures and nine-second motion preview are under `output/playwright/assembl-starters/`. Still local, pending Kate's visual approval; no merge, push or deployment.
