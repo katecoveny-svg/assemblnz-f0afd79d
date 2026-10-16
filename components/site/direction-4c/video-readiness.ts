@@ -67,3 +67,10 @@ export async function playVideoWhenAllowed(video: HTMLVideoElement, signal: Abor
   }
   throw new Error('Video startup cancelled');
 }
+
+// Footage tiers (Topaz 2x upscale of coast-gen-c, 14 Oct 2026): 2560 x 1440 for screens that draw
+// the hero wider than 1600 device pixels, 1280 x 720 otherwise or when the visitor asks to save data.
+export function coastalFootage(cssWidth: number, dpr: number, saveData: boolean, mp4: boolean): string {
+  const tier = !saveData && cssWidth * Math.min(dpr || 1, 2) > 1600 ? '-1440' : '';
+  return `/direction-4c/assets/footage/coast-gen-c${tier}.${mp4 ? 'mp4' : 'webm'}`;
+}

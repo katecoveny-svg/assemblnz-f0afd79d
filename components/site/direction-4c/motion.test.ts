@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import { describe, expect, it, vi } from 'vitest';
-import { playVideoWhenAllowed } from './video-readiness';
+import { coastalFootage, playVideoWhenAllowed } from './video-readiness';
 
 // Exercise the shipping page wiring with a stub renderer, so input/cleanup behavior
 // is tested without requiring a GPU or copying the engine's implementation.
@@ -139,7 +139,7 @@ async function controllerFixture() {
   const pageDocument = { hidden: false, createElement: () => video, querySelector: () => ({ dataset: { loaded: 'true' } }), documentElement: { removeAttribute: vi.fn(), scrollHeight: 1000 }, addEventListener: (name: string, fn: () => void) => documentEvents.set(name, fn), removeEventListener: (name: string) => documentEvents.delete(name) };
   runInNewContext(js, {
     exports: exported, AbortController,
-    require: (name: string) => name === 'react' ? { useRef: () => ({ current: root }), useEffect: (fn: () => () => void) => { cleanup = fn(); } } : name === './video-readiness' ? { playVideoWhenAllowed } : name === 'react/jsx-runtime' ? { jsx: () => null, jsxs: () => null } : {},
+    require: (name: string) => name === 'react' ? { useRef: () => ({ current: root }), useEffect: (fn: () => () => void) => { cleanup = fn(); } } : name === './video-readiness' ? { playVideoWhenAllowed, coastalFootage } : name === 'react/jsx-runtime' ? { jsx: () => null, jsxs: () => null } : {},
     document: pageDocument,
     window: { AssemblTide: { attach } }, matchMedia: (query: string) => query.includes('max-width') ? mobile : media, scrollY: 0, innerHeight: 800, performance: { now: () => 0 },
     cancelAnimationFrame: (id: number) => frames.delete(id), requestAnimationFrame: (fn: () => void) => { frames.set(frames.size + 1, fn); return frames.size; },

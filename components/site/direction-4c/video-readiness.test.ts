@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { playVideoWhenAllowed, waitForVideoFrame } from './video-readiness';
+import { coastalFootage, playVideoWhenAllowed, waitForVideoFrame } from './video-readiness';
 
 function fixture(callbacks = true) {
   const video = new EventTarget() as HTMLVideoElement;
@@ -48,4 +48,13 @@ it('does not spend the frame deadline while paused or hidden, including suspensi
   expect(play).toHaveBeenCalledOnce();
   change(true); await vi.advanceTimersByTimeAsync(50); f.decode(); await pending;
   expect(play).toHaveBeenCalledTimes(2); expect(listeners.size).toBe(0);
+});
+describe('coastal footage tier', () => {
+  it('serves the 1440p upscale only to wide, dense screens that have not asked to save data', () => {
+    expect(coastalFootage(1440, 2, false, true)).toBe('/direction-4c/assets/footage/coast-gen-c-1440.mp4');
+    expect(coastalFootage(1920, 1, false, false)).toBe('/direction-4c/assets/footage/coast-gen-c-1440.webm');
+    expect(coastalFootage(390, 3, false, true)).toBe('/direction-4c/assets/footage/coast-gen-c.mp4');
+    expect(coastalFootage(1280, 1, false, true)).toBe('/direction-4c/assets/footage/coast-gen-c.mp4');
+    expect(coastalFootage(2560, 2, true, true)).toBe('/direction-4c/assets/footage/coast-gen-c.mp4');
+  });
 });
