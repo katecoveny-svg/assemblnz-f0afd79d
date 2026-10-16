@@ -4,6 +4,7 @@ import { DO_TEXT_PROVIDER_CONSENT_VERSION, DO_TEXT_PROVIDER_CONSENT } from '@/ap
 
 import { DoEntryDisclosure } from '@/components/do/DoEntryDisclosure';
 import Link from 'next/link';
+import { DoQuestion } from '@/components/do/DoQuestion';
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { ArrowDownToLine, ArrowRight, ArrowUpRight, Check, ChevronRight, FileText, Mic, Plus, RotateCcw, ShieldCheck, Sparkles, X, Backpack, ReceiptText, CarFront } from 'lucide-react';
 import { TodayTasks, type PersonalTaskIntent } from './TodayTasks';
@@ -270,7 +271,7 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
       <header className={entry.heading}>
         <div className={entry.artwork} aria-hidden="true" data-renderer="static-art"><Image src="/brand/do-glass-D-transparent.png" alt="" width={240} height={240} priority unoptimized /></div>
         <div className={entry.intro}>
-          <h1 id="life-admin-heading">What would make life easier?</h1>
+          <DoQuestion id="life-admin-heading" />
           <p>{assistantWorking ? 'Preparing your reply…' : profile?.displayName && profile.displayName !== 'DO' ? `Your ${profile.displayName}, ready to help.` : 'Bring a question, a plan or the thing on your mind.'}</p>
         </div>
       </header>

@@ -18,7 +18,25 @@ export type DoStarter = { id: string; title: string; detail: string; href?: stri
 
 /** Navigation examples only. Never writes tasks, storage, consent or an existing draft. */
 export function DoMiniatureList({ compact = false, disabled = false, onChoose }: { compact?: boolean; disabled?: boolean; onChoose: (intent: DoStarter) => void }) {
-  return <section className={styles.note} data-compact={compact || undefined} aria-label="Task starters">
+  const paper = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const media = matchMedia('(prefers-reduced-motion: reduce)');
+    let frame = 0;
+    const paint = () => {
+      frame = 0;
+      if (!paper.current) return;
+      for (const row of paper.current.querySelectorAll<HTMLElement>('[data-row-motion]')) {
+        const bounds = row.getBoundingClientRect();
+        const offset = media.matches || document.hidden || !bounds.height ? 0 : Math.max(-1, Math.min(1, (innerHeight * .52 - bounds.top - bounds.height / 2) / (innerHeight * .6)));
+        row.style.setProperty('--depth', `${offset * 8}px`);
+        row.style.setProperty('--turn', `${offset * 2}deg`);
+      }
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(paint); };
+    schedule(); addEventListener('scroll', schedule, { passive: true }); addEventListener('resize', schedule); media.addEventListener('change', schedule);
+    return () => { cancelAnimationFrame(frame); removeEventListener('scroll', schedule); removeEventListener('resize', schedule); media.removeEventListener('change', schedule); };
+  }, []);
+  return <section ref={paper} className={styles.note} data-compact={compact || undefined} aria-label="Task starters">
     <header className={styles.caption}><span>A little less on your list</span><small>Choose a starting point</small></header>
     <ol className={styles.list}>{DO_STARTERS.slice(0, compact ? 3 : DO_STARTERS.length).map((task, index) => <StarterRow key={task.id} task={task} index={index} disabled={disabled} onChoose={onChoose} />)}</ol>
     <footer className={styles.footer}>Task starters, not saved tasks. Nothing runs until you choose.</footer>
@@ -38,7 +56,7 @@ function StarterRow({ task, index, disabled, onChoose }: { task: typeof DO_START
     document.addEventListener('visibilitychange', visibility);
     return () => { observer.disconnect(); media.removeEventListener('change', update); document.removeEventListener('visibilitychange', visibility); };
   }, []);
-  return <li ref={ref} className={styles.item}><button type="button" disabled={disabled} onPointerEnter={() => setGesture(n => n + 1)} onFocus={() => setGesture(n => n + 1)} onClick={() => onChoose(task)} aria-label={`${task.title} · ${task.note} · task starter`}>
+  return <li ref={ref} className={styles.item} data-row-motion data-visible={visible || undefined}><button type="button" disabled={disabled} onPointerEnter={() => setGesture(n => n + 1)} onPointerDown={() => setGesture(n => n + 1)} onFocus={() => setGesture(n => n + 1)} onClick={() => onChoose(task)} aria-label={`${task.title} · ${task.note} · task starter`}>
     <span className={styles.number} aria-hidden="true">0{index + 1}</span>
     <span className={styles.copy}><strong>{task.title}</strong><small>{task.note}<span aria-hidden="true"> ↗</span></small><span className={styles.status}>{task.status}</span></span>
     <span className={styles.scene} aria-hidden="true" data-miniature={task.id}>{visible && <Scene kind={task.id} reduced={reduced} gesture={gesture} />}</span>

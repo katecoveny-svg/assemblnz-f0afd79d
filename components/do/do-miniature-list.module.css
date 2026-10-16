@@ -16,3 +16,15 @@
 .note[data-compact] .list .item button{grid-template-columns:1fr 110px;gap:8px}
 @media(max-width:600px){.note .list .item button{grid-template-columns:1fr 120px;gap:4px}.note[data-compact] .list .item button{grid-template-columns:1fr 110px;gap:8px}}
 .copy .status{display:block;font-size:11px;line-height:1.4;color:#654a4e;margin-top:5px}
+/* One readable entrance, a quiet scroll depth, and a tactile response to touch. */
+.question span{display:inline-block;animation:question-arrive 700ms cubic-bezier(.2,.8,.2,1) both}
+.question span:nth-child(2){animation-delay:80ms}.question span:nth-child(3){animation-delay:160ms}
+.note .item .scene{transform:translateY(var(--depth,0px)) rotate(var(--turn,0deg));transform-origin:50% 75%;will-change:transform}
+.note .item[data-visible] .copy strong{animation:ink-arrive 500ms cubic-bezier(.2,.8,.2,1) both}
+.note .list .item button{transition:background 180ms,transform 220ms cubic-bezier(.2,.8,.2,1)}
+.note .list .item button:active:not(:disabled){transform:scale(.985);background:#eac8df55}
+.note .list .item button:focus-visible{outline:2px solid #492b3e;outline-offset:3px}
+.note:after{transition:transform 300ms}.note:focus-within:after{transform:rotate(-2deg) translateY(-2px)}
+@keyframes question-arrive{from{opacity:.65;transform:translateY(10px) rotate(-1deg)}to{opacity:1;transform:none}}
+@keyframes ink-arrive{from{opacity:.7;transform:translateX(-7px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.question span,.note .item[data-visible] .copy strong{animation:none}.note .item .scene{transform:none;will-change:auto}.note .list .item button,.note:after{transition:none}.note .list .item button:active:not(:disabled),.note:focus-within:after{transform:none}}

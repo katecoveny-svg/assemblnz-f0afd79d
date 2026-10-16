@@ -93,13 +93,15 @@ function Objects({ kind, reduced, gesture }: { kind: string; reduced: boolean; g
     progress.current = Math.min(3, progress.current + Math.min(delta,.05));
     const t = progress.current / 3, wave = Math.sin(t*Math.PI), settle = Math.sin(t*Math.PI*2) * (1-t);
     if (!root.current) return;
-    root.current.position.x = kind === 'groceries' ? -.3 * (1-t)**2 : kind === 'flight' ? -.22*(1-t) : 0;
-    root.current.position.y = kind === 'flight' ? wave*.2 : 0;
-    root.current.rotation.z = kind === 'flight' ? settle*.18 : 0;
+    root.current.position.x = kind === 'groceries' ? -.4 * (1-t)**2 : kind === 'flight' ? -.28*(1-t) + wave*.1 : 0;
+    root.current.position.y = kind === 'flight' ? wave*.3 : 0;
+    root.current.rotation.z = kind === 'flight' ? settle*.4 : 0;
+    root.current.rotation.y = kind === 'groceries' ? settle*.16 : kind === 'flight' ? wave*.15 : 0;
     if (flap.current) {
-      if (kind === 'calendar') flap.current.rotation.x = -wave*.5;
-      else flap.current.position.y = kind === 'meals' ? wave*.18 : kind === 'gifts' ? wave*.14 : kind === 'table' ? wave*.1 : wave*.18;
+      if (kind === 'calendar') flap.current.rotation.x = -wave*1.15;
+      else flap.current.position.y = kind === 'meals' ? wave*.26 : kind === 'gifts' ? wave*.24 : kind === 'table' ? wave*.12 : wave*.2;
     }
+    if (flap.current && kind !== 'calendar') { flap.current.rotation.y = kind === 'table' ? (1-t)*.35 : kind === 'gifts' ? wave*.2 : 0; flap.current.position.x = kind === 'desk' ? -.24*(1-t)**2 : 0; }
     if (t < 1 && !reduced) invalidate();
   });
   return <group ref={root}>{kind==='groceries'?<Trolley />:kind==='flight'?<Plane />:kind==='desk'?<Desk flap={flap} />:kind==='table'?<DinnerTable flap={flap} />:kind==='meals'?<Supper flap={flap} />:kind==='gifts'?<Gifts flap={flap} />:<Calendar flap={flap} />}</group>;

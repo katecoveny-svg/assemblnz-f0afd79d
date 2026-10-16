@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { DoQuestion } from '@/components/do/DoQuestion';
 
 import { selectedTextOffer, selectedImageOffer } from '@/apps/do/browser/selected-tab/attachment';
 import ShopJourney from '@/app/do/shop/ShopJourney';
@@ -86,7 +87,7 @@ export function DoFocusWorkspace({ initialTask = 'reply', expectedWorkspace }: {
   return <DoProductFrame product="Conversation">
     <section className={`${styles.hero} ${styles.workspaceHero}`} data-embedded={embedded || undefined} data-entry={mode}>
       <div className={styles.workspaceIntro}>
-      <h1>What would make life easier?</h1>
+      <DoQuestion />
       <p>Bring a question, a plan or the thing on your mind.</p>
       </div><DoGlassHero embedded={embedded} />
     </section>
