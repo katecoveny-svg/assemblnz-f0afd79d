@@ -1,0 +1,14 @@
+"use client";
+import {Canvas} from "@react-three/fiber";
+import {OrbitControls,Environment,ContactShadows} from "@react-three/drei";
+import {Suspense,useMemo} from "react";
+import * as THREE from "three";
+type Props={product:string;colour:string;finish:string};
+function Piece({product,colour,finish}:Props){
+ const material=useMemo(()=>new THREE.MeshStandardMaterial({color:colour,roughness:.72,metalness:0}),[colour]);
+ const ribs=finish==="fine rib"?24:finish==="wide wave"?12:finish==="soft pleat"?16:0;
+ if(product==="grid")return <group rotation={[-.18,-.28,0]}><mesh material={material}><boxGeometry args={[2.9,2.6,.16]}/></mesh>{Array.from({length:35},(_,i)=><mesh key={i} position={[-1.19+(i%7)*.4,1.03-Math.floor(i/7)*.5,.11]}><cylinderGeometry args={[.075,.075,.025,16]}/><meshStandardMaterial color="#726f6b"/></mesh>)}<mesh position={[0,-.5,.3]} material={material}><boxGeometry args={[1.35,.14,.65]}/></mesh><mesh position={[.65,.45,.3]} material={material}><cylinderGeometry args={[.25,.25,.7,48]}/></mesh></group>;
+ if(product==="stack")return <group>{[0,1,2].map((i)=><group key={i} position={[0,-.65+i*.66,0]}><mesh material={material}><boxGeometry args={[2.6,.6,1.55]}/></mesh><mesh position={[0,0,.79]}><boxGeometry args={[2.3,.44,.035]}/><meshStandardMaterial color={i===1?"#e8e0d7":"#ddd2c5"} roughness={.8}/></mesh><mesh position={[0,-.06,.83]}><boxGeometry args={[.36,.08,.06]}/><meshStandardMaterial color="#8c7c76"/></mesh></group>)}</group>;
+ return <group rotation={[0,-.3,0]}>{[0,1].map((i)=><group key={i} position={[i===0?-.65:.72,i===0?-.25:.12,0]}><mesh material={material}><cylinderGeometry args={[i===0?.76:.62,i===0?.7:.6,i===0?1.05:1.45,64,1,true]}/></mesh><mesh position={[0,-(i===0?1.05:1.45)/2,0]} material={material}><cylinderGeometry args={[i===0?.7:.6,i===0?.7:.6,.055,64]}/></mesh>{Array.from({length:ribs},(_,j)=><mesh key={j} position={[Math.cos(j*2*Math.PI/ribs)*(i===0?.73:.6),0,Math.sin(j*2*Math.PI/ribs)*(i===0?.73:.6)]} material={material}><cylinderGeometry args={[.025,.025,i===0?1.05:1.45,8]}/></mesh>)}</group>)}</group>;
+}
+export default function LivingModel({product,colour,finish}:Props){return <div style={{height:"100%",width:"100%",minHeight:300,touchAction:"pan-y"}}><Canvas camera={{position:[4,3.1,5.5],fov:38}} dpr={[1,1.8]} gl={{antialias:true}}><color attach="background" args={["#e9e6df"]}/><ambientLight intensity={1.4}/><directionalLight position={[4,7,5]} intensity={2.5}/><Suspense fallback={null}><Piece product={product} colour={colour} finish={finish}/><ContactShadows opacity={.22} scale={7} blur={2} far={5} position={[0,-1.8,0]}/></Suspense><OrbitControls enablePan={false} enableZoom minDistance={3} maxDistance={9} autoRotate autoRotateSpeed={.5}/></Canvas></div>}
