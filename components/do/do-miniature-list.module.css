@@ -1,30 +1,16 @@
-.note{position:relative;color:#492b3e;background:#fffdfb;border-radius:5px 18px 28px 8px;padding:28px 30px 18px;box-shadow:0 2px 3px #492b3e0a,3px 18px 30px -20px #492b3e50;isolation:isolate;margin:22px 0 32px}
-.note:before{content:"";position:absolute;z-index:-1;inset:6px -4px -5px 3px;background:#eee6e9;border-radius:inherit;transform:rotate(-.6deg)}
-.note:after{content:"";position:absolute;top:-13px;left:44%;width:74px;height:27px;background:#eac8dfbb;transform:rotate(-5deg);box-shadow:0 1px 2px #492b3e0d}
-.caption{display:flex;justify-content:space-between;gap:10px;align-items:baseline;padding:4px 0 22px}.caption>span{font-size:22px;letter-spacing:-.6px;font-weight:500}.caption small{font-size:11px;color:#654a4e;max-width:170px;line-height:1.5}
-.list{list-style:none;margin:0;padding:0}.item{border-top:1px solid #916a7040}.item:last-child{border-bottom:1px solid #916a7040}.item button{width:100%;min-height:126px;border:0;border-radius:0;background:transparent;display:grid;grid-template-columns:28px 1fr 170px;gap:16px;align-items:center;text-align:left;color:inherit;font:inherit;cursor:pointer;padding:0;transition:background .18s}.item button:hover{background:#eac8df26}.item button:focus-visible{outline:2px solid #492b3e;outline-offset:4px;border-radius:4px}.item button:disabled{opacity:.55;cursor:not-allowed}.number{font:11px var(--font-ibm-plex-mono,monospace);color:#916a70}.copy strong{display:block;font-size:23px;font-weight:500;line-height:1.2;letter-spacing:-.5px;text-wrap:balance}.copy small{display:block;font-size:12px;color:#654a4e;margin-top:8px}.scene{display:block;height:126px;width:170px;pointer-events:none}.scene canvas{display:block}.footer{font-size:11px;line-height:1.5;color:#654a4e;padding:18px 0 0}
-.note[data-compact]{padding:18px 16px 14px;margin:20px 0}.note[data-compact] .caption{display:block;padding-bottom:15px}.note[data-compact] .caption>span{font-size:19px;display:block}.note[data-compact] .caption small{display:block;margin-top:5px;max-width:none}.note[data-compact] .item button{grid-template-columns:1fr 110px;gap:8px;min-height:98px}.note[data-compact] .number{display:none}.note[data-compact] .scene{width:110px;height:98px}.note[data-compact] .copy strong{font-size:18px}.note[data-compact] .copy small{font-size:11px}
-@media(max-width:600px){.note{padding:24px 16px 14px;margin-top:20px}.caption{display:block;padding-bottom:18px}.caption>span{font-size:22px}.caption small{display:block;max-width:none;margin-top:6px}.item button{grid-template-columns:1fr 120px;gap:4px;min-height:116px}.number{display:none}.copy strong{font-size:20px;letter-spacing:-.45px}.copy small{font-size:11px;line-height:1.4;margin-top:7px}.scene{width:120px;height:116px}.footer{font-size:11px}}
-@media(prefers-reduced-motion:reduce){.item button{transition:none}}
-/* The paper owns its row treatment, including inside the existing workspace. */
-.note:before{inset:auto 4px -5px 3px;height:8px;transform:rotate(-.4deg)}
-.note .list .item{background:transparent;border:0;border-top:1px solid #916a7040;border-radius:0;padding:0;box-shadow:none;margin:0}
-.note .list .item:last-child{border-bottom:1px solid #916a7040}
-.note .list .item button{background:transparent;border:0;border-radius:0;box-shadow:none;margin:0;padding:0;color:#492b3e}
-.note .list .item button:hover{background:#eac8df26}
-.note .list .item button{display:grid;grid-template-columns:28px 1fr 170px;gap:16px;text-align:left;justify-content:initial;align-items:center;font:inherit}
-.note[data-compact] .list .item button{grid-template-columns:1fr 110px;gap:8px}
-@media(max-width:600px){.note .list .item button{grid-template-columns:1fr 120px;gap:4px}.note[data-compact] .list .item button{grid-template-columns:1fr 110px;gap:8px}}
-.copy .status{display:block;font-size:11px;line-height:1.4;color:#654a4e;margin-top:5px}
-/* One readable entrance, a quiet scroll depth, and a tactile response to touch. */
-.question span{display:inline-block;animation:question-arrive 700ms cubic-bezier(.2,.8,.2,1) both}
-.question span:nth-child(2){animation-delay:80ms}.question span:nth-child(3){animation-delay:160ms}
-.note .item .scene{transform:translateY(var(--depth,0px)) rotate(var(--turn,0deg));transform-origin:50% 75%;will-change:transform}
-.note .item[data-visible] .copy strong{animation:ink-arrive 500ms cubic-bezier(.2,.8,.2,1) both}
-.note .list .item button{transition:background 180ms,transform 220ms cubic-bezier(.2,.8,.2,1)}
-.note .list .item button:active:not(:disabled){transform:scale(.985);background:#eac8df55}
-.note .list .item button:focus-visible{outline:2px solid #492b3e;outline-offset:3px}
-.note:after{transition:transform 300ms}.note:focus-within:after{transform:rotate(-2deg) translateY(-2px)}
+.note{position:relative;color:#492b3e;margin:32px 0 40px;padding:0;background:transparent;isolation:isolate}
+.caption{padding:12px 8px 4px;display:flex;align-items:baseline;justify-content:space-between;gap:14px}.caption>span{font-size:28px;letter-spacing:-.8px;font-weight:500}.caption small{font-size:13px;color:#654a4e;line-height:1.5}
+.note .list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:40px;row-gap:10px;list-style:none;margin:0;padding:0}
+.note .list .item{border:0;background:transparent;border-radius:0;box-shadow:none;margin:0;padding:0;min-width:0;position:relative}
+.note .list .item:nth-child(even){padding-top:44px}.note .list .item:nth-child(3n){padding-top:12px}.note .list .item:last-child{grid-column:1/-1;width:48%;justify-self:center}
+.note .list .item button{display:flex;flex-direction:column;width:100%;border:0;background:transparent;box-shadow:none;border-radius:38px;padding:0 4px 16px;margin:0;text-align:center;align-items:center;justify-content:flex-start;color:inherit;font:inherit;cursor:pointer;min-height:260px}
+.scene{order:-1;position:relative;display:block;width:100%;height:230px;pointer-events:none;isolation:isolate;transform:translateY(var(--depth,0px)) rotate(var(--turn,0deg));transform-origin:50% 75%}
+.scene:before{content:"";position:absolute;z-index:-1;width:190px;height:190px;left:50%;top:22px;background:#eddbdf;border-radius:48% 52% 45% 55% / 53% 42% 58% 47%;transform:translateX(-50%) rotate(-12deg)}
+.item:nth-child(3n+2) .scene:before{background:#e6dfec;width:175px;height:175px;top:32px;border-radius:50%}.item:nth-child(3n) .scene:before{background:#eee5d9;transform:translateX(-50%) rotate(20deg);border-radius:44% 56% 60% 40%}
+.scene canvas{display:block}.copy{display:block;max-width:100%}.copy strong{display:block;font-size:24px;font-weight:500;line-height:1.12;letter-spacing:-.6px;text-wrap:balance}.copy small{display:block;font-size:13px;line-height:1.5;color:#654a4e;margin-top:8px}.copy small span{display:inline-block;transition:translate 180ms}
+.note .list .item button:hover .copy small span{translate:3px -3px}.note .list .item button:focus-visible{outline:2px solid #492b3e;outline-offset:4px}.note .list .item button:disabled{opacity:.5;cursor:not-allowed}.footer{max-width:400px;margin:32px auto 0;text-align:center;font-size:12px;line-height:1.6;color:#654a4e}
+.question span{display:inline-block;animation:question-arrive 650ms cubic-bezier(.2,.8,.2,1) both}.question span:nth-child(2){animation-delay:65ms}.question span:nth-child(3){animation-delay:130ms}
 @keyframes question-arrive{from{opacity:.65;transform:translateY(10px) rotate(-1deg)}to{opacity:1;transform:none}}
-@keyframes ink-arrive{from{opacity:.7;transform:translateX(-7px)}to{opacity:1;transform:none}}
-@media(prefers-reduced-motion:reduce){.question span,.note .item[data-visible] .copy strong{animation:none}.note .item .scene{transform:none;will-change:auto}.note .list .item button,.note:after{transition:none}.note .list .item button:active:not(:disabled),.note:focus-within:after{transform:none}}
+@media(max-width:600px){.note{margin:24px 0 32px}.caption{display:block;padding:8px 0}.caption>span{font-size:26px}.caption small{display:block;margin-top:6px}.note .list{column-gap:10px;row-gap:16px}.note .list .item button{padding:0 0 12px;min-height:214px;border-radius:28px}.scene{height:170px;overflow:visible}.scene:before{width:133px;height:133px;top:24px}.item:nth-child(3n+2) .scene:before{width:125px;height:125px;top:28px}.copy strong{font-size:19px;letter-spacing:-.4px}.copy small{font-size:11px;margin-top:7px}.note .list .item:nth-child(even){padding-top:30px}.note .list .item:last-child{width:55%}}
+.note[data-compact] .list{column-gap:10px}.note[data-compact] .caption{display:block}.note[data-compact] .caption small{display:block;margin-top:6px}.note[data-compact] .scene{height:170px}.note[data-compact] .scene:before{width:125px;height:125px}.note[data-compact] .copy strong{font-size:19px}.note[data-compact] .copy small{font-size:11px}.note[data-compact] .list .item button{min-height:214px}.note[data-compact] .list .item:nth-child(even){padding-top:30px}
+@media(prefers-reduced-motion:reduce){.question span{animation:none}.note .item .scene{transform:none}.copy small span{transition:none;translate:none!important}}

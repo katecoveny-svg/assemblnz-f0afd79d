@@ -34,7 +34,7 @@ export function DoCompanionConversation({ profile, snapshot, talkOpened, talkSel
       <button disabled={live || working} onClick={() => setAttachment({ text: snapshot.slice(0, 6000), revision: Date.now() })}>Attach this text to the conversation</button>
     </details>}
     {attachment?.text && <p role="status">Reviewed text attached for review. Provider sharing still needs your permission. <button disabled={live || working} onClick={() => setAttachment({ text: '', revision: Date.now() })}>Remove attachment</button></p>}
-    <fieldset disabled={handoffWorking} style={{border:0,padding:0}} hidden={live || talkSelected}><PersonalDoAssistant focusRequest={focusRequest} profile={profile} returnTo="/do/widget" conversation={{ turns, change: changeTurns }} attachedContext={attachment} onWorkingChange={setWorking} /></fieldset>
+    <fieldset disabled={handoffWorking} style={{border:0,padding:0}} hidden={live || talkSelected}><PersonalDoAssistant showIdeas={false} focusRequest={focusRequest} profile={profile} returnTo="/do/widget" conversation={{ turns, change: changeTurns }} attachedContext={attachment} onWorkingChange={setWorking} /></fieldset>
     <div hidden={talkSelected || live}><DoCompanionHandoff onWorkingChange={setHandoffWorking} disabled={live || working} context={companionVoiceContext(turns, attachment?.text ?? '')} onResult={text => {
       const next: ConversationTurn[] = [...latest.current,{role:'user',text,at:new Date().toISOString(),draft:null,label:'Assistant handoff evidence'}];
       if(next.length>CONVERSATION_TURN_LIMIT||conversationBytes(next)>CONVERSATION_BYTES_LIMIT)return false;

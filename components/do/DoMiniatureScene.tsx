@@ -1,118 +1,142 @@
 'use client';
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Component, useEffect, useRef, type ReactNode } from 'react';
-import { Group } from 'three';
+import { Component, createContext, useContext, useEffect, useMemo, useRef, type ReactNode } from 'react';
+import { DataTexture, Group, RedFormat, RepeatWrapping, type OrthographicCamera as ThreeCamera } from 'three';
 import { RoundedBox } from '@react-three/drei/core/RoundedBox';
+import { OrthographicCamera } from '@react-three/drei/core/OrthographicCamera';
+import { ContactShadows } from '@react-three/drei/core/ContactShadows';
 
-const plum = '#492b3e', rose = '#916a70', petal = '#eac8df', paper = '#fffdfb', lilac = '#dad2f4';
+const plum = '#492b3e', rose = '#b78188', petal = '#eac8df', cream = '#fff5e6', sage = '#8a987d';
 type Vec = [number, number, number];
-function Block({ at = [0, 0, 0], size, color = paper, rotation = [0, 0, 0] }: { at?: Vec; size: Vec; color?: string; rotation?: Vec }) {
-  return <RoundedBox position={at} rotation={rotation} args={size} radius={Math.min(...size) * .22} smoothness={2} castShadow receiveShadow><meshStandardMaterial color={color} roughness={.48} metalness={.08} /></RoundedBox>;
+// All interaction belongs to the stable HTML button, never the decorative canvas.
+const decorativeEvents = () => ({ enabled: false, priority: 0 });
+const Grain = createContext<DataTexture | null>(null);
+function Clay({ color = cream }: { color?: string }) {
+  const grain = useContext(Grain);
+  return <meshStandardMaterial color={color} roughness={.92} metalness={0} bumpMap={grain} bumpScale={.018} />;
 }
-function Ball({ at, scale = [.12, .12, .12], color = rose }: { at: Vec; scale?: Vec; color?: string }) {
-  return <mesh position={at} scale={scale} castShadow><sphereGeometry args={[1, 20, 14]} /><meshStandardMaterial color={color} roughness={.35} metalness={.12} /></mesh>;
+function Blob({ at = [0,0,0], scale = [1,1,1], color = cream, rotation = [0,0,0] }: { at?: Vec; scale?: Vec; color?: string; rotation?: Vec }) {
+  return <mesh position={at} scale={scale} rotation={rotation} castShadow receiveShadow><sphereGeometry args={[1,40,28]} /><Clay color={color} /></mesh>;
 }
-function Bar({ at, length, radius = .025, rotation = [0, 0, 0], color = rose }: { at: Vec; length: number; radius?: number; rotation?: Vec; color?: string }) {
-  return <mesh position={at} rotation={rotation} castShadow><cylinderGeometry args={[radius, radius, length, 16]} /><meshStandardMaterial color={color} roughness={.3} metalness={.3} /></mesh>;
+function Block({ at = [0,0,0], size, color = cream, rotation = [0,0,0] }: { at?: Vec; size: Vec; color?: string; rotation?: Vec }) {
+  return <RoundedBox position={at} rotation={rotation} args={size} radius={Math.min(...size)*.34} smoothness={4} castShadow receiveShadow><Clay color={color} /></RoundedBox>;
 }
-function Wheel({ at }: { at: Vec }) {
-  return <mesh position={at} rotation={[Math.PI / 2, 0, 0]} castShadow><cylinderGeometry args={[.12, .12, .075, 24]} /><meshStandardMaterial color={plum} roughness={.4} /></mesh>;
+function Loop({ at, radius, tube = .04, color = rose, rotation = [0,0,0], scale = [1,1,1] }: { at: Vec; radius: number; tube?: number; color?: string; rotation?: Vec; scale?: Vec }) {
+  return <mesh position={at} rotation={rotation} scale={scale} castShadow receiveShadow><torusGeometry args={[radius,tube,12,40]} /><Clay color={color} /></mesh>;
 }
-function Trolley() {
-  return <group rotation={[0, -.25, 0]}>
-    <Block at={[0,.38,0]} size={[.94,.06,.64]} color={petal} />
-    {[-.34,.34].map(x => [-.25,.25].map(z => <Wheel key={`${x}${z}`} at={[x,.15,z]} />))}
-    {[-.34,.34].map(x => <Bar key={x} at={[x,.28,0]} length={.54} rotation={[Math.PI/2,0,0]} color={plum} />)}
-    {[-.34,-.17,0,.17,.34].map(x => [-.31,.31].map(z => <Bar key={`${x}${z}`} at={[x,.65,z]} length={.54} />))}
-    {[-.43,.43].map(x => [-.22,0,.22].map(z => <Bar key={`${x}${z}`} at={[x,.65,z]} length={.54} />))}
-    {[.48,.68,.91].map(y => <group key={y}>{[-.31,.31].map(z => <Bar key={z} at={[0,y,z]} length={.94} rotation={[0,0,Math.PI/2]} />)}{[-.45,.45].map(x => <Bar key={x} at={[x,y,0]} length={.63} rotation={[Math.PI/2,0,0]} />)}</group>)}
-    <Bar at={[-.56,.96,0]} length={.7} rotation={[Math.PI/2,0,0]} radius={.045} color={plum} />
-    {[-.3,.3].map(z => <Bar key={z} at={[-.51,.86,z]} length={.3} rotation={[0,0,-.4]} />)}
-    <Block at={[-.17,.72,0]} size={[.25,.56,.28]} color={paper} rotation={[0,0,.14]} />
-    <Ball at={[.22,.64,.05]} scale={[.2,.2,.18]} color={rose} /><Ball at={[.13,.84,.08]} scale={[.16,.16,.15]} color={petal} />
-    <Ball at={[.18,.98,.08]} scale={[.07,.025,.1]} color={plum} />
+function Clock({ at, scale = 1 }: { at: Vec; scale?: number }) {
+  return <group position={at} scale={scale} rotation={[0,-.12,-.1]}>
+    <Blob at={[0,.38,0]} scale={[.38,.39,.16]} color={rose} />
+    <Blob at={[0,.38,.13]} scale={[.31,.32,.065]} />
+    <Block at={[.06,.39,.2]} size={[.17,.045,.045]} color={plum} rotation={[0,0,-.3]} />
+    <Block at={[0,.47,.2]} size={[.045,.2,.045]} color={plum} />
+    <Blob at={[0,.38,.22]} scale={[.035,.035,.03]} color={plum} />
+    {[-.23,.23].map(x=><Blob key={x} at={[x,.085,0]} scale={[.08,.09,.1]} color={plum} />)}
+    {[-.24,.24].map(x=><Blob key={x} at={[x,.72,0]} scale={[.16,.09,.13]} color={petal} rotation={[0,0,x>0?-.5:.5]} />)}
+  </group>;
+}
+function Calendar({ at = [0,0,0], scale = 1 }: { at?: Vec; scale?: number }) {
+  return <group position={at} scale={scale} rotation={[-.12,.08,.07]}>
+    <Block at={[0,.42,0]} size={[.78,.8,.22]} color={rose} />
+    <Block at={[0,.39,.13]} size={[.68,.61,.09]} />
+    <Block at={[0,.66,.19]} size={[.6,.1,.05]} color={petal} />
+    {[-.2,0,.2].map(x=>[.2,.36,.5].map(y=><Blob key={`${x}${y}`} at={[x,y,.2]} scale={[.038,.035,.025]} color={x===0&&y===.36?plum:rose} />))}
+    {[-.22,.22].map(x=><Loop key={x} at={[x,.82,.04]} radius={.075} tube={.035} color={plum} rotation={[0,Math.PI/2,0]} />)}
+  </group>;
+}
+function Envelope({ at }: { at: Vec }) {
+  return <group position={at} rotation={[-.2,.1,-.17]}><Block size={[.64,.43,.14]} color={petal} /><Block at={[-.13,.075,.09]} size={[.32,.035,.035]} color={rose} rotation={[0,0,-.6]} /><Block at={[.13,.075,.09]} size={[.32,.035,.035]} color={rose} rotation={[0,0,.6]} /></group>;
+}
+function Suitcase() {
+  return <group position={[-.3,0,-.08]} rotation={[0,-.12,-.09]}>
+    <Block at={[0,.49,0]} size={[.7,.84,.42]} color={rose} />
+    <Loop at={[0,.95,0]} radius={.14} tube={.055} color={plum} scale={[1,.75,1]} />
+    {[-.21,.21].map(x=><Block key={x} at={[x,.49,.22]} size={[.06,.66,.035]} color={petal} />)}
+    {[-.22,.22].map(x=><Blob key={x} at={[x,.055,0]} scale={[.075,.075,.09]} color={plum} />)}
   </group>;
 }
 function Plane() {
-  return <group rotation={[0,-.25,0]} position={[0,.6,0]}>
-    <Ball at={[0,0,0]} scale={[.68,.12,.14]} color={paper} />
-    <Block at={[.04,.015,0]} size={[.28,.045,1.4]} color={petal} rotation={[0,-.18,0]} />
-    <Block at={[-.46,.04,0]} size={[.2,.04,.58]} color={rose} />
-    <Block at={[-.48,.17,0]} size={[.24,.3,.035]} color={plum} rotation={[0,0,.25]} />
-    {[.25,.12,-.01,-.14].map(x => <Ball key={x} at={[x,.05,.115]} scale={[.025,.035,.015]} color={plum} />)}
-    <Ball at={[.48,.055,.025]} scale={[.11,.065,.1]} color={plum} />
-    {[-.4,.4].map(z => <Ball key={z} at={[.02,-.09,z]} scale={[.18,.08,.08]} color={plum} />)}
+  return <group position={[.35,.93,.12]} rotation={[.12,-.32,-.12]} scale={.8}>
+    <Blob scale={[.6,.14,.17]} />
+    <Blob at={[-.02,0,0]} scale={[.25,.065,.68]} rotation={[0,-.3,0]} />
+    <Blob at={[-.43,.16,0]} scale={[.18,.22,.055]} color={petal} rotation={[0,0,.3]} />
+    <Blob at={[-.4,.02,0]} scale={[.16,.05,.3]} color={petal} />
+    <Blob at={[.4,.07,.075]} scale={[.12,.065,.09]} color={plum} />
+    {[.12,-.02,-.16].map(x=><Blob key={x} at={[x,.03,.155]} scale={[.027,.035,.02]} color={rose} />)}
   </group>;
 }
-function Envelope({ at, color = paper }: { at: Vec; color?: string }) {
-  return <group position={at} rotation={[0,0,.05]}><Block size={[.55,.035,.36]} color={color} /><Block at={[0,.024,-.02]} size={[.29,.015,.29]} color={petal} rotation={[0,Math.PI/4,0]} /></group>;
+function Plate({ at, color = cream }: { at: Vec; color?: string }) {
+  return <group position={at}><Blob scale={[.39,.055,.37]} color={color} /><Loop at={[0,.04,0]} radius={.31} tube={.035} color={color} rotation={[Math.PI/2,0,0]} /></group>;
 }
-function Desk({ flap }: { flap: React.RefObject<Group | null> }) {
-  return <group><Block at={[0,.45,0]} size={[1.2,.09,.7]} color={rose} />{[-.48,.48].map(x => [-.24,.24].map(z => <Bar key={`${x}${z}`} at={[x,.22,z]} length={.44} radius={.035} color={plum} />))}
-    <Block at={[-.25,.64,-.18]} size={[.5,.32,.035]} color={plum} rotation={[-.12,0,0]} /><Block at={[-.25,.51,.05]} size={[.5,.025,.3]} color={lilac} />
-    <group ref={flap}><Envelope at={[.32,.53,.04]} /><Envelope at={[.35,.59,-.02]} color={lilac} /></group>
-    <Bar at={[.47,.63,-.23]} length={.24} radius={.07} color={petal} />
-  </group>;
+function Candle() {
+  return <group position={[.08,0,-.26]}><Blob at={[0,.065,0]} scale={[.2,.065,.18]} color={rose} /><Block at={[0,.36,0]} size={[.16,.6,.16]} /><Blob at={[0,.74,0]} scale={[.055,.12,.045]} color="#d4a47e" rotation={[0,0,-.15]} /></group>;
 }
-function Plate({ at }: { at: Vec }) {
-  return <mesh position={at} castShadow receiveShadow><cylinderGeometry args={[.24,.2,.035,32]} /><meshStandardMaterial color={paper} roughness={.35} /></mesh>;
-}
-function DinnerTable({ flap }: { flap: React.RefObject<Group | null> }) {
-  return <group><mesh position={[0,.49,0]} castShadow receiveShadow><cylinderGeometry args={[.65,.65,.08,40]} /><meshStandardMaterial color={rose} roughness={.55} /></mesh><Bar at={[0,.24,0]} length={.48} radius={.065} color={plum} /><Block at={[0,.025,0]} size={[.65,.045,.4]} color={plum} />
-    <group ref={flap}><Plate at={[-.29,.55,0]} /><Plate at={[.29,.55,0]} /></group>
-    <Bar at={[0,.68,-.24]} length={.3} radius={.03} color={paper} /><Ball at={[0,.86,-.24]} scale={[.035,.065,.035]} color={petal} />
-    {[-.48,.48].map(x => <Bar key={x} at={[x,.55,.12]} length={.3} radius={.012} rotation={[Math.PI/2,0,0]} color={plum} />)}
-  </group>;
-}
-function Supper({ flap }: { flap: React.RefObject<Group | null> }) {
-  return <group><Block at={[0,.06,0]} size={[1.2,.08,.8]} color={petal} /><mesh position={[0,.32,0]} castShadow><cylinderGeometry args={[.36,.28,.42,32]} /><meshStandardMaterial color={rose} roughness={.35} metalness={.2} /></mesh>
-    {[-.43,.43].map(x=><Block key={x} at={[x,.42,0]} size={[.22,.06,.12]} color={plum} />)}
-    <group ref={flap}><mesh position={[0,.55,0]} castShadow><sphereGeometry args={[.37,32,12,0,Math.PI*2,0,Math.PI/2]} /><meshStandardMaterial color={paper} roughness={.3} metalness={.15} /></mesh><Ball at={[0,.94,0]} scale={[.07,.045,.07]} color={plum} /></group>
-    <Ball at={[.46,.2,.25]} color={petal} /><Ball at={[-.4,.18,.25]} color={plum} scale={[.12,.07,.09]} />
+function Pot({ flap }: { flap: React.RefObject<Group | null> }) {
+  return <group position={[-.16,0,0]}>
+    <Blob at={[0,.32,0]} scale={[.46,.31,.4]} color={rose} />
+    <Loop at={[0,.48,0]} radius={.37} tube={.065} color={rose} rotation={[Math.PI/2,0,0]} />
+    {[-.48,.48].map(x=><Loop key={x} at={[x,.37,0]} radius={.12} tube={.055} color={plum} rotation={[Math.PI/2,0,0]} scale={[1, .8,1]} />)}
+    <group ref={flap}><Blob at={[0,.57,0]} scale={[.43,.12,.39]} /><Blob at={[0,.73,0]} scale={[.095,.07,.08]} color={plum} /></group>
+    <group position={[.61,0,.2]}><Blob at={[0,.17,0]} scale={[.2,.18,.19]} color="#bc7477" /><Blob at={[0,.34,0]} scale={[.11,.035,.06]} color={sage} rotation={[0,.6,0]} /><Block at={[0,.36,0]} size={[.035,.09,.035]} color={sage} rotation={[0,0,-.3]} /></group>
   </group>;
 }
 function Gifts({ flap }: { flap: React.RefObject<Group | null> }) {
-  return <group rotation={[0,.12,0]}><Block at={[0,.29,0]} size={[.65,.52,.6]} color={rose} /><Block at={[0,.3,.306]} size={[.09,.52,.018]} color={paper} />
-    <group ref={flap}><Block at={[0,.58,0]} size={[.71,.08,.66]} color={petal} /><Block at={[0,.628,0]} size={[.09,.015,.66]} color={paper} />{[-.13,.13].map(x=><mesh key={x} position={[x,.71,0]} rotation={[Math.PI/2,0,x>0?.35:-.35]} castShadow><torusGeometry args={[.13,.025,10,24]} /><meshStandardMaterial color={paper} roughness={.35} /></mesh>)}</group>
-    <Block at={[-.5,.15,.12]} size={[.28,.28,.37]} color={lilac} /><Block at={[-.5,.3,.12]} size={[.3,.04,.39]} color={paper} />
+  return <group>
+    <group position={[-.3,.03,-.08]} rotation={[-.12,.1,-.06]}>
+      <Block at={[0,.42,0]} size={[.55,.66,.24]} color={petal} />
+      {[-1,1].map(side=><Block key={side} at={[side*.35,.48,0]} size={[.25,.47,.24]} color={petal} rotation={[0,0,side*.4]} />)}
+      <Loop at={[0,.74,.03]} radius={.12} tube={.045} color={rose} rotation={[Math.PI/2,0,0]} scale={[1,.65,1]} />
+      <Block at={[0,.13,.01]} size={[.53,.09,.25]} color={rose} />
+    </group>
+    <group position={[.38,0,.24]}><Block at={[0,.23,0]} size={[.5,.45,.47]} color={rose} /><Block at={[0,.24,.24]} size={[.07,.43,.035]} />
+      <group ref={flap}><Block at={[0,.48,0]} size={[.54,.1,.51]} color={cream} /><Loop at={[-.09,.6,0]} radius={.09} tube={.027} color={plum} rotation={[Math.PI/2,0,-.4]} /><Loop at={[.09,.6,0]} radius={.09} tube={.027} color={plum} rotation={[Math.PI/2,0,.4]} /></group>
+    </group>
   </group>;
 }
-function Calendar({ flap }: { flap: React.RefObject<Group | null> }) {
-  return <group rotation={[-.15,0,0]}><Block at={[0,.4,0]} size={[.85,.77,.07]} color={rose} /><Block at={[0,.04,.03]} size={[.95,.06,.42]} color={plum} />
-    <group ref={flap} position={[0,.73,.06]}><Block at={[0,-.33,0]} size={[.78,.65,.025]} color={paper} /><Block at={[0,-.07,.02]} size={[.65,.08,.012]} color={petal} />
-      {[-.23,0,.23].map(x=>[-.23,-.4,-.55].map(y=><Block key={`${x}${y}`} at={[x,y,.023]} size={[.09,.06,.012]} color={x===0&&y===-.4?plum:rose} />))}
-    </group>{[-.25,.25].map(x=><mesh key={x} position={[x,.78,0]} castShadow><torusGeometry args={[.055,.015,8,16]} /><meshStandardMaterial color={plum} metalness={.3} /></mesh>)}
+function Basket() {
+  return <group rotation={[0,-.12,0]}>
+    <Block at={[0,.28,0]} size={[.94,.48,.65]} color={rose} />
+    <Block at={[0,.52,0]} size={[1.01,.1,.7]} color={petal} />
+    <Loop at={[0,.62,0]} radius={.39} tube={.055} color={plum} scale={[1,1.15,1]} />
+    {[-.32,-.16,0,.16,.32].map(x=><Block key={x} at={[x,.29,.331]} size={[.045,.3,.025]} color={petal} rotation={[0,0,.035]} />)}
+    <group position={[-.22,.5,0]} rotation={[0,0,-.12]}><Block at={[0,.2,0]} size={[.25,.43,.26]} /><Block at={[0,.45,0]} size={[.25,.14,.24]} rotation={[0,0,.12]} color={petal} /></group>
+    <group position={[.23,.5,.08]}><Blob at={[0,.14,0]} scale={[.19,.19,.17]} color="#b1b49a" /><Blob at={[0,.3,0]} scale={[.115,.17,.11]} color="#b1b49a" /><Block at={[0,.48,0]} size={[.04,.1,.04]} color={plum} rotation={[0,0,-.2]} /><Blob at={[.09,.46,0]} scale={[.1,.025,.05]} color={sage} /></group>
   </group>;
 }
-function Objects({ kind, reduced, gesture }: { kind: string; reduced: boolean; gesture: number }) {
-  const root = useRef<Group>(null), flap = useRef<Group>(null), progress = useRef(3);
+function Objects({ kind, reduced, gesture, quiet }: { kind: string; reduced: boolean; gesture: number; quiet: boolean }) {
+  const root = useRef<Group>(null), flap = useRef<Group>(null), progress = useRef(1.4);
   const { invalidate } = useThree();
-  useEffect(() => { progress.current = reduced ? 3 : 0; invalidate(); }, [gesture,reduced,invalidate]);
+  useEffect(() => { progress.current = reduced || quiet ? 1.4 : 0; invalidate(); }, [gesture,reduced,quiet,invalidate]);
   useFrame((_, delta) => {
-    progress.current = Math.min(3, progress.current + Math.min(delta,.05));
-    const t = progress.current / 3, wave = Math.sin(t*Math.PI), settle = Math.sin(t*Math.PI*2) * (1-t);
+    progress.current = Math.min(1.4,progress.current+Math.min(delta,.05));
+    const t = progress.current/1.4, wave = Math.sin(t*Math.PI), settle = Math.sin(t*Math.PI*2)*(1-t);
     if (!root.current) return;
-    root.current.position.x = kind === 'groceries' ? -.4 * (1-t)**2 : kind === 'flight' ? -.28*(1-t) + wave*.1 : 0;
-    root.current.position.y = kind === 'flight' ? wave*.3 : 0;
-    root.current.rotation.z = kind === 'flight' ? settle*.4 : 0;
-    root.current.rotation.y = kind === 'groceries' ? settle*.16 : kind === 'flight' ? wave*.15 : 0;
-    if (flap.current) {
-      if (kind === 'calendar') flap.current.rotation.x = -wave*1.15;
-      else flap.current.position.y = kind === 'meals' ? wave*.26 : kind === 'gifts' ? wave*.24 : kind === 'table' ? wave*.12 : wave*.2;
-    }
-    if (flap.current && kind !== 'calendar') { flap.current.rotation.y = kind === 'table' ? (1-t)*.35 : kind === 'gifts' ? wave*.2 : 0; flap.current.position.x = kind === 'desk' ? -.24*(1-t)**2 : 0; }
-    if (t < 1 && !reduced) invalidate();
+    root.current.rotation.y = settle*.13;
+    root.current.position.y = kind==='flight'?wave*.08:0;
+    if (flap.current) { flap.current.position.y = wave*(kind==='meals'?.16:kind==='gifts'?.1:.06); flap.current.rotation.z = settle*.08; }
+    if(t<1 && !reduced && !quiet) invalidate();
   });
-  return <group ref={root}>{kind==='groceries'?<Trolley />:kind==='flight'?<Plane />:kind==='desk'?<Desk flap={flap} />:kind==='table'?<DinnerTable flap={flap} />:kind==='meals'?<Supper flap={flap} />:kind==='gifts'?<Gifts flap={flap} />:<Calendar flap={flap} />}</group>;
+  return <group ref={root}>{kind==='desk'?<><Calendar at={[-.32,0,-.12]} scale={.85}/><Clock at={[.39,0,.15]} scale={.7}/><group ref={flap}><Envelope at={[-.37,.23,.38]}/></group></>:kind==='flight'?<><Suitcase/><group ref={flap}><Plane/></group></>:kind==='table'?<><group ref={flap}><Plate at={[-.35,.07,.12]}/><Plate at={[.37,.07,.24]} color={petal}/></group><Candle/></>:kind==='meals'?<Pot flap={flap}/>:kind==='gifts'?<Gifts flap={flap}/>:kind==='groceries'?<Basket/>:<><group ref={flap}><Calendar at={[-.24,0,-.09]}/></group><Clock at={[.4,0,.28]} scale={.65}/></>}</group>;
 }
-class SceneBoundary extends Component<{children: ReactNode}, {failed:boolean}> {
-  state={failed:false}; static getDerivedStateFromError(){return {failed:true};}
-  render(){return this.state.failed ? null : this.props.children;}
+function Studio(props: {kind:string; reduced:boolean; gesture:number; quiet:boolean}) {
+  const { size } = useThree();
+  const grain = useMemo(() => {
+    const bytes = new Uint8Array(128*128); let seed=17;
+    for(let i=0;i<bytes.length;i++){seed=(seed*1664525+1013904223)>>>0;bytes[i]=110+(seed%36);}
+    const texture=new DataTexture(bytes,128,128,RedFormat);texture.wrapS=texture.wrapT=RepeatWrapping;texture.repeat.set(3,3);texture.needsUpdate=true;return texture;
+  },[]);
+  useEffect(()=>()=>grain.dispose(),[grain]);
+  return <Grain.Provider value={grain}>
+    <OrthographicCamera makeDefault position={[2.6,2.2,4.5]} rotation={[-.4,.48,.2]} zoom={Math.min(128,size.width/1.7,size.height/1.65)} near={.1} far={20} onUpdate={(camera: ThreeCamera) => camera.lookAt(0,0,0)}/>
+    <ambientLight intensity={.65}/><hemisphereLight args={['#fff8ed','#a07a86',1.1]}/>
+    <directionalLight position={[-3,5,4]} intensity={3.2} color="#fff4df"/>
+    <directionalLight position={[1,2,5]} intensity={.65} color="#fffdfb"/>
+    <directionalLight position={[3,3,-3]} intensity={2.4} color="#efc1b8"/>
+    <group position={[0,-.42,0]}><Objects {...props}/><ContactShadows position={[0,-.015,0]} opacity={.48} scale={3.5} blur={2.6} far={1.7} resolution={256} color="#654a4e" frames={Infinity}/></group>
+  </Grain.Provider>;
 }
-export default function DoMiniatureScene(props: {kind:string; reduced:boolean; gesture:number}) {
-  return <SceneBoundary><Canvas orthographic shadows frameloop="demand" dpr={1} camera={{position:[3,2.6,4],zoom:67,near:.1,far:20}} gl={{alpha:true,antialias:true,powerPreference:'low-power'}} style={{pointerEvents:'none'}}>
-    <ambientLight intensity={1.3} /><directionalLight position={[-3,5,4]} intensity={3} castShadow shadow-mapSize={[256,256]} shadow-camera-left={-2} shadow-camera-right={2} shadow-camera-top={2} shadow-camera-bottom={-2} shadow-bias={-.002} /><directionalLight position={[3,2,-2]} intensity={1} color={petal} />
-    <group position={[0,-.4,0]}><Objects {...props} /><mesh rotation={[-Math.PI/2,0,0]} receiveShadow><planeGeometry args={[4,4]} /><shadowMaterial opacity={.16} color={plum} /></mesh></group>
-  </Canvas></SceneBoundary>;
+class SceneBoundary extends Component<{children:ReactNode},{failed:boolean}>{state={failed:false};static getDerivedStateFromError(){return {failed:true};}render(){return this.state.failed?null:this.props.children;}}
+export default function DoMiniatureScene(props:{kind:string;reduced:boolean;gesture:number;quiet:boolean}){
+  return <SceneBoundary><Canvas events={decorativeEvents} orthographic frameloop="demand" dpr={[1,1.5]} camera={{position:[2.6,2.2,4.5],zoom:100,near:.1,far:20}} gl={{alpha:true,antialias:true,powerPreference:'low-power'}} style={{pointerEvents:'none'}}><Studio {...props}/></Canvas></SceneBoundary>;
 }

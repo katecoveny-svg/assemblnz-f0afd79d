@@ -91,3 +91,6 @@
 .workspaceModes button[aria-pressed=true]{background:var(--plum,#240b21);color:var(--paper,#fffdfb)}
 .workspaceModes button:not(:disabled):active{transform:translateY(1px)}
 @media(prefers-reduced-motion:reduce){.workspaceModes button{transition:none;transform:none!important}}
+
+/* Same working chalk bubble as personal Today; keep compact Talk admission intact. */
+.thoughtBubble{position:relative;background:#fffdfb;border-radius:32px 40px 32px 12px;padding:14px;margin:0 0 34px;box-shadow:0 12px 35px #654a4e0c;isolation:isolate}.thoughtBubble:before,.thoughtBubble:after{content:"";position:absolute;background:#fffdfb;border-radius:50%;pointer-events:none;z-index:-1}.thoughtBubble:before{width:25px;height:22px;bottom:-13px;left:24px}.thoughtBubble:after{width:11px;height:11px;bottom:-29px;left:12px}.thoughtBubble>div[hidden]{display:none!important}.thoughtBubble .workspaceModes{margin-top:0}.thoughtBubble>div>section{background:transparent;border:0;box-shadow:none}
