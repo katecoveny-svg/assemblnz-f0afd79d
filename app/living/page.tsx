@@ -1,5 +1,5 @@
-import LivingPrototypeLibrary from "./LivingPrototypeLibrary";
 "use client";
+import LivingPrototypeLibrary from "./LivingPrototypeLibrary";
 import {useState} from "react";
 const palette=[["chalk","#f1eee6"],["oat","#ded2be"],["sage","#b4c5ac"],["powder blue","#aabed7"],["dusty pink","#d8b7bc"],["clay","#ae8d7d"],["lilac","#cdc3dc"]];
 const categories=["my room","my space","work & create","store & organise","pets & everyday","plants & objects"];
