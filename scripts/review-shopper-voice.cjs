@@ -81,7 +81,7 @@ const check = (label, result) => { assert.ok(result,label); checks.push(label); 
   await openPersonalEntry(page);
   await page.locator('#personal-assistant-input').fill('');
   await page.addStyleTag({content:'nextjs-portal{display:none!important}'});
-  await page.getByRole('region',{name:'Ideas to get started'}).screenshot({path:out+'/shared-tool-cards.png'});
+  await page.getByRole('region',{name:'Task starters'}).screenshot({path:out+'/shared-tool-cards.png'});
   await page.getByRole('button',{name:'Talk',exact:true}).click();
   const panel=page.locator('.do-live-panel');
   await panel.getByRole('button',{name:'Call DO',exact:true}).click();

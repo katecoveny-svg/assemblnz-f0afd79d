@@ -89,7 +89,7 @@ async function waitForCapabilities(region, expected) {
   const expected=await page.locator('[data-row-motion] button').evaluateAll(es=>es.map(e=>({id:e.textContent,label:e.getAttribute('aria-label')})));
   check('seven shared task starters are available',expected.length===7);
   await page.getByRole('region',{name:'Task starters'}).screenshot({path:out+'/capabilities-desktop.png'});
-  await page.setViewportSize({width:375,height:812});check('all phone example text wraps within its control',await page.locator('[data-row-motion] button').evaluateAll(es=>es.every(e=>e.scrollWidth<=e.clientWidth)));await page.getByRole('region',{name:'Task starters'}).screenshot({path:out+'/capabilities-phone.png'});
+  await page.setViewportSize({width:375,height:812});check('all phone example text wraps within its control',await page.locator('[data-row-motion] button').evaluateAll(es=>es.every(e=>{const b=e.getBoundingClientRect();return [...e.querySelectorAll('strong,small')].every(t=>{const r=t.getBoundingClientRect();return t.scrollWidth<=t.clientWidth+1&&r.left>=b.left-1&&r.right<=b.right+1})})));await page.getByRole('region',{name:'Task starters'}).screenshot({path:out+'/capabilities-phone.png'});
   for(const [surface,url,width] of [['widget','/do/widget',1440],['phone-web','/do/widget',375],['native-hosted','/do/widget?nativeReview=1',430]]){
     await page.setViewportSize({width,height:900});await page.goto(origin+url);await page.locator('#personal-assistant-input').waitFor();
     const actual=await waitForCapabilities(page.getByRole('region',{name:'Task starters',exact:true}),expected);
