@@ -31,3 +31,7 @@ Existing Library items replaced successfully at version 3:
 - Desktop: `libfile_a82b32da3c8481919c235f11fd67d2b8`
 - Embedded companion: `libfile_12e8914b25a48191bdea096c82e064de`
 - Motion: `libfile_7d7e53b8ce048191b6694bb3670588db`
+
+## 18 October release authorization
+
+Kate approved merging this reviewed version. Current main remains `e7c331f15f1633550d5a53cba0ad53e993181136`; PR #1613 head `6a025728c389b7a74fbcaaed270304f4b8beabfe` is an ancestor of the approved head. Update that PR by fast-forward, preserving its work and avoiding duplicate redesign PRs. Earlier publication-hold statements above are historical. No schema migration, environment/flag/secret change, new dependency or native installation is required. Existing persistence and provider gates remain unchanged; no live owner data is used for visual proof. Deployment receipt will be recorded after exact-head checks and production verification. Reversal is a reviewed code revert; no stored data transformation needs reversing.

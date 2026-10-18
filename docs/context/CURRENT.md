@@ -413,3 +413,7 @@ The 30 September SwiftUI app, Share Sheet, local reviewed-draft keyboard handoff
 ## 14 October 2026 — release and preserved-work reconciliation
 
 [The dated release reconciliation](../reviews/DO-RELEASE-RECONCILIATION-20261014.md) records verified main/production, matching migration audit, operational configuration and retention blockers, remaining PRs and local-work inventory limits. Read its timestamp before using its exact deployment as current. Merged source is not all-user activation; cleanup consent, secure configuration, owner enrollment and native proof remain separate gates. No blanket push, merge or cleanup of historical work is authorized by this record.
+
+## 18 October 2026 — clay DO visual release approved
+
+Kate approved the reviewed clay entry at `daf336cf6b44dd2b199240ffce896d6d91bb73dd`. PR #1613 is being updated in place: its earlier Today work is an ancestor, not a second release. The final input-first Write/Talk/Add bubble and seven editable clay starters supersede that PR's earlier paper/SVG concept. Release/deployment evidence is recorded in [the clay entry review](../reviews/DO-CLAY-ENTRY-20261017.md); approval alone is not deployment proof. No migration, environment/flag/secret change, dependency, auth or provider activation is required. Physical iPhone/Safari and installed Mac verification remain outstanding.
