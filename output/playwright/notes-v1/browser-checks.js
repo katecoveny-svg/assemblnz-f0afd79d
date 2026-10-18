@@ -115,7 +115,7 @@ async page => {
   await page.getByRole('checkbox', { name: /Send only page 1 / }).check();
   await page.getByRole('button', { name: 'Transcribe page 1', exact: true }).click();
   await page.evaluate(async () => {
-    const find = name => Array.from(document.querySelectorAll('button')).find(button => button.textContent === name);
+    const find = name => Array.from(document.querySelector('nav[aria-label="Ways to work with DO"]').querySelectorAll('button')).find(button => (button.getAttribute('aria-label') || button.textContent) === name);
     find('Write').click(); await Promise.resolve(); find('Add image').click();
   });
   await page.evaluate(() => window.synthetic.release());
