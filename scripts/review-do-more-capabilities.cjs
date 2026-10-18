@@ -15,7 +15,7 @@ async function waitForCapabilities(region, expected) {
   const deadline=Date.now()+30000;
   let actual=[];
   do {
-    actual=await region.locator('[data-do-idea]').evaluateAll(es=>es.map(e=>({id:e.dataset.doIdea,label:e.getAttribute('aria-label')})));
+    actual=await region.locator('[data-row-motion] button').evaluateAll(es=>es.map(e=>({id:e.textContent,label:e.getAttribute('aria-label')})));
     if(JSON.stringify(actual)===JSON.stringify(expected)) return actual;
     await new Promise(resolve=>setTimeout(resolve,25));
   } while(Date.now()<deadline);
@@ -77,30 +77,29 @@ async function waitForCapabilities(region, expected) {
     await add.locator('summary').focus();await page.keyboard.press('Enter');check('opening Add closes More at '+width,!await more.evaluate(e=>e.open));
     const a=await inspect(add.locator('[data-do-overlay-panel]'));check('Add remains open at '+width,await add.evaluate(e=>e.open));check('Add fits viewport at '+width,a.x>=15&&a.x+a.width<=width-15&&a.scrollWidth<=a.clientWidth);
     await page.screenshot({path:out+'/add-'+width+'.png'});
-    await page.getByRole('heading',{name:'What would you like done?',exact:true}).click();check('outside click closes Add at '+width,!await add.evaluate(e=>e.open));
-    await more.locator('summary').first().click();await page.getByRole('heading',{name:'What would you like done?',exact:true}).click();check('outside click closes More at '+width,!await more.evaluate(e=>e.open));
+    await page.getByRole('heading',{name:'What would make life easier?',exact:true}).click();check('outside click closes Add at '+width,!await add.evaluate(e=>e.open));
+    await more.locator('summary').first().click();await page.getByRole('heading',{name:'What would make life easier?',exact:true}).click();check('outside click closes More at '+width,!await more.evaluate(e=>e.open));
     check('menus preserve draft at '+width,await editor.inputValue()==='Fictional draft to retain across menus.');
     check('page has no horizontal overflow at '+width,await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   }
   check('page navigation never starts microphone',await page.evaluate(()=>window.__media===0));
   await page.setViewportSize({width:1440,height:1000});
-  await page.getByText('Draft something else', {exact:true}).click();await page.locator('[data-do-idea=agenda]').click();
-  check('agenda appends without submitting',await editor.inputValue()==='Fictional draft to retain across menus.\n\nHelp me plan the week ahead');
-  await page.getByText('More ways DO can help',{exact:true}).click();
-  const expected=await page.locator('[data-do-idea]').evaluateAll(es=>es.map(e=>({id:e.dataset.doIdea,label:e.getAttribute('aria-label')})));
-  check('nine shared capability examples are available',expected.length===9);
-  await page.getByRole('region',{name:'Ideas to get started'}).screenshot({path:out+'/capabilities-desktop.png'});
-  await page.setViewportSize({width:375,height:812});check('all phone example text wraps within its control',await page.locator('[data-do-idea]').evaluateAll(es=>es.every(e=>e.scrollWidth<=e.clientWidth)));await page.getByRole('region',{name:'Ideas to get started'}).screenshot({path:out+'/capabilities-phone.png'});
+  await page.getByRole('button',{name:/assembl my day.*task starter/}).click();
+  check('agenda appends without submitting',await editor.inputValue()==='Fictional draft to retain across menus.\n\nHelp me make room for what matters today. My priorities are: ');
+  const expected=await page.locator('[data-row-motion] button').evaluateAll(es=>es.map(e=>({id:e.textContent,label:e.getAttribute('aria-label')})));
+  check('seven shared task starters are available',expected.length===7);
+  await page.getByRole('region',{name:'Task starters'}).screenshot({path:out+'/capabilities-desktop.png'});
+  await page.setViewportSize({width:375,height:812});check('all phone example text wraps within its control',await page.locator('[data-row-motion] button').evaluateAll(es=>es.every(e=>{const b=e.getBoundingClientRect();return [...e.querySelectorAll('strong,small')].every(t=>{const r=t.getBoundingClientRect();return t.scrollWidth<=t.clientWidth+1&&r.left>=b.left-1&&r.right<=b.right+1})})));await page.getByRole('region',{name:'Task starters'}).screenshot({path:out+'/capabilities-phone.png'});
   for(const [surface,url,width] of [['widget','/do/widget',1440],['phone-web','/do/widget',375],['native-hosted','/do/widget?nativeReview=1',430]]){
     await page.setViewportSize({width,height:900});await page.goto(origin+url);await page.locator('#personal-assistant-input').waitFor();
-    const actual=await waitForCapabilities(page.getByRole('region',{name:'Conversation with DO',exact:true}),expected);
+    const actual=await waitForCapabilities(page.getByRole('region',{name:'Task starters',exact:true}),expected);
     assert.deepEqual(actual,expected,surface+' capability definitions');
     check(surface+' uses the same capability definitions',JSON.stringify(actual)===JSON.stringify(expected));
     await page.locator('summary').filter({hasText:/^Tools & examples$/}).click();await page.getByRole('button',{name:'Open draft tools',exact:true}).click();
     await page.locator('#do-source').fill('Separate fictional tool draft.');await page.locator('.do-source-details>summary').click();await page.locator('#do-source-title').fill('Fictional source title');await page.locator('#do-source-url').fill('https://example.com/notes');
-    await page.getByRole('button',{name:'Write',exact:true}).click();await page.locator('#personal-assistant-input').fill('Fictional existing widget draft.');await page.getByRole('region',{name:'Conversation with DO',exact:true}).getByText('Draft something else', {exact:true}).click();await page.getByRole('region',{name:'Conversation with DO',exact:true}).locator('[data-do-idea=agenda]').click();
-    await page.waitForFunction(()=>document.querySelector('#personal-assistant-input').value.includes('Help me plan'));
-    check(surface+' appends and retains draft',await page.locator('#personal-assistant-input').inputValue()==='Fictional existing widget draft.\n\nHelp me plan the week ahead');
+    await page.getByRole('button',{name:'Write',exact:true}).click();await page.locator('#personal-assistant-input').fill('Fictional existing widget draft.');await page.getByRole('button',{name:/assembl my day.*task starter/}).click();
+    await page.waitForFunction(()=>document.querySelector('#personal-assistant-input').value.includes('Help me make room'));
+    check(surface+' appends and retains draft',await page.locator('#personal-assistant-input').inputValue()==='Fictional existing widget draft.\n\nHelp me make room for what matters today. My priorities are: ');
     check(surface+' retains separate tool draft',await page.locator('#do-source').inputValue()==='Separate fictional tool draft.');
     check(surface+' retains source metadata',await page.locator('#do-source-title').inputValue()==='Fictional source title'&&await page.locator('#do-source-url').inputValue()==='https://example.com/notes');
     await page.evaluate(()=>window.scrollTo(0,0));const menu=page.locator('details[data-do-overlay]');await menu.locator('summary').first().click();await menu.locator('details>summary').click();
@@ -109,9 +108,9 @@ async function waitForCapabilities(region, expected) {
   }
   await page.setViewportSize({width:500,height:900});await page.goto(origin+'/entry-fixture');await page.getByRole('button',{name:'Ask DO. Drag to move or use Alt and arrow keys.',exact:true}).click();
   const frame=page.frameLocator('iframe');await frame.locator('#personal-assistant-input').waitFor();
-  const embeddedCapabilities=await waitForCapabilities(frame.getByRole('region',{name:'Conversation with DO',exact:true}),expected);
+  const embeddedCapabilities=await waitForCapabilities(frame.getByRole('region',{name:'Task starters',exact:true}),expected);
   check('companion iframe uses the same capability definitions',JSON.stringify(embeddedCapabilities)===JSON.stringify(expected));
-  await frame.locator('#personal-assistant-input').fill('Fictional companion draft.');await frame.getByRole('region',{name:'Conversation with DO',exact:true}).getByText('Draft something else', {exact:true}).click();await frame.getByRole('region',{name:'Conversation with DO',exact:true}).locator('[data-do-idea=school]').click();
+  await frame.locator('#personal-assistant-input').fill('Fictional companion draft.');await frame.getByRole('button',{name:/assembl my day.*task starter/}).click();
   await page.waitForTimeout(100);check('companion preserves draft when adding an idea',(await frame.locator('#personal-assistant-input').inputValue()).startsWith('Fictional companion draft.\n\n'));
   const menu=frame.locator('details[data-do-overlay]');await menu.locator('summary').first().click();await menu.locator('details>summary').click();
   check('embedded tool links open separately',await menu.getByRole('link',{name:'School briefing'}).getAttribute('target')==='_blank');

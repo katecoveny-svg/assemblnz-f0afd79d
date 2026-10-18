@@ -82,3 +82,15 @@
 /* One DO: compact entry in the portable shell; existing tool internals stay mounted. */
 .workspaceHero[data-embedded]{display:block;margin:12px 0 18px;text-align:left}.workspaceHero[data-embedded] .workspaceIntro{max-width:100%}.workspaceHero[data-embedded] h1{font-size:27px;line-height:1.1;margin:0;max-width:none}.workspaceHero[data-embedded] .workspaceIntro>p:last-child,.workspaceHero[data-embedded]>:last-child:not(.workspaceIntro){display:none}.workspaceModes{border-radius:999px;background:#ead8e3}.workspaceModes button{border-radius:999px}
 .shell:has(.workspaceHero[data-embedded]) .header{min-height:64px}.shell:has(.workspaceHero[data-embedded]) .workspace :global(.do-preparation-form){padding:18px!important;border-radius:24px!important}.shell:has(.workspaceHero[data-embedded]) .workspace :global(#do-source){min-height:110px!important}.shell:has(.workspaceHero[data-embedded]) .surfaceName{display:none}
+
+/* Selected Talk prioritises its explicit call controls on phones; the header retains the DO mark. */
+@media(max-width:600px){.workspaceHero[data-entry="talk"]{display:block;margin:12px auto 16px;text-align:left}.workspaceHero[data-entry="talk"] .workspaceIntro{max-width:100%}.workspaceHero[data-entry="talk"] h1{font-size:27px;line-height:1.1;margin:0;max-width:none}.workspaceHero[data-entry="talk"] .workspaceIntro>p:last-child,.workspaceHero[data-entry="talk"]>[data-do-widget-identity]{display:none}}
+
+/* Match the personal Today entry without changing compact Talk ordering. */
+.workspaceModes button{min-height:44px;transition:background 160ms,transform 160ms}
+.workspaceModes button[aria-pressed=true]{background:var(--plum,#240b21);color:var(--paper,#fffdfb)}
+.workspaceModes button:not(:disabled):active{transform:translateY(1px)}
+@media(prefers-reduced-motion:reduce){.workspaceModes button{transition:none;transform:none!important}}
+
+/* Same working chalk bubble as personal Today; keep compact Talk admission intact. */
+.thoughtBubble{position:relative;background:#fffdfb;border-radius:32px 40px 32px 12px;padding:14px;margin:0 0 34px;box-shadow:0 12px 35px #654a4e0c;isolation:isolate}.thoughtBubble:before,.thoughtBubble:after{content:"";position:absolute;background:#fffdfb;border-radius:50%;pointer-events:none;z-index:-1}.thoughtBubble:before{width:25px;height:22px;bottom:-13px;left:24px}.thoughtBubble:after{width:11px;height:11px;bottom:-29px;left:12px}.thoughtBubble>div[hidden]{display:none!important}.thoughtBubble .workspaceModes{margin-top:0}.thoughtBubble>div>section{background:transparent;border:0;box-shadow:none}

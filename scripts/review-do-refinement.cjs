@@ -42,7 +42,7 @@ try {
  await page.route('**/api/do/personal/checklists',async route=>{if(route.request().method()==='GET'){if(holdRead)await new Promise(resolve=>{releaseRead=resolve});return route.fulfill({json:saved});}writes++;const body=route.request().postDataJSON();if(conflict||body.expectedRevision!==saved.revision){conflict=false;return route.fulfill({status:409,json:{error:'Your saved collection changed on another device. Open the latest saved copy before saving again.'}})}saved={plans:body.plans,revision:saved.revision+1,savedAt:new Date().toISOString()};return route.fulfill({json:saved});});
  await page.reload({waitUntil:'networkidle'});await openPersonalEntry(page);check('signed-in Write has one composer',await page.locator('textarea:visible').count()===1);
  await page.getByRole('button',{name:'Try a fictional example',exact:true}).click();await page.getByRole('button',{name:'Try fictional school notice',exact:true}).click();
- await page.getByRole('button',{name:'Back to Today',exact:true}).click();
+ await page.getByRole('heading',{name:'Today',exact:true}).scrollIntoViewIfNeeded();
  await page.locator('summary').filter({hasText:'Saved checklists'}).click();await page.getByRole('button',{name:'Open saved checklists',exact:true}).click();
  const consent=page.getByRole('checkbox',{name:'I want to save or remove this checklist collection in my private Assembl account.'});await consent.waitFor();
  check('no automatic cloud upload',writes===0);check('save requires explicit consent',await page.getByRole('button',{name:'Save 1 checklist to my account'}).isDisabled());

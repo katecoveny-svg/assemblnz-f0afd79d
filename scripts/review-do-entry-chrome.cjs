@@ -66,10 +66,8 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   await page.setViewportSize({width:1440,height:1000});
   const editor=await page.locator('#personal-assistant-input').elementHandle();
   await page.locator('#personal-assistant-input').fill('Fictional weekend plan.');
-  await page.getByText('Draft something else',{exact:true}).click();
-  await page.getByText('More ways DO can help',{exact:true}).click();
-  await page.locator('[data-do-idea=shop]').click();
-  check('capability shortcut appends to existing draft',await page.locator('#personal-assistant-input').inputValue()==='Fictional weekend plan.\n\nPlan this week’s shop');
+  await page.getByRole('button',{name:/assembl my shopping basket.*task starter/}).click();
+  check('capability shortcut appends to existing draft',await page.locator('#personal-assistant-input').inputValue()==='Fictional weekend plan.\n\nHelp me make a shopping list. I need ');
   await page.getByRole('button',{name:'Talk',exact:true}).click();
   await page.locator('.do-live-panel').waitFor();
   await page.getByRole('button',{name:'Write',exact:true}).click();
@@ -98,7 +96,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
    check(width+'px no horizontal overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   }
   await page.emulateMedia({reducedMotion:'reduce'});
-  check('reduced motion disables shortcut transitions',await page.locator('[data-do-idea=shop]').evaluate(e=>getComputedStyle(e).transitionProperty==='none'||getComputedStyle(e).transitionDuration.split(',').every(value=>parseFloat(value)<=.00001)));
+  check('reduced motion disables shortcut transitions',await page.getByRole('button',{name:/assembl my shopping basket.*task starter/}).evaluate(e=>getComputedStyle(e).transitionProperty==='none'||getComputedStyle(e).transitionDuration.split(',').every(value=>parseFloat(value)<=.00001)));
   await page.locator('#personal-assistant-input').focus();
   check('editor focus is visible',await page.locator('#personal-assistant-input').evaluate(e=>getComputedStyle(e).outlineStyle!=='none'));
   await page.goto(origin+'/do/personal');
@@ -106,7 +104,7 @@ const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('
   await page.setViewportSize({width:375,height:844});
   await page.evaluate(()=>document.fonts.ready);await page.addStyleTag({content:'nextjs-portal{display:none!important}'});
   await page.screenshot({path:out+'/do-mobile.png',fullPage:false});
-  check('/do/personal uses the same entry',await page.getByRole('heading',{name:'What would you like done?',exact:true}).count()===1);
+  check('/do/personal uses the same entry',await page.getByRole('heading',{name:'What would make life easier?',exact:true}).count()===1);
   check('no runtime errors',errors.length===0);
   fs.writeFileSync(out+'/report.json',JSON.stringify({checks,contrast,posts,errors,scope:'Synthetic browser checks. No installed PWA/native or live account/provider claim.'},null,2));
  }finally{await page.screenshot({path:out+'/final-state.png',fullPage:false}).catch(()=>{});await browser.close();}
