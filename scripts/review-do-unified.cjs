@@ -75,7 +75,11 @@ async function verifyFunctionalMark(page, root, label) {
     await page.screenshot({ path: out + '/01-home-desktop.png' });
     await page.getByRole('link', { name: 'Open DO', exact: true }).first().click();
     await page.getByRole('heading', { name: 'Today', exact: true }).waitFor();
-    check('home opens to Today without a competing editor', await page.locator('textarea:visible').count() === 0);
+    check('home opens with one writing editor before Today', await page.locator('textarea:visible').count() === 1 && await page.locator('#personal-assistant-input').isVisible() && await page.evaluate(() => Boolean(document.querySelector('#personal-assistant-input').compareDocumentPosition(document.querySelector('#personal-today-heading')) & Node.DOCUMENT_POSITION_FOLLOWING)));
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.evaluate(() => scrollTo(0,0));
+    check('default writing input is on the first phone screen', await page.locator('#personal-assistant-input').evaluate(e => e.getBoundingClientRect().bottom < innerHeight));
+    await page.setViewportSize({ width: 1440, height: 1000 });
     await openPersonalEntry(page, 'note');
     check('Add opens a working local input from the DO home', new URL(page.url()).pathname === '/do' && await page.locator('#life-admin-source').isVisible());
     const personal = page.locator('.do-app-shell > main[data-do-identity="assembled-glass"]');
@@ -97,7 +101,9 @@ async function verifyFunctionalMark(page, root, label) {
     await page.screenshot({ path: out + '/02-do-desktop.png' });
     await page.setViewportSize({ width: 375, height: 812 });
     check('mobile has no horizontal overflow', await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-    check('mobile composer and action are above the fold', await page.locator('#life-admin-source').evaluate(e => e.getBoundingClientRect().bottom < innerHeight) && await page.getByRole('button', { name: 'Start', exact: true }).evaluate(e => e.getBoundingClientRect().bottom < innerHeight));
+    check('selected checklist composer remains visible', await page.locator('#life-admin-source').isVisible());
+    await page.getByRole('button', { name: 'Start', exact: true }).scrollIntoViewIfNeeded();
+    check('selected checklist action is reachable on phone', await page.getByRole('button', { name: 'Start', exact: true }).evaluate(e => {const r=e.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight&&r.height>=44}));
     await page.screenshot({ path: out + '/03-do-375.png' });
     await page.getByRole('button', { name: 'Try a fictional example', exact: true }).click();
     await page.getByRole('button', { name: 'Try fictional school notice', exact: true }).click();
