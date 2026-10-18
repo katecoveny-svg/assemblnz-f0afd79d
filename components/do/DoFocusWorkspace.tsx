@@ -1,5 +1,9 @@
 'use client';
 
+import Link from 'next/link';
+import { offerStarterPrompt } from '@/apps/do/personal/editor-note';
+import { DoQuestion } from '@/components/do/DoQuestion';
+
 import { selectedTextOffer, selectedImageOffer } from '@/apps/do/browser/selected-tab/attachment';
 import ShopJourney from '@/app/do/shop/ShopJourney';
 import { DoLocalInformation } from './DoLocalInformation';
@@ -11,6 +15,7 @@ import { DoVision } from '@/app/do/DoVision';
 import { DoWorkspace } from '@/app/do/DoWorkspace';
 import { DoProductFrame, useDoEmbeddedSurface } from './DoProductFrame';
 import styles from './do-product-focus.module.css';
+import { DoMiniatureList, type DoStarter } from './DoMiniatureList';
 import { DoGlassHero } from './DoGlassHero';
 import { useDoCompanionEntry } from './useDoCompanionEntry';
 import type { PersonalDoProfile } from '@/apps/do/personal/profile';
@@ -19,6 +24,8 @@ import type { DoTask } from '@/apps/do/shared/preparation';
 
 type Mode = 'write' | 'talk' | 'look' | 'build' | 'shop' | 'draft';
 export function DoFocusWorkspace({ initialTask = 'reply', expectedWorkspace }: { initialTask?: DoTask; expectedWorkspace?: string }) {
+  const [starterNotice, setStarterNotice] = useState('');
+  const [starter, setStarter] = useState<DoStarter | null>(null);
   const [shoppingBrief, setShoppingBrief] = useState<string | null>(null);
   const [mode, setMode] = useState<Mode>('write');
   const [builderOpened, setBuilderOpened] = useState(false);
@@ -82,18 +89,20 @@ export function DoFocusWorkspace({ initialTask = 'reply', expectedWorkspace }: {
   return <DoProductFrame product="Conversation">
     <section className={`${styles.hero} ${styles.workspaceHero}`} data-embedded={embedded || undefined} data-entry={mode}>
       <div className={styles.workspaceIntro}>
-      <h1>What would you like done?</h1>
-      <p>Bring a question, a plan or the thing on your mind.</p>
+      <DoQuestion />
+      <p>Big plans, little errands, the thing you keep putting off.</p>
       </div><DoGlassHero embedded={embedded} />
     </section>
     <div className={styles.workspace}>
+      <div className={styles.thoughtBubble}>
       <nav className={styles.workspaceModes} aria-label="Ways to work with DO">
         <button aria-pressed={mode === 'write'} onClick={() => enter('write')}><FileText size={15} />Write</button>
         <button aria-pressed={mode === 'talk'} disabled={!talk.canOpen} aria-describedby="do-talk-readiness" onClick={() => enter('talk', profile)}><Mic size={15} />Talk</button>
         {shoppingBrief !== null && <button aria-pressed={mode === 'shop'} onClick={() => setMode('shop')}>Shopping plan</button>}
-        <button aria-pressed={mode === 'look'} onClick={() => { setRequestedTalk(false); setMode('look'); }}><Eye size={15} />Add image</button>
+        <button aria-label="Add image" aria-pressed={mode === 'look'} onClick={() => { setRequestedTalk(false); setMode('look'); }}><Eye size={15} />Add</button>
       </nav>
       <p id="do-talk-readiness" role="status" className={styles.help}>{talk.message} <button type="button" className={styles.textButton} onClick={() => void refresh()}>Check Talk</button></p>
+<div hidden={!starter || mode !== 'write'} className={styles.help} role="note"><strong>{starter?.title}</strong><p>{starter?.detail}</p>{starter?.href && <Link prefetch={false} href={starter.href}>{starter.action}</Link>}<button type="button" onClick={() => setStarter(null)}>Clear idea</button><p>{starterNotice}</p></div>
       <div hidden={mode !== 'write' && mode !== 'talk'}><DoCompanionConversation focusRequest={mode === 'write' ? focusRequest : 0} profile={talkProfile ?? profile} snapshot={context} talkOpened={talkOpened} talkSelected={mode === 'talk'} onShoppingDraft={acceptShoppingBrief} visible={mode === 'write' || mode === 'talk'} onDraft={acceptContext} /></div>
       <div hidden={mode !== 'draft'}><DoTextWorkspace embedded={embedded} initialTask={initialTask} focus focusRequest={mode === 'draft' ? focusRequest : 0} offeredContext={offeredContext} onSourceChange={setContext} onNativeReveal={() => enter('write')} /></div>
       {mode !== 'write' && <button type="button" className={styles.textButton} onClick={() => enter('write')}>Back to Write</button>}
@@ -102,6 +111,8 @@ export function DoFocusWorkspace({ initialTask = 'reply', expectedWorkspace }: {
         <button type="button" className={styles.textButton} onClick={() => { if (window.confirm('Discard this unsaved shopping plan?')) { setShoppingBrief(null); enter('write'); } }}>Discard shopping plan</button>
         <ShopJourney embedded initialBrief={shoppingBrief} expectedWorkspace={expectedWorkspace} />
       </section>}
+      </div>
+      <div hidden={mode !== 'write'}><DoMiniatureList compact onChoose={intent => { setStarter(intent); const offered = offerStarterPrompt(intent.prompt); setStarterNotice(offered.accepted ? 'Your starting thought is ready to edit. Nothing was sent.' : offered.message); enter('write'); }} /></div>
       {mode === 'write' && <DoLocalInformation />}
       <details className={styles.secondaryDetails} onToggle={e => { if (!e.currentTarget.open && mode === 'build') setMode('write'); }}>
         <summary><Settings2 size={13} aria-hidden="true" style={{ display: 'inline', marginRight: 8 }} />Tools &amp; examples</summary>

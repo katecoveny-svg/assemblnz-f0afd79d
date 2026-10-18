@@ -174,10 +174,14 @@ jobs:
           more_status=$?
           ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/mobile node scripts/review-personal-mobile.cjs
           mobile_status=$?
+          ASSEMBL_REVIEW_ORIGIN=http://localhost:3117 ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/clay node scripts/review-do-clay-entry.cjs
+          clay_status=$?
+          ASSEMBL_REVIEW_ORIGIN=http://localhost:3117 ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/clay-companion node scripts/review-do-clay-companion.cjs
+          clay_companion_status=$?
           ASSEMBL_REVIEW_OUTPUT=/tmp/personal-do-proof/account-hardening node scripts/review-do-account-hardening.cjs
           account_status=$?
           set -e
-          test "$drafts_status" -eq 0 && test "$voice_status" -eq 0 && test "$header_status" -eq 0 && test "$settings_status" -eq 0 && test "$calls_status" -eq 0 && test "$portable_status" -eq 0 && test "$assistant_status" -eq 0 && test "$site_status" -eq 0 && test "$refinement_status" -eq 0 && test "$unified_status" -eq 0 && test "$entry_status" -eq 0 && test "$chrome_status" -eq 0 && test "$more_status" -eq 0 && test "$mobile_status" -eq 0 && test "$account_status" -eq 0
+          test "$clay_status" -eq 0 && test "$clay_companion_status" -eq 0 && test "$drafts_status" -eq 0 && test "$voice_status" -eq 0 && test "$header_status" -eq 0 && test "$settings_status" -eq 0 && test "$calls_status" -eq 0 && test "$portable_status" -eq 0 && test "$assistant_status" -eq 0 && test "$site_status" -eq 0 && test "$refinement_status" -eq 0 && test "$unified_status" -eq 0 && test "$entry_status" -eq 0 && test "$chrome_status" -eq 0 && test "$more_status" -eq 0 && test "$mobile_status" -eq 0 && test "$account_status" -eq 0
       - uses: actions/upload-artifact@v4
         if: always()
         with:

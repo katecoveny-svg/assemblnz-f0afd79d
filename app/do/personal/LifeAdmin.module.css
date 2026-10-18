@@ -531,3 +531,21 @@
   .board[data-pet=true] .detail { padding: 12px; }
   .board[data-pet=true] .detailHeader h3 { font-size: 20px; }
 }
+
+/* Review board, in the Today board's visual language: lane colours, ticks and step progress. */
+.workspace .lanes button[data-lane]::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:2px;background:#916a70}
+.workspace .lanes button[data-lane=today]::before{background:#b9aedb}
+.workspace .lanes button[data-lane=done]::before{background:#240b21}
+.workspace .planCard[data-lane]{position:relative;padding-left:62px;background:#fffdfb;border-radius:20px;transition:transform 180ms cubic-bezier(.2,.8,.2,1),box-shadow 180ms}
+.workspace .planCard[data-lane]:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 12px 24px #654a4e17}
+.workspace .planCard[data-lane]::before{content:"";position:absolute;left:20px;top:20px;width:26px;height:26px;border-radius:50%;border:2px solid #916a70;box-shadow:inset 0 0 0 4px #fffdfb,inset 0 0 0 13px #eac8df}
+.workspace .planCard[data-lane=today]::before{border-color:#b9aedb;box-shadow:none;background:#dad2f4}
+.workspace .planCard[data-lane=done]::before{border-color:#240b21;box-shadow:none;background:#240b21}
+.workspace .planCard[data-lane=done]::after{content:"";position:absolute;left:29px;top:26px;width:7px;height:11px;border:solid #fffdfb;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+.workspace .planCard > .planSteps{display:flex;flex-wrap:wrap;gap:4px;margin:2px 0 -2px}
+.planSteps i{display:block;width:18px;height:6px;border-radius:3px;background:#eadde5}
+.planSteps i[data-status=done]{background:#240b21}
+.planSteps i[data-status=waiting]{background:#dad2f4}
+.planSteps i[data-status=cancelled]{background:repeating-linear-gradient(135deg,#eadde5 0 3px,#fffdfb 3px 6px)}
+@media(max-width:600px){.workspace .planCard[data-lane]{padding-left:54px}.workspace .planCard[data-lane]::before{left:16px;top:18px;width:24px;height:24px}.workspace .planCard[data-lane=done]::after{left:24px;top:23px}}
+@media(prefers-reduced-motion:reduce){.workspace .planCard[data-lane]{transition:none}.workspace .planCard[data-lane]:hover:not(:disabled){transform:none}}
