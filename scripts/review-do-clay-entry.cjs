@@ -8,7 +8,7 @@ const checks = [], errors = [], writes = [];
 const check = (name, value) => { assert.ok(value, name); checks.push(name); console.log('PASS '+name); };
 (async () => {
  fs.mkdirSync(out, {recursive:true});
- const browser = await chromium.launch({headless:true,channel:'chrome'});
+ const browser = await chromium.launch({headless:true,...(process.env.ASSEMBL_CHROMIUM_PATH ? {executablePath:process.env.ASSEMBL_CHROMIUM_PATH} : {channel:'chrome'})});
  try {
   const context = await browser.newContext({ reducedMotion:'no-preference', serviceWorkers:'block' });
   let owner = 'guest';
