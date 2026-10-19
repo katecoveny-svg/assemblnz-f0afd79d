@@ -25,44 +25,47 @@ const path = require('node:path');
           await page.route('**/*', route => route.request().method() === 'GET' ? route.continue() : route.abort());
           await page.goto(process.env.HOMEPAGE_URL || 'http://127.0.0.1:3013', { waitUntil: 'networkidle' });
           await page.waitForTimeout(1000);
+          await page.locator('.direction-4c').waitFor();
+          await page.evaluate(() => document.fonts.ready);
           const geometry = await page.evaluate(() => {
-            const h1 = document.querySelector('h1');
-            const frame = h1.closest('section').querySelector('header').parentElement;
-            const rect = element => { const r = element.getBoundingClientRect(); return { top: r.top, bottom: r.bottom, left: r.left, right: r.right }; };
-            const visible = element => element.getClientRects().length > 0 && getComputedStyle(element).visibility !== 'hidden';
-            const disclosure = [...frame.querySelectorAll('p')].find(element => element.textContent.includes('Interactive demo'));
+            const header = document.querySelector('.direction-4c header');
+            if (!header) throw new Error('Missing coastal homepage header');
+            const visible = el => el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden' && getComputedStyle(el).display !== 'none';
             return {
-              h1: [...h1.querySelectorAll('span')].map(span => span.textContent.trim()).join(' '), frame: rect(frame), overflow: document.documentElement.scrollWidth > innerWidth,
-              targets: [frame.querySelector('a[href="/contact?product=system"]'), disclosure, ...frame.querySelectorAll('[aria-label="Choose a scene chapter"] button')].filter(visible).map(element => ({ text: element.textContent, ...rect(element) })),
-              video: Boolean(document.querySelector('video')),
+              h1: document.querySelector('h1')?.textContent.trim(),
+              overflow: document.documentElement.scrollWidth > innerWidth,
+              targets: [...header.querySelectorAll('a,button')].filter(visible).map(el => ({ text: el.textContent, ...el.getBoundingClientRect().toJSON() })),
+              posterLoaded: document.querySelector('.clear-coastal-poster')?.naturalWidth > 0,
+              video: Boolean(document.querySelector('[data-coastal-video]')),
             };
           });
-          Object.assign(record, geometry, { stage: 'geometry' });
-          persist();
-          assert.equal(geometry.h1, 'Agentic AI solutions, assembled for your business.');
+          Object.assign(record, geometry, { stage: 'geometry' }); persist();
+          assert.equal(geometry.h1, 'assembl. Useful work.');
           assert.equal(geometry.overflow, false);
-          assert.equal(geometry.video, false);
+          assert.equal(geometry.posterLoaded, true);
+          assert.equal(geometry.video, true, 'approved coastal footage remains mounted');
           for (const target of geometry.targets) {
-            assert(target.top >= geometry.frame.top - 1 && target.bottom <= geometry.frame.bottom + 1, `${width}x${height} ${reducedMotion}: clipped ${target.text}`);
-            assert(target.left >= -1 && target.right <= width + 1, `${width}x${height}: horizontal clipping`);
-            if (width <= 650 && reducedMotion === 'no-preference') assert(target.bottom <= height + 1, `${width}x${height}: target below first viewport`);
+            assert(target.left >= -1 && target.right <= width + 1, `clipped header target: ${target.text}`);
+            assert(target.top >= 0 && target.bottom <= height + 1, `header target outside viewport: ${target.text}`);
+            assert(target.height >= 44, `undersized touch target: ${target.text}`);
+          }
+          const pause = page.locator('[data-pause]');
+          if (reducedMotion === 'reduce') {
+            await page.getByRole('button', { name: 'Motion reduced', exact: true }).waitFor();
+            assert(await pause.isDisabled());
+            assert(await page.locator('[data-coastal-video]').evaluate(v => v.paused));
+          } else {
+            await page.waitForFunction(() => document.querySelector('.direction-4c').hasAttribute('data-ready'));
+            await pause.focus(); await pause.press('Enter');
+            assert.equal(await pause.getAttribute('aria-pressed'), 'true');
+            assert(await page.locator('[data-coastal-video]').evaluate(v => v.paused));
+          }
+          for (const href of ['/do?tool=write', '/do?tool=talk', '/do']) {
+            const link = page.locator(`#try a[href="${href}"]`);
+            await link.scrollIntoViewIfNeeded(); await link.click({ trial: true });
           }
           record.geometryPassed = true;
-          record.stage = 'pause-scene';
-          persist();
-          console.log(`GEOMETRY PASS ${label}`);
-          // Measure normal-motion geometry first, then use the existing visual audit's
-          // keyboard pause so software WebGL does not starve pointer actionability checks.
-          const pause = page.getByRole('button', { name: 'Pause scene motion', exact: true });
-          if (await pause.count() && await pause.isEnabled()) {
-            await pause.focus();
-            await pause.press('Enter');
-            const resume = page.getByRole('button', { name: 'Resume scene motion', exact: true });
-            await resume.waitFor({ state: 'visible' });
-            assert.equal(await resume.getAttribute('aria-pressed'), 'true');
-            await page.waitForTimeout(400);
-            record.scenePaused = true;
-          }
+          await page.screenshot({ path: path.join(path.dirname(output), `${label}.png`) });
           record.stage = 'open-widget';
           persist();
           const trigger = page.getByRole('button', { name: 'Ask DO', exact: true });

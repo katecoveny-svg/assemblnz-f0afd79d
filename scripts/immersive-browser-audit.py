@@ -7,6 +7,7 @@ import json
 import sys
 from pathlib import Path
 from playwright.async_api import async_playwright, expect
+from coastal_homepage_proof import verify_coastal_home
 
 OUT = Path('visual-evidence')
 OUT.mkdir(exist_ok=True)
@@ -95,42 +96,9 @@ async def main():
                         await hold_scene(page)
                     await capture(page, f'{name}-{width}-top')
                     if name == 'home' and LOCAL:
-                        # The assembl scene leads the homepage; the deeper brief remains optional.
-                        atelier = page.locator('details.refined-atelier')
-                        await expect(page.get_by_role('heading', name='Agentic AI solutions, assembled for your business.', level=1, exact=True)).to_have_count(1)
-                        await expect(page.locator('[data-chapter]')).to_have_count(1)
-                        await expect(page.locator('#how-it-works')).to_have_count(0)
-                        await expect(page.locator('[data-chapter]')).to_be_visible()
-                        await page.get_by_role('button', name='View DO scene', exact=True).click()
-                        await page.wait_for_timeout(3500)
-                        await expect(page.locator('[data-chapter]')).to_have_attribute('data-chapter','1',timeout=10000)
-                        await hold_scene(page)
-                        await capture(page, f'{name}-{width}-chapter-do')
-                        await atelier.locator('summary').click()
-                        await expect(atelier).to_have_attribute('open', '')
-                        await page.locator('#how-it-works').scroll_into_view_if_needed()
-                        await page.locator('#how-it-works button').nth(1).click()
-                        await expect(page.locator('#how-it-works h3')).to_have_text('The work takes shape.')
-                        await page.wait_for_timeout(1100)
-                        result['briefDoControlGap'] = await separated_brief_controls(page)
-                        await capture(page,f'{name}-{width}-brief-do')
-                        await page.get_by_role('slider',name='Work loop stage').focus()
-                        await page.get_by_role('slider',name='Work loop stage').press('End')
-                        await expect(page.locator('#how-it-works h3')).to_have_text('Now they can see it.')
-                        await page.wait_for_timeout(1100)
-                        result['briefStudioControlGap'] = await separated_brief_controls(page)
-                        await capture(page,f'{name}-{width}-brief-studio')
-                        await page.evaluate('document.querySelector("#products").scrollIntoView({behavior:"instant"})')
-                        await page.wait_for_timeout(1200)
-                        await capture(page,f'{name}-{width}-products')
-                        if width > 1000:
-                            await page.locator('#products [data-product="do"]').hover(position={'x':24,'y':24})
-                            await page.wait_for_timeout(500)
-                            result['hoverTransform'] = await page.locator('#products [data-product="do"]').evaluate('(e)=>getComputedStyle(e).transform')
-                            await capture(page,f'{name}-{width}-hover')
-                        for ending in ['/studios','/agency']:
-                            assert any(a['href'] == 'https://assembl-pursuit.katecoveny.chatgpt.site' + ending for a in result['page']['links']), 'Missing exact workspace destination'
-                        result['interactions'] = ['scene chapter','example buttons','example slider','workspace destinations']
+                        await verify_coastal_home(page, 'no-preference')
+                        await capture(page, f'{name}-{width}-current-home')
+                        result['interactions'] = ['coastal pause', 'real DO entry links', 'simulated draft', 'assistant keyboard focus']
                     elif name == 'studio' and LOCAL:
                         gallery = page.locator('#studio-work')
                         await gallery.scroll_into_view_if_needed()
@@ -172,9 +140,12 @@ async def main():
                 await expect(page.locator('h1')).to_be_visible()
                 await capture(page,f'home-375-{label}')
                 if LOCAL:
-                    await expect(page.locator('#products h2')).to_be_visible()
-                    await expect(page.locator('#products [data-product="do"]')).to_be_visible()
-                    assert await page.locator('a[href="https://assembl-pursuit.katecoveny.chatgpt.site/studios"]').count() > 0
+                    await expect(page.locator('.clear-coastal-poster')).to_be_attached()
+                    for href in ['/pursuit', '/creative-studio', '/do']:
+                        await expect(page.locator(f'nav[aria-label="Primary"] a[href="{href}"]')).to_be_visible()
+                    assert await page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1')
+                    if label == 'reduced':
+                        await verify_coastal_home(page, 'reduce')
                 result['passed']=True
             except Exception as e:
                 result['failure']=str(e)[:1200]
