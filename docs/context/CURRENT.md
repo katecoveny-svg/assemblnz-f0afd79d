@@ -8,6 +8,10 @@ This file answers: **where is assembl at right now?**
 
 It is intentionally shorter and more changeable than the long-term strategy documents.
 
+## 17 October assembl / living — build candidate, not merged
+
+Branch `feat/assembl-living-space-studio` adds the modular interiors line as one typed system (`lib/living/`), a public storefront and Space Studio (`/living`, `/living/studio`) and engineering pack AL-02: nine parts on interface IF-01 generated from `tools/living-cad/build.py`, exported as STEP + STL and checked as valid, single, watertight solids. Canon: [assembl / living](../living/ASSEMBL-LIVING.md), decision ADR-007. **Prototype parts only, no load ratings, no Shopify products, no purchasing, no photo understanding;** fit is decided by customer-confirmed measurements. Physical sample testing and manufacturer quotation are the next steps and have not happened.
+
 ## 13 October entry integration — merged
 
 The [one DO entry integration](../reviews/DO-ENTRY-INTEGRATION-20261013.md) (shared secondary navigation, working Write/Talk/Add entry, prompt shortcuts and compact launcher) was merged to main as [PR #1525](https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1525) at 15:13 NZDT on 13 October; the review doc's "draft, no merge authorised" label is historical. Deployment of that merge was not separately verified here, and no durable shared memory is claimed by it.
@@ -421,3 +425,11 @@ The 30 September SwiftUI app, Share Sheet, local reviewed-draft keyboard handoff
 ## 18 October 2026 — clay DO visual release approved
 
 Kate approved the reviewed clay entry at `daf336cf6b44dd2b199240ffce896d6d91bb73dd`. PR #1613 is being updated in place: its earlier Today work is an ancestor, not a second release. The final input-first Write/Talk/Add bubble and seven editable clay starters supersede that PR's earlier paper/SVG concept. Release/deployment evidence is recorded in [the clay entry review](../reviews/DO-CLAY-ENTRY-20261017.md); approval alone is not deployment proof. No migration, environment/flag/secret change, dependency, auth or provider activation is required. Physical iPhone/Safari and installed Mac verification remain outstanding.
+
+## 18 October 2026 — clay DO merged and production verified
+
+[PR #1613](https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1613) is merged as `ac6c3368b7f026a9b926fba915eb98bca09c23da`. Exact-head CI and independent review passed; Vercel production `dpl_GYhewqBg9iBTdDUrjBJKLjqgzWGu` is READY on that SHA. Public `/do`, `/do/personal` and Write widget renders passed at 1440/375px, including seven starters, editable append, asset responses and no overflow/page errors. See [dated release receipt](DO-CLAY-RELEASE-20261018.md) for timestamps, skipped checks, sources and proof limits. No migration, environment/flag/secret change, new grant or native installation was needed. Physical iPhone/Safari and installed Mac verification remain outstanding; synthetic persistence checks do not claim live owner rollout. Earlier approval/pending-deployment wording above is historical.
+
+## 19 October 2026 — inbox/travel reliability audit, review candidate
+
+Main `7ab6a4353c5b90bc885ebb7a7f221fe7958e15dd` was audited in a separate clone/branch, leaving the PR1615 repair checkout untouched. [Evidence and acceptance matrix](../reviews/DO-TRAVEL-MAIL-RELIABILITY-20261019.md) separates implemented mail review/manual travel from mocked proof and blocked sensitive retrieval, paid search/booking, transport and peer coordination. The [existing master roadmap](../do/MASTER-ROADMAP-20261013.md) has the dated update. Candidate changes bind mail results to exact requests, avoid copying correspondence into task drafts, reject stale itinerary application and preserve exact offer snapshots. No live private mailbox/provider proof, activation, merge or deployment is claimed. Studio account access remains separate.

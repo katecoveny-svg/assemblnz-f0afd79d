@@ -18,7 +18,7 @@ import type { SplineMotionAsset } from '@/lib/brand/motion-assets';
  *   instead of attempting to load.
  */
 
-const Spline = dynamic(() => import('@splinetool/react-spline'), {
+const Spline = dynamic(() => import('./SplineRuntime'), {
   ssr: false,
   loading: () => null,
 });

@@ -291,3 +291,7 @@ Extends the selected-tab primitive with real MV3 image/text capture; extends the
 ### DO clay entry and explicit task starters (local review, 17 October 2026)
 
 `DoMiniatureList` / `DoMiniatureScene` now provide a loose two-column clay-object collection for Today and the compact companion. Existing Three/R3F/drei dependencies provide rounded matte geometry, grain and bounded gestures; HTML buttons retain stable labels and targets without WebGL events. Offscreen cleanup, typing quiet and reduced motion are built in. `reviewStarterPrompt` / `offerStarterPrompt` append editable text only, reject full/busy/hidden/disabled editors and revoke consent. No storage or provider authority is granted. See `docs/reviews/DO-CLAY-ENTRY-20261017.md` for the current candidate and proof limits; this supersedes the earlier ruled-paper presentation only.
+
+### Mail/travel evidence reliability (19 October review candidate)
+
+Extends the existing bounded mail and travel primitives: runtime response validation and request-bound publication shared by typed/voice mail review, source-reference-only task drafts, fresh-at-apply itinerary checks, and exact-result offer selection with detached receipt snapshots. [Audit and executable cases](../reviews/DO-TRAVEL-MAIL-RELIABILITY-20261019.md). Sensitive step-up, live grants, confirmed itinerary storage and transactional providers remain separate gates; no new tool authority or persistence.
