@@ -104,6 +104,7 @@ export default function AssemblLivingPage() {
             <Link href="/living/studio" className="lv-btn">
               show us your space →
             </Link>
+            <Link href="/living/shop" className="lv-btn" data-variant="ghost">explore the collection →</Link>
             <span className="lv-status" data-tone="quiet">prototype parts · nothing for sale yet</span>
           </div>
         </section>

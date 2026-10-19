@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { Metadata } from 'next';
 import { AESTHETICS, SPACES, SURFACES, kitById, requireSpace, type Aesthetic, type SpaceId, type Surface } from '@/lib/living';
 import { SpaceStudio } from './SpaceStudio';
@@ -32,6 +33,7 @@ export default async function SpaceStudioPage({
   const aesthetic: Aesthetic = pick(kit?.aesthetic ?? sp.aesthetic, AESTHETICS, entry.defaultAesthetic);
   return (
     <div className="lv">
+      <nav className="lv-wrap" aria-label="Living navigation"><Link href="/living">the modular system</Link> · <Link href="/living/shop">explore the collection</Link></nav>
       <SpaceStudio space={space} surface={surface} aesthetic={aesthetic} kit={kit} />
     </div>
   );

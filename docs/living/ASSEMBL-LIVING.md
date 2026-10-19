@@ -1,8 +1,8 @@
 # assembl / living — the modular interiors system
 
-**Status:** build candidate on `feat/assembl-living-space-studio`; prototype parts, nothing for sale  
-**Owner:** Kate (product); engineering pack and Space Studio built 17 October 2026  
-**Surfaces:** `/living` (storefront), `/living/studio` (Space Studio), `/living/cad/AL-02/*` (CAD pack)  
+**Status:** modular system merged to main via #1616; shop consolidation in review; prototype parts, nothing for sale
+**Owner:** Kate (product); engineering pack and Space Studio built 17 October 2026
+**Surfaces:** `/living` (system overview), `/living/shop` (collection preview, pending consolidation release), `/living/studio` (Space Studio), `/living/cad/AL-02/*` (CAD pack)
 **Code:** `lib/living/` (typed system), `app/living/` (surfaces), `tools/living-cad/build.py` (parametric CAD source)
 
 This is the canonical product document for Assembl Living. It supersedes the chat-level plan it was built from. Dayrally remains the adventure-facing collection and is not redefined here.
@@ -98,3 +98,20 @@ Starter systems, accessory expansion packs, made-to-measure upgrades. Indicative
 5. Enable Shopify purchasing from the saved configuration only after acceptance of files, pricing and fulfilment.
 6. Generalise the journey runtime's genome-context selector so `space, assembled` runs through the shared runtime and Proof.
 7. Photo understanding as an assistive, labelled step, never a substitute for confirmed measurements.
+
+## Storefront consolidation — 20 October 2026 NZDT
+
+`/living/shop` reuses the latest editorial store on #1615 (including #1617 and
+#1619). The canonical engineering system remains `lib/living/` and AL-02. The
+shop's grid, tile and stack entries reference those parts; all other entries are
+concepts without released CAD. Browser selections cannot grant manufacturing
+approval. Studio links start canonical layouts, explicitly without transferring
+shop personalisation or claiming the layouts are identical to concept sets.
+
+Shop kit JSON and Space Studio configurations remain distinct formats: the former
+records styling intent, the latter contains a measured BOM and versioned CAD links.
+Neither authorises an order. Shop import only accepts its own items format.
+
+See `STOREFRONT-CONSOLIDATION-20261020.md` for the overlap map, verification and
+release gates. The earlier configurator and experimental AL-03/AL-05 notes remain
+on #1615's branch; they are not promoted to canonical manufacturing evidence.
