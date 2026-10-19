@@ -3,6 +3,8 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - 'components/site/direction-4c/**'
+      - 'scripts/coastal_homepage_proof.py'
       - '.github/workflows/immersive-visual-review.yml'
       - 'scripts/immersive-browser-audit.py'
       - 'scripts/homepage-mobile-boundary-check.cjs'

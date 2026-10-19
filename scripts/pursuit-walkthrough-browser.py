@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 from playwright.async_api import async_playwright, expect
+from coastal_homepage_proof import verify_coastal_home
 
 ORIGIN = os.environ.get('ASSEMBL_REVIEW_ORIGIN', 'http://127.0.0.1:3000')
 OUT = Path('visual-evidence/pursuit-walkthrough')
@@ -66,46 +67,8 @@ async def main():
                 for path in ('/', '/pursuit'):
                     await page.goto(ORIGIN + path, wait_until='domcontentloaded', timeout=120000)
                     if path == '/':
-                        await expect(page.get_by_role('heading', name='Agentic AI solutions, assembled for your business.', exact=True)).to_be_attached()
-                        await expect(page.locator('#live-data')).to_be_attached()
+                        await verify_coastal_home(page, motion)
                         await page.screenshot(path=str(OUT / f'home-{width}-{motion}.png'), full_page=False)
-                        scene = page.get_by_role('region', name='Agentic AI solutions, assembled for your business.', exact=True)
-                        if motion == 'reduce':
-                            await expect(scene.get_by_role('button', name='Still view; scene motion unavailable', exact=True)).to_be_disabled()
-                            summary = page.get_by_label('The complete work loop')
-                            await expect(summary).to_be_visible()
-                            for text in ('Find the opportunity.', 'Your personal agent for getting things done.', 'Show what’s possible.'):
-                                await expect(summary.get_by_text(text, exact=True)).to_be_visible()
-                        else:
-                            # Exercise native keyboard activation without waiting for two
-                            # stable software-WebGL frames (the immersive audit uses this path).
-                            pause = scene.get_by_role('button', name='Pause scene motion', exact=True)
-                            await pause.focus()
-                            await pause.press('Enter')
-                            await expect(scene.get_by_role('button', name='Resume scene motion', exact=True)).to_have_attribute('aria-pressed', 'true')
-                            await scene.get_by_role('button', name='Resume scene motion', exact=True).press('Enter')
-                            await expect(scene.get_by_role('button', name='Pause scene motion', exact=True)).to_have_attribute('aria-pressed', 'false')
-                            chapter = scene.get_by_role('button', name='View Studio scene', exact=True)
-                            await chapter.focus()
-                            await chapter.press('Enter')
-                            await expect(scene).to_have_attribute('data-chapter', '2', timeout=30000)
-                        await expect(scene.get_by_text('Interactive demo', exact=True)).to_be_visible()
-                        if width <= 650:
-                            assistant = page.get_by_role('complementary', name='DO assistant', exact=True)
-                            await expect(assistant).to_have_attribute('data-home-inline', 'true')
-                            assert await assistant.evaluate('node => getComputedStyle(node).position') == 'relative'
-                            launcher = assistant.get_by_role('button', name='Ask DO', exact=True)
-                            await launcher.focus()
-                            await launcher.press('Enter')
-                            await expect(assistant.get_by_role('region', name='DO drafting workspace', exact=True)).to_be_visible()
-                            await assistant.get_by_role('button', name='Close DO', exact=True).click()
-                            await expect(launcher).to_be_focused()
-                            await page.get_by_role('heading', name='What we can deliver', exact=True).scroll_into_view_if_needed()
-                            assert await page.evaluate("""() => {
-                              const launcher = document.querySelector('[data-home-inline] button[aria-controls="site-do-workspace"]').getBoundingClientRect();
-                              const copy = document.querySelector('#products header').getBoundingClientRect();
-                              return !(launcher.left < copy.right && launcher.right > copy.left && launcher.top < copy.bottom && launcher.bottom > copy.top);
-                            }"""), 'Ask DO overlaps commissioned delivery copy'
                         # Kate approved hiding this rejected surface while the actual
                         # signed-in canvas recording is prepared. Keep historical evidence.
                         await expect(page.get_by_role('region', name='Watch a question', exact=False)).to_have_count(0)
