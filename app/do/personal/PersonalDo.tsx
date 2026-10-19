@@ -416,7 +416,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
           Try loading again <RefreshCw size={16} />
         </button>
       )}
-      {workspaceKey && <LifeAdmin key={workspaceKey} assistant={<PersonalDoAssistant showIdeas={false} key={workspaceKey} returnTo={context === "household" ? "/do/household" : "/do"} profile={personalProfile ?? undefined} onBrowserDraft={openBrowserDraft} onWorkingChange={setAssistantWorking} onWorkChange={setAssistantWork} />} assistantWork={assistantWork} assistantWorking={assistantWorking} profile={personalProfile} onCustomise={access === "ready" ? () => settingsButton.current?.click() : undefined} storageScope={workspaceKey} intake={sharedIntake} onGuestWorkChange={setGuestDirty} onIntakeAccepted={id => { try { acceptDoShare(window.sessionStorage, id); } catch { /* Storage may be unavailable. */ } }} onTalk={() => { setCallOpen(true); requestAnimationFrame(() => document.getElementById("personal-do-call")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" })); }} />}
+      {workspaceKey && <LifeAdmin key={workspaceKey} assistant={<PersonalDoAssistant showIdeas={false} key={workspaceKey} returnTo={context === "household" ? "/do/household" : "/do"} profile={personalProfile ?? undefined} onBrowserDraft={openBrowserDraft} onMailDraft={text => { const accepted = openMailDraft(text); if (accepted) setCallOpen(false); return accepted; }} onWorkingChange={setAssistantWorking} onWorkChange={setAssistantWork} />} assistantWork={assistantWork} assistantWorking={assistantWorking} profile={personalProfile} onCustomise={access === "ready" ? () => settingsButton.current?.click() : undefined} storageScope={workspaceKey} intake={sharedIntake} onGuestWorkChange={setGuestDirty} onIntakeAccepted={id => { try { acceptDoShare(window.sessionStorage, id); } catch { /* Storage may be unavailable. */ } }} onTalk={() => { setCallOpen(true); requestAnimationFrame(() => document.getElementById("personal-do-call")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" })); }} />}
       {workspaceKey && callOpen && <div id="personal-do-call" className={styles.call}>
         <div className={styles.callHeading}><p className={styles.eyebrow}>VOICE</p><a href="#life-admin">Back to my workspace ↑</a></div>
         <DoGeminiLive
@@ -429,7 +429,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
           onDraft={state?.worker.configured && state.responsibilities.length < 5 ? keepCallDraft : undefined}
         />
       </div>}
-      {workspaceKey && mailDraft?.ownerId === workspaceKey && <section id="personal-mail" className={styles.call} aria-label="Mail request from reviewed call">
+      {workspaceKey && mailDraft?.ownerId === workspaceKey && <section id="personal-mail" className={styles.call} aria-label="Reviewed mail request">
         <div className={styles.callHeading}><h2>Review correspondence</h2><button type="button" onClick={() => {
           if (window.confirm("Discard this unsaved mail review and task draft?")) { mailDraftRef.current = null; setMailDraft(null); }
         }}>Discard mail review</button></div>

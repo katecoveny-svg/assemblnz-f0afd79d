@@ -24,7 +24,7 @@ function lastExchange(turns: ConversationTurn[]): PersonalAssistantInput['histor
 
 /** Mount with the verified owner scope as the React key; never persist conversation across accounts. */
 export type PersonalAssistantWork = { dirty: boolean; exportText: string };
-export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, onBrowserDraft, returnTo = "/do", conversation, attachedContext, focusRequest = 0, showIdeas = true }: { focusRequest?: number; showIdeas?: boolean; conversation?: { turns: ConversationTurn[]; change: (turns: ConversationTurn[]) => void }; attachedContext?: { text: string; revision: number }; onBrowserDraft?: (text: string) => boolean; returnTo?: "/do" | "/do/household" | "/do/widget"; profile?: PersonalDoProfile; onWorkingChange?: (working: boolean) => void; onWorkChange?: (work: PersonalAssistantWork) => void }) {
+export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, onBrowserDraft, onMailDraft, returnTo = "/do", conversation, attachedContext, focusRequest = 0, showIdeas = true }: { focusRequest?: number; showIdeas?: boolean; conversation?: { turns: ConversationTurn[]; change: (turns: ConversationTurn[]) => void }; attachedContext?: { text: string; revision: number }; onBrowserDraft?: (text: string) => boolean; onMailDraft?: (text: string) => boolean; returnTo?: "/do" | "/do/household" | "/do/widget"; profile?: PersonalDoProfile; onWorkingChange?: (working: boolean) => void; onWorkChange?: (work: PersonalAssistantWork) => void }) {
   const [message, setMessage] = useState('');
   const [context, setContext] = useState('');
   const [consent, setConsent] = useState(false);
@@ -263,6 +263,17 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, on
         <label><input ref={consentRef} type="checkbox" checked={consent} disabled={working} onChange={event => setConsent(event.target.checked)} /><span>{PERSONAL_DO_ASSISTANT_CONSENT}</span></label>
         {profile && <label><input type="checkbox" checked={useSavedStyle} disabled={working} onChange={event => { setUseSavedStyle(event.target.checked); setConsent(false); }} /><span>Also use my saved tone and wording preferences with OpenAI</span></label>}
         {kept.storage === 'account' && <label><input type="checkbox" checked={keep} disabled={working} onChange={event => setKeep(event.target.checked)} /><span>Keep this conversation on my account so I can pick it up on any device<small>{CONVERSATION_NOTICE}</small></span></label>}
+      </div>}
+      {onMailDraft && message.trim() && <div>
+        <button type="button" disabled={working || message.length > 1200} onClick={() => {
+          if (lock.current || !message.trim() || message.length > 1200) return;
+          setConsent(false); setReviewOpen(false);
+          setNotice(onMailDraft(message.trim())
+            ? 'Mail review opened. Choose an account and allow a bounded search there. No message was sent to a model or saved by this handoff.'
+            : 'Mail review could not open. Finish or discard any existing mail review, and check your signed-in account. Your request is still here.');
+        }}>Review this as a mail or itinerary request</button>
+        <p>Find flight or accommodation correspondence in your own mail. Review the search and sources before using any details. Nothing is booked or scheduled.</p>
+        {message.length > 1200 && <p>Shorten the reviewed request to 1,200 characters before opening mail review.</p>}
       </div>}
       {onBrowserDraft && (showIdeas || message.trim()) && <button type="button" disabled={working || !message.trim()} onClick={() => { if (onBrowserDraft(message.trim())) setNotice('Browser task opened for review. Nothing has been read or changed.'); }}>Review this as a browser task</button>}
     </form>
