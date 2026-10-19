@@ -1,0 +1,1083 @@
+{
+  "group": "dayrally",
+  "cadquery_version": "2.8.0",
+  "parts": [
+    {
+      "id": "rally-case",
+      "group": "dayrally",
+      "description": "Rounded 160 x 96 mm storage case with hinge ears",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        160.0,
+        111.4,
+        44.4
+      ],
+      "solid_volume_mm3": 90591.292,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.586184951236847e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 2084,
+      "step": "parts/step/rally-case.step",
+      "stl": "parts/stl/rally-case.stl",
+      "step_sha256": "71588442b7908074c5eed7d06f67812ed8a542cd718f8f161ade6a0cdab5c527",
+      "stl_sha256": "03f24076b270380c9992ede0f0ee697772e8fb9090a388ccfef2b07f0ff738e4",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -4.699999999999999,
+        -0.0
+      ],
+      "notes": "Fixed-size sample. Open case is printable upright; hinge tunnels may need support/reaming. Not sealed or load-rated.",
+      "parameters": {}
+    },
+    {
+      "id": "rally-lid",
+      "group": "dayrally",
+      "description": "Printed lid, skirt, hinge and integrated flex catch",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        160.0,
+        113.8,
+        24.2
+      ],
+      "solid_volume_mm3": 75278.099,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 4.446101277481441e-15,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 4432,
+      "step": "parts/step/rally-lid.step",
+      "stl": "parts/stl/rally-lid.stl",
+      "step_sha256": "e75d8673066e455f3cd112aaf682e4162cd062311e8f0784fb064c55ecde4780",
+      "stl_sha256": "64b913d448e3af3c0f5b9a543179aa6935093f50267ca283daf39d65f0e0b5a2",
+      "print_rotation_xyz_deg": [
+        180,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        3.499999950000003,
+        54.5
+      ],
+      "notes": "Real hinge and latch geometry. Snap deflection, fatigue and closure need sample testing. Support around hinge ears; no waterproof claim.",
+      "parameters": {}
+    },
+    {
+      "id": "rally-folding-handle",
+      "group": "dayrally",
+      "description": "Folding U handle with two pin eyes",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        108.0,
+        33.2,
+        9.4
+      ],
+      "solid_volume_mm3": 6171.663,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.9473244793960515e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1308,
+      "step": "parts/step/rally-folding-handle.step",
+      "stl": "parts/stl/rally-folding-handle.stl",
+      "step_sha256": "2a39809a805ba932318f24bfc6eb6ec95a4eaf775837691cb81593b86d42f9b0",
+      "stl_sha256": "cd3284852143be692c02dbdb8ad6f1d2a6e448071196d04ca28fe4afc67c4e41",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        61.4,
+        4.699999999999995
+      ],
+      "notes": "Handle is a separate solid, not a flexible rendering. No lifting rating.",
+      "parameters": {}
+    },
+    {
+      "id": "rally-hinge-pin",
+      "group": "dayrally",
+      "description": "Long removable printed case-hinge pin",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        6.6,
+        6.6,
+        138.7
+      ],
+      "solid_volume_mm3": 1232.485,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.158461476522456e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 716,
+      "step": "parts/step/rally-hinge-pin.step",
+      "stl": "parts/stl/rally-hinge-pin.stl",
+      "step_sha256": "358a54c47d876b8dfc9cf5b3a8f9e43d78f882ebcdeef185198db91a89dcac91",
+      "stl_sha256": "60e23ede7f77b0ff9cee933c6888f3ccc68aa9a2e6e377721b0c476a5c9e5697",
+      "print_rotation_xyz_deg": [
+        0,
+        -90,
+        0
+      ],
+      "print_translation_mm": [
+        7.549516567451064e-15,
+        -0.0,
+        69.3
+      ],
+      "notes": "Print as a slender upright pin with brim or on its side with support. Test actual pin/hole clearances.",
+      "parameters": {}
+    },
+    {
+      "id": "rally-handle-pin",
+      "group": "dayrally",
+      "description": "Printed handle-pivot pin",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        6.4,
+        6.4,
+        18.35
+      ],
+      "solid_volume_mm3": 197.096,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.8025290035167636e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 716,
+      "step": "parts/step/rally-handle-pin.step",
+      "stl": "parts/stl/rally-handle-pin.stl",
+      "step_sha256": "4551fb01064e46cd39cd8baa299cd16ac31ddd5b463d58436af90c200873f86e",
+      "stl_sha256": "9569873e8beec04fad71c568bacbe040cb984ebc42ed8febefcfa5eb54b0e347",
+      "print_rotation_xyz_deg": [
+        0,
+        -90,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        1.7000000000000004
+      ],
+      "notes": "Two pins and caps; no load rating.",
+      "parameters": {}
+    },
+    {
+      "id": "rally-pin-cap",
+      "group": "dayrally",
+      "description": "Slit printed retaining-cap prototype",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        6.4,
+        6.361,
+        3.2
+      ],
+      "solid_volume_mm3": 69.772,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.629403022320075e-15,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 716,
+      "step": "parts/step/rally-pin-cap.step",
+      "stl": "parts/stl/rally-pin-cap.stl",
+      "step_sha256": "cb01eb1385e6fbd0781334062e8733c370b581fc7d95cda07dc965d54786fdd1",
+      "stl_sha256": "5283fe45a20b1ba4ce1bdbf0c71996cb3a0a6954c6f933ec74f7a9beba9dca79",
+      "print_rotation_xyz_deg": [
+        0,
+        -90,
+        0
+      ],
+      "print_translation_mm": [
+        -2.220446049250313e-16,
+        0.0196519370720889,
+        3.552713678800501e-16
+      ],
+      "notes": "3.4 mm bore / 3.3 mm pin. Nominal loose/slit fit may not retain: tune physical sample. All-printed retention is not yet approved.",
+      "parameters": {}
+    },
+    {
+      "id": "rally-removable-tray",
+      "group": "dayrally",
+      "description": "Removable spool bay and two leader/tackle bays",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        147.0,
+        83.0,
+        25.0
+      ],
+      "solid_volume_mm3": 58435.447,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.4902547847239307e-15,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 912,
+      "step": "parts/step/rally-removable-tray.step",
+      "stl": "parts/stl/rally-removable-tray.stl",
+      "step_sha256": "bf2ce7f1f476c139cd0ce9952a2302c44cca12c8a1037ddf90220be09dfce5ee",
+      "stl_sha256": "4a9ee4797afc1fc23c7d158d7e296e6e706e24133916babfdf5ba975be30cdbe",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "147 x 83 x 25 mm. Compartments do not make sharp hooks safe; use appropriate hook guards.",
+      "parameters": {}
+    },
+    {
+      "id": "rally-leader-card",
+      "group": "dayrally",
+      "description": "Notched reusable leader-winding card",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        63.0,
+        25.0,
+        2.8
+      ],
+      "solid_volume_mm3": 4270.743,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 8.944292441873066e-15,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1852,
+      "step": "parts/step/rally-leader-card.step",
+      "stl": "parts/stl/rally-leader-card.stl",
+      "step_sha256": "6ace64b8574617ac1c315ea9958c8cd0274e99dc13ece34d6438c7638d1af2b5",
+      "stl_sha256": "dd24c703bb06583323b5b1d9c52f2c907ed450d6f03e09997c54a4b490d4584e",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        8.881784197001252e-16,
+        -0.0
+      ],
+      "notes": "No line or hook included. File sharp printing edges smooth before winding fine line.",
+      "parameters": {}
+    },
+    {
+      "id": "rally-line-spool",
+      "group": "dayrally",
+      "description": "Plain handline / spare-line spool",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        58.0,
+        58.0,
+        19.8
+      ],
+      "solid_volume_mm3": 21697.875,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.0562908528353781e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1440,
+      "step": "parts/step/rally-line-spool.step",
+      "stl": "parts/stl/rally-line-spool.stl",
+      "step_sha256": "318cf821270c3890be9880a5d32d830501b342318433dfb910345397e0dd6132",
+      "stl_sha256": "d9988e75a4de42902c73a35f239446c388098c36e5daf30e37e0501831220bc3",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "No gear reduction, drag or casting mechanism. Top flange needs support in the chosen orientation. Fishing line is a separate product.",
+      "parameters": {}
+    },
+    {
+      "id": "rally-name-skin",
+      "group": "dayrally",
+      "description": "Optional personalised loose name panel",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "Matte PLA candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        98.0,
+        24.0,
+        2.6
+      ],
+      "solid_volume_mm3": 5907.75,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.4163346045136264e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1374,
+      "step": "parts/step/rally-name-skin.step",
+      "stl": "parts/stl/rally-name-skin.stl",
+      "step_sha256": "6210a23400e8cb1cae33aadc9526d66c397788dcea22abc0c2a13ae39a7ebde5",
+      "stl_sha256": "6273da756736b3ec97da34c7ef929df7d4d199b23b2f81a1be7f4602b41428e0",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "No claimed snap connection to case. A skin interface remains a separate development item; this supplied panel is a sample badge.",
+      "parameters": {}
+    },
+    {
+      "id": "rally-rule-link-1",
+      "group": "dayrally",
+      "description": "100 mm interval rule link 1",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        106.0,
+        26.0,
+        4.0
+      ],
+      "solid_volume_mm3": 10312.673,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 6.367458442676434e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 11540,
+      "step": "parts/step/rally-rule-link-1.step",
+      "stl": "parts/stl/rally-rule-link-1.stl",
+      "step_sha256": "5985894a9290cf8b4201c974907ab4564283076a0d5f7a7bc9747c32e4a14fc2",
+      "stl_sha256": "e9dc570fb21072f5833a4e8f40010295325056c41cd5e4e14f2bd4fe6a7e996e",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -53.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Three sequential links form nominal 0\u2013300 mm scale. Printed marks must be calibrated. Hinges do not lock straight; align against a straightedge. Not approved for regulatory fish sizing.",
+      "parameters": {}
+    },
+    {
+      "id": "rally-rule-link-2",
+      "group": "dayrally",
+      "description": "100 mm interval rule link 2",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        112.0,
+        26.0,
+        4.0
+      ],
+      "solid_volume_mm3": 10444.576,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 6.896592018117061e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 12634,
+      "step": "parts/step/rally-rule-link-2.step",
+      "stl": "parts/stl/rally-rule-link-2.stl",
+      "step_sha256": "f16939c5185cdac2dcf95304062f506677715a0e531b268a4d1dec843b37bda7",
+      "stl_sha256": "c5a2e1d29c48618392dace8fc00d82f8daa9b98327691aa0bc9633352128c63f",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -50.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Three sequential links form nominal 0\u2013300 mm scale. Printed marks must be calibrated. Hinges do not lock straight; align against a straightedge. Not approved for regulatory fish sizing.",
+      "parameters": {}
+    },
+    {
+      "id": "rally-rule-link-3",
+      "group": "dayrally",
+      "description": "100 mm interval rule link 3",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        106.0,
+        26.0,
+        4.0
+      ],
+      "solid_volume_mm3": 10345.547,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 6.698872288489737e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 13566,
+      "step": "parts/step/rally-rule-link-3.step",
+      "stl": "parts/stl/rally-rule-link-3.stl",
+      "step_sha256": "0f8466ea90c9b5226b4bf486f186d39420966c6e8b0105ab6d04a4ffb024d117",
+      "stl_sha256": "fb0837923a2347f681013e93eb8b806b8b775c5171a9324777dcd8538c7a91d7",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -47.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Three sequential links form nominal 0\u2013300 mm scale. Printed marks must be calibrated. Hinges do not lock straight; align against a straightedge. Not approved for regulatory fish sizing.",
+      "parameters": {}
+    },
+    {
+      "id": "rally-rule-pin",
+      "group": "dayrally",
+      "description": "Printed folding-rule pivot",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        6.5,
+        6.5,
+        10.5
+      ],
+      "solid_volume_mm3": 124.671,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.7781954070339994e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 716,
+      "step": "parts/step/rally-rule-pin.step",
+      "stl": "parts/stl/rally-rule-pin.stl",
+      "step_sha256": "567bbcc6a2b8358cabb1e9b372a97ca435d6ae7515d1df1b1c1967054cd1eb5a",
+      "stl_sha256": "f4a945bd5011d55c5eb79cdc44f18d4ea3e3956920dea5a57c54d7102d2376df",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Pivot axes spaced exactly 100 mm in the CAD. Retention and planar alignment require a printed test.",
+      "parameters": {}
+    },
+    {
+      "id": "calibration-100mm",
+      "group": "dayrally",
+      "description": "Independent 100 mm calibration bar",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "Same material and process as intended ruler",
+      "units": "mm",
+      "print_bbox_mm": [
+        100.0,
+        15.0,
+        4.0
+      ],
+      "solid_volume_mm3": 5984.241,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.5198163312392373e-16,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 4352,
+      "step": "parts/step/calibration-100mm.step",
+      "stl": "parts/stl/calibration-100mm.stl",
+      "step_sha256": "3f0b90e881c0be36ada47600231d3904860f75009024bb03b5c3a6ef8bde0d93",
+      "stl_sha256": "4531800bb61e018c2c2085d1cf701df2fa19612a81458372e90c0bfc9815d9df",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Measure end-to-end after cooling. It is a shrinkage coupon, not a certified calibration instrument.",
+      "parameters": {}
+    }
+  ],
+  "assemblies": [
+    {
+      "id": "dayrally-case-closed",
+      "description": "All-printed Dayrally sample case, lid and folding handle",
+      "notes": "Designed as separate print-and-assemble components. Fastener retention, latch stiffness and carrying capacity untested.",
+      "components": [
+        {
+          "part_id": "rally-case",
+          "instance": "rally-case__1",
+          "colour": "#E95037",
+          "translation_mm": [
+            0,
+            0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-lid",
+          "instance": "rally-lid__2",
+          "colour": "#EFCF6B",
+          "translation_mm": [
+            0,
+            0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-folding-handle",
+          "instance": "rally-folding-handle__3",
+          "colour": "#E95037",
+          "translation_mm": [
+            0,
+            0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-removable-tray",
+          "instance": "rally-removable-tray__4",
+          "colour": "#F5F1EA",
+          "translation_mm": [
+            0,
+            0,
+            3
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-hinge-pin",
+          "instance": "rally-hinge-pin__5",
+          "colour": "#36383C",
+          "translation_mm": [
+            0,
+            55.0,
+            39.0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-pin-cap",
+          "instance": "rally-pin-cap__6",
+          "colour": "#E95037",
+          "translation_mm": [
+            67.4,
+            55.0,
+            39.0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-handle-pin",
+          "instance": "rally-handle-pin__7",
+          "colour": "#36383C",
+          "translation_mm": [
+            -62,
+            0,
+            49.5
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-handle-pin",
+          "instance": "rally-handle-pin__8",
+          "colour": "#36383C",
+          "translation_mm": [
+            62,
+            0,
+            49.5
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            180
+          ]
+        },
+        {
+          "part_id": "rally-pin-cap",
+          "instance": "rally-pin-cap__9",
+          "colour": "#E95037",
+          "translation_mm": [
+            -47.8,
+            0,
+            49.5
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-pin-cap",
+          "instance": "rally-pin-cap__10",
+          "colour": "#E95037",
+          "translation_mm": [
+            47.8,
+            0,
+            49.5
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            180
+          ]
+        }
+      ],
+      "bounds_mm": [
+        [
+          -80.0,
+          -53.40000000000001,
+          0.0
+        ],
+        [
+          80.0,
+          60.39978257489303,
+          78.0
+        ]
+      ],
+      "part_instances": 10,
+      "step": "assemblies/step/dayrally-case-closed.step",
+      "glb": "assemblies/glb/dayrally-case-closed.glb",
+      "glb_units": "metres",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false
+    },
+    {
+      "id": "dayrally-case-open",
+      "description": "Dayrally case opened around its modelled hinge axis",
+      "notes": "Shown open without the small handle pins; printable pin files remain supplied.",
+      "components": [
+        {
+          "part_id": "rally-case",
+          "instance": "rally-case__1",
+          "colour": "#E95037",
+          "translation_mm": [
+            0,
+            0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-removable-tray",
+          "instance": "rally-removable-tray__2",
+          "colour": "#F5F1EA",
+          "translation_mm": [
+            0,
+            0,
+            3
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-hinge-pin",
+          "instance": "rally-hinge-pin__3",
+          "colour": "#36383C",
+          "translation_mm": [
+            0,
+            55.0,
+            39.0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-pin-cap",
+          "instance": "rally-pin-cap__4",
+          "colour": "#E95037",
+          "translation_mm": [
+            67.4,
+            55.0,
+            39.0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-lid",
+          "instance": "rally-lid__5",
+          "colour": "#EFCF6B",
+          "translation_mm": [
+            0.0,
+            37.16309567226135,
+            104.02187973292604
+          ],
+          "rotation_xyz_deg": [
+            -110,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-folding-handle",
+          "instance": "rally-folding-handle__6",
+          "colour": "#E95037",
+          "translation_mm": [
+            0.0,
+            37.16309567226135,
+            104.02187973292604
+          ],
+          "rotation_xyz_deg": [
+            -110,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-line-spool",
+          "instance": "rally-line-spool__7",
+          "colour": "#E95037",
+          "translation_mm": [
+            -38,
+            0,
+            5.6
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-leader-card",
+          "instance": "rally-leader-card__8",
+          "colour": "#EFCF6B",
+          "translation_mm": [
+            31,
+            -20,
+            5.6
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "bounds_mm": [
+        [
+          -80.0,
+          -51.00000000000001,
+          0.0
+        ],
+        [
+          80.0,
+          111.48518052353921,
+          143.83825534012578
+        ]
+      ],
+      "part_instances": 8,
+      "step": "assemblies/step/dayrally-case-open.step",
+      "glb": "assemblies/glb/dayrally-case-open.glb",
+      "glb_units": "metres",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false
+    },
+    {
+      "id": "rally-rule-300mm",
+      "description": "Nominal 300 mm folding-rule geometry",
+      "notes": "Deployed layout only; no automatic registration from an ordinary photo. Check graduations and straightness against a known reference.",
+      "components": [
+        {
+          "part_id": "rally-rule-link-1",
+          "instance": "rally-rule-link-1__1",
+          "colour": "#F5F1EA",
+          "translation_mm": [
+            0,
+            0,
+            0.0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-rule-link-2",
+          "instance": "rally-rule-link-2__2",
+          "colour": "#EFCF6B",
+          "translation_mm": [
+            100,
+            0,
+            4.4
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-rule-link-3",
+          "instance": "rally-rule-link-3__3",
+          "colour": "#F5F1EA",
+          "translation_mm": [
+            200,
+            0,
+            8.8
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-rule-pin",
+          "instance": "rally-rule-pin__4",
+          "colour": "#54334B",
+          "translation_mm": [
+            100,
+            0,
+            8.2
+          ],
+          "rotation_xyz_deg": [
+            180,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-pin-cap",
+          "instance": "rally-pin-cap__5",
+          "colour": "#54334B",
+          "translation_mm": [
+            100,
+            0,
+            0.1
+          ],
+          "rotation_xyz_deg": [
+            0,
+            -90,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-rule-pin",
+          "instance": "rally-rule-pin__6",
+          "colour": "#54334B",
+          "translation_mm": [
+            200,
+            0,
+            12.6
+          ],
+          "rotation_xyz_deg": [
+            180,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-pin-cap",
+          "instance": "rally-pin-cap__7",
+          "colour": "#54334B",
+          "translation_mm": [
+            200,
+            0,
+            4.5
+          ],
+          "rotation_xyz_deg": [
+            0,
+            -90,
+            0
+          ]
+        }
+      ],
+      "bounds_mm": [
+        [
+          0.0,
+          -13.000000000000002,
+          -2.3000000000000025
+        ],
+        [
+          300.0,
+          13.000000000000002,
+          12.8
+        ]
+      ],
+      "part_instances": 7,
+      "step": "assemblies/step/rally-rule-300mm.step",
+      "glb": "assemblies/glb/rally-rule-300mm.glb",
+      "glb_units": "metres",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false
+    }
+  ],
+  "checks": [
+    {
+      "name": "case vs closed lid",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "case cavity vs removable tray",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "lid vs handle at upright position",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "case hinge bore vs shaft",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "open lid vs case",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    }
+  ]
+}

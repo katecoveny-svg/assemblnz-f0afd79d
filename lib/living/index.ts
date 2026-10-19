@@ -12,3 +12,4 @@ export * from './recommend';
 export * from './genome';
 export * from './journey';
 export * from './widget';
+export * from './ac02';

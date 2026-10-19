@@ -1,0 +1,1153 @@
+{
+  "group": "desk",
+  "cadquery_version": "2.8.0",
+  "parts": [
+    {
+      "id": "rail-84",
+      "group": "desk",
+      "description": "TR-01 twin-dovetail desk rail 84 mm",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        84.0,
+        70.0,
+        10.0
+      ],
+      "solid_volume_mm3": 35407.285,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.6233965813164086e-13,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 3308,
+      "step": "parts/step/rail-84.step",
+      "stl": "parts/stl/rail-84.stl",
+      "step_sha256": "a45544fe357c2b5997c8d0e214aeb1747745c8999e152d319d0982485b07db68",
+      "stl_sha256": "dab9b52259e9a4023620e865f19603676b50061baf6fea7d79ed1c7b6fead913",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "TR-01 is a proposed sliding desktop connection, not the wall TURN interface. Supports under the dovetail shoulders may be required.",
+      "parameters": {
+        "length_mm": 84,
+        "rail_centres_mm": 44,
+        "head_width_mm": 10,
+        "stem_width_mm": 6
+      }
+    },
+    {
+      "id": "rail-210",
+      "group": "desk",
+      "description": "TR-01 twin-dovetail desk rail 210 mm",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        210.0,
+        70.0,
+        10.0
+      ],
+      "solid_volume_mm3": 89612.235,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.584902910952776e-13,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 3308,
+      "step": "parts/step/rail-210.step",
+      "stl": "parts/stl/rail-210.stl",
+      "step_sha256": "9d8ab8fe197ad50423afc2db2edc51c8d1418a00d5e0ebd868071f09df361015",
+      "stl_sha256": "ed0b966252e84e5bf4b31393ea21e1c70b6e52f707c86028692af0d8161caf8b",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "TR-01 is a proposed sliding desktop connection, not the wall TURN interface. Supports under the dovetail shoulders may be required.",
+      "parameters": {
+        "length_mm": 210,
+        "rail_centres_mm": 44,
+        "head_width_mm": 10,
+        "stem_width_mm": 6
+      }
+    },
+    {
+      "id": "rail-240",
+      "group": "desk",
+      "description": "TR-01 twin-dovetail desk rail 240 mm",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        240.0,
+        70.0,
+        10.0
+      ],
+      "solid_volume_mm3": 102518.176,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.5826837859378067e-13,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 3308,
+      "step": "parts/step/rail-240.step",
+      "stl": "parts/stl/rail-240.stl",
+      "step_sha256": "9011814eeb16394615005c3d2e47f85906923252f9fa79b9f9c1f83a7d266d32",
+      "stl_sha256": "28efad1fa50bc66a9b97a5794f754e33d5b4a03067b25b9c465b32ff2118fcfe",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "TR-01 is a proposed sliding desktop connection, not the wall TURN interface. Supports under the dovetail shoulders may be required.",
+      "parameters": {
+        "length_mm": 240,
+        "rail_centres_mm": 44,
+        "head_width_mm": 10,
+        "stem_width_mm": 6
+      }
+    },
+    {
+      "id": "rail-alignment-joiner",
+      "group": "desk",
+      "description": "Underside peg plate aligning two rail segments",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        30.0,
+        44.0,
+        6.65
+      ],
+      "solid_volume_mm3": 4120.292,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 4.193974427242553e-15,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1820,
+      "step": "parts/step/rail-alignment-joiner.step",
+      "stl": "parts/stl/rail-alignment-joiner.stl",
+      "step_sha256": "1debd0d230979e748eda5ce7a4cd8ea97cfad54b2a7b1fe30b8459f8a0c3c6f9",
+      "stl_sha256": "6226637c0132353ef97a3cbd1bacf609a6396b8a0de9304a95efbb906b02ff57",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Geometric alignment only, not a structural beam joint.",
+      "parameters": {}
+    },
+    {
+      "id": "rail-end-stop-pin",
+      "group": "desk",
+      "description": "Removable headed stop peg",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        8.0,
+        8.0,
+        11.8
+      ],
+      "solid_volume_mm3": 165.955,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.329162155751881e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 716,
+      "step": "parts/step/rail-end-stop-pin.step",
+      "stl": "parts/stl/rail-end-stop-pin.stl",
+      "step_sha256": "f186ac9763284eb8605bb75d5348c0485fd64954bcf610a578c1b33d94c01732",
+      "stl_sha256": "0d5a0c74b71c7f550ad3c9f7053a0fe729f98f87eef4dc89e026820929c9aaa7",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Insert shaft down through rail-end holes; caps block a module from sliding off. Loose-fit retention needs testing.",
+      "parameters": {}
+    },
+    {
+      "id": "rail-fit-coupon",
+      "group": "desk",
+      "description": "24 mm long sliding-fit coupon",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        24.0,
+        62.0,
+        9.0
+      ],
+      "solid_volume_mm3": 10987.432,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 8.443142827286284e-15,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 468,
+      "step": "parts/step/rail-fit-coupon.step",
+      "stl": "parts/stl/rail-fit-coupon.stl",
+      "step_sha256": "71fc174aae5fabe12842b84c8be917b73ab9fc11271962c57554a964b0d08013",
+      "stl_sha256": "bb1f9d0787b0420fea44845bf3a152b9c8761763afcc40be1daed59be703c2d6",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -8.881784197001252e-16,
+        -0.0,
+        8.881784197001252e-16
+      ],
+      "notes": "Print before any full organiser. Female base opening 6.8 mm; head opening 10.8 mm; nominal radial difference 0.4 mm.",
+      "parameters": {}
+    },
+    {
+      "id": "rail-catch-tray",
+      "group": "desk",
+      "description": "Slide-on catchall tray",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        84.0,
+        62.0,
+        31.95
+      ],
+      "solid_volume_mm3": 64485.646,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.2453300071513495e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1236,
+      "step": "parts/step/rail-catch-tray.step",
+      "stl": "parts/stl/rail-catch-tray.stl",
+      "step_sha256": "fc4017849ab7ea512bcc05e103d9408368555421b949e3738b2c6b0748565635",
+      "stl_sha256": "c5d902d65d0ad307a2fed87567914599958a43ef51f53bb81360981d326ac36f",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -3.552713678800501e-15,
+        -0.0,
+        8.881784197001252e-16
+      ],
+      "notes": "Do not change socket dimensions when resizing the useful tray area.",
+      "parameters": {}
+    },
+    {
+      "id": "rail-pen-cup",
+      "group": "desk",
+      "description": "Slide-on rounded brush and pen cup",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        42.0,
+        62.0,
+        77.95
+      ],
+      "solid_volume_mm3": 48126.248,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.660852626306855e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1236,
+      "step": "parts/step/rail-pen-cup.step",
+      "stl": "parts/stl/rail-pen-cup.stl",
+      "step_sha256": "ea397937ab6ae322db5d02ce65170b064d025372bd24de7241e8d152e96a3023",
+      "stl_sha256": "3245dc27d9899994abc19bbddd5318033321647c065f9df5ed126a75a52ec623",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -1.7763568394002505e-15,
+        -0.0,
+        8.881784197001252e-16
+      ],
+      "notes": "External rib option belongs only on nonmating walls.",
+      "parameters": {}
+    },
+    {
+      "id": "rail-vanity-wells",
+      "group": "desk",
+      "description": "Twelve-well cosmetic tube organiser",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        84.0,
+        62.0,
+        38.95
+      ],
+      "solid_volume_mm3": 118385.655,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.655062970484828e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 5172,
+      "step": "parts/step/rail-vanity-wells.step",
+      "stl": "parts/stl/rail-vanity-wells.stl",
+      "step_sha256": "4f9f38e964378397626edb715a7a25fa1b481bcaac666b18d7991dd199797768",
+      "stl_sha256": "aac68778c4a3f5be1e2eec30fd609f28e386c4c570bcaa807e189959f4a430d3",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -3.552713678800501e-15,
+        -0.0,
+        8.881784197001252e-16
+      ],
+      "notes": "15 mm nominal wells are for existing containers, not poured cosmetics.",
+      "parameters": {
+        "tube_diameter_mm": 15
+      }
+    },
+    {
+      "id": "rail-phone-rest",
+      "group": "desk",
+      "description": "Angled phone rest with open charging-cable gap",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        84.0,
+        62.0,
+        60.699
+      ],
+      "solid_volume_mm3": 81327.161,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 3.4712530523414016e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1136,
+      "step": "parts/step/rail-phone-rest.step",
+      "stl": "parts/stl/rail-phone-rest.stl",
+      "step_sha256": "85d6c899a14706258a90e79df1a32225e609de2a839d440b2ba6e97cf787e477",
+      "stl_sha256": "cc6ca904fc81d0fd7f26f06433ec33165eeb85c4561bfeafde774d6e0b0c5c11",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -3.552713678800501e-15,
+        -0.0,
+        8.881784197001252e-16
+      ],
+      "notes": "Test stability and device fit; no riding use. Supports under tilted surfaces required.",
+      "parameters": {}
+    },
+    {
+      "id": "rail-note-slot",
+      "group": "desk",
+      "description": "Slot for a paper card or sticky-note backing",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        84.0,
+        62.0,
+        47.95
+      ],
+      "solid_volume_mm3": 89332.838,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.0850621123629703e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 868,
+      "step": "parts/step/rail-note-slot.step",
+      "stl": "parts/stl/rail-note-slot.stl",
+      "step_sha256": "f6eb036e49cd673d33d453577eb37e5e0bbb94a616e4fe61079d5c9b3c5f66e4",
+      "stl_sha256": "504b0212d4aebe71896a116aeb718e42bfc1fcc8e888fd35d580f327d3b04f3b",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -3.552713678800501e-15,
+        -0.0,
+        8.881784197001252e-16
+      ],
+      "notes": "2.2 mm paper-card slot. Paper not supplied.",
+      "parameters": {}
+    },
+    {
+      "id": "rail-cable-comb",
+      "group": "desk",
+      "description": "Three open cable channels on a rail foot",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        42.0,
+        62.0,
+        31.95
+      ],
+      "solid_volume_mm3": 28684.754,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 4.6418395865506414e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1828,
+      "step": "parts/step/rail-cable-comb.step",
+      "stl": "parts/stl/rail-cable-comb.stl",
+      "step_sha256": "ca017ff98a52de2e161644ee95df519308dec7cfd1519dcbaf302e28acbb92cb",
+      "stl_sha256": "dc4da5dd5f1fe6ab2efa57455ddb13a691d4f6148fc64f2c854e3b1f1a17c89a",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -1.7763568394002505e-15,
+        -0.0,
+        8.881784197001252e-16
+      ],
+      "notes": "Cable retention and strain relief not rated. Avoid cutting or pinching a cable.",
+      "parameters": {}
+    },
+    {
+      "id": "rail-object-dock",
+      "group": "desk",
+      "description": "Two-pin accessory dock for original future modules",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        84.0,
+        62.0,
+        23.95
+      ],
+      "solid_volume_mm3": 49822.926,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.219752320668181e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1212,
+      "step": "parts/step/rail-object-dock.step",
+      "stl": "parts/stl/rail-object-dock.stl",
+      "step_sha256": "d44e2ecc5b935550429acbed667c5d0de9c4107233cdf4fc4e52c1799c94d418",
+      "stl_sha256": "28bb7075a28a33cb0764f0fc92baee43c5142e8af774da136bba154d61b800a0",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -3.552713678800501e-15,
+        -0.0,
+        8.881784197001252e-16
+      ],
+      "notes": "No claimed compatibility with third-party rails.",
+      "parameters": {}
+    },
+    {
+      "id": "desk-edge-perch-25",
+      "group": "desk",
+      "description": "Front-of-desk pocket with two fixed-gap 25 mm desk clips",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        56.5,
+        105.0,
+        168.0
+      ],
+      "solid_volume_mm3": 71670.224,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 9.136795551808625e-15,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 876,
+      "step": "parts/step/desk-edge-perch-25.step",
+      "stl": "parts/stl/desk-edge-perch-25.stl",
+      "step_sha256": "c30855bfe1480a3b06f8fa590ddee7e0742d3ee7facaec84eecd082b49aac6cc",
+      "stl_sha256": "2be4510c91bb1ebdc8e50d88485b23037e23bafc5f4ae77efbfe36f74b90e4a4",
+      "print_rotation_xyz_deg": [
+        0,
+        90,
+        0
+      ],
+      "print_translation_mm": [
+        3.2499999999999982,
+        14.5,
+        84.0
+      ],
+      "notes": "For a 25 mm unobstructed desk edge only, with printed wedges. Design not load-tested. Do not assume universal clamp fit.",
+      "parameters": {
+        "desk_thickness_mm": 25,
+        "free_gap_mm": 27.5
+      }
+    },
+    {
+      "id": "desk-edge-wedge",
+      "group": "desk",
+      "description": "Tapered removable wedge for fixed-gap desk clamp",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        24.0,
+        37.0,
+        6.0
+      ],
+      "solid_volume_mm3": 1792.0,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 6.103054569653717e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 28,
+      "step": "parts/step/desk-edge-wedge.step",
+      "stl": "parts/stl/desk-edge-wedge.stl",
+      "step_sha256": "0e4b38c117ea7c638192d034d6591e795492840a7974ca6e562b426f40ef7c2a",
+      "stl_sha256": "66619210574a5df239cf33b58b746c1d81ae3d491eeae2a5db70eb6fb47d0478",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -18.5,
+        -0.0
+      ],
+      "notes": "Use to tune clamping after checking the surface. No anti-slip or surface-protection claim.",
+      "parameters": {}
+    },
+    {
+      "id": "drawer-tray-84x84",
+      "group": "desk",
+      "description": "84 x 84 fitted organiser with 1 compartments",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "Matte PLA or PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        84.0,
+        84.0,
+        30.0
+      ],
+      "solid_volume_mm3": 37794.601,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.3860946716664155e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 764,
+      "step": "parts/step/drawer-tray-84x84.step",
+      "stl": "parts/stl/drawer-tray-84x84.stl",
+      "step_sha256": "6816ff36d5494eb953fc83fbcd734ee00a400ecf5edcd4ae22ea3e1e6afb39cd",
+      "stl_sha256": "728351e9a7000eff77f95391d83c6ac0d08513622f3c99cbe5ae467940934ad9",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Outer size, not required drawer size. Leave clearance for drawer taper and opening.",
+      "parameters": {
+        "outer_width_mm": 84,
+        "outer_depth_mm": 84,
+        "height_mm": 30,
+        "clearance_customer_to_confirm": true
+      }
+    },
+    {
+      "id": "drawer-tray-168x84",
+      "group": "desk",
+      "description": "168 x 84 fitted organiser with 2 compartments",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "Matte PLA or PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        168.0,
+        84.0,
+        38.0
+      ],
+      "solid_volume_mm3": 79855.968,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.0933621266343062e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 780,
+      "step": "parts/step/drawer-tray-168x84.step",
+      "stl": "parts/stl/drawer-tray-168x84.stl",
+      "step_sha256": "8827c682aa1ef70950c381dada835b685244eb4625fb12d34f1e2d17a96b06eb",
+      "stl_sha256": "99670cc6bed01832bdda75cd6df1f9c88baea5a7194273b10fe091da06b67a14",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Outer size, not required drawer size. Leave clearance for drawer taper and opening.",
+      "parameters": {
+        "outer_width_mm": 168,
+        "outer_depth_mm": 84,
+        "height_mm": 38,
+        "clearance_customer_to_confirm": true
+      }
+    },
+    {
+      "id": "drawer-tray-240x180",
+      "group": "desk",
+      "description": "240 x 180 fitted organiser with 6 compartments",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "Matte PLA or PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        240.0,
+        180.0,
+        42.0
+      ],
+      "solid_volume_mm3": 220262.724,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 5.681690875099234e-15,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 844,
+      "step": "parts/step/drawer-tray-240x180.step",
+      "stl": "parts/stl/drawer-tray-240x180.stl",
+      "step_sha256": "75466b16ee3c8ec377dff850d63b063ae21c47018cd8a3cf9008e5d959248b65",
+      "stl_sha256": "9666d89d0d16079f9510bafda471c3080ed6214e470058463e8cca672c2fa18b",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Outer size, not required drawer size. Leave clearance for drawer taper and opening.",
+      "parameters": {
+        "outer_width_mm": 240,
+        "outer_depth_mm": 180,
+        "height_mm": 42,
+        "clearance_customer_to_confirm": true
+      }
+    },
+    {
+      "id": "swell-organiser-24",
+      "group": "desk",
+      "description": "Original three-lobe ribbed organiser 24 mm high",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "Matte PLA candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        116.9,
+        67.9,
+        24.0
+      ],
+      "solid_volume_mm3": 37202.948,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.8084535835600816e-13,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 8580,
+      "step": "parts/step/swell-organiser-24.step",
+      "stl": "parts/stl/swell-organiser-24.stl",
+      "step_sha256": "488c6fcbe2942130eabf4aa7d848ac2376096c93fa97b324502b7f86f554e0b3",
+      "stl_sha256": "cfea412278ddc430dbee520c692f38cec1b6af4b723c00d204d0b8964d21b502",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.5,
+        -0.0
+      ],
+      "notes": "Original outline, not copied from reference. Reference geometry is not embedded.",
+      "parameters": {}
+    },
+    {
+      "id": "swell-organiser-55",
+      "group": "desk",
+      "description": "Original three-lobe ribbed organiser 55 mm high",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "Matte PLA candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        116.9,
+        67.9,
+        55.0
+      ],
+      "solid_volume_mm3": 70391.735,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 3.464754758472441e-13,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 8580,
+      "step": "parts/step/swell-organiser-55.step",
+      "stl": "parts/stl/swell-organiser-55.stl",
+      "step_sha256": "b133a37943639e037bd72f19738392594d54e0bbad6caaff83f03bdf4a17667a",
+      "stl_sha256": "88ffd2dd5b3a4c50197fb4a5d0c63e697597f56759a5654755ef56faaf1862cd",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.5,
+        -0.0
+      ],
+      "notes": "Original outline, not copied from reference. Reference geometry is not embedded.",
+      "parameters": {}
+    }
+  ],
+  "assemblies": [
+    {
+      "id": "desk-rail-set",
+      "description": "Original sliding desk-organisation set",
+      "notes": "Three modules on the longer 240 mm rail, clear of the end-stop positions. Test fit coupons before full modules.",
+      "components": [
+        {
+          "part_id": "rail-240",
+          "instance": "rail-240__1",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            0,
+            0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rail-pen-cup",
+          "instance": "rail-pen-cup__2",
+          "colour": "#B58B99",
+          "translation_mm": [
+            -85,
+            0,
+            5.2
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rail-catch-tray",
+          "instance": "rail-catch-tray__3",
+          "colour": "#F5F1EA",
+          "translation_mm": [
+            -19,
+            0,
+            5.2
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rail-note-slot",
+          "instance": "rail-note-slot__4",
+          "colour": "#EFCF6B",
+          "translation_mm": [
+            67,
+            0,
+            5.2
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "bounds_mm": [
+        [
+          -120.0,
+          -35.0,
+          0.0
+        ],
+        [
+          120.0,
+          35.0,
+          83.15
+        ]
+      ],
+      "part_instances": 4,
+      "step": "assemblies/step/desk-rail-set.step",
+      "glb": "assemblies/glb/desk-rail-set.glb",
+      "glb_units": "metres",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false
+    },
+    {
+      "id": "desk-rail-compact",
+      "description": "Compact rail set with clear end-stop positions",
+      "notes": "",
+      "components": [
+        {
+          "part_id": "rail-210",
+          "instance": "rail-210__1",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            0,
+            0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rail-pen-cup",
+          "instance": "rail-pen-cup__2",
+          "colour": "#B58B99",
+          "translation_mm": [
+            -63,
+            0,
+            5.2
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rail-catch-tray",
+          "instance": "rail-catch-tray__3",
+          "colour": "#F5F1EA",
+          "translation_mm": [
+            2,
+            0,
+            5.2
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rail-cable-comb",
+          "instance": "rail-cable-comb__4",
+          "colour": "#8D9D84",
+          "translation_mm": [
+            66,
+            0,
+            5.2
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "bounds_mm": [
+        [
+          -105.0,
+          -35.0,
+          0.0
+        ],
+        [
+          105.0,
+          35.0,
+          83.15
+        ]
+      ],
+      "part_instances": 4,
+      "step": "assemblies/step/desk-rail-compact.step",
+      "glb": "assemblies/glb/desk-rail-compact.glb",
+      "glb_units": "metres",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false
+    },
+    {
+      "id": "desk-edge-perch",
+      "description": "Fixed-gap desk-edge perch, desk not included",
+      "notes": "Upper desk plane is z=33. Wedges occupy nominal underside clearance; proof of friction not supplied.",
+      "components": [
+        {
+          "part_id": "desk-edge-perch-25",
+          "instance": "desk-edge-perch-25__1",
+          "colour": "#8D9D84",
+          "translation_mm": [
+            0,
+            0,
+            33
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "desk-edge-wedge",
+          "instance": "desk-edge-wedge__2",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            -54,
+            6,
+            5.5
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "desk-edge-wedge",
+          "instance": "desk-edge-wedge__3",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            54,
+            6,
+            5.5
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "bounds_mm": [
+        [
+          -84.0,
+          -67.0,
+          1.5
+        ],
+        [
+          84.0,
+          43.0,
+          58.0
+        ]
+      ],
+      "part_instances": 3,
+      "step": "assemblies/step/desk-edge-perch.step",
+      "glb": "assemblies/glb/desk-edge-perch.glb",
+      "glb_units": "metres",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false
+    },
+    {
+      "id": "vanity-organisers",
+      "description": "Fitted and sculptural vanity organisers",
+      "notes": "",
+      "components": [
+        {
+          "part_id": "drawer-tray-168x84",
+          "instance": "drawer-tray-168x84__1",
+          "colour": "#F5F1EA",
+          "translation_mm": [
+            -52,
+            0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "swell-organiser-55",
+          "instance": "swell-organiser-55__2",
+          "colour": "#B58B99",
+          "translation_mm": [
+            112,
+            0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "swell-organiser-24",
+          "instance": "swell-organiser-24__3",
+          "colour": "#8D9D84",
+          "translation_mm": [
+            -10,
+            100,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "bounds_mm": [
+        [
+          -136.0,
+          -42.0,
+          0.0
+        ],
+        [
+          170.45,
+          134.45,
+          55.0
+        ]
+      ],
+      "part_instances": 3,
+      "step": "assemblies/step/vanity-organisers.step",
+      "glb": "assemblies/glb/vanity-organisers.glb",
+      "glb_units": "metres",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false
+    }
+  ],
+  "checks": [
+    {
+      "name": "TR-01 female foot versus male rail",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "TR-01 end joiner pegs versus rail underside",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+[
+  {
+    "assembly": "orbit-planter",
+    "pairs_with_bbox_overlap": 3,
+    "intersections": [],
+    "passed": true
+  },
+  {
+    "assembly": "pleat-shade-study",
+    "pairs_with_bbox_overlap": 0,
+    "intersections": [],
+    "passed": true
+  },
+  {
+    "assembly": "manual-rail-clock",
+    "pairs_with_bbox_overlap": 7,
+    "intersections": [],
+    "passed": true
+  },
+  {
+    "assembly": "pet-walk-kit",
+    "pairs_with_bbox_overlap": 1,
+    "intersections": [],
+    "passed": true
+  },
+  {
+    "assembly": "small-flatpack-shelf",
+    "pairs_with_bbox_overlap": 30,
+    "intersections": [],
+    "passed": true
+  },
+  {
+    "assembly": "tabletop-valet",
+    "pairs_with_bbox_overlap": 10,
+    "intersections": [],
+    "passed": true
+  },
+  {
+    "assembly": "outfit-valet-research",
+    "pairs_with_bbox_overlap": 18,
+    "intersections": [],
+    "passed": true
+  },
+  {
+    "assembly": "dayrally-case-closed",
+    "pairs_with_bbox_overlap": 18,
+    "intersections": [],
+    "passed": true
+  },
+  {
+    "assembly": "dayrally-case-open",
+    "pairs_with_bbox_overlap": 12,
+    "intersections": [],
+    "passed": true
+  },
+  {
+    "assembly": "rally-rule-300mm",
+    "pairs_with_bbox_overlap": 8,
+    "intersections": [],
+    "passed": true
+  },
+  {
+    "assembly": "desk-rail-set",
+    "pairs_with_bbox_overlap": 3,
+    "intersections": [],
+    "passed": true
+  },
+  {
+    "assembly": "desk-rail-compact",
+    "pairs_with_bbox_overlap": 3,
+    "intersections": [],
+    "passed": true
+  },
+  {
+    "assembly": "desk-edge-perch",
+    "pairs_with_bbox_overlap": 2,
+    "intersections": [],
+    "passed": true
+  },
+  {
+    "assembly": "vanity-organisers",
+    "pairs_with_bbox_overlap": 0,
+    "intersections": [],
+    "passed": true
+  },
+  {
+    "assembly": "dayrally-mini-flow",
+    "pairs_with_bbox_overlap": 18,
+    "intersections": [],
+    "passed": true
+  },
+  {
+    "assembly": "dayrally-mini-drop",
+    "pairs_with_bbox_overlap": 17,
+    "intersections": [],
+    "passed": true
+  },
+  {
+    "assembly": "dayrally-mini-ridge",
+    "pairs_with_bbox_overlap": 18,
+    "intersections": [],
+    "passed": true
+  },
+  {
+    "assembly": "wall-station",
+    "pairs_with_bbox_overlap": 23,
+    "intersections": [],
+    "passed": true
+  }
+]

@@ -1,0 +1,7 @@
+cadquery>=2.8,<3
+numpy>=2,<3
+trimesh>=4,<5
+# Optional, for the supplied rendering/guide tooling:
+Pillow>=11
+vtk>=9.3
+reportlab>=4

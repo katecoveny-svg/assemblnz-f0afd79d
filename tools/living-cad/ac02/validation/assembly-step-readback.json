@@ -1,0 +1,236 @@
+[
+  {
+    "assembly": "orbit-planter",
+    "step_file_reopened": true,
+    "step_solids": 4,
+    "expected_instances": 4,
+    "solid_count_matches": true,
+    "volume_mm3": 392246.43257536564,
+    "bbox_mm": [
+      118.08323334587035,
+      118.08323334587035,
+      114.00000010000001
+    ]
+  },
+  {
+    "assembly": "pleat-shade-study",
+    "step_file_reopened": true,
+    "step_solids": 1,
+    "expected_instances": 1,
+    "solid_count_matches": true,
+    "volume_mm3": 130555.40778181312,
+    "bbox_mm": [
+      180.20000019999998,
+      180.20000019999998,
+      125.000000200005
+    ]
+  },
+  {
+    "assembly": "manual-rail-clock",
+    "step_file_reopened": true,
+    "step_solids": 7,
+    "expected_instances": 7,
+    "solid_count_matches": true,
+    "volume_mm3": 250223.8185835924,
+    "bbox_mm": [
+      168.0,
+      70.0,
+      106.4
+    ]
+  },
+  {
+    "assembly": "pet-walk-kit",
+    "step_file_reopened": true,
+    "step_solids": 4,
+    "expected_instances": 4,
+    "solid_count_matches": true,
+    "volume_mm3": 45073.27422338062,
+    "bbox_mm": [
+      117.00000019999999,
+      94.5000001,
+      68.0000001
+    ]
+  },
+  {
+    "assembly": "small-flatpack-shelf",
+    "step_file_reopened": true,
+    "step_solids": 17,
+    "expected_instances": 17,
+    "solid_count_matches": true,
+    "volume_mm3": 647254.8844071208,
+    "bbox_mm": [
+      232.0,
+      132.0,
+      192.0
+    ]
+  },
+  {
+    "assembly": "tabletop-valet",
+    "step_file_reopened": true,
+    "step_solids": 9,
+    "expected_instances": 9,
+    "solid_count_matches": true,
+    "volume_mm3": 747905.3413991306,
+    "bbox_mm": [
+      414.0,
+      414.0,
+      191.0
+    ]
+  },
+  {
+    "assembly": "outfit-valet-research",
+    "step_file_reopened": true,
+    "step_solids": 17,
+    "expected_instances": 17,
+    "solid_count_matches": true,
+    "volume_mm3": 1164089.4128214754,
+    "bbox_mm": [
+      414.0,
+      414.0,
+      839.0
+    ]
+  },
+  {
+    "assembly": "dayrally-case-closed",
+    "step_file_reopened": true,
+    "step_solids": 10,
+    "expected_instances": 10,
+    "solid_count_matches": true,
+    "volume_mm3": 232312.49442577903,
+    "bbox_mm": [
+      160.0000002,
+      113.8000001,
+      78.0
+    ]
+  },
+  {
+    "assembly": "dayrally-case-open",
+    "step_file_reopened": true,
+    "step_solids": 8,
+    "expected_instances": 8,
+    "solid_count_matches": true,
+    "volume_mm3": 257747.3762071543,
+    "bbox_mm": [
+      160.0000002,
+      162.4851805235353,
+      143.83825534012
+    ]
+  },
+  {
+    "assembly": "rally-rule-300mm",
+    "step_file_reopened": true,
+    "step_solids": 7,
+    "expected_instances": 7,
+    "solid_count_matches": true,
+    "volume_mm3": 31491.68203642657,
+    "bbox_mm": [
+      300.00000020000004,
+      26.0000002,
+      15.100000099999999
+    ]
+  },
+  {
+    "assembly": "desk-rail-set",
+    "step_file_reopened": true,
+    "step_solids": 4,
+    "expected_instances": 4,
+    "solid_count_matches": true,
+    "volume_mm3": 304462.9079219404,
+    "bbox_mm": [
+      240.0,
+      70.0,
+      83.15
+    ]
+  },
+  {
+    "assembly": "desk-rail-compact",
+    "step_file_reopened": true,
+    "step_solids": 4,
+    "expected_instances": 4,
+    "solid_count_matches": true,
+    "volume_mm3": 230908.8833009201,
+    "bbox_mm": [
+      210.0,
+      70.0,
+      83.15
+    ]
+  },
+  {
+    "assembly": "desk-edge-perch",
+    "step_file_reopened": true,
+    "step_solids": 3,
+    "expected_instances": 3,
+    "solid_count_matches": true,
+    "volume_mm3": 75254.2241571876,
+    "bbox_mm": [
+      168.0,
+      110.0,
+      56.5
+    ]
+  },
+  {
+    "assembly": "vanity-organisers",
+    "step_file_reopened": true,
+    "step_solids": 3,
+    "expected_instances": 3,
+    "solid_count_matches": true,
+    "volume_mm3": 187450.65100596062,
+    "bbox_mm": [
+      306.45,
+      176.45,
+      55.0
+    ]
+  },
+  {
+    "assembly": "dayrally-mini-flow",
+    "step_file_reopened": true,
+    "step_solids": 13,
+    "expected_instances": 13,
+    "solid_count_matches": true,
+    "volume_mm3": 119123.84438467745,
+    "bbox_mm": [
+      186.50952824434205,
+      58.00000020000001,
+      99.544011430555
+    ]
+  },
+  {
+    "assembly": "dayrally-mini-drop",
+    "step_file_reopened": true,
+    "step_solids": 13,
+    "expected_instances": 13,
+    "solid_count_matches": true,
+    "volume_mm3": 132099.69313957266,
+    "bbox_mm": [
+      207.49734849564,
+      58.00000020000001,
+      114.11453788722
+    ]
+  },
+  {
+    "assembly": "dayrally-mini-ridge",
+    "step_file_reopened": true,
+    "step_solids": 13,
+    "expected_instances": 13,
+    "solid_count_matches": true,
+    "volume_mm3": 124055.26738572211,
+    "bbox_mm": [
+      195.50465634486,
+      58.00000020000001,
+      104.44624962767
+    ]
+  },
+  {
+    "assembly": "wall-station",
+    "step_file_reopened": true,
+    "step_solids": 11,
+    "expected_instances": 11,
+    "solid_count_matches": true,
+    "volume_mm3": 410173.4792348905,
+    "bbox_mm": [
+      185.0,
+      85.00000000000001,
+      185.0
+    ]
+  }
+]

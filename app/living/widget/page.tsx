@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { WIDGET_KITS, WIDGET_PRODUCTS, widgetSpec } from '@/lib/living';
+import { AC02_HANDLE_PREFIX, WIDGET_KITS, WIDGET_PRODUCTS, WIDGET_PROTOTYPES, widgetSpec } from '@/lib/living';
 import '../living.css';
 
 export const metadata: Metadata = {
@@ -21,6 +21,11 @@ export default function WidgetIndexPage() {
     const type = k.collection === 'dayrally' ? 'dayrally kits' : 'Room kits';
     groups.set(type, [...(groups.get(type) ?? []), { handle: k.handle, title: k.title, blurb: k.note, personalised: k.lines.some((l) => WIDGET_PRODUCTS.find((p) => p.handle === l.handle)?.personalised) }]);
   }
+  for (const a of WIDGET_PROTOTYPES) {
+    const type = `${a.brand === 'dayrally' ? 'dayrally' : 'Living'} prototypes · AC-02 · unprinted`;
+    const spec = widgetSpec(`${AC02_HANDLE_PREFIX}${a.id}`)!;
+    groups.set(type, [...(groups.get(type) ?? []), { handle: spec.handle, title: a.name, blurb: a.description, personalised: spec.lines.some((l) => ['wall-name-panel', 'rally-name-skin', 'pet-name-tag'].includes(l.handle) || l.handle.endsWith('-display-base')) }]);
+  }
   return (
     <div className="lv">
       <div className="lv-wrap" style={{ padding: '3rem 0' }}>
@@ -28,7 +33,7 @@ export default function WidgetIndexPage() {
         <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.6rem)' }}>one product, made yours</h1>
         <p className="lv-lede" style={{ marginTop: '0.8rem' }}>Each widget offers the product’s real choices from the parts manifest and hands a typed item to the store page. Embed it in a Shopify product page with one Custom Liquid block:</p>
         <pre className="lv-mono" style={{ whiteSpace: 'pre-wrap', background: 'var(--lv-chalk)', padding: '1rem 1.2rem', borderRadius: 14, marginTop: '1rem', textTransform: 'none', letterSpacing: 0 }}>{SNIPPET}</pre>
-        <p className="lv-small" style={{ marginTop: '0.6rem' }}>Guide: <code>docs/living/WIDGET-EMBED.md</code>. Nothing here sells anything; purchasing remains the store’s decision.</p>
+        <p className="lv-small" style={{ marginTop: '0.6rem' }}>Guide: <code>docs/living/WIDGET-EMBED.md</code>. Nothing here sells anything; purchasing remains the store’s decision. AC-02 prototypes are real CAD that has never been printed: they carry no price and must not be listed.</p>
         {[...groups.entries()].map(([type, products]) => (
           <section key={type} style={{ marginTop: '2.2rem' }}>
             <h2 style={{ fontSize: '1.2rem', marginBottom: '0.8rem' }}>{type}</h2>

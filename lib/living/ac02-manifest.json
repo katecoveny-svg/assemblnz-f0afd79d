@@ -1,0 +1,3188 @@
+{
+ "schema": "assembl.living.ac02-slim/1",
+ "revision": "AC-02",
+ "release": "digital_prototype",
+ "approvedForManufacture": false,
+ "interfaces": {
+  "wall": "TURN-42-AC02-candidate",
+  "desk": "TR01-44mm-dual-rail",
+  "structural": "VAL01-research-only"
+ },
+ "labels": {
+  "name": "JACK",
+  "pet_name": "FRANKLIN",
+  "wall_label": "ASSEMBL"
+ },
+ "summary": {
+  "distinct_parts": 109,
+  "assembled_views": 18,
+  "native_step_parts": 109,
+  "stl_parts": 109,
+  "all_step_readback_valid": true,
+  "stl_file_readback_failures": [],
+  "assembly_poses_without_intersection": 18,
+  "assembly_poses_checked": 18,
+  "unprinted": true,
+  "load_tests_performed": false,
+  "manufacturing_dispatch_performed": false,
+  "assembly_step_files_reopened": 18,
+  "assembly_step_files_valid": 18
+ },
+ "parts": [
+  {
+   "id": "rally-case",
+   "group": "dayrally",
+   "description": "Rounded 160 x 96 mm storage case with hinge ears",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    160.0,
+    111.4,
+    44.4
+   ],
+   "volumeCm3": 90.59,
+   "massG": 115.1,
+   "watertight": true,
+   "stlSha256": "03f24076b270380c9992ede0f0ee697772e8fb9090a388ccfef2b07f0ff738e4",
+   "stepSha256": "71588442b7908074c5eed7d06f67812ed8a542cd718f8f161ade6a0cdab5c527",
+   "notes": "Fixed-size sample. Open case is printable upright; hinge tunnels may need support/reaming. Not sealed or load-rated."
+  },
+  {
+   "id": "rally-lid",
+   "group": "dayrally",
+   "description": "Printed lid, skirt, hinge and integrated flex catch",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    160.0,
+    113.8,
+    24.2
+   ],
+   "volumeCm3": 75.28,
+   "massG": 95.6,
+   "watertight": true,
+   "stlSha256": "64b913d448e3af3c0f5b9a543179aa6935093f50267ca283daf39d65f0e0b5a2",
+   "stepSha256": "e75d8673066e455f3cd112aaf682e4162cd062311e8f0784fb064c55ecde4780",
+   "notes": "Real hinge and latch geometry. Snap deflection, fatigue and closure need sample testing. Support around hinge ears; no waterproof claim."
+  },
+  {
+   "id": "rally-folding-handle",
+   "group": "dayrally",
+   "description": "Folding U handle with two pin eyes",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    108.0,
+    33.2,
+    9.4
+   ],
+   "volumeCm3": 6.17,
+   "massG": 7.8,
+   "watertight": true,
+   "stlSha256": "cd3284852143be692c02dbdb8ad6f1d2a6e448071196d04ca28fe4afc67c4e41",
+   "stepSha256": "2a39809a805ba932318f24bfc6eb6ec95a4eaf775837691cb81593b86d42f9b0",
+   "notes": "Handle is a separate solid, not a flexible rendering. No lifting rating."
+  },
+  {
+   "id": "rally-hinge-pin",
+   "group": "dayrally",
+   "description": "Long removable printed case-hinge pin",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    6.6,
+    6.6,
+    138.7
+   ],
+   "volumeCm3": 1.23,
+   "massG": 1.6,
+   "watertight": true,
+   "stlSha256": "60e23ede7f77b0ff9cee933c6888f3ccc68aa9a2e6e377721b0c476a5c9e5697",
+   "stepSha256": "358a54c47d876b8dfc9cf5b3a8f9e43d78f882ebcdeef185198db91a89dcac91",
+   "notes": "Print as a slender upright pin with brim or on its side with support. Test actual pin/hole clearances."
+  },
+  {
+   "id": "rally-handle-pin",
+   "group": "dayrally",
+   "description": "Printed handle-pivot pin",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    6.4,
+    6.4,
+    18.35
+   ],
+   "volumeCm3": 0.2,
+   "massG": 0.3,
+   "watertight": true,
+   "stlSha256": "9569873e8beec04fad71c568bacbe040cb984ebc42ed8febefcfa5eb54b0e347",
+   "stepSha256": "4551fb01064e46cd39cd8baa299cd16ac31ddd5b463d58436af90c200873f86e",
+   "notes": "Two pins and caps; no load rating."
+  },
+  {
+   "id": "rally-pin-cap",
+   "group": "dayrally",
+   "description": "Slit printed retaining-cap prototype",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    6.4,
+    6.361,
+    3.2
+   ],
+   "volumeCm3": 0.07,
+   "massG": 0.1,
+   "watertight": true,
+   "stlSha256": "5283fe45a20b1ba4ce1bdbf0c71996cb3a0a6954c6f933ec74f7a9beba9dca79",
+   "stepSha256": "cb01eb1385e6fbd0781334062e8733c370b581fc7d95cda07dc965d54786fdd1",
+   "notes": "3.4 mm bore / 3.3 mm pin. Nominal loose/slit fit may not retain: tune physical sample. All-printed retention is not yet approved."
+  },
+  {
+   "id": "rally-removable-tray",
+   "group": "dayrally",
+   "description": "Removable spool bay and two leader/tackle bays",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    147.0,
+    83.0,
+    25.0
+   ],
+   "volumeCm3": 58.44,
+   "massG": 74.2,
+   "watertight": true,
+   "stlSha256": "4a9ee4797afc1fc23c7d158d7e296e6e706e24133916babfdf5ba975be30cdbe",
+   "stepSha256": "bf2ce7f1f476c139cd0ce9952a2302c44cca12c8a1037ddf90220be09dfce5ee",
+   "notes": "147 x 83 x 25 mm. Compartments do not make sharp hooks safe; use appropriate hook guards."
+  },
+  {
+   "id": "rally-leader-card",
+   "group": "dayrally",
+   "description": "Notched reusable leader-winding card",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    63.0,
+    25.0,
+    2.8
+   ],
+   "volumeCm3": 4.27,
+   "massG": 5.4,
+   "watertight": true,
+   "stlSha256": "dd24c703bb06583323b5b1d9c52f2c907ed450d6f03e09997c54a4b490d4584e",
+   "stepSha256": "6ace64b8574617ac1c315ea9958c8cd0274e99dc13ece34d6438c7638d1af2b5",
+   "notes": "No line or hook included. File sharp printing edges smooth before winding fine line."
+  },
+  {
+   "id": "rally-line-spool",
+   "group": "dayrally",
+   "description": "Plain handline / spare-line spool",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    58.0,
+    58.0,
+    19.8
+   ],
+   "volumeCm3": 21.7,
+   "massG": 27.6,
+   "watertight": true,
+   "stlSha256": "d9988e75a4de42902c73a35f239446c388098c36e5daf30e37e0501831220bc3",
+   "stepSha256": "318cf821270c3890be9880a5d32d830501b342318433dfb910345397e0dd6132",
+   "notes": "No gear reduction, drag or casting mechanism. Top flange needs support in the chosen orientation. Fishing line is a separate product."
+  },
+  {
+   "id": "rally-name-skin",
+   "group": "dayrally",
+   "description": "Optional personalised loose name panel",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "Matte PLA candidate",
+   "bboxMm": [
+    98.0,
+    24.0,
+    2.6
+   ],
+   "volumeCm3": 5.91,
+   "massG": 7.3,
+   "watertight": true,
+   "stlSha256": "6273da756736b3ec97da34c7ef929df7d4d199b23b2f81a1be7f4602b41428e0",
+   "stepSha256": "6210a23400e8cb1cae33aadc9526d66c397788dcea22abc0c2a13ae39a7ebde5",
+   "notes": "No claimed snap connection to case. A skin interface remains a separate development item; this supplied panel is a sample badge."
+  },
+  {
+   "id": "rally-rule-link-1",
+   "group": "dayrally",
+   "description": "100 mm interval rule link 1",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    106.0,
+    26.0,
+    4.0
+   ],
+   "volumeCm3": 10.31,
+   "massG": 13.1,
+   "watertight": true,
+   "stlSha256": "e9dc570fb21072f5833a4e8f40010295325056c41cd5e4e14f2bd4fe6a7e996e",
+   "stepSha256": "5985894a9290cf8b4201c974907ab4564283076a0d5f7a7bc9747c32e4a14fc2",
+   "notes": "Three sequential links form nominal 0–300 mm scale. Printed marks must be calibrated. Hinges do not lock straight; align against a straightedge. Not approved for regulatory fish sizing."
+  },
+  {
+   "id": "rally-rule-link-2",
+   "group": "dayrally",
+   "description": "100 mm interval rule link 2",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    112.0,
+    26.0,
+    4.0
+   ],
+   "volumeCm3": 10.44,
+   "massG": 13.3,
+   "watertight": true,
+   "stlSha256": "c5a2e1d29c48618392dace8fc00d82f8daa9b98327691aa0bc9633352128c63f",
+   "stepSha256": "f16939c5185cdac2dcf95304062f506677715a0e531b268a4d1dec843b37bda7",
+   "notes": "Three sequential links form nominal 0–300 mm scale. Printed marks must be calibrated. Hinges do not lock straight; align against a straightedge. Not approved for regulatory fish sizing."
+  },
+  {
+   "id": "rally-rule-link-3",
+   "group": "dayrally",
+   "description": "100 mm interval rule link 3",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    106.0,
+    26.0,
+    4.0
+   ],
+   "volumeCm3": 10.35,
+   "massG": 13.1,
+   "watertight": true,
+   "stlSha256": "fb0837923a2347f681013e93eb8b806b8b775c5171a9324777dcd8538c7a91d7",
+   "stepSha256": "0f8466ea90c9b5226b4bf486f186d39420966c6e8b0105ab6d04a4ffb024d117",
+   "notes": "Three sequential links form nominal 0–300 mm scale. Printed marks must be calibrated. Hinges do not lock straight; align against a straightedge. Not approved for regulatory fish sizing."
+  },
+  {
+   "id": "rally-rule-pin",
+   "group": "dayrally",
+   "description": "Printed folding-rule pivot",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    6.5,
+    6.5,
+    10.5
+   ],
+   "volumeCm3": 0.12,
+   "massG": 0.2,
+   "watertight": true,
+   "stlSha256": "f4a945bd5011d55c5eb79cdc44f18d4ea3e3956920dea5a57c54d7102d2376df",
+   "stepSha256": "567bbcc6a2b8358cabb1e9b372a97ca435d6ae7515d1df1b1c1967054cd1eb5a",
+   "notes": "Pivot axes spaced exactly 100 mm in the CAD. Retention and planar alignment require a printed test."
+  },
+  {
+   "id": "calibration-100mm",
+   "group": "dayrally",
+   "description": "Independent 100 mm calibration bar",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "Same material and process as intended ruler",
+   "bboxMm": [
+    100.0,
+    15.0,
+    4.0
+   ],
+   "volumeCm3": 5.98,
+   "massG": 7.4,
+   "watertight": true,
+   "stlSha256": "4531800bb61e018c2c2085d1cf701df2fa19612a81458372e90c0bfc9815d9df",
+   "stepSha256": "3f0b90e881c0be36ada47600231d3904860f75009024bb03b5c3a6ef8bde0d93",
+   "notes": "Measure end-to-end after cooling. It is a shrinkage coupon, not a certified calibration instrument."
+  },
+  {
+   "id": "rail-84",
+   "group": "desk",
+   "description": "TR-01 twin-dovetail desk rail 84 mm",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    84.0,
+    70.0,
+    10.0
+   ],
+   "volumeCm3": 35.41,
+   "massG": 45.0,
+   "watertight": true,
+   "stlSha256": "dab9b52259e9a4023620e865f19603676b50061baf6fea7d79ed1c7b6fead913",
+   "stepSha256": "a45544fe357c2b5997c8d0e214aeb1747745c8999e152d319d0982485b07db68",
+   "notes": "TR-01 is a proposed sliding desktop connection, not the wall TURN interface. Supports under the dovetail shoulders may be required."
+  },
+  {
+   "id": "rail-210",
+   "group": "desk",
+   "description": "TR-01 twin-dovetail desk rail 210 mm",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    210.0,
+    70.0,
+    10.0
+   ],
+   "volumeCm3": 89.61,
+   "massG": 113.8,
+   "watertight": true,
+   "stlSha256": "ed0b966252e84e5bf4b31393ea21e1c70b6e52f707c86028692af0d8161caf8b",
+   "stepSha256": "9d8ab8fe197ad50423afc2db2edc51c8d1418a00d5e0ebd868071f09df361015",
+   "notes": "TR-01 is a proposed sliding desktop connection, not the wall TURN interface. Supports under the dovetail shoulders may be required."
+  },
+  {
+   "id": "rail-240",
+   "group": "desk",
+   "description": "TR-01 twin-dovetail desk rail 240 mm",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    240.0,
+    70.0,
+    10.0
+   ],
+   "volumeCm3": 102.52,
+   "massG": 130.2,
+   "watertight": true,
+   "stlSha256": "28efad1fa50bc66a9b97a5794f754e33d5b4a03067b25b9c465b32ff2118fcfe",
+   "stepSha256": "9011814eeb16394615005c3d2e47f85906923252f9fa79b9f9c1f83a7d266d32",
+   "notes": "TR-01 is a proposed sliding desktop connection, not the wall TURN interface. Supports under the dovetail shoulders may be required."
+  },
+  {
+   "id": "rail-alignment-joiner",
+   "group": "desk",
+   "description": "Underside peg plate aligning two rail segments",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    30.0,
+    44.0,
+    6.65
+   ],
+   "volumeCm3": 4.12,
+   "massG": 5.2,
+   "watertight": true,
+   "stlSha256": "6226637c0132353ef97a3cbd1bacf609a6396b8a0de9304a95efbb906b02ff57",
+   "stepSha256": "1debd0d230979e748eda5ce7a4cd8ea97cfad54b2a7b1fe30b8459f8a0c3c6f9",
+   "notes": "Geometric alignment only, not a structural beam joint."
+  },
+  {
+   "id": "rail-end-stop-pin",
+   "group": "desk",
+   "description": "Removable headed stop peg",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    8.0,
+    8.0,
+    11.8
+   ],
+   "volumeCm3": 0.17,
+   "massG": 0.2,
+   "watertight": true,
+   "stlSha256": "0d5a0c74b71c7f550ad3c9f7053a0fe729f98f87eef4dc89e026820929c9aaa7",
+   "stepSha256": "f186ac9763284eb8605bb75d5348c0485fd64954bcf610a578c1b33d94c01732",
+   "notes": "Insert shaft down through rail-end holes; caps block a module from sliding off. Loose-fit retention needs testing."
+  },
+  {
+   "id": "rail-fit-coupon",
+   "group": "desk",
+   "description": "24 mm long sliding-fit coupon",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    24.0,
+    62.0,
+    9.0
+   ],
+   "volumeCm3": 10.99,
+   "massG": 14.0,
+   "watertight": true,
+   "stlSha256": "bb1f9d0787b0420fea44845bf3a152b9c8761763afcc40be1daed59be703c2d6",
+   "stepSha256": "71fc174aae5fabe12842b84c8be917b73ab9fc11271962c57554a964b0d08013",
+   "notes": "Print before any full organiser. Female base opening 6.8 mm; head opening 10.8 mm; nominal radial difference 0.4 mm."
+  },
+  {
+   "id": "rail-catch-tray",
+   "group": "desk",
+   "description": "Slide-on catchall tray",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    84.0,
+    62.0,
+    31.95
+   ],
+   "volumeCm3": 64.49,
+   "massG": 81.9,
+   "watertight": true,
+   "stlSha256": "c5d902d65d0ad307a2fed87567914599958a43ef51f53bb81360981d326ac36f",
+   "stepSha256": "fc4017849ab7ea512bcc05e103d9408368555421b949e3738b2c6b0748565635",
+   "notes": "Do not change socket dimensions when resizing the useful tray area."
+  },
+  {
+   "id": "rail-pen-cup",
+   "group": "desk",
+   "description": "Slide-on rounded brush and pen cup",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    42.0,
+    62.0,
+    77.95
+   ],
+   "volumeCm3": 48.13,
+   "massG": 61.1,
+   "watertight": true,
+   "stlSha256": "3245dc27d9899994abc19bbddd5318033321647c065f9df5ed126a75a52ec623",
+   "stepSha256": "ea397937ab6ae322db5d02ce65170b064d025372bd24de7241e8d152e96a3023",
+   "notes": "External rib option belongs only on nonmating walls."
+  },
+  {
+   "id": "rail-vanity-wells",
+   "group": "desk",
+   "description": "Twelve-well cosmetic tube organiser",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    84.0,
+    62.0,
+    38.95
+   ],
+   "volumeCm3": 118.39,
+   "massG": 150.3,
+   "watertight": true,
+   "stlSha256": "aac68778c4a3f5be1e2eec30fd609f28e386c4c570bcaa807e189959f4a430d3",
+   "stepSha256": "4f9f38e964378397626edb715a7a25fa1b481bcaac666b18d7991dd199797768",
+   "notes": "15 mm nominal wells are for existing containers, not poured cosmetics."
+  },
+  {
+   "id": "rail-phone-rest",
+   "group": "desk",
+   "description": "Angled phone rest with open charging-cable gap",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    84.0,
+    62.0,
+    60.699
+   ],
+   "volumeCm3": 81.33,
+   "massG": 103.3,
+   "watertight": true,
+   "stlSha256": "cc6ca904fc81d0fd7f26f06433ec33165eeb85c4561bfeafde774d6e0b0c5c11",
+   "stepSha256": "85d6c899a14706258a90e79df1a32225e609de2a839d440b2ba6e97cf787e477",
+   "notes": "Test stability and device fit; no riding use. Supports under tilted surfaces required."
+  },
+  {
+   "id": "rail-note-slot",
+   "group": "desk",
+   "description": "Slot for a paper card or sticky-note backing",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    84.0,
+    62.0,
+    47.95
+   ],
+   "volumeCm3": 89.33,
+   "massG": 113.5,
+   "watertight": true,
+   "stlSha256": "504b0212d4aebe71896a116aeb718e42bfc1fcc8e888fd35d580f327d3b04f3b",
+   "stepSha256": "f6eb036e49cd673d33d453577eb37e5e0bbb94a616e4fe61079d5c9b3c5f66e4",
+   "notes": "2.2 mm paper-card slot. Paper not supplied."
+  },
+  {
+   "id": "rail-cable-comb",
+   "group": "desk",
+   "description": "Three open cable channels on a rail foot",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    42.0,
+    62.0,
+    31.95
+   ],
+   "volumeCm3": 28.68,
+   "massG": 36.4,
+   "watertight": true,
+   "stlSha256": "dc4da5dd5f1fe6ab2efa57455ddb13a691d4f6148fc64f2c854e3b1f1a17c89a",
+   "stepSha256": "ca017ff98a52de2e161644ee95df519308dec7cfd1519dcbaf302e28acbb92cb",
+   "notes": "Cable retention and strain relief not rated. Avoid cutting or pinching a cable."
+  },
+  {
+   "id": "rail-object-dock",
+   "group": "desk",
+   "description": "Two-pin accessory dock for original future modules",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    84.0,
+    62.0,
+    23.95
+   ],
+   "volumeCm3": 49.82,
+   "massG": 63.3,
+   "watertight": true,
+   "stlSha256": "28bb7075a28a33cb0764f0fc92baee43c5142e8af774da136bba154d61b800a0",
+   "stepSha256": "d44e2ecc5b935550429acbed667c5d0de9c4107233cdf4fc4e52c1799c94d418",
+   "notes": "No claimed compatibility with third-party rails."
+  },
+  {
+   "id": "desk-edge-perch-25",
+   "group": "desk",
+   "description": "Front-of-desk pocket with two fixed-gap 25 mm desk clips",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    56.5,
+    105.0,
+    168.0
+   ],
+   "volumeCm3": 71.67,
+   "massG": 91.0,
+   "watertight": true,
+   "stlSha256": "2be4510c91bb1ebdc8e50d88485b23037e23bafc5f4ae77efbfe36f74b90e4a4",
+   "stepSha256": "c30855bfe1480a3b06f8fa590ddee7e0742d3ee7facaec84eecd082b49aac6cc",
+   "notes": "For a 25 mm unobstructed desk edge only, with printed wedges. Design not load-tested. Do not assume universal clamp fit."
+  },
+  {
+   "id": "desk-edge-wedge",
+   "group": "desk",
+   "description": "Tapered removable wedge for fixed-gap desk clamp",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    24.0,
+    37.0,
+    6.0
+   ],
+   "volumeCm3": 1.79,
+   "massG": 2.3,
+   "watertight": true,
+   "stlSha256": "66619210574a5df239cf33b58b746c1d81ae3d491eeae2a5db70eb6fb47d0478",
+   "stepSha256": "0e4b38c117ea7c638192d034d6591e795492840a7974ca6e562b426f40ef7c2a",
+   "notes": "Use to tune clamping after checking the surface. No anti-slip or surface-protection claim."
+  },
+  {
+   "id": "drawer-tray-84x84",
+   "group": "desk",
+   "description": "84 x 84 fitted organiser with 1 compartments",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "Matte PLA or PETG candidate",
+   "bboxMm": [
+    84.0,
+    84.0,
+    30.0
+   ],
+   "volumeCm3": 37.79,
+   "massG": 46.9,
+   "watertight": true,
+   "stlSha256": "728351e9a7000eff77f95391d83c6ac0d08513622f3c99cbe5ae467940934ad9",
+   "stepSha256": "6816ff36d5494eb953fc83fbcd734ee00a400ecf5edcd4ae22ea3e1e6afb39cd",
+   "notes": "Outer size, not required drawer size. Leave clearance for drawer taper and opening."
+  },
+  {
+   "id": "drawer-tray-168x84",
+   "group": "desk",
+   "description": "168 x 84 fitted organiser with 2 compartments",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "Matte PLA or PETG candidate",
+   "bboxMm": [
+    168.0,
+    84.0,
+    38.0
+   ],
+   "volumeCm3": 79.86,
+   "massG": 99.0,
+   "watertight": true,
+   "stlSha256": "99670cc6bed01832bdda75cd6df1f9c88baea5a7194273b10fe091da06b67a14",
+   "stepSha256": "8827c682aa1ef70950c381dada835b685244eb4625fb12d34f1e2d17a96b06eb",
+   "notes": "Outer size, not required drawer size. Leave clearance for drawer taper and opening."
+  },
+  {
+   "id": "drawer-tray-240x180",
+   "group": "desk",
+   "description": "240 x 180 fitted organiser with 6 compartments",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "Matte PLA or PETG candidate",
+   "bboxMm": [
+    240.0,
+    180.0,
+    42.0
+   ],
+   "volumeCm3": 220.26,
+   "massG": 273.1,
+   "watertight": true,
+   "stlSha256": "9666d89d0d16079f9510bafda471c3080ed6214e470058463e8cca672c2fa18b",
+   "stepSha256": "75466b16ee3c8ec377dff850d63b063ae21c47018cd8a3cf9008e5d959248b65",
+   "notes": "Outer size, not required drawer size. Leave clearance for drawer taper and opening."
+  },
+  {
+   "id": "swell-organiser-24",
+   "group": "desk",
+   "description": "Original three-lobe ribbed organiser 24 mm high",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "Matte PLA candidate",
+   "bboxMm": [
+    116.9,
+    67.9,
+    24.0
+   ],
+   "volumeCm3": 37.2,
+   "massG": 46.1,
+   "watertight": true,
+   "stlSha256": "cfea412278ddc430dbee520c692f38cec1b6af4b723c00d204d0b8964d21b502",
+   "stepSha256": "488c6fcbe2942130eabf4aa7d848ac2376096c93fa97b324502b7f86f554e0b3",
+   "notes": "Original outline, not copied from reference. Reference geometry is not embedded."
+  },
+  {
+   "id": "swell-organiser-55",
+   "group": "desk",
+   "description": "Original three-lobe ribbed organiser 55 mm high",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "Matte PLA candidate",
+   "bboxMm": [
+    116.9,
+    67.9,
+    55.0
+   ],
+   "volumeCm3": 70.39,
+   "massG": 87.3,
+   "watertight": true,
+   "stlSha256": "88ffd2dd5b3a4c50197fb4a5d0c63e697597f56759a5654755ef56faaf1862cd",
+   "stepSha256": "b133a37943639e037bd72f19738392594d54e0bbad6caaff83f03bdf4a17667a",
+   "notes": "Original outline, not copied from reference. Reference geometry is not embedded."
+  },
+  {
+   "id": "mini-wheel-axle",
+   "group": "mini-bikes",
+   "description": "Common wheel axle with head",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    6.8,
+    6.8,
+    33.7
+   ],
+   "volumeCm3": 0.35,
+   "massG": 0.5,
+   "watertight": true,
+   "stlSha256": "0751ae52564f7e84bd2d5c371b15515cdea9053bb77a59afd950ee7c22346076",
+   "stepSha256": "a28210d2c0b8f9b5a4a74c805ee447b16393c1c2a37b02ead9f82e9f37dac254",
+   "notes": "All printed; check axial play and cap retention before handling. Not a full-size bike part."
+  },
+  {
+   "id": "mini-wheel-cap",
+   "group": "mini-bikes",
+   "description": "Slit axle cap, sample 3.56 mm bore",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    6.186,
+    6.6,
+    2.7
+   ],
+   "volumeCm3": 0.06,
+   "massG": 0.1,
+   "watertight": true,
+   "stlSha256": "43d254691ac66a8b9356e128599b3f30e98f431aacbd3e39406e9084bfddd643",
+   "stepSha256": "3decdbd518ab2e7113f39ecf6b69fbf2db14cb87aa2556512c76f9d6018439b0",
+   "notes": "Nominal small-clearance cap; may be too loose in a given material. Alternative interference needs physical sampling."
+  },
+  {
+   "id": "mini-wheel-25p5",
+   "group": "mini-bikes",
+   "description": "Integrated miniature tire, rim, spokes and hub, radius 25.5 mm",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    52.51,
+    52.51,
+    14.0
+   ],
+   "volumeCm3": 11.71,
+   "massG": 14.9,
+   "watertight": true,
+   "stlSha256": "422de2d401640ec6e12940b5b4083c4a69eb916af4a23af8b00b93beff243287",
+   "stepSha256": "cdb886e33cbae684cca35acdf443eeed048354116da38ed1242336506d7c5a3b",
+   "notes": "Two-colour effects require print planning; tire, rim and spokes are one rigid solid. Face-down print with support review under tread."
+  },
+  {
+   "id": "mini-wheel-27p5",
+   "group": "mini-bikes",
+   "description": "Integrated miniature tire, rim, spokes and hub, radius 27.5 mm",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    56.5,
+    56.5,
+    14.0
+   ],
+   "volumeCm3": 12.66,
+   "massG": 16.1,
+   "watertight": true,
+   "stlSha256": "b974f969e5c2072a45d437117634b9427b5dc8962b977492332b24578ccd1a12",
+   "stepSha256": "68d291afe970947e932cbdaf17fbeb83acf7385a4d34fae6f3ed17b154dd5c14",
+   "notes": "Two-colour effects require print planning; tire, rim and spokes are one rigid solid. Face-down print with support review under tread."
+  },
+  {
+   "id": "mini-wheel-28",
+   "group": "mini-bikes",
+   "description": "Integrated miniature tire, rim, spokes and hub, radius 28 mm",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    57.497,
+    57.497,
+    14.0
+   ],
+   "volumeCm3": 12.9,
+   "massG": 16.4,
+   "watertight": true,
+   "stlSha256": "6e0b44c1b87b7a7cc59050ba623949d37c5c54fcc0a4d0c35a09d323ea243927",
+   "stepSha256": "bd41ba06da9a297a5d71f99264ba7d656d7f34270ea660096e538095467a07a7",
+   "notes": "Two-colour effects require print planning; tire, rim and spokes are one rigid solid. Face-down print with support review under tread."
+  },
+  {
+   "id": "mini-flow-frame",
+   "group": "mini-bikes",
+   "description": "Dayrally FLOW original fixed frame",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    127.342,
+    68.0,
+    28.6
+   ],
+   "volumeCm3": 17.95,
+   "massG": 22.8,
+   "watertight": true,
+   "stlSha256": "921d1cca0a4ad46af71bd55eeb02c8caae745e034171d3895120e7711818ad25",
+   "stepSha256": "259199bc9d55ca57e1c79a7199f3aaaa16cbfe0c34a89868b1f889e151d2c764",
+   "notes": "Display-scale original geometry. Static decorative shock. Supports required beneath rear stays and post; no suspension or driveline function."
+  },
+  {
+   "id": "mini-flow-fork",
+   "group": "mini-bikes",
+   "description": "FLOW fork with steerer",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    38.998,
+    71.851,
+    28.0
+   ],
+   "volumeCm3": 3.9,
+   "massG": 4.9,
+   "watertight": true,
+   "stlSha256": "28f261a2c04093c42126950168976218dc8344b3882bbe71a4ce1a35cd6004b5",
+   "stepSha256": "8d44d3e50195e02d75101d63dc8899ad30470cc65d5a0adba5ba36932e2992bd",
+   "notes": "Slit-cap and cockpit fit require a sample; bridge should clear tire. No spring travel."
+  },
+  {
+   "id": "mini-flow-cockpit",
+   "group": "mini-bikes",
+   "description": "FLOW handlebar and stem",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    16.185,
+    12.088,
+    51.8
+   ],
+   "volumeCm3": 1.1,
+   "massG": 1.4,
+   "watertight": true,
+   "stlSha256": "e74ecd8d399c710409a9e1ae1d6ee8103512686f64d281c6a60b6577c9e48749",
+   "stepSha256": "f9f3eeaadc9f14058c8c239183fcaf3d93caef22113874667447f6dcf7fb78c6",
+   "notes": "Small grip and stem features: slice/support carefully. Cosmetic display component."
+  },
+  {
+   "id": "mini-flow-saddle",
+   "group": "mini-bikes",
+   "description": "FLOW plug-on saddle",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    21.0,
+    12.0,
+    5.0
+   ],
+   "volumeCm3": 1.11,
+   "massG": 1.4,
+   "watertight": true,
+   "stlSha256": "9d528b5679114e5f7d546d07418b08268f52aaa8c8850da7b24673934955abec",
+   "stepSha256": "3b32e40921bfe182452c5078432bf225d25d18d41e42ab964436b57c235bf61b",
+   "notes": "Nominal seatpost socket 4.7 mm square; support/fit check."
+  },
+  {
+   "id": "mini-flow-crank-r",
+   "group": "mini-bikes",
+   "description": "FLOW crank with integral shaft",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    12.7,
+    16.7,
+    32.0
+   ],
+   "volumeCm3": 0.66,
+   "massG": 0.8,
+   "watertight": true,
+   "stlSha256": "04ced3fc3a58da627839d956531e9796a980c8547899ff4f4d7f1af783b5c129",
+   "stepSha256": "fced7f9f388ea735e8e17b119306e3fb2e651d15853e138e0cd17ee290882bcf",
+   "notes": "No chain drive. Keep cranks aligned outboard of frame."
+  },
+  {
+   "id": "mini-flow-crank-l",
+   "group": "mini-bikes",
+   "description": "FLOW socket crank",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    14.0,
+    18.7,
+    9.0
+   ],
+   "volumeCm3": 0.5,
+   "massG": 0.6,
+   "watertight": true,
+   "stlSha256": "73dc51d784d835830a22f35bcb94465236d4a42448abbdffe334750c03a7c3a1",
+   "stepSha256": "c0a835d5fd998d522d36e16d8b61b0e05df9763cb5cf68108da32570aca9c03f",
+   "notes": "Requires sample fit with integral 3.6 mm shaft."
+  },
+  {
+   "id": "mini-flow-display-base",
+   "group": "mini-bikes",
+   "description": "FLOW named display base",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "Matte PLA candidate",
+   "bboxMm": [
+    186.0,
+    58.0,
+    7.0
+   ],
+   "volumeCm3": 69.66,
+   "massG": 86.4,
+   "watertight": true,
+   "stlSha256": "9bea7802dcd228645f7bfe55312d59a9eca7332ce45a90940c188e535533e307",
+   "stepSha256": "0556fe77428705c39552e43613a02baf115409de9dbcbf95b06200fed4820f3e",
+   "notes": "Text is recessed geometry. Tire pockets nominal 13.6 mm wide; soft fit, not a latch."
+  },
+  {
+   "id": "mini-drop-frame",
+   "group": "mini-bikes",
+   "description": "Dayrally DROP original fixed frame",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    142.38,
+    74.436,
+    28.6
+   ],
+   "volumeCm3": 19.8,
+   "massG": 25.1,
+   "watertight": true,
+   "stlSha256": "4e5f1cc314452ce2f37675bc0acd3207c0be27056bbdc6764c54d5bd469ea52d",
+   "stepSha256": "b5743988bee6a1574f6de3009bb8e8ec86fcd266d2df74b0fa3dbf22e6adb4ad",
+   "notes": "Display-scale original geometry. Static decorative shock. Supports required beneath rear stays and post; no suspension or driveline function."
+  },
+  {
+   "id": "mini-drop-fork",
+   "group": "mini-bikes",
+   "description": "DROP fork with steerer",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    43.351,
+    84.352,
+    28.0
+   ],
+   "volumeCm3": 6.14,
+   "massG": 7.8,
+   "watertight": true,
+   "stlSha256": "98f416f07444d5b3b04fc63af43c4345eb93d4d4c0e6ab5914d2392d1fd7067a",
+   "stepSha256": "3df89709c46ded4c4f20087b2e67c571f759d9ae3e3a9a908a6c04be9679f884",
+   "notes": "Slit-cap and cockpit fit require a sample; bridge should clear tire. No spring travel."
+  },
+  {
+   "id": "mini-drop-cockpit",
+   "group": "mini-bikes",
+   "description": "DROP handlebar and stem",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    16.201,
+    12.055,
+    51.8
+   ],
+   "volumeCm3": 1.1,
+   "massG": 1.4,
+   "watertight": true,
+   "stlSha256": "3e8d15f8fdd083303c23bd2f87b3b75081890a5944439f77a313e4be37b223d9",
+   "stepSha256": "3c581958eb26adb697341de3389e6e578c53217262fee445d13bfa7392fb95d7",
+   "notes": "Small grip and stem features: slice/support carefully. Cosmetic display component."
+  },
+  {
+   "id": "mini-drop-saddle",
+   "group": "mini-bikes",
+   "description": "DROP plug-on saddle",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    21.0,
+    12.0,
+    5.0
+   ],
+   "volumeCm3": 1.11,
+   "massG": 1.4,
+   "watertight": true,
+   "stlSha256": "9d528b5679114e5f7d546d07418b08268f52aaa8c8850da7b24673934955abec",
+   "stepSha256": "66aab4cd692c31399803d70473e87f6565de08b97760187dfb0a6446b1a8370d",
+   "notes": "Nominal seatpost socket 4.7 mm square; support/fit check."
+  },
+  {
+   "id": "mini-drop-crank-r",
+   "group": "mini-bikes",
+   "description": "DROP crank with integral shaft",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    12.7,
+    16.7,
+    32.0
+   ],
+   "volumeCm3": 0.66,
+   "massG": 0.8,
+   "watertight": true,
+   "stlSha256": "1008e75320a0cbb358afa5f91162510301140f75aaf5cebd092ae7463174e21d",
+   "stepSha256": "de863329d732ae94836b0e40b569ffb4b80c1190a113d8e9cba80031a55e9a8f",
+   "notes": "No chain drive. Keep cranks aligned outboard of frame."
+  },
+  {
+   "id": "mini-drop-crank-l",
+   "group": "mini-bikes",
+   "description": "DROP socket crank",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    14.0,
+    18.7,
+    9.0
+   ],
+   "volumeCm3": 0.5,
+   "massG": 0.6,
+   "watertight": true,
+   "stlSha256": "3bcbf94b0ff80e282bd9cf80c10907b64461d92669cbf5071463c36161351ad6",
+   "stepSha256": "a16fe40d223efcb74bb7cc9320d1a9585058e286bbcbfc5564908a2847809822",
+   "notes": "Requires sample fit with integral 3.6 mm shaft."
+  },
+  {
+   "id": "mini-drop-display-base",
+   "group": "mini-bikes",
+   "description": "DROP named display base",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "Matte PLA candidate",
+   "bboxMm": [
+    202.0,
+    58.0,
+    7.0
+   ],
+   "volumeCm3": 76.15,
+   "massG": 94.4,
+   "watertight": true,
+   "stlSha256": "3d440eb07861289e7b20bc01dbadff24b72ff5880b4675cc852a8e6e248a8836",
+   "stepSha256": "f7f3930fe353053e66e390fe5358810a95f513822f686bc408eddcc68acfcc89",
+   "notes": "Text is recessed geometry. Tire pockets nominal 13.6 mm wide; soft fit, not a latch."
+  },
+  {
+   "id": "mini-ridge-frame",
+   "group": "mini-bikes",
+   "description": "Dayrally RIDGE original fixed frame",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    134.288,
+    72.1,
+    28.6
+   ],
+   "volumeCm3": 19.0,
+   "massG": 24.1,
+   "watertight": true,
+   "stlSha256": "8496edaf4ba4515f039f8c477ccb066afc9d867dd909f86e2b491dec4b680057",
+   "stepSha256": "5cea1e23b182e1ce802110c128c5297ecc36e3238693f07e9aa118980c8b1f2f",
+   "notes": "Display-scale original geometry. Static decorative shock. Supports required beneath rear stays and post; no suspension or driveline function."
+  },
+  {
+   "id": "mini-ridge-fork",
+   "group": "mini-bikes",
+   "description": "RIDGE fork with steerer",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    40.172,
+    74.794,
+    28.0
+   ],
+   "volumeCm3": 4.0,
+   "massG": 5.1,
+   "watertight": true,
+   "stlSha256": "58f3750b36aa0060fb9836361a2568882bda1b6d7376f7bb94cea5a5dcfd05ec",
+   "stepSha256": "5e3a004764bdd75bbdf08ec64174a9338f98223166c04e68195408ef6f7739e8",
+   "notes": "Slit-cap and cockpit fit require a sample; bridge should clear tire. No spring travel."
+  },
+  {
+   "id": "mini-ridge-cockpit",
+   "group": "mini-bikes",
+   "description": "RIDGE handlebar and stem",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    16.162,
+    12.129,
+    51.8
+   ],
+   "volumeCm3": 1.1,
+   "massG": 1.4,
+   "watertight": true,
+   "stlSha256": "231d1a44ee32c29081ef6090e4ed8611225d72fafce737101f2af08618711bc1",
+   "stepSha256": "d1e448d9ae2cc35ac4c8b2b1e7775cb42a1b4b070775de726643e6315d075b2f",
+   "notes": "Small grip and stem features: slice/support carefully. Cosmetic display component."
+  },
+  {
+   "id": "mini-ridge-saddle",
+   "group": "mini-bikes",
+   "description": "RIDGE plug-on saddle",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    21.0,
+    12.0,
+    5.0
+   ],
+   "volumeCm3": 1.11,
+   "massG": 1.4,
+   "watertight": true,
+   "stlSha256": "9d528b5679114e5f7d546d07418b08268f52aaa8c8850da7b24673934955abec",
+   "stepSha256": "d6c9a437d4a3722bfa8a3d23fb604e9ccd469807987c129b778b3cad4a779c01",
+   "notes": "Nominal seatpost socket 4.7 mm square; support/fit check."
+  },
+  {
+   "id": "mini-ridge-crank-r",
+   "group": "mini-bikes",
+   "description": "RIDGE crank with integral shaft",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    12.7,
+    16.7,
+    32.0
+   ],
+   "volumeCm3": 0.66,
+   "massG": 0.8,
+   "watertight": true,
+   "stlSha256": "04ced3fc3a58da627839d956531e9796a980c8547899ff4f4d7f1af783b5c129",
+   "stepSha256": "de4f65a5a92a46caa365fdd0d0fbca5a1404c2754b327679aca91aea86b20fc3",
+   "notes": "No chain drive. Keep cranks aligned outboard of frame."
+  },
+  {
+   "id": "mini-ridge-crank-l",
+   "group": "mini-bikes",
+   "description": "RIDGE socket crank",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    14.0,
+    18.7,
+    9.0
+   ],
+   "volumeCm3": 0.5,
+   "massG": 0.6,
+   "watertight": true,
+   "stlSha256": "6acdf3291b77a14326ba5c80450c3638c0e7d9ec173a5ebe4a963b11ac2de8a6",
+   "stepSha256": "1ac5b5380311864a7c88a1243f56d1ae3a0e3d5131d4874d5393c2021eeb8b82",
+   "notes": "Requires sample fit with integral 3.6 mm shaft."
+  },
+  {
+   "id": "mini-ridge-display-base",
+   "group": "mini-bikes",
+   "description": "RIDGE named display base",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "Matte PLA candidate",
+   "bboxMm": [
+    193.0,
+    58.0,
+    7.0
+   ],
+   "volumeCm3": 72.49,
+   "massG": 89.9,
+   "watertight": true,
+   "stlSha256": "b5835ce1b1c4d4584259d4b0c3fe204f6472c1b9a2d61d8e377103d2c26c2f31",
+   "stepSha256": "a3b57b35b63d20d87ebea45879f706bb99869cd295910368591bd20b225251db",
+   "notes": "Text is recessed geometry. Tire pockets nominal 13.6 mm wide; soft fit, not a latch."
+  },
+  {
+   "id": "orbit-planter-shell",
+   "group": "objects",
+   "description": "Original rounded nursery-pot sleeve with orbital groove",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "Matte PLA / PETG candidate",
+   "bboxMm": [
+    118.083,
+    118.083,
+    86.0
+   ],
+   "volumeCm3": 377.69,
+   "massG": 468.3,
+   "watertight": true,
+   "stlSha256": "ff002ea96e9993d0bd63a9ef51f3920c594564a09b258bb184c6d9177dae384e",
+   "stepSha256": "6a8b415ed30f84d196fbaa2e110988bfa5c566e5b334e3f1854051c796ad4d54",
+   "notes": "Decorative sleeve for removable nursery pot, nominal cavity 86.4 mm. No water containment claim. Not a copy of the crater planter."
+  },
+  {
+   "id": "orbit-planter-leg",
+   "group": "objects",
+   "description": "Tapered plug-in planter leg",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    16.0,
+    16.0,
+    39.35
+   ],
+   "volumeCm3": 4.85,
+   "massG": 6.2,
+   "watertight": true,
+   "stlSha256": "522be86354b080c19a4095ebf105b49b4aa3db5610dd4f715c21f56014122eb6",
+   "stepSha256": "ea477b209f0818bdf236f87992740840b2751ffd8416f7d15b7db7372f0c04f6",
+   "notes": "Three identical legs; nominal socket/peg diameters 9.2/8.4 mm. Fit and stability tests required."
+  },
+  {
+   "id": "orbit-catch-tray",
+   "group": "objects",
+   "description": "Separate rounded catch-tray concept",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    136.0,
+    136.0,
+    10.0
+   ],
+   "volumeCm3": 52.49,
+   "massG": 66.7,
+   "watertight": true,
+   "stlSha256": "faa366f39e9fc40dfda8b881d9741beacfa30c44e5958216410d67dbc827bb3f",
+   "stepSha256": "9f6d01dd164a6fe492e8a97f04b6481a87131c9082d5e9b023cf0139f9482316",
+   "notes": "Not tested watertight; use an existing nursery-pot saucer if needed."
+  },
+  {
+   "id": "pleat-shade",
+   "group": "objects",
+   "description": "Original 16-fold open lampshade with nominal 42.8 mm collar",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "Grade not yet qualified",
+   "bboxMm": [
+    180.2,
+    180.2,
+    125.0
+   ],
+   "volumeCm3": 130.56,
+   "massG": 161.9,
+   "watertight": true,
+   "stlSha256": "89a6cd1a1ce15073d5d25f96514891db7c7fe777b275cf20770868dff2dda01f",
+   "stepSha256": "6ebad213d760891c68e370805e939d999fbb265adae5f73907f4fa8add28dc3f",
+   "notes": "Shade only; no cord, lamp holder or bulb. LED use alone does not certify safety. Fitting, clearance, heat exposure and ignition must be assessed; not a released luminaire."
+  },
+  {
+   "id": "manual-clock-body",
+   "group": "objects",
+   "description": "All-printed manual clock/routine dial body",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    86.0,
+    86.0,
+    23.0
+   ],
+   "volumeCm3": 86.93,
+   "massG": 110.4,
+   "watertight": true,
+   "stlSha256": "bd4d8e094b42b10f8e1fa9d3d878741515a41e098030b20a215f509fbe0bf287",
+   "stepSha256": "e7d3d55b25376fb6a4e65227c22d3c0cbaf20e3f657ace56f43d3df951e39b39",
+   "notes": "No timekeeping. Manual hands demonstrate times or routines."
+  },
+  {
+   "id": "quartz-clock-shell",
+   "group": "objects",
+   "description": "Optional clock casing for a separately sourced movement",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    86.0,
+    86.0,
+    23.0
+   ],
+   "volumeCm3": 86.83,
+   "massG": 110.3,
+   "watertight": true,
+   "stlSha256": "30ffffe200d8f3d2640f8c67cc6f0fb5323591a96a01241f100c43c9f93687bb",
+   "stepSha256": "cc13f608b3613724546410d05121e2c99d95c87809a67125808f2e89ec7e257b",
+   "notes": "Rear cavity 62 x 62 x 20.9 mm; nominal shaft hole 8.4 mm. No promise of compatibility with an unselected movement; not a fully printed working clock."
+  },
+  {
+   "id": "clock-back-cover",
+   "group": "objects",
+   "description": "Loose slip-fit rear cover",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    85.4,
+    85.4,
+    5.35
+   ],
+   "volumeCm3": 28.05,
+   "massG": 35.6,
+   "watertight": true,
+   "stlSha256": "a0ab3b7d033e6d1a8bace2c49a9d6b173555241d22569e5c14e8a2de3a8460fc",
+   "stepSha256": "59d068744734d48bab779d67a48cb945fa358ab09d4b7e0bcfbde4f137d8fc1c",
+   "notes": "0.3 mm per-side tongue clearance. Requires physical retention development."
+  },
+  {
+   "id": "clock-hour-hand",
+   "group": "objects",
+   "description": "Manual hour hand",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    10.0,
+    26.0,
+    1.6
+   ],
+   "volumeCm3": 0.24,
+   "massG": 0.3,
+   "watertight": true,
+   "stlSha256": "82814ade00a1abc4b36608e7f5a2c810fda0a2b3e1945011b1ebcb2e501d2be4",
+   "stepSha256": "cbc768caf134a2894ab226c6a6ab45175ad8b815d88e7ed0894743bac1772cfb",
+   "notes": ""
+  },
+  {
+   "id": "clock-minute-hand",
+   "group": "objects",
+   "description": "Manual minute hand",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    10.0,
+    34.0,
+    1.6
+   ],
+   "volumeCm3": 0.25,
+   "massG": 0.3,
+   "watertight": true,
+   "stlSha256": "f765cfca5193759b6cc9a7560e4048e5dd91c2c8c957ca04138a4cf12cc5159e",
+   "stepSha256": "ca09416b1b9b389319a228b631e9ab8a675deebfb6e4bc9378b37da7c1b9d8b4",
+   "notes": ""
+  },
+  {
+   "id": "clock-hand-pin",
+   "group": "objects",
+   "description": "Headed spindle for manual hands",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    9.6,
+    9.6,
+    12.95
+   ],
+   "volumeCm3": 0.23,
+   "massG": 0.3,
+   "watertight": true,
+   "stlSha256": "c77685be6cb9733a1a8013916a28c32720b25de8da74dec52d4363fbdb292d74",
+   "stepSha256": "6050b31be2fb5e3d2fc7d6ac437152047672116ea145bb5562ab7799ef175574",
+   "notes": "Press friction/retention must be tuned. No automatic motion."
+  },
+  {
+   "id": "clock-rail-cradle",
+   "group": "objects",
+   "description": "Original cradle holding the clock study on TR-01",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    86.0,
+    62.0,
+    29.9
+   ],
+   "volumeCm3": 62.98,
+   "massG": 80.0,
+   "watertight": true,
+   "stlSha256": "1ddc85902598914098d0ef9f5220b25cd676b728bf5513fa3ce90ef68469f435",
+   "stepSha256": "10bf8d0544fbb21997efccc1e53be3bed58745f97a32ef55a62f9209d727ed6d",
+   "notes": "Clock rests in the 26.4 mm-wide slot, front/back wall positions need sample seating check."
+  },
+  {
+   "id": "clock-rail-168",
+   "group": "objects",
+   "description": "TR-01 rail for manual desk clock",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    168.0,
+    70.0,
+    10.0
+   ],
+   "volumeCm3": 71.54,
+   "massG": 90.9,
+   "watertight": true,
+   "stlSha256": "567132f83ef7cc2379c382e8f968435953dbf6f72f93b5e314fc0c4fcf65f153",
+   "stepSha256": "4b1b5d07ad94cb6f9020a3499406ef85c74adc752e4e992aebaf437be5ff3040",
+   "notes": ""
+  },
+  {
+   "id": "walk-bag-pod",
+   "group": "objects",
+   "description": "Refillable bag-roll dispenser with accessory eye",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    38.0,
+    48.0,
+    65.0
+   ],
+   "volumeCm3": 29.61,
+   "massG": 37.6,
+   "watertight": true,
+   "stlSha256": "26b7e970633335f904ed1d383f7a9f8e75ae88a3ac6f65f491aae00988cfbc12",
+   "stepSha256": "8fd00fc48318778f676c3c2e9858645c5e76b928540538859e3b30f267aa19d9",
+   "notes": "For standard bags the customer supplies. Eye is for small accessories, not leash restraint. Slot fit and tear edge require smoothing/testing."
+  },
+  {
+   "id": "walk-pod-cap",
+   "group": "objects",
+   "description": "Slip-on bag-pod refill cap",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    38.0,
+    38.0,
+    9.9
+   ],
+   "volumeCm3": 4.8,
+   "massG": 6.1,
+   "watertight": true,
+   "stlSha256": "de0ecbdd657c7c3c6fe009e8746c17045a4196c32e6e320f4816f39d2eb06370",
+   "stepSha256": "c904a79b974e042ce51788a8391935ed99a667f4ca468316176e4a3c219ff04a",
+   "notes": "0.4 mm radial clearance; friction retention not verified. No water sealing claim."
+  },
+  {
+   "id": "rally-flex-clip",
+   "group": "objects",
+   "description": "One-piece printed light-accessory clip with flexible gate",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG or tough nylon candidate",
+   "bboxMm": [
+    36.0,
+    62.0,
+    6.0
+   ],
+   "volumeCm3": 5.28,
+   "massG": 6.7,
+   "watertight": true,
+   "stlSha256": "e9cc7966d8644d282578ce4f7822984373e009ab47c403a7a2f31419f08f6c93",
+   "stepSha256": "cfe438bee13a2a32a71b89848294f8db42fe857e35bc95f089a3c77d50aabb59",
+   "notes": "Not for climbing, lifting, child protection, securing a rider or animal restraint. Gate fatigue and impact untested."
+  },
+  {
+   "id": "pet-name-tag",
+   "group": "objects",
+   "description": "Recessed-letter pet accessory tag, sample FRANKLIN",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    66.0,
+    27.0,
+    3.2
+   ],
+   "volumeCm3": 5.38,
+   "massG": 6.8,
+   "watertight": true,
+   "stlSha256": "40a1f9b623254963aab7b2893c0ef40fce90ce79bb9373fb29e0bde2c89fdcee",
+   "stepSha256": "9f1f41d88a0818522449c801da6d53b31878e213d55b9bf930b37f9769069474",
+   "notes": "Tag is not restraint hardware. No split ring included; test abrasion and all attachment parts."
+  },
+  {
+   "id": "pet-bowl-surround",
+   "group": "objects",
+   "description": "Surround supporting an existing removable bowl",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    126.0,
+    126.0,
+    25.0
+   ],
+   "volumeCm3": 87.56,
+   "massG": 111.2,
+   "watertight": true,
+   "stlSha256": "2ec9da209ff4b8dc1da366d1a0595b6c8efbf0a5acfb76634f7bd6ff556b34e8",
+   "stepSha256": "e0903b872308087a9d68562d3c5a26cad0c4fc69e6a2a570fa7a339b38f56b3d",
+   "notes": "Opening 108 mm with lower locating ledge 98 mm. Measure the selected bowl; no printed food-contact surface is intended. Not a veterinary height recommendation."
+  },
+  {
+   "id": "shelf-side-frame",
+   "group": "storage",
+   "description": "Flat-pack side frame for three small shelves",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    190.0,
+    132.0,
+    8.0
+   ],
+   "volumeCm3": 97.55,
+   "massG": 123.9,
+   "watertight": true,
+   "stlSha256": "795906150747ddbedce5dcef7b55d12987eb6b88cbbd5d3d46a5e09b20977153",
+   "stepSha256": "1250b6ae1403afa7ee213f4f285e269ec6a9e44dcb52b27eb039b39e311cc04d",
+   "notes": "Print flat on side. Small storage prototype only; assembled stability, long-term deflection, shelf retention and loads untested."
+  },
+  {
+   "id": "shelf-panel",
+   "group": "storage",
+   "description": "Ribbed 225.6 x 118 mm shelf panel",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    225.6,
+    118.0,
+    11.15
+   ],
+   "volumeCm3": 149.97,
+   "massG": 190.5,
+   "watertight": true,
+   "stlSha256": "0ebe30b640e893b4051bfe692d6e68fa8eb9766638680a936e762d959fb95de4",
+   "stepSha256": "2e5f061986ce633a0a5e4f212f8e1ec6b1ccf88bd36fbcd0e97b85fcda036057",
+   "notes": "Place broad face on build plate. Integrated underside ribs are not evidence of a particular load capacity."
+  },
+  {
+   "id": "shelf-lock-pin",
+   "group": "storage",
+   "description": "Headed side-frame/shelf alignment pin",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    6.0,
+    6.0,
+    14.8
+   ],
+   "volumeCm3": 0.15,
+   "massG": 0.2,
+   "watertight": true,
+   "stlSha256": "e3f7e49c1945ead1ae53755a9038effa103b37848837c06b8931b71a059efcad",
+   "stepSha256": "04cc79c98751f5a5f43197740a5c25dce0441e40f1c1af62580eee7b8bcc5753",
+   "notes": "Friction retention requires testing. These are not safety-rated fasteners."
+  },
+  {
+   "id": "shelf-lock-pin-long",
+   "group": "storage",
+   "description": "Long headed top-shelf pin",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    6.0,
+    6.0,
+    29.8
+   ],
+   "volumeCm3": 0.26,
+   "massG": 0.3,
+   "watertight": true,
+   "stlSha256": "e2189501ab2a228e4d2172957f543ff782ec7871b6fd48b72742efe896051653",
+   "stepSha256": "b42ee4e3709a3332cfa5d366bd695e65746f7c519f8f9af265a12cae9dcb94ee",
+   "notes": "For the deeper top crossbar only. Sample retention required."
+  },
+  {
+   "id": "valet-column-160",
+   "group": "storage",
+   "description": "160 mm hollow square column segment",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    34.0,
+    34.0,
+    160.0
+   ],
+   "volumeCm3": 82.48,
+   "massG": 104.8,
+   "watertight": true,
+   "stlSha256": "cd49afe9f6d6f0333166dd721a09c64c6f9078704d08bafcbfd73eccc39a1245",
+   "stepSha256": "b60f341e5ad155ca2b6ebf674041c5ad7c44e016cf10951cf793a5dde194de53",
+   "notes": "Socket ends are 26.6 mm; sleeve 26 mm. This is a segmented polymer beam, not wood or continuous-fibre reinforcement."
+  },
+  {
+   "id": "valet-column-joiner",
+   "group": "storage",
+   "description": "Two-ended column sleeve with 2 mm spacing shoulder",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    34.0,
+    34.0,
+    60.0
+   ],
+   "volumeCm3": 21.56,
+   "massG": 27.4,
+   "watertight": true,
+   "stlSha256": "22f86d85472de15f746d3c0eb48a16681e85ed52e30c0e52b022ffa8ffccb7b6",
+   "stepSha256": "9d775dea393a0d021b763c70bb8ead19a89e1149cebcf6bfe09caf941ef8746c",
+   "notes": "Alignment and transfer of load require physical validation. Pin bores align at 15 mm from each column end."
+  },
+  {
+   "id": "valet-joint-pin",
+   "group": "storage",
+   "description": "Printed column cross pin",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    8.0,
+    8.0,
+    37.0
+   ],
+   "volumeCm3": 0.5,
+   "massG": 0.6,
+   "watertight": true,
+   "stlSha256": "e888cc300163a1b11dcfea1328be86ce0da7e41d4ca7eee0e9efba6e0067aec7",
+   "stepSha256": "8ab46b56e81ab2f74edf108cee9378a8c41b0bdb6ae7975b88cf2e7c06304df3",
+   "notes": "3.8 mm pin in 4.4 mm bore, with a separate cap for retention."
+  },
+  {
+   "id": "valet-joint-cap",
+   "group": "storage",
+   "description": "Loose push cap for a column joint pin",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    8.8,
+    8.8,
+    4.0
+   ],
+   "volumeCm3": 0.19,
+   "massG": 0.2,
+   "watertight": true,
+   "stlSha256": "b7ca781a5d8187998017ab567d3133c9f2ae02604df4b69cb92538c02e8692d2",
+   "stepSha256": "fefb83e9d3f251d60689320321cba631ed7b62653679193dff58c5e718b89762",
+   "notes": "Tune fit by sample. No rated structural retention."
+  },
+  {
+   "id": "valet-base-hub",
+   "group": "storage",
+   "description": "Four-arm base hub with column socket",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    78.0,
+    78.0,
+    36.0
+   ],
+   "volumeCm3": 153.41,
+   "massG": 194.8,
+   "watertight": true,
+   "stlSha256": "78a4563807f7b8a58f583f6a4cadc3380f607bcfcebb08af0ec668da9514d1f5",
+   "stepSha256": "269f14170102217778a0244200d4fa20072a6fb793dd4d57c73fd8ec5dae4a2c",
+   "notes": "No floor anchorage is included. Tall assembly requires overturning and fatigue testing before use."
+  },
+  {
+   "id": "valet-base-leg",
+   "group": "storage",
+   "description": "Detachable outward base leg with rectangular tenon",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    186.0,
+    30.0,
+    17.2
+   ],
+   "volumeCm3": 89.27,
+   "massG": 113.4,
+   "watertight": true,
+   "stlSha256": "270f0804db77f917872c1414116957fa3983a808d94f4828fccd2f3a010ea3a1",
+   "stepSha256": "0e167b292f633eec80bba209c90f285d5ace2ee843e38a5c8dff4797ec10117e",
+   "notes": "Four identical parts. Tapers are deliberately kept flat for printing; nominal .3 mm socket clearance."
+  },
+  {
+   "id": "valet-shoulder-hub",
+   "group": "storage",
+   "description": "Top collar and twin arm sockets",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    48.0,
+    36.0,
+    54.9
+   ],
+   "volumeCm3": 54.7,
+   "massG": 69.5,
+   "watertight": true,
+   "stlSha256": "fc8e5c6d8bc091f4596042ae840d14bdea317205c347e9a7012748bf79bbac0d",
+   "stepSha256": "84b03e3e47e2272ed6b4aa3c8f81db4f1482fdf4f0fc632edc720fb9274201ee",
+   "notes": "Fit/top stability prototype; not a hanger capacity certification."
+  },
+  {
+   "id": "valet-shoulder-arm",
+   "group": "storage",
+   "description": "Detachable gently sloping valet shoulder arm",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    168.0,
+    52.3,
+    18.0
+   ],
+   "volumeCm3": 50.11,
+   "massG": 63.6,
+   "watertight": true,
+   "stlSha256": "52add481b8c2f4daa72c948904cba8b88f7a3cdf63223ecd0935e4b1e10eedc3",
+   "stepSha256": "e8a2b8b8cf3def7036963b6ccd3b7a7d22d69f219f30e50755140ef416e91e5f",
+   "notes": "Two mirrored pieces for outfit laydown. Original silhouette; no timber parts. Do not use prior to load/tipping assessment."
+  },
+  {
+   "id": "valet-pocket-tray",
+   "group": "storage",
+   "description": "Square-column slide-on catchall tray",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    112.0,
+    92.0,
+    30.0
+   ],
+   "volumeCm3": 50.82,
+   "massG": 64.5,
+   "watertight": true,
+   "stlSha256": "e14536fce836c6fdd3bf74af8c24402bf7da868a750336e64edd2a06f0ce7b85",
+   "stepSha256": "5f38cc7775eb651e17387fa5d4eb1b789f62d76e6a0032166b4bb848667dbf15",
+   "notes": "Collar requires a separate stop sleeve. It is not a pressure clamp."
+  },
+  {
+   "id": "valet-tray-stop",
+   "group": "storage",
+   "description": "Cross-pinned catchall tray stop collar",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    43.0,
+    43.0,
+    8.0
+   ],
+   "volumeCm3": 4.94,
+   "massG": 6.3,
+   "watertight": true,
+   "stlSha256": "2b641d0b61251f608a4b7ff823bdae7e4c6bdb5ac8d700b29e4aa12f83d076a0",
+   "stepSha256": "9f8fb2f1009490755ac9fe260f806d86eee36fd1698467cce5248e7c3c99f56b",
+   "notes": "Requires a matching 4.4 mm column hole; only the existing segment-end holes are currently provided."
+  },
+  {
+   "id": "wall-panel-2x2",
+   "group": "wall",
+   "description": "2 x 2 TURN wall panel, 42 mm pitch",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    84.0,
+    84.0,
+    8.0
+   ],
+   "volumeCm3": 47.61,
+   "massG": 60.5,
+   "watertight": true,
+   "stlSha256": "ac46ea492ebea0e2f15ac72cde1cbf0586b62a1efa45da622f2d52ac12b8855c",
+   "stepSha256": "84b5e389e5d514e53362caf9e51c43978d73c620014b656910d9243817238475",
+   "notes": "Front face down; rear chambers may bridge. Wall screws and substrate-specific anchors are not printable parts. No load rating."
+  },
+  {
+   "id": "wall-panel-2x4",
+   "group": "wall",
+   "description": "2 x 4 TURN wall panel, 42 mm pitch",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    84.0,
+    168.0,
+    8.0
+   ],
+   "volumeCm3": 95.46,
+   "massG": 121.2,
+   "watertight": true,
+   "stlSha256": "0b0230b4b9f7ff43b685f714a390b8b6f506141f43fdc004c0ea7fcac15d0cc4",
+   "stepSha256": "3dd9f11c7c8cbb184abe1562aef09f94e5de54aa86c1bd532c8bada9b044d73e",
+   "notes": "Front face down; rear chambers may bridge. Wall screws and substrate-specific anchors are not printable parts. No load rating."
+  },
+  {
+   "id": "wall-panel-4x4",
+   "group": "wall",
+   "description": "4 x 4 TURN wall panel, 42 mm pitch",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    168.0,
+    168.0,
+    8.0
+   ],
+   "volumeCm3": 191.16,
+   "massG": 242.8,
+   "watertight": true,
+   "stlSha256": "60025f403cea120546364b0b8c9808d9c6982a918f882d0238a6be407466e940",
+   "stepSha256": "f25f0ff89e2a2a134bcc9a903ec2dea1be65a783d15c57cad3b7373b1d216273",
+   "notes": "Front face down; rear chambers may bridge. Wall screws and substrate-specific anchors are not printable parts. No load rating."
+  },
+  {
+   "id": "turn-key-clearance",
+   "group": "wall",
+   "description": "Quarter-turn key; zero cone preload, no detent bumps",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    21.0,
+    21.0,
+    15.5
+   ],
+   "volumeCm3": 2.57,
+   "massG": 3.3,
+   "watertight": true,
+   "stlSha256": "5bf780f4a6c2df37f8d2022f59b19930c06b7f0c886aa77b63a5c272be761064",
+   "stepSha256": "1a89b17d45c7630766e2b9b1fbed05efbd46c799b823d3af0cc1d9ca6342bd7a",
+   "notes": "AC-02 test-key variant: NOT identical to original v0.1 spring/preload geometry. Determine retention with coupons."
+  },
+  {
+   "id": "wall-anchor-washer",
+   "group": "wall",
+   "description": "Printed washer for a separately specified wall screw",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    20.0,
+    20.0,
+    6.2
+   ],
+   "volumeCm3": 1.13,
+   "massG": 1.4,
+   "watertight": true,
+   "stlSha256": "e41ecf344c3f53e0dfa8fa4d10008b98053157ea3204e41b8f82009673c73ca0",
+   "stepSha256": "29863d2966de5d80073f2ef3c3544f7d9eeb50fd5234f8d463ba54d2a2d92151",
+   "notes": "Screw and wall anchor excluded; no screw compatibility claim beyond nominal 4.5 mm through hole."
+  },
+  {
+   "id": "wall-pocket-1",
+   "group": "wall",
+   "description": "1-station open pocket",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    36.0,
+    48.0,
+    74.0
+   ],
+   "volumeCm3": 25.95,
+   "massG": 33.0,
+   "watertight": true,
+   "stlSha256": "e9e5248273eb45ad6e05ce3a161a986423dd452a7f0443fa92c504c303387b06",
+   "stepSha256": "fcfc03d72cfa7e31f450f11526dd9a38187e6a796afe363d00312ce0d89aabdf",
+   "notes": "Backplate sockets exposed above cavity; supports/slicing review required."
+  },
+  {
+   "id": "wall-pocket-2",
+   "group": "wall",
+   "description": "2-station open pocket",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    78.0,
+    45.0,
+    74.0
+   ],
+   "volumeCm3": 48.03,
+   "massG": 61.0,
+   "watertight": true,
+   "stlSha256": "93466607de396840ae23629159fd4b1b1b4f3948b4b316fe0e5c44dfebfa9d03",
+   "stepSha256": "1e5b82fb91bb40876fa8ec29be73ceaf42838342466dd4bc946af586138e8e96",
+   "notes": "Backplate sockets exposed above cavity; supports/slicing review required."
+  },
+  {
+   "id": "wall-pocket-3",
+   "group": "wall",
+   "description": "3-station open pocket",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    120.0,
+    45.0,
+    74.0
+   ],
+   "volumeCm3": 70.48,
+   "massG": 89.5,
+   "watertight": true,
+   "stlSha256": "f5c9a487966f34d95be0d458afa390c2dca2d9b8f9d6978e808d80e51a8a777f",
+   "stepSha256": "58867483c64c605903f209688d4ff219bc3db4b147aadcbf47cbdf290888e88c",
+   "notes": "Backplate sockets exposed above cavity; supports/slicing review required."
+  },
+  {
+   "id": "wall-key-hook",
+   "group": "wall",
+   "description": "Wide single-station wall hook",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    40.0,
+    78.0,
+    36.0
+   ],
+   "volumeCm3": 18.8,
+   "massG": 23.9,
+   "watertight": true,
+   "stlSha256": "044b2241c103a33ce4b14e168b66e8f6cc48ae6fe6e4ebfd3141aa4fe260bc52",
+   "stepSha256": "479e3d5c3cd8d8e7331f18ab8e7c0cc9bdb8aff12e6387bac471f7c9b94b6644",
+   "notes": "Single key and a locating peg on the cell below prevent rotation. Do not use to restrain a dog."
+  },
+  {
+   "id": "wall-ledge-2",
+   "group": "wall",
+   "description": "2-station gusseted display ledge",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    78.0,
+    77.0,
+    63.0
+   ],
+   "volumeCm3": 54.26,
+   "massG": 68.9,
+   "watertight": true,
+   "stlSha256": "c8e46a714f0b7023f2eb4139466cb4f06ce98478d04bc0b288fc021c0647595c",
+   "stepSha256": "559227cbccaa77b1c3998cd234e4309a6594857a60622c99cdafd9541aa5d7a5",
+   "notes": "No load capacity or wall installation validated."
+  },
+  {
+   "id": "wall-ledge-3",
+   "group": "wall",
+   "description": "3-station gusseted display ledge",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    120.0,
+    77.0,
+    63.0
+   ],
+   "volumeCm3": 79.48,
+   "massG": 100.9,
+   "watertight": true,
+   "stlSha256": "81370ce42428e37a8f8877213a45f20e27a23c3e3b3a9f6f620c64d8e92f5359",
+   "stepSha256": "8db1f0af06642012270a7c75792684ebdaa7547645fbb28ee9840ab97aed00f3",
+   "notes": "No load capacity or wall installation validated."
+  },
+  {
+   "id": "wall-rod-cradle",
+   "group": "wall",
+   "description": "Stationary fishing-rod display cradle",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    50.0,
+    78.0,
+    36.0
+   ],
+   "volumeCm3": 21.21,
+   "massG": 26.9,
+   "watertight": true,
+   "stlSha256": "b0ac6f7e663397e3c0e433401783bec8c8e2ac7dacd1289fe20d0ed67e0c6f47",
+   "stepSha256": "7dfdf34a03d5f7f1a8ffe0f3051664f3c9711ea913c500cd6f8ce018117e19ff",
+   "notes": "Use in pairs on a wall after testing. Not a riding rod carrier."
+  },
+  {
+   "id": "wall-lure-pocket",
+   "group": "wall",
+   "description": "Recessed lure organiser with separated bays",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    120.0,
+    54.0,
+    97.0
+   ],
+   "volumeCm3": 125.24,
+   "massG": 159.1,
+   "watertight": true,
+   "stlSha256": "a4fc608134eb2526e5504e5307533827fa3c28342999298ce720d74eefb3974b",
+   "stepSha256": "3ec2d5d4512df3520f0098d106979e2afcc06ad89a9fe5cff1c1b54d5dafc1a8",
+   "notes": "Divider geometry is original. Hooks still require a cover or hook guards; exposed hooks are not made child-safe by a deep tray."
+  },
+  {
+   "id": "wall-name-panel",
+   "group": "wall",
+   "description": "Recessed-letter name panel, sample ASSEMBL",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    162.0,
+    36.0,
+    5.0
+   ],
+   "volumeCm3": 24.49,
+   "massG": 31.1,
+   "watertight": true,
+   "stlSha256": "b740b4b06810ce62e055c692e3d7c4282750c52c917e5bc8a7a1b9ef0f521b6b",
+   "stepSha256": "816f75e236e63a47710ba417248d82acb9b72ac5b95e0f42c49dcc8a5c2cf727",
+   "notes": "Name generated as real subtractive solid geometry."
+  },
+  {
+   "id": "wall-decorative-border",
+   "group": "wall",
+   "description": "Rounded decorative frame for 4x4 panel",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    185.0,
+    185.0,
+    9.0
+   ],
+   "volumeCm3": 50.16,
+   "massG": 63.7,
+   "watertight": true,
+   "stlSha256": "54c5896759b31bceb82582bea2586b75a3bf0f9c9836c69945e1a31b2e2f19a5",
+   "stepSha256": "6e7233578fb640fb27cc2dd5f4963c24d342d5b95b7008045d56f5d08ce12b01",
+   "notes": "Separate loose frame. 0.4 mm radial planar gap. Securement not validated; decorative only."
+  },
+  {
+   "id": "turn-key-preload-0p1",
+   "group": "wall",
+   "description": "Key coupon with 0.1 mm theoretical axial cone preload",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    21.0,
+    21.0,
+    15.4
+   ],
+   "volumeCm3": 2.55,
+   "massG": 3.2,
+   "watertight": true,
+   "stlSha256": "804e0de9afcdab3f4b1175a0dc4086887404f27b229980fdd2caec929f7405b5",
+   "stepSha256": "aa63089a9de2bbd09c5366a5fdbade17beadd9ab0b83d7f5ba834eb06f25dd31",
+   "notes": "Deliberate fit-test interference only; do not choose for sale without physical test."
+  },
+  {
+   "id": "turn-key-preload-0p2",
+   "group": "wall",
+   "description": "Key coupon with 0.2 mm theoretical axial cone preload",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "material": "PETG candidate",
+   "bboxMm": [
+    21.0,
+    21.0,
+    15.3
+   ],
+   "volumeCm3": 2.54,
+   "massG": 3.2,
+   "watertight": true,
+   "stlSha256": "168964b2ec1d508ef548e6c9f21862143db09e7201f457bab33b4f700171a2f6",
+   "stepSha256": "12bc4d858c83589dc8c01b9bbe88c2b6d0e9e946d76a1faa8dcd78bd4f35c02c",
+   "notes": "Deliberate fit-test interference only; do not choose for sale without physical test."
+  }
+ ],
+ "assemblies": [
+  {
+   "id": "dayrally-case-closed",
+   "name": "All-printed Dayrally sample case, lid and folding handle",
+   "brand": "dayrally",
+   "description": "All-printed Dayrally sample case, lid and folding handle",
+   "notes": "Designed as separate print-and-assemble components. Fastener retention, latch stiffness and carrying capacity untested.",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "approvedForManufacture": false,
+   "boundsMm": [
+    160.0,
+    113.8,
+    78.0
+   ],
+   "glb": "/living/cad/ac02/dayrally-case-closed.glb",
+   "preview": "/living/cad/ac02/previews/dayrally-case-closed.webp",
+   "components": [
+    {
+     "partId": "rally-case",
+     "instance": "rally-case__1",
+     "colour": "#E95037"
+    },
+    {
+     "partId": "rally-lid",
+     "instance": "rally-lid__2",
+     "colour": "#EFCF6B"
+    },
+    {
+     "partId": "rally-folding-handle",
+     "instance": "rally-folding-handle__3",
+     "colour": "#E95037"
+    },
+    {
+     "partId": "rally-removable-tray",
+     "instance": "rally-removable-tray__4",
+     "colour": "#F5F1EA"
+    },
+    {
+     "partId": "rally-hinge-pin",
+     "instance": "rally-hinge-pin__5",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "rally-pin-cap",
+     "instance": "rally-pin-cap__6",
+     "colour": "#E95037"
+    },
+    {
+     "partId": "rally-handle-pin",
+     "instance": "rally-handle-pin__7",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "rally-handle-pin",
+     "instance": "rally-handle-pin__8",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "rally-pin-cap",
+     "instance": "rally-pin-cap__9",
+     "colour": "#E95037"
+    },
+    {
+     "partId": "rally-pin-cap",
+     "instance": "rally-pin-cap__10",
+     "colour": "#E95037"
+    }
+   ]
+  },
+  {
+   "id": "dayrally-case-open",
+   "name": "Dayrally case opened around its modelled hinge axis",
+   "brand": "dayrally",
+   "description": "Dayrally case opened around its modelled hinge axis",
+   "notes": "Shown open without the small handle pins; printable pin files remain supplied.",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "approvedForManufacture": false,
+   "boundsMm": [
+    160.0,
+    162.5,
+    143.8
+   ],
+   "glb": "/living/cad/ac02/dayrally-case-open.glb",
+   "preview": "/living/cad/ac02/previews/dayrally-case-open.webp",
+   "components": [
+    {
+     "partId": "rally-case",
+     "instance": "rally-case__1",
+     "colour": "#E95037"
+    },
+    {
+     "partId": "rally-removable-tray",
+     "instance": "rally-removable-tray__2",
+     "colour": "#F5F1EA"
+    },
+    {
+     "partId": "rally-hinge-pin",
+     "instance": "rally-hinge-pin__3",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "rally-pin-cap",
+     "instance": "rally-pin-cap__4",
+     "colour": "#E95037"
+    },
+    {
+     "partId": "rally-lid",
+     "instance": "rally-lid__5",
+     "colour": "#EFCF6B"
+    },
+    {
+     "partId": "rally-folding-handle",
+     "instance": "rally-folding-handle__6",
+     "colour": "#E95037"
+    },
+    {
+     "partId": "rally-line-spool",
+     "instance": "rally-line-spool__7",
+     "colour": "#E95037"
+    },
+    {
+     "partId": "rally-leader-card",
+     "instance": "rally-leader-card__8",
+     "colour": "#EFCF6B"
+    }
+   ]
+  },
+  {
+   "id": "rally-rule-300mm",
+   "name": "Nominal 300 mm folding-rule geometry",
+   "brand": "dayrally",
+   "description": "Nominal 300 mm folding-rule geometry",
+   "notes": "Deployed layout only; no automatic registration from an ordinary photo. Check graduations and straightness against a known reference.",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "approvedForManufacture": false,
+   "boundsMm": [
+    300.0,
+    26.0,
+    15.1
+   ],
+   "glb": "/living/cad/ac02/rally-rule-300mm.glb",
+   "preview": "/living/cad/ac02/previews/rally-rule-300mm.webp",
+   "components": [
+    {
+     "partId": "rally-rule-link-1",
+     "instance": "rally-rule-link-1__1",
+     "colour": "#F5F1EA"
+    },
+    {
+     "partId": "rally-rule-link-2",
+     "instance": "rally-rule-link-2__2",
+     "colour": "#EFCF6B"
+    },
+    {
+     "partId": "rally-rule-link-3",
+     "instance": "rally-rule-link-3__3",
+     "colour": "#F5F1EA"
+    },
+    {
+     "partId": "rally-rule-pin",
+     "instance": "rally-rule-pin__4",
+     "colour": "#54334B"
+    },
+    {
+     "partId": "rally-pin-cap",
+     "instance": "rally-pin-cap__5",
+     "colour": "#54334B"
+    },
+    {
+     "partId": "rally-rule-pin",
+     "instance": "rally-rule-pin__6",
+     "colour": "#54334B"
+    },
+    {
+     "partId": "rally-pin-cap",
+     "instance": "rally-pin-cap__7",
+     "colour": "#54334B"
+    }
+   ]
+  },
+  {
+   "id": "desk-rail-set",
+   "name": "Original sliding desk-organisation set",
+   "brand": "assembl living",
+   "description": "Original sliding desk-organisation set",
+   "notes": "Three modules on the longer 240 mm rail, clear of the end-stop positions. Test fit coupons before full modules.",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "approvedForManufacture": false,
+   "boundsMm": [
+    240.0,
+    70.0,
+    83.2
+   ],
+   "glb": "/living/cad/ac02/desk-rail-set.glb",
+   "preview": "/living/cad/ac02/previews/desk-rail-set.webp",
+   "components": [
+    {
+     "partId": "rail-240",
+     "instance": "rail-240__1",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "rail-pen-cup",
+     "instance": "rail-pen-cup__2",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "rail-catch-tray",
+     "instance": "rail-catch-tray__3",
+     "colour": "#F5F1EA"
+    },
+    {
+     "partId": "rail-note-slot",
+     "instance": "rail-note-slot__4",
+     "colour": "#EFCF6B"
+    }
+   ]
+  },
+  {
+   "id": "desk-rail-compact",
+   "name": "Compact rail set with clear end-stop positions",
+   "brand": "assembl living",
+   "description": "Compact rail set with clear end-stop positions",
+   "notes": "",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "approvedForManufacture": false,
+   "boundsMm": [
+    210.0,
+    70.0,
+    83.2
+   ],
+   "glb": "/living/cad/ac02/desk-rail-compact.glb",
+   "preview": "/living/cad/ac02/previews/desk-rail-compact.webp",
+   "components": [
+    {
+     "partId": "rail-210",
+     "instance": "rail-210__1",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "rail-pen-cup",
+     "instance": "rail-pen-cup__2",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "rail-catch-tray",
+     "instance": "rail-catch-tray__3",
+     "colour": "#F5F1EA"
+    },
+    {
+     "partId": "rail-cable-comb",
+     "instance": "rail-cable-comb__4",
+     "colour": "#8D9D84"
+    }
+   ]
+  },
+  {
+   "id": "desk-edge-perch",
+   "name": "Fixed-gap desk-edge perch, desk not included",
+   "brand": "assembl living",
+   "description": "Fixed-gap desk-edge perch, desk not included",
+   "notes": "Upper desk plane is z=33. Wedges occupy nominal underside clearance; proof of friction not supplied.",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "approvedForManufacture": false,
+   "boundsMm": [
+    168.0,
+    110.0,
+    56.5
+   ],
+   "glb": "/living/cad/ac02/desk-edge-perch.glb",
+   "preview": "/living/cad/ac02/previews/desk-edge-perch.webp",
+   "components": [
+    {
+     "partId": "desk-edge-perch-25",
+     "instance": "desk-edge-perch-25__1",
+     "colour": "#8D9D84"
+    },
+    {
+     "partId": "desk-edge-wedge",
+     "instance": "desk-edge-wedge__2",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "desk-edge-wedge",
+     "instance": "desk-edge-wedge__3",
+     "colour": "#D4C5AD"
+    }
+   ]
+  },
+  {
+   "id": "vanity-organisers",
+   "name": "Fitted and sculptural vanity organisers",
+   "brand": "assembl living",
+   "description": "Fitted and sculptural vanity organisers",
+   "notes": "",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "approvedForManufacture": false,
+   "boundsMm": [
+    306.4,
+    176.4,
+    55.0
+   ],
+   "glb": "/living/cad/ac02/vanity-organisers.glb",
+   "preview": "/living/cad/ac02/previews/vanity-organisers.webp",
+   "components": [
+    {
+     "partId": "drawer-tray-168x84",
+     "instance": "drawer-tray-168x84__1",
+     "colour": "#F5F1EA"
+    },
+    {
+     "partId": "swell-organiser-55",
+     "instance": "swell-organiser-55__2",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "swell-organiser-24",
+     "instance": "swell-organiser-24__3",
+     "colour": "#8D9D84"
+    }
+   ]
+  },
+  {
+   "id": "dayrally-mini-flow",
+   "name": "DAYRALLY MINI FLOW - original display bike",
+   "brand": "dayrally",
+   "description": "DAYRALLY MINI FLOW - original display bike",
+   "notes": "Approximately 1:10 visual scale, not a dimensional replica. Assembled miniature, not a rideable bicycle. Small parts; not evaluated as a child toy.",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "approvedForManufacture": false,
+   "boundsMm": [
+    186.5,
+    58.0,
+    99.5
+   ],
+   "glb": "/living/cad/ac02/dayrally-mini-flow.glb",
+   "preview": "/living/cad/ac02/previews/dayrally-mini-flow.webp",
+   "components": [
+    {
+     "partId": "mini-flow-display-base",
+     "instance": "mini-flow-display-base__1",
+     "colour": "#F5F1EA"
+    },
+    {
+     "partId": "mini-flow-frame",
+     "instance": "mini-flow-frame__2",
+     "colour": "#E95037"
+    },
+    {
+     "partId": "mini-flow-fork",
+     "instance": "mini-flow-fork__3",
+     "colour": "#EFCF6B"
+    },
+    {
+     "partId": "mini-flow-cockpit",
+     "instance": "mini-flow-cockpit__4",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-flow-saddle",
+     "instance": "mini-flow-saddle__5",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-flow-crank-r",
+     "instance": "mini-flow-crank-r__6",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-flow-crank-l",
+     "instance": "mini-flow-crank-l__7",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-wheel-25p5",
+     "instance": "mini-wheel-25p5__8",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-wheel-axle",
+     "instance": "mini-wheel-axle__9",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-wheel-cap",
+     "instance": "mini-wheel-cap__10",
+     "colour": "#EFCF6B"
+    },
+    {
+     "partId": "mini-wheel-25p5",
+     "instance": "mini-wheel-25p5__11",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-wheel-axle",
+     "instance": "mini-wheel-axle__12",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-wheel-cap",
+     "instance": "mini-wheel-cap__13",
+     "colour": "#EFCF6B"
+    }
+   ]
+  },
+  {
+   "id": "dayrally-mini-drop",
+   "name": "DAYRALLY MINI DROP - original display bike",
+   "brand": "dayrally",
+   "description": "DAYRALLY MINI DROP - original display bike",
+   "notes": "Approximately 1:10 visual scale, not a dimensional replica. Assembled miniature, not a rideable bicycle. Small parts; not evaluated as a child toy.",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "approvedForManufacture": false,
+   "boundsMm": [
+    207.5,
+    58.0,
+    114.1
+   ],
+   "glb": "/living/cad/ac02/dayrally-mini-drop.glb",
+   "preview": "/living/cad/ac02/previews/dayrally-mini-drop.webp",
+   "components": [
+    {
+     "partId": "mini-drop-display-base",
+     "instance": "mini-drop-display-base__1",
+     "colour": "#F5F1EA"
+    },
+    {
+     "partId": "mini-drop-frame",
+     "instance": "mini-drop-frame__2",
+     "colour": "#A5A6A5"
+    },
+    {
+     "partId": "mini-drop-fork",
+     "instance": "mini-drop-fork__3",
+     "colour": "#E95037"
+    },
+    {
+     "partId": "mini-drop-cockpit",
+     "instance": "mini-drop-cockpit__4",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-drop-saddle",
+     "instance": "mini-drop-saddle__5",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-drop-crank-r",
+     "instance": "mini-drop-crank-r__6",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-drop-crank-l",
+     "instance": "mini-drop-crank-l__7",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-wheel-28",
+     "instance": "mini-wheel-28__8",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-wheel-axle",
+     "instance": "mini-wheel-axle__9",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-wheel-cap",
+     "instance": "mini-wheel-cap__10",
+     "colour": "#E95037"
+    },
+    {
+     "partId": "mini-wheel-28",
+     "instance": "mini-wheel-28__11",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-wheel-axle",
+     "instance": "mini-wheel-axle__12",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-wheel-cap",
+     "instance": "mini-wheel-cap__13",
+     "colour": "#E95037"
+    }
+   ]
+  },
+  {
+   "id": "dayrally-mini-ridge",
+   "name": "DAYRALLY MINI RIDGE - original display bike",
+   "brand": "dayrally",
+   "description": "DAYRALLY MINI RIDGE - original display bike",
+   "notes": "Approximately 1:10 visual scale, not a dimensional replica. Assembled miniature, not a rideable bicycle. Small parts; not evaluated as a child toy.",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "approvedForManufacture": false,
+   "boundsMm": [
+    195.5,
+    58.0,
+    104.4
+   ],
+   "glb": "/living/cad/ac02/dayrally-mini-ridge.glb",
+   "preview": "/living/cad/ac02/previews/dayrally-mini-ridge.webp",
+   "components": [
+    {
+     "partId": "mini-ridge-display-base",
+     "instance": "mini-ridge-display-base__1",
+     "colour": "#F5F1EA"
+    },
+    {
+     "partId": "mini-ridge-frame",
+     "instance": "mini-ridge-frame__2",
+     "colour": "#70AFAC"
+    },
+    {
+     "partId": "mini-ridge-fork",
+     "instance": "mini-ridge-fork__3",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-ridge-cockpit",
+     "instance": "mini-ridge-cockpit__4",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-ridge-saddle",
+     "instance": "mini-ridge-saddle__5",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-ridge-crank-r",
+     "instance": "mini-ridge-crank-r__6",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-ridge-crank-l",
+     "instance": "mini-ridge-crank-l__7",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-wheel-25p5",
+     "instance": "mini-wheel-25p5__8",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-wheel-axle",
+     "instance": "mini-wheel-axle__9",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-wheel-cap",
+     "instance": "mini-wheel-cap__10",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-wheel-27p5",
+     "instance": "mini-wheel-27p5__11",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-wheel-axle",
+     "instance": "mini-wheel-axle__12",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "mini-wheel-cap",
+     "instance": "mini-wheel-cap__13",
+     "colour": "#36383C"
+    }
+   ]
+  },
+  {
+   "id": "orbit-planter",
+   "name": "Original space-age inspired planter sleeve",
+   "brand": "assembl living",
+   "description": "Original space-age inspired planter sleeve",
+   "notes": "Pot, soil, plant and waterproof insert are not included. Leg retention and top-heavy tipping need testing.",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "approvedForManufacture": false,
+   "boundsMm": [
+    118.0,
+    118.0,
+    114.0
+   ],
+   "glb": "/living/cad/ac02/orbit-planter.glb",
+   "preview": "/living/cad/ac02/previews/orbit-planter.webp",
+   "components": [
+    {
+     "partId": "orbit-planter-shell",
+     "instance": "orbit-planter-shell__1",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "orbit-planter-leg",
+     "instance": "orbit-planter-leg__2",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "orbit-planter-leg",
+     "instance": "orbit-planter-leg__3",
+     "colour": "#36383C"
+    },
+    {
+     "partId": "orbit-planter-leg",
+     "instance": "orbit-planter-leg__4",
+     "colour": "#36383C"
+    }
+   ]
+  },
+  {
+   "id": "pleat-shade-study",
+   "name": "Printed pleated shade geometry",
+   "brand": "assembl living",
+   "description": "Printed pleated shade geometry",
+   "notes": "No light source installed or represented as working.",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "approvedForManufacture": false,
+   "boundsMm": [
+    180.2,
+    180.2,
+    125.0
+   ],
+   "glb": "/living/cad/ac02/pleat-shade-study.glb",
+   "preview": "/living/cad/ac02/previews/pleat-shade-study.webp",
+   "components": [
+    {
+     "partId": "pleat-shade",
+     "instance": "pleat-shade__1",
+     "colour": "#F5F1EA"
+    }
+   ]
+  },
+  {
+   "id": "manual-rail-clock",
+   "name": "All-printed manual desktop time / routine display",
+   "brand": "assembl living",
+   "description": "All-printed manual desktop time / routine display",
+   "notes": "Hands are manually set. The assembled position is a styling layout; confirm cradle contact in a printed sample.",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "approvedForManufacture": false,
+   "boundsMm": [
+    168.0,
+    70.0,
+    106.4
+   ],
+   "glb": "/living/cad/ac02/manual-rail-clock.glb",
+   "preview": "/living/cad/ac02/previews/manual-rail-clock.webp",
+   "components": [
+    {
+     "partId": "clock-rail-168",
+     "instance": "clock-rail-168__1",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "clock-rail-cradle",
+     "instance": "clock-rail-cradle__2",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "manual-clock-body",
+     "instance": "manual-clock-body__3",
+     "colour": "#EFCF6B"
+    },
+    {
+     "partId": "clock-back-cover",
+     "instance": "clock-back-cover__4",
+     "colour": "#EFCF6B"
+    },
+    {
+     "partId": "clock-hour-hand",
+     "instance": "clock-hour-hand__5",
+     "colour": "#54334B"
+    },
+    {
+     "partId": "clock-minute-hand",
+     "instance": "clock-minute-hand__6",
+     "colour": "#54334B"
+    },
+    {
+     "partId": "clock-hand-pin",
+     "instance": "clock-hand-pin__7",
+     "colour": "#54334B"
+    }
+   ]
+  },
+  {
+   "id": "pet-walk-kit",
+   "name": "Practical printed walking-accessory study",
+   "brand": "assembl living",
+   "description": "Practical printed walking-accessory study",
+   "notes": "Bags, leash, fastening ring and animal not included.",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "approvedForManufacture": false,
+   "boundsMm": [
+    117.0,
+    94.5,
+    68.0
+   ],
+   "glb": "/living/cad/ac02/pet-walk-kit.glb",
+   "preview": "/living/cad/ac02/previews/pet-walk-kit.webp",
+   "components": [
+    {
+     "partId": "walk-bag-pod",
+     "instance": "walk-bag-pod__1",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "walk-pod-cap",
+     "instance": "walk-pod-cap__2",
+     "colour": "#F5F1EA"
+    },
+    {
+     "partId": "rally-flex-clip",
+     "instance": "rally-flex-clip__3",
+     "colour": "#54334B"
+    },
+    {
+     "partId": "pet-name-tag",
+     "instance": "pet-name-tag__4",
+     "colour": "#EFCF6B"
+    }
+   ]
+  },
+  {
+   "id": "small-flatpack-shelf",
+   "name": "Small all-printed three-tier shelf",
+   "brand": "assembl living",
+   "description": "Small all-printed three-tier shelf",
+   "notes": "Approximate outer size 232 x 132 x 190 mm. Assembly is not a full-size wardrobe or furniture safety approval.",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "approvedForManufacture": false,
+   "boundsMm": [
+    232.0,
+    132.0,
+    192.0
+   ],
+   "glb": "/living/cad/ac02/small-flatpack-shelf.glb",
+   "preview": "/living/cad/ac02/previews/small-flatpack-shelf.webp",
+   "components": [
+    {
+     "partId": "shelf-side-frame",
+     "instance": "shelf-side-frame__1",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "shelf-side-frame",
+     "instance": "shelf-side-frame__2",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "shelf-panel",
+     "instance": "shelf-panel__3",
+     "colour": "#F5F1EA"
+    },
+    {
+     "partId": "shelf-lock-pin",
+     "instance": "shelf-lock-pin__4",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "shelf-lock-pin",
+     "instance": "shelf-lock-pin__5",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "shelf-lock-pin",
+     "instance": "shelf-lock-pin__6",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "shelf-lock-pin",
+     "instance": "shelf-lock-pin__7",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "shelf-panel",
+     "instance": "shelf-panel__8",
+     "colour": "#F5F1EA"
+    },
+    {
+     "partId": "shelf-lock-pin",
+     "instance": "shelf-lock-pin__9",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "shelf-lock-pin",
+     "instance": "shelf-lock-pin__10",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "shelf-lock-pin",
+     "instance": "shelf-lock-pin__11",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "shelf-lock-pin",
+     "instance": "shelf-lock-pin__12",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "shelf-panel",
+     "instance": "shelf-panel__13",
+     "colour": "#F5F1EA"
+    },
+    {
+     "partId": "shelf-lock-pin-long",
+     "instance": "shelf-lock-pin-long__14",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "shelf-lock-pin-long",
+     "instance": "shelf-lock-pin-long__15",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "shelf-lock-pin-long",
+     "instance": "shelf-lock-pin-long__16",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "shelf-lock-pin-long",
+     "instance": "shelf-lock-pin-long__17",
+     "colour": "#B58B99"
+    }
+   ]
+  },
+  {
+   "id": "tabletop-valet",
+   "name": "Low display valet",
+   "brand": "assembl living",
+   "description": "Low display valet",
+   "notes": "All structural components printed; nominal geometry only. No weight rating. Not a climbing aid, child furnishing or released clothes stand. Joint retention/tipping must be redesigned or verified with physical samples.",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "approvedForManufacture": false,
+   "boundsMm": [
+    414.0,
+    414.0,
+    191.0
+   ],
+   "glb": "/living/cad/ac02/tabletop-valet.glb",
+   "preview": "/living/cad/ac02/previews/tabletop-valet.webp",
+   "components": [
+    {
+     "partId": "valet-base-hub",
+     "instance": "valet-base-hub__1",
+     "colour": "#F5F1EA"
+    },
+    {
+     "partId": "valet-base-leg",
+     "instance": "valet-base-leg__2",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "valet-base-leg",
+     "instance": "valet-base-leg__3",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "valet-base-leg",
+     "instance": "valet-base-leg__4",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "valet-base-leg",
+     "instance": "valet-base-leg__5",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "valet-column-160",
+     "instance": "valet-column-160__6",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "valet-shoulder-hub",
+     "instance": "valet-shoulder-hub__7",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "valet-shoulder-arm",
+     "instance": "valet-shoulder-arm__8",
+     "colour": "#EFCF6B"
+    },
+    {
+     "partId": "valet-shoulder-arm",
+     "instance": "valet-shoulder-arm__9",
+     "colour": "#EFCF6B"
+    }
+   ]
+  },
+  {
+   "id": "outfit-valet-research",
+   "name": "All-printed tall valet research assembly",
+   "brand": "assembl living",
+   "description": "All-printed tall valet research assembly",
+   "notes": "All structural components printed; nominal geometry only. No weight rating. Not a climbing aid, child furnishing or released clothes stand. Joint retention/tipping must be redesigned or verified with physical samples.",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "approvedForManufacture": false,
+   "boundsMm": [
+    414.0,
+    414.0,
+    839.0
+   ],
+   "glb": "/living/cad/ac02/outfit-valet-research.glb",
+   "preview": "/living/cad/ac02/previews/outfit-valet-research.webp",
+   "components": [
+    {
+     "partId": "valet-base-hub",
+     "instance": "valet-base-hub__1",
+     "colour": "#F5F1EA"
+    },
+    {
+     "partId": "valet-base-leg",
+     "instance": "valet-base-leg__2",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "valet-base-leg",
+     "instance": "valet-base-leg__3",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "valet-base-leg",
+     "instance": "valet-base-leg__4",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "valet-base-leg",
+     "instance": "valet-base-leg__5",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "valet-column-160",
+     "instance": "valet-column-160__6",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "valet-column-joiner",
+     "instance": "valet-column-joiner__7",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "valet-column-160",
+     "instance": "valet-column-160__8",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "valet-column-joiner",
+     "instance": "valet-column-joiner__9",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "valet-column-160",
+     "instance": "valet-column-160__10",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "valet-column-joiner",
+     "instance": "valet-column-joiner__11",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "valet-column-160",
+     "instance": "valet-column-160__12",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "valet-column-joiner",
+     "instance": "valet-column-joiner__13",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "valet-column-160",
+     "instance": "valet-column-160__14",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "valet-shoulder-hub",
+     "instance": "valet-shoulder-hub__15",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "valet-shoulder-arm",
+     "instance": "valet-shoulder-arm__16",
+     "colour": "#EFCF6B"
+    },
+    {
+     "partId": "valet-shoulder-arm",
+     "instance": "valet-shoulder-arm__17",
+     "colour": "#EFCF6B"
+    }
+   ]
+  },
+  {
+   "id": "wall-station",
+   "name": "Compact rounded modular wall station",
+   "brand": "assembl living",
+   "description": "Compact rounded modular wall station",
+   "notes": "Original interpretation of the wall-organiser reference; not a replica of Slate. Wall fasteners excluded.",
+   "revision": "AC-02",
+   "release": "digital_prototype",
+   "approvedForManufacture": false,
+   "boundsMm": [
+    185.0,
+    85.0,
+    185.0
+   ],
+   "glb": "/living/cad/ac02/wall-station.glb",
+   "preview": "/living/cad/ac02/previews/wall-station.webp",
+   "components": [
+    {
+     "partId": "wall-panel-4x4",
+     "instance": "wall-panel-4x4__1",
+     "colour": "#F5F1EA"
+    },
+    {
+     "partId": "wall-decorative-border",
+     "instance": "wall-decorative-border__2",
+     "colour": "#54334B"
+    },
+    {
+     "partId": "wall-pocket-2",
+     "instance": "wall-pocket-2__3",
+     "colour": "#B58B99"
+    },
+    {
+     "partId": "turn-key-clearance",
+     "instance": "turn-key-clearance__4",
+     "colour": "#54334B"
+    },
+    {
+     "partId": "turn-key-clearance",
+     "instance": "turn-key-clearance__5",
+     "colour": "#54334B"
+    },
+    {
+     "partId": "wall-pocket-1",
+     "instance": "wall-pocket-1__6",
+     "colour": "#8D9D84"
+    },
+    {
+     "partId": "turn-key-clearance",
+     "instance": "turn-key-clearance__7",
+     "colour": "#54334B"
+    },
+    {
+     "partId": "wall-ledge-3",
+     "instance": "wall-ledge-3__8",
+     "colour": "#D4C5AD"
+    },
+    {
+     "partId": "turn-key-clearance",
+     "instance": "turn-key-clearance__9",
+     "colour": "#54334B"
+    },
+    {
+     "partId": "turn-key-clearance",
+     "instance": "turn-key-clearance__10",
+     "colour": "#54334B"
+    },
+    {
+     "partId": "turn-key-clearance",
+     "instance": "turn-key-clearance__11",
+     "colour": "#54334B"
+    }
+   ]
+  }
+ ]
+}

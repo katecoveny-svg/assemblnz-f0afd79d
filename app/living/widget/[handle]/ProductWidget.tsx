@@ -17,6 +17,7 @@ import { buildItem, defaultAccent, itemMessage, needsAccent, printFile, printShe
 type Props = { handle: string; embed: boolean; origin: string | null };
 
 const PartPreview3D = dynamic(() => import('./PartPreview3D'), { ssr: false, loading: () => <p className="lvw-counter">loading the print file…</p> });
+const GlbPreview3D = dynamic(() => import('./GlbPreview3D'), { ssr: false, loading: () => <p className="lvw-counter">loading the assembled view…</p> });
 
 function post(message: WidgetMessage, origin: string | null) {
   if (typeof window === 'undefined' || window.parent === window) return;
@@ -41,7 +42,7 @@ function Widget({ spec, embed, origin }: { spec: WidgetSpec; embed: boolean; ori
 
   const parts = useMemo(() => spec.partsFor(choices), [spec, choices]);
   const partIds = parts.map((p) => p.id);
-  const accentNeeded = needsAccent(partIds);
+  const accentNeeded = spec.roles ? partIds.some((id) => spec.roles?.[id] === 'accent') : needsAccent(partIds);
   const textSpec = textSpecFor(partIds);
   const bodyColour = spec.colours.find((c) => c.id === colour) ?? spec.colours[0];
   const accentColour = accentNeeded ? spec.colours.find((c) => c.id === accent) ?? defaultAccent(spec.colours, bodyColour) : null;
@@ -87,31 +88,41 @@ function Widget({ spec, embed, origin }: { spec: WidgetSpec; embed: boolean; ori
   };
 
   // The main part: heaviest body part. Its print file drives both previews.
-  const main = parts.map((p) => printFile(p.id)).filter((f) => f.file || parts.length === 1).sort((a, b) => b.mass_g_pla - a.mass_g_pla)[0] ?? printFile(parts[0].id);
+  const main = spec.glb
+    ? { name: spec.title, file: null as null | { path: string }, dims_mm: { x: spec.size.length ? 1 : 1, y: 1, z: 1 } }
+    : parts.map((p) => printFile(p.id)).filter((f) => f.file || parts.length === 1).sort((a, b) => b.mass_g_pla - a.mass_g_pla)[0] ?? printFile(parts[0].id);
   const dims = main.dims_mm;
   const pattern = choices.lid ?? choices.shape ?? null;
-  const textPart = textSpec ? printFile(textSpec.partId) : null;
-  const has3d = Boolean(main.file);
+  const textPart = textSpec && !spec.glb ? printFile(textSpec.partId) : null;
+  const has3d = Boolean(main.file) || Boolean(spec.glb);
+  const accentParts = spec.roles ? Object.entries(spec.roles).filter(([, r]) => r === 'accent').map(([id]) => id) : [];
 
   return (
     <div ref={root} className="lv lvw" data-embed={embed ? 'true' : 'false'}>
       <div className="lvw-head">
         <span className="lv-eyebrow">assembl / living · made to order</span>
-        <span className="lv-status" data-tone="quiet">proposed · {spec.colourSet === 'dayrally' ? 'dayrally' : 'TURN'} · {spec.material}</span>
+        <span className="lv-status" data-tone="quiet">{spec.kind === 'prototype' ? `digital prototype · ${spec.revision} · unprinted` : `proposed · ${spec.colourSet === 'dayrally' ? 'dayrally' : 'TURN'} · ${spec.material}`}</span>
       </div>
       <div className="lvw-grid">
         <div className="lvw-preview">
           <div className="lvw-stage" aria-hidden={view === 'schematic'}>
-            {view === '3d' && main.file ? (
+            {view === '3d' && spec.glb ? (
+              <Suspense fallback={<p className="lvw-counter">loading the assembled view…</p>}>
+                <GlbPreview3D path={spec.glb} body={bodyColour.hex} accent={accentColour?.hex ?? null} accentParts={accentParts} />
+              </Suspense>
+            ) : view === '3d' && main.file ? (
               <Suspense fallback={<p className="lvw-counter">loading the print file…</p>}>
                 <PartPreview3D path={main.file.path} dims={dims} body={bodyColour.hex} accent={accentColour?.hex ?? null} text={textSpec ? text.trim() : ''} textSize={textPart ? { x: textPart.dims_mm.x, y: textPart.dims_mm.y } : null} />
               </Suspense>
+            ) : spec.previewImage ? (
+              // eslint-disable-next-line @next/next/no-img-element -- CAD-derived preview served from the public pack; no optimisation pipeline for these.
+              <img src={spec.previewImage} alt={`${spec.title}, CAD preview as delivered`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             ) : (
               <Preview body={bodyColour.hex} accent={accentColour?.hex ?? null} text={textSpec ? text : ''} dims={dims} pattern={pattern} round={spec.colourSet === 'dayrally'} />
             )}
           </div>
           <div className="lvw-label">
-            <p className="lvw-counter">{view === '3d' ? `${main.name.replace(/\s*\(sample:[^)]*\)/i, '')} · v0.3 print file · drag to turn` : `Schematic · ${spec.size}`} · colours are filament names</p>
+            <p className="lvw-counter">{view === '3d' ? `${main.name.replace(/\s*\(sample:[^)]*\)/i, '')} · ${spec.revision} ${spec.glb ? 'assembled view' : 'print file'} · drag to turn` : spec.previewImage ? `CAD preview as delivered · ${spec.size}` : `Schematic · ${spec.size}`} · colours are filament names</p>
             {has3d && (
               <button type="button" className="lv-btn" data-variant="small" style={{ background: 'transparent', color: 'var(--lv-plum)', borderColor: 'var(--lv-line-strong)' }} onClick={() => setView((v) => (v === '3d' ? 'schematic' : '3d'))}>
                 {view === '3d' ? 'schematic' : 'view in 3D'}
@@ -195,14 +206,14 @@ function Widget({ spec, embed, origin }: { spec: WidgetSpec; embed: boolean; ori
             <div className="lv-actions">
               <button type="button" className="lv-btn" disabled={!result.ok} onClick={download}>download print sheet</button>
               <button type="button" className="lv-btn" data-variant="ghost" disabled={!result.ok} onClick={copy}>{copied ? 'copied' : 'copy configuration'}</button>
-              {spec.colourSet === 'living' && <Link className="lv-btn" data-variant="ghost" href={spec.kind === 'kit' ? `/living/studio?kit=${spec.handle.replace('al-kit-', '')}` : '/living/studio'}>{spec.kind === 'kit' ? 'arrange it on a wall' : 'plan a whole wall'}</Link>}
+              {spec.colourSet === 'living' && spec.kind !== 'prototype' && <Link className="lv-btn" data-variant="ghost" href={spec.kind === 'kit' ? `/living/studio?kit=${spec.handle.replace('al-kit-', '')}` : '/living/studio'}>{spec.kind === 'kit' ? 'arrange it on a wall' : 'plan a whole wall'}</Link>}
             </div>
           )}
         </div>
       </div>
       <div className="lvw-foot">
         <p className="lvw-counter">{result.ok ? `${result.item.sku ?? 'no code'} · ${result.item.interface.pack} · ${result.item.printFiles.length} print files` : `${spec.handle} · ${spec.colourSet} colours`}</p>
-        <p className="lv-small">{embed ? 'Nothing is bought here. Price, stock and checkout belong to the store page.' : 'Nothing is for sale here yet. Estimates are planning figures, not a quote.'}</p>
+        <p className="lv-small">{spec.kind === 'prototype' ? 'AC-02 digital prototype: real CAD, never printed, not approved for manufacture, no price. The store must not list it until samples pass.' : embed ? 'Nothing is bought here. Price, stock and checkout belong to the store page.' : 'Nothing is for sale here yet. Estimates are planning figures, not a quote.'}</p>
       </div>
     </div>
   );
@@ -216,7 +227,7 @@ function Estimate({ item }: { item: ItemConfiguration }) {
       <div><dt>Print mass</dt><dd>{e.massG} g <small>est.</small></dd></div>
       <div><dt>Print time</dt><dd>{minutes(e.printMinutes)} <small>est.</small></dd></div>
       <div><dt>Material</dt><dd>NZD {e.materialNzd.toFixed(2)} <small>est.</small></dd></div>
-      <div><dt>Suggested retail</dt><dd>NZD {e.suggestedRetailNzd.toFixed(2)} <small>proposed</small></dd></div>
+      <div><dt>Suggested retail</dt><dd>{e.suggestedRetailNzd === null ? <>to be quoted <small>no price</small></> : <>NZD {e.suggestedRetailNzd.toFixed(2)} <small>proposed</small></>}</dd></div>
       <div><dt>Part code</dt><dd>{item.sku ?? '—'}</dd></div>
       <div><dt>Ships</dt><dd>{e.shipG} g <small>packed</small></dd></div>
     </dl>

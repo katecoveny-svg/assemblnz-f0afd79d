@@ -1,0 +1,1792 @@
+{
+  "group": "mini-bikes",
+  "cadquery_version": "2.8.0",
+  "parts": [
+    {
+      "id": "mini-wheel-axle",
+      "group": "mini-bikes",
+      "description": "Common wheel axle with head",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        6.8,
+        6.8,
+        33.7
+      ],
+      "solid_volume_mm3": 354.997,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.9855343421599187e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 716,
+      "step": "parts/step/mini-wheel-axle.step",
+      "stl": "parts/stl/mini-wheel-axle.stl",
+      "step_sha256": "a28210d2c0b8f9b5a4a74c805ee447b16393c1c2a37b02ead9f82e9f37dac254",
+      "stl_sha256": "0751ae52564f7e84bd2d5c371b15515cdea9053bb77a59afd950ee7c22346076",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        1.7763568394002505e-15,
+        16.0
+      ],
+      "notes": "All printed; check axial play and cap retention before handling. Not a full-size bike part.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-wheel-cap",
+      "group": "mini-bikes",
+      "description": "Slit axle cap, sample 3.56 mm bore",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        6.186,
+        6.6,
+        2.7
+      ],
+      "solid_volume_mm3": 58.017,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 3.674134305696223e-15,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 676,
+      "step": "parts/step/mini-wheel-cap.step",
+      "stl": "parts/stl/mini-wheel-cap.stl",
+      "step_sha256": "3decdbd518ab2e7113f39ecf6b69fbf2db14cb87aa2556512c76f9d6018439b0",
+      "stl_sha256": "43d254691ac66a8b9356e128599b3f30e98f431aacbd3e39406e9084bfddd643",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        0.20691303103381897,
+        -2.220446049250313e-16,
+        3.6637359812630164e-16
+      ],
+      "notes": "Nominal small-clearance cap; may be too loose in a given material. Alternative interference needs physical sampling.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-wheel-25p5",
+      "group": "mini-bikes",
+      "description": "Integrated miniature tire, rim, spokes and hub, radius 25.5 mm",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        52.51,
+        52.51,
+        14.0
+      ],
+      "solid_volume_mm3": 11705.884,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.7699038991597973e-13,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 7416,
+      "step": "parts/step/mini-wheel-25p5.step",
+      "stl": "parts/stl/mini-wheel-25p5.stl",
+      "step_sha256": "cdb886e33cbae684cca35acdf443eeed048354116da38ed1242336506d7c5a3b",
+      "stl_sha256": "422de2d401640ec6e12940b5b4083c4a69eb916af4a23af8b00b93beff243287",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -1.7763568394002505e-15,
+        -0.0,
+        7.0000001
+      ],
+      "notes": "Two-colour effects require print planning; tire, rim and spokes are one rigid solid. Face-down print with support review under tread.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-wheel-27p5",
+      "group": "mini-bikes",
+      "description": "Integrated miniature tire, rim, spokes and hub, radius 27.5 mm",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        56.5,
+        56.5,
+        14.0
+      ],
+      "solid_volume_mm3": 12660.903,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.8073660223366382e-13,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 7416,
+      "step": "parts/step/mini-wheel-27p5.step",
+      "stl": "parts/stl/mini-wheel-27p5.stl",
+      "step_sha256": "68d291afe970947e932cbdaf17fbeb83acf7385a4d34fae6f3ed17b154dd5c14",
+      "stl_sha256": "b974f969e5c2072a45d437117634b9427b5dc8962b977492332b24578ccd1a12",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -1.7763568394002505e-15,
+        -0.0,
+        7.0000001
+      ],
+      "notes": "Two-colour effects require print planning; tire, rim and spokes are one rigid solid. Face-down print with support review under tread.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-wheel-28",
+      "group": "mini-bikes",
+      "description": "Integrated miniature tire, rim, spokes and hub, radius 28 mm",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        57.497,
+        57.497,
+        14.0
+      ],
+      "solid_volume_mm3": 12899.825,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.484575736101206e-13,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 7416,
+      "step": "parts/step/mini-wheel-28.step",
+      "stl": "parts/stl/mini-wheel-28.stl",
+      "step_sha256": "bd41ba06da9a297a5d71f99264ba7d656d7f34270ea660096e538095467a07a7",
+      "stl_sha256": "6e0b44c1b87b7a7cc59050ba623949d37c5c54fcc0a4d0c35a09d323ea243927",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -1.7763568394002505e-15,
+        -0.0,
+        7.0000001
+      ],
+      "notes": "Two-colour effects require print planning; tire, rim and spokes are one rigid solid. Face-down print with support review under tread.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-flow-frame",
+      "group": "mini-bikes",
+      "description": "Dayrally FLOW original fixed frame",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        127.342,
+        68.0,
+        28.6
+      ],
+      "solid_volume_mm3": 17949.742,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.052709699070947e-09,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 17380,
+      "step": "parts/step/mini-flow-frame.step",
+      "stl": "parts/stl/mini-flow-frame.stl",
+      "step_sha256": "259199bc9d55ca57e1c79a7199f3aaaa16cbfe0c34a89868b1f889e151d2c764",
+      "stl_sha256": "921d1cca0a4ad46af71bd55eeb02c8caae745e034171d3895120e7711818ad25",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        7.429160267208733,
+        52.99999995,
+        14.299999999999997
+      ],
+      "notes": "Display-scale original geometry. Static decorative shock. Supports required beneath rear stays and post; no suspension or driveline function.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-flow-fork",
+      "group": "mini-bikes",
+      "description": "FLOW fork with steerer",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        38.998,
+        71.851,
+        28.0
+      ],
+      "solid_volume_mm3": 3897.015,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 4.148512624413472e-11,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 7044,
+      "step": "parts/step/mini-flow-fork.step",
+      "stl": "parts/stl/mini-flow-fork.stl",
+      "step_sha256": "8d44d3e50195e02d75101d63dc8899ad30470cc65d5a0adba5ba36932e2992bd",
+      "stl_sha256": "28f261a2c04093c42126950168976218dc8344b3882bbe71a4ce1a35cd6004b5",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -55.50101732935591,
+        55.9253712219698,
+        14.000000100510855
+      ],
+      "notes": "Slit-cap and cockpit fit require a sample; bridge should clear tire. No spring travel.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-flow-cockpit",
+      "group": "mini-bikes",
+      "description": "FLOW handlebar and stem",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        16.185,
+        12.088,
+        51.8
+      ],
+      "solid_volume_mm3": 1103.86,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 4.751171870859968e-10,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 5630,
+      "step": "parts/step/mini-flow-cockpit.step",
+      "stl": "parts/stl/mini-flow-cockpit.stl",
+      "step_sha256": "f9f3eeaadc9f14058c8c239183fcaf3d93caef22113874667447f6dcf7fb78c6",
+      "stl_sha256": "e74ecd8d399c710409a9e1ae1d6ee8103512686f64d281c6a60b6577c9e48749",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -41.01245312841537,
+        91.04530406824851,
+        25.899999999999988
+      ],
+      "notes": "Small grip and stem features: slice/support carefully. Cosmetic display component.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-flow-saddle",
+      "group": "mini-bikes",
+      "description": "FLOW plug-on saddle",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        21.0,
+        12.0,
+        5.0
+      ],
+      "solid_volume_mm3": 1114.012,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.0410335911465312e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 396,
+      "step": "parts/step/mini-flow-saddle.step",
+      "stl": "parts/stl/mini-flow-saddle.stl",
+      "step_sha256": "3b32e40921bfe182452c5078432bf225d25d18d41e42ab964436b57c235bf61b",
+      "stl_sha256": "9d528b5679114e5f7d546d07418b08268f52aaa8c8850da7b24673934955abec",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        29.0,
+        -0.0,
+        -84.0
+      ],
+      "notes": "Nominal seatpost socket 4.7 mm square; support/fit check.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-flow-crank-r",
+      "group": "mini-bikes",
+      "description": "FLOW crank with integral shaft",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        12.7,
+        16.7,
+        32.0
+      ],
+      "solid_volume_mm3": 664.646,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 3.616386616499678e-08,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 2878,
+      "step": "parts/step/mini-flow-crank-r.step",
+      "stl": "parts/stl/mini-flow-crank-r.stl",
+      "step_sha256": "fced7f9f388ea735e8e17b119306e3fb2e651d15853e138e0cd17ee290882bcf",
+      "stl_sha256": "04ced3fc3a58da627839d956531e9796a980c8547899ff4f4d7f1af783b5c129",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        5.85,
+        18.849999999999998,
+        13.000000099999996
+      ],
+      "notes": "No chain drive. Keep cranks aligned outboard of frame.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-flow-crank-l",
+      "group": "mini-bikes",
+      "description": "FLOW socket crank",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        14.0,
+        18.7,
+        9.0
+      ],
+      "solid_volume_mm3": 500.712,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 4.1640454404341024e-08,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 2972,
+      "step": "parts/step/mini-flow-crank-l.step",
+      "stl": "parts/stl/mini-flow-crank-l.stl",
+      "step_sha256": "c0a835d5fd998d522d36e16d8b61b0e05df9763cb5cf68108da32570aca9c03f",
+      "stl_sha256": "73dc51d784d835830a22f35bcb94465236d4a42448abbdffe334750c03a7c3a1",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        13.49999995,
+        30.84999995,
+        19.999999999999996
+      ],
+      "notes": "Requires sample fit with integral 3.6 mm shaft.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-flow-display-base",
+      "group": "mini-bikes",
+      "description": "FLOW named display base",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "Matte PLA candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        186.0,
+        58.0,
+        7.0
+      ],
+      "solid_volume_mm3": 69656.114,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 9.192075641036836e-15,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 3270,
+      "step": "parts/step/mini-flow-display-base.step",
+      "stl": "parts/stl/mini-flow-display-base.stl",
+      "step_sha256": "0556fe77428705c39552e43613a02baf115409de9dbcbf95b06200fed4820f3e",
+      "stl_sha256": "9bea7802dcd228645f7bfe55312d59a9eca7332ce45a90940c188e535533e307",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -2.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Text is recessed geometry. Tire pockets nominal 13.6 mm wide; soft fit, not a latch.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-drop-frame",
+      "group": "mini-bikes",
+      "description": "Dayrally DROP original fixed frame",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        142.38,
+        74.436,
+        28.6
+      ],
+      "solid_volume_mm3": 19797.931,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.7217097267251263e-09,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 17296,
+      "step": "parts/step/mini-drop-frame.step",
+      "stl": "parts/stl/mini-drop-frame.stl",
+      "step_sha256": "b5743988bee6a1574f6de3009bb8e8ec86fcd266d2df74b0fa3dbf22e6adb4ad",
+      "stl_sha256": "4e5f1cc314452ce2f37675bc0acd3207c0be27056bbdc6764c54d5bd469ea52d",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        5.90993721535844,
+        58.217948329987465,
+        14.299999999999997
+      ],
+      "notes": "Display-scale original geometry. Static decorative shock. Supports required beneath rear stays and post; no suspension or driveline function.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-drop-fork",
+      "group": "mini-bikes",
+      "description": "DROP fork with steerer",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        43.351,
+        84.352,
+        28.0
+      ],
+      "solid_volume_mm3": 6143.57,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.321921707188831e-09,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 10280,
+      "step": "parts/step/mini-drop-fork.step",
+      "stl": "parts/stl/mini-drop-fork.stl",
+      "step_sha256": "3df89709c46ded4c4f20087b2e67c571f759d9ae3e3a9a908a6c04be9679f884",
+      "stl_sha256": "98f416f07444d5b3b04fc63af43c4345eb93d4d4c0e6ab5914d2392d1fd7067a",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -63.324728292001055,
+        65.17604461678695,
+        14.000000100510857
+      ],
+      "notes": "Slit-cap and cockpit fit require a sample; bridge should clear tire. No spring travel.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-drop-cockpit",
+      "group": "mini-bikes",
+      "description": "DROP handlebar and stem",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        16.201,
+        12.055,
+        51.8
+      ],
+      "solid_volume_mm3": 1104.565,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 7.309585224570655e-10,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 5648,
+      "step": "parts/step/mini-drop-cockpit.step",
+      "stl": "parts/stl/mini-drop-cockpit.stl",
+      "step_sha256": "3c581958eb26adb697341de3389e6e578c53217262fee445d13bfa7392fb95d7",
+      "stl_sha256": "3e8d15f8fdd083303c23bd2f87b3b75081890a5944439f77a313e4be37b223d9",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -46.87840847086647,
+        106.13820062385244,
+        25.899999999999988
+      ],
+      "notes": "Small grip and stem features: slice/support carefully. Cosmetic display component.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-drop-saddle",
+      "group": "mini-bikes",
+      "description": "DROP plug-on saddle",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        21.0,
+        12.0,
+        5.0
+      ],
+      "solid_volume_mm3": 1114.012,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.0410335911465312e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 396,
+      "step": "parts/step/mini-drop-saddle.step",
+      "stl": "parts/stl/mini-drop-saddle.stl",
+      "step_sha256": "66aab4cd692c31399803d70473e87f6565de08b97760187dfb0a6446b1a8370d",
+      "stl_sha256": "9d528b5679114e5f7d546d07418b08268f52aaa8c8850da7b24673934955abec",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        29.0,
+        -0.0,
+        -89.0
+      ],
+      "notes": "Nominal seatpost socket 4.7 mm square; support/fit check.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-drop-crank-r",
+      "group": "mini-bikes",
+      "description": "DROP crank with integral shaft",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        12.7,
+        16.7,
+        32.0
+      ],
+      "solid_volume_mm3": 664.646,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 3.616386667814283e-08,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 2878,
+      "step": "parts/step/mini-drop-crank-r.step",
+      "stl": "parts/stl/mini-drop-crank-r.stl",
+      "step_sha256": "de863329d732ae94836b0e40b569ffb4b80c1190a113d8e9cba80031a55e9a8f",
+      "stl_sha256": "1008e75320a0cbb358afa5f91162510301140f75aaf5cebd092ae7463174e21d",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        7.85,
+        20.849999999999998,
+        13.000000099999996
+      ],
+      "notes": "No chain drive. Keep cranks aligned outboard of frame.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-drop-crank-l",
+      "group": "mini-bikes",
+      "description": "DROP socket crank",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        14.0,
+        18.7,
+        9.0
+      ],
+      "solid_volume_mm3": 500.712,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 4.1640562820846574e-08,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 2972,
+      "step": "parts/step/mini-drop-crank-l.step",
+      "stl": "parts/stl/mini-drop-crank-l.stl",
+      "step_sha256": "a16fe40d223efcb74bb7cc9320d1a9585058e286bbcbfc5564908a2847809822",
+      "stl_sha256": "3bcbf94b0ff80e282bd9cf80c10907b64461d92669cbf5071463c36161351ad6",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        15.49999995,
+        32.84999995,
+        19.999999999999996
+      ],
+      "notes": "Requires sample fit with integral 3.6 mm shaft.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-drop-display-base",
+      "group": "mini-bikes",
+      "description": "DROP named display base",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "Matte PLA candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        202.0,
+        58.0,
+        7.0
+      ],
+      "solid_volume_mm3": 76148.715,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 9.554931567451929e-15,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 4962,
+      "step": "parts/step/mini-drop-display-base.step",
+      "stl": "parts/stl/mini-drop-display-base.stl",
+      "step_sha256": "f7f3930fe353053e66e390fe5358810a95f513822f686bc408eddcc68acfcc89",
+      "stl_sha256": "3d440eb07861289e7b20bc01dbadff24b72ff5880b4675cc852a8e6e248a8836",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -4.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Text is recessed geometry. Tire pockets nominal 13.6 mm wide; soft fit, not a latch.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-ridge-frame",
+      "group": "mini-bikes",
+      "description": "Dayrally RIDGE original fixed frame",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        134.288,
+        72.1,
+        28.6
+      ],
+      "solid_volume_mm3": 18996.192,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.7468051606339974e-08,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 17358,
+      "step": "parts/step/mini-ridge-frame.step",
+      "stl": "parts/stl/mini-ridge-frame.stl",
+      "step_sha256": "5cea1e23b182e1ce802110c128c5297ecc36e3238693f07e9aa118980c8b1f2f",
+      "stl_sha256": "8496edaf4ba4515f039f8c477ccb066afc9d867dd909f86e2b491dec4b680057",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        5.956161146100239,
+        55.94999995,
+        14.299999999999997
+      ],
+      "notes": "Display-scale original geometry. Static decorative shock. Supports required beneath rear stays and post; no suspension or driveline function.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-ridge-fork",
+      "group": "mini-bikes",
+      "description": "RIDGE fork with steerer",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        40.172,
+        74.794,
+        28.0
+      ],
+      "solid_volume_mm3": 3995.305,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.2387343495095758e-12,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 7010,
+      "step": "parts/step/mini-ridge-fork.step",
+      "stl": "parts/stl/mini-ridge-fork.stl",
+      "step_sha256": "5e3a004764bdd75bbdf08ec64174a9338f98223166c04e68195408ef6f7739e8",
+      "stl_sha256": "58f3750b36aa0060fb9836361a2568882bda1b6d7376f7bb94cea5a5dcfd05ec",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -59.91422619105029,
+        59.39698887072454,
+        14.000000099999992
+      ],
+      "notes": "Slit-cap and cockpit fit require a sample; bridge should clear tire. No spring travel.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-ridge-cockpit",
+      "group": "mini-bikes",
+      "description": "RIDGE handlebar and stem",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        16.162,
+        12.129,
+        51.8
+      ],
+      "solid_volume_mm3": 1102.878,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.0955548876346802e-11,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 5628,
+      "step": "parts/step/mini-ridge-cockpit.step",
+      "stl": "parts/stl/mini-ridge-cockpit.stl",
+      "step_sha256": "d1e448d9ae2cc35ac4c8b2b1e7775cb42a1b4b070775de726643e6315d075b2f",
+      "stl_sha256": "231d1a44ee32c29081ef6090e4ed8611225d72fafce737101f2af08618711bc1",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -44.823467860200665,
+        95.92682620834941,
+        25.899999999999988
+      ],
+      "notes": "Small grip and stem features: slice/support carefully. Cosmetic display component.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-ridge-saddle",
+      "group": "mini-bikes",
+      "description": "RIDGE plug-on saddle",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        21.0,
+        12.0,
+        5.0
+      ],
+      "solid_volume_mm3": 1114.012,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.0410335911465312e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 396,
+      "step": "parts/step/mini-ridge-saddle.step",
+      "stl": "parts/stl/mini-ridge-saddle.stl",
+      "step_sha256": "d6c9a437d4a3722bfa8a3d23fb604e9ccd469807987c129b778b3cad4a779c01",
+      "stl_sha256": "9d528b5679114e5f7d546d07418b08268f52aaa8c8850da7b24673934955abec",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        28.0,
+        -0.0,
+        -89.0
+      ],
+      "notes": "Nominal seatpost socket 4.7 mm square; support/fit check.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-ridge-crank-r",
+      "group": "mini-bikes",
+      "description": "RIDGE crank with integral shaft",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        12.7,
+        16.7,
+        32.0
+      ],
+      "solid_volume_mm3": 664.646,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 3.61638654808018e-08,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 2878,
+      "step": "parts/step/mini-ridge-crank-r.step",
+      "stl": "parts/stl/mini-ridge-crank-r.stl",
+      "step_sha256": "de4f65a5a92a46caa365fdd0d0fbca5a1404c2754b327679aca91aea86b20fc3",
+      "stl_sha256": "04ced3fc3a58da627839d956531e9796a980c8547899ff4f4d7f1af783b5c129",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        5.85,
+        19.849999999999998,
+        13.000000099999996
+      ],
+      "notes": "No chain drive. Keep cranks aligned outboard of frame.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-ridge-crank-l",
+      "group": "mini-bikes",
+      "description": "RIDGE socket crank",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        14.0,
+        18.7,
+        9.0
+      ],
+      "solid_volume_mm3": 500.712,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 4.164038458638204e-08,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 2972,
+      "step": "parts/step/mini-ridge-crank-l.step",
+      "stl": "parts/stl/mini-ridge-crank-l.stl",
+      "step_sha256": "1ac5b5380311864a7c88a1243f56d1ae3a0e3d5131d4874d5393c2021eeb8b82",
+      "stl_sha256": "6acdf3291b77a14326ba5c80450c3638c0e7d9ec173a5ebe4a963b11ac2de8a6",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        13.49999995,
+        31.84999995,
+        19.999999999999996
+      ],
+      "notes": "Requires sample fit with integral 3.6 mm shaft.",
+      "parameters": {}
+    },
+    {
+      "id": "mini-ridge-display-base",
+      "group": "mini-bikes",
+      "description": "RIDGE named display base",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "Matte PLA candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        193.0,
+        58.0,
+        7.0
+      ],
+      "solid_volume_mm3": 72488.764,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 8.832876085766551e-15,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 4108,
+      "step": "parts/step/mini-ridge-display-base.step",
+      "stl": "parts/stl/mini-ridge-display-base.stl",
+      "step_sha256": "a3b57b35b63d20d87ebea45879f706bb99869cd295910368591bd20b225251db",
+      "stl_sha256": "b5835ce1b1c4d4584259d4b0c3fe204f6472c1b9a2d61d8e377103d2c26c2f31",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -3.5,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Text is recessed geometry. Tire pockets nominal 13.6 mm wide; soft fit, not a latch.",
+      "parameters": {}
+    }
+  ],
+  "assemblies": [
+    {
+      "id": "dayrally-mini-flow",
+      "description": "DAYRALLY MINI FLOW - original display bike",
+      "notes": "Approximately 1:10 visual scale, not a dimensional replica. Assembled miniature, not a rideable bicycle. Small parts; not evaluated as a child toy.",
+      "components": [
+        {
+          "part_id": "mini-flow-display-base",
+          "instance": "mini-flow-display-base__1",
+          "colour": "#F5F1EA",
+          "translation_mm": [
+            0,
+            0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-flow-frame",
+          "instance": "mini-flow-frame__2",
+          "colour": "#E95037",
+          "translation_mm": [
+            0,
+            0,
+            2.4547641221724064
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-flow-fork",
+          "instance": "mini-flow-fork__3",
+          "colour": "#EFCF6B",
+          "translation_mm": [
+            0,
+            0,
+            2.4547641221724064
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-flow-cockpit",
+          "instance": "mini-flow-cockpit__4",
+          "colour": "#36383C",
+          "translation_mm": [
+            0,
+            0,
+            2.4547641221724064
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-flow-saddle",
+          "instance": "mini-flow-saddle__5",
+          "colour": "#36383C",
+          "translation_mm": [
+            0,
+            0,
+            2.4547641221724064
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-flow-crank-r",
+          "instance": "mini-flow-crank-r__6",
+          "colour": "#36383C",
+          "translation_mm": [
+            0,
+            0,
+            2.4547641221724064
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-flow-crank-l",
+          "instance": "mini-flow-crank-l__7",
+          "colour": "#36383C",
+          "translation_mm": [
+            0,
+            0,
+            2.4547641221724064
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-wheel-25p5",
+          "instance": "mini-wheel-25p5__8",
+          "colour": "#36383C",
+          "translation_mm": [
+            -65,
+            0,
+            28.454764122172406
+          ],
+          "rotation_xyz_deg": [
+            90,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-wheel-axle",
+          "instance": "mini-wheel-axle__9",
+          "colour": "#36383C",
+          "translation_mm": [
+            -65,
+            0,
+            28.454764122172406
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-wheel-cap",
+          "instance": "mini-wheel-cap__10",
+          "colour": "#EFCF6B",
+          "translation_mm": [
+            -65,
+            14.6,
+            28.454764122172406
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-wheel-25p5",
+          "instance": "mini-wheel-25p5__11",
+          "colour": "#36383C",
+          "translation_mm": [
+            69,
+            0,
+            28.454764122172406
+          ],
+          "rotation_xyz_deg": [
+            90,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-wheel-axle",
+          "instance": "mini-wheel-axle__12",
+          "colour": "#36383C",
+          "translation_mm": [
+            69,
+            0,
+            28.454764122172406
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-wheel-cap",
+          "instance": "mini-wheel-cap__13",
+          "colour": "#EFCF6B",
+          "translation_mm": [
+            69,
+            14.6,
+            28.454764122172406
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "bounds_mm": [
+        [
+          -91.2547641221724,
+          -28.999999999999996,
+          0.0
+        ],
+        [
+          95.25476412217242,
+          28.999999999999996,
+          99.54401143055456
+        ]
+      ],
+      "part_instances": 13,
+      "step": "assemblies/step/dayrally-mini-flow.step",
+      "glb": "assemblies/glb/dayrally-mini-flow.glb",
+      "glb_units": "metres",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false
+    },
+    {
+      "id": "dayrally-mini-drop",
+      "description": "DAYRALLY MINI DROP - original display bike",
+      "notes": "Approximately 1:10 visual scale, not a dimensional replica. Assembled miniature, not a rideable bicycle. Small parts; not evaluated as a child toy.",
+      "components": [
+        {
+          "part_id": "mini-drop-display-base",
+          "instance": "mini-drop-display-base__1",
+          "colour": "#F5F1EA",
+          "translation_mm": [
+            0,
+            0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-drop-frame",
+          "instance": "mini-drop-frame__2",
+          "colour": "#A5A6A5",
+          "translation_mm": [
+            0,
+            0,
+            1.948674247821966
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-drop-fork",
+          "instance": "mini-drop-fork__3",
+          "colour": "#E95037",
+          "translation_mm": [
+            0,
+            0,
+            1.948674247821966
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-drop-cockpit",
+          "instance": "mini-drop-cockpit__4",
+          "colour": "#36383C",
+          "translation_mm": [
+            0,
+            0,
+            1.948674247821966
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-drop-saddle",
+          "instance": "mini-drop-saddle__5",
+          "colour": "#36383C",
+          "translation_mm": [
+            0,
+            0,
+            1.948674247821966
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-drop-crank-r",
+          "instance": "mini-drop-crank-r__6",
+          "colour": "#36383C",
+          "translation_mm": [
+            0,
+            0,
+            1.948674247821966
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-drop-crank-l",
+          "instance": "mini-drop-crank-l__7",
+          "colour": "#36383C",
+          "translation_mm": [
+            0,
+            0,
+            1.948674247821966
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-wheel-28",
+          "instance": "mini-wheel-28__8",
+          "colour": "#36383C",
+          "translation_mm": [
+            -71,
+            0,
+            30.948674247821966
+          ],
+          "rotation_xyz_deg": [
+            90,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-wheel-axle",
+          "instance": "mini-wheel-axle__9",
+          "colour": "#36383C",
+          "translation_mm": [
+            -71,
+            0,
+            30.948674247821966
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-wheel-cap",
+          "instance": "mini-wheel-cap__10",
+          "colour": "#E95037",
+          "translation_mm": [
+            -71,
+            14.6,
+            30.948674247821966
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-wheel-28",
+          "instance": "mini-wheel-28__11",
+          "colour": "#36383C",
+          "translation_mm": [
+            79,
+            0,
+            30.948674247821966
+          ],
+          "rotation_xyz_deg": [
+            90,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-wheel-axle",
+          "instance": "mini-wheel-axle__12",
+          "colour": "#36383C",
+          "translation_mm": [
+            79,
+            0,
+            30.948674247821966
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-wheel-cap",
+          "instance": "mini-wheel-cap__13",
+          "colour": "#E95037",
+          "translation_mm": [
+            79,
+            14.6,
+            30.948674247821966
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "bounds_mm": [
+        [
+          -99.74867424782197,
+          -28.999999999999996,
+          0.0
+        ],
+        [
+          107.74867424782198,
+          28.999999999999996,
+          114.11453788722365
+        ]
+      ],
+      "part_instances": 13,
+      "step": "assemblies/step/dayrally-mini-drop.step",
+      "glb": "assemblies/glb/dayrally-mini-drop.glb",
+      "glb_units": "metres",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false
+    },
+    {
+      "id": "dayrally-mini-ridge",
+      "description": "DAYRALLY MINI RIDGE - original display bike",
+      "notes": "Approximately 1:10 visual scale, not a dimensional replica. Assembled miniature, not a rideable bicycle. Small parts; not evaluated as a child toy.",
+      "components": [
+        {
+          "part_id": "mini-ridge-display-base",
+          "instance": "mini-ridge-display-base__1",
+          "colour": "#F5F1EA",
+          "translation_mm": [
+            0,
+            0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-ridge-frame",
+          "instance": "mini-ridge-frame__2",
+          "colour": "#70AFAC",
+          "translation_mm": [
+            0,
+            0,
+            2.4547641221724064
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-ridge-fork",
+          "instance": "mini-ridge-fork__3",
+          "colour": "#36383C",
+          "translation_mm": [
+            0,
+            0,
+            2.4547641221724064
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-ridge-cockpit",
+          "instance": "mini-ridge-cockpit__4",
+          "colour": "#36383C",
+          "translation_mm": [
+            0,
+            0,
+            2.4547641221724064
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-ridge-saddle",
+          "instance": "mini-ridge-saddle__5",
+          "colour": "#36383C",
+          "translation_mm": [
+            0,
+            0,
+            2.4547641221724064
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-ridge-crank-r",
+          "instance": "mini-ridge-crank-r__6",
+          "colour": "#36383C",
+          "translation_mm": [
+            0,
+            0,
+            2.4547641221724064
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-ridge-crank-l",
+          "instance": "mini-ridge-crank-l__7",
+          "colour": "#36383C",
+          "translation_mm": [
+            0,
+            0,
+            2.4547641221724064
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-wheel-25p5",
+          "instance": "mini-wheel-25p5__8",
+          "colour": "#36383C",
+          "translation_mm": [
+            -67,
+            0,
+            28.454764122172406
+          ],
+          "rotation_xyz_deg": [
+            90,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-wheel-axle",
+          "instance": "mini-wheel-axle__9",
+          "colour": "#36383C",
+          "translation_mm": [
+            -67,
+            0,
+            28.454764122172406
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-wheel-cap",
+          "instance": "mini-wheel-cap__10",
+          "colour": "#36383C",
+          "translation_mm": [
+            -67,
+            14.6,
+            28.454764122172406
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-wheel-27p5",
+          "instance": "mini-wheel-27p5__11",
+          "colour": "#36383C",
+          "translation_mm": [
+            74,
+            0,
+            30.454764122172406
+          ],
+          "rotation_xyz_deg": [
+            90,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-wheel-axle",
+          "instance": "mini-wheel-axle__12",
+          "colour": "#36383C",
+          "translation_mm": [
+            74,
+            0,
+            30.454764122172406
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "mini-wheel-cap",
+          "instance": "mini-wheel-cap__13",
+          "colour": "#36383C",
+          "translation_mm": [
+            74,
+            14.6,
+            30.454764122172406
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "bounds_mm": [
+        [
+          -93.2547641221724,
+          -28.999999999999996,
+          0.0
+        ],
+        [
+          102.24989222269205,
+          28.999999999999996,
+          104.4462496276715
+        ]
+      ],
+      "part_instances": 13,
+      "step": "assemblies/step/dayrally-mini-ridge.step",
+      "glb": "assemblies/glb/dayrally-mini-ridge.glb",
+      "glb_units": "metres",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false
+    }
+  ],
+  "checks": [
+    {
+      "name": "flow: rear wheel vs fixed frame",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "flow: front wheel vs fork",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "flow: frame vs fork",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "flow: frame vs saddle",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "flow: steerer vs cockpit socket",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "drop: rear wheel vs fixed frame",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "drop: front wheel vs fork",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "drop: frame vs fork",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "drop: frame vs saddle",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "drop: steerer vs cockpit socket",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "ridge: rear wheel vs fixed frame",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "ridge: front wheel vs fork",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "ridge: frame vs fork",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "ridge: frame vs saddle",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "ridge: steerer vs cockpit socket",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    }
+  ]
+}

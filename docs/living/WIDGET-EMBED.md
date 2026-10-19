@@ -26,7 +26,7 @@ geometry and any claim that a print API exists today (see
 
 ## What the customer gets
 
-For any of the 40 manifest products and 17 kits at `/living/widget/<handle>`:
+For any of the 40 manifest products, 17 kits and 18 AC-02 prototypes (`ac02-<view>`) at `/living/widget/<handle>`:
 
 - **Colour** from the product's real colour set (7 living, 13 dayrally).
 - **Accent** when a part prints in a second colour (name plate lettering,

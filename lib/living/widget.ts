@@ -14,6 +14,7 @@
 
 import { z } from 'zod';
 import { CAD_MANIFEST, CAD_PACK, INTERFACE_ID, PITCH_MM, partCode, printFile } from './catalogue';
+import { AC02, AC02_HANDLE_PREFIX, AC02_LETTERED, ac02Assembly, ac02Lines, ac02Part, ac02Roles, type Ac02Assembly } from './ac02';
 import type { Colour, Colourway, ManifestKit, ManifestProduct } from './system';
 
 export const ITEM_SCHEMA = 'assembl.living.item/1' as const;
@@ -33,7 +34,7 @@ export type TextSpec = { partId: string; label: string; maxChars: number; patter
 
 export type WidgetLine = { handle: string; title: string; qty: number };
 export type WidgetSpec = {
-  kind: 'product' | 'kit';
+  kind: 'product' | 'kit' | 'prototype';
   handle: string;
   title: string;
   blurb: string;
@@ -42,7 +43,8 @@ export type WidgetSpec = {
   type: string;
   short: string | null;
   colourSet: 'living' | 'dayrally' | 'natural';
-  priceNzd: number;
+  /** Proposed retail; null for AC-02 prototypes, which carry no price until quoted. */
+  priceNzd: number | null;
   shipG: number;
   colours: Colour[];
   choices: Choice[];
@@ -52,6 +54,12 @@ export type WidgetSpec = {
   partsFor: (choices: Record<string, string>) => { id: string; qty: number }[];
   /** The manifest SKU for a colour, where the manifest records one (products); kits use `kitSku`. */
   skus: { colour: string; sku: string }[];
+  /** Explicit part roles (AC-02 assemblies decide accent by designed colour, not by part id). */
+  roles?: Record<string, PartRole>;
+  /** Assembled 3D view and CAD preview image for prototypes. */
+  glb?: string;
+  previewImage?: string;
+  revision: string;
 };
 
 const PART_IDS = new Set(CAD_MANIFEST.parts.map((p) => p.id));
@@ -73,6 +81,8 @@ export function textSpecFor(partIds: string[]): TextSpec | null {
   for (const id of partIds) {
     const t = TEXT_PARTS[id];
     if (t) return { partId: id, ...t };
+    const ac = AC02_LETTERED[id];
+    if (ac) return { partId: id, label: ac.label, maxChars: ac.maxChars, pattern: /^[A-Za-z0-9 .'&-]*$/, hint: `Up to ${ac.maxChars} letters, cut into the part when it is rebuilt.` };
     if (/^dr2-lid-[a-z]+-name-inlay$/.test(id)) return { partId: id, ...LID_NAME_TEXT };
   }
   return null;
@@ -142,7 +152,7 @@ function productSpec(product: ManifestProduct): WidgetSpec {
   };
   return {
     kind: 'product', handle: product.handle, title: product.title, blurb: product.blurb, size: product.size, material: product.material, type: product.type, short: product.short,
-    colourSet: product.colours, priceNzd: product.price_nzd, shipG: product.ship_g, colours: skuColours(CAD_MANIFEST.colours[product.colours], product.skus), choices, lines: [], partsFor, skus: product.skus,
+    colourSet: product.colours, priceNzd: product.price_nzd, shipG: product.ship_g, colours: skuColours(CAD_MANIFEST.colours[product.colours], product.skus), choices, lines: [], partsFor, skus: product.skus, revision: CAD_PACK,
   };
 }
 
@@ -161,15 +171,48 @@ function kitSpec(kit: ManifestKit): WidgetSpec | null {
   };
   return {
     kind: 'kit', handle: kit.handle, title: kit.title, blurb: kit.note, size: `${lines.length} products · ${kit.lines.reduce((s, l) => s + l.qty, 0)} items`, material: materials.join(' · '), type: kit.collection === 'dayrally' ? 'dayrally kits' : 'Room kit', short: kit.short,
-    colourSet, priceNzd: kit.price_nzd, shipG: kit.ship_g, colours, choices: [], lines: lines.map(({ line, product }) => ({ handle: line.handle, title: product!.title, qty: line.qty })), partsFor, skus: [],
+    colourSet, priceNzd: kit.price_nzd, shipG: kit.ship_g, colours, choices: [], lines: lines.map(({ line, product }) => ({ handle: line.handle, title: product!.title, qty: line.qty })), partsFor, skus: [], revision: CAD_PACK,
   };
 }
+
+/** An AC-02 assembled view as one customisable prototype: one body colour, one accent, a name where a part carries lettering. */
+function prototypeSpec(a: Ac02Assembly): WidgetSpec {
+  const lines = ac02Lines(a);
+  const roles = ac02Roles(a);
+  const colourSet = a.brand === 'dayrally' ? 'dayrally' : 'living';
+  const parts = lines.map((l) => ac02Part(l.partId)!);
+  const massG = lines.reduce((s, l) => s + (ac02Part(l.partId)?.massG ?? 0) * l.qty, 0);
+  return {
+    kind: 'prototype', handle: `${AC02_HANDLE_PREFIX}${a.id}`, title: a.name, blurb: a.notes, size: `${a.boundsMm.map((n) => Math.round(n)).join(' × ')} mm assembled`,
+    material: [...new Set(parts.map((p) => p.material))].join(' · '), type: a.brand === 'dayrally' ? 'dayrally prototypes' : 'Living prototypes', short: null,
+    colourSet, priceNzd: null, shipG: Math.round(massG * 1.25 + 40), colours: CAD_MANIFEST.colours[colourSet], choices: [],
+    lines: lines.map((l) => ({ handle: l.partId, title: ac02Part(l.partId)?.description ?? l.partId, qty: l.qty })),
+    partsFor: () => lines.map((l) => ({ id: l.partId, qty: l.qty })),
+    skus: [], roles: Object.fromEntries(lines.map((l) => [l.partId, roles.accentParts.has(l.partId) ? 'accent' : 'body'])),
+    glb: a.glb, previewImage: a.preview, revision: a.revision,
+  };
+}
+
+export const WIDGET_PROTOTYPES = AC02.assemblies;
 
 export function widgetSpec(handle: string): WidgetSpec | null {
   const product = WIDGET_PRODUCTS.find((p) => p.handle === handle);
   if (product) return productSpec(product);
   const kit = WIDGET_KITS.find((k) => k.handle === handle);
-  return kit ? kitSpec(kit) : null;
+  if (kit) return kitSpec(kit);
+  if (handle.startsWith(AC02_HANDLE_PREFIX)) {
+    const a = ac02Assembly(handle.slice(AC02_HANDLE_PREFIX.length));
+    if (a) return prototypeSpec(a);
+  }
+  return null;
+}
+
+/** Print-file facts for any part id the widget can meet: the v0.3 pack first, then AC-02. */
+export function partInfo(id: string): { id: string; name: string; massG: number; revision: string; sha256: string | null; path: string | null; dims: { x: number; y: number; z: number }; material: string; orientation: string; supports: string; notes: string } {
+  const ac = ac02Part(id);
+  if (ac) return { id, name: ac.description, massG: ac.massG, revision: ac.revision, sha256: ac.stlSha256, path: null, dims: { x: ac.bboxMm[0], y: ac.bboxMm[1], z: ac.bboxMm[2] }, material: ac.material, orientation: 'as delivered', supports: 'slicer review required', notes: ac.notes };
+  const f = printFile(id);
+  return { id, name: f.name, massG: f.mass_g_pla, revision: f.revision, sha256: f.file?.sha256 ?? null, path: f.file?.path ?? null, dims: f.dims_mm, material: f.material, orientation: f.print_orientation, supports: f.supports, notes: f.notes };
 }
 
 /** True when any part prints in a second colour, so an accent is needed. */
@@ -194,7 +237,7 @@ export const ItemConfigurationSchema = z.object({
   schema: z.literal(ITEM_SCHEMA),
   status: z.literal('proposed'),
   createdAt: z.string(),
-  kind: z.enum(['product', 'kit']),
+  kind: z.enum(['product', 'kit', 'prototype']),
   handle: z.string(),
   title: z.string(),
   colourSet: z.enum(['living', 'dayrally', 'natural']),
@@ -208,12 +251,12 @@ export const ItemConfigurationSchema = z.object({
   lines: z.array(z.object({ handle: z.string(), title: z.string(), qty: z.number().int().positive(), sku: z.string().nullable() })),
   printFiles: z.array(z.object({ id: z.string(), name: z.string(), qty: z.number().int().positive(), role: z.enum(['body', 'accent']), revision: z.string(), sha256: z.string().nullable(), path: z.string().nullable(), massG: z.number() })),
   estimate: z.object({
-    perUnit: z.object({ massG: z.number(), printMinutes: z.number(), materialNzd: z.number(), suggestedRetailNzd: z.number(), shipG: z.number() }),
-    total: z.object({ massG: z.number(), printMinutes: z.number(), materialNzd: z.number(), suggestedRetailNzd: z.number() }),
+    perUnit: z.object({ massG: z.number(), printMinutes: z.number(), materialNzd: z.number(), suggestedRetailNzd: z.number().nullable(), shipG: z.number() }),
+    total: z.object({ massG: z.number(), printMinutes: z.number(), materialNzd: z.number(), suggestedRetailNzd: z.number().nullable() }),
     assumptions: z.string(),
   }),
   interface: z.object({ id: z.string(), pack: z.string(), pitchMm: z.number() }),
-  purchasing: z.object({ channel: z.literal('shopify'), status: z.literal('store_decides'), note: z.string() }),
+  purchasing: z.object({ channel: z.literal('shopify'), status: z.enum(['store_decides', 'not_enabled']), note: z.string() }),
 });
 export type ItemConfiguration = z.infer<typeof ItemConfigurationSchema>;
 
@@ -245,8 +288,9 @@ export function buildItem(input: ItemInput): BuildResult {
   const parts = spec.partsFor(selected);
   const partIds = parts.map((p) => p.id);
 
+  const roleOf = (id: string): PartRole => spec.roles?.[id] ?? partRole(id);
   let accent: Colour | null = null;
-  if (needsAccent(partIds)) {
+  if (partIds.some((id) => roleOf(id) === 'accent')) {
     accent = input.accent ? spec.colours.find((c) => c.id === input.accent) ?? null : colour ? defaultAccent(spec.colours, colour) : null;
     if (!accent) issues.push('Choose an accent colour.');
     else if (colour && accent.id === colour.id) issues.push('The accent colour needs to differ from the body colour so the lettering reads.');
@@ -266,8 +310,8 @@ export function buildItem(input: ItemInput): BuildResult {
   if (issues.length || !colour) return { ok: false, item: null, issues };
 
   const printFiles = parts.map((p) => {
-    const f = printFile(p.id);
-    return { id: f.id, name: f.name, qty: p.qty, role: partRole(p.id), revision: f.revision, sha256: f.file?.sha256 ?? null, path: f.file?.path ?? null, massG: f.mass_g_pla };
+    const f = partInfo(p.id);
+    return { id: f.id, name: f.name, qty: p.qty, role: roleOf(p.id), revision: f.revision, sha256: f.sha256, path: f.path, massG: f.massG };
   });
   const massG = round1(printFiles.reduce((s, f) => s + f.massG * f.qty, 0));
   const perUnit = {
@@ -278,8 +322,9 @@ export function buildItem(input: ItemInput): BuildResult {
     shipG: spec.shipG,
   };
   const skuFor = (s: Pick<WidgetSpec, 'skus' | 'short'>) => s.skus.find((x) => x.colour.toLowerCase() === colour.name.toLowerCase())?.sku ?? partCode(s, colour.id as Colourway);
-  const sku = spec.kind === 'kit' ? kitSku(spec, colour.id) : skuFor(spec);
-  const lines = spec.lines.map((l) => ({ ...l, sku: skuFor(widgetSpec(l.handle)!) }));
+  const colourShort = COLOUR_SHORT[colour.id] ?? colour.id.slice(0, 3).toUpperCase();
+  const sku = spec.kind === 'kit' ? kitSku(spec, colour.id) : spec.kind === 'prototype' ? `AC02-${spec.handle.slice(AC02_HANDLE_PREFIX.length).toUpperCase()}-${colourShort}` : skuFor(spec);
+  const lines = spec.lines.map((l) => ({ ...l, sku: spec.kind === 'prototype' ? null : skuFor(widgetSpec(l.handle)!) }));
 
   const item: ItemConfiguration = {
     schema: ITEM_SCHEMA,
@@ -299,11 +344,13 @@ export function buildItem(input: ItemInput): BuildResult {
     printFiles,
     estimate: {
       perUnit,
-      total: { massG: round1(perUnit.massG * qty), printMinutes: perUnit.printMinutes * qty, materialNzd: round2(perUnit.materialNzd * qty), suggestedRetailNzd: round2(perUnit.suggestedRetailNzd * qty) },
+      total: { massG: round1(perUnit.massG * qty), printMinutes: perUnit.printMinutes * qty, materialNzd: round2(perUnit.materialNzd * qty), suggestedRetailNzd: perUnit.suggestedRetailNzd === null ? null : round2(perUnit.suggestedRetailNzd * qty) },
       assumptions: PRINT_ASSUMPTIONS.note,
     },
-    interface: { id: INTERFACE_ID, pack: CAD_PACK, pitchMm: PITCH_MM },
-    purchasing: { channel: 'shopify', status: 'store_decides', note: 'The widget describes the item. Adding to cart, price and availability are the store page’s own; nothing here is a quote.' },
+    interface: spec.kind === 'prototype' ? { id: AC02.interfaces.wall, pack: AC02.revision, pitchMm: PITCH_MM } : { id: INTERFACE_ID, pack: CAD_PACK, pitchMm: PITCH_MM },
+    purchasing: spec.kind === 'prototype'
+      ? { channel: 'shopify', status: 'not_enabled', note: 'AC-02 digital prototype: unprinted, not approved for manufacture, no price. The store must not list it until samples pass.' }
+      : { channel: 'shopify', status: 'store_decides', note: 'The widget describes the item. Adding to cart, price and availability are the store page’s own; nothing here is a quote.' },
   };
   return { ok: true, item, issues: [] };
 }
@@ -347,8 +394,8 @@ export function printSheet(item: ItemConfiguration): string {
       item: { kind: item.kind, handle: item.handle, title: item.title, sku: item.sku, qty: item.qty, text: item.text, choices: item.choices, lines: item.lines },
       colours: { body: item.colour, accent: item.accent },
       files: item.printFiles.map((f) => {
-        const pf = printFile(f.id);
-        return { ...f, colour: f.role === 'accent' ? item.accent?.name ?? null : item.colour.name, material: pf.material, orientation: pf.print_orientation, supports: pf.supports, dimsMm: pf.dims_mm, notes: pf.notes, servedFrom: f.path ? 'public pack' : 'not in the served pack yet; export from tools/living-cad' };
+        const pf = partInfo(f.id);
+        return { ...f, colour: f.role === 'accent' ? item.accent?.name ?? null : item.colour.name, material: pf.material, orientation: pf.orientation, supports: pf.supports, dimsMm: pf.dims, notes: pf.notes, servedFrom: f.path ? 'public pack' : item.kind === 'prototype' ? 'AC-02 delivery archive (STL and STEP by hash)' : 'not in the served pack yet; export from tools/living-cad' };
       }),
       estimate: item.estimate,
       note: 'Proposed. Print only after the TURN test kit has passed on this printer and profile.',
