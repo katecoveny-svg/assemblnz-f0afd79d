@@ -1,0 +1,42 @@
+{%- comment -%}
+  dayrally hero — a Custom Liquid block for the Horizon theme.
+  Paste into Online Store → Themes → Customize → Add section → Custom Liquid on the dayrally page.
+  One dayrally colour fills the band; the type is the system promise; the TURN diagram turns once.
+  Colours are dayrally product colours used as content on this page only; the buttons stay in the canon.
+{%- endcomment -%}
+<style>
+  .dr-hero { background: #F3D97A; color: #2A2A2D; padding: clamp(3rem, 9vw, 7rem) 0; font-family: 'Instrument Sans', system-ui, sans-serif; }
+  .dr-hero__wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; display: grid; gap: 2rem; grid-template-columns: 1fr; align-items: center; }
+  @media (min-width: 820px) { .dr-hero__wrap { grid-template-columns: 7fr 5fr; } }
+  .dr-hero__eyebrow { font-family: 'IBM Plex Mono', ui-monospace, monospace; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.06em; opacity: 0.8; margin: 0 0 1rem; }
+  .dr-hero h1 { font-weight: 500; letter-spacing: -0.02em; font-size: clamp(2.4rem, 7vw, 5rem); line-height: 1; margin: 0; }
+  .dr-hero p { font-size: clamp(1.05rem, 1.6vw, 1.25rem); max-width: 34ch; margin: 1.2rem 0 0; }
+  .dr-hero__cta { display: inline-block; margin-top: 1.6rem; background: #240B21; color: #FFFDFB; border-radius: 999px; padding: 0.9rem 1.4rem; text-decoration: none; font-weight: 500; }
+  .dr-turn { width: 100%; max-width: 360px; justify-self: center; }
+  .dr-turn .key { transform-origin: 100px 100px; animation: dr-turn 1.2s ease-out 0.4s 1 forwards; }
+  @keyframes dr-turn { 0% { transform: translateY(-26px) rotate(0deg); opacity: 0.6; } 45% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(0) rotate(90deg); opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .dr-turn .key { animation: none; transform: rotate(90deg); } }
+  .dr-turn__label { font-family: 'IBM Plex Mono', ui-monospace, monospace; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.06em; text-align: center; margin-top: 0.6rem; opacity: 0.8; }
+</style>
+<section class="dr-hero" aria-labelledby="dr-hero-title">
+  <div class="dr-hero__wrap">
+    <div>
+      <p class="dr-hero__eyebrow">dayrally · by assembl / living</p>
+      <h1 id="dr-hero-title">One key.<br>Every piece.</h1>
+      <p>Pods, mounts, charms, a camera, a rod. They all lock with the same quarter-turn key on a 42 mm grid, so the pod on your bag today is on your wall tonight.</p>
+      <a class="dr-hero__cta" href="/collections/dayrally">pick a pod</a>
+    </div>
+    <div>
+      <svg class="dr-turn" viewBox="0 0 200 200" role="img" aria-label="The assembl TURN: the key drops in upright and quarter-turns to lock">
+        <rect x="20" y="20" width="160" height="160" rx="14" fill="#FFFDFB" opacity="0.7"/>
+        <circle cx="100" cy="100" r="26" fill="none" stroke="#2A2A2D" stroke-width="3"/>
+        <rect x="96" y="60" width="8" height="80" rx="4" fill="#FFFDFB" stroke="#2A2A2D" stroke-width="3"/>
+        <g class="key">
+          <rect x="66" y="91" width="68" height="18" rx="9" fill="#240B21"/>
+          <circle cx="122" cy="100" r="3" fill="#FFFDFB"/>
+        </g>
+      </svg>
+      <p class="dr-turn__label">push in upright · quarter-turn · locked</p>
+    </div>
+  </div>
+</section>

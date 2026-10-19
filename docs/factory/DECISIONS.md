@@ -230,3 +230,19 @@ A `scad/` tree under `tools/living-cad/` with its own README and render commands
 
 **Revisit when**  
 Gridfinity Rebuilt or BOSL2 is adopted for a shipped part (record the notice placement), a licence is chosen for assembl's own CAD, or a measured-drawer tray has been printed and fits.
+
+## ADR-010 — Lab items: designed-and-checked parts enter the manifest and widget before they are printed, never the store
+**Status:** accepted (build candidate; not merged)  
+**Date:** 2026-10-19
+
+**Context**  
+The dayrally cam (120-film pinhole camera) and the dayrally rod and wharf reel were designed in the manifold3d pipeline with digital fit checks, renders and docs on the same day. They need to be visible in the widget and on the host pages so the design can be judged and briefed, but nothing is printed, so they cannot carry a price or a store listing.
+
+**Decision**  
+A print-file family may be added to the manifest and served from the public pack as a *lab item* (`WIDGET_LAB` in `lib/living/widget.ts`, handles `lab-*`). Lab items use the prototype kind in the item schema: real part choices, real estimates, 3D from the served STL, part codes `LAB-<ID>-<COL>`, `suggestedRetailNzd: null`, `purchasing.status: not_enabled`. The manifest carries their specs under `lab` and their fit tests under `fit_tests`. Promotion to a product requires a passed test print, a launch CSV row with a price and a check-lettered SKU, and a register row, in that order.
+
+**Consequences**  
+The widget index gains a "dayrally lab" group; store copy and the design brief may reference lab items only with the honesty line. Build scripts: `build_dayrally_cam.py`, `build_dayrally_rod.py`, `fit_test_cam.py`, `fit_test_rod.py`; families `camera` and `rod` are served.
+
+**Revisit when**  
+The first cam or rod test print is in hand (set the verified spool dimensions and spigot clearance from the print), or a lab item is promoted.

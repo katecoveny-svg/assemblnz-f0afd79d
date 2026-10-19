@@ -216,3 +216,95 @@ the host page hero (muted, once) and in the shop's "how it is made" band.
 - The three surfaces share the same tokens, radii, type scale and status
   pill. A customer moving from shop to widget to assembl sees one system.
 - No legacy palette (gold, teal, cobalt, canary, cosmic gradients) anywhere.
+
+---
+
+## 11. Addendum, 19 October (evening): the storefront is not yet the thing
+
+Kate looked at the Shopify drafts and said what is true: the product pages are
+part lists with clean renders, and nothing on the storefront looks like the
+dayrally board she started from. That board was funky, bright, confident and
+full of life; the drafts read like a parts catalogue. This addendum fixes the
+brief, not the system.
+
+### 11.1 Two registers, one system
+
+assembl / living keeps the paper-and-plum canon (sections 2 and 7). **dayrally
+is allowed to be loud.** The dayrally colours (tomato, tangerine, butter, lime,
+mint, sky, cobalt, lilac, grape, blush, cloud, ink) may fill the frame on
+dayrally pages: full-bleed colour fields, big type, parts photographed as
+objects of desire rather than as print files. The UI chrome, buttons, pills
+and mono labels stay in the canon on both. The rule is: **colour is content on
+dayrally, never chrome.**
+
+### 11.2 The storefront must say "modular" in the first screen
+
+Every dayrally and living page opens with the system before the product:
+
+1. **A one-line promise in Sans at display size:** "One key. Every piece." or
+   "Pick a pod. Clip it anywhere." (dayrally) / "A wall that changes with you"
+   (living). Not a product name.
+2. **The TURN diagram, animated once:** key drops in upright, quarter-turns to
+   horizontal, the piece locks. Three frames, 1.2 s, then holds. Reduced motion
+   shows the locked frame.
+3. **The lineup:** on dayrally, the four pod sizes in four colours in a row;
+   on living, the teen room starter flat-lay. Then the kits.
+
+The product page (section 5) keeps its structure but the first editorial band
+under the widget is now **"Part of the system"** with the TURN diagram and the
+sentence used in the product copy: "Every assembl / living piece shares one
+connection: the assembl TURN, a quarter-turn key on a 42 mm grid." The copy is
+live in all 57 drafts as of this addendum.
+
+### 11.3 What "cool and funky" means, specifically
+
+- **Composition:** parts shot at playful angles, stacked, leaning, in use (a
+  pod clipped to a bag strap in motion; a cam on a wharf post; the rod packed
+  in a pocket). Not front-on product shots on seamless.
+- **Colour:** two dayrally colours per frame, never more; the accent colour
+  does the lettering and one other part (a lid, a knob, a charm).
+- **Type:** Instrument Sans at display sizes with tight tracking, sentence
+  case, lowercase line names. One line of Plex Mono under each image with the
+  fact: `pod, standard · tomato / butter · 128 × 72 × 45 mm`.
+- **Motion:** parts assemble on scroll (the brand sequence), the pod lid lifts
+  to show the insert, the shutter disc turns to open. Nothing bounces, nothing
+  loops.
+- **Avoid:** glossy renders, drop shadows, gradients, mascots, stickers,
+  "limited drop" language, AI-art textures.
+
+### 11.4 New pieces to design for
+
+The two dayrally lab items added today need a page each, designed in the
+dayrally register, with the honesty line (unprinted, no price):
+
+- **dayrally cam** (`/living/widget/lab-dayrally-cam`): hero is the camera on
+  its cradle on a bag strap; a second frame shows the back open with a roll of
+  120 going in; a third shows the skin choices (plain, dots, waves, name).
+  Renders to work from: `docs/living/renders/cam-exploded-ink-tomato.png`,
+  `cam-body-ink.png`, `cam-skin-sky-waves.png`, `cam-cradle-butter.png`.
+- **dayrally rod and wharf reel** (`/living/widget/lab-dayrally-rod`,
+  `/living/widget/lab-wharf-reel`): hero is the packed rod in a jacket pocket
+  next to the reel; a second frame shows the four sections sliding out of the
+  grip. Renders: `rod-packed-lime.png`, `rod-wharf-reel-tangerine.png`,
+  `rod-saddle-mint.png`.
+
+### 11.5 Shopify specifics (Horizon theme)
+
+The store runs Horizon. Build the dayrally landing as a page template with
+these sections, in order: a full-bleed colour hero (one dayrally colour, promise
+line, TURN diagram), a "pick a pod" product grid filtered to `productType:
+dayrally`, a "kits" grid filtered to the dayrally kits, a "how it clips" band
+(three mounts, one sentence each), the lab items band (cam, rod, reel, marked
+unprinted), and the honesty footer. A pasteable Custom Liquid block for the
+hero is in `docs/living/theme/dayrally-hero.liquid`; the rest are
+stock Horizon sections configured in the theme editor.
+
+### 11.6 Imagery, honestly
+
+The original dayrally board lives in Kate's other chat and is not reachable
+from this session, so nothing here copies it. The renders listed in section 8
+and 11.4 are real geometry, labelled renders. To get to photographs: print the
+test kit first; to get to photoreal renders before that, feed each render to
+an image model with the prompt in section 8 and insist on fidelity to the
+geometry. Any image that shows a part that does not exist in the manifest is
+out.

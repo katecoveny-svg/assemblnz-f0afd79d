@@ -37,7 +37,7 @@ TS_MANIFEST = REPO / "lib" / "living" / "cad-manifest.json"
 
 # Families whose print files the storefront serves. Dayrally, bike and the pendant
 # shade are rebuilt on demand (the shade alone is 6 MB of mesh).
-SERVED_FAMILIES = {"grid", "tile", "stack", "renter"}
+SERVED_FAMILIES = {"grid", "tile", "stack", "renter", "camera", "rod"}
 
 COLOURS = {
     "living": [
@@ -104,6 +104,9 @@ MATERIAL = {
     "renter-over-door": "PETG", "renter-rail": "PETG", "dr-bar-saddle": "PETG", "dr-strap-clip": "PETG",
     "bike-number-plate": "PETG", "bike-number-plate-text": "PETG", "bike-tyre-lever": "PETG or PA", "bike-bar-end": "PETG",
     "dr-handline-winder": "PETG", "dr2-chair-hook": "PETG", "dr2-cable-winder": "PETG", "dr2-spoke-bead": "PETG",
+    "cam-back": "PETG", "cam-shutter-disc": "PETG", "cam-window-cover": "PETG", "cam-cradle": "PETG",
+    "rod-grip": "PETG", "rod-collar": "PETG", "rod-butt-cap": "PETG", "rod-wharf-reel": "PETG", "rod-saddle": "PETG",
+    "rod-section-1": "PETG-CF or PA-CF", "rod-section-2": "PETG-CF or PA-CF", "rod-section-3": "PETG-CF or PA-CF", "rod-tip": "PETG-CF or PA-CF",
 }
 
 
@@ -121,8 +124,10 @@ def sha(path: Path) -> str:
 
 def load_parts() -> list[dict]:
     rows: list[dict] = []
-    for name, family in (("parts-report", None), ("parts-report-extras", None), ("parts-report-dayrally", "dayrally"), ("parts-report-dayrally2", "dayrally2")):
-        for r in json.loads((PARTS / f"{name}.json").read_text()):
+    for name, family in (("parts-report", None), ("parts-report-extras", None), ("parts-report-dayrally", "dayrally"), ("parts-report-dayrally2", "dayrally2"),
+                         ("parts-report-cam", "camera"), ("parts-report-rod", "rod")):
+        loaded = json.loads((PARTS / f"{name}.json").read_text())
+        for r in (loaded["parts"] if isinstance(loaded, dict) else loaded):
             fam = r.get("system") or family
             if fam == "dayrally" and r["slug"].startswith("bike-"):
                 fam = "bike"
@@ -233,7 +238,8 @@ def main() -> None:
             if m and check_char(m.group(1)) != m.group(2):
                 raise SystemExit(f"check letter mismatch for {s['sku']}")
     kit_report = json.loads((PARTS / "test-kit" / "kit-report.json").read_text())
-    fit = {name: json.loads((PARTS / f"fit-tests{suffix}.json").read_text()) for name, suffix in (("grid", ""), ("renter", "-renter"), ("dayrally", "-dayrally"), ("dayrally2", "-dayrally2"))}
+    fit = {name: json.loads((PARTS / f"fit-tests{suffix}.json").read_text()) for name, suffix in (("grid", ""), ("renter", "-renter"), ("dayrally", "-dayrally"), ("dayrally2", "-dayrally2"), ("camera", "-cam"), ("rod", "-rod"))}
+    lab = {name: json.loads((PARTS / f"parts-report-{suffix}.json").read_text())["spec"] for name, suffix in (("camera", "cam"), ("rod", "rod"))}
     manifest = {
         "pack": PACK,
         "interface": INTERFACE,
@@ -256,6 +262,7 @@ def main() -> None:
             "total_g": round(sum(r["est_grams_pla"] * r["qty"] for r in kit_report)),
         },
         "fit_tests": fit,
+        "lab": lab,
         "part_code_alphabet": ALPH,
     }
     (PUBLIC / "manifest.json").write_text(json.dumps(manifest, indent=1, ensure_ascii=False) + "\n")

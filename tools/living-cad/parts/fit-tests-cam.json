@@ -1,0 +1,20 @@
+{
+  "back_in_body_clash_mm3": -0.0,
+  "winder_in_body_clash_mm3": 0.653,
+  "supply_pin_in_body_clash_mm3": -0.0,
+  "disc_open_clash_mm3": 0.0,
+  "disc_closed_clash_mm3": 0.0,
+  "disc_pin_in_body_clash_mm3": 0.0,
+  "disc_closed_covers_window": true,
+  "disc_open_clears_window": true,
+  "cradle_body_clash_mm3": 0.0,
+  "supply_spool_clash_mm3": -0.0,
+  "takeup_spool_clash_mm3": -0.0,
+  "blade_depth_into_spool_mm": 4.32,
+  "supply_pin_depth_into_spool_mm": 4.52,
+  "knob_lift_to_clear_spool_mm": 4.32,
+  "film_in_slot_clash_mm3": 0.0,
+  "light_cone_blocked_samples": 0,
+  "window_tunnel_open": true,
+  "nut_pocket_blind": true
+}
