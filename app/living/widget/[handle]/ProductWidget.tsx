@@ -9,11 +9,14 @@
  * the store's own add-to-cart form. It never adds to a cart itself.
  */
 
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { buildItem, defaultAccent, itemMessage, needsAccent, printFile, printSheet, textSpecFor, widgetSpec, type ItemConfiguration, type WidgetMessage, type WidgetSpec } from '@/lib/living';
 
 type Props = { handle: string; embed: boolean; origin: string | null };
+
+const PartPreview3D = dynamic(() => import('./PartPreview3D'), { ssr: false, loading: () => <p className="lvw-counter">loading the print file…</p> });
 
 function post(message: WidgetMessage, origin: string | null) {
   if (typeof window === 'undefined' || window.parent === window) return;
@@ -27,13 +30,13 @@ export function ProductWidget({ handle, embed, origin }: Props) {
 }
 
 function Widget({ spec, embed, origin }: { spec: WidgetSpec; embed: boolean; origin: string | null }) {
-  const { product } = spec;
   const [colour, setColour] = useState(spec.colours[0].id);
   const [accent, setAccent] = useState<string | null>(null);
   const [choices, setChoices] = useState<Record<string, string>>(() => Object.fromEntries(spec.choices.map((c) => [c.key, c.defaultId])));
   const [text, setText] = useState('');
   const [qty, setQty] = useState(1);
   const [copied, setCopied] = useState(false);
+  const [view, setView] = useState<'schematic' | '3d'>('schematic');
   const root = useRef<HTMLDivElement>(null);
 
   const parts = useMemo(() => spec.partsFor(choices), [spec, choices]);
@@ -44,8 +47,8 @@ function Widget({ spec, embed, origin }: { spec: WidgetSpec; embed: boolean; ori
   const accentColour = accentNeeded ? spec.colours.find((c) => c.id === accent) ?? defaultAccent(spec.colours, bodyColour) : null;
 
   const result = useMemo(
-    () => buildItem({ handle: product.handle, colour, accent: accentColour?.id ?? null, choices, text, qty }),
-    [product.handle, colour, accentColour?.id, choices, text, qty],
+    () => buildItem({ handle: spec.handle, colour, accent: accentColour?.id ?? null, choices, text, qty }),
+    [spec.handle, colour, accentColour?.id, choices, text, qty],
   );
 
   // Tell the host page about every change: the item when it is complete, the reasons when it is not.
@@ -56,19 +59,19 @@ function Widget({ spec, embed, origin }: { spec: WidgetSpec; embed: boolean; ori
 
   useEffect(() => {
     if (!embed || !root.current) return;
-    post({ type: 'assembl:ready', handle: product.handle }, origin);
+    post({ type: 'assembl:ready', handle: spec.handle }, origin);
     const el = root.current;
     const ro = new ResizeObserver(() => post({ type: 'assembl:size', height: el.scrollHeight + 8 }, origin));
     ro.observe(el);
     return () => ro.disconnect();
-  }, [embed, origin, product.handle]);
+  }, [embed, origin, spec.handle]);
 
   const download = () => {
     if (!result.ok) return;
     const blob = new Blob([printSheet(result.item)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `${result.item.sku ?? product.handle}-print-sheet.json`;
+    a.download = `${result.item.sku ?? spec.handle}-print-sheet.json`;
     a.click();
     URL.revokeObjectURL(a.href);
   };
@@ -83,28 +86,54 @@ function Widget({ spec, embed, origin }: { spec: WidgetSpec; embed: boolean; ori
     }
   };
 
-  const dims = printFile(parts[0].id).dims_mm;
+  // The main part: heaviest body part. Its print file drives both previews.
+  const main = parts.map((p) => printFile(p.id)).filter((f) => f.file || parts.length === 1).sort((a, b) => b.mass_g_pla - a.mass_g_pla)[0] ?? printFile(parts[0].id);
+  const dims = main.dims_mm;
   const pattern = choices.lid ?? choices.shape ?? null;
+  const textPart = textSpec ? printFile(textSpec.partId) : null;
+  const has3d = Boolean(main.file);
 
   return (
     <div ref={root} className="lv lvw" data-embed={embed ? 'true' : 'false'}>
       <div className="lvw-head">
         <span className="lv-eyebrow">assembl / living · made to order</span>
-        <span className="lv-status" data-tone="quiet">proposed · {spec.product.colours === 'dayrally' ? 'dayrally' : 'TURN'} · {product.material}</span>
+        <span className="lv-status" data-tone="quiet">proposed · {spec.colourSet === 'dayrally' ? 'dayrally' : 'TURN'} · {spec.material}</span>
       </div>
       <div className="lvw-grid">
         <div className="lvw-preview">
-          <div className="lvw-stage" aria-hidden>
-            <Preview body={bodyColour.hex} accent={accentColour?.hex ?? null} text={textSpec ? text : ''} dims={dims} pattern={pattern} round={product.colours === 'dayrally'} />
+          <div className="lvw-stage" aria-hidden={view === 'schematic'}>
+            {view === '3d' && main.file ? (
+              <Suspense fallback={<p className="lvw-counter">loading the print file…</p>}>
+                <PartPreview3D path={main.file.path} dims={dims} body={bodyColour.hex} accent={accentColour?.hex ?? null} text={textSpec ? text.trim() : ''} textSize={textPart ? { x: textPart.dims_mm.x, y: textPart.dims_mm.y } : null} />
+              </Suspense>
+            ) : (
+              <Preview body={bodyColour.hex} accent={accentColour?.hex ?? null} text={textSpec ? text : ''} dims={dims} pattern={pattern} round={spec.colourSet === 'dayrally'} />
+            )}
           </div>
-          <p className="lvw-counter">Schematic preview · {product.size} · colours are filament names, printed parts vary</p>
+          <div className="lvw-label">
+            <p className="lvw-counter">{view === '3d' ? `${main.name.replace(/\s*\(sample:[^)]*\)/i, '')} · v0.3 print file · drag to turn` : `Schematic · ${spec.size}`} · colours are filament names</p>
+            {has3d && (
+              <button type="button" className="lv-btn" data-variant="small" style={{ background: 'transparent', color: 'var(--lv-plum)', borderColor: 'var(--lv-line-strong)' }} onClick={() => setView((v) => (v === '3d' ? 'schematic' : '3d'))}>
+                {view === '3d' ? 'schematic' : 'view in 3D'}
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="lvw-controls">
           <div>
-            <h2>{product.title}</h2>
-            <p className="lv-small">{product.blurb}</p>
+            <h2>{spec.title}</h2>
+            <p className="lv-small">{spec.blurb}</p>
           </div>
+
+          {spec.lines.length > 0 && (
+            <div className="lv-field">
+              <div className="lvw-label"><b>In the kit</b><span className="lvw-counter">one colour, printed together</span></div>
+              <ul className="lvw-lines">
+                {spec.lines.map((l) => <li key={l.handle}><span>{l.qty} ×</span> {l.title}</li>)}
+              </ul>
+            </div>
+          )}
 
           <div className="lv-field">
             <div className="lvw-label"><b>Colour</b><span className="lvw-counter">{bodyColour.name}</span></div>
@@ -139,8 +168,8 @@ function Widget({ spec, embed, origin }: { spec: WidgetSpec; embed: boolean; ori
 
           {textSpec && (
             <div className="lv-field">
-              <label className="lvw-label" htmlFor={`lvw-text-${product.handle}`}><b>{textSpec.label}</b><span className="lvw-counter">{text.trim().length} / {textSpec.maxChars}</span></label>
-              <input id={`lvw-text-${product.handle}`} className="lv-input" value={text} maxLength={textSpec.maxChars} inputMode={textSpec.pattern.source.includes('0-9]*') && !textSpec.pattern.source.includes('A-Z') ? 'numeric' : 'text'} placeholder={textSpec.hint} onChange={(e) => setText(e.target.value)} />
+              <label className="lvw-label" htmlFor={`lvw-text-${spec.handle}`}><b>{textSpec.label}</b><span className="lvw-counter">{text.trim().length} / {textSpec.maxChars}</span></label>
+              <input id={`lvw-text-${spec.handle}`} className="lv-input" value={text} maxLength={textSpec.maxChars} inputMode={textSpec.pattern.source.includes('0-9]*') && !textSpec.pattern.source.includes('A-Z') ? 'numeric' : 'text'} placeholder={textSpec.hint} onChange={(e) => setText(e.target.value)} />
             </div>
           )}
 
@@ -166,13 +195,13 @@ function Widget({ spec, embed, origin }: { spec: WidgetSpec; embed: boolean; ori
             <div className="lv-actions">
               <button type="button" className="lv-btn" disabled={!result.ok} onClick={download}>download print sheet</button>
               <button type="button" className="lv-btn" data-variant="ghost" disabled={!result.ok} onClick={copy}>{copied ? 'copied' : 'copy configuration'}</button>
-              {spec.product.colours === 'living' && <Link className="lv-btn" data-variant="ghost" href="/living/studio">plan a whole wall</Link>}
+              {spec.colourSet === 'living' && <Link className="lv-btn" data-variant="ghost" href={spec.kind === 'kit' ? `/living/studio?kit=${spec.handle.replace('al-kit-', '')}` : '/living/studio'}>{spec.kind === 'kit' ? 'arrange it on a wall' : 'plan a whole wall'}</Link>}
             </div>
           )}
         </div>
       </div>
       <div className="lvw-foot">
-        <p className="lvw-counter">{result.ok ? `${result.item.sku ?? 'no code'} · ${result.item.interface.pack} · ${result.item.printFiles.length} print files` : `${product.handle} · ${spec.product.colours} colours`}</p>
+        <p className="lvw-counter">{result.ok ? `${result.item.sku ?? 'no code'} · ${result.item.interface.pack} · ${result.item.printFiles.length} print files` : `${spec.handle} · ${spec.colourSet} colours`}</p>
         <p className="lv-small">{embed ? 'Nothing is bought here. Price, stock and checkout belong to the store page.' : 'Nothing is for sale here yet. Estimates are planning figures, not a quote.'}</p>
       </div>
     </div>

@@ -14,7 +14,7 @@
 
 import { z } from 'zod';
 import { CAD_MANIFEST, CAD_PACK, INTERFACE_ID, PITCH_MM, partCode, printFile } from './catalogue';
-import type { Colour, Colourway, ManifestProduct } from './system';
+import type { Colour, Colourway, ManifestKit, ManifestProduct } from './system';
 
 export const ITEM_SCHEMA = 'assembl.living.item/1' as const;
 
@@ -31,12 +31,27 @@ export type ChoiceOption = { id: string; label: string; partIds: string[] };
 export type Choice = { key: ChoiceKey; label: string; options: ChoiceOption[]; defaultId: string };
 export type TextSpec = { partId: string; label: string; maxChars: number; pattern: RegExp; hint: string };
 
+export type WidgetLine = { handle: string; title: string; qty: number };
 export type WidgetSpec = {
-  product: ManifestProduct;
+  kind: 'product' | 'kit';
+  handle: string;
+  title: string;
+  blurb: string;
+  size: string;
+  material: string;
+  type: string;
+  short: string | null;
+  colourSet: 'living' | 'dayrally' | 'natural';
+  priceNzd: number;
+  shipG: number;
   colours: Colour[];
   choices: Choice[];
-  /** Parts for a selection: the product's default parts with each chosen option swapped in. */
+  /** A kit's contents (products and quantities); empty for a single product. */
+  lines: WidgetLine[];
+  /** Parts for a selection: the default parts with each chosen option swapped in; a kit's parts are every line's parts × qty. */
   partsFor: (choices: Record<string, string>) => { id: string; qty: number }[];
+  /** The manifest SKU for a colour, where the manifest records one (products); kits use `kitSku`. */
+  skus: { colour: string; sku: string }[];
 };
 
 const PART_IDS = new Set(CAD_MANIFEST.parts.map((p) => p.id));
@@ -96,11 +111,24 @@ function choicesFor(product: ManifestProduct): Choice[] {
 }
 
 export const WIDGET_PRODUCTS: ManifestProduct[] = CAD_MANIFEST.products;
+export const WIDGET_KITS: ManifestKit[] = CAD_MANIFEST.kits;
 
-export function widgetSpec(handle: string): WidgetSpec | null {
-  const product = WIDGET_PRODUCTS.find((p) => p.handle === handle);
-  if (!product) return null;
-  const colours = CAD_MANIFEST.colours[product.colours];
+const COLOUR_SHORT: Record<string, string> = { chalk: 'CHA', oat: 'OAT', sage: 'SAG', clay: 'CLA', plum: 'PLU', ash: 'ASH', ink: 'INK', natural: 'NAT' };
+
+/** Kit SKUs in the launch catalogue carry no check letter: `AL-<short>-<COL>`. */
+export function kitSku(kit: Pick<ManifestKit, 'short'>, colourId: string): string | null {
+  if (!kit.short) return null;
+  return `AL-${kit.short}-${COLOUR_SHORT[colourId] ?? colourId.slice(0, 3).toUpperCase()}`;
+}
+
+/** Only colours the launch catalogue actually lists for the item (the manifest colour set can be wider). */
+function skuColours(set: Colour[], skus: { colour: string; sku: string }[]): Colour[] {
+  const listed = new Set(skus.map((s) => s.colour.toLowerCase()));
+  const kept = set.filter((c) => listed.has(c.name.toLowerCase()));
+  return kept.length ? kept : set;
+}
+
+function productSpec(product: ManifestProduct): WidgetSpec {
   const choices = choicesFor(product);
   const partsFor = (selected: Record<string, string>) => {
     // Every option's parts are removable; the chosen option's parts come back in.
@@ -112,7 +140,36 @@ export function widgetSpec(handle: string): WidgetSpec | null {
     });
     return [...kept, ...chosen];
   };
-  return { product, colours, choices, partsFor };
+  return {
+    kind: 'product', handle: product.handle, title: product.title, blurb: product.blurb, size: product.size, material: product.material, type: product.type, short: product.short,
+    colourSet: product.colours, priceNzd: product.price_nzd, shipG: product.ship_g, colours: skuColours(CAD_MANIFEST.colours[product.colours], product.skus), choices, lines: [], partsFor, skus: product.skus,
+  };
+}
+
+function kitSpec(kit: ManifestKit): WidgetSpec | null {
+  const lines = kit.lines.map((l) => ({ line: l, product: WIDGET_PRODUCTS.find((p) => p.handle === l.handle) }));
+  if (lines.some((l) => !l.product)) return null;
+  const products = lines.map((l) => l.product!);
+  const colourSet = products[0].colours;
+  // A kit prints in one colour, so only colours every line is catalogued in are offered.
+  const colours = products.reduce((acc, p) => skuColours(acc, p.skus), CAD_MANIFEST.colours[colourSet]);
+  const materials = [...new Set(products.map((p) => p.material.replace(/,\s*two colours$/i, '')))];
+  const partsFor = () => {
+    const acc = new Map<string, number>();
+    for (const { line, product } of lines) for (const p of product!.parts) acc.set(p.id, (acc.get(p.id) ?? 0) + p.qty * line.qty);
+    return [...acc.entries()].map(([id, qty]) => ({ id, qty }));
+  };
+  return {
+    kind: 'kit', handle: kit.handle, title: kit.title, blurb: kit.note, size: `${lines.length} products · ${kit.lines.reduce((s, l) => s + l.qty, 0)} items`, material: materials.join(' · '), type: kit.collection === 'dayrally' ? 'dayrally kits' : 'Room kit', short: kit.short,
+    colourSet, priceNzd: kit.price_nzd, shipG: kit.ship_g, colours, choices: [], lines: lines.map(({ line, product }) => ({ handle: line.handle, title: product!.title, qty: line.qty })), partsFor, skus: [],
+  };
+}
+
+export function widgetSpec(handle: string): WidgetSpec | null {
+  const product = WIDGET_PRODUCTS.find((p) => p.handle === handle);
+  if (product) return productSpec(product);
+  const kit = WIDGET_KITS.find((k) => k.handle === handle);
+  return kit ? kitSpec(kit) : null;
 }
 
 /** True when any part prints in a second colour, so an accent is needed. */
@@ -137,6 +194,7 @@ export const ItemConfigurationSchema = z.object({
   schema: z.literal(ITEM_SCHEMA),
   status: z.literal('proposed'),
   createdAt: z.string(),
+  kind: z.enum(['product', 'kit']),
   handle: z.string(),
   title: z.string(),
   colourSet: z.enum(['living', 'dayrally', 'natural']),
@@ -146,6 +204,8 @@ export const ItemConfigurationSchema = z.object({
   text: z.object({ label: z.string(), value: z.string() }).nullable(),
   qty: z.number().int().min(1).max(20),
   sku: z.string().nullable(),
+  /** A kit's contents with the SKU each line would carry in the chosen colour. */
+  lines: z.array(z.object({ handle: z.string(), title: z.string(), qty: z.number().int().positive(), sku: z.string().nullable() })),
   printFiles: z.array(z.object({ id: z.string(), name: z.string(), qty: z.number().int().positive(), role: z.enum(['body', 'accent']), revision: z.string(), sha256: z.string().nullable(), path: z.string().nullable(), massG: z.number() })),
   estimate: z.object({
     perUnit: z.object({ massG: z.number(), printMinutes: z.number(), materialNzd: z.number(), suggestedRetailNzd: z.number(), shipG: z.number() }),
@@ -214,24 +274,28 @@ export function buildItem(input: ItemInput): BuildResult {
     massG,
     printMinutes: Math.round((massG / PRINT_ASSUMPTIONS.gramsPerHour) * 60),
     materialNzd: round2((massG / 1000) * PRINT_ASSUMPTIONS.filamentNzdPerKg),
-    suggestedRetailNzd: spec.product.price_nzd,
-    shipG: spec.product.ship_g,
+    suggestedRetailNzd: spec.priceNzd,
+    shipG: spec.shipG,
   };
-  const sku = spec.product.skus.find((s) => s.colour.toLowerCase() === colour.name.toLowerCase())?.sku ?? partCode(spec.product, colour.id as Colourway);
+  const skuFor = (s: Pick<WidgetSpec, 'skus' | 'short'>) => s.skus.find((x) => x.colour.toLowerCase() === colour.name.toLowerCase())?.sku ?? partCode(s, colour.id as Colourway);
+  const sku = spec.kind === 'kit' ? kitSku(spec, colour.id) : skuFor(spec);
+  const lines = spec.lines.map((l) => ({ ...l, sku: skuFor(widgetSpec(l.handle)!) }));
 
   const item: ItemConfiguration = {
     schema: ITEM_SCHEMA,
     status: 'proposed',
     createdAt: input.now ?? new Date().toISOString(),
-    handle: spec.product.handle,
-    title: spec.product.title,
-    colourSet: spec.product.colours,
+    kind: spec.kind,
+    handle: spec.handle,
+    title: spec.title,
+    colourSet: spec.colourSet,
     colour: { id: colour.id, name: colour.name, hex: colour.hex },
     accent: accent ? { id: accent.id, name: accent.name, hex: accent.hex } : null,
     choices: Object.fromEntries(spec.choices.map((c) => [c.key, { id: selected[c.key], label: c.options.find((o) => o.id === selected[c.key])!.label }])),
     text: textSpec ? { label: textSpec.label, value: text } : null,
     qty,
     sku,
+    lines,
     printFiles,
     estimate: {
       perUnit,
@@ -256,6 +320,7 @@ export function lineItemProperties(item: ItemConfiguration): Record<string, stri
   for (const [key, c] of Object.entries(item.choices)) props[key.charAt(0).toUpperCase() + key.slice(1)] = c.label;
   if (item.text) props[item.text.label] = item.text.value;
   if (item.sku) props['Part code'] = item.sku;
+  if (item.lines.length) props.Contents = item.lines.map((l) => `${l.qty} × ${l.title}`).join(', ');
   props._assembl_item = JSON.stringify({
     schema: item.schema,
     handle: item.handle,
@@ -264,6 +329,7 @@ export function lineItemProperties(item: ItemConfiguration): Record<string, stri
     choices: Object.fromEntries(Object.entries(item.choices).map(([k, v]) => [k, v.id])),
     text: item.text?.value ?? null,
     sku: item.sku,
+    lines: item.lines.length ? item.lines.map((l) => ({ h: l.handle, q: l.qty, sku: l.sku })) : undefined,
     files: item.printFiles.map((f) => ({ id: f.id, qty: f.qty, role: f.role, rev: f.revision, sha: f.sha256 })),
     estimate: item.estimate.perUnit,
   });
@@ -278,7 +344,7 @@ export function printSheet(item: ItemConfiguration): string {
       status: 'proposed',
       createdAt: item.createdAt,
       interface: item.interface,
-      item: { handle: item.handle, title: item.title, sku: item.sku, qty: item.qty, text: item.text, choices: item.choices },
+      item: { kind: item.kind, handle: item.handle, title: item.title, sku: item.sku, qty: item.qty, text: item.text, choices: item.choices, lines: item.lines },
       colours: { body: item.colour, accent: item.accent },
       files: item.printFiles.map((f) => {
         const pf = printFile(f.id);

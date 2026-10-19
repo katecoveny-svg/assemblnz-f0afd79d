@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { WIDGET_PRODUCTS, widgetSpec } from '@/lib/living';
+import { WIDGET_KITS, WIDGET_PRODUCTS, widgetSpec } from '@/lib/living';
 import '../living.css';
 
 export const metadata: Metadata = {
@@ -15,8 +15,12 @@ const SNIPPET = `<div id="assembl-widget"></div>
 
 /** Index of every product widget, with the store embed snippet. Not linked from the storefront. */
 export default function WidgetIndexPage() {
-  const groups = new Map<string, typeof WIDGET_PRODUCTS>();
-  for (const p of WIDGET_PRODUCTS) groups.set(p.type, [...(groups.get(p.type) ?? []), p]);
+  const groups = new Map<string, { handle: string; title: string; blurb: string; personalised: boolean }[]>();
+  for (const p of WIDGET_PRODUCTS) groups.set(p.type, [...(groups.get(p.type) ?? []), { handle: p.handle, title: p.title, blurb: p.blurb, personalised: p.personalised }]);
+  for (const k of WIDGET_KITS) {
+    const type = k.collection === 'dayrally' ? 'dayrally kits' : 'Room kits';
+    groups.set(type, [...(groups.get(type) ?? []), { handle: k.handle, title: k.title, blurb: k.note, personalised: k.lines.some((l) => WIDGET_PRODUCTS.find((p) => p.handle === l.handle)?.personalised) }]);
+  }
   return (
     <div className="lv">
       <div className="lv-wrap" style={{ padding: '3rem 0' }}>
@@ -35,7 +39,7 @@ export default function WidgetIndexPage() {
                   <Link key={p.handle} href={`/living/widget/${p.handle}`} className="lv-card">
                     <h3>{p.title}</h3>
                     <p className="lv-small">{p.blurb}</p>
-                    <p className="lv-mono">{spec.colours.length} colours{spec.choices.length ? ` · ${spec.choices.map((c) => c.label.toLowerCase()).join(' · ')}` : ''}{p.personalised ? ' · personalised' : ''}</p>
+                    <p className="lv-mono">{spec.colours.length} colours{spec.choices.length ? ` · ${spec.choices.map((c) => c.label.toLowerCase()).join(' · ')}` : ''}{spec.lines.length ? ` · ${spec.lines.length} products` : ''}{p.personalised ? ' · personalised' : ''}</p>
                   </Link>
                 );
               })}

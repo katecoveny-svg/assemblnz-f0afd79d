@@ -17,6 +17,8 @@
 .lvw-swatch[aria-pressed='true'] { box-shadow: 0 0 0 2px var(--lv-plum); }
 .lvw-swatch:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(145, 106, 112, 0.5); }
 .lv-chip[aria-pressed='true'] { background: var(--lv-plum); color: var(--lv-paper); border-color: var(--lv-plum); }
+.lvw-lines { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.3rem; font-size: 0.95rem; }
+.lvw-lines li span { display: inline-block; min-width: 2.2rem; font-family: var(--font-mono), 'IBM Plex Mono', ui-monospace, monospace; font-size: 0.72rem; color: var(--lv-muted); }
 .lvw-counter { font-family: var(--font-mono), 'IBM Plex Mono', ui-monospace, monospace; font-size: 0.72rem; letter-spacing: 0.04em; color: var(--lv-muted); }
 .lvw-qty { display: inline-flex; align-items: center; border: 1px solid var(--lv-line); border-radius: 999px; overflow: hidden; }
 .lvw-qty button { appearance: none; border: 0; background: transparent; width: 40px; height: 40px; font: inherit; font-size: 1.1rem; cursor: pointer; color: var(--lv-plum); }

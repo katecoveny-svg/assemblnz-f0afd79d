@@ -1,5 +1,7 @@
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { WIDGET_PRODUCTS, WidgetMessageSchema, buildItem, defaultAccent, itemMessage, lineItemProperties, partCode, partRole, printSheet, textSpecFor, widgetSpec } from './index';
+import { WIDGET_KITS, WIDGET_PRODUCTS, WidgetMessageSchema, buildItem, defaultAccent, itemMessage, kitSku, lineItemProperties, partCode, partRole, printSheet, textSpecFor, widgetSpec } from './index';
 import type { Colourway } from './system';
 
 describe('widget spec', () => {
@@ -23,10 +25,16 @@ describe('widget spec', () => {
     }
   });
 
-  it('returns null for kits and unknown handles', () => {
-    expect(widgetSpec('al-kit-teen-room-starter')).toBeNull();
+  it('returns null for unknown handles', () => {
     expect(widgetSpec('nope')).toBeNull();
     expect(buildItem({ handle: 'nope', colour: 'chalk' }).ok).toBe(false);
+  });
+
+  it('offers only the colours the launch catalogue lists: twelve for dayrally, not the wider manifest set', () => {
+    const pod = widgetSpec('al-pod-standard')!;
+    expect(pod.colours.length).toBe(12);
+    expect(pod.colours.some((c) => c.id === 'sage')).toBe(false);
+    expect(widgetSpec('al-kit-dayrally-ride-kit')!.colours.length).toBe(12);
   });
 
   it('derives pod lids and inserts from the manifest, swapping the default parts', () => {
@@ -139,5 +147,48 @@ describe('what the store receives', () => {
     expect(sheet.files.find((f: { id: string }) => f.id === 'dr2-pod-standard').colour).toBe('Sky');
     expect(sheet.files.find((f: { id: string }) => f.id === 'grid-turn-key').servedFrom).toBe('public pack');
     expect(sheet.note).toMatch(/test kit/);
+  });
+});
+
+describe('kits as one customisable package', () => {
+  it('builds every kit in its first colour, summing the parts of every line', () => {
+    for (const k of WIDGET_KITS) {
+      const spec = widgetSpec(k.handle)!;
+      expect(spec.kind).toBe('kit');
+      expect(spec.lines.length).toBe(k.lines.length);
+      const text = textSpecFor(spec.partsFor({}).map((x) => x.id));
+      const r = buildItem({ handle: k.handle, colour: spec.colours[0].id, text: text ? (text.pattern.test('7') ? '7' : 'Mia') : null, now: '2026-10-19T00:00:00Z' });
+      expect(r.ok, `${k.handle}: ${r.issues.join(' ')}`).toBe(true);
+      expect(r.item!.estimate.perUnit.suggestedRetailNzd).toBe(k.price_nzd);
+      expect(r.item!.lines.every((l) => l.sku)).toBe(true);
+    }
+  });
+
+  it('asks for the name when a kit contains the name plate, and codes the kit like the launch catalogue', () => {
+    const missing = buildItem({ handle: 'al-kit-teen-room-starter', colour: 'chalk' });
+    expect(missing.ok).toBe(false);
+    expect(missing.issues).toContain('Add the name.');
+    const r = buildItem({ handle: 'al-kit-teen-room-starter', colour: 'chalk', text: 'Mia', now: '2026-10-19T00:00:00Z' });
+    expect(r.ok).toBe(true);
+    const item = r.item!;
+    expect(item.sku).toBe('AL-KTEEROO-CHA');
+    expect(item.accent?.id).toBe('ink');
+    expect(item.printFiles.find((f) => f.id === 'grid-board-4x4')?.qty).toBe(2);
+    expect(item.lines.find((l) => l.handle === 'al-name-plate')?.sku).toBe('AL-NP-CHA-' + partCode({ short: 'NP' }, 'chalk')!.slice(-1));
+    const props = lineItemProperties(item);
+    expect(props.Contents).toContain('2 × Grid board 4×4');
+    expect(props.Name).toBe('Mia');
+    expect(JSON.parse(props._assembl_item).lines.length).toBe(5);
+  });
+
+  it('matches every kit SKU in the launch catalogue CSV', () => {
+    const csv = readFileSync(path.join(process.cwd(), 'tools/living-cad/launch/shopify-products.csv'), 'utf8');
+    const skus = new Set([...csv.matchAll(/\bAL-K[A-Z]{6}-[A-Z]{3}\b/g)].map((m) => m[0]));
+    expect(skus.size).toBeGreaterThan(100);
+    for (const k of WIDGET_KITS) {
+      for (const c of widgetSpec(k.handle)!.colours) {
+        expect(skus.has(kitSku(k, c.id)!), `${k.handle} ${c.id}`).toBe(true);
+      }
+    }
   });
 });

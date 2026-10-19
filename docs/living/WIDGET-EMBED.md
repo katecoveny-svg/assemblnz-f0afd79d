@@ -11,9 +11,22 @@ choices the parts manifest actually supports, labels every figure an
 estimate, and hands the result to the store's own add-to-cart form rather
 than selling anything itself.
 
+## Where it comes from
+
+Kate's 16 and 17 October chats set the brief: a customer (her daughter, say)
+opens the store, picks a package such as "assemble my desk", makes it hers
+in a widget, and the order goes to a print partner by API, with assembl
+owning no printers. That chat prototyped a theme widget with GLB previews
+inside its own sandbox; none of it reached this repository, so this widget
+is the first one in the codebase. What it keeps from the brief: real
+choices, a live preview, estimates before purchase, kits as one package,
+and a print sheet a partner can act on. What it declines: AI-generated
+geometry and any claim that a print API exists today (see
+`LAUNCH-OPERATIONS-20261019.md` §5 for the two-stage print handoff).
+
 ## What the customer gets
 
-For any of the 40 manifest products at `/living/widget/<handle>`:
+For any of the 40 manifest products and 17 kits at `/living/widget/<handle>`:
 
 - **Colour** from the product's real colour set (7 living, 13 dayrally).
 - **Accent** when a part prints in a second colour (name plate lettering,
@@ -26,8 +39,19 @@ For any of the 40 manifest products at `/living/widget/<handle>`:
   part can print (12 letters on the plate, 10 on tags and lids, 1 to 3
   digits on the number plate).
 - **Quantity** 1 to 20.
-- A **schematic preview** (proportions from the manifest, not a render),
-  and **estimates**: print mass, print time at 30 g/h, material at NZD 45/kg,
+- **Kits as one package**: the seven room kits and ten dayrally kits take one
+  colour for every line, ask for the name when a line carries lettering
+  (the teen room starter's name plate), sum the print files of every line,
+  and carry the kit SKU from the launch catalogue (`AL-KTEEROO-CHA`, no
+  check letter) plus each line's own SKU in the chosen colour. Only colours
+  every line is catalogued in are offered (twelve for dayrally).
+- A **schematic preview** (proportions from the manifest, not a render) and,
+  for the 23 parts whose v0.3 print file is in the served pack, an opt-in
+  **3D view** of the real STL in the chosen colour. Lettered parts show the
+  customer's own name on the face, never the STL's modelled sample text.
+  Parts whose files are not yet served (most dayrally parts) keep the
+  schematic until the pack is extended.
+- **Estimates**: print mass, print time at 30 g/h, material at NZD 45/kg,
   the proposed retail price, the part code, packed weight. All labelled
   "est." or "proposed".
 
@@ -53,8 +77,9 @@ messages from that iframe only. On every valid change it:
 
 1. writes **line item properties** into the page's product form
    (`properties[Colour]`, `Accent`, `Lid`, `Insert`, `Shape`, `Name`,
-   `Part code`, and a hidden `_assembl_item` JSON record with file ids,
-   revisions and hashes), replacing its previous inputs;
+   `Part code`, `Contents` for kits, and a hidden `_assembl_item` JSON
+   record with file ids, revisions and hashes), replacing its previous
+   inputs;
 2. selects the matching **Colour variant** by reading `/products/<handle>.js`
    and setting the form's `id` field, so the right SKU and price apply;
 3. sets the form **quantity**;
@@ -91,6 +116,7 @@ The widget route sends `Content-Security-Policy: frame-ancestors` allowing
 - `lib/living/widget.ts` — spec, choices, text rules, `buildItem`,
   `lineItemProperties`, `printSheet`, iframe message schema. Tested in
   `lib/living/widget.test.ts`.
-- `app/living/widget/[handle]/` — the page and client component.
+- `app/living/widget/[handle]/` — the page, the client component and the
+  opt-in `PartPreview3D` (three.js STL loader, on-demand rendering).
 - `app/living/widget/page.tsx` — index of all widgets with the snippet.
 - `public/living/widget.js` — the store loader.
