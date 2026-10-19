@@ -63,7 +63,7 @@ async page => {
   await page.getByRole('button', { name: 'Photo or image', exact: true }).click();
   await page.locator('summary').filter({ hasText: /^Photo$/ }).first().click();
   ensure(await notes().locator('img').count() === 0, 'storageScope change adopted private photo');
-  ensure(await page.getByRole('textbox', { name: 'What would you like done?', exact: true }).inputValue() === '', 'storageScope change adopted private source');
+  ensure(await page.getByRole('textbox', { name: 'What would you like to do?', exact: true }).inputValue() === '', 'storageScope change adopted private source');
 
   await page.goto('http://127.0.0.1:4189/');
   await page.getByRole('navigation', { name: 'Ways to work with DO' }).getByRole('button', { name: 'Add image', exact: true }).click();

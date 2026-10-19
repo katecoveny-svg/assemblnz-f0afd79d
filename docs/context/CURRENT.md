@@ -8,6 +8,10 @@ This file answers: **where is assembl at right now?**
 
 It is intentionally shorter and more changeable than the long-term strategy documents.
 
+## 17 October assembl / living — build candidate, not merged
+
+Branch `feat/assembl-living-space-studio` adds the modular interiors line as one typed system (`lib/living/`), a public storefront and Space Studio (`/living`, `/living/studio`) and engineering pack AL-02: nine parts on interface IF-01 generated from `tools/living-cad/build.py`, exported as STEP + STL and checked as valid, single, watertight solids. Canon: [assembl / living](../living/ASSEMBL-LIVING.md), decision ADR-007. **Prototype parts only, no load ratings, no Shopify products, no purchasing, no photo understanding;** fit is decided by customer-confirmed measurements. Physical sample testing and manufacturer quotation are the next steps and have not happened.
+
 ## 13 October entry integration — merged
 
 The [one DO entry integration](../reviews/DO-ENTRY-INTEGRATION-20261013.md) (shared secondary navigation, working Write/Talk/Add entry, prompt shortcuts and compact launcher) was merged to main as [PR #1525](https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1525) at 15:13 NZDT on 13 October; the review doc's "draft, no merge authorised" label is historical. Deployment of that merge was not separately verified here, and no durable shared memory is claimed by it.
@@ -64,6 +68,10 @@ This section is the current, scoped delivery record. Durable direction is in [as
 [Assembl Claude handoff, 13 October 2026](handoffs/2026-10-13-claude-handoff.md) was materialized through the supported Library transfer onto the consumer Mac, not assumed from a cloud filesystem path. Local bytes verified: **29,227**; SHA-256 **`2f11c8999f0477ab0324a2ca7ddecbfed02c8b8c4e09c8b391b0996d9556cda0`**. The repository copy retains the exact snapshot bytes. It is a supporting dated reference; this matrix records newer verified release evidence, and the compact Write/Talk direction comes from the user's later explicit brief. See [reference rules](handoffs/README.md).
 
 ## Earlier dated operating context
+
+## 16 October: DO Today as a visual to-do board (review candidate, waits for Kate's eye)
+
+Kate asked for DO to read as a visual to-do list rather than explanations. Today on `/do` is now a paper to-do sheet resting on a lilac tile: actual local checklist titles as ticked rows with step dashes, an empty state of one real "Start with a note" row and drawn placeholder rows, and a three-lane ring (needs you, today, done) that only counts checklists open on this page. The six jobs are a bento of animated scenes (`app/do/personal/TaskArt.tsx`): each has one quiet loop at rest and acts out its job on hover, focus or when opened (letter out of the envelope, plane on its route, glasses clinking, clock and date, hanger and gift lid, steam and spoon). Everything holds still for reduced motion. Status words are unchanged, now shown as short chips with a state mark; the longer limits stay in each opened tile. "No inbox or calendar has been read" is now the mono chip "Inbox and calendar not read" (proof updated). The review board shares the lane colours, ticks and step dashes. Not yet: the checklist detail panel and the "Keep going" section keep their current text-led layout. Before and after captures in `docs/design/do-today-board/`.
 
 ## 14 October: generative assembly studio
 
@@ -409,3 +417,11 @@ The 30 September SwiftUI app, Share Sheet, local reviewed-draft keyboard handoff
 ## 14 October 2026 — release and preserved-work reconciliation
 
 [The dated release reconciliation](../reviews/DO-RELEASE-RECONCILIATION-20261014.md) records verified main/production, matching migration audit, operational configuration and retention blockers, remaining PRs and local-work inventory limits. Read its timestamp before using its exact deployment as current. Merged source is not all-user activation; cleanup consent, secure configuration, owner enrollment and native proof remain separate gates. No blanket push, merge or cleanup of historical work is authorized by this record.
+
+## 18 October 2026 — clay DO visual release approved
+
+Kate approved the reviewed clay entry at `daf336cf6b44dd2b199240ffce896d6d91bb73dd`. PR #1613 is being updated in place: its earlier Today work is an ancestor, not a second release. The final input-first Write/Talk/Add bubble and seven editable clay starters supersede that PR's earlier paper/SVG concept. Release/deployment evidence is recorded in [the clay entry review](../reviews/DO-CLAY-ENTRY-20261017.md); approval alone is not deployment proof. No migration, environment/flag/secret change, dependency, auth or provider activation is required. Physical iPhone/Safari and installed Mac verification remain outstanding.
+
+## 18 October 2026 — clay DO merged and production verified
+
+[PR #1613](https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1613) is merged as `ac6c3368b7f026a9b926fba915eb98bca09c23da`. Exact-head CI and independent review passed; Vercel production `dpl_GYhewqBg9iBTdDUrjBJKLjqgzWGu` is READY on that SHA. Public `/do`, `/do/personal` and Write widget renders passed at 1440/375px, including seven starters, editable append, asset responses and no overflow/page errors. See [dated release receipt](DO-CLAY-RELEASE-20261018.md) for timestamps, skipped checks, sources and proof limits. No migration, environment/flag/secret change, new grant or native installation was needed. Physical iPhone/Safari and installed Mac verification remain outstanding; synthetic persistence checks do not claim live owner rollout. Earlier approval/pending-deployment wording above is historical.

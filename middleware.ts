@@ -92,6 +92,9 @@ const SPLASH_EXEMPT_PREFIXES = [
   '/3d/',
   // Living Site funnel — public marketing surfaces linked from the homepage.
   '/living-site',
+  // assembl / living — the modular interiors storefront and Space Studio
+  // (/living, /living/studio) plus the CAD pack under /living/cad/*.
+  '/living',
   '/install',
   '/os',
   '/genome',
@@ -327,6 +330,8 @@ const DEMO_AUTH_EXEMPT_PREFIXES = [
   '/login',
   // Living Site funnel — public everywhere, including the demo host.
   '/living-site',
+  // assembl / living storefront + Space Studio — public on the demo host too.
+  '/living',
   '/install',
   // Public Pattern Studio tool — reachable on the demo host too.
   '/pattern-studio',

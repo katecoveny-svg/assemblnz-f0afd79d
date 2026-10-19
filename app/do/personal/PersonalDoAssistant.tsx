@@ -10,7 +10,7 @@ import {
   type PersonalAssistantAvailability, type PersonalAssistantInput, type PersonalAssistantResult,
 } from '@/apps/do/personal/assistant';
 import type { PersonalDoProfile } from '@/apps/do/personal/profile';
-import { ASSISTANT_NOTE_EVENT, reviewAssistantNote, type AssistantNoteOffer } from '@/apps/do/personal/editor-note';
+import { ASSISTANT_NOTE_EVENT, reviewAssistantNote, reviewStarterPrompt, type AssistantNoteOffer } from '@/apps/do/personal/editor-note';
 import { CONVERSATION_NOTICE, CONVERSATION_TURN_LIMIT, type ConversationRecord, type ConversationTurn } from '@/apps/do/personal/conversation';
 import { useKeptConversations, type ActiveConversation } from './useKeptConversations';
 import styles from './personal-assistant.module.css';
@@ -24,7 +24,7 @@ function lastExchange(turns: ConversationTurn[]): PersonalAssistantInput['histor
 
 /** Mount with the verified owner scope as the React key; never persist conversation across accounts. */
 export type PersonalAssistantWork = { dirty: boolean; exportText: string };
-export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, onBrowserDraft, returnTo = "/do", conversation, attachedContext, focusRequest = 0 }: { focusRequest?: number; conversation?: { turns: ConversationTurn[]; change: (turns: ConversationTurn[]) => void }; attachedContext?: { text: string; revision: number }; onBrowserDraft?: (text: string) => boolean; returnTo?: "/do" | "/do/household" | "/do/widget"; profile?: PersonalDoProfile; onWorkingChange?: (working: boolean) => void; onWorkChange?: (work: PersonalAssistantWork) => void }) {
+export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, onBrowserDraft, returnTo = "/do", conversation, attachedContext, focusRequest = 0, showIdeas = true }: { focusRequest?: number; showIdeas?: boolean; conversation?: { turns: ConversationTurn[]; change: (turns: ConversationTurn[]) => void }; attachedContext?: { text: string; revision: number }; onBrowserDraft?: (text: string) => boolean; returnTo?: "/do" | "/do/household" | "/do/widget"; profile?: PersonalDoProfile; onWorkingChange?: (working: boolean) => void; onWorkChange?: (work: PersonalAssistantWork) => void }) {
   const [message, setMessage] = useState('');
   const [context, setContext] = useState('');
   const [consent, setConsent] = useState(false);
@@ -78,11 +78,14 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, on
     const receive = (event: Event) => {
       if (!(event instanceof CustomEvent) || !event.detail || typeof event.detail !== 'object') return;
       const offer = event.detail as AssistantNoteOffer;
-      offer.result = reviewAssistantNote(offer.text, { message, context, working: lock.current || offered, hasResult: Boolean(result) });
+      if (offer.purpose === 'starter' && (!inputRef.current || inputRef.current.closest('[hidden]') || inputRef.current.matches(':disabled'))) {
+        offer.result = { accepted: false, message: 'Finish the current step and return to writing before adding this thought. Your draft is unchanged.' }; return;
+      }
+      offer.result = offer.purpose === 'starter' ? reviewStarterPrompt(offer.text, { message, working: lock.current || offered }) : reviewAssistantNote(offer.text, { message, context, working: lock.current || offered, hasResult: Boolean(result) });
       if (!offer.result.accepted) return;
       offered = true;
       setMessage(offer.result.text); setConsent(false); setReviewOpen(false); setError('');
-      setNotice('Your checklist note was copied here for review. Nothing was saved or sent.');
+      setNotice(offer.purpose === 'starter' ? 'Your starting thought is ready to edit. Nothing was saved or sent.' : 'Your checklist note was copied here for review. Nothing was saved or sent.');
     };
     window.addEventListener(ASSISTANT_NOTE_EVENT, receive);
     return () => window.removeEventListener(ASSISTANT_NOTE_EVENT, receive);
@@ -198,7 +201,7 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, on
     catch { setError('Copy is unavailable here. Select the draft text and copy it manually.'); }
   }
 
-  return <section className={styles.panel} aria-label={`Ask ${profile?.displayName ?? 'DO'}`} aria-busy={working}>
+  return <section className={styles.panel} data-clay-entry={!showIdeas || undefined} aria-label={`Ask ${profile?.displayName ?? 'DO'}`} aria-busy={working}>
     {(!result || conversation) && transcript.length > 0 && <div className={styles.exchange} aria-label="Conversation">
       {transcript.length > 6 && <p className={styles.keptMeta}>The last six messages are shown. Keeping on your account is a separate choice.</p>}
       {transcript.slice(-6).map((turn, index) => turn.role === 'user'
@@ -243,8 +246,8 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, on
       }}>Keep these reviewed messages</button>
     </details>}
     <form onSubmit={event => void submit(event)}>
-      <label className={styles.inputLabel} htmlFor="personal-assistant-input">{result ? 'What would help next?' : 'What would you like done?'}</label>
-      <textarea ref={inputRef} id="personal-assistant-input" data-do-primary-input value={message} maxLength={4000} rows={3} disabled={working} placeholder="e.g. Prepare a reply to my property manager" onChange={event => { setMessage(event.target.value); setConsent(false); setNotice(''); }} />
+      <label className={styles.inputLabel} htmlFor="personal-assistant-input">{result ? 'What would help next?' : 'What would you like to do?'}</label>
+      <textarea ref={inputRef} id="personal-assistant-input" data-do-primary-input value={message} maxLength={4000} rows={3} disabled={working} placeholder="A thought, a plan, a little thing to sort…" onChange={event => { setMessage(event.target.value); setConsent(false); setNotice(''); }} />
       <div className={styles.composerFooter}>
         <span>{working ? 'Checking the request and preparing your reply…' : 'Review drafts before sharing'}</span>
         {working ? <button className={styles.stop} type="button" onClick={cancel}><X size={15} /> Stop</button> : <button className={styles.send} type="submit" disabled={!message.trim() || loading || !availability?.ready || transcript.length + 2 > CONVERSATION_TURN_LIMIT}>{reviewOpen && consent ? 'Ask DO' : 'Start'}<ArrowUpRight size={18} /></button>}
@@ -261,16 +264,17 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, on
         {profile && <label><input type="checkbox" checked={useSavedStyle} disabled={working} onChange={event => { setUseSavedStyle(event.target.checked); setConsent(false); }} /><span>Also use my saved tone and wording preferences with OpenAI</span></label>}
         {kept.storage === 'account' && <label><input type="checkbox" checked={keep} disabled={working} onChange={event => setKeep(event.target.checked)} /><span>Keep this conversation on my account so I can pick it up on any device<small>{CONVERSATION_NOTICE}</small></span></label>}
       </div>}
-      {onBrowserDraft && <button type="button" disabled={working || !message.trim()} onClick={() => { if (onBrowserDraft(message.trim())) setNotice('Browser task opened for review. Nothing has been read or changed.'); }}>Review this as a browser task</button>}
+      {onBrowserDraft && (showIdeas || message.trim()) && <button type="button" disabled={working || !message.trim()} onClick={() => { if (onBrowserDraft(message.trim())) setNotice('Browser task opened for review. Nothing has been read or changed.'); }}>Review this as a browser task</button>}
     </form>
     {!result && !transcript.length && kept.records.length > 0 && <div className={styles.keptList}>
       <h3>Pick up where you left off</h3>
       {kept.records.slice(0, 5).map(record => <button type="button" key={record.id} disabled={working} onClick={() => resumeConversation(record)}>{record.title}<small>{new Date(record.updatedAt).toLocaleDateString('en-NZ', { day: 'numeric', month: 'short' })} · {record.turns.length} messages</small></button>)}
     </div>}
-    {!result && <DoCapabilityIdeas disabled={working} onChoose={prompt => {
+    {showIdeas && !result && <DoCapabilityIdeas disabled={working} onChoose={prompt => {
       if (message.length + prompt.length + 2 > 4000) { setNotice('Your draft is full. Shorten it before adding this idea.'); return; }
       setMessage(current => current.trim() ? `${current}\n\n${prompt}` : prompt); setConsent(false); setNotice('An idea added to your draft. Nothing was sent.'); inputRef.current?.focus();
     }} />}
+    {!showIdeas && <details className={styles.notes}><summary>Other tools</summary><p><Link href="/do/messages">Prepare a message</Link> · <Link href="/do/bills">Review a bill</Link> · <Link href="/do/bills/compare">Compare NZ bill options</Link></p><p>Each tool opens its own review and consent steps.</p></details>}
     <div className={styles.status} aria-live="polite" role="status">
       {loading && <p><LoaderCircle size={13} /> Checking availability…</p>}
       {!loading && availability && !availability.ready && <p>{availability.message} {availability.reason === 'entitlement_required' && <Link href="/do/billing">Personal DO subscription</Link>} {!availability.signedIn ? <Link href={`/login?redirect=${encodeURIComponent(returnTo)}`}>Sign in</Link> : <button type="button" onClick={() => { setError(''); void loadAvailability(); }}>Check again</button>}</p>}

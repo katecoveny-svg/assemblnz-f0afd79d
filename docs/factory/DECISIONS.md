@@ -163,3 +163,28 @@ Nav/footer may still mention DO → explanation page. Pursuit and Studio remain 
 
 **Revisit when**  
 Kate authorises a new public DO offering (possibly different tools or a different presentation) and the front-door guard is rewritten to match.
+
+---
+
+## ADR-007 — assembl / living: one interface, typed system, honest Space Studio
+**Status:** accepted (build candidate; not merged)  
+**Date:** 2026-10-17
+
+**Context**  
+Assembl Living was heading towards many unrelated niche products (fishing, makeup, gaming, wardrobe). The stronger business is one modular interiors system that adapts to the person and the space, with niche kits as merchandising. The earlier chat-generated "Engineering Pack AL-01" was not in the repository and could not be revisioned.
+
+**Decision**  
+- One physical interface **IF-01** (24 mm pitch, Ø6.4 holes, Ø6.0 pegs, 96 mm tile footprint) and four foundations: grid, tile, stack, rail. All parts are generated from one parametric CadQuery source, `tools/living-cad/build.py`, as pack **AL-02**, with STEP + STL exports and a validated manifest committed under `public/living/cad/AL-02/`.
+- The product system is typed in `lib/living/` (zod). Recommendations, placement rules, fit, bill of materials and the saved configuration are deterministic code, not model calls.
+- The Space Studio at `/living/studio` is the primary home-organisation experience. Dayrally stays intact as the adventure-facing collection and shares the same configuration and CAD infrastructure.
+- The journey is registered as a `CustomerJourney` configuration (`space, assembled`, status `draft`) but **not** seeded into the journey repository, because the shared runtime's genome-context and approval rules are still keyed to the grocery tenant. Generalising those is the step that lets Living run through the runtime; bespoke orchestration is not added.
+- No Shopify products or purchasing. The saved configuration carries `purchasing.status = 'not_enabled'` and the Shopify cart-line adapter is typed only.
+
+**Why**  
+A small, well-engineered parts library with many combinations beats sixty unrelated SKUs. Versioned CAD source makes every later revision diffable and quotable. Deterministic rules keep the studio honest and testable.
+
+**Consequences**  
+`/living` is public in `middleware.ts`. Prices are indicative bands subject to quotation. Photo understanding is labelled not available; fit is decided only by customer-confirmed measurements. Load class is light for every part and no rating is published. The CAD pack adds ~2.8 MB to `public/`.
+
+**Revisit when**  
+First printed samples are tested (bump to AL-03), a manufacturer quotes `manifest.json`, or the journey runtime is generalised beyond the grocery tenant.

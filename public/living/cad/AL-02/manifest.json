@@ -1,0 +1,405 @@
+{
+  "pack": "AL-02",
+  "interface": "IF-01",
+  "interface_spec": {
+    "pitch_mm": 24.0,
+    "hole_mm": 6.4,
+    "peg_mm": 6.0,
+    "peg_length_mm": 8.0,
+    "panel_thickness_mm": 4.0,
+    "standoff_mm": 8.0,
+    "tile_footprint_mm": 96.0,
+    "tray_wall_mm": 2.4
+  },
+  "status": "prototype \u2014 digitally validated, not physically validated",
+  "source": "tools/living-cad/build.py",
+  "parts": [
+    {
+      "id": "grid-panel-192",
+      "name": "grid panel \u00b7 192",
+      "foundation": "grid",
+      "revision": "AL-02.1",
+      "dims_mm": {
+        "x": 192.0,
+        "y": 192.0,
+        "z": 12.0
+      },
+      "volume_cm3": 143.49,
+      "mass_g_pla": 177.9,
+      "print": {
+        "orientation": "flat, holes up",
+        "supports": "none",
+        "material": "PLA or PETG",
+        "layer_mm": 0.2,
+        "infill": "40 % gyroid",
+        "walls": 3
+      },
+      "load": {
+        "class": "light",
+        "note": "Prototype. Wall fixing is by four screws into suitable anchors; the panel has not been load-tested."
+      },
+      "validation": {
+        "brep_valid": true,
+        "single_solid": true,
+        "watertight": true,
+        "triangles": 25132
+      },
+      "files": {
+        "stl": {
+          "path": "/living/cad/AL-02/grid-panel-192.stl",
+          "bytes": 1256684,
+          "sha256": "376b4b6bb8acf3fd6a3d5852adb1946bfb4897233ea372d9c7f9387f62416803"
+        },
+        "step": {
+          "path": "/living/cad/AL-02/grid-panel-192.step",
+          "bytes": 372946,
+          "sha256": "6e311023acfd452935c0fe50badcff3bfc4ba4d3886e02206a235ebe4a211f44"
+        }
+      }
+    },
+    {
+      "id": "grid-hook-single",
+      "name": "grid hook \u00b7 single",
+      "foundation": "grid",
+      "revision": "AL-02.1",
+      "dims_mm": {
+        "x": 20.0,
+        "y": 44.0,
+        "z": 44.0
+      },
+      "volume_cm3": 4.8,
+      "mass_g_pla": 6.0,
+      "print": {
+        "orientation": "on its side (plate edge down), pegs horizontal",
+        "supports": "none",
+        "material": "PETG preferred",
+        "layer_mm": 0.2,
+        "infill": "100 %",
+        "walls": 4
+      },
+      "load": {
+        "class": "light",
+        "note": "Headsets, keys, cables, light tools. Not for bags or clothing."
+      },
+      "validation": {
+        "brep_valid": true,
+        "single_solid": true,
+        "watertight": true,
+        "triangles": 1072
+      },
+      "files": {
+        "stl": {
+          "path": "/living/cad/AL-02/grid-hook-single.stl",
+          "bytes": 53684,
+          "sha256": "62abbf72fee471cd75e2d2d6200489bf729768b76691379f20d10eeb82ebdf0d"
+        },
+        "step": {
+          "path": "/living/cad/AL-02/grid-hook-single.step",
+          "bytes": 93204,
+          "sha256": "b52fcfecb92a840ca356d0a6724257b22660ebd8846df70c56e377e052794ab1"
+        }
+      }
+    },
+    {
+      "id": "grid-ledge-96",
+      "name": "grid ledge \u00b7 96",
+      "foundation": "grid",
+      "revision": "AL-02.1",
+      "dims_mm": {
+        "x": 96.0,
+        "y": 72.0,
+        "z": 45.0
+      },
+      "volume_cm3": 39.17,
+      "mass_g_pla": 48.6,
+      "print": {
+        "orientation": "shelf upside down, plate vertical",
+        "supports": "peg lips only",
+        "material": "PETG preferred",
+        "layer_mm": 0.2,
+        "infill": "60 %",
+        "walls": 4
+      },
+      "load": {
+        "class": "light",
+        "note": "Small objects only \u2014 phone, skincare, a plant pot under 300 g."
+      },
+      "validation": {
+        "brep_valid": true,
+        "single_solid": true,
+        "watertight": true,
+        "triangles": 2100
+      },
+      "files": {
+        "stl": {
+          "path": "/living/cad/AL-02/grid-ledge-96.stl",
+          "bytes": 105084,
+          "sha256": "64faab4b3cd1578575e3dcbc2ac47d2e2cc5a5aec197db5950aee1be10e91aca"
+        },
+        "step": {
+          "path": "/living/cad/AL-02/grid-ledge-96.step",
+          "bytes": 143681,
+          "sha256": "cff6f1f17e490ade2c0b674242ef86d4c2895192bec1646bf7890bb3a1afb46f"
+        }
+      }
+    },
+    {
+      "id": "grid-cup-48",
+      "name": "grid cup \u00b7 48",
+      "foundation": "grid",
+      "revision": "AL-02.1",
+      "dims_mm": {
+        "x": 48.0,
+        "y": 59.0,
+        "z": 70.0
+      },
+      "volume_cm3": 27.55,
+      "mass_g_pla": 34.2,
+      "print": {
+        "orientation": "cup upright, pegs horizontal",
+        "supports": "peg lips only",
+        "material": "PLA or PETG",
+        "layer_mm": 0.2,
+        "infill": "20 %",
+        "walls": 3
+      },
+      "load": {
+        "class": "light",
+        "note": "Brushes, pens, lures in sleeves, small tools."
+      },
+      "validation": {
+        "brep_valid": true,
+        "single_solid": true,
+        "watertight": true,
+        "triangles": 1726
+      },
+      "files": {
+        "stl": {
+          "path": "/living/cad/AL-02/grid-cup-48.stl",
+          "bytes": 86384,
+          "sha256": "74ac5143fb03822399bbfc6f9124c25d6d3632c6d8b483ac61a166b7ce896b0f"
+        },
+        "step": {
+          "path": "/living/cad/AL-02/grid-cup-48.step",
+          "bytes": 87117,
+          "sha256": "fbaa2729388e04b6e83402d97d2912206f31bb5d70246d6946eaef61157c6441"
+        }
+      }
+    },
+    {
+      "id": "tile-tray-96x96",
+      "name": "tile tray \u00b7 96 \u00d7 96",
+      "foundation": "tile",
+      "revision": "AL-02.1",
+      "dims_mm": {
+        "x": 96.0,
+        "y": 96.0,
+        "z": 24.0
+      },
+      "volume_cm3": 37.7,
+      "mass_g_pla": 46.8,
+      "print": {
+        "orientation": "open side up",
+        "supports": "none",
+        "material": "PLA",
+        "layer_mm": 0.2,
+        "infill": "15 %",
+        "walls": 3
+      },
+      "load": {
+        "class": "light",
+        "note": "Drawer and vanity contents."
+      },
+      "validation": {
+        "brep_valid": true,
+        "single_solid": true,
+        "watertight": true,
+        "triangles": 700
+      },
+      "files": {
+        "stl": {
+          "path": "/living/cad/AL-02/tile-tray-96x96.stl",
+          "bytes": 35084,
+          "sha256": "f6c9888d8695c379d12f34fe6c72df8c9f1a43290ed228472f6cbf0eec927303"
+        },
+        "step": {
+          "path": "/living/cad/AL-02/tile-tray-96x96.step",
+          "bytes": 61455,
+          "sha256": "90f3b84c3511eea9cfde35e2d0d74769f1f7000c0e7dbb6c9e41f138637c1f04"
+        }
+      }
+    },
+    {
+      "id": "tile-tray-96x48",
+      "name": "tile tray \u00b7 96 \u00d7 48",
+      "foundation": "tile",
+      "revision": "AL-02.1",
+      "dims_mm": {
+        "x": 96.0,
+        "y": 48.0,
+        "z": 24.0
+      },
+      "volume_cm3": 23.42,
+      "mass_g_pla": 29.0,
+      "print": {
+        "orientation": "open side up",
+        "supports": "none",
+        "material": "PLA",
+        "layer_mm": 0.2,
+        "infill": "15 %",
+        "walls": 3
+      },
+      "load": {
+        "class": "light",
+        "note": "Drawer and vanity contents."
+      },
+      "validation": {
+        "brep_valid": true,
+        "single_solid": true,
+        "watertight": true,
+        "triangles": 700
+      },
+      "files": {
+        "stl": {
+          "path": "/living/cad/AL-02/tile-tray-96x48.stl",
+          "bytes": 35084,
+          "sha256": "6cf866292a9863bb78ff969fee3d6a16862634ab6504e4fca056fe286bd3447b"
+        },
+        "step": {
+          "path": "/living/cad/AL-02/tile-tray-96x48.step",
+          "bytes": 61453,
+          "sha256": "27e01db1f1ffbc9cdd05b876327269c2f669c4a9309fb705b7573e16d101de46"
+        }
+      }
+    },
+    {
+      "id": "tile-clip",
+      "name": "tile clip",
+      "foundation": "tile",
+      "revision": "AL-02.1",
+      "dims_mm": {
+        "x": 8.4,
+        "y": 12.0,
+        "z": 10.0
+      },
+      "volume_cm3": 0.51,
+      "mass_g_pla": 0.6,
+      "print": {
+        "orientation": "on its side",
+        "supports": "none",
+        "material": "PETG preferred",
+        "layer_mm": 0.16,
+        "infill": "100 %",
+        "walls": 3
+      },
+      "load": {
+        "class": "light",
+        "note": "Joins two trays edge to edge. Fit depends on printer tolerance \u2014 test before a batch."
+      },
+      "validation": {
+        "brep_valid": true,
+        "single_solid": true,
+        "watertight": true,
+        "triangles": 28
+      },
+      "files": {
+        "stl": {
+          "path": "/living/cad/AL-02/tile-clip.stl",
+          "bytes": 1484,
+          "sha256": "5d11f2539f8d1f331370f7309b6c3112fa867343419921ee6253635f6342b2ca"
+        },
+        "step": {
+          "path": "/living/cad/AL-02/tile-clip.step",
+          "bytes": 28772,
+          "sha256": "aeeeb54c6cba0c52ed5dcb8bd166470b4ad21ce43c62f6e181af8933da184f52"
+        }
+      }
+    },
+    {
+      "id": "stack-riser-192",
+      "name": "stack riser \u00b7 192",
+      "foundation": "stack",
+      "revision": "AL-02.1",
+      "dims_mm": {
+        "x": 192.0,
+        "y": 96.0,
+        "z": 61.5
+      },
+      "volume_cm3": 139.52,
+      "mass_g_pla": 173.0,
+      "print": {
+        "orientation": "deck down (upside down)",
+        "supports": "none",
+        "material": "PLA",
+        "layer_mm": 0.2,
+        "infill": "25 %",
+        "walls": 3
+      },
+      "load": {
+        "class": "light",
+        "note": "Desktop objects only. Not a shelf for books or heavy items."
+      },
+      "validation": {
+        "brep_valid": true,
+        "single_solid": true,
+        "watertight": true,
+        "triangles": 60
+      },
+      "files": {
+        "stl": {
+          "path": "/living/cad/AL-02/stack-riser-192.stl",
+          "bytes": 3084,
+          "sha256": "930770aa48908f643e96a3ff0d0d193ef8d3aefd18e9c9991b7a4020219e5f33"
+        },
+        "step": {
+          "path": "/living/cad/AL-02/stack-riser-192.step",
+          "bytes": 56619,
+          "sha256": "0cacd0f1a5ed9ba4994adb63813c853733857794b247bf2115e2c14256574ce0"
+        }
+      }
+    },
+    {
+      "id": "rail-bar-192",
+      "name": "rail bar \u00b7 192",
+      "foundation": "rail",
+      "revision": "AL-02.1",
+      "dims_mm": {
+        "x": 216.0,
+        "y": 14.0,
+        "z": 28.0
+      },
+      "volume_cm3": 30.44,
+      "mass_g_pla": 37.7,
+      "print": {
+        "orientation": "front face down",
+        "supports": "none",
+        "material": "PETG preferred",
+        "layer_mm": 0.2,
+        "infill": "40 %",
+        "walls": 4
+      },
+      "load": {
+        "class": "light",
+        "note": "Two screws into suitable anchors. Hooks and cups only; not load-tested."
+      },
+      "validation": {
+        "brep_valid": true,
+        "single_solid": true,
+        "watertight": true,
+        "triangles": 4300
+      },
+      "files": {
+        "stl": {
+          "path": "/living/cad/AL-02/rail-bar-192.stl",
+          "bytes": 215084,
+          "sha256": "3af808970a28e7f360769fad69775d98d54af1be38afcc931fa406d528476f63"
+        },
+        "step": {
+          "path": "/living/cad/AL-02/rail-bar-192.step",
+          "bytes": 111566,
+          "sha256": "df78c39d9bfd4948cab55398e002476a5cc5942744b6a6c7ffcbefad314db80e"
+        }
+      }
+    }
+  ]
+}

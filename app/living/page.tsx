@@ -1,15 +1,269 @@
-"use client";
-import LivingPrototypeLibrary from "./LivingPrototypeLibrary";
-import LivingModel from "./LivingModel";
-import {useState} from "react";
-const palette=[["chalk","#f1eee6"],["oat","#ded2be"],["sage","#b4c5ac"],["powder blue","#aabed7"],["dusty pink","#d8b7bc"],["clay","#ae8d7d"],["lilac","#cdc3dc"]];
-const categories=["my room","my space","work & create","store & organise","pets & everyday","plants & objects"];
-export default function Living(){
- const [category,setCategory]=useState("my room"),[product,setProduct]=useState("curve"),[colour,setColour]=useState(palette[2]),[finish,setFinish]=useState("fine rib"),[label,setLabel]=useState(""),[photo,setPhoto]=useState(""),[width,setWidth]=useState(""),[depth,setDepth]=useState(""),[ideas,setIdeas]=useState(false),[rotate,setRotate]=useState(false);
- const products=[["curve","organic nesting organiser"],["grid","modular pegboard"],["stack","desktop shelf & riser"]];
- const suggestions=category==="pets & everyday"?["walk station","bowl surround","entryway rail"]:category==="plants & objects"?["planter sleeve","display riser","wall rail"]:category==="my space"?["vanity tray","ribbed cup","get-ready wall"]:["desk organiser","accessory grid","modular riser"];
- function save(){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify({collection:category,product,colour:colour[0],finish,label,width_mm:width,depth_mm:depth,status:"concept-only",approved_for_manufacture:false},null,2)],{type:"application/json"}));a.download="assembl-living-concept.json";a.click()}
- return <main className="living"><div className="ribbon">ASSEMBL / LIVING <span>DESIGN PREVIEW · NOT YET ORDERABLE</span></div><header><a className="logo" href="/">assembl<span>.</span><small>living / objects</small></a><nav><a href="#system">the system</a><a href="#collections">collections</a><a href="#studio">space studio</a></nav><a className="action" href="#studio">make it yours ↗</a></header><section className="hero"><div><p className="eyebrow">01 / A MORE USEFUL KIND OF DESIGN</p><h1>make space<br/>for what <em>matters.</em></h1><p>Choose a base. Add what you need. Make it yours.</p><a className="action" href="#studio">assemble my space ↗</a><p className="tagline">show us what you love. make it yours.</p></div><div className="art"><span>AL–01 / THE FIRST SYSTEM</span><div className="forms"><i/><i/><i/></div><strong>curve / grid / stack</strong><small>Concept illustration · not a manufactured product</small></div></section><section id="system" className="section"><p className="eyebrow">02 / ONE SYSTEM, MANY USES</p><h2>beautifully useful.<br/><em>everywhere.</em></h2><div className="cards">{products.map((p,i)=><button key={p[0]} onClick={()=>{setProduct(p[0]);document.getElementById("studio")?.scrollIntoView({behavior:"smooth"})}}><div className={"artcard "+p[0]}><div/></div><small>0{i+1} / ASSEMBL {p[0].toUpperCase()}</small><h3>{p[1]}</h3><p>One connection. More ways to use it.</p><span>explore ↗</span></button>)}</div></section><section id="collections" className="section"><p className="eyebrow">03 / YOUR SPACE</p><h2>same system.<br/><em>your way.</em></h2><div className="collections">{categories.map((c,i)=><button key={c} onClick={()=>{setCategory(c);setIdeas(true);document.getElementById("studio")?.scrollIntoView({behavior:"smooth"})}}><small>0{i+1}</small><strong>{c}</strong><span>↗</span></button>)}</div></section><section id="studio" className="section studio"><p className="eyebrow">04 / ASSEMBL SPACE STUDIO</p><h2>your space. <em>your way.</em></h2><div className="workbench"><div className="controls"><label>what are we organising?</label><select value={category} onChange={e=>setCategory(e.target.value)}>{categories.map(c=><option key={c}>{c}</option>)}</select><label>show us your space (optional)</label><input type="file" accept="image/*" onChange={e=>{const f=e.target.files?.[0];if(f&&f.size<8e6){const r=new FileReader();r.onload=()=>setPhoto(String(r.result));r.readAsDataURL(f)}}}/>{photo&&<img className="upload" src={photo} alt="Your space"/>}<p className="notice">Photo preview only. AI measurement is not connected.</p><button className="outline" onClick={()=>setIdeas(true)}>✳ show three starting ideas</button>{ideas&&<div className="ideas">{suggestions.map((s,i)=><button key={s} onClick={()=>setProduct(products[i][0])}>{s} ↗</button>)}</div>}<label>foundation</label><select value={product} onChange={e=>setProduct(e.target.value)}>{products.map(p=><option value={p[0]} key={p[0]}>{p[1]}</option>)}</select><label>surface finish</label><select value={finish} onChange={e=>setFinish(e.target.value)}>{["fine rib","smooth matte","wide wave","soft pleat"].map(x=><option key={x}>{x}</option>)}</select><label>colour</label><div className="swatches">{palette.map(c=><button key={c[0]} title={c[0]} onClick={()=>setColour(c)} style={{background:c[1],outline:colour[0]===c[0]?"2px solid #493c46":"none"}}/>)}</div><label>personal label</label><input placeholder="your name" maxLength={16} value={label} onChange={e=>setLabel(e.target.value)}/><label>dimensions in mm (confirm before production)</label><div className="dimensions"><input type="number" placeholder="width" value={width} onChange={e=>setWidth(e.target.value)}/><input type="number" placeholder="depth" value={depth} onChange={e=>setDepth(e.target.value)}/></div></div><div className="preview"><div className="previewbar"><strong>assembl / {product}</strong><span>CONCEPT ONLY</span></div><div className="scene" style={{background:"#e9e6df"}}><LivingModel product={product} colour={colour[1]} finish={finish}/></div><button className="outline" onClick={()=>setRotate(!rotate)}>↻ change view</button><p>{colour[0]} / {finish} / {label||"no label"}</p><small>Orbitable 3D concept. Not production CAD or a tested connector.</small></div><div className="summary"><p className="eyebrow">THE ASSEMBL METHOD</p><h3>one system.<br/>your way.</h3><p>01 / foundation<br/>02 / function<br/>03 / personality</p><hr/><p>Download your selected concept. No checkout or printer order is created.</p><button className="action" onClick={save}>download concept ↗</button><p className="notice">Production and Shopify checkout are disabled pending physical validation and fulfilment approval.</p></div></div></section><LivingPrototypeLibrary/><footer><strong>assembl.</strong><span>living / objects · development preview</span><a href="/">back to assembl ↗</a></footer><style jsx>{`
-.living{background:#f7f5f0;color:#39363a;font-family:Arial,Helvetica,sans-serif}.living *{box-sizing:border-box}.living a{text-decoration:none;color:inherit}.ribbon{background:#e9e5df;padding:10px 5%;font-size:10px;letter-spacing:.12em;display:flex;justify-content:space-between}.ribbon span{color:#80777a}header{display:flex;align-items:center;justify-content:space-between;padding:20px 5%;border-bottom:1px solid #e4e0db}.logo{font-size:30px;font-weight:800;letter-spacing:-.08em;line-height:.75}.logo span{color:#bd96a2}.logo small{display:block;font-size:9px;letter-spacing:.12em;margin-top:11px;font-weight:400}nav{display:flex;gap:30px;font-size:12px}.action{display:inline-block;border:0;background:#493b46!important;color:#fff!important;padding:15px 22px;font-size:12px;cursor:pointer}.hero{display:grid;grid-template-columns:1fr 1fr;min-height:540px}.hero>div:first-child{padding:95px 10%}.eyebrow{font-size:10px;letter-spacing:.16em;font-weight:700;color:#9d7d89}.hero h1,h2{font-size:clamp(45px,6vw,84px);font-weight:500;line-height:.99;letter-spacing:-.065em;margin:25px 0}.hero em,h2 em{font-family:Georgia,serif;color:#aa8994;font-weight:400}.hero p:not(.eyebrow){max-width:440px;line-height:1.7;color:#756f73}.tagline{margin-top:45px;font-size:11px!important}.art{position:relative;background:#e5e6df;padding:28px;overflow:hidden}.art>span{font-size:10px;letter-spacing:.13em}.art strong{position:absolute;bottom:42px;right:28px}.art small{position:absolute;bottom:18px;right:28px;font-size:9px}.forms{display:flex;align-items:center;justify-content:center;height:85%;gap:-10px}.forms i{display:block;width:29%;height:43%;border:9px solid #ffffff30;border-radius:45% 45% 28% 28%;background:#b7c5ad;box-shadow:12px 22px 16px #0002,inset -13px -12px 12px #0001;transform:rotate(-12deg)}.forms i:nth-child(2){background:#d8b7bc;height:52%;transform:translateY(-18px);z-index:2}.forms i:nth-child(3){background:#aabed7;transform:rotate(13deg)}.section{padding:75px 5%}.section h2{font-size:clamp(38px,5vw,65px)}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.cards button{text-align:left;border:1px solid #e6e0d9;background:white;padding:17px;color:inherit;cursor:pointer}.cards small{font-size:10px;letter-spacing:.12em}.cards h3{font-size:23px;font-weight:500;letter-spacing:-.04em}.cards p{color:#777;font-size:13px}.cards span{font-size:12px}.artcard{height:210px;background:#e9e8e1;display:grid;place-items:center;margin-bottom:18px}.artcard div{height:125px;width:130px;border-radius:40px;background:#b8c7b1;box-shadow:10px 16px 10px #0002}.artcard.grid div{background:radial-gradient(#7f8c84 2px,transparent 3px) 0 0/22px 22px,#d6d2c8;border-radius:8px}.artcard.stack div{border-radius:22px;background:repeating-linear-gradient(0deg,#d8b7bc 0 34px,#f1eee6 35px 39px)}.collections{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.collections button{background:#ede8e2;border:0;padding:28px;text-align:left;min-height:125px;display:flex;flex-direction:column;gap:18px;cursor:pointer;color:inherit}.collections strong{font-size:20px;font-weight:500}.collections small{color:#947a83}.collections span{align-self:flex-end}.studio{background:#eeeae4}.workbench{display:grid;grid-template-columns:260px minmax(0,1fr) 250px;background:white;border:1px solid #ded8d1}.controls,.summary{padding:25px;display:flex;flex-direction:column;gap:12px}.controls label{font-size:12px;font-weight:600;margin-top:7px}.controls input,.controls select{width:100%;padding:12px;border:1px solid #ddd6d2;background:#faf9f7;color:#39363a}.dimensions{display:flex;gap:7px}.upload{width:100%;max-height:130px;object-fit:cover}.notice{font-size:11px!important;color:#8a7e83!important;line-height:1.5}.outline{padding:12px;background:white;border:1px solid #ccc5c2;cursor:pointer;color:#39363a}.ideas{display:flex;flex-direction:column;gap:5px}.ideas button{padding:10px;text-align:left;background:#f1eee9;border:0;cursor:pointer}.swatches{display:flex;flex-wrap:wrap;gap:8px}.swatches button{width:30px;height:30px;border:2px solid white;border-radius:50%;cursor:pointer}.preview{border-left:1px solid #e4e0db;border-right:1px solid #e4e0db;padding:25px}.previewbar{display:flex;justify-content:space-between;align-items:center}.previewbar span{font-size:9px;letter-spacing:.1em}.scene{height:440px;margin:20px 0;display:grid;place-items:center;perspective:600px;overflow:hidden}.shape{width:220px;height:180px;border-radius:70px;background:#b4c5ac;box-shadow:20px 26px 15px #0002,inset -20px -18px 20px #0001;border:13px solid #ffffff30;transition:.4s;position:relative}.shape.grid{border-radius:10px;background-image:radial-gradient(#788d81 4px,transparent 5px);background-size:30px 30px}.shape.stack{border-radius:20px;height:230px;background-image:repeating-linear-gradient(0deg,transparent 0 48px,#ffffff65 49px 55px)}.cavity{position:absolute;top:15px;left:30px;right:30px;height:30px;border-radius:50%;background:#0002}.summary h3{font-size:30px;font-weight:500}.summary p{line-height:1.7;color:#777}.summary hr{width:100%;border:0;border-top:1px solid #e6e0d9}.preview small{color:#888}.preview>p{font-size:12px;color:#777}footer{display:flex;justify-content:space-between;align-items:center;padding:35px 5%;font-size:12px;background:#e5e1dc}footer strong{font-size:26px;letter-spacing:-.08em}@media(max-width:850px){header nav{display:none}.hero{grid-template-columns:1fr}.hero>div:first-child{padding:60px 7%}.art{min-height:370px}.cards,.collections{grid-template-columns:1fr 1fr}.workbench{grid-template-columns:1fr}.preview{border:0;border-top:1px solid #ddd;border-bottom:1px solid #ddd}.scene{height:350px}}@media(max-width:500px){.ribbon{font-size:8px}.ribbon span{max-width:130px;text-align:right}.hero h1{font-size:54px}.cards,.collections{grid-template-columns:1fr}footer{gap:10px;flex-wrap:wrap}}
-`}</style></main>
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import {
+  AESTHETIC_PRESETS,
+  CAD_MANIFEST,
+  COLOURWAY_SWATCHES,
+  FOUNDATIONS,
+  FOUNDATION_LABELS,
+  INTERFACE_SPEC,
+  KITS,
+  PARTS,
+  SPACE_ENTRIES,
+  applyKit,
+  billOfMaterials,
+  bundledPriceBand,
+  newDesign,
+} from '@/lib/living';
+import { GridComposer } from './studio/GridComposer';
+import './living.css';
+
+export const metadata: Metadata = {
+  title: 'assembl / living — one modular system, made to your space',
+  description:
+    'A modular interiors system that adapts to the person, their space and what they own. Grid, tile, stack and rail on one 24 mm interface. Photograph your space, see three ways to improve it, assemble your design.',
+};
+
+const STEPS = [
+  { n: '01', title: 'show us your space', line: 'Photograph a bedroom, drawer, desk, wardrobe or wall. Tell us what is not working, in your words.' },
+  { n: '02', title: 'assembl understands the space', line: 'What you said becomes a short list of needs and the parts that answer them. Shown back to you before anything is proposed.' },
+  { n: '03', title: 'see three ways to improve it', line: 'A minimal refresh, a full organisation system, or a more expressive layout. Same parts, three starting points.' },
+  { n: '04', title: 'assemble your design', line: 'Add panels, shelves, trays, hooks and rails. Change colours and layout in a live preview drawn at real size.' },
+  { n: '05', title: 'made for your space', line: 'Confirm the measurements that decide fit, approve the design and save a configuration a manufacturer can quote from.' },
+];
+
+function nzd(n: number) {
+  return `NZ$${n.toLocaleString('en-NZ')}`;
+}
+
+function FoundationGlyph({ id }: { id: (typeof FOUNDATIONS)[number] }) {
+  const ink = 'rgba(36, 11, 33, 0.55)';
+  const fill = '#FFFDFB';
+  switch (id) {
+    case 'grid':
+      return (
+        <svg viewBox="0 0 200 120" aria-hidden>
+          <rect x="40" y="10" width="120" height="100" rx="8" fill={fill} stroke={ink} />
+          {Array.from({ length: 20 }, (_, i) => (
+            <circle key={i} cx={52 + (i % 5) * 24} cy={22 + Math.floor(i / 5) * 24} r="3.2" fill={ink} opacity=".5" />
+          ))}
+        </svg>
+      );
+    case 'tile':
+      return (
+        <svg viewBox="0 0 200 120" aria-hidden>
+          <rect x="30" y="20" width="80" height="80" rx="8" fill={fill} stroke={ink} />
+          <rect x="114" y="20" width="56" height="38" rx="6" fill={fill} stroke={ink} />
+          <rect x="114" y="62" width="56" height="38" rx="6" fill={fill} stroke={ink} />
+          <rect x="106" y="54" width="16" height="12" rx="2" fill={ink} opacity=".5" />
+        </svg>
+      );
+    case 'stack':
+      return (
+        <svg viewBox="0 0 200 120" aria-hidden>
+          <rect x="30" y="40" width="140" height="8" rx="2" fill={fill} stroke={ink} />
+          <rect x="30" y="48" width="6" height="56" fill={fill} stroke={ink} />
+          <rect x="97" y="48" width="6" height="56" fill={fill} stroke={ink} />
+          <rect x="164" y="48" width="6" height="56" fill={fill} stroke={ink} />
+          <rect x="44" y="18" width="52" height="20" rx="4" fill={fill} stroke={ink} />
+          <rect x="112" y="18" width="52" height="20" rx="4" fill={fill} stroke={ink} />
+        </svg>
+      );
+    case 'rail':
+      return (
+        <svg viewBox="0 0 200 120" aria-hidden>
+          <rect x="20" y="44" width="160" height="28" rx="4" fill={fill} stroke={ink} />
+          {Array.from({ length: 7 }, (_, i) => (
+            <circle key={i} cx={36 + i * 21.5} cy="58" r="3.2" fill={ink} opacity=".5" />
+          ))}
+          <path d="M57 72 v24 h8" fill="none" stroke={ink} strokeWidth="3" />
+          <path d="M122 72 v24 h8" fill="none" stroke={ink} strokeWidth="3" />
+        </svg>
+      );
+  }
+}
+
+export default function AssemblLivingPage() {
+  const spec = INTERFACE_SPEC;
+  return (
+    <div className="lv">
+      <div className="lv-wrap">
+        <section className="lv-hero">
+          <span className="lv-eyebrow">assembl / living</span>
+          <h1>
+            One design system.
+            <br />
+            Different spaces.
+            <br />
+            Endless combinations.
+          </h1>
+          <p className="lv-lede">
+            A modular interiors system that adapts to you, your space and what you own. Photograph the corner that is not working. We help design something beautiful and functional from compatible parts, made to measure.
+          </p>
+          <div className="lv-actions">
+            <Link href="/living/studio" className="lv-btn">
+              show us your space →
+            </Link>
+            <span className="lv-status" data-tone="quiet">prototype parts · nothing for sale yet</span>
+          </div>
+        </section>
+
+        <section className="lv-section" aria-labelledby="lv-spaces">
+          <div className="lv-section-head">
+            <span className="lv-eyebrow">by space first, interest second</span>
+            <h2 id="lv-spaces">Six doors into one catalogue.</h2>
+            <p className="lv-small">A panel is the same panel in a teenager&rsquo;s room, a workshop or a vanity. The suggested accessories and colourways change.</p>
+          </div>
+          <div className="lv-grid lv-grid-3">
+            {SPACE_ENTRIES.map((s) => (
+              <Link key={s.id} href={`/living/studio?space=${s.id}`} className="lv-card">
+                <h3>{s.name}</h3>
+                <p className="lv-small">{s.line}</p>
+                <ul>
+                  {s.examples.slice(0, 2).map((e) => (
+                    <li key={e}>&ldquo;{e}&rdquo;</li>
+                  ))}
+                </ul>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="lv-section" aria-labelledby="lv-how">
+          <div className="lv-section-head">
+            <span className="lv-eyebrow">the photo-to-room workflow</span>
+            <h2 id="lv-how">What happens, in order.</h2>
+          </div>
+          <div className="lv-grid lv-grid-3">
+            {STEPS.map((s) => (
+              <article key={s.n} className="lv-card" data-tone="chalk">
+                <span className="lv-eyebrow">{s.n}</span>
+                <h3>{s.title}</h3>
+                <p className="lv-small">{s.line}</p>
+              </article>
+            ))}
+          </div>
+          <div className="lv-note" style={{ marginTop: '1.2rem' }}>
+            <span className="lv-status" data-tone="quiet">what a photo can and cannot do</span>
+            <span>
+              A single photograph cannot reliably establish exact physical measurements. Today the studio shows your photo back to you and does not read it. Fit is decided only by width and height you confirm, with a tape, an A4 sheet as a reference or a phone depth scan.
+            </span>
+          </div>
+        </section>
+
+        <section className="lv-section" aria-labelledby="lv-system">
+          <div className="lv-section-head">
+            <span className="lv-eyebrow">one modular product ecosystem</span>
+            <h2 id="lv-system">Four foundations. One interface.</h2>
+            <p className="lv-small">
+              Every part shares interface {CAD_MANIFEST.interface}: a {spec.pitch_mm} mm pitch, Ø{spec.hole_mm} mm holes, Ø{spec.peg_mm} mm pegs and a {spec.tile_footprint_mm} mm tile footprint. The physical engineering differs for walls, surfaces and drawers; the customer experiences one family.
+            </p>
+          </div>
+          <div className="lv-grid lv-grid-4">
+            {FOUNDATIONS.map((f) => (
+              <div key={f} className="lv-foundation">
+                <FoundationGlyph id={f} />
+                <h3>{FOUNDATION_LABELS[f].name}</h3>
+                <p className="lv-small">{FOUNDATION_LABELS[f].line}</p>
+                <div className="lv-strip">
+                  {PARTS.filter((p) => p.foundation === f).map((p) => (
+                    <span key={p.id} className="lv-tag">{p.name}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="lv-section" aria-labelledby="lv-kits">
+          <div className="lv-section-head">
+            <span className="lv-eyebrow">the kits are the merchandising layer</span>
+            <h2 id="lv-kits">Buy a blank panel and build it yourself, or start from a kit.</h2>
+            <p className="lv-small">All the same grid. Someone can buy the get-ready wall and later add gaming accessories, or buy the tackle wall and add a ledge for keys and phone.</p>
+          </div>
+          <div className="lv-grid lv-grid-2">
+            {KITS.map((k) => {
+              const design = applyKit(newDesign({ space: k.space, surface: 'wall', aesthetic: k.aesthetic }), k);
+              const bom = billOfMaterials(design);
+              const band = bundledPriceBand(bom);
+              return (
+                <article key={k.id} className="lv-card">
+                  {design.placements.length > 0 ? (
+                    <GridComposer design={design} className="lv-mini" title={`${k.name} layout`} />
+                  ) : (
+                    <div className="lv-mini" style={{ padding: '1rem' }}>
+                      <ul style={{ margin: 0, paddingLeft: '1rem' }}>
+                        {bom.lines.map((l) => (
+                          <li key={l.partId}>{l.qty} × {l.name}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  <h3>{k.name}</h3>
+                  <p className="lv-small">{k.description}</p>
+                  <div className="lv-total">
+                    <span className="lv-small">{bom.lines.reduce((s, l) => s + l.qty, 0)} parts · {AESTHETIC_PRESETS[k.aesthetic].label}</span>
+                    <b>{nzd(band.lowNzd)}–{nzd(band.highNzd)}</b>
+                  </div>
+                  <div className="lv-actions">
+                    <Link href={`/living/studio?kit=${k.id}`} className="lv-btn" data-variant="small">
+                      open in the studio →
+                    </Link>
+                    <span className="lv-status" data-tone="quiet">indicative · not yet quoted</span>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="lv-section" aria-labelledby="lv-colour">
+          <div className="lv-section-head">
+            <span className="lv-eyebrow">colourways</span>
+            <h2 id="lv-colour">Warm chalk to graphite. Nothing loud.</h2>
+          </div>
+          <div className="lv-swatches">
+            {Object.entries(COLOURWAY_SWATCHES).map(([id, c]) => (
+              <span key={id} className="lv-tag" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.35rem 0.7rem 0.35rem 0.4rem' }}>
+                <span style={{ width: 22, height: 22, borderRadius: '50%', background: c.hex, boxShadow: 'inset 0 0 0 1px rgba(36,11,33,.15)' }} aria-hidden />
+                {c.label}
+              </span>
+            ))}
+          </div>
+        </section>
+
+        <section className="lv-section" aria-labelledby="lv-honest">
+          <div className="lv-grid lv-grid-2">
+            <article className="lv-card" data-tone="plum">
+              <span className="lv-eyebrow">where this is up to</span>
+              <h2 id="lv-honest">Engineering pack {CAD_MANIFEST.pack}.</h2>
+              <p>
+                {PARTS.length} parts, each exported as editable STEP and printable STL from one parametric source, each checked as a valid single solid with a watertight mesh. That is a digital manufacturing check, not a physical strength, fit or wall-mounting test.
+              </p>
+              <ul>
+                <li>All parts are light-duty prototypes. No load ratings are published.</li>
+                <li>Not for clothes rails, heavy shelving or anything safety-critical.</li>
+                <li>Wall panels fix with screws and anchors suited to the wall. Printed parts are not anchors.</li>
+                <li>The interface is original work. A prior-art check comes before any exclusivity claim.</li>
+              </ul>
+            </article>
+            <article className="lv-card" data-tone="chalk">
+              <span className="lv-eyebrow">next real-world milestone</span>
+              <h3>One pegboard starter kit, printed, assembled and tested in a bedroom.</h3>
+              <ul>
+                <li>Print and test the first samples: real dimensions, peg fit, finish, usability.</li>
+                <li>Refine the interface into a connection every approved accessory can rely on.</li>
+                <li>Build the first sellable starter kit: a panel, several useful accessories, optional personalisation.</li>
+                <li>Open purchasing only when a manufacturer has accepted the files, pricing and fulfilment.</li>
+              </ul>
+              <div className="lv-actions">
+                <Link href="/living/studio" className="lv-btn">open the studio →</Link>
+                <a href={`/living/cad/${CAD_MANIFEST.pack}/manifest.json`} className="lv-btn" data-variant="ghost">CAD manifest</a>
+              </div>
+            </article>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
 }

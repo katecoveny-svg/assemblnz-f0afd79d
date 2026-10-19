@@ -24,78 +24,74 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
    return route.fulfill({status:503,json:{error:'Synthetic connection unavailable',enabled:false}});
   });
   const page=await context.newPage();
-  async function home() { const back=page.getByRole('button',{name:'Back to Today',exact:true}); if(await back.isVisible()) { await back.focus(); await page.keyboard.press('Enter'); await page.waitForFunction(()=>document.activeElement?.id==='personal-today-heading'); } }
+  const starters = () => page.getByRole('region',{name:'Task starters'});
+  const starter = title => starters().getByRole('button',{name:new RegExp('^'+title+' ·')});
   page.on('pageerror',e=>errors.push(e.message));
   for(const width of [375,320,1440]) {
    await page.setViewportSize({width,height:1000});
    await page.goto(origin+'/do/personal');
    await page.getByRole('heading',{name:'Today',exact:true}).waitFor();
-   check(width+': Today directly follows entry controls',await page.evaluate(()=>{const nav=document.querySelector('nav[aria-label="Choose how to start"]'); const today=document.querySelector('#personal-today-heading'); return nav.compareDocumentPosition(today)&Node.DOCUMENT_POSITION_FOLLOWING && today.getBoundingClientRect().top-nav.getBoundingClientRect().bottom<45;}));
-   check(width+': compact two-column phone cards',await page.locator('[data-task]').evaluateAll((cards,width)=>width>600 || Math.abs(cards[0].getBoundingClientRect().top-cards[1].getBoundingClientRect().top)<2,width));
-   check(width+': six visual task cards',await page.locator('[data-task]').count()===6);
+   const input=page.locator('#personal-assistant-input');
+   check(width+': input precedes Today',await input.isVisible() && await page.evaluate(()=>Boolean(document.querySelector('#personal-assistant-input').compareDocumentPosition(document.querySelector('#personal-today-heading')) & Node.DOCUMENT_POSITION_FOLLOWING)));
+   check(width+': seven editable starters',await starters().getByRole('button').count()===7);
+   check(width+': two-column collection',await starters().locator('li').evaluateAll(rows=>rows[0].getBoundingClientRect().right<=rows[1].getBoundingClientRect().left+1));
    check(width+': no horizontal overflow',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
-   check(width+': no invented calendar activity',await page.getByText('No inbox or calendar has been read for this view.').isVisible());
+   check(width+': no invented calendar activity',await page.getByText('Inbox and calendar not read',{exact:true}).isVisible());
    await page.addStyleTag({content:'nextjs-portal{display:none!important}'});
    await page.screenshot({path:`${out}/home-${width}.png`,fullPage:true});
    await page.screenshot({path:`${out}/today-${width}.png`});
    const nav=page.getByRole('navigation',{name:'Choose how to start'});
-   await nav.getByRole('button',{name:'Write',exact:true}).click();
-   await page.locator('#personal-assistant-input').fill('Synthetic existing draft: keep this wording.');
-   await home();
-   check(width+': Back to Today moves keyboard focus',await page.locator('#personal-today-heading').evaluate(el=>el===document.activeElement));
-   await page.locator('[data-task="dinner"] button').first().focus();
+   const original='Synthetic existing draft: keep this wording.';
+   await input.fill(original);
+   await starter('assembl a dinner date').focus();
    await page.keyboard.press('Enter');
-   await page.keyboard.press('Tab');
-   check(width+': keyboard opens task and reaches its action',await page.getByRole('button',{name:'Write a dinner request',exact:true}).evaluate(el=>el===document.activeElement));
-   check(width+': dinner cannot claim booking',await page.getByText('Write what you have in mind and prepare a request. DO cannot check restaurant availability or reserve a table here.').isVisible());
-   await page.getByRole('button',{name:'Write a dinner request',exact:true}).click();
-   check(width+': task entry preserves unfinished text',await page.locator('#personal-assistant-input').inputValue()==='Synthetic existing draft: keep this wording.');
-   await page.waitForFunction(() => document.activeElement?.id === 'personal-assistant-input');
-   check(width+': task entry focuses shared composer',await page.locator('#personal-assistant-input').evaluate(el=>el===document.activeElement));
-   check(width+': selected dinner intent is visible beside draft',await page.getByRole('complementary',{name:'Chosen task'}).isVisible() && (await page.getByRole('complementary',{name:'Chosen task'}).innerText()).includes('A table for us'));
+   await page.waitForFunction(()=>document.activeElement?.id==='personal-assistant-input');
+   check(width+': keyboard starter focuses shared composer',await input.evaluate(el=>el===document.activeElement));
+   check(width+': starter appends without overwrite', (await input.inputValue()).startsWith(original+'\n\nHelp me plan a dinner date.'));
+   const intent=page.getByRole('complementary',{name:'Chosen task'});
+   check(width+': dinner cannot claim booking',(await intent.innerText()).includes('cannot check table availability or make a reservation'));
    await page.screenshot({path:`${out}/intent-${width}.png`});
-   await home();
-   await page.locator('[data-task="travel"] button').first().click();
-   check(width+': one open task detail',await page.locator('[data-task] button[aria-expanded="true"]').count()===1);
-   check(width+': existing travel route retained',await page.getByRole('link',{name:'Open travel workspace'}).getAttribute('href')==='/do/travel');
-   await page.locator('[data-task="briefing"] button').first().click();
-   check(width+': mail route retains account verification entry',await page.getByRole('link',{name:'Open mail review'}).getAttribute('href')==='/do/mail');
-   await page.locator('[data-task="meals"] button').first().click();
-   check(width+': meal route retained',await page.getByRole('link',{name:'Open meal planner'}).getAttribute('href')==='/do/shop');
-   await page.locator('[data-task="meals"] button').first().click();
-   for (const [id,action,title] of [['appointments','Write a service request','Appointments'],['shopping','Write a shopping request','Clothes & gifts']]) {
-    await page.locator(`[data-task="${id}"] button`).first().click();
-    await page.getByRole('button',{name:action,exact:true}).click();
-    check(width+': '+id+' retains distinct intent', (await page.getByRole('complementary',{name:'Chosen task'}).innerText()).includes(title));
-    check(width+': '+id+' does not overwrite draft',await page.locator('#personal-assistant-input').inputValue()==='Synthetic existing draft: keep this wording.');
-    await home();
+   for(const [title,link,href] of [['assembl my trip','Open travel planner','/do/travel'],['assembl my day','Open mail review','/do/mail'],['assembl dinner at home','Open meal planner','/do/shop']]) {
+    await starter(title).click();
+    check(width+': '+link+' route retained',await intent.getByRole('link',{name:link,exact:true}).getAttribute('href')===href);
    }
-   await nav.getByRole('button',{name:'Write',exact:true}).click();
+   for(const title of ['assembl my appointments','assembl clothes and gifts','assembl my shopping basket']) {
+    const before=await input.inputValue();
+    await starter(title).click();
+    check(width+': '+title+' distinct intent',(await intent.innerText()).includes(title));
+    check(width+': '+title+' preserves existing draft',(await input.inputValue()).startsWith(before+'\n\n'));
+   }
+   await input.fill('x'.repeat(4000));
+   await starter('assembl my trip').click();
+   check(width+': full assistant draft unchanged',await input.inputValue()==='x'.repeat(4000));
+   check(width+': full draft explains rejection',(await intent.innerText()).includes('nearly full'));
+   await input.fill(original);
    await page.getByRole('button',{name:'Clear task',exact:true}).click();
-   check(width+': clearing intent preserves draft',await page.locator('#personal-assistant-input').inputValue()==='Synthetic existing draft: keep this wording.' && await page.getByRole('complementary',{name:'Chosen task'}).count()===0);
+   check(width+': clearing intent preserves draft',await input.inputValue()===original && await intent.count()===0);
    await page.locator('#personal-assistant-input').fill('');
    await nav.getByText('Add',{exact:true}).click();
    await page.getByRole('button',{name:'Note or checklist',exact:true}).click();
    check(width+': Add uses existing local editor',await page.locator('#life-admin-source').isVisible());
    // Review regression: clear a selected task after changing to the checklist editor.
    await page.locator('#life-admin-source').fill('Synthetic checklist note to preserve.');
-   await home();
-   await page.locator('[data-task="dinner"] button').first().click();
-   await page.getByRole('button',{name:'Write a dinner request',exact:true}).click();
-   await nav.getByText('Add',{exact:true}).click();
-   await page.getByRole('button',{name:'Note or checklist',exact:true}).click();
+   await starter('assembl a dinner date').click();
+   const localWithStarter=await page.locator('#life-admin-source').inputValue();
+   check(width+': local starter appends to visible editor',localWithStarter.startsWith('Synthetic checklist note to preserve.\n\nHelp me plan a dinner date.'));
    await page.getByRole('button',{name:'Clear task',exact:true}).focus();
    await page.keyboard.press('Enter');
    check(width+': Clear task focuses the visible checklist editor',await page.locator('#life-admin-source').evaluate(el=>el===document.activeElement && el.getClientRects().length>0));
    // Focus is synchronous; task-context removal completes in the React commit.
    await page.getByRole('complementary',{name:'Chosen task'}).waitFor({state:'detached'});
-   assert.equal(await page.locator('#life-admin-source').inputValue(),'Synthetic checklist note to preserve.',width+': Clear task must preserve the exact checklist note');
+   assert.equal(await page.locator('#life-admin-source').inputValue(),localWithStarter,width+': Clear task must preserve the exact checklist note');
    check(width+': Clear task preserves checklist note and hides task context',await page.getByRole('complementary',{name:'Chosen task'}).count()===0);
    check(width+': Clear task never focuses hidden Write editor',!await page.locator('#personal-assistant-input').isVisible() && !await page.locator('#personal-assistant-input').evaluate(el=>el===document.activeElement));
+   await page.locator('#life-admin-source').fill('x'.repeat(12000));
+   await starter('assembl my trip').click();
+   check(width+': full local draft unchanged',await page.locator('#life-admin-source').inputValue()==='x'.repeat(12000));
+   await page.getByRole('button',{name:'Clear task',exact:true}).click();
    await page.locator('#life-admin-source').fill('');
 
    await nav.getByRole('button',{name:'Write',exact:true}).click();
-   await home();
    await page.evaluate(()=>window.scrollTo(0,0));
    await page.screenshot({path:`${out}/returned-${width}.png`,fullPage:true});
    await page.evaluate(()=>window.scrollTo(0,0));
@@ -110,22 +106,19 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
   check('Today opens existing review board',await page.locator('#personal-task-board').getAttribute('open')!==null);
   check('review retains distinction from external action',(await page.locator('#personal-task-board').innerText()).includes('does not approve sending, payments, bookings or submissions'));
   await page.screenshot({path:`${out}/review-desktop.png`,fullPage:true});
-  // The view is keyed by verified owner, including its expanded cards and local plans.
+  // The view is keyed by verified owner, including its starter intent and local plans.
   owner='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
   await page.evaluate(()=>window.dispatchEvent(new Event('focus')));
   await page.waitForFunction(()=>!document.body.textContent.includes('1 thing needs you'));
   await page.getByRole('navigation',{name:'Choose how to start'}).getByRole('button',{name:'Write',exact:true}).click();
   await page.locator('#personal-assistant-input').fill('Synthetic owner A private draft');
-  await home();
-  await page.locator('[data-task="shopping"] button').first().click();
-  await page.getByRole('button',{name:'Write a shopping request',exact:true}).click();
+  await starter('assembl clothes and gifts').click();
   owner='bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
   await page.evaluate(()=>window.dispatchEvent(new Event('focus')));
   await page.waitForFunction(()=>document.querySelector('#personal-assistant-input')?.value === '');
   check('owner switch clears old draft',await page.locator('#personal-assistant-input').inputValue()==='');
   check('owner switch clears chosen intent',await page.getByRole('complementary',{name:'Chosen task'}).count()===0);
-  check('owner switch resets expanded task',await page.locator('[data-task] button[aria-expanded="true"]').count()===0);
-  check('owner switch returns to Today',!await page.locator('#personal-assistant-input').isVisible());
+  check('owner switch retains visible empty editor',await page.locator('#personal-assistant-input').isVisible());
   await page.getByRole('navigation',{name:'Choose how to start'}).getByRole('button',{name:'Talk',exact:true}).click();
   check('Talk opens existing consented voice surface',await page.locator('#personal-do-call').isVisible());
   await page.getByText('Choose a checklist',{exact:true}).click();
@@ -137,10 +130,10 @@ const check = (name, value) => { assert.ok(value, name); checks.push(name); cons
   await page.getByLabel('Choose an image for DO').setInputFiles({name:'synthetic.png',mimeType:'image/png',buffer:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGP4//8/AAX+Av4N70a4AAAAAElFTkSuQmCC','base64')});
   const photoConsent=page.getByRole('checkbox',{name:/Send this image and question/});
   await photoConsent.check();
-  await home();
+  await page.getByRole('navigation',{name:'Choose how to start'}).getByRole('button',{name:'Write',exact:true}).click();
   await page.getByRole('navigation',{name:'Choose how to start'}).getByText('Add',{exact:true}).click();
   await page.getByRole('button',{name:'Photo or image',exact:true}).click();
-  check('Back to Today revokes photo consent',!await photoConsent.isChecked());
+  check('switching to Write revokes photo consent',!await photoConsent.isChecked());
   check('photo cannot resubmit without renewed consent',await page.getByRole('button',{name:'Ask DO to look · 1 task',exact:true}).isDisabled());
   check('no API writes',writes.length===0);check('no browser errors',errors.length===0);
   fs.writeFileSync(`${out}/results.json`,JSON.stringify({checks,errors,writes},null,2));
