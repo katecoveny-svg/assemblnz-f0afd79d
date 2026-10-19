@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import type { SearchOffer, Terms } from '@/lib/do/travel/provider-contract';
-import { comparable, formatEvidenceMoney as money, offerIssue, partyLabel, selectionReceipt, type ResultBatch } from '@/lib/do/travel/provider-selection';
+import { comparable, formatEvidenceMoney as money, offerIssue, partyLabel, selectionReceipt, selectionIsCurrent, type ResultBatch } from '@/lib/do/travel/provider-selection';
 import { fingerprint } from '@/lib/do/preparation/contracts';
 import styles from './travel-planner.module.css';
 export type ReviewedSelection = ReturnType<typeof selectionReceipt>;
@@ -26,7 +26,7 @@ function Results({ batch, briefKey, onReviewed }: { batch: ResultBatch; briefKey
   const selected = offers.filter(o => ids.includes(o.id));
   const choice = offers.find(o => o.id === chosen);
   const issue = choice ? offerIssue(batch, choice, briefKey, now) : null;
-  const reviewCurrent = Boolean(receipt && choice && !issue && receipt.briefKey === briefKey && receipt.offer === choice);
+  const reviewCurrent = selectionIsCurrent(batch, choice, receipt, briefKey, now);
   useEffect(() => { if (receipt && !reviewCurrent) onReviewed?.(null); }, [receipt, reviewCurrent, onReviewed]);
   function choose(offer: SearchOffer) { reviewLock.current = false; if (offerIssue(batch, offer, briefKey, Date.now())) return; setChosen(offer.id); setAccepted(false); setReceipt(null); onReviewed?.(null); }
   function review(at: number) { if (reviewLock.current || !choice || !accepted || offerIssue(batch, choice, briefKey, at)) return; reviewLock.current = true; const value = selectionReceipt(batch, choice, briefKey, at); setReceipt(value); onReviewed?.(value); }

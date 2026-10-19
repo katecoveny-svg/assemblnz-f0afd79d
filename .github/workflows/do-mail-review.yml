@@ -3,7 +3,7 @@ on:
   push:
     branches: [codex/personal-do-mail-voice-review]
   pull_request:
-    paths: ['apps/do/mail/**', 'app/do/mail/**', 'app/api/do/mail/**', 'lib/connectors/personal-mail.test.ts', 'lib/connectors/pipedream-mail-grant*', 'lib/connectors/pipedream.ts', 'scripts/review-do-mail.cjs', 'scripts/review-do-mail-voice.cjs', 'scripts/personal-entry-helpers.cjs', '.github/workflows/do-mail-review.yml']
+    paths: ['apps/do/mail/**', 'app/do/mail/**', 'app/api/do/mail/**', 'lib/connectors/personal-mail.test.ts', 'lib/connectors/pipedream-mail-grant*', 'lib/connectors/pipedream.ts', 'scripts/review-do-mail.cjs', 'scripts/review-do-mail-voice.cjs', 'scripts/personal-entry-helpers.cjs', 'app/do/travel/ProviderResults.tsx', 'lib/do/travel/**', 'scripts/review-do-travel-selection.cjs', 'test/fixtures/do-travel-selection/**', '.github/workflows/do-mail-review.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -44,6 +44,7 @@ jobs:
           for i in $(seq 1 40); do curl -sf http://127.0.0.1:3000/do/mail >/dev/null && break; sleep 2; done
           ASSEMBL_PLAYWRIGHT_MODULE="$RUNNER_TEMP/mail-browser/node_modules/playwright" node scripts/review-do-mail.cjs
           ASSEMBL_PLAYWRIGHT_MODULE="$RUNNER_TEMP/mail-browser/node_modules/playwright" node scripts/review-do-mail-voice.cjs
+          ASSEMBL_PLAYWRIGHT_MODULE="$RUNNER_TEMP/mail-browser/node_modules/playwright" node scripts/review-do-travel-selection.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -51,5 +52,6 @@ jobs:
           path: |
             output/playwright/do-mail/
             output/playwright/do-mail-voice/
+            output/playwright/do-travel-selection/
             /tmp/do-mail-server.log
           retention-days: 14

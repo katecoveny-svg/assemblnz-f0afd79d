@@ -4,6 +4,12 @@ Assembl · 13 October 2026 · Proposed execution sequence and evidence register
 
 > Repository incorporation — 13 October 2026. Imported from the user-reviewed Library roadmap (version 0). Its capability register remains a dated source audit, not a rolling release claim. The bounded interface draft now exists on `codex/do-entry-chrome-draft`; see [entry integration evidence](../reviews/DO-ENTRY-INTEGRATION-20261013.md) for changed paths, tests and remaining gates. It has not shipped. Shared durable state, broader uploads and onboarding remain separate work. A fresh 13 October source fetch includes public-discovery PR #1522 and reliability PRs #1523/#1524 in main `2063e00`; those source changes supersede the corresponding pending-code labels below, without establishing a new live-device claim here. Provider setup and public discovery have other owners; verify their latest evidence before relying on this snapshot.
 
+## 19 October reliability audit addendum (review candidate)
+
+Kate's reference journeys are acceptance goals, not competitor proof or new access authority. Her clarification is to make existing journeys dependable before expanding. Current-main audit at `7ab6a4353c5b90bc885ebb7a7f221fe7958e15dd` finds a shared reviewed voice/text mail destination, but no conversational private inbox/trip tools. Voice now includes bounded public-NZ evidence as well as compile; the original register below is historical on that point. The web travel search POST is explicitly closed pending owner authority. Sensitive mail previews/codes have no verified step-up flow; booking, transport scheduling and external agent coordination remain blocked.
+
+[Source matrix, executable failure cases and candidate evidence](../reviews/DO-TRAVEL-MAIL-RELIABILITY-20261019.md) records the scoped request/response binding, secret-free generated task reference, stale-itinerary apply gate and exact offer/receipt snapshot changes. These extend existing primitives; no grants, providers, database/env changes or live execution are introduced. This dated addendum supplements the existing sequence rather than creating a second roadmap.
+
 ## 1. The decision
 
 **Make DO dependable, then make it useful in a few complete journeys, then earn permission to expand.** DO for People and DO for Business share one foundation. People should see one simple place to write, talk or upload something. Businesses should buy one measurable customer or operational outcome, with their own branding, permissions and data boundaries.
