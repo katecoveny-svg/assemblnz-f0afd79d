@@ -429,3 +429,7 @@ Kate approved the reviewed clay entry at `daf336cf6b44dd2b199240ffce896d6d91bb73
 ## 19 October 2026 — inbox/travel reliability audit, review candidate
 
 Main `7ab6a4353c5b90bc885ebb7a7f221fe7958e15dd` was audited in a separate clone/branch, leaving the PR1615 repair checkout untouched. [Evidence and acceptance matrix](../reviews/DO-TRAVEL-MAIL-RELIABILITY-20261019.md) separates implemented mail review/manual travel from mocked proof and blocked sensitive retrieval, paid search/booking, transport and peer coordination. The [existing master roadmap](../do/MASTER-ROADMAP-20261013.md) has the dated update. Candidate changes bind mail results to exact requests, avoid copying correspondence into task drafts, reject stale itinerary application and preserve exact offer snapshots. No live private mailbox/provider proof, activation, merge or deployment is claimed. Studio account access remains separate.
+
+### 19 October: typed mail review follow-up
+
+Following merged PR1620, typed Personal DO requests now offer the same owner-bound mail review used by reviewed Gemini calls. Typed handoff closes active voice and requires fresh mailbox/account/search consent. Retrieval stays in `/api/do/mail`; source text is reviewed in the existing workspace, and generated task drafts carry only an opaque source reference. This is reviewed entry parity, not private model tools, verified itinerary storage or booking. Sensitive-code retrieval still requires a separately proved step-up design. See the existing [audit evidence](../reviews/DO-TRAVEL-MAIL-RELIABILITY-20261019.md).
