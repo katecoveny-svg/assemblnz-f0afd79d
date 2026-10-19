@@ -18,7 +18,7 @@ describe('real manual itinerary input, tested with invented data', () => {
     const draft = s.prepare(completion, r);
     expect(draft.source.kind).toBe('user_manual'); expect(draft.review).toBe('required');
     expect(travelTimeline(draft, completion.completedAt)[0].evidence).toBe('user_entered');
-    const trip = applyTravelToTrip(newDoTrip(), acknowledgeTravel(draft, 3), 3);
+    const trip = applyTravelToTrip(newDoTrip(), acknowledgeTravel(draft, 3), 3, draft.preparedAt);
     expect(trip.summary).toContain('User-entered'); expect(trip.summary).not.toContain('Synthetic');
     expect(draft.booking).toBe('disabled');
   });

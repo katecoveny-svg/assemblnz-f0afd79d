@@ -1,18 +1,34 @@
 import { z } from 'zod';
-import type { MailDraft } from './contract';
+import { mailDraft, mailRequest, type MailDraft, type MailRequest } from './contract';
 
 /** One owner, one in-flight request. Cancellation invalidates late publication. */
 export class MailReviewSession {
-  private pending: { id: string; controller: AbortController } | null = null;
-  constructor(readonly ownerId: string) {}
-  begin(id: string) {
-    if (this.pending) return null;
+  private pending: { request: MailRequest; startedAt: number; controller: AbortController } | null = null;
+  private used = new Set<string>();
+  constructor(readonly ownerId: string, private now = () => Date.now()) {}
+  begin(raw: MailRequest) {
+    const parsed = mailRequest.safeParse(raw);
+    if (this.pending || !parsed.success || parsed.data.ownerId !== this.ownerId ||
+        this.used.has(parsed.data.requestId) || this.used.size >= 256) return null;
     const controller = new AbortController();
-    this.pending = { id, controller };
+    this.used.add(parsed.data.requestId);
+    // Zod makes a snapshot so later edits cannot change the pending authority.
+    this.pending = { request: parsed.data, startedAt: this.now(), controller };
     return controller.signal;
   }
-  accept(result: MailDraft): boolean {
-    if (!this.pending || this.pending.controller.signal.aborted || this.pending.id !== result.requestId || this.ownerId !== result.ownerId) return false;
+  accept(value: unknown): value is MailDraft {
+    const pending = this.pending;
+    if (!pending || pending.controller.signal.aborted) return false;
+    const elapsed = this.now() - pending.startedAt;
+    if (elapsed < 0 || elapsed > 60_000) { this.pending = null; return false; }
+    const parsed = mailDraft.safeParse(value);
+    if (!parsed.success) return false;
+    const result = parsed.data, request = pending.request;
+    if (result.requestId !== request.requestId || result.ownerId !== this.ownerId ||
+        result.operation !== request.operation || result.search.accountId !== request.search.accountId ||
+        result.search.terms !== request.search.terms || result.search.days !== request.search.days ||
+        (request.operation === 'read' && (result.sources.length !== request.messageIds.length ||
+          result.sources.some(source => !request.messageIds.includes(source.messageId))))) return false;
     this.pending = null;
     return true;
   }

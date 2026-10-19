@@ -34,11 +34,13 @@ export function importSyntheticTravel(json: string, completion: Parameters<typeo
 }
 
 /** Extend the existing editable trip only after explicit, revision-bound review. */
-export function applyTravelToTrip(trip: DoTrip, draft: TravelDraft, expectedRevision: number): DoTrip {
+export function applyTravelToTrip(trip: DoTrip, draft: TravelDraft, expectedRevision: number, now = new Date().toISOString()): DoTrip {
   if (draft.review !== 'acknowledged' || draft.revision !== expectedRevision) throw new Error('Review required');
+  const appliedAt = instant(now);
+  if (appliedAt < instant(draft.preparedAt) || appliedAt < instant(draft.source.verifiedAt) || appliedAt >= instant(draft.source.expiresAt)) throw new Error('Fresh itinerary evidence required');
   return tripSchema.parse({ ...trip, summary: draft.flights.map(f =>
     `${f.marketingFlight} (operated as ${f.operatingFlight}): ${f.origin} ${f.departure.local} ${f.departure.offset} [${f.departure.zone}] → ${f.destination} ${f.arrival.local} ${f.arrival.offset} [${f.arrival.zone}]`
-  ).join('\n') + `\n${draft.source.kind === 'user_manual' ? 'User-entered itinerary; provider verification required.' : 'Synthetic itinerary.'} Flight status unknown. Nothing booked.`, updatedAt: draft.preparedAt });
+  ).join('\n') + `\n${draft.source.kind === 'user_manual' ? 'User-entered itinerary; provider verification required.' : 'Synthetic itinerary.'} Flight status unknown. Nothing booked.`, updatedAt: now });
 }
 
 const instantPattern = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/;

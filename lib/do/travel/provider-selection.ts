@@ -12,6 +12,8 @@ export function offerIssue(batch: ResultBatch, offer: SearchOffer, briefKey: str
   if (!offer.total) return 'Total unavailable';
   const input = batch.input;
   if (offer.kind !== (input.action === 'flights' ? 'flight' : 'stay') || offer.depart !== (input.action === 'flights' ? input.depart : input.checkin) || offer.return !== (input.action === 'flights' ? input.return_date : input.checkout)) return 'Search criteria differ';
+  const matches = batch.result.offers.filter(candidate => candidate.id === offer.id);
+  if (matches.length !== 1 || JSON.stringify(matches[0]) !== JSON.stringify(offer)) return 'Offer changed or is not in this result — review again';
   return null;
 }
 export function comparisonKey(batch: ResultBatch, offer: SearchOffer) {
@@ -29,5 +31,5 @@ export function partyLabel(input: InventoryInput) {
 }
 export function selectionReceipt(batch: ResultBatch, offer: SearchOffer, briefKey: string, now: number) {
   if (offerIssue(batch, offer, briefKey, now)) throw new Error('Selection is no longer current');
-  return { provider: batch.result.provider, requestId: batch.result.requestId ?? null, sourceRequestId: offer.sourceRequestId, offer, input: batch.input, briefKey, reviewedAt: new Date(now).toISOString(), stage: 'search_selection' as const };
+  return { provider: batch.result.provider, requestId: batch.result.requestId ?? null, sourceRequestId: offer.sourceRequestId, offer: structuredClone(offer), input: structuredClone(batch.input), briefKey, reviewedAt: new Date(now).toISOString(), stage: 'search_selection' as const };
 }
