@@ -3,69 +3,32 @@
 /**
  * assembl / living — live 3D preview
  * ----------------------------------
- * Real dimensions from the CAD manifest, scaled 100 mm → 1 unit. Renders on
- * demand only (frameloop="demand"), so motion happens when the customer
- * moves it and then settles. The composer is the editing surface; this is
- * the view across the room.
+ * Real installed dimensions from the catalogue, scaled 100 mm → 1 unit, on
+ * the TURN grid. Renders on demand only, so motion happens when the customer
+ * moves it and then settles.
  */
 
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
-import { useMemo } from 'react';
-import {
-  COLOURWAY_SWATCHES,
-  INTERFACE_SPEC,
-  PANEL_CELLS,
-  PANEL_GAP_MM,
-  PANEL_SIZE_MM,
-  partById,
-  type SpaceDesign,
-} from '@/lib/living';
-import { cellOrigin, fieldSize } from './GridComposer';
+import { BOARD_CELLS, INTERFACE_SPEC, PITCH_MM, colourHex, colourInk, productByHandle, type SpaceDesign } from '@/lib/living';
+import { boards, cellOrigin, fieldSize } from './GridComposer';
 
 const S = 1 / 100;
-const PITCH = INTERFACE_SPEC.pitch_mm;
-const PANEL_T = INTERFACE_SPEC.panel_thickness_mm;
+const T = INTERFACE_SPEC.board_thickness_mm;
 
-type Props = { design: Pick<SpaceDesign, 'panels' | 'placements' | 'panelColour' | 'accentColour'> };
+type Props = { design: Pick<SpaceDesign, 'field' | 'placements' | 'boardColour' | 'accessoryColour'> };
 
-function Holes({ x0, y0, colour }: { x0: number; y0: number; colour: string }) {
-  const positions = useMemo(() => {
-    const out: [number, number, number][] = [];
-    for (let r = 0; r < PANEL_CELLS; r++) {
-      for (let c = 0; c < PANEL_CELLS; c++) {
-        out.push([(x0 + c * PITCH + PITCH / 2) * S, (y0 + r * PITCH + PITCH / 2) * S, 0]);
-      }
-    }
-    return out;
-  }, [x0, y0]);
-  return (
-    <group>
-      {positions.map((p, i) => (
-        <mesh key={i} position={p} rotation={[Math.PI / 2, 0, 0]}>
-          <cylinderGeometry args={[(INTERFACE_SPEC.hole_mm / 2) * S, (INTERFACE_SPEC.hole_mm / 2) * S, (PANEL_T + 0.6) * S, 12]} />
-          <meshStandardMaterial color={colour} roughness={0.9} />
-        </mesh>
-      ))}
-    </group>
-  );
-}
+/** width × height × depth (mm) of each accessory kind, installed. */
+const DIMS: Record<string, [number, number, number]> = {
+  hook: [26, 73, 52], cradle: [26, 73, 58], shelf: [76, 56, 90], bin: [76, 76, 50], cup: [40, 104, 43], garage: [118, 104, 46], plate: [168, 40, 6],
+};
 
 function Scene({ design }: Props) {
-  const { w, h } = fieldSize(design.panels);
-  const panel = COLOURWAY_SWATCHES[design.panelColour];
-  const accent = COLOURWAY_SWATCHES[design.accentColour];
-  const holeColour = panel.ink === '#FFFDFB' ? '#1a0718' : '#d9d2d4';
-
-  // svg mm (y down) → scene units (y up), centred on the field
+  const { w, h } = fieldSize(design.field);
+  const board = colourHex(design.boardColour);
+  const accent = colourHex(design.accessoryColour);
+  const keyColour = colourInk(design.boardColour) === '#FFFDFB' ? '#141014' : '#cfc8c6';
   const toScene = (xmm: number, ymm: number): [number, number] => [(xmm - w / 2) * S, (h / 2 - ymm) * S];
-
-  const panels: { x: number; y: number }[] = [];
-  for (let pr = 0; pr < design.panels.rows; pr++) {
-    for (let pc = 0; pc < design.panels.cols; pc++) {
-      panels.push({ x: pc * (PANEL_SIZE_MM + PANEL_GAP_MM), y: pr * (PANEL_SIZE_MM + PANEL_GAP_MM) });
-    }
-  }
 
   return (
     <>
@@ -73,67 +36,85 @@ function Scene({ design }: Props) {
       <ambientLight intensity={1.1} />
       <directionalLight position={[2, 3, 4]} intensity={1.4} />
       <directionalLight position={[-3, 1, 2]} intensity={0.5} />
-      {/* wall */}
-      <mesh position={[0, 0, -(INTERFACE_SPEC.standoff_mm + PANEL_T) * S]}>
+      <mesh position={[0, 0, -0.005]}>
         <planeGeometry args={[(w + 400) * S, (h + 400) * S]} />
         <meshStandardMaterial color="#fffdfb" roughness={1} />
       </mesh>
-      {panels.map((p, i) => {
-        const [cx, cy] = toScene(p.x + PANEL_SIZE_MM / 2, p.y + PANEL_SIZE_MM / 2);
+      {boards(design.field).map((b, i) => {
+        const [cx, cy] = toScene(b.x + b.w / 2, b.y + b.h / 2);
         return (
           <group key={i}>
-            <mesh position={[cx, cy, 0]}>
-              <boxGeometry args={[PANEL_SIZE_MM * S, PANEL_SIZE_MM * S, PANEL_T * S]} />
-              <meshStandardMaterial color={panel.hex} roughness={0.85} />
+            <mesh position={[cx, cy, (T / 2) * S]}>
+              <boxGeometry args={[(b.w - 1) * S, (b.h - 1) * S, T * S]} />
+              <meshStandardMaterial color={board} roughness={0.85} />
             </mesh>
-            <group position={[-(w / 2) * S, (h / 2) * S, 0]} scale={[1, -1, 1]}>
-              <Holes x0={p.x} y0={p.y} colour={holeColour} />
-            </group>
-            {[[16, 16], [PANEL_SIZE_MM - 16, 16], [16, PANEL_SIZE_MM - 16], [PANEL_SIZE_MM - 16, PANEL_SIZE_MM - 16]].map(([sx, sy], k) => {
-              const [bx, by] = toScene(p.x + sx, p.y + sy);
+            {Array.from({ length: b.cols * BOARD_CELLS }, (_, k) => {
+              const c = k % b.cols;
+              const r = Math.floor(k / b.cols);
+              const [kx, ky] = toScene(b.x + c * PITCH_MM + PITCH_MM / 2, b.y + r * PITCH_MM + PITCH_MM / 2);
               return (
-                <mesh key={k} position={[bx, by, -(PANEL_T / 2 + INTERFACE_SPEC.standoff_mm / 2) * S]} rotation={[Math.PI / 2, 0, 0]}>
-                  <cylinderGeometry args={[7 * S, 7 * S, INTERFACE_SPEC.standoff_mm * S, 16]} />
-                  <meshStandardMaterial color={panel.hex} roughness={0.85} />
-                </mesh>
+                <group key={k} position={[kx, ky, (T - 2) * S]}>
+                  <mesh rotation={[Math.PI / 2, 0, 0]}>
+                    <cylinderGeometry args={[(INTERFACE_SPEC.keyway_bore_mm / 2) * S, (INTERFACE_SPEC.keyway_bore_mm / 2) * S, 4 * S, 24]} />
+                    <meshStandardMaterial color={keyColour} roughness={0.9} />
+                  </mesh>
+                  <mesh>
+                    <boxGeometry args={[INTERFACE_SPEC.lug_slot_mm * S, 19.6 * S, 4 * S]} />
+                    <meshStandardMaterial color={keyColour} roughness={0.9} />
+                  </mesh>
+                </group>
               );
             })}
           </group>
         );
       })}
       {design.placements.map((pl) => {
-        const part = partById(pl.partId);
-        if (!part?.footprint) return null;
+        const product = productByHandle(pl.handle);
+        if (!product?.footprint) return null;
         const { x, y } = cellOrigin(pl.col, pl.row);
-        const fw = part.footprint.cols * PITCH;
-        const fh = part.footprint.rows * PITCH;
-        const [cx, cy] = toScene(x + fw / 2, y + fh / 2);
-        const z0 = (PANEL_T / 2) * S;
-        const mat = <meshStandardMaterial color={accent.hex} roughness={0.7} />;
-        switch (part.kind) {
+        const cellsW = product.footprint.cols * PITCH_MM;
+        const [bw, bh, bd] = DIMS[product.kind] ?? [cellsW - 8, product.footprint.rows * PITCH_MM, 40];
+        const width = product.kind === 'shelf' || product.kind === 'bin' ? cellsW - 4 : bw;
+        const top = y + (product.kind === 'plate' ? 1 : -12);
+        const [cx, cy] = toScene(x + cellsW / 2, top + bh / 2);
+        const mat = <meshStandardMaterial color={accent} roughness={0.7} />;
+        const z0 = T * S;
+        switch (product.kind) {
           case 'hook':
+          case 'cradle':
             return (
               <group key={pl.id} position={[cx, cy, z0]}>
-                <mesh position={[0, 0, 0.015]}><boxGeometry args={[0.2, 0.44, 0.03]} />{mat}</mesh>
-                <mesh position={[0, -0.195, 0.03 + 0.16]}><boxGeometry args={[0.08, 0.05, 0.32]} />{mat}</mesh>
-                <mesh position={[0, -0.17, 0.33]}><boxGeometry args={[0.08, 0.1, 0.04]} />{mat}</mesh>
+                <mesh position={[0, 0, 0.025]}><boxGeometry args={[width * S, bh * S, 0.05]} />{mat}</mesh>
+                <mesh position={[0, -(bh / 2 - 8) * S, (bd / 2) * S]}><boxGeometry args={[width * S, 0.1, bd * S]} />{mat}</mesh>
+                <mesh position={[0, -(bh / 2 - 18) * S, (bd - 4) * S]}><boxGeometry args={[width * S, 0.2, 0.08]} />{mat}</mesh>
               </group>
             );
-          case 'ledge':
+          case 'shelf':
             return (
               <group key={pl.id} position={[cx, cy, z0]}>
-                <mesh position={[0, 0.075, 0.015]}><boxGeometry args={[0.96, 0.45, 0.03]} />{mat}</mesh>
-                <mesh position={[0, -0.13, 0.33]}><boxGeometry args={[0.96, 0.04, 0.6]} />{mat}</mesh>
-                <mesh position={[0, -0.08, 0.615]}><boxGeometry args={[0.96, 0.1, 0.03]} />{mat}</mesh>
+                <mesh position={[0, 0.1, 0.025]}><boxGeometry args={[width * S, (bh - 20) * S, 0.05]} />{mat}</mesh>
+                <mesh position={[0, -(bh / 2 - 4) * S, (bd / 2) * S]}><boxGeometry args={[width * S, 0.05, bd * S]} />{mat}</mesh>
+                <mesh position={[0, -(bh / 2 - 10) * S, (bd - 3) * S]}><boxGeometry args={[width * S, 0.14, 0.05]} />{mat}</mesh>
+              </group>
+            );
+          case 'bin':
+          case 'garage':
+            return (
+              <group key={pl.id} position={[cx, cy, z0 + (bd / 2) * S]}>
+                <mesh><boxGeometry args={[width * S, bh * S, bd * S]} />{mat}</mesh>
+                <mesh position={[0, 0.02, 0]}><boxGeometry args={[(width - 4) * S, (bh - 2) * S, (bd - 4) * S]} /><meshStandardMaterial color="#2a2a2d" roughness={1} /></mesh>
               </group>
             );
           case 'cup':
             return (
               <group key={pl.id} position={[cx, cy, z0]}>
-                <mesh position={[0, 0.12, 0.015]}><boxGeometry args={[0.3, 0.44, 0.03]} />{mat}</mesh>
-                <mesh position={[0, 0, 0.03 + 0.23]}><cylinderGeometry args={[0.24, 0.24, 0.7, 32, 1, true]} /><meshStandardMaterial color={accent.hex} roughness={0.7} side={2} /></mesh>
-                <mesh position={[0, -0.34, 0.26]} rotation={[Math.PI / 2, 0, 0]}><circleGeometry args={[0.24, 32]} />{mat}</mesh>
+                <mesh position={[0, 0.2, 0.025]}><boxGeometry args={[width * S, 0.6, 0.05]} />{mat}</mesh>
+                <mesh position={[0, -0.15, (bd / 2) * S]}><boxGeometry args={[width * S, 0.72, bd * S]} />{mat}</mesh>
               </group>
+            );
+          case 'plate':
+            return (
+              <mesh key={pl.id} position={[cx, cy, z0 + (bd / 2) * S]}><boxGeometry args={[width * S, bh * S, bd * S]} />{mat}</mesh>
             );
           default:
             return null;
@@ -144,13 +125,13 @@ function Scene({ design }: Props) {
 }
 
 export default function Preview3D({ design }: Props) {
-  const { w } = fieldSize(design.panels);
-  const dist = Math.max(3.2, (w / 100) * 1.6);
+  const { w } = fieldSize(design.field);
+  const dist = Math.max(3.4, (w / 100) * 1.5);
   return (
-    <div className="lv-preview3d" aria-label="3D preview of the panel layout">
+    <div className="lv-preview3d" aria-label="3D preview of the board layout">
       <Canvas dpr={[1, 1.5]} frameloop="demand" camera={{ position: [dist * 0.55, dist * 0.35, dist], fov: 38 }}>
         <Scene design={design} />
-        <OrbitControls enablePan={false} minDistance={1.8} maxDistance={10} maxPolarAngle={Math.PI / 2 + 0.2} />
+        <OrbitControls enablePan={false} minDistance={1.8} maxDistance={12} maxPolarAngle={Math.PI / 2 + 0.2} />
       </Canvas>
     </div>
   );

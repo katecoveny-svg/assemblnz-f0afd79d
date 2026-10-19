@@ -1,0 +1,114 @@
+[
+  {
+    "file": "01-board-2x2.stl",
+    "name": "Board coupon 2×2",
+    "material": "PLA Matte",
+    "qty": 1,
+    "print_bbox_mm": [
+      84.0,
+      84.0,
+      8.0
+    ],
+    "est_grams_pla": 25.2,
+    "watertight": true,
+    "check": "Four keyways. Every key and the hook go into this."
+  },
+  {
+    "file": "02-key-A-clamp-000.stl",
+    "name": "TURN key A (clamp 0.00 mm, 1 notch)",
+    "material": "PETG",
+    "qty": 2,
+    "print_bbox_mm": [
+      21.0,
+      21.0,
+      16.0
+    ],
+    "est_grams_pla": 1.8,
+    "watertight": true,
+    "check": "Push in upright, turn to horizontal. Note: turns by hand? clicks? wobbles? A is the loosest."
+  },
+  {
+    "file": "02-key-B-clamp-010.stl",
+    "name": "TURN key B (clamp 0.10 mm, 2 notches)",
+    "material": "PETG",
+    "qty": 2,
+    "print_bbox_mm": [
+      21.0,
+      21.0,
+      15.9
+    ],
+    "est_grams_pla": 1.8,
+    "watertight": true,
+    "check": "Push in upright, turn to horizontal. Note: turns by hand? clicks? wobbles? B is the current design."
+  },
+  {
+    "file": "02-key-C-clamp-020.stl",
+    "name": "TURN key C (clamp 0.20 mm, 3 notches)",
+    "material": "PETG",
+    "qty": 2,
+    "print_bbox_mm": [
+      21.0,
+      21.0,
+      15.8
+    ],
+    "est_grams_pla": 1.7,
+    "watertight": true,
+    "check": "Push in upright, turn to horizontal. Note: turns by hand? clicks? wobbles? C is the tightest."
+  },
+  {
+    "file": "03-hook.stl",
+    "name": "Hook",
+    "material": "PLA Matte",
+    "qty": 1,
+    "print_bbox_mm": [
+      51.0,
+      73.0,
+      26.0
+    ],
+    "est_grams_pla": 12.5,
+    "watertight": true,
+    "check": "Hang a 2 kg bag from it for 24 h on the coupon; check for creep or the key turning."
+  },
+  {
+    "file": "04-over-door-hanger.stl",
+    "name": "Over-door hanger",
+    "material": "PETG",
+    "qty": 1,
+    "print_bbox_mm": [
+      51.8,
+      46.0,
+      30.0
+    ],
+    "est_grams_pla": 11.2,
+    "watertight": true,
+    "check": "Hook over your real door, close the door, check it still latches."
+  },
+  {
+    "file": "05-pocket-clearance.stl",
+    "name": "Pocket clearance coupon (180 × 123 mm)",
+    "material": "PLA Matte",
+    "qty": 1,
+    "print_bbox_mm": [
+      180.0,
+      123.0,
+      12.0
+    ],
+    "est_grams_pla": 96.4,
+    "watertight": true,
+    "check": "Drop a $2 coin and an AA battery in each column. Pick the tightest column where both drop in and lift out easily: that's the clearance for cut-out trays."
+  },
+  {
+    "file": "06-door-gap-gauge.stl",
+    "name": "Door gap gauge (2–6 mm)",
+    "material": "PLA Matte",
+    "qty": 1,
+    "print_bbox_mm": [
+      110.0,
+      24.0,
+      6.0
+    ],
+    "est_grams_pla": 8.2,
+    "watertight": true,
+    "check": "Close the door and slide the gauge into the gap above it. If the 4 step fits, the over-door hanger will too."
+  }
+]

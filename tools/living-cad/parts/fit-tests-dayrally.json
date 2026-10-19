@@ -1,0 +1,14 @@
+{
+ "pod_vs_saddle_mm3": -0.0,
+ "pod_vs_strap_clip_mm3": -0.0,
+ "pod_vs_board_mm3": -0.0,
+ "lid_vs_base_mm3": -0.0,
+ "insert_vs_base_mm3": 0.0,
+ "insert_vs_keys_mm3": 0.0,
+ "lid_vs_insert_mm3": 0.0,
+ "key_insert_max_vs_saddle_mm3": 0.0,
+ "key_insert_max_vs_pod_mm3_above_seat": 0.0,
+ "key_locked_vs_saddle_mm3": 0.0,
+ "key_locked_vs_pod_clamp_mm3": 18.7808,
+ "key_locked_pull_0p5_vs_saddle_mm3": 7.5326
+}

@@ -188,3 +188,25 @@ A small, well-engineered parts library with many combinations beats sixty unrela
 
 **Revisit when**  
 First printed samples are tested (bump to AL-03), a manufacturer quotes `manifest.json`, or the journey runtime is generalised beyond the grocery tenant.
+
+---
+
+## ADR-008 — assembl / living adopts the TURN standard; AL-02 peg interface retired
+**Status:** accepted (build candidate; not merged)  
+**Date:** 2026-10-19
+
+**Context**  
+ADR-007 shipped an AL-02 pack with a 24 mm peg interface authored in-repo because the earlier design lineage was not in the repository. Kate then supplied that lineage: parts library v0.1 → v0.3 on the **assembl TURN standard** (42 mm grid, quarter-turn key with detent, locator nub), 104 print files across grid, tile, stack, renter, light, dayrally and bike, digital fit tests, a test-print kit, costing, a Shopify draft import and unsent partner emails. It is the more developed and the more original system, and it is one key across the house and dayrally.
+
+**Decision**  
+- The TURN standard is the one physical interface. The v0.3 source lives at `tools/living-cad/` and is the only CAD source; the AL-02 CadQuery pack and its exports are removed.
+- `tools/living-cad/manifest.py` is the bridge: build reports + fit tests + test kit + launch CSVs → `lib/living/cad-manifest.json` and the served print files. `lib/living` is the catalogue of truth from here; the launch CSVs are kept as the record of the missing store page.
+- The Space Studio, kits, pricing, part codes and saved configuration are rebuilt on the 42 mm grid with the launch catalogue's products and proposed prices. Seven wall kits carry authored layouts; where a kit's real footprints cannot all pack onto its board, the leftover item ships alongside rather than the footprint being fudged.
+- Only the 23 grid, tile, stack and renter print files and the test kit are committed under `public/`; dayrally, bike and the shade are rebuilt on demand.
+- Honesty boundaries from ADR-007 stand: nothing printed, no load limits, no photo understanding, no purchasing, journey still a draft.
+
+**Consequences**  
+Two upstream build scripts now write their own report files so a full rebuild keeps all rows. Saved configurations are schema `/2` (handles, SKUs, print files). The storefront describes the TURN standard, the test kit and dayrally. `public/living` grows from 2.8 MB to about 5.3 MB.
+
+**Revisit when**  
+The test kit has been printed and `CLAMP`/`BUMP_H`/`DIMPLE_D` are tuned (bump to v0.4), a print partner quotes `costing.csv`, or the store page that generated the launch CSVs is recovered or regenerated from `lib/living`.

@@ -8,7 +8,11 @@ This file answers: **where is assembl at right now?**
 
 It is intentionally shorter and more changeable than the long-term strategy documents.
 
-## 17 October assembl / living — build candidate, not merged
+## 19 October assembl / living — TURN parts library v0.3, review candidate
+
+Branch `feat/assembl-living-turn-v0.3` replaces the AL-02 peg pack with Kate's parts library v0.3 on the **assembl TURN standard** (42 mm grid, quarter-turn key): source at `tools/living-cad/`, 104 print files rebuilt here with reports matching the shipped ones, digital fit tests, the test-print kit, costing and a Shopify draft import kept as launch files (not imported). `lib/living` and the Space Studio are rebuilt on the 42 mm grid with the launch catalogue's products, kits and proposed prices. Canon: [assembl / living](../living/ASSEMBL-LIVING.md), ADR-008. **Nothing printed, no load limits, no products, no purchasing, no photo understanding.**
+
+## 17 October assembl / living — merged (PR #1616); interface superseded by 19 October entry
 
 Branch `feat/assembl-living-space-studio` adds the modular interiors line as one typed system (`lib/living/`), a public storefront and Space Studio (`/living`, `/living/studio`) and engineering pack AL-02: nine parts on interface IF-01 generated from `tools/living-cad/build.py`, exported as STEP + STL and checked as valid, single, watertight solids. Canon: [assembl / living](../living/ASSEMBL-LIVING.md), decision ADR-007. **Prototype parts only, no load ratings, no Shopify products, no purchasing, no photo understanding;** fit is decided by customer-confirmed measurements. Physical sample testing and manufacturer quotation are the next steps and have not happened.
 

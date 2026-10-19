@@ -1,0 +1,25 @@
+import os, sys, json
+sys.path.insert(0, os.path.dirname(__file__))
+import lib, dayrally as d
+from build import emit, report, OUT, FONT   # reuses emit(); importing build rebuilds the core library too
+start = len(report)
+base = d.pod_base()
+emit("dr-pod-base", "dayrally pod", base, "as_is", "dayrally", "Floor is a TURN flange: locks to a saddle, a strap clip or any Grid board.")
+lid, inlay = d.pod_lid("JAYDEN", FONT)
+emit("dr-pod-lid", "dayrally pod lid (sample: JAYDEN)", lid, "face_down", "dayrally", "Prints top-down; name inlaid flush in a second colour.")
+emit("dr-pod-lid-name", "Pod lid name inlay", inlay, "face_down", "dayrally", "")
+emit("dr-insert-fish", "Pod insert, tackle (6)", d.pod_insert(3, 2), "as_is", "dayrally", "")
+emit("dr-insert-everyday", "Pod insert, everyday (3)", d.pod_insert(3, 1), "as_is", "dayrally", "")
+emit("dr-bar-saddle", "Bar saddle", d.bar_saddle(), "face_down", "dayrally", "Fits 22-35 mm bars with two zip ties or a rubber strap.")
+emit("dr-strap-clip", "Strap clip", d.strap_clip(), "face_down", "dayrally", "Backpack straps and belts up to 42 mm.")
+plate, ptxt = d.number_plate("27", "JAYDEN", FONT)
+emit("bike-number-plate", "Number plate (sample: 27 JAYDEN)", plate, "as_is", "bike", "Zip-ties to the bars.")
+emit("bike-number-plate-text", "Number plate lettering", ptxt, "as_is", "bike", "")
+emit("bike-tyre-lever", "Tyre lever", d.tyre_lever(), "on_side", "bike", "Spoke hook at the heel.")
+emit("bike-bar-end", "Bar-end plug", d.bar_end_plug(), "as_is", "bike", "Press fit, 18-20 mm bar ends.")
+emit("dr-handline-winder", "Handline winder", d.handline_winder(), "as_is", "dayrally", "No hooks supplied.")
+tag, tinlay = d.bag_tag("MILA", FONT)
+emit("dr-bag-tag", "Bag tag (sample: MILA)", tag, "as_is", "dayrally", "Name inlaid on the bed side.")
+emit("dr-bag-tag-name", "Bag tag name inlay", tinlay, "as_is", "dayrally", "")
+# Own report file so this build and build_extras.py do not overwrite each other's rows.
+json.dump(report[start:], open(os.path.join(OUT, "parts-report-dayrally.json"), "w"), indent=2)

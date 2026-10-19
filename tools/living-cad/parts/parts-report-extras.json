@@ -1,0 +1,78 @@
+[
+  {
+    "slug": "tile-cutout-vanity",
+    "name": "Cut-out tray (sample: vanity, 240 \u00d7 190 mm)",
+    "system": "tile",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      240.0,
+      189.6,
+      24.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 819.78,
+    "est_grams_pla": 280.0,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 0,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": "Pockets shaped to each item, with finger scoops."
+  },
+  {
+    "slug": "renter-over-door",
+    "name": "Over-door hanger",
+    "system": "renter",
+    "print_orientation": "on_side",
+    "print_bbox_mm": [
+      51.8,
+      46.0,
+      30.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 14.06,
+    "est_grams_pla": 11.2,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 1,
+    "unsupported_down_area_mm2": 43.0,
+    "notes": "Needs a 4 mm gap above the door. Use two per board."
+  },
+  {
+    "slug": "renter-rail",
+    "name": "Wardrobe-rail hanger",
+    "system": "renter",
+    "print_orientation": "on_side",
+    "print_bbox_mm": [
+      51.1,
+      45.5,
+      30.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 14.51,
+    "est_grams_pla": 10.0,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 1,
+    "unsupported_down_area_mm2": 42.0,
+    "notes": "Rails up to 32 mm."
+  },
+  {
+    "slug": "renter-board-4x4",
+    "name": "Grid board 4\u00d74, renter back (code AL-B44R-OAT-S)",
+    "system": "renter",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      168.0,
+      168.0,
+      8.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 188.78,
+    "est_grams_pla": 96.2,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 16,
+    "unsupported_down_area_mm2": 706.0,
+    "notes": "Flat back with strip lanes; reorder code on the back."
+  }
+]

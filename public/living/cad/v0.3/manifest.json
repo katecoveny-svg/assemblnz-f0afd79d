@@ -1,0 +1,6474 @@
+{
+ "pack": "v0.3",
+ "interface": "TURN v0.1",
+ "interface_spec": {
+  "pitch_mm": 42.0,
+  "board_thickness_mm": 8.0,
+  "standoff_mm": 4.0,
+  "plate_mm": 4.0,
+  "keyway_bore_mm": 13.0,
+  "lug_slot_mm": 4.0,
+  "chamber_mm": 22.0,
+  "flange_mm": 5.0,
+  "nub_mm": 12.4,
+  "detent_mm": 0.35,
+  "clamp_mm": 0.1,
+  "key_action": "push in with the grip upright, quarter-turn to horizontal to lock",
+  "max_part_mm": 250
+ },
+ "status": "designed and checked digitally; nothing printed yet. Clamp, detent and clearance values are starting points for the test-print kit.",
+ "source": "tools/living-cad/cad/lib.py",
+ "built_at": "2026-10-19T14:17:36Z",
+ "colours": {
+  "living": [
+   {
+    "id": "chalk",
+    "name": "Chalk",
+    "hex": "#F1ECE3"
+   },
+   {
+    "id": "oat",
+    "name": "Oat",
+    "hex": "#D8C4A0"
+   },
+   {
+    "id": "sage",
+    "name": "Sage",
+    "hex": "#9FAE95"
+   },
+   {
+    "id": "clay",
+    "name": "Clay",
+    "hex": "#B8694A"
+   },
+   {
+    "id": "plum",
+    "name": "Plum",
+    "hex": "#4B2B41"
+   },
+   {
+    "id": "ash",
+    "name": "Ash",
+    "hex": "#9A9792"
+   },
+   {
+    "id": "ink",
+    "name": "Ink",
+    "hex": "#2A2A2D"
+   }
+  ],
+  "dayrally": [
+   {
+    "id": "tomato",
+    "name": "Tomato",
+    "hex": "#E04E3B"
+   },
+   {
+    "id": "tangerine",
+    "name": "Tangerine",
+    "hex": "#F28C28"
+   },
+   {
+    "id": "butter",
+    "name": "Butter",
+    "hex": "#F3D97A"
+   },
+   {
+    "id": "lime",
+    "name": "Lime",
+    "hex": "#BFD95A"
+   },
+   {
+    "id": "mint",
+    "name": "Mint",
+    "hex": "#9EDFC5"
+   },
+   {
+    "id": "sky",
+    "name": "Sky",
+    "hex": "#8EC5F2"
+   },
+   {
+    "id": "cobalt",
+    "name": "Cobalt",
+    "hex": "#2E4FB5"
+   },
+   {
+    "id": "lilac",
+    "name": "Lilac",
+    "hex": "#C7B5EC"
+   },
+   {
+    "id": "grape",
+    "name": "Grape",
+    "hex": "#7A3E9D"
+   },
+   {
+    "id": "blush",
+    "name": "Blush",
+    "hex": "#F2B8C6"
+   },
+   {
+    "id": "cloud",
+    "name": "Cloud",
+    "hex": "#E8EAED"
+   },
+   {
+    "id": "sage",
+    "name": "Sage",
+    "hex": "#9FAE95"
+   },
+   {
+    "id": "ink",
+    "name": "Ink",
+    "hex": "#2A2A2D"
+   }
+  ],
+  "natural": [
+   {
+    "id": "natural",
+    "name": "Natural translucent",
+    "hex": "#EDE9E2"
+   }
+  ]
+ },
+ "parts": [
+  {
+   "id": "grid-board-4x4",
+   "name": "Grid board 4×4",
+   "family": "grid",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 168.0,
+    "y": 168.0,
+    "z": 8.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 182.28,
+   "mass_g_pla": 96.7,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 16,
+   "bodies": null,
+   "unsupported_down_area_mm2": 706.0,
+   "notes": "168 × 168 mm tile. Prints front-face down, no supports. Fix to wall with 4 anchor washers.",
+   "file": {
+    "path": "/living/cad/v0.3/grid-board-4x4.stl",
+    "bytes": 867484,
+    "sha256": "cb0e6a945e37f454158c3dec75e6bf0feffa78a68a8bba2ba78f4408f5132035"
+   }
+  },
+  {
+   "id": "grid-board-2x4",
+   "name": "Grid board 2×4",
+   "family": "grid",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 84.0,
+    "y": 168.0,
+    "z": 8.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 92.42,
+   "mass_g_pla": 49.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 8,
+   "bodies": null,
+   "unsupported_down_area_mm2": 163.0,
+   "notes": "84 × 168 mm tile for narrow spaces.",
+   "file": {
+    "path": "/living/cad/v0.3/grid-board-2x4.stl",
+    "bytes": 425984,
+    "sha256": "d750c3987b169c073042837167253c6e720e3d7bea53cd413693fe315b153858"
+   }
+  },
+  {
+   "id": "grid-turn-key",
+   "name": "TURN key",
+   "family": "grid",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 21.0,
+    "y": 21.0,
+    "z": 15.9
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 2.63,
+   "mass_g_pla": 1.7,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": null,
+   "unsupported_down_area_mm2": 2.0,
+   "notes": "Prints lugs-down. Vertical grip = open, horizontal = locked.",
+   "file": {
+    "path": "/living/cad/v0.3/grid-turn-key.stl",
+    "bytes": 84284,
+    "sha256": "3bb4046a8c6878bbffe2bb7be9054c1fb5d496ac1a400f09b30a08e78b806fb9"
+   }
+  },
+  {
+   "id": "grid-anchor-washer",
+   "name": "Anchor washer",
+   "family": "grid",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 20.0,
+    "y": 20.0,
+    "z": 6.2
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 1.11,
+   "mass_g_pla": 1.1,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": null,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Takes a 4 mm countersunk screw and wall plug.",
+   "file": {
+    "path": "/living/cad/v0.3/grid-anchor-washer.stl",
+    "bytes": 64884,
+    "sha256": "6713d91097d818f4c11d7190df4c8453996439b88e9e014a0fc04a6b99fcb978"
+   }
+  },
+  {
+   "id": "grid-hook",
+   "name": "Hook",
+   "family": "grid",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "on_side",
+   "dims_mm": {
+    "x": 51.0,
+    "y": 73.0,
+    "z": 26.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 23.05,
+   "mass_g_pla": 12.5,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": null,
+   "unsupported_down_area_mm2": 74.0,
+   "notes": "Key above, locator nub below.",
+   "file": {
+    "path": "/living/cad/v0.3/grid-hook.stl",
+    "bytes": 80584,
+    "sha256": "d4690cc5abac6ee57260f6ce73a85b2fba8acd834efc457dc505c0d5a05b3a57"
+   }
+  },
+  {
+   "id": "grid-rod-cradle",
+   "name": "Rod cradle",
+   "family": "grid",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "on_side",
+   "dims_mm": {
+    "x": 58.0,
+    "y": 73.0,
+    "z": 26.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 20.42,
+   "mass_g_pla": 12.2,
+   "material": "PETG or ASA",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": null,
+   "unsupported_down_area_mm2": 74.0,
+   "notes": "Pair of cradles holds a rod horizontally for display. Fits rod butts up to 24 mm.",
+   "file": {
+    "path": "/living/cad/v0.3/grid-rod-cradle.stl",
+    "bytes": 129584,
+    "sha256": "4f53200b9dd17608a1edcb93b613b6ca4bacc67a122c8434974655ba36377cf6"
+   }
+  },
+  {
+   "id": "grid-shelf-2",
+   "name": "Shelf, 2 wide",
+   "family": "grid",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "on_bottom",
+   "dims_mm": {
+    "x": 76.0,
+    "y": 84.0,
+    "z": 56.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 60.93,
+   "mass_g_pla": 37.7,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 2,
+   "bodies": null,
+   "unsupported_down_area_mm2": 37.0,
+   "notes": "Light items only until load-tested.",
+   "file": {
+    "path": "/living/cad/v0.3/grid-shelf-2.stl",
+    "bytes": 110784,
+    "sha256": "c0c0076db69db89cd89d2e26bb18b470a2c9c2570eaf1fc27b7de09e60e29f3a"
+   }
+  },
+  {
+   "id": "grid-shelf-3",
+   "name": "Shelf, 3 wide",
+   "family": "grid",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "on_bottom",
+   "dims_mm": {
+    "x": 118.0,
+    "y": 84.0,
+    "z": 56.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 90.06,
+   "mass_g_pla": 54.8,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 3,
+   "bodies": null,
+   "unsupported_down_area_mm2": 58.0,
+   "notes": "Light items only until load-tested.",
+   "file": {
+    "path": "/living/cad/v0.3/grid-shelf-3.stl",
+    "bytes": 146784,
+    "sha256": "53f7e6c09a0311e5a231e54f2b94a8fa74c701435fc1bfb7c42dd62419b431e0"
+   }
+  },
+  {
+   "id": "grid-bin-2",
+   "name": "Bin, 2 wide",
+   "family": "grid",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "on_bottom",
+   "dims_mm": {
+    "x": 76.0,
+    "y": 50.0,
+    "z": 76.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 38.32,
+   "mass_g_pla": 40.3,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 2,
+   "bodies": null,
+   "unsupported_down_area_mm2": 220.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/grid-bin-2.stl",
+    "bytes": 103084,
+    "sha256": "da0b6d48e8ee4510876bc550b8169ec397a6d8f2e58157e45f3be64e9c249ed7"
+   }
+  },
+  {
+   "id": "grid-cup",
+   "name": "Cup",
+   "family": "grid",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "on_bottom",
+   "dims_mm": {
+    "x": 40.0,
+    "y": 43.0,
+    "z": 104.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 28.32,
+   "mass_g_pla": 30.3,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": null,
+   "unsupported_down_area_mm2": 141.0,
+   "notes": "Brushes, pens, tools.",
+   "file": {
+    "path": "/living/cad/v0.3/grid-cup.stl",
+    "bytes": 86884,
+    "sha256": "88c5ebdb29ef7afc2d30747cd249e4e691333dd1991dbb658de4cedad7d1e97d"
+   }
+  },
+  {
+   "id": "grid-lure-garage",
+   "name": "Lure garage",
+   "family": "grid",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "on_bottom",
+   "dims_mm": {
+    "x": 118.0,
+    "y": 46.0,
+    "z": 104.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 116.29,
+   "mass_g_pla": 143.1,
+   "material": "PETG or ASA",
+   "supports": "none",
+   "watertight": true,
+   "genus": 3,
+   "bodies": null,
+   "unsupported_down_area_mm2": 352.0,
+   "notes": "Lures stand in slots; hooks stay inside the walls.",
+   "file": {
+    "path": "/living/cad/v0.3/grid-lure-garage.stl",
+    "bytes": 173784,
+    "sha256": "3b1d83a80e6cef4c7caa15f5589a7c5aa666011e1beee5922f40f52ac322565e"
+   }
+  },
+  {
+   "id": "grid-name-plate",
+   "name": "Name plate (sample: MILA)",
+   "family": "grid",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 168.0,
+    "y": 40.0,
+    "z": 5.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 30.77,
+   "mass_g_pla": 20.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 2,
+   "bodies": null,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Plate and lettering are separate bodies for two colours.",
+   "file": {
+    "path": "/living/cad/v0.3/grid-name-plate.stl",
+    "bytes": 89384,
+    "sha256": "1b72dd365cc47cbafb6c0e075c454f14a93fa83ad623e2baf05638b2a66b0f05"
+   }
+  },
+  {
+   "id": "grid-name-plate-text",
+   "name": "Name plate lettering",
+   "family": "grid",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 57.7,
+    "y": 17.0,
+    "z": 1.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.67,
+   "mass_g_pla": 0.8,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -2,
+   "bodies": null,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Second colour; prints in the same job as the plate.",
+   "file": {
+    "path": "/living/cad/v0.3/grid-name-plate-text.stl",
+    "bytes": 6884,
+    "sha256": "691c3de6fdd307d45d0b9b5701b31231218f60b0b9456c177a23c3ff5046d65f"
+   }
+  },
+  {
+   "id": "tile-tray-3x2",
+   "name": "Drawer tray 3×2 (sample 240×180×50)",
+   "family": "tile",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 240.0,
+    "y": 180.0,
+    "z": 50.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 145.81,
+   "mass_g_pla": 180.8,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": null,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Sized to the customer's drawer.",
+   "file": {
+    "path": "/living/cad/v0.3/tile-tray-3x2.stl",
+    "bytes": 36284,
+    "sha256": "02e8af9333970b33e01b35eaa190d4ec8f3fb1e596383df6f743c019b344999d"
+   }
+  },
+  {
+   "id": "tile-tray-2x1",
+   "name": "Drawer tray 2×1 (sample 160×90×40)",
+   "family": "tile",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 160.0,
+    "y": 90.0,
+    "z": 40.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 50.14,
+   "mass_g_pla": 62.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": null,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/tile-tray-2x1.stl",
+    "bytes": 26584,
+    "sha256": "e43e43d458f867a76a85e823e4417a3df9d39d7e9bd39de21f617f06401b5a68"
+   }
+  },
+  {
+   "id": "tile-tray-1x1",
+   "name": "Drawer tray 1×1 (sample 90×90×40)",
+   "family": "tile",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 90.0,
+    "y": 90.0,
+    "z": 40.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 30.26,
+   "mass_g_pla": 37.5,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": null,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/tile-tray-1x1.stl",
+    "bytes": 21884,
+    "sha256": "a39e3bbdbd5eda37659a7a649efdf8941b71d48d84bda2f1f9e49939e1bd9a68"
+   }
+  },
+  {
+   "id": "stack-node-corner",
+   "name": "Dowel node, corner",
+   "family": "stack",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 50.1,
+    "y": 50.1,
+    "z": 72.4
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 66.54,
+   "mass_g_pla": 30.5,
+   "material": "PETG",
+   "supports": "brim; supports optional",
+   "watertight": true,
+   "genus": 0,
+   "bodies": null,
+   "unsupported_down_area_mm2": 429.0,
+   "notes": "Takes 19 mm round timber dowel.",
+   "file": {
+    "path": "/living/cad/v0.3/stack-node-corner.stl",
+    "bytes": 145184,
+    "sha256": "1f7fcef9b7c1d7199458c4d7a340e8c9d894496c800032c03a5928f420bed467"
+   }
+  },
+  {
+   "id": "stack-node-tee",
+   "name": "Dowel node, tee",
+   "family": "stack",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 72.4,
+    "y": 50.1,
+    "z": 72.4
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 89.34,
+   "mass_g_pla": 38.6,
+   "material": "PETG",
+   "supports": "brim; supports optional",
+   "watertight": true,
+   "genus": 0,
+   "bodies": null,
+   "unsupported_down_area_mm2": 643.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/stack-node-tee.stl",
+    "bytes": 159184,
+    "sha256": "ba1a4d55ce702ba1d25bc838b4c533b152f750affdce53f701b514d78606503a"
+   }
+  },
+  {
+   "id": "stack-foot",
+   "name": "Dowel foot",
+   "family": "stack",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 27.8,
+    "y": 27.8,
+    "z": 30.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 11.57,
+   "mass_g_pla": 6.9,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": null,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Felt pad recess optional.",
+   "file": {
+    "path": "/living/cad/v0.3/stack-foot.stl",
+    "bytes": 67284,
+    "sha256": "f35ef4afab3c4e7bff42af6251feb58dda4e48cd73c73b23de63747b51984827"
+   }
+  },
+  {
+   "id": "light-pendant-fold",
+   "name": "Fold pendant shade",
+   "family": "light",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 217.3,
+    "y": 217.3,
+    "z": 171.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 154.22,
+   "mass_g_pla": 191.2,
+   "material": "Translucent PETG (LED only)",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": null,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Shade only. LED bulbs only. Customer fits a certified E27 pendant cord set.",
+   "file": null
+  },
+  {
+   "id": "tile-cutout-vanity",
+   "name": "Cut-out tray (sample: vanity, 240 × 190 mm)",
+   "family": "tile",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 240.0,
+    "y": 189.6,
+    "z": 24.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 819.78,
+   "mass_g_pla": 280.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": null,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Pockets shaped to each item, with finger scoops.",
+   "file": {
+    "path": "/living/cad/v0.3/tile-cutout-vanity.stl",
+    "bytes": 172784,
+    "sha256": "62493f0ccac0aeb5a4dc766546b0263334f573956929a6e21fd9494dce4efc58"
+   }
+  },
+  {
+   "id": "renter-over-door",
+   "name": "Over-door hanger",
+   "family": "renter",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "on_side",
+   "dims_mm": {
+    "x": 51.8,
+    "y": 46.0,
+    "z": 30.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 14.06,
+   "mass_g_pla": 11.2,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": null,
+   "unsupported_down_area_mm2": 43.0,
+   "notes": "Needs a 4 mm gap above the door. Use two per board.",
+   "file": {
+    "path": "/living/cad/v0.3/renter-over-door.stl",
+    "bytes": 62584,
+    "sha256": "07c443879975be401d188f21a88550db74e0697fb6ffb6575fc866da9a90032c"
+   }
+  },
+  {
+   "id": "renter-rail",
+   "name": "Wardrobe-rail hanger",
+   "family": "renter",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "on_side",
+   "dims_mm": {
+    "x": 51.1,
+    "y": 45.5,
+    "z": 30.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 14.51,
+   "mass_g_pla": 10.0,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": null,
+   "unsupported_down_area_mm2": 42.0,
+   "notes": "Rails up to 32 mm.",
+   "file": {
+    "path": "/living/cad/v0.3/renter-rail.stl",
+    "bytes": 61284,
+    "sha256": "b3afe1578fbbb0fb4eeb1a980ac3cbb51a088ce48b20ecb6b4141b1287da858b"
+   }
+  },
+  {
+   "id": "renter-board-4x4",
+   "name": "Grid board 4×4, renter back (code AL-B44R-OAT-S)",
+   "family": "renter",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 168.0,
+    "y": 168.0,
+    "z": 8.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 188.78,
+   "mass_g_pla": 96.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 16,
+   "bodies": null,
+   "unsupported_down_area_mm2": 706.0,
+   "notes": "Flat back with strip lanes; reorder code on the back.",
+   "file": {
+    "path": "/living/cad/v0.3/renter-board-4x4.stl",
+    "bytes": 942184,
+    "sha256": "a97a43d507ae86cec4b7dd3338eed277d1bee238254663f33b6a685c9d351b2a"
+   }
+  },
+  {
+   "id": "dr-pod-base",
+   "name": "dayrally pod",
+   "family": "dayrally",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 139.0,
+    "y": 72.0,
+    "z": 34.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 44.87,
+   "mass_g_pla": 45.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 3,
+   "bodies": null,
+   "unsupported_down_area_mm2": 65.0,
+   "notes": "Floor is a TURN flange: locks to a saddle, a strap clip or any Grid board.",
+   "file": null
+  },
+  {
+   "id": "dr-pod-lid",
+   "name": "dayrally pod lid (sample: JAYDEN)",
+   "family": "dayrally",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 128.0,
+    "y": 72.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 28.54,
+   "mass_g_pla": 31.9,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": null,
+   "unsupported_down_area_mm2": 1200.0,
+   "notes": "Prints top-down; name inlaid flush in a second colour.",
+   "file": null
+  },
+  {
+   "id": "dr-pod-lid-name",
+   "name": "Pod lid name inlay",
+   "family": "dayrally",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 88.0,
+    "y": 16.1,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.34,
+   "mass_g_pla": 0.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -3,
+   "bodies": null,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr-insert-fish",
+   "name": "Pod insert, tackle (6)",
+   "family": "dayrally",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 121.0,
+    "y": 65.0,
+    "z": 14.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 14.72,
+   "mass_g_pla": 18.3,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": null,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr-insert-everyday",
+   "name": "Pod insert, everyday (3)",
+   "family": "dayrally",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 121.0,
+    "y": 65.0,
+    "z": 14.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 13.2,
+   "mass_g_pla": 16.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": null,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr-bar-saddle",
+   "name": "Bar saddle",
+   "family": "dayrally",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 70.0,
+    "y": 32.0,
+    "z": 28.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 43.15,
+   "mass_g_pla": 20.1,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 4,
+   "bodies": null,
+   "unsupported_down_area_mm2": 1401.0,
+   "notes": "Fits 22-35 mm bars with two zip ties or a rubber strap.",
+   "file": null
+  },
+  {
+   "id": "dr-strap-clip",
+   "name": "Strap clip",
+   "family": "dayrally",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 70.0,
+    "y": 36.0,
+    "z": 20.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 37.44,
+   "mass_g_pla": 19.9,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": null,
+   "unsupported_down_area_mm2": 2248.0,
+   "notes": "Backpack straps and belts up to 42 mm.",
+   "file": null
+  },
+  {
+   "id": "bike-number-plate",
+   "name": "Number plate (sample: 27 JAYDEN)",
+   "family": "bike",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 170.0,
+    "y": 124.0,
+    "z": 4.4
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 63.91,
+   "mass_g_pla": 54.5,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 4,
+   "bodies": null,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Zip-ties to the bars.",
+   "file": null
+  },
+  {
+   "id": "bike-number-plate-text",
+   "name": "Number plate lettering",
+   "family": "bike",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 85.1,
+    "y": 82.9,
+    "z": 1.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 3.69,
+   "mass_g_pla": 4.6,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": -5,
+   "bodies": null,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "bike-tyre-lever",
+   "name": "Tyre lever",
+   "family": "bike",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "on_side",
+   "dims_mm": {
+    "x": 111.3,
+    "y": 22.3,
+    "z": 18.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 11.61,
+   "mass_g_pla": 8.3,
+   "material": "PETG or PA",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": null,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Spoke hook at the heel.",
+   "file": null
+  },
+  {
+   "id": "bike-bar-end",
+   "name": "Bar-end plug",
+   "family": "bike",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 24.0,
+    "y": 24.0,
+    "z": 19.5
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 3.76,
+   "mass_g_pla": 3.3,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": null,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Press fit, 18-20 mm bar ends.",
+   "file": null
+  },
+  {
+   "id": "dr-handline-winder",
+   "name": "Handline winder",
+   "family": "dayrally",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 128.0,
+    "y": 56.0,
+    "z": 5.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 18.29,
+   "mass_g_pla": 13.3,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": null,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "No hooks supplied.",
+   "file": null
+  },
+  {
+   "id": "dr-bag-tag",
+   "name": "Bag tag (sample: MILA)",
+   "family": "dayrally",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 64.0,
+    "y": 28.0,
+    "z": 4.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 6.36,
+   "mass_g_pla": 5.1,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": null,
+   "unsupported_down_area_mm2": 176.0,
+   "notes": "Name inlaid on the bed side.",
+   "file": null
+  },
+  {
+   "id": "dr-bag-tag-name",
+   "name": "Bag tag name inlay",
+   "family": "dayrally",
+   "group": null,
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 37.3,
+    "y": 11.0,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.11,
+   "mass_g_pla": 0.1,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -2,
+   "bodies": null,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-pod-mini",
+   "name": "dayrally pod, mini",
+   "family": "dayrally2",
+   "group": "pod",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 103.0,
+    "y": 60.0,
+    "z": 26.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 26.55,
+   "mass_g_pla": 26.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 3,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 65.0,
+   "notes": "Floor is a TURN flange: fits every dayrally mount and any Grid board.",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-mini-plain",
+   "name": "Lid, mini, plain",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 92.0,
+    "y": 60.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 18.35,
+   "mass_g_pla": 20.5,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 464.0,
+   "notes": "Prints top-down.",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-mini-name",
+   "name": "Lid, mini, name (sample: AROHA)",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 92.0,
+    "y": 60.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 18.22,
+   "mass_g_pla": 20.6,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 683.0,
+   "notes": "Inlay prints as the first layers in a second colour.",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-mini-name-inlay",
+   "name": "Lid inlay, mini, name",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 52.0,
+    "y": 10.5,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.13,
+   "mass_g_pla": 0.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 5,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-insert-mini-split",
+   "name": "Insert, mini: Split (2)",
+   "family": "dayrally2",
+   "group": "insert",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 86.6,
+    "y": 54.6,
+    "z": 11.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 9.26,
+   "mass_g_pla": 11.5,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-insert-mini-quad",
+   "name": "Insert, mini: Quad (4)",
+   "family": "dayrally2",
+   "group": "insert",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 86.6,
+    "y": 54.6,
+    "z": 11.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 10.08,
+   "mass_g_pla": 12.5,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-insert-mini-earbuds",
+   "name": "Insert, mini: Earbuds",
+   "family": "dayrally2",
+   "group": "insert",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 86.6,
+    "y": 54.6,
+    "z": 11.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 27.47,
+   "mass_g_pla": 17.1,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-pod-standard",
+   "name": "dayrally pod, standard",
+   "family": "dayrally2",
+   "group": "pod",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 139.0,
+    "y": 72.0,
+    "z": 34.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 44.87,
+   "mass_g_pla": 45.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 3,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 65.0,
+   "notes": "Floor is a TURN flange: fits every dayrally mount and any Grid board.",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-standard-plain",
+   "name": "Lid, standard, plain",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 128.0,
+    "y": 72.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 28.87,
+   "mass_g_pla": 31.7,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 634.0,
+   "notes": "Prints top-down.",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-standard-name",
+   "name": "Lid, standard, name (sample: MILA)",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 128.0,
+    "y": 72.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 28.53,
+   "mass_g_pla": 31.9,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1217.0,
+   "notes": "Inlay prints as the first layers in a second colour.",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-standard-name-inlay",
+   "name": "Lid inlay, standard, name",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 67.9,
+    "y": 20.0,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.35,
+   "mass_g_pla": 0.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -2,
+   "bodies": 4,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-standard-waves",
+   "name": "Lid, standard, waves",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 128.0,
+    "y": 72.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 27.72,
+   "mass_g_pla": 32.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 2559.0,
+   "notes": "Inlay prints as the first layers in a second colour.",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-standard-waves-inlay",
+   "name": "Lid inlay, standard, waves",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 113.8,
+    "y": 58.0,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 1.16,
+   "mass_g_pla": 1.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -7,
+   "bodies": 8,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-standard-dots",
+   "name": "Lid, standard, dots",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 128.0,
+    "y": 72.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 27.92,
+   "mass_g_pla": 32.1,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 2226.0,
+   "notes": "Inlay prints as the first layers in a second colour.",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-standard-dots-inlay",
+   "name": "Lid inlay, standard, dots",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 105.8,
+    "y": 44.9,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.95,
+   "mass_g_pla": 1.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -43,
+   "bodies": 44,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-standard-check",
+   "name": "Lid, standard, check",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 128.0,
+    "y": 72.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 27.63,
+   "mass_g_pla": 32.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 2707.0,
+   "notes": "Inlay prints as the first layers in a second colour.",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-standard-check-inlay",
+   "name": "Lid inlay, standard, check",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 99.3,
+    "y": 45.3,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 1.24,
+   "mass_g_pla": 1.5,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 13,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-standard-bolt",
+   "name": "Lid, standard, bolt",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 128.0,
+    "y": 72.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 27.92,
+   "mass_g_pla": 31.7,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 2217.0,
+   "notes": "Inlay prints as the first layers in a second colour.",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-standard-bolt-inlay",
+   "name": "Lid inlay, standard, bolt",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 114.0,
+    "y": 37.4,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.95,
+   "mass_g_pla": 1.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-standard-topo",
+   "name": "Lid, standard, topo",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 128.0,
+    "y": 72.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 28.17,
+   "mass_g_pla": 32.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1808.0,
+   "notes": "Inlay prints as the first layers in a second colour.",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-standard-topo-inlay",
+   "name": "Lid inlay, standard, topo",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 113.7,
+    "y": 54.0,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.7,
+   "mass_g_pla": 0.9,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -1,
+   "bodies": 5,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-standard-stars",
+   "name": "Lid, standard, stars",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 128.0,
+    "y": 72.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 28.53,
+   "mass_g_pla": 31.9,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1206.0,
+   "notes": "Inlay prints as the first layers in a second colour.",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-standard-stars-inlay",
+   "name": "Lid inlay, standard, stars",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 93.8,
+    "y": 51.3,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.34,
+   "mass_g_pla": 0.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -13,
+   "bodies": 14,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-insert-standard-everyday",
+   "name": "Insert, standard: Everyday (3)",
+   "family": "dayrally2",
+   "group": "insert",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 122.6,
+    "y": 66.6,
+    "z": 14.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 16.77,
+   "mass_g_pla": 20.8,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-insert-standard-tackle",
+   "name": "Insert, standard: Tackle (6)",
+   "family": "dayrally2",
+   "group": "insert",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 122.6,
+    "y": 66.6,
+    "z": 14.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 18.28,
+   "mass_g_pla": 22.7,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-insert-standard-beach",
+   "name": "Insert, standard: Beach (stick, 2 balms, cards & keys)",
+   "family": "dayrally2",
+   "group": "insert",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 122.6,
+    "y": 66.6,
+    "z": 14.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 65.05,
+   "mass_g_pla": 34.3,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-insert-standard-tech",
+   "name": "Insert, standard: Tech (earbuds, cable)",
+   "family": "dayrally2",
+   "group": "insert",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 122.6,
+    "y": 66.6,
+    "z": 14.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 55.43,
+   "mass_g_pla": 32.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-insert-standard-split",
+   "name": "Insert, standard: Split (2)",
+   "family": "dayrally2",
+   "group": "insert",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 122.6,
+    "y": 66.6,
+    "z": 14.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 15.95,
+   "mass_g_pla": 19.8,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-pod-tall",
+   "name": "dayrally pod, tall",
+   "family": "dayrally2",
+   "group": "pod",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 139.0,
+    "y": 72.0,
+    "z": 58.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 62.35,
+   "mass_g_pla": 63.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 3,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 65.0,
+   "notes": "Floor is a TURN flange: fits every dayrally mount and any Grid board.",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-tall-plain",
+   "name": "Lid, tall, plain",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 128.0,
+    "y": 72.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 28.87,
+   "mass_g_pla": 31.7,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 634.0,
+   "notes": "Prints top-down.",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-tall-name",
+   "name": "Lid, tall, name (sample: NIKAU)",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 128.0,
+    "y": 72.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 28.43,
+   "mass_g_pla": 31.9,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1380.0,
+   "notes": "Inlay prints as the first layers in a second colour.",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-tall-name-inlay",
+   "name": "Lid inlay, tall, name",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 85.9,
+    "y": 20.3,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.45,
+   "mass_g_pla": 0.6,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -3,
+   "bodies": 5,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-insert-tall-deep-two",
+   "name": "Insert, tall: Deep two (bottles, sunscreen)",
+   "family": "dayrally2",
+   "group": "insert",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 122.6,
+    "y": 66.6,
+    "z": 40.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 31.08,
+   "mass_g_pla": 38.5,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-insert-tall-tackle-deep",
+   "name": "Insert, tall: Deep tackle (6)",
+   "family": "dayrally2",
+   "group": "insert",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 122.6,
+    "y": 66.6,
+    "z": 24.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 26.26,
+   "mass_g_pla": 32.6,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-insert-tall-cards",
+   "name": "Insert, tall: Cards (5 standing slots)",
+   "family": "dayrally2",
+   "group": "insert",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 122.6,
+    "y": 66.6,
+    "z": 40.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 227.13,
+   "mass_g_pla": 101.5,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-pod-long",
+   "name": "dayrally pod, long",
+   "family": "dayrally2",
+   "group": "pod",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 187.0,
+    "y": 72.0,
+    "z": 34.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 59.84,
+   "mass_g_pla": 60.3,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 3,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 65.0,
+   "notes": "Floor is a TURN flange: fits every dayrally mount and any Grid board.",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-long-plain",
+   "name": "Lid, long, plain",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 176.0,
+    "y": 72.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 39.94,
+   "mass_g_pla": 43.5,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 825.0,
+   "notes": "Prints top-down.",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-long-name",
+   "name": "Lid, long, name (sample: JAYDEN)",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 176.0,
+    "y": 72.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 39.4,
+   "mass_g_pla": 43.8,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1725.0,
+   "notes": "Inlay prints as the first layers in a second colour.",
+   "file": null
+  },
+  {
+   "id": "dr2-lid-long-name-inlay",
+   "name": "Lid inlay, long, name",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 111.0,
+    "y": 20.3,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.54,
+   "mass_g_pla": 0.7,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -3,
+   "bodies": 6,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-insert-long-pens",
+   "name": "Insert, long: Pens and pencils (4)",
+   "family": "dayrally2",
+   "group": "insert",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 170.6,
+    "y": 66.6,
+    "z": 14.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 77.76,
+   "mass_g_pla": 52.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-insert-long-tackle",
+   "name": "Insert, long: Tackle (8)",
+   "family": "dayrally2",
+   "group": "insert",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 170.6,
+    "y": 66.6,
+    "z": 14.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 25.5,
+   "mass_g_pla": 31.6,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-insert-long-everyday",
+   "name": "Insert, long: Everyday (3)",
+   "family": "dayrally2",
+   "group": "insert",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 170.6,
+    "y": 66.6,
+    "z": 14.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 22.57,
+   "mass_g_pla": 28.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-mount-strap-clip",
+   "name": "Mount: strap clip",
+   "family": "dayrally2",
+   "group": "mount",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 70.0,
+    "y": 36.0,
+    "z": 20.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 37.44,
+   "mass_g_pla": 19.9,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 2248.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-mount-duo-strap",
+   "name": "Mount: duo strap",
+   "family": "dayrally2",
+   "group": "mount",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 70.0,
+    "y": 32.0,
+    "z": 20.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 35.65,
+   "mass_g_pla": 17.7,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1693.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-mount-belt-clip",
+   "name": "Mount: belt clip",
+   "family": "dayrally2",
+   "group": "mount",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 70.0,
+    "y": 40.0,
+    "z": 20.7
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 40.96,
+   "mass_g_pla": 22.4,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 2813.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-mount-bar-saddle",
+   "name": "Mount: bar saddle",
+   "family": "dayrally2",
+   "group": "mount",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 70.0,
+    "y": 32.0,
+    "z": 28.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 43.15,
+   "mass_g_pla": 20.1,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 4,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1401.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-mount-frame-saddle",
+   "name": "Mount: frame saddle",
+   "family": "dayrally2",
+   "group": "mount",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 80.0,
+    "y": 34.0,
+    "z": 32.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 62.37,
+   "mass_g_pla": 26.3,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 4,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1458.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-mount-carabiner-loop",
+   "name": "Mount: carabiner loop",
+   "family": "dayrally2",
+   "group": "mount",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 94.0,
+    "y": 34.0,
+    "z": 16.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 34.47,
+   "mass_g_pla": 16.8,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1158.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-mount-home-dock",
+   "name": "Mount: home dock",
+   "family": "dayrally2",
+   "group": "mount",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 150.0,
+    "y": 96.0,
+    "z": 22.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 307.51,
+   "mass_g_pla": 95.8,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 913.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-charm-star",
+   "name": "Bag charm, star (sample: MK)",
+   "family": "dayrally2",
+   "group": "add-on",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 39.1,
+    "y": 38.5,
+    "z": 4.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 3.01,
+   "mass_g_pla": 2.7,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 85.0,
+   "notes": "Initials inlaid on the bed side.",
+   "file": null
+  },
+  {
+   "id": "dr2-charm-star-inlay",
+   "name": "Bag charm inlay, star",
+   "family": "dayrally2",
+   "group": "add-on",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 19.4,
+    "y": 9.0,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.05,
+   "mass_g_pla": 0.1,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -1,
+   "bodies": 2,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-charm-heart",
+   "name": "Bag charm, heart (sample: MK)",
+   "family": "dayrally2",
+   "group": "add-on",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 43.3,
+    "y": 39.1,
+    "z": 4.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 4.11,
+   "mass_g_pla": 3.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 85.0,
+   "notes": "Initials inlaid on the bed side.",
+   "file": null
+  },
+  {
+   "id": "dr2-charm-heart-inlay",
+   "name": "Bag charm inlay, heart",
+   "family": "dayrally2",
+   "group": "add-on",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 19.4,
+    "y": 9.0,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.05,
+   "mass_g_pla": 0.1,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -1,
+   "bodies": 2,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-charm-bolt",
+   "name": "Bag charm, bolt (sample: MK)",
+   "family": "dayrally2",
+   "group": "add-on",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 21.9,
+    "y": 41.3,
+    "z": 4.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 1.39,
+   "mass_g_pla": 1.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Initials inlaid on the bed side.",
+   "file": null
+  },
+  {
+   "id": "dr2-charm-flower",
+   "name": "Bag charm, flower (sample: MK)",
+   "family": "dayrally2",
+   "group": "add-on",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 41.4,
+    "y": 37.9,
+    "z": 4.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 4.49,
+   "mass_g_pla": 3.6,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 85.0,
+   "notes": "Initials inlaid on the bed side.",
+   "file": null
+  },
+  {
+   "id": "dr2-charm-flower-inlay",
+   "name": "Bag charm inlay, flower",
+   "family": "dayrally2",
+   "group": "add-on",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 19.4,
+    "y": 9.0,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.05,
+   "mass_g_pla": 0.1,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -1,
+   "bodies": 2,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-charm-fish",
+   "name": "Bag charm, fish (sample: MK)",
+   "family": "dayrally2",
+   "group": "add-on",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 40.4,
+    "y": 18.4,
+    "z": 4.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 2.01,
+   "mass_g_pla": 1.9,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 59.0,
+   "notes": "Initials inlaid on the bed side.",
+   "file": null
+  },
+  {
+   "id": "dr2-charm-fish-inlay",
+   "name": "Bag charm inlay, fish",
+   "family": "dayrally2",
+   "group": "add-on",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 15.8,
+    "y": 7.5,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.04,
+   "mass_g_pla": 0.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -1,
+   "bodies": 2,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-charm-wave",
+   "name": "Bag charm, wave (sample: MK)",
+   "family": "dayrally2",
+   "group": "add-on",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 40.8,
+    "y": 39.4,
+    "z": 4.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 4.38,
+   "mass_g_pla": 3.5,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 85.0,
+   "notes": "Initials inlaid on the bed side.",
+   "file": null
+  },
+  {
+   "id": "dr2-charm-wave-inlay",
+   "name": "Bag charm inlay, wave",
+   "family": "dayrally2",
+   "group": "add-on",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 19.4,
+    "y": 9.0,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.05,
+   "mass_g_pla": 0.1,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -1,
+   "bodies": 2,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-zip-pull",
+   "name": "Zip pull (sample: M)",
+   "family": "dayrally2",
+   "group": "add-on",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 34.0,
+    "y": 13.0,
+    "z": 3.2
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 1.19,
+   "mass_g_pla": 1.3,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 31.0,
+   "notes": "Not for children under 3: small part.",
+   "file": null
+  },
+  {
+   "id": "dr2-zip-pull-inlay",
+   "name": "Zip pull inlay",
+   "family": "dayrally2",
+   "group": "add-on",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 7.5,
+    "y": 7.0,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.02,
+   "mass_g_pla": 0.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  },
+  {
+   "id": "dr2-phone-stand",
+   "name": "Phone stand",
+   "family": "dayrally2",
+   "group": "add-on",
+   "revision": "v0.3",
+   "print_orientation": "on_side",
+   "dims_mm": {
+    "x": 84.0,
+    "y": 59.6,
+    "z": 70.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 57.75,
+   "mass_g_pla": 32.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 201.0,
+   "notes": "Prints on its side.",
+   "file": null
+  },
+  {
+   "id": "dr2-spoke-bead",
+   "name": "Spoke bead (set of 12)",
+   "family": "dayrally2",
+   "group": "add-on",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 12.0,
+    "y": 11.9,
+    "z": 16.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 1.6,
+   "mass_g_pla": 1.3,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Snaps onto 2 mm spokes. Small part.",
+   "file": null
+  },
+  {
+   "id": "dr2-chair-hook",
+   "name": "Chair hook",
+   "family": "dayrally2",
+   "group": "add-on",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 36.1,
+    "y": 55.3,
+    "z": 14.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 6.08,
+   "mass_g_pla": 5.2,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Snaps onto 22–25 mm tubes.",
+   "file": null
+  },
+  {
+   "id": "dr2-cable-winder",
+   "name": "Cable winder",
+   "family": "dayrally2",
+   "group": "add-on",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 64.0,
+    "y": 26.0,
+    "z": 3.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 3.46,
+   "mass_g_pla": 3.5,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 2,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": null
+  }
+ ],
+ "products": [
+  {
+   "handle": "al-board-4x4",
+   "short": "B44",
+   "title": "Grid board 4×4",
+   "blurb": "The wall tile. 16 keyways, four wall washers included.",
+   "size": "168 × 168 × 8 mm",
+   "material": "PLA Matte",
+   "type": "Grid · wall",
+   "personalised": false,
+   "colours": "living",
+   "price_nzd": 39.0,
+   "ship_g": 137,
+   "parts": [
+    {
+     "id": "grid-board-4x4",
+     "qty": 1
+    },
+    {
+     "id": "grid-anchor-washer",
+     "qty": 4
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 15.62,
+    "max_usd_per_gram": 0.091,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Chalk",
+     "sku": "AL-B44-CHA-A"
+    },
+    {
+     "colour": "Oat",
+     "sku": "AL-B44-OAT-Z"
+    },
+    {
+     "colour": "Sage",
+     "sku": "AL-B44-SAG-S"
+    },
+    {
+     "colour": "Clay",
+     "sku": "AL-B44-CLA-2"
+    },
+    {
+     "colour": "Plum",
+     "sku": "AL-B44-PLU-F"
+    },
+    {
+     "colour": "Ash",
+     "sku": "AL-B44-ASH-K"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-B44-INK-J"
+    }
+   ]
+  },
+  {
+   "handle": "al-board-2x4",
+   "short": "B24",
+   "title": "Grid board 2×4",
+   "blurb": "Half-width tile for narrow gaps.",
+   "size": "84 × 168 × 8 mm",
+   "material": "PLA Matte",
+   "type": "Grid · wall",
+   "personalised": false,
+   "colours": "living",
+   "price_nzd": 24.0,
+   "ship_g": 89,
+   "parts": [
+    {
+     "id": "grid-board-2x4",
+     "qty": 1
+    },
+    {
+     "id": "grid-anchor-washer",
+     "qty": 2
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 9.5,
+    "max_usd_per_gram": 0.109,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Chalk",
+     "sku": "AL-B24-CHA-6"
+    },
+    {
+     "colour": "Oat",
+     "sku": "AL-B24-OAT-V"
+    },
+    {
+     "colour": "Sage",
+     "sku": "AL-B24-SAG-N"
+    },
+    {
+     "colour": "Clay",
+     "sku": "AL-B24-CLA-W"
+    },
+    {
+     "colour": "Plum",
+     "sku": "AL-B24-PLU-B"
+    },
+    {
+     "colour": "Ash",
+     "sku": "AL-B24-ASH-F"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-B24-INK-E"
+    }
+   ]
+  },
+  {
+   "handle": "al-hook",
+   "short": "HK",
+   "title": "Hook",
+   "blurb": "Bags, headphones, caps, leads.",
+   "size": "26 × 73 × 52 mm",
+   "material": "PLA Matte",
+   "type": "Grid · wall",
+   "personalised": false,
+   "colours": "living",
+   "price_nzd": 9.0,
+   "ship_g": 52,
+   "parts": [
+    {
+     "id": "grid-hook",
+     "qty": 1
+    },
+    {
+     "id": "grid-turn-key",
+     "qty": 1
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 3.37,
+    "max_usd_per_gram": 0.153,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Chalk",
+     "sku": "AL-HK-CHA-9"
+    },
+    {
+     "colour": "Oat",
+     "sku": "AL-HK-OAT-8"
+    },
+    {
+     "colour": "Sage",
+     "sku": "AL-HK-SAG-A"
+    },
+    {
+     "colour": "Clay",
+     "sku": "AL-HK-CLA-V"
+    },
+    {
+     "colour": "Plum",
+     "sku": "AL-HK-PLU-9"
+    },
+    {
+     "colour": "Ash",
+     "sku": "AL-HK-ASH-2"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-HK-INK-T"
+    }
+   ]
+  },
+  {
+   "handle": "al-rod-cradle",
+   "short": "RC",
+   "title": "Rod cradles, pair",
+   "blurb": "Hold a rod flat on the wall. Rod butts up to 24 mm.",
+   "size": "26 × 73 × 58 mm each",
+   "material": "PETG",
+   "type": "Grid · wall",
+   "personalised": false,
+   "colours": "living",
+   "price_nzd": 19.0,
+   "ship_g": 64,
+   "parts": [
+    {
+     "id": "grid-rod-cradle",
+     "qty": 2
+    },
+    {
+     "id": "grid-turn-key",
+     "qty": 2
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 7.46,
+    "max_usd_per_gram": 0.173,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Chalk",
+     "sku": "AL-RC-CHA-3"
+    },
+    {
+     "colour": "Oat",
+     "sku": "AL-RC-OAT-2"
+    },
+    {
+     "colour": "Sage",
+     "sku": "AL-RC-SAG-4"
+    },
+    {
+     "colour": "Clay",
+     "sku": "AL-RC-CLA-P"
+    },
+    {
+     "colour": "Plum",
+     "sku": "AL-RC-PLU-3"
+    },
+    {
+     "colour": "Ash",
+     "sku": "AL-RC-ASH-U"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-RC-INK-M"
+    }
+   ]
+  },
+  {
+   "handle": "al-shelf-2",
+   "short": "SH2",
+   "title": "Shelf, 2 wide",
+   "blurb": "Phone, plant, perfume, reels.",
+   "size": "76 × 56 × 90 mm",
+   "material": "PLA Matte",
+   "type": "Grid · wall",
+   "personalised": false,
+   "colours": "living",
+   "price_nzd": 22.0,
+   "ship_g": 78,
+   "parts": [
+    {
+     "id": "grid-shelf-2",
+     "qty": 1
+    },
+    {
+     "id": "grid-turn-key",
+     "qty": 2
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 8.68,
+    "max_usd_per_gram": 0.13,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Chalk",
+     "sku": "AL-SH2-CHA-V"
+    },
+    {
+     "colour": "Oat",
+     "sku": "AL-SH2-OAT-L"
+    },
+    {
+     "colour": "Sage",
+     "sku": "AL-SH2-SAG-D"
+    },
+    {
+     "colour": "Clay",
+     "sku": "AL-SH2-CLA-M"
+    },
+    {
+     "colour": "Plum",
+     "sku": "AL-SH2-PLU-2"
+    },
+    {
+     "colour": "Ash",
+     "sku": "AL-SH2-ASH-6"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-SH2-INK-5"
+    }
+   ]
+  },
+  {
+   "handle": "al-shelf-3",
+   "short": "SH3",
+   "title": "Shelf, 3 wide",
+   "blurb": "Books, speakers, a row of bottles.",
+   "size": "118 × 56 × 90 mm",
+   "material": "PLA Matte",
+   "type": "Grid · wall",
+   "personalised": false,
+   "colours": "living",
+   "price_nzd": 28.0,
+   "ship_g": 95,
+   "parts": [
+    {
+     "id": "grid-shelf-3",
+     "qty": 1
+    },
+    {
+     "id": "grid-turn-key",
+     "qty": 3
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 11.13,
+    "max_usd_per_gram": 0.115,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Chalk",
+     "sku": "AL-SH3-CHA-Y"
+    },
+    {
+     "colour": "Oat",
+     "sku": "AL-SH3-OAT-P"
+    },
+    {
+     "colour": "Sage",
+     "sku": "AL-SH3-SAG-G"
+    },
+    {
+     "colour": "Clay",
+     "sku": "AL-SH3-CLA-Q"
+    },
+    {
+     "colour": "Plum",
+     "sku": "AL-SH3-PLU-5"
+    },
+    {
+     "colour": "Ash",
+     "sku": "AL-SH3-ASH-9"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-SH3-INK-8"
+    }
+   ]
+  },
+  {
+   "handle": "al-bin-2",
+   "short": "BN2",
+   "title": "Bin, 2 wide",
+   "blurb": "Chargers, hair ties, tackle, keys.",
+   "size": "76 × 76 × 50 mm",
+   "material": "PLA Matte",
+   "type": "Grid · wall",
+   "personalised": false,
+   "colours": "living",
+   "price_nzd": 19.0,
+   "ship_g": 80,
+   "parts": [
+    {
+     "id": "grid-bin-2",
+     "qty": 1
+    },
+    {
+     "id": "grid-turn-key",
+     "qty": 2
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 7.46,
+    "max_usd_per_gram": 0.105,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Chalk",
+     "sku": "AL-BN2-CHA-Q"
+    },
+    {
+     "colour": "Oat",
+     "sku": "AL-BN2-OAT-F"
+    },
+    {
+     "colour": "Sage",
+     "sku": "AL-BN2-SAG-8"
+    },
+    {
+     "colour": "Clay",
+     "sku": "AL-BN2-CLA-G"
+    },
+    {
+     "colour": "Plum",
+     "sku": "AL-BN2-PLU-V"
+    },
+    {
+     "colour": "Ash",
+     "sku": "AL-BN2-ASH-Z"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-BN2-INK-Y"
+    }
+   ]
+  },
+  {
+   "handle": "al-cup",
+   "short": "CP",
+   "title": "Cup",
+   "blurb": "Brushes, pens, pliers.",
+   "size": "40 × 104 × 43 mm",
+   "material": "PLA Matte",
+   "type": "Grid · wall",
+   "personalised": false,
+   "colours": "living",
+   "price_nzd": 15.0,
+   "ship_g": 71,
+   "parts": [
+    {
+     "id": "grid-cup",
+     "qty": 1
+    },
+    {
+     "id": "grid-turn-key",
+     "qty": 1
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 5.82,
+    "max_usd_per_gram": 0.108,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Chalk",
+     "sku": "AL-CP-CHA-E"
+    },
+    {
+     "colour": "Oat",
+     "sku": "AL-CP-OAT-D"
+    },
+    {
+     "colour": "Sage",
+     "sku": "AL-CP-SAG-F"
+    },
+    {
+     "colour": "Clay",
+     "sku": "AL-CP-CLA-2"
+    },
+    {
+     "colour": "Plum",
+     "sku": "AL-CP-PLU-E"
+    },
+    {
+     "colour": "Ash",
+     "sku": "AL-CP-ASH-7"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-CP-INK-Y"
+    }
+   ]
+  },
+  {
+   "handle": "al-lure-garage",
+   "short": "LG",
+   "title": "Lure garage",
+   "blurb": "Twelve slots. Hooks stay inside the walls.",
+   "size": "118 × 104 × 46 mm",
+   "material": "PETG",
+   "type": "Grid · wall",
+   "personalised": false,
+   "colours": "living",
+   "price_nzd": 34.0,
+   "ship_g": 183,
+   "parts": [
+    {
+     "id": "grid-lure-garage",
+     "qty": 1
+    },
+    {
+     "id": "grid-turn-key",
+     "qty": 3
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 13.58,
+    "max_usd_per_gram": 0.054,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Chalk",
+     "sku": "AL-LG-CHA-5"
+    },
+    {
+     "colour": "Oat",
+     "sku": "AL-LG-OAT-4"
+    },
+    {
+     "colour": "Sage",
+     "sku": "AL-LG-SAG-6"
+    },
+    {
+     "colour": "Clay",
+     "sku": "AL-LG-CLA-R"
+    },
+    {
+     "colour": "Plum",
+     "sku": "AL-LG-PLU-5"
+    },
+    {
+     "colour": "Ash",
+     "sku": "AL-LG-ASH-W"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-LG-INK-P"
+    }
+   ]
+  },
+  {
+   "handle": "al-name-plate",
+   "short": "NP",
+   "title": "Name plate",
+   "blurb": "Your name, raised in a second colour.",
+   "size": "168 × 40 × 6 mm",
+   "material": "PLA Matte, two colours",
+   "type": "Grid · wall",
+   "personalised": true,
+   "colours": "living",
+   "price_nzd": 29.0,
+   "ship_g": 61,
+   "parts": [
+    {
+     "id": "grid-name-plate",
+     "qty": 1
+    },
+    {
+     "id": "grid-name-plate-text",
+     "qty": 1
+    },
+    {
+     "id": "grid-turn-key",
+     "qty": 2
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 11.54,
+    "max_usd_per_gram": 0.314,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Chalk",
+     "sku": "AL-NP-CHA-R"
+    },
+    {
+     "colour": "Oat",
+     "sku": "AL-NP-OAT-Q"
+    },
+    {
+     "colour": "Sage",
+     "sku": "AL-NP-SAG-S"
+    },
+    {
+     "colour": "Clay",
+     "sku": "AL-NP-CLA-D"
+    },
+    {
+     "colour": "Plum",
+     "sku": "AL-NP-PLU-R"
+    },
+    {
+     "colour": "Ash",
+     "sku": "AL-NP-ASH-J"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-NP-INK-B"
+    }
+   ]
+  },
+  {
+   "handle": "al-node-corner",
+   "short": "NC",
+   "title": "Dowel joint, corner",
+   "blurb": "Four-way joint for 19 mm dowel.",
+   "size": "50 × 72 mm",
+   "material": "PETG",
+   "type": "Stack · furniture",
+   "personalised": false,
+   "colours": "living",
+   "price_nzd": 8.0,
+   "ship_g": 70,
+   "parts": [
+    {
+     "id": "stack-node-corner",
+     "qty": 1
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 2.97,
+    "max_usd_per_gram": 0.055,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Chalk",
+     "sku": "AL-NC-CHA-X"
+    },
+    {
+     "colour": "Oat",
+     "sku": "AL-NC-OAT-W"
+    },
+    {
+     "colour": "Sage",
+     "sku": "AL-NC-SAG-Y"
+    },
+    {
+     "colour": "Clay",
+     "sku": "AL-NC-CLA-K"
+    },
+    {
+     "colour": "Plum",
+     "sku": "AL-NC-PLU-X"
+    },
+    {
+     "colour": "Ash",
+     "sku": "AL-NC-ASH-Q"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-NC-INK-H"
+    }
+   ]
+  },
+  {
+   "handle": "al-node-tee",
+   "short": "NT",
+   "title": "Dowel joint, tee",
+   "blurb": "Five-way joint for longer runs.",
+   "size": "72 × 72 mm",
+   "material": "PETG",
+   "type": "Stack · furniture",
+   "personalised": false,
+   "colours": "living",
+   "price_nzd": 9.0,
+   "ship_g": 79,
+   "parts": [
+    {
+     "id": "stack-node-tee",
+     "qty": 1
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 3.37,
+    "max_usd_per_gram": 0.049,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Chalk",
+     "sku": "AL-NT-CHA-Z"
+    },
+    {
+     "colour": "Oat",
+     "sku": "AL-NT-OAT-Y"
+    },
+    {
+     "colour": "Sage",
+     "sku": "AL-NT-SAG-2"
+    },
+    {
+     "colour": "Clay",
+     "sku": "AL-NT-CLA-M"
+    },
+    {
+     "colour": "Plum",
+     "sku": "AL-NT-PLU-Z"
+    },
+    {
+     "colour": "Ash",
+     "sku": "AL-NT-ASH-S"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-NT-INK-K"
+    }
+   ]
+  },
+  {
+   "handle": "al-foot",
+   "short": "FT",
+   "title": "Dowel foot",
+   "blurb": "Caps a post. Felt pad optional.",
+   "size": "Ø28 × 30 mm",
+   "material": "PETG",
+   "type": "Stack · furniture",
+   "personalised": false,
+   "colours": "living",
+   "price_nzd": 5.0,
+   "ship_g": 47,
+   "parts": [
+    {
+     "id": "stack-foot",
+     "qty": 1
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 1.74,
+    "max_usd_per_gram": 0.143,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Chalk",
+     "sku": "AL-FT-CHA-R"
+    },
+    {
+     "colour": "Oat",
+     "sku": "AL-FT-OAT-Q"
+    },
+    {
+     "colour": "Sage",
+     "sku": "AL-FT-SAG-S"
+    },
+    {
+     "colour": "Clay",
+     "sku": "AL-FT-CLA-D"
+    },
+    {
+     "colour": "Plum",
+     "sku": "AL-FT-PLU-R"
+    },
+    {
+     "colour": "Ash",
+     "sku": "AL-FT-ASH-J"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-FT-INK-B"
+    }
+   ]
+  },
+  {
+   "handle": "al-shade-fold",
+   "short": "SF",
+   "title": "Fold pendant shade",
+   "blurb": "Fluted shade for an E27 cord set. LED only.",
+   "size": "Ø217 × 171 mm",
+   "material": "Translucent PETG",
+   "type": "Light",
+   "personalised": false,
+   "colours": "natural",
+   "price_nzd": 69.0,
+   "ship_g": 231,
+   "parts": [
+    {
+     "id": "light-pendant-fold",
+     "qty": 1
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 27.87,
+    "max_usd_per_gram": 0.082,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Natural translucent",
+     "sku": "AL-SF-NAT-5"
+    }
+   ]
+  },
+  {
+   "handle": "al-keys-6",
+   "short": "K6",
+   "title": "TURN keys, six",
+   "blurb": "Spares. Every accessory already comes with its own.",
+   "size": "Ø21 × 16 mm",
+   "material": "PETG",
+   "type": "Grid · wall",
+   "personalised": false,
+   "colours": "living",
+   "price_nzd": 6.0,
+   "ship_g": 50,
+   "parts": [
+    {
+     "id": "grid-turn-key",
+     "qty": 6
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 2.15,
+    "max_usd_per_gram": 0.119,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Chalk",
+     "sku": "AL-K6-CHA-2"
+    },
+    {
+     "colour": "Oat",
+     "sku": "AL-K6-OAT-Z"
+    },
+    {
+     "colour": "Sage",
+     "sku": "AL-K6-SAG-3"
+    },
+    {
+     "colour": "Clay",
+     "sku": "AL-K6-CLA-N"
+    },
+    {
+     "colour": "Plum",
+     "sku": "AL-K6-PLU-2"
+    },
+    {
+     "colour": "Ash",
+     "sku": "AL-K6-ASH-T"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-K6-INK-L"
+    }
+   ]
+  },
+  {
+   "handle": "al-pod-mini",
+   "short": "PDM",
+   "title": "dayrally pod, mini",
+   "blurb": "Earbuds, lip balm, keys. Lid in your choice of eight styles, insert included, two keys included.",
+   "size": "92 × 60 × 37 mm with lid",
+   "material": "PLA Matte, two colours",
+   "type": "dayrally",
+   "personalised": true,
+   "colours": "dayrally",
+   "price_nzd": 26.0,
+   "ship_g": 98,
+   "parts": [
+    {
+     "id": "dr2-pod-mini",
+     "qty": 1
+    },
+    {
+     "id": "dr2-lid-mini-plain",
+     "qty": 1
+    },
+    {
+     "id": "dr2-insert-mini-split",
+     "qty": 1
+    },
+    {
+     "id": "grid-turn-key",
+     "qty": 2
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 10.32,
+    "max_usd_per_gram": 0.1,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-PDM-TOM-N"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-PDM-TAN-9"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-PDM-BUT-H"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-PDM-LIM-A"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-PDM-MIN-N"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-PDM-SKY-D"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-PDM-COB-L"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-PDM-LIL-3"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-PDM-GRA-K"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-PDM-BLU-2"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-PDM-CLO-V"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-PDM-INK-B"
+    }
+   ]
+  },
+  {
+   "handle": "al-pod-standard",
+   "short": "PDS",
+   "title": "dayrally pod, standard",
+   "blurb": "The everyday size: tackle, sunscreen, cards, snacks money. Insert and two keys included.",
+   "size": "128 × 72 × 45 mm with lid",
+   "material": "PLA Matte, two colours",
+   "type": "dayrally",
+   "personalised": true,
+   "colours": "dayrally",
+   "price_nzd": 34.0,
+   "ship_g": 138,
+   "parts": [
+    {
+     "id": "dr2-pod-standard",
+     "qty": 1
+    },
+    {
+     "id": "dr2-lid-standard-plain",
+     "qty": 1
+    },
+    {
+     "id": "dr2-insert-standard-everyday",
+     "qty": 1
+    },
+    {
+     "id": "grid-turn-key",
+     "qty": 2
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 13.58,
+    "max_usd_per_gram": 0.079,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-PDS-TOM-8"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-PDS-TAN-T"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-PDS-BUT-3"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-PDS-LIM-U"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-PDS-MIN-8"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-PDS-SKY-X"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-PDS-COB-6"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-PDS-LIL-M"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-PDS-GRA-5"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-PDS-BLU-L"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-PDS-CLO-F"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-PDS-INK-V"
+    }
+   ]
+  },
+  {
+   "handle": "al-pod-tall",
+   "short": "PDT",
+   "title": "dayrally pod, tall",
+   "blurb": "Twice the depth: bottles, sunscreen, cards standing up. Insert and two keys included.",
+   "size": "128 × 72 × 69 mm with lid",
+   "material": "PLA Matte, two colours",
+   "type": "dayrally",
+   "personalised": true,
+   "colours": "dayrally",
+   "price_nzd": 42.0,
+   "ship_g": 174,
+   "parts": [
+    {
+     "id": "dr2-pod-tall",
+     "qty": 1
+    },
+    {
+     "id": "dr2-lid-tall-plain",
+     "qty": 1
+    },
+    {
+     "id": "dr2-insert-tall-deep-two",
+     "qty": 1
+    },
+    {
+     "id": "grid-turn-key",
+     "qty": 2
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 16.85,
+    "max_usd_per_gram": 0.071,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-PDT-TOM-B"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-PDT-TAN-W"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-PDT-BUT-6"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-PDT-LIM-X"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-PDT-MIN-B"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-PDT-SKY-2"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-PDT-COB-9"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-PDT-LIL-Q"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-PDT-GRA-8"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-PDT-BLU-P"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-PDT-CLO-J"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-PDT-INK-Y"
+    }
+   ]
+  },
+  {
+   "handle": "al-pod-long",
+   "short": "PDL",
+   "title": "dayrally pod, long",
+   "blurb": "Pens and pencils, tools, long lures. Insert and two keys included.",
+   "size": "176 × 72 × 45 mm with lid",
+   "material": "PLA Matte, two colours",
+   "type": "dayrally",
+   "personalised": true,
+   "colours": "dayrally",
+   "price_nzd": 44.0,
+   "ship_g": 196,
+   "parts": [
+    {
+     "id": "dr2-pod-long",
+     "qty": 1
+    },
+    {
+     "id": "dr2-lid-long-plain",
+     "qty": 1
+    },
+    {
+     "id": "dr2-insert-long-everyday",
+     "qty": 1
+    },
+    {
+     "id": "grid-turn-key",
+     "qty": 2
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 17.66,
+    "max_usd_per_gram": 0.064,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-PDL-TOM-K"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-PDL-TAN-6"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-PDL-BUT-E"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-PDL-LIM-7"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-PDL-MIN-K"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-PDL-SKY-A"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-PDL-COB-H"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-PDL-LIL-Y"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-PDL-GRA-G"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-PDL-BLU-X"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-PDL-CLO-S"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-PDL-INK-8"
+    }
+   ]
+  },
+  {
+   "handle": "al-strap-clip",
+   "short": "SC",
+   "title": "Strap clip",
+   "blurb": "Backpack straps up to 42 mm.",
+   "size": "70 × 36 × 20 mm",
+   "material": "PETG",
+   "type": "dayrally",
+   "personalised": false,
+   "colours": "dayrally",
+   "price_nzd": 12.0,
+   "ship_g": 60,
+   "parts": [
+    {
+     "id": "dr2-mount-strap-clip",
+     "qty": 1
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 4.6,
+    "max_usd_per_gram": 0.131,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-SC-TOM-K"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-SC-TAN-K"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-SC-BUT-K"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-SC-LIM-M"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-SC-MIN-X"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-SC-SKY-3"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-SC-COB-D"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-SC-LIL-F"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-SC-GRA-6"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-SC-BLU-C"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-SC-CLO-C"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-SC-INK-N"
+    }
+   ]
+  },
+  {
+   "handle": "al-duo-strap",
+   "short": "DS",
+   "title": "Duo strap mount",
+   "blurb": "Slim straps up to 25 mm, like school bags and lanyards.",
+   "size": "70 × 32 × 20 mm",
+   "material": "PETG",
+   "type": "dayrally",
+   "personalised": false,
+   "colours": "dayrally",
+   "price_nzd": 10.0,
+   "ship_g": 58,
+   "parts": [
+    {
+     "id": "dr2-mount-duo-strap",
+     "qty": 1
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 3.78,
+    "max_usd_per_gram": 0.121,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-DS-TOM-4"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-DS-TAN-4"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-DS-BUT-4"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-DS-LIM-6"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-DS-MIN-G"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-DS-SKY-L"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-DS-COB-W"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-DS-LIL-Y"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-DS-GRA-P"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-DS-BLU-V"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-DS-CLO-V"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-DS-INK-7"
+    }
+   ]
+  },
+  {
+   "handle": "al-belt-clip",
+   "short": "BC",
+   "title": "Belt clip",
+   "blurb": "Belts and wide straps up to 50 mm.",
+   "size": "70 × 40 × 21 mm",
+   "material": "PETG",
+   "type": "dayrally",
+   "personalised": false,
+   "colours": "dayrally",
+   "price_nzd": 12.0,
+   "ship_g": 62,
+   "parts": [
+    {
+     "id": "dr2-mount-belt-clip",
+     "qty": 1
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 4.6,
+    "max_usd_per_gram": 0.116,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-BC-TOM-2"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-BC-TAN-2"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-BC-BUT-2"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-BC-LIM-4"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-BC-MIN-E"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-BC-SKY-J"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-BC-COB-U"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-BC-LIL-W"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-BC-GRA-M"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-BC-BLU-T"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-BC-CLO-T"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-BC-INK-5"
+    }
+   ]
+  },
+  {
+   "handle": "al-carabiner-loop",
+   "short": "CL",
+   "title": "Carabiner loop",
+   "blurb": "Clip a pod to a bag loop with any carabiner (not included). Bag use only, not for climbing.",
+   "size": "94 × 34 × 16 mm",
+   "material": "PETG",
+   "type": "dayrally",
+   "personalised": false,
+   "colours": "dayrally",
+   "price_nzd": 9.0,
+   "ship_g": 57,
+   "parts": [
+    {
+     "id": "dr2-mount-carabiner-loop",
+     "qty": 1
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 3.37,
+    "max_usd_per_gram": 0.114,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-CL-TOM-M"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-CL-TAN-M"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-CL-BUT-M"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-CL-LIM-P"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-CL-MIN-Z"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-CL-SKY-5"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-CL-COB-F"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-CL-LIL-H"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-CL-GRA-8"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-CL-BLU-E"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-CL-CLO-E"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-CL-INK-Q"
+    }
+   ]
+  },
+  {
+   "handle": "al-home-dock",
+   "short": "HD",
+   "title": "Home dock",
+   "blurb": "A desk base the pod locks onto at home. Takes four 10 mm rubber feet.",
+   "size": "150 × 96 × 22 mm",
+   "material": "PLA Matte",
+   "type": "dayrally",
+   "personalised": false,
+   "colours": "dayrally",
+   "price_nzd": 18.0,
+   "ship_g": 136,
+   "parts": [
+    {
+     "id": "dr2-mount-home-dock",
+     "qty": 1
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 7.05,
+    "max_usd_per_gram": 0.042,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-HD-TOM-A"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-HD-TAN-A"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-HD-BUT-A"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-HD-LIM-C"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-HD-MIN-N"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-HD-SKY-S"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-HD-COB-4"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-HD-LIL-6"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-HD-GRA-V"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-HD-BLU-3"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-HD-CLO-3"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-HD-INK-D"
+    }
+   ]
+  },
+  {
+   "handle": "al-handline-winder",
+   "short": "HW",
+   "title": "Handline winder",
+   "blurb": "Flat winder with line notches. No hooks supplied.",
+   "size": "128 × 56 × 5 mm",
+   "material": "PETG",
+   "type": "dayrally",
+   "personalised": false,
+   "colours": "dayrally",
+   "price_nzd": 9.0,
+   "ship_g": 53,
+   "parts": [
+    {
+     "id": "dr-handline-winder",
+     "qty": 1
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 3.37,
+    "max_usd_per_gram": 0.144,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-HW-TOM-G"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-HW-TAN-G"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-HW-BUT-G"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-HW-LIM-J"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-HW-MIN-U"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-HW-SKY-Y"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-HW-COB-A"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-HW-LIL-C"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-HW-GRA-3"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-HW-BLU-9"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-HW-CLO-9"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-HW-INK-K"
+    }
+   ]
+  },
+  {
+   "handle": "al-bag-tag",
+   "short": "BT",
+   "title": "Bag tag",
+   "blurb": "Your name inlaid flush in a second colour.",
+   "size": "64 × 28 × 4 mm",
+   "material": "PLA Matte, two colours",
+   "type": "dayrally",
+   "personalised": true,
+   "colours": "dayrally",
+   "price_nzd": 12.0,
+   "ship_g": 45,
+   "parts": [
+    {
+     "id": "dr-bag-tag",
+     "qty": 1
+    },
+    {
+     "id": "dr-bag-tag-name",
+     "qty": 1
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 4.6,
+    "max_usd_per_gram": 0.5,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-BT-TOM-4"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-BT-TAN-4"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-BT-BUT-4"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-BT-LIM-6"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-BT-MIN-G"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-BT-SKY-L"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-BT-COB-W"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-BT-LIL-Y"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-BT-GRA-P"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-BT-BLU-V"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-BT-CLO-V"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-BT-INK-7"
+    }
+   ]
+  },
+  {
+   "handle": "al-bag-charm",
+   "short": "CH",
+   "title": "Bag charm",
+   "blurb": "Star, heart, bolt, flower, fish or wave. Initials inlaid on five of the six shapes.",
+   "size": "about 40 mm",
+   "material": "PLA Matte, two colours",
+   "type": "dayrally",
+   "personalised": true,
+   "colours": "dayrally",
+   "price_nzd": 10.0,
+   "ship_g": 43,
+   "parts": [
+    {
+     "id": "dr2-charm-star",
+     "qty": 1
+    },
+    {
+     "id": "dr2-charm-star-inlay",
+     "qty": 1
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 3.78,
+    "max_usd_per_gram": 0.629,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-CH-TOM-D"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-CH-TAN-D"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-CH-BUT-D"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-CH-LIM-F"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-CH-MIN-R"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-CH-SKY-V"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-CH-COB-7"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-CH-LIL-9"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-CH-GRA-Y"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-CH-BLU-6"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-CH-CLO-6"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-CH-INK-G"
+    }
+   ]
+  },
+  {
+   "handle": "al-zip-pull",
+   "short": "ZP",
+   "title": "Zip pulls, pair",
+   "blurb": "Initials inlaid. Small parts: not for children under 3.",
+   "size": "34 × 13 × 3 mm",
+   "material": "PLA Matte, two colours",
+   "type": "dayrally",
+   "personalised": true,
+   "colours": "dayrally",
+   "price_nzd": 9.0,
+   "ship_g": 43,
+   "parts": [
+    {
+     "id": "dr2-zip-pull",
+     "qty": 2
+    },
+    {
+     "id": "dr2-zip-pull-inlay",
+     "qty": 2
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 3.37,
+    "max_usd_per_gram": 0.734,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-ZP-TOM-L"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-ZP-TAN-L"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-ZP-BUT-L"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-ZP-LIM-N"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-ZP-MIN-Y"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-ZP-SKY-4"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-ZP-COB-E"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-ZP-LIL-G"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-ZP-GRA-7"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-ZP-BLU-D"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-ZP-CLO-D"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-ZP-INK-P"
+    }
+   ]
+  },
+  {
+   "handle": "al-phone-stand",
+   "short": "PS",
+   "title": "Phone stand",
+   "blurb": "Leans a phone back at about 65°, with a gap for the charging cable.",
+   "size": "84 × 70 × 60 mm",
+   "material": "PLA Matte",
+   "type": "dayrally",
+   "personalised": false,
+   "colours": "dayrally",
+   "price_nzd": 16.0,
+   "ship_g": 72,
+   "parts": [
+    {
+     "id": "dr2-phone-stand",
+     "qty": 1
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 6.23,
+    "max_usd_per_gram": 0.109,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-PS-TOM-G"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-PS-TAN-G"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-PS-BUT-G"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-PS-LIM-J"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-PS-MIN-U"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-PS-SKY-Y"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-PS-COB-A"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-PS-LIL-C"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-PS-GRA-3"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-PS-BLU-9"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-PS-CLO-9"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-PS-INK-K"
+    }
+   ]
+  },
+  {
+   "handle": "al-chair-hook",
+   "short": "CK",
+   "title": "Chair hooks, pair",
+   "blurb": "Snap onto 22–25 mm beach-chair or railing tubes to hang a towel or bag.",
+   "size": "36 × 62 × 14 mm",
+   "material": "PETG",
+   "type": "dayrally",
+   "personalised": false,
+   "colours": "dayrally",
+   "price_nzd": 12.0,
+   "ship_g": 52,
+   "parts": [
+    {
+     "id": "dr2-chair-hook",
+     "qty": 2
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 4.6,
+    "max_usd_per_gram": 0.224,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-CK-TOM-K"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-CK-TAN-K"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-CK-BUT-K"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-CK-LIM-M"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-CK-MIN-X"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-CK-SKY-3"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-CK-COB-D"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-CK-LIL-F"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-CK-GRA-6"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-CK-BLU-C"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-CK-CLO-C"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-CK-INK-N"
+    }
+   ]
+  },
+  {
+   "handle": "al-cable-winder",
+   "short": "CW",
+   "title": "Cable winders, pair",
+   "blurb": "Wind up earbuds and charging cables.",
+   "size": "64 × 26 × 3 mm",
+   "material": "PETG",
+   "type": "dayrally",
+   "personalised": false,
+   "colours": "dayrally",
+   "price_nzd": 8.0,
+   "ship_g": 47,
+   "parts": [
+    {
+     "id": "dr2-cable-winder",
+     "qty": 2
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 2.97,
+    "max_usd_per_gram": 0.24,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-CW-TOM-B"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-CW-TAN-B"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-CW-BUT-B"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-CW-LIM-D"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-CW-MIN-P"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-CW-SKY-T"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-CW-COB-5"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-CW-LIL-7"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-CW-GRA-W"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-CW-BLU-4"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-CW-CLO-4"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-CW-INK-E"
+    }
+   ]
+  },
+  {
+   "handle": "al-bar-saddle",
+   "short": "BS",
+   "title": "Bar saddle",
+   "blurb": "Holds a pod on 22–35 mm bars with two zip ties or a rubber strap (not included).",
+   "size": "70 × 32 × 28 mm",
+   "material": "PETG",
+   "type": "Bike",
+   "personalised": false,
+   "colours": "dayrally",
+   "price_nzd": 14.0,
+   "ship_g": 60,
+   "parts": [
+    {
+     "id": "dr2-mount-bar-saddle",
+     "qty": 1
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 5.42,
+    "max_usd_per_gram": 0.152,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-BS-TOM-2"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-BS-TAN-2"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-BS-BUT-2"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-BS-LIM-4"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-BS-MIN-E"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-BS-SKY-J"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-BS-COB-U"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-BS-LIL-W"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-BS-GRA-M"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-BS-BLU-T"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-BS-CLO-T"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-BS-INK-5"
+    }
+   ]
+  },
+  {
+   "handle": "al-frame-saddle",
+   "short": "FS",
+   "title": "Frame saddle",
+   "blurb": "Scooter stems, seat posts and frame tubes from 25 to 45 mm, with a rubber strap or zip ties (not included).",
+   "size": "80 × 34 × 32 mm",
+   "material": "PETG",
+   "type": "Bike",
+   "personalised": false,
+   "colours": "dayrally",
+   "price_nzd": 16.0,
+   "ship_g": 66,
+   "parts": [
+    {
+     "id": "dr2-mount-frame-saddle",
+     "qty": 1
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 6.23,
+    "max_usd_per_gram": 0.134,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-FS-TOM-6"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-FS-TAN-6"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-FS-BUT-6"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-FS-LIM-8"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-FS-MIN-J"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-FS-SKY-N"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-FS-COB-Y"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-FS-LIL-2"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-FS-GRA-R"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-FS-BLU-X"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-FS-CLO-X"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-FS-INK-9"
+    }
+   ]
+  },
+  {
+   "handle": "al-number-plate",
+   "short": "PL",
+   "title": "Number plate",
+   "blurb": "Your number and name raised in a second colour. Zip-ties to the bars.",
+   "size": "170 × 124 × 4 mm",
+   "material": "PETG, two colours",
+   "type": "Bike",
+   "personalised": true,
+   "colours": "dayrally",
+   "price_nzd": 24.0,
+   "ship_g": 99,
+   "parts": [
+    {
+     "id": "bike-number-plate",
+     "qty": 1
+    },
+    {
+     "id": "bike-number-plate-text",
+     "qty": 1
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 9.5,
+    "max_usd_per_gram": 0.091,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-PL-TOM-2"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-PL-TAN-2"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-PL-BUT-2"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-PL-LIM-4"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-PL-MIN-E"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-PL-SKY-J"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-PL-COB-U"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-PL-LIL-W"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-PL-GRA-M"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-PL-BLU-T"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-PL-CLO-T"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-PL-INK-5"
+    }
+   ]
+  },
+  {
+   "handle": "al-spoke-beads",
+   "short": "SB",
+   "title": "Spoke beads, 12",
+   "blurb": "Snap onto 2 mm spokes and clack as you ride. Mix the colours. Small parts.",
+   "size": "Ø12 × 16 mm each",
+   "material": "PETG",
+   "type": "Bike",
+   "personalised": false,
+   "colours": "dayrally",
+   "price_nzd": 12.0,
+   "ship_g": 56,
+   "parts": [
+    {
+     "id": "dr2-spoke-bead",
+     "qty": 12
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 4.6,
+    "max_usd_per_gram": 0.167,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-SB-TOM-H"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-SB-TAN-H"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-SB-BUT-H"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-SB-LIM-K"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-SB-MIN-V"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-SB-SKY-Z"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-SB-COB-B"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-SB-LIL-D"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-SB-GRA-4"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-SB-BLU-A"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-SB-CLO-A"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-SB-INK-L"
+    }
+   ]
+  },
+  {
+   "handle": "al-tyre-lever",
+   "short": "TL",
+   "title": "Tyre levers, pair",
+   "blurb": "Scoop tip and spoke hook.",
+   "size": "112 × 18 mm",
+   "material": "PETG",
+   "type": "Bike",
+   "personalised": false,
+   "colours": "dayrally",
+   "price_nzd": 12.0,
+   "ship_g": 57,
+   "parts": [
+    {
+     "id": "bike-tyre-lever",
+     "qty": 2
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 4.6,
+    "max_usd_per_gram": 0.157,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-TL-TOM-6"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-TL-TAN-6"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-TL-BUT-6"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-TL-LIM-8"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-TL-MIN-J"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-TL-SKY-N"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-TL-COB-Y"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-TL-LIL-2"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-TL-GRA-R"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-TL-BLU-X"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-TL-CLO-X"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-TL-INK-9"
+    }
+   ]
+  },
+  {
+   "handle": "al-bar-end",
+   "short": "BE",
+   "title": "Bar-end plugs, pair",
+   "blurb": "Press fit into 18–20 mm bar ends.",
+   "size": "Ø24 × 20 mm",
+   "material": "PETG",
+   "type": "Bike",
+   "personalised": false,
+   "colours": "dayrally",
+   "price_nzd": 12.0,
+   "ship_g": 47,
+   "parts": [
+    {
+     "id": "bike-bar-end",
+     "qty": 2
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 4.6,
+    "max_usd_per_gram": 0.394,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Tomato",
+     "sku": "AL-BE-TOM-6"
+    },
+    {
+     "colour": "Tangerine",
+     "sku": "AL-BE-TAN-6"
+    },
+    {
+     "colour": "Butter",
+     "sku": "AL-BE-BUT-6"
+    },
+    {
+     "colour": "Lime",
+     "sku": "AL-BE-LIM-8"
+    },
+    {
+     "colour": "Mint",
+     "sku": "AL-BE-MIN-J"
+    },
+    {
+     "colour": "Sky",
+     "sku": "AL-BE-SKY-N"
+    },
+    {
+     "colour": "Cobalt",
+     "sku": "AL-BE-COB-Y"
+    },
+    {
+     "colour": "Lilac",
+     "sku": "AL-BE-LIL-2"
+    },
+    {
+     "colour": "Grape",
+     "sku": "AL-BE-GRA-R"
+    },
+    {
+     "colour": "Blush",
+     "sku": "AL-BE-BLU-X"
+    },
+    {
+     "colour": "Cloud",
+     "sku": "AL-BE-CLO-X"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-BE-INK-9"
+    }
+   ]
+  },
+  {
+   "handle": "al-board-renter",
+   "short": "B44R",
+   "title": "Renter board 4×4",
+   "blurb": "Flat back with marked lanes for removable adhesive strips. Light things only.",
+   "size": "168 × 168 × 8 mm",
+   "material": "PLA Matte",
+   "type": "Renter",
+   "personalised": false,
+   "colours": "living",
+   "price_nzd": 39.0,
+   "ship_g": 136,
+   "parts": [
+    {
+     "id": "renter-board-4x4",
+     "qty": 1
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 15.62,
+    "max_usd_per_gram": 0.092,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Chalk",
+     "sku": "AL-B44R-CHA-B"
+    },
+    {
+     "colour": "Oat",
+     "sku": "AL-B44R-OAT-S"
+    },
+    {
+     "colour": "Sage",
+     "sku": "AL-B44R-SAG-A"
+    },
+    {
+     "colour": "Clay",
+     "sku": "AL-B44R-CLA-7"
+    },
+    {
+     "colour": "Plum",
+     "sku": "AL-B44R-PLU-M"
+    },
+    {
+     "colour": "Ash",
+     "sku": "AL-B44R-ASH-4"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-B44R-INK-9"
+    }
+   ]
+  },
+  {
+   "handle": "al-over-door",
+   "short": "OD",
+   "title": "Over-door hangers, pair",
+   "blurb": "Hang a board on a door. Needs a 4 mm gap above the door so it still closes.",
+   "size": "30 × 46 mm, for doors up to 35 mm",
+   "material": "PETG",
+   "type": "Renter",
+   "personalised": false,
+   "colours": "living",
+   "price_nzd": 16.0,
+   "ship_g": 62,
+   "parts": [
+    {
+     "id": "renter-over-door",
+     "qty": 2
+    },
+    {
+     "id": "grid-turn-key",
+     "qty": 2
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 6.23,
+    "max_usd_per_gram": 0.157,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Chalk",
+     "sku": "AL-OD-CHA-2"
+    },
+    {
+     "colour": "Oat",
+     "sku": "AL-OD-OAT-Z"
+    },
+    {
+     "colour": "Sage",
+     "sku": "AL-OD-SAG-3"
+    },
+    {
+     "colour": "Clay",
+     "sku": "AL-OD-CLA-N"
+    },
+    {
+     "colour": "Plum",
+     "sku": "AL-OD-PLU-2"
+    },
+    {
+     "colour": "Ash",
+     "sku": "AL-OD-ASH-T"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-OD-INK-L"
+    }
+   ]
+  },
+  {
+   "handle": "al-rail-hanger",
+   "short": "RH",
+   "title": "Rail hangers, pair",
+   "blurb": "Hang a board inside a wardrobe from the hanging rail.",
+   "size": "30 × 46 mm, rails up to 32 mm",
+   "material": "PETG",
+   "type": "Renter",
+   "personalised": false,
+   "colours": "living",
+   "price_nzd": 16.0,
+   "ship_g": 60,
+   "parts": [
+    {
+     "id": "renter-rail",
+     "qty": 2
+    },
+    {
+     "id": "grid-turn-key",
+     "qty": 2
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 6.23,
+    "max_usd_per_gram": 0.176,
+    "ship_nzd": 16.78
+   },
+   "skus": [
+    {
+     "colour": "Chalk",
+     "sku": "AL-RH-CHA-D"
+    },
+    {
+     "colour": "Oat",
+     "sku": "AL-RH-OAT-C"
+    },
+    {
+     "colour": "Sage",
+     "sku": "AL-RH-SAG-E"
+    },
+    {
+     "colour": "Clay",
+     "sku": "AL-RH-CLA-Z"
+    },
+    {
+     "colour": "Plum",
+     "sku": "AL-RH-PLU-D"
+    },
+    {
+     "colour": "Ash",
+     "sku": "AL-RH-ASH-6"
+    },
+    {
+     "colour": "Ink",
+     "sku": "AL-RH-INK-X"
+    }
+   ]
+  }
+ ],
+ "kits": [
+  {
+   "handle": "al-kit-teen-room-starter",
+   "short": "KTEEROO",
+   "title": "Teen room starter",
+   "note": "Desk wall with a name.",
+   "collection": "living",
+   "price_nzd": 168.0,
+   "ship_g": 365,
+   "lines": [
+    {
+     "qty": 2,
+     "handle": "al-board-4x4"
+    },
+    {
+     "qty": 1,
+     "handle": "al-shelf-3"
+    },
+    {
+     "qty": 1,
+     "handle": "al-cup"
+    },
+    {
+     "qty": 2,
+     "handle": "al-hook"
+    },
+    {
+     "qty": 1,
+     "handle": "al-name-plate"
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 68.29,
+    "max_usd_per_gram": 0.119,
+    "ship_nzd": 16.78
+   }
+  },
+  {
+   "handle": "al-kit-gear-wall",
+   "short": "KGEAWAL",
+   "title": "Gear wall",
+   "note": "Lures, rods, tackle. Hooks stay boxed.",
+   "collection": "living",
+   "price_nzd": 168.0,
+   "ship_g": 466,
+   "lines": [
+    {
+     "qty": 2,
+     "handle": "al-board-4x4"
+    },
+    {
+     "qty": 1,
+     "handle": "al-lure-garage"
+    },
+    {
+     "qty": 1,
+     "handle": "al-rod-cradle"
+    },
+    {
+     "qty": 2,
+     "handle": "al-hook"
+    },
+    {
+     "qty": 1,
+     "handle": "al-bin-2"
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 68.29,
+    "max_usd_per_gram": 0.091,
+    "ship_nzd": 16.78
+   }
+  },
+  {
+   "handle": "al-kit-vanity-lab",
+   "short": "KVANLAB",
+   "title": "Vanity lab",
+   "note": "Brushes, skincare, claw clips.",
+   "collection": "living",
+   "price_nzd": 149.0,
+   "ship_g": 356,
+   "lines": [
+    {
+     "qty": 1,
+     "handle": "al-board-4x4"
+    },
+    {
+     "qty": 1,
+     "handle": "al-board-2x4"
+    },
+    {
+     "qty": 3,
+     "handle": "al-cup"
+    },
+    {
+     "qty": 1,
+     "handle": "al-shelf-2"
+    },
+    {
+     "qty": 1,
+     "handle": "al-bin-2"
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 60.53,
+    "max_usd_per_gram": 0.108,
+    "ship_nzd": 16.78
+   }
+  },
+  {
+   "handle": "al-kit-desk-reset",
+   "short": "KDESRES",
+   "title": "Desk reset",
+   "note": "Headphones, chargers, pens.",
+   "collection": "living",
+   "price_nzd": 119.0,
+   "ship_g": 288,
+   "lines": [
+    {
+     "qty": 1,
+     "handle": "al-board-4x4"
+    },
+    {
+     "qty": 1,
+     "handle": "al-shelf-2"
+    },
+    {
+     "qty": 2,
+     "handle": "al-cup"
+    },
+    {
+     "qty": 1,
+     "handle": "al-bin-2"
+    },
+    {
+     "qty": 1,
+     "handle": "al-hook"
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 48.29,
+    "max_usd_per_gram": 0.11,
+    "ship_nzd": 16.78
+   }
+  },
+  {
+   "handle": "al-kit-workshop-wall",
+   "short": "KWORWAL",
+   "title": "Workshop wall",
+   "note": "Hand tools in reach.",
+   "collection": "living",
+   "price_nzd": 182.0,
+   "ship_g": 425,
+   "lines": [
+    {
+     "qty": 2,
+     "handle": "al-board-4x4"
+    },
+    {
+     "qty": 4,
+     "handle": "al-hook"
+    },
+    {
+     "qty": 2,
+     "handle": "al-bin-2"
+    },
+    {
+     "qty": 2,
+     "handle": "al-cup"
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 74.01,
+    "max_usd_per_gram": 0.109,
+    "ship_nzd": 16.78
+   }
+  },
+  {
+   "handle": "al-kit-entry-and-pets",
+   "short": "KENTAND",
+   "title": "Entry and pets",
+   "note": "Leads, keys, bags, a name.",
+   "collection": "living",
+   "price_nzd": 114.0,
+   "ship_g": 235,
+   "lines": [
+    {
+     "qty": 1,
+     "handle": "al-board-4x4"
+    },
+    {
+     "qty": 3,
+     "handle": "al-hook"
+    },
+    {
+     "qty": 1,
+     "handle": "al-bin-2"
+    },
+    {
+     "qty": 1,
+     "handle": "al-name-plate"
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 46.24,
+    "max_usd_per_gram": 0.134,
+    "ship_nzd": 16.78
+   }
+  },
+  {
+   "handle": "al-kit-no-drill-door-wall",
+   "short": "KNODDOO",
+   "title": "No-drill door wall",
+   "note": "Hangs over a door. Nothing to drill, nothing to patch when you move.",
+   "collection": "living",
+   "price_nzd": 97.0,
+   "ship_g": 227,
+   "lines": [
+    {
+     "qty": 1,
+     "handle": "al-board-4x4"
+    },
+    {
+     "qty": 1,
+     "handle": "al-over-door"
+    },
+    {
+     "qty": 3,
+     "handle": "al-hook"
+    },
+    {
+     "qty": 1,
+     "handle": "al-cup"
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 39.3,
+    "max_usd_per_gram": 0.119,
+    "ship_nzd": 16.78
+   }
+  },
+  {
+   "handle": "al-kit-dayrally-ride-kit",
+   "short": "KDAYRID",
+   "title": "dayrally Ride kit",
+   "note": "Pod on the handlebars, a number plate and tyre levers.",
+   "collection": "dayrally",
+   "price_nzd": 76.0,
+   "ship_g": 233,
+   "lines": [
+    {
+     "qty": 1,
+     "handle": "al-pod-standard"
+    },
+    {
+     "qty": 1,
+     "handle": "al-bar-saddle"
+    },
+    {
+     "qty": 1,
+     "handle": "al-number-plate"
+    },
+    {
+     "qty": 1,
+     "handle": "al-tyre-lever"
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 30.73,
+    "max_usd_per_gram": 0.09,
+    "ship_nzd": 16.78
+   }
+  },
+  {
+   "handle": "al-kit-dayrally-scoot-kit",
+   "short": "KDAYSCO",
+   "title": "dayrally Scoot kit",
+   "note": "Mini pod on a scooter stem, plus a charm for the bag.",
+   "collection": "dayrally",
+   "price_nzd": 47.0,
+   "ship_g": 128,
+   "lines": [
+    {
+     "qty": 1,
+     "handle": "al-pod-mini"
+    },
+    {
+     "qty": 1,
+     "handle": "al-frame-saddle"
+    },
+    {
+     "qty": 1,
+     "handle": "al-bag-charm"
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 18.89,
+    "max_usd_per_gram": 0.122,
+    "ship_nzd": 16.78
+   }
+  },
+  {
+   "handle": "al-kit-dayrally-fish-kit",
+   "short": "KDAYFIS",
+   "title": "dayrally Fish kit",
+   "note": "Tackle pod on your bag strap and a handline winder. No hooks in the kit.",
+   "collection": "dayrally",
+   "price_nzd": 49.0,
+   "ship_g": 171,
+   "lines": [
+    {
+     "qty": 1,
+     "handle": "al-pod-standard"
+    },
+    {
+     "qty": 1,
+     "handle": "al-strap-clip"
+    },
+    {
+     "qty": 1,
+     "handle": "al-handline-winder"
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 19.71,
+    "max_usd_per_gram": 0.085,
+    "ship_nzd": 16.78
+   }
+  },
+  {
+   "handle": "al-kit-dayrally-beach-kit",
+   "short": "KDAYBEA",
+   "title": "dayrally Beach kit",
+   "note": "Pockets for a sunscreen stick, balms and cards. Chair hooks for the towel.",
+   "collection": "dayrally",
+   "price_nzd": 59.0,
+   "ship_g": 170,
+   "lines": [
+    {
+     "qty": 1,
+     "handle": "al-pod-standard"
+    },
+    {
+     "qty": 1,
+     "handle": "al-duo-strap"
+    },
+    {
+     "qty": 1,
+     "handle": "al-chair-hook"
+    },
+    {
+     "qty": 1,
+     "handle": "al-bag-charm"
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 23.79,
+    "max_usd_per_gram": 0.103,
+    "ship_nzd": 16.78
+   }
+  },
+  {
+   "handle": "al-kit-dayrally-selfie-kit",
+   "short": "KDAYSEL",
+   "title": "dayrally Selfie kit",
+   "note": "Mini pod for earbuds, a phone stand and a charm.",
+   "collection": "dayrally",
+   "price_nzd": 55.0,
+   "ship_g": 151,
+   "lines": [
+    {
+     "qty": 1,
+     "handle": "al-pod-mini"
+    },
+    {
+     "qty": 1,
+     "handle": "al-carabiner-loop"
+    },
+    {
+     "qty": 1,
+     "handle": "al-phone-stand"
+    },
+    {
+     "qty": 1,
+     "handle": "al-bag-charm"
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 22.16,
+    "max_usd_per_gram": 0.113,
+    "ship_nzd": 16.78
+   }
+  },
+  {
+   "handle": "al-kit-dayrally-school-kit",
+   "short": "KDAYSCH",
+   "title": "dayrally School kit",
+   "note": "Long pencil pod on the school bag, zip pulls and a name tag.",
+   "collection": "dayrally",
+   "price_nzd": 67.0,
+   "ship_g": 222,
+   "lines": [
+    {
+     "qty": 1,
+     "handle": "al-pod-long"
+    },
+    {
+     "qty": 1,
+     "handle": "al-duo-strap"
+    },
+    {
+     "qty": 1,
+     "handle": "al-zip-pull"
+    },
+    {
+     "qty": 1,
+     "handle": "al-bag-tag"
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 27.05,
+    "max_usd_per_gram": 0.084,
+    "ship_nzd": 16.78
+   }
+  },
+  {
+   "handle": "al-kit-dayrally-tech-kit",
+   "short": "KDAYTEC",
+   "title": "dayrally Tech kit",
+   "note": "Earbuds and a charging cable, wound up and found fast.",
+   "collection": "dayrally",
+   "price_nzd": 46.0,
+   "ship_g": 161,
+   "lines": [
+    {
+     "qty": 1,
+     "handle": "al-pod-standard"
+    },
+    {
+     "qty": 1,
+     "handle": "al-carabiner-loop"
+    },
+    {
+     "qty": 1,
+     "handle": "al-cable-winder"
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 18.48,
+    "max_usd_per_gram": 0.086,
+    "ship_nzd": 16.78
+   }
+  },
+  {
+   "handle": "al-kit-dayrally-everyday-kit",
+   "short": "KDAYEVE",
+   "title": "dayrally Everyday kit",
+   "note": "The original: pod on your strap with your name, and a bag tag.",
+   "collection": "dayrally",
+   "price_nzd": 52.0,
+   "ship_g": 163,
+   "lines": [
+    {
+     "qty": 1,
+     "handle": "al-pod-standard"
+    },
+    {
+     "qty": 1,
+     "handle": "al-strap-clip"
+    },
+    {
+     "qty": 1,
+     "handle": "al-bag-tag"
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 20.93,
+    "max_usd_per_gram": 0.097,
+    "ship_nzd": 16.78
+   }
+  },
+  {
+   "handle": "al-kit-dayrally-camp-kit",
+   "short": "KDAYCAM",
+   "title": "dayrally Camp kit",
+   "note": "Tall pod on the belt for sunscreen and bug spray, hooks for the campsite.",
+   "collection": "dayrally",
+   "price_nzd": 67.0,
+   "ship_g": 221,
+   "lines": [
+    {
+     "qty": 1,
+     "handle": "al-pod-tall"
+    },
+    {
+     "qty": 1,
+     "handle": "al-belt-clip"
+    },
+    {
+     "qty": 1,
+     "handle": "al-chair-hook"
+    },
+    {
+     "qty": 1,
+     "handle": "al-handline-winder"
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 27.05,
+    "max_usd_per_gram": 0.085,
+    "ship_nzd": 16.78
+   }
+  },
+  {
+   "handle": "al-kit-dayrally-desk-kit",
+   "short": "KDAYDES",
+   "title": "dayrally Desk kit",
+   "note": "A tall pod on a desk dock, with cards standing up.",
+   "collection": "dayrally",
+   "price_nzd": 61.0,
+   "ship_g": 276,
+   "lines": [
+    {
+     "qty": 1,
+     "handle": "al-pod-tall"
+    },
+    {
+     "qty": 1,
+     "handle": "al-home-dock"
+    },
+    {
+     "qty": 1,
+     "handle": "al-cable-winder"
+    }
+   ],
+   "costing": {
+    "max_cost_nzd": 24.61,
+    "max_usd_per_gram": 0.059,
+    "ship_nzd": 16.78
+   }
+  }
+ ],
+ "test_kit": {
+  "instructions": "tools/living-cad/parts/test-kit/TEST-KIT.md",
+  "files": [
+   {
+    "file": "01-board-2x2.stl",
+    "name": "Board coupon 2×2",
+    "material": "PLA Matte",
+    "qty": 1,
+    "print_bbox_mm": [
+     84.0,
+     84.0,
+     8.0
+    ],
+    "est_grams_pla": 25.2,
+    "watertight": true,
+    "check": "Four keyways. Every key and the hook go into this.",
+    "path": "/living/cad/v0.3/test-kit/01-board-2x2.stl"
+   },
+   {
+    "file": "02-key-A-clamp-000.stl",
+    "name": "TURN key A (clamp 0.00 mm, 1 notch)",
+    "material": "PETG",
+    "qty": 2,
+    "print_bbox_mm": [
+     21.0,
+     21.0,
+     16.0
+    ],
+    "est_grams_pla": 1.8,
+    "watertight": true,
+    "check": "Push in upright, turn to horizontal. Note: turns by hand? clicks? wobbles? A is the loosest.",
+    "path": "/living/cad/v0.3/test-kit/02-key-A-clamp-000.stl"
+   },
+   {
+    "file": "02-key-B-clamp-010.stl",
+    "name": "TURN key B (clamp 0.10 mm, 2 notches)",
+    "material": "PETG",
+    "qty": 2,
+    "print_bbox_mm": [
+     21.0,
+     21.0,
+     15.9
+    ],
+    "est_grams_pla": 1.8,
+    "watertight": true,
+    "check": "Push in upright, turn to horizontal. Note: turns by hand? clicks? wobbles? B is the current design.",
+    "path": "/living/cad/v0.3/test-kit/02-key-B-clamp-010.stl"
+   },
+   {
+    "file": "02-key-C-clamp-020.stl",
+    "name": "TURN key C (clamp 0.20 mm, 3 notches)",
+    "material": "PETG",
+    "qty": 2,
+    "print_bbox_mm": [
+     21.0,
+     21.0,
+     15.8
+    ],
+    "est_grams_pla": 1.7,
+    "watertight": true,
+    "check": "Push in upright, turn to horizontal. Note: turns by hand? clicks? wobbles? C is the tightest.",
+    "path": "/living/cad/v0.3/test-kit/02-key-C-clamp-020.stl"
+   },
+   {
+    "file": "03-hook.stl",
+    "name": "Hook",
+    "material": "PLA Matte",
+    "qty": 1,
+    "print_bbox_mm": [
+     51.0,
+     73.0,
+     26.0
+    ],
+    "est_grams_pla": 12.5,
+    "watertight": true,
+    "check": "Hang a 2 kg bag from it for 24 h on the coupon; check for creep or the key turning.",
+    "path": "/living/cad/v0.3/test-kit/03-hook.stl"
+   },
+   {
+    "file": "04-over-door-hanger.stl",
+    "name": "Over-door hanger",
+    "material": "PETG",
+    "qty": 1,
+    "print_bbox_mm": [
+     51.8,
+     46.0,
+     30.0
+    ],
+    "est_grams_pla": 11.2,
+    "watertight": true,
+    "check": "Hook over your real door, close the door, check it still latches.",
+    "path": "/living/cad/v0.3/test-kit/04-over-door-hanger.stl"
+   },
+   {
+    "file": "05-pocket-clearance.stl",
+    "name": "Pocket clearance coupon (180 × 123 mm)",
+    "material": "PLA Matte",
+    "qty": 1,
+    "print_bbox_mm": [
+     180.0,
+     123.0,
+     12.0
+    ],
+    "est_grams_pla": 96.4,
+    "watertight": true,
+    "check": "Drop a $2 coin and an AA battery in each column. Pick the tightest column where both drop in and lift out easily: that's the clearance for cut-out trays.",
+    "path": "/living/cad/v0.3/test-kit/05-pocket-clearance.stl"
+   },
+   {
+    "file": "06-door-gap-gauge.stl",
+    "name": "Door gap gauge (2–6 mm)",
+    "material": "PLA Matte",
+    "qty": 1,
+    "print_bbox_mm": [
+     110.0,
+     24.0,
+     6.0
+    ],
+    "est_grams_pla": 8.2,
+    "watertight": true,
+    "check": "Close the door and slide the gauge into the gap above it. If the 4 step fits, the over-door hanger will too.",
+    "path": "/living/cad/v0.3/test-kit/06-door-gap-gauge.stl"
+   }
+  ],
+  "total_g": 164
+ },
+ "fit_tests": {
+  "grid": {
+   "hook_vs_board_overlap_mm3": 0.0,
+   "insertion_sweep": [
+    [
+     14.0,
+     0.0,
+     0.0
+    ],
+    [
+     13.5,
+     0.0,
+     0.0
+    ],
+    [
+     13.0,
+     0.0,
+     0.0
+    ],
+    [
+     12.5,
+     0.0,
+     0.0
+    ],
+    [
+     12.0,
+     0.0,
+     0.0
+    ],
+    [
+     11.5,
+     0.0,
+     0.0
+    ],
+    [
+     11.0,
+     0.0,
+     0.0
+    ],
+    [
+     10.5,
+     0.0,
+     0.0
+    ],
+    [
+     10.0,
+     0.0,
+     0.0
+    ],
+    [
+     9.5,
+     0.0,
+     0.0
+    ],
+    [
+     9.0,
+     0.0,
+     0.0
+    ],
+    [
+     8.5,
+     0.0,
+     0.0
+    ],
+    [
+     8.0,
+     0.0,
+     0.0
+    ],
+    [
+     7.5,
+     0.0,
+     0.0
+    ],
+    [
+     7.0,
+     0.0,
+     0.0
+    ],
+    [
+     6.5,
+     0.0,
+     0.0
+    ],
+    [
+     6.0,
+     0.0,
+     0.0
+    ],
+    [
+     5.5,
+     0.0,
+     0.0
+    ],
+    [
+     5.0,
+     0.0,
+     0.0
+    ],
+    [
+     4.5,
+     0.0,
+     0.0
+    ],
+    [
+     4.0,
+     0.0,
+     0.0
+    ],
+    [
+     3.5,
+     0.0,
+     0.0
+    ],
+    [
+     3.0,
+     0.0,
+     0.0
+    ],
+    [
+     2.5,
+     0.0,
+     0.0
+    ],
+    [
+     2.0,
+     0.0,
+     0.0
+    ],
+    [
+     1.5,
+     0.0,
+     0.0
+    ],
+    [
+     1.0,
+     0.0,
+     0.0
+    ],
+    [
+     0.5,
+     0.0,
+     0.0
+    ],
+    [
+     0.0,
+     0.0,
+     18.7808
+    ]
+   ],
+   "insertion_max_overlap_board_mm3": 0.0,
+   "insertion_max_overlap_hook_mm3_excluding_seat": 0.0,
+   "turn_sweep_deg_board_hook": [
+    [
+     90,
+     0.0,
+     18.7808
+    ],
+    [
+     75,
+     0.3581,
+     18.7808
+    ],
+    [
+     60,
+     0.6128,
+     18.7808
+    ],
+    [
+     45,
+     0.6128,
+     18.7808
+    ],
+    [
+     30,
+     0.6128,
+     18.7808
+    ],
+    [
+     15,
+     0.6128,
+     18.7808
+    ],
+    [
+     0,
+     -0.0,
+     18.7808
+    ]
+   ],
+   "locked_overlap_board_mm3": -0.0,
+   "locked_overlap_hook_mm3": 18.7808,
+   "locked_pull_0p5mm_overlap_board_mm3": 7.5326,
+   "open_pull_0p5mm_overlap_board_mm3": 0.0,
+   "shelf_vs_board_overlap_mm3": 0.0
+  },
+  "renter": {
+   "door_hanger_vs_board": 0.0,
+   "door_hanger_vs_door": 7.8183,
+   "rail_hanger_vs_board": 0.0,
+   "key_locked_vs_board": -0.0,
+   "rail_hanger_vs_rail": 0.0
+  },
+  "dayrally": {
+   "pod_vs_saddle_mm3": -0.0,
+   "pod_vs_strap_clip_mm3": -0.0,
+   "pod_vs_board_mm3": -0.0,
+   "lid_vs_base_mm3": -0.0,
+   "insert_vs_base_mm3": 0.0,
+   "insert_vs_keys_mm3": 0.0,
+   "lid_vs_insert_mm3": 0.0,
+   "key_insert_max_vs_saddle_mm3": 0.0,
+   "key_insert_max_vs_pod_mm3_above_seat": 0.0,
+   "key_locked_vs_saddle_mm3": 0.0,
+   "key_locked_vs_pod_clamp_mm3": 18.7808,
+   "key_locked_pull_0p5_vs_saddle_mm3": 7.5326
+  },
+  "dayrally2": {
+   "pods": {
+    "mini": {
+     "vs_board": 0.0,
+     "lid_vs_base": -0.0,
+     "vs_strap-clip": -0.0,
+     "vs_duo-strap": 0.0,
+     "vs_belt-clip": -0.0,
+     "vs_bar-saddle": -0.0,
+     "vs_frame-saddle": 0.0,
+     "vs_carabiner-loop": -0.0,
+     "vs_home-dock": 0.0,
+     "insert_split": {
+      "vs_base": 0.0,
+      "vs_keys": 0.0,
+      "vs_lid": 0.0
+     },
+     "insert_quad": {
+      "vs_base": 0.0,
+      "vs_keys": 0.0,
+      "vs_lid": 0.0
+     },
+     "insert_earbuds": {
+      "vs_base": 0.0,
+      "vs_keys": 0.0,
+      "vs_lid": 0.0
+     }
+    },
+    "standard": {
+     "vs_board": -0.0,
+     "lid_vs_base": -0.0,
+     "vs_strap-clip": -0.0,
+     "vs_duo-strap": 0.0,
+     "vs_belt-clip": 0.0,
+     "vs_bar-saddle": -0.0,
+     "vs_frame-saddle": 0.0,
+     "vs_carabiner-loop": -0.0,
+     "vs_home-dock": -0.0,
+     "insert_everyday": {
+      "vs_base": 0.0,
+      "vs_keys": 0.0,
+      "vs_lid": 0.0
+     },
+     "insert_tackle": {
+      "vs_base": 0.0,
+      "vs_keys": 0.0,
+      "vs_lid": 0.0
+     },
+     "insert_beach": {
+      "vs_base": 0.0,
+      "vs_keys": 0.0,
+      "vs_lid": 0.0
+     },
+     "insert_tech": {
+      "vs_base": 0.0,
+      "vs_keys": 0.0,
+      "vs_lid": 0.0
+     },
+     "insert_split": {
+      "vs_base": 0.0,
+      "vs_keys": 0.0,
+      "vs_lid": 0.0
+     }
+    },
+    "tall": {
+     "vs_board": -0.0,
+     "lid_vs_base": 0.0,
+     "vs_strap-clip": -0.0,
+     "vs_duo-strap": 0.0,
+     "vs_belt-clip": 0.0,
+     "vs_bar-saddle": -0.0,
+     "vs_frame-saddle": 0.0,
+     "vs_carabiner-loop": -0.0,
+     "vs_home-dock": -0.0,
+     "insert_deep-two": {
+      "vs_base": 0.0,
+      "vs_keys": 0.0,
+      "vs_lid": 0.0
+     },
+     "insert_tackle-deep": {
+      "vs_base": 0.0,
+      "vs_keys": 0.0,
+      "vs_lid": 0.0
+     },
+     "insert_cards": {
+      "vs_base": 0.0,
+      "vs_keys": 0.0,
+      "vs_lid": 0.0
+     }
+    },
+    "long": {
+     "vs_board": -0.0,
+     "lid_vs_base": -0.0,
+     "vs_strap-clip": -0.0,
+     "vs_duo-strap": 0.0,
+     "vs_belt-clip": -0.0,
+     "vs_bar-saddle": -0.0,
+     "vs_frame-saddle": 0.0,
+     "vs_carabiner-loop": -0.0,
+     "vs_home-dock": 0.0,
+     "insert_pens": {
+      "vs_base": 0.0,
+      "vs_keys": 0.0,
+      "vs_lid": 0.0
+     },
+     "insert_tackle": {
+      "vs_base": 0.0,
+      "vs_keys": 0.0,
+      "vs_lid": 0.0
+     },
+     "insert_everyday": {
+      "vs_base": 0.0,
+      "vs_keys": 0.0,
+      "vs_lid": 0.0
+     }
+    }
+   },
+   "mounts_key_insert": {
+    "strap-clip": {
+     "insert_overlap": 0.0,
+     "locked_overlap": 0.0,
+     "captured_pull_0p5": true
+    },
+    "duo-strap": {
+     "insert_overlap": 0.0,
+     "locked_overlap": 0.0,
+     "captured_pull_0p5": true
+    },
+    "belt-clip": {
+     "insert_overlap": 0.0,
+     "locked_overlap": -0.0,
+     "captured_pull_0p5": true
+    },
+    "bar-saddle": {
+     "insert_overlap": 0.0,
+     "locked_overlap": 0.0,
+     "captured_pull_0p5": true
+    },
+    "frame-saddle": {
+     "insert_overlap": 0.0,
+     "locked_overlap": 0.0,
+     "captured_pull_0p5": true
+    },
+    "carabiner-loop": {
+     "insert_overlap": 0.0,
+     "locked_overlap": 0.0,
+     "captured_pull_0p5": true
+    },
+    "home-dock": {
+     "insert_overlap": 0.0,
+     "locked_overlap": 0.0,
+     "captured_pull_0p5": true
+    }
+   },
+   "pocket_walls_min_mm": {
+    "mini-earbuds": 4.98,
+    "standard-beach": 5.53,
+    "standard-tech": 3.39,
+    "tall-cards": 6.0,
+    "long-pens": 4.36
+   },
+   "chair_hook": {
+    "inner_d_mm": 24.6,
+    "opening_mm": 20.0,
+    "overlap_22mm_tube": 0.0,
+    "overlap_24mm_tube": 0.0,
+    "overlap_25mm_tube": 150.635
+   }
+  }
+ },
+ "part_code_alphabet": "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
+}

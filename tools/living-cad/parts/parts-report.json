@@ -1,0 +1,382 @@
+[
+  {
+    "slug": "grid-board-4x4",
+    "name": "Grid board 4\u00d74",
+    "system": "grid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      168.0,
+      168.0,
+      8.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 182.28,
+    "est_grams_pla": 96.7,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 16,
+    "unsupported_down_area_mm2": 706.0,
+    "notes": "168 \u00d7 168 mm tile. Prints front-face down, no supports. Fix to wall with 4 anchor washers."
+  },
+  {
+    "slug": "grid-board-2x4",
+    "name": "Grid board 2\u00d74",
+    "system": "grid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      84.0,
+      168.0,
+      8.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 92.42,
+    "est_grams_pla": 49.4,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 8,
+    "unsupported_down_area_mm2": 163.0,
+    "notes": "84 \u00d7 168 mm tile for narrow spaces."
+  },
+  {
+    "slug": "grid-turn-key",
+    "name": "TURN key",
+    "system": "grid",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      21.0,
+      21.0,
+      15.9
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 2.63,
+    "est_grams_pla": 1.7,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 0,
+    "unsupported_down_area_mm2": 2.0,
+    "notes": "Prints lugs-down. Vertical grip = open, horizontal = locked."
+  },
+  {
+    "slug": "grid-anchor-washer",
+    "name": "Anchor washer",
+    "system": "grid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      20.0,
+      20.0,
+      6.2
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 1.11,
+    "est_grams_pla": 1.1,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": "Takes a 4 mm countersunk screw and wall plug."
+  },
+  {
+    "slug": "grid-hook",
+    "name": "Hook",
+    "system": "grid",
+    "print_orientation": "on_side",
+    "print_bbox_mm": [
+      51.0,
+      73.0,
+      26.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 23.05,
+    "est_grams_pla": 12.5,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 1,
+    "unsupported_down_area_mm2": 74.0,
+    "notes": "Key above, locator nub below."
+  },
+  {
+    "slug": "grid-rod-cradle",
+    "name": "Rod cradle",
+    "system": "grid",
+    "print_orientation": "on_side",
+    "print_bbox_mm": [
+      58.0,
+      73.0,
+      26.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 20.42,
+    "est_grams_pla": 12.2,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 1,
+    "unsupported_down_area_mm2": 74.0,
+    "notes": "Pair of cradles holds a rod horizontally for display. Fits rod butts up to 24 mm."
+  },
+  {
+    "slug": "grid-shelf-2",
+    "name": "Shelf, 2 wide",
+    "system": "grid",
+    "print_orientation": "on_bottom",
+    "print_bbox_mm": [
+      76.0,
+      84.0,
+      56.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 60.93,
+    "est_grams_pla": 37.7,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 2,
+    "unsupported_down_area_mm2": 37.0,
+    "notes": "Light items only until load-tested."
+  },
+  {
+    "slug": "grid-shelf-3",
+    "name": "Shelf, 3 wide",
+    "system": "grid",
+    "print_orientation": "on_bottom",
+    "print_bbox_mm": [
+      118.0,
+      84.0,
+      56.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 90.06,
+    "est_grams_pla": 54.8,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 3,
+    "unsupported_down_area_mm2": 58.0,
+    "notes": "Light items only until load-tested."
+  },
+  {
+    "slug": "grid-bin-2",
+    "name": "Bin, 2 wide",
+    "system": "grid",
+    "print_orientation": "on_bottom",
+    "print_bbox_mm": [
+      76.0,
+      50.0,
+      76.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 38.32,
+    "est_grams_pla": 40.3,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 2,
+    "unsupported_down_area_mm2": 220.0,
+    "notes": ""
+  },
+  {
+    "slug": "grid-cup",
+    "name": "Cup",
+    "system": "grid",
+    "print_orientation": "on_bottom",
+    "print_bbox_mm": [
+      40.0,
+      43.0,
+      104.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 28.32,
+    "est_grams_pla": 30.3,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 1,
+    "unsupported_down_area_mm2": 141.0,
+    "notes": "Brushes, pens, tools."
+  },
+  {
+    "slug": "grid-lure-garage",
+    "name": "Lure garage",
+    "system": "grid",
+    "print_orientation": "on_bottom",
+    "print_bbox_mm": [
+      118.0,
+      46.0,
+      104.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 116.29,
+    "est_grams_pla": 143.1,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 3,
+    "unsupported_down_area_mm2": 352.0,
+    "notes": "Lures stand in slots; hooks stay inside the walls."
+  },
+  {
+    "slug": "grid-name-plate",
+    "name": "Name plate (sample: MILA)",
+    "system": "grid",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      168.0,
+      40.0,
+      5.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 30.77,
+    "est_grams_pla": 20.0,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 2,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": "Plate and lettering are separate bodies for two colours."
+  },
+  {
+    "slug": "grid-name-plate-text",
+    "name": "Name plate lettering",
+    "system": "grid",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      57.7,
+      17.0,
+      1.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 0.67,
+    "est_grams_pla": 0.8,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": -2,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": "Second colour; prints in the same job as the plate."
+  },
+  {
+    "slug": "tile-tray-3x2",
+    "name": "Drawer tray 3\u00d72 (sample 240\u00d7180\u00d750)",
+    "system": "tile",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      240.0,
+      180.0,
+      50.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 145.81,
+    "est_grams_pla": 180.8,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 0,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": "Sized to the customer's drawer."
+  },
+  {
+    "slug": "tile-tray-2x1",
+    "name": "Drawer tray 2\u00d71 (sample 160\u00d790\u00d740)",
+    "system": "tile",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      160.0,
+      90.0,
+      40.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 50.14,
+    "est_grams_pla": 62.2,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 0,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "tile-tray-1x1",
+    "name": "Drawer tray 1\u00d71 (sample 90\u00d790\u00d740)",
+    "system": "tile",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      90.0,
+      90.0,
+      40.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 30.26,
+    "est_grams_pla": 37.5,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 0,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "stack-node-corner",
+    "name": "Dowel node, corner",
+    "system": "stack",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      50.1,
+      50.1,
+      72.4
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 66.54,
+    "est_grams_pla": 30.5,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 0,
+    "unsupported_down_area_mm2": 429.0,
+    "notes": "Takes 19 mm round timber dowel."
+  },
+  {
+    "slug": "stack-node-tee",
+    "name": "Dowel node, tee",
+    "system": "stack",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      72.4,
+      50.1,
+      72.4
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 89.34,
+    "est_grams_pla": 38.6,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 0,
+    "unsupported_down_area_mm2": 643.0,
+    "notes": ""
+  },
+  {
+    "slug": "stack-foot",
+    "name": "Dowel foot",
+    "system": "stack",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      27.8,
+      27.8,
+      30.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 11.57,
+    "est_grams_pla": 6.9,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 0,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": "Felt pad recess optional."
+  },
+  {
+    "slug": "light-pendant-fold",
+    "name": "Fold pendant shade",
+    "system": "light",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      217.3,
+      217.3,
+      171.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 154.22,
+    "est_grams_pla": 191.2,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": "Shade only. LED bulbs only. Customer fits a certified E27 pendant cord set."
+  }
+]

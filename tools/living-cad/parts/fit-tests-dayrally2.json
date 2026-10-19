@@ -1,0 +1,169 @@
+{
+ "pods": {
+  "mini": {
+   "vs_board": 0.0,
+   "lid_vs_base": -0.0,
+   "vs_strap-clip": -0.0,
+   "vs_duo-strap": 0.0,
+   "vs_belt-clip": -0.0,
+   "vs_bar-saddle": -0.0,
+   "vs_frame-saddle": 0.0,
+   "vs_carabiner-loop": -0.0,
+   "vs_home-dock": 0.0,
+   "insert_split": {
+    "vs_base": 0.0,
+    "vs_keys": 0.0,
+    "vs_lid": 0.0
+   },
+   "insert_quad": {
+    "vs_base": 0.0,
+    "vs_keys": 0.0,
+    "vs_lid": 0.0
+   },
+   "insert_earbuds": {
+    "vs_base": 0.0,
+    "vs_keys": 0.0,
+    "vs_lid": 0.0
+   }
+  },
+  "standard": {
+   "vs_board": -0.0,
+   "lid_vs_base": -0.0,
+   "vs_strap-clip": -0.0,
+   "vs_duo-strap": 0.0,
+   "vs_belt-clip": 0.0,
+   "vs_bar-saddle": -0.0,
+   "vs_frame-saddle": 0.0,
+   "vs_carabiner-loop": -0.0,
+   "vs_home-dock": -0.0,
+   "insert_everyday": {
+    "vs_base": 0.0,
+    "vs_keys": 0.0,
+    "vs_lid": 0.0
+   },
+   "insert_tackle": {
+    "vs_base": 0.0,
+    "vs_keys": 0.0,
+    "vs_lid": 0.0
+   },
+   "insert_beach": {
+    "vs_base": 0.0,
+    "vs_keys": 0.0,
+    "vs_lid": 0.0
+   },
+   "insert_tech": {
+    "vs_base": 0.0,
+    "vs_keys": 0.0,
+    "vs_lid": 0.0
+   },
+   "insert_split": {
+    "vs_base": 0.0,
+    "vs_keys": 0.0,
+    "vs_lid": 0.0
+   }
+  },
+  "tall": {
+   "vs_board": -0.0,
+   "lid_vs_base": 0.0,
+   "vs_strap-clip": -0.0,
+   "vs_duo-strap": 0.0,
+   "vs_belt-clip": 0.0,
+   "vs_bar-saddle": -0.0,
+   "vs_frame-saddle": 0.0,
+   "vs_carabiner-loop": -0.0,
+   "vs_home-dock": -0.0,
+   "insert_deep-two": {
+    "vs_base": 0.0,
+    "vs_keys": 0.0,
+    "vs_lid": 0.0
+   },
+   "insert_tackle-deep": {
+    "vs_base": 0.0,
+    "vs_keys": 0.0,
+    "vs_lid": 0.0
+   },
+   "insert_cards": {
+    "vs_base": 0.0,
+    "vs_keys": 0.0,
+    "vs_lid": 0.0
+   }
+  },
+  "long": {
+   "vs_board": -0.0,
+   "lid_vs_base": -0.0,
+   "vs_strap-clip": -0.0,
+   "vs_duo-strap": 0.0,
+   "vs_belt-clip": -0.0,
+   "vs_bar-saddle": -0.0,
+   "vs_frame-saddle": 0.0,
+   "vs_carabiner-loop": -0.0,
+   "vs_home-dock": 0.0,
+   "insert_pens": {
+    "vs_base": 0.0,
+    "vs_keys": 0.0,
+    "vs_lid": 0.0
+   },
+   "insert_tackle": {
+    "vs_base": 0.0,
+    "vs_keys": 0.0,
+    "vs_lid": 0.0
+   },
+   "insert_everyday": {
+    "vs_base": 0.0,
+    "vs_keys": 0.0,
+    "vs_lid": 0.0
+   }
+  }
+ },
+ "mounts_key_insert": {
+  "strap-clip": {
+   "insert_overlap": 0.0,
+   "locked_overlap": 0.0,
+   "captured_pull_0p5": true
+  },
+  "duo-strap": {
+   "insert_overlap": 0.0,
+   "locked_overlap": 0.0,
+   "captured_pull_0p5": true
+  },
+  "belt-clip": {
+   "insert_overlap": 0.0,
+   "locked_overlap": -0.0,
+   "captured_pull_0p5": true
+  },
+  "bar-saddle": {
+   "insert_overlap": 0.0,
+   "locked_overlap": 0.0,
+   "captured_pull_0p5": true
+  },
+  "frame-saddle": {
+   "insert_overlap": 0.0,
+   "locked_overlap": 0.0,
+   "captured_pull_0p5": true
+  },
+  "carabiner-loop": {
+   "insert_overlap": 0.0,
+   "locked_overlap": 0.0,
+   "captured_pull_0p5": true
+  },
+  "home-dock": {
+   "insert_overlap": 0.0,
+   "locked_overlap": 0.0,
+   "captured_pull_0p5": true
+  }
+ },
+ "pocket_walls_min_mm": {
+  "mini-earbuds": 4.98,
+  "standard-beach": 5.53,
+  "standard-tech": 3.39,
+  "tall-cards": 6.0,
+  "long-pens": 4.36
+ },
+ "chair_hook": {
+  "inner_d_mm": 24.6,
+  "opening_mm": 20.0,
+  "overlap_22mm_tube": 0.0,
+  "overlap_24mm_tube": 0.0,
+  "overlap_25mm_tube": 150.635
+ }
+}
