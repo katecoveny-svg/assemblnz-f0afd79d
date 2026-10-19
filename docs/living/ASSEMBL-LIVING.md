@@ -104,3 +104,7 @@ Every print file is checked as a watertight single solid inside a 250 mm cube, w
 5. Cut-out trays: print the example tray and check the 1.2 mm clearance with real items.
 6. Renter mode: test the over-door hanger on a real door and publish the gap it needs.
 7. Confirm which glow and colour-change filaments the print partner stocks before offering those finishes.
+
+## Related proposals
+
+- `HOSPITALITY-PROPOSAL-20261019.md` — assembl / stay (holiday homes, Airbnb, motels): naming, laundry and caddy-supply feasibility, fulfilment recommendation and the Shop DO connection. Proposed only.
