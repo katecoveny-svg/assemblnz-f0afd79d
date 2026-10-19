@@ -210,3 +210,23 @@ Two upstream build scripts now write their own report files so a full rebuild ke
 
 **Revisit when**  
 The test kit has been printed and `CLAMP`/`BUMP_H`/`DIMPLE_D` are tuned (bump to v0.4), a print partner quotes `costing.csv`, or the store page that generated the launch CSVs is recovered or regenerated from `lib/living`.
+
+## ADR-009 — OpenSCAD joins the CAD toolkit beside manifold3d and CadQuery; a licence register gates adoption
+**Status:** accepted (build candidate; not merged)  
+**Date:** 2026-10-19
+
+**Context**  
+A partner reviewing assembl's CAD asked for model source rather than STLs and recommended OpenSCAD plus open libraries (Gridfinity Rebuilt, MIT; BOSL2, BSD-2-Clause; a CC BY drawer organiser; Gridfinity Extended, GPL-3.0; a CC BY honeycomb wall) as starting points for drawer, cupboard, guest-ready and desk organisation families. The repository's engines are manifold3d (TURN v0.3) and CadQuery (AC-02); OpenSCAD appeared only in assessed-and-rejected Argon files. External models arrive with licences that differ from their engines (Iteration3D's models being the example), and the repository's own CAD declares no licence.
+
+**Decision**  
+- OpenSCAD is a third engine, for dimension-driven objects (trays, dividers, brackets, label holders). It does not replace manifold3d for TURN parts or CadQuery for AC-02. First family: `tools/living-cad/scad/drawer-fit/`, dependency-free.
+- Every external design is recorded in `docs/living/SOURCE-AND-LICENCE-REGISTER.md` with origin, licence, obligations and decision before any part built on it enters the manifest. GPL code stays in its own directory; CC BY credit travels to the print sheet and product page.
+- Gridfinity Rebuilt and BOSL2 are the first candidates to evaluate; Gridfinity Extended only by deliberate decision; the honeycomb wall held until its attribution chain is verified; Iteration3D studied as workflow, its models not reused.
+- Grid pitch is not compatibility: Gridfinity and TURN both use 42 mm and any fit between them is a separate tested claim.
+- Source leaves assembl only as the evaluation package in `docs/living/SOURCE-HANDOFF-20261019.md`, under "all rights reserved until a licence is chosen". Choosing the licence for assembl's own CAD is Kate's decision and is open.
+
+**Consequences**  
+A `scad/` tree under `tools/living-cad/` with its own README and render commands; no OpenSCAD binary in the build sandbox, so `.scad` files are rendered and mesh-checked locally before they can reach the manifest. The register becomes a required row for each new source.
+
+**Revisit when**  
+Gridfinity Rebuilt or BOSL2 is adopted for a shipped part (record the notice placement), a licence is chosen for assembl's own CAD, or a measured-drawer tray has been printed and fits.
