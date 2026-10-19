@@ -1,0 +1,311 @@
+{
+  "spec": {
+    "format": "120 roll film, 6x6",
+    "image_mm": [
+      54.0,
+      54.0
+    ],
+    "focal_mm": 40.0,
+    "pinhole_mm": 0.28,
+    "f_number": 143,
+    "fov_deg": {
+      "side": 68,
+      "diagonal": 87
+    },
+    "frames_per_roll": 12,
+    "exposure_s_iso400": {
+      "bright sun": 0.2,
+      "hazy sun": 0.4,
+      "overcast": 1.6,
+      "open shade": 3.2,
+      "indoors by a window": 102.2
+    },
+    "exposure_s_iso100": {
+      "bright sun": 0.8,
+      "hazy sun": 1.6,
+      "overcast": 6.4,
+      "open shade": 12.8,
+      "indoors by a window": 409.0
+    },
+    "body_mm": [
+      130.4,
+      80.0,
+      80.8
+    ],
+    "verify_before_print": [
+      "SPOOL_L",
+      "SPOOL_HOLE_D",
+      "SPOOL_SLOT_W",
+      "SPOOL_SLOT_L",
+      "FILM_W"
+    ]
+  },
+  "parts": [
+    {
+      "slug": "cam-body",
+      "name": "dayrally cam body",
+      "group": "camera",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        130.4,
+        84.0,
+        75.4
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 536.78,
+      "est_grams_pla": 181.9,
+      "watertight": true,
+      "genus": 25,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 2128.0,
+      "notes": "Prints front face down. Ink PLA Matte; paint or flock the cone matte black."
+    },
+    {
+      "slug": "cam-back",
+      "name": "dayrally cam back",
+      "group": "camera",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        130.4,
+        80.0,
+        18.8
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 27.52,
+      "est_grams_pla": 29.7,
+      "watertight": true,
+      "genus": 2,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 57.0,
+      "notes": "Prints inner face up. Red window disc glues into the recess."
+    },
+    {
+      "slug": "cam-window-cover",
+      "name": "Red window cover",
+      "group": "camera",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        17.0,
+        29.0,
+        5.4
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.58,
+      "est_grams_pla": 0.7,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Split pin into the back, or an M3 screw."
+    },
+    {
+      "slug": "cam-winder-knob",
+      "name": "Winder knob",
+      "group": "camera",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        27.5,
+        27.5,
+        23.3
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 4.33,
+      "est_grams_pla": 3.5,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 29.0,
+      "notes": "Head down. The skirt covers the body boss; the blade lifts straight out for loading."
+    },
+    {
+      "slug": "cam-supply-pin",
+      "name": "Supply pin",
+      "group": "camera",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        27.5,
+        27.5,
+        22.5
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 3.43,
+      "est_grams_pla": 3.0,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 28.0,
+      "notes": "Pull up to load the film."
+    },
+    {
+      "slug": "cam-shutter-disc",
+      "name": "Shutter disc",
+      "group": "camera",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        46.0,
+        52.0,
+        6.2
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 2.56,
+      "est_grams_pla": 3.2,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Split pin into the skin; bump faces the skin in use."
+    },
+    {
+      "slug": "cam-cradle",
+      "name": "TURN cradle",
+      "group": "camera",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        136.6,
+        60.0,
+        12.2
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 39.59,
+      "est_grams_pla": 25.5,
+      "watertight": true,
+      "genus": 2,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 79.0,
+      "notes": "Two keys lock it to any dayrally mount or Grid board; the camera clips in."
+    },
+    {
+      "slug": "cam-skin-dots",
+      "name": "Front skin, dots",
+      "group": "camera",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        130.4,
+        80.0,
+        3.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 30.31,
+      "est_grams_pla": 26.6,
+      "watertight": true,
+      "genus": 2,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Outer face up; rails and detents on top."
+    },
+    {
+      "slug": "cam-skin-dots-pattern",
+      "name": "Front skin pattern, dots",
+      "group": "camera",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        105.8,
+        54.4,
+        1.2
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 1.05,
+      "est_grams_pla": 1.3,
+      "watertight": true,
+      "genus": -27,
+      "bodies": 28,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Second colour, raised 0.8 mm."
+    },
+    {
+      "slug": "cam-skin-waves",
+      "name": "Front skin, waves",
+      "group": "camera",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        130.4,
+        80.0,
+        3.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 30.21,
+      "est_grams_pla": 26.7,
+      "watertight": true,
+      "genus": 2,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Outer face up; rails and detents on top."
+    },
+    {
+      "slug": "cam-skin-waves-pattern",
+      "name": "Front skin pattern, waves",
+      "group": "camera",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        116.3,
+        66.0,
+        1.2
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 1.36,
+      "est_grams_pla": 1.7,
+      "watertight": true,
+      "genus": -15,
+      "bodies": 16,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Second colour, raised 0.8 mm."
+    },
+    {
+      "slug": "cam-skin-plain",
+      "name": "Front skin, plain",
+      "group": "camera",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        130.4,
+        80.0,
+        3.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 30.66,
+      "est_grams_pla": 26.5,
+      "watertight": true,
+      "genus": 2,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Outer face up; rails and detents on top."
+    },
+    {
+      "slug": "cam-skin-name",
+      "name": "Front skin, name (sample: MILA)",
+      "group": "camera",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        130.4,
+        80.0,
+        3.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 30.58,
+      "est_grams_pla": 26.5,
+      "watertight": true,
+      "genus": 2,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Outer face up."
+    },
+    {
+      "slug": "cam-skin-name-pattern",
+      "name": "Front skin name (sample: MILA)",
+      "group": "camera",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        40.7,
+        12.0,
+        1.2
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.25,
+      "est_grams_pla": 0.3,
+      "watertight": true,
+      "genus": -2,
+      "bodies": 4,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Second colour, raised 0.8 mm."
+    }
+  ]
+}

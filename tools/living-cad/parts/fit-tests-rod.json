@@ -1,0 +1,14 @@
+{
+  "joint_1_clash_mm3": 0.027,
+  "joint_2_clash_mm3": -0.0,
+  "joint_3_clash_mm3": 0.0,
+  "collar_press_mm3": 101.142,
+  "s1_in_collar_clash_mm3": 0.283,
+  "s1_touches_grip_mm3": 0.0,
+  "cap_press_mm3": 56.822,
+  "saddle_keys_clear_mm3": 35.403,
+  "grip_clears_keys_mm3": 0.0,
+  "saddle_grip_clash_mm3": 0.0,
+  "sections_pack_inside_grip": true,
+  "assembled_length_mm": 993.0
+}

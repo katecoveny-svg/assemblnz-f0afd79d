@@ -192,3 +192,32 @@ describe('kits as one customisable package', () => {
     }
   });
 });
+
+describe('lab items', () => {
+  it('builds the dayrally cam with a name skin and a lab part code, purchasing not enabled', () => {
+    const spec = widgetSpec('lab-dayrally-cam')!;
+    expect(spec.kind).toBe('prototype');
+    expect(spec.choices.map((c) => c.key)).toEqual(['skin']);
+    const name = spec.choices[0].options.find((o) => o.id === 'name')!;
+    expect(name.partIds).toEqual(['cam-skin-name', 'cam-skin-name-pattern']);
+    expect(textSpecFor(name.partIds)?.label).toBe('Name on the skin');
+    const r = buildItem({ handle: 'lab-dayrally-cam', colour: 'tomato', accent: 'cloud', choices: { skin: 'name' }, text: 'MILA', qty: 1 });
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.item.sku).toBe('LAB-DAYRALLY-CAM-TOM');
+    expect(r.item.purchasing.status).toBe('not_enabled');
+    expect(r.item.estimate.perUnit.suggestedRetailNzd).toBeNull();
+    expect(r.item.interface.pack).toBe('v0.3');
+    expect(r.item.printFiles.find((f) => f.id === 'cam-skin-name-pattern')?.role).toBe('accent');
+    expect(r.item.printFiles.find((f) => f.id === 'cam-body')?.sha256).toBeTruthy();
+    expect(lineItemProperties(r.item)['Name on the skin']).toBe('MILA');
+  });
+
+  it('lists the rod and the wharf reel with served print files', () => {
+    for (const h of ['lab-dayrally-rod', 'lab-wharf-reel']) {
+      const r = buildItem({ handle: h, colour: 'lime', qty: 1 });
+      expect(r.ok).toBe(true);
+      if (r.ok) expect(r.item.printFiles.every((f) => f.sha256)).toBe(true);
+    }
+  });
+});

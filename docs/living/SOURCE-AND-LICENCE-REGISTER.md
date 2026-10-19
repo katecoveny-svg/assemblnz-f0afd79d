@@ -32,6 +32,18 @@ be read in full at adoption time; the obligations below are the headline.
 | Parametric Honeycomb Storage Wall | utility and craft wall panels | repository says CC BY 4.0 and names an upstream remix | verify the attribution chain to the original before adopting anything | hold until the chain is verified |
 | Iteration3D (build123d) | a worked example of measurement-driven generation | engine open source; **models carry their own licences**: one storage box allows commercial use with attribution (download is STL, not source); one tube connector forbids commercial use, redistribution and derivatives | treat every model separately; never assume the engine's licence covers a model | study the workflow; do not reuse models |
 
+### Added 19 October (evening): camera and rod references
+
+| Source | Licence | Status | Notes |
+|---|---|---|---|
+| Make P6*6 pinhole camera (Thingiverse, Todd Schlemmer) | CC (non-commercial, share-alike as published) | study only | 6×6 printed 120 camera; confirms the format and the pinhole-disc approach. Nothing copied. |
+| terraPin family (Schlaboratory) | CC as published; sales closed, files on Thingiverse | study only | Red-window frame indexing on a printed 120 body. Nothing copied. |
+| Lord Rayleigh pinhole optimum, `d = 1.9 √(λ f)` | physics, public | used | `dayrally_cam.py` computes 0.28 mm for 40 mm at 550 nm. |
+| Fish8r complete fishing set (MakerWorld, 4 segments, printed reel) | not stated on the listing we could read | reference only | Evidence that a printed rod in CF filament fishes; 4.8★ from 205 ratings. Nothing copied. |
+| MakerWorld single-piece PETG-CF rod (maker report) | not stated | reference only | Material lesson: PLA softens, unfilled PETG creeps, PETG-CF holds. |
+| Tenkara fixed-line method; spigot ferrules; Cuban yo-yo hand reel | traditional, no owner | used as ideas | The rod is fixed-line, joined by spigots, with a V-groove hand reel. All geometry is ours. |
+| assembl dayrally cam, rod, wharf reel, saddle, cradle (`dayrally_cam.py`, `dayrally_rod.py`) | assembl, licence not yet chosen (see Rules) | ours | Designed in the manifold3d pipeline on the TURN standard; checked digitally; unprinted. |
+
 ## Rules
 
 1. Record the origin link, licence, version or commit, and the date checked.

@@ -27,7 +27,7 @@ export const PRINT_ASSUMPTIONS = {
 } as const;
 
 export type PartRole = 'body' | 'accent';
-export type ChoiceKey = 'lid' | 'insert' | 'shape';
+export type ChoiceKey = 'lid' | 'insert' | 'shape' | 'skin';
 export type ChoiceOption = { id: string; label: string; partIds: string[] };
 export type Choice = { key: ChoiceKey; label: string; options: ChoiceOption[]; defaultId: string };
 export type TextSpec = { partId: string; label: string; maxChars: number; pattern: RegExp; hint: string };
@@ -66,13 +66,14 @@ const PART_IDS = new Set(CAD_MANIFEST.parts.map((p) => p.id));
 
 /** Parts that print in the second colour: lettering, inlays and tag names. */
 export function partRole(id: string): PartRole {
-  return /-(inlay|text)$/.test(id) || id === 'dr-bag-tag-name' ? 'accent' : 'body';
+  return /-(inlay|text|pattern)$/.test(id) || id === 'dr-bag-tag-name' ? 'accent' : 'body';
 }
 
 const TEXT_PARTS: Record<string, Omit<TextSpec, 'partId'>> = {
   'grid-name-plate-text': { label: 'Name', maxChars: 12, pattern: /^[A-Za-z0-9 .'&-]*$/, hint: 'Up to 12 letters, printed in the accent colour.' },
   'dr-bag-tag-name': { label: 'Name', maxChars: 10, pattern: /^[A-Za-z0-9 .'&-]*$/, hint: 'Up to 10 letters on the tag.' },
   'bike-number-plate-text': { label: 'Plate number', maxChars: 3, pattern: /^[0-9]*$/, hint: 'One to three digits.' },
+  'cam-skin-name-pattern': { label: 'Name on the skin', maxChars: 8, pattern: /^[A-Za-z0-9 .'&-]*$/, hint: 'Up to 8 letters, raised in the accent colour beside the shutter.' },
 };
 const LID_NAME_TEXT: Omit<TextSpec, 'partId'> = { label: 'Name on the lid', maxChars: 10, pattern: /^[A-Za-z0-9 .'&-]*$/, hint: 'Up to 10 letters, inlaid in the accent colour.' };
 
@@ -95,12 +96,12 @@ function humanise(slug: string): string {
 }
 
 function withInlay(id: string): string[] {
-  return PART_IDS.has(`${id}-inlay`) ? [id, `${id}-inlay`] : [id];
+  return [id, ...[`${id}-inlay`, `${id}-pattern`].filter((x) => PART_IDS.has(x))];
 }
 
 function optionsFromPrefix(prefix: string): ChoiceOption[] {
   return CAD_MANIFEST.parts
-    .filter((p) => p.id.startsWith(prefix) && !p.id.endsWith('-inlay'))
+    .filter((p) => p.id.startsWith(prefix) && !/-(inlay|pattern)$/.test(p.id))
     .map((p) => ({ id: p.id.slice(prefix.length), label: humanise(p.id.slice(prefix.length)), partIds: withInlay(p.id) }));
 }
 
@@ -195,6 +196,57 @@ function prototypeSpec(a: Ac02Assembly): WidgetSpec {
 
 export const WIDGET_PROTOTYPES = AC02.assemblies;
 
+/**
+ * Lab items: designed in the v0.3 pipeline and checked digitally, never printed, no price. The widget shows them
+ * so a store page can preview them; purchasing stays `not_enabled` until a test print passes.
+ */
+export const LAB_HANDLE_PREFIX = 'lab-' as const;
+export type LabItem = { id: string; title: string; blurb: string; type: string; colourSet: 'living' | 'dayrally'; size: string; parts: { id: string; qty: number }[]; choice?: { key: ChoiceKey; label: string; prefix: string; defaultId: string }; doc: string };
+export const WIDGET_LAB: LabItem[] = [
+  {
+    id: 'dayrally-cam', title: 'dayrally cam', type: 'dayrally lab', colourSet: 'dayrally', size: '130 × 80 × 81 mm',
+    blurb: '120-film pinhole camera: 6×6, 40 mm, f/143, twelve frames a roll, red-window counting, a rotating shutter on a patterned skin, and a TURN cradle so it clips to any dayrally mount. The body prints in ink for light-tightness; the skin and knobs take the colour.',
+    parts: [{ id: 'cam-body', qty: 1 }, { id: 'cam-back', qty: 1 }, { id: 'cam-window-cover', qty: 1 }, { id: 'cam-winder-knob', qty: 1 }, { id: 'cam-supply-pin', qty: 1 }, { id: 'cam-shutter-disc', qty: 1 }, { id: 'cam-cradle', qty: 1 }],
+    choice: { key: 'skin', label: 'Front skin', prefix: 'cam-skin-', defaultId: 'dots' }, doc: 'docs/living/DAYRALLY-CAM.md',
+  },
+  {
+    id: 'dayrally-rod', title: 'dayrally rod', type: 'dayrally lab', colourSet: 'dayrally', size: '993 mm assembled · 233 × 32 mm packed',
+    blurb: 'Fixed-line rod that packs into its own grip: four tapered sections on spigot joints, a line loop at the tip, line-keeper notches on the grip, and a TURN saddle so the packed rod rides a strap, a bar or the wall. Sections print in PETG-CF. Not a casting rod.',
+    parts: [{ id: 'rod-grip', qty: 1 }, { id: 'rod-collar', qty: 1 }, { id: 'rod-butt-cap', qty: 1 }, { id: 'rod-section-1', qty: 1 }, { id: 'rod-section-2', qty: 1 }, { id: 'rod-section-3', qty: 1 }, { id: 'rod-tip', qty: 1 }, { id: 'rod-saddle', qty: 1 }],
+    doc: 'docs/living/DAYRALLY-ROD.md',
+  },
+  {
+    id: 'wharf-reel', title: 'Wharf reel', type: 'dayrally lab', colourSet: 'dayrally', size: 'Ø100 × 28 mm',
+    blurb: 'One-piece V-groove hand reel for about 30 m of mono, with a hand hole, a line anchor and a hook park. Hangs on a Grid hook. No hooks supplied.',
+    parts: [{ id: 'rod-wharf-reel', qty: 1 }], doc: 'docs/living/DAYRALLY-ROD.md',
+  },
+];
+
+function labSpec(item: LabItem): WidgetSpec {
+  const choices: Choice[] = [];
+  if (item.choice) {
+    const options = optionsFromPrefix(item.choice.prefix);
+    if (options.length >= 2) choices.push({ key: item.choice.key, label: item.choice.label, options, defaultId: options.find((o) => o.id === item.choice!.defaultId)?.id ?? options[0].id });
+  }
+  const partsFor = (selected: Record<string, string>) => {
+    const chosen = choices.flatMap((c) => {
+      const o = c.options.find((x) => x.id === (selected[c.key] ?? c.defaultId)) ?? c.options.find((x) => x.id === c.defaultId)!;
+      return o.partIds.map((id) => ({ id, qty: 1 }));
+    });
+    return [...item.parts.map((p) => ({ ...p })), ...chosen];
+  };
+  const massG = partsFor({}).reduce((s, p) => s + printFile(p.id).mass_g_pla * p.qty, 0);
+  const materials = [...new Set(partsFor({}).map((p) => printFile(p.id).material))];
+  return {
+    kind: 'prototype', handle: `${LAB_HANDLE_PREFIX}${item.id}`, title: item.title, blurb: item.blurb, size: item.size, material: materials.join(' · '), type: item.type, short: null,
+    colourSet: item.colourSet, priceNzd: null, shipG: Math.round(massG * 1.25 + 40), colours: CAD_MANIFEST.colours[item.colourSet], choices, lines: [], partsFor, skus: [], revision: CAD_PACK,
+  };
+}
+
+export function isLabHandle(handle: string): boolean {
+  return handle.startsWith(LAB_HANDLE_PREFIX);
+}
+
 export function widgetSpec(handle: string): WidgetSpec | null {
   const product = WIDGET_PRODUCTS.find((p) => p.handle === handle);
   if (product) return productSpec(product);
@@ -203,6 +255,10 @@ export function widgetSpec(handle: string): WidgetSpec | null {
   if (handle.startsWith(AC02_HANDLE_PREFIX)) {
     const a = ac02Assembly(handle.slice(AC02_HANDLE_PREFIX.length));
     if (a) return prototypeSpec(a);
+  }
+  if (isLabHandle(handle)) {
+    const item = WIDGET_LAB.find((l) => `${LAB_HANDLE_PREFIX}${l.id}` === handle);
+    if (item) return labSpec(item);
   }
   return null;
 }
@@ -323,7 +379,10 @@ export function buildItem(input: ItemInput): BuildResult {
   };
   const skuFor = (s: Pick<WidgetSpec, 'skus' | 'short'>) => s.skus.find((x) => x.colour.toLowerCase() === colour.name.toLowerCase())?.sku ?? partCode(s, colour.id as Colourway);
   const colourShort = COLOUR_SHORT[colour.id] ?? colour.id.slice(0, 3).toUpperCase();
-  const sku = spec.kind === 'kit' ? kitSku(spec, colour.id) : spec.kind === 'prototype' ? `AC02-${spec.handle.slice(AC02_HANDLE_PREFIX.length).toUpperCase()}-${colourShort}` : skuFor(spec);
+  const isAc02 = spec.handle.startsWith(AC02_HANDLE_PREFIX);
+  const sku = spec.kind === 'kit' ? kitSku(spec, colour.id)
+    : spec.kind === 'prototype' ? (isAc02 ? `AC02-${spec.handle.slice(AC02_HANDLE_PREFIX.length).toUpperCase()}-${colourShort}` : `LAB-${spec.handle.slice(LAB_HANDLE_PREFIX.length).toUpperCase()}-${colourShort}`)
+    : skuFor(spec);
   const lines = spec.lines.map((l) => ({ ...l, sku: spec.kind === 'prototype' ? null : skuFor(widgetSpec(l.handle)!) }));
 
   const item: ItemConfiguration = {
@@ -347,9 +406,9 @@ export function buildItem(input: ItemInput): BuildResult {
       total: { massG: round1(perUnit.massG * qty), printMinutes: perUnit.printMinutes * qty, materialNzd: round2(perUnit.materialNzd * qty), suggestedRetailNzd: perUnit.suggestedRetailNzd === null ? null : round2(perUnit.suggestedRetailNzd * qty) },
       assumptions: PRINT_ASSUMPTIONS.note,
     },
-    interface: spec.kind === 'prototype' ? { id: AC02.interfaces.wall, pack: AC02.revision, pitchMm: PITCH_MM } : { id: INTERFACE_ID, pack: CAD_PACK, pitchMm: PITCH_MM },
+    interface: spec.kind === 'prototype' && isAc02 ? { id: AC02.interfaces.wall, pack: AC02.revision, pitchMm: PITCH_MM } : { id: INTERFACE_ID, pack: CAD_PACK, pitchMm: PITCH_MM },
     purchasing: spec.kind === 'prototype'
-      ? { channel: 'shopify', status: 'not_enabled', note: 'AC-02 digital prototype: unprinted, not approved for manufacture, no price. The store must not list it until samples pass.' }
+      ? { channel: 'shopify', status: 'not_enabled', note: isAc02 ? 'AC-02 digital prototype: unprinted, not approved for manufacture, no price. The store must not list it until samples pass.' : 'Lab item: designed in the v0.3 pipeline and checked digitally, never printed, no price. The store must not list it until a test print passes.' }
       : { channel: 'shopify', status: 'store_decides', note: 'The widget describes the item. Adding to cart, price and availability are the store page’s own; nothing here is a quote.' },
   };
   return { ok: true, item, issues: [] };

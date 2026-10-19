@@ -1,0 +1,238 @@
+{
+  "spec": {
+    "assembled_length_mm": 993.0,
+    "packed_mm": [
+      233.0,
+      32.0
+    ],
+    "sections": [
+      [
+        "s1",
+        14.0,
+        12.4,
+        2.2
+      ],
+      [
+        "s2",
+        11.0,
+        9.6,
+        1.9
+      ],
+      [
+        "s3",
+        8.6,
+        7.4,
+        1.6
+      ]
+    ],
+    "tip": [
+      "tip",
+      6.2,
+      3.0
+    ],
+    "spigot_mm": 28.0,
+    "spigot_clearance_mm": 0.15,
+    "packs_inside_grip": true,
+    "packing": [
+      [
+        6.25,
+        0.0,
+        7.2
+      ],
+      [
+        -5.480077554195743,
+        5.480077554195744,
+        5.7
+      ],
+      [
+        -7.794228634059947,
+        -4.500000000000001,
+        4.5
+      ],
+      [
+        -1.7364817766693033,
+        -9.84807753012208,
+        3.3000000000000003
+      ]
+    ],
+    "material": "PETG-CF or PA-CF for the sections and tip; PETG for the grip, reel and saddle",
+    "reel": {
+      "d_mm": 100.0,
+      "core_mm": 80.0,
+      "hand_hole_mm": 46.0
+    }
+  },
+  "parts": [
+    {
+      "slug": "rod-grip",
+      "name": "Rod grip and case",
+      "group": "rod",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        32.0,
+        32.0,
+        230.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 48.7,
+      "est_grams_pla": 51.1,
+      "watertight": true,
+      "genus": 3,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 43.0,
+      "notes": "Prints upright. Sections pack inside; line winds on the notches."
+    },
+    {
+      "slug": "rod-collar",
+      "name": "Rod collar",
+      "group": "rod",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        32.0,
+        32.0,
+        28.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 11.04,
+      "est_grams_pla": 7.6,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 256.0,
+      "notes": "Presses into the grip top; socket for section 1."
+    },
+    {
+      "slug": "rod-butt-cap",
+      "name": "Rod butt cap",
+      "group": "rod",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        34.0,
+        34.0,
+        17.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 5.38,
+      "est_grams_pla": 5.1,
+      "watertight": true,
+      "genus": 4,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 64.0,
+      "notes": "Presses into the grip butt; pull to unpack."
+    },
+    {
+      "slug": "rod-section-1",
+      "name": "Rod section 1",
+      "group": "rod",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        16.4,
+        16.4,
+        218.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 17.79,
+      "est_grams_pla": 17.6,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 30.0,
+      "notes": "PETG-CF or PA-CF. Spigot down."
+    },
+    {
+      "slug": "rod-section-2",
+      "name": "Rod section 2",
+      "group": "rod",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        13.4,
+        13.4,
+        190.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 11.6,
+      "est_grams_pla": 11.5,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 24.0,
+      "notes": "PETG-CF or PA-CF. Spigot down."
+    },
+    {
+      "slug": "rod-section-3",
+      "name": "Rod section 3",
+      "group": "rod",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        11.0,
+        11.0,
+        190.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 7.45,
+      "est_grams_pla": 8.6,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 20.0,
+      "notes": "PETG-CF or PA-CF. Spigot down."
+    },
+    {
+      "slug": "rod-tip",
+      "name": "Rod tip with line loop",
+      "group": "rod",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        8.6,
+        8.6,
+        224.2
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 4.55,
+      "est_grams_pla": 4.2,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 27.0,
+      "notes": "PETG-CF or PA-CF. Solid taper; loop-to-loop the line."
+    },
+    {
+      "slug": "rod-wharf-reel",
+      "name": "Wharf reel",
+      "group": "rod",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        100.0,
+        100.0,
+        27.9
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 140.66,
+      "est_grams_pla": 51.5,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 1.0,
+      "notes": "One piece, V groove at 45°. 30 m of mono. No hooks supplied."
+    },
+    {
+      "slug": "rod-saddle",
+      "name": "Rod saddle (TURN)",
+      "group": "rod",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        60.0,
+        84.0,
+        41.2
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 34.96,
+      "est_grams_pla": 22.0,
+      "watertight": true,
+      "genus": 2,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 182.0,
+      "notes": "Flange on the bed. Two keys lock it to any mount; the packed rod snaps in."
+    }
+  ]
+}

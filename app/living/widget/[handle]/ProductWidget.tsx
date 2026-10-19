@@ -101,7 +101,7 @@ function Widget({ spec, embed, origin }: { spec: WidgetSpec; embed: boolean; ori
     <div ref={root} className="lv lvw" data-embed={embed ? 'true' : 'false'}>
       <div className="lvw-head">
         <span className="lv-eyebrow">assembl / living · made to order</span>
-        <span className="lv-status" data-tone="quiet">{spec.kind === 'prototype' ? `digital prototype · ${spec.revision} · unprinted` : `proposed · ${spec.colourSet === 'dayrally' ? 'dayrally' : 'TURN'} · ${spec.material}`}</span>
+        <span className="lv-status" data-tone="quiet">{spec.kind === 'prototype' ? (spec.handle.startsWith('lab-') ? `lab · ${spec.revision} · unprinted` : `digital prototype · ${spec.revision} · unprinted`) : `proposed · ${spec.colourSet === 'dayrally' ? 'dayrally' : 'TURN'} · ${spec.material}`}</span>
       </div>
       <div className="lvw-grid">
         <div className="lvw-preview">
@@ -213,7 +213,7 @@ function Widget({ spec, embed, origin }: { spec: WidgetSpec; embed: boolean; ori
       </div>
       <div className="lvw-foot">
         <p className="lvw-counter">{result.ok ? `${result.item.sku ?? 'no code'} · ${result.item.interface.pack} · ${result.item.printFiles.length} print files` : `${spec.handle} · ${spec.colourSet} colours`}</p>
-        <p className="lv-small">{spec.kind === 'prototype' ? 'AC-02 digital prototype: real CAD, never printed, not approved for manufacture, no price. The store must not list it until samples pass.' : embed ? 'Nothing is bought here. Price, stock and checkout belong to the store page.' : 'Nothing is for sale here yet. Estimates are planning figures, not a quote.'}</p>
+        <p className="lv-small">{spec.kind === 'prototype' ? (spec.handle.startsWith('lab-') ? 'Lab item: designed in the v0.3 pipeline and checked digitally, never printed, no price. The store must not list it until a test print passes.' : 'AC-02 digital prototype: real CAD, never printed, not approved for manufacture, no price. The store must not list it until samples pass.') : embed ? 'Nothing is bought here. Price, stock and checkout belong to the store page.' : 'Nothing is for sale here yet. Estimates are planning figures, not a quote.'}</p>
       </div>
     </div>
   );

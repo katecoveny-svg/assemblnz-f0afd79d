@@ -18,7 +18,7 @@
  },
  "status": "designed and checked digitally; nothing printed yet. Clamp, detent and clearance values are starting points for the test-print kit.",
  "source": "tools/living-cad/cad/lib.py",
- "built_at": "2026-10-19T16:17:40Z",
+ "built_at": "2026-10-19T22:02:48Z",
  "colours": {
   "living": [
    {
@@ -2720,6 +2720,650 @@
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
    "file": null
+  },
+  {
+   "id": "cam-body",
+   "name": "dayrally cam body",
+   "family": "camera",
+   "group": "camera",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 130.4,
+    "y": 84.0,
+    "z": 75.4
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 536.78,
+   "mass_g_pla": 181.9,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 25,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 2128.0,
+   "notes": "Prints front face down. Ink PLA Matte; paint or flock the cone matte black.",
+   "file": {
+    "path": "/living/cad/v0.3/cam-body.stl",
+    "bytes": 480484,
+    "sha256": "3e7d6b673c63558a6b9b63015c20d6bf57e2478107464d07c0f89e9d493e7d88"
+   }
+  },
+  {
+   "id": "cam-back",
+   "name": "dayrally cam back",
+   "family": "camera",
+   "group": "camera",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 130.4,
+    "y": 80.0,
+    "z": 18.8
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 27.52,
+   "mass_g_pla": 29.7,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 2,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 57.0,
+   "notes": "Prints inner face up. Red window disc glues into the recess.",
+   "file": {
+    "path": "/living/cad/v0.3/cam-back.stl",
+    "bytes": 131484,
+    "sha256": "a19d1836840f74f543a9d79d2adc776cedf09a64a0ca2543b55e21bb198983d8"
+   }
+  },
+  {
+   "id": "cam-window-cover",
+   "name": "Red window cover",
+   "family": "camera",
+   "group": "camera",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 17.0,
+    "y": 29.0,
+    "z": 5.4
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.58,
+   "mass_g_pla": 0.7,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Split pin into the back, or an M3 screw.",
+   "file": {
+    "path": "/living/cad/v0.3/cam-window-cover.stl",
+    "bytes": 53684,
+    "sha256": "1a5400552ffb17f195e283abb7fc474679ddd4623cf5e25db8e44cf7ad98dda7"
+   }
+  },
+  {
+   "id": "cam-winder-knob",
+   "name": "Winder knob",
+   "family": "camera",
+   "group": "camera",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 27.5,
+    "y": 27.5,
+    "z": 23.3
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 4.33,
+   "mass_g_pla": 3.5,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 29.0,
+   "notes": "Head down. The skirt covers the body boss; the blade lifts straight out for loading.",
+   "file": {
+    "path": "/living/cad/v0.3/cam-winder-knob.stl",
+    "bytes": 128084,
+    "sha256": "579704e7b85418a0468abff65d4f521edc29cd07f1c825d56870a46a3f0935e5"
+   }
+  },
+  {
+   "id": "cam-supply-pin",
+   "name": "Supply pin",
+   "family": "camera",
+   "group": "camera",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 27.5,
+    "y": 27.5,
+    "z": 22.5
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 3.43,
+   "mass_g_pla": 3.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 28.0,
+   "notes": "Pull up to load the film.",
+   "file": {
+    "path": "/living/cad/v0.3/cam-supply-pin.stl",
+    "bytes": 93084,
+    "sha256": "ebd0b51fbbbfe8630a3dc5efef3ec08efe065e10580390ade7a986714222bb4b"
+   }
+  },
+  {
+   "id": "cam-shutter-disc",
+   "name": "Shutter disc",
+   "family": "camera",
+   "group": "camera",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 46.0,
+    "y": 52.0,
+    "z": 6.2
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 2.56,
+   "mass_g_pla": 3.2,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Split pin into the skin; bump faces the skin in use.",
+   "file": {
+    "path": "/living/cad/v0.3/cam-shutter-disc.stl",
+    "bytes": 75284,
+    "sha256": "911f32a3a880b30223b3b65bb286e9d77a00ac8a5aa81111fe418921a0c7bb25"
+   }
+  },
+  {
+   "id": "cam-cradle",
+   "name": "TURN cradle",
+   "family": "camera",
+   "group": "camera",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 136.6,
+    "y": 60.0,
+    "z": 12.2
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 39.59,
+   "mass_g_pla": 25.5,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 2,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 79.0,
+   "notes": "Two keys lock it to any dayrally mount or Grid board; the camera clips in.",
+   "file": {
+    "path": "/living/cad/v0.3/cam-cradle.stl",
+    "bytes": 112684,
+    "sha256": "e00368d49a8c478c09e22cd9c2752051236186918775f4c6658a91d1ee6fd60a"
+   }
+  },
+  {
+   "id": "cam-skin-dots",
+   "name": "Front skin, dots",
+   "family": "camera",
+   "group": "camera",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 130.4,
+    "y": 80.0,
+    "z": 3.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 30.31,
+   "mass_g_pla": 26.6,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 2,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Outer face up; rails and detents on top.",
+   "file": {
+    "path": "/living/cad/v0.3/cam-skin-dots.stl",
+    "bytes": 267484,
+    "sha256": "295a76094ee72095536d341b28fa1855a6254e9e9b6446a2f5afd7789b2db589"
+   }
+  },
+  {
+   "id": "cam-skin-dots-pattern",
+   "name": "Front skin pattern, dots",
+   "family": "camera",
+   "group": "camera",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 105.8,
+    "y": 54.4,
+    "z": 1.2
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 1.05,
+   "mass_g_pla": 1.3,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -27,
+   "bodies": 28,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Second colour, raised 0.8 mm.",
+   "file": {
+    "path": "/living/cad/v0.3/cam-skin-dots-pattern.stl",
+    "bytes": 193684,
+    "sha256": "111668aa322052b9b6b367ebb6aaeb3fc080c6604e65a0e118746561ffcb5da5"
+   }
+  },
+  {
+   "id": "cam-skin-waves",
+   "name": "Front skin, waves",
+   "family": "camera",
+   "group": "camera",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 130.4,
+    "y": 80.0,
+    "z": 3.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 30.21,
+   "mass_g_pla": 26.7,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 2,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Outer face up; rails and detents on top.",
+   "file": {
+    "path": "/living/cad/v0.3/cam-skin-waves.stl",
+    "bytes": 226084,
+    "sha256": "8cbbcb53829ab38f7274f7a892aa2cb9071008c8bd52040840ae4408fdfcea02"
+   }
+  },
+  {
+   "id": "cam-skin-waves-pattern",
+   "name": "Front skin pattern, waves",
+   "family": "camera",
+   "group": "camera",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 116.3,
+    "y": 66.0,
+    "z": 1.2
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 1.36,
+   "mass_g_pla": 1.7,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -15,
+   "bodies": 16,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Second colour, raised 0.8 mm.",
+   "file": {
+    "path": "/living/cad/v0.3/cam-skin-waves-pattern.stl",
+    "bytes": 154684,
+    "sha256": "e5f595a9ecee3f67d6ecc38862fc6189b10f0c7cf5f7e00fce3e56db98b69208"
+   }
+  },
+  {
+   "id": "cam-skin-plain",
+   "name": "Front skin, plain",
+   "family": "camera",
+   "group": "camera",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 130.4,
+    "y": 80.0,
+    "z": 3.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 30.66,
+   "mass_g_pla": 26.5,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 2,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Outer face up; rails and detents on top.",
+   "file": {
+    "path": "/living/cad/v0.3/cam-skin-plain.stl",
+    "bytes": 68284,
+    "sha256": "2d65d54579d0adbadc564b7b59e9cb001cf11d425662b39873d8b543ac6fd8ea"
+   }
+  },
+  {
+   "id": "cam-skin-name",
+   "name": "Front skin, name (sample: MILA)",
+   "family": "camera",
+   "group": "camera",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 130.4,
+    "y": 80.0,
+    "z": 3.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 30.58,
+   "mass_g_pla": 26.5,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 2,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Outer face up.",
+   "file": {
+    "path": "/living/cad/v0.3/cam-skin-name.stl",
+    "bytes": 75384,
+    "sha256": "33f4ce1f00142a2fa3cb6b870037de69db21837e23f0985b2b61be6d9f73caa9"
+   }
+  },
+  {
+   "id": "cam-skin-name-pattern",
+   "name": "Front skin name (sample: MILA)",
+   "family": "camera",
+   "group": "camera",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 40.7,
+    "y": 12.0,
+    "z": 1.2
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.25,
+   "mass_g_pla": 0.3,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -2,
+   "bodies": 4,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Second colour, raised 0.8 mm.",
+   "file": {
+    "path": "/living/cad/v0.3/cam-skin-name-pattern.stl",
+    "bytes": 6884,
+    "sha256": "178a69374007b5f9045554c2494c1f5524e47898df204d030b6c6fa73e03732b"
+   }
+  },
+  {
+   "id": "rod-grip",
+   "name": "Rod grip and case",
+   "family": "rod",
+   "group": "rod",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 32.0,
+    "y": 32.0,
+    "z": 230.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 48.7,
+   "mass_g_pla": 51.1,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 3,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 43.0,
+   "notes": "Prints upright. Sections pack inside; line winds on the notches.",
+   "file": {
+    "path": "/living/cad/v0.3/rod-grip.stl",
+    "bytes": 98684,
+    "sha256": "bf64205c89e165bcf637cb9b60f2aa8ea207c4967e74f0a0df3bc8f2c22247c9"
+   }
+  },
+  {
+   "id": "rod-collar",
+   "name": "Rod collar",
+   "family": "rod",
+   "group": "rod",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 32.0,
+    "y": 32.0,
+    "z": 28.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 11.04,
+   "mass_g_pla": 7.6,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 256.0,
+   "notes": "Presses into the grip top; socket for section 1.",
+   "file": {
+    "path": "/living/cad/v0.3/rod-collar.stl",
+    "bytes": 74584,
+    "sha256": "b18aad0beafc24876ec0cb38adf5bcdea8b21e53310be525bc2093ff04138b09"
+   }
+  },
+  {
+   "id": "rod-butt-cap",
+   "name": "Rod butt cap",
+   "family": "rod",
+   "group": "rod",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 34.0,
+    "y": 34.0,
+    "z": 17.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 5.38,
+   "mass_g_pla": 5.1,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 4,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 64.0,
+   "notes": "Presses into the grip butt; pull to unpack.",
+   "file": {
+    "path": "/living/cad/v0.3/rod-butt-cap.stl",
+    "bytes": 78984,
+    "sha256": "5adb3063634f38c9fa1d1510d73aa88f45a66064fcc31447ab0e0f504ab14fb8"
+   }
+  },
+  {
+   "id": "rod-section-1",
+   "name": "Rod section 1",
+   "family": "rod",
+   "group": "rod",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 16.4,
+    "y": 16.4,
+    "z": 218.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 17.79,
+   "mass_g_pla": 17.6,
+   "material": "PETG-CF or PA-CF",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 30.0,
+   "notes": "PETG-CF or PA-CF. Spigot down.",
+   "file": {
+    "path": "/living/cad/v0.3/rod-section-1.stl",
+    "bytes": 95884,
+    "sha256": "6838e7459e9e94896371c2910c92388831d42cb68a7d78e0610c34d4825c4348"
+   }
+  },
+  {
+   "id": "rod-section-2",
+   "name": "Rod section 2",
+   "family": "rod",
+   "group": "rod",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 13.4,
+    "y": 13.4,
+    "z": 190.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 11.6,
+   "mass_g_pla": 11.5,
+   "material": "PETG-CF or PA-CF",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 24.0,
+   "notes": "PETG-CF or PA-CF. Spigot down.",
+   "file": {
+    "path": "/living/cad/v0.3/rod-section-2.stl",
+    "bytes": 76684,
+    "sha256": "c39038c07440ca7696ee25d60177b47c30ec2b8721da53cf0beff619155dda71"
+   }
+  },
+  {
+   "id": "rod-section-3",
+   "name": "Rod section 3",
+   "family": "rod",
+   "group": "rod",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 11.0,
+    "y": 11.0,
+    "z": 190.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 7.45,
+   "mass_g_pla": 8.6,
+   "material": "PETG-CF or PA-CF",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 20.0,
+   "notes": "PETG-CF or PA-CF. Spigot down.",
+   "file": {
+    "path": "/living/cad/v0.3/rod-section-3.stl",
+    "bytes": 76684,
+    "sha256": "1c6628364f3548b6707bf3092ab5dac37493846a93bb761ff14cb5875af1f883"
+   }
+  },
+  {
+   "id": "rod-tip",
+   "name": "Rod tip with line loop",
+   "family": "rod",
+   "group": "rod",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 8.6,
+    "y": 8.6,
+    "z": 224.2
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 4.55,
+   "mass_g_pla": 4.2,
+   "material": "PETG-CF or PA-CF",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 27.0,
+   "notes": "PETG-CF or PA-CF. Solid taper; loop-to-loop the line.",
+   "file": {
+    "path": "/living/cad/v0.3/rod-tip.stl",
+    "bytes": 83884,
+    "sha256": "551acb12641e56d972473cd1941b61349ae598469bdfd2cd2034c83702505834"
+   }
+  },
+  {
+   "id": "rod-wharf-reel",
+   "name": "Wharf reel",
+   "family": "rod",
+   "group": "rod",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 100.0,
+    "y": 100.0,
+    "z": 27.9
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 140.66,
+   "mass_g_pla": 51.5,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1.0,
+   "notes": "One piece, V groove at 45°. 30 m of mono. No hooks supplied.",
+   "file": {
+    "path": "/living/cad/v0.3/rod-wharf-reel.stl",
+    "bytes": 115584,
+    "sha256": "752669c043dd55348a4a6de022797f05be1551b8faaa32abc3bfecd8ac1e7b5e"
+   }
+  },
+  {
+   "id": "rod-saddle",
+   "name": "Rod saddle (TURN)",
+   "family": "rod",
+   "group": "rod",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 60.0,
+    "y": 84.0,
+    "z": 41.2
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 34.96,
+   "mass_g_pla": 22.0,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 2,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 182.0,
+   "notes": "Flange on the bed. Two keys lock it to any mount; the packed rod snaps in.",
+   "file": {
+    "path": "/living/cad/v0.3/rod-saddle.stl",
+    "bytes": 145084,
+    "sha256": "377375441bce527dc9a2eaf43ef019cfb193f9b0f227d5b275199423220d22e1"
+   }
   }
  ],
  "products": [
@@ -6116,7 +6760,147 @@
    "key_locked_vs_pod_clamp_mm3": 18.7808,
    "key_locked_pull_0p5_vs_saddle_mm3": 7.5326
   },
-  "dayrally2": {}
+  "dayrally2": {},
+  "camera": {
+   "back_in_body_clash_mm3": -0.0,
+   "winder_in_body_clash_mm3": 0.653,
+   "supply_pin_in_body_clash_mm3": -0.0,
+   "disc_open_clash_mm3": 0.0,
+   "disc_closed_clash_mm3": 0.0,
+   "disc_pin_in_body_clash_mm3": 0.0,
+   "disc_closed_covers_window": true,
+   "disc_open_clears_window": true,
+   "cradle_body_clash_mm3": 0.0,
+   "supply_spool_clash_mm3": -0.0,
+   "takeup_spool_clash_mm3": -0.0,
+   "blade_depth_into_spool_mm": 4.32,
+   "supply_pin_depth_into_spool_mm": 4.52,
+   "knob_lift_to_clear_spool_mm": 4.32,
+   "film_in_slot_clash_mm3": 0.0,
+   "light_cone_blocked_samples": 0,
+   "window_tunnel_open": true,
+   "nut_pocket_blind": true
+  },
+  "rod": {
+   "joint_1_clash_mm3": 0.027,
+   "joint_2_clash_mm3": -0.0,
+   "joint_3_clash_mm3": 0.0,
+   "collar_press_mm3": 101.142,
+   "s1_in_collar_clash_mm3": 0.283,
+   "s1_touches_grip_mm3": 0.0,
+   "cap_press_mm3": 56.822,
+   "saddle_keys_clear_mm3": 35.403,
+   "grip_clears_keys_mm3": 0.0,
+   "saddle_grip_clash_mm3": 0.0,
+   "sections_pack_inside_grip": true,
+   "assembled_length_mm": 993.0
+  }
+ },
+ "lab": {
+  "camera": {
+   "format": "120 roll film, 6x6",
+   "image_mm": [
+    54.0,
+    54.0
+   ],
+   "focal_mm": 40.0,
+   "pinhole_mm": 0.28,
+   "f_number": 143,
+   "fov_deg": {
+    "side": 68,
+    "diagonal": 87
+   },
+   "frames_per_roll": 12,
+   "exposure_s_iso400": {
+    "bright sun": 0.2,
+    "hazy sun": 0.4,
+    "overcast": 1.6,
+    "open shade": 3.2,
+    "indoors by a window": 102.2
+   },
+   "exposure_s_iso100": {
+    "bright sun": 0.8,
+    "hazy sun": 1.6,
+    "overcast": 6.4,
+    "open shade": 12.8,
+    "indoors by a window": 409.0
+   },
+   "body_mm": [
+    130.4,
+    80.0,
+    80.8
+   ],
+   "verify_before_print": [
+    "SPOOL_L",
+    "SPOOL_HOLE_D",
+    "SPOOL_SLOT_W",
+    "SPOOL_SLOT_L",
+    "FILM_W"
+   ]
+  },
+  "rod": {
+   "assembled_length_mm": 993.0,
+   "packed_mm": [
+    233.0,
+    32.0
+   ],
+   "sections": [
+    [
+     "s1",
+     14.0,
+     12.4,
+     2.2
+    ],
+    [
+     "s2",
+     11.0,
+     9.6,
+     1.9
+    ],
+    [
+     "s3",
+     8.6,
+     7.4,
+     1.6
+    ]
+   ],
+   "tip": [
+    "tip",
+    6.2,
+    3.0
+   ],
+   "spigot_mm": 28.0,
+   "spigot_clearance_mm": 0.15,
+   "packs_inside_grip": true,
+   "packing": [
+    [
+     6.25,
+     0.0,
+     7.2
+    ],
+    [
+     -5.480077554195743,
+     5.480077554195744,
+     5.7
+    ],
+    [
+     -7.794228634059947,
+     -4.500000000000001,
+     4.5
+    ],
+    [
+     -1.7364817766693033,
+     -9.84807753012208,
+     3.3000000000000003
+    ]
+   ],
+   "material": "PETG-CF or PA-CF for the sections and tip; PETG for the grip, reel and saddle",
+   "reel": {
+    "d_mm": 100.0,
+    "core_mm": 80.0,
+    "hand_hole_mm": 46.0
+   }
+  }
  },
  "part_code_alphabet": "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
 }
