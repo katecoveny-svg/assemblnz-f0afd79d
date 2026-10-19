@@ -21,8 +21,10 @@ floor_t       = 1.2;   // floor thickness
 corner_r      = 6;     // outer corner radius
 
 /* [Compartments] */
-columns       = 3;     // compartments left to right
-rows          = 2;     // compartments front to back
+columns       = 3;     // compartments left to right (used when column_widths is empty)
+rows          = 2;     // compartments front to back (used when row_depths is empty)
+column_widths = [];    // optional explicit widths in mm, left to right, e.g. [60, 90, 140]; scaled to fit the tray
+row_depths    = [];    // optional explicit depths in mm, front to back
 divider_t     = 1.2;   // divider thickness
 divider_drop  = 8;     // dividers sit this much lower than the wall, so things are easy to lift out
 
@@ -61,14 +63,21 @@ module tray_body() {
     }
 }
 
+// OpenSCAD variables are immutable, so running offsets come from list sums, not loop reassignment.
+function sum(v, i = 0) = i >= len(v) ? 0 : v[i] + sum(v, i + 1);
+// Divider positions as fractions of the inner span: equal splits, or explicit sizes scaled to fit.
+function splits(sizes, n) = len(sizes) > 0
+    ? [for (i = [1 : len(sizes) - 1]) sum([for (j = [0 : i - 1]) sizes[j]]) / sum(sizes)]
+    : [for (c = [1 : n - 1]) c / n];
+
 module dividers() {
     inner_w = tray_w - 2 * wall;
     inner_d = tray_d - 2 * wall;
     h = tray_h - divider_drop;
-    for (c = [1 : columns - 1])
-        translate([wall + c * inner_w / columns - divider_t / 2, wall, 0]) cube([divider_t, inner_d, h]);
-    for (r = [1 : rows - 1])
-        translate([wall, wall + r * inner_d / rows - divider_t / 2, 0]) cube([inner_w, divider_t, h]);
+    for (f = splits(column_widths, columns))
+        translate([wall + f * inner_w - divider_t / 2, wall, 0]) cube([divider_t, inner_d, h]);
+    for (f = splits(row_depths, rows))
+        translate([wall, wall + f * inner_d - divider_t / 2, 0]) cube([inner_w, divider_t, h]);
 }
 
 module drawer_tray() {
@@ -90,4 +99,4 @@ if (splits <= 1) {
     echo(str("Tray wider than the bed: printed as ", splits, " pieces of ", piece_w, " mm"));
 }
 
-echo(str("drawer tray ", tray_w, " × ", tray_d, " × ", tray_h, " mm, ", columns, " × ", rows, " compartments"));
+echo(str("drawer tray ", tray_w, " × ", tray_d, " × ", tray_h, " mm, ", len(column_widths) > 0 ? len(column_widths) : columns, " × ", len(row_depths) > 0 ? len(row_depths) : rows, " compartments"));
