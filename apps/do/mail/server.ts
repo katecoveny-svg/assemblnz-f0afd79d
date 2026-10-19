@@ -3,7 +3,7 @@ import { personalMailReadEnabled, verifyPersonalMailGrant, verifiedMailGrant, ty
 import { z } from 'zod';
 import { accountOwner, doConnectorConfigured, doPersonalMailRead, listConnectedAccounts, type ConnectedAccount } from '@/lib/connectors/pipedream';
 import { decodeGmail, type GmailPayload } from '@/apps/do/services/family';
-import { mailRequest, type MailAccount, type MailDraft, type MailReadiness, type MailRequest, type MailSource } from './contract';
+import { mailDraft, mailRequest, type MailAccount, type MailDraft, type MailReadiness, type MailRequest, type MailSource } from './contract';
 
 export class MailError extends Error {
   constructor(public code: string, public status = 400) { super(code); }
@@ -110,7 +110,7 @@ export async function readMail(raw: unknown, owner: Owner, signal: AbortSignal, 
   // Reject observed metadata/owner changes and cancellation before publication.
   // This cannot detect revocation that the provider has not exposed in metadata.
   await guard();
-  return { ownerId: owner.id, requestId: request.requestId, search: request.search, operation: request.operation, status: 'review', sources, moreAvailable: Boolean(listed.nextPageToken), checkedAt: new Date().toISOString(), stored: false, modelUsed: false };
+  return mailDraft.parse({ ownerId: owner.id, requestId: request.requestId, search: request.search, operation: request.operation, status: 'review', sources, moreAvailable: Boolean(listed.nextPageToken), checkedAt: new Date().toISOString(), stored: false, modelUsed: false });
 }
 
 // Deliberately no server replay cache: mail content and account data stay request-local.

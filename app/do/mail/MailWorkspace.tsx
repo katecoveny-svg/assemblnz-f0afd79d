@@ -46,15 +46,17 @@ export function MailReview({ ownerId, initialTask = '' }: { ownerId: string; ini
     const search = mailSearch.safeParse({ accountId, terms, days });
     if (!search.success || !consent) { setNotice('Choose an account, literal search words, and read permission.'); return; }
     const requestId = crypto.randomUUID();
-    const signal = session.current.begin(requestId);
-    if (!signal) return;
+    const request = { ownerId, requestId, consentVersion: MAIL_READ_CONSENT, search: search.data, operation, messageIds: operation === 'read' ? [...selected] : [] };
+    const signal = session.current.begin(request);
+    if (!signal) { setNotice('Mail review cannot start another request. Reopen this workspace to try again.'); return; }
     setBusy(true); setNotice(''); setDraft(null);
     try {
       const response = await fetch('/api/do/mail', { method: 'POST', headers: { 'content-type': 'application/json' }, signal,
-        body: JSON.stringify({ ownerId, requestId, consentVersion: MAIL_READ_CONSENT, search: search.data, operation, messageIds: operation === 'read' ? selected : [] }) });
+        body: JSON.stringify(request) });
       if (!response.ok) throw new Error('Mail unavailable');
-      const result = await response.json() as MailDraft;
+      const result: unknown = await response.json();
       if (session.current.accept(result)) { setDraft(result); setSelected([]); }
+      else if (!signal.aborted) throw new Error('Mail evidence changed');
     } catch { if (!signal.aborted) setNotice('Mail could not be read. Check the selected account and its read permission, then try again.'); }
     finally { if (!signal.aborted) { session.current.cancel(); setBusy(false); } }
   }
