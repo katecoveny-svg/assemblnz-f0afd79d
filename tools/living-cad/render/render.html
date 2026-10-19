@@ -1,0 +1,49 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:#F5F1F2}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"/node_modules/three/build/three.module.js","three/addons/":"/node_modules/three/examples/jsm/"}}</script>
+</head><body><script type="module">
+import * as THREE from 'three';
+import { STLLoader } from 'three/addons/loaders/STLLoader.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+const W = 1600, H = 1200;
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+renderer.setSize(W, H); renderer.setPixelRatio(1);
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.82;
+document.body.appendChild(renderer.domElement);
+const pmrem = new THREE.PMREMGenerator(renderer);
+const env = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+const loader = new STLLoader();
+const cache = new Map();
+async function geo(file) { if (!cache.has(file)) cache.set(file, loader.loadAsync(file)); const g = (await cache.get(file)).clone(); g.computeVertexNormals(); return g; }
+window.renderScene = async (scene, transparent) => {
+  const s = new THREE.Scene();
+  s.environment = env;
+  if (!transparent) s.background = new THREE.Color(scene.bg || '#F5F1F2');
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(4000, 4000), new THREE.ShadowMaterial({ opacity: 0.16 }));
+  ground.receiveShadow = true; ground.position.z = -0.05; s.add(ground);
+  if (!transparent) { const paper = new THREE.Mesh(new THREE.PlaneGeometry(4000, 4000), new THREE.MeshStandardMaterial({ color: scene.bg || '#F5F1F2', roughness: 1 })); paper.position.z = -0.1; paper.receiveShadow = true; s.add(paper); }
+  const key = new THREE.DirectionalLight('#fff6ea', 1.9); key.position.set(-300, -500, 700); key.castShadow = true;
+  key.shadow.mapSize.set(4096, 4096); key.shadow.camera.left = -400; key.shadow.camera.right = 400; key.shadow.camera.top = 400; key.shadow.camera.bottom = -400; key.shadow.camera.near = 100; key.shadow.camera.far = 2000; key.shadow.radius = 8; key.shadow.bias = -0.0004;
+  s.add(key);
+  const fill = new THREE.DirectionalLight('#e8e4ff', 0.6); fill.position.set(500, 200, 400); s.add(fill);
+  s.add(new THREE.AmbientLight('#ffffff', 0.12));
+  const box = new THREE.Box3();
+  for (const p of scene.parts) {
+    const g = await geo(p.file);
+    g.computeBoundingBox(); const b = g.boundingBox;
+    g.translate(-(b.min.x + b.max.x) / 2, -(b.min.y + b.max.y) / 2, -b.min.z);
+    const m = new THREE.Mesh(g, new THREE.MeshPhysicalMaterial({ color: p.colour, roughness: 0.62, metalness: 0, clearcoat: 0.08, clearcoatRoughness: 0.6, sheen: 0.2, sheenColor: new THREE.Color('#ffffff') }));
+    m.castShadow = true; m.receiveShadow = true;
+    if (p.flip) { m.rotation.x = Math.PI; m.position.z = (b.max.z - b.min.z); }
+    if (p.rot) m.rotation.z = p.rot;
+    m.position.x = p.x; m.position.y = p.y; m.position.z += p.z || 0;
+    s.add(m); m.updateMatrixWorld(); box.expandByObject(m);
+  }
+  const c = new THREE.Vector3(); box.getCenter(c);
+  const cam = new THREE.PerspectiveCamera(32, W / H, 1, 10000);
+  const [cx, cy, cz] = scene.cam; cam.position.set(c.x + cx, c.y + cy, cz); cam.up.set(0, 0, 1); cam.lookAt(c.x, c.y, c.z * 0.4);
+  renderer.render(s, cam);
+  return renderer.domElement.toDataURL('image/png');
+};
+window.ready = true;
+</script></body></html>

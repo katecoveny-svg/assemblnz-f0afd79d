@@ -17,7 +17,8 @@ export function ScrollProgress() {
   });
 
   // Splash and public DO ship their own chrome — no global progress line there.
-  if (pathname === '/' || pathname === '/do' || pathname?.startsWith('/do/') || pathname === '/creative-studio/voices') {
+  // The living product widget is framed inside store pages; no progress bar there.
+  if (pathname === '/' || pathname === '/do' || pathname?.startsWith('/do/') || pathname === '/creative-studio/voices' || pathname === '/living/widget' || pathname?.startsWith('/living/widget/')) {
     return null;
   }
 

@@ -11,3 +11,4 @@ export * from './design';
 export * from './recommend';
 export * from './genome';
 export * from './journey';
+export * from './widget';

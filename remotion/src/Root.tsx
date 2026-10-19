@@ -17,12 +17,16 @@ import { WaihangaRaceGrid, WaihangaRaceStory } from "./videos/WaihangaRace";
 import { HavenRaceGrid, HavenRaceStory } from "./videos/HavenRace";
 import { ToroaRaceGrid, ToroaRaceStory } from "./videos/ToroaRace";
 import { HelmRaceGrid, HelmRaceStory } from "./videos/HelmRace";
+import { LivingAssembles, LivingAssemblesStory } from "./videos/LivingAssembles";
 
 // Race videos: 5 steps × 50 frames/human step + 45 intro + 60 outro ≈ 355 frames
 const RACE_FRAMES = 360;
 
 export const RemotionRoot = () => (
   <>
+    {/* assembl / living — paper/chalk/plum, Instrument Sans + Plex Mono; see docs/living/DESIGN-BRIEF-20261019.md */}
+    <Composition id="living-assembles" component={LivingAssembles} durationInFrames={300} fps={30} width={1920} height={1080} />
+    <Composition id="living-assembles-story" component={LivingAssemblesStory} durationInFrames={300} fps={30} width={1080} height={1920} />
     <Composition id="main" component={MainVideo} durationInFrames={750} fps={30} width={1920} height={1080} />
     <Composition id="turf-story" component={TurfStory} durationInFrames={270} fps={30} width={1080} height={1920} />
     <Composition id="turf-grid" component={TurfGrid} durationInFrames={270} fps={30} width={1080} height={1080} />

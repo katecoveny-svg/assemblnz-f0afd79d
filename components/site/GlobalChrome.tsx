@@ -15,9 +15,11 @@ const isDoPreview = (pathname: string | null): boolean => !!pathname && (pathnam
 const isPreviewSurface = (pathname: string | null): boolean => !!pathname && (pathname === '/preview' || pathname.startsWith('/preview/'));
 // The approved Living store has its own navigation and footer. Do not match /living-site.
 const isLivingStore = (pathname: string | null): boolean => !!pathname && (pathname === '/living/shop' || pathname.startsWith('/living/shop/'));
+// The product widget is framed inside store pages; it carries no site chrome.
+const isLivingWidget = (pathname: string | null): boolean => !!pathname && (pathname === '/living/widget' || pathname.startsWith('/living/widget/'));
 
 function shipsOwnChrome(pathname: string | null): boolean {
-  return isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || isMotionStudio(pathname) || isCreativeStudio(pathname) || isStudio(pathname) || isBuildAnAgent(pathname) || isLab(pathname) || isEditorialHome(pathname) || isLoyaltyJourney(pathname) || isDoPreview(pathname) || isPreviewSurface(pathname) || isLivingStore(pathname);
+  return isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || isMotionStudio(pathname) || isCreativeStudio(pathname) || isStudio(pathname) || isBuildAnAgent(pathname) || isLab(pathname) || isEditorialHome(pathname) || isLoyaltyJourney(pathname) || isDoPreview(pathname) || isPreviewSurface(pathname) || isLivingStore(pathname) || isLivingWidget(pathname);
 }
 export function GlobalNav() {
   const pathname = usePathname();

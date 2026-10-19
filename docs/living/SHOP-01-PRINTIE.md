@@ -1,4 +1,5 @@
 # Assembl Living / SHOP-01
+> **Update 2026-10-19:** Printie fulfils from a US facility only, so it is not viable for NZ customers. See `LAUNCH-OPERATIONS-20261019.md` §5 for the NZ print partner options; the release contract below still stands.
 
 Adds /living/shop to the existing project. Existing /living, CAD source, AL-05 documentation and engineering library are unchanged. This is an interactive storefront preview, not an active Shopify shop.
 
