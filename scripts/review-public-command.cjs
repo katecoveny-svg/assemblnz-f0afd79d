@@ -84,6 +84,40 @@ const releaseDismissTimers = async (page, ids = null) => page.evaluate(ids => {
           await page.waitForFunction(() => document.activeElement === document.querySelector('header a'));
           assert(await initiator.evaluate(element => element === document.activeElement), 'Dismissal restores usable initiating focus');
         };
+        // A pointer press spanning entrance motion must still hit Close on release.
+        // Pause the native animation at its first frame; do not replace its CSS.
+        await initiator.focus();
+        await page.evaluate(() => {
+          window.__commandEntranceAnimations = [];
+          const observer = new MutationObserver(() => {
+            const element = document.querySelector('[role="dialog"][data-state="open"]');
+            const animations = element?.getAnimations().filter(animation => animation.animationName === 'enter') || [];
+            if (!animations.length) return;
+            for (const animation of animations) { animation.pause(); animation.currentTime = 0; }
+            window.__commandEntranceAnimations = animations;
+            observer.disconnect();
+          });
+          observer.observe(document.body, { childList: true, subtree: true });
+          window.dispatchEvent(new Event('assembl:open-command'));
+        });
+        await page.waitForFunction(() => window.__commandEntranceAnimations.length > 0);
+        await page.waitForFunction(() => document.activeElement?.getAttribute('aria-label') === 'Search assembl');
+        const closeControl = page.getByRole('button', { name: 'Close command palette' });
+        const startBox = await closeControl.boundingBox();
+        assert(startBox, 'Close has a pointer target at the entrance frame');
+        const pointer = { x: startBox.x + startBox.width / 2, y: startBox.y + startBox.height / 2 };
+        await page.mouse.move(pointer.x, pointer.y);
+        await page.mouse.down();
+        await page.evaluate(() => { for (const animation of window.__commandEntranceAnimations) animation.finish(); });
+        const endBox = await closeControl.boundingBox();
+        assert(endBox, 'Close remains mounted through entrance');
+        const targetRetained = pointer.x >= endBox.x && pointer.x <= endBox.x + endBox.width
+          && pointer.y >= endBox.y && pointer.y <= endBox.y + endBox.height;
+        await page.mouse.up();
+        row.entrancePointer = { startBox, endBox, targetRetained };
+        assert(targetRetained, 'Entrance motion must not move Close away from a pointer press');
+        await closed();
+        row.entrancePointer.dismissed = true;
         await open('Control+k');
         const values = await dialog.locator('[cmdk-item]').evaluateAll(elements => elements.map(element => element.getAttribute('data-value')));
         assert.deepEqual(values, doors.map(([label]) => label));

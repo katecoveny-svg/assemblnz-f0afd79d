@@ -77,7 +77,7 @@ export function CommandPalette() {
             if (!target.isConnected || target.matches(':disabled,[aria-disabled="true"]') || target.closest('[hidden],[inert],[aria-hidden="true"]') || !target.getClientRects().length || getComputedStyle(target).visibility === 'hidden') return;
             target.focus({ preventScroll: true });
           }}
-          className="fixed left-0 top-0 z-50 flex h-[100dvh] w-screen flex-col overflow-hidden bg-[color:var(--assembl-paper)] shadow-[0_32px_90px_rgba(35,33,31,0.24)] duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 md:left-1/2 md:top-[12vh] md:h-auto md:w-[min(calc(100vw-2rem),720px)] md:-translate-x-1/2 md:rounded-[8px] md:border md:border-[rgba(35,33,31,0.14)]"
+          className="fixed left-0 top-0 z-50 flex h-[100dvh] w-screen flex-col overflow-hidden bg-[color:var(--assembl-paper)] shadow-[0_32px_90px_rgba(35,33,31,0.24)] duration-300 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 md:left-1/2 md:top-[12vh] md:h-auto md:w-[min(calc(100vw-2rem),720px)] md:-translate-x-1/2 md:data-[state=open]:slide-in-from-left-1/2 md:data-[state=closed]:slide-out-to-left-1/2 md:rounded-[8px] md:border md:border-[rgba(35,33,31,0.14)]"
           style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
         >
           <Dialog.Title className="sr-only">Search assembl</Dialog.Title>
