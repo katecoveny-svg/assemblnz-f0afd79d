@@ -13,9 +13,11 @@ const isEditorialHome = (pathname: string | null): boolean => !!pathname && CINE
 const isLoyaltyJourney = (pathname: string | null): boolean => !!pathname && ['/journeys/one-nz', '/journeys/evidence-receipt', '/journeys/operator-desk', '/journeys/mana-receipt'].some(path => pathname === path || pathname.startsWith(`${path}/`));
 const isDoPreview = (pathname: string | null): boolean => !!pathname && (pathname === '/do' || pathname.startsWith('/do/'));
 const isPreviewSurface = (pathname: string | null): boolean => !!pathname && (pathname === '/preview' || pathname.startsWith('/preview/'));
+// The approved Living store has its own navigation and footer. Do not match /living-site.
+const isLivingStore = (pathname: string | null): boolean => !!pathname && (pathname === '/living/shop' || pathname.startsWith('/living/shop/'));
 
 function shipsOwnChrome(pathname: string | null): boolean {
-  return isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || isMotionStudio(pathname) || isCreativeStudio(pathname) || isStudio(pathname) || isBuildAnAgent(pathname) || isLab(pathname) || isEditorialHome(pathname) || isLoyaltyJourney(pathname) || isDoPreview(pathname) || isPreviewSurface(pathname);
+  return isDashMicrosite(pathname) || isAgentMarketplace(pathname) || isAtlas(pathname) || isEcho(pathname) || isAuthSurface(pathname) || isAdminHub(pathname) || isCustomerWorkspace(pathname) || isAlphassembl(pathname) || isAssemblBills(pathname) || isStandaloneHealth(pathname) || isMotionStudio(pathname) || isCreativeStudio(pathname) || isStudio(pathname) || isBuildAnAgent(pathname) || isLab(pathname) || isEditorialHome(pathname) || isLoyaltyJourney(pathname) || isDoPreview(pathname) || isPreviewSurface(pathname) || isLivingStore(pathname);
 }
 export function GlobalNav() {
   const pathname = usePathname();
