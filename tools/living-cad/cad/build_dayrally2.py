@@ -44,6 +44,8 @@ def web(slug, man, rot=(-90, 0, 0)):
 
 
 if __name__ == "__main__":
+    os.makedirs(os.path.join(OUT, "stl"), exist_ok=True)
+    os.makedirs(WEB, exist_ok=True)
     t0 = time.time()
     SAMPLE = {"mini": "AROHA", "standard": "MILA", "tall": "NIKAU", "long": "JAYDEN"}
     for size in d.SIZES:

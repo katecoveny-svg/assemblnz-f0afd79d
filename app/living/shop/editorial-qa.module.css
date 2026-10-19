@@ -1,0 +1,10 @@
+/* Route-scoped corrections verified against the deployed editorial storefront.
+   The company-wide h2 rule assigns a foreground colour directly, so a white
+   parent alone is insufficient for text over the room-category photographs. */
+.refinements :global(#rooms) h2 {
+  color: #fff;
+  text-shadow: 0 1px 10px rgba(28, 14, 22, 0.35);
+}
+.refinements :global(#rooms) p {
+  color: #fff;
+}

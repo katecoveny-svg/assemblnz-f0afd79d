@@ -147,3 +147,6 @@ a.lv-card:hover, button.lv-card:hover { border-color: var(--lv-line-strong); tra
 .lv-measure { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
 .lv-check { display: flex; gap: 0.7rem; align-items: start; font-size: 0.95rem; }
 .lv-check input { margin-top: 0.3rem; accent-color: var(--lv-plum); width: 18px; height: 18px; }
+
+/* Long release-status copy must fit a phone without widening the hero grid. */
+.lv-hero .lv-status { white-space: normal; max-width: 100%; }

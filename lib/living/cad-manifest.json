@@ -18,7 +18,7 @@
  },
  "status": "designed and checked digitally; nothing printed yet. Clamp, detent and clearance values are starting points for the test-print kit.",
  "source": "tools/living-cad/cad/lib.py",
- "built_at": "2026-10-19T14:17:36Z",
+ "built_at": "2026-10-19T16:17:40Z",
  "colours": {
   "living": [
    {

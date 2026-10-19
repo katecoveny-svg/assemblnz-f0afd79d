@@ -1,0 +1,58 @@
+name: Living configurator preview review
+on:
+  pull_request:
+    paths:
+      - 'app/living/**'
+      - 'lib/living/**'
+      - 'public/living/cad/**'
+      - 'app/api/living/shop-checkout/**'
+      - 'scripts/review-living-reconciliation.cjs'
+      - 'app/living/LivingModel.tsx'
+      - 'app/living/LivingPrototypeLibrary.tsx'
+      - 'scripts/review-living-configurator.cjs'
+      - '.github/workflows/living-configurator-review.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: living-configurator-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NODE_OPTIONS: --max-old-space-size=6144
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec eslint app/living components/site/GlobalChrome.tsx apps/do/shared/public-assistant-routes.ts --max-warnings=0
+      - run: pnpm test lib/living app/living apps/do/shared/public-assistant-routes.test.ts
+      - run: pnpm build
+      - run: pip install playwright==1.55.0
+      - run: playwright install --with-deps chromium
+      - name: Prove responsive controls and safe concept export
+        run: |
+          pnpm start > /tmp/living-preview-server.log 2>&1 &
+          for i in $(seq 1 40); do curl -sf http://127.0.0.1:3000/living/configurator-preview >/dev/null && break; sleep 2; done
+          export PLAYWRIGHT_MODULE="$(python -c 'import pathlib, playwright; print(pathlib.Path(playwright.__file__).parent / "driver" / "package")')"
+          export CHROMIUM_PATH="$(python -c 'from playwright.sync_api import sync_playwright; p = sync_playwright().start(); print(p.chromium.executable_path); p.stop()')"
+          node scripts/review-living-configurator.cjs
+          node scripts/review-living-reconciliation.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: living-configurator-proof
+          path: output/playwright/
+          retention-days: 7

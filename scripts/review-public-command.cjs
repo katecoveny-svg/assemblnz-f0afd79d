@@ -7,7 +7,7 @@ const doors = [
   ['Studio', '/creative-studio'], ['Contact assembl', '/contact'],
 ];
 const signatures = {
-  '/': { title: 'assembl | Agentic AI solutions for your business', h1: 'Agentic AI solutions, assembled for your business.' },
+  '/': { title: 'assembl | Agentic AI solutions for your business', h1: 'assembl. Useful work.' },
   '/pursuit': { title: 'Pursuit by assembl | Research the opportunity', h1: 'See what’s changing. Find your next move.' },
   '/do': { title: 'DO by assembl | Your personal agent for useful work', selector: 'main[data-do-identity="assembled-glass"]' },
   '/creative-studio': { title: 'Studio by assembl | Give the idea a working version', h1: 'Give the idea a working version.' },
@@ -56,18 +56,6 @@ const releaseDismissTimers = async (page, ids = null) => page.evaluate(ids => {
   try {
     for (const width of [375, 1440]) {
       const context = await browser.newContext({ viewport: { width, height: 900 }, reducedMotion: 'no-preference' });
-      // Observe the real SSR-still -> hydrated motion transition; do not fake WebGL.
-      await context.addInitScript(() => {
-        window.__commandNormalMotionSeen = false;
-        new MutationObserver(records => {
-          for (const record of records) {
-            if (record.target instanceof HTMLButtonElement && record.target.closest('section[data-chapter]') &&
-              (record.target.getAttribute('aria-label') === 'Pause scene motion' || record.oldValue === 'Pause scene motion')) {
-              window.__commandNormalMotionSeen = true;
-            }
-          }
-        }).observe(document, { subtree: true, attributes: true, attributeFilter: ['aria-label'], attributeOldValue: true });
-      });
       await context.route('**/*', route => {
         const request = route.request();
         return request.method() !== 'GET' || new URL(request.url()).pathname.startsWith('/api/')
@@ -80,7 +68,7 @@ const releaseDismissTimers = async (page, ids = null) => page.evaluate(ids => {
       try {
         await page.goto(origin + '/contact', { waitUntil: 'networkidle' });
         await page.evaluate(() => document.fonts.ready);
-        const initiator = page.locator('header a[href="/"]').first();
+        const initiator = page.locator('header a').first();
         const dialog = page.getByRole('dialog', { name: 'Search assembl' });
         const input = page.getByRole('combobox', { name: 'Search assembl' });
         const open = async shortcut => {
@@ -93,9 +81,43 @@ const releaseDismissTimers = async (page, ids = null) => page.evaluate(ids => {
         };
         const closed = async () => {
           await dialog.waitFor({ state: 'detached' });
-          await page.waitForFunction(() => document.activeElement === document.querySelector('header a[href="/"]'));
+          await page.waitForFunction(() => document.activeElement === document.querySelector('header a'));
           assert(await initiator.evaluate(element => element === document.activeElement), 'Dismissal restores usable initiating focus');
         };
+        // A pointer press spanning entrance motion must still hit Close on release.
+        // Pause the native animation at its first frame; do not replace its CSS.
+        await initiator.focus();
+        await page.evaluate(() => {
+          window.__commandEntranceAnimations = [];
+          const observer = new MutationObserver(() => {
+            const element = document.querySelector('[role="dialog"][data-state="open"]');
+            const animations = element?.getAnimations().filter(animation => animation.animationName === 'enter') || [];
+            if (!animations.length) return;
+            for (const animation of animations) { animation.pause(); animation.currentTime = 0; }
+            window.__commandEntranceAnimations = animations;
+            observer.disconnect();
+          });
+          observer.observe(document.body, { childList: true, subtree: true });
+          window.dispatchEvent(new Event('assembl:open-command'));
+        });
+        await page.waitForFunction(() => window.__commandEntranceAnimations.length > 0);
+        await page.waitForFunction(() => document.activeElement?.getAttribute('aria-label') === 'Search assembl');
+        const closeControl = page.getByRole('button', { name: 'Close command palette' });
+        const startBox = await closeControl.boundingBox();
+        assert(startBox, 'Close has a pointer target at the entrance frame');
+        const pointer = { x: startBox.x + startBox.width / 2, y: startBox.y + startBox.height / 2 };
+        await page.mouse.move(pointer.x, pointer.y);
+        await page.mouse.down();
+        await page.evaluate(() => { for (const animation of window.__commandEntranceAnimations) animation.finish(); });
+        const endBox = await closeControl.boundingBox();
+        assert(endBox, 'Close remains mounted through entrance');
+        const targetRetained = pointer.x >= endBox.x && pointer.x <= endBox.x + endBox.width
+          && pointer.y >= endBox.y && pointer.y <= endBox.y + endBox.height;
+        await page.mouse.up();
+        row.entrancePointer = { startBox, endBox, targetRetained };
+        assert(targetRetained, 'Entrance motion must not move Close away from a pointer press');
+        await closed();
+        row.entrancePointer.dismissed = true;
         await open('Control+k');
         const values = await dialog.locator('[cmdk-item]').evaluateAll(elements => elements.map(element => element.getAttribute('data-value')));
         assert.deepEqual(values, doors.map(([label]) => label));
@@ -216,28 +238,18 @@ const releaseDismissTimers = async (page, ids = null) => page.evaluate(ids => {
         await open('Control+k');
         await page.keyboard.press('Escape');
         await closed();
-        await page.waitForFunction(() => window.__commandNormalMotionSeen === true, null, { timeout: 30000 });
+        await page.waitForFunction(() => document.querySelector('.direction-4c')?.hasAttribute('data-ready'), null, { timeout: 30000 });
         assert.equal(new URL(page.url()).pathname, '/');
-        assert.equal((await page.locator('h1').first().innerText()).replace(/\s+/g, ' ').trim(), 'Agentic AI solutions, assembled for your business.');
+        assert.equal((await page.locator('h1').first().innerText()).replace(/\s+/g, ' ').trim(), 'assembl. Useful work.');
         assert.equal(await page.getByRole('navigation', { name: 'Primary', exact: true }).count(), 1);
         assert.equal(await page.locator('header nav').count(), 1, 'No legacy primary navigation wrapper');
         assert.equal(await page.locator('[data-watch-route], .watch-site, .watch-scene').count(), 0);
         assert.equal(new URL(await page.locator('link[rel="canonical"]').getAttribute('href')).pathname, '/');
-        const still = page.getByRole('button', { name: 'Still view; scene motion unavailable', exact: true });
-        let sceneMotion;
-        if (await still.count()) {
-          assert(await still.isDisabled(), 'Static fallback must not offer unavailable motion');
-          assert.equal(await page.locator('section[data-chapter]').getAttribute('data-static'), 'true');
-          sceneMotion = 'static fallback';
-        } else {
-          const pause = page.getByRole('button', { name: 'Pause scene motion', exact: true });
-          await pause.focus();
-          await pause.press('Enter');
-          const resume = page.getByRole('button', { name: 'Resume scene motion', exact: true });
-          await resume.waitFor();
-          assert.equal(await resume.getAttribute('aria-pressed'), 'true');
-          sceneMotion = 'pause verified';
-        }
+        const pause = page.locator('[data-pause]');
+        await pause.focus(); await pause.press('Enter');
+        assert.equal(await pause.getAttribute('aria-pressed'), 'true');
+        assert(await page.locator('[data-coastal-video]').evaluate(video => video.paused));
+        const sceneMotion = 'coastal pause verified';
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), width);
         await page.screenshot({ path: `${output}/retired-redirect-home-${width}.png` });
         // Prove hydration through a working HTML control even without WebGL.
@@ -249,10 +261,12 @@ const releaseDismissTimers = async (page, ids = null) => page.evaluate(ids => {
         await page.emulateMedia({ reducedMotion: 'reduce' });
         await page.goto(origin + '/evidence-pack', { waitUntil: 'networkidle' });
         await waitForSignature(page, '/');
-        await still.waitFor();
-        assert(await still.isDisabled());
+        await page.getByRole('button', { name: 'Motion reduced', exact: true }).waitFor();
+        assert(await pause.isDisabled());
+        assert(await page.locator('[data-coastal-video]').evaluate(video => video.paused));
         assert.equal(new URL(page.url()).pathname, '/');
-        assert.equal(await page.locator('section[data-chapter]').getAttribute('data-static'), 'true');
+        assert.equal(await page.locator('.direction-4c').getAttribute('data-paused'), '');
+        assert.equal(await page.locator('.direction-4c').getAttribute('data-ready'), null);
         assert.equal(await page.getByRole('navigation', { name: 'Primary', exact: true }).count(), 1);
         assert.equal(await page.locator('[data-watch-route], .watch-site, .watch-scene').count(), 0);
         await open('Control+k');
