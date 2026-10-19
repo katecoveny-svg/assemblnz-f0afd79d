@@ -18,7 +18,7 @@
  },
  "status": "designed and checked digitally; nothing printed yet. Clamp, detent and clearance values are starting points for the test-print kit.",
  "source": "tools/living-cad/cad/lib.py",
- "built_at": "2026-10-19T22:02:48Z",
+ "built_at": "2026-10-19T23:48:35Z",
  "colours": {
   "living": [
    {
@@ -3363,6 +3363,398 @@
     "path": "/living/cad/v0.3/rod-saddle.stl",
     "bytes": 145084,
     "sha256": "377375441bce527dc9a2eaf43ef019cfb193f9b0f227d5b275199423220d22e1"
+   }
+  },
+  {
+   "id": "cast-grip",
+   "name": "Cast grip with reel seat",
+   "family": "cast",
+   "group": "cast",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 250.0,
+    "y": 36.0,
+    "z": 39.4
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 72.41,
+   "mass_g_pla": 70.8,
+   "material": "ASA or PETG-CF",
+   "supports": "none",
+   "watertight": true,
+   "genus": 2,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 9003.0,
+   "notes": "ASA or PETG-CF. Prints lying on its back flat. Screw-lock reel seat; sections pack inside.",
+   "file": {
+    "path": "/living/cad/v0.3/cast-grip.stl",
+    "bytes": 16102484,
+    "sha256": "45d39a619fb0bda5db173063ffdd9f5404a49694639cc6544c38aa2b8f344f18"
+   }
+  },
+  {
+   "id": "cast-hood",
+   "name": "Sliding hood",
+   "family": "cast",
+   "group": "cast",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 43.3,
+    "y": 41.4,
+    "z": 18.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 5.2,
+   "mass_g_pla": 5.7,
+   "material": "ASA or PETG-CF",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 69.0,
+   "notes": "Keyed to the grip; rides the thread crests; the nut pushes it onto the reel foot.",
+   "file": {
+    "path": "/living/cad/v0.3/cast-hood.stl",
+    "bytes": 48084,
+    "sha256": "f9ad7206d3d8c9da84420b73568a8265235898be58c4e09ea7597de1cb928ffd"
+   }
+  },
+  {
+   "id": "cast-nut",
+   "name": "Lock nut",
+   "family": "cast",
+   "group": "cast",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 41.8,
+    "y": 41.8,
+    "z": 14.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 4.81,
+   "mass_g_pla": 6.0,
+   "material": "ASA or PETG-CF",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 2156.0,
+   "notes": "Printed thread, 36 × 3 mm, 50° flanks.",
+   "file": {
+    "path": "/living/cad/v0.3/cast-nut.stl",
+    "bytes": 3139284,
+    "sha256": "347d6b2db8fdafa0499cac4d870a406da51510b3115a7dacdd5e14effa573a18"
+   }
+  },
+  {
+   "id": "cast-collar",
+   "name": "Collar with pin",
+   "family": "cast",
+   "group": "cast",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 36.0,
+    "y": 36.0,
+    "z": 49.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 15.53,
+   "mass_g_pla": 8.7,
+   "material": "ASA or PETG-CF",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 377.0,
+   "notes": "Presses into the grip top; section 1 slides over its pin.",
+   "file": {
+    "path": "/living/cad/v0.3/cast-collar.stl",
+    "bytes": 75984,
+    "sha256": "c35bf0d11974776808ab94663535e1f6e1657a7cf8b8152c9c76f5cd95c96726"
+   }
+  },
+  {
+   "id": "cast-butt-cap",
+   "name": "Butt cap",
+   "family": "cast",
+   "group": "cast",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 38.0,
+    "y": 38.0,
+    "z": 13.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 5.4,
+   "mass_g_pla": 5.2,
+   "material": "ASA or PETG-CF",
+   "supports": "none",
+   "watertight": true,
+   "genus": 4,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 64.0,
+   "notes": "Presses into the butt; pull to unpack.",
+   "file": {
+    "path": "/living/cad/v0.3/cast-butt-cap.stl",
+    "bytes": 78484,
+    "sha256": "c83bade3c64ff476d80dd80caabbeb0466b05df60b193b1a042221b0ffe8ff77"
+   }
+  },
+  {
+   "id": "cast-section-1",
+   "name": "Section 1",
+   "family": "cast",
+   "group": "cast",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 12.0,
+    "y": 220.0,
+    "z": 12.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 14.57,
+   "mass_g_pla": 17.5,
+   "material": "PPA-CF (PA12-CF second)",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1800.0,
+   "notes": "PPA-CF. Hollow square bar, prints flat.",
+   "file": {
+    "path": "/living/cad/v0.3/cast-section-1.stl",
+    "bytes": 44784,
+    "sha256": "f3fc9cc631c988a63059e8aeaf0f9cafb2793a722c1eed9c389e2d7384a65a87"
+   }
+  },
+  {
+   "id": "cast-section-2",
+   "name": "Section 2",
+   "family": "cast",
+   "group": "cast",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 10.6,
+    "y": 220.0,
+    "z": 10.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 12.11,
+   "mass_g_pla": 14.5,
+   "material": "PPA-CF (PA12-CF second)",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1443.0,
+   "notes": "PPA-CF. Prints flat.",
+   "file": {
+    "path": "/living/cad/v0.3/cast-section-2.stl",
+    "bytes": 46384,
+    "sha256": "cc38b7b8d82745a12ca1a93e370f83b22227888ad64ad6d4bb1432bdf5a45367"
+   }
+  },
+  {
+   "id": "cast-section-3",
+   "name": "Section 3, tip",
+   "family": "cast",
+   "group": "cast",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 8.8,
+    "y": 220.0,
+    "z": 8.8
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 6.8,
+   "mass_g_pla": 7.8,
+   "material": "PPA-CF (PA12-CF second)",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 514.0,
+   "notes": "PPA-CF. Prints flat; solid over the last 90 mm; tip top slips over the end.",
+   "file": {
+    "path": "/living/cad/v0.3/cast-section-3.stl",
+    "bytes": 41084,
+    "sha256": "6d6b712ae268428cf5f7175baf8b448aa46877e4b1d05d7686a443c2ea88f648"
+   }
+  },
+  {
+   "id": "cast-pin-1",
+   "name": "Spigot pin 1",
+   "family": "cast",
+   "group": "cast",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 6.8,
+    "y": 60.0,
+    "z": 6.8
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 2.67,
+   "mass_g_pla": 2.0,
+   "material": "PPA-CF (PA12-CF second)",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 19.0,
+   "notes": "PPA-CF. Epoxy half into section 1's top.",
+   "file": {
+    "path": "/living/cad/v0.3/cast-pin-1.stl",
+    "bytes": 33984,
+    "sha256": "5bec9306dee2cc1d262703ebd6b513c15f7a515e6d57380c6a2811628ee615d4"
+   }
+  },
+  {
+   "id": "cast-pin-2",
+   "name": "Spigot pin 2",
+   "family": "cast",
+   "group": "cast",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 5.0,
+    "y": 60.0,
+    "z": 5.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 1.44,
+   "mass_g_pla": 1.3,
+   "material": "PPA-CF (PA12-CF second)",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "PPA-CF. Epoxy half into section 2's top.",
+   "file": {
+    "path": "/living/cad/v0.3/cast-pin-2.stl",
+    "bytes": 32784,
+    "sha256": "f381bc7c3cbe38d4d2c42554f4074a2de40ba9913e19ad685adb7d78351aa40e"
+   }
+  },
+  {
+   "id": "cast-tip-top",
+   "name": "Tip top",
+   "family": "cast",
+   "group": "cast",
+   "revision": "v0.3",
+   "print_orientation": "stand_up",
+   "dims_mm": {
+    "x": 7.4,
+    "y": 12.5,
+    "z": 17.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.53,
+   "mass_g_pla": 0.7,
+   "material": "PPA-CF (PA12-CF second)",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 23.0,
+   "notes": "PPA-CF. Epoxy onto the tip.",
+   "file": {
+    "path": "/living/cad/v0.3/cast-tip-top.stl",
+    "bytes": 69384,
+    "sha256": "30d8a28ff91589e004abf6d5e414b3505fc1d91979dc9e088a4ba8e826d6cb5b"
+   }
+  },
+  {
+   "id": "cast-guide-1",
+   "name": "Guide 1 (7 mm ring)",
+   "family": "cast",
+   "group": "cast",
+   "revision": "v0.3",
+   "print_orientation": "on_bottom",
+   "dims_mm": {
+    "x": 10.2,
+    "y": 11.1,
+    "z": 14.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.34,
+   "mass_g_pla": 0.4,
+   "material": "PPA-CF (PA12-CF second)",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 46.0,
+   "notes": "PPA-CF. Epoxy and whip onto section 1.",
+   "file": {
+    "path": "/living/cad/v0.3/cast-guide-1.stl",
+    "bytes": 32484,
+    "sha256": "d7aa20f75c98a575f1c6f2c10f9532c7e2398fb388c27dd9d901f0f9ec4642e4"
+   }
+  },
+  {
+   "id": "cast-guide-2",
+   "name": "Guide 2 (5.5 mm ring)",
+   "family": "cast",
+   "group": "cast",
+   "revision": "v0.3",
+   "print_orientation": "on_bottom",
+   "dims_mm": {
+    "x": 8.7,
+    "y": 9.6,
+    "z": 14.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.29,
+   "mass_g_pla": 0.4,
+   "material": "PPA-CF (PA12-CF second)",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 36.0,
+   "notes": "Section 2.",
+   "file": {
+    "path": "/living/cad/v0.3/cast-guide-2.stl",
+    "bytes": 32084,
+    "sha256": "2c95fa1c4f69be3de957126f2d7af874e753729b71875cea1ce7ec27084ebc78"
+   }
+  },
+  {
+   "id": "cast-guide-3",
+   "name": "Guide 3 (4.4 mm ring)",
+   "family": "cast",
+   "group": "cast",
+   "revision": "v0.3",
+   "print_orientation": "on_bottom",
+   "dims_mm": {
+    "x": 7.6,
+    "y": 8.5,
+    "z": 14.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.19,
+   "mass_g_pla": 0.2,
+   "material": "PPA-CF (PA12-CF second)",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 29.0,
+   "notes": "Section 3.",
+   "file": {
+    "path": "/living/cad/v0.3/cast-guide-3.stl",
+    "bytes": 34484,
+    "sha256": "d5a627a1a35a994a4dd1a07610aa72d34e831456106e9fb6463a745fd46773cf"
    }
   }
  ],
@@ -6794,6 +7186,40 @@
    "saddle_grip_clash_mm3": 0.0,
    "sections_pack_inside_grip": true,
    "assembled_length_mm": 993.0
+  },
+  "cast": {
+   "joint_1_pin_in_lower_clash_mm3": 0.0,
+   "joint_1_pin_in_upper_clash_mm3": 0.0,
+   "joint_1_sections_clash_mm3": -0.0,
+   "joint_1_socket_wall_mm": 1.8,
+   "joint_2_pin_in_lower_clash_mm3": 0.0,
+   "joint_2_pin_in_upper_clash_mm3": 0.0,
+   "joint_2_sections_clash_mm3": 0.0,
+   "joint_2_socket_wall_mm": 1.8,
+   "collar_press_mm3": 173.462,
+   "s1_over_collar_pin_clash_mm3": -0.0,
+   "cap_press_mm3": 109.13,
+   "foot_55_nut_to_hood_gap_mm": 3.0,
+   "foot_55_in_fixed_hood_clash_mm3": -0.0,
+   "foot_55_hood_on_grip_clash_mm3": 0.01,
+   "foot_55_hood_on_foot_clash_mm3": 0.0,
+   "foot_55_nut_on_thread_clash_mm3": 0.0,
+   "foot_55_nut_within_thread": true,
+   "foot_62_nut_to_hood_gap_mm": 2.0,
+   "foot_62_in_fixed_hood_clash_mm3": -0.0,
+   "foot_62_hood_on_grip_clash_mm3": 0.01,
+   "foot_62_hood_on_foot_clash_mm3": 0.0,
+   "foot_62_nut_on_thread_clash_mm3": 0.0,
+   "foot_62_nut_within_thread": true,
+   "nut_half_pitch_off_clashes_mm3": 197.983,
+   "foot_66_nut_to_hood_gap_mm": 1.0,
+   "foot_66_in_fixed_hood_clash_mm3": 0.0,
+   "foot_66_hood_on_grip_clash_mm3": 0.01,
+   "foot_66_hood_on_foot_clash_mm3": 0.0,
+   "foot_66_nut_on_thread_clash_mm3": 0.0,
+   "foot_66_nut_within_thread": true,
+   "sections_pack_inside_grip": true,
+   "assembled_length_mm": 913.0
   }
  },
  "lab": {
@@ -6900,6 +7326,172 @@
     "core_mm": 80.0,
     "hand_hole_mm": 46.0
    }
+  },
+  "cast": {
+   "assembled_length_mm": 913,
+   "packed_mm": [
+    253.0,
+    36.0
+   ],
+   "sections_square_mm": [
+    [
+     12.0,
+     10.6
+    ],
+    [
+     10.6,
+     8.8
+    ],
+    [
+     8.8,
+     3.6
+    ]
+   ],
+   "section_mm": 220.0,
+   "wall_mm": 1.8,
+   "pins_square_mm": [
+    6.8,
+    5.0
+   ],
+   "pin_mm": 60.0,
+   "pin_clearance_mm": 0.2,
+   "packs_inside_grip": true,
+   "packing": [
+    [
+     -7.0,
+     -1.0,
+     12.3
+    ],
+    [
+     5.0,
+     -5.0,
+     10.9
+    ],
+    [
+     4.0,
+     5.0,
+     9.100000000000001
+    ]
+   ],
+   "reel_seat": {
+    "foot_pocket_mm": [
+     13.5,
+     3.6
+    ],
+    "foot_length_range_mm": [
+     55.0,
+     66.0
+    ],
+    "thread": "36.0 x 3.0",
+    "thread_z_mm": [
+     130.7,
+     176.7
+    ]
+   },
+   "guides_ring_id_mm": [
+    7.0,
+    5.5,
+    4.4
+   ],
+   "stiffness": [
+    {
+     "section": 1,
+     "side_mm": 12.0,
+     "EI_ppa_cf_Nmm2": 12605829,
+     "EI_glass_tube_Nmm2": 20348713
+    },
+    {
+     "section": 2,
+     "side_mm": 10.6,
+     "EI_ppa_cf_Nmm2": 8179016,
+     "EI_glass_tube_Nmm2": 12388976
+    },
+    {
+     "section": 3,
+     "side_mm": 8.8,
+     "EI_ppa_cf_Nmm2": 4212634,
+     "EI_glass_tube_Nmm2": 5884948
+    }
+   ],
+   "design_tip_load_N": 2.5,
+   "stress_at_design_load": [
+    {
+     "where": "section 1 base (12.0 mm sq, 1.8 wall)",
+     "lever_mm": 660.0,
+     "moment_Nmm": 1650,
+     "stress_MPa": 7.5
+    },
+    {
+     "where": "pin 1 (6.8 mm sq)",
+     "lever_mm": 440.0,
+     "moment_Nmm": 1100,
+     "stress_MPa": 21.0
+    },
+    {
+     "where": "section 2 base (10.6 mm sq, 1.8 wall)",
+     "lever_mm": 440.0,
+     "moment_Nmm": 1100,
+     "stress_MPa": 6.8
+    },
+    {
+     "where": "pin 2 (5.0 mm sq)",
+     "lever_mm": 220.0,
+     "moment_Nmm": 550,
+     "stress_MPa": 26.4
+    },
+    {
+     "where": "section 3 base (8.8 mm sq, 1.8 wall)",
+     "lever_mm": 220.0,
+     "moment_Nmm": 550,
+     "stress_MPa": 5.5
+    },
+    {
+     "where": "solid tip 80 mm from the end (5.5 mm sq)",
+     "lever_mm": 80,
+     "moment_Nmm": 200,
+     "stress_MPa": 7.2
+    }
+   ],
+   "stress_at_5N": [
+    {
+     "where": "section 1 base (12.0 mm sq, 1.8 wall)",
+     "lever_mm": 660.0,
+     "moment_Nmm": 3300,
+     "stress_MPa": 15.1
+    },
+    {
+     "where": "pin 1 (6.8 mm sq)",
+     "lever_mm": 440.0,
+     "moment_Nmm": 2200,
+     "stress_MPa": 42.0
+    },
+    {
+     "where": "section 2 base (10.6 mm sq, 1.8 wall)",
+     "lever_mm": 440.0,
+     "moment_Nmm": 2200,
+     "stress_MPa": 13.7
+    },
+    {
+     "where": "pin 2 (5.0 mm sq)",
+     "lever_mm": 220.0,
+     "moment_Nmm": 1100,
+     "stress_MPa": 52.8
+    },
+    {
+     "where": "section 3 base (8.8 mm sq, 1.8 wall)",
+     "lever_mm": 220.0,
+     "moment_Nmm": 1100,
+     "stress_MPa": 11.0
+    },
+    {
+     "where": "solid tip 80 mm from the end (5.5 mm sq)",
+     "lever_mm": 80,
+     "moment_Nmm": 400,
+     "stress_MPa": 14.5
+    }
+   ],
+   "material": "PPA-CF for sections, tip top and guides (PA12-CF second); ASA or PETG-CF for grip, hood, nut, collar, cap. Not PA6-CF.",
+   "reel": "bought: Shimano 1000-size spinning reel"
   }
  },
  "part_code_alphabet": "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"

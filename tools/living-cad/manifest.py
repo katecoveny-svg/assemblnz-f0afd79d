@@ -37,7 +37,7 @@ TS_MANIFEST = REPO / "lib" / "living" / "cad-manifest.json"
 
 # Families whose print files the storefront serves. Dayrally, bike and the pendant
 # shade are rebuilt on demand (the shade alone is 6 MB of mesh).
-SERVED_FAMILIES = {"grid", "tile", "stack", "renter", "camera", "rod"}
+SERVED_FAMILIES = {"grid", "tile", "stack", "renter", "camera", "rod", "cast"}
 
 COLOURS = {
     "living": [
@@ -107,12 +107,15 @@ MATERIAL = {
     "cam-back": "PETG", "cam-shutter-disc": "PETG", "cam-window-cover": "PETG", "cam-cradle": "PETG",
     "rod-grip": "PETG", "rod-collar": "PETG", "rod-butt-cap": "PETG", "rod-wharf-reel": "PETG", "rod-saddle": "PETG",
     "rod-section-1": "PETG-CF or PA-CF", "rod-section-2": "PETG-CF or PA-CF", "rod-section-3": "PETG-CF or PA-CF", "rod-tip": "PETG-CF or PA-CF",
+    "cast-grip": "ASA or PETG-CF", "cast-hood": "ASA or PETG-CF", "cast-nut": "ASA or PETG-CF", "cast-collar": "ASA or PETG-CF", "cast-butt-cap": "ASA or PETG-CF",
 }
 
 
 def material_for(slug: str) -> str:
     if slug in MATERIAL:
         return MATERIAL[slug]
+    if slug.startswith("cast-"):
+        return "PPA-CF (PA12-CF second)"
     if slug.startswith("dr2-mount-"):
         return "PETG"
     return "PLA Matte"
@@ -125,7 +128,7 @@ def sha(path: Path) -> str:
 def load_parts() -> list[dict]:
     rows: list[dict] = []
     for name, family in (("parts-report", None), ("parts-report-extras", None), ("parts-report-dayrally", "dayrally"), ("parts-report-dayrally2", "dayrally2"),
-                         ("parts-report-cam", "camera"), ("parts-report-rod", "rod")):
+                         ("parts-report-cam", "camera"), ("parts-report-rod", "rod"), ("parts-report-cast", "cast")):
         loaded = json.loads((PARTS / f"{name}.json").read_text())
         for r in (loaded["parts"] if isinstance(loaded, dict) else loaded):
             fam = r.get("system") or family
@@ -238,8 +241,8 @@ def main() -> None:
             if m and check_char(m.group(1)) != m.group(2):
                 raise SystemExit(f"check letter mismatch for {s['sku']}")
     kit_report = json.loads((PARTS / "test-kit" / "kit-report.json").read_text())
-    fit = {name: json.loads((PARTS / f"fit-tests{suffix}.json").read_text()) for name, suffix in (("grid", ""), ("renter", "-renter"), ("dayrally", "-dayrally"), ("dayrally2", "-dayrally2"), ("camera", "-cam"), ("rod", "-rod"))}
-    lab = {name: json.loads((PARTS / f"parts-report-{suffix}.json").read_text())["spec"] for name, suffix in (("camera", "cam"), ("rod", "rod"))}
+    fit = {name: json.loads((PARTS / f"fit-tests{suffix}.json").read_text()) for name, suffix in (("grid", ""), ("renter", "-renter"), ("dayrally", "-dayrally"), ("dayrally2", "-dayrally2"), ("camera", "-cam"), ("rod", "-rod"), ("cast", "-cast"))}
+    lab = {name: json.loads((PARTS / f"parts-report-{suffix}.json").read_text())["spec"] for name, suffix in (("camera", "cam"), ("rod", "rod"), ("cast", "cast"))}
     manifest = {
         "pack": PACK,
         "interface": INTERFACE,

@@ -216,6 +216,12 @@ export const WIDGET_LAB: LabItem[] = [
     doc: 'docs/living/DAYRALLY-ROD.md',
   },
   {
+    id: 'dayrally-cast', title: 'dayrally cast', type: 'dayrally lab', colourSet: 'dayrally', size: '0.91 m assembled · 253 × 36 mm packed',
+    blurb: 'Casting rod for a real spinning reel: three hollow square sections in PPA-CF printed flat, square spigot pins, a screw-lock reel seat on a grip the sections pack inside, guides and a tip top. Design tip load 2.5 N; set the drag under 300 g. The reel is bought (Shimano 1000 size).',
+    parts: [{ id: 'cast-grip', qty: 1 }, { id: 'cast-hood', qty: 1 }, { id: 'cast-nut', qty: 1 }, { id: 'cast-collar', qty: 1 }, { id: 'cast-butt-cap', qty: 1 }, { id: 'cast-section-1', qty: 1 }, { id: 'cast-section-2', qty: 1 }, { id: 'cast-section-3', qty: 1 }, { id: 'cast-pin-1', qty: 1 }, { id: 'cast-pin-2', qty: 1 }, { id: 'cast-tip-top', qty: 1 }, { id: 'cast-guide-1', qty: 1 }, { id: 'cast-guide-2', qty: 1 }, { id: 'cast-guide-3', qty: 1 }],
+    doc: 'docs/living/DAYRALLY-CAST.md',
+  },
+  {
     id: 'wharf-reel', title: 'Wharf reel', type: 'dayrally lab', colourSet: 'dayrally', size: 'Ø100 × 28 mm',
     blurb: 'One-piece V-groove hand reel for about 30 m of mono, with a hand hole, a line anchor and a hook park. Hangs on a Grid hook. No hooks supplied.',
     parts: [{ id: 'rod-wharf-reel', qty: 1 }], doc: 'docs/living/DAYRALLY-ROD.md',

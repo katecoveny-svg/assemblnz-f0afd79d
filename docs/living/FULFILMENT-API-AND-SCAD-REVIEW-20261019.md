@@ -65,3 +65,13 @@ These are useful as idea sketches. None should be printed as written.
 - The rod as a "working fishing rod"; the honest version is a handline.
 - Any of the four sketches as print files.
 - "AI-designed" or "AI configurator" framing anywhere a customer reads.
+
+## Addendum, 20 October: engineering-filament print services (unverified leads)
+
+A forwarded thread lists RYSE 3D (UK; "PA6-CF, heated chamber for PPA-CF, ISO 9001, no minimum"),
+JLC3DP ("PPA-CF, PEEK, PA12-CF"), Craftcloud with partner Rigid Prints (UK; "PA6-CF and PPA-CF") and
+PREMSA Industries (Mexico; "PA6-CF and PPA-CF"). None of these claims was checked from this session; treat
+them as leads to verify (material list, minimums, NZ shipping, lead time) before any order. For the first
+PPA-CF rod print the right route is local: an X1C-class printer with a hardened nozzle and a dry box, and
+our own spool. 3DAPI stays the API-first NZ candidate for PLA and PETG parts. Export 3MF, not STL, to any
+farm: it carries units and part names.

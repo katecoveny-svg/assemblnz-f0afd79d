@@ -299,12 +299,58 @@ unprinted), and the honesty footer. A pasteable Custom Liquid block for the
 hero is in `docs/living/theme/dayrally-hero.liquid`; the rest are
 stock Horizon sections configured in the theme editor.
 
-### 11.6 Imagery, honestly
+### 11.6 The dayrally board, now in hand (20 October)
 
-The original dayrally board lives in Kate's other chat and is not reachable
-from this session, so nothing here copies it. The renders listed in section 8
-and 11.4 are real geometry, labelled renders. To get to photographs: print the
-test kit first; to get to photoreal renders before that, feed each render to
-an image model with the prompt in section 8 and insist on fidelity to the
-geometry. Any image that shows a part that does not exist in the manifest is
-out.
+Kate shared the original board. This is the register for every dayrally surface; the storefront is
+measured against it.
+
+**Wordmark and voice.** `dayrally` in a heavy, soft, geometric rounded face, all lowercase, tomato red,
+huge. Under it, in black: "go make a day of it." Then the small mono line "POWERED BY ASSEMBL". The
+sub-lines are two-tone: "dayrally **fish**", "dayrally **everyday**", "dayrally **ride**", "dayrally
+**explore**", the second word in the line's colour (red, lilac, black, blue). Taglines are plain and short:
+"Tackle kits, measuring tools and on-the-go organisation." "Tools and spares for bikes, scooters and more."
+The footer carries the honesty line already: "PROTOTYPE COLLECTION · CONCEPT VISUALISATIONS" and "NOT
+MANUFACTURED OR TESTED PRODUCTS". Keep both, verbatim in spirit.
+
+**Scene.** Warm cream rock and sand, hard sunlight with soft shadow, products at a low three-quarter
+angle, a few of them open. Props are the kit's own parts: rulers printed with their scale, a line spool,
+soft baits, name slates. No studio seamless, no grey.
+
+**Product forms the board shows (and our pods do not yet have).** A bento-proportioned pod with a
+*hinged* lid that opens like a lunchbox, a contrasting latch button on the front, a rope lanyard loop on
+the end, a debossed `dayrally` on the lid, and a *name slate*: a rounded tab in a second colour with the
+name or `dayrally` raised on it (JACK on red, MILA ♡ on lilac, dayrally on butter), which the exploded
+diagram calls **03 skin** and labels "interchangeable colours and designs". **02 core** is the
+compartment insert ("choose your contents"), **01 mount** the pod base ("clip, strap or carry your way").
+Our v0.3 pods are stadium pods with lift-off lids on two TURN keys; the board's pod is a different object.
+That gap is the next CAD build: **pod v3**, a printed pin-hinge bento lid, a snap latch button, a lanyard
+loop, and a slate slot on the lid that takes the name slate, on the same TURN floor so every mount still
+fits. Until it exists, the storefront shows the v0.3 pods honestly and the board as concept.
+
+**The phone flow.** "what's your day?" above a two-up kit chooser (fishing, everyday) and four icon chips
+(riding, beach, exploring, custom); "make it yours" with six round swatches (red, butter, chalk, lilac,
+blue, ink); a single text field "Add a name or text…"; one full-width red button "create my kit ✨". This is
+the widget's home page on dayrally: the chooser is the collection, the chips are the kits, the swatch row and
+text field are the widget. Build the storefront in that order.
+
+**Feature row.** Four icons with mono titles and one-line Sans copy: AI POWERED CONFIGURATION ("Tell us
+what you're doing. Our AI helps you build the perfect kit."), CUSTOM COLOURS & PERSONALISATION, 100% 3D
+PRINTED DESIGNS, DIRECT TO YOUR DOOR. Keep all four; the first one is honest only when the Space Studio or
+the DO assistant actually drives the chooser, so on the Shopify page say "tell us your day" and link the
+assembl studio rather than claim AI on a static page.
+
+**Palette as the board uses it.** Tomato red is the brand colour (wordmark, button, the fish pod). Butter
+is the lid colour on red. Lilac with a red latch is "everyday". Black with a butter slate is "ride". Blue
+and orange is "explore". Cream sand is the ground. Never more than two product colours per object.
+
+**Colour note for the store.** The board's reds and yellows are product and campaign colour; assembl's
+UI chrome (buttons on assembl pages, pills, mono labels) stays in the paper-and-plum canon. On the Shopify
+dayrally pages the red button is allowed: it is the board's button.
+
+**Also liked:** the "Ultimate Modular Hobby Toolbox" on MakerWorld (orange and grey stackable crate with
+lattice walls and clip latches). Reference only, licence unchecked: the idea to take is stackable crates
+with clip latches in the dayrally colours, as a larger "01 mount" for the Gear wall and the car boot.
+
+The renders in section 8 and 11.4 remain real geometry, labelled renders. To get to the board's look
+before anything is printed: pod v3 first, then photoreal renders fed with the real STLs and the prompt in
+section 8, scene-matched to the board (cream rock, hard sun, low angle).

@@ -44,6 +44,18 @@ be read in full at adoption time; the obligations below are the headline.
 | Tenkara fixed-line method; spigot ferrules; Cuban yo-yo hand reel | traditional, no owner | used as ideas | The rod is fixed-line, joined by spigots, with a V-groove hand reel. All geometry is ours. |
 | assembl dayrally cam, rod, wharf reel, saddle, cradle (`dayrally_cam.py`, `dayrally_rod.py`) | assembl, licence not yet chosen (see Rules) | ours | Designed in the manifold3d pipeline on the TURN standard; checked digitally; unprinted. |
 
+### Added 20 October: casting rod
+
+| Source | Licence | Status | Notes |
+|---|---|---|---|
+| Forwarded OpenSCAD "master file" (rod, reel, box) and ESP32-CAM housing | unknown, from another assistant | not used | Sketches: see `FORWARDED-FISHING-KIT-REVIEW-20261020.md`. Nothing copied. |
+| Bambu Lab PPA-CF and PA6-CF data; Polymaker PA12-CF notes | vendor data | used as numbers | Wet/dry bending modulus and absorption figures quoted in `DAYRALLY-CAST.md`. |
+| Screw-lock spinning reel seat (Fuji DPS / CRB style: fixed hood, sliding hood, lock nut) | industry-standard mechanism, no owner | used as an idea | Our geometry: keyed hood riding a printed 36 × 3 thread cut into the grip. |
+| assembl dayrally cast (`dayrally_cast.py`) | assembl, licence not yet chosen | ours | Hollow square sections printed flat, square spigot pins, stress table from the geometry. Unprinted. |
+
+| "Ultimate Modular Hobby Toolbox – Customizable" (MakerWorld, ADay) | not checked | reference only | Stackable lattice crate with clip latches; Kate likes the form. Nothing copied; licence to check before any study. |
+| dayrally concept board (Kate's, 18 October) | assembl's own concept art | canon for the dayrally register | Described in `DESIGN-BRIEF-20261019.md` §11.6. The pod it shows (hinged bento lid, latch, lanyard, name slate) is the next CAD build, pod v3. |
+
 ## Rules
 
 1. Record the origin link, licence, version or commit, and the date checked.
