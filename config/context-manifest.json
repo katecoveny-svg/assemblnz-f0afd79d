@@ -50,6 +50,11 @@
       "path": "docs/do-everywhere/",
       "status": "user-approved goal tracked in #1360; opt-in TypeSafe-to-DO preparation on review branch; vision, device identity, durable records, hosted hub and approved external actions require implementation/proof",
       "goal_manifest": "config/do-everywhere-goal.json"
+    },
+    "assembl_living": {
+      "path": "docs/living/ASSEMBL-LIVING.md",
+      "status": "build candidate: typed modular interiors system, Space Studio at /living/studio and CAD pack AL-02 (prototype, digitally validated only; no products or purchasing)",
+      "code": ["lib/living/", "app/living/", "tools/living-cad/"]
     }
   },
   "product_structure": {

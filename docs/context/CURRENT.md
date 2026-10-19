@@ -8,6 +8,10 @@ This file answers: **where is assembl at right now?**
 
 It is intentionally shorter and more changeable than the long-term strategy documents.
 
+## 17 October assembl / living — build candidate, not merged
+
+Branch `feat/assembl-living-space-studio` adds the modular interiors line as one typed system (`lib/living/`), a public storefront and Space Studio (`/living`, `/living/studio`) and engineering pack AL-02: nine parts on interface IF-01 generated from `tools/living-cad/build.py`, exported as STEP + STL and checked as valid, single, watertight solids. Canon: [assembl / living](../living/ASSEMBL-LIVING.md), decision ADR-007. **Prototype parts only, no load ratings, no Shopify products, no purchasing, no photo understanding;** fit is decided by customer-confirmed measurements. Physical sample testing and manufacturer quotation are the next steps and have not happened.
+
 ## 13 October entry integration — merged
 
 The [one DO entry integration](../reviews/DO-ENTRY-INTEGRATION-20261013.md) (shared secondary navigation, working Write/Talk/Add entry, prompt shortcuts and compact launcher) was merged to main as [PR #1525](https://github.com/katecoveny-svg/assemblnz-f0afd79d/pull/1525) at 15:13 NZDT on 13 October; the review doc's "draft, no merge authorised" label is historical. Deployment of that merge was not separately verified here, and no durable shared memory is claimed by it.
