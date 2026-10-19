@@ -2,6 +2,8 @@ name: Pursuit walkthrough review
 on:
   pull_request:
     paths:
+      - 'components/site/direction-4c/**'
+      - 'scripts/coastal_homepage_proof.py'
       - 'components/site/pursuit/PursuitWalkthrough.tsx'
       - 'components/site/pursuit/pursuit-examples.ts'
       - 'components/site/pursuit/pursuit-walkthrough.module.css'
