@@ -14,10 +14,19 @@ describe('bounded synthetic travel preparation', () => {
   it('imports bounded JSON and extends the existing trip only after review', () => {
     const draft = importSyntheticTravel(JSON.stringify(fixture()), completion);
     const trip = newDoTrip();
-    expect(() => applyTravelToTrip(trip, draft, 1)).toThrow();
-    expect(applyTravelToTrip(trip, acknowledgeTravel(draft, 1), 1).summary).toContain('Nothing booked');
+    expect(() => applyTravelToTrip(trip, draft, 1, completion.completedAt)).toThrow();
+    expect(applyTravelToTrip(trip, acknowledgeTravel(draft, 1), 1, completion.completedAt).summary).toContain('Nothing booked');
     expect(() => importSyntheticTravel(' '.repeat(64001), completion)).toThrow();
     expect(() => importSyntheticTravel('{bad}', completion)).toThrow();
+  });
+  it('refuses expired or future evidence even after review; applying is still not booking', () => {
+    const draft = acknowledgeTravel(prepareTravel(fixture(), completion), 1);
+    for (const now of ['2026-10-02T00:00:00Z', '2026-10-03T00:00:00Z', '2026-09-30T23:59:59Z']) {
+      expect(() => applyTravelToTrip(newDoTrip(), draft, 1, now)).toThrow('Fresh itinerary evidence required');
+    }
+    const trip = applyTravelToTrip(newDoTrip(), draft, 1, '2026-10-01T01:00:00Z');
+    expect(trip.updatedAt).toBe('2026-10-01T01:00:00Z');
+    expect(trip.summary).toContain('Flight status unknown. Nothing booked.');
   });
   it('orders date-line travel by instant, preserving both local dates', () => {
     const timeline = travelTimeline(prepareTravel(fixture(), completion), completion.completedAt);
