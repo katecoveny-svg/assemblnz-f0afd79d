@@ -108,3 +108,4 @@ Every print file is checked as a watertight single solid inside a 250 mm cube, w
 ## Related proposals
 
 - `HOSPITALITY-PROPOSAL-20261019.md` — assembl / stay (holiday homes, Airbnb, motels): naming, laundry and caddy-supply feasibility, fulfilment recommendation and the Shop DO connection. Proposed only.
+- `SUPPLIER-PARTNERS-BY-SPACE-20261019.md` — partner suppliers grouped by space, the three fulfilment lanes (assembl-made, partner dropship via Shopify Collective NZ, partner wholesale assembl-packed) and service actions. Proposed only.
