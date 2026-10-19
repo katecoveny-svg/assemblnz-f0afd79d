@@ -1,0 +1,349 @@
+{
+  "schema_version": 1,
+  "template_revision": "AC-02",
+  "live_store_modified": false,
+  "products": [
+    {
+      "id": "dayrally-case-closed",
+      "name": "All-printed Dayrally sample case, lid and folding handle",
+      "brand": "dayrally",
+      "preview_glb": "assemblies/glb/dayrally-case-closed.glb",
+      "assembly_step": "assemblies/step/dayrally-case-closed.step",
+      "preview_image": "previews/dayrally-case-closed.webp",
+      "manufacturing_approval": null,
+      "shopify_variant_id": null,
+      "supplier_product_id": null,
+      "purchase_enabled": false,
+      "configuration_hash_required": true,
+      "labels_only_rebuild_fields": [
+        "name",
+        "pet_name",
+        "wall_label"
+      ],
+      "physical_validation_required": true
+    },
+    {
+      "id": "dayrally-case-open",
+      "name": "Dayrally case opened around its modelled hinge axis",
+      "brand": "dayrally",
+      "preview_glb": "assemblies/glb/dayrally-case-open.glb",
+      "assembly_step": "assemblies/step/dayrally-case-open.step",
+      "preview_image": "previews/dayrally-case-open.webp",
+      "manufacturing_approval": null,
+      "shopify_variant_id": null,
+      "supplier_product_id": null,
+      "purchase_enabled": false,
+      "configuration_hash_required": true,
+      "labels_only_rebuild_fields": [
+        "name",
+        "pet_name",
+        "wall_label"
+      ],
+      "physical_validation_required": true
+    },
+    {
+      "id": "rally-rule-300mm",
+      "name": "Nominal 300 mm folding-rule geometry",
+      "brand": "dayrally",
+      "preview_glb": "assemblies/glb/rally-rule-300mm.glb",
+      "assembly_step": "assemblies/step/rally-rule-300mm.step",
+      "preview_image": "previews/rally-rule-300mm.webp",
+      "manufacturing_approval": null,
+      "shopify_variant_id": null,
+      "supplier_product_id": null,
+      "purchase_enabled": false,
+      "configuration_hash_required": true,
+      "labels_only_rebuild_fields": [
+        "name",
+        "pet_name",
+        "wall_label"
+      ],
+      "physical_validation_required": true
+    },
+    {
+      "id": "desk-rail-set",
+      "name": "Original sliding desk-organisation set",
+      "brand": "assembl living",
+      "preview_glb": "assemblies/glb/desk-rail-set.glb",
+      "assembly_step": "assemblies/step/desk-rail-set.step",
+      "preview_image": "previews/desk-rail-set.webp",
+      "manufacturing_approval": null,
+      "shopify_variant_id": null,
+      "supplier_product_id": null,
+      "purchase_enabled": false,
+      "configuration_hash_required": true,
+      "labels_only_rebuild_fields": [
+        "name",
+        "pet_name",
+        "wall_label"
+      ],
+      "physical_validation_required": true
+    },
+    {
+      "id": "desk-rail-compact",
+      "name": "Compact rail set with clear end-stop positions",
+      "brand": "assembl living",
+      "preview_glb": "assemblies/glb/desk-rail-compact.glb",
+      "assembly_step": "assemblies/step/desk-rail-compact.step",
+      "preview_image": "previews/desk-rail-compact.webp",
+      "manufacturing_approval": null,
+      "shopify_variant_id": null,
+      "supplier_product_id": null,
+      "purchase_enabled": false,
+      "configuration_hash_required": true,
+      "labels_only_rebuild_fields": [
+        "name",
+        "pet_name",
+        "wall_label"
+      ],
+      "physical_validation_required": true
+    },
+    {
+      "id": "desk-edge-perch",
+      "name": "Fixed-gap desk-edge perch, desk not included",
+      "brand": "assembl living",
+      "preview_glb": "assemblies/glb/desk-edge-perch.glb",
+      "assembly_step": "assemblies/step/desk-edge-perch.step",
+      "preview_image": "previews/desk-edge-perch.webp",
+      "manufacturing_approval": null,
+      "shopify_variant_id": null,
+      "supplier_product_id": null,
+      "purchase_enabled": false,
+      "configuration_hash_required": true,
+      "labels_only_rebuild_fields": [
+        "name",
+        "pet_name",
+        "wall_label"
+      ],
+      "physical_validation_required": true
+    },
+    {
+      "id": "vanity-organisers",
+      "name": "Fitted and sculptural vanity organisers",
+      "brand": "assembl living",
+      "preview_glb": "assemblies/glb/vanity-organisers.glb",
+      "assembly_step": "assemblies/step/vanity-organisers.step",
+      "preview_image": "previews/vanity-organisers.webp",
+      "manufacturing_approval": null,
+      "shopify_variant_id": null,
+      "supplier_product_id": null,
+      "purchase_enabled": false,
+      "configuration_hash_required": true,
+      "labels_only_rebuild_fields": [
+        "name",
+        "pet_name",
+        "wall_label"
+      ],
+      "physical_validation_required": true
+    },
+    {
+      "id": "dayrally-mini-flow",
+      "name": "DAYRALLY MINI FLOW - original display bike",
+      "brand": "dayrally",
+      "preview_glb": "assemblies/glb/dayrally-mini-flow.glb",
+      "assembly_step": "assemblies/step/dayrally-mini-flow.step",
+      "preview_image": "previews/dayrally-mini-flow.webp",
+      "manufacturing_approval": null,
+      "shopify_variant_id": null,
+      "supplier_product_id": null,
+      "purchase_enabled": false,
+      "configuration_hash_required": true,
+      "labels_only_rebuild_fields": [
+        "name",
+        "pet_name",
+        "wall_label"
+      ],
+      "physical_validation_required": true
+    },
+    {
+      "id": "dayrally-mini-drop",
+      "name": "DAYRALLY MINI DROP - original display bike",
+      "brand": "dayrally",
+      "preview_glb": "assemblies/glb/dayrally-mini-drop.glb",
+      "assembly_step": "assemblies/step/dayrally-mini-drop.step",
+      "preview_image": "previews/dayrally-mini-drop.webp",
+      "manufacturing_approval": null,
+      "shopify_variant_id": null,
+      "supplier_product_id": null,
+      "purchase_enabled": false,
+      "configuration_hash_required": true,
+      "labels_only_rebuild_fields": [
+        "name",
+        "pet_name",
+        "wall_label"
+      ],
+      "physical_validation_required": true
+    },
+    {
+      "id": "dayrally-mini-ridge",
+      "name": "DAYRALLY MINI RIDGE - original display bike",
+      "brand": "dayrally",
+      "preview_glb": "assemblies/glb/dayrally-mini-ridge.glb",
+      "assembly_step": "assemblies/step/dayrally-mini-ridge.step",
+      "preview_image": "previews/dayrally-mini-ridge.webp",
+      "manufacturing_approval": null,
+      "shopify_variant_id": null,
+      "supplier_product_id": null,
+      "purchase_enabled": false,
+      "configuration_hash_required": true,
+      "labels_only_rebuild_fields": [
+        "name",
+        "pet_name",
+        "wall_label"
+      ],
+      "physical_validation_required": true
+    },
+    {
+      "id": "orbit-planter",
+      "name": "Original space-age inspired planter sleeve",
+      "brand": "assembl living",
+      "preview_glb": "assemblies/glb/orbit-planter.glb",
+      "assembly_step": "assemblies/step/orbit-planter.step",
+      "preview_image": "previews/orbit-planter.webp",
+      "manufacturing_approval": null,
+      "shopify_variant_id": null,
+      "supplier_product_id": null,
+      "purchase_enabled": false,
+      "configuration_hash_required": true,
+      "labels_only_rebuild_fields": [
+        "name",
+        "pet_name",
+        "wall_label"
+      ],
+      "physical_validation_required": true
+    },
+    {
+      "id": "pleat-shade-study",
+      "name": "Printed pleated shade geometry",
+      "brand": "assembl living",
+      "preview_glb": "assemblies/glb/pleat-shade-study.glb",
+      "assembly_step": "assemblies/step/pleat-shade-study.step",
+      "preview_image": "previews/pleat-shade-study.webp",
+      "manufacturing_approval": null,
+      "shopify_variant_id": null,
+      "supplier_product_id": null,
+      "purchase_enabled": false,
+      "configuration_hash_required": true,
+      "labels_only_rebuild_fields": [
+        "name",
+        "pet_name",
+        "wall_label"
+      ],
+      "physical_validation_required": true
+    },
+    {
+      "id": "manual-rail-clock",
+      "name": "All-printed manual desktop time / routine display",
+      "brand": "assembl living",
+      "preview_glb": "assemblies/glb/manual-rail-clock.glb",
+      "assembly_step": "assemblies/step/manual-rail-clock.step",
+      "preview_image": "previews/manual-rail-clock.webp",
+      "manufacturing_approval": null,
+      "shopify_variant_id": null,
+      "supplier_product_id": null,
+      "purchase_enabled": false,
+      "configuration_hash_required": true,
+      "labels_only_rebuild_fields": [
+        "name",
+        "pet_name",
+        "wall_label"
+      ],
+      "physical_validation_required": true
+    },
+    {
+      "id": "pet-walk-kit",
+      "name": "Practical printed walking-accessory study",
+      "brand": "assembl living",
+      "preview_glb": "assemblies/glb/pet-walk-kit.glb",
+      "assembly_step": "assemblies/step/pet-walk-kit.step",
+      "preview_image": "previews/pet-walk-kit.webp",
+      "manufacturing_approval": null,
+      "shopify_variant_id": null,
+      "supplier_product_id": null,
+      "purchase_enabled": false,
+      "configuration_hash_required": true,
+      "labels_only_rebuild_fields": [
+        "name",
+        "pet_name",
+        "wall_label"
+      ],
+      "physical_validation_required": true
+    },
+    {
+      "id": "small-flatpack-shelf",
+      "name": "Small all-printed three-tier shelf",
+      "brand": "assembl living",
+      "preview_glb": "assemblies/glb/small-flatpack-shelf.glb",
+      "assembly_step": "assemblies/step/small-flatpack-shelf.step",
+      "preview_image": "previews/small-flatpack-shelf.webp",
+      "manufacturing_approval": null,
+      "shopify_variant_id": null,
+      "supplier_product_id": null,
+      "purchase_enabled": false,
+      "configuration_hash_required": true,
+      "labels_only_rebuild_fields": [
+        "name",
+        "pet_name",
+        "wall_label"
+      ],
+      "physical_validation_required": true
+    },
+    {
+      "id": "tabletop-valet",
+      "name": "Low display valet",
+      "brand": "assembl living",
+      "preview_glb": "assemblies/glb/tabletop-valet.glb",
+      "assembly_step": "assemblies/step/tabletop-valet.step",
+      "preview_image": "previews/tabletop-valet.webp",
+      "manufacturing_approval": null,
+      "shopify_variant_id": null,
+      "supplier_product_id": null,
+      "purchase_enabled": false,
+      "configuration_hash_required": true,
+      "labels_only_rebuild_fields": [
+        "name",
+        "pet_name",
+        "wall_label"
+      ],
+      "physical_validation_required": true
+    },
+    {
+      "id": "outfit-valet-research",
+      "name": "All-printed tall valet research assembly",
+      "brand": "assembl living",
+      "preview_glb": "assemblies/glb/outfit-valet-research.glb",
+      "assembly_step": "assemblies/step/outfit-valet-research.step",
+      "preview_image": "previews/outfit-valet-research.webp",
+      "manufacturing_approval": null,
+      "shopify_variant_id": null,
+      "supplier_product_id": null,
+      "purchase_enabled": false,
+      "configuration_hash_required": true,
+      "labels_only_rebuild_fields": [
+        "name",
+        "pet_name",
+        "wall_label"
+      ],
+      "physical_validation_required": true
+    },
+    {
+      "id": "wall-station",
+      "name": "Compact rounded modular wall station",
+      "brand": "assembl living",
+      "preview_glb": "assemblies/glb/wall-station.glb",
+      "assembly_step": "assemblies/step/wall-station.step",
+      "preview_image": "previews/wall-station.webp",
+      "manufacturing_approval": null,
+      "shopify_variant_id": null,
+      "supplier_product_id": null,
+      "purchase_enabled": false,
+      "configuration_hash_required": true,
+      "labels_only_rebuild_fields": [
+        "name",
+        "pet_name",
+        "wall_label"
+      ],
+      "physical_validation_required": true
+    }
+  ]
+}

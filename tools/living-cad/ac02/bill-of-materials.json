@@ -1,0 +1,605 @@
+[
+  {
+    "assembly_id": "dayrally-case-closed",
+    "view_only": false,
+    "items": [
+      {
+        "part_id": "rally-case",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rally-lid",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rally-folding-handle",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rally-removable-tray",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rally-hinge-pin",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rally-pin-cap",
+        "quantity": 3,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rally-handle-pin",
+        "quantity": 2,
+        "revision": "AC-02"
+      }
+    ]
+  },
+  {
+    "assembly_id": "dayrally-case-open",
+    "view_only": true,
+    "items": [
+      {
+        "part_id": "rally-case",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rally-removable-tray",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rally-hinge-pin",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rally-pin-cap",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rally-lid",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rally-folding-handle",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rally-line-spool",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rally-leader-card",
+        "quantity": 1,
+        "revision": "AC-02"
+      }
+    ]
+  },
+  {
+    "assembly_id": "rally-rule-300mm",
+    "view_only": false,
+    "items": [
+      {
+        "part_id": "rally-rule-link-1",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rally-rule-link-2",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rally-rule-link-3",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rally-rule-pin",
+        "quantity": 2,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rally-pin-cap",
+        "quantity": 2,
+        "revision": "AC-02"
+      }
+    ]
+  },
+  {
+    "assembly_id": "desk-rail-set",
+    "view_only": false,
+    "items": [
+      {
+        "part_id": "rail-240",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rail-pen-cup",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rail-catch-tray",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rail-note-slot",
+        "quantity": 1,
+        "revision": "AC-02"
+      }
+    ]
+  },
+  {
+    "assembly_id": "desk-rail-compact",
+    "view_only": false,
+    "items": [
+      {
+        "part_id": "rail-210",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rail-pen-cup",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rail-catch-tray",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rail-cable-comb",
+        "quantity": 1,
+        "revision": "AC-02"
+      }
+    ]
+  },
+  {
+    "assembly_id": "desk-edge-perch",
+    "view_only": false,
+    "items": [
+      {
+        "part_id": "desk-edge-perch-25",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "desk-edge-wedge",
+        "quantity": 2,
+        "revision": "AC-02"
+      }
+    ]
+  },
+  {
+    "assembly_id": "vanity-organisers",
+    "view_only": false,
+    "items": [
+      {
+        "part_id": "drawer-tray-168x84",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "swell-organiser-55",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "swell-organiser-24",
+        "quantity": 1,
+        "revision": "AC-02"
+      }
+    ]
+  },
+  {
+    "assembly_id": "dayrally-mini-flow",
+    "view_only": false,
+    "items": [
+      {
+        "part_id": "mini-flow-display-base",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-flow-frame",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-flow-fork",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-flow-cockpit",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-flow-saddle",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-flow-crank-r",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-flow-crank-l",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-wheel-25p5",
+        "quantity": 2,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-wheel-axle",
+        "quantity": 2,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-wheel-cap",
+        "quantity": 2,
+        "revision": "AC-02"
+      }
+    ]
+  },
+  {
+    "assembly_id": "dayrally-mini-drop",
+    "view_only": false,
+    "items": [
+      {
+        "part_id": "mini-drop-display-base",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-drop-frame",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-drop-fork",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-drop-cockpit",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-drop-saddle",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-drop-crank-r",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-drop-crank-l",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-wheel-28",
+        "quantity": 2,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-wheel-axle",
+        "quantity": 2,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-wheel-cap",
+        "quantity": 2,
+        "revision": "AC-02"
+      }
+    ]
+  },
+  {
+    "assembly_id": "dayrally-mini-ridge",
+    "view_only": false,
+    "items": [
+      {
+        "part_id": "mini-ridge-display-base",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-ridge-frame",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-ridge-fork",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-ridge-cockpit",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-ridge-saddle",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-ridge-crank-r",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-ridge-crank-l",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-wheel-25p5",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-wheel-axle",
+        "quantity": 2,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-wheel-cap",
+        "quantity": 2,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "mini-wheel-27p5",
+        "quantity": 1,
+        "revision": "AC-02"
+      }
+    ]
+  },
+  {
+    "assembly_id": "orbit-planter",
+    "view_only": false,
+    "items": [
+      {
+        "part_id": "orbit-planter-shell",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "orbit-planter-leg",
+        "quantity": 3,
+        "revision": "AC-02"
+      }
+    ]
+  },
+  {
+    "assembly_id": "pleat-shade-study",
+    "view_only": false,
+    "items": [
+      {
+        "part_id": "pleat-shade",
+        "quantity": 1,
+        "revision": "AC-02"
+      }
+    ]
+  },
+  {
+    "assembly_id": "manual-rail-clock",
+    "view_only": false,
+    "items": [
+      {
+        "part_id": "clock-rail-168",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "clock-rail-cradle",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "manual-clock-body",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "clock-back-cover",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "clock-hour-hand",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "clock-minute-hand",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "clock-hand-pin",
+        "quantity": 1,
+        "revision": "AC-02"
+      }
+    ]
+  },
+  {
+    "assembly_id": "pet-walk-kit",
+    "view_only": false,
+    "items": [
+      {
+        "part_id": "walk-bag-pod",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "walk-pod-cap",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "rally-flex-clip",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "pet-name-tag",
+        "quantity": 1,
+        "revision": "AC-02"
+      }
+    ]
+  },
+  {
+    "assembly_id": "small-flatpack-shelf",
+    "view_only": false,
+    "items": [
+      {
+        "part_id": "shelf-side-frame",
+        "quantity": 2,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "shelf-panel",
+        "quantity": 3,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "shelf-lock-pin",
+        "quantity": 8,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "shelf-lock-pin-long",
+        "quantity": 4,
+        "revision": "AC-02"
+      }
+    ]
+  },
+  {
+    "assembly_id": "tabletop-valet",
+    "view_only": false,
+    "items": [
+      {
+        "part_id": "valet-base-hub",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "valet-base-leg",
+        "quantity": 4,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "valet-column-160",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "valet-shoulder-hub",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "valet-shoulder-arm",
+        "quantity": 2,
+        "revision": "AC-02"
+      }
+    ]
+  },
+  {
+    "assembly_id": "outfit-valet-research",
+    "view_only": false,
+    "items": [
+      {
+        "part_id": "valet-base-hub",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "valet-base-leg",
+        "quantity": 4,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "valet-column-160",
+        "quantity": 5,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "valet-column-joiner",
+        "quantity": 4,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "valet-shoulder-hub",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "valet-shoulder-arm",
+        "quantity": 2,
+        "revision": "AC-02"
+      }
+    ]
+  },
+  {
+    "assembly_id": "wall-station",
+    "view_only": false,
+    "items": [
+      {
+        "part_id": "wall-panel-4x4",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "wall-decorative-border",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "wall-pocket-2",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "turn-key-clearance",
+        "quantity": 6,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "wall-pocket-1",
+        "quantity": 1,
+        "revision": "AC-02"
+      },
+      {
+        "part_id": "wall-ledge-3",
+        "quantity": 1,
+        "revision": "AC-02"
+      }
+    ]
+  }
+]

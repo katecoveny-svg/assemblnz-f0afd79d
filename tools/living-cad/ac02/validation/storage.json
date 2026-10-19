@@ -1,0 +1,1307 @@
+{
+  "group": "storage",
+  "cadquery_version": "2.8.0",
+  "parts": [
+    {
+      "id": "shelf-side-frame",
+      "group": "storage",
+      "description": "Flat-pack side frame for three small shelves",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        190.0,
+        132.0,
+        8.0
+      ],
+      "solid_volume_mm3": 97553.637,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 8.577180227840887e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 4468,
+      "step": "parts/step/shelf-side-frame.step",
+      "stl": "parts/stl/shelf-side-frame.stl",
+      "step_sha256": "1250b6ae1403afa7ee213f4f285e269ec6a9e44dcb52b27eb039b39e311cc04d",
+      "stl_sha256": "795906150747ddbedce5dcef7b55d12987eb6b88cbbd5d3d46a5e09b20977153",
+      "print_rotation_xyz_deg": [
+        0,
+        -90,
+        0
+      ],
+      "print_translation_mm": [
+        95.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Print flat on side. Small storage prototype only; assembled stability, long-term deflection, shelf retention and loads untested.",
+      "parameters": {}
+    },
+    {
+      "id": "shelf-panel",
+      "group": "storage",
+      "description": "Ribbed 225.6 x 118 mm shelf panel",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        225.6,
+        118.0,
+        11.15
+      ],
+      "solid_volume_mm3": 149968.862,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 3.8813164294279444e-16,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1884,
+      "step": "parts/step/shelf-panel.step",
+      "stl": "parts/stl/shelf-panel.stl",
+      "step_sha256": "2e5f061986ce633a0a5e4f212f8e1ec6b1ccf88bd36fbcd0e97b85fcda036057",
+      "stl_sha256": "0ebe30b640e893b4051bfe692d6e68fa8eb9766638680a936e762d959fb95de4",
+      "print_rotation_xyz_deg": [
+        180,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        5.200000000000008
+      ],
+      "notes": "Place broad face on build plate. Integrated underside ribs are not evidence of a particular load capacity.",
+      "parameters": {}
+    },
+    {
+      "id": "shelf-lock-pin",
+      "group": "storage",
+      "description": "Headed side-frame/shelf alignment pin",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        6.0,
+        6.0,
+        14.8
+      ],
+      "solid_volume_mm3": 149.014,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.7165909417691675e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 716,
+      "step": "parts/step/shelf-lock-pin.step",
+      "stl": "parts/stl/shelf-lock-pin.stl",
+      "step_sha256": "04cc79c98751f5a5f43197740a5c25dce0441e40f1c1af62580eee7b8bcc5753",
+      "stl_sha256": "e3f7e49c1945ead1ae53755a9038effa103b37848837c06b8931b71a059efcad",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Friction retention requires testing. These are not safety-rated fasteners.",
+      "parameters": {}
+    },
+    {
+      "id": "shelf-lock-pin-long",
+      "group": "storage",
+      "description": "Long headed top-shelf pin",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        6.0,
+        6.0,
+        29.8
+      ],
+      "solid_volume_mm3": 262.229,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.8642251205915837e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 716,
+      "step": "parts/step/shelf-lock-pin-long.step",
+      "stl": "parts/stl/shelf-lock-pin-long.stl",
+      "step_sha256": "b42ee4e3709a3332cfa5d366bd695e65746f7c519f8f9af265a12cae9dcb94ee",
+      "stl_sha256": "e2189501ab2a228e4d2172957f543ff782ec7871b6fd48b72742efe896051653",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "For the deeper top crossbar only. Sample retention required.",
+      "parameters": {}
+    },
+    {
+      "id": "valet-column-160",
+      "group": "storage",
+      "description": "160 mm hollow square column segment",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        34.0,
+        34.0,
+        160.0
+      ],
+      "solid_volume_mm3": 82483.839,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.3231605854895472e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 2992,
+      "step": "parts/step/valet-column-160.step",
+      "stl": "parts/stl/valet-column-160.stl",
+      "step_sha256": "b60f341e5ad155ca2b6ebf674041c5ad7c44e016cf10951cf793a5dde194de53",
+      "stl_sha256": "cd49afe9f6d6f0333166dd721a09c64c6f9078704d08bafcbfd73eccc39a1245",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Socket ends are 26.6 mm; sleeve 26 mm. This is a segmented polymer beam, not wood or continuous-fibre reinforcement.",
+      "parameters": {}
+    },
+    {
+      "id": "valet-column-joiner",
+      "group": "storage",
+      "description": "Two-ended column sleeve with 2 mm spacing shoulder",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        34.0,
+        34.0,
+        60.0
+      ],
+      "solid_volume_mm3": 21562.179,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 8.267298016016828e-15,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 2992,
+      "step": "parts/step/valet-column-joiner.step",
+      "stl": "parts/stl/valet-column-joiner.stl",
+      "step_sha256": "9d775dea393a0d021b763c70bb8ead19a89e1149cebcf6bfe09caf941ef8746c",
+      "stl_sha256": "22f86d85472de15f746d3c0eb48a16681e85ed52e30c0e52b022ffa8ffccb7b6",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Alignment and transfer of load require physical validation. Pin bores align at 15 mm from each column end.",
+      "parameters": {}
+    },
+    {
+      "id": "valet-joint-pin",
+      "group": "storage",
+      "description": "Printed column cross pin",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        8.0,
+        8.0,
+        37.0
+      ],
+      "solid_volume_mm3": 497.471,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.1596036586735548e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 716,
+      "step": "parts/step/valet-joint-pin.step",
+      "stl": "parts/stl/valet-joint-pin.stl",
+      "step_sha256": "8ab46b56e81ab2f74edf108cee9378a8c41b0bdb6ae7975b88cf2e7c06304df3",
+      "stl_sha256": "e888cc300163a1b11dcfea1328be86ce0da7e41d4ca7eee0e9efba6e0067aec7",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "3.8 mm pin in 4.4 mm bore, with a separate cap for retention.",
+      "parameters": {}
+    },
+    {
+      "id": "valet-joint-cap",
+      "group": "storage",
+      "description": "Loose push cap for a column joint pin",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        8.8,
+        8.8,
+        4.0
+      ],
+      "solid_volume_mm3": 193.019,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.2381681091780308e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 720,
+      "step": "parts/step/valet-joint-cap.step",
+      "stl": "parts/stl/valet-joint-cap.stl",
+      "step_sha256": "fefb83e9d3f251d60689320321cba631ed7b62653679193dff58c5e718b89762",
+      "stl_sha256": "b7ca781a5d8187998017ab567d3133c9f2ae02604df4b69cb92538c02e8692d2",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Tune fit by sample. No rated structural retention.",
+      "parameters": {}
+    },
+    {
+      "id": "valet-base-hub",
+      "group": "storage",
+      "description": "Four-arm base hub with column socket",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        78.0,
+        78.0,
+        36.0
+      ],
+      "solid_volume_mm3": 153413.931,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.5366337673866715e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 828,
+      "step": "parts/step/valet-base-hub.step",
+      "stl": "parts/stl/valet-base-hub.stl",
+      "step_sha256": "269f14170102217778a0244200d4fa20072a6fb793dd4d57c73fd8ec5dae4a2c",
+      "stl_sha256": "78a4563807f7b8a58f583f6a4cadc3380f607bcfcebb08af0ec668da9514d1f5",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "No floor anchorage is included. Tall assembly requires overturning and fatigue testing before use.",
+      "parameters": {}
+    },
+    {
+      "id": "valet-base-leg",
+      "group": "storage",
+      "description": "Detachable outward base leg with rectangular tenon",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        186.0,
+        30.0,
+        17.2
+      ],
+      "solid_volume_mm3": 89272.309,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.1410414655718301e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 404,
+      "step": "parts/step/valet-base-leg.step",
+      "stl": "parts/stl/valet-base-leg.stl",
+      "step_sha256": "0e167b292f633eec80bba209c90f285d5ace2ee843e38a5c8dff4797ec10117e",
+      "stl_sha256": "270f0804db77f917872c1414116957fa3983a808d94f4828fccd2f3a010ea3a1",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -93.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Four identical parts. Tapers are deliberately kept flat for printing; nominal .3 mm socket clearance.",
+      "parameters": {}
+    },
+    {
+      "id": "valet-shoulder-hub",
+      "group": "storage",
+      "description": "Top collar and twin arm sockets",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        48.0,
+        36.0,
+        54.9
+      ],
+      "solid_volume_mm3": 54701.535,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.2636134917966254e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 796,
+      "step": "parts/step/valet-shoulder-hub.step",
+      "stl": "parts/stl/valet-shoulder-hub.stl",
+      "step_sha256": "84b03e3e47e2272ed6b4aa3c8f81db4f1482fdf4f0fc632edc720fb9274201ee",
+      "stl_sha256": "fc8e5c6d8bc091f4596042ae840d14bdea317205c347e9a7012748bf79bbac0d",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        27.9
+      ],
+      "notes": "Fit/top stability prototype; not a hanger capacity certification.",
+      "parameters": {}
+    },
+    {
+      "id": "valet-shoulder-arm",
+      "group": "storage",
+      "description": "Detachable gently sloping valet shoulder arm",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        168.0,
+        52.3,
+        18.0
+      ],
+      "solid_volume_mm3": 50108.4,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.266639891862507e-13,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 32,
+      "step": "parts/step/valet-shoulder-arm.step",
+      "stl": "parts/stl/valet-shoulder-arm.stl",
+      "step_sha256": "e8a2b8b8cf3def7036963b6ccd3b7a7d22d69f219f30e50755140ef416e91e5f",
+      "stl_sha256": "52add481b8c2f4daa72c948904cba8b88f7a3cdf63223ecd0935e4b1e10eedc3",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -84.0,
+        -4.85,
+        9.000000000000004
+      ],
+      "notes": "Two mirrored pieces for outfit laydown. Original silhouette; no timber parts. Do not use prior to load/tipping assessment.",
+      "parameters": {}
+    },
+    {
+      "id": "valet-pocket-tray",
+      "group": "storage",
+      "description": "Square-column slide-on catchall tray",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        112.0,
+        92.0,
+        30.0
+      ],
+      "solid_volume_mm3": 50821.558,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.4459842269178105e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1920,
+      "step": "parts/step/valet-pocket-tray.step",
+      "stl": "parts/stl/valet-pocket-tray.stl",
+      "step_sha256": "5f38cc7775eb651e17387fa5d4eb1b789f62d76e6a0032166b4bb848667dbf15",
+      "stl_sha256": "e14536fce836c6fdd3bf74af8c24402bf7da868a750336e64edd2a06f0ce7b85",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        12.0
+      ],
+      "notes": "Collar requires a separate stop sleeve. It is not a pressure clamp.",
+      "parameters": {}
+    },
+    {
+      "id": "valet-tray-stop",
+      "group": "storage",
+      "description": "Cross-pinned catchall tray stop collar",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        43.0,
+        43.0,
+        8.0
+      ],
+      "solid_volume_mm3": 4943.401,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.1774820732081509e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1496,
+      "step": "parts/step/valet-tray-stop.step",
+      "stl": "parts/stl/valet-tray-stop.stl",
+      "step_sha256": "9f8fb2f1009490755ac9fe260f806d86eee36fd1698467cce5248e7c3c99f56b",
+      "stl_sha256": "2b641d0b61251f608a4b7ff823bdae7e4c6bdb5ac8d700b29e4aa12f83d076a0",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Requires a matching 4.4 mm column hole; only the existing segment-end holes are currently provided.",
+      "parameters": {}
+    }
+  ],
+  "assemblies": [
+    {
+      "id": "small-flatpack-shelf",
+      "description": "Small all-printed three-tier shelf",
+      "notes": "Approximate outer size 232 x 132 x 190 mm. Assembly is not a full-size wardrobe or furniture safety approval.",
+      "components": [
+        {
+          "part_id": "shelf-side-frame",
+          "instance": "shelf-side-frame__1",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            108,
+            0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "shelf-side-frame",
+          "instance": "shelf-side-frame__2",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            -108,
+            0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            180
+          ]
+        },
+        {
+          "part_id": "shelf-panel",
+          "instance": "shelf-panel__3",
+          "colour": "#F5F1EA",
+          "translation_mm": [
+            0,
+            0,
+            23.3
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "shelf-lock-pin",
+          "instance": "shelf-lock-pin__4",
+          "colour": "#B58B99",
+          "translation_mm": [
+            -110.8,
+            -43,
+            35
+          ],
+          "rotation_xyz_deg": [
+            180,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "shelf-lock-pin",
+          "instance": "shelf-lock-pin__5",
+          "colour": "#B58B99",
+          "translation_mm": [
+            -110.8,
+            43,
+            35
+          ],
+          "rotation_xyz_deg": [
+            180,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "shelf-lock-pin",
+          "instance": "shelf-lock-pin__6",
+          "colour": "#B58B99",
+          "translation_mm": [
+            110.8,
+            -43,
+            35
+          ],
+          "rotation_xyz_deg": [
+            180,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "shelf-lock-pin",
+          "instance": "shelf-lock-pin__7",
+          "colour": "#B58B99",
+          "translation_mm": [
+            110.8,
+            43,
+            35
+          ],
+          "rotation_xyz_deg": [
+            180,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "shelf-panel",
+          "instance": "shelf-panel__8",
+          "colour": "#F5F1EA",
+          "translation_mm": [
+            0,
+            0,
+            96.3
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "shelf-lock-pin",
+          "instance": "shelf-lock-pin__9",
+          "colour": "#B58B99",
+          "translation_mm": [
+            -110.8,
+            -43,
+            108
+          ],
+          "rotation_xyz_deg": [
+            180,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "shelf-lock-pin",
+          "instance": "shelf-lock-pin__10",
+          "colour": "#B58B99",
+          "translation_mm": [
+            -110.8,
+            43,
+            108
+          ],
+          "rotation_xyz_deg": [
+            180,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "shelf-lock-pin",
+          "instance": "shelf-lock-pin__11",
+          "colour": "#B58B99",
+          "translation_mm": [
+            110.8,
+            -43,
+            108
+          ],
+          "rotation_xyz_deg": [
+            180,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "shelf-lock-pin",
+          "instance": "shelf-lock-pin__12",
+          "colour": "#B58B99",
+          "translation_mm": [
+            110.8,
+            43,
+            108
+          ],
+          "rotation_xyz_deg": [
+            180,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "shelf-panel",
+          "instance": "shelf-panel__13",
+          "colour": "#F5F1EA",
+          "translation_mm": [
+            0,
+            0,
+            169.3
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "shelf-lock-pin-long",
+          "instance": "shelf-lock-pin-long__14",
+          "colour": "#B58B99",
+          "translation_mm": [
+            -110.8,
+            -43,
+            192
+          ],
+          "rotation_xyz_deg": [
+            180,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "shelf-lock-pin-long",
+          "instance": "shelf-lock-pin-long__15",
+          "colour": "#B58B99",
+          "translation_mm": [
+            -110.8,
+            43,
+            192
+          ],
+          "rotation_xyz_deg": [
+            180,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "shelf-lock-pin-long",
+          "instance": "shelf-lock-pin-long__16",
+          "colour": "#B58B99",
+          "translation_mm": [
+            110.8,
+            -43,
+            192
+          ],
+          "rotation_xyz_deg": [
+            180,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "shelf-lock-pin-long",
+          "instance": "shelf-lock-pin-long__17",
+          "colour": "#B58B99",
+          "translation_mm": [
+            110.8,
+            43,
+            192
+          ],
+          "rotation_xyz_deg": [
+            180,
+            0,
+            0
+          ]
+        }
+      ],
+      "bounds_mm": [
+        [
+          -116.00000000000001,
+          -66.0,
+          0.0
+        ],
+        [
+          116.0,
+          66.0,
+          192.0
+        ]
+      ],
+      "part_instances": 17,
+      "step": "assemblies/step/small-flatpack-shelf.step",
+      "glb": "assemblies/glb/small-flatpack-shelf.glb",
+      "glb_units": "metres",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false
+    },
+    {
+      "id": "tabletop-valet",
+      "description": "Low display valet",
+      "notes": "All structural components printed; nominal geometry only. No weight rating. Not a climbing aid, child furnishing or released clothes stand. Joint retention/tipping must be redesigned or verified with physical samples.",
+      "components": [
+        {
+          "part_id": "valet-base-hub",
+          "instance": "valet-base-hub__1",
+          "colour": "#F5F1EA",
+          "translation_mm": [
+            0,
+            0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "valet-base-leg",
+          "instance": "valet-base-leg__2",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            21.0,
+            0.0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "valet-base-leg",
+          "instance": "valet-base-leg__3",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            1.2858791391047208e-15,
+            21.0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            90
+          ]
+        },
+        {
+          "part_id": "valet-base-leg",
+          "instance": "valet-base-leg__4",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            -21.0,
+            2.5717582782094417e-15,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            180
+          ]
+        },
+        {
+          "part_id": "valet-base-leg",
+          "instance": "valet-base-leg__5",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            -3.857637417314163e-15,
+            -21.0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            270
+          ]
+        },
+        {
+          "part_id": "valet-column-160",
+          "instance": "valet-column-160__6",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            0,
+            0,
+            4
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "valet-shoulder-hub",
+          "instance": "valet-shoulder-hub__7",
+          "colour": "#B58B99",
+          "translation_mm": [
+            0,
+            0,
+            164
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "valet-shoulder-arm",
+          "instance": "valet-shoulder-arm__8",
+          "colour": "#EFCF6B",
+          "translation_mm": [
+            10,
+            0,
+            164
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "valet-shoulder-arm",
+          "instance": "valet-shoulder-arm__9",
+          "colour": "#EFCF6B",
+          "translation_mm": [
+            -10,
+            0,
+            164
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            180
+          ]
+        }
+      ],
+      "bounds_mm": [
+        [
+          -207.00000000000003,
+          -207.00000000000003,
+          0.0
+        ],
+        [
+          207.00000000000003,
+          207.00000000000003,
+          191.0
+        ]
+      ],
+      "part_instances": 9,
+      "step": "assemblies/step/tabletop-valet.step",
+      "glb": "assemblies/glb/tabletop-valet.glb",
+      "glb_units": "metres",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false
+    },
+    {
+      "id": "outfit-valet-research",
+      "description": "All-printed tall valet research assembly",
+      "notes": "All structural components printed; nominal geometry only. No weight rating. Not a climbing aid, child furnishing or released clothes stand. Joint retention/tipping must be redesigned or verified with physical samples.",
+      "components": [
+        {
+          "part_id": "valet-base-hub",
+          "instance": "valet-base-hub__1",
+          "colour": "#F5F1EA",
+          "translation_mm": [
+            0,
+            0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "valet-base-leg",
+          "instance": "valet-base-leg__2",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            21.0,
+            0.0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "valet-base-leg",
+          "instance": "valet-base-leg__3",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            1.2858791391047208e-15,
+            21.0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            90
+          ]
+        },
+        {
+          "part_id": "valet-base-leg",
+          "instance": "valet-base-leg__4",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            -21.0,
+            2.5717582782094417e-15,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            180
+          ]
+        },
+        {
+          "part_id": "valet-base-leg",
+          "instance": "valet-base-leg__5",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            -3.857637417314163e-15,
+            -21.0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            270
+          ]
+        },
+        {
+          "part_id": "valet-column-160",
+          "instance": "valet-column-160__6",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            0,
+            0,
+            4
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "valet-column-joiner",
+          "instance": "valet-column-joiner__7",
+          "colour": "#B58B99",
+          "translation_mm": [
+            0,
+            0,
+            135
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "valet-column-160",
+          "instance": "valet-column-160__8",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            0,
+            0,
+            166
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "valet-column-joiner",
+          "instance": "valet-column-joiner__9",
+          "colour": "#B58B99",
+          "translation_mm": [
+            0,
+            0,
+            297
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "valet-column-160",
+          "instance": "valet-column-160__10",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            0,
+            0,
+            328
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "valet-column-joiner",
+          "instance": "valet-column-joiner__11",
+          "colour": "#B58B99",
+          "translation_mm": [
+            0,
+            0,
+            459
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "valet-column-160",
+          "instance": "valet-column-160__12",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            0,
+            0,
+            490
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "valet-column-joiner",
+          "instance": "valet-column-joiner__13",
+          "colour": "#B58B99",
+          "translation_mm": [
+            0,
+            0,
+            621
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "valet-column-160",
+          "instance": "valet-column-160__14",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            0,
+            0,
+            652
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "valet-shoulder-hub",
+          "instance": "valet-shoulder-hub__15",
+          "colour": "#B58B99",
+          "translation_mm": [
+            0,
+            0,
+            812
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "valet-shoulder-arm",
+          "instance": "valet-shoulder-arm__16",
+          "colour": "#EFCF6B",
+          "translation_mm": [
+            10,
+            0,
+            812
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "valet-shoulder-arm",
+          "instance": "valet-shoulder-arm__17",
+          "colour": "#EFCF6B",
+          "translation_mm": [
+            -10,
+            0,
+            812
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            180
+          ]
+        }
+      ],
+      "bounds_mm": [
+        [
+          -207.00000000000003,
+          -207.00000000000003,
+          0.0
+        ],
+        [
+          207.00000000000003,
+          207.00000000000003,
+          839.0
+        ]
+      ],
+      "part_instances": 17,
+      "step": "assemblies/step/outfit-valet-research.step",
+      "glb": "assemblies/glb/outfit-valet-research.glb",
+      "glb_units": "metres",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false
+    }
+  ],
+  "checks": [
+    {
+      "name": "right side-frame vs top panel",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "left side-frame vs top panel",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "column sleeve into upper end",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "column sleeve into next segment",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    }
+  ]
+}

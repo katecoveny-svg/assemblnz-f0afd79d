@@ -99,7 +99,7 @@ describe('building an item', () => {
     expect(buildItem({ handle: 'al-hook', colour: 'oat', qty: 0 }).ok).toBe(false);
     expect(buildItem({ handle: 'al-hook', colour: 'oat', qty: 21 }).ok).toBe(false);
     const r = buildItem({ handle: 'al-hook', colour: 'oat', qty: 3 });
-    expect(r.item!.estimate.total.suggestedRetailNzd).toBe(r.item!.estimate.perUnit.suggestedRetailNzd * 3);
+    expect(r.item!.estimate.total.suggestedRetailNzd).toBe(r.item!.estimate.perUnit.suggestedRetailNzd! * 3);
     expect(r.item!.estimate.total.printMinutes).toBe(r.item!.estimate.perUnit.printMinutes * 3);
   });
 

@@ -1,0 +1,1024 @@
+{
+  "group": "objects",
+  "cadquery_version": "2.8.0",
+  "parts": [
+    {
+      "id": "orbit-planter-shell",
+      "group": "objects",
+      "description": "Original rounded nursery-pot sleeve with orbital groove",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "Matte PLA / PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        118.083,
+        118.083,
+        86.0
+      ],
+      "solid_volume_mm3": 377688.907,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 3.4521840030540994e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 3722,
+      "step": "parts/step/orbit-planter-shell.step",
+      "stl": "parts/stl/orbit-planter-shell.stl",
+      "step_sha256": "6a8b415ed30f84d196fbaa2e110988bfa5c566e5b334e3f1854051c796ad4d54",
+      "stl_sha256": "ff002ea96e9993d0bd63a9ef51f3920c594564a09b258bb184c6d9177dae384e",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        1e-07
+      ],
+      "notes": "Decorative sleeve for removable nursery pot, nominal cavity 86.4 mm. No water containment claim. Not a copy of the crater planter.",
+      "parameters": {}
+    },
+    {
+      "id": "orbit-planter-leg",
+      "group": "objects",
+      "description": "Tapered plug-in planter leg",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        16.0,
+        16.0,
+        39.35
+      ],
+      "solid_volume_mm3": 4852.464,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.0496049223293091e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1526,
+      "step": "parts/step/orbit-planter-leg.step",
+      "stl": "parts/stl/orbit-planter-leg.stl",
+      "step_sha256": "ea477b209f0818bdf236f87992740840b2751ffd8416f7d15b7db7372f0c04f6",
+      "stl_sha256": "522be86354b080c19a4095ebf105b49b4aa3db5610dd4f715c21f56014122eb6",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Three identical legs; nominal socket/peg diameters 9.2/8.4 mm. Fit and stability tests required.",
+      "parameters": {}
+    },
+    {
+      "id": "orbit-catch-tray",
+      "group": "objects",
+      "description": "Separate rounded catch-tray concept",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        136.0,
+        136.0,
+        10.0
+      ],
+      "solid_volume_mm3": 52489.384,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.3030063607930744e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 764,
+      "step": "parts/step/orbit-catch-tray.step",
+      "stl": "parts/stl/orbit-catch-tray.stl",
+      "step_sha256": "9f6d01dd164a6fe492e8a97f04b6481a87131c9082d5e9b023cf0139f9482316",
+      "stl_sha256": "faa366f39e9fc40dfda8b881d9741beacfa30c44e5958216410d67dbc827bb3f",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Not tested watertight; use an existing nursery-pot saucer if needed.",
+      "parameters": {}
+    },
+    {
+      "id": "pleat-shade",
+      "group": "objects",
+      "description": "Original 16-fold open lampshade with nominal 42.8 mm collar",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "Grade not yet qualified",
+      "units": "mm",
+      "print_bbox_mm": [
+        180.2,
+        180.2,
+        125.0
+      ],
+      "solid_volume_mm3": 130555.408,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.954311370026512e-09,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1832,
+      "step": "parts/step/pleat-shade.step",
+      "stl": "parts/stl/pleat-shade.stl",
+      "step_sha256": "6ebad213d760891c68e370805e939d999fbb265adae5f73907f4fa8add28dc3f",
+      "stl_sha256": "89a6cd1a1ce15073d5d25f96514891db7c7fe777b275cf20770868dff2dda01f",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        7.105427357601002e-15,
+        -0.0,
+        1e-07
+      ],
+      "notes": "Shade only; no cord, lamp holder or bulb. LED use alone does not certify safety. Fitting, clearance, heat exposure and ignition must be assessed; not a released luminaire.",
+      "parameters": {}
+    },
+    {
+      "id": "manual-clock-body",
+      "group": "objects",
+      "description": "All-printed manual clock/routine dial body",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        86.0,
+        86.0,
+        23.0
+      ],
+      "solid_volume_mm3": 86927.135,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.3559691500585327e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 5736,
+      "step": "parts/step/manual-clock-body.step",
+      "stl": "parts/stl/manual-clock-body.stl",
+      "step_sha256": "e7d3d55b25376fb6a4e65227c22d3c0cbaf20e3f657ace56f43d3df951e39b39",
+      "stl_sha256": "bd4d8e094b42b10f8e1fa9d3d878741515a41e098030b20a215f509fbe0bf287",
+      "print_rotation_xyz_deg": [
+        180,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        23.000000000000007
+      ],
+      "notes": "No timekeeping. Manual hands demonstrate times or routines.",
+      "parameters": {}
+    },
+    {
+      "id": "quartz-clock-shell",
+      "group": "objects",
+      "description": "Optional clock casing for a separately sourced movement",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        86.0,
+        86.0,
+        23.0
+      ],
+      "solid_volume_mm3": 86832.133,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.2736593196974634e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 5736,
+      "step": "parts/step/quartz-clock-shell.step",
+      "stl": "parts/stl/quartz-clock-shell.stl",
+      "step_sha256": "cc13f608b3613724546410d05121e2c99d95c87809a67125808f2e89ec7e257b",
+      "stl_sha256": "30ffffe200d8f3d2640f8c67cc6f0fb5323591a96a01241f100c43c9f93687bb",
+      "print_rotation_xyz_deg": [
+        180,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        23.000000000000007
+      ],
+      "notes": "Rear cavity 62 x 62 x 20.9 mm; nominal shaft hole 8.4 mm. No promise of compatibility with an unselected movement; not a fully printed working clock.",
+      "parameters": {}
+    },
+    {
+      "id": "clock-back-cover",
+      "group": "objects",
+      "description": "Loose slip-fit rear cover",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        85.4,
+        85.4,
+        5.35
+      ],
+      "solid_volume_mm3": 28054.574,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 8.817904507644555e-15,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 964,
+      "step": "parts/step/clock-back-cover.step",
+      "stl": "parts/stl/clock-back-cover.stl",
+      "step_sha256": "59d068744734d48bab779d67a48cb945fa358ab09d4b7e0bcfbde4f137d8fc1c",
+      "stl_sha256": "a0ab3b7d033e6d1a8bace2c49a9d6b173555241d22569e5c14e8a2de3a8460fc",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "0.3 mm per-side tongue clearance. Requires physical retention development.",
+      "parameters": {}
+    },
+    {
+      "id": "clock-hour-hand",
+      "group": "objects",
+      "description": "Manual hour hand",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        10.0,
+        26.0,
+        1.6
+      ],
+      "solid_volume_mm3": 235.708,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.7733405535330296e-15,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 856,
+      "step": "parts/step/clock-hour-hand.step",
+      "stl": "parts/stl/clock-hour-hand.stl",
+      "step_sha256": "cbc768caf134a2894ab226c6a6ab45175ad8b815d88e7ed0894743bac1772cfb",
+      "stl_sha256": "82814ade00a1abc4b36608e7f5a2c810fda0a2b3e1945011b1ebcb2e501d2be4",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -8.0,
+        -0.0
+      ],
+      "notes": "",
+      "parameters": {}
+    },
+    {
+      "id": "clock-minute-hand",
+      "group": "objects",
+      "description": "Manual minute hand",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        10.0,
+        34.0,
+        1.6
+      ],
+      "solid_volume_mm3": 252.641,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 8.88737089042098e-15,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 872,
+      "step": "parts/step/clock-minute-hand.step",
+      "stl": "parts/stl/clock-minute-hand.stl",
+      "step_sha256": "ca09416b1b9b389319a228b631e9ab8a675deebfb6e4bc9378b37da7c1b9d8b4",
+      "stl_sha256": "f765cfca5193759b6cc9a7560e4048e5dd91c2c8c957ca04138a4cf12cc5159e",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -12.0,
+        -0.0
+      ],
+      "notes": "",
+      "parameters": {}
+    },
+    {
+      "id": "clock-hand-pin",
+      "group": "objects",
+      "description": "Headed spindle for manual hands",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        9.6,
+        9.6,
+        12.95
+      ],
+      "solid_volume_mm3": 232.83,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.5879009497995225e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 716,
+      "step": "parts/step/clock-hand-pin.step",
+      "stl": "parts/stl/clock-hand-pin.stl",
+      "step_sha256": "6050b31be2fb5e3d2fc7d6ac437152047672116ea145bb5562ab7799ef175574",
+      "stl_sha256": "c77685be6cb9733a1a8013916a28c32720b25de8da74dec52d4363fbdb292d74",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Press friction/retention must be tuned. No automatic motion.",
+      "parameters": {}
+    },
+    {
+      "id": "clock-rail-cradle",
+      "group": "objects",
+      "description": "Original cradle holding the clock study on TR-01",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        86.0,
+        62.0,
+        29.9
+      ],
+      "solid_volume_mm3": 62977.012,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.148924001671115e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 900,
+      "step": "parts/step/clock-rail-cradle.step",
+      "stl": "parts/stl/clock-rail-cradle.stl",
+      "step_sha256": "10bf8d0544fbb21997efccc1e53be3bed58745f97a32ef55a62f9209d727ed6d",
+      "stl_sha256": "1ddc85902598914098d0ef9f5220b25cd676b728bf5513fa3ce90ef68469f435",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        8.881784197001252e-16
+      ],
+      "notes": "Clock rests in the 26.4 mm-wide slot, front/back wall positions need sample seating check.",
+      "parameters": {}
+    },
+    {
+      "id": "clock-rail-168",
+      "group": "objects",
+      "description": "TR-01 rail for manual desk clock",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        168.0,
+        70.0,
+        10.0
+      ],
+      "solid_volume_mm3": 71543.918,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.5946430917917673e-13,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 3308,
+      "step": "parts/step/clock-rail-168.step",
+      "stl": "parts/stl/clock-rail-168.stl",
+      "step_sha256": "4b1b5d07ad94cb6f9020a3499406ef85c74adc752e4e992aebaf437be5ff3040",
+      "stl_sha256": "567132f83ef7cc2379c382e8f968435953dbf6f72f93b5e314fc0c4fcf65f153",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "",
+      "parameters": {}
+    },
+    {
+      "id": "walk-bag-pod",
+      "group": "objects",
+      "description": "Refillable bag-roll dispenser with accessory eye",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        38.0,
+        48.0,
+        65.0
+      ],
+      "solid_volume_mm3": 29614.459,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 5.113537554713391e-08,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1956,
+      "step": "parts/step/walk-bag-pod.step",
+      "stl": "parts/stl/walk-bag-pod.stl",
+      "step_sha256": "8fd00fc48318778f676c3c2e9858645c5e76b928540538859e3b30f267aa19d9",
+      "stl_sha256": "26b7e970633335f904ed1d383f7a9f8e75ae88a3ac6f65f491aae00988cfbc12",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -4.999999949999999,
+        1e-07
+      ],
+      "notes": "For standard bags the customer supplies. Eye is for small accessories, not leash restraint. Slot fit and tear edge require smoothing/testing.",
+      "parameters": {}
+    },
+    {
+      "id": "walk-pod-cap",
+      "group": "objects",
+      "description": "Slip-on bag-pod refill cap",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        38.0,
+        38.0,
+        9.9
+      ],
+      "solid_volume_mm3": 4796.609,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 3.792240478253996e-16,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1076,
+      "step": "parts/step/walk-pod-cap.step",
+      "stl": "parts/stl/walk-pod-cap.stl",
+      "step_sha256": "c904a79b974e042ce51788a8391935ed99a667f4ca468316176e4a3c219ff04a",
+      "stl_sha256": "de0ecbdd657c7c3c6fe009e8746c17045a4196c32e6e320f4816f39d2eb06370",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "0.4 mm radial clearance; friction retention not verified. No water sealing claim.",
+      "parameters": {}
+    },
+    {
+      "id": "rally-flex-clip",
+      "group": "objects",
+      "description": "One-piece printed light-accessory clip with flexible gate",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG or tough nylon candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        36.0,
+        62.0,
+        6.0
+      ],
+      "solid_volume_mm3": 5277.54,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 7.117356391572681e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 756,
+      "step": "parts/step/rally-flex-clip.step",
+      "stl": "parts/stl/rally-flex-clip.stl",
+      "step_sha256": "cfe438bee13a2a32a71b89848294f8db42fe857e35bc95f089a3c77d50aabb59",
+      "stl_sha256": "e9cc7966d8644d282578ce4f7822984373e009ab47c403a7a2f31419f08f6c93",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Not for climbing, lifting, child protection, securing a rider or animal restraint. Gate fatigue and impact untested.",
+      "parameters": {}
+    },
+    {
+      "id": "pet-name-tag",
+      "group": "objects",
+      "description": "Recessed-letter pet accessory tag, sample FRANKLIN",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        66.0,
+        27.0,
+        3.2
+      ],
+      "solid_volume_mm3": 5384.631,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.2464455548745623e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1728,
+      "step": "parts/step/pet-name-tag.step",
+      "stl": "parts/stl/pet-name-tag.stl",
+      "step_sha256": "9f1f41d88a0818522449c801da6d53b31878e213d55b9bf930b37f9769069474",
+      "stl_sha256": "40a1f9b623254963aab7b2893c0ef40fce90ce79bb9373fb29e0bde2c89fdcee",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Tag is not restraint hardware. No split ring included; test abrasion and all attachment parts.",
+      "parameters": {}
+    },
+    {
+      "id": "pet-bowl-surround",
+      "group": "objects",
+      "description": "Surround supporting an existing removable bowl",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        126.0,
+        126.0,
+        25.0
+      ],
+      "solid_volume_mm3": 87556.187,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.0276507160814862e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1080,
+      "step": "parts/step/pet-bowl-surround.step",
+      "stl": "parts/stl/pet-bowl-surround.stl",
+      "step_sha256": "e0903b872308087a9d68562d3c5a26cad0c4fc69e6a2a570fa7a339b38f56b3d",
+      "stl_sha256": "2ec9da209ff4b8dc1da366d1a0595b6c8efbf0a5acfb76634f7bd6ff556b34e8",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -0.0
+      ],
+      "notes": "Opening 108 mm with lower locating ledge 98 mm. Measure the selected bowl; no printed food-contact surface is intended. Not a veterinary height recommendation.",
+      "parameters": {}
+    }
+  ],
+  "assemblies": [
+    {
+      "id": "orbit-planter",
+      "description": "Original space-age inspired planter sleeve",
+      "notes": "Pot, soil, plant and waterproof insert are not included. Leg retention and top-heavy tipping need testing.",
+      "components": [
+        {
+          "part_id": "orbit-planter-shell",
+          "instance": "orbit-planter-shell__1",
+          "colour": "#36383C",
+          "translation_mm": [
+            0,
+            0,
+            28
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "orbit-planter-leg",
+          "instance": "orbit-planter-leg__2",
+          "colour": "#36383C",
+          "translation_mm": [
+            23.382685902179844,
+            13.499999999999998,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "orbit-planter-leg",
+          "instance": "orbit-planter-leg__3",
+          "colour": "#36383C",
+          "translation_mm": [
+            -23.382685902179844,
+            13.499999999999998,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "orbit-planter-leg",
+          "instance": "orbit-planter-leg__4",
+          "colour": "#36383C",
+          "translation_mm": [
+            -4.95981953654678e-15,
+            -27.0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "bounds_mm": [
+        [
+          -59.01938053032398,
+          -58.9963408119498,
+          0.0
+        ],
+        [
+          59.01938053032398,
+          58.967241161902145,
+          114.0
+        ]
+      ],
+      "part_instances": 4,
+      "step": "assemblies/step/orbit-planter.step",
+      "glb": "assemblies/glb/orbit-planter.glb",
+      "glb_units": "metres",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false
+    },
+    {
+      "id": "pleat-shade-study",
+      "description": "Printed pleated shade geometry",
+      "notes": "No light source installed or represented as working.",
+      "components": [
+        {
+          "part_id": "pleat-shade",
+          "instance": "pleat-shade__1",
+          "colour": "#F5F1EA",
+          "translation_mm": [
+            0,
+            0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "bounds_mm": [
+        [
+          -90.1,
+          -90.1,
+          0.0
+        ],
+        [
+          90.1,
+          90.1,
+          125.0
+        ]
+      ],
+      "part_instances": 1,
+      "step": "assemblies/step/pleat-shade-study.step",
+      "glb": "assemblies/glb/pleat-shade-study.glb",
+      "glb_units": "metres",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false
+    },
+    {
+      "id": "manual-rail-clock",
+      "description": "All-printed manual desktop time / routine display",
+      "notes": "Hands are manually set. The assembled position is a styling layout; confirm cradle contact in a printed sample.",
+      "components": [
+        {
+          "part_id": "clock-rail-168",
+          "instance": "clock-rail-168__1",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            0,
+            0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "clock-rail-cradle",
+          "instance": "clock-rail-cradle__2",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            0,
+            0,
+            5.2
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "manual-clock-body",
+          "instance": "manual-clock-body__3",
+          "colour": "#EFCF6B",
+          "translation_mm": [
+            0,
+            10.3,
+            63.4
+          ],
+          "rotation_xyz_deg": [
+            90,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "clock-back-cover",
+          "instance": "clock-back-cover__4",
+          "colour": "#EFCF6B",
+          "translation_mm": [
+            0,
+            12.700000000000001,
+            63.4
+          ],
+          "rotation_xyz_deg": [
+            90,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "clock-hour-hand",
+          "instance": "clock-hour-hand__5",
+          "colour": "#54334B",
+          "translation_mm": [
+            0,
+            -13.099999999999998,
+            63.4
+          ],
+          "rotation_xyz_deg": [
+            90,
+            -55,
+            0
+          ]
+        },
+        {
+          "part_id": "clock-minute-hand",
+          "instance": "clock-minute-hand__6",
+          "colour": "#54334B",
+          "translation_mm": [
+            0,
+            -15.099999999999998,
+            63.4
+          ],
+          "rotation_xyz_deg": [
+            90,
+            45,
+            0
+          ]
+        },
+        {
+          "part_id": "clock-hand-pin",
+          "instance": "clock-hand-pin__7",
+          "colour": "#54334B",
+          "translation_mm": [
+            0,
+            -19.099999999999998,
+            63.4
+          ],
+          "rotation_xyz_deg": [
+            -90,
+            0,
+            0
+          ]
+        }
+      ],
+      "bounds_mm": [
+        [
+          -84.0,
+          -35.0,
+          0.0
+        ],
+        [
+          84.0,
+          35.0,
+          106.4
+        ]
+      ],
+      "part_instances": 7,
+      "step": "assemblies/step/manual-rail-clock.step",
+      "glb": "assemblies/glb/manual-rail-clock.glb",
+      "glb_units": "metres",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false
+    },
+    {
+      "id": "pet-walk-kit",
+      "description": "Practical printed walking-accessory study",
+      "notes": "Bags, leash, fastening ring and animal not included.",
+      "components": [
+        {
+          "part_id": "walk-bag-pod",
+          "instance": "walk-bag-pod__1",
+          "colour": "#B58B99",
+          "translation_mm": [
+            0,
+            0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "walk-pod-cap",
+          "instance": "walk-pod-cap__2",
+          "colour": "#F5F1EA",
+          "translation_mm": [
+            0,
+            0,
+            68
+          ],
+          "rotation_xyz_deg": [
+            180,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "rally-flex-clip",
+          "instance": "rally-flex-clip__3",
+          "colour": "#54334B",
+          "translation_mm": [
+            60,
+            0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "pet-name-tag",
+          "instance": "pet-name-tag__4",
+          "colour": "#EFCF6B",
+          "translation_mm": [
+            65,
+            50,
+            0
+          ],
+          "rotation_xyz_deg": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "bounds_mm": [
+        [
+          -19.0,
+          -31.0,
+          0.0
+        ],
+        [
+          98.0,
+          63.5,
+          68.0
+        ]
+      ],
+      "part_instances": 4,
+      "step": "assemblies/step/pet-walk-kit.step",
+      "glb": "assemblies/glb/pet-walk-kit.glb",
+      "glb_units": "metres",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false
+    }
+  ],
+  "checks": [
+    {
+      "name": "planter leg pegs versus shell",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    }
+  ]
+}

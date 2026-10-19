@@ -1,0 +1,885 @@
+{
+  "group": "wall",
+  "cadquery_version": "2.8.0",
+  "parts": [
+    {
+      "id": "wall-panel-2x2",
+      "group": "wall",
+      "description": "2 x 2 TURN wall panel, 42 mm pitch",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        84.0,
+        84.0,
+        8.0
+      ],
+      "solid_volume_mm3": 47605.775,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 5.96067063099445e-15,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 8876,
+      "step": "parts/step/wall-panel-2x2.step",
+      "stl": "parts/stl/wall-panel-2x2.stl",
+      "step_sha256": "84b5e389e5d514e53362caf9e51c43978d73c620014b656910d9243817238475",
+      "stl_sha256": "ac46ea492ebea0e2f15ac72cde1cbf0586b62a1efa45da622f2d52ac12b8855c",
+      "print_rotation_xyz_deg": [
+        180,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -42.0,
+        42.0,
+        8.0
+      ],
+      "notes": "Front face down; rear chambers may bridge. Wall screws and substrate-specific anchors are not printable parts. No load rating.",
+      "parameters": {}
+    },
+    {
+      "id": "wall-panel-2x4",
+      "group": "wall",
+      "description": "2 x 4 TURN wall panel, 42 mm pitch",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        84.0,
+        168.0,
+        8.0
+      ],
+      "solid_volume_mm3": 95458.772,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 4.573256576590931e-15,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 17372,
+      "step": "parts/step/wall-panel-2x4.step",
+      "stl": "parts/stl/wall-panel-2x4.stl",
+      "step_sha256": "3dd9f11c7c8cbb184abe1562aef09f94e5de54aa86c1bd532c8bada9b044d73e",
+      "stl_sha256": "0b0230b4b9f7ff43b685f714a390b8b6f506141f43fdc004c0ea7fcac15d0cc4",
+      "print_rotation_xyz_deg": [
+        180,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -42.0,
+        84.0,
+        8.0
+      ],
+      "notes": "Front face down; rear chambers may bridge. Wall screws and substrate-specific anchors are not printable parts. No load rating.",
+      "parameters": {}
+    },
+    {
+      "id": "wall-panel-4x4",
+      "group": "wall",
+      "description": "4 x 4 TURN wall panel, 42 mm pitch",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        168.0,
+        168.0,
+        8.0
+      ],
+      "solid_volume_mm3": 191164.765,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.6746921666703514e-15,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 34364,
+      "step": "parts/step/wall-panel-4x4.step",
+      "stl": "parts/stl/wall-panel-4x4.stl",
+      "step_sha256": "f25f0ff89e2a2a134bcc9a903ec2dea1be65a783d15c57cad3b7373b1d216273",
+      "stl_sha256": "60025f403cea120546364b0b8c9808d9c6982a918f882d0238a6be407466e940",
+      "print_rotation_xyz_deg": [
+        180,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -84.0,
+        84.0,
+        8.0
+      ],
+      "notes": "Front face down; rear chambers may bridge. Wall screws and substrate-specific anchors are not printable parts. No load rating.",
+      "parameters": {}
+    },
+    {
+      "id": "turn-key-clearance",
+      "group": "wall",
+      "description": "Quarter-turn key; zero cone preload, no detent bumps",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        21.0,
+        21.0,
+        15.5
+      ],
+      "solid_volume_mm3": 2565.386,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 7.870466232180624e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1672,
+      "step": "parts/step/turn-key-clearance.step",
+      "stl": "parts/stl/turn-key-clearance.stl",
+      "step_sha256": "1a89b17d45c7630766e2b9b1fbed05efbd46c799b823d3af0cc1d9ca6342bd7a",
+      "stl_sha256": "5bf780f4a6c2df37f8d2022f59b19930c06b7f0c886aa77b63a5c272be761064",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -1.4
+      ],
+      "notes": "AC-02 test-key variant: NOT identical to original v0.1 spring/preload geometry. Determine retention with coupons.",
+      "parameters": {}
+    },
+    {
+      "id": "wall-anchor-washer",
+      "group": "wall",
+      "description": "Printed washer for a separately specified wall screw",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        20.0,
+        20.0,
+        6.2
+      ],
+      "solid_volume_mm3": 1131.092,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 8.8449431820572e-15,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1530,
+      "step": "parts/step/wall-anchor-washer.step",
+      "stl": "parts/stl/wall-anchor-washer.stl",
+      "step_sha256": "29863d2966de5d80073f2ef3c3544f7d9eeb50fd5234f8d463ba54d2a2d92151",
+      "stl_sha256": "e41ecf344c3f53e0dfa8fa4d10008b98053157ea3204e41b8f82009673c73ca0",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -4.6
+      ],
+      "notes": "Screw and wall anchor excluded; no screw compatibility claim beyond nominal 4.5 mm through hole.",
+      "parameters": {}
+    },
+    {
+      "id": "wall-pocket-1",
+      "group": "wall",
+      "description": "1-station open pocket",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        36.0,
+        48.0,
+        74.0
+      ],
+      "solid_volume_mm3": 25946.358,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 7.806595940716874e-09,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 2418,
+      "step": "parts/step/wall-pocket-1.step",
+      "stl": "parts/stl/wall-pocket-1.stl",
+      "step_sha256": "fcfc03d72cfa7e31f450f11526dd9a38187e6a796afe363d00312ce0d89aabdf",
+      "stl_sha256": "e9e5248273eb45ad6e05ce3a161a986423dd452a7f0443fa92c504c303387b06",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        29.000000000000007,
+        57.0000001
+      ],
+      "notes": "Backplate sockets exposed above cavity; supports/slicing review required.",
+      "parameters": {}
+    },
+    {
+      "id": "wall-pocket-2",
+      "group": "wall",
+      "description": "2-station open pocket",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        78.0,
+        45.0,
+        74.0
+      ],
+      "solid_volume_mm3": 48030.878,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 5.018086830322713e-09,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 3160,
+      "step": "parts/step/wall-pocket-2.step",
+      "stl": "parts/stl/wall-pocket-2.stl",
+      "step_sha256": "1e5b82fb91bb40876fa8ec29be73ceaf42838342466dd4bc946af586138e8e96",
+      "stl_sha256": "93466607de396840ae23629159fd4b1b1b4f3948b4b316fe0e5c44dfebfa9d03",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -21.0,
+        30.499999950000003,
+        57.0000001
+      ],
+      "notes": "Backplate sockets exposed above cavity; supports/slicing review required.",
+      "parameters": {}
+    },
+    {
+      "id": "wall-pocket-3",
+      "group": "wall",
+      "description": "3-station open pocket",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        120.0,
+        45.0,
+        74.0
+      ],
+      "solid_volume_mm3": 70477.687,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 3.5601136686104355e-09,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 4262,
+      "step": "parts/step/wall-pocket-3.step",
+      "stl": "parts/stl/wall-pocket-3.stl",
+      "step_sha256": "58867483c64c605903f209688d4ff219bc3db4b147aadcbf47cbdf290888e88c",
+      "stl_sha256": "f5c9a487966f34d95be0d458afa390c2dca2d9b8f9d6978e808d80e51a8a777f",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -42.0,
+        30.499999950000003,
+        57.0000001
+      ],
+      "notes": "Backplate sockets exposed above cavity; supports/slicing review required.",
+      "parameters": {}
+    },
+    {
+      "id": "wall-key-hook",
+      "group": "wall",
+      "description": "Wide single-station wall hook",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        40.0,
+        78.0,
+        36.0
+      ],
+      "solid_volume_mm3": 18800.902,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 9.778475842938725e-10,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1866,
+      "step": "parts/step/wall-key-hook.step",
+      "stl": "parts/stl/wall-key-hook.stl",
+      "step_sha256": "479e3d5c3cd8d8e7331f18ab8e7c0cc9bdb8aff12e6387bac471f7c9b94b6644",
+      "stl_sha256": "044b2241c103a33ce4b14e168b66e8f6cc48ae6fe6e4ebfd3141aa4fe260bc52",
+      "print_rotation_xyz_deg": [
+        0,
+        90,
+        0
+      ],
+      "print_translation_mm": [
+        -25.0,
+        21.0,
+        18.0
+      ],
+      "notes": "Single key and a locating peg on the cell below prevent rotation. Do not use to restrain a dog.",
+      "parameters": {}
+    },
+    {
+      "id": "wall-ledge-2",
+      "group": "wall",
+      "description": "2-station gusseted display ledge",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        78.0,
+        77.0,
+        63.0
+      ],
+      "solid_volume_mm3": 54259.827,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.540150584101879e-09,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 2798,
+      "step": "parts/step/wall-ledge-2.step",
+      "stl": "parts/stl/wall-ledge-2.stl",
+      "step_sha256": "559227cbccaa77b1c3998cd234e4309a6594857a60622c99cdafd9541aa5d7a5",
+      "stl_sha256": "c8e46a714f0b7023f2eb4139466cb4f06ce98478d04bc0b288fc021c0647595c",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -21.0,
+        46.49999995,
+        45.000000099999994
+      ],
+      "notes": "No load capacity or wall installation validated.",
+      "parameters": {}
+    },
+    {
+      "id": "wall-ledge-3",
+      "group": "wall",
+      "description": "3-station gusseted display ledge",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        120.0,
+        77.0,
+        63.0
+      ],
+      "solid_volume_mm3": 79476.954,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.1203465836415515e-09,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 3900,
+      "step": "parts/step/wall-ledge-3.step",
+      "stl": "parts/stl/wall-ledge-3.stl",
+      "step_sha256": "8db1f0af06642012270a7c75792684ebdaa7547645fbb28ee9840ab97aed00f3",
+      "stl_sha256": "81370ce42428e37a8f8877213a45f20e27a23c3e3b3a9f6f620c64d8e92f5359",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -42.0,
+        46.49999995,
+        45.000000099999994
+      ],
+      "notes": "No load capacity or wall installation validated.",
+      "parameters": {}
+    },
+    {
+      "id": "wall-rod-cradle",
+      "group": "wall",
+      "description": "Stationary fishing-rod display cradle",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        50.0,
+        78.0,
+        36.0
+      ],
+      "solid_volume_mm3": 21210.074,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 8.66763354696609e-10,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 2174,
+      "step": "parts/step/wall-rod-cradle.step",
+      "stl": "parts/stl/wall-rod-cradle.stl",
+      "step_sha256": "7dfdf34a03d5f7f1a8ffe0f3051664f3c9711ea913c500cd6f8ce018117e19ff",
+      "stl_sha256": "b0ac6f7e663397e3c0e433401783bec8c8e2ac7dacd1289fe20d0ed67e0c6f47",
+      "print_rotation_xyz_deg": [
+        0,
+        90,
+        0
+      ],
+      "print_translation_mm": [
+        -30.0,
+        21.0,
+        18.0
+      ],
+      "notes": "Use in pairs on a wall after testing. Not a riding rod carrier.",
+      "parameters": {}
+    },
+    {
+      "id": "wall-lure-pocket",
+      "group": "wall",
+      "description": "Recessed lure organiser with separated bays",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        120.0,
+        54.0,
+        97.0
+      ],
+      "solid_volume_mm3": 125243.085,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 2.2973843013441634e-09,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 4362,
+      "step": "parts/step/wall-lure-pocket.step",
+      "stl": "parts/stl/wall-lure-pocket.stl",
+      "step_sha256": "3ec2d5d4512df3520f0098d106979e2afcc06ad89a9fe5cff1c1b54d5dafc1a8",
+      "stl_sha256": "a4fc608134eb2526e5504e5307533827fa3c28342999298ce720d74eefb3974b",
+      "print_rotation_xyz_deg": [
+        90,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -42.0,
+        34.99999995,
+        80.0000001
+      ],
+      "notes": "Divider geometry is original. Hooks still require a cover or hook guards; exposed hooks are not made child-safe by a deep tray.",
+      "parameters": {}
+    },
+    {
+      "id": "wall-name-panel",
+      "group": "wall",
+      "description": "Recessed-letter name panel, sample ASSEMBL",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        162.0,
+        36.0,
+        5.0
+      ],
+      "solid_volume_mm3": 24488.867,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 3.002926804010924e-09,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 6214,
+      "step": "parts/step/wall-name-panel.step",
+      "stl": "parts/stl/wall-name-panel.stl",
+      "step_sha256": "816f75e236e63a47710ba417248d82acb9b72ac5b95e0f42c49dcc8a5c2cf727",
+      "stl_sha256": "b740b4b06810ce62e055c692e3d7c4282750c52c917e5bc8a7a1b9ef0f521b6b",
+      "print_rotation_xyz_deg": [
+        180,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -62.99999999999999,
+        -0.0,
+        13.000000100000006
+      ],
+      "notes": "Name generated as real subtractive solid geometry.",
+      "parameters": {}
+    },
+    {
+      "id": "wall-decorative-border",
+      "group": "wall",
+      "description": "Rounded decorative frame for 4x4 panel",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        185.0,
+        185.0,
+        9.0
+      ],
+      "solid_volume_mm3": 50162.208,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 1.9436511095690087e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 768,
+      "step": "parts/step/wall-decorative-border.step",
+      "stl": "parts/stl/wall-decorative-border.stl",
+      "step_sha256": "6e7233578fb640fb27cc2dd5f4963c24d342d5b95b7008045d56f5d08ce12b01",
+      "stl_sha256": "54c5896759b31bceb82582bea2586b75a3bf0f9c9836c69945e1a31b2e2f19a5",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -84.0,
+        -84.0,
+        -0.0
+      ],
+      "notes": "Separate loose frame. 0.4 mm radial planar gap. Securement not validated; decorative only.",
+      "parameters": {}
+    },
+    {
+      "id": "turn-key-preload-0p1",
+      "group": "wall",
+      "description": "Key coupon with 0.1 mm theoretical axial cone preload",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        21.0,
+        21.0,
+        15.4
+      ],
+      "solid_volume_mm3": 2553.31,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 9.492791042743767e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1672,
+      "step": "parts/step/turn-key-preload-0p1.step",
+      "stl": "parts/stl/turn-key-preload-0p1.stl",
+      "step_sha256": "aa63089a9de2bbd09c5366a5fdbade17beadd9ab0b83d7f5ba834eb06f25dd31",
+      "stl_sha256": "804e0de9afcdab3f4b1175a0dc4086887404f27b229980fdd2caec929f7405b5",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -1.4
+      ],
+      "notes": "Deliberate fit-test interference only; do not choose for sale without physical test.",
+      "parameters": {}
+    },
+    {
+      "id": "turn-key-preload-0p2",
+      "group": "wall",
+      "description": "Key coupon with 0.2 mm theoretical axial cone preload",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false,
+      "material_candidate": "PETG candidate",
+      "units": "mm",
+      "print_bbox_mm": [
+        21.0,
+        21.0,
+        15.3
+      ],
+      "solid_volume_mm3": 2541.233,
+      "solid_count": 1,
+      "step_readback_valid": true,
+      "step_readback_volume_relative_error": 9.430533558994833e-14,
+      "mesh_watertight": true,
+      "mesh_winding_consistent": true,
+      "mesh_connected_components": 1,
+      "triangle_count": 1672,
+      "step": "parts/step/turn-key-preload-0p2.step",
+      "stl": "parts/stl/turn-key-preload-0p2.stl",
+      "step_sha256": "12bc4d858c83589dc8c01b9bbe88c2b6d0e9e946d76a1faa8dcd78bd4f35c02c",
+      "stl_sha256": "168964b2ec1d508ef548e6c9f21862143db09e7201f457bab33b4f700171a2f6",
+      "print_rotation_xyz_deg": [
+        0,
+        0,
+        0
+      ],
+      "print_translation_mm": [
+        -0.0,
+        -0.0,
+        -1.4
+      ],
+      "notes": "Deliberate fit-test interference only; do not choose for sale without physical test.",
+      "parameters": {}
+    }
+  ],
+  "assemblies": [
+    {
+      "id": "wall-station",
+      "description": "Compact rounded modular wall station",
+      "notes": "Original interpretation of the wall-organiser reference; not a replica of Slate. Wall fasteners excluded.",
+      "components": [
+        {
+          "part_id": "wall-panel-4x4",
+          "instance": "wall-panel-4x4__1",
+          "colour": "#F5F1EA",
+          "translation_mm": [
+            0,
+            0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            90,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "wall-decorative-border",
+          "instance": "wall-decorative-border__2",
+          "colour": "#54334B",
+          "translation_mm": [
+            0,
+            0,
+            0
+          ],
+          "rotation_xyz_deg": [
+            90,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "wall-pocket-2",
+          "instance": "wall-pocket-2__3",
+          "colour": "#B58B99",
+          "translation_mm": [
+            21,
+            0,
+            147
+          ],
+          "rotation_xyz_deg": [
+            90,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "turn-key-clearance",
+          "instance": "turn-key-clearance__4",
+          "colour": "#54334B",
+          "translation_mm": [
+            21,
+            0,
+            147
+          ],
+          "rotation_xyz_deg": [
+            90,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "turn-key-clearance",
+          "instance": "turn-key-clearance__5",
+          "colour": "#54334B",
+          "translation_mm": [
+            63,
+            0,
+            147
+          ],
+          "rotation_xyz_deg": [
+            90,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "wall-pocket-1",
+          "instance": "wall-pocket-1__6",
+          "colour": "#8D9D84",
+          "translation_mm": [
+            147,
+            0,
+            147
+          ],
+          "rotation_xyz_deg": [
+            90,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "turn-key-clearance",
+          "instance": "turn-key-clearance__7",
+          "colour": "#54334B",
+          "translation_mm": [
+            147,
+            0,
+            147
+          ],
+          "rotation_xyz_deg": [
+            90,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "wall-ledge-3",
+          "instance": "wall-ledge-3__8",
+          "colour": "#D4C5AD",
+          "translation_mm": [
+            21,
+            0,
+            63
+          ],
+          "rotation_xyz_deg": [
+            90,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "turn-key-clearance",
+          "instance": "turn-key-clearance__9",
+          "colour": "#54334B",
+          "translation_mm": [
+            21,
+            0,
+            63
+          ],
+          "rotation_xyz_deg": [
+            90,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "turn-key-clearance",
+          "instance": "turn-key-clearance__10",
+          "colour": "#54334B",
+          "translation_mm": [
+            63,
+            0,
+            63
+          ],
+          "rotation_xyz_deg": [
+            90,
+            0,
+            0
+          ]
+        },
+        {
+          "part_id": "turn-key-clearance",
+          "instance": "turn-key-clearance__11",
+          "colour": "#54334B",
+          "translation_mm": [
+            105,
+            0,
+            63
+          ],
+          "rotation_xyz_deg": [
+            90,
+            0,
+            0
+          ]
+        }
+      ],
+      "bounds_mm": [
+        [
+          -8.5,
+          -85.0,
+          -8.5
+        ],
+        [
+          176.5,
+          1.9595436384634013e-14,
+          176.5
+        ]
+      ],
+      "part_instances": 11,
+      "step": "assemblies/step/wall-station.step",
+      "glb": "assemblies/glb/wall-station.glb",
+      "glb_units": "metres",
+      "revision": "AC-02",
+      "release": "digital_prototype",
+      "approved_for_manufacture": false
+    }
+  ],
+  "checks": [
+    {
+      "name": "pocket flange against native panel",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "key shank versus native panel in locked position",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    },
+    {
+      "name": "key versus accessory zero-preload seat",
+      "intersection_volume_mm3": 0.0,
+      "limit_mm3": 0.001,
+      "passed": true,
+      "interpretation": "Nominal geometric clearance only"
+    }
+  ]
+}

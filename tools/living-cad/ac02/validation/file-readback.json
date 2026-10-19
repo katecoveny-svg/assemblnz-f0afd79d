@@ -1,0 +1,15 @@
+{
+  "distinct_parts": 109,
+  "assembled_views": 18,
+  "native_step_parts": 109,
+  "stl_parts": 109,
+  "all_step_readback_valid": true,
+  "stl_file_readback_failures": [],
+  "assembly_poses_without_intersection": 18,
+  "assembly_poses_checked": 18,
+  "unprinted": true,
+  "load_tests_performed": false,
+  "manufacturing_dispatch_performed": false,
+  "assembly_step_files_reopened": 18,
+  "assembly_step_files_valid": 18
+}

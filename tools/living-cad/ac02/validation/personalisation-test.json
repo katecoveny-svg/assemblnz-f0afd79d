@@ -1,0 +1,35 @@
+[
+  {
+    "model": "flow",
+    "default_name": "JACK",
+    "test_name": "MILA",
+    "default_solid_volume_mm3": 69656.11414136768,
+    "custom_solid_volume_mm3": 69655.65466243039,
+    "geometry_changed": true,
+    "outer_dimensions_unchanged": true,
+    "custom_step_reopened": true,
+    "native_symmetric_difference_mm3": 81.388
+  },
+  {
+    "model": "drop",
+    "default_name": "JACK",
+    "test_name": "MILA",
+    "default_solid_volume_mm3": 76148.71506739446,
+    "custom_solid_volume_mm3": 76148.2555884624,
+    "geometry_changed": true,
+    "outer_dimensions_unchanged": true,
+    "custom_step_reopened": true,
+    "native_symmetric_difference_mm3": 79.568
+  },
+  {
+    "model": "ridge",
+    "default_name": "JACK",
+    "test_name": "MILA",
+    "default_solid_volume_mm3": 72488.76400291771,
+    "custom_solid_volume_mm3": 72488.30452419806,
+    "geometry_changed": true,
+    "outer_dimensions_unchanged": true,
+    "custom_step_reopened": true,
+    "native_symmetric_difference_mm3": 81.807
+  }
+]
