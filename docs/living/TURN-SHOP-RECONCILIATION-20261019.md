@@ -34,3 +34,7 @@ Contract tests verify all 23 served file sizes and SHA-256 checksums, catalogue 
 ## Deferred decisions
 
 Whether a styling concept should become a specific TURN product or kit requires separate design work and explicit mapping. This draft makes no such claim and does not block safe coexistence. Physical test-kit results, manufacturer acceptance, quotes, load ratings, fulfilment, payment and checkout activation remain outside scope.
+
+## Final local verification
+
+Code candidate `485920276` includes current main `99ef18e5d` (#1623). Production build/TypeScript, 67 focused tests, scoped lint, brand/front-door guards and macron check passed. Context health exited successfully with 29 existing review warnings. Strict reconciliation browser proof passed at 375/1440 with zero overflow/page errors; archived preview passed at 320/375/1440. Screenshots were inspected. Independent read-only review found no remaining blockers to a draft. Compact results are committed in [evidence](./evidence/turn-shop-reconciliation-20261019.json). This evidence-only follow-up changes no verified runtime code. GitHub CI remains a separate exact-head gate.
