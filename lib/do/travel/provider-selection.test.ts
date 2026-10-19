@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { comparable, offerIssue, partyLabel, selectionReceipt, type ResultBatch } from './provider-selection';
+import { comparable, offerIssue, partyLabel, selectionReceipt, selectionIsCurrent, type ResultBatch } from './provider-selection';
 import type { SearchOffer } from '@/lib/do/travel/provider-contract';
 const now = Date.parse('2026-10-14T12:00:00Z');
 const offer: SearchOffer = { id: 'off_test', kind: 'flight', title: 'Fixture', total: { amount: '240.00', currency: 'NZD' }, base: null, tax: null, expiresAt: '2026-10-14T12:01:00Z', observedAt: '2026-10-14T12:00:00Z', createdAt: null, sourceRequestId: 'orq_test', paymentRequirements: { requiresInstantPayment: null, paymentRequiredBy: null, priceGuaranteeExpiresAt: null }, liveMode: false, depart: '2027-02-03', return: '2027-02-07', dueAtAccommodation: null, conditions: null, flightEvidence: { requestedPassengers: [{ type: 'adult' }, { age: 8 }], returnedPassengers: [{ id: 'p1', type: 'adult', age: null }, { id: 'p2', type: 'child', age: 8 }], passengerStatus: 'matched', requestedCabin: 'economy', cabinStatus: 'matched' }, occupancy: null, rates: [], rateCoverage: 'search_summary_only', segments: [] };
@@ -52,4 +52,18 @@ it('retains a detached search receipt when source prices or party inputs change'
  expect(receipt.offer.total!.amount).toBe('240.00');
  expect(receipt.input.action === 'flights' && receipt.input.passengers.length).toBe(2);
  expect(receipt.stage).toBe('search_selection');
+});
+
+it('recognises detached review evidence and invalidates changed price, input, request or expiry', () => {
+ const receipt = selectionReceipt(batch, offer, 'original', now);
+ expect(receipt.offer).not.toBe(offer);
+ expect(selectionIsCurrent(batch, offer, receipt, 'original', now)).toBe(true);
+ expect(selectionIsCurrent(batch, offer, receipt, 'original', now + 60000)).toBe(false);
+ expect(selectionIsCurrent(batch, offer, receipt, 'edited', now)).toBe(false);
+ expect(selectionIsCurrent({ ...batch, result: { ...batch.result, requestId: 'new-request' } }, offer, receipt, 'original', now)).toBe(false);
+ const changed = structuredClone(batch); changed.result.offers[0].total!.amount = '999.00';
+ expect(selectionIsCurrent(changed, changed.result.offers[0], receipt, 'original', now)).toBe(false);
+ const changedInput = structuredClone(batch);
+ if (changedInput.input.action === 'flights') changedInput.input.passengers.push({ type: 'adult' });
+ expect(selectionIsCurrent(changedInput, offer, receipt, 'original', now)).toBe(false);
 });

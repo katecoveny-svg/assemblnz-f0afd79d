@@ -33,3 +33,11 @@ export function selectionReceipt(batch: ResultBatch, offer: SearchOffer, briefKe
   if (offerIssue(batch, offer, briefKey, now)) throw new Error('Selection is no longer current');
   return { provider: batch.result.provider, requestId: batch.result.requestId ?? null, sourceRequestId: offer.sourceRequestId, offer: structuredClone(offer), input: structuredClone(batch.input), briefKey, reviewedAt: new Date(now).toISOString(), stage: 'search_selection' as const };
 }
+
+/** A detached receipt remains current only while all reviewed evidence still matches. */
+export function selectionIsCurrent(batch: ResultBatch, offer: SearchOffer | undefined, receipt: ReturnType<typeof selectionReceipt> | null, briefKey: string, now: number): boolean {
+  return Boolean(receipt && offer && !offerIssue(batch, offer, briefKey, now) &&
+    receipt.briefKey === briefKey && receipt.provider === batch.result.provider &&
+    receipt.requestId === (batch.result.requestId ?? null) && receipt.sourceRequestId === offer.sourceRequestId &&
+    JSON.stringify(receipt.input) === JSON.stringify(batch.input) && JSON.stringify(receipt.offer) === JSON.stringify(offer));
+}
