@@ -1,0 +1,268 @@
+[
+  {
+    "slug": "dr-pod-base",
+    "name": "dayrally pod",
+    "system": "dayrally",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      139.0,
+      72.0,
+      34.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 44.87,
+    "est_grams_pla": 45.0,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 3,
+    "unsupported_down_area_mm2": 65.0,
+    "notes": "Floor is a TURN flange: locks to a saddle, a strap clip or any Grid board."
+  },
+  {
+    "slug": "dr-pod-lid",
+    "name": "dayrally pod lid (sample: JAYDEN)",
+    "system": "dayrally",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      128.0,
+      72.0,
+      15.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 28.54,
+    "est_grams_pla": 31.9,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 0,
+    "unsupported_down_area_mm2": 1200.0,
+    "notes": "Prints top-down; name inlaid flush in a second colour."
+  },
+  {
+    "slug": "dr-pod-lid-name",
+    "name": "Pod lid name inlay",
+    "system": "dayrally",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      88.0,
+      16.1,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 0.34,
+    "est_grams_pla": 0.4,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": -3,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr-insert-fish",
+    "name": "Pod insert, tackle (6)",
+    "system": "dayrally",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      121.0,
+      65.0,
+      14.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 14.72,
+    "est_grams_pla": 18.3,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 0,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr-insert-everyday",
+    "name": "Pod insert, everyday (3)",
+    "system": "dayrally",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      121.0,
+      65.0,
+      14.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 13.2,
+    "est_grams_pla": 16.4,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 0,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr-bar-saddle",
+    "name": "Bar saddle",
+    "system": "dayrally",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      70.0,
+      32.0,
+      28.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 43.15,
+    "est_grams_pla": 20.1,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 4,
+    "unsupported_down_area_mm2": 1401.0,
+    "notes": "Fits 22-35 mm bars with two zip ties or a rubber strap."
+  },
+  {
+    "slug": "dr-strap-clip",
+    "name": "Strap clip",
+    "system": "dayrally",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      70.0,
+      36.0,
+      20.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 37.44,
+    "est_grams_pla": 19.9,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 1,
+    "unsupported_down_area_mm2": 2248.0,
+    "notes": "Backpack straps and belts up to 42 mm."
+  },
+  {
+    "slug": "bike-number-plate",
+    "name": "Number plate (sample: 27 JAYDEN)",
+    "system": "bike",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      170.0,
+      124.0,
+      4.4
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 63.91,
+    "est_grams_pla": 54.5,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 4,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": "Zip-ties to the bars."
+  },
+  {
+    "slug": "bike-number-plate-text",
+    "name": "Number plate lettering",
+    "system": "bike",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      85.1,
+      82.9,
+      1.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 3.69,
+    "est_grams_pla": 4.6,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": -5,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "bike-tyre-lever",
+    "name": "Tyre lever",
+    "system": "bike",
+    "print_orientation": "on_side",
+    "print_bbox_mm": [
+      111.3,
+      22.3,
+      18.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 11.61,
+    "est_grams_pla": 8.3,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 0,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": "Spoke hook at the heel."
+  },
+  {
+    "slug": "bike-bar-end",
+    "name": "Bar-end plug",
+    "system": "bike",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      24.0,
+      24.0,
+      19.5
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 3.76,
+    "est_grams_pla": 3.3,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 0,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": "Press fit, 18-20 mm bar ends."
+  },
+  {
+    "slug": "dr-handline-winder",
+    "name": "Handline winder",
+    "system": "dayrally",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      128.0,
+      56.0,
+      5.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 18.29,
+    "est_grams_pla": 13.3,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": "No hooks supplied."
+  },
+  {
+    "slug": "dr-bag-tag",
+    "name": "Bag tag (sample: MILA)",
+    "system": "dayrally",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      64.0,
+      28.0,
+      4.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 6.36,
+    "est_grams_pla": 5.1,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": 1,
+    "unsupported_down_area_mm2": 176.0,
+    "notes": "Name inlaid on the bed side."
+  },
+  {
+    "slug": "dr-bag-tag-name",
+    "name": "Bag tag name inlay",
+    "system": "dayrally",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      37.3,
+      11.0,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 0.11,
+    "est_grams_pla": 0.1,
+    "watertight": true,
+    "manifold_status": "Error.NoError",
+    "genus": -2,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  }
+]

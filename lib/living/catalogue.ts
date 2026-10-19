@@ -1,164 +1,162 @@
 /**
- * assembl / living — parts catalogue
- * ----------------------------------
- * Dimensions, mass, print plan and validation come from the CAD manifest
- * written by `tools/living-cad/build.py`. This file adds the commercial and
- * merchandising layer: what a part is for, where it mounts, what it might
- * cost. Prices are indicative NZD bands and always subject to quotation.
+ * assembl / living — catalogue
+ * ----------------------------
+ * The generated manifest (`cad-manifest.json`, written by
+ * `tools/living-cad/manifest.py`) carries every print file, product, kit,
+ * colour and price. This file adds what the Space Studio needs to reason:
+ * which foundation a product belongs to, where it mounts, how many grid
+ * cells it takes and which words make it relevant.
  */
 
 import manifest from './cad-manifest.json';
-import {
-  CadManifestSchema,
-  type CadManifest,
-  type CadPart,
-  type Foundation,
-  type Part,
-  type SpaceId,
-} from './system';
+import { CadManifestSchema, type CadManifest, type Colour, type Colourway, type Foundation, type Mount, type PrintFile, type Product, type ProductKind, type SpaceId } from './system';
 
 export const CAD_MANIFEST: CadManifest = CadManifestSchema.parse(manifest);
 export const INTERFACE_SPEC = CAD_MANIFEST.interface_spec;
 export const CAD_PACK = CAD_MANIFEST.pack;
 export const INTERFACE_ID = CAD_MANIFEST.interface;
 
-/** Gap left between adjacent panels so they can be screwed independently. */
-export const PANEL_GAP_MM = 8;
-export const PANEL_SIZE_MM = INTERFACE_SPEC.pitch_mm * 8;
-export const PANEL_CELLS = 8;
+/** TURN grid: 42 mm pitch; a 4×4 board is 168 mm; boards butt edge to edge so the grid runs on across them. */
+export const PITCH_MM = INTERFACE_SPEC.pitch_mm;
+export const BOARD_CELLS = 4;
+export const BOARD_MM = PITCH_MM * BOARD_CELLS;
+export const BOARD_GAP_MM = 0;
 
-function cad(id: string): CadPart {
-  const part = CAD_MANIFEST.parts.find((p) => p.id === id);
-  if (!part) throw new Error(`assembl/living: CAD manifest has no part "${id}". Re-run tools/living-cad/build.py.`);
-  return part;
+const PRINT_BY_ID = new Map(CAD_MANIFEST.parts.map((p) => [p.id, p]));
+export function printFile(id: string): PrintFile {
+  const p = PRINT_BY_ID.get(id);
+  if (!p) throw new Error(`assembl/living: unknown print file "${id}"`);
+  return p;
 }
 
-type Commercial = Omit<Part, 'id' | 'cad' | 'foundation' | 'name'> & { name?: string };
-
-function part(id: string, c: Commercial): Part {
-  const c3 = cad(id);
-  return { ...c, id, name: c.name ?? c3.name, foundation: c3.foundation, cad: c3 };
+export const LIVING_COLOURS: Colour[] = CAD_MANIFEST.colours.living;
+export const DAYRALLY_COLOURS: Colour[] = CAD_MANIFEST.colours.dayrally;
+export function colourHex(id: Colourway): string {
+  return LIVING_COLOURS.find((c) => c.id === id)?.hex ?? '#F1ECE3';
+}
+export function colourName(id: Colourway): string {
+  return LIVING_COLOURS.find((c) => c.id === id)?.name ?? id;
+}
+/** Text colour that reads on a colourway. */
+export function colourInk(id: Colourway): string {
+  return ['plum', 'ink', 'clay'].includes(id) ? '#FFFDFB' : '#492B3E';
 }
 
 const ALL: SpaceId[] = ['my-room', 'my-space', 'work-and-create', 'store-and-organise', 'pets-and-everyday', 'plants-and-objects'];
 
-export const PARTS: Part[] = [
-  part('grid-panel-192', {
-    kind: 'panel',
-    status: 'prototype',
-    description: '192 mm square wall panel, 8 × 8 peg holes, integrated 8 mm standoffs and four countersunk screw holes. Tile up to 2 × 2 panels.',
-    mountsOn: [],
-    spaces: ALL,
-    cues: ['wall', 'pegboard', 'board', 'hang', 'display'],
-    priceBand: { lowNzd: 39, highNzd: 59 },
-    minQty: 1,
-  }),
-  part('grid-hook-single', {
-    kind: 'hook',
-    status: 'prototype',
-    description: 'Single hook with a 32 mm reach and an upturned lip. Headsets, keys, cables, lanyards, light tools.',
-    footprint: { cols: 1, rows: 2 },
-    mountsOn: ['grid', 'rail'],
-    spaces: ALL,
-    cues: ['headset', 'keys', 'cable', 'cables', 'hang', 'lanyard', 'lead', 'leash', 'necklace', 'bag'],
-    priceBand: { lowNzd: 9, highNzd: 12 },
-    minQty: 2,
-  }),
-  part('grid-ledge-96', {
-    kind: 'ledge',
-    status: 'prototype',
-    description: '96 × 60 mm ledge with a front lip. Phone, skincare, a small plant, a controller.',
-    footprint: { cols: 4, rows: 2 },
-    mountsOn: ['grid'],
-    spaces: ['my-room', 'my-space', 'work-and-create', 'plants-and-objects'],
-    cues: ['phone', 'shelf', 'skincare', 'plant', 'controller', 'display', 'perfume', 'speaker'],
-    priceBand: { lowNzd: 19, highNzd: 29 },
-    minQty: 1,
-  }),
-  part('grid-cup-48', {
-    kind: 'cup',
-    status: 'prototype',
-    description: 'Ø48 × 70 mm cup. Brushes, pens, screwdrivers, lures in sleeves.',
-    footprint: { cols: 2, rows: 3 },
-    mountsOn: ['grid', 'rail'],
-    spaces: ['my-space', 'work-and-create', 'my-room'],
-    cues: ['brushes', 'brush', 'pens', 'pencils', 'makeup', 'tools', 'screwdriver', 'lures', 'lure', 'stationery'],
-    priceBand: { lowNzd: 14, highNzd: 19 },
-    minQty: 1,
-  }),
-  part('tile-tray-96x96', {
-    kind: 'tray',
-    status: 'prototype',
-    description: 'Open tray on the 96 mm footprint. Drawers, vanities, desks. Joins to its neighbours with tile clips.',
-    mountsOn: ['stack'],
-    spaces: ['my-space', 'store-and-organise', 'work-and-create', 'my-room'],
-    cues: ['drawer', 'tray', 'jewellery', 'jewelry', 'makeup', 'vanity', 'stationery', 'insert', 'divider', 'organise'],
-    priceBand: { lowNzd: 19, highNzd: 26 },
-    minQty: 1,
-  }),
-  part('tile-tray-96x48', {
-    kind: 'tray',
-    status: 'prototype',
-    description: 'Half tray on the 96 mm footprint. Lipsticks, rings, earbuds, SD cards, hooks and swivels.',
-    mountsOn: ['stack'],
-    spaces: ['my-space', 'store-and-organise', 'work-and-create', 'my-room'],
-    cues: ['drawer', 'tray', 'lipstick', 'rings', 'earbuds', 'small', 'hooks', 'swivels', 'bits', 'organise'],
-    priceBand: { lowNzd: 14, highNzd: 19 },
-    minQty: 1,
-  }),
-  part('tile-clip', {
-    kind: 'clip',
-    status: 'prototype',
-    description: 'H-clip that bridges two adjacent tray walls so a drawer layout stays put.',
-    mountsOn: ['tile'],
-    spaces: ['my-space', 'store-and-organise', 'work-and-create'],
-    cues: ['drawer', 'tray', 'insert'],
-    priceBand: { lowNzd: 3, highNzd: 4 },
-    minQty: 4,
-  }),
-  part('stack-riser-192', {
-    kind: 'riser',
-    status: 'prototype',
-    description: '192 × 96 mm riser with two tile bays and 56 mm of clear height underneath. Desk, vanity or bedside.',
-    mountsOn: [],
-    spaces: ['my-room', 'my-space', 'work-and-create', 'plants-and-objects'],
-    cues: ['desk', 'riser', 'monitor', 'vanity', 'bedside', 'shelf', 'stand', 'plants', 'display'],
-    priceBand: { lowNzd: 34, highNzd: 49 },
-    minQty: 1,
-  }),
-  part('rail-bar-192', {
-    kind: 'rail',
-    status: 'prototype',
-    description: '192 mm hollow rail with eight peg holes. Hooks and cups where a full panel will not fit: under a shelf, beside a door, inside a wardrobe.',
-    mountsOn: [],
-    spaces: ['store-and-organise', 'pets-and-everyday', 'work-and-create', 'my-room'],
-    cues: ['rail', 'wardrobe', 'door', 'entry', 'leads', 'lead', 'leash', 'narrow', 'under', 'keys'],
-    priceBand: { lowNzd: 24, highNzd: 34 },
-    minQty: 1,
-  }),
+type Semantics = {
+  foundation: Foundation;
+  kind: ProductKind;
+  footprint?: { cols: number; rows: number };
+  perUnit?: number;
+  mount: Mount;
+  spaces: SpaceId[];
+  cues: string[];
+};
+
+/**
+ * Footprints are in 42 mm cells, counted from the accessory's key row downward,
+ * from the installed geometry in `lib.py`: a hook is a key above a locator nub
+ * (1 × 2); a 2-wide shelf has two keys and drops 40 mm below them (2 × 2); the
+ * cup runs 104 mm from its key (1 × 3); the lure garage is three keys wide and
+ * 104 mm tall (3 × 3); the name plate is four cells wide and one tall.
+ */
+const SEMANTICS: Record<string, Semantics> = {
+  'al-board-4x4': { foundation: 'grid', kind: 'board', mount: 'wall', spaces: ALL, cues: ['wall', 'board', 'pegboard', 'tile', 'hang'] },
+  'al-board-2x4': { foundation: 'grid', kind: 'half-board', mount: 'wall', spaces: ALL, cues: ['narrow', 'gap', 'half'] },
+  'al-hook': { foundation: 'grid', kind: 'hook', footprint: { cols: 1, rows: 2 }, mount: 'grid', spaces: ALL, cues: ['bag', 'bags', 'headphones', 'headset', 'cap', 'caps', 'lead', 'leads', 'leash', 'keys', 'cables', 'cable', 'hang', 'lanyard', 'towel'] },
+  'al-rod-cradle': { foundation: 'grid', kind: 'cradle', footprint: { cols: 1, rows: 2 }, perUnit: 2, mount: 'grid', spaces: ['work-and-create', 'my-room', 'store-and-organise'], cues: ['rod', 'rods', 'fishing', 'display'] },
+  'al-shelf-2': { foundation: 'grid', kind: 'shelf', footprint: { cols: 2, rows: 2 }, mount: 'grid', spaces: ALL, cues: ['phone', 'plant', 'perfume', 'reels', 'shelf', 'skincare', 'speaker', 'display'] },
+  'al-shelf-3': { foundation: 'grid', kind: 'shelf', footprint: { cols: 3, rows: 2 }, mount: 'grid', spaces: ['my-room', 'work-and-create', 'plants-and-objects', 'my-space'], cues: ['books', 'speakers', 'bottles', 'shelf', 'row', 'display'] },
+  'al-bin-2': { foundation: 'grid', kind: 'bin', footprint: { cols: 2, rows: 2 }, mount: 'grid', spaces: ALL, cues: ['chargers', 'charger', 'hair', 'ties', 'tackle', 'keys', 'bin', 'bits', 'small', 'clutter', 'cluttered'] },
+  'al-cup': { foundation: 'grid', kind: 'cup', footprint: { cols: 1, rows: 3 }, mount: 'grid', spaces: ['my-space', 'work-and-create', 'my-room', 'plants-and-objects'], cues: ['brushes', 'brush', 'pens', 'pencils', 'pliers', 'makeup', 'tools', 'screwdriver', 'stationery', 'cutlery'] },
+  'al-lure-garage': { foundation: 'grid', kind: 'garage', footprint: { cols: 3, rows: 3 }, mount: 'grid', spaces: ['work-and-create', 'store-and-organise', 'my-room'], cues: ['lure', 'lures', 'tackle', 'hooks', 'fishing'] },
+  'al-name-plate': { foundation: 'grid', kind: 'plate', footprint: { cols: 4, rows: 1 }, mount: 'grid', spaces: ['my-room', 'pets-and-everyday', 'my-space'], cues: ['name', 'mine', 'teen', 'kid', 'kids', 'room', 'personal', 'personalised'] },
+  'al-keys-6': { foundation: 'grid', kind: 'keys', mount: 'grid', spaces: ALL, cues: ['keys', 'spare'] },
+  'al-board-renter': { foundation: 'renter', kind: 'renter-board', mount: 'wall', spaces: ALL, cues: ['rent', 'renting', 'landlord', 'strips', 'adhesive', 'drill', 'holes'] },
+  'al-over-door': { foundation: 'renter', kind: 'door-hanger', perUnit: 2, mount: 'door', spaces: ['store-and-organise', 'my-room', 'pets-and-everyday', 'my-space'], cues: ['door', 'rent', 'renting', 'landlord', 'drill', 'holes', 'flat', 'hostel', 'dorm'] },
+  'al-rail-hanger': { foundation: 'renter', kind: 'rail-hanger', perUnit: 2, mount: 'rail', spaces: ['store-and-organise', 'my-space'], cues: ['wardrobe', 'rail', 'closet', 'belts', 'scarves'] },
+  'al-node-corner': { foundation: 'stack', kind: 'node', mount: 'dowel', spaces: ['work-and-create', 'my-room', 'plants-and-objects', 'store-and-organise'], cues: ['shelf', 'shelving', 'frame', 'furniture', 'dowel', 'stand', 'rack', 'build'] },
+  'al-node-tee': { foundation: 'stack', kind: 'node', mount: 'dowel', spaces: ['work-and-create', 'my-room', 'plants-and-objects', 'store-and-organise'], cues: ['shelf', 'shelving', 'frame', 'furniture', 'dowel', 'rack', 'build'] },
+  'al-foot': { foundation: 'stack', kind: 'foot', mount: 'dowel', spaces: ['work-and-create', 'my-room', 'plants-and-objects', 'store-and-organise'], cues: ['dowel', 'furniture', 'post'] },
+  'al-shade-fold': { foundation: 'light', kind: 'shade', mount: 'cord-set', spaces: ['my-room', 'plants-and-objects', 'my-space'], cues: ['light', 'lamp', 'pendant', 'shade', 'lighting'] },
+};
+
+/** Made-to-measure tile parts are not in the launch CSV; they are quoted per order from the sample files. */
+const MADE_TO_MEASURE: Product[] = [
+  {
+    handle: 'al-tray-custom', short: 'TRY', title: 'Drawer tray, made to measure', blurb: 'Sized to the inside of your drawer, with the dividers you choose. Sample files show 3×2, 2×1 and 1×1 layouts.',
+    size: 'up to 240 × 245 × 50 mm', material: 'PLA Matte', type: 'Tile · drawer', personalised: false, colours: 'living', price_nzd: 0, ship_g: 220,
+    parts: [{ id: 'tile-tray-3x2', qty: 1 }], costing: null, skus: [],
+    foundation: 'tile', kind: 'tray', mount: 'surface', perUnit: 1, spaces: ['my-space', 'store-and-organise', 'work-and-create', 'my-room'], cues: ['drawer', 'drawers', 'tray', 'divider', 'dividers', 'jewellery', 'jewelry', 'cutlery', 'stationery', 'organise'], priceNzd: null,
+  },
+  {
+    handle: 'al-tray-cutout', short: 'CUT', title: 'Cut-out tray, made to your things', blurb: 'A pocket shaped for each item you own, with a finger scoop. The sample is a vanity drawer: lipsticks, a compact, mascara, a brush, a palette, perfume.',
+    size: 'up to 240 × 245 × 24 mm', material: 'PLA Matte', type: 'Tile · drawer', personalised: true, colours: 'living', price_nzd: 0, ship_g: 320,
+    parts: [{ id: 'tile-cutout-vanity', qty: 1 }], costing: null, skus: [],
+    foundation: 'tile', kind: 'cutout', mount: 'surface', perUnit: 1, spaces: ['my-space', 'store-and-organise', 'work-and-create'], cues: ['makeup', 'lipstick', 'palette', 'vanity', 'perfume', 'compact', 'pockets', 'cutout', 'fitted', 'exact'], priceNzd: null,
+  },
 ];
 
-const BY_ID = new Map(PARTS.map((p) => [p.id, p]));
+export const PRODUCTS: Product[] = [
+  ...CAD_MANIFEST.products
+    .filter((p) => SEMANTICS[p.handle])
+    .map((p) => {
+      const s = SEMANTICS[p.handle];
+      return { ...p, ...s, perUnit: s.perUnit ?? 1, priceNzd: p.price_nzd };
+    }),
+  ...MADE_TO_MEASURE,
+];
 
-export function partById(id: string): Part | undefined {
-  return BY_ID.get(id);
+const BY_HANDLE = new Map(PRODUCTS.map((p) => [p.handle, p]));
+
+export function productByHandle(handle: string): Product | undefined {
+  return BY_HANDLE.get(handle);
 }
 
-export function requirePart(id: string): Part {
-  const p = BY_ID.get(id);
-  if (!p) throw new Error(`assembl/living: unknown part "${id}"`);
+export function requireProduct(handle: string): Product {
+  const p = BY_HANDLE.get(handle);
+  if (!p) throw new Error(`assembl/living: unknown product "${handle}"`);
   return p;
 }
 
-export function partsForFoundation(foundation: Foundation): Part[] {
-  return PARTS.filter((p) => p.foundation === foundation);
+export function productsForFoundation(foundation: Foundation): Product[] {
+  return PRODUCTS.filter((p) => p.foundation === foundation);
 }
 
-/** Accessories that can be placed on a grid panel. */
-export function gridAccessories(): Part[] {
-  return PARTS.filter((p) => p.footprint && p.mountsOn.includes('grid'));
+/** Accessories that lock onto a board and take grid cells. */
+export function gridAccessories(): Product[] {
+  return PRODUCTS.filter((p) => p.footprint && p.mount === 'grid');
 }
 
-export function partsForSpace(space: SpaceId): Part[] {
-  return PARTS.filter((p) => p.spaces.includes(space));
+/** Everything else a design can add alongside the board: renter hangers, trays, dowel joints, the shade, spare keys. */
+export function alongsideProducts(): Product[] {
+  return PRODUCTS.filter((p) => !p.footprint && !['board', 'half-board'].includes(p.kind));
+}
+
+export function productsForSpace(space: SpaceId): Product[] {
+  return PRODUCTS.filter((p) => p.spaces.includes(space));
+}
+
+/** Dayrally and bike products stay a separate collection: same TURN key, not part of the wall configurator. */
+export const DAYRALLY_PRODUCTS = CAD_MANIFEST.products.filter((p) => p.colours === 'dayrally');
+export const DAYRALLY_KITS = CAD_MANIFEST.kits.filter((k) => k.collection === 'dayrally');
+export const TEST_KIT = CAD_MANIFEST.test_kit;
+
+/* ────────────────────────────────────────────── part codes */
+
+const COLOUR_SHORT: Record<string, string> = { chalk: 'CHA', oat: 'OAT', sage: 'SAG', clay: 'CLA', plum: 'PLU', ash: 'ASH', ink: 'INK', natural: 'NAT' };
+
+/** Check letter over `PART-COL`, alphabet without 0, O, 1, I, so a mistyped reorder code is caught. */
+export function checkChar(body: string): string {
+  const alph = CAD_MANIFEST.part_code_alphabet;
+  let sum = 0;
+  for (let i = 0; i < body.length; i++) sum += (i + 1) * body.charCodeAt(i);
+  return alph[sum % alph.length];
+}
+
+export function partCode(product: Pick<Product, 'short'>, colour: Colourway | 'natural'): string | null {
+  if (!product.short) return null;
+  const body = `${product.short}-${COLOUR_SHORT[colour] ?? colour.slice(0, 3).toUpperCase()}`;
+  return `AL-${body}-${checkChar(body)}`;
 }

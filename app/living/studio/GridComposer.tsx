@@ -3,27 +3,17 @@
 /**
  * assembl / living — the grid composer
  * ------------------------------------
- * An SVG drawn in millimetres. Panels, holes and accessories are placed at
- * their real dimensions on the 24 mm interface, so what the customer sees is
- * the same geometry the CAD exports. Click a cell to place the selected
- * accessory; click a part to select it.
+ * An SVG drawn in millimetres on the assembl TURN grid: 42 mm pitch, 168 mm
+ * boards (84 mm half boards) butted edge to edge so the grid runs on across
+ * them, a Ø13 keyway with vertical lug slots in every cell. Accessories are
+ * drawn at their real installed size from the catalogue, so what the
+ * customer sees is the geometry the print files carry.
  */
 
-import {
-  COLOURWAY_SWATCHES,
-  INTERFACE_SPEC,
-  PANEL_CELLS,
-  PANEL_GAP_MM,
-  PANEL_SIZE_MM,
-  gridSize,
-  partById,
-  placementRect,
-  type Placement,
-  type SpaceDesign,
-} from '@/lib/living';
+import { BOARD_CELLS, BOARD_MM, INTERFACE_SPEC, PITCH_MM, colourHex, colourInk, gridSize, placementRect, productByHandle, type Field, type Placement, type SpaceDesign } from '@/lib/living';
 
 type Props = {
-  design: Pick<SpaceDesign, 'panels' | 'placements' | 'panelColour' | 'accentColour'>;
+  design: Pick<SpaceDesign, 'field' | 'placements' | 'boardColour' | 'accessoryColour'> & { name?: string };
   interactive?: boolean;
   tool?: string | null;
   selected?: string | null;
@@ -33,77 +23,118 @@ type Props = {
   title?: string;
 };
 
-const PITCH = INTERFACE_SPEC.pitch_mm;
-
-/** Millimetre origin of a grid cell, accounting for the gap between panels. */
 export function cellOrigin(col: number, row: number): { x: number; y: number } {
-  const pc = Math.floor(col / PANEL_CELLS);
-  const pr = Math.floor(row / PANEL_CELLS);
-  return {
-    x: pc * (PANEL_SIZE_MM + PANEL_GAP_MM) + (col % PANEL_CELLS) * PITCH,
-    y: pr * (PANEL_SIZE_MM + PANEL_GAP_MM) + (row % PANEL_CELLS) * PITCH,
-  };
+  return { x: col * PITCH_MM, y: row * PITCH_MM };
 }
 
-export function fieldSize(panels: SpaceDesign['panels']): { w: number; h: number } {
-  return {
-    w: panels.cols * PANEL_SIZE_MM + (panels.cols - 1) * PANEL_GAP_MM,
-    h: panels.rows * PANEL_SIZE_MM + (panels.rows - 1) * PANEL_GAP_MM,
-  };
+export function fieldSize(field: Field): { w: number; h: number } {
+  return { w: field.columns.reduce((s, c) => s + c, 0) * PITCH_MM, h: field.rows * BOARD_MM };
 }
 
-function Glyph({ placement, accent, ink }: { placement: Placement; accent: string; ink: string }) {
-  const part = partById(placement.partId);
+/** Boards in the field, in mm. */
+export function boards(field: Field): { x: number; y: number; w: number; h: number; cols: number }[] {
+  const out: { x: number; y: number; w: number; h: number; cols: number }[] = [];
+  for (let r = 0; r < field.rows; r++) {
+    let x = 0;
+    for (const c of field.columns) {
+      out.push({ x, y: r * BOARD_MM, w: c * PITCH_MM, h: BOARD_MM, cols: c });
+      x += c * PITCH_MM;
+    }
+  }
+  return out;
+}
+
+/** Installed width × height (mm) of each accessory kind, from the catalogue sizes, for drawing. */
+const DRAW: Record<string, { w: number; h: number; dy?: number }> = {
+  hook: { w: 26, h: 73, dy: -16 },
+  cradle: { w: 26, h: 73, dy: -16 },
+  shelf: { w: 0, h: 56, dy: -16 },
+  bin: { w: 0, h: 76, dy: -16 },
+  cup: { w: 40, h: 104, dy: -16 },
+  garage: { w: 118, h: 104, dy: -16 },
+  plate: { w: 168, h: 40, dy: 1 },
+};
+
+function Glyph({ placement, accent, ink, name }: { placement: Placement; accent: string; ink: string; name?: string }) {
+  const product = productByHandle(placement.handle);
   const rect = placementRect(placement);
-  if (!part || !rect) return null;
+  if (!product?.footprint || !rect) return null;
   const { x, y } = cellOrigin(placement.col, placement.row);
-  const w = part.footprint!.cols * PITCH;
-  const h = part.footprint!.rows * PITCH;
-  const stroke = 'rgba(36, 11, 33, 0.25)';
-  switch (part.kind) {
+  const cellsW = product.footprint.cols * PITCH_MM;
+  const spec = DRAW[product.kind] ?? { w: cellsW, h: product.footprint.rows * PITCH_MM };
+  const w = spec.w || cellsW - 8;
+  const cx = x + cellsW / 2;
+  const top = y + (spec.dy ?? 0) + 4;
+  const stroke = 'rgba(36, 11, 33, 0.28)';
+  switch (product.kind) {
     case 'hook':
+    case 'cradle':
       return (
         <>
-          <rect x={x + 2} y={y + 2} width={w - 4} height={h - 4} rx={3} fill={accent} stroke={stroke} />
-          <rect x={x + 8} y={y + h - 14} width={8} height={10} rx={1.5} fill={ink} opacity={0.55} />
+          <rect x={cx - w / 2} y={top} width={w} height={spec.h} rx={5} fill={accent} stroke={stroke} />
+          {product.kind === 'hook' ? (
+            <rect x={cx - 5} y={top + spec.h - 20} width={10} height={14} rx={2} fill={ink} opacity={0.5} />
+          ) : (
+            <circle cx={cx} cy={top + spec.h - 20} r={9} fill="none" stroke={ink} strokeWidth={3} opacity={0.55} />
+          )}
         </>
       );
-    case 'ledge':
+    case 'shelf':
       return (
         <>
-          <rect x={x} y={y} width={w} height={h - 18} rx={3} fill={accent} opacity={0.75} stroke={stroke} />
-          <rect x={x} y={y + h - 16} width={w} height={14} rx={2} fill={accent} stroke={stroke} />
+          <rect x={x + 2} y={top} width={cellsW - 4} height={32} rx={4} fill={accent} opacity={0.7} stroke={stroke} />
+          <rect x={x + 2} y={top + 36} width={cellsW - 4} height={16} rx={3} fill={accent} stroke={stroke} />
+        </>
+      );
+    case 'bin':
+      return (
+        <>
+          <rect x={x + 2} y={top} width={cellsW - 4} height={spec.h} rx={7} fill={accent} stroke={stroke} />
+          <rect x={x + 6} y={top + 6} width={cellsW - 12} height={10} rx={3} fill={ink} opacity={0.3} />
         </>
       );
     case 'cup':
       return (
         <>
-          <rect x={x} y={y + 1} width={w} height={h - 2} rx={9} fill={accent} stroke={stroke} />
-          <ellipse cx={x + w / 2} cy={y + 8} rx={w / 2 - 3} ry={4.5} fill={ink} opacity={0.35} />
+          <rect x={cx - w / 2} y={top} width={w} height={spec.h} rx={9} fill={accent} stroke={stroke} />
+          <ellipse cx={cx} cy={top + 32} rx={w / 2 - 4} ry={5} fill={ink} opacity={0.3} />
+        </>
+      );
+    case 'garage':
+      return (
+        <>
+          <rect x={cx - w / 2} y={top} width={w} height={spec.h} rx={7} fill={accent} stroke={stroke} />
+          {Array.from({ length: 11 }, (_, i) => (
+            <line key={i} x1={cx - w / 2 + 10 + i * 9.8} y1={top + 30} x2={cx - w / 2 + 10 + i * 9.8} y2={top + spec.h - 8} stroke={ink} strokeWidth={1.2} opacity={0.35} />
+          ))}
+        </>
+      );
+    case 'plate':
+      return (
+        <>
+          <rect x={cx - w / 2} y={y + 1} width={w} height={spec.h} rx={10} fill={accent} stroke={stroke} />
+          <text x={cx} y={y + 27} textAnchor="middle" fontSize={17} fontWeight={600} fontFamily="var(--font-body), 'Instrument Sans', sans-serif" fill={ink} letterSpacing={1}>
+            {name ?? 'NAME'}
+          </text>
         </>
       );
     default:
-      return <rect x={x} y={y} width={w} height={h} rx={3} fill={accent} stroke={stroke} />;
+      return <rect x={x} y={y} width={cellsW} height={product.footprint.rows * PITCH_MM} rx={3} fill={accent} stroke={stroke} />;
   }
 }
 
 export function GridComposer({ design, interactive = false, tool, selected, onCell, onSelect, className, title }: Props) {
-  const { w, h } = fieldSize(design.panels);
+  const { w, h } = fieldSize(design.field);
   const { cols, rows } = gridSize(design);
-  const panel = COLOURWAY_SWATCHES[design.panelColour];
-  const accent = COLOURWAY_SWATCHES[design.accentColour];
-  const darkPanel = panel.ink === '#FFFDFB';
-  const hole = darkPanel ? 'rgba(255, 253, 251, 0.22)' : 'rgba(36, 11, 33, 0.26)';
-  const pad = 12;
+  const board = colourHex(design.boardColour);
+  const boardInk = colourInk(design.boardColour);
+  const accent = colourHex(design.accessoryColour);
+  const accentInk = colourInk(design.accessoryColour);
+  const dark = boardInk === '#FFFDFB';
+  const keyway = dark ? 'rgba(255, 253, 251, 0.28)' : 'rgba(36, 11, 33, 0.3)';
+  const pad = 14;
+  const bore = INTERFACE_SPEC.keyway_bore_mm / 2;
 
-  const panels: { x: number; y: number }[] = [];
-  for (let pr = 0; pr < design.panels.rows; pr++) {
-    for (let pc = 0; pc < design.panels.cols; pc++) {
-      panels.push({ x: pc * (PANEL_SIZE_MM + PANEL_GAP_MM), y: pr * (PANEL_SIZE_MM + PANEL_GAP_MM) });
-    }
-  }
-
-  // Overlay only the empty cells so placed parts stay clickable while a tool is active.
   const cells: { col: number; row: number }[] = [];
   if (interactive && tool) {
     const occupied = new Set<string>();
@@ -117,14 +148,21 @@ export function GridComposer({ design, interactive = false, tool, selected, onCe
 
   return (
     <div className={['lv-composer', className].filter(Boolean).join(' ')}>
-      <svg viewBox={`${-pad} ${-pad} ${w + pad * 2} ${h + pad * 2}`} role="img" aria-label={title ?? 'Panel layout'}>
-        {panels.map((p, i) => (
+      <svg viewBox={`${-pad} ${-pad} ${w + pad * 2} ${h + pad * 2}`} role="img" aria-label={title ?? 'Board layout'}>
+        {boards(design.field).map((b, i) => (
           <g key={i}>
-            <rect x={p.x} y={p.y} width={PANEL_SIZE_MM} height={PANEL_SIZE_MM} rx={8} fill={panel.hex} stroke="rgba(36, 11, 33, 0.18)" />
-            {Array.from({ length: PANEL_CELLS * PANEL_CELLS }, (_, k) => {
-              const c = k % PANEL_CELLS;
-              const r = Math.floor(k / PANEL_CELLS);
-              return <circle key={k} cx={p.x + c * PITCH + PITCH / 2} cy={p.y + r * PITCH + PITCH / 2} r={INTERFACE_SPEC.hole_mm / 2} fill={hole} />;
+            <rect x={b.x + 0.5} y={b.y + 0.5} width={b.w - 1} height={b.h - 1} rx={6} fill={board} stroke="rgba(36, 11, 33, 0.22)" />
+            {Array.from({ length: b.cols * BOARD_CELLS }, (_, k) => {
+              const c = k % b.cols;
+              const r = Math.floor(k / b.cols);
+              const kx = b.x + c * PITCH_MM + PITCH_MM / 2;
+              const ky = b.y + r * PITCH_MM + PITCH_MM / 2;
+              return (
+                <g key={k}>
+                  <circle cx={kx} cy={ky} r={bore} fill={keyway} />
+                  <rect x={kx - INTERFACE_SPEC.lug_slot_mm / 2} y={ky - 9.8} width={INTERFACE_SPEC.lug_slot_mm} height={19.6} rx={2} fill={keyway} />
+                </g>
+              );
             })}
           </g>
         ))}
@@ -137,25 +175,14 @@ export function GridComposer({ design, interactive = false, tool, selected, onCe
             role={interactive ? 'button' : undefined}
             tabIndex={interactive ? 0 : undefined}
             onKeyDown={interactive ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect?.(pl.id); } } : undefined}
-            aria-label={interactive ? `${partById(pl.partId)?.name ?? pl.partId} at column ${pl.col + 1}, row ${pl.row + 1}` : undefined}
+            aria-label={interactive ? `${productByHandle(pl.handle)?.title ?? pl.handle} at column ${pl.col + 1}, row ${pl.row + 1}` : undefined}
           >
-            <Glyph placement={pl} accent={accent.hex} ink={accent.ink} />
+            <Glyph placement={pl} accent={accent} ink={accentInk} name={design.name} />
           </g>
         ))}
         {cells.map(({ col, row }) => {
           const { x, y } = cellOrigin(col, row);
-          return (
-            <rect
-              key={`${col}-${row}`}
-              className="lv-cell"
-              x={x}
-              y={y}
-              width={PITCH}
-              height={PITCH}
-              onClick={() => onCell?.(col, row)}
-              aria-label={`Place at column ${col + 1}, row ${row + 1}`}
-            />
-          );
+          return <rect key={`${col}-${row}`} className="lv-cell" x={x} y={y} width={PITCH_MM} height={PITCH_MM} onClick={() => onCell?.(col, row)} aria-label={`Place at column ${col + 1}, row ${row + 1}`} />;
         })}
       </svg>
     </div>

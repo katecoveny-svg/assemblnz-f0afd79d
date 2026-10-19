@@ -53,7 +53,7 @@
     },
     "assembl_living": {
       "path": "docs/living/ASSEMBL-LIVING.md",
-      "status": "build candidate: typed modular interiors system, Space Studio at /living/studio and CAD pack AL-02 (prototype, digitally validated only; no products or purchasing)",
+      "status": "merged storefront + Space Studio; parts library v0.3 on the assembl TURN standard (42 mm, quarter-turn key) on review branch, replacing the AL-02 peg pack; designed and digitally checked only, nothing printed, no products or purchasing",
       "code": ["lib/living/", "app/living/", "tools/living-cad/"]
     }
   },

@@ -1,13 +1,18 @@
-# tools/living-cad — assembl / living parametric CAD
+# tools/living-cad — assembl living parts library v0.3
 
-`build.py` is the single source for engineering pack AL-02: nine parts on interface IF-01, exported as STEP and STL into `public/living/cad/AL-02/` with a validated manifest that `lib/living/catalogue.ts` reads.
+The parametric source for the assembl TURN standard and every assembl living and dayrally part, the build and fit-test scripts, the test-print kit and the launch files. Upstream notes are in `UPSTREAM-README-v0.3.md`; product canon is `docs/living/ASSEMBL-LIVING.md`.
 
 ```sh
-pip install cadquery            # CadQuery ≥ 2.4
-python3 tools/living-cad/build.py          # build, validate, export, write manifests
-python3 tools/living-cad/build.py --check  # build and validate only
+pip install manifold3d trimesh numpy fonttools
+python3 cad/build.py            # grid, tile, stack, light → parts/stl, parts/glb, parts/parts-report.json
+python3 cad/build_extras.py     # cut-out tray, renter parts → parts/parts-report-extras.json
+python3 cad/build_dayrally.py   # dayrally v1 + bike → parts/parts-report-dayrally.json
+python3 cad/build_dayrally2.py  # dayrally v2 → parts/parts-report-dayrally2.json (needs store/model/ to exist)
+python3 cad/test_kit.py         # parts/test-kit
+python3 cad/fit_test.py && python3 cad/fit_test_dayrally.py && python3 cad/fit_test_dayrally2.py
+cd ../.. && python3 tools/living-cad/manifest.py   # lib/living/cad-manifest.json + public/living/cad/v0.3
 ```
 
-Validation on export: valid B-rep, one solid per part, edge-manifold STL. This is a digital check only; physical fit, strength and wall-mounting remain separate steps. Product canon: `docs/living/ASSEMBL-LIVING.md`.
+Change a number in `cad/lib.py` → rebuild → `pnpm exec vitest run lib/living` → commit the regenerated reports, manifest and served print files together. Generated meshes are ignored except the served set that `manifest.py` copies.
 
-Change a dimension → re-run → run `pnpm exec vitest run lib/living` → commit the regenerated exports and manifests together.
+Local change from upstream: `build_extras.py` and `build_dayrally.py` write their own report files instead of overwriting `parts-report.json`, so all four reports survive a full rebuild.

@@ -1,0 +1,11 @@
+Materials research (subagent, 19 Oct 2026) — summary used in the store's Materials guide
+- No common FDM filament is heatproof. PLA ~55-60C, PETG ~69-74C, ABS 87C, ASA 100C, PC 117C, PET-CF 205C, PPS-CF 264C (Bambu product pages / TDS; HDT at 0.45 MPa where stated)
+- Hot car dashboards ~69C (ASU study): PLA warps, PETG borderline, ASA minimum
+- Hot drinks 83-88C; dishwasher heavy 70C (Fisher & Paykel) -> label hand wash cool
+- Thermochromic: eSUN PLA switches at 31C (UV/heat sensitive); Polymaker colour change PLA
+- Glow: Bambu PLA Glow needs hardened nozzle
+- Flame retardant: Bambu PC FR and PPS-CF claim UL94 V-0 (tested to, not listed); never say fireproof
+- Scandi: Bambu PLA Matte (25 colours) hero; PLA Wood (weak, 26 MPa, decorative only); PLA Marble; PETG Translucent for LED-only shades
+- Map: tiles PLA Matte; TURN keys PETG HF (creep); vanity PETG HF; shades PETG Translucent; outdoor/fishing ASA (enclosed printers only); kids PLA Matte/Pure
+- 3DAPI: standard PLA 12 colours, PETG 11; matte/branded colours are custom orders (first roll may be prepaid per location). Printie: PLA, PETG, TPU, ABS/ASA, CF grades; one US site
+- NZ: toys for under-36-months must meet AS/NZS ISO 8124.1 (ComCom); CGA acceptable quality

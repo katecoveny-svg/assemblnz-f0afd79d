@@ -1,0 +1,59 @@
+{
+  "verifiedCodeCommit": "485920276",
+  "baseMain": "99ef18e5d",
+  "productionBuild": "passed",
+  "typecheck": "passed",
+  "focusedTests": 67,
+  "scopedLint": "passed",
+  "macrons": "passed",
+  "contextHealth": "passed with 29 existing review items",
+  "cad": {
+    "rebuiltParts": 104,
+    "servedFilesVerified": 23,
+    "geometryAndReportsMatchUpstream": true,
+    "physicalValidation": false
+  },
+  "reconciliation": [
+    {
+      "width": 375,
+      "shopPersistence": true,
+      "relatedReferences": true,
+      "checkoutStatus": 409,
+      "studioSchema": "assembl.living.configuration/2",
+      "overflow": false,
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "shopPersistence": true,
+      "relatedReferences": true,
+      "checkoutStatus": 409,
+      "studioSchema": "assembl.living.configuration/2",
+      "overflow": false,
+      "errors": []
+    }
+  ],
+  "archivedPreview": [
+    {
+      "width": 320,
+      "overflow": false,
+      "controlsInViewport": true,
+      "exportVerified": true,
+      "errors": []
+    },
+    {
+      "width": 375,
+      "overflow": false,
+      "controlsInViewport": true,
+      "exportVerified": true,
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "overflow": false,
+      "controlsInViewport": true,
+      "exportVerified": true,
+      "errors": []
+    }
+  ]
+}

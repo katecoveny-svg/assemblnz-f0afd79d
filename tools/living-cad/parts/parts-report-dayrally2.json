@@ -1,0 +1,1256 @@
+[
+  {
+    "slug": "dr2-pod-mini",
+    "name": "dayrally pod, mini",
+    "group": "pod",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      103.0,
+      60.0,
+      26.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 26.55,
+    "est_grams_pla": 26.2,
+    "watertight": true,
+    "genus": 3,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 65.0,
+    "notes": "Floor is a TURN flange: fits every dayrally mount and any Grid board."
+  },
+  {
+    "slug": "dr2-lid-mini-plain",
+    "name": "Lid, mini, plain",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      92.0,
+      60.0,
+      15.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 18.35,
+    "est_grams_pla": 20.5,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 464.0,
+    "notes": "Prints top-down."
+  },
+  {
+    "slug": "dr2-lid-mini-name",
+    "name": "Lid, mini, name (sample: AROHA)",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      92.0,
+      60.0,
+      15.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 18.22,
+    "est_grams_pla": 20.6,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 683.0,
+    "notes": "Inlay prints as the first layers in a second colour."
+  },
+  {
+    "slug": "dr2-lid-mini-name-inlay",
+    "name": "Lid inlay, mini, name",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      52.0,
+      10.5,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 0.13,
+    "est_grams_pla": 0.2,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 5,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-insert-mini-split",
+    "name": "Insert, mini: Split (2)",
+    "group": "insert",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      86.6,
+      54.6,
+      11.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 9.26,
+    "est_grams_pla": 11.5,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-insert-mini-quad",
+    "name": "Insert, mini: Quad (4)",
+    "group": "insert",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      86.6,
+      54.6,
+      11.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 10.08,
+    "est_grams_pla": 12.5,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-insert-mini-earbuds",
+    "name": "Insert, mini: Earbuds",
+    "group": "insert",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      86.6,
+      54.6,
+      11.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 27.47,
+    "est_grams_pla": 17.1,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-pod-standard",
+    "name": "dayrally pod, standard",
+    "group": "pod",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      139.0,
+      72.0,
+      34.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 44.87,
+    "est_grams_pla": 45.0,
+    "watertight": true,
+    "genus": 3,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 65.0,
+    "notes": "Floor is a TURN flange: fits every dayrally mount and any Grid board."
+  },
+  {
+    "slug": "dr2-lid-standard-plain",
+    "name": "Lid, standard, plain",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      128.0,
+      72.0,
+      15.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 28.87,
+    "est_grams_pla": 31.7,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 634.0,
+    "notes": "Prints top-down."
+  },
+  {
+    "slug": "dr2-lid-standard-name",
+    "name": "Lid, standard, name (sample: MILA)",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      128.0,
+      72.0,
+      15.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 28.53,
+    "est_grams_pla": 31.9,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 1217.0,
+    "notes": "Inlay prints as the first layers in a second colour."
+  },
+  {
+    "slug": "dr2-lid-standard-name-inlay",
+    "name": "Lid inlay, standard, name",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      67.9,
+      20.0,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 0.35,
+    "est_grams_pla": 0.4,
+    "watertight": true,
+    "genus": -2,
+    "bodies": 4,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-lid-standard-waves",
+    "name": "Lid, standard, waves",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      128.0,
+      72.0,
+      15.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 27.72,
+    "est_grams_pla": 32.2,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 2559.0,
+    "notes": "Inlay prints as the first layers in a second colour."
+  },
+  {
+    "slug": "dr2-lid-standard-waves-inlay",
+    "name": "Lid inlay, standard, waves",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      113.8,
+      58.0,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 1.16,
+    "est_grams_pla": 1.4,
+    "watertight": true,
+    "genus": -7,
+    "bodies": 8,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-lid-standard-dots",
+    "name": "Lid, standard, dots",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      128.0,
+      72.0,
+      15.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 27.92,
+    "est_grams_pla": 32.1,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 2226.0,
+    "notes": "Inlay prints as the first layers in a second colour."
+  },
+  {
+    "slug": "dr2-lid-standard-dots-inlay",
+    "name": "Lid inlay, standard, dots",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      105.8,
+      44.9,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 0.95,
+    "est_grams_pla": 1.2,
+    "watertight": true,
+    "genus": -43,
+    "bodies": 44,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-lid-standard-check",
+    "name": "Lid, standard, check",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      128.0,
+      72.0,
+      15.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 27.63,
+    "est_grams_pla": 32.0,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 2707.0,
+    "notes": "Inlay prints as the first layers in a second colour."
+  },
+  {
+    "slug": "dr2-lid-standard-check-inlay",
+    "name": "Lid inlay, standard, check",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      99.3,
+      45.3,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 1.24,
+    "est_grams_pla": 1.5,
+    "watertight": true,
+    "genus": 13,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-lid-standard-bolt",
+    "name": "Lid, standard, bolt",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      128.0,
+      72.0,
+      15.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 27.92,
+    "est_grams_pla": 31.7,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 2217.0,
+    "notes": "Inlay prints as the first layers in a second colour."
+  },
+  {
+    "slug": "dr2-lid-standard-bolt-inlay",
+    "name": "Lid inlay, standard, bolt",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      114.0,
+      37.4,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 0.95,
+    "est_grams_pla": 1.2,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-lid-standard-topo",
+    "name": "Lid, standard, topo",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      128.0,
+      72.0,
+      15.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 28.17,
+    "est_grams_pla": 32.4,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 1808.0,
+    "notes": "Inlay prints as the first layers in a second colour."
+  },
+  {
+    "slug": "dr2-lid-standard-topo-inlay",
+    "name": "Lid inlay, standard, topo",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      113.7,
+      54.0,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 0.7,
+    "est_grams_pla": 0.9,
+    "watertight": true,
+    "genus": -1,
+    "bodies": 5,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-lid-standard-stars",
+    "name": "Lid, standard, stars",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      128.0,
+      72.0,
+      15.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 28.53,
+    "est_grams_pla": 31.9,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 1206.0,
+    "notes": "Inlay prints as the first layers in a second colour."
+  },
+  {
+    "slug": "dr2-lid-standard-stars-inlay",
+    "name": "Lid inlay, standard, stars",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      93.8,
+      51.3,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 0.34,
+    "est_grams_pla": 0.4,
+    "watertight": true,
+    "genus": -13,
+    "bodies": 14,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-insert-standard-everyday",
+    "name": "Insert, standard: Everyday (3)",
+    "group": "insert",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      122.6,
+      66.6,
+      14.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 16.77,
+    "est_grams_pla": 20.8,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-insert-standard-tackle",
+    "name": "Insert, standard: Tackle (6)",
+    "group": "insert",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      122.6,
+      66.6,
+      14.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 18.28,
+    "est_grams_pla": 22.7,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-insert-standard-beach",
+    "name": "Insert, standard: Beach (stick, 2 balms, cards & keys)",
+    "group": "insert",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      122.6,
+      66.6,
+      14.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 65.05,
+    "est_grams_pla": 34.3,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-insert-standard-tech",
+    "name": "Insert, standard: Tech (earbuds, cable)",
+    "group": "insert",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      122.6,
+      66.6,
+      14.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 55.43,
+    "est_grams_pla": 32.0,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-insert-standard-split",
+    "name": "Insert, standard: Split (2)",
+    "group": "insert",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      122.6,
+      66.6,
+      14.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 15.95,
+    "est_grams_pla": 19.8,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-pod-tall",
+    "name": "dayrally pod, tall",
+    "group": "pod",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      139.0,
+      72.0,
+      58.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 62.35,
+    "est_grams_pla": 63.4,
+    "watertight": true,
+    "genus": 3,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 65.0,
+    "notes": "Floor is a TURN flange: fits every dayrally mount and any Grid board."
+  },
+  {
+    "slug": "dr2-lid-tall-plain",
+    "name": "Lid, tall, plain",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      128.0,
+      72.0,
+      15.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 28.87,
+    "est_grams_pla": 31.7,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 634.0,
+    "notes": "Prints top-down."
+  },
+  {
+    "slug": "dr2-lid-tall-name",
+    "name": "Lid, tall, name (sample: NIKAU)",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      128.0,
+      72.0,
+      15.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 28.43,
+    "est_grams_pla": 31.9,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 1380.0,
+    "notes": "Inlay prints as the first layers in a second colour."
+  },
+  {
+    "slug": "dr2-lid-tall-name-inlay",
+    "name": "Lid inlay, tall, name",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      85.9,
+      20.3,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 0.45,
+    "est_grams_pla": 0.6,
+    "watertight": true,
+    "genus": -3,
+    "bodies": 5,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-insert-tall-deep-two",
+    "name": "Insert, tall: Deep two (bottles, sunscreen)",
+    "group": "insert",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      122.6,
+      66.6,
+      40.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 31.08,
+    "est_grams_pla": 38.5,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-insert-tall-tackle-deep",
+    "name": "Insert, tall: Deep tackle (6)",
+    "group": "insert",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      122.6,
+      66.6,
+      24.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 26.26,
+    "est_grams_pla": 32.6,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-insert-tall-cards",
+    "name": "Insert, tall: Cards (5 standing slots)",
+    "group": "insert",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      122.6,
+      66.6,
+      40.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 227.13,
+    "est_grams_pla": 101.5,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-pod-long",
+    "name": "dayrally pod, long",
+    "group": "pod",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      187.0,
+      72.0,
+      34.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 59.84,
+    "est_grams_pla": 60.3,
+    "watertight": true,
+    "genus": 3,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 65.0,
+    "notes": "Floor is a TURN flange: fits every dayrally mount and any Grid board."
+  },
+  {
+    "slug": "dr2-lid-long-plain",
+    "name": "Lid, long, plain",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      176.0,
+      72.0,
+      15.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 39.94,
+    "est_grams_pla": 43.5,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 825.0,
+    "notes": "Prints top-down."
+  },
+  {
+    "slug": "dr2-lid-long-name",
+    "name": "Lid, long, name (sample: JAYDEN)",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      176.0,
+      72.0,
+      15.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 39.4,
+    "est_grams_pla": 43.8,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 1725.0,
+    "notes": "Inlay prints as the first layers in a second colour."
+  },
+  {
+    "slug": "dr2-lid-long-name-inlay",
+    "name": "Lid inlay, long, name",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      111.0,
+      20.3,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 0.54,
+    "est_grams_pla": 0.7,
+    "watertight": true,
+    "genus": -3,
+    "bodies": 6,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-insert-long-pens",
+    "name": "Insert, long: Pens and pencils (4)",
+    "group": "insert",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      170.6,
+      66.6,
+      14.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 77.76,
+    "est_grams_pla": 52.2,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-insert-long-tackle",
+    "name": "Insert, long: Tackle (8)",
+    "group": "insert",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      170.6,
+      66.6,
+      14.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 25.5,
+    "est_grams_pla": 31.6,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-insert-long-everyday",
+    "name": "Insert, long: Everyday (3)",
+    "group": "insert",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      170.6,
+      66.6,
+      14.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 22.57,
+    "est_grams_pla": 28.0,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-mount-strap-clip",
+    "name": "Mount: strap clip",
+    "group": "mount",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      70.0,
+      36.0,
+      20.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 37.44,
+    "est_grams_pla": 19.9,
+    "watertight": true,
+    "genus": 1,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 2248.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-mount-duo-strap",
+    "name": "Mount: duo strap",
+    "group": "mount",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      70.0,
+      32.0,
+      20.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 35.65,
+    "est_grams_pla": 17.7,
+    "watertight": true,
+    "genus": 1,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 1693.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-mount-belt-clip",
+    "name": "Mount: belt clip",
+    "group": "mount",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      70.0,
+      40.0,
+      20.7
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 40.96,
+    "est_grams_pla": 22.4,
+    "watertight": true,
+    "genus": 1,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 2813.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-mount-bar-saddle",
+    "name": "Mount: bar saddle",
+    "group": "mount",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      70.0,
+      32.0,
+      28.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 43.15,
+    "est_grams_pla": 20.1,
+    "watertight": true,
+    "genus": 4,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 1401.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-mount-frame-saddle",
+    "name": "Mount: frame saddle",
+    "group": "mount",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      80.0,
+      34.0,
+      32.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 62.37,
+    "est_grams_pla": 26.3,
+    "watertight": true,
+    "genus": 4,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 1458.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-mount-carabiner-loop",
+    "name": "Mount: carabiner loop",
+    "group": "mount",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      94.0,
+      34.0,
+      16.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 34.47,
+    "est_grams_pla": 16.8,
+    "watertight": true,
+    "genus": 1,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 1158.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-mount-home-dock",
+    "name": "Mount: home dock",
+    "group": "mount",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      150.0,
+      96.0,
+      22.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 307.51,
+    "est_grams_pla": 95.8,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 913.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-charm-star",
+    "name": "Bag charm, star (sample: MK)",
+    "group": "add-on",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      39.1,
+      38.5,
+      4.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 3.01,
+    "est_grams_pla": 2.7,
+    "watertight": true,
+    "genus": 1,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 85.0,
+    "notes": "Initials inlaid on the bed side."
+  },
+  {
+    "slug": "dr2-charm-star-inlay",
+    "name": "Bag charm inlay, star",
+    "group": "add-on",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      19.4,
+      9.0,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 0.05,
+    "est_grams_pla": 0.1,
+    "watertight": true,
+    "genus": -1,
+    "bodies": 2,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-charm-heart",
+    "name": "Bag charm, heart (sample: MK)",
+    "group": "add-on",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      43.3,
+      39.1,
+      4.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 4.11,
+    "est_grams_pla": 3.4,
+    "watertight": true,
+    "genus": 1,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 85.0,
+    "notes": "Initials inlaid on the bed side."
+  },
+  {
+    "slug": "dr2-charm-heart-inlay",
+    "name": "Bag charm inlay, heart",
+    "group": "add-on",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      19.4,
+      9.0,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 0.05,
+    "est_grams_pla": 0.1,
+    "watertight": true,
+    "genus": -1,
+    "bodies": 2,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-charm-bolt",
+    "name": "Bag charm, bolt (sample: MK)",
+    "group": "add-on",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      21.9,
+      41.3,
+      4.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 1.39,
+    "est_grams_pla": 1.4,
+    "watertight": true,
+    "genus": 1,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": "Initials inlaid on the bed side."
+  },
+  {
+    "slug": "dr2-charm-flower",
+    "name": "Bag charm, flower (sample: MK)",
+    "group": "add-on",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      41.4,
+      37.9,
+      4.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 4.49,
+    "est_grams_pla": 3.6,
+    "watertight": true,
+    "genus": 1,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 85.0,
+    "notes": "Initials inlaid on the bed side."
+  },
+  {
+    "slug": "dr2-charm-flower-inlay",
+    "name": "Bag charm inlay, flower",
+    "group": "add-on",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      19.4,
+      9.0,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 0.05,
+    "est_grams_pla": 0.1,
+    "watertight": true,
+    "genus": -1,
+    "bodies": 2,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-charm-fish",
+    "name": "Bag charm, fish (sample: MK)",
+    "group": "add-on",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      40.4,
+      18.4,
+      4.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 2.01,
+    "est_grams_pla": 1.9,
+    "watertight": true,
+    "genus": 1,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 59.0,
+    "notes": "Initials inlaid on the bed side."
+  },
+  {
+    "slug": "dr2-charm-fish-inlay",
+    "name": "Bag charm inlay, fish",
+    "group": "add-on",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      15.8,
+      7.5,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 0.04,
+    "est_grams_pla": 0.0,
+    "watertight": true,
+    "genus": -1,
+    "bodies": 2,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-charm-wave",
+    "name": "Bag charm, wave (sample: MK)",
+    "group": "add-on",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      40.8,
+      39.4,
+      4.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 4.38,
+    "est_grams_pla": 3.5,
+    "watertight": true,
+    "genus": 1,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 85.0,
+    "notes": "Initials inlaid on the bed side."
+  },
+  {
+    "slug": "dr2-charm-wave-inlay",
+    "name": "Bag charm inlay, wave",
+    "group": "add-on",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      19.4,
+      9.0,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 0.05,
+    "est_grams_pla": 0.1,
+    "watertight": true,
+    "genus": -1,
+    "bodies": 2,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-zip-pull",
+    "name": "Zip pull (sample: M)",
+    "group": "add-on",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      34.0,
+      13.0,
+      3.2
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 1.19,
+    "est_grams_pla": 1.3,
+    "watertight": true,
+    "genus": 1,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 31.0,
+    "notes": "Not for children under 3: small part."
+  },
+  {
+    "slug": "dr2-zip-pull-inlay",
+    "name": "Zip pull inlay",
+    "group": "add-on",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      7.5,
+      7.0,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 0.02,
+    "est_grams_pla": 0.0,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-phone-stand",
+    "name": "Phone stand",
+    "group": "add-on",
+    "print_orientation": "on_side",
+    "print_bbox_mm": [
+      84.0,
+      59.6,
+      70.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 57.75,
+    "est_grams_pla": 32.2,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 201.0,
+    "notes": "Prints on its side."
+  },
+  {
+    "slug": "dr2-spoke-bead",
+    "name": "Spoke bead (set of 12)",
+    "group": "add-on",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      12.0,
+      11.9,
+      16.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 1.6,
+    "est_grams_pla": 1.3,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": "Snaps onto 2 mm spokes. Small part."
+  },
+  {
+    "slug": "dr2-chair-hook",
+    "name": "Chair hook",
+    "group": "add-on",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      36.1,
+      55.3,
+      14.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 6.08,
+    "est_grams_pla": 5.2,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": "Snaps onto 22–25 mm tubes."
+  },
+  {
+    "slug": "dr2-cable-winder",
+    "name": "Cable winder",
+    "group": "add-on",
+    "print_orientation": "as_is",
+    "print_bbox_mm": [
+      64.0,
+      26.0,
+      3.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 3.46,
+    "est_grams_pla": 3.5,
+    "watertight": true,
+    "genus": 2,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  }
+]

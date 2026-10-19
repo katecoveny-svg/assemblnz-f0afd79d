@@ -1,146 +1,121 @@
 /**
- * assembl / living — curated kits
- * -------------------------------
- * Kits are the merchandising layer, not separate products. Every kit is a
- * saved arrangement of the same parts on the same interface. Someone can buy
- * the get-ready wall and later add gaming accessories to it.
- *
- * All kits are `indicative`: no kit has been quoted, printed as a set or
- * tested in a room yet.
+ * assembl / living — room kits
+ * ----------------------------
+ * The seven wall kits come from the launch catalogue (contents and proposed
+ * prices in the manifest). This file adds the layout each kit opens with in
+ * the Space Studio: the board field and where each accessory sits on the
+ * 42 mm grid. A kit is a saved arrangement, not a separate product.
  */
 
-import type { Kit } from './system';
+import { CAD_MANIFEST } from './catalogue';
+import type { Aesthetic, Field, Kit, SpaceId } from './system';
 
-export const KITS: Kit[] = [
-  {
-    id: 'setup-wall',
-    name: 'the setup wall',
-    tagline: 'Headset, controllers, cables and a shelf for the things you look at.',
-    description: 'A single panel beside the desk. Two hooks for the headset and cable loom, a cup for pens and a ledge for a controller or speaker.',
-    space: 'my-room',
-    aesthetic: 'contrast',
-    panels: { cols: 1, rows: 1 },
+type Layout = {
+  id: string;
+  space: SpaceId;
+  aesthetic: Aesthetic;
+  field: Field;
+  placements: { handle: string; col: number; row: number }[];
+};
+
+/** Layouts are authored; contents must match the manifest kit lines (tested). */
+const LAYOUTS: Record<string, Layout> = {
+  'al-kit-teen-room-starter': {
+    id: 'teen-room-starter', space: 'my-room', aesthetic: 'contrast', field: { columns: [4, 4], rows: 1 },
     placements: [
-      { partId: 'grid-hook-single', col: 0, row: 0 },
-      { partId: 'grid-hook-single', col: 2, row: 0 },
-      { partId: 'grid-cup-48', col: 5, row: 0 },
-      { partId: 'grid-ledge-96', col: 0, row: 4 },
-      { partId: 'grid-hook-single', col: 6, row: 4 },
+      { handle: 'al-name-plate', col: 0, row: 0 },
+      { handle: 'al-hook', col: 4, row: 0 }, { handle: 'al-hook', col: 6, row: 0 },
+      { handle: 'al-shelf-3', col: 0, row: 1 },
+      { handle: 'al-cup', col: 5, row: 1 },
     ],
-    extras: [],
-    status: 'indicative',
   },
-  {
-    id: 'get-ready-wall',
-    name: 'the get-ready wall',
-    tagline: 'Brushes up, skincare on a ledge, jewellery on hooks.',
-    description: 'Two panels side by side above the vanity. Cups for brushes, a ledge for skincare, hooks for necklaces, and a half tray for rings on the bench.',
-    space: 'my-space',
-    aesthetic: 'warm',
-    panels: { cols: 2, rows: 1 },
+  'al-kit-gear-wall': {
+    id: 'gear-wall', space: 'work-and-create', aesthetic: 'contrast', field: { columns: [4, 4], rows: 1 },
     placements: [
-      { partId: 'grid-cup-48', col: 0, row: 0 },
-      { partId: 'grid-cup-48', col: 2, row: 0 },
-      { partId: 'grid-ledge-96', col: 4, row: 0 },
-      { partId: 'grid-hook-single', col: 9, row: 0 },
-      { partId: 'grid-hook-single', col: 11, row: 0 },
-      { partId: 'grid-hook-single', col: 13, row: 0 },
-      { partId: 'grid-ledge-96', col: 0, row: 5 },
-      { partId: 'grid-ledge-96', col: 10, row: 5 },
+      { handle: 'al-lure-garage', col: 0, row: 1 },
+      { handle: 'al-rod-cradle', col: 3, row: 0 }, { handle: 'al-rod-cradle', col: 3, row: 2 },
+      { handle: 'al-hook', col: 4, row: 0 }, { handle: 'al-hook', col: 5, row: 0 },
+      { handle: 'al-bin-2', col: 4, row: 2 },
     ],
-    extras: [{ partId: 'tile-tray-96x48', qty: 2 }, { partId: 'tile-clip', qty: 4 }],
-    status: 'indicative',
   },
-  {
-    id: 'maker-wall',
-    name: 'the maker wall',
-    tagline: 'Everyday tools where you can see them.',
-    description: 'A 2 × 2 panel field above the bench. Hooks for pliers and tape, cups for screwdrivers and markers, a ledge for the things in progress.',
-    space: 'work-and-create',
-    aesthetic: 'calm',
-    panels: { cols: 2, rows: 2 },
+  'al-kit-vanity-lab': {
+    id: 'vanity-lab', space: 'my-space', aesthetic: 'warm', field: { columns: [4, 2], rows: 1 },
     placements: [
-      { partId: 'grid-hook-single', col: 0, row: 0 },
-      { partId: 'grid-hook-single', col: 2, row: 0 },
-      { partId: 'grid-hook-single', col: 4, row: 0 },
-      { partId: 'grid-hook-single', col: 6, row: 0 },
-      { partId: 'grid-cup-48', col: 9, row: 0 },
-      { partId: 'grid-cup-48', col: 12, row: 0 },
-      { partId: 'grid-ledge-96', col: 0, row: 5 },
-      { partId: 'grid-ledge-96', col: 8, row: 5 },
-      { partId: 'grid-hook-single', col: 0, row: 10 },
-      { partId: 'grid-hook-single', col: 2, row: 10 },
-      { partId: 'grid-cup-48', col: 5, row: 10 },
-      { partId: 'grid-cup-48', col: 9, row: 10 },
-      { partId: 'grid-ledge-96', col: 12, row: 13 },
+      { handle: 'al-cup', col: 0, row: 0 }, { handle: 'al-cup', col: 1, row: 0 }, { handle: 'al-cup', col: 2, row: 0 },
+      { handle: 'al-shelf-2', col: 4, row: 0 },
+      { handle: 'al-bin-2', col: 4, row: 2 },
     ],
-    extras: [],
-    status: 'indicative',
   },
-  {
-    id: 'tackle-wall',
-    name: 'the tackle wall',
-    tagline: 'Lures in cups, leaders on hooks, small parts in trays.',
-    description: 'One panel in the garage or shed. Cups for sleeved lures, hooks for leader spools and pliers, and two half trays on a riser below for swivels and hooks. The adventure-facing companion to Dayrally.',
-    space: 'work-and-create',
-    aesthetic: 'contrast',
-    panels: { cols: 1, rows: 1 },
+  'al-kit-desk-reset': {
+    id: 'desk-reset', space: 'work-and-create', aesthetic: 'calm', field: { columns: [4], rows: 1 },
+    // Shelf, two cups and a bin fill the board; the hook ships alongside for the desk edge.
     placements: [
-      { partId: 'grid-cup-48', col: 0, row: 0 },
-      { partId: 'grid-cup-48', col: 2, row: 0 },
-      { partId: 'grid-hook-single', col: 5, row: 0 },
-      { partId: 'grid-hook-single', col: 7, row: 0 },
-      { partId: 'grid-hook-single', col: 0, row: 4 },
-      { partId: 'grid-ledge-96', col: 2, row: 5 },
+      { handle: 'al-shelf-2', col: 0, row: 0 },
+      { handle: 'al-cup', col: 2, row: 0 }, { handle: 'al-cup', col: 3, row: 0 },
+      { handle: 'al-bin-2', col: 0, row: 2 },
     ],
-    extras: [{ partId: 'stack-riser-192', qty: 1 }, { partId: 'tile-tray-96x48', qty: 2 }, { partId: 'tile-clip', qty: 4 }],
-    status: 'indicative',
   },
-  {
-    id: 'quiet-desk',
-    name: 'the quiet desk',
-    tagline: 'A riser, two trays, nothing on the wall.',
-    description: 'For renters and anyone who does not want to drill. A riser under the monitor or beside the bed with two trays in its bays.',
-    space: 'work-and-create',
-    aesthetic: 'calm',
-    panels: { cols: 1, rows: 1 },
-    placements: [],
-    extras: [{ partId: 'stack-riser-192', qty: 1 }, { partId: 'tile-tray-96x96', qty: 2 }],
-    status: 'indicative',
+  'al-kit-workshop-wall': {
+    id: 'workshop-wall', space: 'work-and-create', aesthetic: 'calm', field: { columns: [4, 4], rows: 1 },
+    placements: [
+      { handle: 'al-hook', col: 0, row: 0 }, { handle: 'al-hook', col: 1, row: 0 }, { handle: 'al-hook', col: 2, row: 0 }, { handle: 'al-hook', col: 3, row: 0 },
+      { handle: 'al-cup', col: 4, row: 0 }, { handle: 'al-cup', col: 5, row: 0 },
+      { handle: 'al-bin-2', col: 0, row: 2 }, { handle: 'al-bin-2', col: 2, row: 2 },
+    ],
   },
-  {
-    id: 'vanity-drawer',
-    name: 'the vanity drawer',
-    tagline: 'A drawer that stays the way you set it.',
-    description: 'Two full trays and four half trays clipped into a layout. Measured to the drawer, printed to fit.',
-    space: 'my-space',
-    aesthetic: 'warm',
-    panels: { cols: 1, rows: 1 },
-    placements: [],
-    extras: [{ partId: 'tile-tray-96x96', qty: 2 }, { partId: 'tile-tray-96x48', qty: 4 }, { partId: 'tile-clip', qty: 8 }],
-    status: 'indicative',
+  'al-kit-entry-and-pets': {
+    id: 'entry-and-pets', space: 'pets-and-everyday', aesthetic: 'warm', field: { columns: [4], rows: 1 },
+    // Three hooks, a bin and a full-width plate do not all pack onto one board at
+    // real footprints; the third hook ships with the kit for the door frame or a
+    // second spot and is listed alongside.
+    placements: [
+      { handle: 'al-name-plate', col: 0, row: 0 },
+      { handle: 'al-hook', col: 0, row: 1 }, { handle: 'al-hook', col: 1, row: 1 },
+      { handle: 'al-bin-2', col: 2, row: 1 },
+    ],
   },
-  {
-    id: 'entry-rail',
-    name: 'the entry rail',
-    tagline: 'Keys, leads and sunglasses by the door.',
-    description: 'One rail and four hooks. Fits beside a door frame or inside a wardrobe where a panel will not.',
-    space: 'store-and-organise',
-    aesthetic: 'calm',
-    panels: { cols: 1, rows: 1 },
-    placements: [],
-    extras: [{ partId: 'rail-bar-192', qty: 1 }, { partId: 'grid-hook-single', qty: 4 }],
-    status: 'indicative',
+  'al-kit-no-drill-door-wall': {
+    id: 'no-drill-door-wall', space: 'store-and-organise', aesthetic: 'calm', field: { columns: [4], rows: 1 },
+    placements: [
+      { handle: 'al-hook', col: 0, row: 0 }, { handle: 'al-hook', col: 1, row: 0 }, { handle: 'al-hook', col: 2, row: 0 },
+      { handle: 'al-cup', col: 3, row: 0 },
+    ],
   },
-];
+};
+
+export const KITS: Kit[] = CAD_MANIFEST.kits
+  .filter((k) => k.collection === 'living' && LAYOUTS[k.handle])
+  .map((k) => {
+    const layout = LAYOUTS[k.handle];
+    const placed = new Map<string, number>();
+    for (const p of layout.placements) placed.set(p.handle, (placed.get(p.handle) ?? 0) + 1);
+    const extras = k.lines
+      .filter((l) => !['al-board-4x4', 'al-board-2x4'].includes(l.handle))
+      .map((l) => {
+        const onBoard = placed.get(l.handle) ?? 0;
+        // cradles and hangers are sold in pairs: one line = two placed items
+        const perUnit = l.handle === 'al-rod-cradle' || l.handle === 'al-over-door' || l.handle === 'al-rail-hanger' ? 2 : 1;
+        const left = l.qty - Math.ceil(onBoard / perUnit);
+        return { handle: l.handle, qty: left };
+      })
+      .filter((e) => e.qty > 0);
+    return {
+      id: layout.id,
+      handle: k.handle,
+      name: k.title,
+      note: k.note,
+      space: layout.space,
+      aesthetic: layout.aesthetic,
+      field: layout.field,
+      placements: layout.placements,
+      extras,
+      priceNzd: k.price_nzd,
+      status: 'proposed' as const,
+    };
+  });
 
 const BY_ID = new Map(KITS.map((k) => [k.id, k]));
 
 export function kitById(id: string): Kit | undefined {
   return BY_ID.get(id);
-}
-
-/** Kits that do not need a panel on the wall. */
-export function kitNeedsPanel(kit: Kit): boolean {
-  return kit.placements.length > 0;
 }
