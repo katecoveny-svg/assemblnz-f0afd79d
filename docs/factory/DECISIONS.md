@@ -221,7 +221,7 @@ A partner reviewing assembl's CAD asked for model source rather than STLs and re
 **Decision**  
 - OpenSCAD is a third engine, for dimension-driven objects (trays, dividers, brackets, label holders). It does not replace manifold3d for TURN parts or CadQuery for AC-02. First family: `tools/living-cad/scad/drawer-fit/`, dependency-free.
 - Every external design is recorded in `docs/living/SOURCE-AND-LICENCE-REGISTER.md` with origin, licence, obligations and decision before any part built on it enters the manifest. GPL code stays in its own directory; CC BY credit travels to the print sheet and product page.
-- Gridfinity Rebuilt and BOSL2 are the first candidates to evaluate; Gridfinity Extended only by deliberate decision; the honeycomb wall held until its attribution chain is verified; Iteration3D studied as workflow, its models not reused.
+- BOSL2 is the first library candidate to evaluate. Gridfinity Rebuilt is read as a reference, not adopted: assembl's storage is its own, more stylish variation on its own geometry (Kate, 19 Oct), with Gridfinity compatibility an optional tested claim later. Gridfinity Extended only by deliberate decision; the honeycomb wall held until its attribution chain is verified; Iteration3D studied as workflow, its models not reused.
 - Grid pitch is not compatibility: Gridfinity and TURN both use 42 mm and any fit between them is a separate tested claim.
 - Source leaves assembl only as the evaluation package in `docs/living/SOURCE-HANDOFF-20261019.md`, under "all rights reserved until a licence is chosen". Choosing the licence for assembl's own CAD is Kate's decision and is open.
 

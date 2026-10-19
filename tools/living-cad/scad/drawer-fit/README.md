@@ -15,7 +15,7 @@ manifest.
 
 | File | What it makes | Parameters a customer would set |
 |---|---|---|
-| `drawer_tray.scad` | a drop-in tray with a grid of compartments and a label recess; splits itself into bed-sized pieces | drawer width, depth, height; columns, rows |
+| `drawer_tray.scad` | a drop-in tray with a grid of compartments and a label recess; splits itself into bed-sized pieces | drawer width, depth, height; columns and rows, or explicit `column_widths` / `row_depths` lists |
 | `drawer_divider.scad` | a free divider with soft end feet, optional cross notches | span, height, notch pitch |
 
 Maker parameters (wall, floor, clearance, corner radius, printer bed) are

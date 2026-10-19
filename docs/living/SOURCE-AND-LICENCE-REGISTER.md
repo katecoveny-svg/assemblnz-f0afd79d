@@ -25,7 +25,7 @@ be read in full at adoption time; the obligations below are the headline.
 
 | Source | Use for assembl | Licence | Obligations if adopted | Decision |
 |---|---|---|---|---|
-| Gridfinity Rebuilt (OpenSCAD) | drawer bins and baseplates as a storage foundation | MIT; records upstream Gridfinity attribution | keep the MIT notice and the Gridfinity attribution in distributed source; no copyleft | first candidate for drawer storage; evaluate one bin and one baseplate |
+| Gridfinity Rebuilt (OpenSCAD) | reference for how a mature storage system handles bins, baseplates, lips and stacking | MIT; records upstream Gridfinity attribution | keep the MIT notice and the Gridfinity attribution if any code is reused | **study only.** Kate's direction (19 Oct): assembl designs its own, more stylish storage variation rather than copying Gridfinity. Read it to learn the tolerances and stacking logic; write our own geometry (drawer fit is the start). Compatibility with Gridfinity is a separate, optional, tested claim. |
 | BOSL2 (OpenSCAD library) | clips, hinges, dovetails, rounded containers, threads for original parts | BSD-2-Clause | keep the copyright notice and disclaimer with distributed source | first candidate as the general OpenSCAD toolkit |
 | wbu modular drawer organiser | custom drawer divisions | CC BY 4.0 (checked on GitHub, the Thingiverse page did not load) | credit the author, link the licence, say what changed | relevant to drawer fit; compare with our own tray before adopting |
 | Gridfinity Extended | dividers, lids, trays, item holders | GPL-3.0 | distributing adapted source means the adaptation is GPL-3.0; selling prints is unaffected, distributing code is | use only with a deliberate decision; keep separate from MIT/BSD code |
