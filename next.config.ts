@@ -47,6 +47,17 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      {
+        // assembl / living product widget: framed by the Shopify store, the
+        // Shopify admin theme editor and assembl's own hosts only.
+        source: '/living/widget/:handle',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: "frame-ancestors 'self' https://*.myshopify.com https://admin.shopify.com https://assembl.co.nz https://*.assembl.co.nz",
+          },
+        ],
+      },
     ];
   },
   async rewrites() {

@@ -1,0 +1,37 @@
+/* assembl / living — product widget. Paper, chalk, plum ink. Works inside an
+   iframe on a store page and on its own at /living/widget/<handle>. */
+.lvw { padding: 1rem; min-height: 100%; }
+.lvw[data-embed='true'] { padding: 0.25rem; }
+.lvw-head { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.9rem; }
+.lvw-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 1.25rem; align-items: start; }
+.lvw-preview { position: sticky; top: 0.5rem; display: grid; gap: 0.6rem; }
+.lvw-stage { background: var(--lv-chalk); border: 1px solid var(--lv-line); border-radius: 20px; aspect-ratio: 4 / 3; display: grid; place-items: center; overflow: hidden; }
+.lvw-stage svg { width: 100%; height: 100%; display: block; }
+.lvw-controls { display: grid; gap: 1.1rem; }
+.lvw-controls h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); }
+.lvw-label { display: flex; justify-content: space-between; align-items: baseline; gap: 0.75rem; }
+.lvw-label b { font-weight: 500; }
+.lvw-swatches { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.lvw-swatch { appearance: none; width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--lv-paper); box-shadow: 0 0 0 1px var(--lv-line); cursor: pointer; padding: 0; transition: transform 160ms ease, box-shadow 160ms ease; }
+.lvw-swatch:hover { transform: translateY(-1px); }
+.lvw-swatch[aria-pressed='true'] { box-shadow: 0 0 0 2px var(--lv-plum); }
+.lvw-swatch:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(145, 106, 112, 0.5); }
+.lv-chip[aria-pressed='true'] { background: var(--lv-plum); color: var(--lv-paper); border-color: var(--lv-plum); }
+.lvw-counter { font-family: var(--font-mono), 'IBM Plex Mono', ui-monospace, monospace; font-size: 0.72rem; letter-spacing: 0.04em; color: var(--lv-muted); }
+.lvw-qty { display: inline-flex; align-items: center; border: 1px solid var(--lv-line); border-radius: 999px; overflow: hidden; }
+.lvw-qty button { appearance: none; border: 0; background: transparent; width: 40px; height: 40px; font: inherit; font-size: 1.1rem; cursor: pointer; color: var(--lv-plum); }
+.lvw-qty button:disabled { opacity: 0.35; cursor: not-allowed; }
+.lvw-qty output { min-width: 2.4rem; text-align: center; font-weight: 500; }
+.lvw-estimate { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem 1rem; padding: 1rem 1.1rem; border: 1px solid var(--lv-line); border-radius: 16px; background: var(--lv-paper); margin: 0; }
+.lvw-estimate div { display: grid; gap: 0.15rem; }
+.lvw-estimate dt { font-family: var(--font-mono), 'IBM Plex Mono', ui-monospace, monospace; font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--lv-muted); }
+.lvw-estimate dd { margin: 0; font-size: 1.02rem; font-weight: 500; color: var(--lv-plum); }
+.lvw-estimate dd small { font-weight: 400; color: var(--lv-muted); font-size: 0.82rem; }
+.lvw-issues { margin: 0; padding: 0.8rem 1rem; border-radius: 14px; background: #fbf3ee; color: #6e3a2c; font-size: 0.92rem; list-style: none; display: grid; gap: 0.25rem; }
+.lvw-applied { display: flex; align-items: center; gap: 0.6rem; font-size: 0.92rem; color: var(--lv-muted); }
+.lvw-foot { margin-top: 1rem; display: grid; gap: 0.3rem; }
+@media (max-width: 720px) {
+  .lvw-grid { grid-template-columns: 1fr; }
+  .lvw-preview { position: static; }
+  .lvw-estimate { grid-template-columns: 1fr 1fr; }
+}
