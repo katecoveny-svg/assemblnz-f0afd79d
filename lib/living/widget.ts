@@ -289,6 +289,11 @@ export const WIDGET_LAB: LabItem[] = [
     blurb: 'A crank stand: rest a pedal in the cradle and lean the bike. On the desk the same slot holds a phone at 15°, and the TURN flange in its back locks it onto the Grid so it is not lost. Hollow with three ribs, four rubber-foot recesses. Digitally checked only.',
     parts: [{ id: 'ride-stand', qty: 1 }], doc: 'docs/living/DAYRALLY-RIDE.md',
   },
+  {
+    id: 'scoot-fish', title: 'dayrally on the scooter · stem saddle and rod quiver', type: 'dayrally lab', colourSet: 'dayrally', size: 'stem saddle 96 × 72 × 42 mm · quiver Ø45 × 150 mm',
+    blurb: 'The rod holder for a Flamingo, a Lime or a Honey Whale: a stem saddle that straps to any 32 to 60 mm scooter stem with one 25 mm strap, no tools, off in a minute (share scooters cannot be drilled or clamped), carrying two TURN sockets along the stem; and a one-tube quiver with a full TURN flange that keys onto it and takes the packed fixed-line rod or the packed cast rod. The pod mini or the ride pod lock onto the same saddle. Stem sizes of the three scooters are not measured yet; the V covers the range and the strap does the rest. Strap bought.',
+    parts: [{ id: 'scoot-stem-saddle', qty: 1 }, { id: 'scoot-quiver', qty: 1 }], doc: 'docs/living/DAYRALLY-RIDE.md',
+  },
 ];
 
 function labSpec(item: LabItem): WidgetSpec {

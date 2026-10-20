@@ -1,0 +1,57 @@
+{
+  "spec": {
+    "stem_mm": [
+      32.0,
+      60.0
+    ],
+    "strap": "one 25 mm hook-and-loop or cam strap, no tools, removable",
+    "quiver_bore_mm": 40.0,
+    "quiver_height_mm": 150.0,
+    "takes": "the fixed-line rod packed (32 mm grip) or the cast rod packed (36 mm grip)",
+    "scooters": {
+      "Flamingo (share)": "stem not measured; strap-on only, remove before returning the scooter",
+      "Lime Gen4 (share)": "stem not measured; strap-on only, remove before returning the scooter",
+      "Honey Whale (owned folder)": "stem not measured; strap-on, or the bar saddle on the handlebar"
+    }
+  },
+  "parts": [
+    {
+      "slug": "scoot-stem-saddle",
+      "name": "scooter stem saddle",
+      "group": "scoot",
+      "print_orientation": "on_bottom",
+      "print_bbox_mm": [
+        96.0,
+        42.0,
+        72.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 200.34,
+      "est_grams_pla": 69.9,
+      "watertight": true,
+      "genus": 4,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 766.0,
+      "notes": "Straps to a 32-60 mm scooter stem, no tools; two TURN sockets along the stem for a pod or the quiver."
+    },
+    {
+      "slug": "scoot-quiver",
+      "name": "scooter rod quiver",
+      "group": "scoot",
+      "print_orientation": "on_side",
+      "print_bbox_mm": [
+        57.8,
+        60.0,
+        150.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 88.95,
+      "est_grams_pla": 71.2,
+      "watertight": true,
+      "genus": 5,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 1445.0,
+      "notes": "One 40 mm tube, 150 tall, for a packed rod; TURN flange keys it onto the stem saddle. Floor end down."
+    }
+  ]
+}
