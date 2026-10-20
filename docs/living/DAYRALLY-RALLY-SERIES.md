@@ -14,7 +14,11 @@ give rally: "good dogs. greater days." · "same key. more freedom." · "good gea
 days." · "adventure companion. always ready."
 
 rally is **the demonstrator**, never the salesperson. rally wears the kit, loses the kit, swaps the kit, and
-the kit survives. rally never speaks; the captions and a human voice do.
+the kit survives. rally never speaks; the captions and a human voice do. Caption style from the rally line board:
+hand-lettered black marker, two or three words a line, a sun underline. Lines to use as captions and end
+cards: "good days go further." · "trails. tails. good days." · "early starts. brighter days." · "same crew.
+different horizons." · "on board for more." · "slower moments. bigger days." · "explore together." · "plan.
+build. go."
 
 ## Places
 

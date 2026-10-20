@@ -114,8 +114,8 @@ The widget route sends `Content-Security-Policy: frame-ancestors` allowing
 ## Lab items
 
 `lab-dayrally-cam`, `lab-dayrally-rod`, `lab-dayrally-cast`, `lab-wharf-reel`, `lab-dayrally-ride`, `lab-ride-grips`,
-`lab-ride-watch`, `lab-ride-phone`, `lab-ride-bottle`, `lab-ride-stand`, `lab-turn-mini`, `lab-mini-ride` and `lab-mini-explore` are designed in the v0.3 pipeline (families
-`camera`, `rod`, `cast`, `ride` and `mini` in the manifest, print files served from the public pack) but have never been printed. The
+`lab-ride-watch`, `lab-ride-phone`, `lab-ride-bottle`, `lab-ride-stand`, `lab-turn-mini`, `lab-mini-ride`, `lab-mini-explore` and `lab-ride-rack` are designed in the v0.3 pipeline (families
+`camera`, `rod`, `cast`, `ride`, `mini` and `rack` in the manifest, print files served from the public pack) but have never been printed. The
 widget treats them like AC-02 prototypes: full choices and estimates, 3D from the served STL, part codes of the
 form `LAB-<ID>-<COL>`, `suggestedRetailNzd: null`, `purchasing.status: not_enabled`. The store must not list
 them until a test print passes. The list lives in `WIDGET_LAB` in `lib/living/widget.ts`.

@@ -106,6 +106,25 @@ Checked: a 100 × 95 × 20 pedal body in the cradle 0 mm³; an 8.3 mm phone lean
 through the back. 134 g PETG. It has not held a bike; the first print tells whether the 2.4 mm shell with ribs
 takes a leaning 12 kg bike without cracking (expect it to, PETG at this section; if not, 3.2 mm walls).
 
+## On the bike, as the picture draws it (20 October, late)
+
+Kate's picture (`docs/living/boards/dayrally-bike-20261020.jpg`): a white bike on a pontoon, a sun-yellow pod
+with latches on the rear rack, two rods standing in a quiver on the rack, a yellow pod along the top tube, the
+dayrally bottle in its cage, a yellow cam on the stem, a kid with a spinning rod, rally with the bone tag. The
+pod, bottle cup, cam mount and bone tag exist above and in `DAYRALLY-MINI.md`; three mounts were missing.
+Source `tools/living-cad/cad/dayrally_bike.py`, family `rack`, widget `lab-ride-rack`, renders
+`docs/living/renders/bike-set-sun.png` and `bike-toptube-sun.png`.
+
+| Part | What it is | Checked |
+|---|---|---|
+| `rack-mount` | a 150 x 100 TURN socket plate with four strap slots (two 25 mm straps round the rack platform), five ribs underneath to sit on round rails without rocking, lightening windows. The ride pod or the long pod locks on with its two keys. 89 g PETG, prints face down | ride pod on it 0 mm3, long pod 0, straps through the slots 0 |
+| `rack-quiver` | two 40 mm tubes, 130 tall, 2.4 walls, drained floors, a back plate with two strap slots for a rack stay or the seat tube. The cast rod's 36 mm grip and the fixed-line rod's 32 mm grip stand in it packed. At home it hangs on a Grid hook by its upper slot: a full-size TURN flange on its back would put the key heads inside the tubes, so it does not pretend to have one. 102 g PETG, prints standing | both grips in the tubes 0; straps through the slots 0 |
+| `rack-toptube-saddle` | the frame saddle with its V groove turned along the pod, so a pod lies along the top tube (25 to 45 mm tubes, zip ties). 24 g PETG | 25, 31.8 and 45 mm tubes seat at 0; pod mini on it 0; the ride pod on it 0 |
+
+What the picture has that no part gives yet: the rack pod in the picture has a latch each side and ours has
+one (a two-latch lid is a one-line change if the first print wants it); the rods in the picture are assembled
+and the quiver takes them packed (the cast rod packs to 253 mm). Straps, zip ties and the rack are bought.
+
 ## The font
 
 The board's wordmark is a heavy, soft, rounded geometric sans, all lowercase. The board is AI-generated, so
