@@ -48,6 +48,15 @@ The approved assembled plum glass section below supersedes this prior treatment 
 - Product verbs such as `find it.`, `DO it.` and `show it.` use Instrument Sans, upright. Do not revive old serif/italic treatments as company precedent.
 - **Scoped exception, dayrally (20 October 2026, ADR-011):** the `dayrally` wordmark, name slates, lid and skin lettering and display lines on dayrally surfaces use **Fredoka 700** (SIL OFL 1.1, in `tools/living-cad/fonts/`), the closest licensed face to the original dayrally board. Body, navigation and controls on dayrally pages stay in Instrument Sans. Fredoka does not appear on any assembl company surface.
 
+## Wordplay · `assembl’d` (20 October 2026)
+
+The company name already contains the verb. The one sanctioned play on it is the contraction **`assembl’d`**, read aloud as "assembled": the line names drop the e, and so does the past participle.
+
+- **Form:** lowercase, with a typographic apostrophe (`’`), never `assembld` or `Assembl'd`. It is copy, not a wordmark: the wordmark stays `assembl` and the line stays `assembl / living`.
+- **Where:** a line tagline (`Living, assembl’d.`), a section eyebrow (`room kits · pre-assembl’d`), an end card or a social caption. At most two plays on one surface; the third reads as a tic.
+- **The family, for copy:** `Living, assembl’d.` (the living tagline) · `Your space, assembl’d.` · `some assembl required` (the kit joke, true of every TURN part) · `pre-assembl’d` (kits) · `re-assembl` (move a part to a new wall) · `everyday, assembled` and `space, assembled` (the journey names, which keep the full word because a journey is a product name, not a pun).
+- **Never:** as a domain, store name or account handle (`LAUNCH-OPERATIONS-20261019.md` §2 says why: it is a workaround for a problem that does not exist); on dayrally surfaces, whose register is `one system. endless days.`; in a sentence that also carries a product verb (`find it.`, `DO it.`, `show it.`).
+
 ## Assembly grammar
 
 The master visual idea is:

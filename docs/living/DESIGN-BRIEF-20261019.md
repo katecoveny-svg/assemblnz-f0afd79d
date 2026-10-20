@@ -552,3 +552,31 @@ along the grip in Fredoka Bold (up to 8 letters; one TPU colour reads by touch, 
 reads by eye), and `ride-bar-end-name` carries up to 5 letters on the 24 mm cap of the press-fit plug that closes
 the grips, beside a plain `ride-bar-end-plain`. The grips lab item gains the name option; a new lab item
 `lab-bar-ends` offers plain or named. All lab items until printed; the first TPU print tunes `GRIP_ID`.
+
+### 11.13 The landing page, upgraded, and the `assembl’d` wordplay (20 October, latest)
+
+Kate on the live `/living` hero: "can you please upgrade the design and also can we come up with some word play
+like assembld living or similar?" What was wrong: five lines of text and a button, nothing shown, a headline that
+could sit above any furniture brand, and the honesty line captioning the only call to action.
+
+What changed (`app/living/page.tsx`, `app/living/HeroWall.tsx`, `living.css`):
+
+- **Hero in two columns.** Left: eyebrow row (`assembl / living` beside the mono status chip, so the honesty line
+  stays but no longer captions the button), `Living, assembl’d.`, a lede that says the key, the parts and the
+  photo-in offer, two actions (`show us your space →`, `pick a door ↓`) and four mono facts (pitch, the
+  quarter-turn, print files served, pack and status). Right: the teen room starter on the wall, drawn from the
+  served print files with the studio's `Preview3D` (hero camera, wheel zoom off so the page still scrolls), parts
+  dropping onto their keys and quarter-turning as the page loads. The render of the same kit is the baseline:
+  shown until every print file is fetched, without WebGL, and (assembled, no motion) under reduced motion; the
+  cut is still to still, never to an empty wall.
+- **Six doors with a render each** (`DOOR_ART`): teen room flat-lay, vanity cut-out tray, shelf 3, bin 2, hook,
+  cup. The cards keep their line and two example asks.
+- **Section lines** now carry the play, twice and no more: the workflow eyebrow `some assembl required`, the kits
+  eyebrow `room kits · pre-assembl’d`. Headlines: `Six doors. One catalogue.` · `Photo in. Design out.` ·
+  `Start from a kit, or from a blank board.` The TURN, colour and honesty sections keep their copy.
+- **dayrally band**: the everyday flat-lay beside the collection copy, `see every piece →` to the widget index.
+  No sun field, no Fredoka: this is a company surface (ADR-011).
+
+The wordplay rules (form, where, the family, never as a domain) are now in `docs/assembl-brand-system.md` under
+"Wordplay". The previous hero line, "One design system. Different spaces. Endless combinations.", stays as the
+system's description line in `ASSEMBL-LIVING.md`.

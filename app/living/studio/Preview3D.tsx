@@ -32,6 +32,10 @@ type Props = {
   selected?: string | null;
   onCell?: (col: number, row: number) => void;
   onSelect?: (placementId: string) => void;
+  /** Wheel zoom; off where the preview sits in a scrolling page, so it never takes the scroll. */
+  zoom?: boolean;
+  /** `hero`: a little further round and up, for the landing page. */
+  camera?: 'studio' | 'hero';
 };
 
 /** How each print file was oriented for the bed (tools/living-cad/cad/build.py PRINT). */
@@ -82,6 +86,14 @@ function loadInstalled(partId: string): Promise<BufferGeometry> | null {
   return p;
 }
 
+/** Fetches every print file a design needs, so a first paint can assemble at once. */
+export function preloadDesign(design: Pick<Design, 'field' | 'placements'>): Promise<void> {
+  const ids = new Set<string>();
+  for (const b of boards(design.field)) ids.add(b.cols === 4 ? 'grid-board-4x4' : 'grid-board-2x4');
+  for (const pl of design.placements) { const id = partIdFor(pl.handle); if (id) ids.add(id); }
+  return Promise.all([...ids].map((id) => loadInstalled(id) ?? Promise.resolve(null))).then(() => undefined);
+}
+
 function useInstalled(partId: string | null): BufferGeometry | null {
   const [g, setG] = useState<{ id: string; geometry: BufferGeometry } | null>(null);
   useEffect(() => {
@@ -108,9 +120,12 @@ function Settle({ delay, children }: { delay: number; children: React.ReactNode 
   const start = useRef<number | null>(null);
   const done = useRef(false);
   const { invalidate } = useThree();
+  // Reduced motion gets the assembled state straight away (brand rule).
+  const [reduced] = useState(() => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   useEffect(() => { invalidate(); }, [invalidate]);
   useFrame(({ clock }) => {
     if (done.current || !ref.current) return;
+    if (reduced) { done.current = true; return; }
     const now = clock.getElapsedTime() * 1000;
     if (start.current === null) start.current = now + delay;
     const t = Math.min(1, Math.max(0, (now - start.current) / SETTLE_MS));
@@ -269,11 +284,12 @@ function Scene({ design, interactive, tool, selected, onCell, onSelect }: Props)
 export default function Preview3D(props: Props) {
   const { w, h } = fieldSize(props.design.field);
   const dist = Math.max(3.2, (Math.max(w, h * 1.35) / 100) * 1.25);
+  const position: [number, number, number] = props.camera === 'hero' ? [dist * 0.42, dist * 0.2, dist * 1.22] : [dist * 0.38, dist * 0.14, dist];
   return (
     <div className="lv-preview3d" aria-label="3D preview of the board layout, from the print files">
-      <Canvas dpr={[1, 1.6]} frameloop="demand" shadows="soft" camera={{ position: [dist * 0.38, dist * 0.14, dist], fov: 32 }} gl={{ antialias: true }}>
+      <Canvas dpr={[1, 1.6]} frameloop="demand" shadows="soft" camera={{ position, fov: 32 }} gl={{ antialias: true }}>
         <Scene {...props} />
-        <OrbitControls enablePan={false} minDistance={1.4} maxDistance={dist * 2.6} minPolarAngle={0.9} maxPolarAngle={Math.PI / 2 + 0.1} minAzimuthAngle={-1.0} maxAzimuthAngle={1.0} target={[0, 0, 0.08]} />
+        <OrbitControls enablePan={false} enableZoom={props.zoom !== false} minDistance={1.4} maxDistance={dist * 2.6} minPolarAngle={0.9} maxPolarAngle={Math.PI / 2 + 0.1} minAzimuthAngle={-1.0} maxAzimuthAngle={1.0} target={[0, 0, 0.08]} />
       </Canvas>
     </div>
   );
