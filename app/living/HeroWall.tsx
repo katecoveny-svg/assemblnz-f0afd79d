@@ -27,7 +27,7 @@ function hasWebGL(): boolean {
   }
 }
 
-export function HeroWall({ kitId = 'teen-room-starter', name = 'MILA' }: { kitId?: string; name?: string }) {
+export function HeroWall({ kitId = 'teen-room-starter', name = 'MILA', stage, caption = true }: { kitId?: string; name?: string; stage?: string; caption?: boolean }) {
   const kit = kitById(kitId);
   const design = useMemo(() => (kit ? { ...applyKit(newDesign({ space: kit.space, surface: 'wall', aesthetic: kit.aesthetic }), kit), name } : null), [kit, name]);
   const items = useMemo(() => (design ? billOfMaterials(design).lines.reduce((s, l) => s + l.qty, 0) : 0), [design]);
@@ -45,14 +45,16 @@ export function HeroWall({ kitId = 'teen-room-starter', name = 'MILA' }: { kitId
 
   return (
     <figure className="lv-hero-wall">
-      <div className="lv-hero-stage" data-live={live ? 'true' : 'false'}>
-        <Image src="/living/renders/teen-room-flatlay.jpg" alt="The teen room starter kit: two boards, a name plate, two hooks, a shelf and a cup, as rendered from the print files" fill sizes="(max-width: 880px) 100vw, 56vw" priority />
-        {live && design && <Preview3D design={design} zoom={false} camera="hero" />}
+      <div className="lv-hero-stage" data-live={live ? 'true' : 'false'} style={stage ? { background: stage } : undefined}>
+        <Image src={stage ? '/living/alpha/teen-room-flatlay.png' : '/living/renders/teen-room-flatlay.jpg'} alt="The teen room starter kit: two boards, a name plate, two hooks, a shelf and a cup, as rendered from the print files" fill sizes="(max-width: 880px) 100vw, 56vw" priority style={stage ? { objectFit: 'contain', padding: '6%' } : undefined} />
+        {live && design && <Preview3D design={design} zoom={false} camera="hero" stage={stage} />}
       </div>
-      <figcaption>
-        <span className="lv-mono">{kit?.name.toLowerCase() ?? kitId} · {items} parts · from the v0.3 print files</span>
-        <span className="lv-mono">{live ? 'drag to look around · drawn at real size' : 'render · the same geometry'}</span>
-      </figcaption>
+      {caption && (
+        <figcaption>
+          <span className="lv-mono">{kit?.name.toLowerCase() ?? kitId} · {items} parts · from the v0.3 print files</span>
+          <span className="lv-mono">{live ? 'drag to look around · drawn at real size' : 'render · the same geometry'}</span>
+        </figcaption>
+      )}
     </figure>
   );
 }

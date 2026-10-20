@@ -580,3 +580,71 @@ What changed (`app/living/page.tsx`, `app/living/HeroWall.tsx`, `living.css`):
 The wordplay rules (form, where, the family, never as a domain) are now in `docs/assembl-brand-system.md` under
 "Wordplay". The previous hero line, "One design system. Different spaces. Endless combinations.", stays as the
 system's description line in `ASSEMBL-LIVING.md`.
+
+### 11.14 "I want the dayrally look": the storefront goes sun (20 October, evening)
+
+Kate, with the three dayrally boards beside the plum `/living` page from 11.13: "Sorry it's still waaaaay too text
+heavy I want the day rally look." So the storefront is now a dayrally surface (recorded in the brand system under
+"scope widened by Kate"); 11.13's layout survives, its register does not.
+
+What the boards say, translated to what exists (`app/living/page.tsx`, the `.lv-sun` register in `living.css`):
+
+- **Hero on a sun field:** `dayrally` + key glyph in white, "one system. endless days." in black Fredoka, one
+  sentence, `show us your space →` and `see the kits ↓`, the honesty chip. Where the board has a photograph
+  of a boy, a dog and a bike on a wharf, we have the teen room starter assembling on a sun wall from the real
+  print files (the stage colour lights the wall from within so it reads as the same sun as the page). Real
+  photographs replace renders when samples are printed; the board shots are AI concept art and stay in
+  `docs/living/boards/`, never on the live site as if they were product.
+- **The category row** (the board's Bikes · Accessories · Fishing · Everyday Gear): eight cream tiles, a picture
+  and two words each: ride, scoot, fish, everyday (to the dayrally kits in the widget), my room, my space, work,
+  pets (to the studio doors). It scrolls sideways on a phone.
+- **Sun bands** with one rotated line in Fredoka ("little adventures count." / "your room. your way.") and a
+  two-line headline, one black pill.
+- **featured.** eight product cards: alpha render on cream, name, proposed price, `see it →` to the widget.
+  Not "add to cart": nothing is for sale, and the card says `proposed` in mono.
+- **kits.** a scrolling row of cream cards, dayrally first then the room kits: name, the parts in one line, price
+  and item count. The sentence-long notes are gone.
+- **The black foot:** "plan. build. print. go." in sun, and the facts in mono: by assembl / living, print files
+  and pack, designed · not yet printed · nothing for sale yet.
+
+Copy on the page is under a hundred words. The assembl shell (plum navigation and site footer) stays as it is.
+
+**Honest gaps.** The mascot (rally) has no asset in the repo beyond the AI boards, so the dog band from the
+boards is not on the page yet; the Space Studio and the widget index still wear the quiet plum register and are
+the next pass; the price on every card is the proposed launch price, not a quote.
+
+### 11.15 More pieces, a brighter sun, and four pictures of furniture (20 October, late evening)
+
+Kate on the sun storefront: "Thanks can we add more items too and make the yellow brighter", with four pictures:
+grid-topped stools in blue, terracotta and pink; a family of stacking stools whose three bent legs lock into a
+pinwheel top; a magazine rack of two bent sheets with a looped handle on three legs; and a Pinterest feed
+(Lundia's M-Wall mobile shelving, ooak's handle sleeves, a fluted planter on legs, a kids' plywood chair).
+The pictures are filed in `docs/living/boards/inspiration-*-20261020.*` as reference only: they are other
+people's products and photographs and never appear on the site.
+
+**Done on the page.** The sun on screen is `#FFD200` (brand system, "Sun on screen"); the printed sun stays
+`#F5C400`. "featured." became **the pieces.**: 27 cards, every catalogue product and lab item that has a render,
+products with their proposed price and lab items marked `lab · designed · unpriced`, all linking to the widget;
+the header links to all 56 in the widget index. Twelve more alpha renders were trimmed into `public/living/alpha/`.
+
+**What the pictures ask for, and what exists to build it from.** Every one of them is the TURN at furniture scale,
+and the `stack` foundation (dowel joints and feet for 19 mm timber dowel) is the bridge:
+
+1. **Grid side table / stool** (the first picture). A TURN board *is* a grid top. A 2×4 or 4×4 board on three
+   splayed 19 mm dowel legs needs one new part, a **table node**: two keys 42 mm apart that lock into the board's
+   keyways from below, a 19 mm socket at a 10° splay, and a foot to match. Two boards edge to edge give a
+   336 × 168 bedside; the keyways on top take the cup, the name plate and a phone stand. The honest limit: a
+   168 mm board is a side table, not a stool, until a load test says otherwise. **First to build.**
+2. **Stacking stool** (the second picture). Three identical bent legs locking into a pinwheel seat. Beyond a
+   250 mm print cube as one piece; as the TURN it is three printed leg-to-seat nodes on dowel, with the seat a
+   6×6 board (252 mm, a new size). Needs the load test before it is called a stool.
+3. **Magazine rack** (the third picture). Two bent sheets and a looped handle. As the TURN: two printed end
+   frames keyed to a 2×4 board floor, dowel for the handle loop, the sides in 3 mm ply or card. Worth doing after
+   the table node exists, since it reuses it.
+4. **Fluted planter on legs** (the feed). The fold shade's flute profile, as a pot with a drainage saucer, on the
+   same table node and three short dowels. Cheap once (1) exists.
+5. **Handle sleeves** (the feed) exist already as the grips and the name grip (11.12).
+
+None of these is designed yet. The order is table node → planter → magazine rack → stool, because each reuses
+the last, and the table node is one afternoon in the manifold pipeline with the same fit tests as the dowel
+joints. Kate's call before the first one starts.

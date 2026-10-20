@@ -51,7 +51,7 @@
   --lv-paper: #fffdf8;
   --lv-line: rgba(26, 26, 26, 0.12);
   --lv-line-strong: rgba(26, 26, 26, 0.32);
-  --lvw-sun: #f5c400;
+  --lvw-sun: #ffd200;
   --lvw-tomato: #e8472b;
   --lvw-display: var(--font-dayrally), 'Fredoka', 'Instrument Sans', system-ui, sans-serif;
   background: var(--lv-paper);

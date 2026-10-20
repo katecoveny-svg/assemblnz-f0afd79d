@@ -196,3 +196,102 @@ a.lv-door:hover .lv-door-art img { transform: scale(1.03); }
 .lv-band-art { position: relative; aspect-ratio: 4 / 3; border-radius: 24px; overflow: hidden; background: var(--lv-chalk); border: 1px solid var(--lv-line); }
 .lv-band-art img { object-fit: cover; }
 @media (max-width: 880px) { .lv-band { grid-template-columns: 1fr; } }
+
+/* ── the storefront, in the dayrally look ─────────────────────
+   Sun field, black type in Fredoka, cream tiles, black pills. Pictures
+   first, a few words, one fact line in mono. Scoped to .lv-sun so the
+   studio keeps the quiet register until it gets the same pass. */
+.lv-sun {
+  --ls-sun: #ffd200;
+  --ls-ink: #1a1a1a;
+  --ls-cream: #efe6d6;
+  --ls-white: #fffdf8;
+  --ls-tomato: #e8472b;
+  --ls-display: var(--font-dayrally), 'Fredoka', 'Instrument Sans', system-ui, sans-serif;
+  --lv-ink: #1a1a1a;
+  --lv-plum: #1a1a1a;
+  --lv-muted: #5b5650;
+  --lv-chalk: #efe6d6;
+  --lv-paper: #fffdf8;
+  --lv-line: rgba(26, 26, 26, 0.12);
+  --lv-line-strong: rgba(26, 26, 26, 0.3);
+  background: var(--ls-white);
+  color: var(--ls-ink);
+}
+.lv-sun h1, .lv-sun h2, .lv-sun h3 { font-family: var(--ls-display); font-weight: 700; letter-spacing: -0.01em; color: var(--ls-ink); }
+.lv-sun h1 { font-size: clamp(2.7rem, 6.2vw, 4.9rem); line-height: 0.94; }
+.lv-sun h2 { font-size: clamp(2rem, 4.6vw, 3.4rem); line-height: 0.95; }
+.lv-sun h3 { font-size: 1.15rem; letter-spacing: 0; }
+.ls-btn { appearance: none; display: inline-flex; align-items: center; gap: 0.55rem; background: var(--ls-ink); color: #ffffff; border: 1px solid var(--ls-ink); border-radius: 999px; padding: 0.85rem 1.4rem; font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; transition: transform 160ms ease, background 160ms ease; }
+.ls-btn:hover { background: #000000; transform: translateY(-1px); }
+.ls-btn[data-variant='ghost'] { background: transparent; color: var(--ls-ink); border-color: rgba(26, 26, 26, 0.35); }
+.ls-btn[data-variant='ghost']:hover { background: rgba(26, 26, 26, 0.06); }
+.ls-btn[data-variant='sun'] { background: var(--ls-sun); color: var(--ls-ink); border-color: var(--ls-sun); }
+.ls-btn[data-variant='small'] { padding: 0.5rem 0.95rem; font-size: 0.88rem; }
+.ls-mono { font-family: var(--font-mono), 'IBM Plex Mono', ui-monospace, monospace; font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(26, 26, 26, 0.72); }
+.ls-tag { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.3rem 0.65rem; border-radius: 999px; background: rgba(255, 253, 248, 0.65); font-family: var(--font-mono), 'IBM Plex Mono', ui-monospace, monospace; font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ls-ink); }
+.ls-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--ls-tomato); }
+
+/* hero */
+.ls-hero { background: var(--ls-sun); color: var(--ls-ink); padding: clamp(2rem, 5vw, 4rem) 0 clamp(1.5rem, 4vw, 3rem); }
+.ls-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(1.2rem, 4vw, 3.5rem); align-items: center; }
+.ls-hero-copy { display: grid; gap: 1.1rem; justify-items: start; }
+.ls-wordmark { display: inline-flex; align-items: center; gap: 0.45rem; margin: 0; font-family: var(--ls-display); font-weight: 700; font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1; color: #ffffff; letter-spacing: -0.01em; }
+.ls-wordmark svg { width: 1.15em; height: auto; }
+.ls-sub { font-size: clamp(1.05rem, 1.6vw, 1.25rem); max-width: 30ch; line-height: 1.35; margin: 0; }
+.ls-hero .lv-hero-wall { margin: 0; }
+.ls-hero .lv-hero-stage { border: 0; border-radius: 28px; background: var(--ls-sun); }
+.ls-hero .lv-hero-stage img { object-fit: contain; }
+@media (max-width: 880px) { .ls-hero-grid { grid-template-columns: 1fr; } .ls-hero .lv-hero-stage { aspect-ratio: 5 / 4; } }
+
+/* tiles: the category row */
+.ls-tiles { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(150px, 1fr); gap: 0.8rem; overflow-x: auto; padding: 1.2rem 0 0.6rem; scroll-snap-type: x proximity; scrollbar-width: none; }
+.ls-tiles::-webkit-scrollbar { display: none; }
+.ls-tile { scroll-snap-align: start; display: grid; grid-template-rows: 1fr auto; gap: 0.5rem; padding: 0.8rem 0.9rem 0.9rem; background: var(--ls-cream); border-radius: 18px; text-decoration: none; color: var(--ls-ink); transition: transform 180ms ease, background 180ms ease; }
+.ls-tile:hover { transform: translateY(-2px); background: #e9dfcc; }
+.ls-tile-art { position: relative; aspect-ratio: 1 / 1; }
+.ls-tile-art img { object-fit: contain; }
+.ls-tile b { font-family: var(--ls-display); font-weight: 700; font-size: 1.05rem; }
+.ls-tile small { font-size: 0.8rem; color: var(--lv-muted); }
+
+/* a sun band with a picture and one line */
+.ls-band { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: center; gap: clamp(1rem, 3vw, 2.5rem); background: var(--ls-sun); border-radius: 28px; padding: clamp(1.2rem, 3vw, 2.4rem); margin: 1.6rem 0; }
+.ls-band-art { position: relative; aspect-ratio: 4 / 3; }
+.ls-band-art img { object-fit: contain; }
+.ls-band-copy { display: grid; gap: 0.9rem; justify-items: start; }
+.ls-note { font-family: var(--ls-display); font-weight: 700; font-size: clamp(1.4rem, 2.6vw, 2rem); line-height: 1; transform: rotate(-3deg); display: inline-block; }
+@media (max-width: 720px) { .ls-band { grid-template-columns: 1fr; } }
+
+/* sections */
+.ls-section { padding: clamp(1.6rem, 4vw, 3rem) 0; }
+.ls-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 1.2rem; }
+.ls-head a { color: var(--ls-ink); font-weight: 600; text-decoration: none; }
+
+/* product cards */
+.ls-grid { display: grid; gap: 0.9rem; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 960px) { .ls-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 680px) { .ls-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.ls-card { display: grid; gap: 0.55rem; align-content: start; background: var(--ls-white); border: 1px solid var(--lv-line); border-radius: 18px; padding: 0.8rem; color: var(--ls-ink); text-decoration: none; transition: transform 180ms ease, box-shadow 180ms ease; }
+.ls-card:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(26, 26, 26, 0.08); }
+.ls-card-art { position: relative; aspect-ratio: 1 / 1; background: var(--ls-cream); border-radius: 12px; overflow: hidden; }
+.ls-card-art img { object-fit: contain; padding: 8%; }
+.ls-card b { font-family: var(--ls-display); font-weight: 700; font-size: 1.05rem; line-height: 1.1; }
+.ls-price { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+.ls-price span { font-family: var(--font-mono), monospace; font-size: 0.82rem; }
+.ls-price small { font-family: var(--font-mono), monospace; font-size: 0.62rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--lv-muted); }
+
+/* kits row */
+.ls-kits { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(190px, 1fr); gap: 0.8rem; overflow-x: auto; padding-bottom: 0.5rem; scrollbar-width: none; }
+.ls-kits::-webkit-scrollbar { display: none; }
+.ls-kit { display: grid; gap: 0.35rem; align-content: start; padding: 1rem; background: var(--ls-cream); border-radius: 16px; color: var(--ls-ink); text-decoration: none; transition: transform 180ms ease; }
+.ls-kit:hover { transform: translateY(-2px); }
+.ls-kit b { font-family: var(--ls-display); font-weight: 700; font-size: 1.1rem; }
+.ls-kit span { font-size: 0.85rem; color: var(--lv-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.ls-kit .ls-price { margin-top: 0.3rem; }
+
+/* the black foot: the facts */
+.ls-foot { background: var(--ls-ink); color: #ffffff; padding: clamp(1.6rem, 4vw, 2.6rem) 0; margin-top: clamp(1.6rem, 4vw, 3rem); }
+.ls-foot-grid { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem 2rem; }
+.ls-foot .ls-line { font-family: var(--ls-display); font-weight: 700; font-size: clamp(1.4rem, 3vw, 2.2rem); line-height: 1; color: var(--ls-sun); margin: 0; }
+.ls-foot .ls-mono { color: rgba(255, 255, 255, 0.75); }
+.ls-foot ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; }
