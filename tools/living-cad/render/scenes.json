@@ -1,1 +1,1217 @@
-{"board-4x4-chalk": {"parts": [{"file": "/tools/living-cad/parts/stl/grid-board-4x4.stl", "colour": "#F1ECE3", "x": 0, "y": 0, "z": 0, "flip": true, "rot": 0}], "cam": [260, -300, 300]}, "hook-clay": {"parts": [{"file": "/tools/living-cad/parts/stl/grid-hook.stl", "colour": "#B8694A", "x": 0, "y": 0, "z": 0, "flip": false, "rot": 0}], "cam": [90, -120, 110]}, "shelf-3-sage": {"parts": [{"file": "/tools/living-cad/parts/stl/grid-shelf-3.stl", "colour": "#9FAE95", "x": 0, "y": 0, "z": 0, "flip": false, "rot": 0}], "cam": [170, -220, 190]}, "cup-plum": {"parts": [{"file": "/tools/living-cad/parts/stl/grid-cup.stl", "colour": "#4B2B41", "x": 0, "y": 0, "z": 0, "flip": false, "rot": 0}], "cam": [110, -150, 140]}, "bin-2-oat": {"parts": [{"file": "/tools/living-cad/parts/stl/grid-bin-2.stl", "colour": "#D8C4A0", "x": 0, "y": 0, "z": 0, "flip": false, "rot": 0}], "cam": [150, -200, 170]}, "name-plate-plum-mila": {"parts": [{"file": "/tools/living-cad/parts/stl/grid-name-plate.stl", "colour": "#4B2B41", "x": 0, "y": 0, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/grid-name-plate-text.stl", "colour": "#F1ECE3", "x": 0, "y": 0, "z": 5, "flip": false, "rot": 0}], "cam": [180, -230, 170]}, "tray-2x1-oat": {"parts": [{"file": "/tools/living-cad/parts/stl/tile-tray-2x1.stl", "colour": "#D8C4A0", "x": 0, "y": 0, "z": 0, "flip": false, "rot": 0}], "cam": [170, -220, 190]}, "vanity-cutout-sage": {"parts": [{"file": "/tools/living-cad/parts/stl/tile-cutout-vanity.stl", "colour": "#9FAE95", "x": 0, "y": 0, "z": 0, "flip": false, "rot": 0}], "cam": [260, -320, 280]}, "pod-standard-sky-waves": {"parts": [{"file": "/tools/living-cad/parts/stl/dr2-pod-standard.stl", "colour": "#8EC5F2", "x": -80, "y": 0, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/dr2-lid-standard-waves.stl", "colour": "#2A2A2D", "x": 90, "y": 0, "z": 0, "flip": true, "rot": 0}, {"file": "/tools/living-cad/parts/stl/dr2-lid-standard-waves-inlay.stl", "colour": "#F1ECE3", "x": 90, "y": 0, "z": 0, "flip": true, "rot": 0}], "cam": [260, -300, 260]}, "pod-mini-butter-name": {"parts": [{"file": "/tools/living-cad/parts/stl/dr2-pod-mini.stl", "colour": "#F3D97A", "x": -60, "y": 0, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/dr2-lid-mini-name.stl", "colour": "#E04E3B", "x": 60, "y": 0, "z": 0, "flip": true, "rot": 0}, {"file": "/tools/living-cad/parts/stl/dr2-lid-mini-name-inlay.stl", "colour": "#F1ECE3", "x": 60, "y": 0, "z": 0, "flip": true, "rot": 0}], "cam": [190, -230, 200]}, "charm-star-tangerine": {"parts": [{"file": "/tools/living-cad/parts/stl/dr2-charm-star.stl", "colour": "#F28C28", "x": 0, "y": 0, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/dr2-charm-star-inlay.stl", "colour": "#2A2A2D", "x": 0, "y": 0, "z": 0, "flip": false, "rot": 0}], "cam": [55, -70, 70]}, "number-plate-lime": {"parts": [{"file": "/tools/living-cad/parts/stl/bike-number-plate.stl", "colour": "#BFD95A", "x": 0, "y": 0, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/bike-number-plate-text.stl", "colour": "#2A2A2D", "x": 0, "y": 0, "z": 1.6, "flip": false, "rot": 0}], "cam": [150, -190, 180]}, "stack-nodes-ink": {"parts": [{"file": "/tools/living-cad/parts/stl/stack-node-corner.stl", "colour": "#2A2A2D", "x": -70, "y": 0, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/stack-node-tee.stl", "colour": "#2A2A2D", "x": 10, "y": 0, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/stack-foot.stl", "colour": "#B8694A", "x": 80, "y": 0, "z": 0, "flip": false, "rot": 0}], "cam": [200, -240, 220]}, "teen-room-flatlay": {"parts": [{"file": "/tools/living-cad/parts/stl/grid-board-4x4.stl", "colour": "#F1ECE3", "x": -100, "y": 90, "z": 0, "flip": true, "rot": 0}, {"file": "/tools/living-cad/parts/stl/grid-board-4x4.stl", "colour": "#F1ECE3", "x": 90, "y": 90, "z": 0, "flip": true, "rot": 0}, {"file": "/tools/living-cad/parts/stl/grid-shelf-3.stl", "colour": "#F1ECE3", "x": -110, "y": -110, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/grid-cup.stl", "colour": "#F1ECE3", "x": 10, "y": -110, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/grid-hook.stl", "colour": "#F1ECE3", "x": 90, "y": -125, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/grid-hook.stl", "colour": "#F1ECE3", "x": 150, "y": -125, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/grid-name-plate.stl", "colour": "#F1ECE3", "x": 0, "y": -20, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/grid-name-plate-text.stl", "colour": "#2A2A2D", "x": 0, "y": -20, "z": 5, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/grid-turn-key.stl", "colour": "#2A2A2D", "x": 210, "y": -60, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/grid-turn-key.stl", "colour": "#2A2A2D", "x": 210, "y": -90, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/grid-turn-key.stl", "colour": "#2A2A2D", "x": 210, "y": -120, "z": 0, "flip": false, "rot": 0}], "cam": [420, -520, 520]}, "dayrally-everyday-flatlay": {"parts": [{"file": "/tools/living-cad/parts/stl/dr2-pod-standard.stl", "colour": "#E04E3B", "x": -110, "y": 40, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/dr2-lid-standard-dots.stl", "colour": "#F3D97A", "x": 40, "y": 40, "z": 0, "flip": true, "rot": 0}, {"file": "/tools/living-cad/parts/stl/dr2-lid-standard-dots-inlay.stl", "colour": "#2A2A2D", "x": 40, "y": 40, "z": 0, "flip": true, "rot": 0}, {"file": "/tools/living-cad/parts/stl/dr2-insert-standard-everyday.stl", "colour": "#F3D97A", "x": -110, "y": -70, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/dr2-zip-pull.stl", "colour": "#E04E3B", "x": 60, "y": -60, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/dr2-zip-pull-inlay.stl", "colour": "#2A2A2D", "x": 60, "y": -60, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/dr2-charm-heart.stl", "colour": "#F3D97A", "x": 110, "y": -60, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/dr2-charm-heart-inlay.stl", "colour": "#E04E3B", "x": 110, "y": -60, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/dr2-mount-carabiner-loop.stl", "colour": "#2A2A2D", "x": 150, "y": 40, "z": 0, "flip": false, "rot": 0}], "cam": [330, -420, 400]}, "cam-exploded-ink-tomato": {"parts": [{"file": "/tools/living-cad/parts/stl/cam-body.stl", "colour": "#2A2A2D", "x": -70, "y": 45, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cam-back.stl", "colour": "#2A2A2D", "x": 80, "y": 50, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cam-skin-dots.stl", "colour": "#E04E3B", "x": -70, "y": -75, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cam-skin-dots-pattern.stl", "colour": "#F1ECE3", "x": -70, "y": -75, "z": 2.6, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cam-shutter-disc.stl", "colour": "#F1ECE3", "x": -84, "y": -75, "z": -1.6, "flip": true, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cam-winder-knob.stl", "colour": "#E04E3B", "x": 55, "y": -60, "z": 0, "flip": true, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cam-supply-pin.stl", "colour": "#E04E3B", "x": 92, "y": -60, "z": 0, "flip": true, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cam-window-cover.stl", "colour": "#F1ECE3", "x": 125, "y": -55, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cam-cradle.stl", "colour": "#2A2A2D", "x": 60, "y": -125, "z": 0, "flip": false, "rot": 0}], "cam": [330, -470, 430]}, "cam-body-ink": {"parts": [{"file": "/tools/living-cad/parts/stl/cam-body.stl", "colour": "#2A2A2D", "x": 0, "y": 0, "z": 0, "flip": false, "rot": 0}], "cam": [210, -250, 230]}, "cam-skin-sky-waves": {"parts": [{"file": "/tools/living-cad/parts/stl/cam-skin-waves.stl", "colour": "#8EC5F2", "x": 0, "y": 0, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cam-skin-waves-pattern.stl", "colour": "#2A2A2D", "x": 0, "y": 0, "z": 2.6, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cam-shutter-disc.stl", "colour": "#2A2A2D", "x": -14, "y": 0, "z": -1.6, "flip": true, "rot": 0}], "cam": [170, -200, 190]}, "cam-cradle-butter": {"parts": [{"file": "/tools/living-cad/parts/stl/cam-cradle.stl", "colour": "#F3D97A", "x": 0, "y": 0, "z": 0, "flip": false, "rot": 0}], "cam": [180, -220, 200]}, "rod-packed-lime": {"parts": [{"file": "/tools/living-cad/parts/stl/rod-grip.stl", "colour": "#BFD95A", "x": -40, "y": 30, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/rod-section-1.stl", "colour": "#2A2A2D", "x": 20, "y": 30, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/rod-section-2.stl", "colour": "#2A2A2D", "x": 40, "y": 30, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/rod-section-3.stl", "colour": "#2A2A2D", "x": 56, "y": 30, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/rod-tip.stl", "colour": "#2A2A2D", "x": 70, "y": 30, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/rod-collar.stl", "colour": "#BFD95A", "x": -40, "y": -40, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/rod-butt-cap.stl", "colour": "#BFD95A", "x": 5, "y": -40, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/rod-saddle.stl", "colour": "#2A2A2D", "x": 60, "y": -45, "z": 0, "flip": false, "rot": 0}], "cam": [260, -330, 330]}, "rod-wharf-reel-tangerine": {"parts": [{"file": "/tools/living-cad/parts/stl/rod-wharf-reel.stl", "colour": "#F28C28", "x": 0, "y": 0, "z": 0, "flip": false, "rot": 0}], "cam": [150, -190, 170]}, "rod-saddle-mint": {"parts": [{"file": "/tools/living-cad/parts/stl/rod-saddle.stl", "colour": "#9EDFC5", "x": 0, "y": 0, "z": 0, "flip": false, "rot": 0}], "cam": [150, -190, 170]}, "cast-kit-sky": {"parts": [{"file": "/tools/living-cad/parts/stl/cast-grip.stl", "colour": "#8EC5F2", "x": -60, "y": 60, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cast-hood.stl", "colour": "#2A2A2D", "x": -10, "y": 90, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cast-nut.stl", "colour": "#2A2A2D", "x": 40, "y": 90, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cast-collar.stl", "colour": "#8EC5F2", "x": 90, "y": 90, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cast-butt-cap.stl", "colour": "#8EC5F2", "x": 130, "y": 90, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cast-section-1.stl", "colour": "#2A2A2D", "x": 20, "y": -20, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cast-section-2.stl", "colour": "#2A2A2D", "x": 20, "y": -40, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cast-section-3.stl", "colour": "#2A2A2D", "x": 20, "y": -58, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cast-pin-1.stl", "colour": "#F1ECE3", "x": -80, "y": -80, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cast-pin-2.stl", "colour": "#F1ECE3", "x": -60, "y": -80, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cast-guide-1.stl", "colour": "#F1ECE3", "x": 120, "y": -85, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cast-guide-2.stl", "colour": "#F1ECE3", "x": 140, "y": -85, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cast-guide-3.stl", "colour": "#F1ECE3", "x": 160, "y": -85, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cast-tip-top.stl", "colour": "#F1ECE3", "x": 180, "y": -85, "z": 0, "flip": false, "rot": 0}], "cam": [330, -430, 380]}, "cast-grip-mint": {"parts": [{"file": "/tools/living-cad/parts/stl/cast-grip.stl", "colour": "#9EDFC5", "x": 0, "y": 0, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cast-hood.stl", "colour": "#2A2A2D", "x": 45, "y": 40, "z": 0, "flip": false, "rot": 0}, {"file": "/tools/living-cad/parts/stl/cast-nut.stl", "colour": "#2A2A2D", "x": 45, "y": -20, "z": 0, "flip": false, "rot": 0}], "cam": [230, -300, 260]}}
+{
+ "board-4x4-chalk": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/grid-board-4x4.stl",
+    "colour": "#F1ECE3",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   260,
+   -300,
+   300
+  ]
+ },
+ "hook-clay": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/grid-hook.stl",
+    "colour": "#B8694A",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   90,
+   -120,
+   110
+  ]
+ },
+ "shelf-3-sage": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/grid-shelf-3.stl",
+    "colour": "#9FAE95",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   170,
+   -220,
+   190
+  ]
+ },
+ "cup-plum": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/grid-cup.stl",
+    "colour": "#4B2B41",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   110,
+   -150,
+   140
+  ]
+ },
+ "bin-2-oat": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/grid-bin-2.stl",
+    "colour": "#D8C4A0",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   150,
+   -200,
+   170
+  ]
+ },
+ "name-plate-plum-mila": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/grid-name-plate.stl",
+    "colour": "#4B2B41",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-name-plate-text.stl",
+    "colour": "#F1ECE3",
+    "x": 0,
+    "y": 0,
+    "z": 5,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   180,
+   -230,
+   170
+  ]
+ },
+ "tray-2x1-oat": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/tile-tray-2x1.stl",
+    "colour": "#D8C4A0",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   170,
+   -220,
+   190
+  ]
+ },
+ "vanity-cutout-sage": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/tile-cutout-vanity.stl",
+    "colour": "#9FAE95",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   260,
+   -320,
+   280
+  ]
+ },
+ "pod-standard-sky-waves": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-pod-standard.stl",
+    "colour": "#8EC5F2",
+    "x": -80,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-lid-standard-waves.stl",
+    "colour": "#2A2A2D",
+    "x": 90,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-lid-standard-waves-inlay.stl",
+    "colour": "#F1ECE3",
+    "x": 90,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   260,
+   -300,
+   260
+  ]
+ },
+ "pod-mini-butter-name": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-pod-mini.stl",
+    "colour": "#F3D97A",
+    "x": -60,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-lid-mini-name.stl",
+    "colour": "#E04E3B",
+    "x": 60,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-lid-mini-name-inlay.stl",
+    "colour": "#F1ECE3",
+    "x": 60,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   190,
+   -230,
+   200
+  ]
+ },
+ "charm-star-tangerine": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-charm-star.stl",
+    "colour": "#F28C28",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-charm-star-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   55,
+   -70,
+   70
+  ]
+ },
+ "number-plate-lime": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/bike-number-plate.stl",
+    "colour": "#BFD95A",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/bike-number-plate-text.stl",
+    "colour": "#2A2A2D",
+    "x": 0,
+    "y": 0,
+    "z": 1.6,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   150,
+   -190,
+   180
+  ]
+ },
+ "stack-nodes-ink": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/stack-node-corner.stl",
+    "colour": "#2A2A2D",
+    "x": -70,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/stack-node-tee.stl",
+    "colour": "#2A2A2D",
+    "x": 10,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/stack-foot.stl",
+    "colour": "#B8694A",
+    "x": 80,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   200,
+   -240,
+   220
+  ]
+ },
+ "teen-room-flatlay": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/grid-board-4x4.stl",
+    "colour": "#F1ECE3",
+    "x": -100,
+    "y": 90,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-board-4x4.stl",
+    "colour": "#F1ECE3",
+    "x": 90,
+    "y": 90,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-shelf-3.stl",
+    "colour": "#F1ECE3",
+    "x": -110,
+    "y": -110,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-cup.stl",
+    "colour": "#F1ECE3",
+    "x": 10,
+    "y": -110,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-hook.stl",
+    "colour": "#F1ECE3",
+    "x": 90,
+    "y": -125,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-hook.stl",
+    "colour": "#F1ECE3",
+    "x": 150,
+    "y": -125,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-name-plate.stl",
+    "colour": "#F1ECE3",
+    "x": 0,
+    "y": -20,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-name-plate-text.stl",
+    "colour": "#2A2A2D",
+    "x": 0,
+    "y": -20,
+    "z": 5,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 210,
+    "y": -60,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 210,
+    "y": -90,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 210,
+    "y": -120,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   420,
+   -520,
+   520
+  ]
+ },
+ "dayrally-everyday-flatlay": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-pod-standard.stl",
+    "colour": "#E04E3B",
+    "x": -110,
+    "y": 40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-lid-standard-dots.stl",
+    "colour": "#F3D97A",
+    "x": 40,
+    "y": 40,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-lid-standard-dots-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": 40,
+    "y": 40,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-insert-standard-everyday.stl",
+    "colour": "#F3D97A",
+    "x": -110,
+    "y": -70,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-zip-pull.stl",
+    "colour": "#E04E3B",
+    "x": 60,
+    "y": -60,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-zip-pull-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": 60,
+    "y": -60,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-charm-heart.stl",
+    "colour": "#F3D97A",
+    "x": 110,
+    "y": -60,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-charm-heart-inlay.stl",
+    "colour": "#E04E3B",
+    "x": 110,
+    "y": -60,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-mount-carabiner-loop.stl",
+    "colour": "#2A2A2D",
+    "x": 150,
+    "y": 40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   330,
+   -420,
+   400
+  ]
+ },
+ "cam-exploded-ink-tomato": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/cam-body.stl",
+    "colour": "#2A2A2D",
+    "x": -70,
+    "y": 45,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cam-back.stl",
+    "colour": "#2A2A2D",
+    "x": 80,
+    "y": 50,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cam-skin-dots.stl",
+    "colour": "#E04E3B",
+    "x": -70,
+    "y": -75,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cam-skin-dots-pattern.stl",
+    "colour": "#F1ECE3",
+    "x": -70,
+    "y": -75,
+    "z": 2.6,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cam-shutter-disc.stl",
+    "colour": "#F1ECE3",
+    "x": -84,
+    "y": -75,
+    "z": -1.6,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cam-winder-knob.stl",
+    "colour": "#E04E3B",
+    "x": 55,
+    "y": -60,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cam-supply-pin.stl",
+    "colour": "#E04E3B",
+    "x": 92,
+    "y": -60,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cam-window-cover.stl",
+    "colour": "#F1ECE3",
+    "x": 125,
+    "y": -55,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cam-cradle.stl",
+    "colour": "#2A2A2D",
+    "x": 60,
+    "y": -125,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   330,
+   -470,
+   430
+  ]
+ },
+ "cam-body-ink": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/cam-body.stl",
+    "colour": "#2A2A2D",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   210,
+   -250,
+   230
+  ]
+ },
+ "cam-skin-sky-waves": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/cam-skin-waves.stl",
+    "colour": "#8EC5F2",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cam-skin-waves-pattern.stl",
+    "colour": "#2A2A2D",
+    "x": 0,
+    "y": 0,
+    "z": 2.6,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cam-shutter-disc.stl",
+    "colour": "#2A2A2D",
+    "x": -14,
+    "y": 0,
+    "z": -1.6,
+    "flip": true,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   170,
+   -200,
+   190
+  ]
+ },
+ "cam-cradle-butter": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/cam-cradle.stl",
+    "colour": "#F3D97A",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   180,
+   -220,
+   200
+  ]
+ },
+ "rod-packed-lime": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/rod-grip.stl",
+    "colour": "#BFD95A",
+    "x": -40,
+    "y": 30,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/rod-section-1.stl",
+    "colour": "#2A2A2D",
+    "x": 20,
+    "y": 30,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/rod-section-2.stl",
+    "colour": "#2A2A2D",
+    "x": 40,
+    "y": 30,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/rod-section-3.stl",
+    "colour": "#2A2A2D",
+    "x": 56,
+    "y": 30,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/rod-tip.stl",
+    "colour": "#2A2A2D",
+    "x": 70,
+    "y": 30,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/rod-collar.stl",
+    "colour": "#BFD95A",
+    "x": -40,
+    "y": -40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/rod-butt-cap.stl",
+    "colour": "#BFD95A",
+    "x": 5,
+    "y": -40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/rod-saddle.stl",
+    "colour": "#2A2A2D",
+    "x": 60,
+    "y": -45,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   260,
+   -330,
+   330
+  ]
+ },
+ "rod-wharf-reel-tangerine": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/rod-wharf-reel.stl",
+    "colour": "#F28C28",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   150,
+   -190,
+   170
+  ]
+ },
+ "rod-saddle-mint": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/rod-saddle.stl",
+    "colour": "#9EDFC5",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   150,
+   -190,
+   170
+  ]
+ },
+ "cast-kit-sky": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/cast-grip.stl",
+    "colour": "#8EC5F2",
+    "x": -60,
+    "y": 60,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-hood.stl",
+    "colour": "#2A2A2D",
+    "x": -10,
+    "y": 90,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-nut.stl",
+    "colour": "#2A2A2D",
+    "x": 40,
+    "y": 90,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-collar.stl",
+    "colour": "#8EC5F2",
+    "x": 90,
+    "y": 90,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-butt-cap.stl",
+    "colour": "#8EC5F2",
+    "x": 130,
+    "y": 90,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-section-1.stl",
+    "colour": "#2A2A2D",
+    "x": 20,
+    "y": -20,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-section-2.stl",
+    "colour": "#2A2A2D",
+    "x": 20,
+    "y": -40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-section-3.stl",
+    "colour": "#2A2A2D",
+    "x": 20,
+    "y": -58,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-pin-1.stl",
+    "colour": "#F1ECE3",
+    "x": -80,
+    "y": -80,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-pin-2.stl",
+    "colour": "#F1ECE3",
+    "x": -60,
+    "y": -80,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-guide-1.stl",
+    "colour": "#F1ECE3",
+    "x": 120,
+    "y": -85,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-guide-2.stl",
+    "colour": "#F1ECE3",
+    "x": 140,
+    "y": -85,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-guide-3.stl",
+    "colour": "#F1ECE3",
+    "x": 160,
+    "y": -85,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-tip-top.stl",
+    "colour": "#F1ECE3",
+    "x": 180,
+    "y": -85,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   330,
+   -430,
+   380
+  ]
+ },
+ "cast-grip-mint": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/cast-grip.stl",
+    "colour": "#9EDFC5",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-hood.stl",
+    "colour": "#2A2A2D",
+    "x": 45,
+    "y": 40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-nut.stl",
+    "colour": "#2A2A2D",
+    "x": 45,
+    "y": -20,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   230,
+   -300,
+   260
+  ]
+ },
+ "ride-pod-tomato": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/ride-pod-base.stl",
+    "colour": "#E04E3B",
+    "x": -20,
+    "y": 50,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ride-core-split.stl",
+    "colour": "#E8EAED",
+    "x": -20,
+    "y": 50,
+    "z": 8.6,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ride-pod-lid.stl",
+    "colour": "#E04E3B",
+    "x": -20,
+    "y": -75,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ride-pod-lid-pattern.stl",
+    "colour": "#E8EAED",
+    "x": -20,
+    "y": -75,
+    "z": 21.4,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ride-slate-dayrally.stl",
+    "colour": "#F3D97A",
+    "x": -20,
+    "y": -75,
+    "z": 22.0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ride-slate-dayrally-pattern.stl",
+    "colour": "#2A2A2D",
+    "x": -20,
+    "y": -75,
+    "z": 25.0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ride-latch.stl",
+    "colour": "#F3D97A",
+    "x": 90,
+    "y": 40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ride-hinge-pin.stl",
+    "colour": "#2A2A2D",
+    "x": 90,
+    "y": 10,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ride-hinge-pin.stl",
+    "colour": "#2A2A2D",
+    "x": 90,
+    "y": -5,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   230,
+   -320,
+   240
+  ]
+ },
+ "ride-pod-lilac-closed": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/ride-pod-base.stl",
+    "colour": "#C7B5EC",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ride-pod-lid.stl",
+    "colour": "#C7B5EC",
+    "x": 0,
+    "y": 0,
+    "z": 40.4,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ride-pod-lid-pattern.stl",
+    "colour": "#E8EAED",
+    "x": 0,
+    "y": 0,
+    "z": 61.8,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ride-slate-name.stl",
+    "colour": "#E04E3B",
+    "x": 0,
+    "y": 0,
+    "z": 62.4,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ride-slate-name-pattern.stl",
+    "colour": "#E8EAED",
+    "x": 0,
+    "y": 0,
+    "z": 65.4,
+    "flip": true,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   210,
+   -260,
+   200
+  ]
+ },
+ "ride-grips-lime": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/ride-grip-waves.stl",
+    "colour": "#BFD95A",
+    "x": -30,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ride-grip-dots.stl",
+    "colour": "#2A2A2D",
+    "x": 30,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   230,
+   -260,
+   220
+  ]
+ },
+ "ride-watch-sky": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/ride-watch-46.stl",
+    "colour": "#8EC5F2",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   160,
+   -200,
+   170
+  ]
+ },
+ "ride-phone-ink": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/ride-phone-plate.stl",
+    "colour": "#2A2A2D",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ride-phone-slider.stl",
+    "colour": "#F28C28",
+    "x": 60,
+    "y": -120,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   260,
+   -360,
+   300
+  ]
+ },
+ "ride-bottle-tangerine": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/ride-bottle-cup.stl",
+    "colour": "#F28C28",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   220,
+   -260,
+   220
+  ]
+ },
+ "ride-stand-mint": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/ride-stand.stl",
+    "colour": "#9EDFC5",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   240,
+   -280,
+   230
+  ]
+ }
+}
