@@ -18,7 +18,7 @@
  },
  "status": "designed and checked digitally; nothing printed yet. Clamp, detent and clearance values are starting points for the test-print kit.",
  "source": "tools/living-cad/cad/lib.py",
- "built_at": "2026-10-20T02:11:52Z",
+ "built_at": "2026-10-20T06:12:18Z",
  "colours": {
   "living": [
    {
@@ -4647,6 +4647,146 @@
    }
   },
   {
+   "id": "ride-grip-name",
+   "name": "grip, name",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 36.0,
+    "y": 36.0,
+    "z": 130.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 47.97,
+   "mass_g_pla": 30.6,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 10.0,
+   "notes": "TPU 95A, 22.2 mm bars; a flat land along the grip carries the rider's name raised 0.8 mm (same colour by touch, or a second TPU colour).",
+   "file": {
+    "path": "/living/cad/v0.3/ride-grip-name.stl",
+    "bytes": 4748984,
+    "sha256": "646fe8d5e22b7a6dad0e87e85bae34da3de44eec570aac1622d909c4603d384e"
+   }
+  },
+  {
+   "id": "ride-grip-name-pattern",
+   "name": "grip, name text",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "on_side",
+   "dims_mm": {
+    "x": 31.3,
+    "y": 7.2,
+    "z": 0.8
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.09,
+   "mass_g_pla": 0.1,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": -2,
+   "bodies": 5,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Raised name, second colour; prints lying on its face.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-grip-name-pattern.stl",
+    "bytes": 147484,
+    "sha256": "c8071a4783e996f4a3bf81fd59c7e73405c95870616e278c5c6404c6f9610dd5"
+   }
+  },
+  {
+   "id": "ride-bar-end-plain",
+   "name": "bar-end plug",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 24.0,
+    "y": 24.0,
+    "z": 19.5
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 3.76,
+   "mass_g_pla": 3.3,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Press-fit plug for 18-20 mm bar ends; closes the grips. Cap face on the bed.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-bar-end-plain.stl",
+    "bytes": 111984,
+    "sha256": "c887de12e82a6117dcae6b777024a83eaf1af2eba821790c0f9f872ba6ad2cfe"
+   }
+  },
+  {
+   "id": "ride-bar-end-name",
+   "name": "bar-end plug, name",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 24.0,
+    "y": 24.0,
+    "z": 19.5
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 3.76,
+   "mass_g_pla": 3.3,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "The plug with the name raised 0.8 mm on the cap; prints cap-down with the name as a second body.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-bar-end-name.stl",
+    "bytes": 111984,
+    "sha256": "c887de12e82a6117dcae6b777024a83eaf1af2eba821790c0f9f872ba6ad2cfe"
+   }
+  },
+  {
+   "id": "ride-bar-end-name-pattern",
+   "name": "bar-end plug, name text",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 17.5,
+    "y": 5.3,
+    "z": 0.8
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.04,
+   "mass_g_pla": 0.1,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": -2,
+   "bodies": 4,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Raised name on the cap, second colour.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-bar-end-name-pattern.stl",
+    "bytes": 119084,
+    "sha256": "589332a96b60de6df41e73f4b82ca32651923a6e154d668eb8171285de401ac0"
+   }
+  },
+  {
    "id": "mini-universal-key",
    "name": "universal key",
    "family": "mini",
@@ -9138,6 +9278,11 @@
    "grip_bar_interference_mm3": 5953.426,
    "grip_bar_interference_on_dia_mm": 1.2,
    "bar_end_plug_in_grip_clash_mm3": 0.0,
+   "grip_name_bar_interference_mm3": 5953.426,
+   "grip_name_text_in_grip_body_mm3": 2.212,
+   "grip_name_text_proud_of_grip_od_mm": 0.08,
+   "bar_end_name_text_in_plug_mm3": 1.006,
+   "bar_end_name_text_within_cap_mm": 3.25,
    "bar_end_plug_covers_bore": true,
    "watch_42_case_in_pocket_clash_mm3": 0.0,
    "watch_42_band_round_slab_clash_mm3": 0.0,
@@ -9537,7 +9682,8 @@
     "id_mm": 21.0,
     "od_mm": 30.0,
     "length_mm": 130.0,
-    "material": "TPU 95A"
+    "material": "TPU 95A",
+    "name": "up to 8 letters raised 0.8 on a 9 mm land; bar-end cap takes up to 5"
    },
    "watch": {
     "42": {

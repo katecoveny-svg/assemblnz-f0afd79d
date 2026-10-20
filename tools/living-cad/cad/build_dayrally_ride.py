@@ -32,12 +32,26 @@ if __name__ == "__main__":
             web(f"ride-slate-{name}", s)
             emit(f"ride-slate-{name}-pattern", f"ride pod, slate text, {name}", txt, "face_down", "ride", "Raised text, second colour.")
         print("ride-slate", f"{time.time() - t0:.0f}s", flush=True)
+    if not only or "ride-grip-name" in only:
+        g, txt = r.grip_name("RALLY", FREDOKA)
+        emit("ride-grip-name", "grip, name", g, "as_is", "ride", "TPU 95A, 22.2 mm bars; a flat land along the grip carries the rider's name raised 0.8 mm (same colour by touch, or a second TPU colour).")
+        web("ride-grip-name", g)
+        emit("ride-grip-name-pattern", "grip, name text", txt, "on_side", "ride", "Raised name, second colour; prints lying on its face.")
+        print("ride-grip-name", f"{time.time() - t0:.0f}s", flush=True)
+    if not only or "ride-bar-end" in only:
+        emit("ride-bar-end-plain", "bar-end plug", r.bar_end_plain(), "face_down", "ride", "Press-fit plug for 18-20 mm bar ends; closes the grips. Cap face on the bed.")
+        web("ride-bar-end-plain", r.bar_end_plain())
+        b, txt = r.bar_end_name("MILA", FREDOKA)
+        emit("ride-bar-end-name", "bar-end plug, name", b, "face_down", "ride", "The plug with the name raised 0.8 mm on the cap; prints cap-down with the name as a second body.")
+        web("ride-bar-end-name", b)
+        emit("ride-bar-end-name-pattern", "bar-end plug, name text", txt, "face_down", "ride", "Raised name on the cap, second colour.")
+        print("ride-bar-end", f"{time.time() - t0:.0f}s", flush=True)
     spec = {
         "pod_mm": [r.POD_L, r.POD_W, r.POD_H + r.LID_H], "pod_floor": "TURN flange, two keys 42 mm apart",
         "hinge": f"printed knuckles, {r.PIN_D} mm pin in a {r.PIN_D + 2 * r.PIN_CLR:.1f} mm bore",
         "latch": "accent tongue in a top-entry housing; window over a 1.4 mm rib",
         "gasket": f"TPU ring {r.GASKET_W} x {r.GASKET_H} in a {r.GROOVE_D} mm groove; rib {r.RIB_H}. Splash-proof; not tested, not submersible",
-        "grip": {"bar_mm": 22.2, "id_mm": r.GRIP_ID, "od_mm": r.GRIP_OD, "length_mm": r.GRIP_L, "material": "TPU 95A"},
+        "grip": {"bar_mm": 22.2, "id_mm": r.GRIP_ID, "od_mm": r.GRIP_OD, "length_mm": r.GRIP_L, "material": "TPU 95A", "name": "up to 8 letters raised 0.8 on a 9 mm land; bar-end cap takes up to 5"},
         "watch": {k: {"case_mm": list(v), "pocket_clr_mm": r.POCKET_CLR} for k, v in r.WATCH.items()},
         "phone": {"width_mm": list(r.PHONE_W), "length_mm": list(r.PHONE_LEN), "thickness_mm": list(r.PHONE_T), "channel_mm": r.CH_H, "rack_pitch_mm": r.RACK_PITCH},
         "bottle": {"cup_id_mm": r.CUP_ID, "bottle_mm": "73-75", "m5_spacing_mm": r.M5_SPACING},

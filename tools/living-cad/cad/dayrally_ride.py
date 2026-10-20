@@ -252,6 +252,46 @@ def grip(style="waves"):
     return g
 
 
+LAND_W, TEXT_H = 9.0, 7.0                          # flat land along the grip for the name; Fredoka cap height
+
+
+def grip_name(name="RALLY", font=None):
+    """A plain grip with a flat land along it and the rider's name raised 0.8 mm on the land, in Fredoka Bold. One
+    colour of TPU reads by touch; a second TPU colour on the pattern reads by eye. Up to 8 letters."""
+    g = grip("plain")
+    R = GRIP_OD / 2
+    cut_x = R - 0.7                                   # a 0.7 mm flat gives a 9 mm wide land
+    txt = None
+    if font and name:
+        cs = text_cs(name, font, cap_height=TEXT_H, max_width=GRIP_L - 30)
+        if cs.area() > 1:
+            x0, y0, x1, y1 = cs.bounds()
+            land_len = (x1 - x0) + 10.0
+            land = M.cube([R + 2 - cut_x, LAND_W, land_len], center=False).translate([cut_x, -LAND_W / 2, GRIP_L / 2 - land_len / 2])
+            g = g - land
+            raised = ext_z(cs, 0, 0.8).rotate([0, 90, 0]).translate([cut_x - EPS, 0, GRIP_L / 2 + (x0 + x1) / 2])
+            raised = raised ^ M.cube([2.0, LAND_W, land_len], center=False).translate([cut_x - 1.0, -LAND_W / 2, GRIP_L / 2 - land_len / 2])
+            txt = raised
+    return g, txt
+
+
+def bar_end_plain(bar_id=18.8):
+    """The press-fit bar-end plug, cap face up at z = 0 (the same plug the Scoot and Ride kits use), in the ride family
+    so the custom handles are one set."""
+    return d1.bar_end_plug(bar_id=bar_id, cap_d=24.0).rotate([180, 0, 0])
+
+
+def bar_end_name(name="MILA", font=None, bar_id=18.8):
+    """The bar-end plug with the name raised 0.8 mm on its 24 mm cap, in Fredoka Bold. Up to 5 letters."""
+    plug = bar_end_plain(bar_id)
+    txt = None
+    if font and name:
+        cs = text_cs(name, font, cap_height=5.2, max_width=19.0)
+        if cs.area() > 1:
+            txt = ext_z(cs, -EPS, 0.8)
+    return plug, txt
+
+
 # =====================================================================================
 # watch cradle
 # =====================================================================================

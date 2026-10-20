@@ -52,6 +52,20 @@ bore. One file is one grip: print two. 31 g each. The MakerWorld grip Kate saw i
 grip; the Printables makers report TPU is less grippy than rubber and wants a collar or adhesive, which is
 what the flange and the bar-end plug are for.
 
+**Custom handles (20 October, latest).** Kate: "can we do custom handles for scooters? and bike grips?" The
+grips fit 22.2 mm bars, which is bikes and most owned scooters (kick scooters, a Honey Whale); share scooters
+have moulded grips and get nothing. Custom means the rider's name, in the dayrally way:
+
+| Part | What it is | Checked |
+|---|---|---|
+| `ride-grip-name` (+ `-pattern`) | the plain grip with a 9 mm flat land along it and the name raised 0.8 mm on the land in Fredoka Bold, up to 8 letters. One TPU colour reads by touch; a second TPU colour on the pattern reads by eye. 31 g | same 1.2 mm interference on the bar as the textured grips; the text sits 0.08 mm proud of the grip's outside, so it does not catch |
+| `ride-bar-end-plain` | the press-fit plug that closes the grips, 18 to 20 mm bar ends, cap face on the bed. 3 g | covers the grip bore 0 |
+| `ride-bar-end-name` (+ `-pattern`) | the same plug with up to 5 letters raised 0.8 mm on its 24 mm cap. 3 g | the lettering stays 3.3 mm inside the cap edge |
+
+Widget: the grips item (`lab-ride-grips`) gains the name option; `lab-bar-ends` offers plain or named. Render
+`docs/living/renders/grips-name-sun.png` (sample names RALLY and MILA). The keyed bar end in TURN mini takes a
+charm instead of a name. Lab items until printed; the first TPU print tunes `GRIP_ID`.
+
 ## Watch cradle
 
 | | |
