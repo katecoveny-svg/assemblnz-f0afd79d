@@ -542,3 +542,13 @@ sandbox, so the V covers the range and the day's measurement decides the strap. 
 store (pod mini on the frame saddle, a charm) is unchanged; the new parts stay lab items until printed. The ads
 brief gains script G ("scoot. fish.") and carousel 5, both phase 1 onward, because a share scooter in the frame
 means the parts must have been on a real one first.
+
+### 11.12 Custom handles (20 October, latest)
+
+Kate: "can we do custom handles for scooters? and bike grips?" The grips exist (`ride-grip-waves`, `ride-grip-dots`,
+TPU 95A, 22.2 mm bars, which is bikes and most owned scooters; share scooters have moulded grips and get nothing).
+Custom means the rider's name, in the dayrally way: `ride-grip-name` carries the name raised 0.8 mm on a flat land
+along the grip in Fredoka Bold (up to 8 letters; one TPU colour reads by touch, a second TPU colour on the pattern
+reads by eye), and `ride-bar-end-name` carries up to 5 letters on the 24 mm cap of the press-fit plug that closes
+the grips, beside a plain `ride-bar-end-plain`. The grips lab item gains the name option; a new lab item
+`lab-bar-ends` offers plain or named. All lab items until printed; the first TPU print tunes `GRIP_ID`.

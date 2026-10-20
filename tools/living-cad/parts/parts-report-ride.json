@@ -14,7 +14,8 @@
       "id_mm": 21.0,
       "od_mm": 30.0,
       "length_mm": 130.0,
-      "material": "TPU 95A"
+      "material": "TPU 95A",
+      "name": "up to 8 letters raised 0.8 on a 9 mm land; bar-end cap takes up to 5"
     },
     "watch": {
       "42": {
@@ -457,6 +458,101 @@
       "bodies": 4,
       "unsupported_down_area_mm2": 0.0,
       "notes": "Raised text, second colour."
+    },
+    {
+      "slug": "ride-grip-name",
+      "name": "grip, name",
+      "group": "ride",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        36.0,
+        36.0,
+        130.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 47.97,
+      "est_grams_pla": 30.6,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 10.0,
+      "notes": "TPU 95A, 22.2 mm bars; a flat land along the grip carries the rider's name raised 0.8 mm (same colour by touch, or a second TPU colour)."
+    },
+    {
+      "slug": "ride-grip-name-pattern",
+      "name": "grip, name text",
+      "group": "ride",
+      "print_orientation": "on_side",
+      "print_bbox_mm": [
+        31.3,
+        7.2,
+        0.8
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.09,
+      "est_grams_pla": 0.1,
+      "watertight": true,
+      "genus": -2,
+      "bodies": 5,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Raised name, second colour; prints lying on its face."
+    },
+    {
+      "slug": "ride-bar-end-plain",
+      "name": "bar-end plug",
+      "group": "ride",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        24.0,
+        24.0,
+        19.5
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 3.76,
+      "est_grams_pla": 3.3,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Press-fit plug for 18-20 mm bar ends; closes the grips. Cap face on the bed."
+    },
+    {
+      "slug": "ride-bar-end-name",
+      "name": "bar-end plug, name",
+      "group": "ride",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        24.0,
+        24.0,
+        19.5
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 3.76,
+      "est_grams_pla": 3.3,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "The plug with the name raised 0.8 mm on the cap; prints cap-down with the name as a second body."
+    },
+    {
+      "slug": "ride-bar-end-name-pattern",
+      "name": "bar-end plug, name text",
+      "group": "ride",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        17.5,
+        5.3,
+        0.8
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.04,
+      "est_grams_pla": 0.1,
+      "watertight": true,
+      "genus": -2,
+      "bodies": 4,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Raised name on the cap, second colour."
     }
   ]
 }

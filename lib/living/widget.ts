@@ -76,6 +76,8 @@ const TEXT_PARTS: Record<string, Omit<TextSpec, 'partId'>> = {
   'cam-skin-name-pattern': { label: 'Name on the skin', maxChars: 8, pattern: /^[A-Za-z0-9 .'&-]*$/, hint: 'Up to 8 letters, raised in the accent colour beside the shutter.' },
   'ride-slate-name-pattern': { label: 'Name on the slate', maxChars: 8, pattern: /^[A-Za-z0-9 .'&-]*$/, hint: 'Up to 8 letters, raised on the slate in Fredoka Bold.' },
   'mini-bone-tag-name-pattern': { label: 'Name on the tag', maxChars: 7, pattern: /^[A-Za-z0-9 .'&-]*$/, hint: 'Up to 7 letters, raised on the bone tag in Fredoka Bold.' },
+  'ride-grip-name-pattern': { label: 'Name on the grip', maxChars: 8, pattern: /^[A-Za-z0-9 .'&-]*$/, hint: 'Up to 8 letters, raised along the grip in Fredoka Bold.' },
+  'ride-bar-end-name-pattern': { label: 'Name on the bar end', maxChars: 5, pattern: /^[A-Za-z0-9 .'&-]*$/, hint: 'Up to 5 letters, raised on the 24 mm cap in Fredoka Bold.' },
 };
 const LID_NAME_TEXT: Omit<TextSpec, 'partId'> = { label: 'Name on the lid', maxChars: 10, pattern: /^[A-Za-z0-9 .'&-]*$/, hint: 'Up to 10 letters, inlaid in the accent colour.' };
 
@@ -236,8 +238,13 @@ export const WIDGET_LAB: LabItem[] = [
   },
   {
     id: 'ride-grips', title: 'dayrally grips', type: 'dayrally lab', colourSet: 'dayrally', size: '130 × Ø30 mm · 22.2 mm bars',
-    blurb: 'TPU 95A push-on handlebar grips with a waves or dots texture and six ribs inside to bite the bar. The file is one grip: print two. The existing bar-end plug closes them. Interference on the bar is set at 1.2 mm on the diameter and tuned on the first print.',
+    blurb: 'TPU 95A push-on handlebar grips for 22.2 mm bars (bikes and most owned scooters; share scooters have moulded grips) with a waves or dots texture, or the rider\'s name raised along a flat land, and six ribs inside to bite the bar. The file is one grip: print two. A bar-end plug closes them. Interference on the bar is set at 1.2 mm on the diameter and tuned on the first print.',
     parts: [], choice: { key: 'skin', label: 'Texture', prefix: 'ride-grip-', defaultId: 'waves' }, doc: 'docs/living/DAYRALLY-RIDE.md',
+  },
+  {
+    id: 'bar-ends', title: 'dayrally bar ends · plain or named', type: 'dayrally lab', colourSet: 'dayrally', size: 'Ø24 cap · 18-20 mm bar ends',
+    blurb: 'The press-fit bar-end plug that closes the grips, plain or with the rider\'s name raised on its 24 mm cap in Fredoka Bold (up to 5 letters, second colour). Four slits let it flex into 18 to 20 mm bar ends, bike or scooter. The file is one plug: print two. The keyed bar end in TURN mini takes a charm instead.',
+    parts: [], choice: { key: 'skin', label: 'Cap', prefix: 'ride-bar-end-', defaultId: 'plain' }, doc: 'docs/living/DAYRALLY-RIDE.md',
   },
   {
     id: 'ride-watch', title: 'dayrally watch cradle', type: 'dayrally lab', colourSet: 'dayrally', size: '70 × 58 × 28 mm',

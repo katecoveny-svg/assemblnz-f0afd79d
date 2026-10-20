@@ -66,3 +66,29 @@ its own CDN copies; re-running the step after a render changes replaces nothing 
 - Every lab item (cam 14 files, rod 9, cast 14, ride 20, mini 20, rack 3) is built the same way, with digital
   fit tests in `tools/living-cad/parts/fit-tests-*.json`.
 - What is not yet true: none of it has been printed. The honesty line stays on every surface until it has.
+
+## Agentic Storefronts (recorded 20 October, later)
+
+Kate asked how Shopify's Agentic Storefronts works. From Shopify's developer docs and terms (the marketing page
+could not be read from the build sandbox): Shopify indexes published products into Shopify Catalog and sells
+them inside AI assistants over the Universal Commerce Protocol, with Shopify running the checkout and the order
+landing in the admin as usual; channels named are ChatGPT, Microsoft Copilot, Google AI Mode and Gemini for some
+brands, Meta planned. Checkout is in-chat on Copilot and store-handoff or in-chat on ChatGPT depending on the
+report. Eligibility is Shopify's call and shows under Apps and sales channels; launch reports say US-selling
+merchants first. Separately and already live on every Liquid storefront: WebMCP browser tools, and Shop MCP
+(13 October 2026) for any agent to search Catalog and pay with Shop Pay.
+
+Plan:
+
+1. **Kate:** open Apps and sales channels, note which participating channels the store is eligible for, and read
+   the Agentic Storefronts terms for fees. Nothing to switch on while every product is a draft.
+2. **assembl, before any dayrally product goes active:** decide how a name travels when an agent buys from
+   Catalog without seeing the widget: a line-item property the fulfilment reads, a name variant, or personalised
+   items stay store-only. Record the decision in `docs/factory/DECISIONS.md`.
+3. **assembl:** product data is all an agent sees. Titles, descriptions, images and policies get a pass before
+   the first products are set active; the honesty line stays.
+4. Drafts never reach Catalog, so the ADR-010 rule (nothing listed until a test print passes) also keeps lab
+   items out of every AI channel.
+
+Sources: shopify.dev `docs/agents`, `docs/agents/carts-and-checkout`, `docs/api/web-mcp`, the Shop MCP
+changelog of 13 October 2026, and the Agentic Storefronts Supplemental Terms.
