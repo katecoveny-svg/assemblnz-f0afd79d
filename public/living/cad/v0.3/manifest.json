@@ -18,7 +18,7 @@
  },
  "status": "designed and checked digitally; nothing printed yet. Clamp, detent and clearance values are starting points for the test-print kit.",
  "source": "tools/living-cad/cad/lib.py",
- "built_at": "2026-10-20T01:58:02Z",
+ "built_at": "2026-10-20T02:11:52Z",
  "colours": {
   "living": [
    {
@@ -692,7 +692,11 @@
    "bodies": null,
    "unsupported_down_area_mm2": 0.0,
    "notes": "Shade only. LED bulbs only. Customer fits a certified E27 pendant cord set.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/light-pendant-fold.stl",
+    "bytes": 6098784,
+    "sha256": "b12ede4070a2bfed659b96480dd019b4bcb5da99b3895e7098e4fc04d458228c"
+   }
   },
   {
    "id": "tile-cutout-vanity",
@@ -828,7 +832,11 @@
    "bodies": null,
    "unsupported_down_area_mm2": 65.0,
    "notes": "Floor is a TURN flange: locks to a saddle, a strap clip or any Grid board.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr-pod-base.stl",
+    "bytes": 178084,
+    "sha256": "585e9db0c4fffe6bf38ae6f190f27b57fe87e50ca8e051d0f10e0e091c292f38"
+   }
   },
   {
    "id": "dr-pod-lid",
@@ -852,7 +860,11 @@
    "bodies": null,
    "unsupported_down_area_mm2": 1200.0,
    "notes": "Prints top-down; name inlaid flush in a second colour.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr-pod-lid.stl",
+    "bytes": 199384,
+    "sha256": "6e79d7793e2e08e0d043b246ba6f66d2287d75e0a7ef97ad6245bea0db36daa7"
+   }
   },
   {
    "id": "dr-pod-lid-name",
@@ -876,7 +888,11 @@
    "bodies": null,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr-pod-lid-name.stl",
+    "bytes": 43284,
+    "sha256": "11ab159507e524647326e6e43e4d591d63937a63c5be7bf14382653693f0f0f3"
+   }
   },
   {
    "id": "dr-insert-fish",
@@ -900,7 +916,11 @@
    "bodies": null,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr-insert-fish.stl",
+    "bytes": 44484,
+    "sha256": "de76c2e7a6d13a66e28e3ffadd1a49759c1766d8f02cc145fa5febe805c3aa8c"
+   }
   },
   {
    "id": "dr-insert-everyday",
@@ -924,7 +944,11 @@
    "bodies": null,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr-insert-everyday.stl",
+    "bytes": 41484,
+    "sha256": "a25814babdf15ad3d8338b471042d26245165400efa492bdc098b0844bd2264f"
+   }
   },
   {
    "id": "dr-bar-saddle",
@@ -948,7 +972,11 @@
    "bodies": null,
    "unsupported_down_area_mm2": 1401.0,
    "notes": "Fits 22-35 mm bars with two zip ties or a rubber strap.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr-bar-saddle.stl",
+    "bytes": 156184,
+    "sha256": "0fe6b7966ea326dda5d1f2ebda83a3574244b253947dbabd400f596b8e24b1a6"
+   }
   },
   {
    "id": "dr-strap-clip",
@@ -972,7 +1000,11 @@
    "bodies": null,
    "unsupported_down_area_mm2": 2248.0,
    "notes": "Backpack straps and belts up to 42 mm.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr-strap-clip.stl",
+    "bytes": 120484,
+    "sha256": "68e9aad8d90057a4d10cd749ad7c0a747a5043eb648d9e64b2f0d802dd5275d7"
+   }
   },
   {
    "id": "bike-number-plate",
@@ -996,7 +1028,11 @@
    "bodies": null,
    "unsupported_down_area_mm2": 0.0,
    "notes": "Zip-ties to the bars.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/bike-number-plate.stl",
+    "bytes": 73484,
+    "sha256": "1cc157394024e07d947580fef4004c42ca876246d373b968e61b6276b49296d4"
+   }
   },
   {
    "id": "bike-number-plate-text",
@@ -1020,7 +1056,11 @@
    "bodies": null,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/bike-number-plate-text.stl",
+    "bytes": 78084,
+    "sha256": "11d4421b4632af6a73eee9fcadf41726a50f36d208a6b8fb6b80b8c1194c19ef"
+   }
   },
   {
    "id": "bike-tyre-lever",
@@ -1044,7 +1084,11 @@
    "bodies": null,
    "unsupported_down_area_mm2": 0.0,
    "notes": "Spoke hook at the heel.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/bike-tyre-lever.stl",
+    "bytes": 28284,
+    "sha256": "b5338eb49ba2d42e14923c9f0815781922cdae5bb537e195868f586db9938f77"
+   }
   },
   {
    "id": "bike-bar-end",
@@ -1068,7 +1112,11 @@
    "bodies": null,
    "unsupported_down_area_mm2": 0.0,
    "notes": "Press fit, 18-20 mm bar ends.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/bike-bar-end.stl",
+    "bytes": 111984,
+    "sha256": "c887de12e82a6117dcae6b777024a83eaf1af2eba821790c0f9f872ba6ad2cfe"
+   }
   },
   {
    "id": "dr-handline-winder",
@@ -1092,7 +1140,11 @@
    "bodies": null,
    "unsupported_down_area_mm2": 0.0,
    "notes": "No hooks supplied.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr-handline-winder.stl",
+    "bytes": 42884,
+    "sha256": "74d25361d65df961797c36dc092a33e8592f02fd5a817ca3ca707b2dfc6b2f43"
+   }
   },
   {
    "id": "dr-bag-tag",
@@ -1116,7 +1168,11 @@
    "bodies": null,
    "unsupported_down_area_mm2": 176.0,
    "notes": "Name inlaid on the bed side.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr-bag-tag.stl",
+    "bytes": 27184,
+    "sha256": "f9248c5dc11d1822bfc68e6a55d234266cfbac537009e6e25a68b100dfd49ba3"
+   }
   },
   {
    "id": "dr-bag-tag-name",
@@ -1140,7 +1196,11 @@
    "bodies": null,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr-bag-tag-name.stl",
+    "bytes": 6884,
+    "sha256": "025176bdbe6800e0ef25510e2d5099f4d3acc9930f776a8acf18159bdfd93f24"
+   }
   },
   {
    "id": "dr2-pod-mini",
@@ -1164,7 +1224,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 65.0,
    "notes": "Floor is a TURN flange: fits every dayrally mount and any Grid board.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-pod-mini.stl",
+    "bytes": 176984,
+    "sha256": "c35594ed106466a2622af582a201e934b3d2ac7bcb53861ee0c2bb91ab98b20f"
+   }
   },
   {
    "id": "dr2-lid-mini-plain",
@@ -1188,7 +1252,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 464.0,
    "notes": "Prints top-down.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-mini-plain.stl",
+    "bytes": 155884,
+    "sha256": "5cb8146739d9423bc22ebada7563b4478f6317c40734f2e8dbad2aaaf4eff176"
+   }
   },
   {
    "id": "dr2-lid-mini-name",
@@ -1212,7 +1280,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 683.0,
    "notes": "Inlay prints as the first layers in a second colour.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-mini-name.stl",
+    "bytes": 223084,
+    "sha256": "961f3ebf68e50c1ba51da58febc4ee8df933034651152f9891b87ca5debd9e33"
+   }
   },
   {
    "id": "dr2-lid-mini-name-inlay",
@@ -1236,7 +1308,11 @@
    "bodies": 5,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-mini-name-inlay.stl",
+    "bytes": 67484,
+    "sha256": "d05df631978ebb09e9c6e8ddcfae969c59c20ec0d99e14b616951c3d52305ecf"
+   }
   },
   {
    "id": "dr2-insert-mini-split",
@@ -1260,7 +1336,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-insert-mini-split.stl",
+    "bytes": 40684,
+    "sha256": "d6bca1a03a3b4b06cfbc9d9d68e32e3f484f8eb1760d41563d16a23bdf06c377"
+   }
   },
   {
    "id": "dr2-insert-mini-quad",
@@ -1284,7 +1364,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-insert-mini-quad.stl",
+    "bytes": 42284,
+    "sha256": "adb0c051a74138584884a2a821010d57c47ec1130b81a964de240c4865efd2bd"
+   }
   },
   {
    "id": "dr2-insert-mini-earbuds",
@@ -1308,7 +1392,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-insert-mini-earbuds.stl",
+    "bytes": 35084,
+    "sha256": "104f0ac6cf4f56929526cf226f262d194e74e2233cdfe70a3ba7e8873ec55e7c"
+   }
   },
   {
    "id": "dr2-pod-standard",
@@ -1332,7 +1420,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 65.0,
    "notes": "Floor is a TURN flange: fits every dayrally mount and any Grid board.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-pod-standard.stl",
+    "bytes": 178084,
+    "sha256": "585e9db0c4fffe6bf38ae6f190f27b57fe87e50ca8e051d0f10e0e091c292f38"
+   }
   },
   {
    "id": "dr2-lid-standard-plain",
@@ -1356,7 +1448,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 634.0,
    "notes": "Prints top-down.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-standard-plain.stl",
+    "bytes": 155884,
+    "sha256": "a4c4cee5e4d4bf4c4e4eaf4f14d66f8956a998ce12b953298a13d9115813aa80"
+   }
   },
   {
    "id": "dr2-lid-standard-name",
@@ -1380,7 +1476,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 1217.0,
    "notes": "Inlay prints as the first layers in a second colour.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-standard-name.stl",
+    "bytes": 162984,
+    "sha256": "9c9bb605eabc867e65432f0d4c488bd8eaa011253a60ab55c78ccdf58efc8852"
+   }
   },
   {
    "id": "dr2-lid-standard-name-inlay",
@@ -1404,7 +1504,11 @@
    "bodies": 4,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-standard-name-inlay.stl",
+    "bytes": 6884,
+    "sha256": "5930e0acd0a1d4ad4ddc277ff39906f804790b01096e3c6232da05019b8f814c"
+   }
   },
   {
    "id": "dr2-lid-standard-waves",
@@ -1428,7 +1532,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 2559.0,
    "notes": "Inlay prints as the first layers in a second colour.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-standard-waves.stl",
+    "bytes": 396684,
+    "sha256": "8e99bde90d1680297a7bd692ec2e50e27a2bb9d66a1fb697e1766022c873d3d8"
+   }
   },
   {
    "id": "dr2-lid-standard-waves-inlay",
@@ -1452,7 +1560,11 @@
    "bodies": 8,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-standard-waves-inlay.stl",
+    "bytes": 239284,
+    "sha256": "099ae103d057d6a1fba278da806f3c1d5e566e3d531af5742f8334b81457af12"
+   }
   },
   {
    "id": "dr2-lid-standard-dots",
@@ -1476,7 +1588,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 2226.0,
    "notes": "Inlay prints as the first layers in a second colour.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-standard-dots.stl",
+    "bytes": 507884,
+    "sha256": "003bd4f27ecd5d3c2b523993e331da6360ecc535f620f154dca93ce219ad2103"
+   }
   },
   {
    "id": "dr2-lid-standard-dots-inlay",
@@ -1500,7 +1616,11 @@
    "bodies": 44,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-standard-dots-inlay.stl",
+    "bytes": 343284,
+    "sha256": "986ee2588c9fdf9f4264c61eb5b56ce135d9e50413a97c30067a27ad8bfca655"
+   }
   },
   {
    "id": "dr2-lid-standard-check",
@@ -1524,7 +1644,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 2707.0,
    "notes": "Inlay prints as the first layers in a second colour.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-standard-check.stl",
+    "bytes": 175084,
+    "sha256": "c8289fabed7dd1a293fa4aa64813a29c241878ad31b2b8b3741caa465160f080"
+   }
   },
   {
    "id": "dr2-lid-standard-check-inlay",
@@ -1548,7 +1672,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-standard-check-inlay.stl",
+    "bytes": 21684,
+    "sha256": "035353d9eb6e68613c59b1037e12370d95ffa420813fbe13876ee1e0bf87f192"
+   }
   },
   {
    "id": "dr2-lid-standard-bolt",
@@ -1572,7 +1700,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 2217.0,
    "notes": "Inlay prints as the first layers in a second colour.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-standard-bolt.stl",
+    "bytes": 163084,
+    "sha256": "df7c42209dcdb79741bb06e272af815cc67dcd629f9e9e1109c1f9f764a66c40"
+   }
   },
   {
    "id": "dr2-lid-standard-bolt-inlay",
@@ -1596,7 +1728,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-standard-bolt-inlay.stl",
+    "bytes": 7084,
+    "sha256": "58baa6c06e18a0ea151c884bc8267b3b7da02de0afd8de4c7db058a6733d4a2c"
+   }
   },
   {
    "id": "dr2-lid-standard-topo",
@@ -1620,7 +1756,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 1808.0,
    "notes": "Inlay prints as the first layers in a second colour.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-standard-topo.stl",
+    "bytes": 461284,
+    "sha256": "e77b8bffe1c3d4363bf088ffc6c8f6566be8ef11515d381269bea305d26883b8"
+   }
   },
   {
    "id": "dr2-lid-standard-topo-inlay",
@@ -1644,7 +1784,11 @@
    "bodies": 5,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-standard-topo-inlay.stl",
+    "bytes": 305084,
+    "sha256": "a8db5b64b687a2e49d720686b3298d45ce4f9c5e4245f1bb1af46646415d26fb"
+   }
   },
   {
    "id": "dr2-lid-standard-stars",
@@ -1668,7 +1812,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 1206.0,
    "notes": "Inlay prints as the first layers in a second colour.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-standard-stars.stl",
+    "bytes": 183984,
+    "sha256": "23bedda8e7908a81bfbfe369a8ffb4e218db3067aa68330b031948051e680367"
+   }
   },
   {
    "id": "dr2-lid-standard-stars-inlay",
@@ -1692,7 +1840,11 @@
    "bodies": 14,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-standard-stars-inlay.stl",
+    "bytes": 25284,
+    "sha256": "7c6a30960af9e80d0079b38fbf7727f463ccbd327fbd068ee9dda06fc8980561"
+   }
   },
   {
    "id": "dr2-insert-standard-everyday",
@@ -1716,7 +1868,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-insert-standard-everyday.stl",
+    "bytes": 41484,
+    "sha256": "b21ab36d78c7914f937b0a8cd018f6ba0aa805b22619b2a9ffe9e1c540d646cb"
+   }
   },
   {
    "id": "dr2-insert-standard-tackle",
@@ -1740,7 +1896,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-insert-standard-tackle.stl",
+    "bytes": 43884,
+    "sha256": "2f4466e62eea85d2aa1d47c80fbebd315562c5b94d90e6d62e79a62670e453a6"
+   }
   },
   {
    "id": "dr2-insert-standard-beach",
@@ -1764,7 +1924,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-insert-standard-beach.stl",
+    "bytes": 110884,
+    "sha256": "e5a2e6fbcc711c6b259a42a36aad64d2c3120e851e18ccfe71f4512c78d0dd4d"
+   }
   },
   {
    "id": "dr2-insert-standard-tech",
@@ -1788,7 +1952,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-insert-standard-tech.stl",
+    "bytes": 59684,
+    "sha256": "209cab1dc9f6ea99c4b9a1324bfd10ac0ea4244703726df8167b8789d3f96a9f"
+   }
   },
   {
    "id": "dr2-insert-standard-split",
@@ -1812,7 +1980,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-insert-standard-split.stl",
+    "bytes": 40684,
+    "sha256": "5ca48eb5725b85c0ddcf30c1e8bdf4092f7e13696df2753761638d80806f05bc"
+   }
   },
   {
    "id": "dr2-pod-tall",
@@ -1836,7 +2008,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 65.0,
    "notes": "Floor is a TURN flange: fits every dayrally mount and any Grid board.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-pod-tall.stl",
+    "bytes": 178084,
+    "sha256": "cd952e1b7332afb994262dfc35934c4bceb81fa915db40b4a3bc1b685d222441"
+   }
   },
   {
    "id": "dr2-lid-tall-plain",
@@ -1860,7 +2036,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 634.0,
    "notes": "Prints top-down.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-tall-plain.stl",
+    "bytes": 155884,
+    "sha256": "a4c4cee5e4d4bf4c4e4eaf4f14d66f8956a998ce12b953298a13d9115813aa80"
+   }
   },
   {
    "id": "dr2-lid-tall-name",
@@ -1884,7 +2064,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 1380.0,
    "notes": "Inlay prints as the first layers in a second colour.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-tall-name.stl",
+    "bytes": 177284,
+    "sha256": "522a0920c3401327f8395b1c4e3791c8c798b95ea8f59381ebef5ab279989284"
+   }
   },
   {
    "id": "dr2-lid-tall-name-inlay",
@@ -1908,7 +2092,11 @@
    "bodies": 5,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-tall-name-inlay.stl",
+    "bytes": 20884,
+    "sha256": "567d20623a63b4277a0d7cb805796db915182a31db797c12bd1e392d26c24a77"
+   }
   },
   {
    "id": "dr2-insert-tall-deep-two",
@@ -1932,7 +2120,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-insert-tall-deep-two.stl",
+    "bytes": 40684,
+    "sha256": "dc05cf625efba347b4b82e2f0984053ef2c8be5d066c72940dd3a6b2ac13164f"
+   }
   },
   {
    "id": "dr2-insert-tall-tackle-deep",
@@ -1956,7 +2148,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-insert-tall-tackle-deep.stl",
+    "bytes": 43884,
+    "sha256": "c36a7137ee1ee55f37535d818ef1e90d7add069067c6c5cb4a930c922de4c692"
+   }
   },
   {
    "id": "dr2-insert-tall-cards",
@@ -1980,7 +2176,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-insert-tall-cards.stl",
+    "bytes": 71884,
+    "sha256": "938c71d4b3eac606fa117f049ee530eef213e40de265407c4f9e6fb73a75aa59"
+   }
   },
   {
    "id": "dr2-pod-long",
@@ -2004,7 +2204,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 65.0,
    "notes": "Floor is a TURN flange: fits every dayrally mount and any Grid board.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-pod-long.stl",
+    "bytes": 177884,
+    "sha256": "24238bb2d41494ae4da5dae97ca1502e15fa28e5839c47ab4e1dcd057104f9dd"
+   }
   },
   {
    "id": "dr2-lid-long-plain",
@@ -2028,7 +2232,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 825.0,
    "notes": "Prints top-down.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-long-plain.stl",
+    "bytes": 155884,
+    "sha256": "9388e113c9afbfd90ab50a822214ce931d4a1293edb269e6bbd5d9cea854c33f"
+   }
   },
   {
    "id": "dr2-lid-long-name",
@@ -2052,7 +2260,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 1725.0,
    "notes": "Inlay prints as the first layers in a second colour.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-long-name.stl",
+    "bytes": 199284,
+    "sha256": "3d9208dce22bbf0d9031cc65ed3f4803ad30c931e36356dce0c1f60d83173f87"
+   }
   },
   {
    "id": "dr2-lid-long-name-inlay",
@@ -2076,7 +2288,11 @@
    "bodies": 6,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-long-name-inlay.stl",
+    "bytes": 43284,
+    "sha256": "7de8e01932f8880a2cfadda917f1b407f0ce2ba2d8b2c6417a5afd98fcee8805"
+   }
   },
   {
    "id": "dr2-insert-long-pens",
@@ -2100,7 +2316,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-insert-long-pens.stl",
+    "bytes": 61484,
+    "sha256": "254640809ba4f32c0b635c24289683886c29f0d31a0ce7dd8d45edb956c8e41a"
+   }
   },
   {
    "id": "dr2-insert-long-tackle",
@@ -2124,7 +2344,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-insert-long-tackle.stl",
+    "bytes": 45484,
+    "sha256": "372fa3c3846cb82662bb03bb1d31508b3aa3f66660448e28d1c4996adf202a65"
+   }
   },
   {
    "id": "dr2-insert-long-everyday",
@@ -2148,7 +2372,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-insert-long-everyday.stl",
+    "bytes": 41484,
+    "sha256": "d060c59076b56665c3c1fb84e2a205ae9689aaf098683ae6ec3b574c8d39e278"
+   }
   },
   {
    "id": "dr2-mount-strap-clip",
@@ -2172,7 +2400,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 2248.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-mount-strap-clip.stl",
+    "bytes": 120484,
+    "sha256": "68e9aad8d90057a4d10cd749ad7c0a747a5043eb648d9e64b2f0d802dd5275d7"
+   }
   },
   {
    "id": "dr2-mount-duo-strap",
@@ -2196,7 +2428,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 1693.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-mount-duo-strap.stl",
+    "bytes": 120484,
+    "sha256": "aa6ceb2e704f6db35b040e5cbfb9cd981baae2f78d5c193eab9b7e79a857fe37"
+   }
   },
   {
    "id": "dr2-mount-belt-clip",
@@ -2220,7 +2456,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 2813.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-mount-belt-clip.stl",
+    "bytes": 120484,
+    "sha256": "d4bb2e721f8a0f3c8978277393e201a8f39894f0f709fc331b31998463f3fa12"
+   }
   },
   {
    "id": "dr2-mount-bar-saddle",
@@ -2244,7 +2484,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 1401.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-mount-bar-saddle.stl",
+    "bytes": 156184,
+    "sha256": "0fe6b7966ea326dda5d1f2ebda83a3574244b253947dbabd400f596b8e24b1a6"
+   }
   },
   {
    "id": "dr2-mount-frame-saddle",
@@ -2268,7 +2512,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 1458.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-mount-frame-saddle.stl",
+    "bytes": 156184,
+    "sha256": "0d1a48924af26745b2cc4dbaff8049574d74f46236790b5758ca2767cb15557a"
+   }
   },
   {
    "id": "dr2-mount-carabiner-loop",
@@ -2292,7 +2540,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 1158.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-mount-carabiner-loop.stl",
+    "bytes": 128584,
+    "sha256": "8c63d2fa79dab342302c6cce0d8a3a6c77d060e2eb686bf00820e961b9877b86"
+   }
   },
   {
    "id": "dr2-mount-home-dock",
@@ -2316,7 +2568,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 913.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-mount-home-dock.stl",
+    "bytes": 148284,
+    "sha256": "a143635c8411d5a34b8466b5da0e7c95565bdadabf4996f0e2c9d89b0347de94"
+   }
   },
   {
    "id": "dr2-charm-star",
@@ -2340,7 +2596,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 85.0,
    "notes": "Initials inlaid on the bed side.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-charm-star.stl",
+    "bytes": 33084,
+    "sha256": "46b11b1de2d7a5d672983dc43da2d8c409e507556bb3e8e6cf0c83c4fa58e458"
+   }
   },
   {
    "id": "dr2-charm-star-inlay",
@@ -2364,7 +2624,11 @@
    "bodies": 2,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-charm-star-inlay.stl",
+    "bytes": 6084,
+    "sha256": "657089875910904a9d1f816bd710d0c6a01b56abc07a14c0de89d81dd2d97fae"
+   }
   },
   {
    "id": "dr2-charm-heart",
@@ -2388,7 +2652,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 85.0,
    "notes": "Initials inlaid on the bed side.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-charm-heart.stl",
+    "bytes": 48884,
+    "sha256": "1a0bafd8919ae4f5070c1760b9088954c1816f526c2f85a03c069c6f09aa0882"
+   }
   },
   {
    "id": "dr2-charm-heart-inlay",
@@ -2412,7 +2680,11 @@
    "bodies": 2,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-charm-heart-inlay.stl",
+    "bytes": 4484,
+    "sha256": "d157a0e89b1098b9c2677d514ebcbdadb74f067788ef70bb1bf83e3ce4542720"
+   }
   },
   {
    "id": "dr2-charm-bolt",
@@ -2436,7 +2708,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 0.0,
    "notes": "Initials inlaid on the bed side.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-charm-bolt.stl",
+    "bytes": 31684,
+    "sha256": "12a3c3532e523523f2606272c36aca9e300400a95d50085f9e847c27697bf405"
+   }
   },
   {
    "id": "dr2-charm-flower",
@@ -2460,7 +2736,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 85.0,
    "notes": "Initials inlaid on the bed side.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-charm-flower.stl",
+    "bytes": 42184,
+    "sha256": "300ff0a41b85733e263f107af20b4b53fb2a6d9a9145ba5564bc9a1547b46d59"
+   }
   },
   {
    "id": "dr2-charm-flower-inlay",
@@ -2484,7 +2764,11 @@
    "bodies": 2,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-charm-flower-inlay.stl",
+    "bytes": 4484,
+    "sha256": "d157a0e89b1098b9c2677d514ebcbdadb74f067788ef70bb1bf83e3ce4542720"
+   }
   },
   {
    "id": "dr2-charm-fish",
@@ -2508,7 +2792,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 59.0,
    "notes": "Initials inlaid on the bed side.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-charm-fish.stl",
+    "bytes": 104084,
+    "sha256": "87ad79794b5fa625928d9790f58a297b65ebded9315a6f65d6138f1b1bcb4c2b"
+   }
   },
   {
    "id": "dr2-charm-fish-inlay",
@@ -2532,7 +2820,11 @@
    "bodies": 2,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-charm-fish-inlay.stl",
+    "bytes": 6084,
+    "sha256": "b921eea6895c35eb20d5bd24ad0f1841293826dafc27f439ab3b009e936f5089"
+   }
   },
   {
    "id": "dr2-charm-wave",
@@ -2556,7 +2848,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 85.0,
    "notes": "Initials inlaid on the bed side.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-charm-wave.stl",
+    "bytes": 52884,
+    "sha256": "dedf0496e30152da32bb4feb2110c6698e79420b4ebdea3dcf0d863aafa53d69"
+   }
   },
   {
    "id": "dr2-charm-wave-inlay",
@@ -2580,7 +2876,11 @@
    "bodies": 2,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-charm-wave-inlay.stl",
+    "bytes": 4484,
+    "sha256": "d157a0e89b1098b9c2677d514ebcbdadb74f067788ef70bb1bf83e3ce4542720"
+   }
   },
   {
    "id": "dr2-zip-pull",
@@ -2604,7 +2904,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 31.0,
    "notes": "Not for children under 3: small part.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-zip-pull.stl",
+    "bytes": 23484,
+    "sha256": "db5d1815c377f8f030cc446d2e50d8f736101b197e69323cee7f1f7c4cd99b8a"
+   }
   },
   {
    "id": "dr2-zip-pull-inlay",
@@ -2628,7 +2932,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-zip-pull-inlay.stl",
+    "bytes": 2484,
+    "sha256": "16cb3adf74307950ee156aa910bd5504d32cfd922b9ad955725a7660573af04d"
+   }
   },
   {
    "id": "dr2-phone-stand",
@@ -2652,7 +2960,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 201.0,
    "notes": "Prints on its side.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-phone-stand.stl",
+    "bytes": 43684,
+    "sha256": "06779e506d146ca6f3441f7ddf8f3522123e0b09eb93a2393806681b12e358ee"
+   }
   },
   {
    "id": "dr2-spoke-bead",
@@ -2676,7 +2988,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 0.0,
    "notes": "Snaps onto 2 mm spokes. Small part.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-spoke-bead.stl",
+    "bytes": 13484,
+    "sha256": "3d697f24ea066480673b58cc53a5e10bfb1a6e5b12615c4a7b14f4d98e3256f2"
+   }
   },
   {
    "id": "dr2-chair-hook",
@@ -2700,7 +3016,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 0.0,
    "notes": "Snaps onto 22–25 mm tubes.",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-chair-hook.stl",
+    "bytes": 154484,
+    "sha256": "7da8a277ca79891e18a2cebe11562f578ec91ea1b9d34ecdf7a42c21ed732cf4"
+   }
   },
   {
    "id": "dr2-cable-winder",
@@ -2724,7 +3044,11 @@
    "bodies": 1,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
-   "file": null
+   "file": {
+    "path": "/living/cad/v0.3/dr2-cable-winder.stl",
+    "bytes": 37884,
+    "sha256": "1b7ae7b04b1b1df2fd6aec294fab66d0c0a76bc7f7c1c735429384e05002c7a9"
+   }
   },
   {
    "id": "cam-body",

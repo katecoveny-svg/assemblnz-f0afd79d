@@ -33,7 +33,7 @@ describe('Living storefront reconciliation', () => {
   it('verifies every served TURN file against its generated size and checksum', () => {
     expect(CAD_MANIFEST.parts).toHaveLength(184);
     const served = CAD_MANIFEST.parts.filter(part => part.file);
-    expect(served).toHaveLength(103);
+    expect(served).toHaveLength(184);
     for (const part of served) {
       const file = part.file!;
       expect(file.path.startsWith('/living/cad/v0.3/')).toBe(true);
