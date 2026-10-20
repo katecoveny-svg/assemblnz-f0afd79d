@@ -529,3 +529,16 @@ series' caption style. The key glyph appears alone in three fills (sun, black, o
 appears as a logo element: rally's tag is the pet line's mark. rally in a yellow life jacket on the boat is
 the fish line's frame; a printed part has no business in a life jacket, so that frame is pure character.
 
+
+### 11.11 Scooters (20 October, latest)
+
+Kate: "could we add the kits for scooters too, and the rod holder attachment for a Flamingo, Lime and Honey Whale
+scooter." Flamingo and Lime are Auckland share scooters, so the rule is strap-on, no tools, off in a minute, and
+nothing left on a hired scooter. Built: `scoot-stem-saddle` (a 120 degree V for 32 to 60 mm stems, one 25 mm
+strap, two TURN sockets along the stem) and `scoot-quiver` (one 40 mm tube on a full TURN flange, for either
+packed rod), family `scoot`, widget `lab-scoot-fish`, with the fit tests and the honest gap recorded in
+`DAYRALLY-RIDE.md` ("On the scooter"): the three scooters' stem sizes were not measurable from the build
+sandbox, so the V covers the range and the day's measurement decides the strap. The Scoot kit already in the
+store (pod mini on the frame saddle, a charm) is unchanged; the new parts stay lab items until printed. The ads
+brief gains script G ("scoot. fish.") and carousel 5, both phase 1 onward, because a share scooter in the frame
+means the parts must have been on a real one first.

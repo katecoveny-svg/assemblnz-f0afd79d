@@ -18,7 +18,7 @@
  },
  "status": "designed and checked digitally; nothing printed yet. Clamp, detent and clearance values are starting points for the test-print kit.",
  "source": "tools/living-cad/cad/lib.py",
- "built_at": "2026-10-20T02:11:52Z",
+ "built_at": "2026-10-20T06:05:31Z",
  "colours": {
   "living": [
    {
@@ -5289,6 +5289,62 @@
     "bytes": 152684,
     "sha256": "305c6e6cdeb700cc1b6d2d4487d0c73b7e65bab3b770982fb1ce345ff4e45f72"
    }
+  },
+  {
+   "id": "scoot-stem-saddle",
+   "name": "scooter stem saddle",
+   "family": "scoot",
+   "group": "scoot",
+   "revision": "v0.3",
+   "print_orientation": "on_bottom",
+   "dims_mm": {
+    "x": 96.0,
+    "y": 42.0,
+    "z": 72.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 200.34,
+   "mass_g_pla": 69.9,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 4,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 766.0,
+   "notes": "Straps to a 32-60 mm scooter stem, no tools; two TURN sockets along the stem for a pod or the quiver.",
+   "file": {
+    "path": "/living/cad/v0.3/scoot-stem-saddle.stl",
+    "bytes": 158084,
+    "sha256": "97b1e5b6d6414b2103336d6577f409109631cc3092636dda6fecf0d9f9b93d1b"
+   }
+  },
+  {
+   "id": "scoot-quiver",
+   "name": "scooter rod quiver",
+   "family": "scoot",
+   "group": "scoot",
+   "revision": "v0.3",
+   "print_orientation": "on_side",
+   "dims_mm": {
+    "x": 57.8,
+    "y": 60.0,
+    "z": 150.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 88.95,
+   "mass_g_pla": 71.2,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 5,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1445.0,
+   "notes": "One 40 mm tube, 150 tall, for a packed rod; TURN flange keys it onto the stem saddle. Floor end down.",
+   "file": {
+    "path": "/living/cad/v0.3/scoot-quiver.stl",
+    "bytes": 157584,
+    "sha256": "74217751529384e9a81b087809ed9e1235965df61b21be5279fd62eea6d67af5"
+   }
   }
  ],
  "products": [
@@ -8886,6 +8942,21 @@
    "toptube_45.0_in_saddle_clash_mm3": 0.053,
    "pod_mini_on_toptube_saddle_clash_mm3": 0.0,
    "ride_pod_on_toptube_saddle_clash_mm3": -0.0
+  },
+  "scoot": {
+   "stem_32_in_saddle_clash_mm3": 0.0,
+   "stem_40_in_saddle_clash_mm3": 0.0,
+   "stem_48_in_saddle_clash_mm3": 0.0,
+   "stem_60_in_saddle_clash_mm3": 0.0,
+   "strap_through_saddle_-32_clash_mm3": 0.0,
+   "strap_through_saddle_32_clash_mm3": 0.0,
+   "keys_in_saddle_sockets_clash_mm3_designed_clamp": 0.0,
+   "pod_mini_on_saddle_clash_mm3": -0.0,
+   "ride_pod_on_saddle_clash_mm3": -0.0,
+   "quiver_on_saddle_clash_mm3": 0.0,
+   "keys_through_quiver_flange_clash_mm3_designed_clamp": 37.562,
+   "cast_grip_36_in_quiver_clash_mm3": 0.0,
+   "rod_grip_32_in_quiver_clash_mm3": 0.0
   }
  },
  "lab": {
@@ -9269,6 +9340,21 @@
     45
    ],
    "picture": "docs/living/boards/dayrally-bike-20261020.jpg"
+  },
+  "scoot": {
+   "stem_mm": [
+    32.0,
+    60.0
+   ],
+   "strap": "one 25 mm hook-and-loop or cam strap, no tools, removable",
+   "quiver_bore_mm": 40.0,
+   "quiver_height_mm": 150.0,
+   "takes": "the fixed-line rod packed (32 mm grip) or the cast rod packed (36 mm grip)",
+   "scooters": {
+    "Flamingo (share)": "stem not measured; strap-on only, remove before returning the scooter",
+    "Lime Gen4 (share)": "stem not measured; strap-on only, remove before returning the scooter",
+    "Honey Whale (owned folder)": "stem not measured; strap-on, or the bar saddle on the handlebar"
+   }
   }
  },
  "part_code_alphabet": "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"

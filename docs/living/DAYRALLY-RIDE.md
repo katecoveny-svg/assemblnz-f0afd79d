@@ -125,6 +125,26 @@ What the picture has that no part gives yet: the rack pod in the picture has a l
 one (a two-latch lid is a one-line change if the first print wants it); the rods in the picture are assembled
 and the quiver takes them packed (the cast rod packs to 253 mm). Straps, zip ties and the rack are bought.
 
+## On the scooter (20 October, later)
+
+Kate: "the kits for scooters too, and the rod holder attachment for a Flamingo, Lime and Honey Whale scooter."
+Flamingo and Lime are share scooters: nothing can be drilled or clamped with tools, and whatever goes on has to
+come off in a minute. A Honey Whale is an owned folder, so it gets the same strap-on parts and can also take the
+bar saddle on its handlebar. Source `tools/living-cad/cad/dayrally_scoot.py`, family `scoot`, widget
+`lab-scoot-fish`, render `docs/living/renders/scoot-set-sun.png`. The existing Scoot kit (pod mini on the frame
+saddle, a charm) stays as it is in the store; these two parts are lab items until printed.
+
+| Part | What it is | Checked |
+|---|---|---|
+| `scoot-stem-saddle` | the frame saddle grown for scooter stems: a 120 degree V along the stem, 20 mm deep, so round or oval stems from 32 to 60 mm seat on the two faces; two 26 x 4 strap channels through both cheeks so one 25 mm hook-and-loop or cam strap wraps the stem; two TURN sockets along the stem on top. 70 g PETG | 32, 40, 48 and 60 mm stems seat at 0 mm3; the strap through both channels 0; keys in the sockets at the designed clamp; the pod mini on it 0, the ride pod on it 0 |
+| `scoot-quiver` | one 40 mm tube, 150 tall, 2.4 walls, a drained floor at one end, on a full TURN flange (keys 42 apart along the tube) held 8 mm off the flange by three bridges at x = 0 and +-38, between and outside the key heads. Because the two keys are symmetric it mounts either way up; the floor end goes down. Takes the fixed-line rod packed (32 mm grip) or the cast rod packed (36). 71 g PETG, prints standing | the quiver on the saddle 0; keys through its flange at the designed clamp; both grips in the tube 0 |
+
+What is not known: the stem diameters and shapes of the three scooters. The sites could not be read from the
+build sandbox, so no figure is quoted. The V covers 32 to 60 mm; measure the stem on the day, and on a share
+scooter take the parts off before the ride ends. The strap is bought (a 25 mm cam strap, about 400 mm, or
+hook-and-loop). A quiver on a stem puts a packed rod beside the rider's knee: ride with it on the outside of the
+stem, floor down, and keep the open end below the handlebar.
+
 ## The font
 
 The board's wordmark is a heavy, soft, rounded geometric sans, all lowercase. The board is AI-generated, so

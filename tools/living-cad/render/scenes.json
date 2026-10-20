@@ -2185,5 +2185,41 @@
    -430,
    380
   ]
+ },
+ "scoot-set-sun": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/scoot-stem-saddle.stl",
+    "colour": "#2A2A2D",
+    "x": -80,
+    "y": 10,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/scoot-quiver.stl",
+    "colour": "#F5C400",
+    "x": 40,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/rod-grip.stl",
+    "colour": "#2A2A2D",
+    "x": 46.5,
+    "y": 0,
+    "z": 3,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   220,
+   -320,
+   230
+  ]
  }
 }

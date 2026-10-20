@@ -93,6 +93,12 @@ tab, phone out. Caption: "in." "ride." "out." Line: "mount it. move it. go furth
 goes on, the lid closes. Caption: "your name." "your kit." Line: "clip it. organise it. make it yours."
 Hero cream, accent tomato.
 
+**G · scoot. fish.** (phase 1 onward, once the stem saddle has been printed and strapped to a real scooter) The
+stem saddle straps onto a share scooter's stem in one motion, the quiver clicks on with a quarter-turn, the packed
+rod drops in, ride to the wharf, lift the rod out, unstrap, dock the scooter. Caption: "strap." "click." "fish."
+Line: "take good things further." Hero sun, accent black. Honesty: the Flamingo or Lime is a hired scooter, the
+parts come off before it is returned, and the ad never shows a part left on a share scooter.
+
 **F · plan. build. print. go.** Screen capture of the widget: pick ride, pick sun, type RALLY, the parts
 assemble in 3D, the part sheet appears. Caption: "plan." "build." "print." "go." This one is honest today
 because the widget is live and produces the real print files; it never shows a printer running.
@@ -116,6 +122,11 @@ card: the kit laid out, "ride kit." Render sources: `bike-set-sun`, `bike-toptub
 **Carousel 3 · the everyday kit.** Card 1: `sun-dayrally-everyday-flatlay`, "clip it. organise it. make it
 yours." Then pod mini, pod standard, bag charm, zip pulls, strap clip, home dock. Last card: "everyday kit."
 Render sources: `sun-pod-mini-butter-name`, `sun-pod-standard-sky-waves`, `sun-charm-star-tangerine`.
+
+**Carousel 5 · the scooter.** Card 1: the stem saddle on a stem, "strap. click. go." Then the stem saddle alone,
+the quiver, the packed rod in the quiver, the pod mini on the same saddle, the bar saddle on the handlebar. Last
+card: "scoot kit." with the honesty line. Render source: `scoot-set-sun`. Phase 1 onward, since a share scooter
+is in the frame and the parts must have been strapped to a real one first.
 
 **Carousel 4 · one key, six days.** Six cards, one activity each in the board's icon style: ride, explore,
 everyday, pet, camp, fish. Each card: the activity word in Fredoka, one part that belongs to it, the key
