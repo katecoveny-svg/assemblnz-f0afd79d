@@ -462,3 +462,52 @@ endless days."; the kit grid is ride / everyday / explore with the board's three
 gain pet and camp (greyed, "coming"); the components library becomes a band of its own once TURN mini
 exists, and until then shows the mounts that do exist with the honesty line.
 
+### 11.9 Four more boards, rally the mascot, and what got built (20 October, evening)
+
+Kate: "keep building those other suggestions with the look and feel of what I've just sent you", then four
+more boards and: bike mounts for the iPhone, a battery extender for phones, a GoPro helmet mount in the ride
+kit, and "aim to make rally the mascot for a video series, YouTube Shorts and TikTok".
+
+**The boards add lines** (all verbatim, all now canon beside 11.8): "plan. build. print. go." · "one key.
+endless possibilities." · "one key. fits everything." · "one key fits every mount." · "click. lock. change.
+go." · "same key. more freedom." · "good gear. more days." · "good days are modular." · "go further." ·
+"explore further." · "good dogs. greater days." · "same dog. more days." · "clip it. organise it. make it
+yours." The modular-accessories strip repeats the library with one more name, **strap loop**, and shows the
+hero image of the system: a sun-yellow cylinder with a steel pin, labelled universal key, with cubes
+clicking onto it. The wordmark appears in sun on white, in white on sun, and in black on white; the key
+glyph always follows it.
+
+**The mascot.** The dog is named **rally** (the boards' pun: "the dishound"). The series bible, rules, twelve
+episodes and the production path are in `DAYRALLY-RALLY-SERIES.md`. rally is an illustration until a real
+dog has worn a real part, and the caption on every episode says which.
+
+**Built, in this look:** `DAYRALLY-MINI.md`, family `mini`, 18 print files, renders `mini-*.png` in sun,
+tomato, black and cream. TURN mini is the TURN at 0.6 scale with a 26 mm cube and a double-ended universal
+key (push, turn, quarter-turn the next cube), checked digitally joint by joint. The library: universal key,
+end cap, base mount, angle joint, flat mount, tube clamp and pole clamp, action cam mount with the
+three-finger fitting, **helmet base** (the GoPro helmet mount Kate asked for: curved to a 90 mm shell, VHB
+pad), light mount, **phone holder** (the iPhone bar mount in the mini system; the full-size spring-free
+mount in 11.7 stays), **battery dock** (the battery extender: a power-bank sleeve that locks beside the
+phone), device holder, photo tag, collar mount (pet), lantern hook (camp), the keyed bar-end plug, and the
+adapter that locks a cube chain onto the bar saddle, a pod floor, the home dock or the Grid. `sun` is now in
+the dayrally colour set in the manifest (the scoped-colour resolution in 11.8, taken as confirmed by "keep
+building in this look"; say if not).
+
+**Not built from the boards, and why:** the swivel and swipe joints wait for the first mini key print (a
+rotating joint needs a detent that a 0.6-scale bump may or may not hold); the panel is a line of code once
+the cube prints; the mini case is the pod mini with a socket.
+
+**The storefront hero** (`docs/living/theme/dayrally-hero.liquid`) is now in this look: sun field, the
+wordmark in Fredoka 700, "one system. endless days.", the board's one-sentence description, and "click ·
+lock · change · go" under the key diagram.
+
+**Two more boards, later the same evening.** rally in Auckland: the trail, the Sky Tower across the
+Waitematā, a boat with rods and a snapper, a west-coast sunset. rally wears a **bone-shaped sun-yellow tag
+with RALLY on it**, on a plain collar, and in two frames the harness cam. The wordmark sits in black on a sun
+panel, and the activity row gains a sixth icon: **fish** (ride · explore · everyday · pet · camp · fish),
+which ties the dayrally fish line (`DAYRALLY-ROD.md`, `DAYRALLY-CAST.md`) back into the family. Built from
+it: `mini-bone-tag-name`, the bone tag with the name raised in Fredoka Bold and a split-ring hole, in the
+explore/pet lab kit. The locations are the series' locations (`DAYRALLY-RALLY-SERIES.md`): the Waitākere
+trails, the Sky Tower skyline from the water, Muriwai at sunset, a tinny off Rangitoto. Real places; the dog
+and the parts are still illustrations until printed and worn.
+

@@ -1,0 +1,403 @@
+{
+  "spec": {
+    "scale_of_turn": 0.6,
+    "cube_mm": 26.0,
+    "keyway_mm": 7.8,
+    "chamber_mm": 13.2,
+    "plate_mm": 2.4,
+    "socket_depth_mm": 4.8,
+    "lug_width_mm": 2.04,
+    "clamp_mm": 0.06,
+    "detent_mm": 0.21,
+    "universal_key": "double-ended, 1.0 mm disc at the join; turn the first end by the other end's lugs, then quarter-turn the second cube",
+    "action_cam_fitting": {
+      "finger_mm": 3.0,
+      "gap_mm": 3.35,
+      "width_mm": 14.5,
+      "bolt": "M5 thumb screw, bought"
+    },
+    "adapter": "two full TURN keys at 42 mm under a 70 x 36 flange; one mini socket on an 18 mm boss above the key grips"
+  },
+  "parts": [
+    {
+      "slug": "mini-universal-key",
+      "name": "universal key",
+      "group": "mini",
+      "print_orientation": "on_side",
+      "print_bbox_mm": [
+        7.9,
+        12.7,
+        12.7
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.45,
+      "est_grams_pla": 0.6,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 45.0,
+      "notes": "Double-ended TURN mini key: joins two cubes. Lies flat to print."
+    },
+    {
+      "slug": "mini-end-cap",
+      "name": "end cap",
+      "group": "mini",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        20.8,
+        12.6,
+        5.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.46,
+      "est_grams_pla": 0.6,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 7.0,
+      "notes": "Closes a socket; the loop is a tie point and the handle."
+    },
+    {
+      "slug": "mini-cube",
+      "name": "base mount",
+      "group": "mini",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        26.0,
+        26.0,
+        26.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 13.9,
+      "est_grams_pla": 8.3,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 527.0,
+      "notes": "26 mm cube, a socket in every face."
+    },
+    {
+      "slug": "mini-angle-joint",
+      "name": "angle joint",
+      "group": "mini",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        26.0,
+        26.0,
+        26.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 12.2,
+      "est_grams_pla": 6.2,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 249.0,
+      "notes": "Two sockets 45 degrees apart."
+    },
+    {
+      "slug": "mini-flat-mount",
+      "name": "flat mount",
+      "group": "mini",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        42.0,
+        42.0,
+        6.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 9.41,
+      "est_grams_pla": 6.4,
+      "watertight": true,
+      "genus": 4,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 81.0,
+      "notes": "Four 3.5 mm screws or adhesive."
+    },
+    {
+      "slug": "mini-tube-clamp",
+      "name": "tube clamp, bars",
+      "group": "mini",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        36.0,
+        30.0,
+        18.4
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 11.91,
+      "est_grams_pla": 7.5,
+      "watertight": true,
+      "genus": 4,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 595.0,
+      "notes": "22-35 mm bars; two zip ties."
+    },
+    {
+      "slug": "mini-pole-clamp",
+      "name": "tube clamp, poles",
+      "group": "mini",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        36.0,
+        30.0,
+        17.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 11.83,
+      "est_grams_pla": 7.4,
+      "watertight": true,
+      "genus": 4,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 595.0,
+      "notes": "12-20 mm poles; two zip ties."
+    },
+    {
+      "slug": "mini-cam-mount",
+      "name": "action cam mount",
+      "group": "mini",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        26.0,
+        26.0,
+        43.2
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 16.61,
+      "est_grams_pla": 10.0,
+      "watertight": true,
+      "genus": 3,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 484.0,
+      "notes": "Three-finger action-cam fitting (3.0 / 3.35 / M5); bought thumb screw."
+    },
+    {
+      "slug": "mini-light-mount",
+      "name": "light mount",
+      "group": "mini",
+      "print_orientation": "on_side",
+      "print_bbox_mm": [
+        53.1,
+        29.8,
+        26.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 17.93,
+      "est_grams_pla": 12.0,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 792.0,
+      "notes": "C ring for a 22-26 mm torch, band notches."
+    },
+    {
+      "slug": "mini-adapter",
+      "name": "mini-to-full adapter",
+      "group": "mini",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        70.0,
+        36.0,
+        10.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 10.9,
+      "est_grams_pla": 7.9,
+      "watertight": true,
+      "genus": 2,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 84.0,
+      "notes": "Two full TURN keys underneath, one mini socket on a boss above the key grips."
+    },
+    {
+      "slug": "mini-photo-tag",
+      "name": "photo tag",
+      "group": "mini",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        52.0,
+        48.0,
+        7.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 11.4,
+      "est_grams_pla": 7.8,
+      "watertight": true,
+      "genus": 2,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 124.0,
+      "notes": "40 x 30 photo under four corner tabs; socket on the back; lanyard hole."
+    },
+    {
+      "slug": "mini-device-holder",
+      "name": "device holder",
+      "group": "mini",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        70.0,
+        100.0,
+        10.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 20.37,
+      "est_grams_pla": 17.5,
+      "watertight": true,
+      "genus": 3,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 76.0,
+      "notes": "Cradle with strap slots for a 20 mm elastic strap; socket on the back."
+    },
+    {
+      "slug": "mini-helmet-base",
+      "name": "helmet base",
+      "group": "mini",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        50.0,
+        40.0,
+        6.5
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 11.17,
+      "est_grams_pla": 7.1,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 213.0,
+      "notes": "Curved to a 90 mm helmet shell; 3M VHB pad; the cam mount locks on."
+    },
+    {
+      "slug": "mini-battery-dock",
+      "name": "battery dock",
+      "group": "mini",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        75.4,
+        60.0,
+        22.8
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 34.85,
+      "est_grams_pla": 20.6,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 213.0,
+      "notes": "Sleeve for a power bank up to 70 x 15 mm; cable notch; strap slots; socket on the back."
+    },
+    {
+      "slug": "mini-phone-holder",
+      "name": "phone holder",
+      "group": "mini",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        88.0,
+        168.0,
+        10.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 31.77,
+      "est_grams_pla": 27.4,
+      "watertight": true,
+      "genus": 3,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 76.0,
+      "notes": "Cased phone up to 80 x 160; silicone strap; socket on the back."
+    },
+    {
+      "slug": "mini-collar-mount",
+      "name": "collar mount",
+      "group": "mini",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        34.0,
+        33.0,
+        12.2
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 9.58,
+      "est_grams_pla": 7.4,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 935.0,
+      "notes": "Slides onto a 20-25 mm collar; a tag or light locks on top."
+    },
+    {
+      "slug": "mini-lantern-hook",
+      "name": "lantern hook",
+      "group": "mini",
+      "print_orientation": "on_side",
+      "print_bbox_mm": [
+        32.0,
+        67.0,
+        26.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 10.24,
+      "est_grams_pla": 6.9,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 618.0,
+      "notes": "J hook with a socket."
+    },
+    {
+      "slug": "mini-bar-end",
+      "name": "bar-end plug, keyed",
+      "group": "mini",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        24.0,
+        24.0,
+        19.5
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 3.17,
+      "est_grams_pla": 3.5,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 213.0,
+      "notes": "The bar-end plug with a mini socket in its cap."
+    },
+    {
+      "slug": "mini-bone-tag-name",
+      "name": "bone tag, name",
+      "group": "mini",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        44.0,
+        24.0,
+        3.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 2.44,
+      "est_grams_pla": 2.4,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "rally's tag: a bone with the name raised in Fredoka Bold; 4 mm split-ring hole."
+    },
+    {
+      "slug": "mini-bone-tag-name-pattern",
+      "name": "bone tag, raised name",
+      "group": "mini",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        28.0,
+        6.4,
+        0.8
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.07,
+      "est_grams_pla": 0.1,
+      "watertight": true,
+      "genus": -2,
+      "bodies": 5,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Second colour, 0.8 mm."
+    }
+  ]
+}

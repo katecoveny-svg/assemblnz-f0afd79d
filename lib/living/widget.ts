@@ -75,6 +75,7 @@ const TEXT_PARTS: Record<string, Omit<TextSpec, 'partId'>> = {
   'bike-number-plate-text': { label: 'Plate number', maxChars: 3, pattern: /^[0-9]*$/, hint: 'One to three digits.' },
   'cam-skin-name-pattern': { label: 'Name on the skin', maxChars: 8, pattern: /^[A-Za-z0-9 .'&-]*$/, hint: 'Up to 8 letters, raised in the accent colour beside the shutter.' },
   'ride-slate-name-pattern': { label: 'Name on the slate', maxChars: 8, pattern: /^[A-Za-z0-9 .'&-]*$/, hint: 'Up to 8 letters, raised on the slate in Fredoka Bold.' },
+  'mini-bone-tag-name-pattern': { label: 'Name on the tag', maxChars: 7, pattern: /^[A-Za-z0-9 .'&-]*$/, hint: 'Up to 7 letters, raised on the bone tag in Fredoka Bold.' },
 };
 const LID_NAME_TEXT: Omit<TextSpec, 'partId'> = { label: 'Name on the lid', maxChars: 10, pattern: /^[A-Za-z0-9 .'&-]*$/, hint: 'Up to 10 letters, inlaid in the accent colour.' };
 
@@ -252,6 +253,24 @@ export const WIDGET_LAB: LabItem[] = [
     id: 'ride-bottle', title: 'dayrally bottle cup', type: 'dayrally lab', colourSet: 'dayrally', size: '81 × 92 × 105 mm',
     blurb: 'A bottle cup with diamond windows for 73 to 75 mm bottles, on two TURN keys and with the standard 64 mm M5 slots, so it bolts to a frame boss, locks to a frame or bar saddle, or sits on the Grid or the home dock as a pen cup. Two inside ridges hold the bottle.',
     parts: [{ id: 'ride-bottle-cup', qty: 1 }], doc: 'docs/living/DAYRALLY-RIDE.md',
+  },
+  {
+    id: 'turn-mini', title: 'TURN mini · components library', type: 'dayrally lab', colourSet: 'dayrally', size: '26 mm cubes · 7.8 mm keyway',
+    blurb: 'The TURN at gadget scale (0.6×): a 26 mm base mount with a socket in every face, a double-ended universal key that joins two cubes (push, turn, quarter-turn the next cube), an angle joint, a flat mount, a tube clamp for 22-35 mm bars, an end cap with a loop, and the adapter that locks a cube chain onto any full-size TURN mount, pod floor or Grid board.',
+    parts: [{ id: 'mini-universal-key', qty: 3 }, { id: 'mini-cube', qty: 2 }, { id: 'mini-angle-joint', qty: 1 }, { id: 'mini-flat-mount', qty: 1 }, { id: 'mini-tube-clamp', qty: 1 }, { id: 'mini-end-cap', qty: 2 }, { id: 'mini-adapter', qty: 1 }],
+    doc: 'docs/living/DAYRALLY-MINI.md',
+  },
+  {
+    id: 'mini-ride', title: 'ride kit · mini mounts', type: 'dayrally lab', colourSet: 'dayrally', size: 'cam mount 26 × 26 × 43 mm',
+    blurb: 'The ride kit on TURN mini: an action cam mount with the three-finger fitting (3.0 mm fingers, 3.35 gaps, M5 thumb screw bought), a helmet base curved to a 90 mm shell for a VHB pad, a light mount for a 22-26 mm torch, a phone holder for a cased phone up to 80 × 160 with a silicone strap, a battery dock for a power bank up to 70 × 15, a tube clamp and the keyed bar-end plug.',
+    parts: [{ id: 'mini-cam-mount', qty: 1 }, { id: 'mini-helmet-base', qty: 1 }, { id: 'mini-light-mount', qty: 1 }, { id: 'mini-phone-holder', qty: 1 }, { id: 'mini-battery-dock', qty: 1 }, { id: 'mini-tube-clamp', qty: 2 }, { id: 'mini-bar-end', qty: 2 }, { id: 'mini-universal-key', qty: 4 }],
+    doc: 'docs/living/DAYRALLY-MINI.md',
+  },
+  {
+    id: 'mini-explore', title: 'explore kit · mini', type: 'dayrally lab', colourSet: 'dayrally', size: 'photo tag 52 × 48 × 7 mm',
+    blurb: 'The explore kit on TURN mini: a photo tag that holds a 40 × 30 print under four corner tabs, a device holder with strap slots for a GPS or a power bank, a pole clamp for 12-20 mm poles, and a lantern hook. Pet: a collar mount that slides onto a 20-25 mm collar so a tag, a light or the cam locks on, and rally\'s bone tag with the name raised in Fredoka.',
+    parts: [{ id: 'mini-photo-tag', qty: 1 }, { id: 'mini-device-holder', qty: 1 }, { id: 'mini-pole-clamp', qty: 1 }, { id: 'mini-lantern-hook', qty: 1 }, { id: 'mini-collar-mount', qty: 1 }, { id: 'mini-bone-tag-name', qty: 1 }, { id: 'mini-bone-tag-name-pattern', qty: 1 }, { id: 'mini-universal-key', qty: 3 }, { id: 'mini-end-cap', qty: 1 }],
+    doc: 'docs/living/DAYRALLY-MINI.md',
   },
   {
     id: 'ride-stand', title: 'dayrally crank stand', type: 'dayrally lab', colourSet: 'dayrally', size: '110 × 70 × 120 mm',

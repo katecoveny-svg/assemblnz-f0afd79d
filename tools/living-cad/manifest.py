@@ -37,7 +37,7 @@ TS_MANIFEST = REPO / "lib" / "living" / "cad-manifest.json"
 
 # Families whose print files the storefront serves. Dayrally, bike and the pendant
 # shade are rebuilt on demand (the shade alone is 6 MB of mesh).
-SERVED_FAMILIES = {"grid", "tile", "stack", "renter", "camera", "rod", "cast", "ride"}
+SERVED_FAMILIES = {"grid", "tile", "stack", "renter", "camera", "rod", "cast", "ride", "mini"}
 
 COLOURS = {
     "living": [
@@ -48,7 +48,7 @@ COLOURS = {
         ("tomato", "Tomato", "#E04E3B"), ("tangerine", "Tangerine", "#F28C28"), ("butter", "Butter", "#F3D97A"), ("lime", "Lime", "#BFD95A"),
         ("mint", "Mint", "#9EDFC5"), ("sky", "Sky", "#8EC5F2"), ("cobalt", "Cobalt", "#2E4FB5"), ("lilac", "Lilac", "#C7B5EC"),
         ("grape", "Grape", "#7A3E9D"), ("blush", "Blush", "#F2B8C6"), ("cloud", "Cloud", "#E8EAED"), ("sage", "Sage", "#9FAE95"),
-        ("ink", "Ink", "#2A2A2D"),
+        ("ink", "Ink", "#2A2A2D"), ("sun", "Sun", "#F5C400"),
     ],
     "natural": [("natural", "Natural translucent", "#EDE9E2")],
 }
@@ -119,7 +119,7 @@ def material_for(slug: str) -> str:
         return "PPA-CF (PA12-CF second)"
     if slug.startswith(("ride-slate", "ride-latch", "ride-pod-lid-pattern")):
         return "PLA Matte"
-    if slug.startswith("ride-"):
+    if slug.startswith(("ride-", "mini-")):
         return "PETG"
     if slug.startswith("dr2-mount-"):
         return "PETG"
@@ -133,7 +133,7 @@ def sha(path: Path) -> str:
 def load_parts() -> list[dict]:
     rows: list[dict] = []
     for name, family in (("parts-report", None), ("parts-report-extras", None), ("parts-report-dayrally", "dayrally"), ("parts-report-dayrally2", "dayrally2"),
-                         ("parts-report-cam", "camera"), ("parts-report-rod", "rod"), ("parts-report-cast", "cast"), ("parts-report-ride", "ride")):
+                         ("parts-report-cam", "camera"), ("parts-report-rod", "rod"), ("parts-report-cast", "cast"), ("parts-report-ride", "ride"), ("parts-report-mini", "mini")):
         loaded = json.loads((PARTS / f"{name}.json").read_text())
         for r in (loaded["parts"] if isinstance(loaded, dict) else loaded):
             fam = r.get("system") or family
@@ -246,8 +246,8 @@ def main() -> None:
             if m and check_char(m.group(1)) != m.group(2):
                 raise SystemExit(f"check letter mismatch for {s['sku']}")
     kit_report = json.loads((PARTS / "test-kit" / "kit-report.json").read_text())
-    fit = {name: json.loads((PARTS / f"fit-tests{suffix}.json").read_text()) for name, suffix in (("grid", ""), ("renter", "-renter"), ("dayrally", "-dayrally"), ("dayrally2", "-dayrally2"), ("camera", "-cam"), ("rod", "-rod"), ("cast", "-cast"), ("ride", "-ride"))}
-    lab = {name: json.loads((PARTS / f"parts-report-{suffix}.json").read_text())["spec"] for name, suffix in (("camera", "cam"), ("rod", "rod"), ("cast", "cast"), ("ride", "ride"))}
+    fit = {name: json.loads((PARTS / f"fit-tests{suffix}.json").read_text()) for name, suffix in (("grid", ""), ("renter", "-renter"), ("dayrally", "-dayrally"), ("dayrally2", "-dayrally2"), ("camera", "-cam"), ("rod", "-rod"), ("cast", "-cast"), ("ride", "-ride"), ("mini", "-mini"))}
+    lab = {name: json.loads((PARTS / f"parts-report-{suffix}.json").read_text())["spec"] for name, suffix in (("camera", "cam"), ("rod", "rod"), ("cast", "cast"), ("ride", "ride"), ("mini", "mini"))}
     manifest = {
         "pack": PACK,
         "interface": INTERFACE,
