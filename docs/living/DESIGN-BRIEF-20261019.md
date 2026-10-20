@@ -612,3 +612,39 @@ Copy on the page is under a hundred words. The assembl shell (plum navigation an
 **Honest gaps.** The mascot (rally) has no asset in the repo beyond the AI boards, so the dog band from the
 boards is not on the page yet; the Space Studio and the widget index still wear the quiet plum register and are
 the next pass; the price on every card is the proposed launch price, not a quote.
+
+### 11.15 More pieces, a brighter sun, and four pictures of furniture (20 October, late evening)
+
+Kate on the sun storefront: "Thanks can we add more items too and make the yellow brighter", with four pictures:
+grid-topped stools in blue, terracotta and pink; a family of stacking stools whose three bent legs lock into a
+pinwheel top; a magazine rack of two bent sheets with a looped handle on three legs; and a Pinterest feed
+(Lundia's M-Wall mobile shelving, ooak's handle sleeves, a fluted planter on legs, a kids' plywood chair).
+The pictures are filed in `docs/living/boards/inspiration-*-20261020.*` as reference only: they are other
+people's products and photographs and never appear on the site.
+
+**Done on the page.** The sun on screen is `#FFD200` (brand system, "Sun on screen"); the printed sun stays
+`#F5C400`. "featured." became **the pieces.**: 27 cards, every catalogue product and lab item that has a render,
+products with their proposed price and lab items marked `lab · designed · unpriced`, all linking to the widget;
+the header links to all 56 in the widget index. Twelve more alpha renders were trimmed into `public/living/alpha/`.
+
+**What the pictures ask for, and what exists to build it from.** Every one of them is the TURN at furniture scale,
+and the `stack` foundation (dowel joints and feet for 19 mm timber dowel) is the bridge:
+
+1. **Grid side table / stool** (the first picture). A TURN board *is* a grid top. A 2×4 or 4×4 board on three
+   splayed 19 mm dowel legs needs one new part, a **table node**: two keys 42 mm apart that lock into the board's
+   keyways from below, a 19 mm socket at a 10° splay, and a foot to match. Two boards edge to edge give a
+   336 × 168 bedside; the keyways on top take the cup, the name plate and a phone stand. The honest limit: a
+   168 mm board is a side table, not a stool, until a load test says otherwise. **First to build.**
+2. **Stacking stool** (the second picture). Three identical bent legs locking into a pinwheel seat. Beyond a
+   250 mm print cube as one piece; as the TURN it is three printed leg-to-seat nodes on dowel, with the seat a
+   6×6 board (252 mm, a new size). Needs the load test before it is called a stool.
+3. **Magazine rack** (the third picture). Two bent sheets and a looped handle. As the TURN: two printed end
+   frames keyed to a 2×4 board floor, dowel for the handle loop, the sides in 3 mm ply or card. Worth doing after
+   the table node exists, since it reuses it.
+4. **Fluted planter on legs** (the feed). The fold shade's flute profile, as a pot with a drainage saucer, on the
+   same table node and three short dowels. Cheap once (1) exists.
+5. **Handle sleeves** (the feed) exist already as the grips and the name grip (11.12).
+
+None of these is designed yet. The order is table node → planter → magazine rack → stool, because each reuses
+the last, and the table node is one afternoon in the manifold pipeline with the same fit tests as the dowel
+joints. Kate's call before the first one starts.

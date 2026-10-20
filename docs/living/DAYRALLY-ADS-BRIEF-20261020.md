@@ -18,7 +18,7 @@ Where this brief and those disagree, those win.
 - **Description.** Modular 3D printed accessories that click together and go wherever you do.
 - **The idea in four words.** click. lock. change. go. One key fits every mount: the same push-and-quarter-
   turn key locks a pod to a bike, a bag strap, a desk dock, a helmet, a collar.
-- **Palette.** Sun `#F5C400`, tomato `#E8472B`, black `#1A1A1A`, cream `#EFE6D6`, white. Four colours on a
+- **Palette.** Sun `#FFD200` on screen (`#F5C400` is the printed PETG sun), tomato `#E8472B`, black `#1A1A1A`, cream `#EFE6D6`, white. Four colours on a
   board, never more than three on one object. One hero colour and one accent per piece of creative.
 - **Type.** Fredoka 700 for the wordmark and short display lines only. Instrument Sans for everything else.
   Captions in the hand-lettered style: black marker, two or three words a line, a sun underline.

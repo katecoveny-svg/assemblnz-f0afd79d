@@ -202,7 +202,7 @@ a.lv-door:hover .lv-door-art img { transform: scale(1.03); }
    first, a few words, one fact line in mono. Scoped to .lv-sun so the
    studio keeps the quiet register until it gets the same pass. */
 .lv-sun {
-  --ls-sun: #f5c400;
+  --ls-sun: #ffd200;
   --ls-ink: #1a1a1a;
   --ls-cream: #efe6d6;
   --ls-white: #fffdf8;

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { CAD_MANIFEST, DAYRALLY_KITS, INTERFACE_SPEC, KITS } from '@/lib/living';
+import { CAD_MANIFEST, DAYRALLY_KITS, INTERFACE_SPEC, KITS, PRODUCTS, WIDGET_LAB } from '@/lib/living';
 import { fredoka } from './fonts';
 import { HeroWall } from './HeroWall';
 import './living.css';
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     '3D printed kits for your room, your bike, your bag and the dog, all on one 42 mm quarter-turn key. Show us your space, pick a kit, printed to order.',
 };
 
-const SUN = '#f5c400';
+const SUN = '#ffd200';
 
 /** The category row: a picture and a name, nothing else. */
 const DOORS: { id: string; name: string; sub: string; art: string; href: string }[] = [
@@ -26,16 +26,35 @@ const DOORS: { id: string; name: string; sub: string; art: string; href: string 
   { id: 'pets-and-everyday', name: 'pets', sub: 'leads & names', art: 'hook-clay', href: '/living/studio?space=pets-and-everyday' },
 ];
 
-/** Featured pieces: the catalogue handle and its render. */
-const FEATURED: { handle: string; art: string }[] = [
+/** The pieces: catalogue products (priced, proposed) and lab items (designed, unpriced), each with its render. */
+const PIECES: { handle: string; art: string; name?: string }[] = [
   { handle: 'al-pod-standard', art: 'pod-standard-sky-waves' },
   { handle: 'al-board-4x4', art: 'board-4x4-chalk' },
   { handle: 'al-name-plate', art: 'name-plate-plum-mila' },
   { handle: 'al-number-plate', art: 'number-plate-lime' },
+  { handle: 'lab-dayrally-ride', art: 'ride-pod-tomato', name: 'ride pod' },
+  { handle: 'al-pod-mini', art: 'pod-mini-butter-name' },
   { handle: 'al-hook', art: 'hook-clay' },
   { handle: 'al-shelf-3', art: 'shelf-3-sage' },
   { handle: 'al-cup', art: 'cup-plum' },
   { handle: 'al-bin-2', art: 'bin-2-oat' },
+  { handle: 'lab-ride-grips', art: 'grips-name-sun', name: 'name grips' },
+  { handle: 'lab-ride-phone', art: 'ride-phone-ink', name: 'phone mount' },
+  { handle: 'lab-ride-watch', art: 'ride-watch-sky', name: 'watch mount' },
+  { handle: 'lab-ride-bottle', art: 'ride-bottle-tangerine', name: 'bottle cup' },
+  { handle: 'lab-ride-stand', art: 'ride-stand-mint', name: 'crank stand' },
+  { handle: 'lab-ride-rack', art: 'bike-set-sun', name: 'rack set' },
+  { handle: 'lab-scoot-fish', art: 'scoot-set-sun', name: 'scooter set' },
+  { handle: 'lab-dayrally-rod', art: 'rod-packed-lime', name: 'packable rod' },
+  { handle: 'lab-dayrally-cast', art: 'cast-kit-sky', name: 'casting rod' },
+  { handle: 'lab-wharf-reel', art: 'rod-wharf-reel-tangerine', name: 'wharf reel' },
+  { handle: 'lab-dayrally-cam', art: 'cam-exploded-ink-tomato', name: 'pinhole cam' },
+  { handle: 'lab-mini-ride', art: 'mini-ride-kit-sun', name: 'mini mounts · ride' },
+  { handle: 'lab-mini-explore', art: 'mini-explore-sun', name: 'mini mounts · explore' },
+  { handle: 'al-bag-charm', art: 'charm-star-tangerine' },
+  { handle: 'al-tray-custom', art: 'tray-2x1-oat', name: 'drawer tray' },
+  { handle: 'al-tray-cutout', art: 'vanity-cutout-sage', name: 'cut-out tray' },
+  { handle: 'al-node-corner', art: 'stack-nodes-ink', name: 'dowel joints' },
 ];
 
 function nzd(n: number) {
@@ -54,6 +73,15 @@ function KeyGlyph() {
 export default function AssemblLivingPage() {
   const served = CAD_MANIFEST.parts.filter((p) => p.file).length;
   const products = new Map(CAD_MANIFEST.products.map((p) => [p.handle, p]));
+  const catalogue = new Map(PRODUCTS.map((p) => [p.handle, p]));
+  const lab = new Map(WIDGET_LAB.map((l) => [`lab-${l.id}`, l]));
+  const pieces = PIECES.map(({ handle, art, name }) => {
+    const p = products.get(handle) ?? catalogue.get(handle);
+    const l = lab.get(handle);
+    const title = name ?? (p?.title ?? l?.title ?? handle).replace('dayrally ', '').toLowerCase();
+    const price = p?.price_nzd ?? 0;
+    return { handle, art, title, price: price > 0 ? price : null, lab: Boolean(l) };
+  });
   return (
     <div className={`lv lv-sun ${fredoka.variable}`}>
       <section className="ls-hero" aria-labelledby="ls-title">
@@ -94,22 +122,21 @@ export default function AssemblLivingPage() {
 
         <section className="ls-section" id="ls-shop" aria-labelledby="ls-featured">
           <div className="ls-head">
-            <h2 id="ls-featured">featured.</h2>
-            <Link href="/living/widget">view all →</Link>
+            <h2 id="ls-featured">the pieces.</h2>
+            <Link href="/living/widget">all {CAD_MANIFEST.products.length + WIDGET_LAB.length} →</Link>
           </div>
           <div className="ls-grid">
-            {FEATURED.map(({ handle, art }) => {
-              const p = products.get(handle);
-              if (!p) return null;
-              return (
-                <Link key={handle} href={`/living/widget/${handle}`} className="ls-card">
-                  <div className="ls-card-art"><Image src={`/living/alpha/${art}.png`} alt={p.title} fill sizes="(max-width: 680px) 50vw, 25vw" /></div>
-                  <b>{p.title.replace('dayrally ', '').toLowerCase()}</b>
-                  <div className="ls-price"><span>{nzd(p.price_nzd)}</span><small>proposed</small></div>
-                  <span className="ls-btn" data-variant="small">see it →</span>
-                </Link>
-              );
-            })}
+            {pieces.map((x) => (
+              <Link key={x.handle} href={`/living/widget/${x.handle}`} className="ls-card">
+                <div className="ls-card-art"><Image src={`/living/alpha/${x.art}.png`} alt={x.title} fill sizes="(max-width: 680px) 50vw, 25vw" /></div>
+                <b>{x.title}</b>
+                <div className="ls-price">
+                  {x.price ? <span>{nzd(x.price)}</span> : <span>lab</span>}
+                  <small>{x.price ? 'proposed' : x.lab ? 'designed · unpriced' : 'made to measure'}</small>
+                </div>
+                <span className="ls-btn" data-variant="small">see it →</span>
+              </Link>
+            ))}
           </div>
         </section>
 
