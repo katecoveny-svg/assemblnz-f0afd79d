@@ -399,3 +399,66 @@ being dust- and splash-proof. Our pod is a hinged bento with a compressed TPU ga
 waterproof until it has been under a tap. If the first print leaks, the next pod is a screw-lid round pod on
 the same TURN floor, which the cast rod's thread code already knows how to cut.
 
+### 11.8 "Here is my look": the second dayrally board (20 October, later still)
+
+Kate sent a second board, `docs/living/boards/dayrally-look-20261020.jpg`. It is AI-generated concept art,
+not a photograph of anything that exists, and it is now **the register for dayrally**: the first board (11.6)
+gave us the pod, the slate and the phone flow; this one gives the colour, the voice, the kit structure and a
+component library. Where the two boards differ, this one wins.
+
+**Wordmark and lines, verbatim.** `dayrally` in the heavy rounded face (Fredoka 700 is our licensed
+stand-in), yellow, with a small rounded-rectangle "key" glyph after it. "one system. endless days." in
+tomato. "Modular 3D printed accessories that click together and go wherever you do." Five activity icons
+with lowercase labels: **ride · explore · everyday · pet · camp** (pet and camp are new). Three kits, each
+with a line: **ride kit.** "mount it. move it. go further." **everyday kit.** "clip it. organise it. make it
+yours." **explore kit.** "take good things further." And a library strap-line: **components library.** "Mix,
+match and make it yours. All 3D printed. Designed for real days."
+
+**Palette.** Sun yellow (about `#F5C400`), tomato (`#E8472B`), black, cream (`#EFE6D6`), with white. Four
+colours on the whole board, never more than three on one object. This is a deliberate collision with the
+company rule (no canary on assembl company surfaces, `assembl-brand-system.md`). The resolution: **sun is a
+dayrally colour, scoped like Fredoka.** It appears on dayrally product, pages and film and never on an
+assembl company surface. Add `sun` to the dayrally colour set in the manifest beside butter (butter stays
+for the softer lids). Kate's call to confirm; until then the renders keep using butter.
+
+**"dayrally do."** The phone shows the app: `dayrally do.` as the wordmark, "Plan. Build. Print. Go.", a
+"Customise your kit" row of three builds, one yellow button "Generate & Print", then "Choose your activity ·
+Customise & print · Your kits · Saved builds" and a tab bar Home · Create · Kits · Profile. This is the DO
+family name on the dayrally flow, which is right: the widget is the "Customise & print" screen, the kits are
+"Your kits", the activity chooser is the collection. "Generate & Print" is honest only when a build produces
+the real print files (it does: the widget's part sheet) and never claims a printer is running.
+
+**The kits as the board draws them, against what exists.**
+
+| Board | Exists in v0.3 (file) | Does not exist yet |
+|---|---|---|
+| ride kit: action cam mount, light mount, phone mount, multi-angle joint | phone mount (`ride-phone-*`), bar saddle, watch cradle, grips, bottle cup, crank stand | action cam mount (GoPro three-finger), light mount, multi-angle joint |
+| everyday kit: bag clip, ID tag, mini case, cable tidy | strap clip (`dr2-mount-strap-clip`), bag tag (`dr-bag-tag`), pod mini (`dr2-pod-mini`), cable winder (`dr2-cable-winder`), the ride pod (`ride-pod-*`) | a true clip-on bag clip (carabiner-style), the case-with-a-window photo tag |
+| explore kit: bottle mount, photo tag, strap loop, device holder | bottle cup (`ride-bottle-cup`), strap clip, phone stand | photo tag, device holder (a generic cradle with a strap) |
+| pet, camp | nothing | a collar mount for a tag or light; a tent/pole clamp, a lantern hook |
+
+**The components library is the real news.** Twelve small parts: universal key, base mount, angle joint,
+tube clamp (bars and poles), flat mount, swivel joint, swipe joint, clip mount, device holder, mini case,
+panel, end cap. They are all roughly 25 to 30 mm cubes with a round socket and a key, in yellow, red, black
+and cream, and they chain: base mount → angle joint → device holder. That is the TURN at gadget scale, and
+the TURN as it stands is too big for it (42 mm pitch, 13 mm bore, 22 mm chamber). The honest next build is
+**TURN mini**: the same push-and-quarter-turn key at half scale (21 mm pitch, about 7 mm bore, 11 mm
+chamber), so a 26 mm cube carries one keyway on each face, a "universal key" joins any two cubes, and the
+joints (angle, swivel, swipe) are cubes with a second axis. A mini-to-full adapter (one full keyway on a
+60 × 42 flange, mini keyways on top) lets the cube chain lock onto a pod floor, the bar saddle and the Grid.
+That keeps Kate's rule, the lock key carrying through every component, true from the Grid board down to an
+action cam. Everything in the library then becomes a cube in the manifold pipeline with the same fit tests
+as the pods. Not started; it is the next CAD build after the keyed bar-end plug.
+
+**Composition and scene.** Hard sun, blue sky, cream rock and sand, a mountain bike, the sea in the explore
+panel. Products in use and at a low angle, open kits spilling parts, the character (a long-haired dachshund
+in a helmet and sunglasses, with a harness-mounted cam) as the recurring face. Keep the character: it is the
+line's mascot and it photographs the "pet" kit for free. It is an illustration; never claim it is a real
+dog wearing real parts until a part exists and a dog has worn it. Keep the honesty footer from 11.6 on every
+frame.
+
+**What changes in the storefront plan (11.5).** The hero is sun yellow with the wordmark and "one system.
+endless days."; the kit grid is ride / everyday / explore with the board's three lines; the activity chips
+gain pet and camp (greyed, "coming"); the components library becomes a band of its own once TURN mini
+exists, and until then shows the mounts that do exist with the honesty line.
+
