@@ -18,7 +18,7 @@
  },
  "status": "designed and checked digitally; nothing printed yet. Clamp, detent and clearance values are starting points for the test-print kit.",
  "source": "tools/living-cad/cad/lib.py",
- "built_at": "2026-10-20T00:37:27Z",
+ "built_at": "2026-10-20T01:11:13Z",
  "colours": {
   "living": [
    {
@@ -122,6 +122,11 @@
     "id": "ink",
     "name": "Ink",
     "hex": "#2A2A2D"
+   },
+   {
+    "id": "sun",
+    "name": "Sun",
+    "hex": "#F5C400"
    }
   ],
   "natural": [
@@ -4316,6 +4321,566 @@
     "bytes": 182084,
     "sha256": "1d309713dc07557ff41d67c7a5962fc33750a62f4bf293667e9e6cfc53ed25eb"
    }
+  },
+  {
+   "id": "mini-universal-key",
+   "name": "universal key",
+   "family": "mini",
+   "group": "mini",
+   "revision": "v0.3",
+   "print_orientation": "on_side",
+   "dims_mm": {
+    "x": 7.9,
+    "y": 12.7,
+    "z": 12.7
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.45,
+   "mass_g_pla": 0.6,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 45.0,
+   "notes": "Double-ended TURN mini key: joins two cubes. Lies flat to print.",
+   "file": {
+    "path": "/living/cad/v0.3/mini-universal-key.stl",
+    "bytes": 107884,
+    "sha256": "a3d80fadda0e339d9cbbdc44972876b566260d77623dacc583fe64ce67402147"
+   }
+  },
+  {
+   "id": "mini-end-cap",
+   "name": "end cap",
+   "family": "mini",
+   "group": "mini",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 20.8,
+    "y": 12.6,
+    "z": 5.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.46,
+   "mass_g_pla": 0.6,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 7.0,
+   "notes": "Closes a socket; the loop is a tie point and the handle.",
+   "file": {
+    "path": "/living/cad/v0.3/mini-end-cap.stl",
+    "bytes": 79484,
+    "sha256": "7373e0989b4c204ba5fc01fd514c865b04fc79c1e601444b3905917ddcea03de"
+   }
+  },
+  {
+   "id": "mini-cube",
+   "name": "base mount",
+   "family": "mini",
+   "group": "mini",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 26.0,
+    "y": 26.0,
+    "z": 26.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 13.9,
+   "mass_g_pla": 8.3,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 527.0,
+   "notes": "26 mm cube, a socket in every face.",
+   "file": {
+    "path": "/living/cad/v0.3/mini-cube.stl",
+    "bytes": 367084,
+    "sha256": "01aed5ac0f742613dac7d1576b62ea61b684ddccda56c0056f1d55a608ec72fb"
+   }
+  },
+  {
+   "id": "mini-angle-joint",
+   "name": "angle joint",
+   "family": "mini",
+   "group": "mini",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 26.0,
+    "y": 26.0,
+    "z": 26.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 12.2,
+   "mass_g_pla": 6.2,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 249.0,
+   "notes": "Two sockets 45 degrees apart.",
+   "file": {
+    "path": "/living/cad/v0.3/mini-angle-joint.stl",
+    "bytes": 120884,
+    "sha256": "7e15a6da48e87f5d30117a85ff118fb38acfdecaa4976e6d93fbf277ddf40557"
+   }
+  },
+  {
+   "id": "mini-flat-mount",
+   "name": "flat mount",
+   "family": "mini",
+   "group": "mini",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 42.0,
+    "y": 42.0,
+    "z": 6.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 9.41,
+   "mass_g_pla": 6.4,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 4,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 81.0,
+   "notes": "Four 3.5 mm screws or adhesive.",
+   "file": {
+    "path": "/living/cad/v0.3/mini-flat-mount.stl",
+    "bytes": 109484,
+    "sha256": "00c4a91578efb7a2a76b6f47e0b302fbb56da9db411741d80851ee8c33cad68a"
+   }
+  },
+  {
+   "id": "mini-tube-clamp",
+   "name": "tube clamp, bars",
+   "family": "mini",
+   "group": "mini",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 36.0,
+    "y": 30.0,
+    "z": 18.4
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 11.91,
+   "mass_g_pla": 7.5,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 4,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 595.0,
+   "notes": "22-35 mm bars; two zip ties.",
+   "file": {
+    "path": "/living/cad/v0.3/mini-tube-clamp.stl",
+    "bytes": 96884,
+    "sha256": "67942c80f780b49415886415ea8c79d660629ea88e036c5458f34b833c3df762"
+   }
+  },
+  {
+   "id": "mini-pole-clamp",
+   "name": "tube clamp, poles",
+   "family": "mini",
+   "group": "mini",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 36.0,
+    "y": 30.0,
+    "z": 17.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 11.83,
+   "mass_g_pla": 7.4,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 4,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 595.0,
+   "notes": "12-20 mm poles; two zip ties.",
+   "file": {
+    "path": "/living/cad/v0.3/mini-pole-clamp.stl",
+    "bytes": 97284,
+    "sha256": "77af75a3ba14a3c665d277824a8981b9e43c9b9d006eb8939e8b2832a57fc3be"
+   }
+  },
+  {
+   "id": "mini-cam-mount",
+   "name": "action cam mount",
+   "family": "mini",
+   "group": "mini",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 26.0,
+    "y": 26.0,
+    "z": 43.2
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 16.61,
+   "mass_g_pla": 10.0,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 3,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 484.0,
+   "notes": "Three-finger action-cam fitting (3.0 / 3.35 / M5); bought thumb screw.",
+   "file": {
+    "path": "/living/cad/v0.3/mini-cam-mount.stl",
+    "bytes": 360284,
+    "sha256": "5f0811e54959af86829e7b2b9c2b85cfc12f934a052d73e18d7253302f40048e"
+   }
+  },
+  {
+   "id": "mini-light-mount",
+   "name": "light mount",
+   "family": "mini",
+   "group": "mini",
+   "revision": "v0.3",
+   "print_orientation": "on_side",
+   "dims_mm": {
+    "x": 53.1,
+    "y": 29.8,
+    "z": 26.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 17.93,
+   "mass_g_pla": 12.0,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 792.0,
+   "notes": "C ring for a 22-26 mm torch, band notches.",
+   "file": {
+    "path": "/living/cad/v0.3/mini-light-mount.stl",
+    "bytes": 417584,
+    "sha256": "01a264c5115aaab3f953c738e9e8bbdc85ca6bbde726286b6eaa57d9211da2da"
+   }
+  },
+  {
+   "id": "mini-adapter",
+   "name": "mini-to-full adapter",
+   "family": "mini",
+   "group": "mini",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 70.0,
+    "y": 36.0,
+    "z": 10.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 10.9,
+   "mass_g_pla": 7.9,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 2,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 84.0,
+   "notes": "Two full TURN keys underneath, one mini socket on a boss above the key grips.",
+   "file": {
+    "path": "/living/cad/v0.3/mini-adapter.stl",
+    "bytes": 162484,
+    "sha256": "ee76cc4ebfc7b32649cfe02fc9859f2f75836b69b1a2aadcc0e9ba41b2630af2"
+   }
+  },
+  {
+   "id": "mini-photo-tag",
+   "name": "photo tag",
+   "family": "mini",
+   "group": "mini",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 52.0,
+    "y": 48.0,
+    "z": 7.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 11.4,
+   "mass_g_pla": 7.8,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 2,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 124.0,
+   "notes": "40 x 30 photo under four corner tabs; socket on the back; lanyard hole.",
+   "file": {
+    "path": "/living/cad/v0.3/mini-photo-tag.stl",
+    "bytes": 68084,
+    "sha256": "f6245c4169c49ab90874ffad3bcbb5012fd77216b374c5ca6ebcec25cc541f02"
+   }
+  },
+  {
+   "id": "mini-device-holder",
+   "name": "device holder",
+   "family": "mini",
+   "group": "mini",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 70.0,
+    "y": 100.0,
+    "z": 10.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 20.37,
+   "mass_g_pla": 17.5,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 3,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 76.0,
+   "notes": "Cradle with strap slots for a 20 mm elastic strap; socket on the back.",
+   "file": {
+    "path": "/living/cad/v0.3/mini-device-holder.stl",
+    "bytes": 92484,
+    "sha256": "05653bf79467d6dfb5e24123e7ac695b85e9b6f5d5e42016d9580e69bfe44843"
+   }
+  },
+  {
+   "id": "mini-helmet-base",
+   "name": "helmet base",
+   "family": "mini",
+   "group": "mini",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 50.0,
+    "y": 40.0,
+    "z": 6.5
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 11.17,
+   "mass_g_pla": 7.1,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 213.0,
+   "notes": "Curved to a 90 mm helmet shell; 3M VHB pad; the cam mount locks on.",
+   "file": {
+    "path": "/living/cad/v0.3/mini-helmet-base.stl",
+    "bytes": 73284,
+    "sha256": "caa339d176b10af6420e0d5452c0a25976efcbbc29e1624fedb312e0e0c8caf1"
+   }
+  },
+  {
+   "id": "mini-battery-dock",
+   "name": "battery dock",
+   "family": "mini",
+   "group": "mini",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 75.4,
+    "y": 60.0,
+    "z": 22.8
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 34.85,
+   "mass_g_pla": 20.6,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 213.0,
+   "notes": "Sleeve for a power bank up to 70 x 15 mm; cable notch; strap slots; socket on the back.",
+   "file": {
+    "path": "/living/cad/v0.3/mini-battery-dock.stl",
+    "bytes": 75284,
+    "sha256": "27229dec1a2ad0a9e14accc1b72727b878ef2e601d29afa4d91120346cf4c5d3"
+   }
+  },
+  {
+   "id": "mini-phone-holder",
+   "name": "phone holder",
+   "family": "mini",
+   "group": "mini",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 88.0,
+    "y": 168.0,
+    "z": 10.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 31.77,
+   "mass_g_pla": 27.4,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 3,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 76.0,
+   "notes": "Cased phone up to 80 x 160; silicone strap; socket on the back.",
+   "file": {
+    "path": "/living/cad/v0.3/mini-phone-holder.stl",
+    "bytes": 92484,
+    "sha256": "8c6db87b4f92c8407f75cd2c9ee5f0ca210f3851c24f0a2c45f5f43deeac41df"
+   }
+  },
+  {
+   "id": "mini-collar-mount",
+   "name": "collar mount",
+   "family": "mini",
+   "group": "mini",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 34.0,
+    "y": 33.0,
+    "z": 12.2
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 9.58,
+   "mass_g_pla": 7.4,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 935.0,
+   "notes": "Slides onto a 20-25 mm collar; a tag or light locks on top.",
+   "file": {
+    "path": "/living/cad/v0.3/mini-collar-mount.stl",
+    "bytes": 70284,
+    "sha256": "8990feab059fc3e2d4696c32614a3dc2dea71271c28e2156f10455dd22b7451f"
+   }
+  },
+  {
+   "id": "mini-lantern-hook",
+   "name": "lantern hook",
+   "family": "mini",
+   "group": "mini",
+   "revision": "v0.3",
+   "print_orientation": "on_side",
+   "dims_mm": {
+    "x": 32.0,
+    "y": 67.0,
+    "z": 26.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 10.24,
+   "mass_g_pla": 6.9,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 618.0,
+   "notes": "J hook with a socket.",
+   "file": {
+    "path": "/living/cad/v0.3/mini-lantern-hook.stl",
+    "bytes": 99684,
+    "sha256": "d37bfb39582fc89b4c6946938e31c1a7c6273fb3c5f8b06047aa40fd068b5dbe"
+   }
+  },
+  {
+   "id": "mini-bar-end",
+   "name": "bar-end plug, keyed",
+   "family": "mini",
+   "group": "mini",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 24.0,
+    "y": 24.0,
+    "z": 19.5
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 3.17,
+   "mass_g_pla": 3.5,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 213.0,
+   "notes": "The bar-end plug with a mini socket in its cap.",
+   "file": {
+    "path": "/living/cad/v0.3/mini-bar-end.stl",
+    "bytes": 171884,
+    "sha256": "f60824caf2c69fa2a0df2e81e58101e2377a93016608b3f6ab79ffe7cbacba84"
+   }
+  },
+  {
+   "id": "mini-bone-tag-name",
+   "name": "bone tag, name",
+   "family": "mini",
+   "group": "mini",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 44.0,
+    "y": 24.0,
+    "z": 3.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 2.44,
+   "mass_g_pla": 2.4,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "rally's tag: a bone with the name raised in Fredoka Bold; 4 mm split-ring hole.",
+   "file": {
+    "path": "/living/cad/v0.3/mini-bone-tag-name.stl",
+    "bytes": 50484,
+    "sha256": "f536b7618c07063c9cfedbd95c7920dd7eaedc986ae5835b691824ecd02c6976"
+   }
+  },
+  {
+   "id": "mini-bone-tag-name-pattern",
+   "name": "bone tag, raised name",
+   "family": "mini",
+   "group": "mini",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 28.0,
+    "y": 6.4,
+    "z": 0.8
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.07,
+   "mass_g_pla": 0.1,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": -2,
+   "bodies": 5,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Second colour, 0.8 mm.",
+   "file": {
+    "path": "/living/cad/v0.3/mini-bone-tag-name-pattern.stl",
+    "bytes": 147484,
+    "sha256": "bed252e74c0379ab228ee817d1449a135d5e54c969f99a5058c30552b076c1bf"
+   }
   }
  ],
  "products": [
@@ -8217,6 +8782,47 @@
    "stand_phone_in_cradle_clash_mm3": 0.0,
    "stand_keyways_open_through_back_mm3": 0.0,
    "stand_fits_250": true
+  },
+  "mini": {
+   "universal_key_in_cube_A_clash_mm3": -0.0,
+   "cubes_face_to_face_clash_mm3": 0.0,
+   "universal_key_in_cube_B_clash_mm3": -0.0,
+   "cube_B_quarter_turned_same": 0.0,
+   "universal_key_unlocked_passes_keyway_mm3": -0.0,
+   "end_cap_in_cube_clash_mm3": 0.0,
+   "cube_face_adjacent_chambers_overlap": "by construction: chambers occupy 2.4-4.8 mm behind each face; interior 16.4 mm solid",
+   "cam_fingers_gauge_clash_mm3": 0.0,
+   "cam_fingers_gauge_shifted_0.2_clash_mm3": 7.592,
+   "torch_25_in_light_mount_clash_mm3": 0.0,
+   "torch_26_in_light_mount_clash_mm3_designed_grip": 642.704,
+   "tube_clamp_bar_22.0_clash_mm3": 0.006,
+   "tube_clamp_bar_22.0_seats_above_bed": true,
+   "tube_clamp_bar_31.8_clash_mm3": 0.012,
+   "tube_clamp_bar_31.8_seats_above_bed": true,
+   "tube_clamp_bar_35.0_clash_mm3": 0.014,
+   "tube_clamp_bar_35.0_seats_above_bed": true,
+   "pole_clamp_bar_12.0_clash_mm3": 0.005,
+   "pole_clamp_bar_12.0_seats_above_bed": true,
+   "pole_clamp_bar_16.0_clash_mm3": 0.009,
+   "pole_clamp_bar_16.0_seats_above_bed": true,
+   "pole_clamp_bar_20.0_clash_mm3": 0.014,
+   "pole_clamp_bar_20.0_seats_above_bed": true,
+   "adapter_keys_clash_mm3_designed_clamp": 38.134,
+   "adapter_on_bar_saddle_clash_mm3": -0.0,
+   "adapter_on_grid_board_clash_mm3": -0.0,
+   "cube_on_adapter_clash_mm3": -0.0,
+   "cube_on_adapter_clears_full_key_grips_mm3": 0.0,
+   "photo_in_tag_clash_mm3": 0.0,
+   "device_60x90x12_in_holder_clash_mm3": 0.0,
+   "collar_25x4_in_mount_clash_mm3_bump_only": 48.873,
+   "bar_end_key_clash_mm3": 0.0,
+   "bar_end_in_18.8_bar_press_mm3_designed": 752.506,
+   "helmet_base_on_90mm_shell_clash_mm3": 0.0,
+   "battery_68x14_in_dock_clash_mm3": 0.0,
+   "phone_78x158x9_in_holder_clash_mm3": 0.0,
+   "helmet_base_key_clash_mm3": -0.0,
+   "cam_mount_on_helmet_base_clash_mm3": -0.0,
+   "cam_mount_on_helmet_base_key_clash_mm3": -0.0
   }
  },
  "lab": {
@@ -8567,6 +9173,25 @@
     "lean_deg": 15.0
    },
    "font": "Fredoka Bold (SIL OFL 1.1) for the wordmark and slates"
+  },
+  "mini": {
+   "scale_of_turn": 0.6,
+   "cube_mm": 26.0,
+   "keyway_mm": 7.8,
+   "chamber_mm": 13.2,
+   "plate_mm": 2.4,
+   "socket_depth_mm": 4.8,
+   "lug_width_mm": 2.04,
+   "clamp_mm": 0.06,
+   "detent_mm": 0.21,
+   "universal_key": "double-ended, 1.0 mm disc at the join; turn the first end by the other end's lugs, then quarter-turn the second cube",
+   "action_cam_fitting": {
+    "finger_mm": 3.0,
+    "gap_mm": 3.35,
+    "width_mm": 14.5,
+    "bolt": "M5 thumb screw, bought"
+   },
+   "adapter": "two full TURN keys at 42 mm under a 70 x 36 flange; one mini socket on an 18 mm boss above the key grips"
   }
  },
  "part_code_alphabet": "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"

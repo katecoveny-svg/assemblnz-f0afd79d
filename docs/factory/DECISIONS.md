@@ -267,3 +267,22 @@ surface that renders the dayrally wordmark loads Fredoka 700 from the repo (or G
 fallback. The OFL allows embedding and redistribution with the licence text; a modified version may not use
 the Reserved Font Name.
 
+## ADR-012 — TURN mini: the TURN scaled by 0.6 for the dayrally components library
+
+**Date:** 2026-10-20. **Status:** accepted (proposed in print; nothing printed).
+
+**Context.** The dayrally boards draw a components library of 26 mm cubes chaining on a universal key. The
+TURN standard (42 mm pitch, 13 mm keyway) is right for pods and boards and too large for a cube that mounts
+an action cam. Kate's rule is that the lock key carries through every component.
+
+**Decision.** TURN mini is the TURN standard with every dimension multiplied by 0.6 (keyway 7.8, chamber 13.2,
+plate and standoff 2.4, lugs 2.0, detent 0.21, clamp 0.06), built from the same `lib.py` functions by scaling,
+not by a second definition. The cube is 26 mm with a socket in every face. The universal key is
+double-ended with a 1.0 mm disc at the join. One adapter (`mini-adapter`: two full keys under, one mini socket
+on an 18 mm boss above the full key grips) connects the two scales; no part carries both scales any other way.
+Source `tools/living-cad/cad/dayrally_mini.py`, family `mini`.
+
+**Consequences.** What the full-size test-print kit learns about clamp and detent transfers by the factor.
+Rotating joints (swivel, swipe) wait for the first mini key print. Any future scale (a TURN maxi for the car
+boot) follows the same rule: scale the library, never redraw it.
+

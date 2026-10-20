@@ -1213,5 +1213,284 @@
    -280,
    230
   ]
+ },
+ "mini-library-sun": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/mini-universal-key.stl",
+    "colour": "#F5C400",
+    "x": -110,
+    "y": 30,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-cube.stl",
+    "colour": "#E04E3B",
+    "x": -70,
+    "y": 30,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-angle-joint.stl",
+    "colour": "#2A2A2D",
+    "x": -30,
+    "y": 30,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-flat-mount.stl",
+    "colour": "#F5C400",
+    "x": 20,
+    "y": 30,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-tube-clamp.stl",
+    "colour": "#E04E3B",
+    "x": 70,
+    "y": 30,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-end-cap.stl",
+    "colour": "#F1ECE3",
+    "x": 110,
+    "y": 30,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-cam-mount.stl",
+    "colour": "#F5C400",
+    "x": -90,
+    "y": -40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-light-mount.stl",
+    "colour": "#2A2A2D",
+    "x": -40,
+    "y": -40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-photo-tag.stl",
+    "colour": "#E04E3B",
+    "x": 20,
+    "y": -40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-adapter.stl",
+    "colour": "#F5C400",
+    "x": 90,
+    "y": -40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-lantern-hook.stl",
+    "colour": "#F1ECE3",
+    "x": 140,
+    "y": -40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   80,
+   -330,
+   230
+  ]
+ },
+ "mini-ride-kit-sun": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/mini-helmet-base.stl",
+    "colour": "#F5C400",
+    "x": -70,
+    "y": 40,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-cam-mount.stl",
+    "colour": "#F5C400",
+    "x": -70,
+    "y": 40,
+    "z": 6.5,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-light-mount.stl",
+    "colour": "#E04E3B",
+    "x": 0,
+    "y": 40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-battery-dock.stl",
+    "colour": "#2A2A2D",
+    "x": 70,
+    "y": 40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-phone-holder.stl",
+    "colour": "#F5C400",
+    "x": 0,
+    "y": -70,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-bar-end.stl",
+    "colour": "#E04E3B",
+    "x": 90,
+    "y": -60,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-universal-key.stl",
+    "colour": "#F1ECE3",
+    "x": 120,
+    "y": -30,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   160,
+   -380,
+   280
+  ]
+ },
+ "mini-chain-sun": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/mini-adapter.stl",
+    "colour": "#2A2A2D",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-cube.stl",
+    "colour": "#F5C400",
+    "x": 0,
+    "y": 0,
+    "z": 10,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-cube.stl",
+    "colour": "#E04E3B",
+    "x": 0,
+    "y": 0,
+    "z": 36,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-cam-mount.stl",
+    "colour": "#F5C400",
+    "x": 0,
+    "y": 0,
+    "z": 62,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   220,
+   -250,
+   210
+  ]
+ },
+ "mini-explore-sun": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/mini-photo-tag.stl",
+    "colour": "#E04E3B",
+    "x": -60,
+    "y": 30,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-device-holder.stl",
+    "colour": "#F5C400",
+    "x": 30,
+    "y": 20,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-collar-mount.stl",
+    "colour": "#2A2A2D",
+    "x": -60,
+    "y": -40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-pole-clamp.stl",
+    "colour": "#F5C400",
+    "x": 100,
+    "y": -50,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-lantern-hook.stl",
+    "colour": "#F1ECE3",
+    "x": -10,
+    "y": -60,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   150,
+   -300,
+   240
+  ]
  }
 }
