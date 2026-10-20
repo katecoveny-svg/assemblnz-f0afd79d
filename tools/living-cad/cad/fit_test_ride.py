@@ -52,6 +52,14 @@ out["grip_bar_interference_mm3"] = ov(gw, bar)
 out["grip_bar_interference_on_dia_mm"] = round(22.2 - r.GRIP_ID, 2)
 plug = d1.bar_end_plug().rotate([180, 0, 0]).translate([0, 0, r.GRIP_L + 4.2])
 out["bar_end_plug_in_grip_clash_mm3"] = ov(gw, plug)
+FREDOKA = os.path.join(os.path.dirname(__file__), "..", "fonts", "Fredoka-Bold.ttf")
+gn, gtxt = r.grip_name("RALLY", FREDOKA)
+out["grip_name_bar_interference_mm3"] = ov(gn, bar)
+out["grip_name_text_in_grip_body_mm3"] = ov(gn, gtxt)
+out["grip_name_text_proud_of_grip_od_mm"] = round(gtxt.bounding_box()[3] - r.GRIP_OD / 2, 2)
+bn, btxt = r.bar_end_name("MILA", FREDOKA)
+out["bar_end_name_text_in_plug_mm3"] = ov(bn, btxt)
+out["bar_end_name_text_within_cap_mm"] = round(12.0 - max(abs(btxt.bounding_box()[0]), abs(btxt.bounding_box()[3])), 2)
 out["bar_end_plug_covers_bore"] = 24.0 > r.GRIP_ID
 
 # ---- watch

@@ -2185,5 +2185,50 @@
    -430,
    380
   ]
+ },
+ "grips-name-sun": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/render/extra/ride-grip-rally.stl",
+    "colour": "#F5C400",
+    "x": 60.0,
+    "y": 0,
+    "z": 0.0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/ride-grip-rally-text.stl",
+    "colour": "#1A1A1A",
+    "x": 60.0,
+    "y": -0.09,
+    "z": 32.28,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/ride-bar-end-mila.stl",
+    "colour": "#1A1A1A",
+    "x": 4.75,
+    "y": 0.0,
+    "z": 6.0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/ride-bar-end-mila-text.stl",
+    "colour": "#F5C400",
+    "x": -5.39,
+    "y": -0.1,
+    "z": 9.25,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   -90,
+   -230,
+   210
+  ]
  }
 }

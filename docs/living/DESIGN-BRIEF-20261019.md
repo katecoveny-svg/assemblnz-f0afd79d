@@ -529,3 +529,13 @@ series' caption style. The key glyph appears alone in three fills (sun, black, o
 appears as a logo element: rally's tag is the pet line's mark. rally in a yellow life jacket on the boat is
 the fish line's frame; a printed part has no business in a life jacket, so that frame is pure character.
 
+
+### 11.12 Custom handles (20 October, latest)
+
+Kate: "can we do custom handles for scooters? and bike grips?" The grips exist (`ride-grip-waves`, `ride-grip-dots`,
+TPU 95A, 22.2 mm bars, which is bikes and most owned scooters; share scooters have moulded grips and get nothing).
+Custom means the rider's name, in the dayrally way: `ride-grip-name` carries the name raised 0.8 mm on a flat land
+along the grip in Fredoka Bold (up to 8 letters; one TPU colour reads by touch, a second TPU colour on the pattern
+reads by eye), and `ride-bar-end-name` carries up to 5 letters on the 24 mm cap of the press-fit plug that closes
+the grips, beside a plain `ride-bar-end-plain`. The grips lab item gains the name option; a new lab item
+`lab-bar-ends` offers plain or named. All lab items until printed; the first TPU print tunes `GRIP_ID`.
