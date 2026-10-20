@@ -1663,5 +1663,527 @@
    -220,
    170
   ]
+ },
+ "sun-pod-mini-butter-name": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-pod-mini.stl",
+    "colour": "#F5C400",
+    "x": -60,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-lid-mini-name.stl",
+    "colour": "#E04E3B",
+    "x": 60,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-lid-mini-name-inlay.stl",
+    "colour": "#F1ECE3",
+    "x": 60,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   190,
+   -230,
+   200
+  ]
+ },
+ "sun-pod-standard-sky-waves": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-pod-standard.stl",
+    "colour": "#F5C400",
+    "x": -80,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-lid-standard-waves.stl",
+    "colour": "#2A2A2D",
+    "x": 90,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-lid-standard-waves-inlay.stl",
+    "colour": "#F1ECE3",
+    "x": 90,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   260,
+   -300,
+   260
+  ]
+ },
+ "sun-charm-star-tangerine": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-charm-star.stl",
+    "colour": "#E04E3B",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-charm-star-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   55,
+   -70,
+   70
+  ]
+ },
+ "sun-number-plate-lime": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/bike-number-plate.stl",
+    "colour": "#F5C400",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/bike-number-plate-text.stl",
+    "colour": "#2A2A2D",
+    "x": 0,
+    "y": 0,
+    "z": 1.6,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   150,
+   -190,
+   180
+  ]
+ },
+ "sun-dayrally-everyday-flatlay": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-pod-standard.stl",
+    "colour": "#E04E3B",
+    "x": -110,
+    "y": 40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-lid-standard-dots.stl",
+    "colour": "#F5C400",
+    "x": 40,
+    "y": 40,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-lid-standard-dots-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": 40,
+    "y": 40,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-insert-standard-everyday.stl",
+    "colour": "#F5C400",
+    "x": -110,
+    "y": -70,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-zip-pull.stl",
+    "colour": "#E04E3B",
+    "x": 60,
+    "y": -60,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-zip-pull-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": 60,
+    "y": -60,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-charm-heart.stl",
+    "colour": "#F5C400",
+    "x": 110,
+    "y": -60,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-charm-heart-inlay.stl",
+    "colour": "#E04E3B",
+    "x": 110,
+    "y": -60,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-mount-carabiner-loop.stl",
+    "colour": "#2A2A2D",
+    "x": 150,
+    "y": 40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   330,
+   -420,
+   400
+  ]
+ },
+ "sun-cam-exploded-ink-tomato": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/cam-body.stl",
+    "colour": "#2A2A2D",
+    "x": -70,
+    "y": 45,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cam-back.stl",
+    "colour": "#2A2A2D",
+    "x": 80,
+    "y": 50,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cam-skin-dots.stl",
+    "colour": "#E04E3B",
+    "x": -70,
+    "y": -75,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cam-skin-dots-pattern.stl",
+    "colour": "#F1ECE3",
+    "x": -70,
+    "y": -75,
+    "z": 2.6,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cam-shutter-disc.stl",
+    "colour": "#F1ECE3",
+    "x": -84,
+    "y": -75,
+    "z": -1.6,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cam-winder-knob.stl",
+    "colour": "#E04E3B",
+    "x": 55,
+    "y": -60,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cam-supply-pin.stl",
+    "colour": "#E04E3B",
+    "x": 92,
+    "y": -60,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cam-window-cover.stl",
+    "colour": "#F1ECE3",
+    "x": 125,
+    "y": -55,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cam-cradle.stl",
+    "colour": "#2A2A2D",
+    "x": 60,
+    "y": -125,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   330,
+   -470,
+   430
+  ]
+ },
+ "sun-rod-packed-lime": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/rod-grip.stl",
+    "colour": "#F5C400",
+    "x": -40,
+    "y": 30,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/rod-section-1.stl",
+    "colour": "#2A2A2D",
+    "x": 20,
+    "y": 30,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/rod-section-2.stl",
+    "colour": "#2A2A2D",
+    "x": 40,
+    "y": 30,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/rod-section-3.stl",
+    "colour": "#2A2A2D",
+    "x": 56,
+    "y": 30,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/rod-tip.stl",
+    "colour": "#2A2A2D",
+    "x": 70,
+    "y": 30,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/rod-collar.stl",
+    "colour": "#F5C400",
+    "x": -40,
+    "y": -40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/rod-butt-cap.stl",
+    "colour": "#F5C400",
+    "x": 5,
+    "y": -40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/rod-saddle.stl",
+    "colour": "#2A2A2D",
+    "x": 60,
+    "y": -45,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   260,
+   -330,
+   330
+  ]
+ },
+ "sun-cast-kit-sky": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/cast-grip.stl",
+    "colour": "#F5C400",
+    "x": -60,
+    "y": 60,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-hood.stl",
+    "colour": "#2A2A2D",
+    "x": -10,
+    "y": 90,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-nut.stl",
+    "colour": "#2A2A2D",
+    "x": 40,
+    "y": 90,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-collar.stl",
+    "colour": "#F5C400",
+    "x": 90,
+    "y": 90,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-butt-cap.stl",
+    "colour": "#F5C400",
+    "x": 130,
+    "y": 90,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-section-1.stl",
+    "colour": "#2A2A2D",
+    "x": 20,
+    "y": -20,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-section-2.stl",
+    "colour": "#2A2A2D",
+    "x": 20,
+    "y": -40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-section-3.stl",
+    "colour": "#2A2A2D",
+    "x": 20,
+    "y": -58,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-pin-1.stl",
+    "colour": "#F1ECE3",
+    "x": -80,
+    "y": -80,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-pin-2.stl",
+    "colour": "#F1ECE3",
+    "x": -60,
+    "y": -80,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-guide-1.stl",
+    "colour": "#F1ECE3",
+    "x": 120,
+    "y": -85,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-guide-2.stl",
+    "colour": "#F1ECE3",
+    "x": 140,
+    "y": -85,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-guide-3.stl",
+    "colour": "#F1ECE3",
+    "x": 160,
+    "y": -85,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/cast-tip-top.stl",
+    "colour": "#F1ECE3",
+    "x": 180,
+    "y": -85,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   330,
+   -430,
+   380
+  ]
  }
 }
