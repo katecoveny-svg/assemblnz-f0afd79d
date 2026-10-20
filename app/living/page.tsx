@@ -143,7 +143,7 @@ export default function AssemblLivingPage() {
         <section className="ls-section" aria-labelledby="ls-kits-title">
           <div className="ls-head">
             <h2 id="ls-kits-title">kits.</h2>
-            <span className="ls-mono">one key · {INTERFACE_SPEC.pitch_mm} mm · click, lock, go</span>
+            <span className="ls-mono">the assembl TURN key · {INTERFACE_SPEC.pitch_mm} mm · click, lock, go</span>
           </div>
           <div className="ls-kits">
             {DAYRALLY_KITS.map((k) => (
@@ -178,7 +178,7 @@ export default function AssemblLivingPage() {
           <p className="ls-line">plan. build. print. go.</p>
           <ul>
             <li className="ls-mono">by assembl / living</li>
-            <li className="ls-mono">{served} print files · {CAD_MANIFEST.pack}</li>
+            <li className="ls-mono">the assembl TURN standard · {served} print files · {CAD_MANIFEST.pack}</li>
             <li className="ls-mono">designed · not yet printed · nothing for sale yet</li>
           </ul>
         </div>
