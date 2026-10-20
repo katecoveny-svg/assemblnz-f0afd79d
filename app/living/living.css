@@ -130,7 +130,17 @@ a.lv-card:hover, button.lv-card:hover { border-color: var(--lv-line-strong); tra
 .lv-bom td:last-child, .lv-bom th:last-child { text-align: right; font-family: var(--font-mono), monospace; font-size: 0.82rem; white-space: nowrap; }
 .lv-total { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-top: 0.8rem; }
 .lv-total b { font-family: var(--font-mono), monospace; font-weight: 500; font-size: 1.05rem; color: var(--lv-plum); }
-.lv-preview3d { height: 320px; border-radius: 18px; overflow: hidden; background: var(--lv-chalk); border: 1px solid var(--lv-line); }
+/* the stage: the wall view is the hero of step three */
+.lv-stage-wrap { display: grid; gap: 1rem; }
+.lv-stage-bar { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+.lv-stage { position: relative; border-radius: 24px; overflow: hidden; background: var(--lv-chalk); border: 1px solid var(--lv-line); }
+.lv-stage[data-view='plan'] { padding: 1.2rem; }
+.lv-stage[data-view='plan'] .lv-composer svg { max-height: 560px; width: auto; max-width: 100%; margin-inline: auto; background: transparent; }
+.lv-stage-note { display: flex; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; padding: 0.6rem 1rem; border-top: 1px solid var(--lv-line); background: var(--lv-paper); color: var(--lv-muted); }
+.lv-stage-note .lv-mono { text-transform: none; letter-spacing: 0.02em; }
+.lv-preview3d { height: clamp(380px, 48vw, 620px); background: var(--lv-chalk); touch-action: pan-y; }
+.lv-preview3d canvas { display: block; outline: none; }
+@media (max-width: 720px) { .lv-preview3d { height: clamp(300px, 70vw, 420px); } }
 .lv-kv { display: grid; grid-template-columns: auto 1fr; gap: 0.3rem 1rem; font-size: 0.9rem; }
 .lv-kv dt { color: var(--lv-muted); font-family: var(--font-mono), monospace; font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase; padding-top: 0.2rem; }
 .lv-kv dd { margin: 0; }
