@@ -1,0 +1,653 @@
+{
+  "status": "digital geometry only; no physical testing",
+  "parameters": {
+    "wall": 2.6,
+    "floor": 3.2,
+    "groove_width": 2.4,
+    "groove_depth": 1.2,
+    "gasket_width": 1.6,
+    "gasket_height": 1.6,
+    "nominal_squeeze_percent": 25,
+    "lip_side_clearance": 0.3
+  },
+  "sizes": {
+    "mini": {
+      "parts": {
+        "shell": {
+          "volume_mm3": 39923.68,
+          "bounds_mm": [
+            103.999,
+            88.0,
+            26.0
+          ],
+          "mesh_closed": true,
+          "single_solid": true
+        },
+        "lid": {
+          "volume_mm3": 24411.6,
+          "bounds_mm": [
+            98.0,
+            88.0,
+            7.0
+          ],
+          "mesh_closed": true,
+          "single_solid": true
+        },
+        "gasket": {
+          "volume_mm3": 646.39,
+          "bounds_mm": [
+            93.588,
+            61.6,
+            1.6
+          ],
+          "mesh_closed": true,
+          "single_solid": true
+        },
+        "carrier": {
+          "volume_mm3": 53460.06,
+          "bounds_mm": [
+            120.0,
+            88.0,
+            19.0
+          ],
+          "mesh_closed": true,
+          "single_solid": true
+        },
+        "foam_deck": {
+          "volume_mm3": 5489.57,
+          "bounds_mm": [
+            85.789,
+            53.8,
+            7.6
+          ],
+          "mesh_closed": true,
+          "single_solid": true
+        }
+      },
+      "checks_mm3": {
+        "carrier_screw_-16.0_-38.0": 0,
+        "lid_screw_-16.0_-38.0": 0,
+        "carrier_screw_-16.0_38.0": 0,
+        "lid_screw_-16.0_38.0": 0,
+        "carrier_screw_16.0_-38.0": 0,
+        "lid_screw_16.0_-38.0": 0,
+        "carrier_screw_16.0_38.0": 0,
+        "lid_screw_16.0_38.0": 0,
+        "shell__lid": 0,
+        "shell__carrier": 0,
+        "lid__carrier": 0,
+        "foam_deck__shell": 0,
+        "foam_deck__lid": 0,
+        "gasket__lid": 0
+      },
+      "gasket_free_vs_rim_mm3": 161.597,
+      "compressed_gasket_vs_lid_mm3": 0,
+      "turn": {
+        "x-21_angle0": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle15": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle30": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle45": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle60": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle75": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle90": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle0": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle15": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle30": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle45": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle60": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle75": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle90": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        }
+      },
+      "turn_insertion": {
+        "x-21_raise8": 0.0,
+        "x-21_raise4": 0.0,
+        "x-21_raise2": 0.0,
+        "x-21_raise0.5": 0.0,
+        "x21_raise8": 0.0,
+        "x21_raise4": 0.0,
+        "x21_raise2": 0.0,
+        "x21_raise0.5": 0.0
+      },
+      "turn_clamp_comparison_mm3": {
+        "old": 37.5615,
+        "new": 37.092
+      },
+      "mount_overlap_mm3": {
+        "scooter": -0.0,
+        "frame": 0.0,
+        "bar": -0.0
+      },
+      "missing_floor_mm3": 0.0,
+      "closed_shell_envelope_mm": [
+        98.0,
+        66.0,
+        30.0
+      ],
+      "sealed_body_reference_displacement_g": 142.4,
+      "solid_petg_mass_g_at_1p27": 156.6
+    },
+    "standard": {
+      "parts": {
+        "shell": {
+          "volume_mm3": 63475.3,
+          "bounds_mm": [
+            139.991,
+            100.0,
+            34.0
+          ],
+          "mesh_closed": true,
+          "single_solid": true
+        },
+        "lid": {
+          "volume_mm3": 38990.63,
+          "bounds_mm": [
+            133.984,
+            100.0,
+            7.0
+          ],
+          "mesh_closed": true,
+          "single_solid": true
+        },
+        "gasket": {
+          "volume_mm3": 865.78,
+          "bounds_mm": [
+            129.585,
+            73.6,
+            1.6
+          ],
+          "mesh_closed": true,
+          "single_solid": true
+        },
+        "carrier": {
+          "volume_mm3": 78660.06,
+          "bounds_mm": [
+            156.0,
+            100.0,
+            19.0
+          ],
+          "mesh_closed": true,
+          "single_solid": true
+        },
+        "foam_deck": {
+          "volume_mm3": 9055.66,
+          "bounds_mm": [
+            121.787,
+            65.8,
+            7.6
+          ],
+          "mesh_closed": true,
+          "single_solid": true
+        }
+      },
+      "checks_mm3": {
+        "carrier_screw_-28.0_-44.0": 0,
+        "lid_screw_-28.0_-44.0": 0,
+        "carrier_screw_-28.0_44.0": 0,
+        "lid_screw_-28.0_44.0": 0,
+        "carrier_screw_28.0_-44.0": 0,
+        "lid_screw_28.0_-44.0": 0,
+        "carrier_screw_28.0_44.0": 0,
+        "lid_screw_28.0_44.0": 0,
+        "shell__lid": 0,
+        "shell__carrier": 0,
+        "lid__carrier": 0,
+        "foam_deck__shell": 0,
+        "foam_deck__lid": 0,
+        "gasket__lid": 0
+      },
+      "gasket_free_vs_rim_mm3": 216.445,
+      "compressed_gasket_vs_lid_mm3": 0,
+      "turn": {
+        "x-21_angle0": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle15": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle30": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle45": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle60": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle75": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle90": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle0": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle15": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle30": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle45": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle60": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle75": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle90": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        }
+      },
+      "turn_insertion": {
+        "x-21_raise8": 0.0,
+        "x-21_raise4": 0.0,
+        "x-21_raise2": 0.0,
+        "x-21_raise0.5": 0.0,
+        "x21_raise8": 0.0,
+        "x21_raise4": 0.0,
+        "x21_raise2": 0.0,
+        "x21_raise0.5": 0.0
+      },
+      "turn_clamp_comparison_mm3": {
+        "old": 37.5615,
+        "new": 37.092
+      },
+      "mount_overlap_mm3": {
+        "scooter": 0.0,
+        "frame": -0.0,
+        "bar": 0.0
+      },
+      "missing_floor_mm3": 0.0,
+      "closed_shell_envelope_mm": [
+        134.0,
+        78.0,
+        38.0
+      ],
+      "sealed_body_reference_displacement_g": 307.9,
+      "solid_petg_mass_g_at_1p27": 241.5
+    },
+    "tall": {
+      "parts": {
+        "shell": {
+          "volume_mm3": 84068.96,
+          "bounds_mm": [
+            139.991,
+            100.0,
+            58.0
+          ],
+          "mesh_closed": true,
+          "single_solid": true
+        },
+        "lid": {
+          "volume_mm3": 38990.63,
+          "bounds_mm": [
+            133.984,
+            100.0,
+            7.0
+          ],
+          "mesh_closed": true,
+          "single_solid": true
+        },
+        "gasket": {
+          "volume_mm3": 865.78,
+          "bounds_mm": [
+            129.585,
+            73.6,
+            1.6
+          ],
+          "mesh_closed": true,
+          "single_solid": true
+        },
+        "carrier": {
+          "volume_mm3": 78660.06,
+          "bounds_mm": [
+            156.0,
+            100.0,
+            19.0
+          ],
+          "mesh_closed": true,
+          "single_solid": true
+        },
+        "foam_deck": {
+          "volume_mm3": 9055.66,
+          "bounds_mm": [
+            121.787,
+            65.8,
+            7.6
+          ],
+          "mesh_closed": true,
+          "single_solid": true
+        }
+      },
+      "checks_mm3": {
+        "carrier_screw_-28.0_-44.0": 0,
+        "lid_screw_-28.0_-44.0": 0,
+        "carrier_screw_-28.0_44.0": 0,
+        "lid_screw_-28.0_44.0": 0,
+        "carrier_screw_28.0_-44.0": 0,
+        "lid_screw_28.0_-44.0": 0,
+        "carrier_screw_28.0_44.0": 0,
+        "lid_screw_28.0_44.0": 0,
+        "shell__lid": 0,
+        "shell__carrier": 0,
+        "lid__carrier": 0,
+        "foam_deck__shell": 0,
+        "foam_deck__lid": 0,
+        "gasket__lid": 0
+      },
+      "gasket_free_vs_rim_mm3": 216.445,
+      "compressed_gasket_vs_lid_mm3": 0,
+      "turn": {
+        "x-21_angle0": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle15": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle30": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle45": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle60": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle75": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle90": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle0": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle15": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle30": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle45": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle60": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle75": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle90": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        }
+      },
+      "turn_insertion": {
+        "x-21_raise8": 0.0,
+        "x-21_raise4": 0.0,
+        "x-21_raise2": 0.0,
+        "x-21_raise0.5": 0.0,
+        "x21_raise8": 0.0,
+        "x21_raise4": 0.0,
+        "x21_raise2": 0.0,
+        "x21_raise0.5": 0.0
+      },
+      "turn_clamp_comparison_mm3": {
+        "old": 37.5615,
+        "new": 37.092
+      },
+      "mount_overlap_mm3": {
+        "scooter": 0.0,
+        "frame": -0.0,
+        "bar": 0.0
+      },
+      "missing_floor_mm3": 0.0,
+      "closed_shell_envelope_mm": [
+        134.0,
+        78.0,
+        62.0
+      ],
+      "sealed_body_reference_displacement_g": 502.4,
+      "solid_petg_mass_g_at_1p27": 267.7
+    },
+    "long": {
+      "parts": {
+        "shell": {
+          "volume_mm3": 83056.51,
+          "bounds_mm": [
+            187.991,
+            100.0,
+            34.0
+          ],
+          "mesh_closed": true,
+          "single_solid": true
+        },
+        "lid": {
+          "volume_mm3": 54106.06,
+          "bounds_mm": [
+            181.984,
+            100.0,
+            7.0
+          ],
+          "mesh_closed": true,
+          "single_solid": true
+        },
+        "gasket": {
+          "volume_mm3": 1111.54,
+          "bounds_mm": [
+            177.585,
+            73.6,
+            1.6
+          ],
+          "mesh_closed": true,
+          "single_solid": true
+        },
+        "carrier": {
+          "volume_mm3": 102660.06,
+          "bounds_mm": [
+            204.0,
+            100.0,
+            19.0
+          ],
+          "mesh_closed": true,
+          "single_solid": true
+        },
+        "foam_deck": {
+          "volume_mm3": 12043.18,
+          "bounds_mm": [
+            169.787,
+            65.8,
+            7.6
+          ],
+          "mesh_closed": true,
+          "single_solid": true
+        }
+      },
+      "checks_mm3": {
+        "carrier_screw_-52.0_-44.0": 0,
+        "lid_screw_-52.0_-44.0": 0,
+        "carrier_screw_-52.0_44.0": 0,
+        "lid_screw_-52.0_44.0": 0,
+        "carrier_screw_52.0_-44.0": 0,
+        "lid_screw_52.0_-44.0": 0,
+        "carrier_screw_52.0_44.0": 0,
+        "lid_screw_52.0_44.0": 0,
+        "shell__lid": 0,
+        "shell__carrier": 0,
+        "lid__carrier": 0,
+        "foam_deck__shell": 0,
+        "foam_deck__lid": 0,
+        "gasket__lid": 0
+      },
+      "gasket_free_vs_rim_mm3": 277.885,
+      "compressed_gasket_vs_lid_mm3": 0,
+      "turn": {
+        "x-21_angle0": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle15": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle30": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle45": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle60": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle75": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x-21_angle90": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle0": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle15": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle30": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle45": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle60": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle75": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        },
+        "x21_angle90": {
+          "carrier_overlap_mm3": 18.546,
+          "shell_overlap_mm3": 0.0
+        }
+      },
+      "turn_insertion": {
+        "x-21_raise8": 0.0,
+        "x-21_raise4": 0.0,
+        "x-21_raise2": 0.0,
+        "x-21_raise0.5": 0.0,
+        "x21_raise8": 0.0,
+        "x21_raise4": 0.0,
+        "x21_raise2": 0.0,
+        "x21_raise0.5": 0.0
+      },
+      "turn_clamp_comparison_mm3": {
+        "old": 37.5615,
+        "new": 37.092
+      },
+      "mount_overlap_mm3": {
+        "scooter": 0.0,
+        "frame": -0.0,
+        "bar": -0.0
+      },
+      "missing_floor_mm3": 0.0,
+      "closed_shell_envelope_mm": [
+        182.0,
+        78.0,
+        38.0
+      ],
+      "sealed_body_reference_displacement_g": 439.3,
+      "solid_petg_mass_g_at_1p27": 319.9
+    }
+  },
+  "ruler150": {
+    "volume_mm3": 4233.88,
+    "bounds_mm": [
+      156.0,
+      14.0,
+      2.0
+    ],
+    "mesh_closed": true,
+    "single_solid": true
+  }
+}
