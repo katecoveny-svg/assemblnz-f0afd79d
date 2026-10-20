@@ -84,7 +84,7 @@ Every print file is checked as a watertight single solid inside a 250 mm cube, w
 
 1. **show us your space** — space, surface (wall, door, wardrobe, desk, drawer, vanity), what would make it better, optional photo (shown back, never read), aesthetic, what to keep, a name for the plate.
 2. **three ways to improve it** — the understanding assembles on screen, then minimal / system / expressive proposals with real-size previews and proposed prices; room kits for that door below.
-3. **assemble your design** — SVG composer on the real grid with keyways, on-demand 3D preview, board fields from one board to 2 × 2 and board + half, seven colourways for board and accessories, click-to-place or auto-place, alongside products, live parts list with SKUs.
+3. **assemble your design** — the board on a paper wall in 3D, built from the served print files turned back into their installed frame (every board and accessory is its own STL, keyed to its cell); click a keyway to place, click a part to select, a placed part drops onto its key and quarter-turns to lock; a plan view (SVG on the real grid) as the alternative; board fields from one board to 2 × 2 and board + half, seven colourways for board and accessories, click-to-place or auto-place, alongside products, live parts list with SKUs. Since 20 October 2026; before that the plan view was the default and the 3D view was boxes.
 4. **made for your space** — measurement method, width/height, door thickness and door-gap gauge for hangers, explicit confirmation; fit check; "assembling the kit" wait state; saved configuration with reorder codes, print files, mass and orientation per file, STL links where served, JSON download and on-device save.
 
 ## Honesty boundaries

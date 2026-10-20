@@ -31,7 +31,10 @@
   gap: 16px;
   min-height: 65px;
   padding: 10px clamp(18px, 2.4vw, 38px);
-  background: rgba(36, 11, 33, 0.86);
+  /* 0.86 let dark page text ghost through the bar on paper pages (the Space
+     Studio lede read through it). Near-opaque keeps the glass edge without the
+     ghosting. Kate, 2026-10-20. */
+  background: rgba(36, 11, 33, 0.965);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid rgba(245, 241, 242, 0.14);

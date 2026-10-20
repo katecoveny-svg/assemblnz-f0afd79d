@@ -83,7 +83,7 @@ export type StudioAction =
 export function initialStudioState(input: { space: SpaceId; surface: Surface; aesthetic: Aesthetic; kit?: Kit | null }): StudioState {
   let design = newDesign({ space: input.space, surface: input.surface, aesthetic: input.aesthetic });
   if (input.kit) design = applyKit(design, input.kit);
-  return { step: 'space', design, tool: null, selected: null, photoName: null, show3d: false };
+  return { step: 'space', design, tool: null, selected: null, photoName: null, show3d: true };
 }
 
 /** Drop placements that no longer fit when the field shrinks. */

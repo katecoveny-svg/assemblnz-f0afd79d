@@ -15,6 +15,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import {
   AESTHETICS,
+  BOARD_MM,
   AESTHETIC_PRESETS,
   CAD_PACK,
   COLOURWAYS,
@@ -40,6 +41,7 @@ import {
   understand,
   validatePlacements,
   type Aesthetic,
+  type Field,
   type Kit,
   type MeasurementMethod,
   type SpaceDesign,
@@ -62,6 +64,12 @@ const METHOD_LABELS: Record<MeasurementMethod, string> = {
   'phone-depth-scan': 'phone depth scan',
   'door-gap-gauge': 'door-gap gauge from the test kit',
 };
+
+function fieldMm(field: Field): string {
+  const w = field.columns.reduce((a, c) => a + c, 0) * INTERFACE_SPEC.pitch_mm;
+  const h = field.rows * BOARD_MM;
+  return `${w} × ${h} mm`;
+}
 
 function nzd(n: number) {
   return `NZ$${n.toLocaleString('en-NZ', { maximumFractionDigits: 0 })}`;
@@ -395,27 +403,37 @@ function StepAssemble({ state, dispatch, onNext, onBack }: { state: ReturnType<t
       <section className="lv-panel" aria-labelledby="lv-step-assemble">
         <div className="lv-section-head" style={{ marginBottom: 0 }}>
           <span className="lv-eyebrow">03 · assemble your design</span>
-          <h2 id="lv-step-assemble">Add, move and recolour. The preview is the real geometry.</h2>
+          <h2 id="lv-step-assemble">Put it on the wall. Every part is its print file.</h2>
           <p className="lv-small">Every keyway is {INTERFACE_SPEC.pitch_mm} mm from the next. Push an accessory&rsquo;s key in upright and quarter-turn it to lock. Boards butt edge to edge, so the grid runs on across them.</p>
         </div>
-        <div className="lv-two">
-          <div style={{ display: 'grid', gap: '0.9rem' }} ref={composerRef} tabIndex={-1}>
-            <div className="lv-actions" style={{ justifyContent: 'space-between' }}>
-              <div className="lv-chips" role="group" aria-label="Board field">
-                {FIELD_OPTIONS.map((o) => (
-                  <button key={o.id} type="button" className="lv-chip" aria-pressed={fieldId(design.field) === o.id} onClick={() => dispatch({ type: 'field', field: o.field })}>{o.label}</button>
-                ))}
-              </div>
-              <button type="button" className="lv-chip" aria-pressed={show3d} onClick={() => dispatch({ type: 'show3d', on: !show3d })}>{show3d ? 'flat view' : '3D view'}</button>
+        <div className="lv-stage-wrap" ref={composerRef} tabIndex={-1}>
+          <div className="lv-stage-bar">
+            <div className="lv-chips" role="group" aria-label="Board field">
+              {FIELD_OPTIONS.map((o) => (
+                <button key={o.id} type="button" className="lv-chip" aria-pressed={fieldId(design.field) === o.id} onClick={() => dispatch({ type: 'field', field: o.field })}>{o.label}</button>
+              ))}
             </div>
+            <div className="lv-chips" role="group" aria-label="View">
+              <button type="button" className="lv-chip" aria-pressed={show3d} onClick={() => dispatch({ type: 'show3d', on: true })}>on the wall</button>
+              <button type="button" className="lv-chip" aria-pressed={!show3d} onClick={() => dispatch({ type: 'show3d', on: false })}>plan</button>
+            </div>
+          </div>
+          <div className="lv-stage" data-view={show3d ? '3d' : 'plan'}>
             {show3d ? (
-              <Preview3D design={design} />
+              <Preview3D design={design} interactive tool={tool} selected={selected} onCell={(col, row) => dispatch({ type: 'place', col, row })} onSelect={(id) => dispatch({ type: 'select', placementId: id })} />
             ) : (
               <GridComposer design={design} interactive tool={tool} selected={selected} onCell={(col, row) => dispatch({ type: 'place', col, row })} onSelect={(id) => dispatch({ type: 'select', placementId: id })} title="Your board layout" />
             )}
+            <div className="lv-stage-note">
+              <span className="lv-mono">{fieldMm(design.field)} · {INTERFACE_SPEC.pitch_mm} mm pitch · {SURFACE_LABELS[design.surface]}</span>
+              <span className="lv-mono">{show3d ? 'print files · drag to look around' : 'plan · real installed sizes'}</span>
+            </div>
+          </div>
+          <div className="lv-two">
+            <div style={{ display: 'grid', gap: '0.9rem' }}>
             <div className="lv-actions">
               {tool ? (
-                <span className="lv-small">Click a cell to place <b>{productByHandle(tool)?.title.toLowerCase()}</b>, or <button type="button" className="lv-chip" data-kind="quiet" onClick={() => dispatch({ type: 'auto', handle: tool })}>place it for me</button></span>
+                <span className="lv-small">Click a keyway to place <b>{productByHandle(tool)?.title.toLowerCase()}</b>, or <button type="button" className="lv-chip" data-kind="quiet" onClick={() => dispatch({ type: 'auto', handle: tool })}>place it for me</button></span>
               ) : selectedPlacement ? (
                 <>
                   <span className="lv-small"><b>{productByHandle(selectedPlacement.handle)?.title}</b> selected · arrow keys move it</span>
@@ -426,7 +444,7 @@ function StepAssemble({ state, dispatch, onNext, onBack }: { state: ReturnType<t
                   <button type="button" className="lv-chip" onClick={() => dispatch({ type: 'remove', placementId: selectedPlacement.id })}>remove</button>
                 </>
               ) : (
-                <span className="lv-small">Choose an accessory from the list, then click a keyway cell. Click a placed part to move or remove it.</span>
+                <span className="lv-small">Choose an accessory below, then click a keyway on the board. Click a placed part to move or remove it.</span>
               )}
             </div>
             <div className="lv-two" style={{ gridTemplateColumns: '1fr 1fr' }}>
@@ -481,6 +499,7 @@ function StepAssemble({ state, dispatch, onNext, onBack }: { state: ReturnType<t
               </div>
             </div>
           </aside>
+          </div>
         </div>
       </section>
 
