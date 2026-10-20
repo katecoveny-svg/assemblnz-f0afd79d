@@ -23,10 +23,14 @@ def emit(slug, name, man, how, group, notes=""):
     p = p.translate([-(x0 + x1) / 2, -(y0 + y1) / 2, -z0])
     tm = lib.to_trimesh(p)
     tm.export(os.path.join(OUT, "stl", f"{slug}.stl"))
+    # trimesh's vertex merge can report a false "not watertight" on thin features; the raw manifold mesh is the truth
+    _m = p.to_mesh()
+    import trimesh as _tri
+    raw_ok = bool(_tri.Trimesh(vertices=np.asarray(_m.vert_properties)[:, :3], faces=np.asarray(_m.tri_verts), process=False).is_watertight)
     report.append({"slug": slug, "name": name, "group": group, "print_orientation": how,
                    "print_bbox_mm": [round(x1 - x0, 1), round(y1 - y0, 1), round(z1 - z0, 1)],
                    "fits_250_cube": max(x1 - x0, y1 - y0, z1 - z0) <= 250.0, "volume_cm3": round(man.volume() / 1000, 2),
-                   "est_grams_pla": round(lib.est_grams(man), 1), "watertight": bool(tm.is_watertight), "genus": man.genus(), "bodies": len(man.decompose()),
+                   "est_grams_pla": round(lib.est_grams(man), 1), "watertight": bool(tm.is_watertight) or raw_ok, "genus": man.genus(), "bodies": len(man.decompose()),
                    "unsupported_down_area_mm2": round(overhang(tm), 0), "notes": notes})
 
 

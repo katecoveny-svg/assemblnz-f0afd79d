@@ -214,7 +214,7 @@ describe('lab items', () => {
   });
 
   it('lists the rod and the wharf reel with served print files', () => {
-    for (const h of ['lab-dayrally-rod', 'lab-wharf-reel']) {
+    for (const h of ['lab-dayrally-rod', 'lab-wharf-reel', 'lab-dayrally-cast']) {
       const r = buildItem({ handle: h, colour: 'lime', qty: 1 });
       expect(r.ok).toBe(true);
       if (r.ok) expect(r.item.printFiles.every((f) => f.sha256)).toBe(true);
