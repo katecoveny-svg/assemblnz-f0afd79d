@@ -37,7 +37,7 @@ TS_MANIFEST = REPO / "lib" / "living" / "cad-manifest.json"
 
 # Families whose print files the storefront serves. Dayrally, bike and the pendant
 # shade are rebuilt on demand (the shade alone is 6 MB of mesh).
-SERVED_FAMILIES = {"grid", "tile", "stack", "renter", "camera", "rod", "cast", "ride", "mini", "rack"}
+SERVED_FAMILIES = {"grid", "tile", "stack", "renter", "camera", "rod", "cast", "ride", "mini", "rack", "bike", "dayrally", "dayrally2", "light"}
 
 COLOURS = {
     "living": [
