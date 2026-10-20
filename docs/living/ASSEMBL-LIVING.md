@@ -11,7 +11,9 @@ This is the canonical product document for Assembl Living. It supersedes the AL-
 
 A modular interiors system that adapts to the person, their space and what they own. The customer photographs or describes a corner that is not working. Assembl helps design a beautiful, functional solution from compatible parts and, once a print partner has run the test kit and accepted the files, prints it to order.
 
-> One design system. Different spaces. Endless combinations.
+> **Living, assembl’d.** One design system. Different spaces. Endless combinations.
+
+The landing page (`/living`) opens on the teen room starter assembled on the wall from the served print files (`app/living/HeroWall.tsx`, the studio's `Preview3D` with wheel zoom off and a `hero` camera), with the render of the same kit as the still before the geometry loads, without WebGL and under reduced motion. The six doors each carry one render; dayrally gets the everyday flat-lay. The wordplay rules are in the brand system (`assembl’d`).
 
 **dayrally** is the go-anywhere collection on the same key: pods, lids, inserts, mounts and the small things for riders, scooters, fishing, beach and school.
 

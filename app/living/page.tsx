@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import {
   AESTHETIC_PRESETS,
@@ -18,13 +19,14 @@ import {
   billOfMaterials,
   newDesign,
 } from '@/lib/living';
+import { HeroWall } from './HeroWall';
 import { GridComposer } from './studio/GridComposer';
 import './living.css';
 
 export const metadata: Metadata = {
-  title: 'assembl / living — one modular system, made to your space',
+  title: 'assembl / living — living, assembl’d',
   description:
-    'A modular interiors system that adapts to the person, their space and what they own. Grid, tile, stack, renter and light on one 42 mm quarter-turn standard. Show us your space, see three ways to improve it, assemble your design.',
+    'A modular interiors system on one 42 mm quarter-turn key, printed to order. Photograph the corner that is not working, see three ways to improve it, assemble your design from parts that all fit each other.',
 };
 
 const STEPS = [
@@ -34,6 +36,16 @@ const STEPS = [
   { n: '04', title: 'assemble your design', line: 'Add boards, shelves, bins, hooks, cups and a name plate. Change colours and layout in a live preview drawn at real size.' },
   { n: '05', title: 'made for your space', line: 'Confirm the measurements that decide fit, approve the design and save a configuration the print partner quotes from.' },
 ];
+
+/** One render per door, from the v0.3 print files (docs/living/renders). */
+const DOOR_ART: Record<string, { src: string; alt: string }> = {
+  'my-room': { src: '/living/renders/teen-room-flatlay.jpg', alt: 'Teen room starter: sage boards, a name plate, hooks, a shelf and a cup' },
+  'my-space': { src: '/living/renders/vanity-cutout-sage.jpg', alt: 'A vanity drawer tray with a pocket per item' },
+  'work-and-create': { src: '/living/renders/shelf-3-sage.jpg', alt: 'The three-wide shelf, keyed to a board' },
+  'store-and-organise': { src: '/living/renders/bin-2-oat.jpg', alt: 'The two-wide bin, as printed' },
+  'pets-and-everyday': { src: '/living/renders/hook-clay.jpg', alt: 'The hook, as printed' },
+  'plants-and-objects': { src: '/living/renders/cup-plum.jpg', alt: 'The cup, as printed' },
+};
 
 function nzd(n: number) {
   return `NZ$${n.toLocaleString('en-NZ', { maximumFractionDigits: 0 })}`;
@@ -94,45 +106,66 @@ export default function AssemblLivingPage() {
   return (
     <div className="lv">
       <div className="lv-wrap">
-        <section className="lv-hero">
-          <span className="lv-eyebrow">assembl / living</span>
-          <h1>One design system.<br />Different spaces.<br />Endless combinations.</h1>
-          <p className="lv-lede">
-            A modular interiors system that adapts to you, your space and what you own. Photograph the corner that is not working. We help design something beautiful and functional from compatible parts, printed to order.
-          </p>
-          <div className="lv-actions">
-            <Link href="/living/studio" className="lv-btn">show us your space →</Link>
-            <span className="lv-status" data-tone="quiet">designed, not yet printed · nothing for sale yet</span>
+        <section className="lv-hero lv-hero-split">
+          <div className="lv-hero-copy">
+            <div className="lv-hero-row">
+              <span className="lv-eyebrow">assembl / living</span>
+              <span className="lv-status" data-tone="quiet">designed, not yet printed · nothing for sale yet</span>
+            </div>
+            <h1>Living, assembl&rsquo;d.</h1>
+            <p className="lv-lede">
+              One {spec.pitch_mm} mm quarter-turn key. Boards, shelves, hooks, cups, bins and a plate with your name on it, printed to order, every part fitting every other. Photograph the corner that is not working and we design the fix.
+            </p>
+            <div className="lv-actions">
+              <Link href="/living/studio" className="lv-btn">show us your space →</Link>
+              <a href="#lv-spaces" className="lv-btn" data-variant="ghost">pick a door ↓</a>
+            </div>
+            <ul className="lv-hero-facts" aria-label="the system in four facts">
+              <li>{spec.pitch_mm} mm pitch</li>
+              <li>push in, quarter-turn</li>
+              <li>{served} print files served</li>
+              <li>{CAD_MANIFEST.pack} · proposed</li>
+            </ul>
           </div>
+          <HeroWall />
         </section>
 
-        <section className="lv-section" aria-labelledby="lv-spaces">
+        <section className="lv-section" aria-labelledby="lv-spaces" id="lv-spaces-section">
           <div className="lv-section-head">
             <span className="lv-eyebrow">by space first, interest second</span>
-            <h2 id="lv-spaces">Six doors into one catalogue.</h2>
+            <h2 id="lv-spaces">Six doors. One catalogue.</h2>
             <p className="lv-small">A board is the same board in a teenager&rsquo;s room, a workshop or a vanity. The suggested accessories, kits and colours change.</p>
           </div>
-          <div className="lv-grid lv-grid-3">
-            {SPACE_ENTRIES.map((s) => (
-              <Link key={s.id} href={`/living/studio?space=${s.id}`} className="lv-card">
-                <h3>{s.name}</h3>
-                <p className="lv-small">{s.line}</p>
-                <ul>{s.examples.slice(0, 2).map((e) => <li key={e}>&ldquo;{e}&rdquo;</li>)}</ul>
-              </Link>
-            ))}
+          <div className="lv-grid lv-doors">
+            {SPACE_ENTRIES.map((s) => {
+              const art = DOOR_ART[s.id];
+              return (
+                <Link key={s.id} href={`/living/studio?space=${s.id}`} className="lv-card lv-door">
+                  {art && (
+                    <div className="lv-door-art">
+                      <Image src={art.src} alt={art.alt} fill sizes="(max-width: 700px) 100vw, 33vw" />
+                    </div>
+                  )}
+                  <h3>{s.name}</h3>
+                  <p className="lv-small">{s.line}</p>
+                  <ul>{s.examples.slice(0, 2).map((e) => <li key={e}>&ldquo;{e}&rdquo;</li>)}</ul>
+                </Link>
+              );
+            })}
           </div>
         </section>
 
         <section className="lv-section" aria-labelledby="lv-how">
           <div className="lv-section-head">
-            <span className="lv-eyebrow">the photo-to-room workflow</span>
-            <h2 id="lv-how">What happens, in order.</h2>
+            <span className="lv-eyebrow">some assembl required</span>
+            <h2 id="lv-how">Photo in. Design out.</h2>
+            <p className="lv-small">Five steps, each one shown back to you before the next. Nothing is ordered until you approve a design and a print partner has quoted it.</p>
           </div>
-          <div className="lv-grid lv-grid-3">
+          <ol className="lv-flow">
             {STEPS.map((s) => (
-              <article key={s.n} className="lv-card" data-tone="chalk"><span className="lv-eyebrow">{s.n}</span><h3>{s.title}</h3><p className="lv-small">{s.line}</p></article>
+              <li key={s.n} className="lv-card" data-tone="chalk"><span className="lv-eyebrow">{s.n}</span><h3>{s.title}</h3><p className="lv-small">{s.line}</p></li>
             ))}
-          </div>
+          </ol>
           <div className="lv-note" style={{ marginTop: '1.2rem' }}>
             <span className="lv-status" data-tone="quiet">what a photo can and cannot do</span>
             <span>A single photograph cannot reliably establish exact physical measurements. Today the studio shows your photo back to you and does not read it. Fit is decided only by width and height you confirm, and by the door-gap gauge for over-door hangers.</span>
@@ -163,8 +196,8 @@ export default function AssemblLivingPage() {
 
         <section className="lv-section" aria-labelledby="lv-kits">
           <div className="lv-section-head">
-            <span className="lv-eyebrow">room kits are the merchandising layer</span>
-            <h2 id="lv-kits">Buy a blank board and build it yourself, or start from a kit.</h2>
+            <span className="lv-eyebrow">room kits · pre-assembl&rsquo;d</span>
+            <h2 id="lv-kits">Start from a kit, or from a blank board.</h2>
             <p className="lv-small">All the same grid. Someone can buy the vanity lab and later add a lure garage, or buy the gear wall and add a shelf for keys and a phone.</p>
           </div>
           <div className="lv-grid lv-grid-2">
@@ -213,14 +246,22 @@ export default function AssemblLivingPage() {
         </section>
 
         <section className="lv-section" aria-labelledby="lv-dayrally">
-          <div className="lv-section-head">
-            <span className="lv-eyebrow">dayrally · the go-anywhere collection</span>
-            <h2 id="lv-dayrally">Same key, out the door.</h2>
-            <p className="lv-small">
-              A pod&rsquo;s floor is a TURN flange with two keyways {spec.pitch_mm} mm apart, so every pod size locks onto every mount and onto any board at home. Four pod sizes, eight lid styles with a name or pattern inlaid flush, inserts for tackle, beach, tech, pens and cards, seven mounts, and the small things: charms, zip pulls, spoke beads, chair hooks, cable winders.
-            </p>
+          <div className="lv-band">
+            <div className="lv-band-art">
+              <Image src="/living/renders/dayrally-everyday-flatlay.jpg" alt="A dayrally everyday kit in tomato and butter: pods, lids and the small things, rendered from the print files" fill sizes="(max-width: 880px) 100vw, 50vw" />
+            </div>
+            <div className="lv-section-head" style={{ marginBottom: 0 }}>
+              <span className="lv-eyebrow">dayrally · the go-anywhere collection</span>
+              <h2 id="lv-dayrally">Same key, out the door.</h2>
+              <p className="lv-small">
+                A pod&rsquo;s floor is a TURN flange with two keyways {spec.pitch_mm} mm apart, so every pod size locks onto every mount and onto any board at home. Four pod sizes, eight lid styles with a name or pattern inlaid flush, inserts for tackle, beach, tech, pens and cards, seven mounts, and the small things: charms, zip pulls, spoke beads, chair hooks, cable winders.
+              </p>
+              <div className="lv-actions">
+                <Link href="/living/widget" className="lv-btn" data-variant="ghost">see every piece →</Link>
+              </div>
+            </div>
           </div>
-          <div className="lv-grid lv-grid-4">
+          <div className="lv-grid lv-grid-4" style={{ marginTop: '2rem' }}>
             {DAYRALLY_KITS.map((k) => (
               <article key={k.handle} className="lv-card" data-tone="chalk">
                 <h3>{k.title.replace('dayrally ', '').toLowerCase()}</h3>
