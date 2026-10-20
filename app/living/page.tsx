@@ -19,7 +19,7 @@ const DOORS: { id: string; name: string; sub: string; art: string; href: string 
   { id: 'ride', name: 'ride', sub: 'bike', art: 'bike-set-sun', href: '/living/widget/al-kit-dayrally-ride-kit' },
   { id: 'scoot', name: 'scoot', sub: 'scooter', art: 'scoot-set-sun', href: '/living/widget/al-kit-dayrally-scoot-kit' },
   { id: 'fish', name: 'fish', sub: 'wharf & beach', art: 'rod-packed-lime', href: '/living/widget/al-kit-dayrally-fish-kit' },
-  { id: 'everyday', name: 'everyday', sub: 'bag & belt', art: 'dayrally-everyday-flatlay', href: '/living/widget/al-kit-dayrally-everyday-kit' },
+  { id: 'everyday', name: 'everyday', sub: 'bag & belt', art: 'pods-tech', href: '/living/widget/al-kit-dayrally-everyday-kit' },
   { id: 'my-room', name: 'my room', sub: 'wall & desk', art: 'teen-room-flatlay', href: '/living/studio?space=my-room' },
   { id: 'my-space', name: 'my space', sub: 'vanity & drawer', art: 'vanity-cutout-sage', href: '/living/studio?space=my-space' },
   { id: 'work-and-create', name: 'work', sub: 'bench & workshop', art: 'shelf-3-sage', href: '/living/studio?space=work-and-create' },
@@ -28,12 +28,14 @@ const DOORS: { id: string; name: string; sub: string; art: string; href: string 
 
 /** The pieces: catalogue products (priced, proposed) and lab items (designed, unpriced), each with its render. */
 const PIECES: { handle: string; art: string; name?: string }[] = [
-  { handle: 'al-pod-standard', art: 'pod-standard-sky-waves' },
+  { handle: 'al-pod-standard', art: 'pods-fish' },
+  { handle: 'al-pod-mini', art: 'pods-mini-earbuds' },
+  { handle: 'al-pod-tall', art: 'pods-cards' },
+  { handle: 'al-pod-long', art: 'pods-pens' },
   { handle: 'al-board-4x4', art: 'board-4x4-chalk' },
   { handle: 'al-name-plate', art: 'name-plate-plum-mila' },
   { handle: 'al-number-plate', art: 'number-plate-lime' },
   { handle: 'lab-dayrally-ride', art: 'ride-pod-tomato', name: 'ride pod' },
-  { handle: 'al-pod-mini', art: 'pod-mini-butter-name' },
   { handle: 'al-hook', art: 'hook-clay' },
   { handle: 'al-shelf-3', art: 'shelf-3-sage' },
   { handle: 'al-cup', art: 'cup-plum' },
@@ -112,7 +114,7 @@ export default function AssemblLivingPage() {
         </nav>
 
         <section className="ls-band" aria-label="little adventures count">
-          <div className="ls-band-art"><Image src="/living/alpha/dayrally-everyday-flatlay.png" alt="The dayrally everyday kit: a pod, its lid and insert, a bag tag and a charm, rendered from the print files" fill sizes="(max-width: 720px) 100vw, 50vw" /></div>
+          <div className="ls-band-art"><Image src="/living/alpha/pods-beach.png" alt="A dayrally standard pod open with the beach insert: a sun balm tin, two lip balm tins and a key ring in their pockets, the lid behind. Rendered from the print files; the things are stand-ins at real size" fill sizes="(max-width: 720px) 100vw, 50vw" /></div>
           <div className="ls-band-copy">
             <span className="ls-note">little adventures count.</span>
             <h2>same key.<br />out the door.</h2>
