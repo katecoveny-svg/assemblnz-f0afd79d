@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { buildItem, defaultAccent, itemMessage, needsAccent, printFile, printSheet, textSpecFor, widgetSpec, type ItemConfiguration, type WidgetMessage, type WidgetSpec } from '@/lib/living';
 import { fredoka } from '../../fonts';
+import { POD_CONTENTS, POD_CONTENTS_NOTE } from '@/lib/living/pod-contents';
 
 /** dayrally surfaces: cream stage behind the part, the Fredoka face for slate lettering. */
 const DAYRALLY_STAGE = '#efe6d6';
@@ -154,6 +155,23 @@ function Widget({ spec, embed, origin }: { spec: WidgetSpec; embed: boolean; ori
               </button>
             )}
           </div>
+          {POD_CONTENTS[spec.handle] && (
+            <section className="lvw-contents" aria-label="Example contents">
+              <h3>what could go inside.</h3>
+              <p className="lv-small">{POD_CONTENTS_NOTE}</p>
+              <p className="lvw-counter">Fixed examples below. Your colour, lid and insert choices are set in the controls.</p>
+              <div className="lvw-contents-grid">
+                {POD_CONTENTS[spec.handle].map((example) => (
+                  <figure key={example.image}>
+                    {/* eslint-disable-next-line @next/next/no-img-element -- fixed, publicly served CAD example */}
+                    <img src={`/living/renders/${example.image}.jpg`} alt={`${example.label}. ${POD_CONTENTS_NOTE}`} width={1600} height={1200} loading="lazy" />
+                    <figcaption>{example.label}</figcaption>
+                  </figure>
+                ))}
+              </div>
+              <p className="lvw-counter">Pod designs include the chosen lid, insert and two TURN connector keys. Everyday objects shown inside are not included.</p>
+            </section>
+          )}
         </div>
 
         <div className="lvw-controls">

@@ -648,3 +648,27 @@ and the `stack` foundation (dowel joints and feet for 19 mm timber dowel) is the
 None of these is designed yet. The order is table node → planter → magazine rack → stool, because each reuses
 the last, and the table node is one afternoon in the manifold pipeline with the same fit tests as the dowel
 joints. Kate's call before the first one starts.
+
+### 11.16 The pods, pictured with what's in them (20 October, night)
+
+Kate: "I think the pods need to be pictured what's in them." The pod renders were empty shells beside a lid,
+so nothing said what a pod is for. Six new renders (`tools/living-cad/render/scenes.json`, `pods-*`) show each
+pod open with its insert and everyday things seated in the real pockets, the lid behind:
+
+| Render | Pod · insert | What is in it |
+|---|---|---|
+| `pods-fish` | standard, tomato · tackle (3 × 2), butter | two spoon lures, a soft bait, sinkers, two swivels |
+| `pods-tech` | standard, sky · tech, ink | an earbuds case in the rectangle, a coiled cable in the round pocket |
+| `pods-beach` | standard, butter · beach, tomato | a sun balm tin, two lip balm tins, a key ring in the card-and-keys pocket |
+| `pods-cards` | tall, ink · cards, butter | four cards standing in the slots |
+| `pods-pens` | long, mint · pens, butter | two pencils, a pen and a short pencil in the four slots |
+| `pods-mini-earbuds` | mini, tangerine · earbuds, ink | an earbuds case |
+
+The things are stand-ins built at real sizes in `tools/living-cad/render/props.py` (render README, "Props"):
+plain solids, never print files, never claimed as included. The pockets are the real insert geometry, so the
+fit shown is the fit designed: the cards stand 7 mm proud of the tall pod's rim and the lid's hollow takes
+them; the earbuds case sits 7 mm proud of the mini pod the same way.
+
+On the storefront the pod cards now show these (standard → fish, mini → earbuds, and new cards for the tall
+and long pods), and the "little adventures count." band shows the beach pod open. The Shopify product images
+for the four pods are the next step once this deploys, because the store needs a public URL to fetch from.

@@ -84,3 +84,12 @@
 @media (max-width: 720px) {
   .lvw-band { grid-template-columns: 1fr; }
 }
+
+/* Examples are distinct from the live configuration and wrap in narrow embeds. */
+.lvw-contents { margin-top: 24px; }
+.lvw-contents h3 { font-size: 1.3rem; margin: 0 0 10px; }
+.lvw-contents-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 16px; }
+.lvw-contents figure { margin: 0; min-width: 0; }
+.lvw-contents img { display: block; width: 100%; height: auto; border-radius: 16px; }
+.lvw-contents figcaption { font-size: 13px; line-height: 1.5; padding: 8px 0; }
+.lvw-band .lv-status { white-space: normal; overflow-wrap: anywhere; max-width: 100%; }
