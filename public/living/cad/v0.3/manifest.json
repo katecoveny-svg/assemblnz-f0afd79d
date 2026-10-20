@@ -18,7 +18,7 @@
  },
  "status": "designed and checked digitally; nothing printed yet. Clamp, detent and clearance values are starting points for the test-print kit.",
  "source": "tools/living-cad/cad/lib.py",
- "built_at": "2026-10-19T23:48:35Z",
+ "built_at": "2026-10-20T00:37:27Z",
  "colours": {
   "living": [
    {
@@ -3755,6 +3755,566 @@
     "path": "/living/cad/v0.3/cast-guide-3.stl",
     "bytes": 34484,
     "sha256": "d5a627a1a35a994a4dd1a07610aa72d34e831456106e9fb6463a745fd46773cf"
+   }
+  },
+  {
+   "id": "ride-pod-base",
+   "name": "ride pod, base",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 141.0,
+    "y": 93.7,
+    "z": 40.4
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 69.25,
+   "mass_g_pla": 64.7,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 6,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 268.0,
+   "notes": "Bento pod on the TURN floor. Hinge knuckles and catch rib printed in.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-pod-base.stl",
+    "bytes": 226184,
+    "sha256": "1d62b67e631779241442d7e2e477e4971b767e9519fd3dbeae95535675e34fdb"
+   }
+  },
+  {
+   "id": "ride-latch",
+   "name": "ride pod, latch button",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "on_bottom",
+   "dims_mm": {
+    "x": 26.0,
+    "y": 36.0,
+    "z": 3.8
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 2.21,
+   "mass_g_pla": 2.5,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Accent colour. Drops into the lid housing from the top; the window catches the rib.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-latch.stl",
+    "bytes": 5084,
+    "sha256": "1e1e0a0c03b06c82fa7d26015caec0fc811500f7e7715b4468a8295a60db94ce"
+   }
+  },
+  {
+   "id": "ride-hinge-pin",
+   "name": "ride pod, hinge pin",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "on_side",
+   "dims_mm": {
+    "x": 53.5,
+    "y": 9.0,
+    "z": 9.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.4,
+   "mass_g_pla": 0.5,
+   "material": "PETG (or a 3 mm steel rod)",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 104.0,
+   "notes": "Two per pod, or a 3 mm steel rod.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-hinge-pin.stl",
+    "bytes": 23884,
+    "sha256": "8a1b1f80db5e17b00c61ba3b3a856acad047e8416eec17f7566a852751b0f5fc"
+   }
+  },
+  {
+   "id": "ride-gasket",
+   "name": "ride pod, gasket",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 125.6,
+    "y": 81.6,
+    "z": 1.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 1.46,
+   "mass_g_pla": 1.8,
+   "material": "TPU 95A",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "TPU 95A. Splash-proof, not submersible.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-gasket.stl",
+    "bytes": 27284,
+    "sha256": "1d0a1b3483ab79ad0886b97e0b9102d63d14b1a3b0cd70a81b4b1887bbc2ade0"
+   }
+  },
+  {
+   "id": "ride-core-split",
+   "name": "ride pod, core, split",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 122.2,
+    "y": 78.2,
+    "z": 26.8
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 31.98,
+   "mass_g_pla": 39.7,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Two pockets, finger scoops.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-core-split.stl",
+    "bytes": 51084,
+    "sha256": "257660e3fae1efc33cf629cd6f8e87a9800c343abe90f1acbe702ae6adf277da"
+   }
+  },
+  {
+   "id": "ride-grip-waves",
+   "name": "grip, waves",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 36.0,
+    "y": 36.0,
+    "z": 130.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 48.2,
+   "mass_g_pla": 31.3,
+   "material": "TPU 95A",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 202.0,
+   "notes": "TPU 95A, 22.2 mm bars. Push on with a little spray of alcohol; close with the bar-end plug.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-grip-waves.stl",
+    "bytes": 4894884,
+    "sha256": "b503d9056929a9364cd5bf1cd16de539a1284abd4d1de05e54f450e28a8e01ec"
+   }
+  },
+  {
+   "id": "ride-grip-dots",
+   "name": "grip, dots",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 36.0,
+    "y": 36.0,
+    "z": 130.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 46.58,
+   "mass_g_pla": 30.9,
+   "material": "TPU 95A",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 112.0,
+   "notes": "TPU 95A, 22.2 mm bars.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-grip-dots.stl",
+    "bytes": 5225284,
+    "sha256": "c6e0039c033ad5ba72bbbc5f0359303bd18bd8f2a7264560da9ccfe895e0a341"
+   }
+  },
+  {
+   "id": "ride-watch-42",
+   "name": "watch cradle, 41/42 mm",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 70.0,
+    "y": 58.0,
+    "z": 28.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 56.1,
+   "mass_g_pla": 29.4,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 4,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 2423.0,
+   "notes": "The slab bridges 40 mm between its walls (a bridge, no supports). Band wraps the slab; charger puck pocket underneath.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-watch-42.stl",
+    "bytes": 151284,
+    "sha256": "76a4a2b9cf4195a25c2e5a997f9762cec4267dbf986469774c07d2a85d9e1944"
+   }
+  },
+  {
+   "id": "ride-watch-46",
+   "name": "watch cradle, 45/46 mm",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 70.0,
+    "y": 58.0,
+    "z": 28.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 55.48,
+   "mass_g_pla": 29.3,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 4,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 2423.0,
+   "notes": "Band wraps the slab; charger puck pocket underneath.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-watch-46.stl",
+    "bytes": 152084,
+    "sha256": "ef9c8d37557237b3b6f5be368e35cf3bea4d9f8555c9c1455ea5fd9d89145904"
+   }
+  },
+  {
+   "id": "ride-watch-49",
+   "name": "watch cradle, 49 mm Ultra",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 70.0,
+    "y": 62.0,
+    "z": 28.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 59.15,
+   "mass_g_pla": 31.1,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 4,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 2657.0,
+   "notes": "Band wraps the slab; charger puck pocket underneath.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-watch-49.stl",
+    "bytes": 154284,
+    "sha256": "169401336655c9a6d5abb84c718caa984038bc50c1d8ec7673c917b0974bd7da"
+   }
+  },
+  {
+   "id": "ride-phone-plate",
+   "name": "phone mount, plate",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 184.0,
+    "y": 98.0,
+    "z": 38.5
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 92.78,
+   "mass_g_pla": 60.9,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 4,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 112.0,
+   "notes": "Two keys; 45 degree channels centre 64-82 mm phones; rack for the slider.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-phone-plate.stl",
+    "bytes": 145684,
+    "sha256": "3047900dc32ffaaa5066b589a8aab088bfa2599a2914ae8fb99189698ae5b72b"
+   }
+  },
+  {
+   "id": "ride-phone-slider",
+   "name": "phone mount, slider",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 26.9,
+    "y": 97.0,
+    "z": 37.9
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 14.52,
+   "mass_g_pla": 13.2,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1964.0,
+   "notes": "Prints upside down (the bridge is a 53 mm span between the hooks). Push toward the phone to ratchet; lift the tab to release.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-phone-slider.stl",
+    "bytes": 17484,
+    "sha256": "cbbd8e0d99fce8eba757d04d4b6ab64ad55446303bb48aba91c56ac411272b9a"
+   }
+  },
+  {
+   "id": "ride-bottle-cup",
+   "name": "bottle cup",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "on_bottom",
+   "dims_mm": {
+    "x": 80.8,
+    "y": 91.8,
+    "z": 105.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 103.78,
+   "mass_g_pla": 84.9,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 16,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 382.0,
+   "notes": "TURN floor and 64 mm M5 slots. Pen cup on the home dock.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-bottle-cup.stl",
+    "bytes": 301784,
+    "sha256": "7998d65a508051dc037dd2999d473036b6fa48546538d5c8aa49b7dfbd9ff80f"
+   }
+  },
+  {
+   "id": "ride-stand",
+   "name": "crank stand / phone stand",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 110.0,
+    "y": 70.0,
+    "z": 120.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 154.26,
+   "mass_g_pla": 134.3,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 6,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 507.0,
+   "notes": "Rest a pedal in the cradle and lean the bike. A phone leans in the same slot on the desk.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-stand.stl",
+    "bytes": 131284,
+    "sha256": "71aaf695342fb191ec5fb71ba96215ad95c6d91c4b7a00a603830756d6ed6a25"
+   }
+  },
+  {
+   "id": "ride-pod-lid",
+   "name": "ride pod, lid",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 128.0,
+    "y": 98.3,
+    "z": 22.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 42.07,
+   "mass_g_pla": 44.9,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 3,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 848.0,
+   "notes": "Prints top-down. 'dayrally' inlaid in the second colour; two peg holes for the slate.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-pod-lid.stl",
+    "bytes": 473084,
+    "sha256": "1b753cff9ed033c02da5c3b2afd429622357da872615a9bfc59559c0a6dd230f"
+   }
+  },
+  {
+   "id": "ride-pod-lid-pattern",
+   "name": "ride pod, lid wordmark inlay",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 51.3,
+    "y": 12.3,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.15,
+   "mass_g_pla": 0.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -4,
+   "bodies": 8,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Second colour, 0.6 mm.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-pod-lid-pattern.stl",
+    "bytes": 318484,
+    "sha256": "472371f3815736a62c429fac37ca904a731ccd678fe176217e73fb3b50c74ea4"
+   }
+  },
+  {
+   "id": "ride-slate-dayrally",
+   "name": "ride pod, slate, dayrally",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 64.0,
+    "y": 20.0,
+    "z": 3.8
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 2.5,
+   "mass_g_pla": 3.1,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Accent colour; two pegs press into the lid. The name is raised 0.8 mm (second colour or the slate's own colour).",
+   "file": {
+    "path": "/living/cad/v0.3/ride-slate-dayrally.stl",
+    "bytes": 23084,
+    "sha256": "1d48c25bff38525b34238d1ab3fd81680865c78e9056cbeea71b85468d778d8c"
+   }
+  },
+  {
+   "id": "ride-slate-dayrally-pattern",
+   "name": "ride pod, slate text, dayrally",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 51.3,
+    "y": 12.3,
+    "z": 0.8
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.2,
+   "mass_g_pla": 0.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -4,
+   "bodies": 8,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Raised text, second colour.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-slate-dayrally-pattern.stl",
+    "bytes": 318484,
+    "sha256": "247776884c673bac573f10c121eb7fe4057d4c288cb62b15c2fb4e6d89e74ab5"
+   }
+  },
+  {
+   "id": "ride-slate-name",
+   "name": "ride pod, slate, name",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 64.0,
+    "y": 20.0,
+    "z": 3.8
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 2.5,
+   "mass_g_pla": 3.1,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Accent colour; two pegs press into the lid. The name is raised 0.8 mm (second colour or the slate's own colour).",
+   "file": {
+    "path": "/living/cad/v0.3/ride-slate-name.stl",
+    "bytes": 23084,
+    "sha256": "1d48c25bff38525b34238d1ab3fd81680865c78e9056cbeea71b85468d778d8c"
+   }
+  },
+  {
+   "id": "ride-slate-name-pattern",
+   "name": "ride pod, slate text, name",
+   "family": "ride",
+   "group": "ride",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 32.0,
+    "y": 9.3,
+    "z": 0.8
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.13,
+   "mass_g_pla": 0.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -2,
+   "bodies": 4,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Raised text, second colour.",
+   "file": {
+    "path": "/living/cad/v0.3/ride-slate-name-pattern.stl",
+    "bytes": 182084,
+    "sha256": "1d309713dc07557ff41d67c7a5962fc33750a62f4bf293667e9e6cfc53ed25eb"
    }
   }
  ],
@@ -7572,6 +8132,91 @@
    "foot_66_nut_within_thread": true,
    "sections_pack_inside_grip": true,
    "assembled_length_mm": 913.0
+  },
+  "ride": {
+   "lid_on_base_clash_mm3": -0.0,
+   "lid_open_sweep_clash_mm3": {
+    "10": 0.0,
+    "20": 0.0,
+    "30": 0.0,
+    "45": 0.0,
+    "60": 0.0,
+    "75": 0.0,
+    "90": 0.0,
+    "105": 0.0,
+    "120": 0.0
+   },
+   "lid_open_sweep_max_mm3": 0.0,
+   "hinge_pin_in_base_clash_mm3": 0.0,
+   "hinge_pin_in_lid_clash_mm3": 0.0,
+   "hinge_pin_radial_clearance_mm": 0.3,
+   "latch_in_lid_clash_mm3": 0.0,
+   "latch_on_base_closed_clash_mm3": 0.0,
+   "latch_holds_when_lid_lifted_1mm_mm3": 8.4,
+   "gasket_in_lid_groove_clash_mm3": 0.0,
+   "gasket_compression_by_rib_mm3": 369.675,
+   "slate_on_lid_body_clash_mm3": 0.0,
+   "slate_peg_press_mm3": 2.625,
+   "core_in_base_clash_mm3": 0.0,
+   "core_clears_lip_mm3": 0.0,
+   "pod_on_bar_saddle_clash_mm3": -0.0,
+   "pod_on_home_dock_clash_mm3": -0.0,
+   "pod_keys_in_floor_clash_mm3_designed_clamp": 37.562,
+   "grip_bar_interference_mm3": 5953.426,
+   "grip_bar_interference_on_dia_mm": 1.2,
+   "bar_end_plug_in_grip_clash_mm3": 0.0,
+   "bar_end_plug_covers_bore": true,
+   "watch_42_case_in_pocket_clash_mm3": 0.0,
+   "watch_42_band_round_slab_clash_mm3": 0.0,
+   "watch_42_band_over_keys_clash_mm3": 0.0,
+   "watch_42_keys_in_cradle_clash_mm3_designed_clamp": 37.562,
+   "watch_42_puck_press_mm3": 22.575,
+   "watch_42_on_bar_saddle_clash_mm3": 0.0,
+   "watch_46_case_in_pocket_clash_mm3": -0.0,
+   "watch_46_band_round_slab_clash_mm3": 0.0,
+   "watch_46_band_over_keys_clash_mm3": 0.0,
+   "watch_46_keys_in_cradle_clash_mm3_designed_clamp": 37.562,
+   "watch_46_puck_press_mm3": 22.575,
+   "watch_46_on_bar_saddle_clash_mm3": 0.0,
+   "watch_49_case_in_pocket_clash_mm3": 0.0,
+   "watch_49_band_round_slab_clash_mm3": 0.0,
+   "watch_49_band_over_keys_clash_mm3": 0.0,
+   "watch_49_keys_in_cradle_clash_mm3_designed_clamp": 37.562,
+   "watch_49_puck_press_mm3": 22.575,
+   "watch_49_on_bar_saddle_clash_mm3": 0.0,
+   "phone_64x140x7.0_slider_x_end": 59.0,
+   "phone_64x140x7.0_in_plate_channel_clash_mm3": 0.0,
+   "phone_64x140x7.0_in_slider_channel_clash_mm3": 0.0,
+   "phone_64x140x7.0_slider_on_plate_clash_mm3": 0.0,
+   "phone_64x140x7.0_pawl_holds_shift_0.7_mm3": 2.241,
+   "phone_64x140x7.0_top_gap_mm": 0.3,
+   "phone_72x150x8.3_slider_x_end": 69.5,
+   "phone_72x150x8.3_in_plate_channel_clash_mm3": 0.0,
+   "phone_72x150x8.3_in_slider_channel_clash_mm3": 0.0,
+   "phone_72x150x8.3_slider_on_plate_clash_mm3": 0.0,
+   "phone_72x150x8.3_pawl_holds_shift_0.7_mm3": 2.241,
+   "phone_72x150x8.3_top_gap_mm": 0.8,
+   "phone_82x170x11.0_slider_x_end": 89.0,
+   "phone_82x170x11.0_in_plate_channel_clash_mm3": 0.0,
+   "phone_82x170x11.0_in_slider_channel_clash_mm3": 0.0,
+   "phone_82x170x11.0_slider_on_plate_clash_mm3": 0.0,
+   "phone_82x170x11.0_pawl_holds_shift_0.7_mm3": 2.241,
+   "phone_82x170x11.0_top_gap_mm": 0.3,
+   "phone_keys_in_plate_clash_mm3_designed_clamp": 37.562,
+   "phone_slider_enters_slots_from_end_clash_mm3": 0.0,
+   "phone_slider_lifted_pawl_release_clash_mm3": 0.0,
+   "phone_plate_on_bar_saddle_clash_mm3": -0.0,
+   "bottle_74_in_cup_clash_mm3_ridges_only": 0.0,
+   "bottle_76_in_cup_clash_mm3": 79.067,
+   "bottle_cup_keys_clash_mm3_designed_clamp": 35.403,
+   "bottle_cup_air_over_key_heads_mm": 7.6,
+   "bottle_cup_on_frame_saddle_clash_mm3": 0.0,
+   "bottle_cup_on_home_dock_clash_mm3": 0.0,
+   "bottle_m5_bolts_pass_mm3": 0.0,
+   "stand_pedal_in_cradle_clash_mm3": 0.0,
+   "stand_phone_in_cradle_clash_mm3": 0.0,
+   "stand_keyways_open_through_back_mm3": 0.0,
+   "stand_fits_250": true
   }
  },
  "lab": {
@@ -7844,6 +8489,84 @@
    ],
    "material": "PPA-CF for sections, tip top and guides (PA12-CF second); ASA or PETG-CF for grip, hood, nut, collar, cap. Not PA6-CF.",
    "reel": "bought: Shimano 1000-size spinning reel"
+  },
+  "ride": {
+   "pod_mm": [
+    128.0,
+    84.0,
+    54.0
+   ],
+   "pod_floor": "TURN flange, two keys 42 mm apart",
+   "hinge": "printed knuckles, 2.9 mm pin in a 3.5 mm bore",
+   "latch": "accent tongue in a top-entry housing; window over a 1.4 mm rib",
+   "gasket": "TPU ring 2.4 x 1.6 in a 1.2 mm groove; rib 0.4. Splash-proof; not tested, not submersible",
+   "grip": {
+    "bar_mm": 22.2,
+    "id_mm": 21.0,
+    "od_mm": 30.0,
+    "length_mm": 130.0,
+    "material": "TPU 95A"
+   },
+   "watch": {
+    "42": {
+     "case_mm": [
+      42.0,
+      36.0,
+      9.7
+     ],
+     "pocket_clr_mm": 0.6
+    },
+    "46": {
+     "case_mm": [
+      46.0,
+      39.0,
+      9.7
+     ],
+     "pocket_clr_mm": 0.6
+    },
+    "49": {
+     "case_mm": [
+      49.0,
+      44.0,
+      14.4
+     ],
+     "pocket_clr_mm": 0.6
+    }
+   },
+   "phone": {
+    "width_mm": [
+     64.0,
+     82.0
+    ],
+    "length_mm": [
+     140.0,
+     170.0
+    ],
+    "thickness_mm": [
+     7.0,
+     11.0
+    ],
+    "channel_mm": 12.5,
+    "rack_pitch_mm": 1.5
+   },
+   "bottle": {
+    "cup_id_mm": 76.0,
+    "bottle_mm": "73-75",
+    "m5_spacing_mm": 64.0
+   },
+   "stand": {
+    "mm": [
+     110.0,
+     70.0,
+     120.0
+    ],
+    "cradle_mm": [
+     24.0,
+     14.0
+    ],
+    "lean_deg": 15.0
+   },
+   "font": "Fredoka Bold (SIL OFL 1.1) for the wordmark and slates"
   }
  },
  "part_code_alphabet": "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"

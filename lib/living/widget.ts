@@ -74,6 +74,7 @@ const TEXT_PARTS: Record<string, Omit<TextSpec, 'partId'>> = {
   'dr-bag-tag-name': { label: 'Name', maxChars: 10, pattern: /^[A-Za-z0-9 .'&-]*$/, hint: 'Up to 10 letters on the tag.' },
   'bike-number-plate-text': { label: 'Plate number', maxChars: 3, pattern: /^[0-9]*$/, hint: 'One to three digits.' },
   'cam-skin-name-pattern': { label: 'Name on the skin', maxChars: 8, pattern: /^[A-Za-z0-9 .'&-]*$/, hint: 'Up to 8 letters, raised in the accent colour beside the shutter.' },
+  'ride-slate-name-pattern': { label: 'Name on the slate', maxChars: 8, pattern: /^[A-Za-z0-9 .'&-]*$/, hint: 'Up to 8 letters, raised on the slate in Fredoka Bold.' },
 };
 const LID_NAME_TEXT: Omit<TextSpec, 'partId'> = { label: 'Name on the lid', maxChars: 10, pattern: /^[A-Za-z0-9 .'&-]*$/, hint: 'Up to 10 letters, inlaid in the accent colour.' };
 
@@ -225,6 +226,37 @@ export const WIDGET_LAB: LabItem[] = [
     id: 'wharf-reel', title: 'Wharf reel', type: 'dayrally lab', colourSet: 'dayrally', size: 'Ø100 × 28 mm',
     blurb: 'One-piece V-groove hand reel for about 30 m of mono, with a hand hole, a line anchor and a hook park. Hangs on a Grid hook. No hooks supplied.',
     parts: [{ id: 'rod-wharf-reel', qty: 1 }], doc: 'docs/living/DAYRALLY-ROD.md',
+  },
+  {
+    id: 'dayrally-ride', title: 'dayrally ride pod', type: 'dayrally lab', colourSet: 'dayrally', size: '128 × 84 × 54 mm',
+    blurb: 'The hero pod: bento proportion, a printed pin hinge, a latch button in the accent colour, a TPU gasket (splash-proof; untested, not submersible), a lanyard loop, a name slate on the lid, and the same two-key TURN floor as every pod, so it locks to every mount and the Grid. The lid carries the dayrally wordmark inlaid in the second colour.',
+    parts: [{ id: 'ride-pod-base', qty: 1 }, { id: 'ride-pod-lid', qty: 1 }, { id: 'ride-pod-lid-pattern', qty: 1 }, { id: 'ride-latch', qty: 1 }, { id: 'ride-hinge-pin', qty: 2 }, { id: 'ride-gasket', qty: 1 }, { id: 'ride-core-split', qty: 1 }],
+    choice: { key: 'skin', label: 'Name slate', prefix: 'ride-slate-', defaultId: 'dayrally' }, doc: 'docs/living/DAYRALLY-RIDE.md',
+  },
+  {
+    id: 'ride-grips', title: 'dayrally grips', type: 'dayrally lab', colourSet: 'dayrally', size: '130 × Ø30 mm · 22.2 mm bars',
+    blurb: 'TPU 95A push-on handlebar grips with a waves or dots texture and six ribs inside to bite the bar. The file is one grip: print two. The existing bar-end plug closes them. Interference on the bar is set at 1.2 mm on the diameter and tuned on the first print.',
+    parts: [], choice: { key: 'skin', label: 'Texture', prefix: 'ride-grip-', defaultId: 'waves' }, doc: 'docs/living/DAYRALLY-RIDE.md',
+  },
+  {
+    id: 'ride-watch', title: 'dayrally watch cradle', type: 'dayrally lab', colourSet: 'dayrally', size: '70 × 58 × 28 mm',
+    blurb: 'An Apple Watch cradle on two TURN keys: the watch sits in a pocket cut to its case and its own band wraps the slab underneath, through a tunnel over the key heads. A charger-puck pocket under the pocket floor makes the same cradle a bedside dock on the home dock or the Grid. Three sizes: 41/42, 45/46 and 49 mm.',
+    parts: [], choice: { key: 'skin', label: 'Watch size', prefix: 'ride-watch-', defaultId: '46' }, doc: 'docs/living/DAYRALLY-RIDE.md',
+  },
+  {
+    id: 'ride-phone', title: 'dayrally phone mount', type: 'dayrally lab', colourSet: 'dayrally', size: '184 × 98 × 39 mm',
+    blurb: 'Portrait phone mount on two TURN keys. Paired 45° corner channels centre any phone from 64 to 82 mm wide; a slider on dovetail rails with a ratchet takes 140 to 170 mm lengths and a thumb tab releases it. No springs, no screws. The same plate on the home dock is a desk stand.',
+    parts: [{ id: 'ride-phone-plate', qty: 1 }, { id: 'ride-phone-slider', qty: 1 }], doc: 'docs/living/DAYRALLY-RIDE.md',
+  },
+  {
+    id: 'ride-bottle', title: 'dayrally bottle cup', type: 'dayrally lab', colourSet: 'dayrally', size: '81 × 92 × 105 mm',
+    blurb: 'A bottle cup with diamond windows for 73 to 75 mm bottles, on two TURN keys and with the standard 64 mm M5 slots, so it bolts to a frame boss, locks to a frame or bar saddle, or sits on the Grid or the home dock as a pen cup. Two inside ridges hold the bottle.',
+    parts: [{ id: 'ride-bottle-cup', qty: 1 }], doc: 'docs/living/DAYRALLY-RIDE.md',
+  },
+  {
+    id: 'ride-stand', title: 'dayrally crank stand', type: 'dayrally lab', colourSet: 'dayrally', size: '110 × 70 × 120 mm',
+    blurb: 'A crank stand: rest a pedal in the cradle and lean the bike. On the desk the same slot holds a phone at 15°, and the TURN flange in its back locks it onto the Grid so it is not lost. Hollow with three ribs, four rubber-foot recesses. Digitally checked only.',
+    parts: [{ id: 'ride-stand', qty: 1 }], doc: 'docs/living/DAYRALLY-RIDE.md',
   },
 ];
 

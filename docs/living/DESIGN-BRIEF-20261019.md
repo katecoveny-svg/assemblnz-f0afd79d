@@ -354,3 +354,48 @@ with clip latches in the dayrally colours, as a larger "01 mount" for the Gear w
 The renders in section 8 and 11.4 remain real geometry, labelled renders. To get to the board's look
 before anything is printed: pod v3 first, then photoreal renders fed with the real STLs and the prompt in
 section 8, scene-matched to the board (cream rock, hard sun, low angle).
+
+### 11.7 The ride line, the hero pod and the font (20 October, later)
+
+Kate's direction, verbatim in spirit: a really cool, funky pod as the main part, because the lock key is what
+carries through every component; something that can go viral with teenagers, real fun, but premium and not a
+colour blot; a watch mount and an iPhone mount; a hardy outdoor pod like the Janberry container; handle
+grips, because bikers are printing them now.
+
+**What now exists (digitally):** `DAYRALLY-RIDE.md`. The hero pod v3 named in 11.6 is built: hinged bento lid,
+accent latch button, TPU gasket, lanyard loop, name slate, `dayrally` in the lid, two-key TURN floor. Around
+it: TPU grips (waves, dots), an Apple Watch cradle that is also a charging dock, a phone mount, a bottle cup
+that is also a pen cup, and a crank stand that is also a phone stand. Every one locks to every mount. Renders:
+`docs/living/renders/ride-pod-tomato.png` (exploded, with the slate and pins), `ride-pod-lilac-closed.png`
+(JACK on a tomato slate), `ride-grips-lime.png`, `ride-watch-sky.png`, `ride-phone-ink.png`,
+`ride-bottle-tangerine.png`, `ride-stand-mint.png`.
+
+**The font.** Fredoka 700 (OFL) is the dayrally display face, ADR-011. Use it for the wordmark, the slates, the
+kit names on the storefront hero and the "go make a day of it." line. Everything else stays Instrument Sans.
+On Shopify (Horizon) load it from Google Fonts in the theme's custom CSS for the dayrally template only.
+
+**"Viral with teenagers, premium, not a colour blot."** This is the register for the ride line's pages and
+film:
+
+- One hero colour per frame, one accent. The accent is always the thing you touch: the latch, the slate, the
+  slider tab, the pawl. Tomato on lilac, butter on cobalt, ink on lime. Never three colours on one object.
+- The name is the hook. The slate is swappable, the text field is the first thing on the page, and the
+  render shows a real name, not "NAME". Teenagers share things with their name on them.
+- Show the trick, not the product: the lid swinging open, the slate popping off with a thumbnail, the pod
+  clicking onto the bar saddle and then onto the Grid at home, the watch cradle going from bars to bedside,
+  the phone dropping into the channels and the slider clicking in. Ten-second vertical cuts, each one trick,
+  shot on the bike and the desk, not on seamless. Real STL renders until the first print; then the real
+  parts, scratches and all.
+- Premium is in the restraint: paper and cream backgrounds, the Plex Mono fact line under each image
+  (`ride pod · tomato / butter · 128 × 84 × 54 mm · splash-proof, untested`), no stickers, no drop-shadow
+  3D text, no "limited drop", no AI-art textures. The honesty line stays on every frame that shows an
+  unprinted part.
+- The grips are the entry point: cheap, a pair, two textures, a colour, closed with the bar-end plug (plain
+  today; a plug with a TURN keyway so a charm or a bead locks into the bar end is the next small build). That
+  is the thing a 14-year-old prints first and shows their mates; the pod is what they ask for next.
+
+**Pod form, hardy outdoor.** The Janberry container is a screw-lid cylinder with an O-ring, honest about
+being dust- and splash-proof. Our pod is a hinged bento with a compressed TPU gasket and will not be called
+waterproof until it has been under a tap. If the first print leaks, the next pod is a screw-lid round pod on
+the same TURN floor, which the cast rod's thread code already knows how to cut.
+

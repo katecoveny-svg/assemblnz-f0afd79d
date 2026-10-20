@@ -1,0 +1,462 @@
+{
+  "spec": {
+    "pod_mm": [
+      128.0,
+      84.0,
+      54.0
+    ],
+    "pod_floor": "TURN flange, two keys 42 mm apart",
+    "hinge": "printed knuckles, 2.9 mm pin in a 3.5 mm bore",
+    "latch": "accent tongue in a top-entry housing; window over a 1.4 mm rib",
+    "gasket": "TPU ring 2.4 x 1.6 in a 1.2 mm groove; rib 0.4. Splash-proof; not tested, not submersible",
+    "grip": {
+      "bar_mm": 22.2,
+      "id_mm": 21.0,
+      "od_mm": 30.0,
+      "length_mm": 130.0,
+      "material": "TPU 95A"
+    },
+    "watch": {
+      "42": {
+        "case_mm": [
+          42.0,
+          36.0,
+          9.7
+        ],
+        "pocket_clr_mm": 0.6
+      },
+      "46": {
+        "case_mm": [
+          46.0,
+          39.0,
+          9.7
+        ],
+        "pocket_clr_mm": 0.6
+      },
+      "49": {
+        "case_mm": [
+          49.0,
+          44.0,
+          14.4
+        ],
+        "pocket_clr_mm": 0.6
+      }
+    },
+    "phone": {
+      "width_mm": [
+        64.0,
+        82.0
+      ],
+      "length_mm": [
+        140.0,
+        170.0
+      ],
+      "thickness_mm": [
+        7.0,
+        11.0
+      ],
+      "channel_mm": 12.5,
+      "rack_pitch_mm": 1.5
+    },
+    "bottle": {
+      "cup_id_mm": 76.0,
+      "bottle_mm": "73-75",
+      "m5_spacing_mm": 64.0
+    },
+    "stand": {
+      "mm": [
+        110.0,
+        70.0,
+        120.0
+      ],
+      "cradle_mm": [
+        24.0,
+        14.0
+      ],
+      "lean_deg": 15.0
+    },
+    "font": "Fredoka Bold (SIL OFL 1.1) for the wordmark and slates"
+  },
+  "parts": [
+    {
+      "slug": "ride-pod-base",
+      "name": "ride pod, base",
+      "group": "ride",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        141.0,
+        93.7,
+        40.4
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 69.25,
+      "est_grams_pla": 64.7,
+      "watertight": true,
+      "genus": 6,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 268.0,
+      "notes": "Bento pod on the TURN floor. Hinge knuckles and catch rib printed in."
+    },
+    {
+      "slug": "ride-latch",
+      "name": "ride pod, latch button",
+      "group": "ride",
+      "print_orientation": "on_bottom",
+      "print_bbox_mm": [
+        26.0,
+        36.0,
+        3.8
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 2.21,
+      "est_grams_pla": 2.5,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Accent colour. Drops into the lid housing from the top; the window catches the rib."
+    },
+    {
+      "slug": "ride-hinge-pin",
+      "name": "ride pod, hinge pin",
+      "group": "ride",
+      "print_orientation": "on_side",
+      "print_bbox_mm": [
+        53.5,
+        9.0,
+        9.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.4,
+      "est_grams_pla": 0.5,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 104.0,
+      "notes": "Two per pod, or a 3 mm steel rod."
+    },
+    {
+      "slug": "ride-gasket",
+      "name": "ride pod, gasket",
+      "group": "ride",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        125.6,
+        81.6,
+        1.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 1.46,
+      "est_grams_pla": 1.8,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "TPU 95A. Splash-proof, not submersible."
+    },
+    {
+      "slug": "ride-core-split",
+      "name": "ride pod, core, split",
+      "group": "ride",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        122.2,
+        78.2,
+        26.8
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 31.98,
+      "est_grams_pla": 39.7,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Two pockets, finger scoops."
+    },
+    {
+      "slug": "ride-grip-waves",
+      "name": "grip, waves",
+      "group": "ride",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        36.0,
+        36.0,
+        130.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 48.2,
+      "est_grams_pla": 31.3,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 202.0,
+      "notes": "TPU 95A, 22.2 mm bars. Push on with a little spray of alcohol; close with the bar-end plug."
+    },
+    {
+      "slug": "ride-grip-dots",
+      "name": "grip, dots",
+      "group": "ride",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        36.0,
+        36.0,
+        130.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 46.58,
+      "est_grams_pla": 30.9,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 112.0,
+      "notes": "TPU 95A, 22.2 mm bars."
+    },
+    {
+      "slug": "ride-watch-42",
+      "name": "watch cradle, 41/42 mm",
+      "group": "ride",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        70.0,
+        58.0,
+        28.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 56.1,
+      "est_grams_pla": 29.4,
+      "watertight": true,
+      "genus": 4,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 2423.0,
+      "notes": "The slab bridges 40 mm between its walls (a bridge, no supports). Band wraps the slab; charger puck pocket underneath."
+    },
+    {
+      "slug": "ride-watch-46",
+      "name": "watch cradle, 45/46 mm",
+      "group": "ride",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        70.0,
+        58.0,
+        28.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 55.48,
+      "est_grams_pla": 29.3,
+      "watertight": true,
+      "genus": 4,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 2423.0,
+      "notes": "Band wraps the slab; charger puck pocket underneath."
+    },
+    {
+      "slug": "ride-watch-49",
+      "name": "watch cradle, 49 mm Ultra",
+      "group": "ride",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        70.0,
+        62.0,
+        28.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 59.15,
+      "est_grams_pla": 31.1,
+      "watertight": true,
+      "genus": 4,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 2657.0,
+      "notes": "Band wraps the slab; charger puck pocket underneath."
+    },
+    {
+      "slug": "ride-phone-plate",
+      "name": "phone mount, plate",
+      "group": "ride",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        184.0,
+        98.0,
+        38.5
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 92.78,
+      "est_grams_pla": 60.9,
+      "watertight": true,
+      "genus": 4,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 112.0,
+      "notes": "Two keys; 45 degree channels centre 64-82 mm phones; rack for the slider."
+    },
+    {
+      "slug": "ride-phone-slider",
+      "name": "phone mount, slider",
+      "group": "ride",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        26.9,
+        97.0,
+        37.9
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 14.52,
+      "est_grams_pla": 13.2,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 1964.0,
+      "notes": "Prints upside down (the bridge is a 53 mm span between the hooks). Push toward the phone to ratchet; lift the tab to release."
+    },
+    {
+      "slug": "ride-bottle-cup",
+      "name": "bottle cup",
+      "group": "ride",
+      "print_orientation": "on_bottom",
+      "print_bbox_mm": [
+        80.8,
+        91.8,
+        105.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 103.78,
+      "est_grams_pla": 84.9,
+      "watertight": true,
+      "genus": 16,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 382.0,
+      "notes": "TURN floor and 64 mm M5 slots. Pen cup on the home dock."
+    },
+    {
+      "slug": "ride-stand",
+      "name": "crank stand / phone stand",
+      "group": "ride",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        110.0,
+        70.0,
+        120.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 154.26,
+      "est_grams_pla": 134.3,
+      "watertight": true,
+      "genus": 6,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 507.0,
+      "notes": "Rest a pedal in the cradle and lean the bike. A phone leans in the same slot on the desk."
+    },
+    {
+      "slug": "ride-pod-lid",
+      "name": "ride pod, lid",
+      "group": "ride",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        128.0,
+        98.3,
+        22.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 42.07,
+      "est_grams_pla": 44.9,
+      "watertight": true,
+      "genus": 3,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 848.0,
+      "notes": "Prints top-down. 'dayrally' inlaid in the second colour; two peg holes for the slate."
+    },
+    {
+      "slug": "ride-pod-lid-pattern",
+      "name": "ride pod, lid wordmark inlay",
+      "group": "ride",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        51.3,
+        12.3,
+        0.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.15,
+      "est_grams_pla": 0.2,
+      "watertight": true,
+      "genus": -4,
+      "bodies": 8,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Second colour, 0.6 mm."
+    },
+    {
+      "slug": "ride-slate-dayrally",
+      "name": "ride pod, slate, dayrally",
+      "group": "ride",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        64.0,
+        20.0,
+        3.8
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 2.5,
+      "est_grams_pla": 3.1,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Accent colour; two pegs press into the lid. The name is raised 0.8 mm (second colour or the slate's own colour)."
+    },
+    {
+      "slug": "ride-slate-dayrally-pattern",
+      "name": "ride pod, slate text, dayrally",
+      "group": "ride",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        51.3,
+        12.3,
+        0.8
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.2,
+      "est_grams_pla": 0.2,
+      "watertight": true,
+      "genus": -4,
+      "bodies": 8,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Raised text, second colour."
+    },
+    {
+      "slug": "ride-slate-name",
+      "name": "ride pod, slate, name",
+      "group": "ride",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        64.0,
+        20.0,
+        3.8
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 2.5,
+      "est_grams_pla": 3.1,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Accent colour; two pegs press into the lid. The name is raised 0.8 mm (second colour or the slate's own colour)."
+    },
+    {
+      "slug": "ride-slate-name-pattern",
+      "name": "ride pod, slate text, name",
+      "group": "ride",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        32.0,
+        9.3,
+        0.8
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.13,
+      "est_grams_pla": 0.2,
+      "watertight": true,
+      "genus": -2,
+      "bodies": 4,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Raised text, second colour."
+    }
+  ]
+}

@@ -246,3 +246,24 @@ The widget index gains a "dayrally lab" group; store copy and the design brief m
 
 **Revisit when**  
 The first cam or rod test print is in hand (set the verified spool dimensions and spigot clearance from the print), or a lab item is promoted.
+
+## ADR-011 — dayrally display face: Fredoka (OFL), scoped to the dayrally line
+
+**Date:** 2026-10-20. **Status:** accepted.
+
+**Context.** The original dayrally board (AI-generated, in hand from 20 October) sets the line's wordmark in a
+heavy, soft, rounded geometric sans, all lowercase. No exact font exists for an AI image. The company face is
+Instrument Sans; the pod lids, slates and skins carry lettering cut by the CAD text helper from a TTF in
+`tools/living-cad/fonts/`.
+
+**Decision.** Fredoka at weight 700 (Milena Brandão and Hafontia, SIL Open Font License 1.1) is the dayrally
+display face: the `dayrally` wordmark, name slates, lid and skin lettering, and display lines on dayrally
+surfaces. Files and the OFL text live in `tools/living-cad/fonts/`. Instrument Sans remains the face for body,
+navigation and controls on every surface including dayrally pages; IBM Plex Mono keeps its evidence role.
+Omnes (Adobe Fonts, commercial) was the nearest commercial match and is not adopted.
+
+**Consequences.** The brand system lists Fredoka as a scoped product exception, like the DO identity. Any
+surface that renders the dayrally wordmark loads Fredoka 700 from the repo (or Google Fonts), never a
+fallback. The OFL allows embedding and redistribution with the licence text; a modified version may not use
+the Reserved Font Name.
+
