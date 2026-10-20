@@ -129,3 +129,16 @@ them until a test print passes. The list lives in `WIDGET_LAB` in `lib/living/wi
   opt-in `PartPreview3D` (three.js STL loader, on-demand rendering).
 - `app/living/widget/page.tsx` — index of all widgets with the snippet.
 - `public/living/widget.js` — the store loader.
+
+## The dayrally register (20 October 2026)
+
+A dayrally product is a dayrally surface (brief 11.8, ADR-011). When the product's colour set is `dayrally`,
+the widget root carries `data-line="dayrally"` and the living tokens are remapped: a sun band with the
+Fredoka wordmark, the key glyph and "one system. endless days.", the title in Fredoka 700, black pill
+buttons, a cream stage behind the part, tomato for status and focus. Slate lettering in the 3D view is drawn
+in Fredoka. Living products keep the company register (paper, chalk, plum). Fredoka is self-hosted through
+`app/living/fonts.ts` as `--font-dayrally` and never applied to a company surface.
+
+The real print file is now the default preview wherever one is served; the schematic remains as the toggle
+and the fallback. Inside a store embed the sun band collapses to a thin strip, since the product page
+already carries the hero.

@@ -34,3 +34,7 @@ The Alphassembl declaration has the same verified query/resolver failure in main
 ## Remaining noncanonical batch
 
 This batch covers28 declarations in11 noncanonical families; see ../remaining-google-loaders.md for the exact module/weight/style scope. Canonical Instrument Sans/Plex Mono stay unchanged. Roboto width100 matches the Google request default. Lato1.104 and Manrope4.504 use historical official pins to match served typography, avoiding version upgrades. Reserved-name Lato/Orbitron/Playfair assets are original unmodified TTFs: source and packaged hashes match; licences and metadata are preserved. Other sources are compressed to full WOFF2 without subsets. Existing Lato/Orbitron macron fallback remains unchanged. Thirty recorded Google comparisons have exact shared-glyph advance widths. The className/style metadata helper preserves Google’s normal-style reset for multi-face local declarations without broadening weight/style requests.
+
+## dayrally display face · 20 October 2026
+
+`fredoka-bold.ttf` is the static Bold instance of Fredoka (SIL OFL 1.1, `Fredoka-OFL.txt`), the dayrally wordmark and display face per ADR-011. It is loaded through `next/font/local` in `app/living/fonts.ts` as `--font-dayrally` and applied only on dayrally product surfaces (the widget when the product's colour set is dayrally). It never appears on an assembl company surface. Same bytes as `tools/living-cad/fonts/Fredoka-Bold.ttf`, which the CAD pipeline uses for raised lettering.

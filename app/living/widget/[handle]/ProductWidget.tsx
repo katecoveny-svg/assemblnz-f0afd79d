@@ -13,6 +13,11 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { buildItem, defaultAccent, itemMessage, needsAccent, printFile, printSheet, textSpecFor, widgetSpec, type ItemConfiguration, type WidgetMessage, type WidgetSpec } from '@/lib/living';
+import { fredoka } from '../../fonts';
+
+/** dayrally surfaces: cream stage behind the part, the Fredoka face for slate lettering. */
+const DAYRALLY_STAGE = '#efe6d6';
+const LIVING_STAGE = '#f5f1f2';
 
 type Props = { handle: string; embed: boolean; origin: string | null };
 
@@ -37,8 +42,16 @@ function Widget({ spec, embed, origin }: { spec: WidgetSpec; embed: boolean; ori
   const [text, setText] = useState('');
   const [qty, setQty] = useState(1);
   const [copied, setCopied] = useState(false);
-  const [view, setView] = useState<'schematic' | '3d'>('schematic');
+  // The real print file is the preview wherever one is served; the schematic is the fallback and a toggle.
+  const [view, setView] = useState<'schematic' | '3d'>(() => (spec.glb || spec.partsFor(Object.fromEntries(spec.choices.map((c) => [c.key, c.defaultId]))).some((p) => printFile(p.id).file) ? '3d' : 'schematic'));
   const root = useRef<HTMLDivElement>(null);
+  const dayrally = spec.colourSet === 'dayrally';
+  const [displayFont, setDisplayFont] = useState<string | null>(null);
+  useEffect(() => {
+    if (!dayrally || !root.current) return;
+    const fam = getComputedStyle(root.current).getPropertyValue('--font-dayrally').trim();
+    setDisplayFont(fam || null);
+  }, [dayrally]);
 
   const parts = useMemo(() => spec.partsFor(choices), [spec, choices]);
   const partIds = parts.map((p) => p.id);
@@ -98,21 +111,33 @@ function Widget({ spec, embed, origin }: { spec: WidgetSpec; embed: boolean; ori
   const accentParts = spec.roles ? Object.entries(spec.roles).filter(([, r]) => r === 'accent').map(([id]) => id) : [];
 
   return (
-    <div ref={root} className="lv lvw" data-embed={embed ? 'true' : 'false'}>
-      <div className="lvw-head">
-        <span className="lv-eyebrow">assembl / living · made to order</span>
-        <span className="lv-status" data-tone="quiet">{spec.kind === 'prototype' ? (spec.handle.startsWith('lab-') ? `lab · ${spec.revision} · unprinted` : `digital prototype · ${spec.revision} · unprinted`) : `proposed · ${spec.colourSet === 'dayrally' ? 'dayrally' : 'TURN'} · ${spec.material}`}</span>
-      </div>
+    <div ref={root} className={`lv lvw ${fredoka.variable}`} data-embed={embed ? 'true' : 'false'} data-line={dayrally ? 'dayrally' : 'living'}>
+      {dayrally ? (
+        <div className="lvw-band">
+          <span className="lv-eyebrow">dayrally · by assembl / living · made to order</span>
+          <div className="lvw-mark">
+            <span className="lvw-wordmark">dayrally</span>
+            <KeyGlyph />
+            <p className="lvw-line">one system. endless days.</p>
+          </div>
+          <span className="lv-status" data-tone="quiet">{statusLine(spec)}</span>
+        </div>
+      ) : (
+        <div className="lvw-head">
+          <span className="lv-eyebrow">assembl / living · made to order</span>
+          <span className="lv-status" data-tone="quiet">{statusLine(spec)}</span>
+        </div>
+      )}
       <div className="lvw-grid">
         <div className="lvw-preview">
           <div className="lvw-stage" aria-hidden={view === 'schematic'}>
             {view === '3d' && spec.glb ? (
               <Suspense fallback={<p className="lvw-counter">loading the assembled view…</p>}>
-                <GlbPreview3D path={spec.glb} body={bodyColour.hex} accent={accentColour?.hex ?? null} accentParts={accentParts} />
+                <GlbPreview3D path={spec.glb} body={bodyColour.hex} accent={accentColour?.hex ?? null} accentParts={accentParts} stage={dayrally ? DAYRALLY_STAGE : LIVING_STAGE} />
               </Suspense>
             ) : view === '3d' && main.file ? (
               <Suspense fallback={<p className="lvw-counter">loading the print file…</p>}>
-                <PartPreview3D path={main.file.path} dims={dims} body={bodyColour.hex} accent={accentColour?.hex ?? null} text={textSpec ? text.trim() : ''} textSize={textPart ? { x: textPart.dims_mm.x, y: textPart.dims_mm.y } : null} />
+                <PartPreview3D path={main.file.path} dims={dims} body={bodyColour.hex} accent={accentColour?.hex ?? null} text={textSpec ? text.trim() : ''} textSize={textPart ? { x: textPart.dims_mm.x, y: textPart.dims_mm.y } : null} stage={dayrally ? DAYRALLY_STAGE : LIVING_STAGE} font={dayrally ? displayFont : null} />
               </Suspense>
             ) : spec.previewImage ? (
               // eslint-disable-next-line @next/next/no-img-element -- CAD-derived preview served from the public pack; no optimisation pipeline for these.
@@ -216,6 +241,21 @@ function Widget({ spec, embed, origin }: { spec: WidgetSpec; embed: boolean; ori
         <p className="lv-small">{spec.kind === 'prototype' ? (spec.handle.startsWith('lab-') ? 'Lab item: designed in the v0.3 pipeline and checked digitally, never printed, no price. The store must not list it until a test print passes.' : 'AC-02 digital prototype: real CAD, never printed, not approved for manufacture, no price. The store must not list it until samples pass.') : embed ? 'Nothing is bought here. Price, stock and checkout belong to the store page.' : 'Nothing is for sale here yet. Estimates are planning figures, not a quote.'}</p>
       </div>
     </div>
+  );
+}
+
+function statusLine(spec: WidgetSpec): string {
+  if (spec.kind === 'prototype') return spec.handle.startsWith('lab-') ? `lab · ${spec.revision} · unprinted` : `digital prototype · ${spec.revision} · unprinted`;
+  return `proposed · ${spec.colourSet === 'dayrally' ? 'dayrally' : 'TURN'} · ${spec.material}`;
+}
+
+/** The dayrally key glyph that follows the wordmark: a rounded key with its lug, as on the boards. */
+function KeyGlyph() {
+  return (
+    <svg className="lvw-key" viewBox="0 0 68 36" aria-hidden focusable="false">
+      <rect x="2" y="9" width="64" height="18" rx="9" fill="#1a1a1a" />
+      <circle cx="54" cy="18" r="3.2" fill="#fffdf8" />
+    </svg>
   );
 }
 
