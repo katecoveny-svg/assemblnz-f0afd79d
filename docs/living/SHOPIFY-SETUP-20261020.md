@@ -26,10 +26,11 @@ setup so the next session, or Kate, can finish it.
 The live Horizon theme is untouched: the API tool refuses writes to the published theme, which is the right
 safety. Kate previews the draft theme and publishes it when it looks right.
 
-## Waiting on PR #1637 (renders served from the site)
+## Sun-look images — done (02:30 UTC, after PR #1637 deployed)
 
-Once `/living/renders/*.jpg` is live, the next session (or the check-in) adds the sun-look renders as the
-first image on the dayrally products and the six collections:
+PR #1637 merged and production served `/living/renders/*.jpg`, so the sun-look renders were added as the
+first image on the twelve dayrally and bike drafts and as the image on the six collections, per this mapping.
+All new media show `READY` with no media errors; the earlier images stay behind them. Products remain drafts.
 
 | Product(s) | Image |
 |---|---|
@@ -39,8 +40,10 @@ first image on the dayrally products and the six collections:
 | al-number-plate, al-bar-saddle, al-frame-saddle, al-bar-end, kits ride and scoot | sun-number-plate-lime, bike-set-sun, bike-toptube-sun |
 | collection dayrally | bike-set-sun · collection ride | bike-toptube-sun · grid | board-4x4-chalk · stack | stack-nodes-ink · renter | teen-room-flatlay · room-kits | vanity-cutout-sage |
 
-Mechanism: `productUpdate(media: [{ originalSource, alt, mediaContentType: IMAGE }])` then
-`productReorderMedia`; `collectionUpdate(input: { image: { src } })`. Alt text names the render as a render.
+Mechanism used: `productUpdate(media: [{ originalSource, alt, mediaContentType: IMAGE }])` then
+`productReorderMedia`; `collectionUpdate(input: { image: { src, altText } })`. Every alt text says it is a render
+and carries the honesty line (concept, not yet printed). Sources were the production URLs, so the store holds
+its own CDN copies; re-running the step after a render changes replaces nothing automatically.
 
 ## Kate's part (the API cannot or should not)
 
