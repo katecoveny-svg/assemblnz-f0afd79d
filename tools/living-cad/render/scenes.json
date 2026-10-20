@@ -2330,7 +2330,7 @@
     "y": 15.85,
     "z": 11,
     "flip": false,
-    "rot": 0.6
+    "rot": -0.8
    },
    {
     "file": "/tools/living-cad/render/extra/props/sinker.stl",
@@ -2351,15 +2351,6 @@
     "rot": 0
    },
    {
-    "file": "/tools/living-cad/render/extra/props/sinker.stl",
-    "colour": "#2A2A2D",
-    "x": -121.5,
-    "y": -8,
-    "z": 11,
-    "flip": false,
-    "rot": 0
-   },
-   {
     "file": "/tools/living-cad/render/extra/props/swivel.stl",
     "colour": "#B8B6B2",
     "x": -85.5,
@@ -2369,22 +2360,13 @@
     "rot": 0.5
    },
    {
-    "file": "/tools/living-cad/render/extra/props/sinker.stl",
-    "colour": "#B8B6B2",
-    "x": -49.5,
-    "y": -16,
-    "z": 11,
-    "flip": false,
-    "rot": 0
-   },
-   {
     "file": "/tools/living-cad/render/extra/props/swivel.stl",
     "colour": "#2A2A2D",
     "x": -41.5,
     "y": -14,
     "z": 11,
     "flip": false,
-    "rot": -0.9
+    "rot": 0.8
    }
   ],
   "cam": [
@@ -2443,7 +2425,7 @@
    {
     "file": "/tools/living-cad/render/extra/props/cable-coil.stl",
     "colour": "#B8B6B2",
-    "x": -44.5,
+    "x": -49.5,
     "y": 0,
     "z": 11.8,
     "flip": false,
@@ -2499,7 +2481,7 @@
     "colour": "#E8EAED",
     "x": -94.5,
     "y": 15,
-    "z": 11.8,
+    "z": 12.8,
     "flip": false,
     "rot": 0
    },
@@ -2508,7 +2490,7 @@
     "colour": "#B8B6B2",
     "x": -94.5,
     "y": -15,
-    "z": 11.8,
+    "z": 12.8,
     "flip": false,
     "rot": 0
    },
@@ -2517,7 +2499,7 @@
     "colour": "#2A2A2D",
     "x": -57.5,
     "y": 0,
-    "z": 11.8,
+    "z": 12.8,
     "flip": false,
     "rot": 0.3
    }

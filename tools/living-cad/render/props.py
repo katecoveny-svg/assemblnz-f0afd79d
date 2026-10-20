@@ -69,7 +69,7 @@ def earbuds_case(w=50.0, h=40.0, t=21.0):
 
 def cable_coil(R=15.0, r=2.0, turns=2):
     coil = M.batch_boolean([torus(R - k * 2.6, r, 96).translate([0, 0, r + k * 0.6]) for k in range(turns)], m3d.OpType.Add)
-    plug = rbox(8.5, 7.0, 2.8, r=1.2).translate([R + 6, 0, 0.0])
+    plug = rbox(8.5, 7.0, 2.8, r=1.2).translate([R - 4, 0, 4.0])
     return coil + plug
 
 
@@ -105,7 +105,7 @@ def pen(L=140.0, d=9.5):
     body = cyl_z(d / 2, 0, L - 18, seg=48)
     cone = cyl_z(d / 2, L - 18, L - 2, r1=1.5, seg=48)
     nib = cyl_z(1.2, L - 2, L, r1=0.6, seg=24)
-    clip = rbox(2.0, 2.4, 34.0, r=0.9, rz=0.9).translate([0, d / 2 + 0.8, 4])
+    clip = rbox(2.0, 2.4, 34.0, r=0.9, rz=0.9).translate([-d / 2 - 0.8, 0, 4])
     return (body + cone + nib + clip).rotate([0, 90, 0]).translate([-L / 2, 0, d / 2 + 1.2])
 
 

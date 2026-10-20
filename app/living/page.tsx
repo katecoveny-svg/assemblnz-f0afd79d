@@ -5,6 +5,7 @@ import { CAD_MANIFEST, DAYRALLY_KITS, INTERFACE_SPEC, KITS, PRODUCTS, WIDGET_LAB
 import { fredoka } from './fonts';
 import { HeroWall } from './HeroWall';
 import './living.css';
+import { POD_CONTENTS_NOTE } from '@/lib/living/pod-contents';
 
 export const metadata: Metadata = {
   title: 'dayrally · by assembl / living — one system. endless days.',
@@ -118,6 +119,7 @@ export default function AssemblLivingPage() {
           <div className="ls-band-copy">
             <span className="ls-note">little adventures count.</span>
             <h2>same key.<br />out the door.</h2>
+            <p className="lv-small">{POD_CONTENTS_NOTE}</p>
             <Link href="/living/widget/al-kit-dayrally-everyday-kit" className="ls-btn">see the everyday kit →</Link>
           </div>
         </section>
@@ -127,10 +129,11 @@ export default function AssemblLivingPage() {
             <h2 id="ls-featured">the pieces.</h2>
             <Link href="/living/widget">all {CAD_MANIFEST.products.length + WIDGET_LAB.length} →</Link>
           </div>
+          <p className="lv-small">{POD_CONTENTS_NOTE}</p>
           <div className="ls-grid">
             {pieces.map((x) => (
               <Link key={x.handle} href={`/living/widget/${x.handle}`} className="ls-card">
-                <div className="ls-card-art"><Image src={`/living/alpha/${x.art}.png`} alt={x.title} fill sizes="(max-width: 680px) 50vw, 25vw" /></div>
+                <div className="ls-card-art"><Image src={`/living/alpha/${x.art}.png`} alt={x.art.startsWith('pods-') ? `${x.title}. ${POD_CONTENTS_NOTE}` : x.title} fill sizes="(max-width: 680px) 50vw, 25vw" /></div>
                 <b>{x.title}</b>
                 <div className="ls-price">
                   {x.price ? <span>{nzd(x.price)}</span> : <span>lab</span>}
