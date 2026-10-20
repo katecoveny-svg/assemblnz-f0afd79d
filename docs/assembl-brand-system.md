@@ -47,6 +47,7 @@ The approved assembled plum glass section below supersedes this prior treatment 
 - Do not substitute a serif in company documents or social cards. Inspect the actual rendered font, not only the configured fallback name.
 - Product verbs such as `find it.`, `DO it.` and `show it.` use Instrument Sans, upright. Do not revive old serif/italic treatments as company precedent.
 - **Scoped exception, dayrally (20 October 2026, ADR-011):** the `dayrally` wordmark, name slates, lid and skin lettering and display lines on dayrally surfaces use **Fredoka 700** (SIL OFL 1.1, in `tools/living-cad/fonts/`), the closest licensed face to the original dayrally board. Body, navigation and controls on dayrally pages stay in Instrument Sans. Fredoka does not appear on any assembl company surface.
+- **Scope widened by Kate (20 October 2026, evening):** on seeing the plum-and-paper `/living` landing beside the dayrally boards ("it's still way too text heavy, I want the dayrally look"), Kate made **the storefront a dayrally surface**: `/living` opens as `dayrally · by assembl / living` in the sun look (sun field, Fredoka display, black pills, cream tiles, pictures first, one mono fact line). The assembl shell around it (navigation, footer, company pages, Pursuit, DO, Studio) stays in the plum canon. The Space Studio and the widget are storefront surfaces and follow the same look as they are revisited.
 
 ## Wordplay · `assembl’d` (20 October 2026)
 

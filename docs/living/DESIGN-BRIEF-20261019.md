@@ -580,3 +580,35 @@ What changed (`app/living/page.tsx`, `app/living/HeroWall.tsx`, `living.css`):
 The wordplay rules (form, where, the family, never as a domain) are now in `docs/assembl-brand-system.md` under
 "Wordplay". The previous hero line, "One design system. Different spaces. Endless combinations.", stays as the
 system's description line in `ASSEMBL-LIVING.md`.
+
+### 11.14 "I want the dayrally look": the storefront goes sun (20 October, evening)
+
+Kate, with the three dayrally boards beside the plum `/living` page from 11.13: "Sorry it's still waaaaay too text
+heavy I want the day rally look." So the storefront is now a dayrally surface (recorded in the brand system under
+"scope widened by Kate"); 11.13's layout survives, its register does not.
+
+What the boards say, translated to what exists (`app/living/page.tsx`, the `.lv-sun` register in `living.css`):
+
+- **Hero on a sun field:** `dayrally` + key glyph in white, "one system. endless days." in black Fredoka, one
+  sentence, `show us your space →` and `see the kits ↓`, the honesty chip. Where the board has a photograph
+  of a boy, a dog and a bike on a wharf, we have the teen room starter assembling on a sun wall from the real
+  print files (the stage colour lights the wall from within so it reads as the same sun as the page). Real
+  photographs replace renders when samples are printed; the board shots are AI concept art and stay in
+  `docs/living/boards/`, never on the live site as if they were product.
+- **The category row** (the board's Bikes · Accessories · Fishing · Everyday Gear): eight cream tiles, a picture
+  and two words each: ride, scoot, fish, everyday (to the dayrally kits in the widget), my room, my space, work,
+  pets (to the studio doors). It scrolls sideways on a phone.
+- **Sun bands** with one rotated line in Fredoka ("little adventures count." / "your room. your way.") and a
+  two-line headline, one black pill.
+- **featured.** eight product cards: alpha render on cream, name, proposed price, `see it →` to the widget.
+  Not "add to cart": nothing is for sale, and the card says `proposed` in mono.
+- **kits.** a scrolling row of cream cards, dayrally first then the room kits: name, the parts in one line, price
+  and item count. The sentence-long notes are gone.
+- **The black foot:** "plan. build. print. go." in sun, and the facts in mono: by assembl / living, print files
+  and pack, designed · not yet printed · nothing for sale yet.
+
+Copy on the page is under a hundred words. The assembl shell (plum navigation and site footer) stays as it is.
+
+**Honest gaps.** The mascot (rally) has no asset in the repo beyond the AI boards, so the dog band from the
+boards is not on the page yet; the Space Studio and the widget index still wear the quiet plum register and are
+the next pass; the price on every card is the proposed launch price, not a quote.

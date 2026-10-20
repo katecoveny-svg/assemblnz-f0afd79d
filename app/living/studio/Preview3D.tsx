@@ -36,6 +36,8 @@ type Props = {
   zoom?: boolean;
   /** `hero`: a little further round and up, for the landing page. */
   camera?: 'studio' | 'hero';
+  /** Stage and wall colour; chalk by default, sun on the storefront. */
+  stage?: string;
 };
 
 /** How each print file was oriented for the bed (tools/living-cad/cad/build.py PRINT). */
@@ -208,7 +210,7 @@ function Board({ partId, position, colour }: { partId: string; position: [number
   );
 }
 
-function Scene({ design, interactive, tool, selected, onCell, onSelect }: Props) {
+function Scene({ design, interactive, tool, selected, onCell, onSelect, stage = '#f5f1f2' }: Props) {
   const { w, h } = fieldSize(design.field);
   const toScene = (xmm: number, ymm: number): [number, number] => [(xmm - w / 2) * S, (h / 2 - ymm) * S];
   const [hover, setHover] = useState<string | null>(null);
@@ -236,17 +238,31 @@ function Scene({ design, interactive, tool, selected, onCell, onSelect }: Props)
 
   return (
     <>
-      <color attach="background" args={['#f5f1f2']} />
+      <color attach="background" args={[stage]} />
       <hemisphereLight args={['#fffdfb', '#d9d2cf', 0.75]} />
       <directionalLight position={[-1.6, 2.4, 3.2]} intensity={1.35} castShadow shadow-mapSize={[2048, 2048]} shadow-bias={-0.00015} shadow-normalBias={0.01}>
         <orthographicCamera attach="shadow-camera" args={[-reach, reach, reach, -reach, 0.5, 9]} />
       </directionalLight>
       <directionalLight position={[2.4, 0.6, 2]} intensity={0.35} />
       {/* the wall: paper, takes the shadow */}
-      <mesh position={[0, 0, -0.0012]} receiveShadow>
-        <planeGeometry args={[(w + 900) * S, (h + 900) * S]} />
-        <meshStandardMaterial color="#fffdfb" roughness={1} />
-      </mesh>
+      {stage === '#f5f1f2' ? (
+        <mesh position={[0, 0, -0.0012]} receiveShadow>
+          <planeGeometry args={[(w + 900) * S, (h + 900) * S]} />
+          <meshStandardMaterial color="#fffdfb" roughness={1} />
+        </mesh>
+      ) : (
+        /* a coloured stage must read as the exact field it sits in: an unlit, untoned wall, with a shadow-only plane on top */
+        <>
+          <mesh position={[0, 0, -0.0016]}>
+            <planeGeometry args={[(w + 900) * S, (h + 900) * S]} />
+            <meshBasicMaterial color={stage} toneMapped={false} />
+          </mesh>
+          <mesh position={[0, 0, -0.0012]} receiveShadow>
+            <planeGeometry args={[(w + 900) * S, (h + 900) * S]} />
+            <shadowMaterial transparent opacity={0.22} />
+          </mesh>
+        </>
+      )}
       {boards(design.field).map((b, i) => {
         const [bx, by] = toScene(b.x, b.y + BOARD_MM);
         return <Board key={i} partId={b.cols === 4 ? 'grid-board-4x4' : 'grid-board-2x4'} position={[bx, by, 0]} colour={boardColour} />;
