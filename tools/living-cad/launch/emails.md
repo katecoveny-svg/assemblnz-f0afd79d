@@ -47,3 +47,29 @@ Could you confirm:
 Ngā mihi,
 Kate Hudson
 assembl living · Auckland
+
+## First-print order enquiry, 20 October 2026 (to 3DPrintIt, Auckland; the same to one Treatstock Auckland vendor)
+
+Subject: Quote for a first print batch, 84 files, PETG/ASA/TPU plus seven carbon-nylon parts
+
+Hi team,
+
+I'd like a quote for a first print batch of our own designs (STL, zip attached, with an order.csv that gives
+material, colour, quantity and print orientation per file, and a README). It is three sets:
+
+- bike set, 32 files, about 580 g: mostly PETG in yellow and black, two TPU 95A grips and one TPU gasket
+- fish set, 34 files, about 610 g: PETG, two ASA or PETG-CF grip parts, four PETG-CF rod sections, and seven
+  parts that want PPA-CF (or PA12-CF if you don't run PPA; PETG-CF as a last resort), printed flat
+- pegboard, 18 files, about 265 g: PETG, one board 168 x 168 mm
+
+Could you confirm: your PETG colour range (we are after a saturated yellow, black and an off-white), whether
+you can print the seven carbon-fibre nylon parts (hardened nozzle, dried filament), and turnaround and price
+for the batch delivered to Auckland? Two files are tiny (keys, 0.6 to 4 g); we'd rather pay a handling charge
+than have them dropped.
+
+These are our first prints of these parts, so we expect to tune clearances from them; please print as sent
+and don't scale or repair the files.
+
+Thanks,
+Kate
+assembl / living
