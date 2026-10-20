@@ -273,6 +273,11 @@ export const WIDGET_LAB: LabItem[] = [
     doc: 'docs/living/DAYRALLY-MINI.md',
   },
   {
+    id: 'ride-rack', title: 'dayrally on the bike · rack set', type: 'dayrally lab', colourSet: 'dayrally', size: 'rack mount 150 × 100 mm · quiver 91 × 49 × 130 mm',
+    blurb: 'The three mounts that put the kit where the bike picture puts it: a rack mount that straps to a rear-rack platform so the ride pod or the long pod locks on; a two-tube rod quiver for packed rods (the cast rod grip and the fixed-line rod) that straps to a rack stay or the seat tube; and the frame saddle turned inline so a pod lies along the top tube. Straps and zip ties are bought.',
+    parts: [{ id: 'rack-mount', qty: 1 }, { id: 'rack-quiver', qty: 1 }, { id: 'rack-toptube-saddle', qty: 1 }], doc: 'docs/living/DAYRALLY-RIDE.md',
+  },
+  {
     id: 'ride-stand', title: 'dayrally crank stand', type: 'dayrally lab', colourSet: 'dayrally', size: '110 × 70 × 120 mm',
     blurb: 'A crank stand: rest a pedal in the cradle and lean the bike. On the desk the same slot holds a phone at 15°, and the TURN flange in its back locks it onto the Grid so it is not lost. Hollow with three ribs, four rubber-foot recesses. Digitally checked only.',
     parts: [{ id: 'ride-stand', qty: 1 }], doc: 'docs/living/DAYRALLY-RIDE.md',

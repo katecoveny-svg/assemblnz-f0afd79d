@@ -1,0 +1,18 @@
+{
+  "ride_pod_on_rack_mount_clash_mm3": 0.0,
+  "long_pod_on_rack_mount_clash_mm3": -0.0,
+  "keys_in_rack_mount_clash_mm3_designed_clamp": 0.0,
+  "strap_slot_-1_-1_clash_mm3": 0.0,
+  "strap_slot_-1_1_clash_mm3": 0.0,
+  "strap_slot_1_-1_clash_mm3": 0.0,
+  "strap_slot_1_1_clash_mm3": 0.0,
+  "cast_grip_36_in_quiver_clash_mm3": 0.0,
+  "rod_grip_32_in_quiver_clash_mm3": 0.0,
+  "quiver_strap_slot_22_clash_mm3": 0.0,
+  "quiver_strap_slot_108_clash_mm3": 0.0,
+  "toptube_25.0_in_saddle_clash_mm3": 0.02,
+  "toptube_31.8_in_saddle_clash_mm3": 0.027,
+  "toptube_45.0_in_saddle_clash_mm3": 0.053,
+  "pod_mini_on_toptube_saddle_clash_mm3": 0.0,
+  "ride_pod_on_toptube_saddle_clash_mm3": -0.0
+}

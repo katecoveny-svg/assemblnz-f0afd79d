@@ -511,3 +511,21 @@ explore/pet lab kit. The locations are the series' locations (`DAYRALLY-RALLY-SE
 trails, the Sky Tower skyline from the water, Muriwai at sunset, a tinny off Rangitoto. Real places; the dog
 and the parts are still illustrations until printed and worn.
 
+### 11.10 The bike picture, and the rally line board (20 October, late)
+
+Kate: "pic with bike is how I envision the dayrally accessories and pods if we can do that". The picture is
+stored at `docs/living/boards/dayrally-bike-20261020.jpg` (AI-generated concept). What it shows and where
+each thing now stands is in `DAYRALLY-RIDE.md`, "On the bike": the rack pod, the rod quiver, the top-tube pod,
+the bottle, the stem cam and the bone tag all have print files; the three bike-side mounts that were missing
+(`rack-mount`, `rack-quiver`, `rack-toptube-saddle`) are built and fit-tested, and the set is rendered in sun
+and black as `bike-set-sun.png`. The honest gaps: the quiver carries rods packed, not assembled, and it hangs
+on a Grid hook rather than keying in; the rack pod has one latch, not two.
+
+**The rally line board** adds lines, all canon: "plan. build. go." (the three-word form, beside the
+four-word one) · "GOOD DAYS GO FURTHER." · "TRAILS. TAILS. GOOD DAYS." · "EARLY STARTS. BRIGHTER DAYS." ·
+"SAME CREW. DIFFERENT HORIZONS." · "ON BOARD FOR MORE." · "SLOWER MOMENTS. BIGGER DAYS." · "EXPLORE
+TOGETHER." The hand-lettered caption style (black marker, two or three words a line, a sun underline) is the
+series' caption style. The key glyph appears alone in three fills (sun, black, outlined) and the bone tag
+appears as a logo element: rally's tag is the pet line's mark. rally in a yellow life jacket on the boat is
+the fish line's frame; a printed part has no business in a life jacket, so that frame is pure character.
+

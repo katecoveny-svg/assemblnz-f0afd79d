@@ -18,7 +18,7 @@
  },
  "status": "designed and checked digitally; nothing printed yet. Clamp, detent and clearance values are starting points for the test-print kit.",
  "source": "tools/living-cad/cad/lib.py",
- "built_at": "2026-10-20T01:11:13Z",
+ "built_at": "2026-10-20T01:58:02Z",
  "colours": {
   "living": [
    {
@@ -4881,6 +4881,90 @@
     "bytes": 147484,
     "sha256": "bed252e74c0379ab228ee817d1449a135d5e54c969f99a5058c30552b076c1bf"
    }
+  },
+  {
+   "id": "rack-mount",
+   "name": "rack mount",
+   "family": "rack",
+   "group": "rack",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 150.0,
+    "y": 100.0,
+    "z": 20.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 234.93,
+   "mass_g_pla": 88.4,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 6,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1086.0,
+   "notes": "Two straps round the rack platform; the ride pod or the long pod locks on.",
+   "file": {
+    "path": "/living/cad/v0.3/rack-mount.stl",
+    "bytes": 187884,
+    "sha256": "4bc431c75689ac5da3f501669cc797ec732ad6b4b4feff490d93ba1b58b9e7d0"
+   }
+  },
+  {
+   "id": "rack-quiver",
+   "name": "rod quiver",
+   "family": "rack",
+   "group": "rack",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 90.8,
+    "y": 48.8,
+    "z": 130.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 171.24,
+   "mass_g_pla": 101.7,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 2,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 469.0,
+   "notes": "Two 40 mm tubes for packed rods; straps to a rack stay or the seat tube; hangs on a Grid hook at home.",
+   "file": {
+    "path": "/living/cad/v0.3/rack-quiver.stl",
+    "bytes": 75084,
+    "sha256": "00b711b1eaabf2b4f465673e8d45c9e8733fb4c49b324b2b52c32d1dee3e43e7"
+   }
+  },
+  {
+   "id": "rack-toptube-saddle",
+   "name": "top-tube saddle",
+   "family": "rack",
+   "group": "rack",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 84.0,
+    "y": 36.0,
+    "z": 26.4
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 56.88,
+   "mass_g_pla": 24.0,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 4,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 883.0,
+   "notes": "The frame saddle turned inline: a pod along the top tube. 25-45 mm tubes, zip ties.",
+   "file": {
+    "path": "/living/cad/v0.3/rack-toptube-saddle.stl",
+    "bytes": 152684,
+    "sha256": "305c6e6cdeb700cc1b6d2d4487d0c73b7e65bab3b770982fb1ce345ff4e45f72"
+   }
   }
  ],
  "products": [
@@ -8823,6 +8907,24 @@
    "helmet_base_key_clash_mm3": -0.0,
    "cam_mount_on_helmet_base_clash_mm3": -0.0,
    "cam_mount_on_helmet_base_key_clash_mm3": -0.0
+  },
+  "bike": {
+   "ride_pod_on_rack_mount_clash_mm3": 0.0,
+   "long_pod_on_rack_mount_clash_mm3": -0.0,
+   "keys_in_rack_mount_clash_mm3_designed_clamp": 0.0,
+   "strap_slot_-1_-1_clash_mm3": 0.0,
+   "strap_slot_-1_1_clash_mm3": 0.0,
+   "strap_slot_1_-1_clash_mm3": 0.0,
+   "strap_slot_1_1_clash_mm3": 0.0,
+   "cast_grip_36_in_quiver_clash_mm3": 0.0,
+   "rod_grip_32_in_quiver_clash_mm3": 0.0,
+   "quiver_strap_slot_22_clash_mm3": 0.0,
+   "quiver_strap_slot_108_clash_mm3": 0.0,
+   "toptube_25.0_in_saddle_clash_mm3": 0.02,
+   "toptube_31.8_in_saddle_clash_mm3": 0.027,
+   "toptube_45.0_in_saddle_clash_mm3": 0.053,
+   "pod_mini_on_toptube_saddle_clash_mm3": 0.0,
+   "ride_pod_on_toptube_saddle_clash_mm3": -0.0
   }
  },
  "lab": {
@@ -9192,6 +9294,20 @@
     "bolt": "M5 thumb screw, bought"
    },
    "adapter": "two full TURN keys at 42 mm under a 70 x 36 flange; one mini socket on an 18 mm boss above the key grips"
+  },
+  "bike": {
+   "rack_mount_mm": [
+    150,
+    100
+   ],
+   "straps": "two 25 mm straps round the rack platform",
+   "quiver_bore_mm": 40.0,
+   "quiver_tubes": 2,
+   "toptube_saddle_tubes_mm": [
+    25,
+    45
+   ],
+   "picture": "docs/living/boards/dayrally-bike-20261020.jpg"
   }
  },
  "part_code_alphabet": "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"

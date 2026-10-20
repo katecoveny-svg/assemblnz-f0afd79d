@@ -1492,5 +1492,176 @@
    -300,
    240
   ]
+ },
+ "bike-set-sun": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/rack-mount.stl",
+    "colour": "#2A2A2D",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ride-pod-base.stl",
+    "colour": "#F5C400",
+    "x": 0,
+    "y": 0,
+    "z": 20.0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ride-pod-lid.stl",
+    "colour": "#F5C400",
+    "x": 0,
+    "y": 0,
+    "z": 60.4,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ride-pod-lid-pattern.stl",
+    "colour": "#2A2A2D",
+    "x": 0,
+    "y": 0,
+    "z": 81.8,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ride-slate-name.stl",
+    "colour": "#2A2A2D",
+    "x": 0,
+    "y": 0,
+    "z": 82.4,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ride-slate-name-pattern.stl",
+    "colour": "#F5C400",
+    "x": 0,
+    "y": 0,
+    "z": 85.4,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ride-latch.stl",
+    "colour": "#2A2A2D",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/rack-quiver.stl",
+    "colour": "#F5C400",
+    "x": 130,
+    "y": 10,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ride-bottle-cup.stl",
+    "colour": "#F5C400",
+    "x": -140,
+    "y": -30,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-tube-clamp.stl",
+    "colour": "#2A2A2D",
+    "x": -40,
+    "y": -120,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-cam-mount.stl",
+    "colour": "#F5C400",
+    "x": -40,
+    "y": -120,
+    "z": 18.4,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-bone-tag-name.stl",
+    "colour": "#F5C400",
+    "x": 60,
+    "y": -120,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/mini-bone-tag-name-pattern.stl",
+    "colour": "#2A2A2D",
+    "x": 60,
+    "y": -120,
+    "z": 3.0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   260,
+   -420,
+   300
+  ]
+ },
+ "bike-toptube-sun": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/rack-toptube-saddle.stl",
+    "colour": "#2A2A2D",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-pod-mini.stl",
+    "colour": "#F5C400",
+    "x": 0,
+    "y": 0,
+    "z": 26.4,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-lid-mini-name.stl",
+    "colour": "#F5C400",
+    "x": 0,
+    "y": 0,
+    "z": 52.4,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-lid-mini-name-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": 0,
+    "y": 0,
+    "z": 62.8,
+    "flip": true,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   170,
+   -220,
+   170
+  ]
  }
 }
