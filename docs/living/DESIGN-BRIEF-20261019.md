@@ -810,3 +810,31 @@ first price. Ten lab widgets; nothing listed, nothing printed.
 The design rule that fell out: a child's emergency page is the parent's to publish, not ours to infer. Random
 token, chosen fields only, revocable, no indexing, a PIN for the second layer, Privacy Act 2020 statement at entry.
 
+### 11.24 Assembled, not piled: one assembly definition for the renders and a live 3D widget (21 October)
+
+Kate: "we either need to add some more design features/details to everything or make the images more accurate to
+what they can assembl - i need the rod kit for example to show what the actual rod would look like when the user
+assembls it and is it with the key? … i need the user to be able to use the widget to assemble their actual product
+in 3d view and change colours and name and features live in the widget."
+
+The answer is one definition, not two pictures. `tools/living-cad/cad/assemblies.py` writes
+`lib/living/assemblies.json`: for each widget handle, one or more views, each a list of slots that place a print
+file in the assembled frame by a 4 × 4 matrix. The poses are not hand-placed: a part built in the installed frame
+(pods, lids, inserts, mounts, keys, boards, accessories) gets the inverse of its print transform back from the
+served STL, and the rod's sections stack by their spigot lengths. A slot can name a prefix (`dr2-lid-standard-`),
+so whichever lid or insert the customer picks is the one placed.
+
+Two consumers. The render harness takes a `matrix` per part now, and `make-assembly-scenes.py` writes the
+`asm-<handle>-<view>` hero scenes from the same file: the pods closed with their lids on, a pod on each mount, the
+rod assembled (0.99 m, grip, collar, three sections and the tip) and packed in its grip on its TURN saddle with
+its two keys, the Grid pieces keyed to a board. The widget's `AssemblyPreview3D` loads the same files, places them
+by the same matrices, tints body and accent in the chosen filaments, draws the customer's own name at the lid's text
+area (a name lid shows its plain file plus the decal; a sample name is never on screen), and flies the parts in
+from their explode offsets whenever the view or a choice changes, so the thing visibly goes together. Views switch
+with chips (closed, open; assembled, packed; on the board, the piece).
+
+Coverage this round: the four pods and the wide pod, the fish ruler pod, the mini emergency kit, the seven mounts,
+the rod, and hook, cup, shelves and bin on a board (20 handles). Next: the cast rod, the ride pod with its hinge,
+the mini bikes, the charms and tags on a ring, kits as whole walls, and the AC-02 views already in the GLB path.
+Everything is still a render of unprinted files.
+

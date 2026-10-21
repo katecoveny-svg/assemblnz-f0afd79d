@@ -13,6 +13,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { buildItem, defaultAccent, itemMessage, needsAccent, printFile, printSheet, textSpecFor, widgetSpec, type ItemConfiguration, type WidgetMessage, type WidgetSpec } from '@/lib/living';
+import { assemblyViews } from '@/lib/living/assembly';
 import { fredoka } from '../../fonts';
 import { POD_CONTENTS, POD_CONTENTS_NOTE } from '@/lib/living/pod-contents';
 
@@ -24,6 +25,7 @@ type Props = { handle: string; embed: boolean; origin: string | null };
 
 const PartPreview3D = dynamic(() => import('./PartPreview3D'), { ssr: false, loading: () => <p className="lvw-counter">loading the print file…</p> });
 const GlbPreview3D = dynamic(() => import('./GlbPreview3D'), { ssr: false, loading: () => <p className="lvw-counter">loading the assembled view…</p> });
+const AssemblyPreview3D = dynamic(() => import('./AssemblyPreview3D'), { ssr: false, loading: () => <p className="lvw-counter">assembling the print files…</p> });
 
 function post(message: WidgetMessage, origin: string | null) {
   if (typeof window === 'undefined' || window.parent === window) return;
@@ -56,6 +58,10 @@ function Widget({ spec, embed, origin }: { spec: WidgetSpec; embed: boolean; ori
 
   const parts = useMemo(() => spec.partsFor(choices), [spec, choices]);
   const partIds = parts.map((p) => p.id);
+  // The assembled views: every part in its place, from the assembly definition the renders use too.
+  const views = assemblyViews(spec.handle, partIds);
+  const [viewIndex, setViewIndex] = useState(0);
+  const assembled = views[Math.min(viewIndex, Math.max(0, views.length - 1))] ?? null;
   const accentNeeded = spec.roles ? partIds.some((id) => spec.roles?.[id] === 'accent') : needsAccent(partIds);
   const textSpec = textSpecFor(partIds);
   const bodyColour = spec.colours.find((c) => c.id === colour) ?? spec.colours[0];
@@ -132,7 +138,11 @@ function Widget({ spec, embed, origin }: { spec: WidgetSpec; embed: boolean; ori
       <div className="lvw-grid">
         <div className="lvw-preview">
           <div className="lvw-stage" aria-hidden={view === 'schematic'}>
-            {view === '3d' && spec.glb ? (
+            {view === '3d' && assembled ? (
+              <Suspense fallback={<p className="lvw-counter">assembling the print files…</p>}>
+                <AssemblyPreview3D view={assembled} body={bodyColour.hex} accent={accentColour?.hex ?? null} text={textSpec ? text.trim() : ''} font={dayrally ? displayFont : null} stage={dayrally ? DAYRALLY_STAGE : LIVING_STAGE} />
+              </Suspense>
+            ) : view === '3d' && spec.glb ? (
               <Suspense fallback={<p className="lvw-counter">loading the assembled view…</p>}>
                 <GlbPreview3D path={spec.glb} body={bodyColour.hex} accent={accentColour?.hex ?? null} accentParts={accentParts} stage={dayrally ? DAYRALLY_STAGE : LIVING_STAGE} />
               </Suspense>
@@ -148,7 +158,14 @@ function Widget({ spec, embed, origin }: { spec: WidgetSpec; embed: boolean; ori
             )}
           </div>
           <div className="lvw-label">
-            <p className="lvw-counter">{view === '3d' ? `${main.name.replace(/\s*\(sample:[^)]*\)/i, '')} · ${spec.revision} ${spec.glb ? 'assembled view' : 'print file'} · drag to turn` : spec.previewImage ? `CAD preview as delivered · ${spec.size}` : `Schematic · ${spec.size}`} · colours are filament names</p>
+            <p className="lvw-counter">{view === '3d' && assembled ? `assembled from its ${assembled.parts.length} print files · ${spec.revision} · your colours and name, live · drag to turn` : view === '3d' ? `${main.name.replace(/\s*\(sample:[^)]*\)/i, '')} · ${spec.revision} ${spec.glb ? 'assembled view' : 'print file'} · drag to turn` : spec.previewImage ? `CAD preview as delivered · ${spec.size}` : `Schematic · ${spec.size}`} · colours are filament names</p>
+            {view === '3d' && views.length > 1 && (
+              <div className="lv-chips" role="group" aria-label="View">
+                {views.map((v, i) => (
+                  <button key={v.name} type="button" className="lv-chip" aria-pressed={i === viewIndex} onClick={() => setViewIndex(i)}>{v.name}</button>
+                ))}
+              </div>
+            )}
             {has3d && (
               <button type="button" className="lv-btn" data-variant="small" style={{ background: 'transparent', color: 'var(--lv-plum)', borderColor: 'var(--lv-line-strong)' }} onClick={() => setView((v) => (v === '3d' ? 'schematic' : '3d'))}>
                 {view === '3d' ? 'schematic' : 'view in 3D'}

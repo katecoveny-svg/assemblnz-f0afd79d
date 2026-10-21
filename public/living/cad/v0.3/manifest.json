@@ -18,7 +18,7 @@
  },
  "status": "designed and checked digitally; nothing printed yet. Clamp, detent and clearance values are starting points for the test-print kit.",
  "source": "tools/living-cad/cad/lib.py",
- "built_at": "2026-10-21T21:36:01Z",
+ "built_at": "2026-10-21T21:53:30Z",
  "colours": {
   "living": [
    {
@@ -5936,7 +5936,35 @@
   },
   {
    "id": "pk-lid-wide-card",
-   "name": "Card lid, wide (sample: MILA)",
+   "name": "Card lid, wide, plain",
+   "family": "pocket",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 176.0,
+    "y": 100.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 51.5,
+   "mass_g_pla": 55.7,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1102.0,
+   "notes": "Two rails inside hold a bank card against the lid.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-lid-wide-card.stl",
+    "bytes": 202484,
+    "sha256": "7aaa09f0dfdea6b194f81d804b6d58d36ba06417b186045bf039c1d5f9bc8c5f"
+   }
+  },
+  {
+   "id": "pk-lid-wide-card-name",
+   "name": "Card lid, wide, name (sample: MILA)",
    "family": "pocket",
    "group": "lid",
    "revision": "v0.3",
@@ -5955,16 +5983,16 @@
    "genus": 0,
    "bodies": 1,
    "unsupported_down_area_mm2": 1845.0,
-   "notes": "Two rails inside hold a bank card against the lid; name inlaid on top.",
+   "notes": "The card lid with the name inlaid on top.",
    "file": {
-    "path": "/living/cad/v0.3/pk-lid-wide-card.stl",
+    "path": "/living/cad/v0.3/pk-lid-wide-card-name.stl",
     "bytes": 322084,
     "sha256": "2f7271db025c00dd7bf2fed39205d5745e2e2b43508da5c957e05c5c6f327dee"
    }
   },
   {
-   "id": "pk-lid-wide-card-inlay",
-   "name": "Card lid inlay, wide",
+   "id": "pk-lid-wide-card-name-inlay",
+   "name": "Card lid inlay, wide, name",
    "family": "pocket",
    "group": "lid",
    "revision": "v0.3",
@@ -5985,14 +6013,42 @@
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
    "file": {
-    "path": "/living/cad/v0.3/pk-lid-wide-card-inlay.stl",
+    "path": "/living/cad/v0.3/pk-lid-wide-card-name-inlay.stl",
     "bytes": 119084,
     "sha256": "34d7bde684cd6fc30b1cbe7ae1d23bb91c28d641d9233d91ea6aa515d9ddda01"
    }
   },
   {
    "id": "pk-lid-standard-card",
-   "name": "Card lid, standard (sample: MILA)",
+   "name": "Card lid, standard, plain",
+   "family": "pocket",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 128.0,
+    "y": 72.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 30.17,
+   "mass_g_pla": 33.5,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 847.0,
+   "notes": "The standard lid with the card rails.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-lid-standard-card.stl",
+    "bytes": 202484,
+    "sha256": "9405c774481960674f8852e737dee3306f1c74c715f8412f6090fea85c076c61"
+   }
+  },
+  {
+   "id": "pk-lid-standard-card-name",
+   "name": "Card lid, standard, name (sample: MILA)",
    "family": "pocket",
    "group": "lid",
    "revision": "v0.3",
@@ -6011,16 +6067,16 @@
    "genus": 0,
    "bodies": 1,
    "unsupported_down_area_mm2": 1591.0,
-   "notes": "The standard lid with the card rails; name inlaid on top.",
+   "notes": "The standard card lid with the name inlaid on top.",
    "file": {
-    "path": "/living/cad/v0.3/pk-lid-standard-card.stl",
+    "path": "/living/cad/v0.3/pk-lid-standard-card-name.stl",
     "bytes": 321784,
     "sha256": "fbdbcf3502f735d976ad730a652d7347ca413826320c6a04bc776c24e2c04e80"
    }
   },
   {
-   "id": "pk-lid-standard-card-inlay",
-   "name": "Card lid inlay, standard",
+   "id": "pk-lid-standard-card-name-inlay",
+   "name": "Card lid inlay, standard, name",
    "family": "pocket",
    "group": "lid",
    "revision": "v0.3",
@@ -6041,7 +6097,7 @@
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
    "file": {
-    "path": "/living/cad/v0.3/pk-lid-standard-card-inlay.stl",
+    "path": "/living/cad/v0.3/pk-lid-standard-card-name-inlay.stl",
     "bytes": 119084,
     "sha256": "34d7bde684cd6fc30b1cbe7ae1d23bb91c28d641d9233d91ea6aa515d9ddda01"
    }
@@ -6272,7 +6328,7 @@
   },
   {
    "id": "pk-lid-mini-id",
-   "name": "Lid, mini, id (sample: MILA)",
+   "name": "Lid, mini, id (sample code)",
    "family": "pocket",
    "group": "lid",
    "revision": "v0.3",
@@ -6283,47 +6339,47 @@
     "z": 15.0
    },
    "fits_250_cube": true,
-   "volume_cm3": 18.02,
-   "mass_g_pla": 20.9,
+   "volume_cm3": 18.16,
+   "mass_g_pla": 20.8,
    "material": "PLA Matte",
    "supports": "none",
    "watertight": true,
    "genus": 0,
    "bodies": 1,
-   "unsupported_down_area_mm2": 1009.0,
-   "notes": "The mini lid with the owner's QR and name inlaid.",
+   "unsupported_down_area_mm2": 784.0,
+   "notes": "The mini lid with the owner's QR inlaid; the name goes on the base's tag or a second lid style.",
    "file": {
     "path": "/living/cad/v0.3/pk-lid-mini-id.stl",
-    "bytes": 380584,
-    "sha256": "da65ea6a10050247a1bf3fbdd300c25bbfaa9ea1a6a5ff2ec8db1b36d1291e6a"
+    "bytes": 260784,
+    "sha256": "8cfba785e10a2da5cae21681dab6988850937752caee6a5ad90069ffc93be877"
    }
   },
   {
    "id": "pk-lid-mini-id-inlay",
-   "name": "Lid inlay, mini, id",
+   "name": "Lid inlay, mini, id (sample code)",
    "family": "pocket",
    "group": "lid",
    "revision": "v0.3",
    "print_orientation": "face_down",
    "dims_mm": {
-    "x": 70.0,
+    "x": 25.0,
     "y": 25.0,
     "z": 0.6
    },
    "fits_250_cube": true,
-   "volume_cm3": 0.33,
-   "mass_g_pla": 0.4,
+   "volume_cm3": 0.19,
+   "mass_g_pla": 0.2,
    "material": "PLA Matte",
    "supports": "none",
    "watertight": true,
-   "genus": 9,
-   "bodies": 16,
+   "genus": 12,
+   "bodies": 12,
    "unsupported_down_area_mm2": 0.0,
    "notes": "",
    "file": {
     "path": "/living/cad/v0.3/pk-lid-mini-id-inlay.stl",
-    "bytes": 252084,
-    "sha256": "906e498b32736e3bd99550faeb1db3eba35b851f1ad2f871f0d915ac7ece4c6f"
+    "bytes": 133084,
+    "sha256": "393d6ae3c93c3b7d8c60dfb4bf77b0b62c61608f207a0846296a64c2ce342eb2"
    }
   },
   {

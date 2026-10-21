@@ -95,6 +95,13 @@ beside the kit on the wall (`HeroWall`); and the rest of the room (`HomeRangeStr
 stands under steps one and two: the AC-02 shelving, furniture and decor, each opening its prototype widget. The
 storefront's "at home." section shows the same twelve views.
 
+## Assembled views (`lib/living/assemblies.json`)
+
+One definition, from `tools/living-cad/cad/assemblies.py`, places every print file of a product in its assembled
+frame. The render harness draws the `asm-*` hero scenes from it and the product widget's `AssemblyPreview3D` builds
+the same thing live: the customer's lid and insert choices, body and accent filaments and their own name, with the
+parts assembling on screen. Twenty handles so far; brief §11.24 lists what is next.
+
 ## Honesty boundaries
 
 - Nothing has been printed. Prices are proposed and pre-quote; made-to-measure trays are quoted per order.
