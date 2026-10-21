@@ -1,0 +1,62 @@
+{
+  "fish_base_adds_mm3": 566.3,
+  "fish_base_removes_mm3": 0.0,
+  "marks_inside_cavity_mm3": 0.0,
+  "marks_above_rim_mm3": 0.0,
+  "marks_on_plus_y_side_mm3": 0.0,
+  "marks_stand_proud_mm": 0.6,
+  "ruler_lid_vs_fish_base": -0.0,
+  "plain_lid_vs_fish_base": -0.0,
+  "ruler_inlay_vs_lid": 0.0,
+  "ruler_inlay_bodies": 86,
+  "ruler_inlay_mm3": 358.9,
+  "fish_base_vs_strap-clip": 0.0,
+  "fish_base_vs_duo-strap": -0.0,
+  "fish_base_vs_belt-clip": 0.0,
+  "fish_base_vs_bar-saddle": 0.0,
+  "fish_base_vs_frame-saddle": -0.0,
+  "fish_base_vs_carabiner-loop": -0.0,
+  "fish_base_vs_home-dock": -0.0,
+  "fish_base_vs_board": -0.0,
+  "fish_base_vs_keys": 37.562,
+  "lid_length_mm": 176.0,
+  "scale_total_cm": 35.2,
+  "sideways_slop_error_mm": {
+    "5": 0.17,
+    "10": 0.7,
+    "15": 1.58
+  },
+  "ruler_lid_mini": {
+    "inlay_mm3": 106.6,
+    "inlay_outside_top_mm3": 0.0,
+    "bodies": 29,
+    "scale_cm": 9.2
+  },
+  "ruler_lid_standard": {
+    "inlay_mm3": 163.9,
+    "inlay_outside_top_mm3": 0.0,
+    "bodies": 43,
+    "scale_cm": 12.8
+  },
+  "ruler_lid_tall": {
+    "inlay_mm3": 163.9,
+    "inlay_outside_top_mm3": 0.0,
+    "bodies": 43,
+    "scale_cm": 12.8
+  },
+  "ruler_lid_long": {
+    "inlay_mm3": 358.9,
+    "inlay_outside_top_mm3": 0.0,
+    "bodies": 86,
+    "scale_cm": 17.6
+  },
+  "ruler_150_in_middle_slot_clash_mm3": 0.0,
+  "ruler_150_in_outer_slot_clash_mm3": 431.302,
+  "ruler_150_under_lid_clash_mm3": 0.0,
+  "ruler_150_slot_lengths_mm": [
+    128.1,
+    157.5,
+    157.5,
+    128.1
+  ]
+}

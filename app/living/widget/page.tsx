@@ -38,7 +38,7 @@ export default function WidgetIndexPage() {
         <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.6rem)' }}>one product, made yours</h1>
         <p className="lv-lede" style={{ marginTop: '0.8rem' }}>Each widget offers the product’s real choices from the parts manifest and hands a typed item to the store page. Embed it in a Shopify product page with one Custom Liquid block:</p>
         <pre className="lv-mono" style={{ whiteSpace: 'pre-wrap', background: 'var(--lv-chalk)', padding: '1rem 1.2rem', borderRadius: 14, marginTop: '1rem', textTransform: 'none', letterSpacing: 0 }}>{SNIPPET}</pre>
-        <p className="lv-small" style={{ marginTop: '0.6rem' }}>Guide: <code>docs/living/WIDGET-EMBED.md</code>. Nothing here sells anything; purchasing remains the store’s decision. AC-02 prototypes and lab items (the dayrally cam, rod, cast, wharf reel, the ride line, TURN mini, the bike set and the scooter set) are real CAD that has never been printed: they carry no price and must not be listed.</p>
+        <p className="lv-small" style={{ marginTop: '0.6rem' }}>Guide: <code>docs/living/WIDGET-EMBED.md</code>. Nothing here sells anything; purchasing remains the store’s decision. AC-02 prototypes and lab items (the dayrally cam, rod, cast, wharf reel, the ride line, TURN mini, the bike set, the scooter set and the rulers) are real CAD that has never been printed: they carry no price and must not be listed.</p>
         {[...groups.entries()].map(([type, products]) => (
           <section key={type} style={{ marginTop: '2.2rem' }}>
             <h2 style={{ fontSize: '1.2rem', marginBottom: '0.8rem' }}>{type}</h2>

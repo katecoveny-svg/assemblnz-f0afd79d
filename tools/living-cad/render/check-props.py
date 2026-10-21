@@ -33,7 +33,7 @@ def check():
     failures = []
     count = 0
     for name, scene in SCENES.items():
-        if not name.startswith('pods-'):
+        if not name.startswith(('pods-', 'ruler-')):
             continue
         props = [(p, mesh(p)) for p in scene['parts'] if '/props/' in p['file']]
         solids = [(p, mesh(p)) for p in scene['parts'] if '/props/' not in p['file'] and 'dr2-lid-' not in p['file']]

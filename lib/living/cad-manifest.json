@@ -18,7 +18,7 @@
  },
  "status": "designed and checked digitally; nothing printed yet. Clamp, detent and clearance values are starting points for the test-print kit.",
  "source": "tools/living-cad/cad/lib.py",
- "built_at": "2026-10-20T06:47:27Z",
+ "built_at": "2026-10-21T04:00:39Z",
  "colours": {
   "living": [
    {
@@ -1315,6 +1315,62 @@
    }
   },
   {
+   "id": "dr2-lid-mini-ruler",
+   "name": "Lid, mini, ruler",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 92.0,
+    "y": 60.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 18.24,
+   "mass_g_pla": 20.7,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 641.0,
+   "notes": "Inlay prints as the first layers in a second colour. Scale 0 to 9.2 cm from the lid's end.",
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-mini-ruler.stl",
+    "bytes": 788084,
+    "sha256": "5547fa451f253e37fce710e9e7288140cfd69aeb2056281e6db0ef55f2c69228"
+   }
+  },
+  {
+   "id": "dr2-lid-mini-ruler-inlay",
+   "name": "Lid inlay, mini, ruler",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 81.0,
+    "y": 19.9,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.11,
+   "mass_g_pla": 0.1,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -25,
+   "bodies": 29,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-mini-ruler-inlay.stl",
+    "bytes": 627684,
+    "sha256": "8a0d19612ced40d05856ddd3c5cc5aff117fdf7ed114af5d8e3ca482e3936115"
+   }
+  },
+  {
    "id": "dr2-insert-mini-split",
    "name": "Insert, mini: Split (2)",
    "family": "dayrally2",
@@ -1847,6 +1903,62 @@
    }
   },
   {
+   "id": "dr2-lid-standard-ruler",
+   "name": "Lid, standard, ruler",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 128.0,
+    "y": 72.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 28.71,
+   "mass_g_pla": 32.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 907.0,
+   "notes": "Inlay prints as the first layers in a second colour. Scale 0 to 12.8 cm from the lid's end.",
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-standard-ruler.stl",
+    "bytes": 1052284,
+    "sha256": "2c5f542a5f8a198373d4a85e49c02ec2577b5f894b9d954e97b8674d22c010ab"
+   }
+  },
+  {
+   "id": "dr2-lid-standard-ruler-inlay",
+   "name": "Lid inlay, standard, ruler",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 118.6,
+    "y": 19.9,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.16,
+   "mass_g_pla": 0.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -37,
+   "bodies": 43,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-standard-ruler-inlay.stl",
+    "bytes": 889084,
+    "sha256": "9e7dd61358327635c26bea9cc0459d84422f463c5e9b3c0e0922c904f28a04b7"
+   }
+  },
+  {
    "id": "dr2-insert-standard-everyday",
    "name": "Insert, standard: Everyday (3)",
    "family": "dayrally2",
@@ -2099,6 +2211,62 @@
    }
   },
   {
+   "id": "dr2-lid-tall-ruler",
+   "name": "Lid, tall, ruler",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 128.0,
+    "y": 72.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 28.71,
+   "mass_g_pla": 32.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 907.0,
+   "notes": "Inlay prints as the first layers in a second colour. Scale 0 to 12.8 cm from the lid's end.",
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-tall-ruler.stl",
+    "bytes": 1052284,
+    "sha256": "2c5f542a5f8a198373d4a85e49c02ec2577b5f894b9d954e97b8674d22c010ab"
+   }
+  },
+  {
+   "id": "dr2-lid-tall-ruler-inlay",
+   "name": "Lid inlay, tall, ruler",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 118.6,
+    "y": 19.9,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.16,
+   "mass_g_pla": 0.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -37,
+   "bodies": 43,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-tall-ruler-inlay.stl",
+    "bytes": 889084,
+    "sha256": "9e7dd61358327635c26bea9cc0459d84422f463c5e9b3c0e0922c904f28a04b7"
+   }
+  },
+  {
    "id": "dr2-insert-tall-deep-two",
    "name": "Insert, tall: Deep two (bottles, sunscreen)",
    "family": "dayrally2",
@@ -2292,6 +2460,62 @@
     "path": "/living/cad/v0.3/dr2-lid-long-name-inlay.stl",
     "bytes": 43284,
     "sha256": "7de8e01932f8880a2cfadda917f1b407f0ce2ba2d8b2c6417a5afd98fcee8805"
+   }
+  },
+  {
+   "id": "dr2-lid-long-ruler",
+   "name": "Lid, long, ruler",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 176.0,
+    "y": 72.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 39.58,
+   "mass_g_pla": 44.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1423.0,
+   "notes": "Inlay prints as the first layers in a second colour. Scale 0 to 17.6 cm from the lid's end.",
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-long-ruler.stl",
+    "bytes": 2448584,
+    "sha256": "b2e57c46c98a5fa41474d5db73173924947e16734e036348137731c02c391e47"
+   }
+  },
+  {
+   "id": "dr2-lid-long-ruler-inlay",
+   "name": "Lid inlay, long, ruler",
+   "family": "dayrally2",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 168.4,
+    "y": 31.1,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.36,
+   "mass_g_pla": 0.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -73,
+   "bodies": 86,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/dr2-lid-long-ruler-inlay.stl",
+    "bytes": 2277884,
+    "sha256": "2de9b0b01585117a474157cf7740b4a9ccd35108cdf15032135ec9508b5d5d1d"
    }
   },
   {
@@ -5484,6 +5708,62 @@
     "path": "/living/cad/v0.3/scoot-quiver.stl",
     "bytes": 157584,
     "sha256": "74217751529384e9a81b087809ed9e1235965df61b21be5279fd62eea6d67af5"
+   }
+  },
+  {
+   "id": "ruler-pod-long-fish",
+   "name": "dayrally pod, long, fish ruler base",
+   "family": "ruler",
+   "group": "pod",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 187.0,
+    "y": 72.6,
+    "z": 34.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 60.4,
+   "mass_g_pla": 61.3,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 3,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 200.0,
+   "notes": "The long pod with raised marks 17.6 to 35.2 cm on its outer wall; with the ruler lid end to end it is a 35 cm rule. Floor is a TURN flange.",
+   "file": {
+    "path": "/living/cad/v0.3/ruler-pod-long-fish.stl",
+    "bytes": 2408684,
+    "sha256": "34344a0514b8e1b5140019e26c4fb9db266a6fd7184c7e5a2ba2ae10dc954818"
+   }
+  },
+  {
+   "id": "ruler-150",
+   "name": "Ruler, 15 cm",
+   "family": "ruler",
+   "group": "add-on",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 150.0,
+    "y": 10.0,
+    "z": 2.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 2.9,
+   "mass_g_pla": 3.6,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Prints flat, marks up. Lives in a long pod pen slot.",
+   "file": {
+    "path": "/living/cad/v0.3/ruler-150.stl",
+    "bytes": 1170284,
+    "sha256": "019456118a0bc218020f66cd2b6f47f7ffa8fdd0cc49b487c0b6fc52eb0936ce"
    }
   }
  ],
@@ -9102,6 +9382,33 @@
    "keys_through_quiver_flange_clash_mm3_designed_clamp": 37.562,
    "cast_grip_36_in_quiver_clash_mm3": 0.0,
    "rod_grip_32_in_quiver_clash_mm3": 0.0
+  },
+  "ruler": {
+   "fish_base_adds_mm3": 566.3,
+   "fish_base_removes_mm3": 0.0,
+   "marks_inside_cavity_mm3": 0.0,
+   "marks_above_rim_mm3": 0.0,
+   "marks_on_plus_y_side_mm3": 0.0,
+   "marks_stand_proud_mm": 0.6,
+   "ruler_lid_vs_fish_base": -0.0,
+   "plain_lid_vs_fish_base": -0.0,
+   "ruler_inlay_vs_lid": 0.0,
+   "ruler_inlay_bodies": 86,
+   "ruler_inlay_mm3": 358.9,
+   "fish_base_vs_strap-clip": 0.0,
+   "fish_base_vs_duo-strap": -0.0,
+   "fish_base_vs_belt-clip": 0.0,
+   "fish_base_vs_bar-saddle": 0.0,
+   "fish_base_vs_frame-saddle": -0.0,
+   "fish_base_vs_carabiner-loop": -0.0,
+   "fish_base_vs_home-dock": -0.0,
+   "fish_base_vs_board": -0.0,
+   "fish_base_vs_keys": 37.562,
+   "lid_length_mm": 176.0,
+   "scale_total_cm": 35.2,
+   "ruler_150_in_middle_slot_clash_mm3": 0.0,
+   "ruler_150_in_outer_slot_clash_mm3": 431.302,
+   "ruler_150_under_lid_clash_mm3": 0.0
   }
  },
  "lab": {
@@ -9501,6 +9808,46 @@
     "Lime Gen4 (share)": "stem not measured; strap-on only, remove before returning the scooter",
     "Honey Whale (owned folder)": "stem not measured; strap-on, or the bar saddle on the handlebar"
    }
+  },
+  "ruler": {
+   "lid_scale_cm": {
+    "mini": 9.2,
+    "standard": 12.8,
+    "tall": 12.8,
+    "long": 17.6
+   },
+   "lid_inlay_mm": 0.6,
+   "lid_resolution_mm": 5,
+   "fish_ruler": {
+    "pod": "long",
+    "lid_cm": [
+     0.0,
+     17.6
+    ],
+    "base_cm": [
+     17.6,
+     35.2
+    ],
+    "datum": "the stadium apex at each end; lid and base end to end",
+    "sideways_slop_error_mm": {
+     "5": 0.17,
+     "10": 0.7,
+     "15": 1.58
+    },
+    "numbers_on_base": "19 to 34; 18 and 35 are ribs",
+    "raised_mm": 0.6,
+    "legal_sizes_marked": false
+   },
+   "ruler_150": {
+    "size_mm": [
+     150,
+     10,
+     2
+    ],
+    "ticks": "every mm, engraved 0.4",
+    "lives_in": "long pod pen slot (middle two, 157 mm)"
+   },
+   "status": "designed and checked digitally; nothing printed. Check every scale against a steel rule on the first print."
   }
  },
  "part_code_alphabet": "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"

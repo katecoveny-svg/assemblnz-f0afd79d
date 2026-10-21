@@ -672,3 +672,51 @@ them; the earbuds case sits 7 mm proud of the mini pod the same way.
 On the storefront the pod cards now show these (standard → fish, mini → earbuds, and new cards for the tall
 and long pods), and the "little adventures count." band shows the beach pod open. The Shopify product images
 for the four pods are the next step once this deploys, because the store needs a public URL to fetch from.
+
+### 11.17 The rulers, and the rugged pod merged (21 October)
+
+Kate merged her RP01 rugged pod prototype (`tools/living-cad/prototypes/rugged-pod-v01/`, PR #1649): a separate
+continuous-floor shell above an external TURN carrier, a flat TPU gasket in a lid channel, four M3 compression
+stations, a retrieval eye, a foam deck, centreline lid rulers, and a physical test plan with every result pending.
+That is item 3 of the pods brief's build order, done her way. Then: "carry on building the ruler and fishing rod as
+you suggested earlier."
+
+Built (`DAYRALLY-RULER.md`, lab, unprinted):
+
+- **The ruler lid**, a ninth lid style on all four pod sizes: half-centimetre ticks and centimetre numbers inlaid
+  flush in the second colour, 0 at the lid's own end. 9.2 cm on the mini, 12.8 on the standard and tall, 17.6 on
+  the long. It appears as a lid choice on every pod widget.
+- **The fish ruler**: the long pod itself. Lid 0 to 17.6 cm, raised marks on the base's outer wall 17.6 to 35.2,
+  lid and base end to end on the wharf. The datum is the stadium's own rounded end: two 36 mm arcs pushed together
+  register on their apexes and forgive 10 mm of sideways slop for 0.7 mm of error, so there is no tab and no stop.
+  No legal sizes are marked. Render `ruler-fish-sky` with a 31 cm fish-shaped stand-in.
+- **The 15 cm ruler piece**, millimetre ticks engraved, living in a middle pen slot of the long pod.
+
+Not built: the "fishing rod" in that sentence is read as the fish ruler, because the fixed-line rod, the casting
+rod, the wharf reel, the rod saddle and the scooter quiver are already designed (`DAYRALLY-ROD.md`,
+`DAYRALLY-CAST.md`, `DAYRALLY-RIDE.md`); what each of those needs next is a print, not more CAD, and a print is a
+spend. If Kate meant something else by it, that is the next build.
+
+Learned: the headless renderer recentres every mesh on its own bounding box, so a flipped inlay whose pattern is
+not symmetric about the lid (the ruler's note above and ticks below) needs the pocket's own offset back in the
+scene, and a flipped inlay needs `z` = lid file height − inlay height (14.4 on a 15 mm lid file) to sit on top
+rather than under the lid. The six `pods-*` scenes carry their waves inlays at `z: 0`, under the lid, which is
+why those lids read as a recessed pattern in one colour; they are left as Kate accepted them.
+
+### 11.18 The wharf clip (21 October)
+
+Kate sent a ten-second clip, no words: a kid in a hoodie on a wharf at golden hour with a spinning rod, a black
+dog in a `dayrally` collar tag beside him, and a white e-bike in the foreground carrying the whole dayrally ride
+set in sun yellow: a top-tube pod with the wordmark, a bottle in its cup, a cam on the bar, two pods and a rod
+quiver on the rear rack, the wordmark down the frame. Generated imagery (the bike's geometry and the lettering
+drift between frames), filed as the picture to build toward: two frames at
+`docs/living/boards/dayrally-wharf-clip-20261021-a.jpg` and `-b.jpg`; the clip itself is 9 MB and stays out of
+the repository.
+
+What in it exists as CAD today: the standard and long pods and their mounts, the rack set with its quiver and
+top-tube saddle (`DAYRALLY-RIDE.md`, "the bike"), the bottle cup, the cam and its bar mount, the collar mount
+and bone tag in TURN mini explore, the casting rod for a bought reel, and now the fish ruler that belongs on that
+wharf. What does not: a bike, a dog, a wharf, or a print of any of it. The clip reads as the ad in
+`DAYRALLY-ADS-BRIEF-20261020.md` (the ride-to-the-wharf story) and as the mood for the fish door on the
+storefront.
+

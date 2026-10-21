@@ -51,4 +51,6 @@ The stem saddle (`DAYRALLY-RIDE.md`, "On the scooter") straps to a 32 to 60 mm s
 
 1. Ruler lid style (half a day). 2. The 35 cm fish ruler on the long pod (one day). 3. Sealed lid for the four pods: gasket groove and rib, two latches, PETG at 2.6 mm, floor ribs, radii, lug eye (two days), then a sample print, the drop test and the dunk test before any pod is called splash-proof or a float. 4. The 15 cm ruler piece (half a day). 5. Float line: bought, not printed. 6. Scooter set on real stems.
 
+**21 October:** 1, 2 and 4 are built in v0.3 as lab items (`DAYRALLY-RULER.md`): the ruler lid on all four sizes, the long pod's fish ruler with the stadium apex as the datum, and the 15 cm piece. 3 is Kate's RP01 rugged pod prototype (`tools/living-cad/prototypes/rugged-pod-v01/`, four screws, a flat TPU gasket, a separate TURN carrier), which keeps its own centreline lid rulers. Nothing printed; every scale to be checked against a steel rule.
+
 Unsure until someone holds one: every clearance, the seal, the load a mount takes, and whether PLA Matte survives a summer in a car.

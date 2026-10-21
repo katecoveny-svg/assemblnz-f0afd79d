@@ -15,7 +15,7 @@ A modular interiors system that adapts to the person, their space and what they 
 
 The landing page (`/living`) is the storefront in the dayrally look (brand system, "scope widened by Kate", 20 October): a sun hero with the `dayrally` wordmark, "one system. endless days.", one sentence, two pills and the honesty chip, beside the teen room starter assembling on a sun wall from the served print files (`app/living/HeroWall.tsx`, the studio's `Preview3D` with a `hero` camera, wheel zoom off and a `stage` colour; the alpha render of the same kit stands in before the geometry loads, without WebGL and under reduced motion). Then a scrolling row of eight doors (ride, scoot, fish, everyday, my room, my space, work, pets), a sun band, eight featured pieces as product cards with proposed prices, the kits row, a second band for the studio, and a black foot with the facts. Alpha renders for the storefront live in `public/living/alpha/` (trimmed from `remotion/public/images/living/`). The wordplay rules are in the brand system (`assembl’d`); the quiet plum register remains in `living.css` for the studio until it gets the same pass.
 
-**dayrally** is the go-anywhere collection on the same key: pods, lids, inserts, mounts and the small things for riders, scooters, fishing, beach and school.
+**dayrally** is the go-anywhere collection on the same key: pods, lids, inserts, mounts and the small things for riders, scooters, fishing, beach and school. The ruler lid, the long pod's 35 cm fish ruler and the 15 cm ruler piece are in `DAYRALLY-RULER.md` (lab, 21 October).
 
 ## The assembl TURN standard (v0.1, proposed, untested in print)
 

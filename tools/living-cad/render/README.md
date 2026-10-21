@@ -49,3 +49,15 @@ overlapping sinkers, centre the cable in its circular pocket with its plug
 resting over the coil, lift the beach props onto their actual pocket floors,
 and orient the pen clip upwards. Pod and insert manufacturing geometry is
 unchanged. Contents remain illustrative objects, never supplied products.
+
+## Flipped inlays
+
+A lid prints face down, so its file is 15 mm tall with the lip up and the top face on the bed; `flip` turns it
+over in the scene. Its inlay file is 0.6 mm tall. The renderer recentres every mesh on its own bounding box and,
+for a flipped part, lifts it by its own height, so a flipped inlay lands at z 0..0.6 under the lid unless the
+scene gives it `z: 14.4` (lid file height − inlay height). An inlay whose pattern is not symmetric about the lid
+(the ruler lid: note above, ticks below) also needs the pocket's offset back: the `ruler-*` scenes carry
+`y: lid.y + 3.556`. The `pods-*` scenes predate this and show their waves inlays under the lid.
+
+The `fish-31` prop (a 31 cm fish-shaped solid, no species) is the stand-in for the fish ruler render.
+

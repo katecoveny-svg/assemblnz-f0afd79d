@@ -61,8 +61,9 @@ if __name__ == "__main__":
         web(f"dr2-lid-{size}", plain)
         for style in d.LID_STYLES[1:]:
             lid, inlay = d.pod_lid(size, style, SAMPLE[size], FONT)
-            if style == "name" or size == "standard":
-                emit(f"dr2-lid-{size}-{style}", f"Lid, {size}, {style}" + (f" (sample: {SAMPLE[size]})" if style == "name" else ""), lid, "face_down", "lid", "Inlay prints as the first layers in a second colour.")
+            if style == "name" or style == "ruler" or size == "standard":
+                emit(f"dr2-lid-{size}-{style}", f"Lid, {size}, {style}" + (f" (sample: {SAMPLE[size]})" if style == "name" else ""), lid, "face_down", "lid",
+                     "Inlay prints as the first layers in a second colour." + (f" Scale 0 to {d.SIZES[size][0] / 10:g} cm from the lid's end." if style == "ruler" else ""))
                 emit(f"dr2-lid-{size}-{style}-inlay", f"Lid inlay, {size}, {style}", inlay, "face_down", "lid", "")
             if style != "name":
                 web(f"dr2-inlay-{size}-{style}", inlay)
