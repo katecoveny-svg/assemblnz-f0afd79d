@@ -8,6 +8,10 @@ This file answers: **where is assembl at right now?**
 
 It is intentionally shorter and more changeable than the long-term strategy documents.
 
+## 21 October: homepage hero without the mask; the flock spells the wordmark
+
+Kate's capture showed the knockout mask still reading badly at the fly-through (plum letter-edges sweeping across the footage), and she asked for the mask to go completely. The hero is now the coastal footage full bleed, with no plum field or knockout. On landing the flock (2,600 terns on wide screens, about 1,600 on narrow ones) streams in from above and assembles "assembl" over 2.6 s. It holds through the hero's first part, lifts out of frame before "useful work." arrives, and streams back in as Pursuit's signal formation. The kicker and the "Agentic AI solutions for your business." line are placed from the flock word's projected bounds (the engine's `onLayout` now reports the first formation when there is no mask). The type wordmark remains only for the reduced-motion and static (no WebGL) hero. Evidence: `docs/design/direction-4c/flock-wordmark/`.
+
 ## 19 October assembl / living — TURN parts library v0.3, review candidate
 
 Branch `feat/assembl-living-turn-v0.3` replaces the AL-02 peg pack with Kate's parts library v0.3 on the **assembl TURN standard** (42 mm grid, quarter-turn key): source at `tools/living-cad/`, 104 print files rebuilt here with reports matching the shipped ones, digital fit tests, the test-print kit, costing and a Shopify draft import kept as launch files (not imported). `lib/living` and the Space Studio are rebuilt on the 42 mm grid with the launch catalogue's products, kits and proposed prices. Canon: [assembl / living](../living/ASSEMBL-LIVING.md), ADR-008. **Nothing printed, no load limits, no products, no purchasing, no photo understanding.**

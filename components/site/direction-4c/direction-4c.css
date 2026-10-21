@@ -39,9 +39,11 @@
 .direction-4c .clear-hover-18:hover{text-decoration:none;color:#EAC8DF}
 .direction-4c{font-family:var(--font-body),"Instrument Sans",sans-serif;isolation:isolate}
 .direction-4c [data-fallback]{display:contents}
-/* Hand off the wordmark first; only the background layers crossfade. */
+/* With motion the flock assembles the wordmark itself; the type wordmark is only for the static and reduced-motion hero. */
+/* The pre-ready background layers crossfade to the canvas. With motion the flock assembles the
+   wordmark itself, so the type wordmark only shows in the static and reduced-motion hero. */
 .direction-4c[data-ready] [data-fallback]>*{opacity:0;pointer-events:none;transition:opacity .45s ease .16s}
-.direction-4c[data-ready] [data-fallback]>p{transition:opacity .16s ease}
+@media(prefers-reduced-motion:no-preference){.direction-4c:not([data-static]) [data-fallback]>[data-wordmark]{opacity:0;visibility:hidden}}
 .direction-4c [data-ref="canvasRef"]{opacity:0}
 .direction-4c[data-ready] [data-ref="canvasRef"]{opacity:1;transition:opacity .45s ease .16s}
 .direction-4c[data-paused] *, .direction-4c[data-paused] *::before,.direction-4c[data-paused] *::after{animation-play-state:paused!important;transition:none!important}

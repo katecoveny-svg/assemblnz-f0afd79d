@@ -6,12 +6,13 @@ import { chromeMarkup, footerMarkup, leadMarkup, trailMarkup } from './markup';
 import { TryDo, type TryDoSignals } from './TryDo';
 import './direction-4c.css';
 
-// Share of the flock already gathered in the cloud before anyone scrolls (Claude Design second pass, 14 Oct 2026: Gathering a0 = .5).
-const ARRIVE_AT_REST = .5;
+// Landing (21 Oct 2026, replaces the plum knockout mask): the footage is full bleed and the
+// flock flies in and assembles the wordmark itself over GATHER_MS once the scene is ready.
+const GATHER_MS = 2600;
 
 type TideWorld = {
   ready: Promise<void>;
-  api: { setKnock(value: number): void; setArrive(value: number): void; setLit(value: number): void; pulse(): void } | null;
+  api: { setArrive(value: number): void; setLit(value: number): void; pulse(): void } | null;
   setPaused(value: boolean): void;
   dispose(): void;
 };
@@ -101,7 +102,7 @@ export function Direction4cHome() {
       subscribe: (listener: () => void) => { playbackListeners.add(listener); return () => { playbackListeners.delete(listener); }; },
     };
     let world: TideWorld | undefined;
-    let lit = 0, stopReveal: (() => void) | undefined;
+    let gatherFrom = 0, lit = 0, stopReveal: (() => void) | undefined;
     signals.current = { setLit: value => { lit = value; world?.api?.setLit(value); }, pulse: () => world?.api?.pulse() };
     const video = root.querySelector<HTMLVideoElement>('[data-coastal-video]')!;
     video.muted = true; video.defaultMuted = true; video.playsInline = true; video.preload = 'auto';
@@ -122,7 +123,7 @@ export function Direction4cHome() {
       delete root.dataset.ready; delete root.dataset.videoReady;
       root.querySelectorAll<HTMLElement>('[data-rv]').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
     };
-    const stop = () => { stopReveal?.(); stopReveal = undefined; initialized = false; recovery = undefined; startup?.abort(); startup = undefined; cancelAnimationFrame(frame); frame = 0; world?.dispose(); world = undefined; video.pause(); fallback(); };
+    const stop = () => { gatherFrom = 0; stopReveal?.(); stopReveal = undefined; initialized = false; recovery = undefined; startup?.abort(); startup = undefined; cancelAnimationFrame(frame); frame = 0; world?.dispose(); world = undefined; video.pause(); fallback(); };
     const updatePause = () => {
       root.toggleAttribute('data-paused', paused || media.matches);
       world?.setPaused(paused || media.matches || document.hidden);
@@ -150,9 +151,11 @@ export function Direction4cHome() {
       if (hero) {
         const rect = hero.getBoundingClientRect();
         const p = clamp(-rect.top / Math.max(1, rect.height - innerHeight));
-        world?.api?.setKnock(clamp((p - .1) / .62));
-        // Flock at rest: half the flock is already gathered before anyone scrolls (a0 = .5); the rest streams in between 48% and 82% of the hero scroll, as before.
-        world?.api?.setArrive(ARRIVE_AT_REST + (1 - ARRIVE_AT_REST) * smooth((p - .48) / .34));
+        // The flock gathers into the wordmark on landing, lifts out of frame as "useful work." arrives,
+        // and streams back in only once Pursuit's formation has taken over (its section near the top).
+        const gathered = gatherFrom ? smooth((performance.now() - gatherFrom) / GATHER_MS) : 0;
+        const next = hero.nextElementSibling?.getBoundingClientRect().top ?? innerHeight;
+        world.api.setArrive(gathered * Math.max(1 - smooth((p - .46) / .16), smooth((innerHeight * .1 - next) / (innerHeight * .3))));
         // Phone scrolling can stop anywhere: reveal the reading block at full contrast.
         const card = 1 - smooth(p / .14), msg = mobile.matches ? (p >= .64 ? 1 : 0) : smooth((p - .64) / .18);
         set('kickRef', card); set('cueRef', card); set('subRef', card); set('markRef', smooth((p - .58) / .2));
@@ -183,13 +186,14 @@ export function Direction4cHome() {
         if (!engine) throw new Error('Motion engine unavailable');
         const next = engine.attach({
           canvas: ref('canvasRef') as HTMLCanvasElement, plate: video, onFail: () => { if (!disposed && current === generation) lost(); },
-          extra: { poster: root.querySelector('.clear-coastal-poster'), plateReady: () => root.dataset.videoReady === 'true', tone: 'film', gliders: false, knockZoom: true, outline: .7, glass: false,
-            count: 900, arrive: ARRIVE_AT_REST, birdScale: 1.2, silhouette: 1,
-            slots: ['cloud', 'signal', 'pin', 'DO', 'bubble', 'tick', 'frame', 'sparkle', 'padlock', 'seal', 'amark', 'word'],
+          extra: { poster: root.querySelector('.clear-coastal-poster'), plateReady: () => root.dataset.videoReady === 'true', tone: 'film', gliders: false, knock: false, glass: false,
+            count: 2600, arrive: 0, birdScale: .55, silhouette: 1,
+            slots: ['word', 'signal', 'pin', 'DO', 'bubble', 'tick', 'frame', 'sparkle', 'padlock', 'seal', 'amark', 'word'],
+            // The engine reports where the flock's wordmark rests; the kicker sits above it and the line below.
             onLayout: (layout: { cy: number; h: number }) => {
               const kick = ref('kickRef'), sub = ref('subRef');
-              if (kick) kick.style.top = `${Math.round(layout.cy - layout.h / 2 - 50)}px`;
-              if (sub) sub.style.top = `${Math.round(layout.cy + layout.h / 2 + 26)}px`;
+              if (kick) kick.style.top = `${Math.round(layout.cy - layout.h * .75 - 44)}px`;
+              if (sub) sub.style.top = `${Math.round(layout.cy + layout.h * .6 + 22)}px`;
             },
           },
         });
@@ -200,6 +204,7 @@ export function Direction4cHome() {
         if (!world.api) { lost(); return; }
         world.api.setLit(lit);
         root.dataset.ready = 'true';
+        gatherFrom = performance.now();
         updatePause(); tick();
       } catch { if (!disposed && current === generation) lost(); }
     };
