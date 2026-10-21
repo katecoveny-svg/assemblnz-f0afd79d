@@ -34,9 +34,12 @@ window.renderScene = async (scene, transparent) => {
     g.translate(-(b.min.x + b.max.x) / 2, -(b.min.y + b.max.y) / 2, -b.min.z);
     const m = new THREE.Mesh(g, new THREE.MeshPhysicalMaterial({ color: p.colour, roughness: 0.62, metalness: 0, clearcoat: 0.08, clearcoatRoughness: 0.6, sheen: 0.2, sheenColor: new THREE.Color('#ffffff') }));
     m.castShadow = true; m.receiveShadow = true;
-    if (p.flip) { m.rotation.x = Math.PI; m.position.z = (b.max.z - b.min.z); }
-    if (p.rot) m.rotation.z = p.rot;
-    m.position.x = p.x; m.position.y = p.y; m.position.z += p.z || 0;
+    if (p.matrix) { m.matrixAutoUpdate = false; m.matrix.fromArray(p.matrix); m.matrix.setPosition(m.matrix.elements[12] + (p.x || 0), m.matrix.elements[13] + (p.y || 0), m.matrix.elements[14] + (p.z || 0)); }
+    else {
+      if (p.flip) { m.rotation.x = Math.PI; m.position.z = (b.max.z - b.min.z); }
+      if (p.rot) m.rotation.z = p.rot;
+      m.position.x = p.x; m.position.y = p.y; m.position.z += p.z || 0;
+    }
     s.add(m); m.updateMatrixWorld(); box.expandByObject(m);
   }
   const c = new THREE.Vector3(); box.getCenter(c);

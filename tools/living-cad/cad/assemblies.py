@@ -1,0 +1,183 @@
+"""
+assembled views — one definition that drives the widget's live 3D and the hero renders
+=====================================================================================
+For each widget handle: one or more views, each a list of slots. A slot names a print file (by id, or by prefix
+when the widget's choice decides which lid or insert goes there), its pose in the assembled frame as a 4 × 4 matrix
+applied to the served STL (which emit() centred on x/y and set on z = 0 in its print orientation), its colour role
+(body, accent, text, fixed) and an explode offset so a view can assemble itself on screen.
+
+Poses come from the CAD modules' own frames, not from hand placement: a part built in the installed frame (pods,
+lids, inserts, mounts, keys, boards, accessories) gets the inverse of emit()'s print transform; the rod's sections
+stack by their spigot lengths. Run from the repo root after the builds:
+    python3 tools/living-cad/cad/assemblies.py  ->  lib/living/assemblies.json
+"""
+import json, math, os, sys
+import numpy as np
+sys.path.insert(0, os.path.dirname(__file__))
+import lib
+import dayrally2 as d2
+import dayrally_pocket as pk
+import dayrally_rod as rod
+from build_dayrally2 import PRINT
+
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+MAN = json.load(open(os.path.join(ROOT, "lib", "living", "cad-manifest.json")))
+PARTS = {p["id"]: p for p in MAN["parts"]}
+FONT = pk.FONT
+
+
+def rot_matrix(rx, ry, rz):
+    """manifold's rotate([rx, ry, rz]): x, then y, then z, degrees."""
+    cx, sx = math.cos(math.radians(rx)), math.sin(math.radians(rx))
+    cy, sy = math.cos(math.radians(ry)), math.sin(math.radians(ry))
+    cz, sz = math.cos(math.radians(rz)), math.sin(math.radians(rz))
+    Rx = np.array([[1, 0, 0], [0, cx, -sx], [0, sx, cx]])
+    Ry = np.array([[cy, 0, sy], [0, 1, 0], [-sy, 0, cy]])
+    Rz = np.array([[cz, -sz, 0], [sz, cz, 0], [0, 0, 1]])
+    return Rz @ Ry @ Rx
+
+
+def printed_pose(man, how):
+    """The 4 × 4 that takes the served STL of `man` (printed as `how`) back to `man`'s own frame."""
+    R = rot_matrix(*PRINT[how])
+    p = man.rotate(PRINT[how])
+    x0, y0, z0, x1, y1, z1 = p.bounding_box()
+    t = np.array([-(x0 + x1) / 2, -(y0 + y1) / 2, -z0])            # emit's translation: S = R m + t
+    Ri = R.T
+    Mx = np.eye(4)
+    Mx[:3, :3] = Ri
+    Mx[:3, 3] = -Ri @ t
+    return Mx
+
+
+def placed(Mx, offset=(0, 0, 0), rot=(0, 0, 0)):
+    """Apply a further rotation then offset in the assembled frame."""
+    A = np.eye(4)
+    A[:3, :3] = rot_matrix(*rot)
+    A[:3, 3] = np.array(offset, dtype=float)
+    return A @ Mx
+
+
+def mat(Mx):
+    return [round(float(v), 4) for v in np.asarray(Mx).T.flatten()]      # column-major, as three.js Matrix4.fromArray reads it
+
+
+def slot(ref, Mx, role="body", explode=(0, 0, 0), prefix=False, text=None):
+    s = {"prefix" if prefix else "id": ref, "matrix": mat(Mx), "role": role, "explode": list(explode)}
+    if text:
+        s["text"] = text                                                   # the customer's own lettering is drawn here, never the sample
+    return s
+
+
+OUT = {}
+
+
+def add(handle, views):
+    OUT[handle] = {"views": views}
+
+
+# ---------------- the pods: base, lid (chosen), lid inlay, insert (chosen), two keys; open and closed ----------------
+def pod_views(size, prefix_lid, prefix_insert, base_id, extra_lids=()):
+    L, W, H, ZT = d2.dims(size)
+    base = d2.pod_base(size) if size != "wide" else d2.pod_base("wide")
+    base_M = printed_pose(base, "as_is")
+    lid_plain, _ = d2.pod_lid(size, "plain")
+    lid_M = printed_pose(lid_plain, "face_down")
+    inlay_text = {"w": L - 40, "h": min(20.0, W * 0.32), "z": ZT + d2.LID_H + 0.05}
+    key_M = printed_pose(lib.turn_key(), "as_is")
+    ins_plain = d2.insert_grid(size, 2, 1) if size != "wide" else d2.insert_grid("wide", 2, 1, h=24.0)
+    ins_M = printed_pose(ins_plain, "as_is")
+    keys = [slot("grid-turn-key", placed(key_M, (x, y, 0)), "fixed", (0, 0, -30)) for (x, y) in d2.KEYS]
+    closed = [slot(base_id, base_M, "body"), slot(prefix_lid, lid_M, "body", (0, 0, 60), prefix=True),
+              slot(prefix_lid + "*-inlay", placed(lid_M, (0, 0, 0)), "accent", (0, 0, 60), prefix=True, text=inlay_text),
+              slot(prefix_insert, ins_M, "accent", (0, 0, 30), prefix=True)] + keys
+    open_ = [slot(base_id, base_M, "body"), slot(prefix_insert, ins_M, "accent", (0, 0, 20), prefix=True),
+             slot(prefix_lid, placed(lid_M, (0, -(W + 24), -(ZT - d2.Z0)), (0, 0, 0)), "body", (0, 0, 0), prefix=True),
+             slot(prefix_lid + "*-inlay", placed(lid_M, (0, -(W + 24), -(ZT - d2.Z0))), "accent", (0, 0, 0), prefix=True, text={**inlay_text, "y": -(W + 24), "z": inlay_text["z"] - (ZT - d2.Z0)})] + keys
+    return [{"name": "closed", "slots": closed, "reach": max(L, W) * 1.1}, {"name": "open", "slots": open_, "reach": max(L, W + W + 24) * 1.1}]
+
+
+for size in ("mini", "standard", "tall", "long"):
+    add(f"al-pod-{size}", pod_views(size, f"dr2-lid-{size}-", f"dr2-insert-{size}-", f"dr2-pod-{size}"))
+add("lab-emergency-pack", pod_views("wide", "pk-lid-wide-", "pk-insert-wide-", "pk-pod-wide"))
+add("lab-mini-emergency", pod_views("standard", "pk-lid-standard-", "pk-insert-standard-", "dr2-pod-standard"))
+add("lab-fish-ruler", pod_views("long", "dr2-lid-long-", "dr2-insert-long-", "ruler-pod-long-fish"))
+
+# ---------------- the mounts, with a standard pod closed on them ----------------
+std_closed = pod_views("standard", "dr2-lid-standard-", "dr2-insert-standard-", "dr2-pod-standard")[0]["slots"]
+for slug, fn in d2.MOUNTS.items():
+    m = fn()
+    mount_M = printed_pose(m, "face_down")
+    handle = {"strap-clip": "al-strap-clip", "duo-strap": "al-duo-strap", "belt-clip": "al-belt-clip", "frame-saddle": "al-frame-saddle",
+              "bar-saddle": "al-bar-saddle", "carabiner-loop": "al-carabiner-loop", "home-dock": "al-home-dock"}.get(slug)
+    if not handle:
+        continue
+    # the pod on the mount is a prop: fixed files (plain lid, everyday insert), not the widget's choices
+    pod_ids = {"dr2-lid-standard-": None, "dr2-lid-standard-*-inlay": None, "dr2-insert-standard-": "dr2-insert-standard-everyday"}   # open pod: the floor on the mount is the point
+    with_pod = [slot(f"dr2-mount-{slug}", mount_M, "body")]
+    for sl in std_closed:
+        if "prefix" in sl:
+            pid = pod_ids.get(sl["prefix"])
+            if not pid:
+                continue
+            sl = {**sl, "id": pid}
+            sl.pop("prefix"); sl.pop("text", None)
+        with_pod.append(dict(sl, role=("fixed" if sl["role"] == "fixed" else "prop"), explode=[0, 0, 50]))
+    add(handle, [{"name": "with a pod", "slots": with_pod, "reach": 200}, {"name": "the mount", "slots": [slot(f"dr2-mount-{slug}", mount_M, "body")], "reach": 110}])
+
+# ---------------- the rod: assembled along +z, and packed in its grip on the saddle ----------------
+def rod_views():
+    G = printed_pose(rod.grip(), "as_is")
+    C = printed_pose(rod.collar(), "as_is")
+    B = printed_pose(rod.butt_cap(), "as_is")
+    S = [printed_pose(rod.section(i), "as_is") for i in range(3)]
+    T = printed_pose(rod.tip(), "as_is")
+    top = rod.GRIP_L + 3.0                                  # the collar flange sits on the grip top
+    z1 = top                                                # s1's origin (its spigot is 28 mm down inside the collar)
+    assembled = [slot("rod-butt-cap", placed(B, (0, 0, 0), (180, 0, 0)), "accent", (0, 0, -40)),
+                 slot("rod-grip", G, "body"),
+                 slot("rod-collar", placed(C, (0, 0, rod.GRIP_L - rod.COLLAR_L)), "accent", (0, 0, 40)),
+                 slot("rod-section-1", placed(S[0], (0, 0, z1)), "body", (0, 0, 60)),
+                 slot("rod-section-2", placed(S[1], (0, 0, z1 + rod.SEC_L)), "body", (0, 0, 120)),
+                 slot("rod-section-3", placed(S[2], (0, 0, z1 + 2 * rod.SEC_L)), "body", (0, 0, 180)),
+                 slot("rod-tip", placed(T, (0, 0, z1 + 3 * rod.SEC_L)), "body", (0, 0, 240))]
+    # lay it down for the picture: rotate the whole view about y so z runs along x
+    lay = [dict(s, matrix=mat(placed(np.array(s["matrix"]).reshape(4, 4).T, (0, 0, 16), (0, 90, 0)))) for s in assembled]
+    # packed: the sections inside the grip, the cap on, the grip in its TURN saddle with two keys
+    sad = printed_pose(rod.rod_saddle(), "as_is")
+    key_M = printed_pose(lib.turn_key(), "as_is")
+    packed = [slot("rod-saddle", sad, "accent"),
+              slot("rod-grip", placed(G, (-rod.GRIP_L / 2, 0, 13 + 2.0 + 16), (0, 90, 0)), "body", (0, 0, 40)),
+              slot("rod-butt-cap", placed(B, (-rod.GRIP_L / 2 - 2, 0, 13 + 2.0 + 16), (0, -90, 0)), "accent", (-30, 0, 40)),
+              slot("rod-collar", placed(C, (rod.GRIP_L / 2 - rod.COLLAR_L, 0, 13 + 2.0 + 16), (0, 90, 0)), "accent", (30, 0, 40))] + \
+             [slot("grid-turn-key", placed(key_M, (x, 0, 0)), "fixed", (0, 0, -30)) for x in (-lib.P / 2, lib.P / 2)]
+    return [{"name": "assembled", "slots": lay, "reach": 620}, {"name": "packed, on its saddle", "slots": packed, "reach": 260}]
+
+
+add("lab-dayrally-rod", rod_views())
+
+# ---------------- grid accessories on a board with their keys ----------------
+def on_board(handle, part_id, fn, keys, board=(2, 4), at=(lib.P / 2, lib.P * 1.5)):
+    """The accessory keyed to a board: `keys` are its keyways in its own frame; `at` is where its origin lands so
+    every key and nub sits on a cell centre ((i + ½)P, (j + ½)P on the board)."""
+    cols, rows = board
+    bM = printed_pose(lib.board(cols, rows), "face_down")
+    acc = fn()
+    aM = printed_pose(acc, PARTS[part_id]["print_orientation"])
+    key_M = printed_pose(lib.turn_key(), "as_is")
+    ax, ay = at
+    slots = [slot(f"grid-board-{cols}x{rows}", bM, "prop"), slot(part_id, placed(aM, (ax, ay, 0)), "body", (0, 0, 40))]
+    for (kx, ky) in keys:
+        slots.append(slot("grid-turn-key", placed(key_M, (ax + kx, ay + ky, 0)), "fixed", (0, 0, 70)))
+    add(handle, [{"name": "on the board", "slots": slots, "reach": max(cols, rows) * lib.P * 1.15}, {"name": "the piece", "slots": [slot(part_id, aM, "body")], "reach": 120}])
+
+
+on_board("al-hook", "grid-hook", lib.hook, [(0, lib.P)])
+on_board("al-cup", "grid-cup", lib.cup, [(0, lib.P)])
+on_board("al-shelf-2", "grid-shelf-2", lambda: lib.shelf(2), [(0, 0), (lib.P, 0)], at=(lib.P / 2, lib.P * 2.5))
+on_board("al-bin-2", "grid-bin-2", lambda: lib.bin_(2), [(0, 0), (lib.P, 0)], at=(lib.P / 2, lib.P * 2.5))
+on_board("al-shelf-3", "grid-shelf-3", lambda: lib.shelf(3), [(0, 0), (lib.P, 0), (2 * lib.P, 0)], board=(4, 4), at=(lib.P / 2, lib.P * 2.5))
+
+json.dump({"frame": "mm, z up; matrices column-major, applied to the served STL (centred on x and y, z from 0)", "handles": OUT},
+          open(os.path.join(ROOT, "lib", "living", "assemblies.json"), "w"), indent=0)
+print(len(OUT), "handles:", list(OUT))

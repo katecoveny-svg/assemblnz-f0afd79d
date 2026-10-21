@@ -2429,11 +2429,11 @@
     "qty": 1
    },
    {
-    "id": "pk-lid-wide-card",
+    "id": "pk-lid-wide-card-name",
     "qty": 1
    },
    {
-    "id": "pk-lid-wide-card-inlay",
+    "id": "pk-lid-wide-card-name-inlay",
     "qty": 1
    },
    {
@@ -2462,11 +2462,11 @@
     "qty": 1
    },
    {
-    "id": "pk-lid-standard-card",
+    "id": "pk-lid-standard-card-name",
     "qty": 1
    },
    {
-    "id": "pk-lid-standard-card-inlay",
+    "id": "pk-lid-standard-card-name-inlay",
     "qty": 1
    },
    {
@@ -2580,7 +2580,7 @@
   "material": "PLA Matte",
   "size": "92 × 60 × 15 mm",
   "priceNzd": null,
-  "shipG": 67,
+  "shipG": 66,
   "parts": [
    {
     "id": "pk-lid-mini-id",

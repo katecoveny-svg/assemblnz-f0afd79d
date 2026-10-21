@@ -308,13 +308,13 @@ export const WIDGET_LAB: LabItem[] = [
   {
     id: 'emergency-pack', title: 'dayrally emergency pack · the wide pod', type: 'dayrally lab', colourSet: 'dayrally', size: '176 × 100 × 55 mm closed',
     blurb: 'The fifth pod size, a third wider and 6 mm taller, on the same two-key TURN floor: it locks to every dayrally mount and any Grid board. The emergency insert takes an earbuds case, a small power bank, a lip balm, two compact tampons, a mini sanitiser lying down and a patch sachet; a wipes sachet rides on top. The card lid holds a bank card against the inside of the lid on two rails, so the card is never under the stuff. Pockets are from published product sizes; the first print checks each against the real thing.',
-    parts: [{ id: 'pk-pod-wide', qty: 1 }, { id: 'pk-lid-wide-card', qty: 1 }, { id: 'pk-lid-wide-card-inlay', qty: 1 }, { id: 'grid-turn-key', qty: 2 }],
+    parts: [{ id: 'pk-pod-wide', qty: 1 }, { id: 'pk-lid-wide-card-name', qty: 1 }, { id: 'pk-lid-wide-card-name-inlay', qty: 1 }, { id: 'grid-turn-key', qty: 2 }],
     choice: { key: 'insert', label: 'Insert', prefix: 'pk-insert-wide-', defaultId: 'pk-insert-wide-emergency' }, doc: 'docs/living/DAYRALLY-POCKET.md',
   },
   {
     id: 'mini-emergency', title: 'dayrally mini emergency kit · the standard pod', type: 'dayrally lab', colourSet: 'dayrally', size: '128 × 72 × 49 mm closed',
     blurb: 'The standard pod with the card lid and an emergency insert: a compact tampon, a lip balm standing, a mini sanitiser lying down, a patch sachet, and room for hair ties or a plaster. The bank card rides in the lid. Same two-key floor, same mounts.',
-    parts: [{ id: 'dr2-pod-standard', qty: 1 }, { id: 'pk-lid-standard-card', qty: 1 }, { id: 'pk-lid-standard-card-inlay', qty: 1 }, { id: 'pk-insert-standard-emergency', qty: 1 }, { id: 'grid-turn-key', qty: 2 }],
+    parts: [{ id: 'dr2-pod-standard', qty: 1 }, { id: 'pk-lid-standard-card-name', qty: 1 }, { id: 'pk-lid-standard-card-name-inlay', qty: 1 }, { id: 'pk-insert-standard-emergency', qty: 1 }, { id: 'grid-turn-key', qty: 2 }],
     doc: 'docs/living/DAYRALLY-POCKET.md',
   },
   {
@@ -339,7 +339,7 @@ export const WIDGET_LAB: LabItem[] = [
   },
   {
     id: 'id-lid', title: 'id lid · the mini pod lid with the owner\'s code', type: 'dayrally lab', colourSet: 'dayrally', size: '92 × 60 × 15 mm',
-    blurb: 'The mini pod lid with the QR code and the name inlaid flush in its top, so the pod on the bike carries the owner\'s page. Sample code; the real one is made per order.',
+    blurb: 'The mini pod lid with the QR code inlaid flush in its top, so the pod on the bike carries the owner\'s page. Sample code; the real one is made per order.',
     parts: [{ id: 'pk-lid-mini-id', qty: 1 }, { id: 'pk-lid-mini-id-inlay', qty: 1 }], doc: 'docs/living/DAYRALLY-POCKET.md',
   },
   {

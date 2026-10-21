@@ -159,7 +159,26 @@
     },
     {
       "slug": "pk-lid-wide-card",
-      "name": "Card lid, wide (sample: MILA)",
+      "name": "Card lid, wide, plain",
+      "group": "lid",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        176.0,
+        100.0,
+        15.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 51.5,
+      "est_grams_pla": 55.7,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 1102.0,
+      "notes": "Two rails inside hold a bank card against the lid."
+    },
+    {
+      "slug": "pk-lid-wide-card-name",
+      "name": "Card lid, wide, name (sample: MILA)",
       "group": "lid",
       "print_orientation": "face_down",
       "print_bbox_mm": [
@@ -174,11 +193,11 @@
       "genus": 0,
       "bodies": 1,
       "unsupported_down_area_mm2": 1845.0,
-      "notes": "Two rails inside hold a bank card against the lid; name inlaid on top."
+      "notes": "The card lid with the name inlaid on top."
     },
     {
-      "slug": "pk-lid-wide-card-inlay",
-      "name": "Card lid inlay, wide",
+      "slug": "pk-lid-wide-card-name-inlay",
+      "name": "Card lid inlay, wide, name",
       "group": "lid",
       "print_orientation": "face_down",
       "print_bbox_mm": [
@@ -197,7 +216,26 @@
     },
     {
       "slug": "pk-lid-standard-card",
-      "name": "Card lid, standard (sample: MILA)",
+      "name": "Card lid, standard, plain",
+      "group": "lid",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        128.0,
+        72.0,
+        15.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 30.17,
+      "est_grams_pla": 33.5,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 847.0,
+      "notes": "The standard lid with the card rails."
+    },
+    {
+      "slug": "pk-lid-standard-card-name",
+      "name": "Card lid, standard, name (sample: MILA)",
       "group": "lid",
       "print_orientation": "face_down",
       "print_bbox_mm": [
@@ -212,11 +250,11 @@
       "genus": 0,
       "bodies": 1,
       "unsupported_down_area_mm2": 1591.0,
-      "notes": "The standard lid with the card rails; name inlaid on top."
+      "notes": "The standard card lid with the name inlaid on top."
     },
     {
-      "slug": "pk-lid-standard-card-inlay",
-      "name": "Card lid inlay, standard",
+      "slug": "pk-lid-standard-card-name-inlay",
+      "name": "Card lid inlay, standard, name",
       "group": "lid",
       "print_orientation": "face_down",
       "print_bbox_mm": [
@@ -387,7 +425,7 @@
     },
     {
       "slug": "pk-lid-mini-id",
-      "name": "Lid, mini, id (sample: MILA)",
+      "name": "Lid, mini, id (sample code)",
       "group": "lid",
       "print_orientation": "face_down",
       "print_bbox_mm": [
@@ -396,30 +434,30 @@
         15.0
       ],
       "fits_250_cube": true,
-      "volume_cm3": 18.02,
-      "est_grams_pla": 20.9,
+      "volume_cm3": 18.16,
+      "est_grams_pla": 20.8,
       "watertight": true,
       "genus": 0,
       "bodies": 1,
-      "unsupported_down_area_mm2": 1009.0,
-      "notes": "The mini lid with the owner's QR and name inlaid."
+      "unsupported_down_area_mm2": 784.0,
+      "notes": "The mini lid with the owner's QR inlaid; the name goes on the base's tag or a second lid style."
     },
     {
       "slug": "pk-lid-mini-id-inlay",
-      "name": "Lid inlay, mini, id",
+      "name": "Lid inlay, mini, id (sample code)",
       "group": "lid",
       "print_orientation": "face_down",
       "print_bbox_mm": [
-        70.0,
+        25.0,
         25.0,
         0.6
       ],
       "fits_250_cube": true,
-      "volume_cm3": 0.33,
-      "est_grams_pla": 0.4,
+      "volume_cm3": 0.19,
+      "est_grams_pla": 0.2,
       "watertight": true,
-      "genus": 9,
-      "bodies": 16,
+      "genus": 12,
+      "bodies": 12,
       "unsupported_down_area_mm2": 0.0,
       "notes": ""
     },
