@@ -40,25 +40,26 @@
 
 /* ── dayrally register ────────────────────────────────────────
    A dayrally product is a dayrally surface (brief 11.8, ADR-011): sun,
-   tomato, black, cream, the Fredoka wordmark. The tokens are remapped so
-   every living control inherits the look; the company plum never shows. */
+   tomato, deep plum, cream, the Fredoka wordmark. The tokens are remapped so
+   every living control inherits the look; the dark is the assembl deep plum
+   #240B21 (21 October), the one colour the two brands share. */
 .lvw[data-line='dayrally'] {
-  --lv-ink: #1a1a1a;
-  --lv-plum: #1a1a1a;
-  --lv-muted: #5b5650;
+  --lv-ink: #240b21;
+  --lv-plum: #240b21;
+  --lv-muted: #654a4e;
   --lv-rose: #e8472b;
   --lv-chalk: #efe6d6;
   --lv-paper: #fffdf8;
-  --lv-line: rgba(26, 26, 26, 0.12);
-  --lv-line-strong: rgba(26, 26, 26, 0.32);
+  --lv-line: rgba(36, 11, 33, 0.12);
+  --lv-line-strong: rgba(36, 11, 33, 0.32);
   --lvw-sun: #ffd200;
   --lvw-tomato: #e8472b;
   --lvw-display: var(--font-dayrally), 'Fredoka', 'Instrument Sans', system-ui, sans-serif;
   background: var(--lv-paper);
   color: var(--lv-ink);
 }
-.lvw-band { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 0.5rem 1rem; background: var(--lvw-sun); color: #1a1a1a; border-radius: 22px; padding: 1.1rem 1.35rem; margin-bottom: 1.1rem; }
-.lvw-band .lv-eyebrow { grid-column: 1 / -1; color: rgba(26, 26, 26, 0.72); }
+.lvw-band { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 0.5rem 1rem; background: var(--lvw-sun); color: #240b21; border-radius: 22px; padding: 1.1rem 1.35rem; margin-bottom: 1.1rem; }
+.lvw-band .lv-eyebrow { grid-column: 1 / -1; color: rgba(36, 11, 33, 0.72); }
 .lvw-mark { display: flex; align-items: center; gap: 0.55rem; min-width: 0; }
 .lvw-wordmark { font-family: var(--lvw-display); font-weight: 700; font-size: clamp(1.7rem, 3.6vw, 2.4rem); line-height: 0.95; letter-spacing: -0.01em; color: #ffffff; }
 .lvw-key { width: 1.15em; height: auto; font-size: clamp(1.7rem, 3.6vw, 2.4rem); flex: none; }
@@ -68,19 +69,19 @@
 .lvw[data-line='dayrally'][data-embed='true'] .lvw-band { padding: 0.55rem 0.9rem; border-radius: 14px; margin-bottom: 0.7rem; }
 .lvw[data-line='dayrally'][data-embed='true'] .lvw-wordmark, .lvw[data-line='dayrally'][data-embed='true'] .lvw-key { font-size: 1.25rem; }
 .lvw[data-line='dayrally'][data-embed='true'] .lvw-band .lv-eyebrow { display: none; }
-.lvw[data-line='dayrally'] .lvw-controls h2 { font-family: var(--lvw-display); font-weight: 700; letter-spacing: 0; font-size: clamp(1.9rem, 3.6vw, 2.6rem); line-height: 1; color: #1a1a1a; }
+.lvw[data-line='dayrally'] .lvw-controls h2 { font-family: var(--lvw-display); font-weight: 700; letter-spacing: 0; font-size: clamp(1.9rem, 3.6vw, 2.6rem); line-height: 1; color: #240b21; }
 .lvw[data-line='dayrally'] .lvw-stage { background: var(--lv-chalk); border-color: transparent; }
-.lvw[data-line='dayrally'] .lv-btn { background: #1a1a1a; border-color: #1a1a1a; color: #ffffff; }
-.lvw[data-line='dayrally'] .lv-btn:hover { background: #000000; }
-.lvw[data-line='dayrally'] .lv-btn[data-variant='ghost'] { background: transparent; color: #1a1a1a; border-color: rgba(26, 26, 26, 0.32); }
+.lvw[data-line='dayrally'] .lv-btn { background: #240b21; border-color: #240b21; color: #ffffff; }
+.lvw[data-line='dayrally'] .lv-btn:hover { background: #3a1a35; }
+.lvw[data-line='dayrally'] .lv-btn[data-variant='ghost'] { background: transparent; color: #240b21; border-color: rgba(36, 11, 33, 0.32); }
 .lvw[data-line='dayrally'] .lv-btn[data-variant='ghost']:hover { background: var(--lv-chalk); }
 .lvw[data-line='dayrally'] .lvw-estimate { background: var(--lv-chalk); border-color: transparent; }
-.lvw[data-line='dayrally'] .lvw-estimate dd { color: #1a1a1a; }
+.lvw[data-line='dayrally'] .lvw-estimate dd { color: #240b21; }
 .lvw[data-line='dayrally'] .lvw-swatch { border-color: var(--lv-paper); }
-.lvw[data-line='dayrally'] .lvw-swatch[aria-pressed='true'] { box-shadow: 0 0 0 2px #1a1a1a; }
+.lvw[data-line='dayrally'] .lvw-swatch[aria-pressed='true'] { box-shadow: 0 0 0 2px #240b21; }
 .lvw[data-line='dayrally'] .lv-input:focus { border-color: var(--lvw-tomato); box-shadow: 0 0 0 3px rgba(232, 71, 43, 0.18); }
 .lvw[data-line='dayrally'] .lvw-issues { background: #fbe9e3; color: #8a2d19; }
-.lvw[data-line='dayrally'] .lv-chip[aria-pressed='true'] { background: #1a1a1a; border-color: #1a1a1a; color: #ffffff; }
+.lvw[data-line='dayrally'] .lv-chip[aria-pressed='true'] { background: #240b21; border-color: #240b21; color: #ffffff; }
 @media (max-width: 720px) {
   .lvw-band { grid-template-columns: 1fr; }
 }

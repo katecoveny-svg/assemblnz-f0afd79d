@@ -720,3 +720,17 @@ wharf. What does not: a bike, a dog, a wharf, or a print of any of it. The clip 
 `DAYRALLY-ADS-BRIEF-20261020.md` (the ride-to-the-wharf story) and as the mood for the fish door on the
 storefront.
 
+### 11.20 The dayrally dark becomes the assembl deep plum (21 October)
+
+Kate: "Could we update the black in the branding to a deep plum to tie to Assembl?" Done on screen: every
+dayrally surface (`.lv-sun` in `app/living/living.css`, the widget's dayrally register in `widget.css`, the key
+glyph in the wordmark, the Shopify hero section in `docs/living/theme/dayrally-hero.liquid`) now uses deep plum
+`#240B21` where it used black `#1A1A1A`: headlines, body, pills, the foot, swatch rings, chips; lines and
+shadows at `rgba(36, 11, 33, a)`; hover on a plum fill lifts to `#3A1A35`; muted copy in muted plum `#654A4E`
+instead of warm grey. Sun, tomato and cream stay. The brand system and the ads brief carry the new palette line.
+
+Not changed: the `ink` filament in the renders (`#2A2A2D`) and the ink parts in the boards, because a print
+colour is a physical thing; the living set already has a plum filament (`#4B2B41`) if dayrally wants a plum
+dark in print too, which is a render pass, not a token change. The draft Shopify theme's hero file is updated
+to match where the API allows; the theme stays unpublished.
+
