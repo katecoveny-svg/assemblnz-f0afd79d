@@ -1,0 +1,6 @@
+cadquery==2.7.0
+manifold3d==3.5.4
+trimesh==5.1.1
+numpy==2.3.5
+fonttools==4.61.1
+matplotlib==3.10.8
