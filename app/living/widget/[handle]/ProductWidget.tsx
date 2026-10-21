@@ -271,7 +271,7 @@ function statusLine(spec: WidgetSpec): string {
 function KeyGlyph() {
   return (
     <svg className="lvw-key" viewBox="0 0 68 36" aria-hidden focusable="false">
-      <rect x="2" y="9" width="64" height="18" rx="9" fill="#1a1a1a" />
+      <rect x="2" y="9" width="64" height="18" rx="9" fill="#240b21" />
       <circle cx="54" cy="18" r="3.2" fill="#fffdf8" />
     </svg>
   );

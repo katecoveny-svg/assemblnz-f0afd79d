@@ -12,13 +12,13 @@ Where this brief and those disagree, those win.
 ## 1. The one-screen brand
 
 - **Name and wordmark.** `dayrally`, lowercase, Fredoka 700, always followed by the small rounded-rectangle
-  key glyph. Sun on white, white on sun, or black on white. Never stretched, never outlined, never in
+  key glyph. Sun on white, white on sun, or deep plum on white. Never stretched, never outlined, never in
   another face.
 - **Line.** one system. endless days. (tomato, lowercase, full stops.)
 - **Description.** Modular 3D printed accessories that click together and go wherever you do.
 - **The idea in four words.** click. lock. change. go. One key fits every mount: the same push-and-quarter-
   turn key locks a pod to a bike, a bag strap, a desk dock, a helmet, a collar.
-- **Palette.** Sun `#FFD200` on screen (`#F5C400` is the printed PETG sun), tomato `#E8472B`, black `#1A1A1A`, cream `#EFE6D6`, white. Four colours on a
+- **Palette.** Sun `#FFD200` on screen (`#F5C400` is the printed PETG sun), tomato `#E8472B`, deep plum `#240B21` (the assembl plum, the dayrally dark since 21 October; it was black `#1A1A1A`), cream `#EFE6D6`, white. Four colours on a
   board, never more than three on one object. One hero colour and one accent per piece of creative.
 - **Type.** Fredoka 700 for the wordmark and short display lines only. Instrument Sans for everything else.
   Captions in the hand-lettered style: black marker, two or three words a line, a sun underline.
@@ -59,7 +59,7 @@ no countdown, no fake scarcity, no fake reviews or unboxings, no "as seen on". T
 1. One trick, one part, per piece. click, lock, change, go. Nothing else happens.
 2. Vertical 9:16 for Reels and TikTok, 7 to 15 seconds, no intro, the trick in the first second, the
    wordmark and key glyph in the last.
-3. One hero colour and one accent, from the sun / tomato / black / cream set.
+3. One hero colour and one accent, from the sun / tomato / deep plum / cream set.
 4. The parts are always our renders or our prints. No AI-art textures on a product. The boards are
    reference for mood only and never appear in an ad.
 5. Motion is work happening: the key turns, the lid opens, the slider clicks. Nothing bounces or sparkles.

@@ -5,14 +5,14 @@
   Colours are dayrally product colours used as content on this page only; the buttons stay in the canon.
 {%- endcomment -%}
 <style>
-  .dr-hero { background: #FFD200; color: #1A1A1A; padding: clamp(3rem, 9vw, 7rem) 0; font-family: 'Instrument Sans', system-ui, sans-serif; }
+  .dr-hero { background: {{ section.settings.band | default: '#FFD200' }}; color: #240B21; padding: clamp(3rem, 9vw, 7rem) 0; font-family: 'Instrument Sans', system-ui, sans-serif; }
   .dr-hero__wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; display: grid; gap: 2rem; grid-template-columns: 1fr; align-items: center; }
   @media (min-width: 820px) { .dr-hero__wrap { grid-template-columns: 7fr 5fr; } }
   .dr-hero__eyebrow { font-family: 'IBM Plex Mono', ui-monospace, monospace; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.06em; opacity: 0.8; margin: 0 0 1rem; }
   .dr-hero__mark { font-family: 'Fredoka', 'Instrument Sans', system-ui, sans-serif; font-weight: 700; font-size: clamp(3rem, 9vw, 6.5rem); line-height: 0.95; letter-spacing: -0.01em; color: #FFFFFF; margin: 0 0 0.4rem; }
   .dr-hero h1 { font-family: 'Fredoka', 'Instrument Sans', system-ui, sans-serif; font-weight: 700; letter-spacing: -0.01em; font-size: clamp(2rem, 5.5vw, 3.8rem); line-height: 1.02; margin: 0; color: #E8472B; }
   .dr-hero p { font-size: clamp(1.05rem, 1.6vw, 1.25rem); max-width: 34ch; margin: 1.2rem 0 0; }
-  .dr-hero__cta { display: inline-block; margin-top: 1.6rem; background: #1A1A1A; color: #FFFFFF; border-radius: 999px; padding: 0.9rem 1.4rem; text-decoration: none; font-weight: 500; }
+  .dr-hero__cta { display: inline-block; margin-top: 1.6rem; background: #240B21; color: #FFFFFF; border-radius: 999px; padding: 0.9rem 1.4rem; text-decoration: none; font-weight: 500; }
   .dr-turn { width: 100%; max-width: 360px; justify-self: center; }
   .dr-turn .key { transform-origin: 100px 100px; animation: dr-turn 1.2s ease-out 0.4s 1 forwards; }
   @keyframes dr-turn { 0% { transform: translateY(-26px) rotate(0deg); opacity: 0.6; } 45% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(0) rotate(90deg); opacity: 1; } }
@@ -32,10 +32,10 @@
     <div>
       <svg class="dr-turn" viewBox="0 0 200 200" role="img" aria-label="The assembl TURN: the key drops in upright and quarter-turns to lock">
         <rect x="20" y="20" width="160" height="160" rx="14" fill="#FFFDFB" opacity="0.7"/>
-        <circle cx="100" cy="100" r="26" fill="none" stroke="#2A2A2D" stroke-width="3"/>
-        <rect x="96" y="60" width="8" height="80" rx="4" fill="#FFFDFB" stroke="#2A2A2D" stroke-width="3"/>
+        <circle cx="100" cy="100" r="26" fill="none" stroke="#240B21" stroke-width="3"/>
+        <rect x="96" y="60" width="8" height="80" rx="4" fill="#FFFDFB" stroke="#240B21" stroke-width="3"/>
         <g class="key">
-          <rect x="66" y="91" width="68" height="18" rx="9" fill="#1A1A1A"/>
+          <rect x="66" y="91" width="68" height="18" rx="9" fill="#240B21"/>
           <circle cx="122" cy="100" r="3" fill="#FFFDFB"/>
         </g>
       </svg>

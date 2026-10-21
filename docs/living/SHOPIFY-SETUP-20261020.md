@@ -92,3 +92,22 @@ Plan:
 
 Sources: shopify.dev `docs/agents`, `docs/agents/carts-and-checkout`, `docs/api/web-mcp`, the Shop MCP
 changelog of 13 October 2026, and the Agentic Storefronts Supplemental Terms.
+
+## 21 October: the deep plum, applied to the draft theme
+
+Kate asked for the black in the dayrally branding to become the assembl deep plum, then to check the store and
+update it to match. On the draft theme `Updated copy of Horizon · dayrally draft` (id 166614073430, **unpublished**):
+
+- `sections/dayrally-hero.liquid`: type, button and the TURN diagram in deep plum `#240B21`; band from the section
+  setting, default `#FFD200`.
+- `config/settings_data.json`, the theme palette: foreground `#000000` → `#240B21` (text, primary buttons, selected
+  variants, drawer text); `color1` `#333333` → visible plum ink `#492B3E` (inputs); `color2` `#DFDFDF` → a plum-tinted
+  line `#E3DBE0` (borders); background `#ffffff` → the dayrally white `#FFFDF8`. The `Horizon` preset block is left
+  as shipped. Fonts stay `inter_*`; Kate sets Instrument Sans and Fredoka in the theme editor (step 2 above).
+- `templates/page.dayrally.json`: the band `#F5C400` → `#FFD200`, matching `templates/index.json`.
+- Fish kit (`al-kit-dayrally-fish-kit`): the open tackle pod render (`pods-fish-corrected-20261021.jpg`) added as the
+  first image, in front of the plain pod it showed before.
+
+The live Horizon theme is untouched, every product stays a draft, nothing is published. The ink filament and the
+"Ink" colour option stay: they are print colours.
+
