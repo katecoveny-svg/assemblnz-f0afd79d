@@ -15,7 +15,7 @@ async function setup() {
   if (!status.connected) throw new Error('fixture setup');
   const command = (action: string, extra = {}) => broker.command(workspace, { action, ...(action === 'status' ? {} : { connectionId: status.connectionId }), ...extra });
   const prepare = async () => { await broker.allowReadInCompanion(status.connectionId); await command('observe'); return command('prepare', { brief: 'Reviewed from text or voice', quantities: [{ productId: 'oats', quantity: 2 }] }); };
-  return { broker, host, status, command, prepare, read, edit, setOwner: (v: string | null) => { owner = v; }, expire: () => { now += 120001; }, navigate: () => { current = false; }, quantity: () => quantity };
+  return { broker, host, status, command, prepare, read, edit, setOwner: (v: string | null) => { owner = v; }, expire: () => { now += 120001; }, advance: (ms: number) => { now += ms; }, navigate: () => { current = false; }, quantity: () => quantity };
 }
 describe('temporary companion connection', () => {
   it('connects without reading and only companion approval mutates', async () => {
@@ -116,4 +116,33 @@ it('duplicate approvals remain blocked for the full unsettled effect lifetime',a
  const running=f.broker.approveInCompanion(prepared.connectionId,prepared.digest);await started;
  await expect(f.broker.approveInCompanion(prepared.connectionId,prepared.digest)).rejects.toThrow('running');
  release();const result=await running;expect(result.connected&&result.receipt?.status).toBe('verified');expect(f.edit).toHaveBeenCalledTimes(1);
+});
+
+it('a failed refresh discards the previous proposal before another approval', async () => {
+  const f = await setup(), prepared = await f.prepare();
+  if (!prepared.connected || !prepared.digest) throw new Error('missing review');
+  f.read.mockRejectedValueOnce(new Error('Native read failed'));
+  await expect(f.command('observe')).rejects.toThrow('Native read failed');
+  const status = f.broker.snapshot();
+  expect(status.connected && status.proposal).toBeNull();
+  expect(status.connected && status.observation).toBeNull();
+  await expect(f.broker.approveInCompanion(prepared.connectionId, prepared.digest)).rejects.toThrow();
+  expect(f.edit).not.toHaveBeenCalled();
+});
+it.each([1001, 0])('rejects future or stale native evidence (%s) before preparing a review', async timestamp => {
+  const f = await setup(); await f.broker.allowReadInCompanion(f.status.connectionId);
+  if (timestamp === 0) f.advance(31001);
+  f.read.mockImplementationOnce(async scope => ({scope, revision:'1', observedAt:timestamp, currency:'NZD', items:[]}));
+  await expect(f.command('observe')).rejects.toThrow();
+  expect(f.edit).not.toHaveBeenCalled();
+});
+it('an in-flight refresh cannot approve the previous proposal', async () => {
+  const f = await setup(), prepared = await f.prepare();
+  if (!prepared.connected || !prepared.digest) throw new Error('missing review');
+  let release!: () => void, entered!: () => void;
+  const started = new Promise<void>(resolve => { entered = resolve; });
+  f.read.mockImplementationOnce(async scope => { entered(); await new Promise<void>(resolve => { release = resolve; }); return {scope, revision:'1', observedAt:1000, currency:'NZD', items:[]}; });
+  const reading = f.command('observe'); await started;
+  await expect(f.broker.approveInCompanion(prepared.connectionId, prepared.digest)).rejects.toThrow();
+  release(); await reading; expect(f.edit).not.toHaveBeenCalled();
 });

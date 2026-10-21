@@ -23,6 +23,7 @@ import { DoPresence } from "@/components/do/DoPresence";
 import { DoShareButton } from "@/components/do/DoShareButton";
 import { DoReadAloud } from "@/components/do/DoReadAloud";
 import { reviewShoppingHandoff, type ShoppingVoiceDraft } from "@/lib/do/shop/voice-handoff";
+import { reviewBrowserHandoff, type ReviewedBrowserDraft } from "@/apps/do/browser/voice-handoff";
 import { BrowserTaskReview } from "@/components/do/browser/BrowserTaskReview";
 import ShopJourney from "@/app/do/shop/ShopJourney";
 import { MailWorkspace } from "@/app/do/mail/MailWorkspace";
@@ -81,7 +82,8 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
     "loading" | "signed-out" | "ready" | "error"
   >("loading");
   const [notice, setNotice] = useState("");
-  const [browserDraft, setBrowserDraft] = useState<{ owner: string; text: string; id: string } | null>(null);
+  const [browserDraft, setBrowserDraft] = useState<ReviewedBrowserDraft | null>(null);
+  const browserDraftRef = useRef<ReviewedBrowserDraft | null>(null);
   const [shoppingDraft, setShoppingDraft] = useState<ShoppingVoiceDraft | null>(null);
   const [shoppingOpen, setShoppingOpen] = useState(false);
   const [mailDraft, setMailDraft] = useState<ReviewedMailHandoff | null>(null);
@@ -124,7 +126,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
       if (!scope) throw new Error("Account identity unavailable.");
       verifiedScope = scope;
       if (lastVerifiedOwner.current !== scope) {
-        setBrowserDraft(null); setShoppingDraft(null); setShoppingOpen(false); setMailDraft(null); mailDraftRef.current = null; mailReceiver.current = null;
+        browserDraftRef.current = null; setBrowserDraft(null); setShoppingDraft(null); setShoppingOpen(false); setMailDraft(null); mailDraftRef.current = null; mailReceiver.current = null;
         if (workspaceRef.current !== null) setSharedIntake(undefined);
         setAssistantWork({ dirty: false, exportText: "" }); setAssistantWorking(false);
         setPersonalProfile(null);
@@ -155,7 +157,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
       // An authenticated storage error includes a verified scope; network or
       // malformed identity errors cannot safely reuse a previous person's UI.
       setPersonalProfile(null);
-      if (!verifiedScope) { setBrowserDraft(null); setShoppingDraft(null); setShoppingOpen(false); setMailDraft(null); mailDraftRef.current = null; mailReceiver.current = null; workspaceRef.current = null; setWorkspaceKey(null); setSharedIntake(undefined); setConsent(false); setAssistantWork({ dirty: false, exportText: "" }); setAssistantWorking(false); }
+      if (!verifiedScope) { browserDraftRef.current = null; setBrowserDraft(null); setShoppingDraft(null); setShoppingOpen(false); setMailDraft(null); mailDraftRef.current = null; mailReceiver.current = null; workspaceRef.current = null; setWorkspaceKey(null); setSharedIntake(undefined); setConsent(false); setAssistantWork({ dirty: false, exportText: "" }); setAssistantWorking(false); }
       setAccess("error");
       setState(null);
       setNotice(
@@ -180,7 +182,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
         if (shouldRevalidatePersonalOwner(_event, workspaceRef.current, hintedScope)) {
           loadRequest.current?.abort();
           workspaceRef.current = null;
-          setBrowserDraft(null); setShoppingDraft(null); setShoppingOpen(false); setMailDraft(null); mailDraftRef.current = null; mailReceiver.current = null;
+          browserDraftRef.current = null; setBrowserDraft(null); setShoppingDraft(null); setShoppingOpen(false); setMailDraft(null); mailDraftRef.current = null; mailReceiver.current = null;
           setWorkspaceKey(null); setState(null); setPersonalProfile(null); setAssistantWork({ dirty: false, exportText: "" }); setAssistantWorking(false);
           setSharedIntake(undefined); setConsent(false);
           // The event only invalidates. The server verifies the new owner.
@@ -351,8 +353,11 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
     return true;
   }
   function openBrowserDraft(text: string) {
-    if (!workspaceKey || workspaceKey === 'guest' || workspaceKey !== workspaceRef.current || browserDraft || !text.trim() || text.length > 6000) return false;
-    setBrowserDraft({ owner: workspaceKey, text: text.trim(), id: crypto.randomUUID() });
+    const draft = reviewBrowserHandoff(workspaceKey, workspaceRef.current, browserDraftRef.current, text);
+    if (!draft) return false;
+    browserDraftRef.current = draft;
+    setBrowserDraft(draft);
+    requestAnimationFrame(() => document.getElementById("personal-browser")?.scrollIntoView({ block: "start" }));
     return true;
   }
   function openShoppingDraft(text: string) {
@@ -425,6 +430,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
           onProfileChange={setPersonalProfile}
           onShoppingDraft={openShoppingDraft}
           onMailDraft={openMailDraft}
+          onBrowserDraft={openBrowserDraft}
           draftTarget="responsibility"
           onDraft={state?.worker.configured && state.responsibilities.length < 5 ? keepCallDraft : undefined}
         />
@@ -442,7 +448,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
         </div>
         <div hidden={!shoppingOpen}><ShopJourney key={workspaceKey} embedded expectedWorkspace={workspaceKey} initialBrief={shoppingDraft.text} /></div>
       </section>}
-      {workspaceKey && browserDraft?.owner === workspaceKey && <section aria-label="Reviewed browser task"><button type="button" onClick={() => setBrowserDraft(null)}>Close browser task and disconnect</button><BrowserTaskReview key={browserDraft.id} expectedWorkspace={workspaceKey} initialBrief={browserDraft.text} /></section>}
+      {workspaceKey && browserDraft?.owner === workspaceKey && <section id="personal-browser" aria-label="Reviewed browser task"><button type="button" onClick={() => { browserDraftRef.current = null; setBrowserDraft(null); }}>Close browser task and disconnect</button><BrowserTaskReview key={browserDraft.id} expectedWorkspace={workspaceKey} initialBrief={browserDraft.text} /></section>}
       {workspaceKey && shoppingDraft?.owner === workspaceKey && !browserDraft && <button type="button" onClick={() => openBrowserDraft(shoppingDraft.text)}>Review this shopping brief as a browser task</button>}
       {workspaceKey && <DoLocalInformation storageScope={workspaceKey} />}
       {access === "ready" && state && (

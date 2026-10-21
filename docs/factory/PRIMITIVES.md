@@ -295,3 +295,9 @@ Extends the selected-tab primitive with real MV3 image/text capture; extends the
 ### Mail/travel evidence reliability (19 October review candidate)
 
 Extends the existing bounded mail and travel primitives: runtime response validation and request-bound publication shared by typed/voice mail review, source-reference-only task drafts, fresh-at-apply itinerary checks, and exact-result offer selection with detached receipt snapshots. [Audit and executable cases](../reviews/DO-TRAVEL-MAIL-RELIABILITY-20261019.md). Sensitive step-up, live grants, confirmed itinerary storage and transactional providers remain separate gates; no new tool authority or persistence.
+
+### Device-local call invitation (21 October local candidate)
+
+`apps/do/shared/call-ring.ts` and `app/do/DoCallInvitation.tsx` extend page-local audio ownership with bounded local ringing and a single Answer/Decline decision before existing call consent/token setup. No microphone or network use in the invitation. See [evidence and limits](../reviews/DO-SHOPPING-CALL-20261021.md).
+
+DO local follow-up (2026-10-21): owner-bound reviewed voice-to-browser handoff keeps same-tab call open; broker invalidates old authority before refresh and rejects stale/future evidence. Synthetic actual-component journey passed; native extension and Woolworths remain unverified/disabled. See `docs/reviews/DO-SHOPPING-CALL-20261021.md`. Nothing deployed.

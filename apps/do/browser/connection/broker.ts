@@ -89,13 +89,17 @@ export class ConnectionBroker {
     try {
       if (command.action === 'observe') {
         if (!t.readGranted) throw new Error('Approve the bounded product/cart read in the companion first.');
+        // A fresh read invalidates the old review before any async work. A failed
+        // read must never leave the prior proposal available for approval.
+        t.observation = null; t.proposal = null; t.digest = null; t.approval = null; t.receipt = null; t.brief = "";
         // Grant was issued by the extension-owned UI, not this page command.
         const observation = cartObservation.parse(await this.host.adapter(t.target, t.scope).observe());
         await this.guard(t);
         if (JSON.stringify(observation.scope) !== JSON.stringify(t.scope)) throw new Error('Tab scope changed.');
+        if (observation.observedAt > this.now() || this.now() - observation.observedAt > 30000) throw new Error('Read fresh product and cart evidence before reviewing.');
         t.observation = observation; t.proposal = null; t.digest = null; t.approval = null; t.receipt = null;
       } else {
-        if (!t.observation || this.now() - t.observation.observedAt > 30000) throw new Error('Read the current products again before reviewing.');
+        if (!t.observation || t.observation.observedAt > this.now() || this.now() - t.observation.observedAt > 30000) throw new Error('Read the current products again before reviewing.');
         if (new Set(command.quantities.map(i => i.productId)).size !== command.quantities.length) throw new Error('Duplicate products.');
         const proposal = cartProposal.parse({ protocol: 'do.cart.v1', actionId: crypto.randomUUID(), revision: 1, scope: t.scope,
           observedRevision: t.observation.revision, ...(t.observation.retailerContext ? { retailerContext: t.observation.retailerContext } : {}), expiresAt: t.expiresAt,
