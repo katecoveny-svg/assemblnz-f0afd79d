@@ -2824,5 +2824,1742 @@
    -285,
    260
   ]
+ },
+ "cat-al-board-2x4": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/grid-board-2x4.stl",
+    "colour": "#D8C4A0",
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 66.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 66.0,
+    "y": -28.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   166,
+   -216,
+   194
+  ]
+ },
+ "cat-al-rod-cradle": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/grid-rod-cradle.stl",
+    "colour": "#9FAE95",
+    "x": -36.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-rod-cradle.stl",
+    "colour": "#9FAE95",
+    "x": 36.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 89.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 89.0,
+    "y": -29.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   218,
+   -285,
+   256
+  ]
+ },
+ "cat-al-shelf-2": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/grid-shelf-2.stl",
+    "colour": "#B8694A",
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 62.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 62.0,
+    "y": -29.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   156,
+   -204,
+   184
+  ]
+ },
+ "cat-al-lure-garage": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/grid-lure-garage.stl",
+    "colour": "#9A9792",
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 83.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 83.0,
+    "y": -29.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 83.0,
+    "y": -58.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   205,
+   -267,
+   240
+  ]
+ },
+ "cat-al-foot": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/stack-foot.stl",
+    "colour": "#4B2B41",
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   101,
+   -132,
+   119
+  ]
+ },
+ "cat-al-shade-fold": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/light-pendant-fold.stl",
+    "colour": "#EDE9E2",
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   319,
+   -416,
+   374
+  ]
+ },
+ "cat-al-keys-6": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#E8EAED",
+    "x": 17.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#E8EAED",
+    "x": 17.0,
+    "y": -29.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#E8EAED",
+    "x": 17.0,
+    "y": -58.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#E8EAED",
+    "x": 17.0,
+    "y": -87.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#E8EAED",
+    "x": 17.0,
+    "y": -116.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#E8EAED",
+    "x": 48.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   202,
+   -264,
+   238
+  ]
+ },
+ "cat-al-duo-strap": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-mount-duo-strap.stl",
+    "colour": "#8EC5F2",
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   150,
+   -195,
+   176
+  ]
+ },
+ "cat-al-belt-clip": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-mount-belt-clip.stl",
+    "colour": "#F28C28",
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   150,
+   -195,
+   176
+  ]
+ },
+ "cat-al-carabiner-loop": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-mount-carabiner-loop.stl",
+    "colour": "#BFD95A",
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   177,
+   -231,
+   208
+  ]
+ },
+ "cat-al-home-dock": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-mount-home-dock.stl",
+    "colour": "#E8EAED",
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   241,
+   -315,
+   284
+  ]
+ },
+ "cat-al-handline-winder": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/dr-handline-winder.stl",
+    "colour": "#9EDFC5",
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   216,
+   -282,
+   254
+  ]
+ },
+ "cat-al-zip-pull": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-zip-pull.stl",
+    "colour": "#F3D97A",
+    "x": -45.5,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-zip-pull.stl",
+    "colour": "#F3D97A",
+    "x": 2.5,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-zip-pull-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": 37.2,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-zip-pull-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": 58.8,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   213,
+   -278,
+   250
+  ]
+ },
+ "cat-al-phone-stand": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-phone-stand.stl",
+    "colour": "#C7B5EC",
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   166,
+   -216,
+   194
+  ]
+ },
+ "cat-al-chair-hook": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-chair-hook.stl",
+    "colour": "#E04E3B",
+    "x": -25.1,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-chair-hook.stl",
+    "colour": "#E04E3B",
+    "x": 25.1,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   168,
+   -219,
+   197
+  ]
+ },
+ "cat-al-cable-winder": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-cable-winder.stl",
+    "colour": "#7A3E9D",
+    "x": -39.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-cable-winder.stl",
+    "colour": "#7A3E9D",
+    "x": 39.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   232,
+   -303,
+   273
+  ]
+ },
+ "cat-al-spoke-beads": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-spoke-bead.stl",
+    "colour": "#F5C400",
+    "x": -143.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-spoke-bead.stl",
+    "colour": "#F5C400",
+    "x": -117.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-spoke-bead.stl",
+    "colour": "#F5C400",
+    "x": -91.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-spoke-bead.stl",
+    "colour": "#F5C400",
+    "x": -65.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-spoke-bead.stl",
+    "colour": "#F5C400",
+    "x": -39.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-spoke-bead.stl",
+    "colour": "#F5C400",
+    "x": -13.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-spoke-bead.stl",
+    "colour": "#F5C400",
+    "x": 13.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-spoke-bead.stl",
+    "colour": "#F5C400",
+    "x": 39.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-spoke-bead.stl",
+    "colour": "#F5C400",
+    "x": 65.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-spoke-bead.stl",
+    "colour": "#F5C400",
+    "x": 91.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-spoke-bead.stl",
+    "colour": "#F5C400",
+    "x": 117.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-spoke-bead.stl",
+    "colour": "#F5C400",
+    "x": 143.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   412,
+   -537,
+   483
+  ]
+ },
+ "cat-al-tyre-lever": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/bike-tyre-lever.stl",
+    "colour": "#2E4FB5",
+    "x": -62.6,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/bike-tyre-lever.stl",
+    "colour": "#2E4FB5",
+    "x": 62.6,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   341,
+   -445,
+   400
+  ]
+ },
+ "cat-al-bar-end": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/bike-bar-end.stl",
+    "colour": "#F2B8C6",
+    "x": -19.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/bike-bar-end.stl",
+    "colour": "#F2B8C6",
+    "x": 19.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   140,
+   -183,
+   165
+  ]
+ },
+ "cat-al-board-renter": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/renter-board-4x4.stl",
+    "colour": "#F1ECE3",
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   262,
+   -342,
+   308
+  ]
+ },
+ "cat-al-over-door": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/renter-over-door.stl",
+    "colour": "#9FAE95",
+    "x": -32.9,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/renter-over-door.stl",
+    "colour": "#9FAE95",
+    "x": 32.9,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 82.8,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 82.8,
+    "y": -29.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   204,
+   -266,
+   240
+  ]
+ },
+ "cat-al-rail-hanger": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/renter-rail.stl",
+    "colour": "#B8694A",
+    "x": -32.5,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/renter-rail.stl",
+    "colour": "#B8694A",
+    "x": 32.5,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 82.1,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 82.1,
+    "y": -29.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   203,
+   -264,
+   238
+  ]
+ },
+ "cat-al-kit-gear-wall": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/grid-board-4x4.stl",
+    "colour": "#D8C4A0",
+    "x": -339.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-board-4x4.stl",
+    "colour": "#D8C4A0",
+    "x": -157.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-lure-garage.stl",
+    "colour": "#D8C4A0",
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-rod-cradle.stl",
+    "colour": "#D8C4A0",
+    "x": 102.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-rod-cradle.stl",
+    "colour": "#D8C4A0",
+    "x": 174.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-hook.stl",
+    "colour": "#D8C4A0",
+    "x": 242.5,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-hook.stl",
+    "colour": "#D8C4A0",
+    "x": 307.5,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-bin-2.stl",
+    "colour": "#D8C4A0",
+    "x": 385.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 447.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 447.0,
+    "y": -28.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 447.0,
+    "y": -56.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 447.0,
+    "y": -84.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 447.0,
+    "y": -112.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 477.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 477.0,
+    "y": -28.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 477.0,
+    "y": -56.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 477.0,
+    "y": -84.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 477.0,
+    "y": -113.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 508.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 508.0,
+    "y": -29.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 508.0,
+    "y": -58.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 508.0,
+    "y": -87.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 508.0,
+    "y": -116.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 539.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 539.0,
+    "y": -29.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   1042,
+   -1359,
+   1223
+  ]
+ },
+ "cat-al-kit-desk-reset": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/grid-board-4x4.stl",
+    "colour": "#9FAE95",
+    "x": -176.5,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-shelf-2.stl",
+    "colour": "#9FAE95",
+    "x": -40.5,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-cup.stl",
+    "colour": "#9FAE95",
+    "x": 31.5,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-cup.stl",
+    "colour": "#9FAE95",
+    "x": 85.5,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-bin-2.stl",
+    "colour": "#9FAE95",
+    "x": 157.5,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-hook.stl",
+    "colour": "#9FAE95",
+    "x": 235.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 284.5,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 284.5,
+    "y": -28.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 284.5,
+    "y": -56.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 284.5,
+    "y": -84.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 284.5,
+    "y": -112.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 315.5,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 315.5,
+    "y": -29.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 315.5,
+    "y": -58.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 315.5,
+    "y": -87.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 315.5,
+    "y": -116.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 346.5,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   668,
+   -872,
+   784
+  ]
+ },
+ "cat-al-kit-workshop-wall": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/grid-board-4x4.stl",
+    "colour": "#9A9792",
+    "x": -365.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-board-4x4.stl",
+    "colour": "#9A9792",
+    "x": -183.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-hook.stl",
+    "colour": "#9A9792",
+    "x": -59.5,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-hook.stl",
+    "colour": "#9A9792",
+    "x": 5.5,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-hook.stl",
+    "colour": "#9A9792",
+    "x": 70.5,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-hook.stl",
+    "colour": "#9A9792",
+    "x": 135.5,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-bin-2.stl",
+    "colour": "#9A9792",
+    "x": 213.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-bin-2.stl",
+    "colour": "#9A9792",
+    "x": 303.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-cup.stl",
+    "colour": "#9A9792",
+    "x": 375.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-cup.stl",
+    "colour": "#9A9792",
+    "x": 429.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 473.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 473.0,
+    "y": -28.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 473.0,
+    "y": -56.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 473.0,
+    "y": -84.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 473.0,
+    "y": -112.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 503.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 503.0,
+    "y": -28.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 503.0,
+    "y": -56.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 503.0,
+    "y": -84.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 503.0,
+    "y": -113.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 534.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 534.0,
+    "y": -29.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 534.0,
+    "y": -58.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 534.0,
+    "y": -87.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 534.0,
+    "y": -116.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 565.0,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 565.0,
+    "y": -29.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 565.0,
+    "y": -58.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   1102,
+   -1437,
+   1293
+  ]
+ },
+ "cat-al-kit-entry-and-pets": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/grid-board-4x4.stl",
+    "colour": "#F1ECE3",
+    "x": -269.4,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-hook.stl",
+    "colour": "#F1ECE3",
+    "x": -145.9,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-hook.stl",
+    "colour": "#F1ECE3",
+    "x": -80.9,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-hook.stl",
+    "colour": "#F1ECE3",
+    "x": -15.9,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-bin-2.stl",
+    "colour": "#F1ECE3",
+    "x": 61.6,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-name-plate.stl",
+    "colour": "#F1ECE3",
+    "x": 197.6,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-name-plate-text.stl",
+    "colour": "#2A2A2D",
+    "x": 324.5,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 377.4,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 377.4,
+    "y": -28.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 377.4,
+    "y": -56.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 377.4,
+    "y": -84.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 377.4,
+    "y": -112.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 408.4,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 408.4,
+    "y": -29.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 408.4,
+    "y": -58.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 408.4,
+    "y": -87.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 408.4,
+    "y": -116.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 439.4,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   882,
+   -1150,
+   1035
+  ]
+ },
+ "cat-al-kit-no-drill-door-wall": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/grid-board-4x4.stl",
+    "colour": "#D8C4A0",
+    "x": -190.3,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/renter-over-door.stl",
+    "colour": "#D8C4A0",
+    "x": -66.4,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/renter-over-door.stl",
+    "colour": "#D8C4A0",
+    "x": -0.6,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-hook.stl",
+    "colour": "#D8C4A0",
+    "x": 64.8,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-hook.stl",
+    "colour": "#D8C4A0",
+    "x": 129.8,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-hook.stl",
+    "colour": "#D8C4A0",
+    "x": 194.8,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-cup.stl",
+    "colour": "#D8C4A0",
+    "x": 254.3,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 298.3,
+    "y": 0.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 298.3,
+    "y": -28.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 298.3,
+    "y": -56.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-anchor-washer.stl",
+    "colour": "#2A2A2D",
+    "x": 298.3,
+    "y": -84.0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 298.3,
+    "y": -112.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 329.3,
+    "y": 0.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 329.3,
+    "y": -29.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 329.3,
+    "y": -58.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 329.3,
+    "y": -87.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/grid-turn-key.stl",
+    "colour": "#2A2A2D",
+    "x": 329.3,
+    "y": -116.0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   700,
+   -913,
+   822
+  ]
  }
 }

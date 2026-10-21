@@ -1,0 +1,2417 @@
+[
+ {
+  "handle": "al-board-4x4",
+  "kind": "product",
+  "title": "Grid board 4×4",
+  "type": "Grid · wall",
+  "material": "PLA Matte",
+  "size": "168 × 168 × 8 mm",
+  "priceNzd": 39,
+  "shipG": 137,
+  "parts": [
+   {
+    "id": "grid-board-4x4",
+    "qty": 1
+   },
+   {
+    "id": "grid-anchor-washer",
+    "qty": 4
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-board-2x4",
+  "kind": "product",
+  "title": "Grid board 2×4",
+  "type": "Grid · wall",
+  "material": "PLA Matte",
+  "size": "84 × 168 × 8 mm",
+  "priceNzd": 24,
+  "shipG": 89,
+  "parts": [
+   {
+    "id": "grid-board-2x4",
+    "qty": 1
+   },
+   {
+    "id": "grid-anchor-washer",
+    "qty": 2
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-hook",
+  "kind": "product",
+  "title": "Hook",
+  "type": "Grid · wall",
+  "material": "PLA Matte",
+  "size": "26 × 73 × 52 mm",
+  "priceNzd": 9,
+  "shipG": 52,
+  "parts": [
+   {
+    "id": "grid-hook",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-rod-cradle",
+  "kind": "product",
+  "title": "Rod cradles, pair",
+  "type": "Grid · wall",
+  "material": "PETG",
+  "size": "26 × 73 × 58 mm each",
+  "priceNzd": 19,
+  "shipG": 64,
+  "parts": [
+   {
+    "id": "grid-rod-cradle",
+    "qty": 2
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-shelf-2",
+  "kind": "product",
+  "title": "Shelf, 2 wide",
+  "type": "Grid · wall",
+  "material": "PLA Matte",
+  "size": "76 × 56 × 90 mm",
+  "priceNzd": 22,
+  "shipG": 78,
+  "parts": [
+   {
+    "id": "grid-shelf-2",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-shelf-3",
+  "kind": "product",
+  "title": "Shelf, 3 wide",
+  "type": "Grid · wall",
+  "material": "PLA Matte",
+  "size": "118 × 56 × 90 mm",
+  "priceNzd": 28,
+  "shipG": 95,
+  "parts": [
+   {
+    "id": "grid-shelf-3",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 3
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-bin-2",
+  "kind": "product",
+  "title": "Bin, 2 wide",
+  "type": "Grid · wall",
+  "material": "PLA Matte",
+  "size": "76 × 76 × 50 mm",
+  "priceNzd": 19,
+  "shipG": 80,
+  "parts": [
+   {
+    "id": "grid-bin-2",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-cup",
+  "kind": "product",
+  "title": "Cup",
+  "type": "Grid · wall",
+  "material": "PLA Matte",
+  "size": "40 × 104 × 43 mm",
+  "priceNzd": 15,
+  "shipG": 71,
+  "parts": [
+   {
+    "id": "grid-cup",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-lure-garage",
+  "kind": "product",
+  "title": "Lure garage",
+  "type": "Grid · wall",
+  "material": "PETG",
+  "size": "118 × 104 × 46 mm",
+  "priceNzd": 34,
+  "shipG": 183,
+  "parts": [
+   {
+    "id": "grid-lure-garage",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 3
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-name-plate",
+  "kind": "product",
+  "title": "Name plate",
+  "type": "Grid · wall",
+  "material": "PLA Matte, two colours",
+  "size": "168 × 40 × 6 mm",
+  "priceNzd": 29,
+  "shipG": 61,
+  "parts": [
+   {
+    "id": "grid-name-plate",
+    "qty": 1
+   },
+   {
+    "id": "grid-name-plate-text",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-node-corner",
+  "kind": "product",
+  "title": "Dowel joint, corner",
+  "type": "Stack · furniture",
+  "material": "PETG",
+  "size": "50 × 72 mm",
+  "priceNzd": 8,
+  "shipG": 70,
+  "parts": [
+   {
+    "id": "stack-node-corner",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-node-tee",
+  "kind": "product",
+  "title": "Dowel joint, tee",
+  "type": "Stack · furniture",
+  "material": "PETG",
+  "size": "72 × 72 mm",
+  "priceNzd": 9,
+  "shipG": 79,
+  "parts": [
+   {
+    "id": "stack-node-tee",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-foot",
+  "kind": "product",
+  "title": "Dowel foot",
+  "type": "Stack · furniture",
+  "material": "PETG",
+  "size": "Ø28 × 30 mm",
+  "priceNzd": 5,
+  "shipG": 47,
+  "parts": [
+   {
+    "id": "stack-foot",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-shade-fold",
+  "kind": "product",
+  "title": "Fold pendant shade",
+  "type": "Light",
+  "material": "Translucent PETG",
+  "size": "Ø217 × 171 mm",
+  "priceNzd": 69,
+  "shipG": 231,
+  "parts": [
+   {
+    "id": "light-pendant-fold",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-keys-6",
+  "kind": "product",
+  "title": "TURN keys, six",
+  "type": "Grid · wall",
+  "material": "PETG",
+  "size": "Ø21 × 16 mm",
+  "priceNzd": 6,
+  "shipG": 50,
+  "parts": [
+   {
+    "id": "grid-turn-key",
+    "qty": 6
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-pod-mini",
+  "kind": "product",
+  "title": "dayrally pod, mini",
+  "type": "dayrally",
+  "material": "PLA Matte, two colours",
+  "size": "92 × 60 × 37 mm with lid",
+  "priceNzd": 26,
+  "shipG": 98,
+  "parts": [
+   {
+    "id": "dr2-pod-mini",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   },
+   {
+    "id": "dr2-lid-mini-plain",
+    "qty": 1
+   },
+   {
+    "id": "dr2-insert-mini-split",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-pod-standard",
+  "kind": "product",
+  "title": "dayrally pod, standard",
+  "type": "dayrally",
+  "material": "PLA Matte, two colours",
+  "size": "128 × 72 × 45 mm with lid",
+  "priceNzd": 34,
+  "shipG": 138,
+  "parts": [
+   {
+    "id": "dr2-pod-standard",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   },
+   {
+    "id": "dr2-lid-standard-plain",
+    "qty": 1
+   },
+   {
+    "id": "dr2-insert-standard-everyday",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-pod-tall",
+  "kind": "product",
+  "title": "dayrally pod, tall",
+  "type": "dayrally",
+  "material": "PLA Matte, two colours",
+  "size": "128 × 72 × 69 mm with lid",
+  "priceNzd": 42,
+  "shipG": 174,
+  "parts": [
+   {
+    "id": "dr2-pod-tall",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   },
+   {
+    "id": "dr2-lid-tall-plain",
+    "qty": 1
+   },
+   {
+    "id": "dr2-insert-tall-deep-two",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-pod-long",
+  "kind": "product",
+  "title": "dayrally pod, long",
+  "type": "dayrally",
+  "material": "PLA Matte, two colours",
+  "size": "176 × 72 × 45 mm with lid",
+  "priceNzd": 44,
+  "shipG": 196,
+  "parts": [
+   {
+    "id": "dr2-pod-long",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   },
+   {
+    "id": "dr2-lid-long-plain",
+    "qty": 1
+   },
+   {
+    "id": "dr2-insert-long-everyday",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-strap-clip",
+  "kind": "product",
+  "title": "Strap clip",
+  "type": "dayrally",
+  "material": "PETG",
+  "size": "70 × 36 × 20 mm",
+  "priceNzd": 12,
+  "shipG": 60,
+  "parts": [
+   {
+    "id": "dr2-mount-strap-clip",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-duo-strap",
+  "kind": "product",
+  "title": "Duo strap mount",
+  "type": "dayrally",
+  "material": "PETG",
+  "size": "70 × 32 × 20 mm",
+  "priceNzd": 10,
+  "shipG": 58,
+  "parts": [
+   {
+    "id": "dr2-mount-duo-strap",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-belt-clip",
+  "kind": "product",
+  "title": "Belt clip",
+  "type": "dayrally",
+  "material": "PETG",
+  "size": "70 × 40 × 21 mm",
+  "priceNzd": 12,
+  "shipG": 62,
+  "parts": [
+   {
+    "id": "dr2-mount-belt-clip",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-carabiner-loop",
+  "kind": "product",
+  "title": "Carabiner loop",
+  "type": "dayrally",
+  "material": "PETG",
+  "size": "94 × 34 × 16 mm",
+  "priceNzd": 9,
+  "shipG": 57,
+  "parts": [
+   {
+    "id": "dr2-mount-carabiner-loop",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-home-dock",
+  "kind": "product",
+  "title": "Home dock",
+  "type": "dayrally",
+  "material": "PLA Matte",
+  "size": "150 × 96 × 22 mm",
+  "priceNzd": 18,
+  "shipG": 136,
+  "parts": [
+   {
+    "id": "dr2-mount-home-dock",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-handline-winder",
+  "kind": "product",
+  "title": "Handline winder",
+  "type": "dayrally",
+  "material": "PETG",
+  "size": "128 × 56 × 5 mm",
+  "priceNzd": 9,
+  "shipG": 53,
+  "parts": [
+   {
+    "id": "dr-handline-winder",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-bag-tag",
+  "kind": "product",
+  "title": "Bag tag",
+  "type": "dayrally",
+  "material": "PLA Matte, two colours",
+  "size": "64 × 28 × 4 mm",
+  "priceNzd": 12,
+  "shipG": 45,
+  "parts": [
+   {
+    "id": "dr-bag-tag",
+    "qty": 1
+   },
+   {
+    "id": "dr-bag-tag-name",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-bag-charm",
+  "kind": "product",
+  "title": "Bag charm",
+  "type": "dayrally",
+  "material": "PLA Matte, two colours",
+  "size": "about 40 mm",
+  "priceNzd": 10,
+  "shipG": 43,
+  "parts": [
+   {
+    "id": "dr2-charm-star",
+    "qty": 1
+   },
+   {
+    "id": "dr2-charm-star-inlay",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-zip-pull",
+  "kind": "product",
+  "title": "Zip pulls, pair",
+  "type": "dayrally",
+  "material": "PLA Matte, two colours",
+  "size": "34 × 13 × 3 mm",
+  "priceNzd": 9,
+  "shipG": 43,
+  "parts": [
+   {
+    "id": "dr2-zip-pull",
+    "qty": 2
+   },
+   {
+    "id": "dr2-zip-pull-inlay",
+    "qty": 2
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-phone-stand",
+  "kind": "product",
+  "title": "Phone stand",
+  "type": "dayrally",
+  "material": "PLA Matte",
+  "size": "84 × 70 × 60 mm",
+  "priceNzd": 16,
+  "shipG": 72,
+  "parts": [
+   {
+    "id": "dr2-phone-stand",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-chair-hook",
+  "kind": "product",
+  "title": "Chair hooks, pair",
+  "type": "dayrally",
+  "material": "PETG",
+  "size": "36 × 62 × 14 mm",
+  "priceNzd": 12,
+  "shipG": 52,
+  "parts": [
+   {
+    "id": "dr2-chair-hook",
+    "qty": 2
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-cable-winder",
+  "kind": "product",
+  "title": "Cable winders, pair",
+  "type": "dayrally",
+  "material": "PETG",
+  "size": "64 × 26 × 3 mm",
+  "priceNzd": 8,
+  "shipG": 47,
+  "parts": [
+   {
+    "id": "dr2-cable-winder",
+    "qty": 2
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-bar-saddle",
+  "kind": "product",
+  "title": "Bar saddle",
+  "type": "Bike",
+  "material": "PETG",
+  "size": "70 × 32 × 28 mm",
+  "priceNzd": 14,
+  "shipG": 60,
+  "parts": [
+   {
+    "id": "dr2-mount-bar-saddle",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-frame-saddle",
+  "kind": "product",
+  "title": "Frame saddle",
+  "type": "Bike",
+  "material": "PETG",
+  "size": "80 × 34 × 32 mm",
+  "priceNzd": 16,
+  "shipG": 66,
+  "parts": [
+   {
+    "id": "dr2-mount-frame-saddle",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-number-plate",
+  "kind": "product",
+  "title": "Number plate",
+  "type": "Bike",
+  "material": "PETG, two colours",
+  "size": "170 × 124 × 4 mm",
+  "priceNzd": 24,
+  "shipG": 99,
+  "parts": [
+   {
+    "id": "bike-number-plate",
+    "qty": 1
+   },
+   {
+    "id": "bike-number-plate-text",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-spoke-beads",
+  "kind": "product",
+  "title": "Spoke beads, 12",
+  "type": "Bike",
+  "material": "PETG",
+  "size": "Ø12 × 16 mm each",
+  "priceNzd": 12,
+  "shipG": 56,
+  "parts": [
+   {
+    "id": "dr2-spoke-bead",
+    "qty": 12
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-tyre-lever",
+  "kind": "product",
+  "title": "Tyre levers, pair",
+  "type": "Bike",
+  "material": "PETG",
+  "size": "112 × 18 mm",
+  "priceNzd": 12,
+  "shipG": 57,
+  "parts": [
+   {
+    "id": "bike-tyre-lever",
+    "qty": 2
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-bar-end",
+  "kind": "product",
+  "title": "Bar-end plugs, pair",
+  "type": "Bike",
+  "material": "PETG",
+  "size": "Ø24 × 20 mm",
+  "priceNzd": 12,
+  "shipG": 47,
+  "parts": [
+   {
+    "id": "bike-bar-end",
+    "qty": 2
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-board-renter",
+  "kind": "product",
+  "title": "Renter board 4×4",
+  "type": "Renter",
+  "material": "PLA Matte",
+  "size": "168 × 168 × 8 mm",
+  "priceNzd": 39,
+  "shipG": 136,
+  "parts": [
+   {
+    "id": "renter-board-4x4",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-over-door",
+  "kind": "product",
+  "title": "Over-door hangers, pair",
+  "type": "Renter",
+  "material": "PETG",
+  "size": "30 × 46 mm, for doors up to 35 mm",
+  "priceNzd": 16,
+  "shipG": 62,
+  "parts": [
+   {
+    "id": "renter-over-door",
+    "qty": 2
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-rail-hanger",
+  "kind": "product",
+  "title": "Rail hangers, pair",
+  "type": "Renter",
+  "material": "PETG",
+  "size": "30 × 46 mm, rails up to 32 mm",
+  "priceNzd": 16,
+  "shipG": 60,
+  "parts": [
+   {
+    "id": "renter-rail",
+    "qty": 2
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "al-kit-teen-room-starter",
+  "kind": "kit",
+  "title": "Teen room starter",
+  "type": "Room kit",
+  "material": "PLA Matte",
+  "size": "5 products · 7 items",
+  "priceNzd": 168,
+  "shipG": 365,
+  "parts": [
+   {
+    "id": "grid-board-4x4",
+    "qty": 2
+   },
+   {
+    "id": "grid-anchor-washer",
+    "qty": 8
+   },
+   {
+    "id": "grid-shelf-3",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 8
+   },
+   {
+    "id": "grid-cup",
+    "qty": 1
+   },
+   {
+    "id": "grid-hook",
+    "qty": 2
+   },
+   {
+    "id": "grid-name-plate",
+    "qty": 1
+   },
+   {
+    "id": "grid-name-plate-text",
+    "qty": 1
+   }
+  ],
+  "lines": [
+   {
+    "handle": "al-board-4x4",
+    "title": "Grid board 4×4",
+    "qty": 2
+   },
+   {
+    "handle": "al-shelf-3",
+    "title": "Shelf, 3 wide",
+    "qty": 1
+   },
+   {
+    "handle": "al-cup",
+    "title": "Cup",
+    "qty": 1
+   },
+   {
+    "handle": "al-hook",
+    "title": "Hook",
+    "qty": 2
+   },
+   {
+    "handle": "al-name-plate",
+    "title": "Name plate",
+    "qty": 1
+   }
+  ]
+ },
+ {
+  "handle": "al-kit-gear-wall",
+  "kind": "kit",
+  "title": "Gear wall",
+  "type": "Room kit",
+  "material": "PLA Matte · PETG",
+  "size": "5 products · 7 items",
+  "priceNzd": 168,
+  "shipG": 466,
+  "parts": [
+   {
+    "id": "grid-board-4x4",
+    "qty": 2
+   },
+   {
+    "id": "grid-anchor-washer",
+    "qty": 8
+   },
+   {
+    "id": "grid-lure-garage",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 9
+   },
+   {
+    "id": "grid-rod-cradle",
+    "qty": 2
+   },
+   {
+    "id": "grid-hook",
+    "qty": 2
+   },
+   {
+    "id": "grid-bin-2",
+    "qty": 1
+   }
+  ],
+  "lines": [
+   {
+    "handle": "al-board-4x4",
+    "title": "Grid board 4×4",
+    "qty": 2
+   },
+   {
+    "handle": "al-lure-garage",
+    "title": "Lure garage",
+    "qty": 1
+   },
+   {
+    "handle": "al-rod-cradle",
+    "title": "Rod cradles, pair",
+    "qty": 1
+   },
+   {
+    "handle": "al-hook",
+    "title": "Hook",
+    "qty": 2
+   },
+   {
+    "handle": "al-bin-2",
+    "title": "Bin, 2 wide",
+    "qty": 1
+   }
+  ]
+ },
+ {
+  "handle": "al-kit-vanity-lab",
+  "kind": "kit",
+  "title": "Vanity lab",
+  "type": "Room kit",
+  "material": "PLA Matte",
+  "size": "5 products · 7 items",
+  "priceNzd": 149,
+  "shipG": 356,
+  "parts": [
+   {
+    "id": "grid-board-4x4",
+    "qty": 1
+   },
+   {
+    "id": "grid-anchor-washer",
+    "qty": 6
+   },
+   {
+    "id": "grid-board-2x4",
+    "qty": 1
+   },
+   {
+    "id": "grid-cup",
+    "qty": 3
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 7
+   },
+   {
+    "id": "grid-shelf-2",
+    "qty": 1
+   },
+   {
+    "id": "grid-bin-2",
+    "qty": 1
+   }
+  ],
+  "lines": [
+   {
+    "handle": "al-board-4x4",
+    "title": "Grid board 4×4",
+    "qty": 1
+   },
+   {
+    "handle": "al-board-2x4",
+    "title": "Grid board 2×4",
+    "qty": 1
+   },
+   {
+    "handle": "al-cup",
+    "title": "Cup",
+    "qty": 3
+   },
+   {
+    "handle": "al-shelf-2",
+    "title": "Shelf, 2 wide",
+    "qty": 1
+   },
+   {
+    "handle": "al-bin-2",
+    "title": "Bin, 2 wide",
+    "qty": 1
+   }
+  ]
+ },
+ {
+  "handle": "al-kit-desk-reset",
+  "kind": "kit",
+  "title": "Desk reset",
+  "type": "Room kit",
+  "material": "PLA Matte",
+  "size": "5 products · 6 items",
+  "priceNzd": 119,
+  "shipG": 288,
+  "parts": [
+   {
+    "id": "grid-board-4x4",
+    "qty": 1
+   },
+   {
+    "id": "grid-anchor-washer",
+    "qty": 4
+   },
+   {
+    "id": "grid-shelf-2",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 7
+   },
+   {
+    "id": "grid-cup",
+    "qty": 2
+   },
+   {
+    "id": "grid-bin-2",
+    "qty": 1
+   },
+   {
+    "id": "grid-hook",
+    "qty": 1
+   }
+  ],
+  "lines": [
+   {
+    "handle": "al-board-4x4",
+    "title": "Grid board 4×4",
+    "qty": 1
+   },
+   {
+    "handle": "al-shelf-2",
+    "title": "Shelf, 2 wide",
+    "qty": 1
+   },
+   {
+    "handle": "al-cup",
+    "title": "Cup",
+    "qty": 2
+   },
+   {
+    "handle": "al-bin-2",
+    "title": "Bin, 2 wide",
+    "qty": 1
+   },
+   {
+    "handle": "al-hook",
+    "title": "Hook",
+    "qty": 1
+   }
+  ]
+ },
+ {
+  "handle": "al-kit-workshop-wall",
+  "kind": "kit",
+  "title": "Workshop wall",
+  "type": "Room kit",
+  "material": "PLA Matte",
+  "size": "4 products · 10 items",
+  "priceNzd": 182,
+  "shipG": 425,
+  "parts": [
+   {
+    "id": "grid-board-4x4",
+    "qty": 2
+   },
+   {
+    "id": "grid-anchor-washer",
+    "qty": 8
+   },
+   {
+    "id": "grid-hook",
+    "qty": 4
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 10
+   },
+   {
+    "id": "grid-bin-2",
+    "qty": 2
+   },
+   {
+    "id": "grid-cup",
+    "qty": 2
+   }
+  ],
+  "lines": [
+   {
+    "handle": "al-board-4x4",
+    "title": "Grid board 4×4",
+    "qty": 2
+   },
+   {
+    "handle": "al-hook",
+    "title": "Hook",
+    "qty": 4
+   },
+   {
+    "handle": "al-bin-2",
+    "title": "Bin, 2 wide",
+    "qty": 2
+   },
+   {
+    "handle": "al-cup",
+    "title": "Cup",
+    "qty": 2
+   }
+  ]
+ },
+ {
+  "handle": "al-kit-entry-and-pets",
+  "kind": "kit",
+  "title": "Entry and pets",
+  "type": "Room kit",
+  "material": "PLA Matte",
+  "size": "4 products · 6 items",
+  "priceNzd": 114,
+  "shipG": 235,
+  "parts": [
+   {
+    "id": "grid-board-4x4",
+    "qty": 1
+   },
+   {
+    "id": "grid-anchor-washer",
+    "qty": 4
+   },
+   {
+    "id": "grid-hook",
+    "qty": 3
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 7
+   },
+   {
+    "id": "grid-bin-2",
+    "qty": 1
+   },
+   {
+    "id": "grid-name-plate",
+    "qty": 1
+   },
+   {
+    "id": "grid-name-plate-text",
+    "qty": 1
+   }
+  ],
+  "lines": [
+   {
+    "handle": "al-board-4x4",
+    "title": "Grid board 4×4",
+    "qty": 1
+   },
+   {
+    "handle": "al-hook",
+    "title": "Hook",
+    "qty": 3
+   },
+   {
+    "handle": "al-bin-2",
+    "title": "Bin, 2 wide",
+    "qty": 1
+   },
+   {
+    "handle": "al-name-plate",
+    "title": "Name plate",
+    "qty": 1
+   }
+  ]
+ },
+ {
+  "handle": "al-kit-no-drill-door-wall",
+  "kind": "kit",
+  "title": "No-drill door wall",
+  "type": "Room kit",
+  "material": "PLA Matte · PETG",
+  "size": "4 products · 6 items",
+  "priceNzd": 97,
+  "shipG": 227,
+  "parts": [
+   {
+    "id": "grid-board-4x4",
+    "qty": 1
+   },
+   {
+    "id": "grid-anchor-washer",
+    "qty": 4
+   },
+   {
+    "id": "renter-over-door",
+    "qty": 2
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 6
+   },
+   {
+    "id": "grid-hook",
+    "qty": 3
+   },
+   {
+    "id": "grid-cup",
+    "qty": 1
+   }
+  ],
+  "lines": [
+   {
+    "handle": "al-board-4x4",
+    "title": "Grid board 4×4",
+    "qty": 1
+   },
+   {
+    "handle": "al-over-door",
+    "title": "Over-door hangers, pair",
+    "qty": 1
+   },
+   {
+    "handle": "al-hook",
+    "title": "Hook",
+    "qty": 3
+   },
+   {
+    "handle": "al-cup",
+    "title": "Cup",
+    "qty": 1
+   }
+  ]
+ },
+ {
+  "handle": "al-kit-dayrally-ride-kit",
+  "kind": "kit",
+  "title": "dayrally Ride kit",
+  "type": "dayrally kits",
+  "material": "PLA Matte · PETG",
+  "size": "4 products · 4 items",
+  "priceNzd": 76,
+  "shipG": 233,
+  "parts": [
+   {
+    "id": "dr2-pod-standard",
+    "qty": 1
+   },
+   {
+    "id": "dr2-lid-standard-plain",
+    "qty": 1
+   },
+   {
+    "id": "dr2-insert-standard-everyday",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   },
+   {
+    "id": "dr2-mount-bar-saddle",
+    "qty": 1
+   },
+   {
+    "id": "bike-number-plate",
+    "qty": 1
+   },
+   {
+    "id": "bike-number-plate-text",
+    "qty": 1
+   },
+   {
+    "id": "bike-tyre-lever",
+    "qty": 2
+   }
+  ],
+  "lines": [
+   {
+    "handle": "al-pod-standard",
+    "title": "dayrally pod, standard",
+    "qty": 1
+   },
+   {
+    "handle": "al-bar-saddle",
+    "title": "Bar saddle",
+    "qty": 1
+   },
+   {
+    "handle": "al-number-plate",
+    "title": "Number plate",
+    "qty": 1
+   },
+   {
+    "handle": "al-tyre-lever",
+    "title": "Tyre levers, pair",
+    "qty": 1
+   }
+  ]
+ },
+ {
+  "handle": "al-kit-dayrally-scoot-kit",
+  "kind": "kit",
+  "title": "dayrally Scoot kit",
+  "type": "dayrally kits",
+  "material": "PLA Matte · PETG",
+  "size": "3 products · 3 items",
+  "priceNzd": 47,
+  "shipG": 128,
+  "parts": [
+   {
+    "id": "dr2-pod-mini",
+    "qty": 1
+   },
+   {
+    "id": "dr2-lid-mini-plain",
+    "qty": 1
+   },
+   {
+    "id": "dr2-insert-mini-split",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   },
+   {
+    "id": "dr2-mount-frame-saddle",
+    "qty": 1
+   },
+   {
+    "id": "dr2-charm-star",
+    "qty": 1
+   },
+   {
+    "id": "dr2-charm-star-inlay",
+    "qty": 1
+   }
+  ],
+  "lines": [
+   {
+    "handle": "al-pod-mini",
+    "title": "dayrally pod, mini",
+    "qty": 1
+   },
+   {
+    "handle": "al-frame-saddle",
+    "title": "Frame saddle",
+    "qty": 1
+   },
+   {
+    "handle": "al-bag-charm",
+    "title": "Bag charm",
+    "qty": 1
+   }
+  ]
+ },
+ {
+  "handle": "al-kit-dayrally-fish-kit",
+  "kind": "kit",
+  "title": "dayrally Fish kit",
+  "type": "dayrally kits",
+  "material": "PLA Matte · PETG",
+  "size": "3 products · 3 items",
+  "priceNzd": 49,
+  "shipG": 171,
+  "parts": [
+   {
+    "id": "dr2-pod-standard",
+    "qty": 1
+   },
+   {
+    "id": "dr2-lid-standard-plain",
+    "qty": 1
+   },
+   {
+    "id": "dr2-insert-standard-everyday",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   },
+   {
+    "id": "dr2-mount-strap-clip",
+    "qty": 1
+   },
+   {
+    "id": "dr-handline-winder",
+    "qty": 1
+   }
+  ],
+  "lines": [
+   {
+    "handle": "al-pod-standard",
+    "title": "dayrally pod, standard",
+    "qty": 1
+   },
+   {
+    "handle": "al-strap-clip",
+    "title": "Strap clip",
+    "qty": 1
+   },
+   {
+    "handle": "al-handline-winder",
+    "title": "Handline winder",
+    "qty": 1
+   }
+  ]
+ },
+ {
+  "handle": "al-kit-dayrally-beach-kit",
+  "kind": "kit",
+  "title": "dayrally Beach kit",
+  "type": "dayrally kits",
+  "material": "PLA Matte · PETG",
+  "size": "4 products · 4 items",
+  "priceNzd": 59,
+  "shipG": 170,
+  "parts": [
+   {
+    "id": "dr2-pod-standard",
+    "qty": 1
+   },
+   {
+    "id": "dr2-lid-standard-plain",
+    "qty": 1
+   },
+   {
+    "id": "dr2-insert-standard-everyday",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   },
+   {
+    "id": "dr2-mount-duo-strap",
+    "qty": 1
+   },
+   {
+    "id": "dr2-chair-hook",
+    "qty": 2
+   },
+   {
+    "id": "dr2-charm-star",
+    "qty": 1
+   },
+   {
+    "id": "dr2-charm-star-inlay",
+    "qty": 1
+   }
+  ],
+  "lines": [
+   {
+    "handle": "al-pod-standard",
+    "title": "dayrally pod, standard",
+    "qty": 1
+   },
+   {
+    "handle": "al-duo-strap",
+    "title": "Duo strap mount",
+    "qty": 1
+   },
+   {
+    "handle": "al-chair-hook",
+    "title": "Chair hooks, pair",
+    "qty": 1
+   },
+   {
+    "handle": "al-bag-charm",
+    "title": "Bag charm",
+    "qty": 1
+   }
+  ]
+ },
+ {
+  "handle": "al-kit-dayrally-selfie-kit",
+  "kind": "kit",
+  "title": "dayrally Selfie kit",
+  "type": "dayrally kits",
+  "material": "PLA Matte · PETG",
+  "size": "4 products · 4 items",
+  "priceNzd": 55,
+  "shipG": 151,
+  "parts": [
+   {
+    "id": "dr2-pod-mini",
+    "qty": 1
+   },
+   {
+    "id": "dr2-lid-mini-plain",
+    "qty": 1
+   },
+   {
+    "id": "dr2-insert-mini-split",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   },
+   {
+    "id": "dr2-mount-carabiner-loop",
+    "qty": 1
+   },
+   {
+    "id": "dr2-phone-stand",
+    "qty": 1
+   },
+   {
+    "id": "dr2-charm-star",
+    "qty": 1
+   },
+   {
+    "id": "dr2-charm-star-inlay",
+    "qty": 1
+   }
+  ],
+  "lines": [
+   {
+    "handle": "al-pod-mini",
+    "title": "dayrally pod, mini",
+    "qty": 1
+   },
+   {
+    "handle": "al-carabiner-loop",
+    "title": "Carabiner loop",
+    "qty": 1
+   },
+   {
+    "handle": "al-phone-stand",
+    "title": "Phone stand",
+    "qty": 1
+   },
+   {
+    "handle": "al-bag-charm",
+    "title": "Bag charm",
+    "qty": 1
+   }
+  ]
+ },
+ {
+  "handle": "al-kit-dayrally-school-kit",
+  "kind": "kit",
+  "title": "dayrally School kit",
+  "type": "dayrally kits",
+  "material": "PLA Matte · PETG",
+  "size": "4 products · 4 items",
+  "priceNzd": 67,
+  "shipG": 222,
+  "parts": [
+   {
+    "id": "dr2-pod-long",
+    "qty": 1
+   },
+   {
+    "id": "dr2-lid-long-plain",
+    "qty": 1
+   },
+   {
+    "id": "dr2-insert-long-everyday",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   },
+   {
+    "id": "dr2-mount-duo-strap",
+    "qty": 1
+   },
+   {
+    "id": "dr2-zip-pull",
+    "qty": 2
+   },
+   {
+    "id": "dr2-zip-pull-inlay",
+    "qty": 2
+   },
+   {
+    "id": "dr-bag-tag",
+    "qty": 1
+   },
+   {
+    "id": "dr-bag-tag-name",
+    "qty": 1
+   }
+  ],
+  "lines": [
+   {
+    "handle": "al-pod-long",
+    "title": "dayrally pod, long",
+    "qty": 1
+   },
+   {
+    "handle": "al-duo-strap",
+    "title": "Duo strap mount",
+    "qty": 1
+   },
+   {
+    "handle": "al-zip-pull",
+    "title": "Zip pulls, pair",
+    "qty": 1
+   },
+   {
+    "handle": "al-bag-tag",
+    "title": "Bag tag",
+    "qty": 1
+   }
+  ]
+ },
+ {
+  "handle": "al-kit-dayrally-tech-kit",
+  "kind": "kit",
+  "title": "dayrally Tech kit",
+  "type": "dayrally kits",
+  "material": "PLA Matte · PETG",
+  "size": "3 products · 3 items",
+  "priceNzd": 46,
+  "shipG": 161,
+  "parts": [
+   {
+    "id": "dr2-pod-standard",
+    "qty": 1
+   },
+   {
+    "id": "dr2-lid-standard-plain",
+    "qty": 1
+   },
+   {
+    "id": "dr2-insert-standard-everyday",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   },
+   {
+    "id": "dr2-mount-carabiner-loop",
+    "qty": 1
+   },
+   {
+    "id": "dr2-cable-winder",
+    "qty": 2
+   }
+  ],
+  "lines": [
+   {
+    "handle": "al-pod-standard",
+    "title": "dayrally pod, standard",
+    "qty": 1
+   },
+   {
+    "handle": "al-carabiner-loop",
+    "title": "Carabiner loop",
+    "qty": 1
+   },
+   {
+    "handle": "al-cable-winder",
+    "title": "Cable winders, pair",
+    "qty": 1
+   }
+  ]
+ },
+ {
+  "handle": "al-kit-dayrally-everyday-kit",
+  "kind": "kit",
+  "title": "dayrally Everyday kit",
+  "type": "dayrally kits",
+  "material": "PLA Matte · PETG",
+  "size": "3 products · 3 items",
+  "priceNzd": 52,
+  "shipG": 163,
+  "parts": [
+   {
+    "id": "dr2-pod-standard",
+    "qty": 1
+   },
+   {
+    "id": "dr2-lid-standard-plain",
+    "qty": 1
+   },
+   {
+    "id": "dr2-insert-standard-everyday",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   },
+   {
+    "id": "dr2-mount-strap-clip",
+    "qty": 1
+   },
+   {
+    "id": "dr-bag-tag",
+    "qty": 1
+   },
+   {
+    "id": "dr-bag-tag-name",
+    "qty": 1
+   }
+  ],
+  "lines": [
+   {
+    "handle": "al-pod-standard",
+    "title": "dayrally pod, standard",
+    "qty": 1
+   },
+   {
+    "handle": "al-strap-clip",
+    "title": "Strap clip",
+    "qty": 1
+   },
+   {
+    "handle": "al-bag-tag",
+    "title": "Bag tag",
+    "qty": 1
+   }
+  ]
+ },
+ {
+  "handle": "al-kit-dayrally-camp-kit",
+  "kind": "kit",
+  "title": "dayrally Camp kit",
+  "type": "dayrally kits",
+  "material": "PLA Matte · PETG",
+  "size": "4 products · 4 items",
+  "priceNzd": 67,
+  "shipG": 221,
+  "parts": [
+   {
+    "id": "dr2-pod-tall",
+    "qty": 1
+   },
+   {
+    "id": "dr2-lid-tall-plain",
+    "qty": 1
+   },
+   {
+    "id": "dr2-insert-tall-deep-two",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   },
+   {
+    "id": "dr2-mount-belt-clip",
+    "qty": 1
+   },
+   {
+    "id": "dr2-chair-hook",
+    "qty": 2
+   },
+   {
+    "id": "dr-handline-winder",
+    "qty": 1
+   }
+  ],
+  "lines": [
+   {
+    "handle": "al-pod-tall",
+    "title": "dayrally pod, tall",
+    "qty": 1
+   },
+   {
+    "handle": "al-belt-clip",
+    "title": "Belt clip",
+    "qty": 1
+   },
+   {
+    "handle": "al-chair-hook",
+    "title": "Chair hooks, pair",
+    "qty": 1
+   },
+   {
+    "handle": "al-handline-winder",
+    "title": "Handline winder",
+    "qty": 1
+   }
+  ]
+ },
+ {
+  "handle": "al-kit-dayrally-desk-kit",
+  "kind": "kit",
+  "title": "dayrally Desk kit",
+  "type": "dayrally kits",
+  "material": "PLA Matte · PETG",
+  "size": "3 products · 3 items",
+  "priceNzd": 61,
+  "shipG": 276,
+  "parts": [
+   {
+    "id": "dr2-pod-tall",
+    "qty": 1
+   },
+   {
+    "id": "dr2-lid-tall-plain",
+    "qty": 1
+   },
+   {
+    "id": "dr2-insert-tall-deep-two",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   },
+   {
+    "id": "dr2-mount-home-dock",
+    "qty": 1
+   },
+   {
+    "id": "dr2-cable-winder",
+    "qty": 2
+   }
+  ],
+  "lines": [
+   {
+    "handle": "al-pod-tall",
+    "title": "dayrally pod, tall",
+    "qty": 1
+   },
+   {
+    "handle": "al-home-dock",
+    "title": "Home dock",
+    "qty": 1
+   },
+   {
+    "handle": "al-cable-winder",
+    "title": "Cable winders, pair",
+    "qty": 1
+   }
+  ]
+ },
+ {
+  "handle": "lab-dayrally-cam",
+  "kind": "prototype",
+  "title": "dayrally cam",
+  "type": "dayrally lab",
+  "material": "PLA Matte · PETG",
+  "size": "130 × 80 × 81 mm",
+  "priceNzd": null,
+  "shipG": 384,
+  "parts": [
+   {
+    "id": "cam-body",
+    "qty": 1
+   },
+   {
+    "id": "cam-back",
+    "qty": 1
+   },
+   {
+    "id": "cam-window-cover",
+    "qty": 1
+   },
+   {
+    "id": "cam-winder-knob",
+    "qty": 1
+   },
+   {
+    "id": "cam-supply-pin",
+    "qty": 1
+   },
+   {
+    "id": "cam-shutter-disc",
+    "qty": 1
+   },
+   {
+    "id": "cam-cradle",
+    "qty": 1
+   },
+   {
+    "id": "cam-skin-dots",
+    "qty": 1
+   },
+   {
+    "id": "cam-skin-dots-pattern",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-dayrally-rod",
+  "kind": "prototype",
+  "title": "dayrally rod",
+  "type": "dayrally lab",
+  "material": "PETG · PETG-CF or PA-CF",
+  "size": "993 mm assembled · 233 × 32 mm packed",
+  "priceNzd": null,
+  "shipG": 200,
+  "parts": [
+   {
+    "id": "rod-grip",
+    "qty": 1
+   },
+   {
+    "id": "rod-collar",
+    "qty": 1
+   },
+   {
+    "id": "rod-butt-cap",
+    "qty": 1
+   },
+   {
+    "id": "rod-section-1",
+    "qty": 1
+   },
+   {
+    "id": "rod-section-2",
+    "qty": 1
+   },
+   {
+    "id": "rod-section-3",
+    "qty": 1
+   },
+   {
+    "id": "rod-tip",
+    "qty": 1
+   },
+   {
+    "id": "rod-saddle",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-dayrally-cast",
+  "kind": "prototype",
+  "title": "dayrally cast",
+  "type": "dayrally lab",
+  "material": "ASA or PETG-CF · PPA-CF (PA12-CF second)",
+  "size": "0.91 m assembled · 253 × 36 mm packed",
+  "priceNzd": null,
+  "shipG": 217,
+  "parts": [
+   {
+    "id": "cast-grip",
+    "qty": 1
+   },
+   {
+    "id": "cast-hood",
+    "qty": 1
+   },
+   {
+    "id": "cast-nut",
+    "qty": 1
+   },
+   {
+    "id": "cast-collar",
+    "qty": 1
+   },
+   {
+    "id": "cast-butt-cap",
+    "qty": 1
+   },
+   {
+    "id": "cast-section-1",
+    "qty": 1
+   },
+   {
+    "id": "cast-section-2",
+    "qty": 1
+   },
+   {
+    "id": "cast-section-3",
+    "qty": 1
+   },
+   {
+    "id": "cast-pin-1",
+    "qty": 1
+   },
+   {
+    "id": "cast-pin-2",
+    "qty": 1
+   },
+   {
+    "id": "cast-tip-top",
+    "qty": 1
+   },
+   {
+    "id": "cast-guide-1",
+    "qty": 1
+   },
+   {
+    "id": "cast-guide-2",
+    "qty": 1
+   },
+   {
+    "id": "cast-guide-3",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-wharf-reel",
+  "kind": "prototype",
+  "title": "Wharf reel",
+  "type": "dayrally lab",
+  "material": "PETG",
+  "size": "Ø100 × 28 mm",
+  "priceNzd": null,
+  "shipG": 104,
+  "parts": [
+   {
+    "id": "rod-wharf-reel",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-dayrally-ride",
+  "kind": "prototype",
+  "title": "dayrally ride pod",
+  "type": "dayrally lab",
+  "material": "PETG · PLA Matte · PETG (or a 3 mm steel rod) · TPU 95A",
+  "size": "128 × 84 × 54 mm",
+  "priceNzd": null,
+  "shipG": 238,
+  "parts": [
+   {
+    "id": "ride-pod-base",
+    "qty": 1
+   },
+   {
+    "id": "ride-pod-lid",
+    "qty": 1
+   },
+   {
+    "id": "ride-pod-lid-pattern",
+    "qty": 1
+   },
+   {
+    "id": "ride-latch",
+    "qty": 1
+   },
+   {
+    "id": "ride-hinge-pin",
+    "qty": 2
+   },
+   {
+    "id": "ride-gasket",
+    "qty": 1
+   },
+   {
+    "id": "ride-core-split",
+    "qty": 1
+   },
+   {
+    "id": "ride-slate-dayrally",
+    "qty": 1
+   },
+   {
+    "id": "ride-slate-dayrally-pattern",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-ride-grips",
+  "kind": "prototype",
+  "title": "dayrally grips",
+  "type": "dayrally lab",
+  "material": "TPU 95A",
+  "size": "130 × Ø30 mm · 22.2 mm bars",
+  "priceNzd": null,
+  "shipG": 79,
+  "parts": [
+   {
+    "id": "ride-grip-waves",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-bar-ends",
+  "kind": "prototype",
+  "title": "dayrally bar ends · plain or named",
+  "type": "dayrally lab",
+  "material": "PETG",
+  "size": "Ø24 cap · 18-20 mm bar ends",
+  "priceNzd": null,
+  "shipG": 44,
+  "parts": [
+   {
+    "id": "ride-bar-end-plain",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-ride-watch",
+  "kind": "prototype",
+  "title": "dayrally watch cradle",
+  "type": "dayrally lab",
+  "material": "PETG",
+  "size": "70 × 58 × 28 mm",
+  "priceNzd": null,
+  "shipG": 77,
+  "parts": [
+   {
+    "id": "ride-watch-46",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-ride-phone",
+  "kind": "prototype",
+  "title": "dayrally phone mount",
+  "type": "dayrally lab",
+  "material": "PETG",
+  "size": "184 × 98 × 39 mm",
+  "priceNzd": null,
+  "shipG": 133,
+  "parts": [
+   {
+    "id": "ride-phone-plate",
+    "qty": 1
+   },
+   {
+    "id": "ride-phone-slider",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-ride-bottle",
+  "kind": "prototype",
+  "title": "dayrally bottle cup",
+  "type": "dayrally lab",
+  "material": "PETG",
+  "size": "81 × 92 × 105 mm",
+  "priceNzd": null,
+  "shipG": 146,
+  "parts": [
+   {
+    "id": "ride-bottle-cup",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-turn-mini",
+  "kind": "prototype",
+  "title": "TURN mini · components library",
+  "type": "dayrally lab",
+  "material": "PETG",
+  "size": "26 mm cubes · 7.8 mm keyway",
+  "priceNzd": null,
+  "shipG": 100,
+  "parts": [
+   {
+    "id": "mini-universal-key",
+    "qty": 3
+   },
+   {
+    "id": "mini-cube",
+    "qty": 2
+   },
+   {
+    "id": "mini-angle-joint",
+    "qty": 1
+   },
+   {
+    "id": "mini-flat-mount",
+    "qty": 1
+   },
+   {
+    "id": "mini-tube-clamp",
+    "qty": 1
+   },
+   {
+    "id": "mini-end-cap",
+    "qty": 2
+   },
+   {
+    "id": "mini-adapter",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-mini-ride",
+  "kind": "prototype",
+  "title": "ride kit · mini mounts",
+  "type": "dayrally lab",
+  "material": "PETG",
+  "size": "cam mount 26 × 26 × 43 mm",
+  "priceNzd": null,
+  "shipG": 167,
+  "parts": [
+   {
+    "id": "mini-cam-mount",
+    "qty": 1
+   },
+   {
+    "id": "mini-helmet-base",
+    "qty": 1
+   },
+   {
+    "id": "mini-light-mount",
+    "qty": 1
+   },
+   {
+    "id": "mini-phone-holder",
+    "qty": 1
+   },
+   {
+    "id": "mini-battery-dock",
+    "qty": 1
+   },
+   {
+    "id": "mini-tube-clamp",
+    "qty": 2
+   },
+   {
+    "id": "mini-bar-end",
+    "qty": 2
+   },
+   {
+    "id": "mini-universal-key",
+    "qty": 4
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-mini-explore",
+  "kind": "prototype",
+  "title": "explore kit · mini",
+  "type": "dayrally lab",
+  "material": "PETG",
+  "size": "photo tag 52 × 48 × 7 mm",
+  "priceNzd": null,
+  "shipG": 105,
+  "parts": [
+   {
+    "id": "mini-photo-tag",
+    "qty": 1
+   },
+   {
+    "id": "mini-device-holder",
+    "qty": 1
+   },
+   {
+    "id": "mini-pole-clamp",
+    "qty": 1
+   },
+   {
+    "id": "mini-lantern-hook",
+    "qty": 1
+   },
+   {
+    "id": "mini-collar-mount",
+    "qty": 1
+   },
+   {
+    "id": "mini-bone-tag-name",
+    "qty": 1
+   },
+   {
+    "id": "mini-bone-tag-name-pattern",
+    "qty": 1
+   },
+   {
+    "id": "mini-universal-key",
+    "qty": 3
+   },
+   {
+    "id": "mini-end-cap",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-ride-rack",
+  "kind": "prototype",
+  "title": "dayrally on the bike · rack set",
+  "type": "dayrally lab",
+  "material": "PETG",
+  "size": "rack mount 150 × 100 mm · quiver 91 × 49 × 130 mm",
+  "priceNzd": null,
+  "shipG": 308,
+  "parts": [
+   {
+    "id": "rack-mount",
+    "qty": 1
+   },
+   {
+    "id": "rack-quiver",
+    "qty": 1
+   },
+   {
+    "id": "rack-toptube-saddle",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-ride-stand",
+  "kind": "prototype",
+  "title": "dayrally crank stand",
+  "type": "dayrally lab",
+  "material": "PETG",
+  "size": "110 × 70 × 120 mm",
+  "priceNzd": null,
+  "shipG": 208,
+  "parts": [
+   {
+    "id": "ride-stand",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-scoot-fish",
+  "kind": "prototype",
+  "title": "dayrally on the scooter · stem saddle and rod quiver",
+  "type": "dayrally lab",
+  "material": "PETG",
+  "size": "stem saddle 96 × 72 × 42 mm · quiver Ø45 × 150 mm",
+  "priceNzd": null,
+  "shipG": 216,
+  "parts": [
+   {
+    "id": "scoot-stem-saddle",
+    "qty": 1
+   },
+   {
+    "id": "scoot-quiver",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-fish-ruler",
+  "kind": "prototype",
+  "title": "dayrally fish ruler · the long pod, 35 cm end to end",
+  "type": "dayrally lab",
+  "material": "PLA Matte · PETG",
+  "size": "176 × 72 × 45 mm · 35.2 cm open",
+  "priceNzd": null,
+  "shipG": 242,
+  "parts": [
+   {
+    "id": "ruler-pod-long-fish",
+    "qty": 1
+   },
+   {
+    "id": "dr2-lid-long-ruler",
+    "qty": 1
+   },
+   {
+    "id": "dr2-lid-long-ruler-inlay",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   },
+   {
+    "id": "dr2-insert-long-pens",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-ruler-15",
+  "kind": "prototype",
+  "title": "dayrally ruler · 15 cm, lives in the pencil pod",
+  "type": "dayrally lab",
+  "material": "PLA Matte",
+  "size": "150 × 10 × 2 mm",
+  "priceNzd": null,
+  "shipG": 45,
+  "parts": [
+   {
+    "id": "ruler-150",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ }
+]
