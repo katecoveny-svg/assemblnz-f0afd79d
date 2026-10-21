@@ -198,23 +198,24 @@ a.lv-door:hover .lv-door-art img { transform: scale(1.03); }
 @media (max-width: 880px) { .lv-band { grid-template-columns: 1fr; } }
 
 /* ── the storefront, in the dayrally look ─────────────────────
-   Sun field, black type in Fredoka, cream tiles, black pills. Pictures
+   Sun field, deep plum type in Fredoka, cream tiles, plum pills (the
+   assembl deep plum #240B21 is the dayrally dark since 21 October). Pictures
    first, a few words, one fact line in mono. Scoped to .lv-sun so the
    studio keeps the quiet register until it gets the same pass. */
 .lv-sun {
   --ls-sun: #ffd200;
-  --ls-ink: #1a1a1a;
+  --ls-ink: #240b21;
   --ls-cream: #efe6d6;
   --ls-white: #fffdf8;
   --ls-tomato: #e8472b;
   --ls-display: var(--font-dayrally), 'Fredoka', 'Instrument Sans', system-ui, sans-serif;
-  --lv-ink: #1a1a1a;
-  --lv-plum: #1a1a1a;
-  --lv-muted: #5b5650;
+  --lv-ink: #240b21;
+  --lv-plum: #240b21;
+  --lv-muted: #654a4e;
   --lv-chalk: #efe6d6;
   --lv-paper: #fffdf8;
-  --lv-line: rgba(26, 26, 26, 0.12);
-  --lv-line-strong: rgba(26, 26, 26, 0.3);
+  --lv-line: rgba(36, 11, 33, 0.12);
+  --lv-line-strong: rgba(36, 11, 33, 0.3);
   background: var(--ls-white);
   color: var(--ls-ink);
 }
@@ -223,12 +224,12 @@ a.lv-door:hover .lv-door-art img { transform: scale(1.03); }
 .lv-sun h2 { font-size: clamp(2rem, 4.6vw, 3.4rem); line-height: 0.95; }
 .lv-sun h3 { font-size: 1.15rem; letter-spacing: 0; }
 .ls-btn { appearance: none; display: inline-flex; align-items: center; gap: 0.55rem; background: var(--ls-ink); color: #ffffff; border: 1px solid var(--ls-ink); border-radius: 999px; padding: 0.85rem 1.4rem; font: inherit; font-weight: 600; text-decoration: none; cursor: pointer; transition: transform 160ms ease, background 160ms ease; }
-.ls-btn:hover { background: #000000; transform: translateY(-1px); }
-.ls-btn[data-variant='ghost'] { background: transparent; color: var(--ls-ink); border-color: rgba(26, 26, 26, 0.35); }
-.ls-btn[data-variant='ghost']:hover { background: rgba(26, 26, 26, 0.06); }
+.ls-btn:hover { background: #3a1a35; transform: translateY(-1px); }
+.ls-btn[data-variant='ghost'] { background: transparent; color: var(--ls-ink); border-color: rgba(36, 11, 33, 0.35); }
+.ls-btn[data-variant='ghost']:hover { background: rgba(36, 11, 33, 0.06); }
 .ls-btn[data-variant='sun'] { background: var(--ls-sun); color: var(--ls-ink); border-color: var(--ls-sun); }
 .ls-btn[data-variant='small'] { padding: 0.5rem 0.95rem; font-size: 0.88rem; }
-.ls-mono { font-family: var(--font-mono), 'IBM Plex Mono', ui-monospace, monospace; font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(26, 26, 26, 0.72); }
+.ls-mono { font-family: var(--font-mono), 'IBM Plex Mono', ui-monospace, monospace; font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(36, 11, 33, 0.72); }
 .ls-tag { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.3rem 0.65rem; border-radius: 999px; background: rgba(255, 253, 248, 0.65); font-family: var(--font-mono), 'IBM Plex Mono', ui-monospace, monospace; font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ls-ink); }
 .ls-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--ls-tomato); }
 
@@ -272,7 +273,7 @@ a.lv-door:hover .lv-door-art img { transform: scale(1.03); }
 @media (max-width: 960px) { .ls-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 680px) { .ls-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .ls-card { display: grid; gap: 0.55rem; align-content: start; background: var(--ls-white); border: 1px solid var(--lv-line); border-radius: 18px; padding: 0.8rem; color: var(--ls-ink); text-decoration: none; transition: transform 180ms ease, box-shadow 180ms ease; }
-.ls-card:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(26, 26, 26, 0.08); }
+.ls-card:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(36, 11, 33, 0.08); }
 .ls-card-art { position: relative; aspect-ratio: 1 / 1; background: var(--ls-cream); border-radius: 12px; overflow: hidden; }
 .ls-card-art img { object-fit: contain; padding: 8%; }
 .ls-card b { font-family: var(--ls-display); font-weight: 700; font-size: 1.05rem; line-height: 1.1; }
@@ -289,7 +290,7 @@ a.lv-door:hover .lv-door-art img { transform: scale(1.03); }
 .ls-kit span { font-size: 0.85rem; color: var(--lv-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .ls-kit .ls-price { margin-top: 0.3rem; }
 
-/* the black foot: the facts */
+/* the plum foot: the facts */
 .ls-foot { background: var(--ls-ink); color: #ffffff; padding: clamp(1.6rem, 4vw, 2.6rem) 0; margin-top: clamp(1.6rem, 4vw, 3rem); }
 .ls-foot-grid { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem 2rem; }
 .ls-foot .ls-line { font-family: var(--ls-display); font-weight: 700; font-size: clamp(1.4rem, 3vw, 2.2rem); line-height: 1; color: var(--ls-sun); margin: 0; }
