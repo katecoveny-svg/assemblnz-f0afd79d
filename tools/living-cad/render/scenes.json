@@ -8090,5 +8090,257 @@
    -251,
    193
   ]
+ },
+ "tackle-wall": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/grid-board-4x4.stl",
+    "colour": "#F1ECE3",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/tk-pack-case-5.stl",
+    "colour": "#8EC5F2",
+    "x": -50,
+    "y": 20,
+    "z": 8,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/packet-5.stl",
+    "colour": "#F4F2EE",
+    "x": -50,
+    "y": 39,
+    "z": 17.0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/tk-reel-dock.stl",
+    "colour": "#F28C28",
+    "x": 55,
+    "y": 45,
+    "z": 8,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/reel-2500.stl",
+    "colour": "#8A8D92",
+    "x": 55,
+    "y": 5,
+    "z": 13,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/tk-pack-rail.stl",
+    "colour": "#BFD95A",
+    "x": 55,
+    "y": -60,
+    "z": 8,
+    "flip": true,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   300,
+   -380,
+   330
+  ]
+ },
+ "tackle-knob": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/tk-reel-knob.stl",
+    "colour": "#7A3E9D",
+    "x": -20,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/tk-reel-knob-inlay.stl",
+    "colour": "#F5C400",
+    "x": -20,
+    "y": 0,
+    "z": 25.4,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/tk-spool-band.stl",
+    "colour": "#F5C400",
+    "x": 30,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   80,
+   -100,
+   90
+  ]
+ },
+ "tackle-universal": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/render/extra/props/tube-32.stl",
+    "colour": "#2B2B2B",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/tk-universal-saddle.stl",
+    "colour": "#2E4FB5",
+    "x": 0,
+    "y": 0,
+    "z": 38,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/tk-ladder-strap.stl",
+    "colour": "#F5C400",
+    "x": 0,
+    "y": 60,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/tk-strap-buckle.stl",
+    "colour": "#F5C400",
+    "x": 60,
+    "y": -40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-pod-standard.stl",
+    "colour": "#F5C400",
+    "x": 0,
+    "y": 0,
+    "z": 76,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   200,
+   -260,
+   220
+  ]
+ },
+ "pocket-id-charms": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-charm-heart.stl",
+    "colour": "#E8405A",
+    "x": -124,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-charm-heart-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": -124,
+    "y": 0,
+    "z": 3.46,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-charm-star.stl",
+    "colour": "#F5C400",
+    "x": -62,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-charm-star-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": -62,
+    "y": 0,
+    "z": 3.46,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-charm-round.stl",
+    "colour": "#8EC5F2",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-charm-round-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": 0,
+    "y": 0,
+    "z": 3.46,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-charm-bow.stl",
+    "colour": "#7A3E9D",
+    "x": 62,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-charm-bow-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": 62,
+    "y": 0,
+    "z": 3.46,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-charm-tag.stl",
+    "colour": "#5CB85C",
+    "x": 124,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-charm-tag-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": 124,
+    "y": 0,
+    "z": 3.46,
+    "flip": true,
+    "rot": 180
+   }
+  ],
+  "cam": [
+   0,
+   -300,
+   250
+  ]
  }
 }

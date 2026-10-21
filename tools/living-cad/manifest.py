@@ -37,7 +37,7 @@ TS_MANIFEST = REPO / "lib" / "living" / "cad-manifest.json"
 
 # Families whose print files the storefront serves. Dayrally, bike and the pendant
 # shade are rebuilt on demand (the shade alone is 6 MB of mesh).
-SERVED_FAMILIES = {"grid", "tile", "stack", "renter", "camera", "rod", "cast", "ride", "mini", "rack", "scoot", "ruler", "pocket", "bike", "dayrally", "dayrally2", "light"}
+SERVED_FAMILIES = {"grid", "tile", "stack", "renter", "camera", "rod", "cast", "ride", "mini", "rack", "scoot", "ruler", "pocket", "tackle", "bike", "dayrally", "dayrally2", "light"}
 
 COLOURS = {
     "living": [
@@ -133,7 +133,7 @@ def sha(path: Path) -> str:
 def load_parts() -> list[dict]:
     rows: list[dict] = []
     for name, family in (("parts-report", None), ("parts-report-extras", None), ("parts-report-dayrally", "dayrally"), ("parts-report-dayrally2", "dayrally2"),
-                         ("parts-report-cam", "camera"), ("parts-report-rod", "rod"), ("parts-report-cast", "cast"), ("parts-report-ride", "ride"), ("parts-report-mini", "mini"), ("parts-report-bike", "rack"), ("parts-report-scoot", "scoot"), ("parts-report-ruler", "ruler"), ("parts-report-pocket", "pocket")):
+                         ("parts-report-cam", "camera"), ("parts-report-rod", "rod"), ("parts-report-cast", "cast"), ("parts-report-ride", "ride"), ("parts-report-mini", "mini"), ("parts-report-bike", "rack"), ("parts-report-scoot", "scoot"), ("parts-report-ruler", "ruler"), ("parts-report-pocket", "pocket"), ("parts-report-tackle", "tackle")):
         loaded = json.loads((PARTS / f"{name}.json").read_text())
         for r in (loaded["parts"] if isinstance(loaded, dict) else loaded):
             fam = r.get("system") or family
@@ -246,8 +246,8 @@ def main() -> None:
             if m and check_char(m.group(1)) != m.group(2):
                 raise SystemExit(f"check letter mismatch for {s['sku']}")
     kit_report = json.loads((PARTS / "test-kit" / "kit-report.json").read_text())
-    fit = {name: json.loads((PARTS / f"fit-tests{suffix}.json").read_text()) for name, suffix in (("grid", ""), ("renter", "-renter"), ("dayrally", "-dayrally"), ("dayrally2", "-dayrally2"), ("camera", "-cam"), ("rod", "-rod"), ("cast", "-cast"), ("ride", "-ride"), ("mini", "-mini"), ("bike", "-bike"), ("scoot", "-scoot"), ("ruler", "-ruler"), ("pocket", "-pocket"))}
-    lab = {name: json.loads((PARTS / f"parts-report-{suffix}.json").read_text())["spec"] for name, suffix in (("camera", "cam"), ("rod", "rod"), ("cast", "cast"), ("ride", "ride"), ("mini", "mini"), ("bike", "bike"), ("scoot", "scoot"), ("ruler", "ruler"), ("pocket", "pocket"))}
+    fit = {name: json.loads((PARTS / f"fit-tests{suffix}.json").read_text()) for name, suffix in (("grid", ""), ("renter", "-renter"), ("dayrally", "-dayrally"), ("dayrally2", "-dayrally2"), ("camera", "-cam"), ("rod", "-rod"), ("cast", "-cast"), ("ride", "-ride"), ("mini", "-mini"), ("bike", "-bike"), ("scoot", "-scoot"), ("ruler", "-ruler"), ("pocket", "-pocket"), ("tackle", "-tackle"))}
+    lab = {name: json.loads((PARTS / f"parts-report-{suffix}.json").read_text())["spec"] for name, suffix in (("camera", "cam"), ("rod", "rod"), ("cast", "cast"), ("ride", "ride"), ("mini", "mini"), ("bike", "bike"), ("scoot", "scoot"), ("ruler", "ruler"), ("pocket", "pocket"), ("tackle", "tackle"))}
     manifest = {
         "pack": PACK,
         "interface": INTERFACE,

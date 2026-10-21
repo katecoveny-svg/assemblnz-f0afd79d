@@ -557,6 +557,196 @@
       "notes": "Press-fit into the pen's bore; charm loop."
     },
     {
+      "slug": "pk-id-charm-tag",
+      "name": "ID charm, tag (sample code)",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        57.0,
+        43.0,
+        4.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 9.32,
+      "est_grams_pla": 7.7,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 327.0,
+      "notes": "A styled code (round modules, rounded finders, the key in the middle, level H) in a charm; the real code is made per order. Prints code-side down."
+    },
+    {
+      "slug": "pk-id-charm-tag-inlay",
+      "name": "ID charm inlay, tag",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        29.0,
+        29.0,
+        0.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.2,
+      "est_grams_pla": 0.2,
+      "watertight": true,
+      "genus": -347,
+      "bodies": 352,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": ""
+    },
+    {
+      "slug": "pk-id-charm-round",
+      "name": "ID charm, round (sample code)",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        47.0,
+        47.4,
+        4.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 6.68,
+      "est_grams_pla": 5.8,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 327.0,
+      "notes": "A styled code (round modules, rounded finders, the key in the middle, level H) in a charm; the real code is made per order. Prints code-side down."
+    },
+    {
+      "slug": "pk-id-charm-round-inlay",
+      "name": "ID charm inlay, round",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        29.0,
+        29.0,
+        0.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.2,
+      "est_grams_pla": 0.2,
+      "watertight": true,
+      "genus": -347,
+      "bodies": 352,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": ""
+    },
+    {
+      "slug": "pk-id-charm-heart",
+      "name": "ID charm, heart (sample code)",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        62.3,
+        56.3,
+        4.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 8.5,
+      "est_grams_pla": 7.2,
+      "watertight": true,
+      "genus": 2,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 324.0,
+      "notes": "A styled code (round modules, rounded finders, the key in the middle, level H) in a charm; the real code is made per order. Prints code-side down."
+    },
+    {
+      "slug": "pk-id-charm-heart-inlay",
+      "name": "ID charm inlay, heart",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        29.0,
+        29.0,
+        0.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.2,
+      "est_grams_pla": 0.2,
+      "watertight": true,
+      "genus": -347,
+      "bodies": 352,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": ""
+    },
+    {
+      "slug": "pk-id-charm-star",
+      "name": "ID charm, star (sample code)",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        64.6,
+        61.7,
+        4.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 7.46,
+      "est_grams_pla": 6.6,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 327.0,
+      "notes": "A styled code (round modules, rounded finders, the key in the middle, level H) in a charm; the real code is made per order. Prints code-side down."
+    },
+    {
+      "slug": "pk-id-charm-star-inlay",
+      "name": "ID charm inlay, star",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        29.0,
+        29.0,
+        0.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.2,
+      "est_grams_pla": 0.2,
+      "watertight": true,
+      "genus": -347,
+      "bodies": 352,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": ""
+    },
+    {
+      "slug": "pk-id-charm-bow",
+      "name": "ID charm, bow (sample code)",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        67.4,
+        58.6,
+        4.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 7.76,
+      "est_grams_pla": 6.9,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 291.0,
+      "notes": "A styled code (round modules, rounded finders, the key in the middle, level H) in a charm; the real code is made per order. Prints code-side down."
+    },
+    {
+      "slug": "pk-id-charm-bow-inlay",
+      "name": "ID charm inlay, bow",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        29.0,
+        29.0,
+        0.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.2,
+      "est_grams_pla": 0.2,
+      "watertight": true,
+      "genus": -347,
+      "bodies": 352,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": ""
+    },
+    {
       "slug": "pk-charm-bow",
       "name": "Bag charm, bow (sample: MK)",
       "group": "pocket",

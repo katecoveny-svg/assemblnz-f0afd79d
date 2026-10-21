@@ -1,0 +1,22 @@
+{
+  "pack_5_vs_case_mm3": 0.0,
+  "pack_5_proud_of_case_mm": 38.5,
+  "case_5_vs_keys_mm3": 37.562,
+  "case_5_vs_board_mm3": -0.0,
+  "pack_7_vs_case_mm3": 0.0,
+  "pack_7_proud_of_case_mm": 51.7,
+  "case_7_vs_keys_mm3": 37.562,
+  "case_7_vs_board_mm3": 0.0,
+  "rail_vs_keys_mm3": 37.562,
+  "reel_foot_vs_dock_mm3": 0.0,
+  "dock_vs_keys_mm3": 37.562,
+  "dock_vs_board_mm3": -0.0,
+  "knob_shaft_clash_mm3": 0.0,
+  "knob_bearings_clash_mm3": 0.0,
+  "knob_inlay_vs_knob_mm3": 0.0,
+  "tube_22_vs_saddle_mm3": 0.0,
+  "tube_31.8_vs_saddle_mm3": 0.0,
+  "tube_45_vs_saddle_mm3": 0.0,
+  "strap_in_channel_clash_mm3": 0.0,
+  "saddle_vs_pod_mm3": -0.0
+}

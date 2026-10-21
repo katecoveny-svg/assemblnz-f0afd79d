@@ -838,3 +838,38 @@ the rod, and hook, cup, shelves and bin on a board (20 handles). Next: the cast 
 the mini bikes, the charms and tags on a ring, kits as whole walls, and the AC-02 views already in the GLB path.
 Everything is still a render of unprinted files.
 
+
+### 11.25 Tackle on the wall, the reel by its foot, a mount for any bike, and the code made pretty (21 October)
+
+Kate, with photos of her son's Daiwa Bait Junkie packs and Shimano Nasci 2500HG: "we should make softbait cases
+that can still show the softbaits through the front but hang or attach to the pegboards … custom add ons for
+their reels and how much of an actual reel could be 3d printed? … i want the bike mounts and kits to be able to
+attach to any model of bike too." And: "Can you please make the QR code prettier as well? Is there a way to make
+it custom so that they can pick the shape and colour of it? And where would they enter the details … Is that part
+of the widget?"
+
+`DAYRALLY-TACKLE.md` has the tackle family (`tk-*`, 10 files): two pack cases with an open front window that key to
+any board, a three-peg pack rail, a reel dock the reel hangs in by its foot, a fluted knob for the common 4 mm
+knob shaft with the name in the cap, a TPU spool band, and the universal saddle (a V for 22–45 mm tubes on the
+TURN socket body with two strap channels) with its printed ladder strap and buckle. The doc also says plainly what
+of a reel prints (knob, band, dock, caps, case) and what does not (body, rotor, gears, drag, bail, shaft), and why
+every "fits any bike" mount on the market is a cradle and a strap.
+
+The research pass that sized them found no published packet dimensions and no published Nasci foot or spool
+size, so the cases, dock and band are drawn to the photos and the class and the first print measures. What was
+found: the Type A knob (4 mm shaft, two 4 × 7 × 2.5 bearings), the reel at 240 g, and the bar, stem, post and tube
+standards that make one saddle universal. Sources (snippets; the sandbox could not open the pages): Daiwa and
+Tackle World for the lure lengths; desertcart mirrors of Z-Man and Gulp listings for packet sizes; BCF, Hinelson
+and Bass Pro for the reel; Gomexus, baitfinesseempire and bassresource for the knob; BikeGremlin, bikepacking.com,
+BikeRadar, SkatePro and the Quad Lock, Peak Design, Garmin, Wahoo, Fidlock, Knog and Voile product pages for the
+fits.
+
+`DAYRALLY-POCKET.md` has the code made pretty: `qr_cs` now draws dots and rounded styles with rounded finders
+and the TURN key glyph in the middle at level H, inside five charm shapes (heart, star, bow, round, tag), the code
+as the accent inlay on the body colour. The shape and the two colours are the widget's; the details are not. The
+widget reserves a token and prints its code; the parent fills the page afterwards from a private link in the
+order email, and can edit or revoke it. A sample of that page is at `/living/id/SAMPLE`, labelled proposed; no
+token store, edit page, PIN layer or email exists yet.
+
+The rule that fell out: a public configurator is not a place for a child's medical details. The print carries a
+pointer; the parent owns the page it points to.

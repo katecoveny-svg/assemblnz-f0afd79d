@@ -27,7 +27,7 @@ export const PRINT_ASSUMPTIONS = {
 } as const;
 
 export type PartRole = 'body' | 'accent';
-export type ChoiceKey = 'lid' | 'insert' | 'shape' | 'skin';
+export type ChoiceKey = 'lid' | 'insert' | 'shape' | 'skin' | 'size';
 export type ChoiceOption = { id: string; label: string; partIds: string[] };
 export type Choice = { key: ChoiceKey; label: string; options: ChoiceOption[]; defaultId: string };
 export type TextSpec = { partId: string; label: string; maxChars: number; pattern: RegExp; hint: string };
@@ -356,6 +356,41 @@ export const WIDGET_LAB: LabItem[] = [
     id: 'pencil-topper', title: 'pencil topper · a charm on the pencil', type: 'dayrally lab', colourSet: 'dayrally', size: '12 mm collar · 24 to 44 mm tall',
     blurb: 'A short collar that press-fits a standard hex pencil (its corners bite a 7.8 mm bore) with a charm outline standing on top: star, heart, bow or smile.',
     parts: [], choice: { key: 'skin', label: 'Charm', prefix: 'pk-topper-', defaultId: 'pk-topper-star' }, doc: 'docs/living/DAYRALLY-POCKET.md',
+  },
+  {
+    id: 'pack-case', title: 'pack case · soft plastics on the wall', type: 'dayrally lab', colourSet: 'dayrally', size: '97 × 137 × 24 mm (5 inch) · 110 × 183 × 24 mm (7 inch)',
+    blurb: 'A frame keyed to the board that a soft-plastics packet slides into from the top: side rails and a bottom lip hold it, the front is one big open window so the packet shows, and a fifth of the packet stands proud for the fingers. Sized to the Daiwa Bait Junkie 5 inch and 7 inch packs (92 × 175 and 105 × 235 mm) and anything near them; the keys turn from inside the case.',
+    parts: [{ id: 'grid-turn-key', qty: 2 }], choice: { key: 'size', label: 'Pack', prefix: 'tk-pack-case-', defaultId: 'tk-pack-case-5' }, doc: 'docs/living/DAYRALLY-TACKLE.md',
+  },
+  {
+    id: 'pack-rail', title: 'pack rail · three packets by their holes', type: 'dayrally lab', colourSet: 'dayrally', size: '138 × 26 × 28 mm',
+    blurb: 'Three lipped pegs on a keyed bar, 42 mm apart; packets hang by their hang holes and stay on. Two keys.',
+    parts: [{ id: 'tk-pack-rail', qty: 1 }, { id: 'grid-turn-key', qty: 2 }], doc: 'docs/living/DAYRALLY-TACKLE.md',
+  },
+  {
+    id: 'reel-dock', title: 'reel dock · the reel hangs by its foot', type: 'dayrally lab', colourSet: 'dayrally', size: '84 × 62 × 27 mm',
+    blurb: 'A block keyed to the board with a slot in its front face that a spinning reel\'s foot slides into, the way a reel seat holds it; the stem passes the gap and the reel hangs below. Sized to a 2500 foot (60 × 17 × 3.2 mm plate); the first print measures the real one.',
+    parts: [{ id: 'tk-reel-dock', qty: 1 }, { id: 'grid-turn-key', qty: 2 }], doc: 'docs/living/DAYRALLY-TACKLE.md',
+  },
+  {
+    id: 'reel-knob', title: 'reel knob · the part of a reel worth printing', type: 'dayrally lab', colourSet: 'dayrally', size: 'Ø22 × 26 mm',
+    blurb: 'A fluted T knob for the common knob shaft (4 mm, two 4 × 7 × 2.5 bearings, which the reel already has): it carries no load the bearings do not take, and the name goes on its end. The body, gears, drag and bearings of a reel are not printable to spec and are not offered. Measure the shaft before printing.',
+    parts: [{ id: 'tk-reel-knob', qty: 1 }, { id: 'tk-reel-knob-inlay', qty: 1 }], doc: 'docs/living/DAYRALLY-TACKLE.md',
+  },
+  {
+    id: 'spool-band', title: 'spool band · 2500', type: 'dayrally lab', colourSet: 'dayrally', size: 'Ø47 · 6 mm',
+    blurb: 'A TPU band that stretches over the spool lip and holds the line end under its tab. For 2500-size spools.',
+    parts: [{ id: 'tk-spool-band', qty: 1 }], doc: 'docs/living/DAYRALLY-TACKLE.md',
+  },
+  {
+    id: 'universal-saddle', title: 'universal saddle · any bar, stem, post or tube', type: 'dayrally lab', colourSet: 'dayrally', size: '84 × 44 × 38 mm · 22 to 45 mm tubes',
+    blurb: 'A V cradle that seats any round tube from 22 to 45 mm (handlebars, stems, seat posts, top tubes, scooter stems) with two channels for 20 mm ladder straps or zip ties, on the TURN socket body every pod and kit locks to. Comes with a 240 mm TPU ladder strap and its buckle; a Voile-type strap fits the same channel.',
+    parts: [{ id: 'tk-universal-saddle', qty: 1 }, { id: 'tk-ladder-strap', qty: 2 }, { id: 'tk-strap-buckle', qty: 2 }], doc: 'docs/living/DAYRALLY-TACKLE.md',
+  },
+  {
+    id: 'id-charm', title: 'id charm · the code, prettier, in a shape', type: 'dayrally lab', colourSet: 'dayrally', size: 'about 50 mm · 4 mm thick',
+    blurb: 'The owner\'s QR as a charm: round modules, rounded finders, the key glyph in the middle (level H forgives it), in the accent colour on the body colour, inside a heart, star, bow, round or tag with a ring hole. Sample code; the real one is made per order. Dark code on a light body scans best.',
+    parts: [], choice: { key: 'skin', label: 'Shape', prefix: 'pk-id-charm-', defaultId: 'pk-id-charm-heart' }, doc: 'docs/living/DAYRALLY-POCKET.md',
   },
 ];
 
