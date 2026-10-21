@@ -219,3 +219,20 @@
     font-size: 16px;
   }
 }
+
+.do-call-invitation {
+  padding: 24px;
+  border: 1px solid #916a7066;
+  border-radius: 24px;
+  background: #fffdfb;
+  color: #492b3e;
+  text-align: center;
+}
+.do-call-invitation p { max-width: 42ch; margin: 12px auto; }
+.do-call-invitation .do-live-controls { justify-content: center; flex-wrap: wrap; }
+.do-call-invitation button { min-height: 44px; padding: 10px 20px; border-radius: 999px; }
+.do-call-invitation button:first-child { background: #240b21; color: #fffdfb; }
+.do-call-invitation button:focus-visible { outline: 3px solid #916a70; outline-offset: 3px; }
+.do-call-ring { display: inline-grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: #f5f1f2; font-size: 28px; animation: do-call-ring 1.1s ease-in-out infinite; }
+@keyframes do-call-ring { 50% { box-shadow: 0 0 0 12px #916a7020; transform: rotate(8deg); } }
+@media (prefers-reduced-motion: reduce) { .do-call-ring { animation: none; } }

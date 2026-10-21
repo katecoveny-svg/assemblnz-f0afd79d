@@ -5,6 +5,7 @@ import { handoffReviewedMail } from "@/apps/do/mail/voice-handoff";
 import { VoiceResumption } from "@/apps/do/shared/voice-resumption";
 import type { VoiceCostQuote } from "@/apps/do/shared/voice-lease";
 import Link from "next/link";
+import { DoCallInvitation } from "./DoCallInvitation";
 import { typedLivePacket } from "@/apps/do/shared/companion-live-input";
 import { claimDoAudio } from "@/apps/do/shared/audio-exclusion";
 import { voiceDiagnostic, type VoiceDiagnostic } from "@/apps/do/shared/voice-diagnostics";
@@ -67,6 +68,7 @@ export function DoGeminiLive({
   onDraft,
   onShoppingDraft,
   onMailDraft,
+  onBrowserDraft,
   profile: initialProfile,
   onProfileChange,
   draftTarget = "task",
@@ -81,6 +83,7 @@ export function DoGeminiLive({
   onDraft?: (text: string) => boolean;
   onShoppingDraft?: (text: string) => boolean;
   onMailDraft?: (text: string) => boolean;
+  onBrowserDraft?: (text: string) => boolean;
   profile?: PersonalDoProfile;
   onProfileChange?: (profile: PersonalDoProfile | null) => void;
   draftTarget?: "task" | "responsibility";
@@ -108,6 +111,7 @@ export function DoGeminiLive({
   const quoteGeneration = useRef(0);
   const leaseEnabled = availability?.leaseEnabled === true;
   const [expanded, setExpanded] = useState(false);
+  const [ringScope, setRingScope] = useState<string | null>(null);
   const [consentFor, setConsentFor] = useState<string | null>(null);
   const [includePublicNz, setIncludePublicNz] = useState(false);
   const [publicEvidenceSources, setPublicEvidenceSources] = useState<Array<{url:string; title:string; expiresAt:string}>>([]);
@@ -129,6 +133,7 @@ export function DoGeminiLive({
   const consentScope = JSON.stringify([includePublicNz, initialProfile?.updatedAt ?? null, leaseEnabled ? null : profile ?? null, mode, quote?.quoteId ?? null, requestedSeconds, voiceName, availability?.voiceRevision, includeContext, includeContext ? context.slice(0, 6000) : ""]);
   const consent = consentFor === consentScope;
   const live = state !== "idle";
+  const ringing = visible && !live && consent && ringScope === consentScope && availability?.signedIn === true;
   useEffect(() => { onLiveChange?.(live); }, [live, onLiveChange]);
 
   const includeSavedStyle = Boolean(initialProfile);
@@ -177,10 +182,11 @@ export function DoGeminiLive({
     setState("idle");
     setMuted(false);
     setConsentFor(null);
+    setRingScope(null);
     setNotice(message);
     void refresh();
   }, [refresh]);
-  useEffect(() => { if (!visible && active.current) end("Call ended because you left the conversation. Your microphone is off."); }, [visible, end]);
+  useEffect(() => { if (!visible && (active.current || ringScope !== null)) end("Call ended because you left the conversation. Your microphone is off."); }, [visible, ringScope, end]);
   useEffect(() => {
     // Refresh idle reviews after a save through another mounted settings entry.
     // Keep this separate from media cleanup: a revision must not end a live call.
@@ -662,6 +668,7 @@ export function DoGeminiLive({
           <button
             type="button"
             onClick={() => {
+              setRingScope(null);
               setExpanded(!expanded);
               setConsentFor(null);
               setNotice("");
@@ -672,7 +679,8 @@ export function DoGeminiLive({
           </button>
         )}
       </div>
-      {expanded && !live && (
+      {ringing && <DoCallInvitation displayName={displayName} onAnswer={() => { setRingScope(null); void start(); }} onDecline={() => { setRingScope(null); setConsentFor(null); setNotice("Call cancelled. Your microphone stayed off."); }} />}
+      {expanded && !live && !ringing && (
         <div className="do-live-options">
           <p>{availabilityNotice}</p>
           {(availabilityError || availability?.remaining === null || !availability?.voiceRevision) && <button type="button" onClick={() => void refresh()}>Check call availability</button>}
@@ -748,7 +756,7 @@ export function DoGeminiLive({
               !availability?.remaining ||
               !consent
             }
-            onClick={() => void start()}
+            onClick={() => setRingScope(consentScope)}
           >
             Start call
           </button>
@@ -826,6 +834,17 @@ export function DoGeminiLive({
             }
           }}>Review correspondence in my DO</button>}
           {onMailDraft && draft.length > 1200 && <p>Shorten the reviewed request to 1,200 characters before opening mail review.</p>}
+          {onBrowserDraft && <button type="button" disabled={!draft.trim()} onClick={() => {
+            if (reviewApplied.current || !draft.trim()) return;
+            reviewApplied.current = true;
+            if (onBrowserDraft(draft.trim())) {
+              setDraft(null);
+              setNotice("Your reviewed brief is in browser review. You can keep talking in this tab. Browser contents are not shared with this call; reads and changes need separate companion approval.");
+            } else {
+              reviewApplied.current = false;
+              setNotice("Browser review could not accept this request. Sign in or finish the existing browser task first. Your notes and call remain here.");
+            }
+          }}>Review browser task while we talk</button>}
           {onShoppingDraft && <button type="button" disabled={!draft.trim()} onClick={() => {
             if (reviewApplied.current || !draft.trim()) return;
             reviewApplied.current = true;

@@ -441,3 +441,9 @@ Main `7ab6a4353c5b90bc885ebb7a7f221fe7958e15dd` was audited in a separate clone/
 ### 19 October: typed mail review follow-up
 
 Following merged PR1620, typed Personal DO requests now offer the same owner-bound mail review used by reviewed Gemini calls. Typed handoff closes active voice and requires fresh mailbox/account/search consent. Retrieval stays in `/api/do/mail`; source text is reviewed in the existing workspace, and generated task drafts carry only an opaque source reference. This is reviewed entry parity, not private model tools, verified itinerary storage or booking. Sensitive-code retrieval still requires a separately proved step-up design. See the existing [audit evidence](../reviews/DO-TRAVEL-MAIL-RELIABILITY-20261019.md).
+
+### 21 October: shopping call investigation (local candidate)
+
+[Shopping call evidence and capability matrix](../reviews/DO-SHOPPING-CALL-20261021.md) records connected Mac Chrome reproduction of the live browser-access refusal, current Gemini streaming/tool boundaries, and the disabled Woolworths gate. A local ring/Answer candidate extends the existing call entry; no live retailer execution, deployment or provider-quality claim. Existing browser/native and voice owners retain the unresolved acceptance gates.
+
+DO local follow-up (2026-10-21): owner-bound reviewed voice-to-browser handoff keeps same-tab call open; broker invalidates old authority before refresh and rejects stale/future evidence. Synthetic actual-component journey passed; native extension and Woolworths remain unverified/disabled. See `docs/reviews/DO-SHOPPING-CALL-20261021.md`. Nothing deployed.

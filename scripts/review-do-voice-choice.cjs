@@ -108,6 +108,7 @@ function check(label, result) { assert.ok(result, label); checks.push(label); co
     await page.evaluate(() => { window.__callTest.mode = 'allow'; });
     await consent.check();
     await panel.getByRole('button', { name: 'Start call', exact: true }).click();
+    await panel.getByRole('button', { name: 'Answer call', exact: true }).click();
     await panel.getByRole('button', { name: 'End call', exact: true }).waitFor();
     check('next call uses the saved voice', tokens.length === 1 && tokens[0].voiceName === 'Puck');
     profile = { ...profile, voiceName: 'Charon', updatedAt: '2026-10-13T02:00:00Z' }; revision = 'c'.repeat(64);
@@ -118,6 +119,7 @@ function check(label, result) { assert.ok(result, label); checks.push(label); co
     await panel.getByText('Call voice: Charon · male · informative', { exact: true }).first().waitFor();
     check('ending refreshes next-call voice and requires fresh consent', !await consent.isChecked());
     await consent.check(); await panel.getByRole('button', { name: 'Start call', exact: true }).click();
+    await panel.getByRole('button', { name: 'Answer call', exact: true }).click();
     await panel.getByRole('button', { name: 'End call', exact: true }).waitFor();
     check('restart uses the newly saved voice', tokens.length === 2 && tokens[1].voiceName === 'Charon');
     await panel.getByRole('button', { name: 'End call', exact: true }).click();
@@ -189,6 +191,7 @@ function check(label, result) { assert.ok(result, label); checks.push(label); co
     await page.evaluate(() => { window.__callTest.mode = 'allow'; });
     await consent.check();
     await panel.getByRole('button', { name: 'Start call', exact: true }).click();
+    await panel.getByRole('button', { name: 'Answer call', exact: true }).click();
     await panel.getByRole('button', { name: 'End call', exact: true }).waitFor();
     check('call after dual settings saves uses the fresh full profile revision', tokens.at(-1).profileUpdatedAt === profile.updatedAt && tokens.at(-1).voiceName === 'Puck');
     const activeSockets = await page.evaluate(() => window.__callTest.sockets.length);

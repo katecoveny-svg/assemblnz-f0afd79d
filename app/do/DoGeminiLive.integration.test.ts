@@ -12,6 +12,7 @@ vi.mock('./personal/PersonalDoSettings',()=>({PersonalDoSettings:()=>null}));
 vi.mock('@/apps/do/shared/audio-exclusion',()=>({claimDoAudio:()=>()=>{}}));
 import { DoCompanionHandoff } from '@/components/do/DoCompanionHandoff';
 import { DoGeminiLive } from './DoGeminiLive';
+import { DoCallInvitation } from './DoCallInvitation';
 import { DoCompanionConversation } from '@/components/do/DoCompanionConversation';
 vi.mock('./personal/PersonalDoAssistant',()=>({PersonalDoAssistant:()=>null}));
 class Socket {
@@ -26,7 +27,8 @@ const listeners:Record<string,()=>void>={};
 const revision='a'.repeat(64), leaseId='11111111-1111-4111-8111-111111111111';
 const config={responseModalities:['AUDIO'],speechConfig:{voiceConfig:{prebuiltVoiceConfig:{voiceName:'Kore'}}},systemInstruction:'Frozen style',sessionResumption:{},contextWindowCompression:{slidingWindow:{}}};
 let deadline:number;
-function render(){hooks.index=0;return DoGeminiLive({onCallStart:vi.fn(),context:'reviewed context'});}
+let acceptBrowser = vi.fn((_text: string): boolean => true);
+function render(){hooks.index=0;return DoGeminiLive({onCallStart:vi.fn(),context:'reviewed context',onBrowserDraft:acceptBrowser});}
 function nodes(tree:any):any[]{if(!tree||typeof tree!=='object')return [];return [tree,...(Array.isArray(tree.props?.children)?tree.props.children:[tree.props?.children]).flatMap((c:any)=>Array.isArray(c)?c.flatMap(nodes):nodes(c))];}
 function button(tree:any,label:string){return nodes(tree).find(n=>n.type==='button'&&n.props.children===label);}
 async function flush(){for(const effect of hooks.effects.splice(0)){const cleanup=effect();if(cleanup)hooks.cleanups.push(cleanup);}await vi.advanceTimersByTimeAsync(0);}
@@ -35,10 +37,10 @@ function preview(name:string, tree:any){
   const css=readFileSync('app/do/do-live.css','utf8')+readFileSync('components/do/do-companion-board.css','utf8');
   writeFileSync(`docs/reviews/do-companion-local/${name}.html`,`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DO call · local fixture review</title><style>${css}body{max-width:430px;margin:24px auto;padding:16px;background:#fffdfb;color:#492b3e;font:16px/1.5 system-ui}button,input,select,textarea{max-width:100%;font:inherit}textarea{box-sizing:border-box;width:100%}</style><p><strong>Static fixture review.</strong> Actual call component with mocked account/transport. Controls inactive. No real call, microphone, sound or charge.</p>${renderToStaticMarkup(tree)}</html>`);
 }
-async function startReviewedCall(){let tree=render();await flush();tree=render();button(tree,'Call DO').props.onClick();await flush();tree=render();await button(tree,'Review included time').props.onClick();await flush();tree=render();const checkbox=nodes(tree).filter(n=>n.type==='input'&&n.props.type==='checkbox').at(-1);checkbox.props.onChange({target:{checked:true}});tree=render();preview('voice-options',tree);button(tree,'Start call').props.onClick();await flush();}
+async function startReviewedCall(answer = true){let tree=render();await flush();tree=render();button(tree,'Call DO').props.onClick();await flush();tree=render();await button(tree,'Review included time').props.onClick();await flush();tree=render();const checkbox=nodes(tree).filter(n=>n.type==='input'&&n.props.type==='checkbox').at(-1);checkbox.props.onChange({target:{checked:true}});tree=render();preview('voice-options',tree);button(tree,'Start call').props.onClick();await flush();if(answer){tree=render();nodes(tree).find(n=>n.type===DoCallInvitation).props.onAnswer();await flush();}}
 async function begin(){await startReviewedCall();const ws=Socket.instances[0];ws.onopen();await ws.message({setupComplete:{}});return ws;}
 beforeEach(()=>{
-  vi.useFakeTimers();vi.setSystemTime(new Date('2026-10-15T00:00:00Z'));deadline=Date.now()+300000;hooks.slots=[];hooks.effects=[];hooks.cleanups=[];Socket.instances=[];recorderCount=0;
+  vi.useFakeTimers();vi.setSystemTime(new Date('2026-10-15T00:00:00Z'));deadline=Date.now()+300000;hooks.slots=[];hooks.effects=[];hooks.cleanups=[];Socket.instances=[];recorderCount=0;acceptBrowser=vi.fn((_text: string): boolean => true);
   track={enabled:true,stop:vi.fn(),addEventListener:vi.fn()};media={getTracks:()=>[track],getAudioTracks:()=>[track]};mic=vi.fn(async()=>media);
   class Audio {currentTime=0;destination={};audioWorklet={addModule:vi.fn(async()=>{})};resume=vi.fn(async()=>{});close=vi.fn(async()=>{});createMediaStreamSource=()=>({connect:vi.fn(),disconnect:vi.fn()});}
   vi.stubGlobal('WebSocket',Socket);vi.stubGlobal('AudioContext',Audio);vi.stubGlobal('AudioWorkletNode',class{port={onmessage:null,close:vi.fn()};connect=vi.fn();disconnect=vi.fn();constructor(){recorderCount++;}});
@@ -101,5 +103,36 @@ describe('conversation receipt races',()=>{
     tree=companion();call=nodes(tree).find(n=>n.type===DoGeminiLive);call.props.onTranscriptChange([{who:'You',text:'Spoken continuation'},{who:'DO',text:'Reply'}]);
     tree=companion();const turns=nodes(tree).find(n=>n.props.conversation).props.conversation.turns;
     expect(turns.map((turn:any)=>turn.text)).toEqual(['Newer typed turn','Acknowledged receipt','Spoken continuation','Reply']);
+  });
+});
+
+
+describe('reviewed call invitation and browser handoff', () => {
+  it('does not acquire media or a provider session until Answer, and decline clears consent', async () => {
+    await startReviewedCall(false);
+    expect(mic).not.toHaveBeenCalled(); expect(Socket.instances).toHaveLength(0);
+    expect(request.mock.calls.some(([, options]: any[]) => options?.body && JSON.parse(options.body).action === 'start')).toBe(false);
+    nodes(render()).find(n => n.type === DoCallInvitation).props.onDecline();
+    const tree = render(); expect(button(tree, 'Start call').props.disabled).toBe(true);
+    expect(mic).not.toHaveBeenCalled();
+  });
+  it('transfers edited browser notes once while the same-tab call remains connected', async () => {
+    const ws = await begin();
+    await ws.message({serverContent:{inputTranscription:{text:'Two packs of oats'}}});
+    let tree = render(); button(tree, 'Review transcript for my DO').props.onClick();
+    tree = render(); nodes(tree).find(n => n.type === 'textarea' && n.props.id === 'fixture').props.onChange({target:{value:'Two packs of oats, review first'}});
+    tree = render(); const handoff = button(tree, 'Review browser task while we talk'); handoff.props.onClick(); handoff.props.onClick();
+    expect(acceptBrowser).toHaveBeenCalledTimes(1); expect(acceptBrowser).toHaveBeenCalledWith('Two packs of oats, review first');
+    expect(track.stop).not.toHaveBeenCalled(); expect(ws.readyState).toBe(Socket.OPEN);
+    expect(button(render(), 'End call')).toBeDefined();
+    expect(ws.sent.some(packet => packet.includes('Two packs of oats, review first'))).toBe(false);
+  });
+  it('rejected handoff preserves notes and active conversation', async () => {
+    acceptBrowser.mockReturnValue(false); const ws = await begin();
+    await ws.message({serverContent:{inputTranscription:{text:'Keep this grocery brief'}}});
+    button(render(), 'Review transcript for my DO').props.onClick();
+    button(render(), 'Review browser task while we talk').props.onClick();
+    expect(button(render(), 'Review browser task while we talk')).toBeDefined();
+    expect(track.stop).not.toHaveBeenCalled(); expect(ws.readyState).toBe(Socket.OPEN);
   });
 });
