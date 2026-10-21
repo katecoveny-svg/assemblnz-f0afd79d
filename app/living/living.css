@@ -82,8 +82,44 @@ a.lv-card:hover, button.lv-card:hover { border-color: var(--lv-line-strong); tra
 .lv-stepper button:hover { background: var(--lv-chalk); }
 .lv-stepper span { min-width: 2ch; text-align: center; font-family: var(--font-mono), monospace; font-size: 0.85rem; }
 
+/* ── living header and foot (pages that ship their own chrome) ── */
+.lv-top { border-bottom: 1px solid var(--lv-line); background: var(--lv-paper); position: sticky; top: 0; z-index: 20; }
+.lv-top-row { display: flex; align-items: center; gap: 0.8rem 1.6rem; flex-wrap: wrap; min-height: 56px; padding: 0.5rem 0; }
+.lv-top-mark { display: inline-flex; align-items: baseline; gap: 0.35rem; text-decoration: none; color: var(--lv-plum); font-size: 1.15rem; letter-spacing: -0.02em; }
+.lv-top-mark b { font-weight: 600; }
+.lv-top-mark span { color: var(--lv-muted); font-size: 0.95rem; }
+.lv-top-nav { display: flex; gap: 0.2rem 1.1rem; flex-wrap: wrap; }
+.lv-top-nav a { color: var(--lv-muted); text-decoration: none; font-size: 0.95rem; padding: 0.2rem 0; border-bottom: 1px solid transparent; }
+.lv-top-nav a:hover, .lv-top-nav a[aria-current='page'] { color: var(--lv-plum); border-bottom-color: var(--lv-plum); }
+.lv-top-tag { margin-left: auto; font-family: var(--font-mono), 'IBM Plex Mono', ui-monospace, monospace; font-size: 0.66rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--lv-muted); }
+@media (max-width: 720px) { .lv-top-tag { display: none; } }
+.lv-foot { background: var(--lv-plum); color: var(--lv-paper); padding: clamp(1.6rem, 4vw, 2.6rem) 0; }
+.lv-foot-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem 2rem; }
+.lv-foot-line { font-size: clamp(1.3rem, 2.6vw, 2rem); letter-spacing: -0.02em; line-height: 1; margin: 0; }
+.lv-foot ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; align-items: center; }
+.lv-foot .lv-mono, .lv-foot a { color: rgba(255, 253, 251, 0.78); }
+.lv-foot a { text-decoration: none; font-size: 0.9rem; }
+
 /* ── studio shell ───────────────────────────────────────── */
 .lv-studio { display: grid; gap: 2rem; padding: clamp(2rem, 5vw, 4rem) 0 5rem; }
+/* grid items default to min-width:auto, so a wide control could push the whole studio past a phone screen */
+.lv-studio > *, .lv-panel > *, .lv-two > *, .lv-field > *, .lv-measure > *, .lv-stage-wrap > * { min-width: 0; }
+.lv-input, .lv-textarea { box-sizing: border-box; max-width: 100%; }
+.lv-studio-hero { padding-top: clamp(1.6rem, 4vw, 3rem); }
+.lv-studio-hero[data-step='space'] { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(1.2rem, 4vw, 3rem); align-items: center; }
+.lv-studio-hero-copy { display: grid; gap: 1.5rem; }
+.lv-studio-hero .lv-hero-wall { margin: 0; }
+@media (max-width: 880px) { .lv-studio-hero[data-step='space'] { grid-template-columns: 1fr; } }
+
+/* the rest of the room, inside the studio */
+.lv-home-row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(170px, 1fr); gap: 0.8rem; overflow-x: auto; padding-bottom: 0.4rem; scroll-snap-type: x proximity; scrollbar-width: none; }
+.lv-home-row::-webkit-scrollbar { display: none; }
+.lv-home-card { scroll-snap-align: start; display: grid; gap: 0.3rem; align-content: start; text-decoration: none; color: var(--lv-plum); }
+.lv-home-art { position: relative; display: block; aspect-ratio: 1 / 1; border-radius: 14px; overflow: hidden; background: #fbf9f4; border: 1px solid var(--lv-line); }
+.lv-home-art img { object-fit: cover; }
+.lv-home-card b { font-weight: 500; font-size: 0.98rem; }
+.lv-home-card small { font-family: var(--font-mono), 'IBM Plex Mono', ui-monospace, monospace; font-size: 0.64rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--lv-muted); }
+.lv-home-card:hover .lv-home-art { border-color: var(--lv-line-strong); }
 .lv-steps { display: flex; flex-wrap: wrap; gap: 0.4rem 1.4rem; align-items: center; }
 .lv-step { display: inline-flex; align-items: center; gap: 0.55rem; font-family: var(--font-mono), monospace; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--lv-stone); }
 .lv-step[data-state='current'] { color: var(--lv-plum); }
@@ -276,6 +312,9 @@ a.lv-door:hover .lv-door-art img { transform: scale(1.03); }
 .ls-card:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(36, 11, 33, 0.08); }
 .ls-card-art { position: relative; aspect-ratio: 1 / 1; background: var(--ls-cream); border-radius: 12px; overflow: hidden; }
 .ls-card-art img { object-fit: contain; padding: 8%; }
+.ls-card[data-art='cad'] .ls-card-art { background: #fbf9f4; }
+.ls-card[data-art='cad'] .ls-card-art img { padding: 2%; object-fit: cover; }
+.ls-line-sub { font-size: 0.82rem; color: var(--lv-muted); line-height: 1.3; }
 .ls-card b { font-family: var(--ls-display); font-weight: 700; font-size: 1.05rem; line-height: 1.1; }
 .ls-price { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
 .ls-price span { font-family: var(--font-mono), monospace; font-size: 0.82rem; }
