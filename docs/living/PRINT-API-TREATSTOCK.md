@@ -1,7 +1,8 @@
 # The printing API: Treatstock, set up and waiting for a key (20 October 2026)
 
 **Status: adapter built and dry-run tested; no account, key, order or payment exists. Nothing spends without
-a flag and an environment variable both saying so.**
+a flag and an environment variable both saying so.** 21 October: `quote --set "lean first print"` dry-runs the 22-file lean
+pack (the `lean = yes` rows of `order.csv`, test kit included); it still needs the key before a real quote exists.
 
 ## Which API, and why
 
