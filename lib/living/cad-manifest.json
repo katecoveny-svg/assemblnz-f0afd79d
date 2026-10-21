@@ -18,7 +18,7 @@
  },
  "status": "designed and checked digitally; nothing printed yet. Clamp, detent and clearance values are starting points for the test-print kit.",
  "source": "tools/living-cad/cad/lib.py",
- "built_at": "2026-10-21T04:00:39Z",
+ "built_at": "2026-10-21T21:36:01Z",
  "colours": {
   "living": [
    {
@@ -5765,6 +5765,1126 @@
     "bytes": 1170284,
     "sha256": "019456118a0bc218020f66cd2b6f47f7ffa8fdd0cc49b487c0b6fc52eb0936ce"
    }
+  },
+  {
+   "id": "pk-pod-wide",
+   "name": "dayrally pod, wide",
+   "family": "pocket",
+   "group": "pod",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 187.0,
+    "y": 100.0,
+    "z": 40.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 77.44,
+   "mass_g_pla": 78.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 3,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 65.0,
+   "notes": "176 × 100 × 40: the emergency and makeup pod. Floor is a TURN flange: every dayrally mount, any Grid board.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-pod-wide.stl",
+    "bytes": 177384,
+    "sha256": "31cdb4523e0741339db9b484905ad6af37575bf8b0ccf751f1fe3915b2c458ac"
+   }
+  },
+  {
+   "id": "pk-lid-wide-plain",
+   "name": "Lid, wide, plain",
+   "family": "pocket",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 176.0,
+    "y": 100.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 50.2,
+   "mass_g_pla": 53.9,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 889.0,
+   "notes": "Prints top-down.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-lid-wide-plain.stl",
+    "bytes": 155884,
+    "sha256": "07fc74979613eba18d70a6e6fa39d4b34eab886aa1c34f02c7ef82c499a1919a"
+   }
+  },
+  {
+   "id": "pk-lid-wide-name",
+   "name": "Lid, wide, name (sample: MILA)",
+   "family": "pocket",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 176.0,
+    "y": 100.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 49.75,
+   "mass_g_pla": 54.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1633.0,
+   "notes": "Inlay prints as the first layers in a second colour.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-lid-wide-name.stl",
+    "bytes": 275484,
+    "sha256": "4abbd6d306032a1ef99ec71547aaf3e387cde202de91e5e24c2e0f05aa629f77"
+   }
+  },
+  {
+   "id": "pk-lid-wide-name-inlay",
+   "name": "Lid inlay, wide, name",
+   "family": "pocket",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 67.3,
+    "y": 20.3,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.45,
+   "mass_g_pla": 0.6,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -2,
+   "bodies": 4,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/pk-lid-wide-name-inlay.stl",
+    "bytes": 119084,
+    "sha256": "34d7bde684cd6fc30b1cbe7ae1d23bb91c28d641d9233d91ea6aa515d9ddda01"
+   }
+  },
+  {
+   "id": "pk-lid-wide-dots",
+   "name": "Lid, wide, dots",
+   "family": "pocket",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 176.0,
+    "y": 100.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 48.03,
+   "mass_g_pla": 54.7,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 4506.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/pk-lid-wide-dots.stl",
+    "bytes": 955884,
+    "sha256": "d502c87747475848ea174ea73ce25a74c78395614fa1aeb8b883eb6f0c59d11d"
+   }
+  },
+  {
+   "id": "pk-lid-wide-dots-inlay",
+   "name": "Lid inlay, wide, dots",
+   "family": "pocket",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 149.8,
+    "y": 73.5,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 2.17,
+   "mass_g_pla": 2.7,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -99,
+   "bodies": 100,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/pk-lid-wide-dots-inlay.stl",
+    "bytes": 780084,
+    "sha256": "fb6b44ec2cad7626bdd4733e071a7e14ad3760b38050fffcd4d9a887186064a9"
+   }
+  },
+  {
+   "id": "pk-lid-wide-card",
+   "name": "Card lid, wide (sample: MILA)",
+   "family": "pocket",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 176.0,
+    "y": 100.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 51.05,
+   "mass_g_pla": 55.8,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1845.0,
+   "notes": "Two rails inside hold a bank card against the lid; name inlaid on top.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-lid-wide-card.stl",
+    "bytes": 322084,
+    "sha256": "2f7271db025c00dd7bf2fed39205d5745e2e2b43508da5c957e05c5c6f327dee"
+   }
+  },
+  {
+   "id": "pk-lid-wide-card-inlay",
+   "name": "Card lid inlay, wide",
+   "family": "pocket",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 67.3,
+    "y": 20.3,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.45,
+   "mass_g_pla": 0.6,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -2,
+   "bodies": 4,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/pk-lid-wide-card-inlay.stl",
+    "bytes": 119084,
+    "sha256": "34d7bde684cd6fc30b1cbe7ae1d23bb91c28d641d9233d91ea6aa515d9ddda01"
+   }
+  },
+  {
+   "id": "pk-lid-standard-card",
+   "name": "Card lid, standard (sample: MILA)",
+   "family": "pocket",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 128.0,
+    "y": 72.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 29.73,
+   "mass_g_pla": 33.6,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1591.0,
+   "notes": "The standard lid with the card rails; name inlaid on top.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-lid-standard-card.stl",
+    "bytes": 321784,
+    "sha256": "fbdbcf3502f735d976ad730a652d7347ca413826320c6a04bc776c24e2c04e80"
+   }
+  },
+  {
+   "id": "pk-lid-standard-card-inlay",
+   "name": "Card lid inlay, standard",
+   "family": "pocket",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 67.3,
+    "y": 20.3,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.45,
+   "mass_g_pla": 0.6,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -2,
+   "bodies": 4,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/pk-lid-standard-card-inlay.stl",
+    "bytes": 119084,
+    "sha256": "34d7bde684cd6fc30b1cbe7ae1d23bb91c28d641d9233d91ea6aa515d9ddda01"
+   }
+  },
+  {
+   "id": "pk-insert-wide-emergency",
+   "name": "Insert, wide: emergency",
+   "family": "pocket",
+   "group": "insert",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 170.6,
+    "y": 94.6,
+    "z": 25.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 143.7,
+   "mass_g_pla": 76.6,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Earbuds case, power bank, balm, two compact tampons, sanitiser lying down, patches.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-insert-wide-emergency.stl",
+    "bytes": 98484,
+    "sha256": "fb321711bdad14b8c337b733d9456e8b8d2d59539c7d7a49768f5a5570d3dcbf"
+   }
+  },
+  {
+   "id": "pk-insert-wide-makeup",
+   "name": "Insert, wide: makeup",
+   "family": "pocket",
+   "group": "insert",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 170.6,
+    "y": 94.6,
+    "z": 22.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 190.81,
+   "mass_g_pla": 80.3,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Compact, mascara, balm, two pencils, mini spray, hair ties.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-insert-wide-makeup.stl",
+    "bytes": 119084,
+    "sha256": "f40255881dd83702bc8d7fc134f5ce22fa55e2ce5bf80f045e2d1f227a9784e5"
+   }
+  },
+  {
+   "id": "pk-insert-wide-open",
+   "name": "Insert, wide: open",
+   "family": "pocket",
+   "group": "insert",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 170.6,
+    "y": 94.6,
+    "z": 24.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 35.53,
+   "mass_g_pla": 44.1,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Two deep bays; a folded pad fits one.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-insert-wide-open.stl",
+    "bytes": 40684,
+    "sha256": "ed2ee7b1f60f5365fb18fa43241e6a88023483a480a8dbd9e9ec83a493b1ff7c"
+   }
+  },
+  {
+   "id": "pk-insert-standard-emergency",
+   "name": "Insert, standard: emergency, mini",
+   "family": "pocket",
+   "group": "insert",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 122.6,
+    "y": 66.6,
+    "z": 19.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 65.18,
+   "mass_g_pla": 37.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "A compact tampon, a balm, a mini sanitiser, patches.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-insert-standard-emergency.stl",
+    "bytes": 87084,
+    "sha256": "213b80ea03b9e2cb8a7a7798618edf7d3d74583218203657b14bb3b1140a4beb"
+   }
+  },
+  {
+   "id": "pk-lip-sleeve",
+   "name": "Lip sleeve (sample: MILA)",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 92.7,
+    "y": 28.2,
+    "z": 27.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 14.51,
+   "mass_g_pla": 18.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 2022.0,
+   "notes": "Open-topped sleeve for a lip treatment tube; name inlaid on the front; ring loop. Prints inlay-face down.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-lip-sleeve.stl",
+    "bytes": 168284,
+    "sha256": "3cfa36e8b7cc3ea7cbccbccc4509a3b3894865ea8a5680d3939e6d09a1783443"
+   }
+  },
+  {
+   "id": "pk-lip-sleeve-inlay",
+   "name": "Lip sleeve inlay",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 23.6,
+    "y": 7.1,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.05,
+   "mass_g_pla": 0.1,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -2,
+   "bodies": 4,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/pk-lip-sleeve-inlay.stl",
+    "bytes": 119084,
+    "sha256": "aba3644caf7b12ecfc3f778c21d0ede533169770625df0d46d82da3fd05e7102"
+   }
+  },
+  {
+   "id": "pk-id-tag",
+   "name": "ID tag (sample code)",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 64.0,
+    "y": 38.0,
+    "z": 4.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 9.2,
+   "mass_g_pla": 7.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 375.0,
+   "notes": "QR inlaid flush beside SCAN; the real code is made per order. Prints code-side down.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-id-tag.stl",
+    "bytes": 345284,
+    "sha256": "804fbdce0e68d471d38acb4d998ea1e87f9c0dc6928dc65ebca79299986cc3fa"
+   }
+  },
+  {
+   "id": "pk-id-tag-inlay",
+   "name": "ID tag inlay (sample code)",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 44.6,
+    "y": 25.0,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.22,
+   "mass_g_pla": 0.3,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 9,
+   "bodies": 16,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/pk-id-tag-inlay.stl",
+    "bytes": 354484,
+    "sha256": "60d775e4a5dcfba983c1c7a66c3cd10d37ddbb2b0f7f431b34e6cad3fc0a58c3"
+   }
+  },
+  {
+   "id": "pk-lid-mini-id",
+   "name": "Lid, mini, id (sample: MILA)",
+   "family": "pocket",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 92.0,
+    "y": 60.0,
+    "z": 15.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 18.02,
+   "mass_g_pla": 20.9,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1009.0,
+   "notes": "The mini lid with the owner's QR and name inlaid.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-lid-mini-id.stl",
+    "bytes": 380584,
+    "sha256": "da65ea6a10050247a1bf3fbdd300c25bbfaa9ea1a6a5ff2ec8db1b36d1291e6a"
+   }
+  },
+  {
+   "id": "pk-lid-mini-id-inlay",
+   "name": "Lid inlay, mini, id",
+   "family": "pocket",
+   "group": "lid",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 70.0,
+    "y": 25.0,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.33,
+   "mass_g_pla": 0.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 9,
+   "bodies": 16,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/pk-lid-mini-id-inlay.stl",
+    "bytes": 252084,
+    "sha256": "906e498b32736e3bd99550faeb1db3eba35b851f1ad2f871f0d915ac7ece4c6f"
+   }
+  },
+  {
+   "id": "pk-eraser-sleeve",
+   "name": "Eraser sleeve (sample: MILA)",
+   "family": "pocket",
+   "group": "stationery",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 43.6,
+    "y": 27.0,
+    "z": 16.8
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 5.62,
+   "mass_g_pla": 7.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 809.0,
+   "notes": "Takes a 65 × 23 × 13 block eraser; thumb slot pushes it out. Prints inlay-face down.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-eraser-sleeve.stl",
+    "bytes": 147684,
+    "sha256": "1d31e5ce784fb55f873b4b230c7d931a13c257a02b778a18aab6056c8d84542e"
+   }
+  },
+  {
+   "id": "pk-eraser-sleeve-inlay",
+   "name": "Eraser sleeve inlay",
+   "family": "pocket",
+   "group": "stationery",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 20.2,
+    "y": 6.1,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.04,
+   "mass_g_pla": 0.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -2,
+   "bodies": 4,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/pk-eraser-sleeve-inlay.stl",
+    "bytes": 119084,
+    "sha256": "d74b8cacdc5ac8784be6759f1cc8ac7820665f229f75a0cc6e6d26f8fe5ef247"
+   }
+  },
+  {
+   "id": "pk-pen-body",
+   "name": "Pen body, G2 refill (sample: MILA)",
+   "family": "pocket",
+   "group": "stationery",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 116.1,
+    "y": 9.5,
+    "z": 9.5
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 4.79,
+   "mass_g_pla": 5.9,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 758.0,
+   "notes": "Takes a Parker-style G2 refill; prints on its flat, inlay down.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-pen-body.stl",
+    "bytes": 153384,
+    "sha256": "a93225ffd347a663cb6deca467fc6f26a5ad9af7c3146299cec7cce47a3ad761"
+   }
+  },
+  {
+   "id": "pk-pen-body-inlay",
+   "name": "Pen body inlay",
+   "family": "pocket",
+   "group": "stationery",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 16.8,
+    "y": 5.1,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.03,
+   "mass_g_pla": 0.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -2,
+   "bodies": 4,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/pk-pen-body-inlay.stl",
+    "bytes": 119084,
+    "sha256": "441ec1f88240b8c670b86509f5871204e3e392982fa392090ded877fb766548a"
+   }
+  },
+  {
+   "id": "pk-pen-plug",
+   "name": "Pen plug",
+   "family": "pocket",
+   "group": "stationery",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 21.5,
+    "y": 10.5,
+    "z": 9.5
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.86,
+   "mass_g_pla": 0.8,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 83.0,
+   "notes": "Press-fit into the pen's bore; charm loop.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-pen-plug.stl",
+    "bytes": 89884,
+    "sha256": "910c09f675c71a99781771bc682df99047aabfe8e8a40ee13c0ccb57b02ce25b"
+   }
+  },
+  {
+   "id": "pk-charm-bow",
+   "name": "Bag charm, bow (sample: MK)",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 40.8,
+    "y": 34.1,
+    "z": 4.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 2.8,
+   "mass_g_pla": 2.6,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 102.0,
+   "notes": "Second charm set; initials inlaid on the bed side.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-charm-bow.stl",
+    "bytes": 158884,
+    "sha256": "9616e408fd7ac573ddfff3988e65ca86238516c78a4e4227842a4deaa1ce6c56"
+   }
+  },
+  {
+   "id": "pk-charm-bow-inlay",
+   "name": "Bag charm inlay, bow",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 17.6,
+    "y": 9.3,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.06,
+   "mass_g_pla": 0.1,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -1,
+   "bodies": 2,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/pk-charm-bow-inlay.stl",
+    "bytes": 85884,
+    "sha256": "9d7814d2902d51c0120e45330941c33456af153d18d805f2dcba560dd8ce4ea3"
+   }
+  },
+  {
+   "id": "pk-charm-cherry",
+   "name": "Bag charm, cherry (sample: MK)",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 32.2,
+    "y": 43.3,
+    "z": 4.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 2.2,
+   "mass_g_pla": 2.3,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Second charm set; initials inlaid on the bed side.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-charm-cherry.stl",
+    "bytes": 38684,
+    "sha256": "fa480e72999554aa937f6e364cb9fa085e2e532eae84341fd26d2d55975e5b26"
+   }
+  },
+  {
+   "id": "pk-charm-moon",
+   "name": "Bag charm, moon (sample: MK)",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 41.4,
+    "y": 46.0,
+    "z": 4.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 2.89,
+   "mass_g_pla": 2.6,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Second charm set; initials inlaid on the bed side.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-charm-moon.stl",
+    "bytes": 34484,
+    "sha256": "f6e92cefd53502f114021c1d6971761b0b6f97f6a805640d8a7995851e841bb8"
+   }
+  },
+  {
+   "id": "pk-charm-butterfly",
+   "name": "Bag charm, butterfly (sample: MK)",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 42.7,
+    "y": 34.6,
+    "z": 4.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 4.25,
+   "mass_g_pla": 3.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 3,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Second charm set; initials inlaid on the bed side.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-charm-butterfly.stl",
+    "bytes": 65684,
+    "sha256": "f4c77b1a9a88c6e82ada3abaf919a21a0a6e2cc9d858b9aee04b8d56095a694e"
+   }
+  },
+  {
+   "id": "pk-charm-smile",
+   "name": "Bag charm, smile (sample: MK)",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 46.0,
+    "y": 46.0,
+    "z": 4.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 6.51,
+   "mass_g_pla": 5.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 112.0,
+   "notes": "The face is the inlay.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-charm-smile.stl",
+    "bytes": 54484,
+    "sha256": "06473dc6ded0bdc9e8d3c06109d4f18776fd32e75e2d0a24123e6d5008993d83"
+   }
+  },
+  {
+   "id": "pk-charm-smile-inlay",
+   "name": "Bag charm inlay, smile",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 22.6,
+    "y": 16.2,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.07,
+   "mass_g_pla": 0.1,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -2,
+   "bodies": 3,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/pk-charm-smile-inlay.stl",
+    "bytes": 26684,
+    "sha256": "6c885cfc46df1ad81b82080ae6c64ae1253067dd938119d862632a919c7e0f09"
+   }
+  },
+  {
+   "id": "pk-friend-left",
+   "name": "Friend set, left half (sample: M)",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 28.7,
+    "y": 45.9,
+    "z": 4.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 2.72,
+   "mass_g_pla": 2.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 68.0,
+   "notes": "Half a heart on a wave; fits its other half.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-friend-left.stl",
+    "bytes": 81284,
+    "sha256": "ccbb36db37b970569b157f788cd63b0fcc353d62671611e7e3ffad1f60ef4746"
+   }
+  },
+  {
+   "id": "pk-friend-left-inlay",
+   "name": "Friend set inlay, left",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 10.8,
+    "y": 10.0,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.04,
+   "mass_g_pla": 0.1,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/pk-friend-left-inlay.stl",
+    "bytes": 40884,
+    "sha256": "401b93f32d7c7877f3bf5955fb0d347e46d3fd70be8494dfc4ac9fe0f5643287"
+   }
+  },
+  {
+   "id": "pk-friend-right",
+   "name": "Friend set, right half (sample: K)",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 28.7,
+    "y": 41.8,
+    "z": 4.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 2.73,
+   "mass_g_pla": 2.3,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 53.0,
+   "notes": "Half a heart on a wave; fits its other half.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-friend-right.stl",
+    "bytes": 61684,
+    "sha256": "bd2321685a31b0841221278eb16e705ce2aba7ef6d86fb627bdb5e670451f756"
+   }
+  },
+  {
+   "id": "pk-friend-right-inlay",
+   "name": "Friend set inlay, right",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 7.6,
+    "y": 10.3,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.03,
+   "mass_g_pla": 0.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/pk-friend-right-inlay.stl",
+    "bytes": 31884,
+    "sha256": "b3a4a45b04780174a19ae155a9ab61a7a146ea0d5f3b84cec95e5f51ae57c0d0"
+   }
+  },
+  {
+   "id": "pk-topper-star",
+   "name": "Pencil topper, star",
+   "family": "pocket",
+   "group": "stationery",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 23.9,
+    "y": 12.4,
+    "z": 43.5
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 2.4,
+   "mass_g_pla": 2.5,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 128.0,
+   "notes": "Press-fits a standard hex pencil.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-topper-star.stl",
+    "bytes": 44084,
+    "sha256": "fcb33c2435d430edc8f20ae554640e14c865cdee99a8bc6b9df7b1052f3c2861"
+   }
+  },
+  {
+   "id": "pk-topper-heart",
+   "name": "Pencil topper, heart",
+   "family": "pocket",
+   "group": "stationery",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 28.2,
+    "y": 12.4,
+    "z": 43.5
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 2.78,
+   "mass_g_pla": 2.8,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 110.0,
+   "notes": "Press-fits a standard hex pencil.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-topper-heart.stl",
+    "bytes": 63284,
+    "sha256": "1b0085f497e300f40f80f0f7ef7fad79a4c75d913c9495c2177a212751cf4f2a"
+   }
+  },
+  {
+   "id": "pk-topper-bow",
+   "name": "Pencil topper, bow",
+   "family": "pocket",
+   "group": "stationery",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 26.6,
+    "y": 12.4,
+    "z": 37.9
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 2.33,
+   "mass_g_pla": 2.5,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 123.0,
+   "notes": "Press-fits a standard hex pencil.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-topper-bow.stl",
+    "bytes": 78284,
+    "sha256": "096ab487c90dcb53fb7ca24ed8c1636b7133ff4a9348dd8bfd654c4d3bd31cc3"
+   }
+  },
+  {
+   "id": "pk-topper-smile",
+   "name": "Pencil topper, smile",
+   "family": "pocket",
+   "group": "stationery",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 30.0,
+    "y": 12.4,
+    "z": 46.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 3.56,
+   "mass_g_pla": 3.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 107.0,
+   "notes": "Press-fits a standard hex pencil.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-topper-smile.stl",
+    "bytes": 47684,
+    "sha256": "7845454e179e5fffc7b23a5238d2c032cffb90b4e9dad3e1681d0d1841dbb142"
+   }
   }
  ],
  "products": [
@@ -9409,6 +10529,51 @@
    "ruler_150_in_middle_slot_clash_mm3": 0.0,
    "ruler_150_in_outer_slot_clash_mm3": 431.302,
    "ruler_150_under_lid_clash_mm3": 0.0
+  },
+  "pocket": {
+   "wide_lid_plain_vs_base_mm3": -0.0,
+   "wide_lid_name_vs_base_mm3": -0.0,
+   "wide_card_lid_vs_base_mm3": -0.0,
+   "wide_insert_emergency_outside_cavity_mm3": 0.0,
+   "wide_insert_emergency_vs_base_mm3": 0.0,
+   "wide_insert_emergency_vs_card_lid_mm3": 0.0,
+   "wide_insert_makeup_outside_cavity_mm3": 0.0,
+   "wide_insert_makeup_vs_base_mm3": 0.0,
+   "wide_insert_makeup_vs_card_lid_mm3": 0.0,
+   "wide_insert_open_outside_cavity_mm3": 0.0,
+   "wide_insert_open_vs_base_mm3": 0.0,
+   "wide_insert_open_vs_card_lid_mm3": 0.0,
+   "wide_base_vs_keys_mm3": 37.562,
+   "wide_base_vs_strap-clip_mm3": -0.0,
+   "wide_base_vs_duo-strap_mm3": 0.0,
+   "wide_base_vs_belt-clip_mm3": -0.0,
+   "wide_base_vs_bar-saddle_mm3": -0.0,
+   "wide_base_vs_frame-saddle_mm3": 0.0,
+   "wide_base_vs_carabiner-loop_mm3": -0.0,
+   "wide_base_vs_home-dock_mm3": 0.0,
+   "wide_base_vs_board_mm3": -0.0,
+   "emergency_earbuds_clash_mm3": 0.0,
+   "emergency_power_bank_clash_mm3": 0.0,
+   "emergency_tampon_1_clash_mm3": 0.0,
+   "emergency_tampon_2_clash_mm3": 0.0,
+   "emergency_sanitiser_clash_mm3": 0.0,
+   "emergency_patches_clash_mm3": 0.0,
+   "lid_headroom_over_insert_top_mm": 13.8,
+   "card_vs_wide_card_lid_mm3": 0.0,
+   "card_vs_standard_card_lid_mm3": 0.0,
+   "standard_card_lid_vs_base_mm3": -0.0,
+   "standard_emergency_insert_vs_card_lid_mm3": 0.0,
+   "standard_emergency_insert_outside_cavity_mm3": 0.0,
+   "lip_tube_vs_sleeve_mm3": 16.28,
+   "eraser_vs_sleeve_mm3": 0.0,
+   "refill_vs_pen_mm3": 0.0,
+   "plug_spigot_interference_mm3": 21.593,
+   "pencil_vs_topper_mm3": 0.0,
+   "pencil_corners_bite_mm3": 0.396,
+   "friend_halves_overlap_mm3": 0.0,
+   "friend_halves_gap_mm": 0.35,
+   "qr_modules": 25,
+   "qr_dark_area_mm2": 320.5
   }
  },
  "lab": {
@@ -9848,6 +11013,49 @@
     "lives_in": "long pod pen slot (middle two, 157 mm)"
    },
    "status": "designed and checked digitally; nothing printed. Check every scale against a steel rule on the first print."
+  },
+  "pocket": {
+   "wide_pod_mm": [
+    176.0,
+    100.0,
+    40.0
+   ],
+   "wide_inner_mm": [
+    171.6,
+    95.6
+   ],
+   "insert_max_height_mm": 25.6,
+   "lid_headroom_over_insert_mm": 13.8,
+   "card_mm": [
+    86.0,
+    54.0,
+    0.9
+   ],
+   "lip_tube_mm": [
+    24.0,
+    23.0,
+    118.0
+   ],
+   "eraser_block_mm": [
+    65.0,
+    23.0,
+    13.0
+   ],
+   "refill": [
+    98.1,
+    5.9,
+    2.5
+   ],
+   "pencil_bore_mm": 7.8,
+   "qr": {
+    "modules": 25,
+    "module_mm": 1.0,
+    "error": "M",
+    "sample": "HTTPS://ASSEMBL.CO.NZ/I/SAMPLE",
+    "note": "the real code is made per order from the owner's id page address; the sample is not a live page"
+   },
+   "pockets_from": "published product sizes with clearance (AirPods Pro 2 60.6 × 45.2 × 21.7; Anker Nano 77 × 36.8 × 25; compact tampon ~80 × Ø17; 15 mL spray ~76 × Ø25; Staedtler 526 50 65 × 23 × 13; G2 refill 98.1 × Ø5.8)",
+   "status": "designed and checked digitally; nothing printed. Every pocket is checked against the real thing on the first print."
   }
  },
  "part_code_alphabet": "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"

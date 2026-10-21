@@ -305,6 +305,58 @@ export const WIDGET_LAB: LabItem[] = [
     blurb: 'A 15 cm ruler with millimetre ticks engraved into its top, sized for one of the long pod\'s two middle pen slots (157 mm long), so the school kit carries a ruler. 0 is the end of the ruler. The millimetre ticks are at the limit of a 0.4 mm nozzle; the first print decides whether they read.',
     parts: [{ id: 'ruler-150', qty: 1 }], doc: 'docs/living/DAYRALLY-RULER.md',
   },
+  {
+    id: 'emergency-pack', title: 'dayrally emergency pack · the wide pod', type: 'dayrally lab', colourSet: 'dayrally', size: '176 × 100 × 55 mm closed',
+    blurb: 'The fifth pod size, a third wider and 6 mm taller, on the same two-key TURN floor: it locks to every dayrally mount and any Grid board. The emergency insert takes an earbuds case, a small power bank, a lip balm, two compact tampons, a mini sanitiser lying down and a patch sachet; a wipes sachet rides on top. The card lid holds a bank card against the inside of the lid on two rails, so the card is never under the stuff. Pockets are from published product sizes; the first print checks each against the real thing.',
+    parts: [{ id: 'pk-pod-wide', qty: 1 }, { id: 'pk-lid-wide-card', qty: 1 }, { id: 'pk-lid-wide-card-inlay', qty: 1 }, { id: 'grid-turn-key', qty: 2 }],
+    choice: { key: 'insert', label: 'Insert', prefix: 'pk-insert-wide-', defaultId: 'pk-insert-wide-emergency' }, doc: 'docs/living/DAYRALLY-POCKET.md',
+  },
+  {
+    id: 'mini-emergency', title: 'dayrally mini emergency kit · the standard pod', type: 'dayrally lab', colourSet: 'dayrally', size: '128 × 72 × 49 mm closed',
+    blurb: 'The standard pod with the card lid and an emergency insert: a compact tampon, a lip balm standing, a mini sanitiser lying down, a patch sachet, and room for hair ties or a plaster. The bank card rides in the lid. Same two-key floor, same mounts.',
+    parts: [{ id: 'dr2-pod-standard', qty: 1 }, { id: 'pk-lid-standard-card', qty: 1 }, { id: 'pk-lid-standard-card-inlay', qty: 1 }, { id: 'pk-insert-standard-emergency', qty: 1 }, { id: 'grid-turn-key', qty: 2 }],
+    doc: 'docs/living/DAYRALLY-POCKET.md',
+  },
+  {
+    id: 'lip-sleeve', title: 'lip sleeve · for a peptide lip tube', type: 'dayrally lab', colourSet: 'dayrally', size: '93 × 28 × 27 mm',
+    blurb: 'An open-topped sleeve sized to the slant-tip peptide tubes (rhode 114 × 22 × 21, Laneige 96 × 23 × 23, Summer Fridays about 120 × 23): the tube sits 30 % proud, a thumb scoop pushes it out, a loop takes a ring or a charm, and the name is inlaid flush on the front in the accent colour.',
+    parts: [{ id: 'pk-lip-sleeve', qty: 1 }, { id: 'pk-lip-sleeve-inlay', qty: 1 }], doc: 'docs/living/DAYRALLY-POCKET.md',
+  },
+  {
+    id: 'charms-2', title: 'bag charms, second set · bow, cherry, moon, butterfly, smile', type: 'dayrally lab', colourSet: 'dayrally', size: 'about 42 mm · 4 mm thick',
+    blurb: 'Five more outlines beside the dayrally six. The bow carries initials inlaid flush; the smile carries its face; cherry, moon and butterfly are plain shapes with a ring hole. Four grams each.',
+    parts: [], choice: { key: 'skin', label: 'Shape', prefix: 'pk-charm-', defaultId: 'pk-charm-bow' }, doc: 'docs/living/DAYRALLY-POCKET.md',
+  },
+  {
+    id: 'friend-set', title: 'friend set · one heart, two halves', type: 'dayrally lab', colourSet: 'dayrally', size: '54 mm heart · 4 mm thick · two halves',
+    blurb: 'One heart split on a wave into two halves that fit back together with 0.35 mm between them. Each half has a ring hole at its shoulder and one initial inlaid flush. Print the halves in two colours; one each.',
+    parts: [{ id: 'pk-friend-left', qty: 1 }, { id: 'pk-friend-left-inlay', qty: 1 }, { id: 'pk-friend-right', qty: 1 }, { id: 'pk-friend-right-inlay', qty: 1 }], doc: 'docs/living/DAYRALLY-POCKET.md',
+  },
+  {
+    id: 'id-tag', title: 'id tag · a code a bystander can scan', type: 'dayrally lab', colourSet: 'dayrally', size: '64 × 38 × 4 mm',
+    blurb: 'A tag for the bag, the bike or the pod with a QR code inlaid flush beside the word SCAN: 25 × 25 modules at 1.0 mm. Scanning it opens the owner\'s emergency page (allergies, a parent\'s number, whatever the parent chooses to publish, nothing else). The code in the file is a SAMPLE; the real one is made per order from the page address. The page itself is proposed, not built.',
+    parts: [{ id: 'pk-id-tag', qty: 1 }, { id: 'pk-id-tag-inlay', qty: 1 }], doc: 'docs/living/DAYRALLY-POCKET.md',
+  },
+  {
+    id: 'id-lid', title: 'id lid · the mini pod lid with the owner\'s code', type: 'dayrally lab', colourSet: 'dayrally', size: '92 × 60 × 15 mm',
+    blurb: 'The mini pod lid with the QR code and the name inlaid flush in its top, so the pod on the bike carries the owner\'s page. Sample code; the real one is made per order.',
+    parts: [{ id: 'pk-lid-mini-id', qty: 1 }, { id: 'pk-lid-mini-id-inlay', qty: 1 }], doc: 'docs/living/DAYRALLY-POCKET.md',
+  },
+  {
+    id: 'eraser-sleeve', title: 'eraser sleeve · the rubber is replaceable', type: 'dayrally lab', colourSet: 'dayrally', size: '44 × 27 × 17 mm',
+    blurb: 'A sleeve for a standard block eraser (Staedtler Mars plastic, 65 × 23 × 13): the sleeve is yours and named, the rubber slides in and gets pushed up through a thumb slot as it wears. Prints name-side down.',
+    parts: [{ id: 'pk-eraser-sleeve', qty: 1 }, { id: 'pk-eraser-sleeve-inlay', qty: 1 }], doc: 'docs/living/DAYRALLY-POCKET.md',
+  },
+  {
+    id: 'pen-g2', title: 'pen · for a G2 refill, named', type: 'dayrally lab', colourSet: 'dayrally', size: '116 × 10 mm',
+    blurb: 'A pen body that takes any Parker-style G2 ballpoint refill (98 mm, the most common refill there is): a rounded hexagon with a flat for the name inlay, a tapered nose, and a press-fit back plug with a loop for a charm. Not a click pen; the cap-free kind that lives in the pencil pod.',
+    parts: [{ id: 'pk-pen-body', qty: 1 }, { id: 'pk-pen-body-inlay', qty: 1 }, { id: 'pk-pen-plug', qty: 1 }], doc: 'docs/living/DAYRALLY-POCKET.md',
+  },
+  {
+    id: 'pencil-topper', title: 'pencil topper · a charm on the pencil', type: 'dayrally lab', colourSet: 'dayrally', size: '12 mm collar · 24 to 44 mm tall',
+    blurb: 'A short collar that press-fits a standard hex pencil (its corners bite a 7.8 mm bore) with a charm outline standing on top: star, heart, bow or smile.',
+    parts: [], choice: { key: 'skin', label: 'Charm', prefix: 'pk-topper-', defaultId: 'pk-topper-star' }, doc: 'docs/living/DAYRALLY-POCKET.md',
+  },
 ];
 
 function labSpec(item: LabItem): WidgetSpec {

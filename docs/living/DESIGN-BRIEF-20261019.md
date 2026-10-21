@@ -790,3 +790,23 @@ under about NZ$12 cannot carry their own order; thirteen products lose money sol
 prices, the living room kits are above target and the dayrally kits below it. The catalogue prices are not
 changed by this: the first print measures real print times and a partner quotes, and then the model is re-run.
 
+### 11.23 The pocket range: Kate's girl range, the emergency pack and the id code (21 October)
+
+Kate: "i want to develop the girl range and i want to be able to print sets like this (but unique) also lip
+peptide cases and charms, friend sets, mini emergency packs that can fit pimple patches, make up, tampons or
+pads, wipes, hand sanitiser, a bank card a small battery back up for a phone and airpods case or other
+suggestions you can think of. i also want to investigate stationary items that can be 3d printed like cool
+highlighters and rubbers." And: "could we add a qr code that they customise in the widget that links to a
+personal emergency contacts and details so if they were out and about on a bike a person could scan the qr code
+and access allergy info parent contacts etc?"
+
+`DAYRALLY-POCKET.md` has the range: the wide pod (176 × 100 × 40) with emergency, makeup and open inserts and the
+card lid; the mini emergency kit on the standard pod; the lip sleeve; five more charms and the friend set; the id
+tag and id lid with a QR inlay (sample code; the owner's page is proposed, with its privacy rules); the eraser
+sleeve, the G2 pen and the pencil toppers. Every pocket is from a published size; the first print measures. The
+reference picture of the sets did not come through, so these are from Kate's words. The costing model gives each a
+first price. Ten lab widgets; nothing listed, nothing printed.
+
+The design rule that fell out: a child's emergency page is the parent's to publish, not ours to infer. Random
+token, chosen fields only, revocable, no indexing, a PIN for the second layer, Privacy Act 2020 statement at entry.
+

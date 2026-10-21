@@ -4561,5 +4561,564 @@
    -913,
    822
   ]
+ },
+ "pocket-emergency-open": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/pk-pod-wide.stl",
+    "colour": "#C7B5EC",
+    "x": 0,
+    "y": 60,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-insert-wide-emergency.stl",
+    "colour": "#E8EAED",
+    "x": 0,
+    "y": 60,
+    "z": 9.8,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/airpods-pro.stl",
+    "colour": "#F4F2EE",
+    "x": -54,
+    "y": 85,
+    "z": 18.999999999999996,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/bank-nano.stl",
+    "colour": "#2B2B2B",
+    "x": 20,
+    "y": 85,
+    "z": 18.999999999999996,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/balm.stl",
+    "colour": "#F2D06B",
+    "x": 72,
+    "y": 85,
+    "z": 18.999999999999996,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/tampon-compact.stl",
+    "colour": "#F0A8BD",
+    "x": -41,
+    "y": 48,
+    "z": 30.999999999999996,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/tampon-compact.stl",
+    "colour": "#F0A8BD",
+    "x": -41,
+    "y": 26,
+    "z": 30.999999999999996,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/sanitiser-15.stl",
+    "colour": "#CFE3EE",
+    "x": 44,
+    "y": 46,
+    "z": 26.999999999999996,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/patch-sachet.stl",
+    "colour": "#D98A9E",
+    "x": 44,
+    "y": 22,
+    "z": 33.0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-lid-wide-card.stl",
+    "colour": "#C7B5EC",
+    "x": 0,
+    "y": -75,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/card-flat.stl",
+    "colour": "#8A8D92",
+    "x": 4,
+    "y": -75,
+    "z": 2.6,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   300,
+   -380,
+   330
+  ],
+  "bg": "#F5F1F2"
+ },
+ "pocket-makeup-open": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/pk-pod-wide.stl",
+    "colour": "#F2B8C6",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-insert-wide-makeup.stl",
+    "colour": "#E8EAED",
+    "x": 0,
+    "y": 0,
+    "z": 9.8,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/compact.stl",
+    "colour": "#D98A9E",
+    "x": -51,
+    "y": -15,
+    "z": 23.999999999999996,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/mascara.stl",
+    "colour": "#2B2B2B",
+    "x": -22,
+    "y": 37,
+    "z": 25.999999999999996,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/balm.stl",
+    "colour": "#F2D06B",
+    "x": 42,
+    "y": 16,
+    "z": 25.999999999999996,
+    "flip": false,
+    "rot": 90
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/sanitiser-15.stl",
+    "colour": "#CFE3EE",
+    "x": 44,
+    "y": -38,
+    "z": 23.999999999999996,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   280,
+   -360,
+   320
+  ]
+ },
+ "pocket-mini-emergency": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-pod-standard.stl",
+    "colour": "#9EDFC5",
+    "x": 0,
+    "y": 45,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-insert-standard-emergency.stl",
+    "colour": "#E8EAED",
+    "x": 0,
+    "y": 45,
+    "z": 9.8,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/tampon-compact.stl",
+    "colour": "#F0A8BD",
+    "x": -16,
+    "y": 68,
+    "z": 24.999999999999996,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/balm.stl",
+    "colour": "#F2D06B",
+    "x": 46,
+    "y": 68,
+    "z": 18.999999999999996,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/sanitiser-15.stl",
+    "colour": "#CFE3EE",
+    "x": -20,
+    "y": 42,
+    "z": 20.999999999999996,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/patch-sachet.stl",
+    "colour": "#D98A9E",
+    "x": 40,
+    "y": 42,
+    "z": 26.999999999999996,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-lid-standard-card.stl",
+    "colour": "#9EDFC5",
+    "x": 0,
+    "y": -55,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/card-flat.stl",
+    "colour": "#8A8D92",
+    "x": 4,
+    "y": -55,
+    "z": 2.6,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   220,
+   -290,
+   250
+  ]
+ },
+ "pocket-lip-sleeve": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/pk-lip-sleeve.stl",
+    "colour": "#F2B8C6",
+    "x": 0,
+    "y": 20,
+    "z": 0,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-lip-sleeve-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": 0,
+    "y": 20,
+    "z": 26.4,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/lip-tube.stl",
+    "colour": "#F4F2EE",
+    "x": 20,
+    "y": 20,
+    "z": 2.0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-lip-sleeve.stl",
+    "colour": "#8EC5F2",
+    "x": 0,
+    "y": -30,
+    "z": 0,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-lip-sleeve-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": 0,
+    "y": -30,
+    "z": 26.4,
+    "flip": true,
+    "rot": 180
+   }
+  ],
+  "cam": [
+   120,
+   -150,
+   140
+  ]
+ },
+ "pocket-charms": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/pk-charm-bow.stl",
+    "colour": "#F2B8C6",
+    "x": -100,
+    "y": 30,
+    "z": 0,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-charm-bow-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": -100,
+    "y": 30,
+    "z": 3.4,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-charm-cherry.stl",
+    "colour": "#E04E3B",
+    "x": -50,
+    "y": 30,
+    "z": 0,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-charm-moon.stl",
+    "colour": "#F3D97A",
+    "x": 0,
+    "y": 30,
+    "z": 0,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-charm-butterfly.stl",
+    "colour": "#C7B5EC",
+    "x": 50,
+    "y": 30,
+    "z": 0,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-charm-smile.stl",
+    "colour": "#F5C400",
+    "x": 100,
+    "y": 30,
+    "z": 0,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-charm-smile-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": 100,
+    "y": 30,
+    "z": 3.4,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-friend-left.stl",
+    "colour": "#9EDFC5",
+    "x": -28,
+    "y": -40,
+    "z": 0,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-friend-left-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": -28,
+    "y": -40,
+    "z": 3.4,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-friend-right.stl",
+    "colour": "#F28C28",
+    "x": 6,
+    "y": -40,
+    "z": 0,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-friend-right-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": 6,
+    "y": -40,
+    "z": 3.4,
+    "flip": true,
+    "rot": 180
+   }
+  ],
+  "cam": [
+   150,
+   -230,
+   210
+  ]
+ },
+ "pocket-id": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-tag.stl",
+    "colour": "#F5C400",
+    "x": -60,
+    "y": -20,
+    "z": 0,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-tag-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": -60,
+    "y": -20,
+    "z": 3.4,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-lid-mini-id.stl",
+    "colour": "#8EC5F2",
+    "x": 40,
+    "y": 20,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-lid-mini-id-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": 40,
+    "y": 20,
+    "z": 14.4,
+    "flip": true,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   130,
+   -180,
+   160
+  ]
+ },
+ "pocket-stationery": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/pk-pen-body.stl",
+    "colour": "#7A3E9D",
+    "x": 0,
+    "y": 40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-pen-plug.stl",
+    "colour": "#F5C400",
+    "x": -62,
+    "y": 40,
+    "z": 0,
+    "flip": false,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/refill.stl",
+    "colour": "#8A8D92",
+    "x": 0,
+    "y": 62,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-eraser-sleeve.stl",
+    "colour": "#9EDFC5",
+    "x": -40,
+    "y": -10,
+    "z": 0,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-eraser-sleeve-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": -40,
+    "y": -10,
+    "z": 16.2,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/eraser-block.stl",
+    "colour": "#F4F2EE",
+    "x": -10,
+    "y": -10,
+    "z": 2.0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-topper-star.stl",
+    "colour": "#F5C400",
+    "x": 40,
+    "y": -10,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-topper-heart.stl",
+    "colour": "#E04E3B",
+    "x": 65,
+    "y": -10,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-topper-bow.stl",
+    "colour": "#F2B8C6",
+    "x": 90,
+    "y": -10,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-topper-smile.stl",
+    "colour": "#BFD95A",
+    "x": 115,
+    "y": -10,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   150,
+   -220,
+   170
+  ]
  }
 }
