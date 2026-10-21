@@ -661,8 +661,19 @@ async function mount(canvas, opts = {}) {
 
   let fT = 0, fC = 0, lit = 0, litC = 0, pulse = 0, paused = false, lost = false, wide = !opts.centred && innerWidth > 900, px = 0, py = 0, cx = 0, cy = 0, t = 0, raf = 0, last0 = performance.now();
   let kp = 0, kC = 0, kZoom = opts.knockZoom !== false;
-  const layout = (w, h) => {
-    if (!mask) return;
+  // Without the knockout mask, a page that opens on a formation can still place its type around it:
+  // project the first slot's resting bounds (rig centred, no drift, aim 1.8) to css pixels.
+  const formLayout = (w, h, fit) => {
+    const f = FORMS[0]; let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+    for (let i = 0; i < f.length; i += 3) { x0 = Math.min(x0, f[i]); x1 = Math.max(x1, f[i]); y0 = Math.min(y0, f[i + 1]); y1 = Math.max(y1, f[i + 1]); }
+    const cam = camera.clone(); cam.position.set(0, 1.9, 10.6); cam.lookAt(0, 1.8, 0); cam.updateMatrixWorld();
+    const at = (x, y) => new THREE.Vector3(x * fit, 1.8 + (y - 1.8) * fit, 0).project(cam);
+    const a = at(x0, y1), b = at(x1, y0);
+    const top = (1 - a.y) / 2 * h, bottom = (1 - b.y) / 2 * h;
+    opts.onLayout({ cx: 0.5 * w, cy: (top + bottom) / 2, w: (b.x - a.x) / 2 * w, h: bottom - top });
+  };
+  const layout = (w, h, fit) => {
+    if (!mask) { if (opts.onLayout && SLOTS.length) formLayout(w, h, fit); return; }
     const W = Math.min(0.9 * w, 0.4 * h * mask.aspect), top = 0.42 * h;
     PL.uKW.value = W * dpr; PL.uKC.value.set(0.5 * w * dpr, (h - top) * dpr);
     if (opts.onLayout) opts.onLayout({ cx: 0.5 * w, cy: top, w: W, h: W * mask.ink });
@@ -679,7 +690,7 @@ async function mount(canvas, opts = {}) {
     const fit = Math.min(1, (2 * TAN * 10.6 * camera.aspect * 0.92) / (opts.fitWidth || 6.8));
     pivot.scale.setScalar(fit); U.uSize.value = (1 + (1 - fit) * 1.2) * (opts.birdScale || 1);
     bright.uniforms.uTexel.value.set(1 / fw, 1 / fh); blur.uniforms.uTexel.value.set(1 / qw, 1 / qh); comp.uniforms.uRes.value.set(fw, fh);
-    layout(w, h);
+    layout(w, h, fit);
     paintDirty = true;
   };
   resize(); addEventListener('resize', resize);
