@@ -2413,5 +2413,247 @@
    }
   ],
   "lines": []
+ },
+ {
+  "handle": "lab-emergency-pack",
+  "kind": "prototype",
+  "title": "dayrally emergency pack · the wide pod",
+  "type": "dayrally lab",
+  "material": "PLA Matte · PETG",
+  "size": "176 × 100 × 55 mm closed",
+  "priceNzd": null,
+  "shipG": 308,
+  "parts": [
+   {
+    "id": "pk-pod-wide",
+    "qty": 1
+   },
+   {
+    "id": "pk-lid-wide-card",
+    "qty": 1
+   },
+   {
+    "id": "pk-lid-wide-card-inlay",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   },
+   {
+    "id": "pk-insert-wide-emergency",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-mini-emergency",
+  "kind": "prototype",
+  "title": "dayrally mini emergency kit · the standard pod",
+  "type": "dayrally lab",
+  "material": "PLA Matte · PETG",
+  "size": "128 × 72 × 49 mm closed",
+  "priceNzd": null,
+  "shipG": 190,
+  "parts": [
+   {
+    "id": "dr2-pod-standard",
+    "qty": 1
+   },
+   {
+    "id": "pk-lid-standard-card",
+    "qty": 1
+   },
+   {
+    "id": "pk-lid-standard-card-inlay",
+    "qty": 1
+   },
+   {
+    "id": "pk-insert-standard-emergency",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-lip-sleeve",
+  "kind": "prototype",
+  "title": "lip sleeve · for a peptide lip tube",
+  "type": "dayrally lab",
+  "material": "PLA Matte",
+  "size": "93 × 28 × 27 mm",
+  "priceNzd": null,
+  "shipG": 63,
+  "parts": [
+   {
+    "id": "pk-lip-sleeve",
+    "qty": 1
+   },
+   {
+    "id": "pk-lip-sleeve-inlay",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-charms-2",
+  "kind": "prototype",
+  "title": "bag charms, second set · bow, cherry, moon, butterfly, smile",
+  "type": "dayrally lab",
+  "material": "PLA Matte",
+  "size": "about 42 mm · 4 mm thick",
+  "priceNzd": null,
+  "shipG": 43,
+  "parts": [
+   {
+    "id": "pk-charm-bow",
+    "qty": 1
+   },
+   {
+    "id": "pk-charm-bow-inlay",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-friend-set",
+  "kind": "prototype",
+  "title": "friend set · one heart, two halves",
+  "type": "dayrally lab",
+  "material": "PLA Matte",
+  "size": "54 mm heart · 4 mm thick · two halves",
+  "priceNzd": null,
+  "shipG": 46,
+  "parts": [
+   {
+    "id": "pk-friend-left",
+    "qty": 1
+   },
+   {
+    "id": "pk-friend-left-inlay",
+    "qty": 1
+   },
+   {
+    "id": "pk-friend-right",
+    "qty": 1
+   },
+   {
+    "id": "pk-friend-right-inlay",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-id-tag",
+  "kind": "prototype",
+  "title": "id tag · a code a bystander can scan",
+  "type": "dayrally lab",
+  "material": "PLA Matte",
+  "size": "64 × 38 × 4 mm",
+  "priceNzd": null,
+  "shipG": 50,
+  "parts": [
+   {
+    "id": "pk-id-tag",
+    "qty": 1
+   },
+   {
+    "id": "pk-id-tag-inlay",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-id-lid",
+  "kind": "prototype",
+  "title": "id lid · the mini pod lid with the owner's code",
+  "type": "dayrally lab",
+  "material": "PLA Matte",
+  "size": "92 × 60 × 15 mm",
+  "priceNzd": null,
+  "shipG": 67,
+  "parts": [
+   {
+    "id": "pk-lid-mini-id",
+    "qty": 1
+   },
+   {
+    "id": "pk-lid-mini-id-inlay",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-eraser-sleeve",
+  "kind": "prototype",
+  "title": "eraser sleeve · the rubber is replaceable",
+  "type": "dayrally lab",
+  "material": "PLA Matte",
+  "size": "44 × 27 × 17 mm",
+  "priceNzd": null,
+  "shipG": 49,
+  "parts": [
+   {
+    "id": "pk-eraser-sleeve",
+    "qty": 1
+   },
+   {
+    "id": "pk-eraser-sleeve-inlay",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-pen-g2",
+  "kind": "prototype",
+  "title": "pen · for a G2 refill, named",
+  "type": "dayrally lab",
+  "material": "PLA Matte",
+  "size": "116 × 10 mm",
+  "priceNzd": null,
+  "shipG": 48,
+  "parts": [
+   {
+    "id": "pk-pen-body",
+    "qty": 1
+   },
+   {
+    "id": "pk-pen-body-inlay",
+    "qty": 1
+   },
+   {
+    "id": "pk-pen-plug",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-pencil-topper",
+  "kind": "prototype",
+  "title": "pencil topper · a charm on the pencil",
+  "type": "dayrally lab",
+  "material": "PLA Matte",
+  "size": "12 mm collar · 24 to 44 mm tall",
+  "priceNzd": null,
+  "shipG": 43,
+  "parts": [
+   {
+    "id": "pk-topper-star",
+    "qty": 1
+   }
+  ],
+  "lines": []
  }
 ]

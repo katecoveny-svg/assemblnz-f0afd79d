@@ -1,0 +1,807 @@
+{
+  "spec": {
+    "wide_pod_mm": [
+      176.0,
+      100.0,
+      40.0
+    ],
+    "wide_inner_mm": [
+      171.6,
+      95.6
+    ],
+    "insert_max_height_mm": 25.6,
+    "lid_headroom_over_insert_mm": 13.8,
+    "card_mm": [
+      86.0,
+      54.0,
+      0.9
+    ],
+    "lip_tube_mm": [
+      24.0,
+      23.0,
+      118.0
+    ],
+    "eraser_block_mm": [
+      65.0,
+      23.0,
+      13.0
+    ],
+    "refill": [
+      98.1,
+      5.9,
+      2.5
+    ],
+    "pencil_bore_mm": 7.8,
+    "qr": {
+      "modules": 25,
+      "module_mm": 1.0,
+      "error": "M",
+      "sample": "HTTPS://ASSEMBL.CO.NZ/I/SAMPLE",
+      "note": "the real code is made per order from the owner's id page address; the sample is not a live page"
+    },
+    "pockets_from": "published product sizes with clearance (AirPods Pro 2 60.6 × 45.2 × 21.7; Anker Nano 77 × 36.8 × 25; compact tampon ~80 × Ø17; 15 mL spray ~76 × Ø25; Staedtler 526 50 65 × 23 × 13; G2 refill 98.1 × Ø5.8)",
+    "status": "designed and checked digitally; nothing printed. Every pocket is checked against the real thing on the first print."
+  },
+  "parts": [
+    {
+      "slug": "pk-pod-wide",
+      "name": "dayrally pod, wide",
+      "group": "pod",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        187.0,
+        100.0,
+        40.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 77.44,
+      "est_grams_pla": 78.2,
+      "watertight": true,
+      "genus": 3,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 65.0,
+      "notes": "176 × 100 × 40: the emergency and makeup pod. Floor is a TURN flange: every dayrally mount, any Grid board."
+    },
+    {
+      "slug": "pk-lid-wide-plain",
+      "name": "Lid, wide, plain",
+      "group": "lid",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        176.0,
+        100.0,
+        15.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 50.2,
+      "est_grams_pla": 53.9,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 889.0,
+      "notes": "Prints top-down."
+    },
+    {
+      "slug": "pk-lid-wide-name",
+      "name": "Lid, wide, name (sample: MILA)",
+      "group": "lid",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        176.0,
+        100.0,
+        15.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 49.75,
+      "est_grams_pla": 54.0,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 1633.0,
+      "notes": "Inlay prints as the first layers in a second colour."
+    },
+    {
+      "slug": "pk-lid-wide-name-inlay",
+      "name": "Lid inlay, wide, name",
+      "group": "lid",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        67.3,
+        20.3,
+        0.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.45,
+      "est_grams_pla": 0.6,
+      "watertight": true,
+      "genus": -2,
+      "bodies": 4,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": ""
+    },
+    {
+      "slug": "pk-lid-wide-dots",
+      "name": "Lid, wide, dots",
+      "group": "lid",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        176.0,
+        100.0,
+        15.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 48.03,
+      "est_grams_pla": 54.7,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 4506.0,
+      "notes": ""
+    },
+    {
+      "slug": "pk-lid-wide-dots-inlay",
+      "name": "Lid inlay, wide, dots",
+      "group": "lid",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        149.8,
+        73.5,
+        0.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 2.17,
+      "est_grams_pla": 2.7,
+      "watertight": true,
+      "genus": -99,
+      "bodies": 100,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": ""
+    },
+    {
+      "slug": "pk-lid-wide-card",
+      "name": "Card lid, wide (sample: MILA)",
+      "group": "lid",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        176.0,
+        100.0,
+        15.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 51.05,
+      "est_grams_pla": 55.8,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 1845.0,
+      "notes": "Two rails inside hold a bank card against the lid; name inlaid on top."
+    },
+    {
+      "slug": "pk-lid-wide-card-inlay",
+      "name": "Card lid inlay, wide",
+      "group": "lid",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        67.3,
+        20.3,
+        0.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.45,
+      "est_grams_pla": 0.6,
+      "watertight": true,
+      "genus": -2,
+      "bodies": 4,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": ""
+    },
+    {
+      "slug": "pk-lid-standard-card",
+      "name": "Card lid, standard (sample: MILA)",
+      "group": "lid",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        128.0,
+        72.0,
+        15.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 29.73,
+      "est_grams_pla": 33.6,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 1591.0,
+      "notes": "The standard lid with the card rails; name inlaid on top."
+    },
+    {
+      "slug": "pk-lid-standard-card-inlay",
+      "name": "Card lid inlay, standard",
+      "group": "lid",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        67.3,
+        20.3,
+        0.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.45,
+      "est_grams_pla": 0.6,
+      "watertight": true,
+      "genus": -2,
+      "bodies": 4,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": ""
+    },
+    {
+      "slug": "pk-insert-wide-emergency",
+      "name": "Insert, wide: emergency",
+      "group": "insert",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        170.6,
+        94.6,
+        25.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 143.7,
+      "est_grams_pla": 76.6,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Earbuds case, power bank, balm, two compact tampons, sanitiser lying down, patches."
+    },
+    {
+      "slug": "pk-insert-wide-makeup",
+      "name": "Insert, wide: makeup",
+      "group": "insert",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        170.6,
+        94.6,
+        22.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 190.81,
+      "est_grams_pla": 80.3,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Compact, mascara, balm, two pencils, mini spray, hair ties."
+    },
+    {
+      "slug": "pk-insert-wide-open",
+      "name": "Insert, wide: open",
+      "group": "insert",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        170.6,
+        94.6,
+        24.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 35.53,
+      "est_grams_pla": 44.1,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Two deep bays; a folded pad fits one."
+    },
+    {
+      "slug": "pk-insert-standard-emergency",
+      "name": "Insert, standard: emergency, mini",
+      "group": "insert",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        122.6,
+        66.6,
+        19.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 65.18,
+      "est_grams_pla": 37.4,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "A compact tampon, a balm, a mini sanitiser, patches."
+    },
+    {
+      "slug": "pk-lip-sleeve",
+      "name": "Lip sleeve (sample: MILA)",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        92.7,
+        28.2,
+        27.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 14.51,
+      "est_grams_pla": 18.0,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 2022.0,
+      "notes": "Open-topped sleeve for a lip treatment tube; name inlaid on the front; ring loop. Prints inlay-face down."
+    },
+    {
+      "slug": "pk-lip-sleeve-inlay",
+      "name": "Lip sleeve inlay",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        23.6,
+        7.1,
+        0.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.05,
+      "est_grams_pla": 0.1,
+      "watertight": true,
+      "genus": -2,
+      "bodies": 4,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": ""
+    },
+    {
+      "slug": "pk-id-tag",
+      "name": "ID tag (sample code)",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        64.0,
+        38.0,
+        4.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 9.2,
+      "est_grams_pla": 7.4,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 375.0,
+      "notes": "QR inlaid flush beside SCAN; the real code is made per order. Prints code-side down."
+    },
+    {
+      "slug": "pk-id-tag-inlay",
+      "name": "ID tag inlay (sample code)",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        44.6,
+        25.0,
+        0.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.22,
+      "est_grams_pla": 0.3,
+      "watertight": true,
+      "genus": 9,
+      "bodies": 16,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": ""
+    },
+    {
+      "slug": "pk-lid-mini-id",
+      "name": "Lid, mini, id (sample: MILA)",
+      "group": "lid",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        92.0,
+        60.0,
+        15.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 18.02,
+      "est_grams_pla": 20.9,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 1009.0,
+      "notes": "The mini lid with the owner's QR and name inlaid."
+    },
+    {
+      "slug": "pk-lid-mini-id-inlay",
+      "name": "Lid inlay, mini, id",
+      "group": "lid",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        70.0,
+        25.0,
+        0.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.33,
+      "est_grams_pla": 0.4,
+      "watertight": true,
+      "genus": 9,
+      "bodies": 16,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": ""
+    },
+    {
+      "slug": "pk-eraser-sleeve",
+      "name": "Eraser sleeve (sample: MILA)",
+      "group": "stationery",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        43.6,
+        27.0,
+        16.8
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 5.62,
+      "est_grams_pla": 7.0,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 809.0,
+      "notes": "Takes a 65 × 23 × 13 block eraser; thumb slot pushes it out. Prints inlay-face down."
+    },
+    {
+      "slug": "pk-eraser-sleeve-inlay",
+      "name": "Eraser sleeve inlay",
+      "group": "stationery",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        20.2,
+        6.1,
+        0.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.04,
+      "est_grams_pla": 0.0,
+      "watertight": true,
+      "genus": -2,
+      "bodies": 4,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": ""
+    },
+    {
+      "slug": "pk-pen-body",
+      "name": "Pen body, G2 refill (sample: MILA)",
+      "group": "stationery",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        116.1,
+        9.5,
+        9.5
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 4.79,
+      "est_grams_pla": 5.9,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 758.0,
+      "notes": "Takes a Parker-style G2 refill; prints on its flat, inlay down."
+    },
+    {
+      "slug": "pk-pen-body-inlay",
+      "name": "Pen body inlay",
+      "group": "stationery",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        16.8,
+        5.1,
+        0.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.03,
+      "est_grams_pla": 0.0,
+      "watertight": true,
+      "genus": -2,
+      "bodies": 4,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": ""
+    },
+    {
+      "slug": "pk-pen-plug",
+      "name": "Pen plug",
+      "group": "stationery",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        21.5,
+        10.5,
+        9.5
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.86,
+      "est_grams_pla": 0.8,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 83.0,
+      "notes": "Press-fit into the pen's bore; charm loop."
+    },
+    {
+      "slug": "pk-charm-bow",
+      "name": "Bag charm, bow (sample: MK)",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        40.8,
+        34.1,
+        4.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 2.8,
+      "est_grams_pla": 2.6,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 102.0,
+      "notes": "Second charm set; initials inlaid on the bed side."
+    },
+    {
+      "slug": "pk-charm-bow-inlay",
+      "name": "Bag charm inlay, bow",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        17.6,
+        9.3,
+        0.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.06,
+      "est_grams_pla": 0.1,
+      "watertight": true,
+      "genus": -1,
+      "bodies": 2,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": ""
+    },
+    {
+      "slug": "pk-charm-cherry",
+      "name": "Bag charm, cherry (sample: MK)",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        32.2,
+        43.3,
+        4.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 2.2,
+      "est_grams_pla": 2.3,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Second charm set; initials inlaid on the bed side."
+    },
+    {
+      "slug": "pk-charm-moon",
+      "name": "Bag charm, moon (sample: MK)",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        41.4,
+        46.0,
+        4.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 2.89,
+      "est_grams_pla": 2.6,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Second charm set; initials inlaid on the bed side."
+    },
+    {
+      "slug": "pk-charm-butterfly",
+      "name": "Bag charm, butterfly (sample: MK)",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        42.7,
+        34.6,
+        4.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 4.25,
+      "est_grams_pla": 3.4,
+      "watertight": true,
+      "genus": 3,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Second charm set; initials inlaid on the bed side."
+    },
+    {
+      "slug": "pk-charm-smile",
+      "name": "Bag charm, smile (sample: MK)",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        46.0,
+        46.0,
+        4.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 6.51,
+      "est_grams_pla": 5.0,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 112.0,
+      "notes": "The face is the inlay."
+    },
+    {
+      "slug": "pk-charm-smile-inlay",
+      "name": "Bag charm inlay, smile",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        22.6,
+        16.2,
+        0.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.07,
+      "est_grams_pla": 0.1,
+      "watertight": true,
+      "genus": -2,
+      "bodies": 3,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": ""
+    },
+    {
+      "slug": "pk-friend-left",
+      "name": "Friend set, left half (sample: M)",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        28.7,
+        45.9,
+        4.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 2.72,
+      "est_grams_pla": 2.4,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 68.0,
+      "notes": "Half a heart on a wave; fits its other half."
+    },
+    {
+      "slug": "pk-friend-left-inlay",
+      "name": "Friend set inlay, left",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        10.8,
+        10.0,
+        0.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.04,
+      "est_grams_pla": 0.1,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": ""
+    },
+    {
+      "slug": "pk-friend-right",
+      "name": "Friend set, right half (sample: K)",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        28.7,
+        41.8,
+        4.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 2.73,
+      "est_grams_pla": 2.3,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 53.0,
+      "notes": "Half a heart on a wave; fits its other half."
+    },
+    {
+      "slug": "pk-friend-right-inlay",
+      "name": "Friend set inlay, right",
+      "group": "pocket",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        7.6,
+        10.3,
+        0.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.03,
+      "est_grams_pla": 0.0,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": ""
+    },
+    {
+      "slug": "pk-topper-star",
+      "name": "Pencil topper, star",
+      "group": "stationery",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        23.9,
+        12.4,
+        43.5
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 2.4,
+      "est_grams_pla": 2.5,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 128.0,
+      "notes": "Press-fits a standard hex pencil."
+    },
+    {
+      "slug": "pk-topper-heart",
+      "name": "Pencil topper, heart",
+      "group": "stationery",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        28.2,
+        12.4,
+        43.5
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 2.78,
+      "est_grams_pla": 2.8,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 110.0,
+      "notes": "Press-fits a standard hex pencil."
+    },
+    {
+      "slug": "pk-topper-bow",
+      "name": "Pencil topper, bow",
+      "group": "stationery",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        26.6,
+        12.4,
+        37.9
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 2.33,
+      "est_grams_pla": 2.5,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 123.0,
+      "notes": "Press-fits a standard hex pencil."
+    },
+    {
+      "slug": "pk-topper-smile",
+      "name": "Pencil topper, smile",
+      "group": "stationery",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        30.0,
+        12.4,
+        46.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 3.56,
+      "est_grams_pla": 3.4,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 107.0,
+      "notes": "Press-fits a standard hex pencil."
+    }
+  ]
+}
