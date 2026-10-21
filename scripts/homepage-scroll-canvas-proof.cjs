@@ -101,8 +101,15 @@ fs.mkdirSync(output, { recursive: true });
         }
         await page.setViewportSize({ width, height: 844 }); await page.waitForTimeout(400);
         await page.locator('[data-pause]').click(); await page.waitForSelector('.direction-4c[data-video-ready]');
-        await page.locator('video').evaluate(v => v.dispatchEvent(new Event('stalled')));
-        assert(await page.locator('.direction-4c').getAttribute('data-video-ready'), 'buffered stall keeps footage');
+        // Check the precondition (a buffered frame, ready flag set) and fire the stall in the same task,
+        // so resumed playback or the clip's loop seam cannot leave readyState below 2 in between.
+        const afterStall = await (await page.waitForFunction(() => {
+          const v = document.querySelector('video');
+          if (v.readyState < 2 || document.querySelector('.direction-4c').dataset.videoReady !== 'true') return false;
+          v.dispatchEvent(new Event('stalled'));
+          return document.querySelector('.direction-4c').dataset.videoReady ?? 'dropped';
+        }, undefined, { timeout: 5000 })).jsonValue();
+        assert.equal(afterStall, 'true', 'buffered stall keeps footage');
         await page.locator('video').evaluate(v => v.dispatchEvent(new Event('waiting')));
         await page.waitForSelector('.direction-4c[data-video-ready]');
         await page.locator('video').evaluate(v => v.dispatchEvent(new Event('error'))); await page.waitForTimeout(400);
