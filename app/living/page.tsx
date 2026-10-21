@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { CAD_MANIFEST, DAYRALLY_KITS, INTERFACE_SPEC, KITS, PRODUCTS, WIDGET_LAB } from '@/lib/living';
+import { CAD_MANIFEST, DAYRALLY_KITS, HOME_RANGE, INTERFACE_SPEC, KITS, PRODUCTS, WIDGET_LAB } from '@/lib/living';
 import { fredoka } from './fonts';
 import { HeroWall } from './HeroWall';
 import './living.css';
@@ -10,22 +10,24 @@ import { POD_CONTENTS_NOTE } from '@/lib/living/pod-contents';
 export const metadata: Metadata = {
   title: 'dayrally · by assembl / living — one system. endless days.',
   description:
-    '3D printed kits for your room, your bike, your bag and the dog, all on one 42 mm quarter-turn key. Show us your space, pick a kit, printed to order.',
+    '3D printed kits for your room, your bike, your bag and the dog, all on one 42 mm quarter-turn key. Shelving, furniture and decor for the house. Show us your space, pick a kit, printed to order.',
 };
 
 const SUN = '#ffd200';
 
 /** The category row: a picture and a name, nothing else. */
 const DOORS: { id: string; name: string; sub: string; art: string; href: string }[] = [
-  { id: 'ride', name: 'ride', sub: 'bike', art: 'bike-set-sun', href: '/living/widget/al-kit-dayrally-ride-kit' },
-  { id: 'scoot', name: 'scoot', sub: 'scooter', art: 'scoot-set-sun', href: '/living/widget/al-kit-dayrally-scoot-kit' },
-  { id: 'fish', name: 'fish', sub: 'wharf & beach', art: 'rod-packed-lime', href: '/living/widget/al-kit-dayrally-fish-kit' },
-  { id: 'everyday', name: 'everyday', sub: 'bag & belt', art: 'pods-tech', href: '/living/widget/al-kit-dayrally-everyday-kit' },
-  { id: 'my-room', name: 'my room', sub: 'wall & desk', art: 'teen-room-flatlay', href: '/living/studio?space=my-room' },
-  { id: 'my-space', name: 'my space', sub: 'vanity & drawer', art: 'vanity-cutout-sage', href: '/living/studio?space=my-space' },
-  { id: 'work-and-create', name: 'work', sub: 'bench & workshop', art: 'shelf-3-sage', href: '/living/studio?space=work-and-create' },
-  { id: 'pets-and-everyday', name: 'pets', sub: 'leads & names', art: 'hook-clay', href: '/living/studio?space=pets-and-everyday' },
+  { id: 'ride', name: 'ride', sub: 'bike', art: '/living/alpha/bike-set-sun.png', href: '/living/widget/al-kit-dayrally-ride-kit' },
+  { id: 'scoot', name: 'scoot', sub: 'scooter', art: '/living/alpha/scoot-set-sun.png', href: '/living/widget/al-kit-dayrally-scoot-kit' },
+  { id: 'fish', name: 'fish', sub: 'wharf & beach', art: '/living/alpha/rod-packed-lime.png', href: '/living/widget/al-kit-dayrally-fish-kit' },
+  { id: 'everyday', name: 'everyday', sub: 'bag & belt', art: '/living/alpha/pods-tech.png', href: '/living/widget/al-kit-dayrally-everyday-kit' },
+  { id: 'home', name: 'home', sub: 'shelving, furniture & decor', art: '/living/cad/ac02/previews/small-flatpack-shelf.webp', href: '#ls-home' },
+  { id: 'my-room', name: 'my room', sub: 'wall & desk', art: '/living/alpha/teen-room-flatlay.png', href: '/living/studio?space=my-room' },
+  { id: 'my-space', name: 'my space', sub: 'vanity & drawer', art: '/living/alpha/vanity-cutout-sage.png', href: '/living/studio?space=my-space' },
+  { id: 'work-and-create', name: 'work', sub: 'bench & workshop', art: '/living/alpha/shelf-3-sage.png', href: '/living/studio?space=work-and-create' },
+  { id: 'pets-and-everyday', name: 'pets', sub: 'leads & names', art: '/living/alpha/hook-clay.png', href: '/living/studio?space=pets-and-everyday' },
 ];
+
 
 /** The pieces: catalogue products (priced, proposed) and lab items (designed, unpriced), each with its render. */
 const PIECES: { handle: string; art: string; name?: string }[] = [
@@ -108,7 +110,7 @@ export default function AssemblLivingPage() {
         <nav className="ls-tiles" aria-label="pick a door">
           {DOORS.map((d) => (
             <Link key={d.id} href={d.href} className="ls-tile">
-              <div className="ls-tile-art"><Image src={`/living/alpha/${d.art}.png`} alt="" fill sizes="(max-width: 700px) 45vw, 15vw" /></div>
+              <div className="ls-tile-art"><Image src={d.art} alt="" fill sizes="(max-width: 700px) 45vw, 15vw" /></div>
               <b>{d.name}</b>
               <small>{d.sub}</small>
             </Link>
@@ -139,6 +141,28 @@ export default function AssemblLivingPage() {
                 <div className="ls-price">
                   {x.price ? <span>{nzd(x.price)}</span> : <span>lab</span>}
                   <small>{x.price ? 'proposed' : x.lab ? 'designed · unpriced' : 'made to measure'}</small>
+                </div>
+                <span className="ls-btn" data-variant="small">see it →</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="ls-section" id="ls-home" aria-labelledby="ls-home-title">
+          <div className="ls-head">
+            <h2 id="ls-home-title">at home.</h2>
+            <span className="ls-mono">shelving · furniture · decor · real CAD · unprinted</span>
+          </div>
+          <p className="lv-small">The house range from the AC-02 real-CAD collection: a shelf, a wall station, two valets, a planter, a shade, a clock, desk rails, vanity organisers and the pet walk kit. Pictured from their CAD, not from a print. No price until samples pass.</p>
+          <div className="ls-grid">
+            {HOME_RANGE.map((x) => (
+              <Link key={x.handle} href={`/living/widget/${x.handle}`} className="ls-card" data-art="cad">
+                <div className="ls-card-art"><Image src={x.preview} alt={`${x.name}: ${x.line}. CAD preview, not a print`} fill sizes="(max-width: 680px) 50vw, 25vw" /></div>
+                <b>{x.name}</b>
+                <small className="ls-line-sub">{x.line}</small>
+                <div className="ls-price">
+                  <span>{x.group}</span>
+                  <small>prototype · unpriced</small>
                 </div>
                 <span className="ls-btn" data-variant="small">see it →</span>
               </Link>

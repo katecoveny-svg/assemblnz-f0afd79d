@@ -48,6 +48,8 @@ import {
   type SpaceId,
   type Surface,
 } from '@/lib/living';
+import { HeroWall } from '../HeroWall';
+import { HomeRangeStrip } from '../HomeRangeStrip';
 import { GridComposer } from './GridComposer';
 import { FIELD_OPTIONS, STUDIO_STEPS, fieldId, initialStudioState, studioReducer, type StudioAction, type StudioStep } from './studio-state';
 
@@ -123,7 +125,8 @@ export function SpaceStudio(props: Props) {
 
   return (
     <div className="lv-studio lv-wrap">
-      <header className="lv-hero" style={{ paddingBottom: 0 }}>
+      <header className="lv-hero lv-studio-hero" data-step={step}>
+        <div className="lv-studio-hero-copy">
         <span className="lv-eyebrow">assembl / space studio</span>
         <h1>show us your space.</h1>
         <p className="lv-lede">We&rsquo;ll help make it work beautifully. One board, one key, every accessory. Made to your room, your door, your drawer.</p>
@@ -145,9 +148,12 @@ export function SpaceStudio(props: Props) {
             <button type="button" className="lv-btn" data-variant="ghost" onClick={() => goto('assemble')}>continue that design</button>
           </div>
         )}
+        </div>
+        {step === 'space' && <HeroWall caption={false} />}
       </header>
 
       {step === 'space' && (
+        <>
         <StepSpace
           design={design}
           photoUrl={photoUrl}
@@ -159,6 +165,8 @@ export function SpaceStudio(props: Props) {
           dispatch={dispatch}
           onNext={() => goto('ways')}
         />
+        <HomeRangeStrip />
+        </>
       )}
       {step === 'ways' && (
         <StepWays
@@ -352,6 +360,7 @@ function StepWays({ design, kits, onAdopt, onKit, onBack }: { design: SpaceDesig
           </div>
         </section>
       )}
+      <HomeRangeStrip heading="not on a board? the rest of the room." />
       <div className="lv-actions">
         <button type="button" className="lv-btn" data-variant="ghost" onClick={onBack}>← change what I said</button>
       </div>

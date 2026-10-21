@@ -13,3 +13,4 @@ export * from './genome';
 export * from './journey';
 export * from './widget';
 export * from './ac02';
+export * from './home-range';

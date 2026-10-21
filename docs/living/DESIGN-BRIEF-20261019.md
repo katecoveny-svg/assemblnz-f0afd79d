@@ -747,3 +747,28 @@ colour is a physical thing; the living set already has a plum filament (`#4B2B41
 dark in print too, which is a render pass, not a token change. The draft Shopify theme's hero file is updated
 to match where the API allows; the theme stays unpublished.
 
+### 11.21 The studio gets its own chrome, and the house range comes back (21 October)
+
+Kate, on `/living/studio`: "this is terrible and not working properly and we have lost the room shelving and
+furniture and decor accessories." What was wrong, from a production build walked in a browser at 1280 and 390:
+
+- The company chrome wrapped the studio: the assembl nav above, the site footer below, and the floating DO
+  assistant pill sitting over the surface chips on a phone and over the photo input on a desktop, so the controls
+  under it could not be used. A one-line text nav ("the modular system · explore the collection") dangled under the
+  company nav.
+- At 390 px the page was 400 px wide: the grid items in the studio keep `min-width: auto`, so a control pushed the
+  whole studio ten pixels past the screen.
+- Step one was a page of form with nothing to look at.
+- The house range was nowhere on the site. The AC-02 collection (the flat-pack shelf, the wall station, the two
+  valets, the orbit planter, the pleat shade, the rail clock, the desk rails, the vanity organisers, the pet walk
+  kit) lived only on the unlinked widget index; the sun storefront showed dayrally and the Grid wall pieces.
+- The four steps themselves worked: the recommendation engine, the 3D board, fit and the saved configuration all
+  ran clean, with no page errors.
+
+What changed: `/living/studio` ships the living header and plum foot (`app/living/LivingChrome.tsx`) and is
+isolated from the DO assistant like the store and the widget; the studio grid gets `min-width: 0`; step one
+opens beside the kit on the wall; `lib/living/home-range.ts` names the twelve AC-02 views for the house and the
+storefront shows them in a new "at home." section with a "home" door, and the studio shows them under steps one
+and two. They open as prototype widgets: real CAD, unprinted, no price until samples pass. The studio keeps the
+assembl plum register (Instrument Sans, paper, chalk); the sun look stays on the dayrally storefront.
+

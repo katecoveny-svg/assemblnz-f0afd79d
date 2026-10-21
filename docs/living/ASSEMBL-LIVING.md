@@ -89,6 +89,12 @@ Every print file is checked as a watertight single solid inside a 250 mm cube, w
 3. **assemble your design** — the board on a paper wall in 3D, built from the served print files turned back into their installed frame (every board and accessory is its own STL, keyed to its cell); click a keyway to place, click a part to select, a placed part drops onto its key and quarter-turns to lock; a plan view (SVG on the real grid) as the alternative; board fields from one board to 2 × 2 and board + half, seven colourways for board and accessories, click-to-place or auto-place, alongside products, live parts list with SKUs. Since 20 October 2026; before that the plan view was the default and the 3D view was boxes.
 4. **made for your space** — measurement method, width/height, door thickness and door-gap gauge for hangers, explicit confirmation; fit check; "assembling the kit" wait state; saved configuration with reorder codes, print files, mass and orientation per file, STL links where served, JSON download and on-device save.
 
+Since 21 October the studio ships its own chrome (`app/living/LivingChrome.tsx`: a living header with four doors and
+the plum foot) instead of the company nav, footer and DO assistant, which had sat over its controls; step one opens
+beside the kit on the wall (`HeroWall`); and the rest of the room (`HomeRangeStrip`, from `lib/living/home-range.ts`)
+stands under steps one and two: the AC-02 shelving, furniture and decor, each opening its prototype widget. The
+storefront's "at home." section shows the same twelve views.
+
 ## Honesty boundaries
 
 - Nothing has been printed. Prices are proposed and pre-quote; made-to-measure trays are quoted per order.
