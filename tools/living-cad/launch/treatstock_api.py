@@ -31,6 +31,7 @@ HERE = Path(__file__).resolve().parent
 ORDER_CSV = HERE / "print-order-20261020" / "order.csv"
 QUOTES = HERE / "print-order-20261020" / "quotes"
 STL = HERE.parent / "parts" / "stl"
+KIT = HERE.parent / "parts" / "test-kit"
 BASE = os.environ.get("TREATSTOCK_API_BASE", "https://api.treatstock.com/api/v2/")
 KEY = os.environ.get("TREATSTOCK_PRIVATE_KEY", "")
 
@@ -135,15 +136,18 @@ class Treatstock:
 
 
 def rows_for(set_name):
+    """Rows of one set from order.csv; "lean first print" is the 21 October subset flagged lean = yes across sets."""
     with open(ORDER_CSV) as f:
-        return [r for r in csv.DictReader(f) if r["set"] == set_name]
+        return [r for r in csv.DictReader(f) if r["set"] == set_name or (set_name == "lean first print" and r.get("lean") == "yes")]
+
+
 
 
 def cmd_quote(api, set_name, country):
     rows = rows_for(set_name)
     if not rows:
         raise SystemExit(f"no rows for set {set_name!r}; sets: {sorted({r['set'] for r in csv.DictReader(open(ORDER_CSV))})}")
-    paths = [STL / r["file"] for r in rows]
+    paths = [(KIT if r["set"] == "test kit" else STL) / r["file"] for r in rows]
     missing = [p.name for p in paths if not p.exists()]
     if missing:
         raise SystemExit(f"missing STL: {missing}")
