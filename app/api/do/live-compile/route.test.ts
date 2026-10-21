@@ -34,6 +34,8 @@ describe("Voice brief preparation", () => {
     expect(result.status).toBe(200);
     expect(await result.json()).toMatchObject({
       active: false,
+      saved: false,
+      persistence: "none",
       approvalPolicy: "prepare-only",
       spec: { brief: "Prepare a polite reply to a meeting invitation." },
     });
