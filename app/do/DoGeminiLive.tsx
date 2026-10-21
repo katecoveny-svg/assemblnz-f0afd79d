@@ -129,6 +129,7 @@ export function DoGeminiLive({
   const [typed, setTyped] = useState("");
   const [draft, setDraft] = useState<string | null>(null);
   const [preparedBrief, setPreparedBrief] = useState("");
+  const preparedBriefRef = useRef("");
   // Any change to the reviewed disclosure invalidates its previous consent.
   const consentScope = JSON.stringify([includePublicNz, initialProfile?.updatedAt ?? null, leaseEnabled ? null : profile ?? null, mode, quote?.quoteId ?? null, requestedSeconds, voiceName, availability?.voiceRevision, includeContext, includeContext ? context.slice(0, 6000) : ""]);
   const consent = consentFor === consentScope;
@@ -492,7 +493,6 @@ export function DoGeminiLive({
             onCallStart?.();
             transcriptRef.current = [];
             setTranscript([]);
-            setPreparedBrief("");
             setState("listening");
             setNotice(
               "Listening. You can interrupt, or end voice at any time.",
@@ -542,6 +542,7 @@ export function DoGeminiLive({
                   setPublicEvidenceNote(output.status === 'consent_required' ? 'Parliament source sharing is off. End the call to review this option.' : `Parliament records: ${output.status} · checked ${output.checkedAt}. Recent records only; not enacted law or topical search.`);
                 }
               } else {
+              if (preparedBriefRef.current) throw new Error("Review the existing brief before preparing another.");
               const brief =
                 typeof call.args?.brief === "string"
                   ? call.args.brief.slice(0, 2000)
@@ -562,18 +563,28 @@ export function DoGeminiLive({
               const data = await result.json();
               if (!result.ok)
                 throw new Error("The brief could not be prepared.");
+              if (!socketCurrent() || request.signal.aborted || callNumber !== s.calls)
+                throw new Error("The brief could not be displayed in this call.");
+              const prepared = String(data.spec?.brief || brief).trim().slice(0, 6000);
+              if (!prepared) throw new Error("No brief was returned.");
+              preparedBriefRef.current = prepared;
+              setPreparedBrief(prepared);
               output = {
                 draft: data.spec,
+                status: "prepared_in_current_tab",
+                saved: false,
+                persistence: "none",
                 active: false,
                 approvalPolicy: "prepare-only",
+                location: "On this call page, below Conversation transcript: Prepared brief — not saved. Choose Review prepared brief. The Brief ready — not saved link jumps there.",
+                message: "Prepared here, NOT saved. No account draft, file, saved link, running task or background work was created. Copy or review it before refreshing or leaving this page.",
               };
-              if (socketCurrent() && !request.signal.aborted && callNumber === s.calls)
-                setPreparedBrief(String(data.spec?.brief || brief).slice(0, 6000));
               }
             } catch {
               if (call.name === "read_public_nz_evidence" && socketCurrent() && !request.signal.aborted) { setPublicEvidenceSources([]); setPublicEvidenceNote("Parliament records could not be checked. No current source evidence is available."); }
               output = {
-                error: "The tool could not complete. No verified evidence or completed action is established.",
+                error: "The tool could not complete. No new brief, saved artifact, verified evidence or completed action is established. If a prepared brief is already visible, review that existing brief first.",
+                saved: false,
               };
             }
             if (
@@ -679,6 +690,7 @@ export function DoGeminiLive({
           </button>
         )}
       </div>
+      {preparedBrief && <p role="status"><a href={`#${draftId}-prepared`}>Brief ready — not saved. Show brief ↓</a></p>}
       {ringing && <DoCallInvitation displayName={displayName} onAnswer={() => { setRingScope(null); void start(); }} onDecline={() => { setRingScope(null); setConsentFor(null); setNotice("Call cancelled. Your microphone stayed off."); }} />}
       {expanded && !live && !ringing && (
         <div className="do-live-options">
@@ -804,9 +816,11 @@ export function DoGeminiLive({
         </details>
       )}
           {publicEvidenceNote && <div role="status"><p>{publicEvidenceNote}</p>{publicEvidenceSources.map(source => <p key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a> · evidence expires {new Date(source.expiresAt).toLocaleTimeString()}</p>)}</div>}
-      {preparedBrief && <div className="do-live-draft">
-        <p>{displayName} prepared a brief. Review it before keeping anything.</p>
-        <button type="button" disabled={draft !== null} onClick={() => { reviewApplied.current = false; setDraft(preparedBrief); setPreparedBrief(""); }}>Review prepared brief</button>
+      {preparedBrief && <div id={`${draftId}-prepared`} className="do-live-draft" tabIndex={-1}>
+        <h3>Prepared brief — not saved</h3>
+        <p role="status">This brief is only in this tab. No account draft or running task was created. Copy or review it before refreshing or leaving.</p>
+        <p style={{ whiteSpace: "pre-wrap", overflowWrap: "anywhere" }}>{preparedBrief}</p>
+        <button type="button" disabled={draft !== null} onClick={() => { reviewApplied.current = false; setDraft(preparedBrief); preparedBriefRef.current = ""; setPreparedBrief(""); }}>Review prepared brief</button>
       </div>}
       {draft !== null && (
         <div className="do-live-draft">

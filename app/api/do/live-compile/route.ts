@@ -112,6 +112,8 @@ export async function POST(request: Request) {
       {
         ...result,
         approvalPolicy: "prepare-only",
+        saved: false,
+        persistence: "none",
         active: false,
       },
       200,

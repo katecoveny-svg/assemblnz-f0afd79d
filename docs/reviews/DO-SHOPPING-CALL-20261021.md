@@ -70,3 +70,17 @@ Reuse prior [runtime audit](site-repair/do-runtime-audit.md), [reliability revie
 | Approvals and isolation | Implemented primitives, incomplete connected execution | Owner/revision/expiry, exact action review and cancellation foundations exist. Every new connector must bind its real external identity and receipt; a model prompt cannot provide this. |
 
 Marketing: the observed live shopping starter already qualifies that it prepares a list and cannot fill a live cart. Retain that qualification. Broader claims such as “does your supermarket shopping”, “books flights”, “sends texts”, “always remembers your family/health”, or “keeps itself current on NZ law” should remain proposed or narrowly qualified until their specific live acceptance passes. This was a scoped claim audit, not an exhaustive crawl of every public marketing page.
+
+## Follow-up: prepared brief truth (22 October)
+
+`compile_do_agent` is a pure prepare operation. The live compile endpoint has no durable save. Its result now says `saved:false` and `persistence:none`; the call renders the brief itself, an explicit unsaved heading and a nearby jump link. A repeated compile cannot overwrite an unreviewed prepared brief, including across a new call in the same mounted tab. Cancelled/obsolete results cannot announce successful preparation. Review continues through the existing notes flow; no new storage, account permissions or background execution were added.
+
+Focused mocked tests cover success/location/review, repeated requests, failure and cancelled late responses. These do not establish what Kate's live provider actually said, nor recover her particular brief. Connected Mac browser inspection timed out; the existing live tab was not refreshed or overwritten.
+
+### NZ conversational voice recommendation (documentation, not listening approval)
+
+The active integration remains Gemini Live; the available options are Kore, Aoede, Puck and Charon. Existing NZ instructions are not an accent guarantee. Google documents continuous audio and conversational history in its [Live API](https://ai.google.dev/gemini-api/docs/live-api), so replacing it with clip TTS would not satisfy continuous conversation.
+
+The existing Voice Studio already lists Azure `en-NZ-MollyNeural` and `en-NZ-MitchellNeural` in `lib/voice/assembl/brand.ts`; no replacement studio is needed. Microsoft's [language catalogue](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support) identifies these as NZ English voices. [Voice Live language support](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/voice-live-language-support) supports the Speech service's standard voices. Its [overview](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/voice-live) documents interruption detection, end-of-turn detection and function calling. This supports a bounded Azure Voice Live audition as the next candidate, not a claim that it is integrated or sounds natural.
+
+Compare existing Gemini against both NZ candidates using identical unfinished thoughts, corrections, interruptions, grocery quantities and task-result follow-ups. Measure response delay and interruption stop time, confirm continued listening while a tool is pending, and obtain NZ speaker plus competent te reo Māori evaluation. Test recognition separately from synthesis. Confirm region/processing, existing account access, licensing and costs before enabling any provider. No voice was cloned, new provider provisioned or paid audition run for this repair.

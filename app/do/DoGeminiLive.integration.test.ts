@@ -136,3 +136,56 @@ describe('reviewed call invitation and browser handoff', () => {
     expect(track.stop).not.toHaveBeenCalled(); expect(ws.readyState).toBe(Socket.OPEN);
   });
 });
+
+describe('prepared brief persistence truth', () => {
+  const compile = (id: string, brief = 'Prepare my grocery plan') => ({toolCall:{functionCalls:[{id,name:'compile_do_agent',args:{brief}}]}});
+  const responses = (ws: Socket) => ws.sent.map(s => JSON.parse(s)).flatMap(p => p.toolResponse?.functionResponses ?? []);
+  it('shows the returned brief and review location, explicitly unsaved, without replacing it on repeat', async () => {
+    const ws = await begin();
+    request.mockImplementationOnce(async () => ({ok:true,json:async()=>({spec:{brief:'My editable grocery plan'},saved:false,persistence:'none'})}));
+    await ws.message(compile('first'));
+    let tree = render();
+    expect(responses(ws)[0].response).toMatchObject({saved:false,persistence:'none',active:false,status:'prepared_in_current_tab'});
+    expect(responses(ws)[0].response.location).toContain('Review prepared brief');
+    expect(renderToStaticMarkup(tree)).toContain('My editable grocery plan');
+    preview('brief-unsaved', tree);
+    const link = nodes(tree).find(n => n.type === 'a' && n.props.href === '#fixture-prepared');
+    expect(link).toBeDefined();
+    expect(nodes(tree).find(n => n.props.id === 'fixture-prepared')).toBeDefined();
+    await ws.message(compile('repeat', 'Replacement'));
+    expect(request.mock.calls.filter(([url]: any[]) => url === '/api/do/live-compile')).toHaveLength(1);
+    expect(responses(ws)[1].response).toMatchObject({saved:false});
+    expect(responses(ws)[1].response.error).toBeTruthy();
+    tree = render(); button(tree, 'Review prepared brief').props.onClick();
+    tree = render(); expect(nodes(tree).find(n => n.type === 'textarea' && n.props.id === 'fixture').props.value).toBe('My editable grocery plan');
+    expect(track.stop).not.toHaveBeenCalled();
+  });
+  it('keeps an unreviewed brief when another call starts in the same tab', async () => {
+    const ws = await begin();
+    request.mockImplementationOnce(async () => ({ok:true,json:async()=>({spec:{brief:'Keep this prepared plan'}})}));
+    await ws.message(compile('keep'));
+    button(render(), 'End call').props.onClick();
+    button(render(), 'Close call options').props.onClick();
+    await startReviewedCall();
+    const next = Socket.instances.at(-1)!; next.onopen(); await next.message({setupComplete:{}});
+    expect(renderToStaticMarkup(render())).toContain('Keep this prepared plan');
+    expect(button(render(), 'Review prepared brief')).toBeDefined();
+  });
+  it('does not invent a review artifact after a failed compile', async () => {
+    const ws = await begin(); request.mockImplementationOnce(async () => ({ok:false,json:async()=>({error:'unavailable'})}));
+    await ws.message(compile('failed'));
+    expect(responses(ws)[0].response.saved).toBe(false);
+    expect(responses(ws)[0].response.status).toBeUndefined();
+    expect(button(render(), 'Review prepared brief')).toBeUndefined();
+  });
+  it('discards a cancelled late response without announcing or displaying success', async () => {
+    const ws = await begin(); let resolve: any;
+    request.mockImplementationOnce(() => new Promise(r => {resolve = r;}));
+    const pending = ws.message(compile('cancelled'));
+    await ws.message({toolCallCancellation:{ids:['cancelled']}});
+    resolve({ok:true,json:async()=>({spec:{brief:'Late cancelled brief'}})});
+    await pending;
+    expect(responses(ws)).toHaveLength(0);
+    expect(button(render(), 'Review prepared brief')).toBeUndefined();
+  });
+});
