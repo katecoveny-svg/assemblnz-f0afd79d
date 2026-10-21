@@ -111,3 +111,26 @@ update it to match. On the draft theme `Updated copy of Horizon · dayrally draf
 The live Horizon theme is untouched, every product stays a draft, nothing is published. The ink filament and the
 "Ink" colour option stay: they are print colours.
 
+## 21 October, later: the keeper draft is "dayrally · Rally adventure (Codex 20 Oct)"
+
+Kate: "if you look at the other draft it is looking pretty good." That draft (theme id 166614794326, **unpublished**)
+is a full custom dayrally home: its own navigation and footer sections, a hero with the wharf film and a coastal
+poster, an activity bar (ride, fish, everyday, pet, camp, capture), the four pods with the contents renders, a day
+planner with tabs, the rally section on the moodboard, a sign-up, all styled by `assets/dayrally-rally.css` with
+Fredoka 700 bundled as `assets/dayrally-fredoka-700.ttf`. It is the one to carry forward; the Horizon copy with the
+hero section (166614073430) stays as a fallback.
+
+The deep plum applied there the same way:
+
+- `assets/dayrally-rally.css`: `--dr-ink` `#171914` → `#240B21`; `--dr-sun` `#ffdb05` → `#FFD200`; button hover
+  `#34372e` → `#3A1A35`; the six warm greys used for quiet copy → muted plum `#654A4E`; the seven hairline greys
+  → `#E3DBE0`; the caption and card shadows tinted plum; the focus ring `#1260b7` → deep plum. Sun tints, stage
+  neutrals and the paper white are unchanged.
+- `config/settings_data.json`: foreground `#171914` → `#240B21`, inputs `#41433D` → `#492B3E`, borders `#DDDCD5` →
+  `#E3DBE0`; the `#FAF9F5` background kept.
+- `sections/dayrally-hero.liquid` and `templates/page.dayrally.json`: the plum hero with the `#FFD200` band, so
+  `/pages/dayrally` matches the home.
+
+Live theme untouched, products still drafts, nothing published. To publish: Online Store → Themes → the Rally
+adventure draft → Publish.
+
