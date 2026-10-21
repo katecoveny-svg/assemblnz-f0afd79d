@@ -772,3 +772,21 @@ storefront shows them in a new "at home." section with a "home" door, and the st
 and two. They open as prototype widgets: real CAD, unprinted, no price until samples pass. The studio keeps the
 assembl plum register (Instrument Sans, paper, chalk); the sun look stays on the dayrally storefront.
 
+### 11.22 Every piece rendered, and a cost under every price (21 October)
+
+Kate: "work through rendering the rest of the designs please and also work out cost estimates and sale price for
+each item and or product."
+
+Renders: the 27 catalogue products and kits that had print files but no picture now have one each, from
+`tools/living-cad/render/make-catalogue-scenes.py`: the item's parts from the manifest laid on the ground in a
+brand colour, keys and washers in a column to the right, the camera set from the spread, filed as
+`docs/living/renders/cat-<handle>.png` and `public/living/renders/cat-<handle>.jpg`. Plain product shots, not
+the composed scenes the hero pieces have; every piece on the ready-to-print page now shows itself.
+
+Costs: `docs/living/COSTING-20261021.md` and `tools/living-cad/launch/cost_model.py`. Two bases (own print and
+bureau rate card), two figures each (sold alone, in a basket of three), a suggested shelf price at a target
+gross margin, and the margin the current proposed price earns. The finding that matters: small accessories
+under about NZ$12 cannot carry their own order; thirteen products lose money sold alone at today's proposed
+prices, the living room kits are above target and the dayrally kits below it. The catalogue prices are not
+changed by this: the first print measures real print times and a partner quotes, and then the model is re-run.
+
