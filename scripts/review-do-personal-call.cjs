@@ -205,6 +205,9 @@ const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLe
     await consent.check(); await start.click();
     await panel.getByRole('button', { name: 'Answer call', exact: true }).click();
     await panel.getByRole('button', { name: 'End call', exact: true }).waitFor();
+    check('new calls preserve the earlier unreviewed brief', await panel.getByRole('heading', { name: 'Prepared brief — not saved', exact: true }).isVisible());
+    await panel.getByRole('button', { name: 'Review prepared brief', exact: true }).click();
+    await panel.getByRole('button', { name: 'Discard these notes', exact: true }).click();
     holdCompile = true;
     const compilesBeforeEnd = compiles.length;
     await page.evaluate(() => window.__callTest.sockets.at(-1).emit({ toolCall: { functionCalls: [
