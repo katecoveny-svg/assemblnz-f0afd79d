@@ -76,6 +76,44 @@
     "notes": ""
   },
   {
+    "slug": "dr2-lid-mini-ruler",
+    "name": "Lid, mini, ruler",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      92.0,
+      60.0,
+      15.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 18.24,
+    "est_grams_pla": 20.7,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 641.0,
+    "notes": "Inlay prints as the first layers in a second colour. Scale 0 to 9.2 cm from the lid's end."
+  },
+  {
+    "slug": "dr2-lid-mini-ruler-inlay",
+    "name": "Lid inlay, mini, ruler",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      81.0,
+      19.9,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 0.11,
+    "est_grams_pla": 0.1,
+    "watertight": true,
+    "genus": -25,
+    "bodies": 29,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
     "slug": "dr2-insert-mini-split",
     "name": "Insert, mini: Split (2)",
     "group": "insert",
@@ -437,6 +475,44 @@
     "notes": ""
   },
   {
+    "slug": "dr2-lid-standard-ruler",
+    "name": "Lid, standard, ruler",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      128.0,
+      72.0,
+      15.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 28.71,
+    "est_grams_pla": 32.0,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 907.0,
+    "notes": "Inlay prints as the first layers in a second colour. Scale 0 to 12.8 cm from the lid's end."
+  },
+  {
+    "slug": "dr2-lid-standard-ruler-inlay",
+    "name": "Lid inlay, standard, ruler",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      118.6,
+      19.9,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 0.16,
+    "est_grams_pla": 0.2,
+    "watertight": true,
+    "genus": -37,
+    "bodies": 43,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
     "slug": "dr2-insert-standard-everyday",
     "name": "Insert, standard: Everyday (3)",
     "group": "insert",
@@ -608,6 +684,44 @@
     "notes": ""
   },
   {
+    "slug": "dr2-lid-tall-ruler",
+    "name": "Lid, tall, ruler",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      128.0,
+      72.0,
+      15.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 28.71,
+    "est_grams_pla": 32.0,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 907.0,
+    "notes": "Inlay prints as the first layers in a second colour. Scale 0 to 12.8 cm from the lid's end."
+  },
+  {
+    "slug": "dr2-lid-tall-ruler-inlay",
+    "name": "Lid inlay, tall, ruler",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      118.6,
+      19.9,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 0.16,
+    "est_grams_pla": 0.2,
+    "watertight": true,
+    "genus": -37,
+    "bodies": 43,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
     "slug": "dr2-insert-tall-deep-two",
     "name": "Insert, tall: Deep two (bottles, sunscreen)",
     "group": "insert",
@@ -737,6 +851,44 @@
     "watertight": true,
     "genus": -3,
     "bodies": 6,
+    "unsupported_down_area_mm2": 0.0,
+    "notes": ""
+  },
+  {
+    "slug": "dr2-lid-long-ruler",
+    "name": "Lid, long, ruler",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      176.0,
+      72.0,
+      15.0
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 39.58,
+    "est_grams_pla": 44.2,
+    "watertight": true,
+    "genus": 0,
+    "bodies": 1,
+    "unsupported_down_area_mm2": 1423.0,
+    "notes": "Inlay prints as the first layers in a second colour. Scale 0 to 17.6 cm from the lid's end."
+  },
+  {
+    "slug": "dr2-lid-long-ruler-inlay",
+    "name": "Lid inlay, long, ruler",
+    "group": "lid",
+    "print_orientation": "face_down",
+    "print_bbox_mm": [
+      168.4,
+      31.1,
+      0.6
+    ],
+    "fits_250_cube": true,
+    "volume_cm3": 0.36,
+    "est_grams_pla": 0.4,
+    "watertight": true,
+    "genus": -73,
+    "bodies": 86,
     "unsupported_down_area_mm2": 0.0,
     "notes": ""
   },

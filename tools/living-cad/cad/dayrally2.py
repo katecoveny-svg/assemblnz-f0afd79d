@@ -12,6 +12,7 @@ so every pod size locks onto every mount, and onto any Grid board at home.
   add-ons  bag charms (6 shapes) · zip pulls · phone stand · spoke beads · chair hook · cable winder
 """
 import math
+import os
 import numpy as np
 import manifold3d as m3d
 import lib
@@ -139,6 +140,8 @@ def pattern_cs(style, L, W, name=None, font=None):
             ring = outer - outer.offset(-1.7, m3d.JoinType.Round, circular_segments=24)
             out = ring if out is None else out + ring
         return out ^ A
+    if style == "ruler":
+        return ruler_cs(L, W)
     if style == "stars":
         rng = np.random.default_rng(7)
         Ai = _area(L, W, 8.0)
@@ -159,7 +162,41 @@ def pattern_cs(style, L, W, name=None, font=None):
     raise ValueError(style)
 
 
-LID_STYLES = ["plain", "name", "waves", "dots", "check", "bolt", "topo", "stars"]
+LID_STYLES = ["plain", "name", "waves", "dots", "check", "bolt", "topo", "stars", "ruler"]
+
+# ---------------- the ruler lid ----------------
+RULER_FONT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "fonts", "Fredoka-Bold.ttf")
+RULER_BASE_Y = -12.0          # tick baseline on the lid top; ticks grow towards +y, numbers sit above them
+RULER_NOTE = {"long": "LID + BASE, END TO END: 35 CM"}
+
+
+def ruler_ticks_cs(length, x0, y0, step=5, cm_h=6.0, half_h=3.0, cm_w=1.2, half_w=1.0, first=5):
+    """Ticks every `step` mm from x0 (the 0 datum) along +x, standing on the baseline y0. Centimetre ticks are taller
+    and wider than the half-centimetre ticks: 0.6 mm inlays want features a 0.4 mm nozzle can lay as two lines."""
+    out = None
+    for i in range(first, int(length) + 1, step):
+        cm = i % 10 == 0
+        w, h = (cm_w, cm_h) if cm else (half_w, half_h)
+        t = CS.square([w, h], center=True).translate([x0 + i, y0 + h / 2])
+        out = t if out is None else out + t
+    return out
+
+
+def ruler_cs(L, W, font=None):
+    """Inlay scale along the lid top: 0 is the lid's own end (the apex of the stadium), so the lid measures from the
+    thing it is laid against. Half-centimetre ticks, numbers every centimetre in Fredoka Bold, 'cm' at the far end.
+    The long lid also carries the note that lid and base end to end make 35 cm (see dayrally_ruler.fish_base)."""
+    font = font or RULER_FONT
+    x0 = -L / 2
+    cs = ruler_ticks_cs(L - 5, x0, RULER_BASE_Y)
+    for i in range(10, int(L) - 4, 10):
+        n = text_cs(str(i // 10), font, cap_height=4.5)
+        cs = cs + n.translate([x0 + i, RULER_BASE_Y + 6.0 + 1.4 + 2.25])
+    cs = cs + text_cs("cm", font, cap_height=4.0).translate([L / 2 - 16.0, 7.0])
+    note = RULER_NOTE.get("long") if L >= 170 else None
+    if note:
+        cs = cs + text_cs(note, font, cap_height=4.2, max_width=L - 80).translate([0, 17.0])
+    return cs ^ stadium(L - 3.0, W - 3.0)
 
 
 def pod_lid(size="standard", style="plain", name=None, font=None):

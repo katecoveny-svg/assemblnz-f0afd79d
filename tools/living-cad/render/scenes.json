@@ -2698,5 +2698,131 @@
    -185,
    160
   ]
+ },
+ "ruler-fish-sky": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-lid-long-ruler.stl",
+    "colour": "#8EC5F2",
+    "x": -88,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-lid-long-ruler-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": -88,
+    "y": 3.556,
+    "z": 14.4,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ruler-pod-long-fish.stl",
+    "colour": "#8EC5F2",
+    "x": 93.5,
+    "y": -0.3,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/fish-31.stl",
+    "colour": "#B8B6B2",
+    "x": -21,
+    "y": -91.5,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   20,
+   -380,
+   440
+  ]
+ },
+ "ruler-15-pens": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-pod-long.stl",
+    "colour": "#9FD9C3",
+    "x": -100,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-insert-long-pens.stl",
+    "colour": "#F3D97A",
+    "x": -105.5,
+    "y": 0,
+    "z": 9.8,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-lid-long-ruler.stl",
+    "colour": "#9FD9C3",
+    "x": 42,
+    "y": 86,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-lid-long-ruler-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": 42,
+    "y": 89.556,
+    "z": 14.4,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/pencil.stl",
+    "colour": "#2A2A2D",
+    "x": -105.5,
+    "y": -7.5,
+    "z": 12.8,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/ruler-150.stl",
+    "colour": "#E04E3B",
+    "x": -105.5,
+    "y": 7.5,
+    "z": 12.8,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/pencil-short.stl",
+    "colour": "#B8B6B2",
+    "x": -105.5,
+    "y": 22.5,
+    "z": 12.8,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/pencil-short.stl",
+    "colour": "#2A2A2D",
+    "x": -105.5,
+    "y": -22.5,
+    "z": 12.8,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   225,
+   -285,
+   260
+  ]
  }
 }

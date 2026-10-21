@@ -11,7 +11,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "cad"))
 import manifold3d as m3d
 import lib
-from lib import M, CS, ext_z, cyl_z, rrect, circ
+from lib import M, CS, ext_z, cyl_z, rrect, circ, poly
 
 OUT = os.path.join(HERE, "extra", "props")
 os.makedirs(OUT, exist_ok=True)
@@ -115,7 +115,22 @@ def card(w=85.6, h=54.0, t=0.8):
     return c.rotate([90, 0, 0]).translate([0, 0, h / 2])
 
 
+# ---- a fish-shaped stand-in for the ruler render: 31 cm nose to tail, lying on its side ----
+def fish(L=310.0, H=95.0, T=34.0):
+    """No species, no legal size: a stand-in so the picture shows how a fish lies along the lid and the base.
+    The body is a chain of hulls between ellipsoids along the length, so it tapers to a nose and a tail."""
+    prof = [(-0.50, 0.06, 0.12), (-0.42, 0.26, 0.50), (-0.30, 0.42, 0.85), (-0.12, 0.50, 1.00), (0.08, 0.46, 0.92),
+            (0.24, 0.32, 0.70), (0.34, 0.16, 0.40)]
+    ells = [M.sphere(1.0, 64).scale([max(L * 0.012, 3.0), H * hy, T * tz / 2]).translate([L * fx, 0, T / 2]) for fx, hy, tz in prof]
+    body = M.batch_boolean([M.batch_hull([ells[i], ells[i + 1]]) for i in range(len(ells) - 1)], m3d.OpType.Add)
+    tail = ext_z(poly([(L * 0.30, 0.0), (L * 0.50, H * 0.46), (L * 0.42, 0.0), (L * 0.50, -H * 0.46)]), 0, T * 0.22).translate([0, 0, T / 2 - T * 0.11])
+    fin = ext_z(poly([(-L * 0.22, H * 0.36), (-L * 0.08, H * 0.62), (L * 0.14, H * 0.38)]), 0, T * 0.10).translate([0, 0, T / 2 - T * 0.05])
+    pect = ext_z(poly([(-L * 0.26, -H * 0.10), (-L * 0.12, -H * 0.46), (-L * 0.06, -H * 0.16)]), 0, T * 0.08).translate([0, 0, T / 2 - T * 0.04])
+    return body + tail + fin + pect
+
+
 if __name__ == "__main__":
+    save("fish-31", fish())
     save("spoon", spoon(34.0, 13.0, 4.5))
     save("grub", grub(38.0, 8.0))
     save("sinker", sinker())

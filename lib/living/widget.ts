@@ -294,6 +294,17 @@ export const WIDGET_LAB: LabItem[] = [
     blurb: 'The rod holder for a Flamingo, a Lime or a Honey Whale: a stem saddle that straps to any 32 to 60 mm scooter stem with one 25 mm strap, no tools, off in a minute (share scooters cannot be drilled or clamped), carrying two TURN sockets along the stem; and a one-tube quiver with a full TURN flange that keys onto it and takes the packed fixed-line rod or the packed cast rod. The pod mini or the ride pod lock onto the same saddle. Stem sizes of the three scooters are not measured yet; the V covers the range and the strap does the rest. Strap bought.',
     parts: [{ id: 'scoot-stem-saddle', qty: 1 }, { id: 'scoot-quiver', qty: 1 }], doc: 'docs/living/DAYRALLY-RIDE.md',
   },
+  {
+    id: 'fish-ruler', title: 'dayrally fish ruler · the long pod, 35 cm end to end', type: 'dayrally lab', colourSet: 'dayrally', size: '176 × 72 × 45 mm · 35.2 cm open',
+    blurb: 'The long pod as a fish ruler. Its ruler lid reads 0 to 17.6 cm from the lid\'s own end (half-centimetre ticks and centimetre numbers inlaid flush in the accent colour); its base carries raised marks on the outer wall from 17.6 to 35.2 cm. Open the pod, lay the lid on the wharf end to end with the base, and the two rounded ends touching are one 35 cm rule with nothing extra to carry: 10 mm of sideways slop reads 0.7 mm short. No legal sizes are marked, because they differ by area and change. Same pens, tackle and everyday inserts, same two-key TURN floor. Scales to be checked against a steel rule on the first print.',
+    parts: [{ id: 'ruler-pod-long-fish', qty: 1 }, { id: 'dr2-lid-long-ruler', qty: 1 }, { id: 'dr2-lid-long-ruler-inlay', qty: 1 }, { id: 'grid-turn-key', qty: 2 }],
+    choice: { key: 'insert', label: 'Insert', prefix: 'dr2-insert-long-', defaultId: 'dr2-insert-long-tackle' }, doc: 'docs/living/DAYRALLY-RULER.md',
+  },
+  {
+    id: 'ruler-15', title: 'dayrally ruler · 15 cm, lives in the pencil pod', type: 'dayrally lab', colourSet: 'dayrally', size: '150 × 10 × 2 mm',
+    blurb: 'A 15 cm ruler with millimetre ticks engraved into its top, sized for one of the long pod\'s two middle pen slots (157 mm long), so the school kit carries a ruler. 0 is the end of the ruler. The millimetre ticks are at the limit of a 0.4 mm nozzle; the first print decides whether they read.',
+    parts: [{ id: 'ruler-150', qty: 1 }], doc: 'docs/living/DAYRALLY-RULER.md',
+  },
 ];
 
 function labSpec(item: LabItem): WidgetSpec {

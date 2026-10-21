@@ -1,0 +1,82 @@
+{
+  "spec": {
+    "lid_scale_cm": {
+      "mini": 9.2,
+      "standard": 12.8,
+      "tall": 12.8,
+      "long": 17.6
+    },
+    "lid_inlay_mm": 0.6,
+    "lid_resolution_mm": 5,
+    "fish_ruler": {
+      "pod": "long",
+      "lid_cm": [
+        0.0,
+        17.6
+      ],
+      "base_cm": [
+        17.6,
+        35.2
+      ],
+      "datum": "the stadium apex at each end; lid and base end to end",
+      "sideways_slop_error_mm": {
+        "5": 0.17,
+        "10": 0.7,
+        "15": 1.58
+      },
+      "numbers_on_base": "19 to 34; 18 and 35 are ribs",
+      "raised_mm": 0.6,
+      "legal_sizes_marked": false
+    },
+    "ruler_150": {
+      "size_mm": [
+        150,
+        10,
+        2
+      ],
+      "ticks": "every mm, engraved 0.4",
+      "lives_in": "long pod pen slot (middle two, 157 mm)"
+    },
+    "status": "designed and checked digitally; nothing printed. Check every scale against a steel rule on the first print."
+  },
+  "parts": [
+    {
+      "slug": "ruler-pod-long-fish",
+      "name": "dayrally pod, long, fish ruler base",
+      "group": "pod",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        187.0,
+        72.6,
+        34.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 60.4,
+      "est_grams_pla": 61.3,
+      "watertight": true,
+      "genus": 3,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 200.0,
+      "notes": "The long pod with raised marks 17.6 to 35.2 cm on its outer wall; with the ruler lid end to end it is a 35 cm rule. Floor is a TURN flange."
+    },
+    {
+      "slug": "ruler-150",
+      "name": "Ruler, 15 cm",
+      "group": "add-on",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        150.0,
+        10.0,
+        2.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 2.9,
+      "est_grams_pla": 3.6,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Prints flat, marks up. Lives in a long pod pen slot."
+    }
+  ]
+}

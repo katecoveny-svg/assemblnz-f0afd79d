@@ -40,7 +40,7 @@ The original `cad/dayrally2.py` pods use 2.2 mm walls, 2.4 mm floor, a 0.25 mm f
 | Foam option | Removable raised lattice deck, 6 mm above inner floor. Cut closed-cell foam around ribs/feet; deck itself is PETG, not buoyant foam. |
 | Rulers | Lid centreline: 80 mm mini, 120 mm standard/tall, 170 mm long; 1 mm ticks, numbers every 10 mm, engraved 0.6 mm. Separate 150 mm ruler has 156×14×2 mm body. |
 
-Rulers run on the lid's centreline because the stadium's curved ends do not provide the proposed long straight edge. Validate against a known steel rule after printing. The 150 mm ruler is not assumed to fit existing pen inserts. The proposed 35 cm base-plus-lid ruler is **not implemented**: a positive registration joint, datum stop and measured assembled calibration are still needed. No legal fish-size/species claims are engraved.
+Rulers run on the lid's centreline because the stadium's curved ends do not provide the proposed long straight edge. Validate against a known steel rule after printing. The 150 mm ruler is not assumed to fit existing pen inserts. The proposed 35 cm base-plus-lid ruler is **not implemented** here: a positive registration joint, datum stop and measured assembled calibration are still needed. The v0.3 long pod now carries it (`docs/living/DAYRALLY-RULER.md`, 21 October) using the stadium apex itself as the datum; that approach is open to RP01 once its rim is proven. No legal fish-size/species claims are engraved.
 
 ### Deliberate departures from PR #1648
 

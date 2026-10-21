@@ -33,6 +33,7 @@ const PIECES: { handle: string; art: string; name?: string }[] = [
   { handle: 'al-pod-mini', art: 'pods-mini-earbuds' },
   { handle: 'al-pod-tall', art: 'pods-cards' },
   { handle: 'al-pod-long', art: 'pods-pens' },
+  { handle: 'lab-fish-ruler', art: 'ruler-fish-sky', name: 'fish ruler' },
   { handle: 'al-board-4x4', art: 'board-4x4-chalk' },
   { handle: 'al-name-plate', art: 'name-plate-plum-mila' },
   { handle: 'al-number-plate', art: 'number-plate-lime' },
