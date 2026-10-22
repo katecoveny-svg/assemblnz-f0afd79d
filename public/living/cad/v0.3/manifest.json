@@ -18,7 +18,7 @@
  },
  "status": "designed and checked digitally; nothing printed yet. Clamp, detent and clearance values are starting points for the test-print kit.",
  "source": "tools/living-cad/cad/lib.py",
- "built_at": "2026-10-22T01:07:13Z",
+ "built_at": "2026-10-22T04:16:19Z",
  "colours": {
   "living": [
    {
@@ -7321,7 +7321,7 @@
    "fits_250_cube": true,
    "volume_cm3": 90.32,
    "mass_g_pla": 42.3,
-   "material": "PLA Matte",
+   "material": "PETG",
    "supports": "none",
    "watertight": true,
    "genus": 2,
@@ -7405,7 +7405,7 @@
    "fits_250_cube": true,
    "volume_cm3": 1.72,
    "mass_g_pla": 2.1,
-   "material": "PLA Matte",
+   "material": "TPU 95A",
    "supports": "none",
    "watertight": true,
    "genus": 2,
@@ -7433,7 +7433,7 @@
    "fits_250_cube": true,
    "volume_cm3": 93.92,
    "mass_g_pla": 38.2,
-   "material": "PLA Matte",
+   "material": "PETG",
    "supports": "none",
    "watertight": true,
    "genus": 4,
@@ -7461,7 +7461,7 @@
    "fits_250_cube": true,
    "volume_cm3": 12.32,
    "mass_g_pla": 13.4,
-   "material": "PLA Matte",
+   "material": "TPU 95A",
    "supports": "none",
    "watertight": true,
    "genus": 1,
@@ -7489,7 +7489,7 @@
    "fits_250_cube": true,
    "volume_cm3": 2.46,
    "mass_g_pla": 2.4,
-   "material": "PLA Matte",
+   "material": "PETG",
    "supports": "none",
    "watertight": true,
    "genus": 2,
@@ -7627,19 +7627,19 @@
     "z": 187.0
    },
    "fits_250_cube": true,
-   "volume_cm3": 622.49,
-   "mass_g_pla": 531.4,
+   "volume_cm3": 628.86,
+   "mass_g_pla": 531.8,
    "material": "PLA Matte",
    "supports": "none",
    "watertight": true,
-   "genus": 7,
+   "genus": 4,
    "bodies": 1,
-   "unsupported_down_area_mm2": 1953.0,
+   "unsupported_down_area_mm2": 146.0,
    "notes": "Ø236 at the floor; the spigot ring takes the upper drum.",
    "file": {
     "path": "/living/cad/v0.3/hm-drum-lower.stl",
-    "bytes": 221284,
-    "sha256": "6e38bf8ea75e36c18b10e38b9cd3995ea1a717ceec5db0c8ade85de982f83b55"
+    "bytes": 304684,
+    "sha256": "f4beda79f4f17b8bb6e5c49420282d3d6f79f8b8ad0621f92c5c098ac8037ed0"
    }
   },
   {

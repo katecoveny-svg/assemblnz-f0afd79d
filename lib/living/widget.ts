@@ -16,6 +16,7 @@ import { z } from 'zod';
 import { CAD_MANIFEST, CAD_PACK, INTERFACE_ID, PITCH_MM, partCode, printFile } from './catalogue';
 import { AC02, AC02_HANDLE_PREFIX, AC02_LETTERED, ac02Assembly, ac02Lines, ac02Part, ac02Roles, type Ac02Assembly } from './ac02';
 import type { Colour, Colourway, ManifestKit, ManifestProduct } from './system';
+import { slicedPart } from './costing';
 
 export const ITEM_SCHEMA = 'assembl.living.item/1' as const;
 
@@ -23,7 +24,7 @@ export const ITEM_SCHEMA = 'assembl.living.item/1' as const;
 export const PRINT_ASSUMPTIONS = {
   gramsPerHour: 30,
   filamentNzdPerKg: 45,
-  note: 'Estimated from part mass at 30 g/h and NZD 45/kg filament. Not a slicer result and not a quote.',
+  note: 'Grams and print time from Bambu Studio slicing each file (X1 Carbon, 0.20 mm) where sliced, else from part mass at 30 g/h; material at NZD 45/kg. An estimate, not a quote.',
 } as const;
 
 export type PartRole = 'body' | 'accent';
@@ -571,10 +572,12 @@ export function buildItem(input: ItemInput): BuildResult {
     const f = partInfo(p.id);
     return { id: f.id, name: f.name, qty: p.qty, role: roleOf(p.id), revision: f.revision, sha256: f.sha256, path: f.path, massG: f.massG };
   });
-  const massG = round1(printFiles.reduce((s, f) => s + f.massG * f.qty, 0));
+  // the slicer's grams and minutes per file where the part has been sliced (lib/living/slice-report.json), else the mesh estimate
+  const massG = round1(printFiles.reduce((s, f) => s + (slicedPart(f.id)?.grams ?? f.massG) * f.qty, 0));
+  const printMinutes = Math.round(printFiles.reduce((s, f) => s + (slicedPart(f.id)?.minutes ?? (f.massG / PRINT_ASSUMPTIONS.gramsPerHour) * 60) * f.qty, 0));
   const perUnit = {
     massG,
-    printMinutes: Math.round((massG / PRINT_ASSUMPTIONS.gramsPerHour) * 60),
+    printMinutes,
     materialNzd: round2((massG / 1000) * PRINT_ASSUMPTIONS.filamentNzdPerKg),
     suggestedRetailNzd: spec.priceNzd,
     shipG: spec.shipG,

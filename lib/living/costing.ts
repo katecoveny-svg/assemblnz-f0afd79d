@@ -9,6 +9,7 @@
  */
 
 import { CAD_MANIFEST } from './catalogue';
+import sliceReport from './slice-report.json';
 
 export const COST_ASSUMPTIONS = {
   gst: 1.15,
@@ -31,11 +32,23 @@ export const COST_ASSUMPTIONS = {
   printHoursPerDay: 14,
   packDays: 1,
   postDays: [1, 3] as [number, number],
-  note: 'Estimated from the print files: mass by material, print time by deposition rate, NZD 35/h handling, packing once per order, 55 % margin after GST and card fees. Not a slicer result and not a quote.',
+  note: 'From the print files: grams and print time from Bambu Studio slicing each part (X1 Carbon, 0.20 mm), or a mesh estimate where a part is not yet sliced, NZD 35/h handling, packing once per order, 55 % margin after GST and card fees. An estimate, not a quote.',
 };
 
 const A = COST_ASSUMPTIONS;
 const PARTS = new Map(CAD_MANIFEST.parts.map((p) => [p.id, p]));
+
+type Sliced = { ok: boolean; grams?: number; minutes?: number };
+const SLICED = new Map(
+  Object.entries((sliceReport as { parts: Record<string, Sliced> }).parts)
+    .filter(([, v]) => v.ok && typeof v.grams === 'number' && typeof v.minutes === 'number')
+    .map(([k, v]) => [k, { grams: v.grams as number, minutes: v.minutes as number }]),
+);
+
+/** The slicer's grams and print minutes for one copy of a part (Bambu Studio, tools/living-cad/slice), or null. */
+export function slicedPart(id: string): { grams: number; minutes: number } | null {
+  return SLICED.get(id) ?? null;
+}
 
 function rate<T>(table: Record<string, T>, material: string, order: string[], fallback: string): T {
   const m = material.toLowerCase();
@@ -76,10 +89,12 @@ export function estimate(lines: PartLine[]): Estimate {
   for (const [id, q] of merged) {
     const p = PARTS.get(id);
     if (!p) { unknown.push(id); continue; }
-    const mass = p.mass_g_pla * (p.material.includes('PETG') ? 1.27 / 1.24 : 1);
+    const s = SLICED.get(id);
+    const mass = s ? s.grams : p.mass_g_pla * (p.material.includes('PETG') ? 1.27 / 1.24 : 1);
+    const printH = s ? s.minutes / 60 : mass / deposition(p.material);
     g += mass * q;
     material += ((mass * (1 + A.waste)) / 1000) * filamentRate(p.material) * q;
-    hours += A.setupHPerJob + A.extraCopyH * (q - 1) + (mass * q) / deposition(p.material);
+    hours += A.setupHPerJob + A.extraCopyH * (q - 1) + printH * q;
     jobs += 1; copies += q;
   }
   const machine = hours * A.machinePerH;

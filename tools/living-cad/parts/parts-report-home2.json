@@ -127,12 +127,12 @@
         187.0
       ],
       "fits_250_cube": true,
-      "volume_cm3": 622.49,
-      "est_grams_pla": 531.4,
+      "volume_cm3": 628.86,
+      "est_grams_pla": 531.8,
       "watertight": true,
-      "genus": 7,
+      "genus": 4,
       "bodies": 1,
-      "unsupported_down_area_mm2": 1953.0,
+      "unsupported_down_area_mm2": 146.0,
       "notes": "Ø236 at the floor; the spigot ring takes the upper drum."
     },
     {

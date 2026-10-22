@@ -1,0 +1,72 @@
+{
+ "parts": {
+  "cast-grip": {
+   "ok": true,
+   "filament": "asa",
+   "grams": 55.72,
+   "minutes": 205.1,
+   "warning": "",
+   "slice_seconds": 475.2
+  },
+  "cast-pin-1": {
+   "ok": true,
+   "filament": "pa-cf",
+   "grams": 1.55,
+   "minutes": 4.9,
+   "warning": "",
+   "slice_seconds": 0.8
+  },
+  "grid-hook": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 12.48,
+   "minutes": 19.5,
+   "warning": "",
+   "slice_seconds": 1.5
+  },
+  "grid-turn-key": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 1.73,
+   "minutes": 11.6,
+   "warning": "",
+   "slice_seconds": 1.6
+  },
+  "hm-drum-lower": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 574.49,
+   "minutes": 950.0,
+   "warning": "",
+   "slice_seconds": 41.1
+  },
+  "ride-grip-waves": {
+   "ok": true,
+   "filament": "tpu",
+   "grams": 32.66,
+   "minutes": 103.9,
+   "warning": "",
+   "slice_seconds": 16.4
+  },
+  "rod-section-2": {
+   "ok": true,
+   "filament": "petg-cf",
+   "grams": 11.27,
+   "minutes": 100.3,
+   "warning": "",
+   "slice_seconds": 14.3
+  },
+  "tk-ladder-strap": {
+   "ok": true,
+   "filament": "tpu",
+   "grams": 12.08,
+   "minutes": 23.7,
+   "warning": "",
+   "slice_seconds": 2.2
+  }
+ },
+ "printer": "Bambu Lab X1 Carbon 0.4 nozzle",
+ "process": "0.20mm Standard @BBL X1C",
+ "slicer": "Bambu Studio 02.08.02.61, command line",
+ "note": "Each part sliced alone, as served, at 0.20 mm Standard, 2 walls, 15 % infill, system filament per material. Two-colour parts are sliced as two files; the colour change on a shared plate adds time not counted here."
+}

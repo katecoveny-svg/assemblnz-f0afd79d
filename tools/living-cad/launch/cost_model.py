@@ -19,6 +19,8 @@ from print_order import rate_for, PER_FILE          # the bureau rate card
 MAN = json.load(open(os.path.join(ROOT, "lib", "living", "cad-manifest.json")))
 PARTS = {p["id"]: p for p in MAN["parts"]}
 ITEMS = json.load(open(os.path.join(HERE, "widget-items.json")))
+_SLICE_PATH = os.path.join(ROOT, "lib", "living", "slice-report.json")
+SLICE = {k: v for k, v in json.load(open(_SLICE_PATH))["parts"].items() if v.get("ok")} if os.path.exists(_SLICE_PATH) else {}
 
 # ---- assumptions (NZD, October 2026; edit here, every number below follows) ----
 GST = 1.15
@@ -65,10 +67,15 @@ def cost_item(item):
         if not p:
             continue
         q = line["qty"]
-        mass = p["mass_g_pla"] * (1.27 / 1.24 if "PETG" in p["material"] else 1.0)
+        s = SLICE.get(line["id"])
+        if s:                                            # the slicer's own grams and minutes (tools/living-cad/slice)
+            mass, print_h = s["grams"], s["minutes"] / 60
+        else:                                            # a mesh estimate where a part has not been sliced
+            mass = p["mass_g_pla"] * (1.27 / 1.24 if "PETG" in p["material"] else 1.0)
+            print_h = mass / deposition(p["material"])
         g += mass * q
         material_cost += mass * (1 + WASTE) / 1000 * filament_rate(p["material"]) * q
-        hours += SETUP_H_PER_JOB + EXTRA_COPY_H * (q - 1) + mass * q / deposition(p["material"])
+        hours += SETUP_H_PER_JOB + EXTRA_COPY_H * (q - 1) + print_h * q
         jobs += 1; copies += q
         bureau += mass * q * rate_for(p["material"]) + PER_FILE
     machine = hours * MACHINE_PER_H
