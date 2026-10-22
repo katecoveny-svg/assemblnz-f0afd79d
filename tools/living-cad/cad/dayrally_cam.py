@@ -14,8 +14,9 @@ dayrally ........ the cradle carries the TURN flange (two keyways, 42 mm apart) 
                   the camera locks onto any dayrally mount or Grid board exactly like a pod does.
 
 Camera frame (millimetres): x across the film, y up (spool axes), z along the light. Film emulsion at z = 0,
-pinhole at z = F. The body prints front face down (camera +z toward the bed), so every cavity opens upward
-or slopes inside 45°; bores through the top and bottom walls are teardrops.
+pinhole at z = F. The body was drawn to print front face down (camera +z toward the bed), every cavity opening
+upward or sloping inside 45°, the bores through the top and bottom walls teardrops; Bambu Studio still wanted
+supports at the film plane that way, so it prints on its side (camera +x toward the bed), where it needs none.
 
 Not printed: pinhole disc (10 mm disc from a drink can or 0.05 mm brass shim, pierced with a #10 needle and
 sanded back to 0.28 mm), red window disc (12 mm from red lighting gel or red PETG), one 1/4"-20 nut, matte
@@ -211,7 +212,7 @@ def cradle_groove_cut():
 
 
 def body():
-    """One piece. Prints front face down (camera +z toward the bed)."""
+    """One piece. Prints on its side (camera +x toward the bed), no supports."""
     L, H = 2 * HX, 2 * HY
     blk = ext_z(rrect(L, H, 8.0), Z_BACK, Z_FRONT)
     for cx in (-CHAMBER_X, CHAMBER_X):                       # light-trap bosses around the two bores
@@ -370,7 +371,7 @@ def exposure_table(iso=400):
 
 
 PARTS = {
-    "cam-body": ("dayrally cam body", body, "face_down", "camera", "Prints front face down. Ink PLA Matte; paint or flock the cone matte black."),
+    "cam-body": ("dayrally cam body", body, "on_side", "camera", "Prints on its side, no supports (front face down needed them at the film plane). Ink PLA Matte; paint or flock the cone matte black."),
     "cam-back": ("dayrally cam back", back, "as_is", "camera", "Prints inner face up. Red window disc glues into the recess."),
     "cam-window-cover": ("Red window cover", window_cover, "as_is", "camera", "Split pin into the back, or an M3 screw."),
     "cam-winder-knob": ("Winder knob", winder_knob, "as_is", "camera", "Head down. The skirt covers the body boss; the blade lifts straight out for loading."),

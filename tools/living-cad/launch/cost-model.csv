@@ -21,13 +21,13 @@ al-pod-long,product,"dayrally pod, long",dayrally,"PLA Matte, two colours",5,141
 al-strap-clip,product,Strap clip,dayrally,PETG,1,19.5,0.69,0.95,0.41,1.75,0.08,3.19,5.7,8.89,5.09,15.17,12,15.0,0.088,0.453,0.265,0.556,-0.216
 al-duo-strap,product,Duo strap mount,dayrally,PETG,1,17.1,0.63,0.83,0.38,1.75,0.07,3.03,5.7,8.73,4.93,14.49,10,14.5,-0.069,0.368,0.253,0.555,-0.203
 al-belt-clip,product,Belt clip,dayrally,PETG,1,21.5,0.73,1.04,0.44,1.75,0.09,3.32,5.7,9.02,5.22,15.71,12,15.5,0.076,0.44,0.278,0.56,-0.218
-al-carabiner-loop,product,Carabiner loop,dayrally,PETG,1,18.4,0.78,0.89,0.47,1.75,0.08,3.19,5.7,8.89,5.09,14.85,9,15.0,-0.205,0.281,0.265,0.556,-0.192
+al-carabiner-loop,product,Carabiner loop,dayrally,PETG,1,16.1,0.57,0.78,0.34,1.75,0.07,2.94,5.7,8.64,4.84,14.21,9,14.5,-0.173,0.312,0.26,0.562,-0.181
 al-home-dock,product,Home dock,dayrally,PLA Matte,1,92.3,1.66,4.49,0.99,1.75,0.33,7.56,5.7,13.26,9.46,35.54,18,27.0,0.103,0.346,0.392,0.554,-0.557
 al-handline-winder,product,Handline winder,dayrally,PETG,1,11.7,0.43,0.57,0.26,1.75,0.05,2.63,5.7,8.33,4.53,12.98,9,13.5,-0.133,0.353,0.235,0.558,-0.162
 al-bag-tag,product,Bag tag,dayrally,"PLA Matte, two colours",2,5.1,0.4,0.23,0.24,3.5,0.03,4.0,5.7,9.7,5.9,15.13,12,17.0,0.011,0.375,0.293,0.55,-0.075
 al-bag-charm,product,Bag charm,dayrally,"PLA Matte, two colours",2,2.7,0.35,0.12,0.21,3.5,0.02,3.85,5.7,9.55,5.75,14.45,10,17.0,-0.163,0.274,0.303,0.56,-0.028
 al-zip-pull,product,"Zip pulls, pair",dayrally,"PLA Matte, two colours",4,2.7,0.41,0.12,0.25,4.08,0.02,4.48,5.7,10.18,6.38,14.46,9,18.5,-0.369,0.116,0.318,0.555,0.052
-al-phone-stand,product,Phone stand,dayrally,PLA Matte,1,34.5,0.97,1.57,0.58,1.75,0.13,4.02,5.7,9.72,5.92,19.37,16,17.5,0.249,0.522,0.311,0.56,-0.323
+al-phone-stand,product,Phone stand,dayrally,PLA Matte,1,33.1,0.88,1.5,0.53,1.75,0.12,3.9,5.7,9.6,5.8,18.97,16,17.0,0.258,0.531,0.3,0.557,-0.334
 al-chair-hook,product,"Chair hooks, pair",dayrally,PETG,2,9.5,0.63,0.46,0.38,2.04,0.05,2.93,5.7,8.63,4.83,12.35,12,14.5,0.114,0.478,0.261,0.563,-0.034
 al-cable-winder,product,"Cable winders, pair",dayrally,PETG,2,6.1,0.35,0.3,0.21,2.04,0.03,2.58,5.7,8.28,4.48,11.4,8,13.5,-0.264,0.282,0.239,0.562,-0.027
 al-bar-saddle,product,Bar saddle,Bike,PETG,1,19.7,0.78,0.96,0.47,1.75,0.09,3.26,5.7,8.96,5.16,15.23,14,15.0,0.209,0.521,0.259,0.551,-0.221
@@ -50,50 +50,50 @@ al-kit-dayrally-ride-kit,kit,dayrally Ride kit,dayrally kits,PLA Matte · PETG,1
 al-kit-dayrally-scoot-kit,kit,dayrally Scoot kit,dayrally kits,PLA Matte · PETG,8,92.7,3.36,4.3,2.02,12.54,0.38,19.24,5.7,24.94,21.14,59.65,47,65.0,0.352,0.445,0.523,0.59,-0.091
 al-kit-dayrally-fish-kit,kit,dayrally Fish kit,dayrally kits,PLA Matte · PETG,7,136.7,3.91,6.31,2.35,10.79,0.52,19.97,5.7,25.67,21.87,67.98,49,65.0,0.36,0.449,0.51,0.577,-0.239
 al-kit-dayrally-beach-kit,kit,dayrally Beach kit,dayrally kits,PLA Matte · PETG,10,134.7,4.4,6.21,2.64,14.58,0.53,23.96,5.7,29.66,25.86,75.42,59,75.0,0.386,0.46,0.51,0.568,-0.192
-al-kit-dayrally-selfie-kit,kit,dayrally Selfie kit,dayrally kits,PLA Matte · PETG,9,119.7,4.21,5.5,2.52,14.29,0.48,22.8,5.7,28.5,24.7,71.22,55,75.0,0.367,0.447,0.528,0.586,-0.127
+al-kit-dayrally-selfie-kit,kit,dayrally Selfie kit,dayrally kits,PLA Matte · PETG,9,116.0,3.91,5.32,2.35,14.29,0.46,22.43,5.7,28.13,24.33,70.18,55,70.0,0.375,0.455,0.503,0.565,-0.188
 al-kit-dayrally-school-kit,kit,dayrally School kit,dayrally kits,PLA Matte · PETG,12,166.0,4.8,7.59,2.88,16.62,0.63,27.73,5.7,33.43,29.63,88.17,67,85.0,0.391,0.456,0.513,0.565,-0.227
-al-kit-dayrally-tech-kit,kit,dayrally Tech kit,dayrally kits,PLA Matte · PETG,8,130.0,3.92,5.99,2.35,11.08,0.5,19.92,5.7,25.62,21.82,66.09,46,65.0,0.321,0.416,0.511,0.578,-0.205
+al-kit-dayrally-tech-kit,kit,dayrally Tech kit,dayrally kits,PLA Matte · PETG,8,127.7,3.72,5.87,2.23,11.08,0.49,19.68,5.7,25.38,21.58,65.44,46,65.0,0.328,0.423,0.515,0.582,-0.194
 al-kit-dayrally-everyday-kit,kit,dayrally Everyday kit,dayrally kits,PLA Matte · PETG,8,130.1,3.88,5.98,2.33,12.54,0.5,21.35,5.7,27.05,23.25,70.14,52,70.0,0.365,0.449,0.52,0.583,-0.188
 al-kit-dayrally-camp-kit,kit,dayrally Camp kit,dayrally kits,PLA Matte · PETG,9,188.4,5.16,8.7,3.09,12.83,0.71,25.33,5.7,31.03,27.23,86.45,67,80.0,0.432,0.497,0.519,0.574,-0.278
 al-kit-dayrally-desk-kit,kit,dayrally Desk kit,dayrally kits,PLA Matte · PETG,8,244.1,5.37,11.4,3.22,11.08,0.88,26.59,7.1,33.69,28.95,99.46,61,85.0,0.329,0.418,0.51,0.574,-0.38
-lab-dayrally-cam,prototype,dayrally cam,dayrally lab,PLA Matte · PETG,9,285.2,7.61,13.11,4.57,15.75,1.06,34.49,7.1,41.59,36.86,122.96,,105.0,,,0.511,0.563,-0.38
+lab-dayrally-cam,prototype,dayrally cam,dayrally lab,PLA Matte · PETG,9,279.6,7.41,12.86,4.45,15.75,1.04,34.09,7.1,41.19,36.46,121.39,,105.0,,,0.515,0.567,-0.363
 lab-dayrally-rod,prototype,dayrally rod,dayrally lab,PETG · PETG-CF or PA-CF,8,128.1,13.25,8.42,7.95,14.0,0.98,31.35,5.7,37.05,33.25,80.46,,95.0,,,0.517,0.563,-0.008
-lab-dayrally-cast,prototype,dayrally cast,dayrally lab,ASA or PETG-CF · PPA-CF (PA12-CF second),14,112.6,8.57,15.38,5.14,24.5,1.23,46.25,5.7,51.95,48.15,131.01,,135.0,,,0.524,0.557,-0.149
+lab-dayrally-cast,prototype,dayrally cast,dayrally lab,ASA or PETG-CF · PPA-CF (PA12-CF second),14,112.3,8.55,15.32,5.13,24.5,1.23,46.18,5.7,51.88,48.08,130.76,,135.0,,,0.525,0.557,-0.147
 lab-wharf-reel,prototype,Wharf reel,dayrally lab,PETG,1,51.2,1.17,2.49,0.7,1.75,0.19,5.13,5.7,10.83,7.03,24.02,,21.0,,,0.36,0.568,-0.363
-lab-dayrally-ride,prototype,dayrally ride pod,dayrally lab,PETG · PLA Matte · PETG (or a 3 mm steel rod) · TPU 95A,10,148.7,5.07,7.27,3.04,16.04,0.62,26.97,5.7,32.67,28.87,83.65,,80.0,,,0.496,0.55,-0.237
+lab-dayrally-ride,prototype,dayrally ride pod,dayrally lab,PETG · PLA Matte · PETG (or a 3 mm steel rod) · TPU 95A,10,147.7,4.98,7.22,2.99,16.04,0.61,26.86,5.7,32.56,28.76,83.36,,80.0,,,0.497,0.552,-0.233
 lab-ride-grips,prototype,dayrally grips,dayrally lab,TPU 95A,1,32.7,1.85,2.65,1.11,1.75,0.23,5.73,5.7,11.43,7.63,24.4,,22.0,,,0.356,0.555,-0.321
 lab-bar-ends,prototype,dayrally bar ends · plain or named,dayrally lab,PETG,1,3.3,0.43,0.16,0.26,1.75,0.03,2.2,5.7,7.9,4.1,10.63,,12.5,,,0.216,0.565,-0.036
-lab-ride-watch,prototype,dayrally watch cradle,dayrally lab,PETG,1,32.8,1.3,1.59,0.78,1.75,0.14,4.27,5.7,9.97,6.17,18.87,,18.0,,,0.314,0.556,-0.255
-lab-ride-phone,prototype,dayrally phone mount,dayrally lab,PETG,2,74.4,2.79,3.62,1.67,3.5,0.32,9.11,5.7,14.81,11.01,34.53,,31.0,,,0.409,0.55,-0.323
+lab-ride-watch,prototype,dayrally watch cradle,dayrally lab,PETG,1,28.6,0.92,1.39,0.55,1.75,0.12,3.81,5.7,9.51,5.71,17.71,,16.5,,,0.286,0.55,-0.286
+lab-ride-phone,prototype,dayrally phone mount,dayrally lab,PETG,2,71.9,2.53,3.49,1.52,3.5,0.3,8.81,5.7,14.51,10.71,33.83,,31.0,,,0.42,0.561,-0.296
 lab-ride-bottle,prototype,dayrally bottle cup,dayrally lab,PETG,1,82.6,2.54,4.01,1.53,1.75,0.33,7.62,5.7,13.32,9.52,32.83,,27.0,,,0.389,0.551,-0.441
-lab-turn-mini,prototype,TURN mini · components library,dayrally lab,PETG,11,46.6,3.58,2.26,2.15,13.42,0.26,18.09,5.7,23.79,19.99,46.75,,56.0,,,0.475,0.553,0.003
-lab-mini-ride,prototype,ride kit · mini mounts,dayrally lab,PETG,13,97.8,5.63,4.75,3.38,15.46,0.49,24.08,5.7,29.78,25.98,65.09,,75.0,,,0.508,0.567,-0.033
-lab-mini-explore,prototype,explore kit · mini,dayrally lab,PETG,11,50.8,3.45,2.47,2.07,16.33,0.27,21.15,5.7,26.85,23.05,55.92,,65.0,,,0.489,0.556,-0.025
-lab-ride-rack,prototype,dayrally on the bike · rack set,dayrally lab,PETG,3,217.1,5.96,10.55,3.58,5.25,0.85,20.23,7.1,27.33,22.59,79.88,,65.0,,,0.481,0.565,-0.449
+lab-turn-mini,prototype,TURN mini · components library,dayrally lab,PETG,11,46.7,3.63,2.27,2.18,13.42,0.27,18.13,5.7,23.83,20.03,46.79,,56.0,,,0.474,0.552,0.003
+lab-mini-ride,prototype,ride kit · mini mounts,dayrally lab,PETG,13,97.5,5.55,4.74,3.33,15.46,0.48,24.01,5.7,29.71,25.91,65.01,,75.0,,,0.509,0.568,-0.032
+lab-mini-explore,prototype,explore kit · mini,dayrally lab,PETG,11,48.2,3.28,2.34,1.97,16.33,0.26,20.9,5.7,26.6,22.8,55.18,,65.0,,,0.494,0.561,-0.012
+lab-ride-rack,prototype,dayrally on the bike · rack set,dayrally lab,PETG,3,209.0,5.51,10.16,3.31,5.25,0.81,19.52,7.1,26.62,21.89,77.62,,65.0,,,0.493,0.577,-0.409
 lab-ride-stand,prototype,dayrally crank stand,dayrally lab,PETG,1,134.6,3.59,6.54,2.15,1.75,0.52,10.97,5.7,16.67,12.87,47.39,,37.0,,,0.442,0.56,-0.513
-lab-scoot-fish,prototype,dayrally on the scooter · stem saddle and rod quiver,dayrally lab,PETG,2,148.6,4.9,7.22,2.94,3.5,0.61,14.27,5.7,19.97,16.17,55.31,,46.0,,,0.463,0.558,-0.421
+lab-scoot-fish,prototype,dayrally on the scooter · stem saddle and rod quiver,dayrally lab,PETG,2,147.8,4.61,7.18,2.77,3.5,0.6,14.05,5.7,19.75,15.95,55.08,,45.0,,,0.457,0.554,-0.446
 lab-fish-ruler,prototype,"dayrally fish ruler · the long pod, 35 cm end to end",dayrally lab,PLA Matte · PETG,6,169.2,4.59,7.68,2.75,9.04,0.63,20.11,5.7,25.81,22.01,73.07,,65.0,,,0.508,0.575,-0.329
 lab-ruler-15,prototype,"dayrally ruler · 15 cm, lives in the pencil pod",dayrally lab,PLA Matte,1,3.6,0.28,0.16,0.17,1.75,0.02,2.1,5.7,7.8,4.0,10.72,,12.0,,,0.193,0.557,-0.086
 lab-emergency-pack,prototype,dayrally emergency pack · the wide pod,dayrally lab,PLA Matte · PETG,6,218.9,5.06,9.94,3.03,9.04,0.78,22.8,7.1,29.9,25.16,88.4,,70.0,,,0.473,0.551,-0.488
 lab-mini-emergency,prototype,dayrally mini emergency kit · the standard pod,dayrally lab,PLA Matte · PETG,6,123.9,3.46,5.63,2.07,9.04,0.46,17.21,5.7,22.91,19.11,60.4,,54.0,,,0.475,0.556,-0.323
-lab-lip-sleeve,prototype,lip sleeve · for a peptide lip tube,dayrally lab,PLA Matte,2,24.4,1.15,1.11,0.69,3.5,0.11,5.4,5.7,11.1,7.3,20.53,,21.0,,,0.345,0.553,-0.171
+lab-lip-sleeve,prototype,lip sleeve · for a peptide lip tube,dayrally lab,PLA Matte,2,18.8,0.67,0.85,0.4,3.5,0.08,4.83,5.7,10.53,6.73,18.96,,19.5,,,0.331,0.555,-0.166
 lab-charms-2,prototype,"bag charms, second set · bow, cherry, moon, butterfly, smile",dayrally lab,PLA Matte,2,2.6,0.34,0.12,0.21,3.5,0.02,3.84,5.7,9.54,5.74,14.43,,17.0,,,0.304,0.561,-0.027
 lab-friend-set,prototype,"friend set · one heart, two halves",dayrally lab,PLA Matte,4,4.8,0.66,0.22,0.4,7.0,0.04,7.65,5.7,13.35,9.55,23.04,,28.0,,,0.409,0.565,0.011
 lab-id-tag,prototype,id tag · a code a bystander can scan,dayrally lab,PLA Matte,2,7.4,0.5,0.33,0.3,3.5,0.04,4.17,5.7,9.87,6.07,15.76,,17.5,,,0.301,0.551,-0.086
 lab-id-lid,prototype,id lid · the mini pod lid with the owner's code,dayrally lab,PLA Matte,2,20.4,0.76,0.93,0.46,3.5,0.08,4.97,5.7,10.67,6.87,19.41,,20.0,,,0.339,0.557,-0.164
-lab-eraser-sleeve,prototype,eraser sleeve · the rubber is replaceable,dayrally lab,PLA Matte,2,9.2,0.59,0.42,0.36,3.5,0.05,4.32,5.7,10.02,6.22,16.28,,18.0,,,0.31,0.553,-0.09
-lab-pen-g2,prototype,"pen · for a G2 refill, named",dayrally lab,PLA Matte,3,7.2,0.65,0.33,0.39,5.25,0.04,6.01,5.7,11.71,7.91,19.73,,23.0,,,0.369,0.559,-0.032
-lab-pencil-topper,prototype,pencil topper · a charm on the pencil,dayrally lab,PLA Matte,1,3.2,0.41,0.15,0.24,1.75,0.02,2.16,5.7,7.86,4.06,10.6,,12.0,,,0.187,0.551,-0.075
-lab-pack-case,prototype,pack case · soft plastics on the wall,dayrally lab,PETG · PLA Matte,3,105.0,4.93,4.77,2.96,3.79,0.46,11.99,5.7,17.69,13.89,43.09,,39.0,,,0.439,0.551,-0.31
-lab-pack-rail,prototype,pack rail · three packets by their holes,dayrally lab,PLA Matte · PETG,3,28.1,1.91,1.29,1.14,3.79,0.15,6.37,5.7,12.07,8.27,21.57,,24.0,,,0.377,0.559,-0.078
+lab-eraser-sleeve,prototype,eraser sleeve · the rubber is replaceable,dayrally lab,PLA Matte,2,7.4,0.47,0.34,0.28,3.5,0.04,4.15,5.7,9.85,6.05,15.78,,17.5,,,0.302,0.552,-0.087
+lab-pen-g2,prototype,"pen · for a G2 refill, named",dayrally lab,PLA Matte,3,7.1,0.68,0.32,0.41,5.25,0.04,6.02,5.7,11.72,7.92,19.7,,23.0,,,0.368,0.558,-0.03
+lab-pencil-topper,prototype,pencil topper · a charm on the pencil,dayrally lab,PLA Matte,1,2.6,0.36,0.12,0.22,1.75,0.02,2.1,5.7,7.8,4.0,10.42,,12.0,,,0.193,0.557,-0.058
+lab-pack-case,prototype,pack case · soft plastics on the wall,dayrally lab,PETG · PLA Matte,3,71.6,2.11,3.26,1.26,3.79,0.27,8.59,5.7,14.29,10.49,33.75,,30.0,,,0.41,0.556,-0.336
+lab-pack-rail,prototype,pack rail · three packets by their holes,dayrally lab,PLA Matte · PETG,3,18.8,1.11,0.86,0.67,3.79,0.09,5.41,5.7,11.11,7.31,18.96,,21.0,,,0.345,0.553,-0.085
 lab-reel-dock,prototype,reel dock · the reel hangs by its foot,dayrally lab,PLA Matte · PETG,3,43.9,1.64,2.13,0.98,3.79,0.19,7.09,5.7,12.79,8.99,25.98,,26.0,,,0.39,0.558,-0.193
 lab-reel-knob,prototype,reel knob · the part of a reel worth printing,dayrally lab,PLA Matte,2,4.5,0.46,0.21,0.28,3.5,0.03,4.01,5.7,9.71,5.91,14.97,,17.5,,,0.312,0.561,-0.034
 lab-spool-band,prototype,spool band · 2500,dayrally lab,PLA Matte,1,2.0,0.21,0.16,0.13,1.75,0.02,2.06,5.7,7.76,3.96,10.6,,12.0,,,0.197,0.561,-0.075
 lab-universal-saddle,prototype,"universal saddle · any bar, stem, post or tube",dayrally lab,PLA Matte,5,66.5,2.48,4.01,1.49,5.83,0.33,11.67,5.7,17.37,13.57,40.42,,39.0,,,0.449,0.561,-0.231
 lab-id-charm,prototype,"id charm · the code, prettier, in a shape",dayrally lab,PLA Matte,2,7.4,0.55,0.34,0.33,3.5,0.04,4.21,5.7,9.91,6.11,15.78,,18.0,,,0.317,0.56,-0.058
 lab-desk-set,prototype,desk set · trays that stack and sit on a grid,living lab,PLA Matte,5,358.0,16.89,16.24,10.14,7.29,1.58,35.25,7.1,42.35,37.61,123.33,,105.0,,,0.502,0.554,-0.385
-lab-fluted-table,prototype,fluted side table · two drums and a top,living lab,PLA Matte,3,1229.3,33.66,55.76,20.2,5.25,4.56,85.76,7.1,92.86,88.13,363.29,,245.0,,,0.532,0.554,-0.737
+lab-fluted-table,prototype,fluted side table · two drums and a top,living lab,PLA Matte,3,1224.2,33.16,55.53,19.9,5.25,4.53,85.2,7.1,92.3,87.57,361.88,,245.0,,,0.535,0.557,-0.731
 lab-grid-table,prototype,grid side table · a pill with a grid on top,living lab,PLA Matte,2,743.4,14.67,33.72,8.8,3.5,2.55,48.57,7.1,55.67,50.94,223.24,,145.0,,,0.526,0.563,-0.803
 lab-grid-table-round,prototype,"grid side table, round",living lab,PLA Matte,2,801.4,15.53,36.35,9.32,3.5,2.74,51.91,7.1,59.01,54.28,239.49,,150.0,,,0.515,0.551,-0.869
-lab-y-stool,prototype,Y stool · three arms and a hub,living lab,PETG,4,413.1,8.62,20.08,5.17,4.08,1.51,30.84,7.1,37.94,33.21,130.77,,95.0,,,0.507,0.564,-0.617
-lab-magazine-rack,prototype,"magazine rack · a sling, four legs, a hoop",living lab,PLA Matte · PETG,7,390.3,14.66,17.85,8.8,7.88,1.6,36.11,7.1,43.21,38.48,132.38,,110.0,,,0.515,0.564,-0.418
+lab-y-stool,prototype,Y stool · three arms and a hub,living lab,PETG,4,383.1,7.55,18.62,4.53,4.08,1.39,28.62,7.1,35.72,30.99,122.37,,90.0,,,0.509,0.57,-0.598
+lab-magazine-rack,prototype,"magazine rack · a sling, four legs, a hoop",living lab,PLA Matte · PETG,7,388.9,14.29,17.78,8.57,7.88,1.58,35.81,7.1,42.91,38.18,131.99,,110.0,,,0.518,0.567,-0.414

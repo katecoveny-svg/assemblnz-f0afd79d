@@ -60,7 +60,9 @@ with a socket in its floor is the honest version).
 
 PETG everywhere; PLA for colour accents that stay indoors. Cubes and joints as is: the chambers behind the
 side faces are 13 mm bridges. Clamps print V-up (face down in the pipeline). The light mount prints on its
-side so the ring is a vertical cylinder; the helmet base prints curve-up. The key prints lying flat; print the
+side so the ring is a vertical cylinder (the ring is the cube's full width, so it starts on the bed); the helmet
+base prints curve-up; the end cap prints lugs down like a key, its loop standing on the head with a teardrop hole;
+the lantern hook's J is flush with the block's bed face. The key prints lying flat; print the
 first key and the first cube together and tune `lib.CLAMP` and the detent before the rest, exactly as the
 full-size test kit does.
 

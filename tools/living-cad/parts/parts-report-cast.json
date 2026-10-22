@@ -391,7 +391,7 @@
       "watertight": true,
       "genus": 1,
       "bodies": 1,
-      "unsupported_down_area_mm2": 46.0,
+      "unsupported_down_area_mm2": 0.0,
       "notes": "PPA-CF. Epoxy and whip onto section 1."
     },
     {
@@ -410,7 +410,7 @@
       "watertight": true,
       "genus": 1,
       "bodies": 1,
-      "unsupported_down_area_mm2": 36.0,
+      "unsupported_down_area_mm2": 0.0,
       "notes": "Section 2."
     },
     {
@@ -429,7 +429,7 @@
       "watertight": true,
       "genus": 1,
       "bodies": 1,
-      "unsupported_down_area_mm2": 29.0,
+      "unsupported_down_area_mm2": 0.0,
       "notes": "Section 3."
     }
   ]

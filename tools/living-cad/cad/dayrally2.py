@@ -444,7 +444,8 @@ def zip_pull(initials="M", font=None, L=34.0, W=13.0, t=3.2):
 
 
 def phone_stand(width=70.0):
-    """Side profile extruded across the width. Phone leans at about 65 degrees. Prints on its side."""
+    """Side profile extruded across the width. Phone leans at about 65 degrees. Prints standing on its front edge (on
+    its side the cable notch through the base and the lip would need supports)."""
     pts = [(0, 0), (84, 0), (84, 5), (60, 5), (34, 60), (29, 58), (52, 5), (20, 5), (20, 16), (13, 16), (13, 5), (0, 5)]
     prof = round2d(poly(pts), r_convex=1.5, r_concave=1.5)
     body = ext_x(prof.rotate(0), -width / 2, width / 2)

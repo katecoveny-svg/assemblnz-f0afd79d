@@ -55,6 +55,22 @@ plate projects) is not committed; it rebuilds in about an hour.
   so they print without supports.
 - Each part is sliced alone. A farm printing several parts on one plate saves the start-up time of the extra jobs.
 
+## Checking a part for supports
+
+Every served part slices clean with supports off (22 October 2026, `docs/living/SUPPORT-FREE-20261022.md`). When a
+part changes, check it before the family build:
+
+```bash
+python3 tools/living-cad/slice/try_part.py ride-watch-42          # build it from the CAD in its print pose, ask the slicer
+python3 tools/living-cad/slice/islands.py ride-watch-42           # where the overhangs are, by Bambu's own rule
+python3 tools/living-cad/slice/orient_check.py --only ride-watch-42   # the slicer's verdict in all six flat orientations
+```
+
+Bambu's rule (`TreeSupport.cpp`, `detect_overhangs`): an overhang is a cantilever if one of its contours (a hole counts)
+touches nothing below, or if any vertex of its outline is more than 3 mm from where it meets the layer below. Straight
+bridges with supported corners pass; holes in bridges, curved free edges and sideways stubs do not. `islands.py`
+approximates it; the slicer's warning is the answer.
+
 ## Lineage
 
 Profile flattening follows the approach of `mfranzon/print3d` (MIT), which drives Bambu Studio the same way for a

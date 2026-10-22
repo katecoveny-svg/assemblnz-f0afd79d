@@ -45,12 +45,12 @@
         150.0
       ],
       "fits_250_cube": true,
-      "volume_cm3": 88.95,
-      "est_grams_pla": 71.2,
+      "volume_cm3": 105.61,
+      "est_grams_pla": 79.7,
       "watertight": true,
       "genus": 5,
       "bodies": 1,
-      "unsupported_down_area_mm2": 1445.0,
+      "unsupported_down_area_mm2": 1251.0,
       "notes": "One 40 mm tube, 150 tall, for a packed rod; TURN flange keys it onto the stem saddle. Floor end down."
     }
   ]

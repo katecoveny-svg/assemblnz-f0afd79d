@@ -120,12 +120,13 @@ def tip_top():
 
 def guide(ring_id, bar_side):
     """Single-foot running guide: ring on a post, 14 mm foot with a flat underside for the square bar. Epoxy and
-    whip. Prints on its side (ring flat on the bed)."""
+    whip. Prints on its side (ring flat on the bed). The ring and post stand at the front end of the foot, flush
+    with its face, so they print on the bed rather than starting halfway up the foot."""
     t = 1.6
     stand = ring_id / 2 + 2.5
     zc = bar_side / 2 + stand
-    ring = ext_y(circ(ring_id / 2 + t, 0.0, zc, seg=48) - circ(ring_id / 2, 0.0, zc, seg=48), -1.0, 1.0)
-    post = ext_y(rrect(3.2, stand - 1.0, 0.5, 0.0, bar_side / 2 + (stand - 1.0) / 2), -1.0, 1.0)
+    ring = ext_y(circ(ring_id / 2 + t, 0.0, zc, seg=48) - circ(ring_id / 2, 0.0, zc, seg=48), -7.0, -5.0)
+    post = ext_y(rrect(3.2, stand - 1.0, 0.5, 0.0, bar_side / 2 + (stand - 1.0) / 2), -7.0, -5.0)
     foot = ext_y(rrect(bar_side * 0.8, 2.0, 0.6, 0.0, bar_side / 2 + 1.0), -7.0, 7.0)
     return ring + post + foot
 

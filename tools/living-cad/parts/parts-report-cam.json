@@ -45,11 +45,11 @@
       "slug": "cam-body",
       "name": "dayrally cam body",
       "group": "camera",
-      "print_orientation": "face_down",
+      "print_orientation": "on_side",
       "print_bbox_mm": [
-        130.4,
+        75.4,
         84.0,
-        75.4
+        130.4
       ],
       "fits_250_cube": true,
       "volume_cm3": 536.78,
@@ -57,8 +57,8 @@
       "watertight": true,
       "genus": 25,
       "bodies": 1,
-      "unsupported_down_area_mm2": 2128.0,
-      "notes": "Prints front face down. Ink PLA Matte; paint or flock the cone matte black."
+      "unsupported_down_area_mm2": 8847.0,
+      "notes": "Prints on its side, no supports (front face down needed them at the film plane). Ink PLA Matte; paint or flock the cone matte black."
     },
     {
       "slug": "cam-back",

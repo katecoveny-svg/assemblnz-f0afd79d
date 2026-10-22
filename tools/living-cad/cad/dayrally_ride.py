@@ -6,7 +6,8 @@ dayrally ride — the bike line on the TURN key, 20 October 2026. Proposed; noth
   grips        TPU handlebar grips for 22.2 mm bars, waves or dots, the existing bar-end plug closes them
   watch        a cradle for an Apple Watch (42/46/49 mm) whose band wraps the cradle; charger pocket underneath
   phone        a portrait phone mount: 45 degree corner channels centre any 64-82 mm phone, a ratchet slider
-               takes 140-170 mm lengths, a thumb pawl releases it
+               takes 140-170 mm lengths; its pawl flexes sideways in a groove in the plate and a thumb tab
+               pushes it clear to release
   bottle       a bottle cup with diamond windows: TURN floor and 64 mm M5 slots, so it bolts to a frame boss,
                locks to a saddle, or sits on the Grid or the home dock as a pen cup
   stand        a crank stand (rest the pedal, lean the bike) that is a phone stand on the desk
@@ -181,12 +182,13 @@ def latch():
 
 
 def hinge_pin():
-    """Two per pod (one from each end), or a 3 mm steel rod. Prints lying flat."""
+    """Two per pod (one from each end), or a 3 mm steel rod. Prints lying on a 0.3 mm flat that runs the length of
+    the pin and across the head, so the head does not hold the pin up off the bed."""
     L = 50.0
     pin = M.cylinder(L, PIN_D / 2, -1.0, 36)
     head = M.cylinder(2.0, 4.5, PIN_D / 2 + 0.6, 48).translate([0, 0, L])
     tip = M.cylinder(1.5, PIN_D / 2, PIN_D / 2 - 0.8, 36).translate([0, 0, -1.5])
-    return pin + head + tip
+    return (pin + head + tip).trim_by_plane([-1.0, 0.0, 0.0], -(PIN_D / 2 - 0.3))      # the flat is the +x side, which on_side puts on the bed
 
 
 def gasket():
@@ -321,10 +323,12 @@ def watch_cradle(size="42"):
     crown = ext_z(rrect(16.0, 8.0, 2.0, 0, (w + POCKET_CLR) / 2 + 1.5), zt - POCKET_D, zt + 1)
     band = M.cube([SLAB_X + 2, BAND_W, POCKET_D + 1], center=True).translate([0, 0, zt - POCKET_D / 2 + 0.5])
     body = body - pocket - crown - band
-    # charger puck pocket from underneath, its face 1.2 under the pocket floor; cable slot to -y
-    puck_deep = SLAB_T - POCKET_D - 1.2
-    body = body - cyl_z(PUCK_D / 2 - 0.05, zs0 - 1, zs0 + puck_deep, seg=96)
-    body = body - M.cube([5.0, slab_w / 2 + 2, PUCK_T + 1], center=False).translate([-2.5, -slab_w / 2 - 1, zs0 - 1])
+    # charger puck pocket from the top: the puck drops into the pocket floor, its face flush with it, so the watch
+    # sits on the puck; the cable runs out to -y in a groove open at the top. (A pocket from underneath put a hole in
+    # the slab's bridged underside, which needs supports.)
+    floor = zt - POCKET_D
+    body = body - cyl_z(PUCK_D / 2 + 0.15, floor - PUCK_T, zt + 1, seg=96)
+    body = body - M.cube([3.8, slab_w / 2 + 2, zt + 1 - (floor - PUCK_T + 1.0)], center=False).translate([-1.9, -slab_w / 2 - 1, floor - PUCK_T + 1.0])
     return body
 
 
@@ -354,15 +358,20 @@ CH_H = 12.5                                       # channel height between the t
 CH_Y0 = 28.5                                      # ramps start at |y| = 28.5: a 64 mm phone lifts 3.5, clear of the pawl
 CH_LEN = 10.0                                     # channel length along x
 END_T = 2.4
-RACK_PITCH, RACK_H, RACK_W = 1.5, 1.0, 12.0
-RACK_Y = 18.0                                     # rack lane sits between the key heads (|y| < 10.5) and the channels (|y| > 28)
-RACK_X = (10.0, 84.0)
+RACK_PITCH = 1.5
+RACK_Y = 18.0                                     # the ratchet groove sits between the key heads (|y| < 10.5) and the channels (|y| > 28)
+RACK_X = (29.5, 99.0)                             # teeth along the groove; a tooth's vertical face every 1.5 from RACK_X[0]
+GROOVE_Y = (15.5, 20.5)                           # the groove in the plate: teeth on its -y wall, open at the top and at the +x end
+TOOTH_H = 0.9                                     # how far a tooth stands off the groove wall
+PAWL_Y, PAWL_T, PAWL_BUMP = 16.6, 1.2, 0.9        # pawl arm's -y face, its thickness, how far its bump reaches into the teeth
+PAWL_DX = 3.5                                     # the bump's catching face sits at x_end + 3.5 (in phase with RACK_X)
 SLIDER_RANGE = (59.0, 89.0)                       # slider end-wall x for 140..170 mm phones (= PH_X0 + END_T + 0.3 + L + 0.3)
 RAIL_Y = 43.0                                     # dovetail slots along x at y = ±43, open at the +x end
 SLOT_X0 = 40.0
 SLOT_BOTTOM_W, SLOT_TOP_W, SLOT_Z0, SLOT_FLARE_Z = 6.0, 3.0, 9.6, 11.5
 FOOT_CLR = 0.3
 RAIL_CLR = 0.3
+PAWL_Z = SLOT_Z0 + FOOT_CLR                       # the pawl arm's foot is level with the feet: it stands on the bed
 
 
 def _channel(x0, x1, sign, dz=0.0):
@@ -373,7 +382,9 @@ def _channel(x0, x1, sign, dz=0.0):
     parts = []
     for sy in (-1, 1):
         wedge = poly([(y0 - 2.0, zb - 1.0 + dz * 0), (y0 + 20.0, zb - 1.0), (y0 + 20.0, top), (y0 + 12.0, top), (y0 - 2.0, zb + CH_H + 4.0)])
-        chan = poly([(y0 - 6.0, zb - 7.0), (y0 + 24.0, zb + 23.0), (y0 + 24.0 - CH_H, zb + 23.0 + CH_H), (y0 - 6.0 - CH_H, zb - 7.0 + CH_H)])
+        # the channel stops 1.2 short of the wedge's outer face (y0 + 20): run out through it, the lip over its 45 degree
+        # ceiling started as a sliver in mid-air. The widest phone's edge sits near y0 + 13, well inside
+        chan = poly([(y0 - 6.0, zb - 7.0), (y0 + 18.8, zb + 17.8), (y0 + 18.8 - CH_H, zb + 17.8 + CH_H), (y0 - 6.0 - CH_H, zb - 7.0 + CH_H)])
         cs = (wedge - chan).scale([sy, 1])
         pts = cs.to_polygons()
         m = None
@@ -395,17 +406,20 @@ def phone_plate():
     # lightening windows, away from the keys and the rack
     for cx in (-60.0, 40.0):
         pl = pl - ext_z(rrect(22.0, 16.0, 6.0, cx, -24.0), Z0 - 1, ZF + 1)
-    # bottom channel at the -x end
-    pl = pl + _channel(PH_X0, PH_X0 + CH_LEN + END_T, -1).__add__(M.cube([CH_LEN + END_T, 2 * (CH_Y0 + 20.0), 1.0], center=False).translate([PH_X0, -(CH_Y0 + 20.0), ZF - 0.5]))
-    # rack along the centre line: sawtooth with the vertical face toward +x (slider pushes toward -x, holds against +x)
-    teeth = None
-    x = RACK_X[0]
-    while x + RACK_PITCH <= RACK_X[1]:
-        t = poly([(x, ZF - EPS), (x + RACK_PITCH, ZF - EPS), (x + RACK_PITCH, ZF + RACK_H)])      # (x, z): slope up toward +x, drop at +x
-        tm = ext_y(t, RACK_Y - RACK_W / 2, RACK_Y + RACK_W / 2)
-        teeth = tm if teeth is None else teeth + tm
-        x += RACK_PITCH
-    pl = pl + teeth
+    # bottom channel at the -x end; the plate's corners are squared off under it (its square corners overhung the
+    # plate's rounded ones by 4 mm)
+    pl = pl + ext_z(rrect(CH_LEN + END_T + 12.0, PH_W, 2.0, PH_X0 + (CH_LEN + END_T + 12.0) / 2, 0), Z0, ZF)
+    pl = pl + _channel(PH_X0, PH_X0 + CH_LEN + END_T, -1) + M.cube([CH_LEN + END_T, 2 * (CH_Y0 + 20.0), 1.0], center=False).translate([PH_X0, -(CH_Y0 + 20.0), ZF - 0.5])
+    # the ratchet: a groove along x, open at the top and at the +x end, sawtooth teeth on its -y wall (each tooth's
+    # vertical face toward -x: the slider's pawl rides over them toward the phone and catches the other way). Every
+    # face is vertical, so the plate prints flat with no supports
+    pl = pl - ext_z(CS.square([PH_X0 + PH_L + 1.0 - (RACK_X[0] - 1.0), GROOVE_Y[1] - GROOVE_Y[0]]).translate([RACK_X[0] - 1.0, GROOVE_Y[0]]), SLOT_Z0, ZF + 1)
+    teeth = []
+    a = RACK_X[0]
+    while a + RACK_PITCH <= RACK_X[1]:
+        teeth.append(poly([(a, GROOVE_Y[0] - 0.01), (a, GROOVE_Y[0] + TOOTH_H), (a + RACK_PITCH, GROOVE_Y[0] - 0.01)]))
+        a += RACK_PITCH
+    pl = pl + ext_z(CS.batch_boolean(teeth, m3d.OpType.Add), SLOT_Z0 - EPS, ZF)
     # dovetail slots for the slider's feet, open at the +x end so the slider enters from the end
     for sy in (-1, 1):
         pl = pl - ext_x_yz([(sy * RAIL_Y - SLOT_BOTTOM_W / 2, SLOT_Z0), (sy * RAIL_Y + SLOT_BOTTOM_W / 2, SLOT_Z0), (sy * RAIL_Y + SLOT_BOTTOM_W / 2, SLOT_FLARE_Z),
@@ -415,8 +429,10 @@ def phone_plate():
 
 
 def phone_slider(x_end=SLIDER_RANGE[0]):
-    """Top carriage: a bridge on the plate with dovetail feet in the slots, the top channel, and a pawl tongue
-    anchored at the bridge's -x edge that runs out past the end wall to a thumb tab. Prints upside down."""
+    """Top carriage: a bridge on the plate with dovetail feet in the slots, the top channel, and the pawl: a thin arm
+    standing in the plate's groove, anchored at the bridge's -x end, that flexes sideways (y). Its bump rides over the
+    teeth as the slider is pushed toward the phone and its square face catches them the other way; a thumb tab past
+    the end wall pushes it clear to release. Prints feet down: the arm stands on the bed, so it prints as a wall."""
     x0 = x_end - 2.0 - CH_LEN
     bx0, bx1 = x0 - 2.0, x_end + END_T + 2.0
     body = _channel(x0, x_end + END_T, +1, dz=RAIL_CLR + 1.0)
@@ -429,15 +445,26 @@ def phone_slider(x_end=SLIDER_RANGE[0]):
         foot = ext_x_yz([(y - fw_b / 2, SLOT_Z0 + FOOT_CLR), (y + fw_b / 2, SLOT_Z0 + FOOT_CLR), (y + fw_b / 2, SLOT_FLARE_Z - FOOT_CLR), (y + fw_t / 2, ZF + 0.0),
                          (y + fw_t / 2, ZF + RAIL_CLR + 0.5), (y - fw_t / 2, ZF + RAIL_CLR + 0.5), (y - fw_t / 2, ZF + 0.0), (y - fw_b / 2, SLOT_FLARE_Z - FOOT_CLR)], bx0, bx1)
         body = body + foot
-    # pawl lane through the bridge and the end wall, leaving the first 3 mm of the bridge solid as the anchor
-    lane = M.cube([bx1 - bx0, RACK_W + 3.0, 3.6], center=False).translate([bx0 + 3.0, RACK_Y - (RACK_W + 3.0) / 2, ZF - 0.1])
-    low = M.cube([bx1 - bx0 + 2, RACK_W + 3.0, RACK_H + RAIL_CLR + 0.1], center=False).translate([bx0 - 1.0, RACK_Y - (RACK_W + 3.0) / 2, ZF - 0.1])   # the anchor clears the rack teeth
-    body = body - lane - low
-    tongue = M.cube([bx1 - bx0 + 7.0, RACK_W - 1.0, 1.4], center=False).translate([bx0 + 1.0, RACK_Y - (RACK_W - 1.0) / 2, ZF + RAIL_CLR + 1.0])
-    tx = x0 + 2.0
-    tooth = ext_y(poly([(tx, ZF + RAIL_CLR + 1.0 + EPS), (tx, ZF + 0.05), (tx + RACK_PITCH - 0.3, ZF + RAIL_CLR + 1.0 + EPS)]), RACK_Y - (RACK_W - 1.0) / 2, RACK_Y + (RACK_W - 1.0) / 2)
-    tab = M.cube([8.0, RACK_W + 6.0, 1.4], center=False).translate([bx1 + 0.5, RACK_Y - (RACK_W + 6.0) / 2, ZF + RAIL_CLR + 1.0])
-    return body + tongue + tooth + tab
+    # the pawl: an anchor block in the groove under the bridge's -x end, the arm along +x to a thumb tab past the end wall
+    za, zt = PAWL_Z, ZF - 0.3                                   # arm from the bed to 0.3 under the plate's top
+    anchor = M.cube([6.0, GROOVE_Y[1] - 0.5 - PAWL_Y, ZF + RAIL_CLR + 0.5 - za], center=False).translate([bx0 + 1.0, PAWL_Y, za])
+    p = x_end + PAWL_DX                                         # the bump's catching face
+    tab_x = bx1 + 1.0
+    arm = M.cube([tab_x + 3.0 - (bx0 + 7.0), PAWL_T, zt - za], center=False).translate([bx0 + 7.0, PAWL_Y, za])
+    bump = ext_z(poly([(p, PAWL_Y + 0.01), (p, PAWL_Y - PAWL_BUMP), (p - PAWL_BUMP * RACK_PITCH / TOOTH_H, PAWL_Y + 0.01)]), za, zt)
+    tab = M.cube([3.0, PAWL_T + 1.0, ZF + 12.0 - za], center=False).translate([tab_x, PAWL_Y, za])
+    # printing feet down, the bridge's outer edges start over nothing past the feet: chamfer the outer bottom edges at
+    # 45 degrees from 2.7 mm past the feet, so the first layer reaches no further and each layer grows from the last
+    y_c, z_c = RAIL_Y + (SLOT_TOP_W - 2 * FOOT_CLR) / 2 + 2.7, ZF + RAIL_CLR
+    for sy in (-1, 1):
+        body = body - ext_x_yz([(sy * y_c, z_c - 2.0), (sy * y_c, z_c), (sy * (y_c + 20.0), z_c + 20.0), (sy * (y_c + 20.0), z_c - 2.0)], bx0 - 1.0, bx1 + 1.0)
+    return body + anchor + arm + bump + tab
+
+
+def slider_in_phase(x_end):
+    """The first slider position at or past x_end where the pawl's bump sits square against a tooth."""
+    k = math.ceil((x_end + PAWL_DX - RACK_X[0]) / RACK_PITCH)
+    return RACK_X[0] + k * RACK_PITCH - PAWL_DX
 
 
 def phone_block(w, L, t, x_end):
@@ -553,8 +580,8 @@ PARTS = {
     "ride-watch-42": ("watch cradle, 41/42 mm", lambda: watch_cradle("42"), "as_is", "ride", "The slab bridges 40 mm between its walls (a bridge, no supports). Band wraps the slab; charger puck pocket underneath."),
     "ride-watch-46": ("watch cradle, 45/46 mm", lambda: watch_cradle("46"), "as_is", "ride", "Band wraps the slab; charger puck pocket underneath."),
     "ride-watch-49": ("watch cradle, 49 mm Ultra", lambda: watch_cradle("49"), "as_is", "ride", "Band wraps the slab; charger puck pocket underneath."),
-    "ride-phone-plate": ("phone mount, plate", phone_plate, "as_is", "ride", "Two keys; 45 degree channels centre 64-82 mm phones; rack for the slider."),
-    "ride-phone-slider": ("phone mount, slider", lambda: phone_slider(SLIDER_RANGE[0]), "face_down", "ride", "Prints upside down (the bridge is a 53 mm span between the hooks). Push toward the phone to ratchet; lift the tab to release."),
+    "ride-phone-plate": ("phone mount, plate", phone_plate, "as_is", "ride", "Two keys; 45 degree channels centre 64-82 mm phones; a toothed groove for the slider's pawl."),
+    "ride-phone-slider": ("phone mount, slider", lambda: phone_slider(SLIDER_RANGE[0]), "as_is", "ride", "Prints feet down, no supports: the pawl arm stands on the bed. Push toward the phone to ratchet; push the tab sideways to release."),
     "ride-bottle-cup": ("bottle cup", bottle_cup, "on_bottom", "ride", "TURN floor and 64 mm M5 slots. Pen cup on the home dock."),
     "ride-stand": ("crank stand / phone stand", stand, "face_down", "ride", "Rest a pedal in the cradle and lean the bike. A phone leans in the same slot on the desk."),
 }

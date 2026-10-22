@@ -20,8 +20,8 @@ our own pieces drawn from the ideas, not copies, and each one is cut to fit a 25
 | fluted side table | two tapered fluted drums (Ø236 → Ø208) and a top, joined by 12 mm spigot rings, three ribs and a hub inside each drum; the top is hollow under a 4 mm skin | lower, upper, top | 1.14 kg | 57 h | NZ$275 |
 | grid side table | a 240 × 160 pill, 236 tall; the top is cut into a 14 mm grid (a third of the TURN pitch) and drops in on a tongue; cross ribs inside | body, top | 688 g | 35 h | NZ$170 |
 | grid side table, round | the same on a Ø220 drum | body, top | 743 g | 37 h | NZ$185 |
-| Y stool | three identical bent arms (150 reach, 240 tall) whose tongues meet in a tri-lobe hub on three M6 × 30 bolts | arm × 3, hub | 433 g | 27 h | NZ$130 |
-| magazine rack | a 220 × 160 sling (prints standing on its end), four tapered legs into bosses, a hoop handle in two halves on two pins | sling, legs × 4, hoop × 2 | 358 g | 19 h | NZ$110 |
+| Y stool | three identical bent arms (150 reach, 240 tall) whose tongues slide into a tri-lobe hub through three flat faces, on three M6 × 30 bolts | arm × 3, hub | 433 g | 27 h | NZ$130 |
+| magazine rack | a 220 × 160 sling (prints standing on its end) with a keel along each leg line, four tapered legs into bosses, a hoop handle in two halves on two tenons | sling, legs × 4, hoop × 2 | 358 g | 19 h | NZ$110 |
 
 Prices are the cost model's suggestions (`COSTING-20261021.md`, own print, 55 % margin), not listed prices.
 

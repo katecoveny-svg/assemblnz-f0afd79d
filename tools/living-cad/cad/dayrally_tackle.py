@@ -163,9 +163,9 @@ def strap_buckle(w=20.0):
 
 
 PARTS = {
-    "tk-pack-case-5": ("Pack case, 5 inch packs", lambda: pack_case("5"), "face_down", "tackle", "Keyed frame with an open front window for a 92 × 175 mm soft-plastics packet. Prints flange-down."),
-    "tk-pack-case-7": ("Pack case, 7 inch packs", lambda: pack_case("7"), "face_down", "tackle", "For a 105 × 235 mm packet."),
-    "tk-pack-rail": ("Pack rail, 3 pegs", pack_rail, "face_down", "tackle", "Packets hang by their holes; lips keep them on."),
+    "tk-pack-case-5": ("Pack case, 5 inch packs", lambda: pack_case("5"), "on_bottom", "tackle", "Keyed frame with an open front window for a 92 × 175 mm soft-plastics packet. Prints standing on its bottom lip, open top up: no supports."),
+    "tk-pack-case-7": ("Pack case, 7 inch packs", lambda: pack_case("7"), "on_bottom", "tackle", "For a 105 × 235 mm packet. Prints standing on its bottom lip."),
+    "tk-pack-rail": ("Pack rail, 3 pegs", pack_rail, "as_is", "tackle", "Packets hang by their holes; lips keep them on. Prints flange down, pegs up."),
     "tk-reel-dock": ("Reel dock", reel_dock, "face_down", "tackle", "A spinning reel hangs by its foot; sized to a 2500 foot, measure yours."),
     "tk-reel-knob": ("Reel knob (sample: MILA)", lambda: reel_knob(name="MILA", font=FONT)[0], "as_is", "tackle", "Fluted T knob for the common 4 mm knob shaft with two 4 × 7 × 2.5 bearings (not included). Measure the shaft and bearings first."),
     "tk-reel-knob-inlay": ("Reel knob inlay", lambda: reel_knob(name="MILA", font=FONT)[1], "as_is", "tackle", ""),

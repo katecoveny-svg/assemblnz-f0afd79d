@@ -8,7 +8,7 @@
   "keys_in_saddle_sockets_clash_mm3_designed_clamp": 0.0,
   "pod_mini_on_saddle_clash_mm3": -0.0,
   "ride_pod_on_saddle_clash_mm3": -0.0,
-  "quiver_on_saddle_clash_mm3": 0.0,
+  "quiver_on_saddle_clash_mm3": -0.0,
   "keys_through_quiver_flange_clash_mm3_designed_clamp": 37.562,
   "cast_grip_36_in_quiver_clash_mm3": 0.0,
   "rod_grip_32_in_quiver_clash_mm3": 0.0
