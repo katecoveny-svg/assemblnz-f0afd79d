@@ -40,8 +40,8 @@ uni 28–62 mm, Knog O-rings 22–32+ mm, Voile straps for anything). So does ou
 
 | file | what | print | g | checked |
 |---|---|---|---|---|
-| `tk-pack-case-5` | keyed frame for a 5" packet, open front window, 78 % of the packet covered, the top proud for the fingers | flange-down, 97 × 137 × 24 | 70 | packet 0 mm³ clash, 38.5 mm proud; keys 37.562 mm³ (the designed cone clamp); board 0 |
-| `tk-pack-case-7` | the same for a 7" packet | flange-down, 110 × 183 × 26 | 103 | packet 0; 51.7 mm proud; keys 37.562; board 0 |
+| `tk-pack-case-5` | keyed frame for a 5" packet, open front window, 78 % of the packet covered, the top proud for the fingers | standing on its bottom lip, 97 × 137 × 24 | 70 | packet 0 mm³ clash, 38.5 mm proud; keys 37.562 mm³ (the designed cone clamp); board 0 |
+| `tk-pack-case-7` | the same for a 7" packet | standing on its bottom lip, 110 × 183 × 26 | 103 | packet 0; 51.7 mm proud; keys 37.562; board 0 |
 | `tk-pack-rail` | three pegs on a keyed bar, 42 mm apart, lips on the pegs; packets hang by their hole | flange-down, 138 × 26 × 28 | 16 | keys 37.562 |
 | `tk-reel-dock` | a block on the flange with a horizontal slot in its face for the foot plate, a gap below for the stem; the reel hangs under it; keys turn from the front through open pockets | flange-down, 84 × 62 × 27 | 42 | foot 0 mm³; keys 37.562; board 0 |
 | `tk-reel-knob` (+ inlay) | fluted T knob, Ø22 × 26, Ø4.6 bore with two Ø7 bearing seats, the owner's name inlaid in the cap | standing on the shaft end | 4 | shaft 0, bearings 0, inlay 0 |

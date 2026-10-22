@@ -139,7 +139,7 @@
       "slug": "hm-drum-upper",
       "name": "Fluted side table, upper drum",
       "group": "home",
-      "print_orientation": "as_is",
+      "print_orientation": "face_down",
       "print_bbox_mm": [
         222.0,
         222.0,
@@ -151,8 +151,8 @@
       "watertight": true,
       "genus": 4,
       "bodies": 1,
-      "unsupported_down_area_mm2": 1069.0,
-      "notes": "Drops over the lower drum's spigot."
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Drops over the lower drum's spigot. Prints top end down, so the ribs and hub start on the bed."
     },
     {
       "slug": "hm-drum-top",
@@ -255,13 +255,13 @@
       "group": "home",
       "print_orientation": "on_bottom",
       "print_bbox_mm": [
-        150.0,
+        137.0,
         240.0,
         44.0
       ],
       "fits_250_cube": true,
-      "volume_cm3": 393.06,
-      "est_grams_pla": 121.4,
+      "volume_cm3": 386.19,
+      "est_grams_pla": 118.8,
       "watertight": true,
       "genus": 1,
       "bodies": 1,
@@ -272,20 +272,20 @@
       "slug": "hm-y-hub",
       "name": "Y stool hub",
       "group": "home",
-      "print_orientation": "face_down",
+      "print_orientation": "on_side",
       "print_bbox_mm": [
-        99.0,
-        105.0,
-        24.0
+        24.0,
+        93.5,
+        81.0
       ],
       "fits_250_cube": true,
-      "volume_cm3": 117.25,
-      "est_grams_pla": 59.0,
+      "volume_cm3": 88.07,
+      "est_grams_pla": 42.4,
       "watertight": true,
-      "genus": 12,
+      "genus": 9,
       "bodies": 1,
-      "unsupported_down_area_mm2": 5391.0,
-      "notes": "Tri-lobe hub; three M6 × 30 bolts and nuts, not printed."
+      "unsupported_down_area_mm2": 1405.0,
+      "notes": "Tri-lobe hub with a flat face and an open pocket for each arm; three M6 × 30 bolts and nuts, not printed. Prints standing on a flat face, no supports."
     },
     {
       "slug": "hm-rack-sling",
@@ -298,12 +298,12 @@
         220.0
       ],
       "fits_250_cube": true,
-      "volume_cm3": 341.98,
-      "est_grams_pla": 270.4,
+      "volume_cm3": 379.69,
+      "est_grams_pla": 288.3,
       "watertight": true,
       "genus": 0,
       "bodies": 1,
-      "unsupported_down_area_mm2": 1746.0,
+      "unsupported_down_area_mm2": 827.0,
       "notes": "Prints standing on its end."
     },
     {
@@ -336,13 +336,13 @@
         10.0
       ],
       "fits_250_cube": true,
-      "volume_cm3": 45.1,
-      "est_grams_pla": 24.5,
+      "volume_cm3": 45.71,
+      "est_grams_pla": 24.9,
       "watertight": true,
       "genus": 0,
       "bodies": 1,
-      "unsupported_down_area_mm2": 78.0,
-      "notes": "Prints flat; two pins up into the upper half."
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Prints flat; two tenons up into the upper half."
     },
     {
       "slug": "hm-rack-hoop-upper",
@@ -355,12 +355,12 @@
         10.0
       ],
       "fits_250_cube": true,
-      "volume_cm3": 32.32,
-      "est_grams_pla": 18.0,
+      "volume_cm3": 31.63,
+      "est_grams_pla": 17.7,
       "watertight": true,
       "genus": 0,
       "bodies": 1,
-      "unsupported_down_area_mm2": 97.0,
+      "unsupported_down_area_mm2": 0.0,
       "notes": "Prints flat; the handle."
     }
   ]

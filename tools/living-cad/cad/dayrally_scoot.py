@@ -15,7 +15,7 @@ import math
 import lib
 import dayrally as d1
 import dayrally2 as d2
-from lib import M, ext_z, ext_x, ext_y, cyl_z, rrect, circ, poly, flange_key_cut, EPS
+from lib import M, CS, ext_z, ext_x, ext_y, cyl_z, rrect, circ, poly, flange_key_cut, EPS
 
 KEYS = d1.KEYS                        # (-21, 0) and (21, 0): along x, the stem axis
 STRAP_W, STRAP_T = 26.0, 4.0          # a 25 mm hook-and-loop or cam strap (bought)
@@ -38,9 +38,11 @@ def stem_saddle(Lx=96.0, Wy=72.0, depth=34.0, gd=20.0):
 def quiver(bore=BORE, H=QH, wall=2.4):
     """One tube along x for a packed rod, on a TURN flange (z 8..13, keys at +-21 along x). The tube floats 8 mm above
     the flange so the key heads (to z 17.3) clear it; three bridges at x = 0 and +-38 sit between and outside the heads.
-    Floor with a drain at the +x end, which prints at the bottom (on_side) and mounts downward."""
+    Floor with a drain at the +x end, which prints at the bottom (on_side) and mounts downward. The flange runs the
+    tube's full length, so standing on end it starts on the bed with the tube (a 96 mm flange began 27 mm up, in
+    mid-air)."""
     z0, z1 = lib.FL_Z0, lib.FL_Z1
-    Lx, Wy = 96.0, 60.0
+    Lx, Wy = H, 60.0
     plate = ext_z(rrect(Lx, Wy, 8.0), z0, z1)
     for (x, y) in KEYS:
         plate = plate - flange_key_cut(x, y)
@@ -49,8 +51,11 @@ def quiver(bore=BORE, H=QH, wall=2.4):
     tube = ext_x(circ(R, zc, 0.0, seg=112), -H / 2, H / 2) - ext_x(circ(bore / 2, zc, 0.0, seg=112), -H / 2 - 1, H / 2 - 3.0)   # (z, y) sections
     tube = tube - M.cylinder(10.0, 3.0, 3.0, 32).rotate([0, 90, 0]).translate([H / 2 - 5.0, 0.0, zc])   # drain through the floor
     body = plate + tube
+    # three saddles between the flange and the tube, filled up to the tube's curve (a flat-topped bridge touched the
+    # round tube on one line only, and its corners printed in mid-air)
+    saddle = CS.square([zc - (z1 - 0.5), 1.6 * R]).translate([z1 - 0.5, -0.8 * R]) - circ(R - 1.0, zc, 0.0, seg=112)     # (z, y)
     for x in (-38.0, 0.0, 38.0):
-        body = body + ext_x(rrect(zc - R - z1 + 1.0, 2 * R, 1.0, (z1 - 0.5 + zc - R) / 2, 0.0), x - 5.0, x + 5.0)
+        body = body + ext_x(saddle, x - 5.0, x + 5.0)
     return body
 
 

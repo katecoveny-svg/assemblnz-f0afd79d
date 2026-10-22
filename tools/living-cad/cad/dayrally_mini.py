@@ -78,9 +78,14 @@ def cube(faces=("+z", "-z", "+x", "-x", "+y", "-y")):
 
 
 def end_cap():
-    """A single key with a flat 13 mm head and a lanyard loop: closes an unused socket, gives a tie point."""
+    """A single key with a flat 13 mm head and a lanyard loop standing up from the head: closes an unused socket,
+    gives a tie point, and the loop is the grip that turns it. Prints lugs down like every key; the loop's hole is a
+    teardrop so its top needs no support."""
     cap = single_key(1.6)
-    loop = ext_z(circ(5.0, HEAD_R + 3.2, 0, seg=48) - circ(2.6, HEAD_R + 3.2, 0, seg=48), FACE, FACE + 1.6)
+    zc = FACE + 1.6 + 5.0 - 1.0                               # loop centre: its foot sinks 1 mm into the head
+    hole = circ(2.6, 0, zc, seg=40) + poly([(-2.6 * math.cos(math.pi / 4), zc + 2.6 * math.sin(math.pi / 4)), (0, zc + 2.6 * math.sqrt(2)),
+                                             (2.6 * math.cos(math.pi / 4), zc + 2.6 * math.sin(math.pi / 4))])
+    loop = ext_y((circ(5.0, 0, zc, seg=48) ^ CS.square([12.0, 12.0]).translate([-6.0, FACE + 0.5])) - hole, -1.6, 1.6)
     return cap + loop
 
 
@@ -155,10 +160,10 @@ def light_mount(torch_d=25.0):
     c = cube(("-z", "+x", "-x", "+y", "-y"))
     R = torch_d / 2
     cz = CUBE / 2 + R + 1.0
-    ring = ext_x(circ(R + 2.4, cz, 0, seg=96) - circ(R, cz, 0, seg=96), -11.0, 11.0)
-    opening = ext_x(poly([(cz, 0), (cz + 2 * R, -R * 0.9), (cz + 2 * R + 10, -R * 0.9), (cz + 2 * R + 10, R * 0.9), (cz + 2 * R, R * 0.9)]), -12, 12)
+    ring = ext_x(circ(R + 2.4, cz, 0, seg=96) - circ(R, cz, 0, seg=96), -CUBE / 2, CUBE / 2)        # the cube's full width: prints on its side from the bed
+    opening = ext_x(poly([(cz, 0), (cz + 2 * R, -R * 0.9), (cz + 2 * R + 10, -R * 0.9), (cz + 2 * R + 10, R * 0.9), (cz + 2 * R, R * 0.9)]), -CUBE / 2 - 1, CUBE / 2 + 1)
     ring = ring - opening
-    ring = ring - ext_x(circ(R, cz, 0, seg=96), -12, 12)
+    ring = ring - ext_x(circ(R, cz, 0, seg=96), -CUBE / 2 - 1, CUBE / 2 + 1)
     body = c + ring
     for sx in (-1, 1):
         groove = ext_x(circ(R + 2.4 + 1.0, cz, 0, seg=96) - circ(R + 2.4 - 0.8, cz, 0, seg=96), sx * 9.0 - 1.0, sx * 9.0 + 1.0)
@@ -295,7 +300,7 @@ def lantern_hook():
     ring = (circ(16.0, 13.0, -44.0, seg=64) - circ(10.0, 13.0, -44.0, seg=64)) ^ CS.square([40, 20], center=False).translate([-7, -64])
     tip = CS.square([6.0, 12.0], center=False).translate([23.0, -46.0])
     prof = round2d(bar + ring + tip, r_convex=1.5)
-    hook = lib.ext_x(prof, -7.0, 7.0)
+    hook = lib.ext_x(prof, -1.0, 13.0)                        # flush with the block's +x face, the face it prints on
     block = _box(26.0, 14.0, FACE + 2.4 + 2.0).translate([0, 0, (FACE + 2.4 + 2.0) / 2 - 1.0])
     body = hook + block
     return body - mini_socket_cut().translate([0, 0, FACE + 2.4 + 2.0 - 1.0 - FACE])
@@ -310,8 +315,8 @@ def keyed_bar_end(bar_id=18.8):
 
 
 PARTS = {
-    "mini-universal-key": ("universal key", universal_key, "on_side", "mini", "Double-ended TURN mini key: joins two cubes. Lies flat to print."),
-    "mini-end-cap": ("end cap", end_cap, "face_down", "mini", "Closes a socket; the loop is a tie point and the handle."),
+    "mini-universal-key": ("universal key", universal_key, "on_bottom", "mini", "Double-ended TURN mini key: joins two cubes. Lies flat to print, lugs edge-on to the bed."),
+    "mini-end-cap": ("end cap", end_cap, "as_is", "mini", "Closes a socket; the loop stands up from the head: a tie point and the handle. Prints lugs down."),
     "mini-cube": ("base mount", cube, "as_is", "mini", "26 mm cube, a socket in every face."),
     "mini-angle-joint": ("angle joint", angle_joint, "as_is", "mini", "Two sockets 45 degrees apart."),
     "mini-flat-mount": ("flat mount", flat_mount, "as_is", "mini", "Four 3.5 mm screws or adhesive."),
@@ -325,7 +330,7 @@ PARTS = {
     "mini-helmet-base": ("helmet base", helmet_base, "face_down", "mini", "Curved to a 90 mm helmet shell; 3M VHB pad; the cam mount locks on."),
     "mini-battery-dock": ("battery dock", battery_dock, "as_is", "mini", "Sleeve for a power bank up to 70 x 15 mm; cable notch; strap slots; socket on the back."),
     "mini-phone-holder": ("phone holder", phone_holder, "as_is", "mini", "Cased phone up to 80 x 160; silicone strap; socket on the back."),
-    "mini-collar-mount": ("collar mount", collar_mount, "as_is", "mini", "Slides onto a 20-25 mm collar; a tag or light locks on top."),
+    "mini-collar-mount": ("collar mount", collar_mount, "face_down", "mini", "Slides onto a 20-25 mm collar; a tag or light locks on top. Prints socket face down."),
     "mini-lantern-hook": ("lantern hook", lantern_hook, "on_side", "mini", "J hook with a socket."),
     "mini-bar-end": ("bar-end plug, keyed", keyed_bar_end, "face_down", "mini", "The bar-end plug with a mini socket in its cap."),
 }

@@ -4,7 +4,8 @@ dayrally pocket — the small things carried close (Kate's "girl range", 21 Octo
 Pieces, all on the same TURN flange or the same inlay rules as the pods:
 
 - lip sleeve: an open-topped sleeve for a lip treatment tube, name inlaid on the front, a loop for a ring, a thumb
-  scoop to push the tube out. Prints on its front face so the inlay is the first layers.
+  scoop to push the tube out. Prints inlay-face up (the scoop on the bed): face down, the scoop was a hole in
+  the bridged roof and needed supports.
 - charms, second set: bow, cherry, moon, butterfly and smile outlines beside the dayrally2 six, initials inlaid.
 - friend set: one heart split on a wave into two halves that fit back together, an initial on each, a ring hole on
   each. Two friends, one heart.
@@ -108,7 +109,7 @@ def card_lid(size="wide", style="plain", name=None, font=None):
 
 # ---------------- lip sleeve ----------------
 def lip_sleeve(tube=(24.0, 23.0, 118.0), wall=1.6, name=None, font=None):
-    """Open-topped sleeve lying on its front face (the inlay face). The tube goes in along +x and sits 30 % proud; a
+    """Open-topped sleeve, drawn lying on its front face (the inlay face; it prints the other way up). The tube goes in along +x and sits 30 % proud; a
     thumb scoop in the back face at the open end lets a thumb push it out; a ring loop stands off the closed end.
     Sized to the slant-tip peptide tubes (rhode 114 × 22 × 21, Laneige 96 × 23 × 23, Summer Fridays about 120 × 23)."""
     w, t, depth = tube                           # tube width (y), thickness (z), length (x)
@@ -134,11 +135,11 @@ def lip_sleeve(tube=(24.0, 23.0, 118.0), wall=1.6, name=None, font=None):
 
 
 # ---------------- charms, second set, and the friend set ----------------
-def _outline2(shape, s=46.0):
+def _outline2(shape, s=46.0, droop=18.0):
     if shape == "bow":
         loop = rrect(s * 0.42, s * 0.3, s * 0.12)
-        left = loop.translate([-s * 0.24, 0]).rotate(18)
-        right = loop.translate([s * 0.24, 0]).rotate(-18)
+        left = loop.translate([-s * 0.24, 0]).rotate(droop)             # droop < 0 turns the loops up
+        right = loop.translate([s * 0.24, 0]).rotate(-droop)
         knot = circ(s * 0.11, seg=40)
         tails = round2d(poly([(-s * 0.05, -s * 0.05), (-s * 0.2, -s * 0.46), (-s * 0.04, -s * 0.4), (0, -s * 0.2), (s * 0.04, -s * 0.4), (s * 0.2, -s * 0.46), (s * 0.05, -s * 0.05)]), r_convex=1.0, r_concave=0.8)
         tab = rrect(s * 0.22, s * 0.2, s * 0.05, 0, s * 0.13)          # carries the ring above the knot
@@ -338,7 +339,7 @@ def id_lid(size="mini", url=SAMPLE_ID_URL, name=None, font=None, module=1.0):
 # ---------------- stationery ----------------
 def eraser_sleeve(block=(65.0, 23.0, 13.0), wall=1.6, cover=42.0, name=None, font=None):
     """A sleeve for a standard block eraser, open at one end, a thumb slot in the back so the rubber can be pushed
-    out as it wears. Lies on its broad face for the name inlay."""
+    out as it wears. Drawn on its broad face for the name inlay; prints the other way up, the thumb slot on the bed."""
     L, W, T = block
     cw, ct = W + 0.8, T + 0.6
     body = ext_z(rrect(cover + wall, cw + 2 * wall, 3.0, (cover + wall) / 2, 0), 0, ct + 2 * wall)
@@ -394,12 +395,52 @@ def pen_plug(across=11.0, flat=8.5, bore_d=REFILL[1] + 0.5, depth=8.0):
     return collar + spigot + loop
 
 
+def _standing(cs, z_top, half=6.2, step=0.1):
+    """A charm outline (x, z) made to stand on a collar whose top is z = z_top and half-width `half`, printing upright
+    with nothing starting in mid-air: it sits down on the collar, and a 45 degree flare rises from the collar under
+    each low point that lies beyond it (a star's two bottom tips); the gap between low points stays open. Any part
+    that would still start in mid-air is joined at 45 degrees down to what is already there."""
+    x0, z0, x1, z1 = cs.bounds()
+    band = lambda c, z, h: c ^ CS.square([x1 - x0 + 40.0, h]).translate([x0 - 20.0, z])
+    lows = band(cs, z0, 0.6).decompose()
+    lift = max(0.0, max(max(abs(c.bounds()[0]), abs(c.bounds()[2])) for c in lows) - half + 0.3)
+    cs = cs.translate([0, z_top + lift - z0])
+    x0, z0, x1, z1 = cs.bounds()
+    base = CS.square([2 * half, 0.5]).translate([-half, z_top - 0.5])
+    out, acc = cs, base
+    for c in band(cs, z0, 0.6).decompose():
+        cx0, _, cx1, _ = c.bounds()
+        if lift > 0:
+            under = base ^ CS.square([cx1 - cx0 + 2 * lift + 1.0, 1.0]).translate([cx0 - lift - 0.5, z_top - 0.5])
+            flare = CS.batch_hull([under, c])
+            out, acc = out + flare, acc + flare
+    z = z0
+    while z < z1:
+        b = band(cs, z, step)
+        for comp in b.decompose():
+            if (comp ^ acc.offset(0.05, m3d.JoinType.Round)).area() < 0.5:                    # barely touching counts as hanging
+                bx0, _, bx1, _ = comp.bounds()
+                sx = -1.0 if (bx0 + bx1) > 0 else 1.0
+                foot = cs ^ CS.square([bx1 - bx0 + 1.0, 2.5]).translate([bx0 - 0.5, z])       # the bottom 2.5 mm of the hanging part
+                for d in np.arange(0.5, 20.0, 0.5):
+                    wedge = CS.batch_hull([foot, foot.translate([sx * d, -d])])
+                    if not (wedge ^ acc).is_empty():
+                        out, acc = out + wedge, acc + wedge
+                        break
+        acc = acc + b
+        z += step
+    return out
+
+
 def pencil_topper(shape="star", bore_d=7.8, depth=14.0, font=None):
     """A charm outline standing on a short collar that press-fits a standard hex pencil (7.0 across flats, 7.4–7.9
-    across corners: the corners bite the bore)."""
+    across corners: the corners bite the bore). Prints standing, collar down; a star and a bow sit on a 45 degree
+    pedestal so their low points do not start in mid-air."""
     collar = cyl_z(6.2, 0, depth + 2.0, seg=64) - cyl_z(bore_d / 2, -1, depth, seg=48)
-    cs = d2._outline(shape, 30.0) if shape in d2.CHARMS else _outline2(shape, 30.0)
-    charm = ext_z(cs, depth + 2.0, depth + 2.0 + 3.2).translate([0, 0, 0])
+    # standing up, a bow's drooping loops would start in mid-air: the topper's bow turns its loops up instead
+    cs = d2._outline(shape, 30.0) if shape in d2.CHARMS else _outline2(shape, 30.0, droop=-36.0 if shape == "bow" else 18.0)
+    if shape in ("star", "bow"):
+        return collar + ext_y(_standing(cs, depth + 2.0), -1.6, 1.6)
     # the charm stands up: rotate its plane vertical over the collar
     charm = ext_y(cs.translate([0, 15.0 + depth + 2.0]), -1.6, 1.6)
     neck = cyl_z(2.6, depth + 1.0, depth + 9.0, seg=32)
@@ -427,17 +468,17 @@ PARTS = {
     "pk-insert-wide-makeup": ("Insert, wide: makeup", lambda: wide_insert("makeup")[0], "as_is", "insert", "Compact, mascara, balm, two pencils, mini spray, hair ties."),
     "pk-insert-wide-open": ("Insert, wide: open", lambda: wide_insert("open")[0], "as_is", "insert", "Two deep bays; a folded pad fits one."),
     "pk-insert-standard-emergency": ("Insert, standard: emergency, mini", lambda: std_insert("emergency")[0], "as_is", "insert", "A compact tampon, a balm, a mini sanitiser, patches."),
-    "pk-lip-sleeve": ("Lip sleeve (sample: MILA)", lambda: lip_sleeve(name="MILA", font=FONT)[0], "as_is", "pocket", "Open-topped sleeve for a lip treatment tube; name inlaid on the front; ring loop. Prints inlay-face down."),
-    "pk-lip-sleeve-inlay": ("Lip sleeve inlay", lambda: lip_sleeve(name="MILA", font=FONT)[1], "as_is", "pocket", ""),
+    "pk-lip-sleeve": ("Lip sleeve (sample: MILA)", lambda: lip_sleeve(name="MILA", font=FONT)[0], "face_down", "pocket", "Open-topped sleeve for a lip treatment tube; name inlaid on the front; ring loop. Prints inlay-face up (the thumb scoop on the bed), no supports."),
+    "pk-lip-sleeve-inlay": ("Lip sleeve inlay", lambda: lip_sleeve(name="MILA", font=FONT)[1], "face_down", "pocket", ""),
     "pk-id-tag": ("ID tag (sample code)", lambda: id_tag(font=FONT)[0], "as_is", "pocket", "QR inlaid flush beside SCAN; the real code is made per order. Prints code-side down."),
     "pk-id-tag-inlay": ("ID tag inlay (sample code)", lambda: id_tag(font=FONT)[1], "as_is", "pocket", ""),
     "pk-lid-mini-id": ("Lid, mini, id (sample code)", lambda: id_lid("mini")[0], "face_down", "lid", "The mini lid with the owner's QR inlaid; the name goes on the base's tag or a second lid style."),
     "pk-lid-mini-id-inlay": ("Lid inlay, mini, id (sample code)", lambda: id_lid("mini")[1], "face_down", "lid", ""),
-    "pk-eraser-sleeve": ("Eraser sleeve (sample: MILA)", lambda: eraser_sleeve(name="MILA", font=FONT)[0], "as_is", "stationery", "Takes a 65 × 23 × 13 block eraser; thumb slot pushes it out. Prints inlay-face down."),
-    "pk-eraser-sleeve-inlay": ("Eraser sleeve inlay", lambda: eraser_sleeve(name="MILA", font=FONT)[1], "as_is", "stationery", ""),
+    "pk-eraser-sleeve": ("Eraser sleeve (sample: MILA)", lambda: eraser_sleeve(name="MILA", font=FONT)[0], "face_down", "stationery", "Takes a 65 × 23 × 13 block eraser; thumb slot pushes it out. Prints inlay-face up (the thumb slot on the bed), no supports."),
+    "pk-eraser-sleeve-inlay": ("Eraser sleeve inlay", lambda: eraser_sleeve(name="MILA", font=FONT)[1], "face_down", "stationery", ""),
     "pk-pen-body": ("Pen body, G2 refill (sample: MILA)", lambda: pen_body(name="MILA", font=FONT)[0], "as_is", "stationery", "Takes a Parker-style G2 refill; prints on its flat, inlay down."),
     "pk-pen-body-inlay": ("Pen body inlay", lambda: pen_body(name="MILA", font=FONT)[1], "as_is", "stationery", ""),
-    "pk-pen-plug": ("Pen plug", pen_plug, "as_is", "stationery", "Press-fit into the pen's bore; charm loop."),
+    "pk-pen-plug": ("Pen plug", pen_plug, "on_side", "stationery", "Press-fit into the pen's bore; charm loop. Prints standing on its collar, the spigot up."),
 }
 for sh in TAG_SHAPES:
     PARTS[f"pk-id-charm-{sh}"] = (f"ID charm, {sh} (sample code)", (lambda s=sh: id_charm(s)[0]), "as_is", "pocket", "A styled code (round modules, rounded finders, the key in the middle, level H) in a charm; the real code is made per order. Prints code-side down.")

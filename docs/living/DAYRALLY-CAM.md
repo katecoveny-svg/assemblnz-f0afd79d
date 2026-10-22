@@ -26,7 +26,7 @@ The design decisions that make it work rather than look like a camera:
 | Winder knob with a skirt over a boss | The knob's skirt drops over a 4 mm boss around the bore: a light trap that still lets the knob lift 6 mm for loading. The drive blade is narrower than the bore so the knob comes straight out. The supply side has the same knob with a plain pin. |
 | Rotating shutter disc on the front skin | One split pin, a 13 mm hole that lines up with the window when open, a bump that clicks into two detents. Nothing to lose, nothing to slide out. A felt washer sits in a recess under the disc. |
 | 1/4"-20 nut trapped in the base | For a tripod or a clamp. Exposures are seconds; the camera needs to sit still. |
-| Body prints front face down | Every cavity opens upward or slopes inside 45°; the bores through the thick top and bottom walls are teardrops. |
+| Body prints on its side | Drawn to print front face down (every cavity opening upward or sloping inside 45°, the bores through the top and bottom walls teardrops), but Bambu Studio still wanted supports at the film plane that way. On its side (camera +x to the bed) it needs none, for 14 more minutes. |
 
 ## Parts
 
@@ -34,7 +34,7 @@ All in the `cam-*` print files (`tools/living-cad/parts/stl/`, served from `publ
 
 | Part | Print | PLA est. | Note |
 |---|---|---|---|
-| cam-body | front face down, no supports | 182 g | ink PLA Matte; paint or flock the cone matte black |
+| cam-body | on its side, no supports | 182 g | ink PLA Matte; paint or flock the cone matte black |
 | cam-back | inner face up | 30 g | red window disc glues into the recess inside |
 | cam-skin-{plain,dots,waves,name} + -pattern | outer face up; pattern is the second colour | 27 + 2 g | glues to the body front; carries the shutter pivot and detents |
 | cam-shutter-disc | flat, bump up | 3 g | split pin into the skin |

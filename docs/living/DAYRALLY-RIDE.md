@@ -72,12 +72,12 @@ charm instead of a name. Lab items until printed; the first TPU print tunes `GRI
 |---|---|
 | Sizes | 42 (41/42 mm Series: 42 × 36 × 9.7), 46 (45/46 mm: 46 × 39 × 9.7), 49 (Ultra: 49 × 44 × 14.4). Pocket 0.6 mm over the case, 3.5 deep, 9.5 mm corners, a crown notch |
 | How it holds | the watch sits face-up in the pocket and **its own band wraps the slab** under it: 60 × 14 mm with 3 mm rounded ends, through a 9 mm tunnel that clears the key heads (4.7 mm of air over them). A band loop of about 150 mm; the band's buckle does the tightening |
-| Dock | a Ø27.8 pocket from underneath (0.05 mm press, cable slot) puts an Apple charging puck 1.2 mm under the watch, so the same cradle on the home dock or the Grid is a bedside dock. Measure the puck before printing (`PUCK_D`, `PUCK_T`) |
-| Print | as is; the slab bridges 40 mm between its two walls and the puck pocket is a 28 mm circular bridge, both plain bridges, no supports |
+| Dock | an Apple charging puck drops into a Ø28.1 pocket in the floor of the watch pocket, its face flush with the floor, so the watch sits on it; the cable runs out to one side in a groove open at the top. The same cradle on the home dock or the Grid is a bedside dock. Measure the puck before printing (`PUCK_D`, `PUCK_T`) |
+| Print | as is, no supports; the slab bridges 40 mm between its two walls, a plain bridge. (The first drawing had the puck pocket underneath, which put a hole in that bridge; Bambu Studio wanted supports for it) |
 | Mass | 29 to 31 g PETG |
 
 Checked for each size: case in pocket 0 mm³; a 22 × 3 band gauge round the slab 0; the band over the key heads 0;
-puck press 22.6 mm³ (designed); cradle on the bar saddle 0.
+the puck in its pocket 0 and it rests on the pocket's floor; cradle on the bar saddle 0.
 
 ## Phone mount
 
@@ -85,17 +85,17 @@ Portrait, on two keys, no springs and no screws.
 
 | | |
 |---|---|
-| Plate | 184 × 98 × 5 (the TURN flange is the plate), lightening windows, a rack and two dovetail slots |
+| Plate | 184 × 98 × 5 (the TURN flange is the plate), lightening windows, a toothed groove for the pawl and two dovetail slots |
 | Centring | at each end a pair of **45° corner channels**: two parallel 45° surfaces 12.5 mm apart. A phone's bottom corners drop into the channels from the top and slide down until both touch, which centres any width from 64 to 82 mm and lifts it 3.5 to 12.5 mm; the upper surfaces hold the front face. Foam strips take up the slack between a 7 and an 11 mm phone |
-| Length | the top channel is on a slider that enters two 6/3 mm dovetail slots from the plate's end (0.3 mm clearance) and ratchets on a 1.5 mm rack: push it toward the phone, it clicks; the pawl's vertical face meets the rack's. A thumb tab past the end wall lifts the pawl to release. 140 to 170 mm phones |
+| Length | the top channel is on a slider that enters two 6/3 mm dovetail slots from the plate's end (0.3 mm clearance) and ratchets: its pawl is a 1.2 mm arm standing in a groove in the plate, with sawtooth teeth at a 1.5 mm pitch on the groove's wall. Push the slider toward the phone and the arm flexes sideways over the teeth; the other way, its bump's square face meets a tooth's. A thumb tab past the end wall pushes the arm aside to release. 140 to 170 mm phones |
 | Desk | the same plate on the home dock is a desk stand |
-| Print | plate as is; the slider upside down (its bridge is a 53 mm span between the hooks, a plain bridge) |
+| Print | both as is, no supports. The slider prints feet down, so the pawl arm stands on the bed as a thin wall. (The first slider's pawl flexed up and down, a horizontal tongue with air under it in every orientation, and its channels ran out through their outer faces; both needed supports) |
 | Mass | plate 61 g, slider 13 g PETG |
 
 Checked with 64 × 140 × 7, 72 × 150 × 8.3 and 82 × 170 × 11 mm phones: in the plate channel 0, in the slider
-channel 0, slider on the plate (in rack phase) 0, slider pushed 0.7 mm toward the open end 2.2 mm³ (the pawl
-holds); slider entering the slots from the end 0; pawl lifted 1.2 mm clears the rack 0; the plate on the bar
-saddle 0. The slider's channel sits 1.3 mm higher than the plate's (the bridge is between them), a tilt of
+channel 0, slider on the plate (pawl square on a tooth) 0, slider pushed 0.7 mm toward the open end overlaps the
+teeth (the pawl holds); slider entering the slots from the end 0; pawl pushed 1.2 mm aside, slider pulled back
+0.7 mm, 0 (it releases); the plate on the bar saddle 0. The slider's channel sits 1.3 mm higher than the plate's (the bridge is between them), a tilt of
 half a degree.
 
 ## Bottle cup
@@ -131,8 +131,8 @@ Source `tools/living-cad/cad/dayrally_bike.py`, family `rack`, widget `lab-ride-
 
 | Part | What it is | Checked |
 |---|---|---|
-| `rack-mount` | a 150 x 100 TURN socket plate with four strap slots (two 25 mm straps round the rack platform), five ribs underneath to sit on round rails without rocking, lightening windows. The ride pod or the long pod locks on with its two keys. 89 g PETG, prints face down | ride pod on it 0 mm3, long pod 0, straps through the slots 0 |
-| `rack-quiver` | two 40 mm tubes, 130 tall, 2.4 walls, drained floors, a back plate with two strap slots for a rack stay or the seat tube. The cast rod's 36 mm grip and the fixed-line rod's 32 mm grip stand in it packed. At home it hangs on a Grid hook by its upper slot: a full-size TURN flange on its back would put the key heads inside the tubes, so it does not pretend to have one. 102 g PETG, prints standing | both grips in the tubes 0; straps through the slots 0 |
+| `rack-mount` | a 150 x 100 TURN socket plate with four strap slots (two 25 mm straps round the rack platform), five ribs underneath to sit on round rails without rocking (the centre one stops short of the windows, so face down it is not a cantilever over them), lightening windows. The ride pod or the long pod locks on with its two keys. 89 g PETG, prints face down | ride pod on it 0 mm3, long pod 0, straps through the slots 0 |
+| `rack-quiver` | two 40 mm tubes, 130 tall, 2.4 walls, drained floors, a back plate with two strap slots for a rack stay or the seat tube. The cast rod's 36 mm grip and the fixed-line rod's 32 mm grip stand in it packed. At home it hangs on a Grid hook by its upper slot: a full-size TURN flange on its back would put the key heads inside the tubes, so it does not pretend to have one. 102 g PETG, prints standing, no supports: the back plate starts on the bed and above the lower strap band it grows back out of the tube at 45° | both grips in the tubes 0; straps through the slots 0 |
 | `rack-toptube-saddle` | the frame saddle with its V groove turned along the pod, so a pod lies along the top tube (25 to 45 mm tubes, zip ties). 24 g PETG | 25, 31.8 and 45 mm tubes seat at 0; pod mini on it 0; the ride pod on it 0 |
 
 What the picture has that no part gives yet: the rack pod in the picture has a latch each side and ours has
@@ -151,7 +151,7 @@ saddle, a charm) stays as it is in the store; these two parts are lab items unti
 | Part | What it is | Checked |
 |---|---|---|
 | `scoot-stem-saddle` | the frame saddle grown for scooter stems: a 120 degree V along the stem, 20 mm deep, so round or oval stems from 32 to 60 mm seat on the two faces; two 26 x 4 strap channels through both cheeks so one 25 mm hook-and-loop or cam strap wraps the stem; two TURN sockets along the stem on top. 70 g PETG | 32, 40, 48 and 60 mm stems seat at 0 mm3; the strap through both channels 0; keys in the sockets at the designed clamp; the pod mini on it 0, the ride pod on it 0 |
-| `scoot-quiver` | one 40 mm tube, 150 tall, 2.4 walls, a drained floor at one end, on a full TURN flange (keys 42 apart along the tube) held 8 mm off the flange by three bridges at x = 0 and +-38, between and outside the key heads. Because the two keys are symmetric it mounts either way up; the floor end goes down. Takes the fixed-line rod packed (32 mm grip) or the cast rod packed (36). 71 g PETG, prints standing | the quiver on the saddle 0; keys through its flange at the designed clamp; both grips in the tube 0 |
+| `scoot-quiver` | one 40 mm tube, 150 tall, 2.4 walls, a drained floor at one end, on a full TURN flange that runs the tube's length (keys 42 apart along the tube), held 8 mm off it by three saddles at x = 0 and +-38 that fill up to the tube's curve, between and outside the key heads. Standing on its end it prints with no supports. Because the two keys are symmetric it mounts either way up; the floor end goes down. Takes the fixed-line rod packed (32 mm grip) or the cast rod packed (36). 71 g PETG, prints standing | the quiver on the saddle 0; keys through its flange at the designed clamp; both grips in the tube 0 |
 
 What is not known: the stem diameters and shapes of the three scooters. The sites could not be read from the
 build sandbox, so no figure is quoted. The V covers 32 to 60 mm; measure the stem on the day, and on a share

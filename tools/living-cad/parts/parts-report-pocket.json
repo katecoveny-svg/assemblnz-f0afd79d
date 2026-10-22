@@ -351,7 +351,7 @@
       "slug": "pk-lip-sleeve",
       "name": "Lip sleeve (sample: MILA)",
       "group": "pocket",
-      "print_orientation": "as_is",
+      "print_orientation": "face_down",
       "print_bbox_mm": [
         92.7,
         28.2,
@@ -363,14 +363,14 @@
       "watertight": true,
       "genus": 1,
       "bodies": 1,
-      "unsupported_down_area_mm2": 2022.0,
-      "notes": "Open-topped sleeve for a lip treatment tube; name inlaid on the front; ring loop. Prints inlay-face down."
+      "unsupported_down_area_mm2": 2119.0,
+      "notes": "Open-topped sleeve for a lip treatment tube; name inlaid on the front; ring loop. Prints inlay-face up (the thumb scoop on the bed), no supports."
     },
     {
       "slug": "pk-lip-sleeve-inlay",
       "name": "Lip sleeve inlay",
       "group": "pocket",
-      "print_orientation": "as_is",
+      "print_orientation": "face_down",
       "print_bbox_mm": [
         23.6,
         7.1,
@@ -465,7 +465,7 @@
       "slug": "pk-eraser-sleeve",
       "name": "Eraser sleeve (sample: MILA)",
       "group": "stationery",
-      "print_orientation": "as_is",
+      "print_orientation": "face_down",
       "print_bbox_mm": [
         43.6,
         27.0,
@@ -477,14 +477,14 @@
       "watertight": true,
       "genus": 1,
       "bodies": 1,
-      "unsupported_down_area_mm2": 809.0,
-      "notes": "Takes a 65 × 23 × 13 block eraser; thumb slot pushes it out. Prints inlay-face down."
+      "unsupported_down_area_mm2": 998.0,
+      "notes": "Takes a 65 × 23 × 13 block eraser; thumb slot pushes it out. Prints inlay-face up (the thumb slot on the bed), no supports."
     },
     {
       "slug": "pk-eraser-sleeve-inlay",
       "name": "Eraser sleeve inlay",
       "group": "stationery",
-      "print_orientation": "as_is",
+      "print_orientation": "face_down",
       "print_bbox_mm": [
         20.2,
         6.1,
@@ -541,11 +541,11 @@
       "slug": "pk-pen-plug",
       "name": "Pen plug",
       "group": "stationery",
-      "print_orientation": "as_is",
+      "print_orientation": "on_side",
       "print_bbox_mm": [
-        21.5,
+        9.5,
         10.5,
-        9.5
+        21.5
       ],
       "fits_250_cube": true,
       "volume_cm3": 0.86,
@@ -553,8 +553,8 @@
       "watertight": true,
       "genus": 1,
       "bodies": 1,
-      "unsupported_down_area_mm2": 83.0,
-      "notes": "Press-fit into the pen's bore; charm loop."
+      "unsupported_down_area_mm2": 96.0,
+      "notes": "Press-fit into the pen's bore; charm loop. Prints standing on its collar, the spigot up."
     },
     {
       "slug": "pk-id-charm-tag",
@@ -963,15 +963,15 @@
       "print_bbox_mm": [
         23.9,
         12.4,
-        43.5
+        40.6
       ],
       "fits_250_cube": true,
-      "volume_cm3": 2.4,
-      "est_grams_pla": 2.5,
+      "volume_cm3": 2.32,
+      "est_grams_pla": 2.4,
       "watertight": true,
       "genus": 1,
       "bodies": 1,
-      "unsupported_down_area_mm2": 128.0,
+      "unsupported_down_area_mm2": 115.0,
       "notes": "Press-fits a standard hex pencil."
     },
     {
@@ -999,17 +999,17 @@
       "group": "stationery",
       "print_orientation": "as_is",
       "print_bbox_mm": [
-        26.6,
+        24.3,
         12.4,
-        37.9
+        39.2
       ],
       "fits_250_cube": true,
-      "volume_cm3": 2.33,
-      "est_grams_pla": 2.5,
+      "volume_cm3": 2.23,
+      "est_grams_pla": 2.4,
       "watertight": true,
-      "genus": 0,
+      "genus": 1,
       "bodies": 1,
-      "unsupported_down_area_mm2": 123.0,
+      "unsupported_down_area_mm2": 115.0,
       "notes": "Press-fits a standard hex pencil."
     },
     {

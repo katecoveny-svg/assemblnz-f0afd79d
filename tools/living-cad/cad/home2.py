@@ -191,25 +191,40 @@ def y_arm():
     top = CS.square([R - y["tongue"], t]).translate([y["tongue"], H - t])
     down = CS.square([leg, H]).translate([R - leg, 0])
     prof = round2d(top + down, r_convex=8.0, r_concave=34.0)
-    tongue = CS.square([y["tongue"] + 2, 12.0]).translate([0, H - t + 6.0])
+    tongue = CS.square([y["tongue"] + 2 - Y_TONGUE_X0, 12.0]).translate([Y_TONGUE_X0, H - t + 6.0])
     prof = prof + round2d(tongue, r_convex=2.0)
     arm = lib.ext_y(prof, -w / 2, w / 2)
-    hole = cyl_z(3.3, H - t - 1, H + 1, cx=y["tongue"] * 0.5, seg=48)            # M6 clearance through the tongue
+    hole = cyl_z(3.3, H - t - 1, H + 1, cx=Y_BOLT_X, seg=48)                      # M6 clearance through the tongue
     return arm - hole
 
 
+Y_TONGUE_X0 = 13.0                  # the tongues start 13 mm out: three 44 mm tongues at 120 degrees clear each other
+Y_BOLT_X = (Y_TONGUE_X0 + Y["tongue"]) / 2
+
+
 def y_hub():
+    """Tri-lobe hub with a flat face where each arm meets it (r = the arm's beam end) and a pocket opening through
+    that face for the arm's tongue: the tongue slides in radially and one bolt drops through hub and tongue. (The first
+    drawing closed the pockets and ran the arms into the lobes; it could not be put together.) Prints standing on one
+    of the flat faces: face down, the 46 mm pocket roofs are bridges Bambu Studio still flags. The stepped bridges
+    (slot, square, round) under the counterbores stay: they cost nothing and keep a face-down print possible."""
     y = Y
-    H, t = y["H"], y["t"]
+    H, t, r_face = y["H"], y["t"], y["tongue"]
     lobes = [circ(30.0, 26.0 * math.cos(math.radians(a)), 26.0 * math.sin(math.radians(a)), seg=96) for a in (0, 120, 240)]
     cs = CS.batch_hull(lobes) if hasattr(CS, "batch_hull") else lobes[0] + lobes[1] + lobes[2]
+    for a in (0, 120, 240):
+        cs = cs - CS.square([60.0, 120.0]).translate([r_face, -60.0]).rotate(a)
     hub = ext_z(cs, H - t, H)
     cuts = []
+    pw = y["w"] + 2.0
     for a in (0, 120, 240):
-        pocket = ext_z(rrect(y["tongue"] + 2.6, Y["w"] * 0 + 46.0, 2.0, (y["tongue"] + 2.6) / 2 + 6.0, 0), H - t + 5.7, H - t + 18.3)
-        bolt = cyl_z(3.3, H - t - 1, H + 1, cx=y["tongue"] * 0.5 + 0.0, seg=48)
-        head = cyl_z(5.4, H - 4.0, H + 1, cx=y["tongue"] * 0.5, seg=48)
-        cuts.append((pocket + bolt + head).rotate([0, 0, a]))
+        x0 = Y_TONGUE_X0 - 0.6
+        pocket = ext_z(rrect(r_face + 4.0 - x0, pw, 2.0, (x0 + r_face + 4.0) / 2, 0), H - t + 5.7, H - t + 18.3)
+        bolt = cyl_z(3.3, H - t - 1, H + 1, cx=Y_BOLT_X, seg=48)
+        head = cyl_z(5.4, H - 4.0, H + 1, cx=Y_BOLT_X, seg=48)
+        steps = lib.bridge_steps(Y_BOLT_X, 0.0, 3.3, H - 4.0, 2 * 5.4, axis="x", toward=-1) + \
+            lib.bridge_steps(Y_BOLT_X, 0.0, 3.3, H - t + 5.7, pw, axis="y", toward=-1)
+        cuts.append((pocket + bolt + head + steps).rotate([0, 0, a]))
     return hub - M.batch_boolean(cuts, m3d.OpType.Add)
 
 
@@ -233,6 +248,13 @@ def _boss_z(y):
     return k["z0"] + r - math.sqrt(r * r - y * y)                  # the sling's underside at y
 
 
+def _tear(r, cx, cy, sx):
+    """A circle with a 45 degree point toward sx * x: a horizontal hole or boss that prints without supports."""
+    c = circ(r, cx, cy, seg=64)
+    s = r / math.sqrt(2)
+    return c + poly([(cx + sx * s, cy + s), (cx + sx * r * math.sqrt(2), cy), (cx + sx * s, cy - s)][::sx])
+
+
 def rack_sling():
     k = RACK
     W, t = k["W"], k["t"]
@@ -246,9 +268,18 @@ def rack_sling():
     for x in (-k["L"] / 2 + 22, k["L"] / 2 - 22):
         for y in (-40.0, 40.0):
             zs = _boss_z(y)
-            b = cyl_z(12.0, zs - 18.0, zs + 6.0, cx=x, cy=y, seg=64) - lib.ext_x(inner, -k["L"], k["L"]) - cyl_z(4.2, zs - 19, zs - 4, cx=x, cy=y, seg=48)
+            # the sling prints standing on its +x end, so a boss lies on its side: teardrop it (point to +x, down
+            # while printing) and teardrop the leg hole the other way (point to -x, up while printing)
+            b = ext_z(_tear(12.0, x, y, +1), zs - 18.0, zs + 6.0) - lib.ext_x(inner, -k["L"], k["L"])
             bosses.append(b)
-    return s + M.batch_boolean(ribs + bosses, m3d.OpType.Add)
+        # a keel along each leg line, through both bosses: standing on its end the sling prints its bosses on these
+        # (a boss on its own sticks out sideways and starts in mid-air)
+    keels, holes = [], []
+    for y in (-40.0, 40.0):
+        zs = _boss_z(y)
+        keels.append(lib.ext_x(rrect(18.0 + 6.0, 6.0, 1.0, zs - 18.0 + 12.0, y), -k["L"] / 2, k["L"] / 2) - lib.ext_x(inner, -k["L"], k["L"]))
+        holes += [ext_z(_tear(4.2, x, y, -1), zs - 19, zs - 4) for x in (-k["L"] / 2 + 22, k["L"] / 2 - 22)]      # leg holes, cut once
+    return (s + M.batch_boolean(ribs + bosses + keels, m3d.OpType.Add)) - M.batch_boolean(holes, m3d.OpType.Add)
 
 
 def rack_leg():
@@ -278,10 +309,11 @@ def rack_hoop(lower=True):
     band = lib.ext_x(cs, -k["band"] / 2, k["band"] / 2)
     if lower:
         band = band.trim_by_plane([0, 0, -1], -SPLIT)              # flat joint face
-        pins = [cyl_z(2.5, SPLIT - 10.0, SPLIT + 10.0, cy=y, seg=32) for y in (-R, R)]
+        # tenons the band's full thickness (x), so printing flat they start on the bed (round pins began mid-air)
+        pins = [M.cube([k["band"], 5.0, 20.0], center=True).translate([0, y, SPLIT]) for y in (-R, R)]
         return band + M.batch_boolean(pins, m3d.OpType.Add)
     band = band.trim_by_plane([0, 0, 1], SPLIT)
-    holes = [cyl_z(2.8, SPLIT - 1.0, SPLIT + 11.0, cy=y, seg=32) for y in (-R, R)]
+    holes = [M.cube([k["band"] + 2.0, 5.6, 12.0], center=True).translate([0, y, SPLIT + 5.0]) for y in (-R, R)]       # mortises, through the band
     return band - M.batch_boolean(holes, m3d.OpType.Add)
 
 
@@ -291,16 +323,16 @@ PARTS = {
     "hm-tray-l": ("Desk tray L, 241 × 79", lambda: desk_tray(3, 1), "as_is", "home", "Three modules; a pen tray."),
     "hm-tray-base": ("Desk base tray XL, 248 × 167", desk_base, "as_is", "home", "Holds S, M and L on an 81 mm module; low ribs stop them sliding."),
     "hm-drum-lower": ("Fluted side table, lower drum", lambda: drum_section(True), "as_is", "home", "Ø236 at the floor; the spigot ring takes the upper drum."),
-    "hm-drum-upper": ("Fluted side table, upper drum", lambda: drum_section(False), "as_is", "home", "Drops over the lower drum's spigot."),
+    "hm-drum-upper": ("Fluted side table, upper drum", lambda: drum_section(False), "face_down", "home", "Drops over the lower drum's spigot. Prints top end down, so the ribs and hub start on the bed."),
     "hm-drum-top": ("Fluted side table, top", drum_top, "face_down", "home", "Prints face down; its ring drops into the upper drum."),
     "hm-grid-body": ("Grid side table, pill body", lambda: grid_body(False), "as_is", "home", "240 × 160 × 220, ribbed inside."),
     "hm-grid-top": ("Grid side table, pill top", lambda: grid_top(False), "face_down", "home", "A 14 mm grid cut into the top; the tongue drops into the body. Prints grid-down, hollow side up."),
     "hm-grid-body-round": ("Grid side table, round body", lambda: grid_body(True), "as_is", "home", "Ø220 × 220."),
     "hm-grid-top-round": ("Grid side table, round top", lambda: grid_top(True), "face_down", "home", "Prints grid-down, hollow side up."),
     "hm-y-arm": ("Y stool arm (×3)", y_arm, "on_bottom", "home", "Three identical arms; prints on its side. 24 cm; load-test before use as a seat."),
-    "hm-y-hub": ("Y stool hub", y_hub, "face_down", "home", "Tri-lobe hub; three M6 × 30 bolts and nuts, not printed."),
+    "hm-y-hub": ("Y stool hub", y_hub, "on_side", "home", "Tri-lobe hub with a flat face and an open pocket for each arm; three M6 × 30 bolts and nuts, not printed. Prints standing on a flat face, no supports."),
     "hm-rack-sling": ("Magazine rack sling", rack_sling, "on_side", "home", "Prints standing on its end."),
     "hm-rack-leg": ("Magazine rack leg (×4)", rack_leg, "as_is", "home", "Tapered, a spigot into the sling's boss."),
-    "hm-rack-hoop-lower": ("Magazine rack hoop, lower", lambda: rack_hoop(True), "on_side", "home", "Prints flat; two pins up into the upper half."),
+    "hm-rack-hoop-lower": ("Magazine rack hoop, lower", lambda: rack_hoop(True), "on_side", "home", "Prints flat; two tenons up into the upper half."),
     "hm-rack-hoop-upper": ("Magazine rack hoop, upper", lambda: rack_hoop(False), "on_side", "home", "Prints flat; the handle."),
 }
