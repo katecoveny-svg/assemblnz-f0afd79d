@@ -1,0 +1,251 @@
+{
+  "spec": {
+    "packs_mm": {
+      "5": [
+        92.0,
+        175.0,
+        12.0
+      ],
+      "7": [
+        105.0,
+        235.0,
+        14.0
+      ]
+    },
+    "reel_foot_mm": {
+      "length": 60.0,
+      "width": 17.0,
+      "thick": 3.2,
+      "stem_w": 14.0,
+      "stem_t": 8.0
+    },
+    "knob": {
+      "shaft_mm": 4.0,
+      "bearing_mm": [
+        7.0,
+        2.5
+      ],
+      "note": "the common Shimano/Daiwa knob shaft; measure the reel's before printing"
+    },
+    "spool_band_for_mm": 47.0,
+    "universal_saddle_mm": [
+      22.0,
+      45.0
+    ],
+    "strap": {
+      "width_mm": 20.0,
+      "length_mm": 240.0,
+      "pitch_mm": 8.0,
+      "material": "TPU 95A"
+    },
+    "what_of_a_reel_prints": {
+      "yes": [
+        "handle knob (on the stock shaft and bearings)",
+        "spool band and line clip",
+        "reel dock and foot cover",
+        "handle-end caps, drag-knob caps (cosmetic)",
+        "a hard case or pouch frame"
+      ],
+      "no": [
+        "body and rotor (alignment and stiffness)",
+        "gears and pinion (tooth loads, wear)",
+        "drag washers and bearings",
+        "bail arm and line roller",
+        "the main shaft"
+      ]
+    },
+    "status": "designed and checked digitally; nothing printed. Pack sizes, the reel foot and the knob shaft are to be measured on the real things before the first print."
+  },
+  "parts": [
+    {
+      "slug": "tk-pack-case-5",
+      "name": "Pack case, 5 inch packs",
+      "group": "tackle",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        97.2,
+        136.5,
+        23.7
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 113.97,
+      "est_grams_pla": 70.3,
+      "watertight": true,
+      "genus": 3,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 11795.0,
+      "notes": "Keyed frame with an open front window for a 92 × 175 mm soft-plastics packet. Prints flange-down."
+    },
+    {
+      "slug": "tk-pack-case-7",
+      "name": "Pack case, 7 inch packs",
+      "group": "tackle",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        110.2,
+        183.3,
+        25.7
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 172.3,
+      "est_grams_pla": 103.1,
+      "watertight": true,
+      "genus": 3,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 18531.0,
+      "notes": "For a 105 × 235 mm packet."
+    },
+    {
+      "slug": "tk-pack-rail",
+      "name": "Pack rail, 3 pegs",
+      "group": "tackle",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        138.0,
+        26.0,
+        28.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 25.93,
+      "est_grams_pla": 15.5,
+      "watertight": true,
+      "genus": 2,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 2744.0,
+      "notes": "Packets hang by their holes; lips keep them on."
+    },
+    {
+      "slug": "tk-reel-dock",
+      "name": "Reel dock",
+      "group": "tackle",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        84.0,
+        62.0,
+        27.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 90.32,
+      "est_grams_pla": 42.3,
+      "watertight": true,
+      "genus": 2,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 1651.0,
+      "notes": "A spinning reel hangs by its foot; sized to a 2500 foot, measure yours."
+    },
+    {
+      "slug": "tk-reel-knob",
+      "name": "Reel knob (sample: MILA)",
+      "group": "tackle",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        21.3,
+        21.3,
+        26.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 7.5,
+      "est_grams_pla": 4.2,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 99.0,
+      "notes": "Fluted T knob for the common 4 mm knob shaft with two 4 × 7 × 2.5 bearings (not included). Measure the shaft and bearings first."
+    },
+    {
+      "slug": "tk-reel-knob-inlay",
+      "name": "Reel knob inlay",
+      "group": "tackle",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        13.5,
+        4.1,
+        0.6
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 0.02,
+      "est_grams_pla": 0.0,
+      "watertight": true,
+      "genus": -2,
+      "bodies": 4,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": ""
+    },
+    {
+      "slug": "tk-spool-band",
+      "name": "Spool band, 2500",
+      "group": "tackle",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        55.2,
+        47.2,
+        6.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 1.72,
+      "est_grams_pla": 2.1,
+      "watertight": true,
+      "genus": 2,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "TPU 95A; stretches over a 47 mm spool lip; the tab holds the line end."
+    },
+    {
+      "slug": "tk-universal-saddle",
+      "name": "Universal saddle, 22–45 mm",
+      "group": "mount",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        84.0,
+        44.0,
+        38.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 93.92,
+      "est_grams_pla": 38.2,
+      "watertight": true,
+      "genus": 4,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 937.0,
+      "notes": "V cradle and two strap channels; takes the ladder strap, a Voile-type strap or zip ties. Any bar, stem, post or tube."
+    },
+    {
+      "slug": "tk-ladder-strap",
+      "name": "Ladder strap, 240 mm",
+      "group": "mount",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        240.0,
+        20.0,
+        4.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 12.32,
+      "est_grams_pla": 13.4,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "TPU 95A; print flat."
+    },
+    {
+      "slug": "tk-strap-buckle",
+      "name": "Strap buckle",
+      "group": "mount",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        30.0,
+        14.0,
+        8.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 2.46,
+      "est_grams_pla": 2.4,
+      "watertight": true,
+      "genus": 2,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 10.0,
+      "notes": "PETG; the ladder locks on the tooth."
+    }
+  ]
+}

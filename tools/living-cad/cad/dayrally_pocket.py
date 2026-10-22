@@ -225,18 +225,82 @@ def friend_set(initials=("M", "K"), font=None, s=54.0, t=4.0, clearance=0.35):
 SAMPLE_ID_URL = "HTTPS://ASSEMBL.CO.NZ/I/SAMPLE"     # upper case keeps the QR in alphanumeric mode: 25 × 25 modules at level M
 
 
-def qr_cs(text=SAMPLE_ID_URL, module=1.0, error="m"):
-    """The QR code as a cross-section of dark modules, centred on the origin, dark modules joined where adjacent."""
+def qr_cs(text=SAMPLE_ID_URL, module=1.0, error="m", style="square", mark=None):
+    """The QR code as a cross-section of dark modules, centred on the origin.
+    style: "square" (joined squares), "dots" (round modules, finders kept square with rounded corners), "rounded"
+    (squares with rounded corners). With `mark` (a cross-section in mm) the centre modules are cleared for it; that
+    needs level H, which forgives 30 % of the code. Readers cope with dots and rounded finders; keep the quiet zone,
+    the three finders and dark-on-light contrast, and the code scans."""
     import segno
+    if mark is not None and error != "h":
+        error = "h"
     q = segno.make(text, error=error)
     rows = [list(r) for r in q.matrix]
     n = len(rows)
+    def in_finder(i, j):
+        return (i < 7 and j < 7) or (i >= n - 7 and j < 7) or (i < 7 and j >= n - 7)
     cells = []
     for j, row in enumerate(rows):
         for i, v in enumerate(row):
-            if v:
-                cells.append(CS.square([module + 0.02, module + 0.02], center=True).translate([(i - (n - 1) / 2) * module, ((n - 1) / 2 - j) * module]))
-    return CS.batch_boolean(cells, m3d.OpType.Add), n
+            if not v:
+                continue
+            x, y = (i - (n - 1) / 2) * module, ((n - 1) / 2 - j) * module
+            if style == "dots" and not in_finder(i, j):
+                cells.append(circ(module * 0.46, x, y, seg=24))
+            elif style in ("dots", "rounded"):
+                cells.append(rrect(module + 0.02, module + 0.02, module * 0.28, x, y, seg=12))
+            else:
+                cells.append(CS.square([module + 0.02, module + 0.02], center=True).translate([x, y]))
+    code = CS.batch_boolean(cells, m3d.OpType.Add)
+    if style == "dots":
+        # the finders as rings: a rounded outer square, a clear ring, a rounded centre
+        f = 7 * module
+        for (fx, fy) in ((-(n - 7) / 2 * module, (n - 7) / 2 * module), ((n - 7) / 2 * module, (n - 7) / 2 * module), (-(n - 7) / 2 * module, -(n - 7) / 2 * module)):
+            code = code - rrect(f + 0.1, f + 0.1, module * 1.6, fx, fy)
+            code = code + (rrect(f, f, module * 1.6, fx, fy) - rrect(f - 2 * module, f - 2 * module, module * 1.0, fx, fy)) + rrect(3 * module, 3 * module, module * 0.9, fx, fy)
+    if mark is not None:
+        x0, y0, x1, y1 = mark.bounds()
+        clear = rrect((x1 - x0) + 2 * module, (y1 - y0) + 2 * module, module, (x0 + x1) / 2, (y0 + y1) / 2)
+        code = (code - clear) + mark
+    return code, n
+
+
+TAG_SHAPES = ["tag", "round", "heart", "star", "bow"]
+
+
+def tag_outline(shape, n_mm):
+    """A tag outline big enough for an `n_mm` code plus its quiet zone, with a ring hole position."""
+    q = n_mm + 6.0
+    if shape == "tag":
+        return rrect(q + 22.0, q + 8.0, 8.0), (-(q + 22.0) / 2 + 8, 0), ((q + 22.0) / 2 - 4 - n_mm / 2, 0)
+    if shape == "round":
+        return circ(q / 2 + 6.0, seg=128), (0, q / 2 + 2.0), (0, -2.0)
+    s = (q + 10.0) / 0.68
+    if shape == "heart":
+        cs = d2._outline("heart", s)
+        return cs, (0, s * 0.3), (0, -s * 0.02)
+    if shape == "star":
+        cs = d2._outline("star", s * 1.1)
+        return cs, (0, s * 0.42), (0, -s * 0.02)
+    if shape == "bow":
+        cs = _outline2("bow", s * 1.15)
+        return cs, (0, s * 0.3), (0, -s * 0.06)
+    raise ValueError(shape)
+
+
+def id_charm(shape="heart", url=SAMPLE_ID_URL, style="dots", module=1.0, t=4.0, font=None):
+    """The code in a charm: heart, star, bow, round or tag; round modules, rounded finders, the key glyph in the
+    middle (level H), a ring hole. Printed code-side down; the code is the inlay in the accent colour."""
+    mark = rrect(7.0, 2.2, 1.0) + circ(1.1, 1.8, 0, seg=24) - circ(0.5, 1.8, 0, seg=20)       # the key glyph, 7 mm
+    code, n = qr_cs(url, module, "h", style, mark)
+    outline, hole, at = tag_outline(shape, n * module)
+    hx, hy = hole
+    cs = outline + circ(4.4, hx, hy, seg=48)
+    body = ext_z(cs - circ(2.3, hx, hy, seg=40), 0, t)
+    code = code.scale([-1, 1]).translate(list(at))
+    inlay = ext_z(code, 0, INLAY)
+    body = body - ext_z(code, -1, INLAY)
+    return body, inlay
 
 
 def id_tag(url=SAMPLE_ID_URL, font=None, L=64.0, W=38.0, t=4.0, module=1.0):
@@ -375,6 +439,9 @@ PARTS = {
     "pk-pen-body-inlay": ("Pen body inlay", lambda: pen_body(name="MILA", font=FONT)[1], "as_is", "stationery", ""),
     "pk-pen-plug": ("Pen plug", pen_plug, "as_is", "stationery", "Press-fit into the pen's bore; charm loop."),
 }
+for sh in TAG_SHAPES:
+    PARTS[f"pk-id-charm-{sh}"] = (f"ID charm, {sh} (sample code)", (lambda s=sh: id_charm(s)[0]), "as_is", "pocket", "A styled code (round modules, rounded finders, the key in the middle, level H) in a charm; the real code is made per order. Prints code-side down.")
+    PARTS[f"pk-id-charm-{sh}-inlay"] = (f"ID charm inlay, {sh}", (lambda s=sh: id_charm(s)[1]), "as_is", "pocket", "")
 for sh in CHARMS2:
     PARTS[f"pk-charm-{sh}"] = (f"Bag charm, {sh} (sample: MK)", (lambda s=sh: charm2(s, "MK", FONT)[0]), "as_is", "pocket", "Second charm set; initials inlaid on the bed side." if sh != "smile" else "The face is the inlay.")
     PARTS[f"pk-charm-{sh}-inlay"] = (f"Bag charm inlay, {sh}", (lambda s=sh: charm2(s, "MK", FONT)[1]), "as_is", "pocket", "")

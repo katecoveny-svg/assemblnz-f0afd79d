@@ -2655,5 +2655,298 @@
    }
   ],
   "lines": []
+ },
+ {
+  "handle": "lab-pack-case",
+  "kind": "prototype",
+  "title": "pack case · soft plastics on the wall",
+  "type": "dayrally lab",
+  "material": "PETG · PLA Matte",
+  "size": "97 × 137 × 24 mm (5 inch) · 110 × 183 × 24 mm (7 inch)",
+  "priceNzd": null,
+  "shipG": 132,
+  "parts": [
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   },
+   {
+    "id": "tk-pack-case-5",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-pack-rail",
+  "kind": "prototype",
+  "title": "pack rail · three packets by their holes",
+  "type": "dayrally lab",
+  "material": "PLA Matte · PETG",
+  "size": "138 × 26 × 28 mm",
+  "priceNzd": null,
+  "shipG": 64,
+  "parts": [
+   {
+    "id": "tk-pack-rail",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-reel-dock",
+  "kind": "prototype",
+  "title": "reel dock · the reel hangs by its foot",
+  "type": "dayrally lab",
+  "material": "PLA Matte · PETG",
+  "size": "84 × 62 × 27 mm",
+  "priceNzd": null,
+  "shipG": 97,
+  "parts": [
+   {
+    "id": "tk-reel-dock",
+    "qty": 1
+   },
+   {
+    "id": "grid-turn-key",
+    "qty": 2
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-reel-knob",
+  "kind": "prototype",
+  "title": "reel knob · the part of a reel worth printing",
+  "type": "dayrally lab",
+  "material": "PLA Matte",
+  "size": "Ø22 × 26 mm",
+  "priceNzd": null,
+  "shipG": 45,
+  "parts": [
+   {
+    "id": "tk-reel-knob",
+    "qty": 1
+   },
+   {
+    "id": "tk-reel-knob-inlay",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-spool-band",
+  "kind": "prototype",
+  "title": "spool band · 2500",
+  "type": "dayrally lab",
+  "material": "PLA Matte",
+  "size": "Ø47 · 6 mm",
+  "priceNzd": null,
+  "shipG": 43,
+  "parts": [
+   {
+    "id": "tk-spool-band",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-universal-saddle",
+  "kind": "prototype",
+  "title": "universal saddle · any bar, stem, post or tube",
+  "type": "dayrally lab",
+  "material": "PLA Matte",
+  "size": "84 × 44 × 38 mm · 22 to 45 mm tubes",
+  "priceNzd": null,
+  "shipG": 127,
+  "parts": [
+   {
+    "id": "tk-universal-saddle",
+    "qty": 1
+   },
+   {
+    "id": "tk-ladder-strap",
+    "qty": 2
+   },
+   {
+    "id": "tk-strap-buckle",
+    "qty": 2
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-id-charm",
+  "kind": "prototype",
+  "title": "id charm · the code, prettier, in a shape",
+  "type": "dayrally lab",
+  "material": "PLA Matte",
+  "size": "about 50 mm · 4 mm thick",
+  "priceNzd": null,
+  "shipG": 50,
+  "parts": [
+   {
+    "id": "pk-id-charm-tag",
+    "qty": 1
+   },
+   {
+    "id": "pk-id-charm-tag-inlay",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-desk-set",
+  "kind": "prototype",
+  "title": "desk set · trays that stack and sit on a grid",
+  "type": "living lab",
+  "material": "PLA Matte",
+  "size": "base 248 × 167 × 24 mm · trays 79, 160 and 241 long, 45 tall",
+  "priceNzd": null,
+  "shipG": 550,
+  "parts": [
+   {
+    "id": "hm-tray-base",
+    "qty": 1
+   },
+   {
+    "id": "hm-tray-l",
+    "qty": 1
+   },
+   {
+    "id": "hm-tray-m",
+    "qty": 1
+   },
+   {
+    "id": "hm-tray-s",
+    "qty": 2
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-fluted-table",
+  "kind": "prototype",
+  "title": "fluted side table · two drums and a top",
+  "type": "living lab",
+  "material": "PLA Matte",
+  "size": "Ø236 × 360 mm",
+  "priceNzd": null,
+  "shipG": 1467,
+  "parts": [
+   {
+    "id": "hm-drum-lower",
+    "qty": 1
+   },
+   {
+    "id": "hm-drum-upper",
+    "qty": 1
+   },
+   {
+    "id": "hm-drum-top",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-grid-table",
+  "kind": "prototype",
+  "title": "grid side table · a pill with a grid on top",
+  "type": "living lab",
+  "material": "PLA Matte",
+  "size": "240 × 160 × 236 mm",
+  "priceNzd": null,
+  "shipG": 900,
+  "parts": [
+   {
+    "id": "hm-grid-body",
+    "qty": 1
+   },
+   {
+    "id": "hm-grid-top",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-grid-table-round",
+  "kind": "prototype",
+  "title": "grid side table, round",
+  "type": "living lab",
+  "material": "PLA Matte",
+  "size": "Ø220 × 236 mm",
+  "priceNzd": null,
+  "shipG": 969,
+  "parts": [
+   {
+    "id": "hm-grid-body-round",
+    "qty": 1
+   },
+   {
+    "id": "hm-grid-top-round",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-y-stool",
+  "kind": "prototype",
+  "title": "Y stool · three arms and a hub",
+  "type": "living lab",
+  "material": "PETG",
+  "size": "300 × 260 × 240 mm",
+  "priceNzd": null,
+  "shipG": 569,
+  "parts": [
+   {
+    "id": "hm-y-arm",
+    "qty": 3
+   },
+   {
+    "id": "hm-y-hub",
+    "qty": 1
+   }
+  ],
+  "lines": []
+ },
+ {
+  "handle": "lab-magazine-rack",
+  "kind": "prototype",
+  "title": "magazine rack · a sling, four legs, a hoop",
+  "type": "living lab",
+  "material": "PLA Matte · PETG",
+  "size": "220 × 191 × 324 mm",
+  "priceNzd": null,
+  "shipG": 486,
+  "parts": [
+   {
+    "id": "hm-rack-sling",
+    "qty": 1
+   },
+   {
+    "id": "hm-rack-leg",
+    "qty": 4
+   },
+   {
+    "id": "hm-rack-hoop-lower",
+    "qty": 1
+   },
+   {
+    "id": "hm-rack-hoop-upper",
+    "qty": 1
+   }
+  ],
+  "lines": []
  }
 ]

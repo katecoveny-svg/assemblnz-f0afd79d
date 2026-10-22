@@ -18,7 +18,7 @@
  },
  "status": "designed and checked digitally; nothing printed yet. Clamp, detent and clearance values are starting points for the test-print kit.",
  "source": "tools/living-cad/cad/lib.py",
- "built_at": "2026-10-21T21:53:30Z",
+ "built_at": "2026-10-22T01:07:13Z",
  "colours": {
   "living": [
    {
@@ -6523,6 +6523,286 @@
    }
   },
   {
+   "id": "pk-id-charm-tag",
+   "name": "ID charm, tag (sample code)",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 57.0,
+    "y": 43.0,
+    "z": 4.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 9.32,
+   "mass_g_pla": 7.7,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 327.0,
+   "notes": "A styled code (round modules, rounded finders, the key in the middle, level H) in a charm; the real code is made per order. Prints code-side down.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-id-charm-tag.stl",
+    "bytes": 1748184,
+    "sha256": "f753e2cf16e9a193313f06efaef8a0313069c4acc9f957d9f9cf2363d03804ae"
+   }
+  },
+  {
+   "id": "pk-id-charm-tag-inlay",
+   "name": "ID charm inlay, tag",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 29.0,
+    "y": 29.0,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.2,
+   "mass_g_pla": 0.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -347,
+   "bodies": 352,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/pk-id-charm-tag-inlay.stl",
+    "bytes": 1659884,
+    "sha256": "ae85576146281339aba0876114ffd243a32c5b36f53fb8bf79c8bf90f5b30757"
+   }
+  },
+  {
+   "id": "pk-id-charm-round",
+   "name": "ID charm, round (sample code)",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 47.0,
+    "y": 47.4,
+    "z": 4.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 6.68,
+   "mass_g_pla": 5.8,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 327.0,
+   "notes": "A styled code (round modules, rounded finders, the key in the middle, level H) in a charm; the real code is made per order. Prints code-side down.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-id-charm-round.stl",
+    "bytes": 1765284,
+    "sha256": "5ef386d24ddb08ccb8f4ab396c1936a1c9449baa3b128bd1bc37ab4df8e4bc74"
+   }
+  },
+  {
+   "id": "pk-id-charm-round-inlay",
+   "name": "ID charm inlay, round",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 29.0,
+    "y": 29.0,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.2,
+   "mass_g_pla": 0.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -347,
+   "bodies": 352,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/pk-id-charm-round-inlay.stl",
+    "bytes": 1659884,
+    "sha256": "ae85576146281339aba0876114ffd243a32c5b36f53fb8bf79c8bf90f5b30757"
+   }
+  },
+  {
+   "id": "pk-id-charm-heart",
+   "name": "ID charm, heart (sample code)",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 62.3,
+    "y": 56.3,
+    "z": 4.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 8.5,
+   "mass_g_pla": 7.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 2,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 324.0,
+   "notes": "A styled code (round modules, rounded finders, the key in the middle, level H) in a charm; the real code is made per order. Prints code-side down.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-id-charm-heart.stl",
+    "bytes": 1773084,
+    "sha256": "de819bfa155b9eb0602493db8c07bdce0383845f8c801bd0bd6a676c9453bf2d"
+   }
+  },
+  {
+   "id": "pk-id-charm-heart-inlay",
+   "name": "ID charm inlay, heart",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 29.0,
+    "y": 29.0,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.2,
+   "mass_g_pla": 0.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -347,
+   "bodies": 352,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/pk-id-charm-heart-inlay.stl",
+    "bytes": 1659884,
+    "sha256": "b48e7607abc18ecdad09743cd6d73a7fca547aee29202f70d01dc8cf0b594f19"
+   }
+  },
+  {
+   "id": "pk-id-charm-star",
+   "name": "ID charm, star (sample code)",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 64.6,
+    "y": 61.7,
+    "z": 4.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 7.46,
+   "mass_g_pla": 6.6,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 327.0,
+   "notes": "A styled code (round modules, rounded finders, the key in the middle, level H) in a charm; the real code is made per order. Prints code-side down.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-id-charm-star.stl",
+    "bytes": 1755584,
+    "sha256": "b8a771cea260ceb9c39e325d1e3f0082762549436b23df4e9b5d1ce4d1552e64"
+   }
+  },
+  {
+   "id": "pk-id-charm-star-inlay",
+   "name": "ID charm inlay, star",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 29.0,
+    "y": 29.0,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.2,
+   "mass_g_pla": 0.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -347,
+   "bodies": 352,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/pk-id-charm-star-inlay.stl",
+    "bytes": 1659884,
+    "sha256": "b48e7607abc18ecdad09743cd6d73a7fca547aee29202f70d01dc8cf0b594f19"
+   }
+  },
+  {
+   "id": "pk-id-charm-bow",
+   "name": "ID charm, bow (sample code)",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 67.4,
+    "y": 58.6,
+    "z": 4.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 7.76,
+   "mass_g_pla": 6.9,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 291.0,
+   "notes": "A styled code (round modules, rounded finders, the key in the middle, level H) in a charm; the real code is made per order. Prints code-side down.",
+   "file": {
+    "path": "/living/cad/v0.3/pk-id-charm-bow.stl",
+    "bytes": 1739884,
+    "sha256": "d913ff806f8c3d3613b748832b8c4fc79fbde6658269ebdb5d8278bd8d1cbeff"
+   }
+  },
+  {
+   "id": "pk-id-charm-bow-inlay",
+   "name": "ID charm inlay, bow",
+   "family": "pocket",
+   "group": "pocket",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 29.0,
+    "y": 29.0,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.2,
+   "mass_g_pla": 0.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -347,
+   "bodies": 352,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/pk-id-charm-bow-inlay.stl",
+    "bytes": 1659884,
+    "sha256": "7c78c8193e93709db9312c6ff28fd2a53fb9cf9134f540fb23241f0342f27ed8"
+   }
+  },
+  {
    "id": "pk-charm-bow",
    "name": "Bag charm, bow (sample: MK)",
    "family": "pocket",
@@ -6940,6 +7220,762 @@
     "path": "/living/cad/v0.3/pk-topper-smile.stl",
     "bytes": 47684,
     "sha256": "7845454e179e5fffc7b23a5238d2c032cffb90b4e9dad3e1681d0d1841dbb142"
+   }
+  },
+  {
+   "id": "tk-pack-case-5",
+   "name": "Pack case, 5 inch packs",
+   "family": "tackle",
+   "group": "tackle",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 97.2,
+    "y": 136.5,
+    "z": 23.7
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 113.97,
+   "mass_g_pla": 70.3,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 3,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 11795.0,
+   "notes": "Keyed frame with an open front window for a 92 × 175 mm soft-plastics packet. Prints flange-down.",
+   "file": {
+    "path": "/living/cad/v0.3/tk-pack-case-5.stl",
+    "bytes": 176184,
+    "sha256": "475ecf248e150210377a27a92c8280237a0dbd4b1335ab4e714c7209d63e4d6c"
+   }
+  },
+  {
+   "id": "tk-pack-case-7",
+   "name": "Pack case, 7 inch packs",
+   "family": "tackle",
+   "group": "tackle",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 110.2,
+    "y": 183.3,
+    "z": 25.7
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 172.3,
+   "mass_g_pla": 103.1,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 3,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 18531.0,
+   "notes": "For a 105 × 235 mm packet.",
+   "file": {
+    "path": "/living/cad/v0.3/tk-pack-case-7.stl",
+    "bytes": 176884,
+    "sha256": "9f42579bc4b05f7421a80ed695a07b0b22d99bddd6db592fc8dee8837df3f40c"
+   }
+  },
+  {
+   "id": "tk-pack-rail",
+   "name": "Pack rail, 3 pegs",
+   "family": "tackle",
+   "group": "tackle",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 138.0,
+    "y": 26.0,
+    "z": 28.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 25.93,
+   "mass_g_pla": 15.5,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 2,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 2744.0,
+   "notes": "Packets hang by their holes; lips keep them on.",
+   "file": {
+    "path": "/living/cad/v0.3/tk-pack-rail.stl",
+    "bytes": 222684,
+    "sha256": "4dd5511ccece5e1ab9474fb9bd130e897899a6cd3dad101273696bdb3deb3a54"
+   }
+  },
+  {
+   "id": "tk-reel-dock",
+   "name": "Reel dock",
+   "family": "tackle",
+   "group": "tackle",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 84.0,
+    "y": 62.0,
+    "z": 27.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 90.32,
+   "mass_g_pla": 42.3,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 2,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1651.0,
+   "notes": "A spinning reel hangs by its foot; sized to a 2500 foot, measure yours.",
+   "file": {
+    "path": "/living/cad/v0.3/tk-reel-dock.stl",
+    "bytes": 200284,
+    "sha256": "477622702d5ee302c8bfc5374d56eb55969c409bbf98910d65a4db2e773271b6"
+   }
+  },
+  {
+   "id": "tk-reel-knob",
+   "name": "Reel knob (sample: MILA)",
+   "family": "tackle",
+   "group": "tackle",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 21.3,
+    "y": 21.3,
+    "z": 26.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 7.5,
+   "mass_g_pla": 4.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 99.0,
+   "notes": "Fluted T knob for the common 4 mm knob shaft with two 4 × 7 × 2.5 bearings (not included). Measure the shaft and bearings first.",
+   "file": {
+    "path": "/living/cad/v0.3/tk-reel-knob.stl",
+    "bytes": 226684,
+    "sha256": "d6ce4480cd1eed701984ad0ef13237088eb243ebc63a9ddba23d2dffd160a51e"
+   }
+  },
+  {
+   "id": "tk-reel-knob-inlay",
+   "name": "Reel knob inlay",
+   "family": "tackle",
+   "group": "tackle",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 13.5,
+    "y": 4.1,
+    "z": 0.6
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 0.02,
+   "mass_g_pla": 0.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": -2,
+   "bodies": 4,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "",
+   "file": {
+    "path": "/living/cad/v0.3/tk-reel-knob-inlay.stl",
+    "bytes": 119084,
+    "sha256": "c0d1537bf96ce42c2bb32e5c845fd3d76e03c13a50841504da849f07c833d996"
+   }
+  },
+  {
+   "id": "tk-spool-band",
+   "name": "Spool band, 2500",
+   "family": "tackle",
+   "group": "tackle",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 55.2,
+    "y": 47.2,
+    "z": 6.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 1.72,
+   "mass_g_pla": 2.1,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 2,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "TPU 95A; stretches over a 47 mm spool lip; the tab holds the line end.",
+   "file": {
+    "path": "/living/cad/v0.3/tk-spool-band.stl",
+    "bytes": 72284,
+    "sha256": "dcaee4456c6faa5ab44902cd97aea83f5a44243f5a7ebcb17d53658b07240302"
+   }
+  },
+  {
+   "id": "tk-universal-saddle",
+   "name": "Universal saddle, 22–45 mm",
+   "family": "tackle",
+   "group": "mount",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 84.0,
+    "y": 44.0,
+    "z": 38.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 93.92,
+   "mass_g_pla": 38.2,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 4,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 937.0,
+   "notes": "V cradle and two strap channels; takes the ladder strap, a Voile-type strap or zip ties. Any bar, stem, post or tube.",
+   "file": {
+    "path": "/living/cad/v0.3/tk-universal-saddle.stl",
+    "bytes": 154484,
+    "sha256": "e45df4146b1f58b7da9e7910470d1a47a2598ecfbd06e184c88925fdc3696131"
+   }
+  },
+  {
+   "id": "tk-ladder-strap",
+   "name": "Ladder strap, 240 mm",
+   "family": "tackle",
+   "group": "mount",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 240.0,
+    "y": 20.0,
+    "z": 4.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 12.32,
+   "mass_g_pla": 13.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "TPU 95A; print flat.",
+   "file": {
+    "path": "/living/cad/v0.3/tk-ladder-strap.stl",
+    "bytes": 249684,
+    "sha256": "bc1381b5a074e0aa96a96d36d65e323c9431d27066c70949e4b4561a70fa63d8"
+   }
+  },
+  {
+   "id": "tk-strap-buckle",
+   "name": "Strap buckle",
+   "family": "tackle",
+   "group": "mount",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 30.0,
+    "y": 14.0,
+    "z": 8.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 2.46,
+   "mass_g_pla": 2.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 2,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 10.0,
+   "notes": "PETG; the ladder locks on the tooth.",
+   "file": {
+    "path": "/living/cad/v0.3/tk-strap-buckle.stl",
+    "bytes": 37284,
+    "sha256": "c7c7a2612dec86b454e96c627c3f1028f1782ee77a22f5d79fcb9ccf5706aa7b"
+   }
+  },
+  {
+   "id": "hm-tray-s",
+   "name": "Desk tray S, 79 × 79",
+   "family": "home2",
+   "group": "home",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 79.0,
+    "y": 79.0,
+    "z": 45.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 41.02,
+   "mass_g_pla": 43.6,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 551.0,
+   "notes": "Fluted outside, soft inside corners; nests on a same-size tray.",
+   "file": {
+    "path": "/living/cad/v0.3/hm-tray-s.stl",
+    "bytes": 86684,
+    "sha256": "bf020216bf3b7947c7c8446671681f92cb2b6d0b213d809b221da88a12ba2c48"
+   }
+  },
+  {
+   "id": "hm-tray-m",
+   "name": "Desk tray M, 160 × 79",
+   "family": "home2",
+   "group": "home",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 160.0,
+    "y": 79.0,
+    "z": 45.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 77.46,
+   "mass_g_pla": 76.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 859.0,
+   "notes": "Two modules.",
+   "file": {
+    "path": "/living/cad/v0.3/hm-tray-m.stl",
+    "bytes": 116784,
+    "sha256": "f3d1ddeba23a0c255762d4b6be5f0281bf2c36e6df60855ed91e69651cdabf8e"
+   }
+  },
+  {
+   "id": "hm-tray-l",
+   "name": "Desk tray L, 241 × 79",
+   "family": "home2",
+   "group": "home",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 241.0,
+    "y": 79.0,
+    "z": 45.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 113.9,
+   "mass_g_pla": 108.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1167.0,
+   "notes": "Three modules; a pen tray.",
+   "file": {
+    "path": "/living/cad/v0.3/hm-tray-l.stl",
+    "bytes": 147984,
+    "sha256": "80897e987861773d1c7c85dd2537370911bf8e5e34479df0f9b71e56bc3e87bc"
+   }
+  },
+  {
+   "id": "hm-tray-base",
+   "name": "Desk base tray XL, 248 × 167",
+   "family": "home2",
+   "group": "home",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 247.8,
+    "y": 166.8,
+    "z": 24.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 111.0,
+   "mass_g_pla": 136.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Holds S, M and L on an 81 mm module; low ribs stop them sliding.",
+   "file": {
+    "path": "/living/cad/v0.3/hm-tray-base.stl",
+    "bytes": 172284,
+    "sha256": "f1726495da253281e69fef58302c2f557b4d97e0830ffd4ad7b2b3ebd4871eec"
+   }
+  },
+  {
+   "id": "hm-drum-lower",
+   "name": "Fluted side table, lower drum",
+   "family": "home2",
+   "group": "home",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 236.0,
+    "y": 236.0,
+    "z": 187.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 622.49,
+   "mass_g_pla": 531.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 7,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1953.0,
+   "notes": "Ø236 at the floor; the spigot ring takes the upper drum.",
+   "file": {
+    "path": "/living/cad/v0.3/hm-drum-lower.stl",
+    "bytes": 221284,
+    "sha256": "6e38bf8ea75e36c18b10e38b9cd3995ea1a717ceec5db0c8ade85de982f83b55"
+   }
+  },
+  {
+   "id": "hm-drum-upper",
+   "name": "Fluted side table, upper drum",
+   "family": "home2",
+   "group": "home",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 222.0,
+    "y": 222.0,
+    "z": 175.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 551.63,
+   "mass_g_pla": 468.3,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 4,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1069.0,
+   "notes": "Drops over the lower drum's spigot.",
+   "file": {
+    "path": "/living/cad/v0.3/hm-drum-upper.stl",
+    "bytes": 158484,
+    "sha256": "c3edfea2ce0558a93271b76ac63a9f91f55d1301db4d1551965b78020d71ef0f"
+   }
+  },
+  {
+   "id": "hm-drum-top",
+   "name": "Fluted side table, top",
+   "family": "home2",
+   "group": "home",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 216.0,
+    "y": 216.0,
+    "z": 22.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 221.51,
+   "mass_g_pla": 142.1,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 810.0,
+   "notes": "Prints face down; its ring drops into the upper drum.",
+   "file": {
+    "path": "/living/cad/v0.3/hm-drum-top.stl",
+    "bytes": 191884,
+    "sha256": "7bc4839f453d1acd9590598a524f99d67ba43def9ace362f2121b295afecfcd5"
+   }
+  },
+  {
+   "id": "hm-grid-body",
+   "name": "Grid side table, pill body",
+   "family": "home2",
+   "group": "home",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 240.0,
+    "y": 160.0,
+    "z": 220.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 510.54,
+   "mass_g_pla": 526.6,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 4,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "240 × 160 × 220, ribbed inside.",
+   "file": {
+    "path": "/living/cad/v0.3/hm-grid-body.stl",
+    "bytes": 45884,
+    "sha256": "9004cc2d29bea1b9ba2d41510124b7ebda4fbe1f605983ce46b36da87a6479b0"
+   }
+  },
+  {
+   "id": "hm-grid-top",
+   "name": "Grid side table, pill top",
+   "family": "home2",
+   "group": "home",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 240.0,
+    "y": 160.0,
+    "z": 24.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 235.68,
+   "mass_g_pla": 161.7,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 7360.0,
+   "notes": "A 14 mm grid cut into the top; the tongue drops into the body. Prints grid-down, hollow side up.",
+   "file": {
+    "path": "/living/cad/v0.3/hm-grid-top.stl",
+    "bytes": 264484,
+    "sha256": "116d7968d224b9d2897f5f399ce75d3bbfd21842be89838bde86422a54f40367"
+   }
+  },
+  {
+   "id": "hm-grid-body-round",
+   "name": "Grid side table, round body",
+   "family": "home2",
+   "group": "home",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 220.0,
+    "y": 220.0,
+    "z": 220.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 542.56,
+   "mass_g_pla": 560.8,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 4,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Ø220 × 220.",
+   "file": {
+    "path": "/living/cad/v0.3/hm-grid-body-round.stl",
+    "bytes": 83884,
+    "sha256": "3b73144eac88e30967b656b4af4ba2b6d0a48fd915352e33bdb07b59996e6f12"
+   }
+  },
+  {
+   "id": "hm-grid-top-round",
+   "name": "Grid side table, round top",
+   "family": "home2",
+   "group": "home",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 220.0,
+    "y": 220.0,
+    "z": 24.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 266.05,
+   "mass_g_pla": 182.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 8526.0,
+   "notes": "Prints grid-down, hollow side up.",
+   "file": {
+    "path": "/living/cad/v0.3/hm-grid-top-round.stl",
+    "bytes": 367684,
+    "sha256": "e8d59ac7275d31f1b32e9872a2672490bea94fa3c8a1f6e82d8aa99f7397ce0a"
+   }
+  },
+  {
+   "id": "hm-y-arm",
+   "name": "Y stool arm (×3)",
+   "family": "home2",
+   "group": "home",
+   "revision": "v0.3",
+   "print_orientation": "on_bottom",
+   "dims_mm": {
+    "x": 150.0,
+    "y": 240.0,
+    "z": 44.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 393.06,
+   "mass_g_pla": 121.4,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 1,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 62.0,
+   "notes": "Three identical arms; prints on its side. 24 cm; load-test before use as a seat.",
+   "file": {
+    "path": "/living/cad/v0.3/hm-y-arm.stl",
+    "bytes": 25884,
+    "sha256": "5b1014e94c6d486e6cf888f608415340f50be976b1c0f242bea1020bc82515b4"
+   }
+  },
+  {
+   "id": "hm-y-hub",
+   "name": "Y stool hub",
+   "family": "home2",
+   "group": "home",
+   "revision": "v0.3",
+   "print_orientation": "face_down",
+   "dims_mm": {
+    "x": 99.0,
+    "y": 105.0,
+    "z": 24.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 117.25,
+   "mass_g_pla": 59.0,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 12,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 5391.0,
+   "notes": "Tri-lobe hub; three M6 × 30 bolts and nuts, not printed.",
+   "file": {
+    "path": "/living/cad/v0.3/hm-y-hub.stl",
+    "bytes": 126884,
+    "sha256": "1617b75fbe30bef2a7e1c9b7d4542d8c2491a9adb34fc0da56e9ff8ebd4c2956"
+   }
+  },
+  {
+   "id": "hm-rack-sling",
+   "name": "Magazine rack sling",
+   "family": "home2",
+   "group": "home",
+   "revision": "v0.3",
+   "print_orientation": "on_side",
+   "dims_mm": {
+    "x": 194.3,
+    "y": 162.8,
+    "z": 220.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 341.98,
+   "mass_g_pla": 270.4,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 1746.0,
+   "notes": "Prints standing on its end.",
+   "file": {
+    "path": "/living/cad/v0.3/hm-rack-sling.stl",
+    "bytes": 226684,
+    "sha256": "78b3f2ba29907242b15f78bccacfdcffc539f27fb319b6da26452026a7f05a1f"
+   }
+  },
+  {
+   "id": "hm-rack-leg",
+   "name": "Magazine rack leg (×4)",
+   "family": "home2",
+   "group": "home",
+   "revision": "v0.3",
+   "print_orientation": "as_is",
+   "dims_mm": {
+    "x": 20.0,
+    "y": 20.0,
+    "z": 116.7
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 25.5,
+   "mass_g_pla": 10.9,
+   "material": "PETG",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Tapered, a spigot into the sling's boss.",
+   "file": {
+    "path": "/living/cad/v0.3/hm-rack-leg.stl",
+    "bytes": 22284,
+    "sha256": "c439ee84deb16e6b0b72cf669f807f47d4226ec7fdb7e3c08ccc4c80f15cc75a"
+   }
+  },
+  {
+   "id": "hm-rack-hoop-lower",
+   "name": "Magazine rack hoop, lower",
+   "family": "home2",
+   "group": "home",
+   "revision": "v0.3",
+   "print_orientation": "on_side",
+   "dims_mm": {
+    "x": 151.6,
+    "y": 191.2,
+    "z": 10.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 45.1,
+   "mass_g_pla": 24.5,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 78.0,
+   "notes": "Prints flat; two pins up into the upper half.",
+   "file": {
+    "path": "/living/cad/v0.3/hm-rack-hoop-lower.stl",
+    "bytes": 41884,
+    "sha256": "ee5d18667aa7ce912a1d8f912ff6d59a12377816293e9b3e6c3f474b564976cb"
+   }
+  },
+  {
+   "id": "hm-rack-hoop-upper",
+   "name": "Magazine rack hoop, upper",
+   "family": "home2",
+   "group": "home",
+   "revision": "v0.3",
+   "print_orientation": "on_side",
+   "dims_mm": {
+    "x": 88.0,
+    "y": 191.2,
+    "z": 10.0
+   },
+   "fits_250_cube": true,
+   "volume_cm3": 32.32,
+   "mass_g_pla": 18.0,
+   "material": "PLA Matte",
+   "supports": "none",
+   "watertight": true,
+   "genus": 0,
+   "bodies": 1,
+   "unsupported_down_area_mm2": 97.0,
+   "notes": "Prints flat; the handle.",
+   "file": {
+    "path": "/living/cad/v0.3/hm-rack-hoop-upper.stl",
+    "bytes": 40284,
+    "sha256": "5747eda263ea6a8bd471db08dbdc674a7a1b2f297f01b8fee3a0d796b1637e1c"
    }
   }
  ],
@@ -11036,6 +12072,28 @@
    "friend_halves_gap_mm": 0.35,
    "qr_modules": 25,
    "qr_dark_area_mm2": 320.5
+  },
+  "tackle": {
+   "pack_5_vs_case_mm3": 0.0,
+   "pack_5_proud_of_case_mm": 38.5,
+   "case_5_vs_keys_mm3": 37.562,
+   "case_5_vs_board_mm3": -0.0,
+   "pack_7_vs_case_mm3": 0.0,
+   "pack_7_proud_of_case_mm": 51.7,
+   "case_7_vs_keys_mm3": 37.562,
+   "case_7_vs_board_mm3": 0.0,
+   "rail_vs_keys_mm3": 37.562,
+   "reel_foot_vs_dock_mm3": 0.0,
+   "dock_vs_keys_mm3": 37.562,
+   "dock_vs_board_mm3": -0.0,
+   "knob_shaft_clash_mm3": 0.0,
+   "knob_bearings_clash_mm3": 0.0,
+   "knob_inlay_vs_knob_mm3": 0.0,
+   "tube_22_vs_saddle_mm3": 0.0,
+   "tube_31.8_vs_saddle_mm3": 0.0,
+   "tube_45_vs_saddle_mm3": 0.0,
+   "strap_in_channel_clash_mm3": 0.0,
+   "saddle_vs_pod_mm3": -0.0
   }
  },
  "lab": {
@@ -11518,6 +12576,63 @@
    },
    "pockets_from": "published product sizes with clearance (AirPods Pro 2 60.6 × 45.2 × 21.7; Anker Nano 77 × 36.8 × 25; compact tampon ~80 × Ø17; 15 mL spray ~76 × Ø25; Staedtler 526 50 65 × 23 × 13; G2 refill 98.1 × Ø5.8)",
    "status": "designed and checked digitally; nothing printed. Every pocket is checked against the real thing on the first print."
+  },
+  "tackle": {
+   "packs_mm": {
+    "5": [
+     92.0,
+     175.0,
+     12.0
+    ],
+    "7": [
+     105.0,
+     235.0,
+     14.0
+    ]
+   },
+   "reel_foot_mm": {
+    "length": 60.0,
+    "width": 17.0,
+    "thick": 3.2,
+    "stem_w": 14.0,
+    "stem_t": 8.0
+   },
+   "knob": {
+    "shaft_mm": 4.0,
+    "bearing_mm": [
+     7.0,
+     2.5
+    ],
+    "note": "the common Shimano/Daiwa knob shaft; measure the reel's before printing"
+   },
+   "spool_band_for_mm": 47.0,
+   "universal_saddle_mm": [
+    22.0,
+    45.0
+   ],
+   "strap": {
+    "width_mm": 20.0,
+    "length_mm": 240.0,
+    "pitch_mm": 8.0,
+    "material": "TPU 95A"
+   },
+   "what_of_a_reel_prints": {
+    "yes": [
+     "handle knob (on the stock shaft and bearings)",
+     "spool band and line clip",
+     "reel dock and foot cover",
+     "handle-end caps, drag-knob caps (cosmetic)",
+     "a hard case or pouch frame"
+    ],
+    "no": [
+     "body and rotor (alignment and stiffness)",
+     "gears and pinion (tooth loads, wear)",
+     "drag washers and bearings",
+     "bail arm and line roller",
+     "the main shaft"
+    ]
+   },
+   "status": "designed and checked digitally; nothing printed. Pack sizes, the reel foot and the knob shaft are to be measured on the real things before the first print."
   }
  },
  "part_code_alphabet": "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"

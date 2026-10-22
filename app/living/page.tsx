@@ -3,31 +3,32 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { CAD_MANIFEST, DAYRALLY_KITS, HOME_RANGE, INTERFACE_SPEC, KITS, PRODUCTS, WIDGET_LAB } from '@/lib/living';
 import { fredoka } from './fonts';
-import { HeroWall } from './HeroWall';
 import './living.css';
 import { POD_CONTENTS_NOTE } from '@/lib/living/pod-contents';
 
 export const metadata: Metadata = {
-  title: 'dayrally · by assembl / living — one system. endless days.',
+  title: 'assembl / living — assembl it your way',
   description:
     '3D printed kits for your room, your bike, your bag and the dog, all on one 42 mm quarter-turn key. Shelving, furniture and decor for the house. Show us your space, pick a kit, printed to order.',
 };
 
-const SUN = '#ffd200';
-
-/** The category row: a picture and a name, nothing else. */
-const DOORS: { id: string; name: string; sub: string; art: string; href: string }[] = [
-  { id: 'ride', name: 'ride', sub: 'bike', art: '/living/alpha/bike-set-sun.png', href: '/living/widget/al-kit-dayrally-ride-kit' },
-  { id: 'scoot', name: 'scoot', sub: 'scooter', art: '/living/alpha/scoot-set-sun.png', href: '/living/widget/al-kit-dayrally-scoot-kit' },
-  { id: 'fish', name: 'fish', sub: 'wharf & beach', art: '/living/alpha/rod-packed-lime.png', href: '/living/widget/al-kit-dayrally-fish-kit' },
-  { id: 'everyday', name: 'everyday', sub: 'bag & belt', art: '/living/alpha/pods-tech.png', href: '/living/widget/al-kit-dayrally-everyday-kit' },
-  { id: 'home', name: 'home', sub: 'shelving, furniture & decor', art: '/living/cad/ac02/previews/small-flatpack-shelf.webp', href: '#ls-home' },
-  { id: 'my-room', name: 'my room', sub: 'wall & desk', art: '/living/alpha/teen-room-flatlay.png', href: '/living/studio?space=my-room' },
-  { id: 'my-space', name: 'my space', sub: 'vanity & drawer', art: '/living/alpha/vanity-cutout-sage.png', href: '/living/studio?space=my-space' },
-  { id: 'work-and-create', name: 'work', sub: 'bench & workshop', art: '/living/alpha/shelf-3-sage.png', href: '/living/studio?space=work-and-create' },
-  { id: 'pets-and-everyday', name: 'pets', sub: 'leads & names', art: '/living/alpha/hook-clay.png', href: '/living/studio?space=pets-and-everyday' },
+/** The four ways in: assembl my pod, my space, my ride, my day. */
+const MODES: { id: string; line: string; art: string; photo?: boolean }[] = [
+  { id: 'pod', line: 'a size, a lid, an insert, a mount, a charm', art: '/living/alpha/pod-standard-sky-waves.png' },
+  { id: 'space', line: 'boards, shelves, cups, bins, hooks and pods on the wall', art: '/living/alpha/tackle-wall.png' },
+  { id: 'ride', line: 'kit on the bar, stem, frame and post of any bike', art: '/living/boards/rally-ride-crop.jpg', photo: true },
+  { id: 'day', line: 'fish, beach, school or ride: pack the day', art: '/living/boards/rally-explore-crop.jpg', photo: true },
 ];
 
+/** The second home set: rendered assembled from their print files. */
+const HOME_SET: { handle: string; art: string; name: string; line: string }[] = [
+  { handle: 'lab-fluted-table', art: 'asm-lab-fluted-table-assembled', name: 'fluted side table', line: 'two drums and a top' },
+  { handle: 'lab-grid-table', art: 'asm-lab-grid-table-assembled', name: 'grid side table', line: 'a pill with a grid on top' },
+  { handle: 'lab-grid-table-round', art: 'asm-lab-grid-table-round-assembled', name: 'grid table, round', line: 'the same top on a drum' },
+  { handle: 'lab-desk-set', art: 'asm-lab-desk-set-stacked', name: 'desk set', line: 'trays that stack on a grid' },
+  { handle: 'lab-y-stool', art: 'asm-lab-y-stool-assembled', name: 'Y stool', line: 'three arms, one hub' },
+  { handle: 'lab-magazine-rack', art: 'asm-lab-magazine-rack-assembled', name: 'magazine rack', line: 'a sling, a hoop, four legs' },
+];
 
 /** The pieces: catalogue products (priced, proposed) and lab items (designed, unpriced), each with its render. */
 const PIECES: { handle: string; art: string; name?: string }[] = [
@@ -40,7 +41,9 @@ const PIECES: { handle: string; art: string; name?: string }[] = [
   { handle: 'lab-mini-emergency', art: 'pocket-mini-emergency', name: 'mini emergency kit' },
   { handle: 'lab-lip-sleeve', art: 'pocket-lip-sleeve', name: 'lip sleeve' },
   { handle: 'lab-friend-set', art: 'pocket-charms', name: 'friend set & charms' },
-  { handle: 'lab-id-tag', art: 'pocket-id', name: 'id tag' },
+  { handle: 'lab-id-charm', art: 'pocket-id-charms', name: 'id charm' },
+  { handle: 'lab-pack-case', art: 'tackle-wall', name: 'tackle wall' },
+  { handle: 'lab-universal-saddle', art: 'tackle-universal', name: 'universal saddle' },
   { handle: 'lab-pen-g2', art: 'pocket-stationery', name: 'pen, eraser, toppers' },
   { handle: 'al-board-4x4', art: 'board-4x4-chalk' },
   { handle: 'al-name-plate', art: 'name-plate-plum-mila' },
@@ -73,15 +76,6 @@ function nzd(n: number) {
   return `NZ$${n.toLocaleString('en-NZ', { maximumFractionDigits: 0 })}`;
 }
 
-function KeyGlyph() {
-  return (
-    <svg viewBox="0 0 68 36" aria-hidden focusable="false">
-      <rect x="2" y="9" width="64" height="18" rx="9" fill="#240b21" />
-      <circle cx="54" cy="18" r="3.2" fill="#fffdf8" />
-    </svg>
-  );
-}
-
 export default function AssemblLivingPage() {
   const served = CAD_MANIFEST.parts.filter((p) => p.file).length;
   const products = new Map(CAD_MANIFEST.products.map((p) => [p.handle, p]));
@@ -96,40 +90,74 @@ export default function AssemblLivingPage() {
   });
   return (
     <div className={`lv lv-sun ${fredoka.variable}`}>
-      <section className="ls-hero" aria-labelledby="ls-title">
-        <div className="lv-wrap ls-hero-grid">
-          <div className="ls-hero-copy">
-            <p className="ls-wordmark">dayrally <KeyGlyph /></p>
-            <h1 id="ls-title">one system.<br />endless days.</h1>
-            <p className="ls-sub">3D printed kits for your room, your bike, your bag and the dog. One key clicks them all together.</p>
-            <div className="lv-actions">
-              <Link href="/living/studio" className="ls-btn">show us your space →</Link>
-              <a href="#ls-shop" className="ls-btn" data-variant="ghost">see the kits ↓</a>
-            </div>
-            <span className="ls-tag">designed · not yet printed · nothing for sale yet</span>
+      <section className="lx-hero" aria-labelledby="ls-title">
+        <div className="lx-hero-media"><Image src="/living/renders/living-hero-home-set.jpg" alt="The fluted side table, the grid side tables, the desk set on top of one, the magazine rack and the Y stool, rendered at true scale from their print files" fill priority sizes="100vw" className="lx-hero-img" /></div>
+        <div className="lv-wrap lx-hero-copy">
+          <p className="ls-mono">assembl / living · dayrally</p>
+          <h1 id="ls-title">assembl it<br />your way.</h1>
+          <p className="lx-sub">Pick the parts, drop them in, see it whole and priced.</p>
+          <div className="lv-actions">
+            <Link href="/living/assembl/pod" className="ls-btn">assembl yours →</Link>
+            <a href="#ls-shop" className="ls-btn" data-variant="ghost">the pieces ↓</a>
           </div>
-          <HeroWall stage={SUN} caption={false} />
+          <span className="lx-tag">rendered from the print files · nothing printed or for sale yet</span>
         </div>
       </section>
 
       <div className="lv-wrap">
-        <nav className="ls-tiles" aria-label="pick a door">
-          {DOORS.map((d) => (
-            <Link key={d.id} href={d.href} className="ls-tile">
-              <div className="ls-tile-art"><Image src={d.art} alt="" fill sizes="(max-width: 700px) 45vw, 15vw" /></div>
-              <b>{d.name}</b>
-              <small>{d.sub}</small>
+        <nav className="lx-modes" aria-label="assembl my">
+          {MODES.map((m) => (
+            <Link key={m.id} href={`/living/assembl/${m.id}`} className="lx-mode" data-photo={m.photo ? 'true' : undefined}>
+              <span className="lx-mode-art"><Image src={m.art} alt="" fill sizes="(max-width: 760px) 50vw, 25vw" /></span>
+              <span className="lx-mode-text"><small>assembl my</small><b>{m.id}</b><span>{m.line}</span></span>
             </Link>
           ))}
         </nav>
+        <p className="lx-fine">rally in the ride and day pictures is from the dayrally concept boards, not a photo of printed parts.</p>
+      </div>
 
-        <section className="ls-band" aria-label="little adventures count">
-          <div className="ls-band-art"><Image src="/living/alpha/pods-beach.png" alt="A dayrally standard pod open with the beach insert: a sun balm tin, two lip balm tins and a key ring in their pockets, the lid behind. Rendered from the print files; the things are stand-ins at real size" fill sizes="(max-width: 720px) 100vw, 50vw" /></div>
-          <div className="ls-band-copy">
-            <span className="ls-note">little adventures count.</span>
-            <h2>same key.<br />out the door.</h2>
-            <p className="lv-small">{POD_CONTENTS_NOTE}</p>
-            <Link href="/living/widget/al-kit-dayrally-everyday-kit" className="ls-btn">see the everyday kit →</Link>
+      <section className="lx-band" aria-labelledby="lx-fish">
+        <Image src="/living/boards/dayrally-bike-20261020.jpg" alt="Concept board: rally the dachshund on a wharf beside a bike with dayrally pods, a kid fishing off the end" fill sizes="100vw" className="lx-band-img" />
+        <div className="lv-wrap lx-band-copy">
+          <h2 id="lx-fish">fish day.</h2>
+          <p>The pack rod, soft-bait cases on the wall, a ruler for the catch.</p>
+          <Link href="/living/assembl/day" className="ls-btn" data-variant="sun">pack a fish day →</Link>
+          <span className="lx-tag">concept board</span>
+        </div>
+      </section>
+
+      <div className="lv-wrap">
+        <section className="lx-split" aria-labelledby="lx-ride">
+          <div className="lx-split-art"><Image src="/living/boards/rally-ride-kit-crop.jpg" alt="Concept board: rally beside handlebars carrying a cam mount, a light and a phone mount" fill sizes="(max-width: 760px) 100vw, 55vw" /></div>
+          <div className="lx-split-copy">
+            <h2 id="lx-ride">any bike.</h2>
+            <p>One saddle seats bars, stems, posts and tubes from 22 to 45 mm. Pods, bottles and phones key on.</p>
+            <div className="lx-split-render"><Image src="/living/alpha/tackle-universal.png" alt="The universal saddle with its strap on a 32 mm tube, rendered from the print files" fill sizes="240px" /></div>
+            <Link href="/living/assembl/ride" className="ls-btn">assembl my ride →</Link>
+          </div>
+        </section>
+
+        <section className="ls-section" id="ls-home" aria-labelledby="ls-home-title">
+          <div className="ls-head">
+            <h2 id="ls-home-title">at home.</h2>
+            <span className="ls-mono">new · rendered assembled · unprinted</span>
+          </div>
+          <div className="lx-home">
+            {HOME_SET.map((x) => (
+              <Link key={x.handle} href={`/living/widget/${x.handle}`} className="lx-home-card">
+                <span className="lx-home-art"><Image src={`/living/alpha/${x.art}.png`} alt={`${x.name}, rendered from its print files`} fill sizes="(max-width: 760px) 50vw, 33vw" /></span>
+                <b>{x.name}</b>
+                <small>{x.line}</small>
+              </Link>
+            ))}
+          </div>
+          <div className="lx-home-strip" aria-label="More for the house">
+            {HOME_RANGE.map((x) => (
+              <Link key={x.handle} href={`/living/widget/${x.handle}`} className="lx-strip-card">
+                <span><Image src={x.preview} alt={`${x.name}. CAD preview, not a print`} fill sizes="160px" /></span>
+                <small>{x.name}</small>
+              </Link>
+            ))}
           </div>
         </section>
 
@@ -138,7 +166,6 @@ export default function AssemblLivingPage() {
             <h2 id="ls-featured">the pieces.</h2>
             <Link href="/living/widget">all {CAD_MANIFEST.products.length + WIDGET_LAB.length} →</Link>
           </div>
-          <p className="lv-small">{POD_CONTENTS_NOTE}</p>
           <div className="ls-grid">
             {pieces.map((x) => (
               <Link key={x.handle} href={`/living/widget/${x.handle}`} className="ls-card">
@@ -154,27 +181,6 @@ export default function AssemblLivingPage() {
           </div>
         </section>
 
-        <section className="ls-section" id="ls-home" aria-labelledby="ls-home-title">
-          <div className="ls-head">
-            <h2 id="ls-home-title">at home.</h2>
-            <span className="ls-mono">shelving · furniture · decor · real CAD · unprinted</span>
-          </div>
-          <p className="lv-small">The house range from the AC-02 real-CAD collection: a shelf, a wall station, two valets, a planter, a shade, a clock, desk rails, vanity organisers and the pet walk kit. Pictured from their CAD, not from a print. No price until samples pass.</p>
-          <div className="ls-grid">
-            {HOME_RANGE.map((x) => (
-              <Link key={x.handle} href={`/living/widget/${x.handle}`} className="ls-card" data-art="cad">
-                <div className="ls-card-art"><Image src={x.preview} alt={`${x.name}: ${x.line}. CAD preview, not a print`} fill sizes="(max-width: 680px) 50vw, 25vw" /></div>
-                <b>{x.name}</b>
-                <small className="ls-line-sub">{x.line}</small>
-                <div className="ls-price">
-                  <span>{x.group}</span>
-                  <small>prototype · unpriced</small>
-                </div>
-                <span className="ls-btn" data-variant="small">see it →</span>
-              </Link>
-            ))}
-          </div>
-        </section>
 
         <section className="ls-section" aria-labelledby="ls-kits-title">
           <div className="ls-head">
@@ -199,13 +205,8 @@ export default function AssemblLivingPage() {
           </div>
         </section>
 
-        <section className="ls-band" aria-label="show us your space">
-          <div className="ls-band-copy">
-            <span className="ls-note">your room. your way.</span>
-            <h2>photo in.<br />design out.</h2>
-            <Link href="/living/studio" className="ls-btn">show us your space →</Link>
-          </div>
-          <div className="ls-band-art"><Image src="/living/alpha/teen-room-flatlay.png" alt="The teen room starter: boards, a name plate, hooks, a shelf and a cup" fill sizes="(max-width: 720px) 100vw, 50vw" /></div>
+        <section className="lx-studio" aria-label="show us your space">
+          <p>Not sure where to start? <Link href="/living/studio">Show us your space</Link> and we design the fit.</p>
         </section>
       </div>
 

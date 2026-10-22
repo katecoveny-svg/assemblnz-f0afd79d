@@ -84,3 +84,16 @@ lab-id-lid,prototype,id lid · the mini pod lid with the owner's code,dayrally l
 lab-eraser-sleeve,prototype,eraser sleeve · the rubber is replaceable,dayrally lab,PLA Matte,2,7.0,0.59,0.32,0.35,3.5,0.04,4.21,5.7,9.91,6.11,15.66,,18.0,,,0.317,0.56,-0.05
 lab-pen-g2,prototype,"pen · for a G2 refill, named",dayrally lab,PLA Matte,3,6.7,0.7,0.3,0.42,5.25,0.04,6.01,5.7,11.71,7.91,19.58,,23.0,,,0.369,0.559,-0.024
 lab-pencil-topper,prototype,pencil topper · a charm on the pencil,dayrally lab,PLA Matte,1,2.5,0.24,0.11,0.15,1.75,0.02,2.03,5.7,7.73,3.93,10.4,,12.0,,,0.2,0.565,-0.056
+lab-pack-case,prototype,pack case · soft plastics on the wall,dayrally lab,PETG · PLA Matte,3,73.8,3.99,3.36,2.4,3.79,0.35,9.89,5.7,15.59,11.79,34.36,,34.0,,,0.432,0.561,-0.203
+lab-pack-rail,prototype,pack rail · three packets by their holes,dayrally lab,PLA Matte · PETG,3,19.0,1.25,0.87,0.75,3.79,0.1,5.51,5.7,11.21,7.41,19.02,,22.0,,,0.368,0.566,-0.04
+lab-reel-dock,prototype,reel dock · the reel hangs by its foot,dayrally lab,PLA Matte · PETG,3,45.8,2.59,2.09,1.56,3.79,0.22,7.65,5.7,13.35,9.55,26.52,,28.0,,,0.409,0.565,-0.132
+lab-reel-knob,prototype,reel knob · the part of a reel worth printing,dayrally lab,PLA Matte,2,4.2,0.45,0.19,0.27,3.5,0.03,3.99,5.7,9.69,5.89,14.88,,17.0,,,0.294,0.551,-0.057
+lab-spool-band,prototype,spool band · 2500,dayrally lab,PLA Matte,1,2.1,0.23,0.1,0.14,1.75,0.01,1.99,5.7,7.69,3.89,10.29,,11.5,,,0.17,0.55,-0.089
+lab-universal-saddle,prototype,"universal saddle · any bar, stem, post or tube",dayrally lab,PLA Matte,5,69.8,3.89,3.17,2.33,5.83,0.33,11.66,5.7,17.36,13.56,37.24,,39.0,,,0.449,0.561,-0.138
+lab-id-charm,prototype,"id charm · the code, prettier, in a shape",dayrally lab,PLA Matte,2,7.9,0.64,0.36,0.38,3.5,0.04,4.28,5.7,9.98,6.18,15.91,,18.0,,,0.313,0.555,-0.066
+lab-desk-set,prototype,desk set · trays that stack and sit on a grid,living lab,PLA Matte,5,408.0,20.9,18.51,12.54,7.29,1.86,40.2,7.1,47.3,42.57,137.34,,120.0,,,0.513,0.559,-0.35
+lab-fluted-table,prototype,fluted side table · two drums and a top,living lab,PLA Matte,3,1141.8,57.45,51.79,34.47,5.25,5.18,96.69,7.1,103.79,99.05,338.8,,275.0,,,0.534,0.554,-0.449
+lab-grid-table,prototype,grid side table · a pill with a grid on top,living lab,PLA Matte,2,688.3,34.66,31.22,20.79,3.5,3.12,58.64,7.1,65.74,61.0,207.82,,170.0,,,0.523,0.555,-0.438
+lab-grid-table-round,prototype,"grid side table, round",living lab,PLA Matte,2,743.2,37.4,33.71,22.44,3.5,3.37,63.02,7.1,70.12,65.39,223.2,,185.0,,,0.532,0.561,-0.42
+lab-y-stool,prototype,Y stool · three arms and a hub,living lab,PETG,4,433.4,27.37,21.07,16.42,4.08,2.25,43.82,7.1,50.92,46.19,136.46,,130.0,,,0.516,0.558,-0.24
+lab-magazine-rack,prototype,"magazine rack · a sling, four legs, a hoop",living lab,PLA Matte · PETG,7,357.6,18.98,16.36,11.39,7.88,1.66,37.29,7.1,44.39,39.66,123.22,,110.0,,,0.502,0.552,-0.322

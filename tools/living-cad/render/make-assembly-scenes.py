@@ -17,7 +17,9 @@ LOOK = {"al-pod-mini": ("butter", "ink"), "al-pod-standard": ("sky", "ink"), "al
         "al-strap-clip": ("tomato", "sky"), "al-duo-strap": ("sun", "sky"), "al-belt-clip": ("tangerine", "sky"), "al-bar-saddle": ("ink", "sun"),
         "al-frame-saddle": ("cobalt", "sun"), "al-carabiner-loop": ("lime", "sky"), "al-home-dock": ("cloud", "sky"),
         "lab-dayrally-rod": ("ink", "sun"), "al-hook": ("clay", "chalk"), "al-cup": ("plum", "chalk"), "al-shelf-2": ("sage", "chalk"),
-        "al-shelf-3": ("oat", "chalk"), "al-bin-2": ("clay", "chalk")}
+        "al-shelf-3": ("oat", "chalk"), "al-bin-2": ("clay", "chalk"),
+        "lab-desk-set": ("clay", "sage"), "lab-fluted-table": ("sage", "chalk"), "lab-grid-table": ("clay", "plum"), "lab-grid-table-round": ("plum", "clay"),
+        "lab-y-stool": ("oat", "clay"), "lab-magazine-rack": ("clay", "plum")}
 FIXED, PROP = COL["ink"], COL["chalk"]
 
 

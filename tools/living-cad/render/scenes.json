@@ -8090,5 +8090,932 @@
    -251,
    193
   ]
+ },
+ "tackle-wall": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/grid-board-4x4.stl",
+    "colour": "#F1ECE3",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/tk-pack-case-5.stl",
+    "colour": "#8EC5F2",
+    "x": -50,
+    "y": 20,
+    "z": 8,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/packet-5.stl",
+    "colour": "#F4F2EE",
+    "x": -50,
+    "y": 39,
+    "z": 17.0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/tk-reel-dock.stl",
+    "colour": "#F28C28",
+    "x": 55,
+    "y": 45,
+    "z": 8,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/render/extra/props/reel-2500.stl",
+    "colour": "#8A8D92",
+    "x": 55,
+    "y": 5,
+    "z": 13,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/tk-pack-rail.stl",
+    "colour": "#BFD95A",
+    "x": 55,
+    "y": -60,
+    "z": 8,
+    "flip": true,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   300,
+   -380,
+   330
+  ]
+ },
+ "tackle-knob": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/tk-reel-knob.stl",
+    "colour": "#7A3E9D",
+    "x": -20,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/tk-reel-knob-inlay.stl",
+    "colour": "#F5C400",
+    "x": -20,
+    "y": 0,
+    "z": 25.4,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/tk-spool-band.stl",
+    "colour": "#F5C400",
+    "x": 30,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   80,
+   -100,
+   90
+  ]
+ },
+ "tackle-universal": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/render/extra/props/tube-32.stl",
+    "colour": "#2B2B2B",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/tk-universal-saddle.stl",
+    "colour": "#2E4FB5",
+    "x": 0,
+    "y": 0,
+    "z": 38,
+    "flip": true,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/tk-ladder-strap.stl",
+    "colour": "#F5C400",
+    "x": 0,
+    "y": 60,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/tk-strap-buckle.stl",
+    "colour": "#F5C400",
+    "x": 60,
+    "y": -40,
+    "z": 0,
+    "flip": false,
+    "rot": 0
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/dr2-pod-standard.stl",
+    "colour": "#F5C400",
+    "x": 0,
+    "y": 0,
+    "z": 76,
+    "flip": false,
+    "rot": 0
+   }
+  ],
+  "cam": [
+   200,
+   -260,
+   220
+  ]
+ },
+ "pocket-id-charms": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-charm-heart.stl",
+    "colour": "#E8405A",
+    "x": -124,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-charm-heart-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": -124,
+    "y": 0,
+    "z": 3.46,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-charm-star.stl",
+    "colour": "#F5C400",
+    "x": -62,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-charm-star-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": -62,
+    "y": 0,
+    "z": 3.46,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-charm-round.stl",
+    "colour": "#8EC5F2",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-charm-round-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": 0,
+    "y": 0,
+    "z": 3.46,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-charm-bow.stl",
+    "colour": "#7A3E9D",
+    "x": 62,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-charm-bow-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": 62,
+    "y": 0,
+    "z": 3.46,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-charm-tag.stl",
+    "colour": "#5CB85C",
+    "x": 124,
+    "y": 0,
+    "z": 0,
+    "flip": true,
+    "rot": 180
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/pk-id-charm-tag-inlay.stl",
+    "colour": "#2A2A2D",
+    "x": 124,
+    "y": 0,
+    "z": 3.46,
+    "flip": true,
+    "rot": 180
+   }
+  ],
+  "cam": [
+   0,
+   -300,
+   250
+  ]
+ },
+ "asm-lab-desk-set-stacked": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/hm-tray-base.stl",
+    "colour": "#9FAE95",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/hm-tray-l.stl",
+    "colour": "#B8694A",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     -40.5,
+     2.0,
+     1.0
+    ]
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/hm-tray-m.stl",
+    "colour": "#B8694A",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     -40.5,
+     40.5,
+     2.0,
+     1.0
+    ]
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/hm-tray-s.stl",
+    "colour": "#B8694A",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     81.0,
+     40.5,
+     2.0,
+     1.0
+    ]
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/hm-tray-s.stl",
+    "colour": "#9FAE95",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     81.0,
+     40.5,
+     44.0,
+     1.0
+    ]
+   }
+  ],
+  "cam": [
+   270,
+   -390,
+   300
+  ]
+ },
+ "asm-lab-fluted-table-assembled": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/hm-drum-lower.stl",
+    "colour": "#9FAE95",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/hm-drum-upper.stl",
+    "colour": "#9FAE95",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     175.0,
+     1.0
+    ]
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/hm-drum-top.stl",
+    "colour": "#F1ECE3",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     -1.0,
+     -0.0,
+     0.0,
+     0.0,
+     0.0,
+     -1.0,
+     0.0,
+     0.0,
+     -0.0,
+     360.0,
+     1.0
+    ]
+   }
+  ],
+  "cam": [
+   702,
+   -1014,
+   780
+  ]
+ },
+ "asm-lab-grid-table-assembled": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/hm-grid-body.stl",
+    "colour": "#B8694A",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/hm-grid-top.stl",
+    "colour": "#4B2B41",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     -1.0,
+     -0.0,
+     0.0,
+     0.0,
+     0.0,
+     -1.0,
+     0.0,
+     0.0,
+     -0.0,
+     236.0,
+     1.0
+    ]
+   }
+  ],
+  "cam": [
+   468,
+   -676,
+   520
+  ]
+ },
+ "asm-lab-grid-table-round-assembled": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/hm-grid-body-round.stl",
+    "colour": "#4B2B41",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/hm-grid-top-round.stl",
+    "colour": "#B8694A",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     -1.0,
+     -0.0,
+     0.0,
+     0.0,
+     0.0,
+     -1.0,
+     0.0,
+     0.0,
+     -0.0,
+     236.0,
+     1.0
+    ]
+   }
+  ],
+  "cam": [
+   468,
+   -676,
+   520
+  ]
+ },
+ "asm-lab-y-stool-assembled": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/hm-y-arm.stl",
+    "colour": "#D8C4A0",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     -1.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     75.0,
+     -22.0,
+     120.0,
+     1.0
+    ]
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/hm-y-arm.stl",
+    "colour": "#D8C4A0",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     -0.5,
+     0.866,
+     0.0,
+     0.0,
+     -0.0,
+     -0.0,
+     -1.0,
+     0.0,
+     -0.866,
+     -0.5,
+     0.0,
+     0.0,
+     -18.4474,
+     75.9519,
+     120.0,
+     1.0
+    ]
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/hm-y-arm.stl",
+    "colour": "#D8C4A0",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     -0.5,
+     -0.866,
+     0.0,
+     0.0,
+     0.0,
+     -0.0,
+     -1.0,
+     0.0,
+     0.866,
+     -0.5,
+     0.0,
+     0.0,
+     -56.5526,
+     -53.9519,
+     120.0,
+     1.0
+    ]
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/hm-y-hub.stl",
+    "colour": "#B8694A",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     -1.0,
+     -0.0,
+     0.0,
+     0.0,
+     0.0,
+     -1.0,
+     0.0,
+     6.5,
+     -0.0,
+     240.0,
+     1.0
+    ]
+   }
+  ],
+  "cam": [
+   378,
+   -546,
+   420
+  ]
+ },
+ "asm-lab-magazine-rack-assembled": {
+  "parts": [
+   {
+    "file": "/tools/living-cad/parts/stl/hm-rack-sling.stl",
+    "colour": "#B8694A",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     -1.0,
+     0.0,
+     0.0,
+     0.0,
+     110.01,
+     0.0,
+     199.859,
+     1.0
+    ]
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/hm-rack-leg.stl",
+    "colour": "#4B2B41",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     -88.0,
+     -40.0,
+     0.0,
+     1.0
+    ]
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/hm-rack-leg.stl",
+    "colour": "#4B2B41",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     -88.0,
+     40.0,
+     0.0,
+     1.0
+    ]
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/hm-rack-leg.stl",
+    "colour": "#4B2B41",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     88.0,
+     -40.0,
+     0.0,
+     1.0
+    ]
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/hm-rack-leg.stl",
+    "colour": "#4B2B41",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     88.0,
+     40.0,
+     0.0,
+     1.0
+    ]
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/hm-rack-hoop-lower.stl",
+    "colour": "#4B2B41",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     -1.0,
+     0.0,
+     0.0,
+     0.0,
+     5.0,
+     0.0,
+     170.2,
+     1.0
+    ]
+   },
+   {
+    "file": "/tools/living-cad/parts/stl/hm-rack-hoop-upper.stl",
+    "colour": "#4B2B41",
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "flip": false,
+    "rot": 0,
+    "matrix": [
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     1.0,
+     0.0,
+     0.0,
+     -1.0,
+     0.0,
+     0.0,
+     0.0,
+     5.0,
+     0.0,
+     280.0,
+     1.0
+    ]
+   }
+  ],
+  "cam": [
+   432,
+   -624,
+   480
+  ]
  }
 }

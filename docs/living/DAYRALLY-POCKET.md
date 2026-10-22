@@ -2,11 +2,11 @@
 
 **Status: designed and checked digitally on 21 October 2026. Nothing printed, nothing measured against the real
 things. Lab items; no price, not listed.** Source: `tools/living-cad/cad/dayrally_pocket.py`.
-Build: `python3 tools/living-cad/cad/build_dayrally_pocket.py` (40 files, `pk-*`). Fit checks:
+Build: `python3 tools/living-cad/cad/build_dayrally_pocket.py` (52 files, `pk-*`). Fit checks:
 `python3 tools/living-cad/cad/fit_test_pocket.py` → `tools/living-cad/parts/fit-tests-pocket.json`.
 Renders: `docs/living/renders/pocket-*.png`. Widgets: `/living/widget/lab-emergency-pack`, `lab-mini-emergency`,
 `lab-lip-sleeve`, `lab-charms-2`, `lab-friend-set`, `lab-id-tag`, `lab-id-lid`, `lab-eraser-sleeve`, `lab-pen-g2`,
-`lab-pencil-topper`. Costs and first prices: `COSTING-20261021.md` (re-run with these items).
+`lab-pencil-topper`, `lab-id-charm`. Costs and first prices: `COSTING-20261021.md` (re-run with these items).
 
 Kate asked for lip peptide cases, charms, friend sets, mini emergency packs (pimple patches, makeup, tampons or
 pads, wipes, hand sanitiser, a bank card, a small power bank, an earbuds case) and 3D-printable stationery
@@ -58,7 +58,53 @@ emergency insert (a compact tampon, a balm, a mini sanitiser, patches, hair ties
 - **Friend set**: one 54 mm heart split on a wave into two halves with 0.35 mm between them, a ring hole at each
   shoulder, one initial each. The halves do not overlap (0 mm³). Print the two in two colours.
 
-## The id tag and the id lid
+## The id tag, the id lid and the id charms
+
+Three ways to carry the same code: the **id tag** (64 × 38, the code beside SCAN), the **id lid** (the mini pod lid
+with the code beside the name) and, since Kate asked for it prettier, the **id charms**: the code inside a heart,
+star, bow, round or tag shape, about 50 mm across, 4 mm thick, a ring hole, printed code-side down so the code is
+the flush inlay on the bed face.
+
+**The styled code.** `qr_cs(text, module, error, style, mark)` draws the same QR three ways: `square` (the plain
+one, on the tag and lid), `dots` (every module a round dot, the three finder patterns redrawn as rounded rings)
+and `rounded`. A styled code has a 7 mm mark in the middle, the TURN key glyph, and clearing the middle forces the
+code to error level H, which forgives 30 % of the modules, so it still reads with the mark there. Phones read
+dot-style codes as well as square ones as long as the dots are at least 1.0 mm and the contrast holds, so the rule
+in the widget copy stands: **dark code on a light body scans best**; a light code on a dark body also reads;
+pale-on-pale does not. The first print tests the dots at 1.0 mm the same way as the square tag (15 cm, sun and
+shade) and moves to 1.2 mm if a phone hesitates.
+
+**What the customer picks in the widget, and what they do not.** The widget picks the shape (five), the body
+colour and the accent colour (the code is the accent inlay, the shape the body), and the name where a piece has
+one. The widget does **not** take the emergency details. It reserves a token for the piece, prints that token's
+code, and the details are entered afterwards on the owner's page, from a private link in the order email. The
+reasons: the widget is a public page and a basket is not a safe place for a child's allergies and a parent's
+phone; the details change (a new contact, a new medication) and must change without a new print; and the code
+should be dead until the parent fills the page, not live with half-entered data.
+
+**The owner page, as proposed (sample at `/living/id/SAMPLE`, labelled proposed; no live tokens exist):**
+
+1. Ordering a tag, lid or charm reserves a token (`assembl.co.nz/i/<token>`, six characters, random) and the
+   code printed is that token's. Until the parent fills the page, scanning it shows "This tag is not set up yet."
+2. The order email carries a private edit link (`/living/id/<token>/edit?key=<edit key>`); the edit key is longer
+   than the token and is never printed. The parent fills in: first name, allergies, medical notes, up to two
+   contacts, and an optional note ("ask for Mum first"). Every field is optional; what is left blank is not shown.
+3. The public page shows only those fields, with a "call" button on each contact, no surname, no address, no
+   school, no photo unless the parent adds one, and no indexing.
+4. An optional second layer behind a four-digit PIN the parent sets, for a known helper (a coach, a friend's
+   parent): a fuller medical note, a third contact, an address.
+5. Edit or revoke at any time from the same link; revoking issues a new token, so the old code goes dead and a
+   new inlay is printed (a charm is a NZ$ few; the pod lid's code is its own small inlay).
+6. Privacy Act 2020: personal information about a child, collected from the parent for one stated purpose, held
+   by assembl, a privacy statement on the edit page, deletion on request, no other use, no analytics on the public
+   page beyond a scan count the parent can see.
+
+What is built: the sample page under `/living/id/[token]`, which only answers to `SAMPLE` and shows the layout
+with placeholder fields. What is not: the token store, the edit page, the PIN layer, the email. None of it lists
+until the page exists and a printed code has been scanned.
+
+### The square code (tag and lid)
+
 
 A QR code inlaid flush, 25 × 25 modules at 1.0 mm (level M), on a 64 × 38 tag beside the word SCAN, and in the
 top of the mini pod lid beside the name. The address is upper-case so the code stays in QR alphanumeric mode and
