@@ -43,10 +43,12 @@
   "cam-body": {
    "ok": true,
    "filament": "pla",
-   "grams": 192.19,
-   "minutes": 219.3,
-   "warning": "It seems object cam-body.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 17.0
+   "grams": 197.06,
+   "minutes": 243.9,
+   "warning": "",
+   "slice_seconds": 24.2,
+   "supports": true,
+   "warning_without_supports": "It seems object cam-body.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "cam-cradle": {
    "ok": true,
@@ -171,10 +173,12 @@
   "cast-guide-1": {
    "ok": true,
    "filament": "pa-cf",
-   "grams": 0.49,
-   "minutes": 3.8,
-   "warning": "It seems object cast-guide-1.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 1.3
+   "grams": 0.59,
+   "minutes": 4.2,
+   "warning": "",
+   "slice_seconds": 1.3,
+   "supports": true,
+   "warning_without_supports": "It seems object cast-guide-1.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "cast-guide-2": {
    "ok": true,
@@ -827,10 +831,12 @@
   "dr2-mount-carabiner-loop": {
    "ok": true,
    "filament": "petg",
-   "grams": 16.09,
-   "minutes": 27.7,
-   "warning": "It seems object dr2-mount-carabiner-loop.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 2.7
+   "grams": 18.41,
+   "minutes": 39.4,
+   "warning": "",
+   "slice_seconds": 6.9,
+   "supports": true,
+   "warning_without_supports": "It seems object dr2-mount-carabiner-loop.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "dr2-mount-duo-strap": {
    "ok": true,
@@ -867,10 +873,12 @@
   "dr2-phone-stand": {
    "ok": true,
    "filament": "pla",
-   "grams": 32.4,
-   "minutes": 43.1,
-   "warning": "It seems object dr2-phone-stand.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 5.3
+   "grams": 34.52,
+   "minutes": 50.8,
+   "warning": "",
+   "slice_seconds": 6.3,
+   "supports": true,
+   "warning_without_supports": "It seems object dr2-phone-stand.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "dr2-pod-long": {
    "ok": true,
@@ -1051,10 +1059,12 @@
   "hm-drum-upper": {
    "ok": true,
    "filament": "pla",
-   "grams": 503.51,
-   "minutes": 857.3,
-   "warning": "It seems object hm-drum-upper.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 103.5
+   "grams": 508.64,
+   "minutes": 885.0,
+   "warning": "",
+   "slice_seconds": 64.2,
+   "supports": true,
+   "warning_without_supports": "It seems object hm-drum-upper.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "hm-grid-body": {
    "ok": true,
@@ -1091,10 +1101,12 @@
   "hm-rack-hoop-lower": {
    "ok": true,
    "filament": "pla",
-   "grams": 23.88,
-   "minutes": 32.1,
-   "warning": "It seems object hm-rack-hoop-lower.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 1.8
+   "grams": 24.09,
+   "minutes": 33.0,
+   "warning": "",
+   "slice_seconds": 1.7,
+   "supports": true,
+   "warning_without_supports": "It seems object hm-rack-hoop-lower.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "hm-rack-hoop-upper": {
    "ok": true,
@@ -1115,10 +1127,12 @@
   "hm-rack-sling": {
    "ok": true,
    "filament": "pla",
-   "grams": 286.44,
-   "minutes": 384.3,
-   "warning": "It seems object hm-rack-sling.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 23.9
+   "grams": 304.37,
+   "minutes": 428.8,
+   "warning": "",
+   "slice_seconds": 54.9,
+   "supports": true,
+   "warning_without_supports": "It seems object hm-rack-sling.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "hm-tray-base": {
    "ok": true,
@@ -1163,10 +1177,12 @@
   "hm-y-hub": {
    "ok": true,
    "filament": "petg",
-   "grams": 56.61,
-   "minutes": 76.5,
-   "warning": "It seems object hm-y-hub.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 5.6
+   "grams": 67.5,
+   "minutes": 141.0,
+   "warning": "",
+   "slice_seconds": 44.8,
+   "supports": true,
+   "warning_without_supports": "It seems object hm-y-hub.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "light-pendant-fold": {
    "ok": true,
@@ -1235,10 +1251,12 @@
   "mini-collar-mount": {
    "ok": true,
    "filament": "petg",
-   "grams": 6.82,
-   "minutes": 16.4,
-   "warning": "It seems object mini-collar-mount.stl has floating regions. Please re-orient the object or enable support generation.",
-   "slice_seconds": 2.9
+   "grams": 7.97,
+   "minutes": 22.3,
+   "warning": "",
+   "slice_seconds": 5.5,
+   "supports": true,
+   "warning_without_supports": "It seems object mini-collar-mount.stl has floating regions. Please re-orient the object or enable support generation."
   },
   "mini-cube": {
    "ok": true,
@@ -1259,10 +1277,12 @@
   "mini-end-cap": {
    "ok": true,
    "filament": "petg",
-   "grams": 0.55,
-   "minutes": 3.6,
-   "warning": "It seems object mini-end-cap.stl has floating regions. Please re-orient the object or enable support generation.",
-   "slice_seconds": 1.9
+   "grams": 0.56,
+   "minutes": 3.7,
+   "warning": "",
+   "slice_seconds": 1.7,
+   "supports": true,
+   "warning_without_supports": "It seems object mini-end-cap.stl has floating regions. Please re-orient the object or enable support generation."
   },
   "mini-flat-mount": {
    "ok": true,
@@ -1283,18 +1303,22 @@
   "mini-lantern-hook": {
    "ok": true,
    "filament": "petg",
-   "grams": 6.37,
-   "minutes": 24.0,
-   "warning": "It seems object mini-lantern-hook.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 2.6
+   "grams": 7.87,
+   "minutes": 29.4,
+   "warning": "",
+   "slice_seconds": 4.3,
+   "supports": true,
+   "warning_without_supports": "It seems object mini-lantern-hook.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "mini-light-mount": {
    "ok": true,
    "filament": "petg",
-   "grams": 11.55,
-   "minutes": 32.4,
-   "warning": "It seems object mini-light-mount.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 8.2
+   "grams": 12.39,
+   "minutes": 36.4,
+   "warning": "",
+   "slice_seconds": 9.9,
+   "supports": true,
+   "warning_without_supports": "It seems object mini-light-mount.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "mini-phone-holder": {
    "ok": true,
@@ -1331,10 +1355,12 @@
   "mini-universal-key": {
    "ok": true,
    "filament": "petg",
-   "grams": 0.5,
-   "minutes": 5.1,
-   "warning": "It seems object mini-universal-key.stl has floating regions. Please re-orient the object or enable support generation.",
-   "slice_seconds": 2.3
+   "grams": 0.52,
+   "minutes": 5.4,
+   "warning": "",
+   "slice_seconds": 1.8,
+   "supports": true,
+   "warning_without_supports": "It seems object mini-universal-key.stl has floating regions. Please re-orient the object or enable support generation."
   },
   "pk-charm-bow": {
    "ok": true,
@@ -1395,10 +1421,12 @@
   "pk-eraser-sleeve": {
    "ok": true,
    "filament": "pla",
-   "grams": 7.29,
-   "minutes": 12.4,
-   "warning": "It seems object pk-eraser-sleeve.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 6.0
+   "grams": 9.09,
+   "minutes": 20.3,
+   "warning": "",
+   "slice_seconds": 10.2,
+   "supports": true,
+   "warning_without_supports": "It seems object pk-eraser-sleeve.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "pk-eraser-sleeve-inlay": {
    "ok": true,
@@ -1675,10 +1703,12 @@
   "pk-lip-sleeve": {
    "ok": true,
    "filament": "pla",
-   "grams": 18.62,
-   "minutes": 24.7,
-   "warning": "It seems object pk-lip-sleeve.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 7.2
+   "grams": 24.24,
+   "minutes": 53.3,
+   "warning": "",
+   "slice_seconds": 15.7,
+   "supports": true,
+   "warning_without_supports": "It seems object pk-lip-sleeve.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "pk-lip-sleeve-inlay": {
    "ok": true,
@@ -1707,10 +1737,12 @@
   "pk-pen-plug": {
    "ok": true,
    "filament": "pla",
-   "grams": 0.82,
-   "minutes": 4.4,
-   "warning": "It seems object pk-pen-plug.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 1.5
+   "grams": 0.98,
+   "minutes": 5.0,
+   "warning": "",
+   "slice_seconds": 1.6,
+   "supports": true,
+   "warning_without_supports": "It seems object pk-pen-plug.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "pk-pod-wide": {
    "ok": true,
@@ -1723,10 +1755,12 @@
   "pk-topper-bow": {
    "ok": true,
    "filament": "pla",
-   "grams": 2.58,
-   "minutes": 13.8,
-   "warning": "It seems object pk-topper-bow.stl has floating regions. Please re-orient the object or enable support generation.",
-   "slice_seconds": 3.5
+   "grams": 3.38,
+   "minutes": 16.7,
+   "warning": "",
+   "slice_seconds": 3.6,
+   "supports": true,
+   "warning_without_supports": "It seems object pk-topper-bow.stl has floating regions. Please re-orient the object or enable support generation."
   },
   "pk-topper-heart": {
    "ok": true,
@@ -1747,26 +1781,32 @@
   "pk-topper-star": {
    "ok": true,
    "filament": "pla",
-   "grams": 2.67,
-   "minutes": 15.3,
-   "warning": "It seems object pk-topper-star.stl has floating regions. Please re-orient the object or enable support generation.",
-   "slice_seconds": 3.2
+   "grams": 3.21,
+   "minutes": 17.3,
+   "warning": "",
+   "slice_seconds": 3.2,
+   "supports": true,
+   "warning_without_supports": "It seems object pk-topper-star.stl has floating regions. Please re-orient the object or enable support generation."
   },
   "rack-mount": {
    "ok": true,
    "filament": "petg",
-   "grams": 84.91,
-   "minutes": 104.9,
-   "warning": "It seems object rack-mount.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 7.9
+   "grams": 86.86,
+   "minutes": 116.4,
+   "warning": "",
+   "slice_seconds": 12.3,
+   "supports": true,
+   "warning_without_supports": "It seems object rack-mount.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "rack-quiver": {
    "ok": true,
    "filament": "petg",
-   "grams": 99.29,
-   "minutes": 168.7,
-   "warning": "It seems object rack-quiver.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 23.8
+   "grams": 106.55,
+   "minutes": 182.0,
+   "warning": "",
+   "slice_seconds": 35.4,
+   "supports": true,
+   "warning_without_supports": "It seems object rack-quiver.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "rack-toptube-saddle": {
    "ok": true,
@@ -1883,10 +1923,12 @@
   "ride-hinge-pin": {
    "ok": true,
    "filament": "petg",
-   "grams": 0.58,
-   "minutes": 3.9,
-   "warning": "It seems object ride-hinge-pin.stl has floating regions. Please re-orient the object or enable support generation.",
-   "slice_seconds": 1.0
+   "grams": 1.02,
+   "minutes": 5.9,
+   "warning": "",
+   "slice_seconds": 2.2,
+   "supports": true,
+   "warning_without_supports": "It seems object ride-hinge-pin.stl has floating regions. Please re-orient the object or enable support generation."
   },
   "ride-latch": {
    "ok": true,
@@ -1899,18 +1941,22 @@
   "ride-phone-plate": {
    "ok": true,
    "filament": "petg",
-   "grams": 56.78,
-   "minutes": 93.2,
-   "warning": "It seems object ride-phone-plate.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 4.5
+   "grams": 57.46,
+   "minutes": 96.0,
+   "warning": "",
+   "slice_seconds": 5.9,
+   "supports": true,
+   "warning_without_supports": "It seems object ride-phone-plate.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "ride-phone-slider": {
    "ok": true,
    "filament": "petg",
-   "grams": 12.26,
-   "minutes": 40.6,
-   "warning": "It seems object ride-phone-slider.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 2.1
+   "grams": 16.95,
+   "minutes": 56.8,
+   "warning": "",
+   "slice_seconds": 7.4,
+   "supports": true,
+   "warning_without_supports": "It seems object ride-phone-slider.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "ride-pod-base": {
    "ok": true,
@@ -1979,26 +2025,32 @@
   "ride-watch-42": {
    "ok": true,
    "filament": "petg",
-   "grams": 28.17,
-   "minutes": 47.8,
-   "warning": "It seems object ride-watch-42.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 9.3
+   "grams": 32.89,
+   "minutes": 71.1,
+   "warning": "",
+   "slice_seconds": 17.5,
+   "supports": true,
+   "warning_without_supports": "It seems object ride-watch-42.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "ride-watch-46": {
    "ok": true,
    "filament": "petg",
-   "grams": 28.03,
-   "minutes": 47.6,
-   "warning": "It seems object ride-watch-46.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 7.8
+   "grams": 32.75,
+   "minutes": 71.0,
+   "warning": "",
+   "slice_seconds": 16.9,
+   "supports": true,
+   "warning_without_supports": "It seems object ride-watch-46.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "ride-watch-49": {
    "ok": true,
    "filament": "petg",
-   "grams": 29.56,
-   "minutes": 49.2,
-   "warning": "It seems object ride-watch-49.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 7.4
+   "grams": 34.51,
+   "minutes": 74.2,
+   "warning": "",
+   "slice_seconds": 17.1,
+   "supports": true,
+   "warning_without_supports": "It seems object ride-watch-49.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "rod-butt-cap": {
    "ok": true,
@@ -2091,10 +2143,12 @@
   "scoot-quiver": {
    "ok": true,
    "filament": "petg",
-   "grams": 71.45,
-   "minutes": 165.4,
-   "warning": "It seems object scoot-quiver.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 25.6
+   "grams": 81.07,
+   "minutes": 185.6,
+   "warning": "",
+   "slice_seconds": 39.5,
+   "supports": true,
+   "warning_without_supports": "It seems object scoot-quiver.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "scoot-stem-saddle": {
    "ok": true,
@@ -2171,26 +2225,32 @@
   "tk-pack-case-5": {
    "ok": true,
    "filament": "pla",
-   "grams": 69.28,
-   "minutes": 88.0,
-   "warning": "It seems object tk-pack-case-5.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 4.0
+   "grams": 101.52,
+   "minutes": 257.1,
+   "warning": "",
+   "slice_seconds": 123.8,
+   "supports": true,
+   "warning_without_supports": "It seems object tk-pack-case-5.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "tk-pack-case-7": {
    "ok": true,
    "filament": "pla",
-   "grams": 101.1,
-   "minutes": 123.0,
-   "warning": "It seems object tk-pack-case-7.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 4.2
+   "grams": 153.98,
+   "minutes": 395.9,
+   "warning": "",
+   "slice_seconds": 207.7,
+   "supports": true,
+   "warning_without_supports": "It seems object tk-pack-case-7.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "tk-pack-rail": {
    "ok": true,
    "filament": "pla",
-   "grams": 15.05,
-   "minutes": 29.3,
-   "warning": "It seems object tk-pack-rail.stl has floating cantilever. Please re-orient the object or enable support generation.",
-   "slice_seconds": 5.8
+   "grams": 24.64,
+   "minutes": 75.5,
+   "warning": "",
+   "slice_seconds": 30.4,
+   "supports": true,
+   "warning_without_supports": "It seems object tk-pack-rail.stl has floating cantilever. Please re-orient the object or enable support generation."
   },
   "tk-reel-dock": {
    "ok": true,
@@ -2244,5 +2304,5 @@
  "printer": "Bambu Lab X1 Carbon 0.4 nozzle",
  "process": "0.20mm Standard @BBL X1C",
  "slicer": "Bambu Studio 02.08.02.61, command line",
- "note": "Each part sliced alone, as served, at 0.20 mm Standard, 2 walls, 15 % infill, system filament per material. Two-colour parts are sliced as two files; the colour change on a shared plate adds time not counted here."
+ "note": "Each part sliced alone, as served, at 0.20 mm Standard, 2 walls, 15 % infill, system filament per material. Parts the slicer flags with floating overhangs are re-sliced with tree supports (supports: true). Two-colour parts are sliced as two files; the colour change on a shared plate adds time not counted here."
 }
