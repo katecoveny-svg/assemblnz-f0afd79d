@@ -1,0 +1,367 @@
+{
+  "spec": {
+    "desk_module_mm": 81.0,
+    "drum": {
+      "r_floor": 118.0,
+      "r_mid": 111.0,
+      "r_top": 104.0,
+      "h": 175.0,
+      "wall": 2.2,
+      "spigot": 12.0
+    },
+    "grid_table": {
+      "w": 240.0,
+      "h": 160.0,
+      "H": 220.0,
+      "wall": 2.4,
+      "top": 16.0,
+      "pitch": 14.0
+    },
+    "y_stool": {
+      "H": 240.0,
+      "reach": 150.0,
+      "w": 44.0,
+      "t": 24.0,
+      "leg": 26.0,
+      "tongue": 38.0
+    },
+    "rack": {
+      "L": 220.0,
+      "W": 160.0,
+      "z0": 110.0,
+      "top": 300.0,
+      "t": 3.0,
+      "hoop": 12.0,
+      "band": 10.0
+    },
+    "hardware": {
+      "hm-y-hub": "3 × M6 × 30 bolts and nyloc nuts"
+    },
+    "status": "designed and checked digitally; nothing printed. The stool is not a seat until a load test passes; the side tables are side tables and plant stands."
+  },
+  "parts": [
+    {
+      "slug": "hm-tray-s",
+      "name": "Desk tray S, 79 × 79",
+      "group": "home",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        79.0,
+        79.0,
+        45.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 41.02,
+      "est_grams_pla": 43.6,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 551.0,
+      "notes": "Fluted outside, soft inside corners; nests on a same-size tray."
+    },
+    {
+      "slug": "hm-tray-m",
+      "name": "Desk tray M, 160 × 79",
+      "group": "home",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        160.0,
+        79.0,
+        45.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 77.46,
+      "est_grams_pla": 76.0,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 859.0,
+      "notes": "Two modules."
+    },
+    {
+      "slug": "hm-tray-l",
+      "name": "Desk tray L, 241 × 79",
+      "group": "home",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        241.0,
+        79.0,
+        45.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 113.9,
+      "est_grams_pla": 108.4,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 1167.0,
+      "notes": "Three modules; a pen tray."
+    },
+    {
+      "slug": "hm-tray-base",
+      "name": "Desk base tray XL, 248 × 167",
+      "group": "home",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        247.8,
+        166.8,
+        24.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 111.0,
+      "est_grams_pla": 136.4,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Holds S, M and L on an 81 mm module; low ribs stop them sliding."
+    },
+    {
+      "slug": "hm-drum-lower",
+      "name": "Fluted side table, lower drum",
+      "group": "home",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        236.0,
+        236.0,
+        187.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 622.49,
+      "est_grams_pla": 531.4,
+      "watertight": true,
+      "genus": 7,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 1953.0,
+      "notes": "Ø236 at the floor; the spigot ring takes the upper drum."
+    },
+    {
+      "slug": "hm-drum-upper",
+      "name": "Fluted side table, upper drum",
+      "group": "home",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        222.0,
+        222.0,
+        175.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 551.63,
+      "est_grams_pla": 468.3,
+      "watertight": true,
+      "genus": 4,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 1069.0,
+      "notes": "Drops over the lower drum's spigot."
+    },
+    {
+      "slug": "hm-drum-top",
+      "name": "Fluted side table, top",
+      "group": "home",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        216.0,
+        216.0,
+        22.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 221.51,
+      "est_grams_pla": 142.1,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 810.0,
+      "notes": "Prints face down; its ring drops into the upper drum."
+    },
+    {
+      "slug": "hm-grid-body",
+      "name": "Grid side table, pill body",
+      "group": "home",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        240.0,
+        160.0,
+        220.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 510.54,
+      "est_grams_pla": 526.6,
+      "watertight": true,
+      "genus": 4,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "240 × 160 × 220, ribbed inside."
+    },
+    {
+      "slug": "hm-grid-top",
+      "name": "Grid side table, pill top",
+      "group": "home",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        240.0,
+        160.0,
+        24.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 235.68,
+      "est_grams_pla": 161.7,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 7360.0,
+      "notes": "A 14 mm grid cut into the top; the tongue drops into the body. Prints grid-down, hollow side up."
+    },
+    {
+      "slug": "hm-grid-body-round",
+      "name": "Grid side table, round body",
+      "group": "home",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        220.0,
+        220.0,
+        220.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 542.56,
+      "est_grams_pla": 560.8,
+      "watertight": true,
+      "genus": 4,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Ø220 × 220."
+    },
+    {
+      "slug": "hm-grid-top-round",
+      "name": "Grid side table, round top",
+      "group": "home",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        220.0,
+        220.0,
+        24.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 266.05,
+      "est_grams_pla": 182.4,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 8526.0,
+      "notes": "Prints grid-down, hollow side up."
+    },
+    {
+      "slug": "hm-y-arm",
+      "name": "Y stool arm (×3)",
+      "group": "home",
+      "print_orientation": "on_bottom",
+      "print_bbox_mm": [
+        150.0,
+        240.0,
+        44.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 393.06,
+      "est_grams_pla": 121.4,
+      "watertight": true,
+      "genus": 1,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 62.0,
+      "notes": "Three identical arms; prints on its side. 24 cm; load-test before use as a seat."
+    },
+    {
+      "slug": "hm-y-hub",
+      "name": "Y stool hub",
+      "group": "home",
+      "print_orientation": "face_down",
+      "print_bbox_mm": [
+        99.0,
+        105.0,
+        24.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 117.25,
+      "est_grams_pla": 59.0,
+      "watertight": true,
+      "genus": 12,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 5391.0,
+      "notes": "Tri-lobe hub; three M6 × 30 bolts and nuts, not printed."
+    },
+    {
+      "slug": "hm-rack-sling",
+      "name": "Magazine rack sling",
+      "group": "home",
+      "print_orientation": "on_side",
+      "print_bbox_mm": [
+        194.3,
+        162.8,
+        220.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 341.98,
+      "est_grams_pla": 270.4,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 1746.0,
+      "notes": "Prints standing on its end."
+    },
+    {
+      "slug": "hm-rack-leg",
+      "name": "Magazine rack leg (×4)",
+      "group": "home",
+      "print_orientation": "as_is",
+      "print_bbox_mm": [
+        20.0,
+        20.0,
+        116.7
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 25.5,
+      "est_grams_pla": 10.9,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 0.0,
+      "notes": "Tapered, a spigot into the sling's boss."
+    },
+    {
+      "slug": "hm-rack-hoop-lower",
+      "name": "Magazine rack hoop, lower",
+      "group": "home",
+      "print_orientation": "on_side",
+      "print_bbox_mm": [
+        151.6,
+        191.2,
+        10.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 45.1,
+      "est_grams_pla": 24.5,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 78.0,
+      "notes": "Prints flat; two pins up into the upper half."
+    },
+    {
+      "slug": "hm-rack-hoop-upper",
+      "name": "Magazine rack hoop, upper",
+      "group": "home",
+      "print_orientation": "on_side",
+      "print_bbox_mm": [
+        88.0,
+        191.2,
+        10.0
+      ],
+      "fits_250_cube": true,
+      "volume_cm3": 32.32,
+      "est_grams_pla": 18.0,
+      "watertight": true,
+      "genus": 0,
+      "bodies": 1,
+      "unsupported_down_area_mm2": 97.0,
+      "notes": "Prints flat; the handle."
+    }
+  ]
+}

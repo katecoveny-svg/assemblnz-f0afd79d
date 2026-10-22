@@ -178,6 +178,105 @@ on_board("al-shelf-2", "grid-shelf-2", lambda: lib.shelf(2), [(0, 0), (lib.P, 0)
 on_board("al-bin-2", "grid-bin-2", lambda: lib.bin_(2), [(0, 0), (lib.P, 0)], at=(lib.P / 2, lib.P * 2.5))
 on_board("al-shelf-3", "grid-shelf-3", lambda: lib.shelf(3), [(0, 0), (lib.P, 0), (2 * lib.P, 0)], board=(4, 4), at=(lib.P / 2, lib.P * 2.5))
 
+
+# ---------------- at home, second set: the desk trays, the side tables, the Y stool, the magazine rack ----------------
+import home2 as hm
+
+
+def pose(pid, fn):
+    return printed_pose(fn(), PARTS[pid]["print_orientation"])
+
+
+def home_views():
+    U = hm.U
+    tS, tM, tL, tB = (pose("hm-tray-s", lambda: hm.desk_tray(1, 1)), pose("hm-tray-m", lambda: hm.desk_tray(2, 1)),
+                      pose("hm-tray-l", lambda: hm.desk_tray(3, 1)), pose("hm-tray-base", hm.desk_base))
+    fl = 2.0
+    desk = [slot("hm-tray-base", tB, "accent"),
+            slot("hm-tray-l", placed(tL, (0, -U / 2, fl)), "body", (0, 0, 60)),
+            slot("hm-tray-m", placed(tM, (-U / 2, U / 2, fl)), "body", (0, 0, 90)),
+            slot("hm-tray-s", placed(tS, (U, U / 2, fl)), "body", (0, 0, 120)),
+            slot("hm-tray-s", placed(tS, (U, U / 2, fl + 42.0)), "accent", (0, 0, 160))]
+    add("lab-desk-set", [{"name": "stacked", "slots": desk, "reach": 300}])
+
+    d = hm.DRUM
+    lo, up, top = pose("hm-drum-lower", lambda: hm.drum_section(True)), pose("hm-drum-upper", lambda: hm.drum_section(False)), pose("hm-drum-top", hm.drum_top)
+    add("lab-fluted-table", [{"name": "assembled", "reach": 780, "slots": [
+        slot("hm-drum-lower", lo, "body"), slot("hm-drum-upper", placed(up, (0, 0, d["h"])), "body", (0, 0, 80)),
+        slot("hm-drum-top", placed(top, (0, 0, 2 * d["h"])), "accent", (0, 0, 160))]}])
+
+    g = hm.GRID
+    for handle, rnd, suffix in (("lab-grid-table", False, ""), ("lab-grid-table-round", True, "-round")):
+        b, t = pose(f"hm-grid-body{suffix}", lambda: hm.grid_body(rnd)), pose(f"hm-grid-top{suffix}", lambda: hm.grid_top(rnd))
+        add(handle, [{"name": "assembled", "reach": 520, "slots": [slot(f"hm-grid-body{suffix}", b, "body"),
+                                                                  slot(f"hm-grid-top{suffix}", placed(t, (0, 0, g["H"])), "accent", (0, 0, 90))]}])
+
+    arm, hub = pose("hm-y-arm", hm.y_arm), pose("hm-y-hub", hm.y_hub)
+    add("lab-y-stool", [{"name": "assembled", "reach": 420, "slots": [slot("hm-y-arm", placed(arm, (0, 0, 0), (0, 0, a)), "body", (60 * math.cos(math.radians(a)), 60 * math.sin(math.radians(a)), 0)) for a in (0, 120, 240)]
+                         + [slot("hm-y-hub", hub, "accent", (0, 0, 80))]}])
+
+    k = hm.RACK
+    sling, leg = pose("hm-rack-sling", hm.rack_sling), pose("hm-rack-leg", hm.rack_leg)
+    hl, hu = pose("hm-rack-hoop-lower", lambda: hm.rack_hoop(True)), pose("hm-rack-hoop-upper", lambda: hm.rack_hoop(False))
+    legs = [slot("hm-rack-leg", placed(leg, (x, y, 0)), "accent", (0, 0, -40)) for x in (-k["L"] / 2 + 22, k["L"] / 2 - 22) for y in (-40.0, 40.0)]
+    add("lab-magazine-rack", [{"name": "assembled", "reach": 480, "slots": [slot("hm-rack-sling", sling, "body")] + legs +
+                               [slot("hm-rack-hoop-lower", hl, "accent", (0, 0, -60)), slot("hm-rack-hoop-upper", hu, "accent", (0, 0, 90))]}])
+
+
+home_views()
+
+# ---------------- the builder: every wall piece in its own frame, with its keys and the cells it covers ----------------
+import dayrally_tackle as tk
+
+
+def wall_piece(piece_id, name, parts, keys, group, fn_bbox, handle=None):
+    """A piece the builder can drop on a board. `parts` are (part id, matrix in the piece frame, role); `keys` are the
+    key centres in the piece frame (each lands on a cell centre); the bbox gives the cells it covers."""
+    x0, y0, _, x1, y1, _ = fn_bbox
+    return {"id": piece_id, "name": name, "group": group, "handle": handle,
+            "parts": [{"id": pid, "matrix": mat(M_), "role": role} for (pid, M_, role) in parts],
+            "keys": [[round(float(x), 3), round(float(y), 3)] for (x, y) in keys],
+            "bbox": [round(float(v), 2) for v in (x0, y0, x1, y1)]}
+
+
+BUILDER_PIECES = []
+for pid, name, fn, keys, group, handle in [
+        ("grid-hook", "hook", lib.hook, [(0, lib.P)], "hang", "al-hook"),
+        ("grid-cup", "cup", lib.cup, [(0, lib.P)], "hold", "al-cup"),
+        ("grid-rod-cradle", "rod cradle", lib.rod_cradle, [(0, lib.P)], "hang", "al-rod-cradle"),
+        ("grid-shelf-2", "shelf, 2 wide", lambda: lib.shelf(2), [(0, 0), (lib.P, 0)], "shelf", "al-shelf-2"),
+        ("grid-shelf-3", "shelf, 3 wide", lambda: lib.shelf(3), [(0, 0), (lib.P, 0), (2 * lib.P, 0)], "shelf", "al-shelf-3"),
+        ("grid-bin-2", "bin, 2 wide", lambda: lib.bin_(2), [(0, 0), (lib.P, 0)], "hold", "al-bin-2"),
+        ("grid-lure-garage", "lure garage", lambda: lib.bin_(3, depth=46, height=78, dividers=11), [(0, 0), (lib.P, 0), (2 * lib.P, 0)], "tackle", "al-lure-garage"),
+        ("tk-pack-case-5", "soft-bait case, 5 inch", lambda: tk.pack_case("5"), tk.KEYS, "tackle", "lab-pack-case"),
+        ("tk-pack-case-7", "soft-bait case, 7 inch", lambda: tk.pack_case("7"), tk.KEYS, "tackle", "lab-pack-case"),
+        ("tk-pack-rail", "pack rail", tk.pack_rail, tk.KEYS, "tackle", "lab-pack-rail"),
+        ("tk-reel-dock", "reel dock", tk.reel_dock, tk.KEYS, "tackle", "lab-reel-dock")]:
+    m = fn()
+    BUILDER_PIECES.append(wall_piece(pid, name, [(pid, printed_pose(m, PARTS[pid]["print_orientation"]), "body")], keys, group, m.bounding_box(), handle))
+
+for size in ("mini", "standard", "long"):
+    L, W, H, ZT = d2.dims(size)
+    base = d2.pod_base(size)
+    lid_plain, _ = d2.pod_lid(size, "plain")
+    BUILDER_PIECES.append(wall_piece(f"pod-{size}", f"pod, {size}", [(f"dr2-pod-{size}", printed_pose(base, "as_is"), "body"),
+                                                                      (f"dr2-lid-{size}-plain", printed_pose(lid_plain, "face_down"), "accent")],
+                                     d2.KEYS, "pod", (-L / 2 - 8, -W / 2, 0, L / 2 + 8, W / 2, 0), f"al-pod-{size}"))
+
+KEY_MATRIX = mat(printed_pose(lib.turn_key(), "as_is"))
+BOARDS = {f"grid-board-{c}x{r}": {"cols": c, "rows": r, "matrix": mat(printed_pose(lib.board(c, r), "face_down"))} for (c, r) in ((4, 4), (2, 4))}
+
+# the mounts on their own, in the pod's frame (a pod of any size sits on a mount the way the standard one does)
+MOUNT_FRAMES = {}
+for slug, fn in d2.MOUNTS.items():
+    MOUNT_FRAMES[f"dr2-mount-{slug}"] = mat(printed_pose(fn(), "face_down"))
+MOUNT_FRAMES["tk-universal-saddle"] = mat(printed_pose(tk.universal_saddle(), "face_down"))
+
+json.dump({"frame": "mm; a wall piece's keys land on cell centres ((i + 0.5) P, (j + 0.5) P) of a board lying in xy, faces +z",
+           "pitch": lib.P, "key_matrix": KEY_MATRIX, "boards": BOARDS, "pieces": BUILDER_PIECES, "mounts": MOUNT_FRAMES},
+          open(os.path.join(ROOT, "lib", "living", "builder.json"), "w"), indent=0)
+print(len(BUILDER_PIECES), "builder pieces")
+
 json.dump({"frame": "mm, z up; matrices column-major, applied to the served STL (centred on x and y, z from 0)", "handles": OUT},
           open(os.path.join(ROOT, "lib", "living", "assemblies.json"), "w"), indent=0)
 print(len(OUT), "handles:", list(OUT))

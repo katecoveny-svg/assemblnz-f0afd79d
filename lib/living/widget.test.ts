@@ -214,8 +214,9 @@ describe('lab items', () => {
   });
 
   it('lists the rod and the wharf reel with served print files', () => {
-    for (const h of ['lab-dayrally-rod', 'lab-wharf-reel', 'lab-dayrally-cast', 'lab-dayrally-ride', 'lab-ride-grips', 'lab-bar-ends', 'lab-ride-watch', 'lab-ride-phone', 'lab-ride-bottle', 'lab-ride-stand', 'lab-turn-mini', 'lab-mini-ride', 'lab-mini-explore', 'lab-ride-rack', 'lab-scoot-fish', 'lab-fish-ruler', 'lab-ruler-15', 'lab-emergency-pack', 'lab-mini-emergency', 'lab-lip-sleeve', 'lab-charms-2', 'lab-friend-set', 'lab-id-tag', 'lab-id-lid', 'lab-eraser-sleeve', 'lab-pen-g2', 'lab-pencil-topper', 'lab-pack-case', 'lab-pack-rail', 'lab-reel-dock', 'lab-reel-knob', 'lab-spool-band', 'lab-universal-saddle', 'lab-id-charm']) {
-      const r = buildItem({ handle: h, colour: 'lime', qty: 1, ...(h === 'lab-mini-explore' ? { text: 'RALLY' } : {}) });
+    for (const h of ['lab-dayrally-rod', 'lab-wharf-reel', 'lab-dayrally-cast', 'lab-dayrally-ride', 'lab-ride-grips', 'lab-bar-ends', 'lab-ride-watch', 'lab-ride-phone', 'lab-ride-bottle', 'lab-ride-stand', 'lab-turn-mini', 'lab-mini-ride', 'lab-mini-explore', 'lab-ride-rack', 'lab-scoot-fish', 'lab-fish-ruler', 'lab-ruler-15', 'lab-emergency-pack', 'lab-mini-emergency', 'lab-lip-sleeve', 'lab-charms-2', 'lab-friend-set', 'lab-id-tag', 'lab-id-lid', 'lab-eraser-sleeve', 'lab-pen-g2', 'lab-pencil-topper', 'lab-pack-case', 'lab-pack-rail', 'lab-reel-dock', 'lab-reel-knob', 'lab-spool-band', 'lab-universal-saddle', 'lab-id-charm', 'lab-desk-set', 'lab-fluted-table', 'lab-grid-table', 'lab-grid-table-round', 'lab-y-stool', 'lab-magazine-rack']) {
+      const colours = widgetSpec(h)!.colours;
+      const r = buildItem({ handle: h, colour: colours.some((c) => c.id === 'lime') ? 'lime' : colours[0].id, qty: 1, ...(h === 'lab-mini-explore' ? { text: 'RALLY' } : {}) });
       expect(r.ok).toBe(true);
       if (r.ok) expect(r.item.printFiles.every((f) => f.sha256)).toBe(true);
     }

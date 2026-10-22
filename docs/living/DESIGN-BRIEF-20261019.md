@@ -873,3 +873,24 @@ token store, edit page, PIN layer or email exists yet.
 
 The rule that fell out: a public configurator is not a place for a child's medical details. The print carries a
 pointer; the parent owns the page it points to.
+
+### 11.26 Pick and mix: assembl my pod, space, ride, day; an image-led front; the second home set (22 October)
+
+Kate: "ok so its not hitting the mark sorry ! it should be like a pick and mix assembl my pod or assembl my space or
+assembl my ride or assembl my day etc and then they can interactively drag and drop the parts into the product and
+then it shows the complete product with cost and timeline etc. … the landing page isnt showing much visual interest
+at all … include rally the dog in appropriate parts … there is still too much dark heavy text also." And, with
+photos of a desk set, fluted and grid side tables, stacking stools and a magazine rack: "these products need to be
+included (obviously designed uniquely and rendered etc)".
+
+- `ASSEMBL-BUILDER.md`: the builder at `/living/assembl/<mode>`: a tray, a surface to drop on, the real files
+  assembled in 3D, and the cost, price and timeline as it changes.
+- `/living` now opens on a full-bleed render of the new home set, then the four ways in, then rally: the wharf
+  board for the fish day and the ride kit board for any bike, both captioned as concept boards. Body text is
+  lighter and shorter; the long notes moved to alt text and docs.
+- `HOME-SET-2.md`: the desk set, the fluted side table, the grid side tables, the Y stool and the magazine rack,
+  17 files, rendered assembled, costed, in the widget. The stool is not a seat until a load test passes.
+
+The reference photos Kate sent in chat did not reach the build environment as files, so the header is our own
+renders, not her mood images; if she wants those exact pictures on the site, they need to be committed or attached
+as files.

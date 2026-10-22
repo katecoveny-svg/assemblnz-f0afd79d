@@ -7,12 +7,13 @@ import { CAD_MANIFEST } from '@/lib/living';
  * The company nav, footer and DO assistant stay off these pages (components/site/GlobalChrome.tsx,
  * apps/do/shared/public-assistant-routes.ts).
  */
-export function LivingHeader({ current }: { current: 'studio' | 'storefront' }) {
+export function LivingHeader({ current }: { current: 'studio' | 'storefront' | 'assembl' }) {
   return (
     <header className="lv-top">
       <div className="lv-wrap lv-top-row">
         <Link href="/living" className="lv-top-mark"><b>assembl</b><span>/ living</span></Link>
         <nav className="lv-top-nav" aria-label="Living">
+          <Link href="/living/assembl/pod" aria-current={current === 'assembl' ? 'page' : undefined}>assembl yours</Link>
           <Link href="/living">dayrally kits</Link>
           <Link href="/living#ls-home">at home</Link>
           <Link href="/living#ls-shop">the pieces</Link>
