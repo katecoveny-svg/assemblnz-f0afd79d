@@ -117,6 +117,11 @@ def drum_section(lower=True):
     if lower:                                            # the spigot ring the upper drum drops over
         ri = r1 - wall - 2.4
         body = body + ext_z(circ(ri - 0.3, seg=144) - circ(ri - 3.3, seg=144), h - EPS, h + d["spigot"])
+        # a 45 degree ledge from the wall in to the ring, so the ring is carried while printing (no cantilever)
+        r_in, r_wall = ri - 3.3, (r0 - wall - 2.4) * s + 0.6
+        drop = r_wall - r_in
+        ledge = M.revolve(poly([(r_in, h + 0.01), (r_wall, h + 0.01), (r_wall, h - drop - 1.0), (r_wall - 0.6, h - drop - 1.0)]), 144)
+        body = body + ledge
     return body
 
 

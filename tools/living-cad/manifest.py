@@ -125,6 +125,10 @@ def material_for(slug: str) -> str:
         return "PETG"
     if slug.startswith(("hm-y-", "hm-rack-leg")):
         return "PETG"
+    if slug in ("tk-ladder-strap", "tk-spool-band"):
+        return "TPU 95A"
+    if slug in ("tk-strap-buckle", "tk-universal-saddle", "tk-reel-dock"):
+        return "PETG"
     return "PLA Matte"
 
 

@@ -3,6 +3,7 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { WIDGET_KITS, WIDGET_PRODUCTS, WidgetMessageSchema, buildItem, defaultAccent, itemMessage, kitSku, lineItemProperties, partCode, partRole, printSheet, textSpecFor, widgetSpec } from './index';
 import type { Colourway } from './system';
+import { slicedPart } from './costing';
 
 describe('widget spec', () => {
   it('describes a plain board: seven living colours, no choices, no text, no accent', () => {
@@ -74,8 +75,11 @@ describe('building an item', () => {
     expect(item.printFiles.find((f) => f.id === 'grid-name-plate-text')?.role).toBe('accent');
     expect(item.printFiles.find((f) => f.id === 'grid-name-plate')?.role).toBe('body');
     expect(item.sku).toBe('AL-NP-CHA-' + partCode({ short: 'NP' }, 'chalk')!.slice(-1));
-    expect(item.estimate.perUnit.massG).toBeCloseTo(20 + 0.8 + 2 * item.printFiles.find((f) => f.id === 'grid-turn-key')!.massG, 1);
-    expect(item.estimate.perUnit.printMinutes).toBe(Math.round((item.estimate.perUnit.massG / 30) * 60));
+    // sliced grams and minutes where the slicer has run on a file (lib/living/slice-report.json), the mesh estimate elsewhere
+    const grams = item.printFiles.reduce((s, f) => s + (slicedPart(f.id)?.grams ?? f.massG) * f.qty, 0);
+    const minutes = item.printFiles.reduce((s, f) => s + (slicedPart(f.id)?.minutes ?? (f.massG / 30) * 60) * f.qty, 0);
+    expect(item.estimate.perUnit.massG).toBeCloseTo(grams, 1);
+    expect(item.estimate.perUnit.printMinutes).toBe(Math.round(minutes));
     expect(item.purchasing.status).toBe('store_decides');
   });
 

@@ -75,3 +75,6 @@ services/assembl-voice/output/
 
 # Local browser-proof output (review scripts write screenshots and results here)
 output/playwright/
+
+# Bambu Studio sliced plates and projects (rebuild with tools/living-cad/slice/slice_parts.py)
+tools/living-cad/slice/out/

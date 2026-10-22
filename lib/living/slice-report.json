@@ -1,0 +1,2308 @@
+{
+ "parts": {
+  "bike-bar-end": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 3.31,
+   "minutes": 18.7,
+   "warning": "",
+   "slice_seconds": 3.8
+  },
+  "bike-number-plate": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 50.52,
+   "minutes": 59.8,
+   "warning": "",
+   "slice_seconds": 2.0
+  },
+  "bike-number-plate-text": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 4.56,
+   "minutes": 9.4,
+   "warning": "",
+   "slice_seconds": 1.0
+  },
+  "bike-tyre-lever": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 7.77,
+   "minutes": 18.8,
+   "warning": "",
+   "slice_seconds": 1.8
+  },
+  "cam-back": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 26.36,
+   "minutes": 44.3,
+   "warning": "",
+   "slice_seconds": 4.1
+  },
+  "cam-body": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 197.06,
+   "minutes": 243.9,
+   "warning": "",
+   "slice_seconds": 24.2,
+   "supports": true,
+   "warning_without_supports": "It seems object cam-body.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "cam-cradle": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 23.69,
+   "minutes": 34.7,
+   "warning": "",
+   "slice_seconds": 3.1
+  },
+  "cam-shutter-disc": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 3.21,
+   "minutes": 5.2,
+   "warning": "",
+   "slice_seconds": 1.9
+  },
+  "cam-skin-dots": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 26.73,
+   "minutes": 36.8,
+   "warning": "",
+   "slice_seconds": 4.4
+  },
+  "cam-skin-dots-pattern": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 1.41,
+   "minutes": 5.9,
+   "warning": "",
+   "slice_seconds": 1.8
+  },
+  "cam-skin-name": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 26.15,
+   "minutes": 32.0,
+   "warning": "",
+   "slice_seconds": 1.5
+  },
+  "cam-skin-name-pattern": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.4,
+   "minutes": 1.7,
+   "warning": "",
+   "slice_seconds": 0.7
+  },
+  "cam-skin-plain": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 25.91,
+   "minutes": 30.4,
+   "warning": "",
+   "slice_seconds": 1.2
+  },
+  "cam-skin-waves": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 27.2,
+   "minutes": 38.8,
+   "warning": "",
+   "slice_seconds": 4.0
+  },
+  "cam-skin-waves-pattern": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 1.8,
+   "minutes": 5.6,
+   "warning": "",
+   "slice_seconds": 1.4
+  },
+  "cam-supply-pin": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 2.8,
+   "minutes": 8.6,
+   "warning": "",
+   "slice_seconds": 4.6
+  },
+  "cam-winder-knob": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 3.16,
+   "minutes": 9.4,
+   "warning": "",
+   "slice_seconds": 5.2
+  },
+  "cam-window-cover": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 0.8,
+   "minutes": 3.0,
+   "warning": "",
+   "slice_seconds": 1.6
+  },
+  "cast-butt-cap": {
+   "ok": true,
+   "filament": "asa",
+   "grams": 3.94,
+   "minutes": 16.2,
+   "warning": "",
+   "slice_seconds": 5.7
+  },
+  "cast-collar": {
+   "ok": true,
+   "filament": "asa",
+   "grams": 6.66,
+   "minutes": 34.3,
+   "warning": "",
+   "slice_seconds": 4.3
+  },
+  "cast-grip": {
+   "ok": true,
+   "filament": "asa",
+   "grams": 55.71,
+   "minutes": 204.2,
+   "warning": "",
+   "slice_seconds": 724.1
+  },
+  "cast-guide-1": {
+   "ok": true,
+   "filament": "pa-cf",
+   "grams": 0.59,
+   "minutes": 4.2,
+   "warning": "",
+   "slice_seconds": 1.3,
+   "supports": true,
+   "warning_without_supports": "It seems object cast-guide-1.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "cast-guide-2": {
+   "ok": true,
+   "filament": "pa-cf",
+   "grams": 0.42,
+   "minutes": 3.7,
+   "warning": "",
+   "slice_seconds": 1.3
+  },
+  "cast-guide-3": {
+   "ok": true,
+   "filament": "pa-cf",
+   "grams": 0.29,
+   "minutes": 2.7,
+   "warning": "",
+   "slice_seconds": 1.3
+  },
+  "cast-hood": {
+   "ok": true,
+   "filament": "asa",
+   "grams": 4.32,
+   "minutes": 20.6,
+   "warning": "",
+   "slice_seconds": 2.9
+  },
+  "cast-nut": {
+   "ok": true,
+   "filament": "asa",
+   "grams": 4.71,
+   "minutes": 20.5,
+   "warning": "",
+   "slice_seconds": 13.2
+  },
+  "cast-pin-1": {
+   "ok": true,
+   "filament": "pa-cf",
+   "grams": 1.55,
+   "minutes": 4.9,
+   "warning": "",
+   "slice_seconds": 0.9
+  },
+  "cast-pin-2": {
+   "ok": true,
+   "filament": "pa-cf",
+   "grams": 1.03,
+   "minutes": 3.5,
+   "warning": "",
+   "slice_seconds": 0.8
+  },
+  "cast-section-1": {
+   "ok": true,
+   "filament": "pa-cf",
+   "grams": 14.46,
+   "minutes": 39.9,
+   "warning": "",
+   "slice_seconds": 3.2
+  },
+  "cast-section-2": {
+   "ok": true,
+   "filament": "pa-cf",
+   "grams": 12.05,
+   "minutes": 34.2,
+   "warning": "",
+   "slice_seconds": 3.1
+  },
+  "cast-section-3": {
+   "ok": true,
+   "filament": "pa-cf",
+   "grams": 6.28,
+   "minutes": 19.9,
+   "warning": "",
+   "slice_seconds": 2.7
+  },
+  "cast-tip-top": {
+   "ok": true,
+   "filament": "pa-cf",
+   "grams": 0.6,
+   "minutes": 4.6,
+   "warning": "",
+   "slice_seconds": 2.2
+  },
+  "dr-bag-tag": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 4.9,
+   "minutes": 8.3,
+   "warning": "",
+   "slice_seconds": 1.0
+  },
+  "dr-bag-tag-name": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.22,
+   "minutes": 1.2,
+   "warning": "",
+   "slice_seconds": 0.4
+  },
+  "dr-bar-saddle": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 19.74,
+   "minutes": 39.4,
+   "warning": "",
+   "slice_seconds": 5.4
+  },
+  "dr-handline-winder": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 11.71,
+   "minutes": 18.7,
+   "warning": "",
+   "slice_seconds": 1.2
+  },
+  "dr-insert-everyday": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 16.83,
+   "minutes": 19.2,
+   "warning": "",
+   "slice_seconds": 2.4
+  },
+  "dr-insert-fish": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 18.71,
+   "minutes": 21.1,
+   "warning": "",
+   "slice_seconds": 3.1
+  },
+  "dr-pod-base": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 49.65,
+   "minutes": 52.5,
+   "warning": "",
+   "slice_seconds": 10.2
+  },
+  "dr-pod-lid": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 31.01,
+   "minutes": 41.8,
+   "warning": "",
+   "slice_seconds": 5.0
+  },
+  "dr-pod-lid-name": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.51,
+   "minutes": 2.3,
+   "warning": "",
+   "slice_seconds": 0.8
+  },
+  "dr-strap-clip": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 19.53,
+   "minutes": 34.1,
+   "warning": "",
+   "slice_seconds": 3.2
+  },
+  "dr2-cable-winder": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 3.04,
+   "minutes": 6.4,
+   "warning": "",
+   "slice_seconds": 1.0
+  },
+  "dr2-chair-hook": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 4.73,
+   "minutes": 14.8,
+   "warning": "",
+   "slice_seconds": 3.2
+  },
+  "dr2-charm-bolt": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 1.34,
+   "minutes": 3.3,
+   "warning": "",
+   "slice_seconds": 0.7
+  },
+  "dr2-charm-fish": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 1.77,
+   "minutes": 4.2,
+   "warning": "",
+   "slice_seconds": 0.8
+  },
+  "dr2-charm-fish-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.14,
+   "minutes": 0.9,
+   "warning": "",
+   "slice_seconds": 0.3
+  },
+  "dr2-charm-flower": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 3.51,
+   "minutes": 6.7,
+   "warning": "",
+   "slice_seconds": 0.8
+  },
+  "dr2-charm-flower-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.15,
+   "minutes": 1.0,
+   "warning": "",
+   "slice_seconds": 0.2
+  },
+  "dr2-charm-heart": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 3.24,
+   "minutes": 5.8,
+   "warning": "",
+   "slice_seconds": 0.8
+  },
+  "dr2-charm-heart-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.15,
+   "minutes": 1.0,
+   "warning": "",
+   "slice_seconds": 0.3
+  },
+  "dr2-charm-star": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 2.53,
+   "minutes": 5.4,
+   "warning": "",
+   "slice_seconds": 0.7
+  },
+  "dr2-charm-star-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.15,
+   "minutes": 1.0,
+   "warning": "",
+   "slice_seconds": 0.4
+  },
+  "dr2-charm-wave": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 3.41,
+   "minutes": 5.9,
+   "warning": "",
+   "slice_seconds": 1.2
+  },
+  "dr2-charm-wave-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.15,
+   "minutes": 1.0,
+   "warning": "",
+   "slice_seconds": 0.3
+  },
+  "dr2-insert-long-everyday": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 28.97,
+   "minutes": 30.2,
+   "warning": "",
+   "slice_seconds": 2.5
+  },
+  "dr2-insert-long-pens": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 55.55,
+   "minutes": 72.5,
+   "warning": "",
+   "slice_seconds": 3.3
+  },
+  "dr2-insert-long-tackle": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 32.61,
+   "minutes": 35.5,
+   "warning": "",
+   "slice_seconds": 2.8
+  },
+  "dr2-insert-mini-earbuds": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 17.15,
+   "minutes": 21.9,
+   "warning": "",
+   "slice_seconds": 2.0
+  },
+  "dr2-insert-mini-quad": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 12.96,
+   "minutes": 15.4,
+   "warning": "",
+   "slice_seconds": 2.2
+  },
+  "dr2-insert-mini-split": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 11.94,
+   "minutes": 13.8,
+   "warning": "",
+   "slice_seconds": 2.2
+  },
+  "dr2-insert-standard-beach": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 35.81,
+   "minutes": 44.8,
+   "warning": "",
+   "slice_seconds": 5.1
+  },
+  "dr2-insert-standard-everyday": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 21.52,
+   "minutes": 23.6,
+   "warning": "",
+   "slice_seconds": 2.7
+  },
+  "dr2-insert-standard-split": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 20.51,
+   "minutes": 21.4,
+   "warning": "",
+   "slice_seconds": 3.0
+  },
+  "dr2-insert-standard-tackle": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 23.39,
+   "minutes": 26.0,
+   "warning": "",
+   "slice_seconds": 2.6
+  },
+  "dr2-insert-standard-tech": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 32.89,
+   "minutes": 40.4,
+   "warning": "",
+   "slice_seconds": 4.1
+  },
+  "dr2-insert-tall-cards": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 104.0,
+   "minutes": 116.3,
+   "warning": "",
+   "slice_seconds": 9.1
+  },
+  "dr2-insert-tall-deep-two": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 39.62,
+   "minutes": 39.0,
+   "warning": "",
+   "slice_seconds": 4.2
+  },
+  "dr2-insert-tall-tackle-deep": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 33.41,
+   "minutes": 36.0,
+   "warning": "",
+   "slice_seconds": 4.7
+  },
+  "dr2-lid-long-name": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 42.56,
+   "minutes": 55.2,
+   "warning": "",
+   "slice_seconds": 5.1
+  },
+  "dr2-lid-long-name-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.77,
+   "minutes": 3.3,
+   "warning": "",
+   "slice_seconds": 0.7
+  },
+  "dr2-lid-long-plain": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 42.4,
+   "minutes": 51.0,
+   "warning": "",
+   "slice_seconds": 4.4
+  },
+  "dr2-lid-long-ruler": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 42.88,
+   "minutes": 62.1,
+   "warning": "",
+   "slice_seconds": 15.6
+  },
+  "dr2-lid-long-ruler-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.52,
+   "minutes": 3.5,
+   "warning": "",
+   "slice_seconds": 5.4
+  },
+  "dr2-lid-mini-name": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 20.03,
+   "minutes": 28.0,
+   "warning": "",
+   "slice_seconds": 5.3
+  },
+  "dr2-lid-mini-name-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.25,
+   "minutes": 1.5,
+   "warning": "",
+   "slice_seconds": 0.6
+  },
+  "dr2-lid-mini-plain": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 19.93,
+   "minutes": 26.0,
+   "warning": "",
+   "slice_seconds": 3.5
+  },
+  "dr2-lid-mini-ruler": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 20.1,
+   "minutes": 29.8,
+   "warning": "",
+   "slice_seconds": 6.6
+  },
+  "dr2-lid-mini-ruler-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.22,
+   "minutes": 1.5,
+   "warning": "",
+   "slice_seconds": 1.5
+  },
+  "dr2-lid-standard-bolt": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 30.85,
+   "minutes": 41.1,
+   "warning": "",
+   "slice_seconds": 4.4
+  },
+  "dr2-lid-standard-bolt-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 1.31,
+   "minutes": 3.3,
+   "warning": "",
+   "slice_seconds": 0.3
+  },
+  "dr2-lid-standard-check": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 30.96,
+   "minutes": 44.6,
+   "warning": "",
+   "slice_seconds": 4.7
+  },
+  "dr2-lid-standard-check-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 1.66,
+   "minutes": 5.5,
+   "warning": "",
+   "slice_seconds": 0.6
+  },
+  "dr2-lid-standard-dots": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 31.2,
+   "minutes": 46.7,
+   "warning": "",
+   "slice_seconds": 8.2
+  },
+  "dr2-lid-standard-dots-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 1.29,
+   "minutes": 6.2,
+   "warning": "",
+   "slice_seconds": 2.0
+  },
+  "dr2-lid-standard-name": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 30.96,
+   "minutes": 40.8,
+   "warning": "",
+   "slice_seconds": 4.6
+  },
+  "dr2-lid-standard-name-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.53,
+   "minutes": 2.3,
+   "warning": "",
+   "slice_seconds": 0.6
+  },
+  "dr2-lid-standard-plain": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 30.86,
+   "minutes": 38.3,
+   "warning": "",
+   "slice_seconds": 3.7
+  },
+  "dr2-lid-standard-ruler": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 31.11,
+   "minutes": 43.6,
+   "warning": "",
+   "slice_seconds": 8.6
+  },
+  "dr2-lid-standard-ruler-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.29,
+   "minutes": 2.0,
+   "warning": "",
+   "slice_seconds": 2.3
+  },
+  "dr2-lid-standard-stars": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 31.09,
+   "minutes": 43.6,
+   "warning": "",
+   "slice_seconds": 5.3
+  },
+  "dr2-lid-standard-stars-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.52,
+   "minutes": 3.2,
+   "warning": "",
+   "slice_seconds": 0.6
+  },
+  "dr2-lid-standard-topo": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 31.35,
+   "minutes": 45.8,
+   "warning": "",
+   "slice_seconds": 7.4
+  },
+  "dr2-lid-standard-topo-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.93,
+   "minutes": 3.7,
+   "warning": "",
+   "slice_seconds": 1.5
+  },
+  "dr2-lid-standard-waves": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 31.22,
+   "minutes": 46.4,
+   "warning": "",
+   "slice_seconds": 8.1
+  },
+  "dr2-lid-standard-waves-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 1.54,
+   "minutes": 6.2,
+   "warning": "",
+   "slice_seconds": 1.3
+  },
+  "dr2-lid-tall-name": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 30.99,
+   "minutes": 41.7,
+   "warning": "",
+   "slice_seconds": 4.1
+  },
+  "dr2-lid-tall-name-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.65,
+   "minutes": 2.8,
+   "warning": "",
+   "slice_seconds": 0.3
+  },
+  "dr2-lid-tall-plain": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 30.86,
+   "minutes": 38.3,
+   "warning": "",
+   "slice_seconds": 4.0
+  },
+  "dr2-lid-tall-ruler": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 31.11,
+   "minutes": 43.7,
+   "warning": "",
+   "slice_seconds": 6.7
+  },
+  "dr2-lid-tall-ruler-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.29,
+   "minutes": 2.0,
+   "warning": "",
+   "slice_seconds": 1.7
+  },
+  "dr2-mount-bar-saddle": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 19.74,
+   "minutes": 39.5,
+   "warning": "",
+   "slice_seconds": 4.9
+  },
+  "dr2-mount-belt-clip": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 21.46,
+   "minutes": 36.9,
+   "warning": "",
+   "slice_seconds": 3.1
+  },
+  "dr2-mount-carabiner-loop": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 18.41,
+   "minutes": 39.4,
+   "warning": "",
+   "slice_seconds": 6.9,
+   "supports": true,
+   "warning_without_supports": "It seems object dr2-mount-carabiner-loop.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "dr2-mount-duo-strap": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 17.09,
+   "minutes": 30.4,
+   "warning": "",
+   "slice_seconds": 2.9
+  },
+  "dr2-mount-frame-saddle": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 25.88,
+   "minutes": 46.6,
+   "warning": "",
+   "slice_seconds": 4.2
+  },
+  "dr2-mount-home-dock": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 92.29,
+   "minutes": 92.3,
+   "warning": "",
+   "slice_seconds": 2.1
+  },
+  "dr2-mount-strap-clip": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 19.53,
+   "minutes": 34.1,
+   "warning": "",
+   "slice_seconds": 2.9
+  },
+  "dr2-phone-stand": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 34.52,
+   "minutes": 50.8,
+   "warning": "",
+   "slice_seconds": 6.3,
+   "supports": true,
+   "warning_without_supports": "It seems object dr2-phone-stand.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "dr2-pod-long": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 66.23,
+   "minutes": 67.4,
+   "warning": "",
+   "slice_seconds": 8.7
+  },
+  "dr2-pod-mini": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 28.79,
+   "minutes": 34.1,
+   "warning": "",
+   "slice_seconds": 9.0
+  },
+  "dr2-pod-standard": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 49.65,
+   "minutes": 52.5,
+   "warning": "",
+   "slice_seconds": 9.0
+  },
+  "dr2-pod-tall": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 71.83,
+   "minutes": 71.0,
+   "warning": "",
+   "slice_seconds": 10.5
+  },
+  "dr2-spoke-bead": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 1.2,
+   "minutes": 10.3,
+   "warning": "",
+   "slice_seconds": 1.6
+  },
+  "dr2-zip-pull": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 1.23,
+   "minutes": 3.2,
+   "warning": "",
+   "slice_seconds": 0.7
+  },
+  "dr2-zip-pull-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.12,
+   "minutes": 0.8,
+   "warning": "",
+   "slice_seconds": 0.2
+  },
+  "grid-anchor-washer": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 1.08,
+   "minutes": 5.8,
+   "warning": "",
+   "slice_seconds": 1.7
+  },
+  "grid-bin-2": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 43.69,
+   "minutes": 53.6,
+   "warning": "",
+   "slice_seconds": 6.0
+  },
+  "grid-board-2x4": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 50.75,
+   "minutes": 67.3,
+   "warning": "",
+   "slice_seconds": 7.1
+  },
+  "grid-board-4x4": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 100.12,
+   "minutes": 132.0,
+   "warning": "",
+   "slice_seconds": 14.9
+  },
+  "grid-cup": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 34.54,
+   "minutes": 57.4,
+   "warning": "",
+   "slice_seconds": 7.5
+  },
+  "grid-hook": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 12.48,
+   "minutes": 19.5,
+   "warning": "",
+   "slice_seconds": 2.0
+  },
+  "grid-lure-garage": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 129.9,
+   "minutes": 186.9,
+   "warning": "",
+   "slice_seconds": 13.6
+  },
+  "grid-name-plate": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 19.74,
+   "minutes": 26.3,
+   "warning": "",
+   "slice_seconds": 2.2
+  },
+  "grid-name-plate-text": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.94,
+   "minutes": 2.8,
+   "warning": "",
+   "slice_seconds": 0.4
+  },
+  "grid-rod-cradle": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 11.44,
+   "minutes": 28.6,
+   "warning": "",
+   "slice_seconds": 3.7
+  },
+  "grid-shelf-2": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 38.69,
+   "minutes": 51.7,
+   "warning": "",
+   "slice_seconds": 2.5
+  },
+  "grid-shelf-3": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 56.66,
+   "minutes": 72.1,
+   "warning": "",
+   "slice_seconds": 5.3
+  },
+  "grid-turn-key": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 1.73,
+   "minutes": 11.6,
+   "warning": "",
+   "slice_seconds": 2.1
+  },
+  "hm-drum-lower": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 574.49,
+   "minutes": 950.0,
+   "warning": "",
+   "slice_seconds": 113.8
+  },
+  "hm-drum-top": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 146.13,
+   "minutes": 163.0,
+   "warning": "",
+   "slice_seconds": 9.5
+  },
+  "hm-drum-upper": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 508.64,
+   "minutes": 885.0,
+   "warning": "",
+   "slice_seconds": 64.2,
+   "supports": true,
+   "warning_without_supports": "It seems object hm-drum-upper.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "hm-grid-body": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 579.44,
+   "minutes": 618.9,
+   "warning": "",
+   "slice_seconds": 30.9
+  },
+  "hm-grid-body-round": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 616.58,
+   "minutes": 645.1,
+   "warning": "",
+   "slice_seconds": 45.2
+  },
+  "hm-grid-top": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 163.91,
+   "minutes": 246.7,
+   "warning": "",
+   "slice_seconds": 15.7
+  },
+  "hm-grid-top-round": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 184.8,
+   "minutes": 272.4,
+   "warning": "",
+   "slice_seconds": 23.7
+  },
+  "hm-rack-hoop-lower": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 24.09,
+   "minutes": 33.0,
+   "warning": "",
+   "slice_seconds": 1.7,
+   "supports": true,
+   "warning_without_supports": "It seems object hm-rack-hoop-lower.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "hm-rack-hoop-upper": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 17.94,
+   "minutes": 24.2,
+   "warning": "",
+   "slice_seconds": 1.5
+  },
+  "hm-rack-leg": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 10.97,
+   "minutes": 90.3,
+   "warning": "",
+   "slice_seconds": 5.5
+  },
+  "hm-rack-sling": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 304.37,
+   "minutes": 428.8,
+   "warning": "",
+   "slice_seconds": 54.9,
+   "supports": true,
+   "warning_without_supports": "It seems object hm-rack-sling.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "hm-tray-base": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 129.1,
+   "minutes": 278.3,
+   "warning": "",
+   "slice_seconds": 34.8
+  },
+  "hm-tray-l": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 92.37,
+   "minutes": 263.1,
+   "warning": "",
+   "slice_seconds": 39.0
+  },
+  "hm-tray-m": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 64.21,
+   "minutes": 193.9,
+   "warning": "",
+   "slice_seconds": 29.9
+  },
+  "hm-tray-s": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 36.15,
+   "minutes": 124.1,
+   "warning": "",
+   "slice_seconds": 21.0
+  },
+  "hm-y-arm": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 115.2,
+   "minutes": 119.7,
+   "warning": "",
+   "slice_seconds": 2.0
+  },
+  "hm-y-hub": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 67.5,
+   "minutes": 141.0,
+   "warning": "",
+   "slice_seconds": 44.8,
+   "supports": true,
+   "warning_without_supports": "It seems object hm-y-hub.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "light-pendant-fold": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 181.39,
+   "minutes": 766.9,
+   "warning": "",
+   "slice_seconds": 114.9
+  },
+  "mini-adapter": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 7.5,
+   "minutes": 16.9,
+   "warning": "",
+   "slice_seconds": 5.3
+  },
+  "mini-angle-joint": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 6.07,
+   "minutes": 25.7,
+   "warning": "",
+   "slice_seconds": 3.2
+  },
+  "mini-bar-end": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 3.4,
+   "minutes": 19.2,
+   "warning": "",
+   "slice_seconds": 4.1
+  },
+  "mini-battery-dock": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 19.57,
+   "minutes": 37.6,
+   "warning": "",
+   "slice_seconds": 2.3
+  },
+  "mini-bone-tag-name": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 2.14,
+   "minutes": 4.9,
+   "warning": "",
+   "slice_seconds": 1.1
+  },
+  "mini-bone-tag-name-pattern": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 0.17,
+   "minutes": 1.4,
+   "warning": "",
+   "slice_seconds": 1.1
+  },
+  "mini-cam-mount": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 10.19,
+   "minutes": 44.7,
+   "warning": "",
+   "slice_seconds": 6.4
+  },
+  "mini-collar-mount": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 7.97,
+   "minutes": 22.3,
+   "warning": "",
+   "slice_seconds": 5.5,
+   "supports": true,
+   "warning_without_supports": "It seems object mini-collar-mount.stl has floating regions. Please re-orient the object or enable support generation."
+  },
+  "mini-cube": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 8.59,
+   "minutes": 30.1,
+   "warning": "",
+   "slice_seconds": 6.5
+  },
+  "mini-device-holder": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 16.14,
+   "minutes": 27.7,
+   "warning": "",
+   "slice_seconds": 1.9
+  },
+  "mini-end-cap": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 0.56,
+   "minutes": 3.7,
+   "warning": "",
+   "slice_seconds": 1.7,
+   "supports": true,
+   "warning_without_supports": "It seems object mini-end-cap.stl has floating regions. Please re-orient the object or enable support generation."
+  },
+  "mini-flat-mount": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 5.84,
+   "minutes": 12.3,
+   "warning": "",
+   "slice_seconds": 3.0
+  },
+  "mini-helmet-base": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 6.63,
+   "minutes": 13.7,
+   "warning": "",
+   "slice_seconds": 2.1
+  },
+  "mini-lantern-hook": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 7.87,
+   "minutes": 29.4,
+   "warning": "",
+   "slice_seconds": 4.3,
+   "supports": true,
+   "warning_without_supports": "It seems object mini-lantern-hook.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "mini-light-mount": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 12.39,
+   "minutes": 36.4,
+   "warning": "",
+   "slice_seconds": 9.9,
+   "supports": true,
+   "warning_without_supports": "It seems object mini-light-mount.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "mini-phone-holder": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 25.5,
+   "minutes": 40.0,
+   "warning": "",
+   "slice_seconds": 2.3
+  },
+  "mini-photo-tag": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 7.15,
+   "minutes": 14.3,
+   "warning": "",
+   "slice_seconds": 2.2
+  },
+  "mini-pole-clamp": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 7.24,
+   "minutes": 20.1,
+   "warning": "",
+   "slice_seconds": 4.0
+  },
+  "mini-tube-clamp": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 7.33,
+   "minutes": 20.9,
+   "warning": "",
+   "slice_seconds": 3.0
+  },
+  "mini-universal-key": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 0.52,
+   "minutes": 5.4,
+   "warning": "",
+   "slice_seconds": 1.8,
+   "supports": true,
+   "warning_without_supports": "It seems object mini-universal-key.stl has floating regions. Please re-orient the object or enable support generation."
+  },
+  "pk-charm-bow": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 2.43,
+   "minutes": 5.2,
+   "warning": "",
+   "slice_seconds": 1.3
+  },
+  "pk-charm-bow-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.17,
+   "minutes": 1.1,
+   "warning": "",
+   "slice_seconds": 0.5
+  },
+  "pk-charm-butterfly": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 3.31,
+   "minutes": 6.2,
+   "warning": "",
+   "slice_seconds": 1.1
+  },
+  "pk-charm-cherry": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 2.08,
+   "minutes": 4.5,
+   "warning": "",
+   "slice_seconds": 1.0
+  },
+  "pk-charm-moon": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 2.43,
+   "minutes": 4.6,
+   "warning": "",
+   "slice_seconds": 0.8
+  },
+  "pk-charm-smile": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 4.85,
+   "minutes": 7.4,
+   "warning": "",
+   "slice_seconds": 0.9
+  },
+  "pk-charm-smile-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.18,
+   "minutes": 1.1,
+   "warning": "",
+   "slice_seconds": 0.4
+  },
+  "pk-eraser-sleeve": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 9.09,
+   "minutes": 20.3,
+   "warning": "",
+   "slice_seconds": 10.2,
+   "supports": true,
+   "warning_without_supports": "It seems object pk-eraser-sleeve.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "pk-eraser-sleeve-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.14,
+   "minutes": 1.0,
+   "warning": "",
+   "slice_seconds": 0.7
+  },
+  "pk-friend-left": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 2.29,
+   "minutes": 4.6,
+   "warning": "",
+   "slice_seconds": 1.1
+  },
+  "pk-friend-left-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.14,
+   "minutes": 0.9,
+   "warning": "",
+   "slice_seconds": 0.4
+  },
+  "pk-friend-right": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 2.23,
+   "minutes": 4.4,
+   "warning": "",
+   "slice_seconds": 1.0
+  },
+  "pk-friend-right-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.13,
+   "minutes": 0.9,
+   "warning": "",
+   "slice_seconds": 0.6
+  },
+  "pk-id-charm-bow": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 6.24,
+   "minutes": 13.9,
+   "warning": "",
+   "slice_seconds": 27.4
+  },
+  "pk-id-charm-bow-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.32,
+   "minutes": 4.1,
+   "warning": "",
+   "slice_seconds": 3.6
+  },
+  "pk-id-charm-heart": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 6.63,
+   "minutes": 13.8,
+   "warning": "",
+   "slice_seconds": 24.5
+  },
+  "pk-id-charm-heart-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.32,
+   "minutes": 4.1,
+   "warning": "",
+   "slice_seconds": 3.7
+  },
+  "pk-id-charm-round": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 5.3,
+   "minutes": 12.4,
+   "warning": "",
+   "slice_seconds": 24.7
+  },
+  "pk-id-charm-round-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.32,
+   "minutes": 4.1,
+   "warning": "",
+   "slice_seconds": 3.3
+  },
+  "pk-id-charm-star": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 6.01,
+   "minutes": 13.9,
+   "warning": "",
+   "slice_seconds": 23.1
+  },
+  "pk-id-charm-star-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.32,
+   "minutes": 4.1,
+   "warning": "",
+   "slice_seconds": 3.9
+  },
+  "pk-id-charm-tag": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 7.11,
+   "minutes": 14.7,
+   "warning": "",
+   "slice_seconds": 15.4
+  },
+  "pk-id-charm-tag-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.32,
+   "minutes": 4.1,
+   "warning": "",
+   "slice_seconds": 3.9
+  },
+  "pk-id-tag": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 6.99,
+   "minutes": 12.6,
+   "warning": "",
+   "slice_seconds": 2.1
+  },
+  "pk-id-tag-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.36,
+   "minutes": 2.8,
+   "warning": "",
+   "slice_seconds": 1.3
+  },
+  "pk-insert-standard-emergency": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 37.61,
+   "minutes": 48.5,
+   "warning": "",
+   "slice_seconds": 5.3
+  },
+  "pk-insert-wide-emergency": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 74.69,
+   "minutes": 88.7,
+   "warning": "",
+   "slice_seconds": 8.2
+  },
+  "pk-insert-wide-makeup": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 81.66,
+   "minutes": 93.0,
+   "warning": "",
+   "slice_seconds": 8.1
+  },
+  "pk-insert-wide-open": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 45.51,
+   "minutes": 43.8,
+   "warning": "",
+   "slice_seconds": 3.2
+  },
+  "pk-lid-mini-id": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 20.09,
+   "minutes": 28.9,
+   "warning": "",
+   "slice_seconds": 4.3
+  },
+  "pk-lid-mini-id-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.32,
+   "minutes": 2.6,
+   "warning": "",
+   "slice_seconds": 1.0
+  },
+  "pk-lid-standard-card": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 32.5,
+   "minutes": 41.1,
+   "warning": "",
+   "slice_seconds": 4.7
+  },
+  "pk-lid-standard-card-name": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 32.55,
+   "minutes": 43.4,
+   "warning": "",
+   "slice_seconds": 7.2
+  },
+  "pk-lid-standard-card-name-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.66,
+   "minutes": 2.6,
+   "warning": "",
+   "slice_seconds": 0.8
+  },
+  "pk-lid-wide-card": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 54.24,
+   "minutes": 64.9,
+   "warning": "",
+   "slice_seconds": 5.0
+  },
+  "pk-lid-wide-card-name": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 54.3,
+   "minutes": 66.4,
+   "warning": "",
+   "slice_seconds": 6.8
+  },
+  "pk-lid-wide-card-name-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.66,
+   "minutes": 2.6,
+   "warning": "",
+   "slice_seconds": 0.9
+  },
+  "pk-lid-wide-dots": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 53.38,
+   "minutes": 80.9,
+   "warning": "",
+   "slice_seconds": 10.5
+  },
+  "pk-lid-wide-dots-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 2.8,
+   "minutes": 13.2,
+   "warning": "",
+   "slice_seconds": 3.2
+  },
+  "pk-lid-wide-name": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 52.66,
+   "minutes": 63.8,
+   "warning": "",
+   "slice_seconds": 4.6
+  },
+  "pk-lid-wide-name-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.66,
+   "minutes": 2.6,
+   "warning": "",
+   "slice_seconds": 0.9
+  },
+  "pk-lid-wide-plain": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 52.61,
+   "minutes": 61.9,
+   "warning": "",
+   "slice_seconds": 4.0
+  },
+  "pk-lip-sleeve": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 24.24,
+   "minutes": 53.3,
+   "warning": "",
+   "slice_seconds": 15.7,
+   "supports": true,
+   "warning_without_supports": "It seems object pk-lip-sleeve.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "pk-lip-sleeve-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.16,
+   "minutes": 1.1,
+   "warning": "",
+   "slice_seconds": 0.6
+  },
+  "pk-pen-body": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 6.14,
+   "minutes": 11.5,
+   "warning": "",
+   "slice_seconds": 2.1
+  },
+  "pk-pen-body-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.13,
+   "minutes": 0.9,
+   "warning": "",
+   "slice_seconds": 0.7
+  },
+  "pk-pen-plug": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.98,
+   "minutes": 5.0,
+   "warning": "",
+   "slice_seconds": 1.6,
+   "supports": true,
+   "warning_without_supports": "It seems object pk-pen-plug.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "pk-pod-wide": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 85.83,
+   "minutes": 85.3,
+   "warning": "",
+   "slice_seconds": 9.3
+  },
+  "pk-topper-bow": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 3.38,
+   "minutes": 16.7,
+   "warning": "",
+   "slice_seconds": 3.6,
+   "supports": true,
+   "warning_without_supports": "It seems object pk-topper-bow.stl has floating regions. Please re-orient the object or enable support generation."
+  },
+  "pk-topper-heart": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 2.95,
+   "minutes": 15.8,
+   "warning": "",
+   "slice_seconds": 3.7
+  },
+  "pk-topper-smile": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 3.6,
+   "minutes": 17.3,
+   "warning": "",
+   "slice_seconds": 3.2
+  },
+  "pk-topper-star": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 3.21,
+   "minutes": 17.3,
+   "warning": "",
+   "slice_seconds": 3.2,
+   "supports": true,
+   "warning_without_supports": "It seems object pk-topper-star.stl has floating regions. Please re-orient the object or enable support generation."
+  },
+  "rack-mount": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 86.86,
+   "minutes": 116.4,
+   "warning": "",
+   "slice_seconds": 12.3,
+   "supports": true,
+   "warning_without_supports": "It seems object rack-mount.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "rack-quiver": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 106.55,
+   "minutes": 182.0,
+   "warning": "",
+   "slice_seconds": 35.4,
+   "supports": true,
+   "warning_without_supports": "It seems object rack-quiver.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "rack-toptube-saddle": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 23.66,
+   "minutes": 37.8,
+   "warning": "",
+   "slice_seconds": 5.4
+  },
+  "renter-board-4x4": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 98.93,
+   "minutes": 127.9,
+   "warning": "",
+   "slice_seconds": 16.0
+  },
+  "renter-over-door": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 10.58,
+   "minutes": 29.4,
+   "warning": "",
+   "slice_seconds": 1.5
+  },
+  "renter-rail": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 9.46,
+   "minutes": 29.0,
+   "warning": "",
+   "slice_seconds": 1.7
+  },
+  "ride-bar-end-name": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 3.31,
+   "minutes": 18.7,
+   "warning": "",
+   "slice_seconds": 3.6
+  },
+  "ride-bar-end-name-pattern": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 0.14,
+   "minutes": 1.2,
+   "warning": "",
+   "slice_seconds": 1.0
+  },
+  "ride-bar-end-plain": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 3.31,
+   "minutes": 18.7,
+   "warning": "",
+   "slice_seconds": 3.4
+  },
+  "ride-bottle-cup": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 82.59,
+   "minutes": 145.3,
+   "warning": "",
+   "slice_seconds": 23.4
+  },
+  "ride-core-split": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 33.77,
+   "minutes": 48.8,
+   "warning": "",
+   "slice_seconds": 5.8
+  },
+  "ride-gasket": {
+   "ok": true,
+   "filament": "tpu",
+   "grams": 1.81,
+   "minutes": 4.2,
+   "warning": "",
+   "slice_seconds": 1.0
+  },
+  "ride-grip-dots": {
+   "ok": true,
+   "filament": "tpu",
+   "grams": 32.14,
+   "minutes": 104.5,
+   "warning": "",
+   "slice_seconds": 19.9
+  },
+  "ride-grip-name": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 31.94,
+   "minutes": 123.7,
+   "warning": "",
+   "slice_seconds": 17.5
+  },
+  "ride-grip-name-pattern": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 0.19,
+   "minutes": 1.5,
+   "warning": "",
+   "slice_seconds": 1.2
+  },
+  "ride-grip-waves": {
+   "ok": true,
+   "filament": "tpu",
+   "grams": 32.66,
+   "minutes": 103.9,
+   "warning": "",
+   "slice_seconds": 22.1
+  },
+  "ride-hinge-pin": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 1.02,
+   "minutes": 5.9,
+   "warning": "",
+   "slice_seconds": 2.2,
+   "supports": true,
+   "warning_without_supports": "It seems object ride-hinge-pin.stl has floating regions. Please re-orient the object or enable support generation."
+  },
+  "ride-latch": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 2.4,
+   "minutes": 4.9,
+   "warning": "",
+   "slice_seconds": 0.6
+  },
+  "ride-phone-plate": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 57.46,
+   "minutes": 96.0,
+   "warning": "",
+   "slice_seconds": 5.9,
+   "supports": true,
+   "warning_without_supports": "It seems object ride-phone-plate.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "ride-phone-slider": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 16.95,
+   "minutes": 56.8,
+   "warning": "",
+   "slice_seconds": 7.4,
+   "supports": true,
+   "warning_without_supports": "It seems object ride-phone-slider.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "ride-pod-base": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 64.15,
+   "minutes": 94.2,
+   "warning": "",
+   "slice_seconds": 9.3
+  },
+  "ride-pod-lid": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 40.97,
+   "minutes": 65.4,
+   "warning": "",
+   "slice_seconds": 8.6
+  },
+  "ride-pod-lid-pattern": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.27,
+   "minutes": 1.7,
+   "warning": "",
+   "slice_seconds": 1.5
+  },
+  "ride-slate-dayrally": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 2.97,
+   "minutes": 5.2,
+   "warning": "",
+   "slice_seconds": 0.9
+  },
+  "ride-slate-dayrally-pattern": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.33,
+   "minutes": 1.9,
+   "warning": "",
+   "slice_seconds": 1.7
+  },
+  "ride-slate-name": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 2.97,
+   "minutes": 5.2,
+   "warning": "",
+   "slice_seconds": 0.9
+  },
+  "ride-slate-name-pattern": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.24,
+   "minutes": 1.4,
+   "warning": "",
+   "slice_seconds": 1.0
+  },
+  "ride-stand": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 134.62,
+   "minutes": 208.3,
+   "warning": "",
+   "slice_seconds": 16.4
+  },
+  "ride-watch-42": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 32.89,
+   "minutes": 71.1,
+   "warning": "",
+   "slice_seconds": 17.5,
+   "supports": true,
+   "warning_without_supports": "It seems object ride-watch-42.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "ride-watch-46": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 32.75,
+   "minutes": 71.0,
+   "warning": "",
+   "slice_seconds": 16.9,
+   "supports": true,
+   "warning_without_supports": "It seems object ride-watch-46.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "ride-watch-49": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 34.51,
+   "minutes": 74.2,
+   "warning": "",
+   "slice_seconds": 17.1,
+   "supports": true,
+   "warning_without_supports": "It seems object ride-watch-49.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "rod-butt-cap": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 4.79,
+   "minutes": 17.9,
+   "warning": "",
+   "slice_seconds": 6.0
+  },
+  "rod-collar": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 6.72,
+   "minutes": 28.2,
+   "warning": "",
+   "slice_seconds": 6.1
+  },
+  "rod-grip": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 54.78,
+   "minutes": 249.3,
+   "warning": "",
+   "slice_seconds": 62.0
+  },
+  "rod-saddle": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 21.2,
+   "minutes": 54.1,
+   "warning": "",
+   "slice_seconds": 4.7
+  },
+  "rod-section-1": {
+   "ok": true,
+   "filament": "petg-cf",
+   "grams": 17.22,
+   "minutes": 101.1,
+   "warning": "",
+   "slice_seconds": 31.4
+  },
+  "rod-section-2": {
+   "ok": true,
+   "filament": "petg-cf",
+   "grams": 11.27,
+   "minutes": 100.3,
+   "warning": "",
+   "slice_seconds": 27.3
+  },
+  "rod-section-3": {
+   "ok": true,
+   "filament": "petg-cf",
+   "grams": 7.5,
+   "minutes": 99.0,
+   "warning": "",
+   "slice_seconds": 19.8
+  },
+  "rod-tip": {
+   "ok": true,
+   "filament": "petg-cf",
+   "grams": 4.6,
+   "minutes": 87.4,
+   "warning": "",
+   "slice_seconds": 12.9
+  },
+  "rod-wharf-reel": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 51.16,
+   "minutes": 63.2,
+   "warning": "",
+   "slice_seconds": 12.5
+  },
+  "ruler-150": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 3.63,
+   "minutes": 9.6,
+   "warning": "",
+   "slice_seconds": 12.0
+  },
+  "ruler-pod-long-fish": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 66.76,
+   "minutes": 77.0,
+   "warning": "",
+   "slice_seconds": 18.8
+  },
+  "scoot-quiver": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 81.07,
+   "minutes": 185.6,
+   "warning": "",
+   "slice_seconds": 39.5,
+   "supports": true,
+   "warning_without_supports": "It seems object scoot-quiver.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "scoot-stem-saddle": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 67.53,
+   "minutes": 93.8,
+   "warning": "",
+   "slice_seconds": 9.0
+  },
+  "stack-foot": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 7.06,
+   "minutes": 28.6,
+   "warning": "",
+   "slice_seconds": 5.0
+  },
+  "stack-node-corner": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 31.82,
+   "minutes": 77.4,
+   "warning": "",
+   "slice_seconds": 9.8
+  },
+  "stack-node-tee": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 39.35,
+   "minutes": 85.8,
+   "warning": "",
+   "slice_seconds": 9.7
+  },
+  "tile-cutout-vanity": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 288.6,
+   "minutes": 278.1,
+   "warning": "",
+   "slice_seconds": 12.4
+  },
+  "tile-tray-1x1": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 38.71,
+   "minutes": 38.9,
+   "warning": "",
+   "slice_seconds": 2.7
+  },
+  "tile-tray-2x1": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 63.98,
+   "minutes": 58.8,
+   "warning": "",
+   "slice_seconds": 2.8
+  },
+  "tile-tray-3x2": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 185.22,
+   "minutes": 167.0,
+   "warning": "",
+   "slice_seconds": 6.2
+  },
+  "tk-ladder-strap": {
+   "ok": true,
+   "filament": "tpu",
+   "grams": 12.08,
+   "minutes": 23.8,
+   "warning": "",
+   "slice_seconds": 4.3
+  },
+  "tk-pack-case-5": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 101.52,
+   "minutes": 257.1,
+   "warning": "",
+   "slice_seconds": 123.8,
+   "supports": true,
+   "warning_without_supports": "It seems object tk-pack-case-5.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "tk-pack-case-7": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 153.98,
+   "minutes": 395.9,
+   "warning": "",
+   "slice_seconds": 207.7,
+   "supports": true,
+   "warning_without_supports": "It seems object tk-pack-case-7.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "tk-pack-rail": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 24.64,
+   "minutes": 75.5,
+   "warning": "",
+   "slice_seconds": 30.4,
+   "supports": true,
+   "warning_without_supports": "It seems object tk-pack-rail.stl has floating cantilever. Please re-orient the object or enable support generation."
+  },
+  "tk-reel-dock": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 40.4,
+   "minutes": 59.6,
+   "warning": "",
+   "slice_seconds": 8.1
+  },
+  "tk-reel-knob": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 4.41,
+   "minutes": 12.4,
+   "warning": "",
+   "slice_seconds": 4.9
+  },
+  "tk-reel-knob-inlay": {
+   "ok": true,
+   "filament": "pla",
+   "grams": 0.12,
+   "minutes": 0.9,
+   "warning": "",
+   "slice_seconds": 0.9
+  },
+  "tk-spool-band": {
+   "ok": true,
+   "filament": "tpu",
+   "grams": 2.0,
+   "minutes": 5.7,
+   "warning": "",
+   "slice_seconds": 1.9
+  },
+  "tk-strap-buckle": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 2.18,
+   "minutes": 8.6,
+   "warning": "",
+   "slice_seconds": 1.6
+  },
+  "tk-universal-saddle": {
+   "ok": true,
+   "filament": "petg",
+   "grams": 37.95,
+   "minutes": 60.1,
+   "warning": "",
+   "slice_seconds": 5.6
+  }
+ },
+ "printer": "Bambu Lab X1 Carbon 0.4 nozzle",
+ "process": "0.20mm Standard @BBL X1C",
+ "slicer": "Bambu Studio 02.08.02.61, command line",
+ "note": "Each part sliced alone, as served, at 0.20 mm Standard, 2 walls, 15 % infill, system filament per material. Parts the slicer flags with floating overhangs are re-sliced with tree supports (supports: true). Two-colour parts are sliced as two files; the colour change on a shared plate adds time not counted here."
+}
