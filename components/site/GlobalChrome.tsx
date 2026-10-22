@@ -14,7 +14,7 @@ const isLoyaltyJourney = (pathname: string | null): boolean => !!pathname && ['/
 const isDoPreview = (pathname: string | null): boolean => !!pathname && (pathname === '/do' || pathname.startsWith('/do/'));
 const isPreviewSurface = (pathname: string | null): boolean => !!pathname && (pathname === '/preview' || pathname.startsWith('/preview/'));
 // The approved Living store has its own navigation and footer. Do not match /living-site.
-const isLivingStore = (pathname: string | null): boolean => !!pathname && (pathname === '/living/shop' || pathname.startsWith('/living/shop/'));
+const isLivingStore = (pathname: string | null): boolean => !!pathname && /^\/living\/(shop|assembl|id)(\/|$)/.test(pathname);
 // The Space Studio ships the living header and foot (app/living/LivingChrome.tsx), not the company chrome.
 const isLivingStudio = (pathname: string | null): boolean => !!pathname && (pathname === '/living/studio' || pathname.startsWith('/living/studio/'));
 // The product widget is framed inside store pages; it carries no site chrome.

@@ -392,6 +392,36 @@ export const WIDGET_LAB: LabItem[] = [
     blurb: 'The owner\'s QR as a charm: round modules, rounded finders, the key glyph in the middle (level H forgives it), in the accent colour on the body colour, inside a heart, star, bow, round or tag with a ring hole. Sample code; the real one is made per order. Dark code on a light body scans best.',
     parts: [], choice: { key: 'skin', label: 'Shape', prefix: 'pk-id-charm-', defaultId: 'pk-id-charm-heart' }, doc: 'docs/living/DAYRALLY-POCKET.md',
   },
+  {
+    id: 'desk-set', title: 'desk set · trays that stack and sit on a grid', type: 'living lab', colourSet: 'living', size: 'base 248 × 167 × 24 mm · trays 79, 160 and 241 long, 45 tall',
+    blurb: 'Three fluted trays on an 81 mm module (one, two and three wide) and the base tray they sit in. Low ribs in the base keep them on the module; each tray\'s inset foot nests in another the same size, so they stack. Pens, clips, a phone, the lip balm.',
+    parts: [{ id: 'hm-tray-base', qty: 1 }, { id: 'hm-tray-l', qty: 1 }, { id: 'hm-tray-m', qty: 1 }, { id: 'hm-tray-s', qty: 2 }], doc: 'docs/living/HOME-SET-2.md',
+  },
+  {
+    id: 'fluted-table', title: 'fluted side table · two drums and a top', type: 'living lab', colourSet: 'living', size: 'Ø236 × 360 mm',
+    blurb: 'Two tapered fluted drums and a top, joined by spigot rings and ribbed inside. A side table and a plant stand, not a seat. Each part fits a 250 mm printer.',
+    parts: [{ id: 'hm-drum-lower', qty: 1 }, { id: 'hm-drum-upper', qty: 1 }, { id: 'hm-drum-top', qty: 1 }], doc: 'docs/living/HOME-SET-2.md',
+  },
+  {
+    id: 'grid-table', title: 'grid side table · a pill with a grid on top', type: 'living lab', colourSet: 'living', size: '240 × 160 × 236 mm',
+    blurb: 'A pill-shaped block with a 14 mm grid cut into its top (a third of the TURN pitch). The top drops into the body on a tongue. A side table, a bedside, a plant stand.',
+    parts: [{ id: 'hm-grid-body', qty: 1 }, { id: 'hm-grid-top', qty: 1 }], doc: 'docs/living/HOME-SET-2.md',
+  },
+  {
+    id: 'grid-table-round', title: 'grid side table, round', type: 'living lab', colourSet: 'living', size: 'Ø220 × 236 mm',
+    blurb: 'The round one: the same grid top and tongue on a drum body.',
+    parts: [{ id: 'hm-grid-body-round', qty: 1 }, { id: 'hm-grid-top-round', qty: 1 }], doc: 'docs/living/HOME-SET-2.md',
+  },
+  {
+    id: 'y-stool', title: 'Y stool · three arms and a hub', type: 'living lab', colourSet: 'living', size: '300 × 260 × 240 mm',
+    blurb: 'Three identical bent arms meet in a tri-lobe hub on three M6 bolts (not printed). 24 cm: a step, a kids\' seat, a plant stand. Nobody sits or stands on it until a load test passes.',
+    parts: [{ id: 'hm-y-arm', qty: 3 }, { id: 'hm-y-hub', qty: 1 }], doc: 'docs/living/HOME-SET-2.md',
+  },
+  {
+    id: 'magazine-rack', title: 'magazine rack · a sling, four legs, a hoop', type: 'living lab', colourSet: 'living', size: '220 × 191 × 324 mm',
+    blurb: 'A sling for magazines and a laptop on four tapered legs, with a hoop handle in two halves pinned together. The sling prints standing on its end, the hoop flat.',
+    parts: [{ id: 'hm-rack-sling', qty: 1 }, { id: 'hm-rack-leg', qty: 4 }, { id: 'hm-rack-hoop-lower', qty: 1 }, { id: 'hm-rack-hoop-upper', qty: 1 }], doc: 'docs/living/HOME-SET-2.md',
+  },
 ];
 
 function labSpec(item: LabItem): WidgetSpec {
