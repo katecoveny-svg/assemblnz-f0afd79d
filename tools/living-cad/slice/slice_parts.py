@@ -40,11 +40,27 @@ def env():
     return e
 
 
+def needs_support(warning: str) -> bool:
+    return "floating" in (warning or "")
+
+
 def slice_one(part):
+    """Slice without supports; if the slicer reports floating overhangs, slice again with tree supports and keep that."""
+    pid, row = slice_with(part, "process")
+    if row["ok"] and needs_support(row["warning"]):
+        pid, sup = slice_with(part, "process-support")
+        if sup["ok"]:
+            sup["supports"] = True
+            sup["warning_without_supports"] = row["warning"]
+            return pid, sup
+    return pid, row
+
+
+def slice_with(part, process):
     pid, stl, fil = part["id"], os.path.join(ROOT, "public", part["file"]["path"].lstrip("/")), filament_for(part["material"])
     work = os.path.join(OUT, pid)
     os.makedirs(work, exist_ok=True)
-    settings = f"{PROFILES}/machine.json;{PROFILES}/process.json"
+    settings = f"{PROFILES}/machine.json;{PROFILES}/{process}.json"
     cmd = [os.path.join(BAMBU, "bin", "bambu-studio"), "--debug", "1", "--slice", "0", "--arrange", "1",
            "--load-settings", settings, "--load-filaments", f"{PROFILES}/filament-{fil}.json",
            "--outputdir", work, "--export-3mf", f"{pid}.gcode.3mf", stl]
@@ -92,6 +108,7 @@ if __name__ == "__main__":
     report["process"] = json.load(open(os.path.join(PROFILES, "process.json"))).get("name")
     report["slicer"] = "Bambu Studio 02.08.02.61, command line"
     report["note"] = ("Each part sliced alone, as served, at 0.20 mm Standard, 2 walls, 15 % infill, system filament per material. "
+                      "Parts the slicer flags with floating overhangs are re-sliced with tree supports (supports: true). "
                       "Two-colour parts are sliced as two files; the colour change on a shared plate adds time not counted here.")
     report["parts"] = dict(sorted(report["parts"].items()))
     json.dump(report, open(REPORT, "w"), indent=1)

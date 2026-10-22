@@ -37,12 +37,13 @@ def flatten(kind, name):
     return merged
 
 
-def write(kind, name, slug):
+def write(kind, name, slug, **overrides):
     d = flatten(kind, name)
     d["name"] = name
     d["from"] = "system"
     if kind == "process":
         d["curr_bed_type"] = "Textured PEI Plate"           # every catalogue material prints on textured PEI (PLA, PETG, CF, TPU, ASA)
+    d.update(overrides)
     d.pop("inherits", None)
     os.makedirs(OUT, exist_ok=True)
     path = os.path.join(OUT, f"{slug}.json")
@@ -53,6 +54,8 @@ def write(kind, name, slug):
 if __name__ == "__main__":
     print(write("machine", MACHINE, "machine"))
     print(write("process", PROCESS, "process"))
+    # the same process with tree supports, for parts the slicer flags as having floating overhangs
+    print(write("process", PROCESS, "process-support", enable_support="1", support_type="tree(auto)"))
     for slug, name in FILAMENTS.items():
         try:
             print(write("filament", name, f"filament-{slug}"))

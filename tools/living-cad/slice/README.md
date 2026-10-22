@@ -48,6 +48,11 @@ plate projects) is not committed; it rebuilds in about an hour.
 - **minutes**: the slicer's own time prediction for that plate, start to finish.
 - Two-colour parts (a body and its `-inlay`) are sliced as two files. Printed together with a colour change, the
   real job is longer than the sum by the filament swaps; the cost model's handling time covers some of it, not all.
+- **supports**: each part is sliced first without supports. Where the slicer reports a floating overhang it is sliced
+  again with tree supports, and that second slice is the one recorded (`"supports": true`, with the original warning
+  kept in `warning_without_supports`). Its grams and minutes include the support material. A plate project that
+  holds any such part has supports turned on. These parts are candidates for re-orienting or redesigning in the CAD
+  so they print without supports.
 - Each part is sliced alone. A farm printing several parts on one plate saves the start-up time of the extra jobs.
 
 ## Lineage

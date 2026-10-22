@@ -14,9 +14,10 @@ from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from slice_parts import BAMBU, MAN, OUT, PROFILES, ROOT, env, filament_for
+from slice_parts import BAMBU, MAN, OUT, PROFILES, REPORT, ROOT, env, filament_for
 
 ITEMS = json.load(open(os.path.join(ROOT, "tools", "living-cad", "launch", "widget-items.json")))
+SLICED = json.load(open(REPORT))["parts"] if os.path.exists(REPORT) else {}
 PARTS = {p["id"]: p for p in MAN["parts"] if p.get("file")}
 PLATES = os.path.join(OUT, "plates")
 
@@ -34,9 +35,11 @@ def build(item):
         os.makedirs(work, exist_ok=True)
         name = f"{handle}-{fil}.3mf"
         stls = [os.path.join(ROOT, "public", p["file"]["path"].lstrip("/")) for p, _ in lines]
+        supports = any(SLICED.get(p["id"], {}).get("supports") for p, _ in lines)   # one part needs them -> the plate has them on
+        process = "process-support" if supports else "process"
         cmd = [os.path.join(BAMBU, "bin", "bambu-studio"), "--debug", "1", "--arrange", "1",
                "--clone-objects", ",".join(str(q) for _, q in lines),
-               "--load-settings", f"{PROFILES}/machine.json;{PROFILES}/process.json",
+               "--load-settings", f"{PROFILES}/machine.json;{PROFILES}/{process}.json",
                "--load-filaments", f"{PROFILES}/filament-{fil}.json",
                "--outputdir", work, "--export-3mf", name, *stls]
         try:
@@ -47,7 +50,7 @@ def build(item):
         res_path = os.path.join(work, "result.json")
         res = json.load(open(res_path)) if os.path.exists(res_path) else {}
         ok = os.path.exists(os.path.join(work, name)) and res.get("return_code", 1) == 0
-        rows.append({"file": f"{handle}/{name}", "filament": fil, "ok": ok, "parts": [{"id": p["id"], "qty": q} for p, q in lines],
+        rows.append({"file": f"{handle}/{name}", "filament": fil, "supports": supports, "ok": ok, "parts":[{"id": p["id"], "qty": q} for p, q in lines],
                      **({} if ok else {"error": res.get("error_string", "no output")})})
         if os.path.exists(res_path):
             os.remove(res_path)
