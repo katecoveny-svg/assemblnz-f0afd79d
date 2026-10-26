@@ -11,6 +11,7 @@ const PRODUCT_PATHS = ['/pursuit', '/do', '/creative-studio'];
 const CORE_PATHS = [
   '',
   ...PRODUCT_PATHS,
+  '/lab',
   '/do/install',
   '/agent-schema',
   '/tools/agents',

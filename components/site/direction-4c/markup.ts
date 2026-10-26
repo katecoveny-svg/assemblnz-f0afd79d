@@ -18,6 +18,7 @@ export const chromeMarkup = `<img class="clear-coastal-poster" src="/direction-4
     <a href="/pursuit" style="display:flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;color:#FFFDFB" class="clear-hover-1">Pursuit</a>
     <a href="/creative-studio" style="display:flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;color:#FFFDFB" class="clear-hover-2">Studio</a>
     <a href="/do" style="display:flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;color:#FFFDFB" class="clear-hover-3">DO</a>
+    <a href="/lab" style="display:flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;color:#FFFDFB" class="clear-hover-3">Lab</a>
   </nav>
   <div style="display:flex;align-items:center;gap:4px">
     <button type="button" data-pause aria-pressed="false" style="min-height:44px;padding:0 14px;border:0;border-radius:999px;background:transparent;color:#F2E6EB;font:400 11px/1 var(--font-mono),'IBM Plex Mono',monospace;letter-spacing:.06em;cursor:pointer" class="clear-hover-4">Pause motion</button>
@@ -79,7 +80,7 @@ export const trailMarkup = `<section id="studio" data-sec="" data-screen-label="
       <p data-scramble="" style="margin:0 0 24px;font:400 11px/1.5 var(--font-mono),'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:#F2E6EB">03 · Studio · show it</p>
       <h2 data-split="" style="margin:0;font-size:clamp(48px,6.6vw,116px);font-weight:500;line-height:.92;letter-spacing:-.062em;text-wrap:balance;text-shadow:0 4px 40px rgba(14,4,13,.45)"><span data-w="" style="display:inline-block">Give</span> <span data-w="" style="display:inline-block">the</span> <span data-w="" style="display:inline-block">idea</span> <span data-w="" style="display:inline-block">a</span> <span class="clear-accent" data-w="" style="display:inline-block;text-shadow:none;background-image:var(--acc,linear-gradient(100deg,#D9C2F8 0%,#CCADF5 28%,#FFFDFB 44%,#F3C9CC 52%,#EDB2B6 66%,#D9C2F8 100%));background-size:260% 100%;-webkit-background-clip:text;background-clip:text;color:transparent">world</span> <span data-w="" style="display:inline-block">of</span> <span data-w="" style="display:inline-block">its</span> <span data-w="" style="display:inline-block">own.</span></h2>
       <p data-rv="200" style="margin:26px 0 0;max-width:38ch;font-size:19px;line-height:1.55;color:#F2E6EB;text-shadow:0 1px 18px rgba(36,11,33,.6)">Websites, campaigns, image and film. Work people can see, change and try.</p>
-      <div data-rv="280"><a href="/creative-studio" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;margin-top:30px;padding:0 24px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:15px;font-weight:600;box-shadow:0 3px 0 #D8C9D3;transition:transform .22s ease,box-shadow .4s ease" class="clear-hover-10">Explore Studio <span aria-hidden="true">${arrow}</span></a></div>
+      <div data-rv="280"><a href="/creative-studio" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;margin-top:30px;padding:0 24px;border-radius:999px;background:#FFFDFB;color:#240B21;font-size:15px;font-weight:600;box-shadow:0 3px 0 #D8C9D3;transition:transform .22s ease,box-shadow .4s ease" class="clear-hover-10">Explore Studio <span aria-hidden="true">${arrow}</span></a><a href="/lab" style="display:inline-flex;align-items:center;gap:10px;min-height:52px;margin:16px 0 0 24px;color:#FFFDFB;font-size:15px">Try the 3D worlds in Lab <span aria-hidden="true">${arrow}</span></a></div>
     </div>
   </section>
 
@@ -121,6 +122,7 @@ export const footerMarkup = `<footer style="position:relative;z-index:2;overflow
       <p style="grid-column:1/-1;margin:0 0 8px;font:400 10.5px/1.4 var(--font-mono),'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:#EAC8DF">explore</p>
       <a href="/pursuit" style="display:flex;align-items:center;min-height:44px;color:#FFFDFB;border-bottom:1px solid rgba(234,200,223,.16)" class="clear-hover-14">Pursuit</a>
       <a href="/creative-studio" style="display:flex;align-items:center;min-height:44px;color:#FFFDFB;border-bottom:1px solid rgba(234,200,223,.16)" class="clear-hover-15">Studio</a>
+      <a href="/lab" style="display:flex;align-items:center;min-height:44px;color:#FFFDFB;border-bottom:1px solid rgba(234,200,223,.16)">Lab</a>
       <a href="/do" style="display:flex;align-items:center;min-height:44px;color:#FFFDFB;border-bottom:1px solid rgba(234,200,223,.16)" class="clear-hover-16">DO</a>
       <a href="/do/install" style="display:flex;align-items:center;min-height:44px;color:#FFFDFB;border-bottom:1px solid rgba(234,200,223,.16)" class="clear-hover-17">Install DO</a>
       <a href="/contact" style="display:flex;align-items:center;min-height:44px;color:#FFFDFB;border-bottom:1px solid rgba(234,200,223,.16)" class="clear-hover-18">Contact</a>
