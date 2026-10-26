@@ -1,0 +1,65 @@
+{
+  "created_date": "2026-10-23",
+  "kind": "Licensed live-action stock footage, edited into a silent loop. Not AI-generated and not photo-motion.",
+  "source_title": "Cutting Vegetables To Pieces In A Chopping Board",
+  "creator": "Pressmaster",
+  "source_page": "https://www.pexels.com/video/cutting-vegetables-to-pieces-in-a-chopping-board-3209214/",
+  "source_download": "https://videos.pexels.com/video-files/3209214/3209214-uhd_3840_2160_25fps.mp4",
+  "licence_page": "https://www.pexels.com/license/",
+  "licence_checked": "2026-10-23",
+  "licence_summary": "Pexels permits free website/app use and modification; attribution is appreciated but not required. Do not imply that the creator or depicted people endorse the product. Refer to the source licence for complete terms.",
+  "edit": "Trimmed source, added 0.8-second crossfade to wrap end to start, removed audio, compressed H.264 yuv420p with faststart. Portrait version crops to 4:5. No text, logos, or colour tint added.",
+  "assets": [
+    {
+      "file": "kitchen-reel.mp4",
+      "bytes": 574937,
+      "sha256": "8222a814d1388f81839954558ec62aaf61dd92c70f4277077eceea8190debb2d",
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 720,
+            "r_frame_rate": "25/1"
+          }
+        ],
+        "format": {
+          "duration": "8.800000"
+        }
+      }
+    },
+    {
+      "file": "kitchen-reel-portrait.mp4",
+      "bytes": 571666,
+      "sha256": "c1b44a3c1e95a1e080ee2360d973ce9a35a54cb212bf7ccac1588fbbf54b45e2",
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 800,
+            "height": 1000,
+            "r_frame_rate": "25/1"
+          }
+        ],
+        "format": {
+          "duration": "8.800000"
+        }
+      }
+    },
+    {
+      "file": "kitchen-reel-poster.jpg",
+      "bytes": 163658,
+      "sha256": "a56f958b56ac8d8be30222b2b422f1bb96cd682cb30692a84236167bf776b282"
+    },
+    {
+      "file": "kitchen-reel-portrait-poster.jpg",
+      "bytes": 105510,
+      "sha256": "0c0d7d030c47b0e0f3023cc5a730f7d8aa8697ee49aec85c53b0ae47203668c6"
+    }
+  ],
+  "implementation": "Use muted playsinline loop with a poster, visible pause control, and respect prefers-reduced-motion by showing the poster unless the user starts playback. Do not present it as a live camera or a user kitchen."
+}
