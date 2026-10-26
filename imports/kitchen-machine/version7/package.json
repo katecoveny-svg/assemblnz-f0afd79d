@@ -1,0 +1,11 @@
+{
+  "name": "assembl-kitchen-machine",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node tests/model.test.mjs && node tests/newworld.test.mjs && node tests/woolworths.test.mjs"
+  },
+  "devDependencies": {
+    "linkedom": "^0.18.14"
+  }
+}

@@ -1,0 +1,35 @@
+import {ORIGINS,lineEstimate} from './core.js';
+const $=s=>document.querySelector(s),money=n=>new Intl.NumberFormat('en-NZ',{style:'currency',currency:'NZD'}).format(n/100);
+let state={},working=false;
+const message=text=>$('#message').textContent=text;
+const node=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;};
+async function call(action,data={}){const r=await chrome.runtime.sendMessage({action,...data});if(!r?.ok)throw new Error(r?.error||'The companion is unavailable.');return r.data;}
+async function run(fn){if(working)return;working=true;document.querySelectorAll('button').forEach(b=>b.disabled=true);message('Working…');try{const msg=await fn();await refresh();message(msg||'Updated.');}catch(e){message(e.message);await refresh();}finally{working=false;$('#enable').disabled=false;$('#approve').disabled=!$('#matchCheck').checked||!state.quote||state.quote.loginRequired||!!state.busy;}}
+async function refresh(){state=await call('status');render();}
+function render(){
+ $('#connect').hidden=state.linked;$('#session').hidden=!state.linked;$('#store').textContent=state.store||'Choose your New World store.';
+ $('#incoming').hidden=!state.pendingPlan;$('#planSection').hidden=!state.plan;$('#quoteSection').hidden=!state.quote;
+ $('#recordsSection').hidden=!state.records?.length;
+ if(state.pendingPlan){$('#incomingTitle').textContent=state.pendingPlan.day+' · '+(state.pendingPlan.kind==='main'?'main shop':'fresh top-up');$('#incomingText').textContent=state.pendingPlan.items.map(x=>`${x.name}: ${x.quantity} ${x.unit}`).join(' · ');}
+ if(state.plan){$('#planTitle').textContent=state.plan.day+' shopping list';$('#lines').replaceChildren();for(const x of state.plan.items){const row=node('div',undefined,'line'),info=node('div',x.name);info.append(node('small',`${x.quantity} ${x.unit} needed`));const b=node('button','Choose product ↗','quiet');b.onclick=()=>run(async()=>{await call('search',{id:x.id});return 'Choose a product and quantity on New World, then return here and read it.';});const done=state.records?.find(r=>r.planId===state.planId&&r.itemId===x.id&&r.status!=='cancelled');if(done){b.disabled=true;b.textContent=['verified','customer-confirmed'].includes(done.status)?'In your record':'Check trolley';}if(state.activeId===x.id)row.classList.add('selected');row.append(info,b);$('#lines').append(row);}}
+ if(state.quote){const q=state.quote;const need=state.plan?.items.find(x=>x.id===q.itemId);$('#quote').replaceChildren(node('p',need?`For ${need.name} · plan needs ${need.quantity} ${need.unit}`:'Review this product','small'),node('h2',q.name),node('p',q.store),node('div',money(q.priceCents)+' / '+q.priceUnit,'price'),node('p',`${q.quantity} ${q.unit} selected · ${money(lineEstimate(q))} estimated addition`),node('p',q.promotion,'small'),node('p','Read '+new Date(q.observedAt).toLocaleTimeString('en-NZ')+' · expires after 5 minutes','small'));
+ if(q.loginRequired)$('#quote').append(node('p','New World currently shows Log in. Sign in there, then read this product again.','small'));
+ }
+ $('#matchCheck').checked=false;$('#approve').disabled=true;
+ $('#records').replaceChildren();for(const r of state.records||[]){const box=node('div',undefined,'record');box.append(node('b',r.quote.name),node('small',`${r.quote.quantity} ${r.quote.unit} · ${money(lineEstimate(r.quote))} estimate · ${r.quote.store}`),node('span',r.status==='verified'?'Observed in trolley':r.status==='customer-confirmed'?'Confirmed by you':r.status==='cancelled'?'You confirmed no addition':r.status==='attempting'?'Result pending — check trolley':'Needs a trolley check','status '+r.status));box.append(node('small',r.result?.message||'An approved addition was started. It will not be repeated.'));
+ if(['attempting','uncertain'].includes(r.status)){const check=node('label',undefined,'check'),cb=document.createElement('input');cb.type='checkbox';check.append(cb,node('span','I checked the exact product, quantity and store in the New World trolley'));const outcome=document.createElement('select');outcome.setAttribute('aria-label','Trolley result for '+r.quote.name);for(const [value,label] of [['present','The selected quantity is in the trolley'],['absent','This addition did not happen']]){const option=node('option',label);option.value=value;outcome.append(option);}const confirm=node('button','Record my trolley check','quiet');confirm.disabled=true;cb.onchange=()=>confirm.disabled=!cb.checked;confirm.onclick=()=>run(async()=>{await call('verify-human',{attempt:r.attempt,outcome:outcome.value,confirmation:'I checked the exact product, quantity and store in the New World trolley'});return 'Your check is recorded as customer-confirmed.';});box.append(outcome,check,confirm);}
+ $('#records').append(box);}
+ for(const id of ['disconnect','openRetailer','accept','read','trolley','download'])$('#'+id).disabled=!!state.busy&&!['disconnect','trolley','download'].includes(id);
+ if(state.busy)message('An addition may still be pending. Review your trolley; the companion will not retry it.');
+}
+$('#enable').onclick=async()=>{try{const granted=await chrome.permissions.request({origins:ORIGINS});if(!granted)return message('Connection was not enabled. You can still use the kitchen planner.');await run(async()=>{await call('enable');return 'Browser linked. Return to Kitchen Machine and send one planned shop.';});}catch(e){message(e.message);}};
+$('#disconnect').onclick=()=>run(async()=>{await call('disconnect');return 'Disconnected. Local shopping records and website permissions were cleared.';});
+$('#accept').onclick=()=>run(async()=>{await call('accept-plan');return 'Plan accepted. Choose your first product.';});
+$('#openRetailer').onclick=()=>run(async()=>{await call('open-retailer');return 'Sign in and choose your store on New World.';});
+$('#read').onclick=()=>run(async()=>{await call('read-product');return 'Read from the current New World product page. Review everything before approval.';});
+$('#matchCheck').onchange=()=>$('#approve').disabled=!$('#matchCheck').checked||!state.quote||state.quote.loginRequired||!!state.busy;
+$('#approve').onclick=()=>run(async()=>{await call('approve-add',{approved:true});return 'The result is recorded below. Check any unresolved addition on New World.';});
+$('#trolley').onclick=()=>run(async()=>{await call('show-trolley');return 'Your trolley is open on New World. You control checkout.';});
+$('#download').onclick=()=>{const blob=new Blob([JSON.stringify({type:'assembl.newworld.trolley-record',createdAt:new Date().toISOString(),records:state.records,checkout:'not_performed'},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='new-world-trolley-record.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+window.addEventListener('focus',()=>{if(!working)refresh().catch(e=>message(e.message));});
+refresh().catch(e=>message(e.message));
