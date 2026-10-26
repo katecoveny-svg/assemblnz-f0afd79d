@@ -1,0 +1,132 @@
+{
+  "title": "A day in Pompeii",
+  "period": "Before the eruption of AD 79",
+  "reviewedAt": "2026-10-26",
+  "status": "Source-informed educational prototype; not yet reviewed by a Pompeii specialist or aligned to a specific school assessment standard.",
+  "mission": "What can ordinary objects tell us about unequal lives in Pompeii? Collect evidence from a home, a food counter and a workplace. Explain one difference, then identify what the evidence cannot tell you.",
+  "sceneLabel": "Composite reconstruction. Inspired by documented Pompeian features; not a measured model of one ancient street or building.",
+  "hotspots": [
+    {
+      "id": "crossing",
+      "title": "A street you can read",
+      "documented": "The Archaeological Park describes raised oval stones linking the pavements on Via dell’Abbondanza. The shaped road helped water drain, while the stones helped pedestrians cross without getting wet.",
+      "interpretation": "Look at the relationship between the road and the crossing. It suggests how people managed everyday movement and water. Our arrangement is illustrative, not a survey of that street.",
+      "question": "Why might the crossing sit above the road surface?",
+      "sourceUrl": "https://pompeiisites.org/en/pompeii-map/analysis/along-the-streets-of-pompeii/",
+      "sourceLabel": "Pompeii Archaeological Park · Along the streets of Pompeii",
+      "sourceRef": "turn4view0",
+      "evidenceType": "Surviving street architecture",
+      "takeaway": "Even a crossing is evidence of daily life."
+    },
+    {
+      "id": "counter",
+      "title": "Lunch on the street",
+      "documented": "Thermopolia served food and drink. Large jars called dolia were built into masonry counters. The excavated Regio V example preserves a painted counter and containers.",
+      "interpretation": "A food counter helps us investigate eating outside the home. The containers shown here do not establish the exact menu, prices or customers of this imagined shop.",
+      "question": "What does a built-in food container tell us? What does it leave unknown?",
+      "sourceUrl": "https://pompeiisites.org/en/press-releases/from-the-12th-august-the-thermopolium-of-regio-v-is-opening-to-the-public/",
+      "sourceLabel": "Pompeii Archaeological Park · Thermopolium of Regio V",
+      "sourceRef": "turn3view1",
+      "evidenceType": "Excavated commercial building",
+      "takeaway": "An object can support a claim without answering every question."
+    },
+    {
+      "id": "mill",
+      "title": "Who made the bread?",
+      "documented": "Pompeian bakeries preserve lava millstones and ovens. At one excavated bakery in Regio IX, archaeologists found restricted access, barred openings and cuts in the floor around the mills.",
+      "interpretation": "The excavators interpret that enclosed workplace as evidence of enslaved people and animals being confined and exploited. This does not establish the status of every bakery worker. A comfortable city depended on labour that was not equally free.",
+      "question": "How does evidence from a workplace change the story told by a wealthy home?",
+      "sourceUrl": "https://pompeiisites.org/comunicati/pompei-emerge-il-panificio-prigione/",
+      "sourceLabel": "Pompeii Archaeological Park · Regio IX bakery excavation, 2023 (Italian)",
+      "sourceRef": "turn7view0",
+      "additionalSources": [
+        {
+          "url": "https://pompeiisites.org/wp-content/uploads/A-Guide-to-the-Pompeii-Excavations-2.pdf",
+          "label": "Official excavation guide · House of the Oven, printed page 62",
+          "ref": "turn8search0"
+        }
+      ],
+      "evidenceType": "Excavated equipment and interpretation of restricted movement",
+      "takeaway": "Remember the people whose work supported daily life."
+    },
+    {
+      "id": "water",
+      "title": "Rain becomes a resource",
+      "documented": "In an atrium house, rain entered through the roof opening, the compluvium. A basin below, the impluvium, collected it and channelled water into an underground cistern for household use.",
+      "interpretation": "This house represents one form of comfortable domestic architecture. Pompeii also had much smaller, simpler homes. Its water system should not be treated as every resident’s experience.",
+      "question": "Follow the rain: where would it go after reaching the basin?",
+      "sourceUrl": "https://pompeiisites.org/en/pompeii-map/analysis/roman-housing/",
+      "sourceLabel": "Pompeii Archaeological Park · Roman housing",
+      "sourceRef": "turn3view0",
+      "evidenceType": "Domestic architecture and drainage",
+      "takeaway": "A beautiful room can also be practical technology."
+    },
+    {
+      "id": "fresco",
+      "title": "Walls that say something",
+      "documented": "The House of the Vettii preserves richly decorated rooms. Its painted Cupids take part in activities including wine selling, cloth cleaning and perfume making.",
+      "interpretation": "Decoration can suggest wealth, interests and self-presentation. Painted scenes are designed images, not photographs of work. The colours and pattern in this prototype are newly authored, not a copy of a particular surviving fresco.",
+      "question": "What might a decorated room communicate to a visitor? Why should we read its images critically?",
+      "sourceUrl": "https://pompeiisites.org/en/archaeological-site/house-of-the-vettii/",
+      "sourceLabel": "Pompeii Archaeological Park · House of the Vettii",
+      "sourceRef": "turn5view0",
+      "evidenceType": "Surviving wall painting",
+      "takeaway": "Art tells us about choices as well as activities."
+    },
+    {
+      "id": "amphora",
+      "title": "A jar with a journey",
+      "documented": "The Boscoreale Antiquarium displays transport amphorae for wine and oil, and a fragment with traces of fish sauce. One fruit amphora carries a painted inscription describing apples from Cumae.",
+      "interpretation": "Container shapes, labels and residues help researchers investigate goods and exchange. This unlabelled model cannot tell us its own contents or route: those need evidence.",
+      "question": "Which would make a stronger claim about a jar’s contents: its colour, an inscription, or a surviving residue?",
+      "sourceUrl": "https://pompeiisites.org/en/boscoreale-en/antiquarium-sala-i/",
+      "sourceLabel": "Pompeii Archaeological Park · Boscoreale Antiquarium, Room I",
+      "sourceRef": "turn4view1",
+      "evidenceType": "Containers, inscriptions and material remains",
+      "takeaway": "Small finds can connect a household to a wider world."
+    }
+  ],
+  "assessment": [
+    {
+      "id": "rainwater",
+      "question": "What was the impluvium designed to do?",
+      "options": ["Collect rainwater entering through the roof", "Grind grain for bread", "Store food inside a shop counter"],
+      "correct": 0,
+      "explanation": "The basin collected rainwater and channelled it into a cistern. Follow the water path from roof to basin to storage.",
+      "evidenceId": "water"
+    },
+    {
+      "id": "unequal-lives",
+      "question": "Which conclusion is best supported by the home and bakery evidence together?",
+      "options": ["Every Pompeian enjoyed a large decorated home", "Comfort and working conditions differed between people", "Every person working in a bakery was enslaved"],
+      "correct": 1,
+      "explanation": "Decorated houses and evidence of controlled labour reveal different experiences. One building cannot represent everyone, and one bakery cannot establish every worker’s status.",
+      "evidenceId": "mill"
+    },
+    {
+      "id": "historical-reconstruction",
+      "question": "A detailed 3D scene shows an amphora filled with wine. What makes that a historical claim we can trust?",
+      "options": ["The image looks realistic", "The jar is painted brown", "Relevant finds or records support the contents, and uncertainty is stated"],
+      "correct": 2,
+      "explanation": "Realism is a visual quality, not evidence. Inscriptions, residues and research can support a reconstruction; missing information should remain visible.",
+      "evidenceId": "amphora"
+    }
+  ],
+  "reflection": {
+    "prompt": "Was daily life in Pompeii the same for everyone?",
+    "instructions": "Use at least two discoveries. Explain what each supports, and name one thing you still cannot know.",
+    "scaffold": ["My claim is…", "The evidence from… suggests…", "A different experience is shown by…", "One limitation is…"],
+    "feedback": "Self-review: have you named evidence, explained your inference, and included a limitation? This prototype does not automatically grade your historical argument."
+  },
+  "limitations": [
+    "This is a composite, newly authored reconstruction. It is not a measured digital twin, archaeological survey, licensed photogrammetry capture or historical photograph.",
+    "Locations, dimensions, colours, movable objects and arrangements are illustrative unless a hotspot explicitly identifies supporting evidence.",
+    "Any rebuilt or remains-style view is an interpretation of this model, not a comparison with a scanned present-day site.",
+    "The scene represents daily life before the eruption of AD 79; it does not specify the disputed calendar date of the eruption.",
+    "No fictional dialogue, exact prices or invented personal biographies are presented as historical records.",
+    "Archaeological interpretation can change. The Regio IX bakery labour claim is attributed to its excavators and is not generalised to all workers.",
+    "Source links support the written learning content. No source photographs or scans have been copied or licensed by this research task."
+  ],
+  "rights": "Newly written summaries and questions. External sources linked for reference; no source images or 3D data reused.",
+  "reviewer": "Historical specialist and classroom teacher review pending."
+}

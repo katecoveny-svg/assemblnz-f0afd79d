@@ -1,0 +1,11 @@
+{
+  "README.md": "d3fedc43c1a0aa41cfa534b1ee86f035348cfa6d2c47b4ce931f64b5638fc431",
+  "dist/app.js": "1969ea3182bdde5fac1fd779433c811ba2b963b0025862f0b0d15465c8e02c82",
+  "dist/evidence.json": "7d31d2db251b3e208b412eb18a6eda395580d2e087e2c196dc21deb28b5500ef",
+  "dist/index.html": "5d15e343aaf831923ee9f1d6902215a02c2e2c3ed0a047dcd07ee77b30f52cef",
+  "dist/scene.js": "0317c65ecd86d3f1ebf6ef72b75cd3f28e6e0fb0c4e9a856420597033ef0b5fa",
+  "dist/style.css": "b859738a4865a65eacbd0323e067179e4df275f3bc63d8679a2715d28b21b296",
+  "dist/vendor/THREE-LICENSE.txt": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601",
+  "dist/vendor/three.core.js": "eb077d2417f61d3e6d9264c317cabc4ea35769ed6b0ab533067292a550784c20",
+  "dist/vendor/three.module.js": "c8211c69345d2e9949dc7a8ac969380497aa0600a5a8ac6a459c8cd02dd9cb8a"
+}
