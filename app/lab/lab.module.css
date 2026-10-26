@@ -1,0 +1,13 @@
+.shell { height: 100svh; min-height: 540px; display: flex; flex-direction: column; background: #FFFDFB; color: #492B3E; font-family: var(--font-body), 'Instrument Sans', sans-serif; }
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 24px; border-bottom: 1px solid #e5dce2; }
+.home { font-size: 20px; font-weight: 600; letter-spacing: -.05em; }
+.title { display: flex; gap: 12px; align-items: baseline; font-size: 17px; font-weight: 600; margin: 0; }
+.title span { font-size: 12px; font-weight: 400; color: #654A4E; }
+.bar a { min-height: 44px; display: inline-flex; align-items: center; text-decoration: none; }
+.open { font-size: 12px; }
+.frame { display: block; width: 100%; flex: 1; min-height: 0; border: 0; background: #F5F1F2; }
+.note { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 24px; font-size: 11px; color: #654A4E; border-top: 1px solid #e5dce2; }
+.note a { flex-shrink: 0; text-underline-offset: 3px; }
+.shell a:focus-visible { outline: 2px solid #492B3E; outline-offset: 4px; }
+.shell a:hover { color: #240B21; text-decoration: underline; text-underline-offset: 4px; }
+@media(max-width: 600px) { .bar { padding: 6px 14px; gap: 10px; } .title span { display: none; } .home { font-size: 18px; } .note { padding: 6px 14px; font-size: 10px; } .note span { display: none; } .note a { min-height: 32px; display: inline-flex; align-items: center; } }
