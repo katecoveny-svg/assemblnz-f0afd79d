@@ -98,7 +98,7 @@ async def main():
                     if name == 'home' and LOCAL:
                         await verify_coastal_home(page, 'no-preference')
                         await capture(page, f'{name}-{width}-current-home')
-                        result['interactions'] = ['coastal pause', 'real DO entry links', 'simulated draft', 'assistant keyboard focus']
+                        result['interactions'] = ['coastal pause', 'Lab-only navigation', 'prepared public guide', 'assistant keyboard focus']
                     elif name == 'studio' and LOCAL:
                         gallery = page.locator('#studio-work')
                         await gallery.scroll_into_view_if_needed()
@@ -141,8 +141,9 @@ async def main():
                 await capture(page,f'home-375-{label}')
                 if LOCAL:
                     await expect(page.locator('.clear-coastal-poster')).to_be_attached()
-                    for href in ['/pursuit', '/creative-studio', '/do']:
-                        await expect(page.locator(f'nav[aria-label="Primary"] a[href="{href}"]')).to_be_visible()
+                    await expect(page.locator('nav[aria-label="Primary"] a[href="/lab"]')).to_be_visible()
+                    await expect(page.locator('nav[aria-label="Primary"] a')).to_have_count(1)
+                    await expect(page.locator('a[href^="/do"],a[href^="/pursuit"],a[href^="/studio"],a[href^="/creative-studio"]')).to_have_count(0)
                     assert await page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1')
                     if label == 'reduced':
                         await verify_coastal_home(page, 'reduce')
