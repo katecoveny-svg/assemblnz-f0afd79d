@@ -116,51 +116,29 @@ fs.mkdirSync(output, { recursive: true });
         assert.equal(await page.locator('.direction-4c').getAttribute('data-video-ready'), null);
         await shot('failed-after-playing');
         assert(await page.evaluate(() => window.__plateDrawSource?.tag === 'IMG'), 'failed footage is replaced by the poster texture');
-        const demo = page.locator('#try');
-        await demo.getByRole('tab', { name: 'Talk', exact: true }).click();
-        await demo.getByRole('button', { name: 'Play simulated voice example' }).click(); await page.waitForTimeout(650);
-        await demo.getByRole('tab', { name: 'Write', exact: true }).click();
-        const input = demo.getByRole('textbox', { name: 'What would you like done?' });
-        await input.fill('Keep this new typed draft'); await page.waitForTimeout(4000);
-        assert.equal(await input.inputValue(), 'Keep this new typed draft');
-        await demo.getByRole('tab', { name: 'Talk', exact: true }).click();
-        await demo.getByRole('button', { name: 'Play simulated voice example' }).click(); await page.waitForTimeout(650);
-        await demo.getByRole('tab', { name: 'Add', exact: true }).click(); await page.waitForTimeout(4000);
-        assert.equal(await demo.getByRole('tab', { name: 'Add', exact: true }).getAttribute('aria-selected'), 'true');
-        await demo.getByRole('tab', { name: 'Write', exact: true }).click(); await input.fill('Write a reply');
-        await demo.getByRole('button', { name: 'Start', exact: true }).click();
-        await demo.getByRole('button', { name: 'Not now', exact: true }).click();
-        await demo.getByText('Nothing was changed. This sample is not saved and will be lost on reload.', { exact: true }).waitFor();
-        await shot('sample-not-saved');
       }
-      const links = [];
-      for (const href of ['/do?tool=write', '/do?tool=talk', '/do']) {
-        const link = page.locator(`#try .clear-do-actions a[href="${href}"]`); await link.scrollIntoViewIfNeeded();
-        await link.click({ trial: true }); const box = await link.boundingBox(); assert(box.height >= 48); links.push({ href, box });
-      }
-      record.links = links;
-      await shot('do-entry');
-      if (width === 390 && mode === 'normal') {
-        await page.reload({ waitUntil: 'load' });
-        assert.equal(await page.locator('#try').getByRole('textbox', { name: 'What would you like done?' }).inputValue(), '');
-        record.sampleReloadCleared = true;
-      }
+      assert.equal(await page.locator('a[href^="/do"],a[href^="/pursuit"],a[href^="/studio"],a[href^="/creative-studio"]').count(), 0);
+      await page.getByRole('button', { name: 'Ask DO about assembl', exact: true }).click();
+      const panel = page.locator('#site-do-workspace');
+      await panel.getByRole('region', { name: 'Prepared company guide' }).waitFor();
+      assert.equal(await panel.getByRole('checkbox').isChecked(), false);
+      const input = panel.getByRole('textbox', { name: 'Your question about assembl' });
+      await input.fill('What is assembl?');
+      assert(await panel.getByRole('button', { name: 'Ask DO', exact: true }).isDisabled());
+      await shot('public-guide');
+      await page.getByRole('button', { name: 'Close DO', exact: true }).click();
       assert.deepEqual(record.errors, []); record.status = 'passed'; persist(); console.log(`PASS ${engine} ${width} ${mode}`); await context.close();
     }
     const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
     const page = await context.newPage();
     await page.route('**/*', route => route.request().method() === 'GET' ? route.continue() : route.abort());
-    for (const tool of ['write', 'talk', '']) {
-      await page.goto(process.env.HOMEPAGE_URL || 'http://localhost:3077/', { waitUntil: 'load' });
-      const href = tool ? `/do?tool=${tool}` : '/do';
-      await page.locator(`#try .clear-do-actions a[href="${href}"]`).click();
-      await page.waitForURL(url => url.pathname === '/do' && (url.searchParams.get('tool') || '') === tool);
-      await page.locator('#main-content').waitFor();
-      await page.locator('main[aria-busy="true"]').waitFor({ state: 'detached' });
-      const file = `${engine}-390-destination-${tool || 'open'}.png`;
-      await page.screenshot({ path: `${output}/${file}` });
-      results.push({ destination: href, url: page.url(), file, status: 'passed' }); persist();
-    }
+    await page.goto(process.env.HOMEPAGE_URL || 'http://localhost:3077/', { waitUntil: 'load' });
+    await page.locator('nav[aria-label="Primary"] a[href="/lab"]').click();
+    await page.waitForURL(url => url.pathname === '/lab');
+    await page.locator('#main-content').waitFor();
+    const file = `${engine}-390-destination-lab.png`;
+    await page.screenshot({ path: `${output}/${file}` });
+    results.push({ destination: '/lab', url: page.url(), file, status: 'passed' }); persist();
     await context.close();
   } finally { persist(); await browser.close(); }
 })().catch(error => { console.error(error); process.exit(1); });

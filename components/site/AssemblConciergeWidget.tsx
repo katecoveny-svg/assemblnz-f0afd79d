@@ -80,9 +80,9 @@ export function AssemblConciergeWidget() {
     return () => { cancelAnimationFrame(frame); window.removeEventListener('keydown', escape); };
   }, [open, isolated, close]);
   if (isolated) return null;
-  const widget = <aside className={styles.widget} data-home-inline={Boolean(connectedHomeHost) || undefined} aria-label="DO assistant">
+  const widget = <aside data-public-guide={pathname === '/' || undefined} className={styles.widget} data-home-inline={Boolean(connectedHomeHost) || undefined} aria-label="DO assistant">
     {open && <section id="site-do-workspace" className={styles.panel} aria-label={pathname === '/' ? 'Ask DO about assembl' : 'DO drafting workspace'}>
-      <header><DoBrand /><button type="button" aria-label="Close DO" onClick={close}><X size={20} /></button></header>
+      <header><DoBrand href={pathname === '/' ? '#top' : '/do'} /><button type="button" aria-label="Close DO" onClick={close}><X size={20} /></button></header>
       {pathname === '/' ? <PublicAssemblGuide /> : <><p>Prepare a reply, organise a plan or sort a life-admin note. Only what you choose to type is shared after confirmation.</p>
       <p>No page, inbox or customer records are read. Drafts need your review and stay in this open panel; copy anything you want to keep.</p>
       <p>Speak opens a full window to check voice availability. Nothing starts recording automatically.</p>

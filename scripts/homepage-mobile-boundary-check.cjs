@@ -60,18 +60,27 @@ const path = require('node:path');
             assert.equal(await pause.getAttribute('aria-pressed'), 'true');
             assert(await page.locator('[data-coastal-video]').evaluate(v => v.paused));
           }
-          for (const href of ['/do?tool=write', '/do?tool=talk', '/do']) {
-            const link = page.locator(`#try a[href="${href}"]`);
-            await link.scrollIntoViewIfNeeded(); await link.click({ trial: true });
-          }
+          assert.equal(await page.locator('a[href^="/do"],a[href^="/pursuit"],a[href^="/studio"],a[href^="/creative-studio"]').count(), 0);
+          assert.equal(await page.locator('nav[aria-label="Primary"] a').getAttribute('href'), '/lab');
+          const guideEntry = page.getByRole('button', { name: 'Ask DO about assembl', exact: true });
+          await guideEntry.scrollIntoViewIfNeeded(); await guideEntry.click({ trial: true });
           record.geometryPassed = true;
           await page.screenshot({ path: path.join(path.dirname(output), `${label}.png`) });
           record.stage = 'open-widget';
           persist();
-          const trigger = page.getByRole('button', { name: 'Ask DO', exact: true });
+          const trigger = page.locator('button[aria-controls="site-do-workspace"]');
           await trigger.click();
           await page.locator('#site-do-workspace').waitFor({ state: 'visible' });
           assert.equal(await trigger.getAttribute('aria-expanded'), 'true');
+          const panel = page.locator('#site-do-workspace');
+          assert.equal(await panel.locator('a[href^="/do"]').count(), 0);
+          assert(await panel.getByRole('region', { name: 'Prepared company guide' }).isVisible());
+          assert.equal(await panel.getByRole('checkbox').isChecked(), false);
+          assert.equal(await panel.getByRole('button', { name: 'Ask DO', exact: true }).isDisabled(), true);
+          await panel.getByRole('textbox', { name: 'Your question about assembl' }).fill('What is assembl?');
+          assert.equal(await panel.getByRole('button', { name: 'Ask DO', exact: true }).isDisabled(), true);
+          assert.equal(await panel.getByRole('link', { name: /Speak|Talk/ }).count(), 0);
+
           record.stage = 'close-widget';
           persist();
           const close = page.getByRole('button', { name: 'Close DO', exact: true });

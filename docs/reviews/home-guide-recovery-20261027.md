@@ -29,3 +29,11 @@ Dedicated local browser rendered homepage and confirmed Lab-only top navigation,
 One actual local endpoint question (What is assembl?) returned HTTP 503 with `The guide is unavailable. Please email assembl@assembl.co.nz.` before provider generation. See evidence/home-guide/real-endpoint.log and output/playwright/guide-mobile-real-endpoint.png. No new credentials/setup attempted. Successful real provider answer remains blocked on existing admission-storage readiness.
 
 Webpack build records `ENOTFOUND fonts.googleapis.com`; completion is unconfirmed. Typecheck completion remains unconfirmed at this checkpoint. These must not be described as passing.
+
+## Whole-page correction after live inspection
+
+Live www.assembl.co.nz inspected in a fresh normal Chrome tab at production SHA 9b6314e on 27 October: desktop hero, scrolling company sections, simulated card, contact/footer and open helper; mobile hero/card/footer/helper. Existing design preserved. All homepage links into unfinished DO/Pursuit/Studio now replaced with company enquiries, on-page guide or Lab, including helper brand link. Private routes are untouched.
+
+Prepared company guidance is immediately available and explicitly labelled not a live AI answer. Optional live answers retain consent and admission/token/deadline controls; unavailable service leaves useful prepared facts and contact/Lab destinations. No voice offered or tested.
+
+Updated obsolete simulated-voice/product-link assertions in all four homepage browser contracts, preserving motion/media-failure/overflow/touch-target checks. Added prepared-guidance render test. 36 focused tests, changed-file lint and typecheck passed locally. Final exact-head Vercel build, CI and normal-authenticated preview QA remain required before parent approval/publication.

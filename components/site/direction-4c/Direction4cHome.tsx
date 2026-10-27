@@ -272,7 +272,7 @@ export function Direction4cHome() {
             <div className="td-wrap">
               <p className="td-kicker">ASK DO · ABOUT ASSEMBL</p>
               <div className="td-card">
-                <h3>What would you like to know?</h3>
+                <h3 className="td-title">What would you like to know?</h3>
                 <p>Ask about assembl, our work or how to start.</p>
                 <p>Public company information only. No access to private accounts, shopping baskets or bookings.</p>
                 <button type="button" className="td-guide-open" onClick={() => window.dispatchEvent(new Event('assembl:open-public-guide'))}>Ask DO about assembl</button>
