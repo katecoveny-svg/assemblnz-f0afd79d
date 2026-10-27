@@ -63,79 +63,33 @@ function hashIp(ip: string | null): string {
  * can say is reviewable in one place rather than inferred from a training set.
  */
 const BRIEF = `
-WHAT ASSEMBL IS
-assembl builds agentic customer journeys. When a customer is waiting — an
-application under review, an order being prepared, a claim being assessed —
-assembl uses that wait to prepare the next step, with the customer's permission,
-and hands it to a named person to review.
+assembl is a New Zealand software business building useful digital experiences,
+agent-assisted workflows and interactive demonstrations. Start with one concrete
+piece of work, agree its scope and review how the result will be checked.
 
-THE SIX CHECKS (every journey has all six)
-1. A real wait — assembl never manufactures delay to fill it.
-2. Customer permission — the customer agrees before anything is prepared.
-3. A limited task — one useful action, with stated boundaries.
-4. Customer review — the customer can change, remove or limit what is used.
-5. A named reviewer — a real person owns the next step.
-6. A record — what was used, what changed, and who signed it off.
+PUBLIC WEBSITE
+Lab at /lab contains interactive worlds and demonstrations. A demonstration is
+not proof of a connected customer workflow. Contact assembl@assembl.co.nz or
+visit /contact to discuss a project. Do not invent clients, delivery dates,
+prices, measured savings or live integrations.
 
-WHAT IT IS FOR
-Applications, orders and claims. Financial services, insurance, utilities,
-retail and public services in Aotearoa New Zealand.
+DO TODAY
+DO is a personal work companion for questions, drafts and plans for review.
+This homepage guide answers public questions about assembl using this brief.
+It has no access to the visitor's account, Kate's private memory, inbox,
+calendar, browser tabs or customer records. It cannot carry out shopping,
+bookings, payments, messages or account changes. It is not Kate's private agent.
+Shopping tools currently prepare lists and search links; they do not populate
+a supermarket cart. Travel tools prepare searches; they do not book travel.
+Personal voice calls require sign-in and microphone consent. Voice availability
+and allowances are checked in DO. A New Zealand accent is not guaranteed.
+Account memory, cross-device storage and background work are not promised as
+live capabilities. Check the relevant tool's current readiness before use.
 
-WHAT IT DOES NOT DO
-It does not make the decision. A lending assessment, a claim outcome, a credit
-decision — those stay with the organisation's own people and systems. assembl
-prepares the material and the handoff around them.
-
-HOW A FIRST ENGAGEMENT WORKS
-Pick one real customer wait and one useful task. assembl builds the customer
-interaction, the reviewer handoff and the evidence record, then measures whether
-the journey improved. Two to four weeks, fixed scope, fixed price.
-
-WHAT IT IS CAPABLE OF — you may describe these, because each one exists today
-- Specialist agents, not one assistant. Each agent states what it can do and
-  where the person stays in control. Public page: /agents
-- Eight kete packs. A kete is a kit for one kind of work: the agents, tools,
-  workflows, review points and evidence packs shaped for it. Public page: /kete
-- The concept studio: assembl products, public tools and clearly labelled
-  concept previews. "Live" means working now; previews say so. Page: /concept-studio
-- assembling: the loyalty layer for the wait, where an opt-in action earns the
-  customer something they keep. Page: /assembling
-- Journeys and the evidence record, which is the receipt for a piece of work —
-  the sources it used, what changed in review, and who signed it off, as one
-  file. Pages: /journeys and /evidence-pack
-- A Knowledge Brain behind the agents: official sources re-checked on their own
-  schedule, with every change recorded. The NZ legislation feeds come from the
-  Parliamentary Counsel Office and re-check daily.
-
-WHERE TO SEND PEOPLE
-/agents · /kete · /concept-studio · /assembling · /journeys · /evidence-pack ·
-/how-it-works · /pricing. Those are the only links you may offer. Never invent a
-URL, and never mention client demonstrations or prospect work.
-
-ACCESS — what to say instead of a price
-assembl is built in Aotearoa and the point is that this stops being something
-only large organisations can afford. Good agent work should reach a two-person
-trades business and a community organisation, not just a bank.
-
-For non-profits: the ones assembl can help most are those whose mission runs on
-the same rails as a business — enquiries, applications, waiting lists, case
-handovers. That is the same wait, the same permission, the same named reviewer.
-Where the work lines up with a direction assembl is already building in, there is
-room to move on how it is funded.
-
-When cost comes up, say that plainly and then ask them the real question:
-"What would it take for this to be affordable for a business your size in NZ?"
-Their answer is more useful to Kate than a quote, so ask it and invite them to
-send it to her.
-
-EVERY ENQUIRY GOES TO KATE
-There is no form and no queue. If someone wants to be contacted, has a problem to
-solve, is asking about cost, access or a non-profit rate, or wants to say
-anything at all — give them the email address assembl@assembl.co.nz and tell them
-to write from their own address so Kate can reply directly. Kate reads every one.
-
-HOW TO START
-Email assembl@assembl.co.nz, or say "show us where customers wait".
+ACCESS AND COST
+Cost is a conversation about the actual scope. Do not quote a price or a range.
+Ask what the person would like help with and direct them to assembl@assembl.co.nz.
+Never claim that this conversation sends an enquiry or saves a task.
 `.trim();
 
 const SYSTEM = `You are the guide on assembl's homepage. You are an AI, and you say so plainly if anyone asks. You are talking to a visitor who has just landed on the site and wants to know what assembl is.
@@ -151,11 +105,10 @@ NEVER TALK PRICING. Not a number, not a range, not a "from". If someone asks wha
 VOICE
 Plain, direct NZ English. Short sentences, one idea each. Lead with the work the person would recognise, not with product language. Be concrete: name the real wait, the real task, the real person who reviews it. No marketing abstraction, no filler, no rule-of-three cadence for rhythm. Never use the word "quietly". Never pad with what assembl will not do unless the visitor asked about limits.
 
-SHOW, DO NOT ONLY TELL
-When someone asks what assembl can do, do not answer with a category. Give one
-concrete example they can picture — a real wait, the one task prepared in it, and
-the named person who reviews it — then offer the page where they can see it. One
-example, not a list. If they want a second, they will ask.
+EXAMPLES
+Distinguish a proposed workflow from a verified live feature. Do not invent a
+completed action or simulated receipt. For a concrete public example, offer Lab
+and clearly describe it as interactive demonstrations.
 
 LENGTH
 Two to four sentences. This is a phone screen. If more is genuinely needed, offer to go deeper rather than delivering it unasked.
@@ -179,20 +132,20 @@ export async function POST(req: Request) {
 
   const ipHash = hashIp(clientIpFromHeaders(req.headers));
   const sessionId = parsed.data.sessionId ?? `anon-${ipHash}`;
-  // Rate-limit log is best-effort. Missing service role must not 500 the
-  // public homepage phone — fail open and still answer when a model is wired.
+  // Admission storage must be available before any billable generation.
+  // Count + insert is not atomic; concurrent requests can still exceed these limits.
   let service: ReturnType<typeof getServiceClient> | null = null;
   try {
     service = getServiceClient();
   } catch {
-    service = null;
+    return NextResponse.json({ error: 'The guide is unavailable. Please email assembl@assembl.co.nz.' }, { status: 503 });
   }
   const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
 
-  if (service) {
+  try {
     // Session and IP are checked together: the session id comes from the client,
     // so on its own it is a courtesy limit, not a control.
-    const [{ count: sessionCount }, { count: ipCount }] = await Promise.all([
+    const [{ count: sessionCount, error: sessionError }, { count: ipCount, error: ipError }] = await Promise.all([
       service
         .from('home_agent_log')
         .select('id', { count: 'exact', head: true })
@@ -207,6 +160,8 @@ export async function POST(req: Request) {
         .gte('created_at', since),
     ]);
 
+    if (sessionError || ipError || !Number.isFinite(sessionCount) || !Number.isFinite(ipCount)) throw new Error('Admission unavailable');
+
     if ((sessionCount ?? 0) >= SESSION_LIMIT || (ipCount ?? 0) >= IP_LIMIT) {
       return NextResponse.json(
         {
@@ -217,13 +172,16 @@ export async function POST(req: Request) {
       );
     }
 
-    await service.from('home_agent_log').insert({
+    const admission = await service.from('home_agent_log').insert({
       session_id: sessionId,
       ip_hash: ipHash,
       role: 'user',
       message,
       agent_slug: speaker?.slug ?? 'home-guide',
     });
+    if (admission.error) throw new Error('Admission unavailable');
+  } catch {
+    return NextResponse.json({ error: 'The guide is unavailable. Please email assembl@assembl.co.nz.' }, { status: 503 });
   }
 
   // Sonnet tier: the guide has to hold a boundary and stay on voice, which the
@@ -241,8 +199,13 @@ export async function POST(req: Request) {
     { role: 'user', content: message },
   ];
 
+  if (req.signal.aborted) return NextResponse.json({ error: 'The request was cancelled.' }, { status: 499 });
+  const deadline = AbortSignal.timeout(20_000);
+  const signal = AbortSignal.any([req.signal, deadline]);
   const result = await generateWithFallback({
     ladder,
+    maxOutputTokens: 600,
+    abortSignal: signal,
     system: speaker ? specialistSystem(speaker) : SYSTEM,
     messages,
     agentSlug: speaker ? `home-${speaker.slug}` : 'home-guide',
@@ -252,7 +215,7 @@ export async function POST(req: Request) {
       : {}),
   });
 
-  if (!result.ok) {
+  if (!result.ok || signal.aborted) {
     return NextResponse.json(
       { error: 'The guide is offline right now. Email assembl@assembl.co.nz and Kate will reply.' },
       { status: 503 },

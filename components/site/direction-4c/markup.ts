@@ -15,9 +15,6 @@ export const chromeMarkup = `<img class="clear-coastal-poster" src="/direction-4
 <header style="position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:20;width:min(1400px,calc(100% - 28px));display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 7px 7px 7px;border-radius:999px;background:rgba(36,11,33,.5);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);box-shadow:0 14px 40px -26px rgba(14,4,13,.6),inset 0 0 0 1px rgba(234,200,223,.2)">
   <a href="#top" aria-label="assembl, back to top" style="display:flex;align-items:center;gap:11px;min-height:44px;padding-right:8px;color:#FFFDFB" class="clear-hover-0"><img src="/direction-4c/assets/brand/assembl-a-glass.webp" alt="" style="width:44px;height:44px;flex-shrink:0;border-radius:50%;object-fit:cover;object-position:44% 50%;box-shadow:0 0 0 1px rgba(255,253,251,.55),0 10px 26px -10px rgba(234,178,208,.9)"><strong data-ref="markRef" data-hide-sm="" style="font-size:23px;font-weight:600;letter-spacing:-.055em;opacity:0">assembl</strong></a>
   <nav aria-label="Primary" style="display:flex;gap:4px;font-size:14px">
-    <a href="/pursuit" style="display:flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;color:#FFFDFB" class="clear-hover-1">Pursuit</a>
-    <a href="/creative-studio" style="display:flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;color:#FFFDFB" class="clear-hover-2">Studio</a>
-    <a href="/do" style="display:flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;color:#FFFDFB" class="clear-hover-3">DO</a>
     <a href="/lab" style="display:flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;color:#FFFDFB" class="clear-hover-3">Lab</a>
   </nav>
   <div style="display:flex;align-items:center;gap:4px">
@@ -129,7 +126,7 @@ export const footerMarkup = `<footer style="position:relative;z-index:2;overflow
     </nav>
     <div style="display:flex;flex-direction:column;gap:10px;padding:20px 22px;border-radius:24px;background:rgba(255,253,251,.06);box-shadow:inset 0 0 0 1px rgba(234,200,223,.2)">
       <p style="margin:0;font:400 10.5px/1.4 var(--font-mono),'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:#EAC8DF">review before action</p>
-      <p style="margin:0;font-size:14px;line-height:1.6;color:#F2E6EB">DO tools have their own permissions and review steps. Availability and evidence coverage depend on the tool and connection. The optional walkthrough on this page is simulated.</p>
+      <p style="margin:0;font-size:14px;line-height:1.6;color:#F2E6EB">DO tools have their own permissions and review steps. Availability and evidence coverage depend on the tool and connection. The homepage guide answers public questions about assembl; it does not execute tasks.</p>
     </div>
   </div>
   <nav aria-label="Legal" class="clear-legal">
