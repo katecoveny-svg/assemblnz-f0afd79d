@@ -60,9 +60,25 @@ const result = message => ({ id: 'fictional-site-draft', createdAt: '2026-10-01T
       check(`public route change clears exchange at ${width}`, await panel.locator('#personal-assistant-draft').count() === 0 && await panel.locator('#personal-assistant-input').inputValue() === '');
       await page.goto(origin + '/do', { waitUntil: 'networkidle' });
       check(`DO route has no duplicate public widget at ${width}`, await trigger.count() === 0);
+      const homeRequests = [];
+      const trackHomeRequest = request => { if (/\/api\/(home\/agent|do\/personal)/.test(request.url())) homeRequests.push(request.url()); };
+      page.on('request', trackHomeRequest);
       await page.goto(origin + '/', { waitUntil: 'networkidle' }); await trigger.click();
+      const homeGuide = page.locator('#site-do-workspace');
+      check(`homepage opens prepared public guidance at ${width}`, await homeGuide.getByRole('region', { name: 'Prepared company guide' }).isVisible());
+      check(`homepage has no private login or live controls at ${width}`, await homeGuide.locator('form, textarea, input').count() === 0 && await homeGuide.getByRole('link', { name: 'Sign in to DO', exact: true }).count() === 0);
+      await homeGuide.getByText('What can this guide actually do?', { exact: true }).click();
+      check(`homepage explains its public-only limits at ${width}`, await homeGuide.getByText(/It cannot access your account/).isVisible());
+      check(`homepage guidance makes no private or model request at ${width}`, homeRequests.length === 0);
+      await page.getByRole('button', { name: 'Close DO', exact: true }).click();
+      await homeGuide.waitFor({ state: 'detached' });
+      await page.waitForFunction(() => document.activeElement === document.querySelector('button[aria-controls="site-do-workspace"]'));
+      check(`homepage closes and returns focus at ${width}`, await homeGuide.count() === 0 && await trigger.evaluate(el => el === document.activeElement));
+      page.off('request', trackHomeRequest);
+      // Non-home widgets retain their existing private drafting/sign-in flow.
+      await page.goto(origin + '/pricing', { waitUntil: 'networkidle' }); await trigger.click();
       const signIn = workspace.getByRole('link', { name: 'Sign in to DO', exact: true });
-      check(`home sign-in uses the supported DO return at ${width}`, await signIn.getAttribute('href') === '/login?redirect=%2Fdo');
+      check(`pricing sign-in uses the supported DO return at ${width}`, await signIn.getAttribute('href') === '/login?redirect=%2Fdo');
       await signIn.click();
       await page.getByRole('heading', { name: 'Sign in to DO', exact: true }).waitFor();
       check(`public widget reaches ordinary DO login at ${width}`, new URL(page.url()).pathname === '/login' && new URL(page.url()).searchParams.get('redirect') === '/do');
