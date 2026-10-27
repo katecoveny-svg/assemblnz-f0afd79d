@@ -12,8 +12,9 @@ describe('public company guidance without a provider', () => {
     expect(html).toContain('mailto:assembl@assembl.co.nz');
     expect(html).toContain('cannot access your account');
     expect(html).not.toMatch(/href="\/(?:do|pursuit|studio|creative-studio)(?:[/?#"])/);
-    expect(html).toContain('Optional live question');
-    expect(html).toMatch(/<button type="submit" disabled=""/);
-    expect(html).not.toMatch(/type="checkbox"[^>]*checked/);
+    expect(html).toContain('Live questions and voice are not available');
+    expect(html).not.toContain('Optional live question');
+    expect(html).not.toMatch(/<(?:form|textarea|input)\b/);
+    expect(html).not.toContain('type="submit"');
   });
 });

@@ -91,7 +91,7 @@ export function AssemblConciergeWidget() {
     </section>}
     <div className={styles.launcher}>
     <button ref={trigger} type="button" className={styles.trigger} aria-expanded={open} aria-controls="site-do-workspace" onClick={() => open ? close() : setOpen(true)}><GlassIdentity kind="do" size={52} /><span>Ask DO</span></button>
-    <div className={styles.entryActions} aria-label="Start with DO"><button type="button" onClick={() => { setOpen(true); requestAnimationFrame(() => dispatchEvent(new Event('assembl:do-focus'))); }}><PenLine size={16} aria-hidden="true" />Write</button>{pathname !== '/' && <Link href="/do/widget?entry=talk" target="_blank" rel="noopener noreferrer" aria-label="Speak with DO — check availability in a new window"><Mic size={16} aria-hidden="true" />Speak<ArrowUpRight size={14} aria-hidden="true" /></Link>}</div>
+    <div className={styles.entryActions} aria-label="Start with DO"><button type="button" onClick={() => { setOpen(true); requestAnimationFrame(() => dispatchEvent(new Event('assembl:do-focus'))); }}><PenLine size={16} aria-hidden="true" />{pathname === '/' ? 'Guide' : 'Write'}</button>{pathname !== '/' && <Link href="/do/widget?entry=talk" target="_blank" rel="noopener noreferrer" aria-label="Speak with DO — check availability in a new window"><Mic size={16} aria-hidden="true" />Speak<ArrowUpRight size={14} aria-hidden="true" /></Link>}</div>
     </div>
   </aside>;
   return connectedHomeHost ? createPortal(widget, connectedHomeHost) : widget;
