@@ -26,12 +26,12 @@ function shipsOwnChrome(pathname: string | null): boolean {
 export function GlobalNav() {
   const pathname = usePathname();
   if (shipsOwnChrome(pathname)) return null;
-  if ((pathname === '/contact' || pathname === '/about')) return <ContactHeader />;
+  if (pathname === '/contact' || pathname === '/about' || pathname?.startsWith('/legal/')) return <ContactHeader contact={pathname === '/contact'} />;
   return <V2Nav current={pathname ?? undefined} />;
 }
 export function GlobalFooter() {
   const pathname = usePathname();
   if (shipsOwnChrome(pathname)) return null;
-  if ((pathname === '/contact' || pathname === '/about')) return <ContactFooter />;
+  if (pathname === '/contact' || pathname === '/about' || pathname?.startsWith('/legal/')) return <ContactFooter />;
   return <V2Footer />;
 }
