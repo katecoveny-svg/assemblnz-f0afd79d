@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { coastalFootage, playVideoWhenAllowed } from './video-readiness';
 import { chromeMarkup, footerMarkup, leadMarkup, trailMarkup } from './markup';
-import { TryDo, type TryDoSignals } from './TryDo';
+import type { TryDoSignals } from './TryDo';
 import './direction-4c.css';
 
 // Landing (21 Oct 2026, replaces the plum knockout mask): the footage is full bleed and the
@@ -268,7 +268,17 @@ export function Direction4cHome() {
         <Static html={chromeMarkup} />
         <div style={{ position: 'relative', zIndex: 1 }}>
           <Static html={leadMarkup} />
-          <TryDo signals={signals} />
+          <section id="try" className="td-section" aria-label="Ask DO about assembl">
+            <div className="td-wrap">
+              <p className="td-kicker">ASK DO · ABOUT ASSEMBL</p>
+              <div className="td-card">
+                <h3 className="td-title">What would you like to know?</h3>
+                <p>Ask about assembl, our work or how to start.</p>
+                <p>Public company information only. No access to private accounts, shopping baskets or bookings.</p>
+                <button type="button" className="td-guide-open" onClick={() => window.dispatchEvent(new Event('assembl:open-public-guide'))}>Ask DO about assembl</button>
+              </div>
+            </div>
+          </section>
           <Static html={trailMarkup} />
         </div>
         <Static html={footerMarkup} />

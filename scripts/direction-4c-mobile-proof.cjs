@@ -106,14 +106,14 @@ fs.mkdirSync(output, { recursive: true });
 
         const entryTargets = [], pausedCopyChecks = [];
         if (mode === 'normal' && width < 901) {
-          const actions = page.locator('.clear-do-actions');
+          const actions = page.locator('#try');
           await actions.evaluate(el => el.scrollIntoView({ block: 'center', behavior: 'instant' }));
-          for (const link of await actions.locator('a').all()) {
+          for (const link of await actions.locator('button').all()) {
             await link.click({ trial: true });
             const box = await link.boundingBox();
-            assert(box.width >= 44 && box.height >= 48, 'DO entry has usable touch targets');
+            assert(box.width >= 44 && box.height >= 48, 'Guide entry has usable touch targets');
             const previous = entryTargets.at(-1);
-            if (previous) assert(box.y - (previous.y + previous.height) >= 11, 'DO entry targets are separated');
+            if (previous) assert(box.y - (previous.y + previous.height) >= 11, 'Guide entry targets are separated');
             entryTargets.push({ href: await link.getAttribute('href'), ...box });
           }
           await page.screenshot({ path: `${output}/${engine}-${width}-do-entry.jpg`, type: 'jpeg', quality: 85 });
@@ -140,31 +140,21 @@ fs.mkdirSync(output, { recursive: true });
           }
         }
 
-        for (const href of ['/do?tool=write', '/do?tool=talk', '/do']) assert(await page.locator(`#try a[href="${href}"]`).count(), `real DO link ${href}`);
+        assert.equal(await page.locator('a[href^="/do"],a[href^="/pursuit"],a[href^="/studio"],a[href^="/creative-studio"]').count(), 0);
+        assert.equal(await page.locator('nav[aria-label="Primary"] a').getAttribute('href'), '/lab');
         for (const href of ['/legal/terms', '/legal/privacy', '/legal/disclaimer', '/legal/meta-data-deletion']) assert(await page.locator(`.clear-legal a[href="${href}"]`).count());
         if (width === 390 && mode === 'normal') {
-          const demo = page.locator('#try');
-          assert.match(await demo.locator('.td-kicker').textContent(), /simulated/i);
-          await demo.getByRole('tab', { name: 'Talk', exact: true }).click();
-          await demo.getByRole('button', { name: 'Play simulated voice example' }).click();
-          await page.waitForTimeout(650);
-          await demo.getByRole('tab', { name: 'Write', exact: true }).click();
-          const input = demo.getByRole('textbox', { name: 'What would you like done?' });
-          await input.fill('Keep this new typed draft');
-          await page.waitForTimeout(4000);
-          assert.equal(await input.inputValue(), 'Keep this new typed draft', 'interrupted simulated Talk cannot overwrite typing');
-          await page.screenshot({ path: `${output}/${engine}-390-interrupted-talk.jpg`, type: 'jpeg', quality: 85 });
-          await demo.getByRole('tab', { name: 'Talk', exact: true }).click();
-          await demo.getByRole('button', { name: 'Play simulated voice example' }).click();
-          await page.waitForTimeout(650);
-          await demo.getByRole('tab', { name: 'Add', exact: true }).click();
-          await page.waitForTimeout(4000);
-          assert.equal(await demo.getByRole('tab', { name: 'Add', exact: true }).getAttribute('aria-selected'), 'true');
-          await demo.getByRole('button', { name: 'Try a fictional example' }).click();
-          await demo.getByRole('button', { name: 'Approve', exact: true }).waitFor();
-          await demo.getByRole('button', { name: 'Not now', exact: true }).click();
-          await demo.getByRole('link', { name: 'Open the full DO' }).waitFor();
-          assert.equal(await demo.locator('.td-line').textContent(), 'Nothing was changed. This sample is not saved and will be lost on reload.');
+          const guide = page.locator('#try');
+          assert.match(await guide.locator('.td-kicker').textContent(), /about assembl/i);
+          await guide.getByRole('button', { name: 'Ask DO about assembl', exact: true }).click();
+          const panel = page.locator('#site-do-workspace');
+          await panel.getByRole('region', { name: 'Prepared company guide' }).waitFor();
+          assert.equal(await panel.locator('form, textarea, input[type="checkbox"]').count(), 0);
+          await panel.getByText('What can this guide actually do?', { exact: true }).click();
+          assert(await panel.getByText(/It cannot access your account/).isVisible());
+          assert.equal(await panel.locator('a[href^="/do"]').count(), 0);
+          await page.screenshot({ path: `${output}/${engine}-390-public-guide.jpg`, type: 'jpeg', quality: 85 });
+          await page.getByRole('button', { name: 'Close DO', exact: true }).click();
         }
         assert.deepEqual(errors, []);
         results.push({ width, mode, engine, passed: true, entryTargets, pausedCopyChecks });

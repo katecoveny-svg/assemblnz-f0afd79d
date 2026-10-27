@@ -15,6 +15,8 @@ const path = require('node:path');
         const context = await browser.newContext({ viewport: { width, height }, reducedMotion });
         const page = await context.newPage();
         const errors = [];
+        const guideRequests = [];
+        page.on('request', request => { if (request.url().includes('/api/home/agent')) guideRequests.push(request.url()); });
         const record = { width, height, reducedMotion, status: 'running', stage: 'navigate', errors };
         const label = `${width}x${height}-${reducedMotion}`;
         results.push(record);
@@ -60,18 +62,26 @@ const path = require('node:path');
             assert.equal(await pause.getAttribute('aria-pressed'), 'true');
             assert(await page.locator('[data-coastal-video]').evaluate(v => v.paused));
           }
-          for (const href of ['/do?tool=write', '/do?tool=talk', '/do']) {
-            const link = page.locator(`#try a[href="${href}"]`);
-            await link.scrollIntoViewIfNeeded(); await link.click({ trial: true });
-          }
+          assert.equal(await page.locator('a[href^="/do"],a[href^="/pursuit"],a[href^="/studio"],a[href^="/creative-studio"]').count(), 0);
+          assert.equal(await page.locator('nav[aria-label="Primary"] a').getAttribute('href'), '/lab');
+          const guideEntry = page.getByRole('button', { name: 'Ask DO about assembl', exact: true });
+          await guideEntry.scrollIntoViewIfNeeded(); await guideEntry.click({ trial: true });
           record.geometryPassed = true;
           await page.screenshot({ path: path.join(path.dirname(output), `${label}.png`) });
           record.stage = 'open-widget';
           persist();
-          const trigger = page.getByRole('button', { name: 'Ask DO', exact: true });
+          const trigger = page.locator('button[aria-controls="site-do-workspace"]');
           await trigger.click();
           await page.locator('#site-do-workspace').waitFor({ state: 'visible' });
           assert.equal(await trigger.getAttribute('aria-expanded'), 'true');
+          const panel = page.locator('#site-do-workspace');
+          assert.equal(await panel.locator('a[href^="/do"]').count(), 0);
+          assert(await panel.getByRole('region', { name: 'Prepared company guide' }).isVisible());
+          assert.equal(await panel.locator('form, textarea, input[type="checkbox"]').count(), 0);
+          await panel.getByText('What can this guide actually do?', { exact: true }).click();
+          assert(await panel.getByText(/It cannot access your account/).isVisible());
+          assert.equal(await panel.getByRole('link', { name: /Speak|Talk/ }).count(), 0);
+
           record.stage = 'close-widget';
           persist();
           const close = page.getByRole('button', { name: 'Close DO', exact: true });
@@ -79,6 +89,7 @@ const path = require('node:path');
           await page.locator('#site-do-workspace').waitFor({ state: 'detached' });
           assert.equal(await trigger.getAttribute('aria-expanded'), 'false');
           assert(await trigger.evaluate(element => document.activeElement === element));
+          assert.deepEqual(guideRequests, [], 'Prepared guidance must not call a model endpoint');
           assert.deepEqual(errors, []);
           record.status = 'passed';
           record.stage = 'complete';
