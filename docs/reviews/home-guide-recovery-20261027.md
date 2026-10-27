@@ -21,3 +21,11 @@ Browser opened in dedicated home-guide-recovery session but initial localhost na
 Count then insert is not atomic: concurrent admitted requests can exceed nominal quotas. No claim of a hard monetary cap. Achieving atomic admission requires a separately reviewed database primitive/migration. Provider cancellation is best effort; work billed before cancellation is not refunded. Existing specialist selection on the public endpoint remains unchanged; homepage selects only assembl with no tools. No audio tests performed; the two-test allowance remains unreconciled.
 
 Publication held for parent review and release approval.
+
+## Browser checkpoint
+
+Dedicated local browser rendered homepage and confirmed Lab-only top navigation, preserved main sections, consent unchecked and submit disabled initially. Intercepted success response rendered at desktop and 375x812 mobile; intercepted 503 rendered honest error and retained question. Screenshots: output/playwright/guide-desktop-fixture-success.png, guide-mobile-fixture-success.png, guide-mobile-fixture-error.png. An initial browser check used a non-specific alert selector matching Next's announcer; the scoped guide alert check then passed.
+
+One actual local endpoint question (What is assembl?) returned HTTP 503 with `The guide is unavailable. Please email assembl@assembl.co.nz.` before provider generation. See evidence/home-guide/real-endpoint.log and output/playwright/guide-mobile-real-endpoint.png. No new credentials/setup attempted. Successful real provider answer remains blocked on existing admission-storage readiness.
+
+Webpack build records `ENOTFOUND fonts.googleapis.com`; completion is unconfirmed. Typecheck completion remains unconfirmed at this checkpoint. These must not be described as passing.
