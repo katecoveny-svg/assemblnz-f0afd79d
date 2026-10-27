@@ -11,7 +11,7 @@ const signatures = {
   '/pursuit': { title: 'Pursuit by assembl | Research the opportunity', h1: 'See what’s changing. Find your next move.' },
   '/do': { title: 'DO by assembl | Your personal agent for useful work', selector: 'main[data-do-identity="assembled-glass"]' },
   '/creative-studio': { title: 'Studio by assembl | Give the idea a working version', h1: 'Give the idea a working version.' },
-  '/contact': { title: 'Contact assembl | Discuss your project', h1: 'What would you like to make?' },
+  '/contact': { title: 'Contact assembl | Discuss your project', h1: 'Bring us the work.' },
 };
 
 // Navigation readiness is bounded and requires the actual destination, not its URL alone.
@@ -175,7 +175,7 @@ const releaseDismissTimers = async (page, ids = null) => page.evaluate(ids => {
         await dialog.waitFor({ state: 'detached' });
         const oldTimers = await page.evaluate(() => [...window.__commandTimers.queue.keys()]);
         assert(oldTimers.length > 0, 'Deferred close callback was captured');
-        const secondOpener = page.locator('header a[href="/do"]').first();
+        const secondOpener = page.locator('header a[href="/lab"]').first();
         await secondOpener.focus();
         await page.evaluate(() => window.dispatchEvent(new Event('assembl:open-command')));
         await dialog.waitFor();
@@ -188,7 +188,7 @@ const releaseDismissTimers = async (page, ids = null) => page.evaluate(ids => {
         await releaseDismissTimers(page, oldTimers);
         assert.equal(await page.evaluate(() => window.__commandSecondFocusCalls), 0, 'Old session cannot consume the new opener');
         await releaseDismissTimers(page);
-        await page.waitForFunction(() => document.activeElement === document.querySelector('header a[href="/do"]'));
+        await page.waitForFunction(() => document.activeElement === document.querySelector('header a[href="/lab"]'));
         assert.equal(await page.evaluate(() => window.__commandSecondFocusCalls), 1);
         // Respect focus deliberately moved elsewhere during deferred dismissal.
         await open('Control+k');

@@ -1,21 +1,20 @@
 import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
 import { AssemblGlassMark } from '@/components/site/AssemblGlassMark';
 import { AssemblWordmark } from '@/components/site/AssemblWordmark';
 import styles from './contact-chrome.module.css';
 
-const products = [['/pursuit', 'Pursuit'], ['/do', 'DO'], ['/creative-studio', 'Studio']] as const;
-
-export function ContactHeader() {
+export function ContactHeader({ contact = false }: { contact?: boolean }) {
   return <header className={styles.header}>
-    <Link href="/" aria-label="assembl home" className={styles.brand}><AssemblGlassMark size={32} /><AssemblWordmark /></Link>
-    <nav aria-label="Primary">{products.map(([href, label]) => <Link key={href} href={href}>{label}</Link>)}</nav>
-    <Link href="/do" className={styles.open}>Open DO <span aria-hidden="true">↗</span></Link>
+    <Link href="/" aria-label="assembl home" className={styles.brand}><AssemblGlassMark size={36} /><AssemblWordmark /></Link>
+    <nav aria-label="Primary"><Link href="/">Home</Link><Link href="/lab">Lab</Link></nav>
+    <Link href={contact ? '#project-brief' : '/contact'} className={styles.open}>{contact ? 'Start a conversation' : 'Bring us the work'}<ArrowUpRight size={16} aria-hidden="true" /></Link>
   </header>;
 }
 
 export function ContactFooter() {
   return <footer className={styles.footer}>
-    <Link href="/" aria-label="assembl home" className={styles.brand}><AssemblGlassMark size={32} /><AssemblWordmark /></Link>
-    <nav aria-label="Footer">{products.map(([href, label]) => <Link key={href} href={href}>{label}</Link>)}<Link href="/about">About</Link><Link href="/legal/privacy">Privacy</Link></nav>
+    <div><Link href="/" aria-label="assembl home" className={styles.brand}><AssemblGlassMark size={32} /><AssemblWordmark /></Link><p>Useful work. Built in Aotearoa New Zealand.</p></div>
+    <nav aria-label="Footer"><Link href="/lab">Lab</Link><Link href="/#try">About assembl</Link><Link href="/contact">Contact</Link><Link href="/legal/terms">Terms</Link><Link href="/legal/privacy">Privacy</Link><Link href="/legal/disclaimer">Disclaimer</Link><Link href="/legal/meta-data-deletion">Meta data deletion</Link></nav>
   </footer>;
 }

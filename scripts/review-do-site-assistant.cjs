@@ -26,7 +26,7 @@ const result = message => ({ id: 'fictional-site-draft', createdAt: '2026-10-01T
     });
     for (const width of [1440, 375]) {
       await page.setViewportSize({ width, height: width === 375 ? 812 : 1000 });
-      ready = false; await page.goto(origin + '/contact', { waitUntil: 'networkidle' });
+      ready = false; await page.goto(origin + '/pricing', { waitUntil: 'networkidle' });
       const trigger = page.locator('button[aria-controls="site-do-workspace"]');
       await trigger.click();
       const workspace = page.getByRole('region', { name: 'DO drafting workspace', exact: true });

@@ -215,7 +215,7 @@ async function verifyFunctionalMark(page, root, label) {
     await verifyFunctionalMark(clean, clean.getByRole('link', { name: 'DO by assembl, home', exact: true }), 'hydrated install header');
     for (const width of [1440, 375]) {
       await clean.setViewportSize({ width, height: width === 375 ? 812 : 1000 });
-      await clean.goto(origin + '/contact', { waitUntil: 'networkidle' });
+      await clean.goto(origin + '/pricing', { waitUntil: 'networkidle' });
       const trigger = clean.getByRole('button', { name: 'Ask DO', exact: true });
       await trigger.click();
       const panel = clean.getByRole('region', { name: 'DO drafting workspace', exact: true });

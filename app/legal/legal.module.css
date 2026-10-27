@@ -1,0 +1,4 @@
+.page { --text-primary: #492b3e; --text-body: #492b3e; --text-secondary: #654a4e; --assembl-paper: #fffdfb; color: #492b3e; font-family: var(--font-body), 'Instrument Sans', sans-serif; }
+.page h1,.page h2 { color: #492b3e; font-family: inherit; }
+.page a { text-underline-offset: 4px; }
+.page a:focus-visible { outline: 3px solid #916a70; outline-offset: 4px; }
