@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#eee8dd"><meta name="description" content="Step into a reconstructed neighbourhood of Pompeii. Explore a street, food counter, bakery and courtyard, and investigate the evidence of everyday Roman life.">
+  <title>Pompeii · assembl lab</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#locations">Skip to places and learning activities</a>
+  <main id="world" aria-label="Interactive 3D reconstruction of a Pompeian neighbourhood"><canvas id="scene" tabindex="0" aria-label="Drag to look around. Use arrow keys or W A S D to move after entering. Select a place below to travel there."></canvas></main>
+  <div class="vignette" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Pompeii, assembl lab"><span class="brand-mark">a<span>·</span></span><span>assembl <b>lab</b><small>STEP INTO HISTORY</small></span></a>
+    <div class="chapter-label"><span class="status-dot"></span> POMPEII, ITALY <span class="slash">/</span> 79 CE</div>
+    <nav class="top-actions" aria-label="Learning tools"><button id="sound" class="icon-button" aria-label="Turn on ambient sound" title="Ambient sound">♫<span>Sound off</span></button><button id="sources" class="quiet-button">Sources</button><button id="notebook" class="notebook-button">Field notes <span id="count">0</span></button></nav>
+  </header>
+  <div id="loading" role="status"><span class="loader-ring"></span><span>Assembling a day in Pompeii…</span></div>
+  <section class="intro" id="intro">
+    <div class="eyebrow"><span class="tiny-line"></span> FIELD TRIP 01 · EVERYDAY LIFE</div>
+    <h1>Pompeii.<br><em>Before it became<br>history.</em></h1>
+    <p>A street. A loaf of bread. A quiet courtyard.<br>Step into a Roman neighbourhood and discover<br class="desktop"> the lives behind the ruins.</p>
+    <div class="intro-actions"><button class="primary" id="enter">Step into Pompeii <span>↗</span></button><button class="text-button" id="intro-mission">Your investigation <span>→</span></button></div>
+    <div class="intro-meta"><span>4 places to explore</span><i></i><span>6 pieces of evidence</span><i></i><span>About 10 min</span></div>
+  </section>
+  <aside class="map-card" id="map-card" aria-label="Neighbourhood map">
+    <div class="map-top"><span>YOUR NEIGHBOURHOOD</span><button id="map-toggle" aria-label="Collapse map">−</button></div>
+    <div class="map-content"><svg viewBox="0 0 230 190" aria-label="Plan: courtyard west, bakery northeast, food counter southeast" role="img"><path d="M98 6h36v177H98z" fill="#e4d8c7"/><path d="M14 25h70v90H14zM148 20h66v65h-66zM148 107h66v65h-66z" fill="#c9b3a0"/><path d="M25 38h47v64H25zM157 28h48v48h-48zM157 116h48v47h-48z" fill="#f8f3e9"/><path d="M41 59h17v24H41z" fill="#a8bfbb"/><path d="M89 105h14M128 51h25M128 136h25" stroke="#fffaf2" stroke-width="9"/><text x="111" y="169" font-size="8" fill="#6f645a" transform="rotate(-90 111 169)">VIA · STREET</text><g id="map-courtyard" class="map-stop" tabindex="0" role="button" aria-label="Visit the courtyard" data-place="courtyard"><circle cx="48" cy="72" r="11"/><text x="48" y="75">4</text></g><g class="map-stop" tabindex="0" role="button" aria-label="Visit the bakery" data-place="bakery"><circle cx="181" cy="51" r="11"/><text x="181" y="54">3</text></g><g class="map-stop" tabindex="0" role="button" aria-label="Visit the food counter" data-place="counter"><circle cx="181" cy="137" r="11"/><text x="181" y="140">2</text></g><g class="map-stop" tabindex="0" role="button" aria-label="Visit the street" data-place="street"><circle cx="116" cy="105" r="11"/><text x="116" y="108">1</text></g><path d="M218 7v12m-3-9 3-4 3 4" stroke="#8e7869" fill="none"/><text x="218" y="27" text-anchor="middle" font-size="7" fill="#8e7869">N</text></svg><p>Composite setting · not a surveyed map</p></div>
+  </aside>
+  <div class="view-controls"><button id="overview" class="round-button" title="Aerial view" aria-label="Aerial view">⌂</button><button id="cutaway" class="pill" aria-pressed="false"><span>◈</span> Roofs on</button><button id="help" class="round-button" aria-label="How to explore">?</button></div>
+  <div id="hotspots" aria-label="Historical evidence in the scene"></div>
+  <section class="place-card hidden" id="place-card" aria-live="polite"><div class="eyebrow" id="place-number">01 / THE STREET</div><h2 id="place-title">Life between the stones.</h2><p id="place-description">Look for the raised crossing. What might it tell us about this street?</p><button class="text-button" id="place-clue">Inspect the evidence <span>↗</span></button></section>
+  <div class="walk-controls hidden" id="walk-controls" aria-label="Movement controls"><button data-move="forward" aria-label="Move forward">↑</button><div><button data-move="left" aria-label="Move left">←</button><button data-move="back" aria-label="Move backward">↓</button><button data-move="right" aria-label="Move right">→</button></div></div>
+  <footer class="bottom-bar">
+    <nav id="locations" aria-label="Explore places"><button data-place="street"><span>01</span> The street</button><button data-place="counter"><span>02</span> Food counter</button><button data-place="bakery"><span>03</span> The bakery</button><button data-place="courtyard"><span>04</span> Courtyard home</button></nav>
+    <button id="mission" class="mission-button"><span class="mission-icon">✧</span><span>Your investigation<small>Who had comfort? Who did the work?</small></span><span>→</span></button>
+  </footer>
+  <div class="scene-caption"><span id="scene-mode">An interpretive 3D reconstruction</span><span>Drag to look · choose a place to travel</span></div>
+  <aside class="drawer" id="drawer" aria-modal="true" role="dialog" aria-labelledby="drawer-title" hidden><div class="drawer-header"><span id="drawer-kicker">FIELD NOTES</span><button id="close-drawer" class="round-button" aria-label="Close panel">×</button></div><div id="drawer-content"></div></aside>
+  <div id="scrim" hidden></div><div id="toast" role="status"></div>
+  <noscript><div class="no-script">This interactive experience needs JavaScript. Explore the original research at <a href="https://pompeiisites.org/en/">Pompeii Archaeological Park</a>.</div></noscript>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

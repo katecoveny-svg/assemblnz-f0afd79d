@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "assembl Kitchen \u00b7 Woolworths NZ pilot",
+  "description": "Read Woolworths NZ prices, approve one fixed-price pack and review its trolley result. Pickup pilot; checkout stays manual.",
+  "version": "0.1.0",
+  "minimum_chrome_version": "120",
+  "permissions": [
+    "storage",
+    "scripting"
+  ],
+  "optional_host_permissions": [
+    "https://www.woolworths.co.nz/*",
+    "https://kitchen-machine-kate.katecoveny.chatgpt.site/*"
+  ],
+  "background": {
+    "service_worker": "worker.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "Open Woolworths shopping companion"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none'; base-uri 'none'"
+  }
+}
