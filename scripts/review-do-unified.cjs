@@ -63,17 +63,19 @@ async function verifyFunctionalMark(page, root, label) {
     await visit('/');
     await page.getByRole('heading', { name: 'assembl. Useful work.', level: 1, exact: true }).waitFor({ state: 'attached' });
     check('homepage has one accessible assembl invitation', await page.getByRole('heading', { name: 'assembl. Useful work.', level: 1, exact: true }).count() === 1);
-    check('Open DO goes directly to the product', await page.getByRole('link', { name: 'Open DO', exact: true }).first().getAttribute('href') === '/do');
+    check('homepage retains Lab and public guide destinations', await page.locator('nav[aria-label="Primary"] a[href="/lab"]').isVisible() && await page.getByRole('link', { name: 'Ask about assembl', exact: true }).first().getAttribute('href') === '#try');
+    check('homepage has no unfinished product links', await page.locator('a[href^="/do"],a[href^="/pursuit"],a[href^="/studio"],a[href^="/creative-studio"]').count() === 0);
     await page.locator('.direction-4c[data-paused]').waitFor();
     check('reduced-motion homepage has a static scene and readable invitation', await page.locator('.direction-4c canvas').evaluate(el => getComputedStyle(el).display === 'none')
       && !await page.locator('.direction-4c').evaluate(el => el.hasAttribute('data-ready'))
       && await page.locator('[data-ref="msgRef"]').isVisible());
-    check('all three product sections and public destinations remain available', await page.locator('#pursuit, #do, #studio').count() === 3
-      && await page.getByRole('link', { name: 'Explore Pursuit', exact: true }).getAttribute('href') === '/pursuit'
-      && await page.getByRole('link', { name: 'Explore Studio', exact: true }).getAttribute('href') === '/creative-studio');
+    check('all three company sections retain public enquiry destinations', await page.locator('#pursuit, #do, #studio').count() === 3
+      && await page.getByRole('link', { name: 'Discuss an opportunity', exact: true }).getAttribute('href') === '/contact'
+      && await page.getByRole('link', { name: 'Discuss a project', exact: true }).getAttribute('href') === '/contact');
     check('reduced motion does not start the decorative engine', await page.locator('script[src="/direction-4c/assembl-tide.js"]').count() === 0);
     await page.screenshot({ path: out + '/01-home-desktop.png' });
-    await page.getByRole('link', { name: 'Open DO', exact: true }).first().click();
+    // Private DO remains available directly; it is not a homepage destination.
+    await visit('/do');
     await page.getByRole('heading', { name: 'Today', exact: true }).waitFor();
     check('home opens with one writing editor before Today', await page.locator('textarea:visible').count() === 1 && await page.locator('#personal-assistant-input').isVisible() && await page.evaluate(() => Boolean(document.querySelector('#personal-assistant-input').compareDocumentPosition(document.querySelector('#personal-today-heading')) & Node.DOCUMENT_POSITION_FOLLOWING)));
     await page.setViewportSize({ width: 375, height: 812 });
@@ -249,7 +251,7 @@ async function verifyFunctionalMark(page, root, label) {
     check('scene resumes explicitly', await clean.getByRole('button', { name: 'Pause motion', exact: true }).getAttribute('aria-pressed') === 'false');
     await clean.emulateMedia({ reducedMotion: 'reduce' });
     await clean.waitForFunction(() => !document.querySelector('.direction-4c[data-ready]') && getComputedStyle(document.querySelector('.direction-4c canvas')).display === 'none');
-    check('dynamic reduced motion retains readable content', await clean.locator('[data-ref="msgRef"]').isVisible() && await clean.getByRole('link', { name: 'Open DO', exact: true }).isVisible());
+    check('dynamic reduced motion retains readable content', await clean.locator('[data-ref="msgRef"]').isVisible() && await clean.getByRole('button', { name: 'Ask DO about assembl', exact: true }).isVisible());
     await clean.emulateMedia({ reducedMotion: 'no-preference' });
     await clean.waitForFunction(() => document.querySelector('.direction-4c[data-ready="true"]'));
     check('scene returns after reduced-motion preference changes', await scene.locator('canvas').isVisible());
@@ -258,7 +260,7 @@ async function verifyFunctionalMark(page, root, label) {
     await fallback.emulateMedia({ reducedMotion: 'no-preference' });
     await fallback.goto(origin + '/', { waitUntil: 'networkidle' });
     await fallback.waitForFunction(() => document.querySelector('.direction-4c[data-static="true"]'));
-    check('WebGL unavailable keeps readable content and product links', await fallback.locator('[data-ref="msgRef"]').isVisible() && await fallback.getByRole('link', { name: 'Open DO', exact: true }).isVisible() && await fallback.locator('.direction-4c canvas').evaluate(el => getComputedStyle(el).display === 'none'));
+    check('WebGL unavailable keeps readable content and public guide entry', await fallback.locator('[data-ref="msgRef"]').isVisible() && await fallback.getByRole('button', { name: 'Ask DO about assembl', exact: true }).isVisible() && await fallback.locator('.direction-4c canvas').evaluate(el => getComputedStyle(el).display === 'none'));
     await fallback.screenshot({ path: out + '/08-webgl-fallback.png', animations: 'disabled', timeout: 60000 });
     await fallback.close();
     await clean.emulateMedia({ reducedMotion: 'reduce' });
