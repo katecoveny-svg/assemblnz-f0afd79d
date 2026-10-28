@@ -31,6 +31,7 @@ import { createMailHandoffReceiver, type ReviewedMailHandoff } from "@/apps/do/m
 import { DoGeminiLive } from "@/app/do/DoGeminiLive";
 import type { PersonalDoProfile } from "@/apps/do/personal/profile";
 import { PersonalDoSettings } from "./PersonalDoSettings";
+import { DoFirstResult } from "./DoFirstResult";
 import { LifeAdmin } from "./LifeAdmin";
 import { PersonalDoAssistant, type PersonalAssistantWork } from "./PersonalDoAssistant";
 import { WakeupControls } from "./WakeupControls";
@@ -69,6 +70,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
   const [sharedIntake, setSharedIntake] = useState<{ id: string; text: string; sourceTitle: string }>();
   const [workspaceKey, setWorkspaceKey] = useState<string | null>(null);
   const [guestDirty, setGuestDirty] = useState(false);
+  const [firstResultDirty, setFirstResultDirty] = useState(false);
   const [assistantWork, setAssistantWork] = useState<PersonalAssistantWork>({ dirty: false, exportText: "" });
   const [assistantWorking, setAssistantWorking] = useState(false);
   const [leavingHref, setLeavingHref] = useState<string | null>(null);
@@ -206,14 +208,14 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
     else leaveDialog.current?.close();
   }, [leavingHref]);
   useEffect(() => {
-    if (!(workspaceKey === "guest" && guestDirty) && !shoppingDraft && !mailDraft && !browserDraft) return;
+    if (!firstResultDirty && !(workspaceKey === "guest" && guestDirty) && !shoppingDraft && !mailDraft && !browserDraft) return;
     const warn = (event: BeforeUnloadEvent) => {
       if (approvedLeave.current) return;
       event.preventDefault(); event.returnValue = "";
     };
     window.addEventListener("beforeunload", warn);
     return () => window.removeEventListener("beforeunload", warn);
-  }, [workspaceKey, guestDirty, shoppingDraft, mailDraft, browserDraft]);
+  }, [workspaceKey, guestDirty, firstResultDirty, shoppingDraft, mailDraft, browserDraft]);
   function openEditor(
     item?: Responsibility,
     starter?: (typeof PERSONAL_STARTERS)[number],
@@ -387,7 +389,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
     state?.runs.filter((r) => r.status === "needs_review").length ?? 0;
   return (
     <main className={styles.page} style={doIdentityStyle} data-do-identity="assembled-glass" onClickCapture={event => {
-      if ((!(workspaceKey === "guest" && guestDirty) && !shoppingDraft && !mailDraft && !browserDraft) || !(event.target instanceof Element)) return;
+      if ((!firstResultDirty && !(workspaceKey === "guest" && guestDirty) && !shoppingDraft && !mailDraft && !browserDraft) || !(event.target instanceof Element)) return;
       const link = event.target.closest<HTMLAnchorElement>("a[href]");
       if (!link || link.target === "_blank" || link.download) return;
       const destination = new URL(link.href, window.location.href);
@@ -416,6 +418,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
       {access === "loading" && (
         <p className={styles.loading}>Opening DO…</p>
       )}
+      {workspaceKey && <DoFirstResult key={workspaceKey} onDirty={setFirstResultDirty} onTalk={() => { setCallOpen(true); requestAnimationFrame(() => document.getElementById("personal-do-call")?.scrollIntoView({ block: "start" })); }} />}
       {access === "error" && (
         <button className={styles.retry} onClick={() => void load()}>
           Try loading again <RefreshCw size={16} />
@@ -764,9 +767,9 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
         <section className={styles.editor}>
           <p className={styles.eyebrow}>KEEP YOUR WORK BEFORE YOU GO</p>
           <h2 id="guest-leave-title">Your unsaved work is in this page.</h2>
-          <p>{browserDraft ? "Your browser review will close and disconnect. An edit already in flight may still finish; check the selected tab." : mailDraft ? "Your mail review and task draft will close. Stay to finish reviewing or copy your work." : shoppingDraft ? "Your shopping plan will close. Stay and copy the list or keep it as a task first." : "Signing in or leaving starts a fresh workspace. Stay and use Download all guest work to keep a copy first. You can paste it back into your signed-in workspace."}</p>
+          <p>{firstResultDirty && "Your getting-started brief and notes are only in this tab. Stay and copy them before leaving or signing in. "}{browserDraft ? "Your browser review will close and disconnect. An edit already in flight may still finish; check the selected tab." : mailDraft ? "Your mail review and task draft will close. Stay to finish reviewing or copy your work." : shoppingDraft ? "Your shopping plan will close. Stay and copy the list or keep it as a task first." : "Signing in or leaving starts a fresh workspace. Stay and use Download all guest work to keep a copy first. You can paste it back into your signed-in workspace."}</p>
           <div className={styles.actions}>
-            <button type="button" onClick={() => { setLeavingHref(null); setNotice(browserDraft ? "Return to your browser review to finish or disconnect." : mailDraft ? "Return to your mail review to finish or copy your task draft." : shoppingDraft ? "Return to your shopping plan to copy or keep the list." : "Use Download all guest work above your checklist before signing in."); }}>Stay and keep my work</button>
+            <button type="button" onClick={() => { setLeavingHref(null); setNotice(firstResultDirty ? "Return to your getting-started brief and copy it before leaving." : browserDraft ? "Return to your browser review to finish or disconnect." : mailDraft ? "Return to your mail review to finish or copy your task draft." : shoppingDraft ? "Return to your shopping plan to copy or keep the list." : "Use Download all guest work above your checklist before signing in."); }}>Stay and keep my work</button>
             <button type="button" onClick={() => { approvedLeave.current = true; window.location.assign(leavingHref); }}>Leave without this work</button>
           </div>
         </section>
