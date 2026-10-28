@@ -620,11 +620,33 @@ export function DoGeminiLive({
         }
       };
       ws.onerror = () => {
-        if (socketCurrent())
-          end("The voice connection failed. Your microphone is off.");
+        // Browsers deliver an error before close. Ending here destroys the lease
+        // and prevents the close handler from resuming an approved conversation.
+        if (!socketCurrent()) return;
+        s.ready = false;
+        s.stream?.getAudioTracks().forEach(track => { track.enabled = false; });
+        stopAudio(s);
+        setNotice("The voice connection was interrupted. Microphone paused while checking whether this call can resume.");
+        // A transport error need not deliver close promptly. Never keep capture
+        // alive silently for the remainder of the allowance in that case.
+        clearTimeout(s.setupTimer);
+        s.setupTimer = setTimeout(() => {
+          if (socketCurrent()) end("The voice connection failed. Your microphone is off; your conversation stays here. Review call availability to try again.");
+        }, Math.min(5000, Math.max(0, deadline - Date.now())));
       };
-      ws.onclose = () => {
-        if (socketCurrent() && !reconnecting) void reconnect().then(resumed => { if (!resumed && socketCurrent()) end("Voice ended. Your microphone is off."); });
+      ws.onclose = (event) => {
+        if (!socketCurrent() || reconnecting) return;
+        // Do not retry a rejected configuration/token or expose the provider's
+        // raw close reason, which may contain request or credential material.
+        if ([1002, 1003, 1007, 1008].includes(event?.code)) {
+          end("The voice service rejected this connection. Your microphone is off. Check call availability before trying again.");
+          return;
+        }
+        void reconnect().then(resumed => {
+          if (!resumed && socketCurrent()) end(started
+            ? "The voice connection ended. Your microphone is off; your conversation stays here. Review call availability to start again."
+            : "The voice connection closed before it was ready. Your microphone is off. Check call availability and try again.");
+        });
       };
       };
       connect();

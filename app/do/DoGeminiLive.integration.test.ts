@@ -57,6 +57,31 @@ beforeEach(()=>{
 });
 afterEach(()=>{for(const cleanup of hooks.cleanups)cleanup();vi.useRealTimers();vi.unstubAllGlobals();});
 describe('actual call component with mocked transport',()=>{
+  it('pauses capture immediately and ends a transport error that never closes',async()=>{
+    const first=await begin(); first.onerror();
+    expect(track.enabled).toBe(false);
+    await vi.advanceTimersByTimeAsync(5000);
+    expect(track.stop).toHaveBeenCalled(); expect(Socket.instances).toHaveLength(1);
+    expect(renderToStaticMarkup(render())).toContain('your conversation stays here');
+  });
+  it('resumes a leased call after browser error then close without reserving again',async()=>{
+    const first=await begin();
+    await first.message({sessionResumptionUpdate:{resumable:true,newHandle:'fixture-resume'}});
+    first.onerror(); first.onclose({code:1006}); await flush();
+    expect(Socket.instances).toHaveLength(2);
+    expect(track.stop).not.toHaveBeenCalled();
+    expect(mic).toHaveBeenCalledTimes(1);
+    expect(request.mock.calls.filter((c:any)=>c[1]?.body?.includes('"action":"start"'))).toHaveLength(1);
+    const second=Socket.instances[1]; second.onopen(); await second.message({setupComplete:{}});
+    expect(JSON.parse(second.sent[0]).setup.generationConfig.speechConfig).toEqual(config.speechConfig);
+  });
+  it('explains a provider rejection and never retries or displays a raw close reason',async()=>{
+    await startReviewedCall(); const first=Socket.instances[0]; first.onopen();
+    first.onclose({code:1008,reason:'secret-token-and-provider-detail'}); await flush();
+    expect(Socket.instances).toHaveLength(1); expect(track.stop).toHaveBeenCalled();
+    const html=renderToStaticMarkup(render());
+    expect(html).toContain('voice service rejected'); expect(html).not.toContain('secret-token');
+  });
   it('resumes same token/config, keeps mute, sends typed input once and acquires mic once',async()=>{
     const first=await begin();let tree=render();button(tree,'Mute microphone').props.onClick();tree=render();const typed=nodes(tree).find(n=>n.type==='textarea'&&n.props.id==='fixture-typed');typed.props.onChange({target:{value:'Continue by typing'}});tree=render();nodes(tree).find(n=>n.type==='form').props.onSubmit({preventDefault(){}});
     await first.message({sessionResumptionUpdate:{resumable:true,newHandle:'private-handle'}});await first.message({goAway:{timeLeft:'1s'}});await flush();const second=Socket.instances[1];expect(second.url).toBe(first.url);second.onopen();await second.message({setupComplete:{}});
