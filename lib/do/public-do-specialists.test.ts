@@ -83,8 +83,11 @@ describe('public DO entry boundaries', () => {
     const workspace = readFileSync(join(root, 'app/do/personal/PersonalDo.tsx'), 'utf8');
     expect(doHome).toContain('<PersonalDo />');
     const navigation = readFileSync(join(root, 'components/do/DoSecondaryNavigation.tsx'), 'utf8');
-    expect(workspace).toContain('<DoSecondaryNavigation />');
-    const rendered = renderToStaticMarkup(createElement(DoSecondaryNavigation));
+    expect(workspace).toMatch(/<DoSecondaryNavigation(?:\s[^>]*)?>/);
+    const rendered = renderToStaticMarkup(createElement(DoSecondaryNavigation, null,
+      createElement('a', { href: '#do-first-result' }, 'Start with one small task')));
+    expect(rendered).toContain('href="#do-first-result"');
+    expect(rendered).toContain('Start with one small task');
     for (const href of ['/do/widget', '/do/meetings', '/do/bills', '/do/enquiries', '/do/install', '/do/household']) expect(rendered).toContain(`href="${href}"`);
     expect(DO_TOOL_LINKS.map(item => item.href)).toEqual(expect.arrayContaining(['/do/meetings', '/do/bills', '/do/enquiries', '/do/household']));
     for (const item of DO_TOOL_LINKS) expect(rendered).toContain(`href="${item.href}"`);
