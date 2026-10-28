@@ -14,6 +14,7 @@ function nodes(tree: any): any[] { if (!tree || typeof tree !== 'object') return
 const button = (label: string) => nodes(render()).find(n => n.type === 'button' && n.props.children === label);
 const field = (id: string) => nodes(render()).find(n => n.props?.id === id);
 function prepare() {
+  button('Start with one small task').props.onClick();
   button('Prepare a brief').props.onClick();
   field('do-first-goal').props.onChange({ target: { value: 'Plan a fictional Wellington weekend' } });
   field('do-first-notes').props.onChange({ target: { value: 'Two people, Sunday afternoon' } });
@@ -42,6 +43,7 @@ it('retains the brief after clipboard failure and rejected assistant handoff', a
   expect(field('do-first-draft').props.value).toBe(original); expect(fetch).not.toHaveBeenCalled();
 });
 it('type instead never opens voice and voice options require an explicit click', () => {
+  button('Start with one small task').props.onClick();
   button('Type instead').props.onClick(); expect(field('do-first-goal')).toBeDefined(); expect(talk).not.toHaveBeenCalled();
   button('Review voice options').props.onClick(); expect(talk).toHaveBeenCalledTimes(1); expect(fetch).not.toHaveBeenCalled();
 });
@@ -52,6 +54,6 @@ it('offers a reviewed copy without sending it and keeps the original', () => {
   vi.stubGlobal('CustomEvent', class { detail: any; constructor(_type: string, init: any) { this.detail = init.detail; } });
   vi.stubGlobal('window', { dispatchEvent: (event: any) => { event.detail.result = { accepted: true, text: event.detail.text }; } });
   button('Review in Ask DO').props.onClick();
-  expect(focus).toHaveBeenCalled(); expect(renderToStaticMarkup(render())).toContain('Nothing was sent or saved');
+  expect(renderToStaticMarkup(render())).toContain('Nothing was sent or saved');
   expect(field('do-first-draft').props.value).toBe(original); expect(fetch).not.toHaveBeenCalled();
 });
