@@ -73,6 +73,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
   const [firstResultDirty, setFirstResultDirty] = useState(false);
   const [firstResultScope, setFirstResultScope] = useState<string | null>(null);
   const [revealWriting, setRevealWriting] = useState(0);
+  const [openGuideRequest, setOpenGuideRequest] = useState(0);
   const [assistantWork, setAssistantWork] = useState<PersonalAssistantWork>({ dirty: false, exportText: "" });
   const [assistantWorking, setAssistantWorking] = useState(false);
   const [leavingHref, setLeavingHref] = useState<string | null>(null);
@@ -130,6 +131,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
       if (!scope) throw new Error("Account identity unavailable.");
       verifiedScope = scope;
       if (lastVerifiedOwner.current !== scope) {
+        setOpenGuideRequest(0);
         browserDraftRef.current = null; setBrowserDraft(null); setShoppingDraft(null); setShoppingOpen(false); setMailDraft(null); mailDraftRef.current = null; mailReceiver.current = null;
         if (workspaceRef.current !== null) setSharedIntake(undefined);
         setAssistantWork({ dirty: false, exportText: "" }); setAssistantWorking(false);
@@ -187,7 +189,11 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
         if (shouldRevalidatePersonalOwner(_event, workspaceRef.current, hintedScope)) {
           loadRequest.current?.abort();
           workspaceRef.current = null;
-          setFirstResultScope(null); setFirstResultDirty(false);
+          // Auth events can re-establish the same session after a failed refresh.
+          // Keep its draft quarantined; only the server response may reveal it.
+          if (_event === "SIGNED_OUT" || hintedScope !== lastVerifiedOwner.current) {
+            setFirstResultScope(null); setFirstResultDirty(false); setOpenGuideRequest(0);
+          }
           browserDraftRef.current = null; setBrowserDraft(null); setShoppingDraft(null); setShoppingOpen(false); setMailDraft(null); mailDraftRef.current = null; mailReceiver.current = null;
           setWorkspaceKey(null); setState(null); setPersonalProfile(null); setAssistantWork({ dirty: false, exportText: "" }); setAssistantWorking(false);
           setSharedIntake(undefined); setConsent(false);
@@ -403,7 +409,7 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
       <header className={styles.nav}>
         <DoBrand finish="glass" />
         <nav aria-label="DO" className={styles.navActions}>
-          <DoSecondaryNavigation />
+          <DoSecondaryNavigation><a href="#do-first-result" onClick={() => setOpenGuideRequest(value => value + 1)}>Start with one small task</a></DoSecondaryNavigation>
           <Link className={styles.phoneLink} href="/do/install#phone">Install DO <ArrowUpRight size={14} /></Link>
           {access === "ready" && workspaceKey
             ? <PersonalDoSettings key={workspaceKey} compact triggerRef={settingsButton} sharedProfile={personalProfile} onProfileChange={setPersonalProfile} />
@@ -422,13 +428,13 @@ export function PersonalDo({ context }: { context?: "household" } = {}) {
       {access === "loading" && (
         <p className={styles.loading}>Opening DO…</p>
       )}
-      {firstResultScope && <DoFirstResult key={`first-result:${firstResultScope}`} available={workspaceKey === firstResultScope} onDirty={setFirstResultDirty} onTalk={() => { setCallOpen(true); requestAnimationFrame(() => document.getElementById("personal-do-call")?.scrollIntoView({ block: "start" })); }} />}
       {access === "error" && (
         <button className={styles.retry} onClick={() => void load()}>
           Try loading again <RefreshCw size={16} />
         </button>
       )}
       {workspaceKey && <LifeAdmin key={`life-admin:${workspaceKey}`} revealAssistantRequest={revealWriting} assistant={<PersonalDoAssistant onRevealWriting={() => setRevealWriting(value => value + 1)} showIdeas={false} key={workspaceKey} returnTo={context === "household" ? "/do/household" : "/do"} profile={personalProfile ?? undefined} onBrowserDraft={openBrowserDraft} onMailDraft={text => { const accepted = openMailDraft(text); if (accepted) setCallOpen(false); return accepted; }} onWorkingChange={setAssistantWorking} onWorkChange={setAssistantWork} />} assistantWork={assistantWork} assistantWorking={assistantWorking} profile={personalProfile} onCustomise={access === "ready" ? () => settingsButton.current?.click() : undefined} storageScope={workspaceKey} intake={sharedIntake} onGuestWorkChange={setGuestDirty} onIntakeAccepted={id => { try { acceptDoShare(window.sessionStorage, id); } catch { /* Storage may be unavailable. */ } }} onTalk={() => { setCallOpen(true); requestAnimationFrame(() => document.getElementById("personal-do-call")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" })); }} />}
+      {firstResultScope && <DoFirstResult key={`first-result:${firstResultScope}`} available={workspaceKey === firstResultScope} openRequest={openGuideRequest} onDirty={setFirstResultDirty} onTalk={() => { setCallOpen(true); requestAnimationFrame(() => document.getElementById("personal-do-call")?.scrollIntoView({ block: "start" })); }} />}
       {workspaceKey && callOpen && <div id="personal-do-call" className={styles.call}>
         <div className={styles.callHeading}><p className={styles.eyebrow}>VOICE</p><a href="#life-admin">Back to my workspace ↑</a></div>
         <DoGeminiLive

@@ -4,7 +4,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import { beforeEach, afterEach, expect, it, vi } from 'vitest';
 const auth = vi.hoisted(() => ({ listener: null as null | ((event: string, session: unknown) => void) }));
 vi.mock('@/lib/supabase/client', () => ({ createClient: () => ({ auth: { onAuthStateChange: (fn: typeof auth.listener) => { auth.listener = fn; return { data: { subscription: { unsubscribe() {} } } }; } } }) }));
-vi.mock('@/components/do/DoSecondaryNavigation', () => ({ DoSecondaryNavigation: () => null }));
+vi.mock('@/components/do/DoSecondaryNavigation', () => ({ DoSecondaryNavigation: ({ children }: { children: import('react').ReactNode }) => createElement('nav', null, children) }));
 vi.mock('@/components/do/DoBrand', () => ({ DoBrand: () => null }));
 vi.mock('@/components/do/DoPresence', () => ({ DoPresence: () => null }));
 vi.mock('@/components/do/DoShareButton', () => ({ DoShareButton: () => null }));
@@ -54,6 +54,18 @@ it('keeps one guide through parent updates, native typing, back and skip/reopen'
   expect((container.querySelector('#do-first-draft') as HTMLTextAreaElement).value).toContain('Fictional cloud picnic');
   expect(errors.mock.calls.filter((call: unknown[]) => String(call).includes('same key'))).toHaveLength(0);
 });
+it('keeps the guide after the writing workspace and reopens it from navigation without resetting notes', async () => {
+  const workspace = container.querySelector('#fixture-workspace')!;
+  const guide = container.querySelector('#do-first-result')!;
+  expect(Boolean(workspace.compareDocumentPosition(guide) & Node.DOCUMENT_POSITION_FOLLOWING)).toBe(true);
+  const link = container.querySelector<HTMLAnchorElement>('a[href="#do-first-result"]')!;
+  await act(async () => link.click());
+  await click('Prepare a brief'); await type('do-first-goal', 'Fictional navigation draft');
+  await click('Close guide · keep work in this tab');
+  await act(async () => link.click());
+  expect((container.querySelector('#do-first-goal') as HTMLInputElement).value).toBe('Fictional navigation draft');
+  expect(document.activeElement?.id).toBe('do-first-result-heading');
+});
 it('quarantines notes on a transient refresh failure and restores only the verified same owner', async () => {
   await click('Start with one small task'); await click('Prepare a brief');
   await type('do-first-goal', 'Fictional private picnic'); await type('do-first-notes', 'Blue blanket');
@@ -98,4 +110,21 @@ it('keeps signed-in notes quarantined across invalid JSON until the server verif
   expect(container.querySelector('#do-first-goal')).toBeNull(); expect(container.textContent).not.toContain('Fictional signed-in plan');
   await click('Try loading again');
   expect((container.querySelector('#do-first-goal') as HTMLInputElement).value).toBe('Fictional signed-in plan');
+});
+it.each(['SIGNED_IN', 'USER_UPDATED'])('retains quarantined same-owner work through %s until deferred verification completes', async event => {
+  const owner = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
+  const response = { ok: true, status: 200, json: async () => ({ workspaceKey: owner, responsibilities: [], runs: [], storage: { available: false }, worker: { configured: false, lastSeenAt: null } }) };
+  fetcher.mockResolvedValue(response);
+  await act(async () => { auth.listener?.('SIGNED_IN', { user: { id: owner } }); });
+  await click('Start with one small task'); await click('Prepare a brief'); await type('do-first-goal', 'Fictional retained owner draft');
+  fetcher.mockRejectedValueOnce(Error('offline'));
+  await act(async () => { window.dispatchEvent(new Event('focus')); });
+  let verify!: (value: typeof response) => void;
+  fetcher.mockImplementationOnce(() => new Promise(resolve => { verify = resolve; }));
+  await act(async () => { auth.listener?.(event, { user: { id: owner } }); });
+  expect(container.querySelector('#do-first-goal')).toBeNull();
+  expect(container.textContent).not.toContain('Fictional retained owner draft');
+  await act(async () => { verify(response); });
+  expect((container.querySelector('#do-first-goal') as HTMLInputElement).value).toBe('Fictional retained owner draft');
+  expect(container.querySelectorAll('#do-first-result-heading')).toHaveLength(1);
 });
