@@ -52,7 +52,7 @@ it('keeps one guide through parent updates, native typing, back and skip/reopen'
   await click('Close guide · keep work in this tab'); await click('Return to my unsaved brief');
   expect(container.querySelectorAll('#do-first-result-heading')).toHaveLength(1);
   expect((container.querySelector('#do-first-draft') as HTMLTextAreaElement).value).toContain('Fictional cloud picnic');
-  expect(errors.mock.calls.filter(call => String(call).includes('same key'))).toHaveLength(0);
+  expect(errors.mock.calls.filter((call: unknown[]) => String(call).includes('same key'))).toHaveLength(0);
 });
 it('quarantines notes on a transient refresh failure and restores only the verified same owner', async () => {
   await click('Start with one small task'); await click('Prepare a brief');
