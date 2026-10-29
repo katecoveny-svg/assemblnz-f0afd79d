@@ -42,11 +42,11 @@ function readableError(error: unknown, fallback: string) {
   if (error && typeof error === 'object' && 'issues' in error && Array.isArray(error.issues)) return error.issues[0]?.message ?? fallback;
   return error instanceof Error ? error.message : fallback;
 }
-type LifeAdminProps = { assistant?: ReactNode; assistantWork?: { dirty: boolean; exportText: string }; assistantWorking?: boolean; onCustomise?: () => void; profile?: PersonalDoProfile | null; onTalk?: () => void; intake?: Intake | null; storageScope?: string; onIntakeAccepted?: (id: string) => void; onGuestWorkChange?: (dirty: boolean) => void };
+type LifeAdminProps = { revealAssistantRequest?: number; assistant?: ReactNode; assistantWork?: { dirty: boolean; exportText: string }; assistantWorking?: boolean; onCustomise?: () => void; profile?: PersonalDoProfile | null; onTalk?: () => void; intake?: Intake | null; storageScope?: string; onIntakeAccepted?: (id: string) => void; onGuestWorkChange?: (dirty: boolean) => void };
 export function LifeAdmin(props: LifeAdminProps) {
   return <LifeAdminWorkspace key={props.storageScope ?? 'unavailable'} {...props} />;
 }
-function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false, profile, onCustomise, onTalk, intake, storageScope = 'unavailable', onIntakeAccepted, onGuestWorkChange }: LifeAdminProps) {
+function LifeAdminWorkspace({ revealAssistantRequest = 0, assistant, assistantWork, assistantWorking = false, profile, onCustomise, onTalk, intake, storageScope = 'unavailable', onIntakeAccepted, onGuestWorkChange }: LifeAdminProps) {
   const storageKey = lifeAdminStorageKey(storageScope);
   const pendingEntryFocus = useRef<string | null>(null);
   function focusEntry(id: string) {
@@ -72,6 +72,13 @@ function LifeAdminWorkspace({ assistant, assistantWork, assistantWorking = false
   const [guideDismissed, setGuideDismissed] = useState(false);
   const [boardOpen, setBoardOpen] = useState(false);
   const [localOpen, setLocalOpen] = useState(Boolean(intake));
+  useLayoutEffect(() => {
+    if (!revealAssistantRequest) return;
+    // An accepted handoff requests this view, not provider or storage consent.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setEntryOpen(true); setLocalOpen(false);
+    pendingEntryFocus.current = 'personal-assistant-input';
+  }, [revealAssistantRequest]);
   const [sourceIntakeId, setSourceIntakeId] = useState<string | null>(null);
   const [title, setTitle] = useState('');
   const [sourceUrl, setSourceUrl] = useState('');

@@ -24,7 +24,7 @@ function lastExchange(turns: ConversationTurn[]): PersonalAssistantInput['histor
 
 /** Mount with the verified owner scope as the React key; never persist conversation across accounts. */
 export type PersonalAssistantWork = { dirty: boolean; exportText: string };
-export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, onBrowserDraft, onMailDraft, returnTo = "/do", conversation, attachedContext, focusRequest = 0, showIdeas = true }: { focusRequest?: number; showIdeas?: boolean; conversation?: { turns: ConversationTurn[]; change: (turns: ConversationTurn[]) => void }; attachedContext?: { text: string; revision: number }; onBrowserDraft?: (text: string) => boolean; onMailDraft?: (text: string) => boolean; returnTo?: "/do" | "/do/household" | "/do/widget"; profile?: PersonalDoProfile; onWorkingChange?: (working: boolean) => void; onWorkChange?: (work: PersonalAssistantWork) => void }) {
+export function PersonalDoAssistant({ profile, onRevealWriting, onWorkingChange, onWorkChange, onBrowserDraft, onMailDraft, returnTo = "/do", conversation, attachedContext, focusRequest = 0, showIdeas = true }: { onRevealWriting?: () => void; focusRequest?: number; showIdeas?: boolean; conversation?: { turns: ConversationTurn[]; change: (turns: ConversationTurn[]) => void }; attachedContext?: { text: string; revision: number }; onBrowserDraft?: (text: string) => boolean; onMailDraft?: (text: string) => boolean; returnTo?: "/do" | "/do/household" | "/do/widget"; profile?: PersonalDoProfile; onWorkingChange?: (working: boolean) => void; onWorkChange?: (work: PersonalAssistantWork) => void }) {
   const [message, setMessage] = useState('');
   const [context, setContext] = useState('');
   const [consent, setConsent] = useState(false);
@@ -81,15 +81,19 @@ export function PersonalDoAssistant({ profile, onWorkingChange, onWorkChange, on
       if (offer.purpose === 'starter' && (!inputRef.current || inputRef.current.closest('[hidden]') || inputRef.current.matches(':disabled'))) {
         offer.result = { accepted: false, message: 'Finish the current step and return to writing before adding this thought. Your draft is unchanged.' }; return;
       }
+      if (offer.purpose !== 'starter' && inputRef.current?.closest('[hidden]') && !onRevealWriting) {
+        offer.result = { accepted: false, message: 'Open Write before copying this brief. Your original stays here.' }; return;
+      }
       offer.result = offer.purpose === 'starter' ? reviewStarterPrompt(offer.text, { message, working: lock.current || offered }) : reviewAssistantNote(offer.text, { message, context, working: lock.current || offered, hasResult: Boolean(result) });
       if (!offer.result.accepted) return;
       offered = true;
+      if (onRevealWriting) onRevealWriting(); else inputRef.current?.focus();
       setMessage(offer.result.text); setConsent(false); setReviewOpen(false); setError('');
       setNotice(offer.purpose === 'starter' ? 'Your starting thought is ready to edit. Nothing was saved or sent.' : 'Your checklist note was copied here for review. Nothing was saved or sent.');
     };
     window.addEventListener(ASSISTANT_NOTE_EVENT, receive);
     return () => window.removeEventListener(ASSISTANT_NOTE_EVENT, receive);
-  }, [message, context, result]);
+  }, [message, context, result, onRevealWriting]);
 
   const loadAvailability = useCallback(async () => {
     statusRequest.current?.abort();

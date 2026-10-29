@@ -5,9 +5,9 @@ import { ASSISTANT_NOTE_EVENT, type AssistantNoteOffer } from '@/apps/do/persona
 import styles from './first-result.module.css';
 
 /** Local preparation only. Account/provider consent remains in the existing tools. */
-export function DoFirstResult({ onTalk, onDirty }: { onTalk: () => void; onDirty: (dirty: boolean) => void }) {
+export function DoFirstResult({ onTalk, onDirty, available = true, openRequest = 0 }: { openRequest?: number; available?: boolean; onTalk: () => void; onDirty: (dirty: boolean) => void }) {
   const [step, setStep] = useState(0);
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const [goal, setGoal] = useState('');
   const [notes, setNotes] = useState('');
   const [draft, setDraft] = useState('');
@@ -19,7 +19,15 @@ export function DoFirstResult({ onTalk, onDirty }: { onTalk: () => void; onDirty
     if (moved.current && !collapsed) heading.current?.focus();
     moved.current = true;
   }, [step, collapsed]);
-  if (collapsed) return <div className={styles.reopen}><button type="button" onClick={() => setCollapsed(false)}>{draft ? 'Return to my unsaved brief' : 'Start with one small task'}</button></div>;
+  useEffect(() => {
+    if (!openRequest) return;
+    // Explicit navigation opens the guide without changing its draft.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setCollapsed(false);
+  }, [openRequest]);
+  // Keep local state quarantined during an unverified refresh; render no private text.
+  if (!available) return null;
+  if (collapsed) return <div id="do-first-result" className={styles.reopen}><button type="button" onClick={() => setCollapsed(false)}>{draft ? 'Return to my unsaved brief' : 'Start with one small task'}</button></div>;
   function prepare() {
     if (!goal.trim()) { setNotice('Add the outcome you want. Your notes are still here.'); return; }
     // A transparent outline, not a fabricated model response or execution receipt.
@@ -31,9 +39,8 @@ export function DoFirstResult({ onTalk, onDirty }: { onTalk: () => void; onDirty
     window.dispatchEvent(new CustomEvent(ASSISTANT_NOTE_EVENT, { detail: offer }));
     if (!offer.result?.accepted) { setNotice(offer.result && !offer.result.accepted ? offer.result.message : 'Ask DO is not ready. Open the writing workspace, then try again. Your brief stays here.'); return; }
     setNotice('Copied to Ask DO for review. Nothing was sent or saved. Review its availability and sharing consent before asking.');
-    document.getElementById('personal-assistant-input')?.focus();
   }
-  return <section className={styles.guide} aria-labelledby="do-first-result-heading">
+  return <section id="do-first-result" className={styles.guide} aria-labelledby="do-first-result-heading">
     <p className={styles.progress}>Getting started · {step + 1} of 3</p>
     <h2 id="do-first-result-heading" ref={heading} tabIndex={-1}>{['Start with one useful brief', 'Bring just the details you need', 'Your brief, ready to edit'][step]}</h2>
     {step === 0 && <>

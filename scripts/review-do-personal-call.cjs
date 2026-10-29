@@ -179,7 +179,8 @@ const profile = { displayName: 'Moss', avatar: 'bloom', tone: 'warm', responseLe
     await panel.getByRole('button', { name: 'Answer call', exact: true }).click();
     await panel.getByRole('button', { name: 'End call', exact: true }).waitFor();
     await page.evaluate(() => window.__callTest.sockets.at(-1).onerror());
-    await panel.getByText('The voice connection failed. Your microphone is off.', { exact: true }).waitFor();
+    check('socket errors pause microphone immediately', await page.evaluate(() => window.__callTest.tracks.at(-1).enabled === false));
+    await panel.getByText('The voice connection failed. Your microphone is off; your conversation stays here. Review call availability to try again.', { exact: true }).waitFor();
     check('socket errors stop microphone and require fresh consent for retry', !await consent.isChecked() && await page.evaluate(() => window.__callTest.tracks.at(-1).stopped));
     await consent.check(); await start.click();
     await panel.getByRole('button', { name: 'Answer call', exact: true }).click();

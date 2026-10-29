@@ -156,7 +156,7 @@ if (/font-family:Georgia|font-family:[^;}]*Times New Roman/.test(companyCss)) {
 const doHome = read('app/do/DoStory.tsx');
 const doWorkspace = read('app/do/personal/PersonalDo.tsx');
 const doNavigation = read('components/do/DoSecondaryNavigation.tsx');
-if (!doWorkspace.includes('<DoSecondaryNavigation />')) errors.push('Public DO must mount the shared secondary navigation');
+if (!/<DoSecondaryNavigation(?:\s[^>]*)?>/.test(doWorkspace)) errors.push('Public DO must mount the shared secondary navigation');
 const doHomePublic = doHome
   .replace(/\/\*[\s\S]*?\*\//g, '')
   .replace(/^\s*\/\/.*$/gm, '')
