@@ -60,7 +60,7 @@ const path = require('node:path');
             const before = await page.locator('.assembly-stage').evaluate(el => el.style.getPropertyValue('--assembly'));
             await page.waitForTimeout(150);
             assert.equal(await page.locator('.assembly-stage').evaluate(el => el.style.getPropertyValue('--assembly')), before);
-            await page.getByRole('slider', {name:'Assembly progress'}).fill('100');
+            await page.getByRole('slider', {name:'Assembly progress'}).press('End');
             assert.equal(await page.locator('.assembly-stage').evaluate(el => el.style.getPropertyValue('--assembly')), '1');
           }
           for (const href of ['/ai-ready','/contact','/pursuit','/do','/studio','/lab']) {
