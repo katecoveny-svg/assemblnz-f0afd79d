@@ -301,3 +301,7 @@ Extends the existing bounded mail and travel primitives: runtime response valida
 `apps/do/shared/call-ring.ts` and `app/do/DoCallInvitation.tsx` extend page-local audio ownership with bounded local ringing and a single Answer/Decline decision before existing call consent/token setup. No microphone or network use in the invitation. See [evidence and limits](../reviews/DO-SHOPPING-CALL-20261021.md).
 
 DO local follow-up (2026-10-21): owner-bound reviewed voice-to-browser handoff keeps same-tab call open; broker invalidates old authority before refresh and rejects stale/future evidence. Synthetic actual-component journey passed; native extension and Woolworths remain unverified/disabled. See `docs/reviews/DO-SHOPPING-CALL-20261021.md`. Nothing deployed.
+
+### Public website action-plan handoff (review build, 30 October 2026)
+
+Extends `/api/ai-ready` and `/ai-ready` with evidence-limited findings, business-type selection, a visual HTML plan, JSON developer handoff and reviewed-content starter. Optional llms.txt and question-format observations are unscored. No automatic website changes or visibility guarantees. The local exports contain only the requested public URL, audit findings and selected context; marketing consent remains separate. `app/api/ai-ready/route.test.ts` covers optional scoring, false sitemap positives, denied pages and redirect destinations.

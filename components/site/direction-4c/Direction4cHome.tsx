@@ -1,288 +1,270 @@
-'use client';
-
-import { useEffect, useRef } from 'react';
-import { coastalFootage, playVideoWhenAllowed } from './video-readiness';
-import { chromeMarkup, footerMarkup, leadMarkup, trailMarkup } from './markup';
-import type { TryDoSignals } from './TryDo';
-import './direction-4c.css';
-
-// Landing (21 Oct 2026, replaces the plum knockout mask): the footage is full bleed and the
-// flock flies in and assembles the wordmark itself over GATHER_MS once the scene is ready.
-const GATHER_MS = 2600;
-
-type TideWorld = {
-  ready: Promise<void>;
-  api: { setArrive(value: number): void; setLit(value: number): void; pulse(): void } | null;
-  setPaused(value: boolean): void;
-  dispose(): void;
-};
-type Tide = { attach(options: {
-  canvas: HTMLCanvasElement; plate: HTMLVideoElement; extra: Record<string, unknown>;
-  onFail(): void;
-}): TideWorld };
-
-// The supplied, locally hosted engine is loaded once; the document never evaluates the design DSL.
-function loadScript(src: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const existing = document.querySelector<HTMLScriptElement>(`script[src="${src}"]`);
-    if (existing?.dataset.loaded) return resolve();
-    const script = existing ?? document.createElement('script');
-    script.addEventListener('load', () => { script.dataset.loaded = 'true'; resolve(); }, { once: true });
-    script.addEventListener('error', () => { script.remove(); reject(new Error(`Unable to load ${src}`)); }, { once: true });
-    if (!existing) { script.src = src; document.head.appendChild(script); }
-  });
-}
-
-// Static, server-rendered design markup. `display: contents` keeps the design's layout tree intact.
-function Static({ html }: { html: string }) {
-  return <div style={{ display: 'contents' }} dangerouslySetInnerHTML={{ __html: html }} />;
-}
-
-// Headlines gather word by word out of a blur; mono kickers decode into place. Returns cleanup.
-function revealText(root: HTMLElement): () => void {
-  const timers: number[] = [];
-  const words = (el: Element) => Array.from(el.querySelectorAll<HTMLElement>('[data-w]'));
-  // The real copy is captured before any decode runs, so cleanup can restore it mid-scramble.
-  const kickers = new Map<HTMLElement, string>(Array.from(root.querySelectorAll<HTMLElement>('[data-scramble]'), el => [el, el.textContent ?? '']));
-  const scramble = (el: HTMLElement) => {
-    const final = kickers.get(el) ?? el.textContent ?? '';
-    const n = final.length;
-    // Settle on elapsed time, not on tick count: a busy GPU thread starves intervals, and a
-    // frame-counted decode can keep scrambling for many seconds on a loaded machine.
-    const began = Date.now(), duration = 520;
-    const id = window.setInterval(() => {
-      const settled = Math.floor(Math.min(1, (Date.now() - began) / duration) * n);
-      let out = '';
-      for (let i = 0; i < n; i++) out += i < settled || final[i] === ' ' || final[i] === '·' ? final[i] : 'abcdefghijklmnopqrstuvwxyz0123456789'[Math.floor(Math.random() * 36)];
-      el.textContent = out;
-      if (settled >= n) { clearInterval(id); el.textContent = final; }
-    }, 34);
-    timers.push(id);
-  };
-  const show = (w: HTMLElement) => { w.style.opacity = '1'; w.style.transform = 'none'; w.style.filter = 'none'; };
-  const io = new IntersectionObserver(entries => entries.forEach(entry => {
-    if (!entry.isIntersecting) return;
-    const el = entry.target as HTMLElement;
-    io.unobserve(el);
-    if (el.hasAttribute('data-split')) words(el).forEach((w, i) => {
-      const d = i * 70;
-      w.style.transition = `opacity .9s ease ${d}ms, transform 1.1s cubic-bezier(.16,1,.3,1) ${d}ms, filter 1s ease ${d}ms`;
-      show(w);
-    });
-    if (el.hasAttribute('data-scramble') && !root.hasAttribute('data-paused')) scramble(el);
-  }), { rootMargin: '0px 0px -12% 0px' });
-  const split = Array.from(root.querySelectorAll<HTMLElement>('[data-split]'));
-  split.forEach(el => {
-    words(el).forEach(w => { w.style.opacity = '0'; w.style.transform = 'translateY(.45em) rotate(4deg)'; w.style.transformOrigin = '0 100%'; w.style.filter = 'blur(14px)'; });
-    io.observe(el);
-  });
-  kickers.forEach((_, el) => io.observe(el));
-  return () => {
-    io.disconnect();
-    timers.forEach(id => clearInterval(id));
-    split.forEach(el => words(el).forEach(w => { w.style.transition = 'none'; show(w); }));
-    kickers.forEach((text, el) => { el.textContent = text; });
-  };
-}
-
+import Link from "next/link";
+import Image from "next/image";
+import "./clear-home.css";
+import { AssemblyHero } from "./AssemblyHero";
+const links = [
+  ["Customer journeys", "/assembling"],
+  ["Studio", "/studio"],
+  ["Lab", "/lab"],
+  ["Website check", "/ai-ready"],
+];
 export function Direction4cHome() {
-  const rootRef = useRef<HTMLDivElement>(null);
-  const signals = useRef<TryDoSignals | null>(null);
-  useEffect(() => {
-    const root = rootRef.current;
-    if (!root) return;
-    const media = matchMedia('(prefers-reduced-motion: reduce)');
-    const mobile = matchMedia('(max-width: 900px)');
-    let startup: AbortController | undefined;
-    let disposed = false, paused = false, initialized = false, frame = 0;
-    let recovery: Promise<void> | undefined;
-    const playbackListeners = new Set<() => void>();
-    const playbackGate = {
-      allowed: () => !paused && !media.matches && !document.hidden,
-      subscribe: (listener: () => void) => { playbackListeners.add(listener); return () => { playbackListeners.delete(listener); }; },
-    };
-    let world: TideWorld | undefined;
-    let gatherFrom = 0, lit = 0, stopReveal: (() => void) | undefined;
-    signals.current = { setLit: value => { lit = value; world?.api?.setLit(value); }, pulse: () => world?.api?.pulse() };
-    const video = root.querySelector<HTMLVideoElement>('[data-coastal-video]')!;
-    video.muted = true; video.defaultMuted = true; video.playsInline = true; video.preload = 'auto';
-    video.loop = true;
-    // Generated coastal footage (second pass, 14 Oct 2026): a sea glide toward a low sun with no dark frames. Never caption it as a real place.
-    const nav = globalThis.navigator as (Navigator & { connection?: { saveData?: boolean } }) | undefined;
-    const footage = coastalFootage(globalThis.innerWidth ?? 0, globalThis.devicePixelRatio ?? 1, !!nav?.connection?.saveData, !!video.canPlayType('video/mp4; codecs="avc1.42E01E"'));
-    const ref = (name: string) => root.querySelector<HTMLElement>(`[data-ref="${name}"]`);
-    const button = root.querySelector<HTMLButtonElement>('[data-pause]')!;
-    const clamp = (x: number) => Math.max(0, Math.min(1, x));
-    const smooth = (x: number) => { x = clamp(x); return x * x * (3 - 2 * x); };
-    const set = (name: string, opacity: number, transform?: string) => {
-      const el = ref(name); if (!el) return;
-      el.style.opacity = opacity.toFixed(3); el.style.visibility = opacity < .02 ? 'hidden' : 'visible';
-      if (transform) el.style.transform = transform;
-    };
-    const fallback = () => {
-      delete root.dataset.ready; delete root.dataset.videoReady;
-      root.querySelectorAll<HTMLElement>('[data-rv]').forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
-    };
-    const stop = () => { gatherFrom = 0; stopReveal?.(); stopReveal = undefined; initialized = false; recovery = undefined; startup?.abort(); startup = undefined; cancelAnimationFrame(frame); frame = 0; world?.dispose(); world = undefined; video.pause(); fallback(); };
-    const updatePause = () => {
-      root.toggleAttribute('data-paused', paused || media.matches);
-      world?.setPaused(paused || media.matches || document.hidden);
-      if (!playbackGate.allowed()) { video.pause(); stopReveal?.(); stopReveal = undefined; }
-      if (paused) {
-        // Finish a visible text fade before freezing it; never strand reading at partial opacity.
-        for (const name of ['kickRef', 'cueRef', 'subRef', 'msgRef', 'markRef']) {
-          const el = ref(name);
-          if (el && Number(el.style.opacity || '1') > 0) set(name, 1);
-        }
-      }
-      playbackListeners.forEach(listener => listener());
-      if (initialized && playbackGate.allowed() && video.paused) void recover();
-      // Engine has a document-wide pause switch; contain it to this page.
-      document.documentElement.removeAttribute('data-paused');
-      button.setAttribute('aria-pressed', String(paused || media.matches || !!root.dataset.static));
-      button.textContent = media.matches ? 'Motion reduced' : paused || root.dataset.static ? 'Play motion' : 'Pause motion';
-      button.disabled = media.matches;
-    };
-    const tick = () => {
-      if (disposed || media.matches || !world?.api) return;
-      frame = requestAnimationFrame(tick);
-      if (paused || document.hidden) return;
-      const hero = ref('heroRef');
-      if (hero) {
-        const rect = hero.getBoundingClientRect();
-        const p = clamp(-rect.top / Math.max(1, rect.height - innerHeight));
-        // The flock gathers into the wordmark on landing, lifts out of frame as "useful work." arrives,
-        // and streams back in only once Pursuit's formation has taken over (its section near the top).
-        const gathered = gatherFrom ? smooth((performance.now() - gatherFrom) / GATHER_MS) : 0;
-        const next = hero.nextElementSibling?.getBoundingClientRect().top ?? innerHeight;
-        world.api.setArrive(gathered * Math.max(1 - smooth((p - .46) / .16), smooth((innerHeight * .1 - next) / (innerHeight * .3))));
-        // Phone scrolling can stop anywhere: reveal the reading block at full contrast.
-        const card = 1 - smooth(p / .14), msg = mobile.matches ? (p >= .64 ? 1 : 0) : smooth((p - .64) / .18);
-        set('kickRef', card); set('cueRef', card); set('subRef', card); set('markRef', smooth((p - .58) / .2));
-        set('msgRef', msg, `translateY(calc(-50% + ${(1 - msg) * 48}px))`);
-      }
-
-    };
-    let generation = 0;
-    const start = async () => {
-      const current = ++generation;
-      stop(); delete root.dataset.static; updatePause();
-      if (media.matches) return;
-      startup = new AbortController();
-      const signal = startup.signal;
-      // Footage is a backdrop, not a dependency: it starts alongside the engine, and the
-      // flock still flies over the plum sky when playback is denied or the file is missing.
-      video.src = footage;
-      void playVideoWhenAllowed(video, signal, playbackGate).then(() => {
-        if (disposed || current !== generation) return;
-        initialized = true; root.dataset.videoReady = 'true';
-      }).catch(() => { if (!disposed && current === generation && !signal.aborted) noFootage(); });
-      try {
-        if ('IntersectionObserver' in window) stopReveal = revealText(root);
-        await loadScript('/direction-4c/vendor/three.min.js');
-        await loadScript('/direction-4c/assembl-tide.js');
-        if (disposed || current !== generation || media.matches) return;
-        const engine = (window as Window & { AssemblTide?: Tide }).AssemblTide;
-        if (!engine) throw new Error('Motion engine unavailable');
-        const next = engine.attach({
-          canvas: ref('canvasRef') as HTMLCanvasElement, plate: video, onFail: () => { if (!disposed && current === generation) lost(); },
-          extra: { poster: root.querySelector('.clear-coastal-poster'), plateReady: () => root.dataset.videoReady === 'true', tone: 'film', gliders: false, knock: false, glass: false,
-            count: 2600, arrive: 0, birdScale: .55, silhouette: 1,
-            slots: ['word', 'signal', 'pin', 'DO', 'bubble', 'tick', 'frame', 'sparkle', 'padlock', 'seal', 'amark', 'word'],
-            // The engine reports where the flock's wordmark rests; the kicker sits above it and the line below.
-            onLayout: (layout: { cy: number; h: number }) => {
-              const kick = ref('kickRef'), sub = ref('subRef');
-              if (kick) kick.style.top = `${Math.round(layout.cy - layout.h * .75 - 44)}px`;
-              if (sub) sub.style.top = `${Math.round(layout.cy + layout.h * .6 + 22)}px`;
-            },
-          },
-        });
-        world = next;
-        updatePause();
-        await next.ready;
-        if (disposed || current !== generation) { next.dispose(); return; }
-        if (!world.api) { lost(); return; }
-        world.api.setLit(lit);
-        root.dataset.ready = 'true';
-        gatherFrom = performance.now();
-        updatePause(); tick();
-      } catch { if (!disposed && current === generation) lost(); }
-    };
-    const toggle = () => {
-      if (root.dataset.static && !media.matches) { paused = false; void start(); return; }
-      paused = !paused; updatePause();
-    };
-    const visibility = () => updatePause();
-    // Keep the frozen composition on resize; the renderer repaints its new buffer.
-    const breakpoint = () => { if (playbackGate.allowed()) void start(); };
-    const lost = () => {
-      generation++; // A pending attach must never revive a failed scene.
-      stop(); root.dataset.static = 'true';
-      video.removeAttribute('src'); video.load();
-      updatePause();
-    };
-    // Without footage the plate stays dark and the scene carries on; only a lost renderer goes static.
-    const noFootage = () => { initialized = false; delete root.dataset.videoReady; if (video.src) { video.removeAttribute('src'); video.load(); } };
-    const recover = () => {
-      if (recovery || !initialized || !startup || startup.signal.aborted) return recovery;
-      const current = generation;
-      recovery = playVideoWhenAllowed(video, startup.signal, playbackGate).then(() => {
-        if (disposed || current !== generation) return;
-        root.dataset.videoReady = 'true';
-        if (world?.api) root.dataset.ready = 'true';
-      }).catch(() => { if (!disposed && current === generation) noFootage(); }).finally(() => {
-        if (current === generation) recovery = undefined;
-      });
-      return recovery;
-    };
-    const waiting = () => {
-      delete root.dataset.videoReady;
-      // Wait for the next decoded frame directly: recovery need not emit playing.
-      void recover();
-    };
-    const stalled = () => {
-      // Fetch can stall while buffered footage is still playing normally.
-      if (video.readyState < 2 || !video.videoWidth) waiting();
-    };
-    video.addEventListener('waiting', waiting);
-    video.addEventListener('stalled', stalled);
-    video.addEventListener('error', noFootage);
-    ref('canvasRef')?.addEventListener('webglcontextlost', lost);
-    button.addEventListener('click', toggle);
-    media.addEventListener('change', start);
-    mobile.addEventListener('change', breakpoint);
-    document.addEventListener('visibilitychange', visibility);
-    void start();
-    return () => {
-      disposed = true; generation++; stop(); signals.current = null; video.removeAttribute('src'); video.load();
-      video.removeEventListener('waiting', waiting); video.removeEventListener('stalled', stalled);
-      mobile.removeEventListener('change', breakpoint);
-      button.removeEventListener('click', toggle); media.removeEventListener('change', start);
-      document.removeEventListener('visibilitychange', visibility); video.removeEventListener('error', noFootage);
-      ref('canvasRef')?.removeEventListener('webglcontextlost', lost);
-    };
-  }, []);
   return (
-    <div ref={rootRef} className="direction-4c">
-      <div style={{ position: 'relative', minHeight: '100vh', overflowX: 'clip', background: '#0E040D' }}>
-        <Static html={chromeMarkup} />
-        <div style={{ position: 'relative', zIndex: 1 }}>
-          <Static html={leadMarkup} />
-          <section id="try" className="td-section" aria-label="Ask DO about assembl">
-            <div className="td-wrap">
-              <p className="td-kicker">ASK DO · ABOUT ASSEMBL</p>
-              <div className="td-card">
-                <h3 className="td-title">What would you like to know?</h3>
-                <p>Ask about assembl, our work or how to start.</p>
-                <p>Public company information only. No access to private accounts, shopping baskets or bookings.</p>
-                <button type="button" className="td-guide-open" onClick={() => window.dispatchEvent(new Event('assembl:open-public-guide'))}>Ask DO about assembl</button>
-              </div>
+    <div className="clear-home">
+      <Link className="home-skip" href="#main">
+        Skip to content
+      </Link>
+      <header className="home-nav">
+        <Link className="home-brand" href="/" aria-label="assembl home">
+          <Image
+            src="/direction-4c/assets/brand/assembl-a-glass.webp"
+            alt=""
+            width="42"
+            height="42"
+          />
+          assembl
+        </Link>
+        <nav aria-label="Primary">
+          {links.map(([label, href]) => (
+            <Link key={href} href={href}>
+              {label}
+            </Link>
+          ))}
+        </nav>
+        <Link className="home-button" href="/contact">
+          Bring us the work ↗
+        </Link>
+      </header>
+      <main id="main">
+        <section className="home-hero">
+          <div className="home-hero-copy">
+            <p className="home-kicker">MAHI THAT EARNS ITS PROOF · AOTEAROA</p>
+            <h1>
+              Make the next
+              <br />
+              step{" "}
+              <span>
+                worth
+                <br className="home-break" /> waiting for.
+              </span>
+            </h1>
+            <p>
+              Turn necessary customer waiting into useful, permissioned
+              preparation. A better brief. A clearer choice. A person in
+              control.
+            </p>
+            <div className="home-actions">
+              <Link className="home-button" href="/ai-ready">
+                Find your first opportunity ↗
+              </Link>
+              <Link className="home-text-link" href="#work">
+                See what that looks like ↓
+              </Link>
             </div>
-          </section>
-          <Static html={trailMarkup} />
-        </div>
-        <Static html={footerMarkup} />
-      </div>
+          </div>
+          <AssemblyHero />
+        </section>
+        <section className="home-proof">
+          <p>
+            Something is happening.
+            <br />
+            <strong>Make the moment useful.</strong>
+          </p>
+          <ol>
+            <li>
+              <b>01</b>
+              <span>A real customer wait</span>
+            </li>
+            <li>
+              <b>02</b>
+              <span>One useful, optional action</span>
+            </li>
+            <li>
+              <b>03</b>
+              <span>A reviewed next step</span>
+            </li>
+            <li>
+              <b>04</b>
+              <span>Evidence of what happened</span>
+            </li>
+          </ol>
+        </section>
+        <section className="home-work" id="work">
+          <div className="home-section-head">
+            <div>
+              <p className="home-kicker">EXPERIENCE THE POSSIBILITY</p>
+              <h2>
+                Less explaining.
+                <br />
+                More <span>showing.</span>
+              </h2>
+            </div>
+            <p>
+              Working demonstrators make an idea easier to judge. Explore the
+              interaction, then decide what belongs in your business.
+            </p>
+          </div>
+          <div className="home-work-grid">
+            <Link
+              className="home-work-card"
+              href="https://assembl-lab.vercel.app/whaiao-story/"
+            >
+              <div className="home-work-image">
+                <Image
+                  src="/images/site/whaiao-pavilion.jpg"
+                  alt="Blender-rendered illustrative courtyard pavilion"
+                  width="1800"
+                  height="1100"
+                  loading="lazy"
+                />
+              </div>
+              <div>
+                <small>ARCHITECTURE · INDEPENDENT DEMONSTRATOR</small>
+                <h3>A project, opened up. ↗</h3>
+                <p>
+                  Explore spaces, discuss options and keep the conversation
+                  together after a hui. Illustrative architecture, not an
+                  approved Whaiao project.
+                </p>
+              </div>
+            </Link>
+            <Link
+              className="home-work-card"
+              href="https://assembl-lab.vercel.app/study/patterns/"
+            >
+              <div className="home-work-image home-studio-preview">
+                <Image
+                  src="/images/site/living-studio.jpg"
+                  alt="A cobalt sculpture poster exported from Living Studio"
+                  width="1200"
+                  height="900"
+                  loading="lazy"
+                />
+              </div>
+              <div>
+                <small>CREATIVE TOOL · MADE IN YOUR BROWSER</small>
+                <h3>Your colours. Your creation. ↗</h3>
+                <p>
+                  Sculpt a form, tune its finish and make a shareable piece of
+                  your own. No account needed.
+                </p>
+              </div>
+            </Link>
+          </div>
+        </section>
+        <section className="home-check">
+          <div>
+            <p className="home-kicker">START WITH YOUR OWN BUSINESS</p>
+            <h2>
+              See what to fix.
+              <br />
+              <span>Imagine what comes next.</span>
+            </h2>
+            <p>
+              A public website check, useful implementation steps and a visual
+              concept for your customer journey. Yours to download and discuss
+              with your team.
+            </p>
+            <Link className="home-button" href="/ai-ready">
+              Get your website action plan ↗
+            </Link>
+          </div>
+          <div
+            className="home-plan-preview"
+            aria-label="Example action plan, illustrative"
+          >
+            <small>YOUR BUSINESS / PREPARED DRAFT</small>
+            <h3>
+              A useful
+              <br />
+              next step.
+            </h3>
+            <div>
+              <b>01 / Foundations</b>
+              <p>Clear information. Accessible content.</p>
+            </div>
+            <div>
+              <b>02 / Possibility</b>
+              <p>One customer moment worth improving.</p>
+            </div>
+            <div>
+              <b>03 / Proof</b>
+              <p>A small pilot. A named reviewer.</p>
+            </div>
+            <span>EXAMPLE · YOUR PLAN USES YOUR FINDINGS</span>
+          </div>
+        </section>
+        <section className="home-system">
+          <div className="home-section-head">
+            <div>
+              <p className="home-kicker">THE WORK BEHIND THE EXPERIENCE</p>
+              <h2>
+                Find it. Prepare it.
+                <br />
+                <span>Make it tangible.</span>
+              </h2>
+            </div>
+            <Link className="home-text-link" href="/assembling">
+              Explore active customer journeys ↗
+            </Link>
+          </div>
+          <div className="home-system-grid">
+            <Link href="/pursuit">
+              <small>01 / PURSUIT</small>
+              <h3>Find the work. ↗</h3>
+              <p>
+                Explore signals and opportunities that could become a useful
+                next step.
+              </p>
+            </Link>
+            <Link href="/do">
+              <small>02 / DO</small>
+              <h3>Prepare the work. ↗</h3>
+              <p>
+                Start with a task. Review the prepared work and choose what
+                happens next.
+              </p>
+            </Link>
+            <Link href="/studio">
+              <small>03 / STUDIO</small>
+              <h3>Show the possibility. ↗</h3>
+              <p>
+                Turn a brief into an interactive journey, visual story or
+                working demonstrator.
+              </p>
+            </Link>
+          </div>
+        </section>
+        <section className="home-close">
+          <p className="home-kicker">START SMALL. EARN THE PROOF.</p>
+          <h2>
+            One real wait.
+            <br />
+            One better next step.
+          </h2>
+          <p>
+            Bring a customer journey, a service bottleneck or an idea that needs
+            to be experienced.
+          </p>
+          <Link className="home-button" href="/contact">
+            Talk about a journey sprint ↗
+          </Link>
+          <Link href="/lab" className="home-text-link">
+            Keep exploring the Lab ↗
+          </Link>
+        </section>
+      </main>
+      <footer className="home-footer">
+        <Link className="home-brand" href="/">
+          assembl
+        </Link>
+        <p>Mahi that earns its proof.</p>
+        <nav aria-label="Footer">
+          <Link href="/contact">Contact</Link>
+          <Link href="/legal/privacy">Privacy</Link>
+          <Link href="/legal/terms">Terms</Link>
+        </nav>
+      </footer>
     </div>
   );
 }

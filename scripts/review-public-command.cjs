@@ -7,7 +7,7 @@ const doors = [
   ['Studio', '/creative-studio'], ['Contact assembl', '/contact'],
 ];
 const signatures = {
-  '/': { title: 'assembl | Agentic AI solutions for your business', h1: 'assembl. Useful work.' },
+  '/': { title: 'assembl | Agentic AI solutions for your business', h1: 'Make the next step worth waiting for.' },
   '/pursuit': { title: 'Pursuit by assembl | Research the opportunity', h1: 'See what’s changing. Find your next move.' },
   '/do': { title: 'DO by assembl | Your personal agent for useful work', selector: 'main[data-do-identity="assembled-glass"]' },
   '/creative-studio': { title: 'Studio by assembl | Give the idea a working version', h1: 'Give the idea a working version.' },
@@ -238,18 +238,18 @@ const releaseDismissTimers = async (page, ids = null) => page.evaluate(ids => {
         await open('Control+k');
         await page.keyboard.press('Escape');
         await closed();
-        await page.waitForFunction(() => document.querySelector('.direction-4c')?.hasAttribute('data-ready'), null, { timeout: 30000 });
+        await page.getByRole('button', { name: 'Pause motion', exact: true }).waitFor();
         assert.equal(new URL(page.url()).pathname, '/');
-        assert.equal((await page.locator('h1').first().innerText()).replace(/\s+/g, ' ').trim(), 'assembl. Useful work.');
+        assert.equal((await page.locator('h1').first().innerText()).replace(/\s+/g, ' ').trim(), 'Make the next step worth waiting for.');
         assert.equal(await page.getByRole('navigation', { name: 'Primary', exact: true }).count(), 1);
         assert.equal(await page.locator('header nav').count(), 1, 'No legacy primary navigation wrapper');
         assert.equal(await page.locator('[data-watch-route], .watch-site, .watch-scene').count(), 0);
         assert.equal(new URL(await page.locator('link[rel="canonical"]').getAttribute('href')).pathname, '/');
-        const pause = page.locator('[data-pause]');
+        const pause = page.locator('.assembly-controls button');
         await pause.focus(); await pause.press('Enter');
         assert.equal(await pause.getAttribute('aria-pressed'), 'true');
-        assert(await page.locator('[data-coastal-video]').evaluate(video => video.paused));
-        const sceneMotion = 'coastal pause verified';
+        assert.equal(await page.locator('.assembly-plane').count(), 7);
+        const sceneMotion = 'assembly pause verified';
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), width);
         await page.screenshot({ path: `${output}/retired-redirect-home-${width}.png` });
         // Prove hydration through a working HTML control even without WebGL.
@@ -263,10 +263,9 @@ const releaseDismissTimers = async (page, ids = null) => page.evaluate(ids => {
         await waitForSignature(page, '/');
         await page.getByRole('button', { name: 'Motion reduced', exact: true }).waitFor();
         assert(await pause.isDisabled());
-        assert(await page.locator('[data-coastal-video]').evaluate(video => video.paused));
+        assert.equal(await page.locator('.assembly-plane').count(), 7);
         assert.equal(new URL(page.url()).pathname, '/');
-        assert.equal(await page.locator('.direction-4c').getAttribute('data-paused'), '');
-        assert.equal(await page.locator('.direction-4c').getAttribute('data-ready'), null);
+        assert.equal(await page.locator('.assembly-stage').evaluate(el => getComputedStyle(el).getPropertyValue('--assembly').trim()), '1');
         assert.equal(await page.getByRole('navigation', { name: 'Primary', exact: true }).count(), 1);
         assert.equal(await page.locator('[data-watch-route], .watch-site, .watch-scene').count(), 0);
         await open('Control+k');

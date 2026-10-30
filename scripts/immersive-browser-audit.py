@@ -98,7 +98,7 @@ async def main():
                     if name == 'home' and LOCAL:
                         await verify_coastal_home(page, 'no-preference')
                         await capture(page, f'{name}-{width}-current-home')
-                        result['interactions'] = ['coastal pause', 'Lab-only navigation', 'prepared public guide', 'assistant keyboard focus']
+                        result['interactions'] = ['assembly pause', 'product navigation', 'prepared public guide', 'assistant keyboard focus']
                     elif name == 'studio' and LOCAL:
                         gallery = page.locator('#studio-work')
                         await gallery.scroll_into_view_if_needed()
@@ -140,10 +140,10 @@ async def main():
                 await expect(page.locator('h1')).to_be_visible()
                 await capture(page,f'home-375-{label}')
                 if LOCAL:
-                    await expect(page.locator('.clear-coastal-poster')).to_be_attached()
+                    await expect(page.locator('.assembly-plane')).to_have_count(7)
                     await expect(page.locator('nav[aria-label="Primary"] a[href="/lab"]')).to_be_visible()
-                    await expect(page.locator('nav[aria-label="Primary"] a')).to_have_count(1)
-                    await expect(page.locator('a[href^="/do"],a[href^="/pursuit"],a[href^="/studio"],a[href^="/creative-studio"]')).to_have_count(0)
+                    await expect(page.locator('nav[aria-label="Primary"] a')).to_have_count(4)
+                    await expect(page.locator('.home-hero a[href="/ai-ready"]')).to_be_visible()
                     assert await page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1')
                     if label == 'reduced':
                         await verify_coastal_home(page, 'reduce')

@@ -2,200 +2,519 @@
    The report itself is an ivory document — on screen a card, in print the
    entire page (the classic visibility trick hides everything else). */
 
-@import url('https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Instrument Sans:wght@200;300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap");
 
 .airdy {
-  min-height: 100vh; background: #240B21; color: #F5F1F2;
-  font-family: 'Jost', system-ui, sans-serif;
+  min-height: 100vh;
+  background: #240b21;
+  color: #f5f1f2;
+  font-family: "Instrument Sans", system-ui, sans-serif;
 }
-.airdy-main { max-width: 900px; margin: 0 auto; padding: 130px 24px 90px; }
+.airdy-main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 130px 24px 90px;
+}
 
 .airdy-kicker {
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
-  letter-spacing: 0.24em; text-transform: uppercase; color: #C08E96;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #c08e96;
   margin: 0 0 26px;
 }
 .airdy h1 {
-  margin: 0; font-family: 'Jost', system-ui, sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em;
-  font-size: clamp(2rem, 5vw, 3.6rem); line-height: 1.16; color: #F5F1F2;
+  margin: 0;
+  font-family: "Instrument Sans", system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  line-height: 1.16;
+  color: #f5f1f2;
 }
 .airdy-accent {
   font-weight: 300;
-  background: linear-gradient(100deg, #654A4E, #A07C82 22%, #E8D5D8 38%, #C08E96 52%, #D8B3B9 72%, #654A4E);
+  background: linear-gradient(
+    100deg,
+    #654a4e,
+    #a07c82 22%,
+    #e8d5d8 38%,
+    #c08e96 52%,
+    #d8b3b9 72%,
+    #654a4e
+  );
   background-size: 220% 100%;
-  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
   animation: airdy-sheen 8s linear infinite;
 }
-@keyframes airdy-sheen { to { background-position: 220% 0; } }
-.airdy-sub { max-width: 56ch; font-weight: 300; line-height: 1.65; margin: 22px 0 30px; }
+@keyframes airdy-sheen {
+  to {
+    background-position: 220% 0;
+  }
+}
+.airdy-sub {
+  max-width: 56ch;
+  font-weight: 300;
+  line-height: 1.65;
+  margin: 22px 0 30px;
+}
 
 .airdy-form {
-  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
-  border: 1px solid rgba(240,238,233,0.24); border-radius: 999px;
-  padding: 6px 6px 6px 20px; max-width: 560px;
-  background: rgba(240,238,233,0.05); backdrop-filter: blur(12px);
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  border: 1px solid rgba(240, 238, 233, 0.24);
+  border-radius: 999px;
+  padding: 6px 6px 6px 20px;
+  max-width: 560px;
+  background: rgba(240, 238, 233, 0.05);
+  backdrop-filter: blur(12px);
 }
 .airdy-form input {
-  flex: 1 1 200px; min-width: 0; background: transparent; border: 0; outline: 0;
-  font: 1rem 'Jost', sans-serif; color: #F5F1F2; padding: 12px 0;
+  flex: 1 1 200px;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font:
+    1rem "Instrument Sans",
+    sans-serif;
+  color: #f5f1f2;
+  padding: 12px 0;
 }
-.airdy-form input::placeholder { color: rgba(240,238,233,0.45); }
+.airdy-form input::placeholder {
+  color: rgba(240, 238, 233, 0.45);
+}
 .airdy-form button {
-  cursor: pointer; border: 0; border-radius: 999px; padding: 13px 26px;
-  font: 700 0.9rem 'Jost', sans-serif; background: #F5F1F2; color: #240B21;
+  cursor: pointer;
+  border: 0;
+  border-radius: 999px;
+  padding: 13px 26px;
+  font:
+    700 0.9rem "Instrument Sans",
+    sans-serif;
+  background: #f5f1f2;
+  color: #240b21;
   transition: transform 0.24s ease;
 }
-.airdy-form button:hover:not(:disabled) { transform: translateY(-1px); }
-.airdy-form button:disabled { opacity: 0.6; cursor: wait; }
-.airdy-error { color: #E8A0A0; margin-top: 14px; }
+.airdy-form button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+.airdy-form button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.airdy-error {
+  color: #e8a0a0;
+  margin-top: 14px;
+}
 .airdy-note {
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
-  letter-spacing: 0.12em; text-transform: uppercase; color: rgba(240,238,233,0.5);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(240, 238, 233, 0.5);
   margin-top: 14px;
 }
 
 /* ── the document ── */
 .airdy-doc {
-  margin-top: 64px; background: #FFFDFB; color: #240B21;
-  border-radius: 26px; padding: 46px 48px 30px;
-  border: 1px solid rgba(145,106,112,0.5);
-  box-shadow: 0 30px 90px -40px rgba(0,0,0,0.85);
+  margin-top: 64px;
+  background: #fffdfb;
+  color: #240b21;
+  border-radius: 26px;
+  padding: 46px 48px 30px;
+  border: 1px solid rgba(145, 106, 112, 0.5);
+  box-shadow: 0 30px 90px -40px rgba(0, 0, 0, 0.85);
 }
-.airdy-doc-head { display: flex; justify-content: space-between; gap: 24px; align-items: flex-start; flex-wrap: wrap; }
+.airdy-doc-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
 .airdy-doc-kicker {
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
-  letter-spacing: 0.2em; text-transform: uppercase; color: #916A70; margin: 0 0 10px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #916a70;
+  margin: 0 0 10px;
 }
-.airdy-doc h2 { margin: 0; font-family: 'Jost', system-ui, sans-serif; font-size: clamp(1.4rem, 3vw, 2.1rem); font-weight: 700; line-height: 1.2; }
-.airdy-doc-url { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: rgba(27,26,23,0.6); margin: 6px 0 0; }
+.airdy-doc h2 {
+  margin: 0;
+  font-family: "Instrument Sans", system-ui, sans-serif;
+  font-size: clamp(1.4rem, 3vw, 2.1rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+.airdy-doc-url {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  color: rgba(27, 26, 23, 0.6);
+  margin: 6px 0 0;
+}
 
 .airdy-dial {
   --p: 0;
-  width: 118px; height: 118px; border-radius: 50%; flex: 0 0 auto;
+  width: 118px;
+  height: 118px;
+  border-radius: 50%;
+  flex: 0 0 auto;
   background:
-    radial-gradient(closest-side, #FFFDFB 78%, transparent 79%),
-    conic-gradient(#A07C82 calc(var(--p) * 1%), rgba(27,26,23,0.1) 0);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
+    radial-gradient(closest-side, #fffdfb 78%, transparent 79%),
+    conic-gradient(#a07c82 calc(var(--p) * 1%), rgba(27, 26, 23, 0.1) 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-.airdy-score { font-weight: 900; font-size: 2.1rem; line-height: 1; }
-.airdy-of { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: rgba(27,26,23,0.55); margin-top: 3px; }
+.airdy-score {
+  font-weight: 900;
+  font-size: 2.1rem;
+  line-height: 1;
+}
+.airdy-of {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  color: rgba(27, 26, 23, 0.55);
+  margin-top: 3px;
+}
 .airdy-grade {
-  font-weight: 700; font-size: 1.05rem; color: #916A70; margin: 18px 0 26px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #916a70;
+  margin: 18px 0 26px;
   text-transform: lowercase;
 }
 
-.airdy-checks { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.airdy-checks {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
 .airdy-check {
-  border: 1px solid rgba(27,26,23,0.1); border-radius: 16px; padding: 15px 16px;
-  background: #FFFDFB;
+  border: 1px solid rgba(27, 26, 23, 0.1);
+  border-radius: 16px;
+  padding: 15px 16px;
+  background: #fffdfb;
 }
-.airdy-check.pass { border-color: rgba(138,106,46,0.4); }
-.airdy-check.fail { border-color: rgba(160,60,50,0.35); }
-.airdy-check-top { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
+.airdy-check.pass {
+  border-color: rgba(138, 106, 46, 0.4);
+}
+.airdy-check.fail {
+  border-color: rgba(160, 60, 50, 0.35);
+}
+.airdy-check-top {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 8px;
+}
 .airdy-mark {
-  width: 22px; height: 22px; border-radius: 50%; flex: 0 0 auto;
-  display: inline-flex; align-items: center; justify-content: center;
-  font-size: 0.75rem; font-weight: 900; color: #FFFDFB; background: #916A70;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: #fffdfb;
+  background: #916a70;
 }
-.airdy-check.partial .airdy-mark { background: #A07C82; }
-.airdy-check.fail .airdy-mark { background: #A03C32; }
-.airdy-check p { margin: 0; font-size: 0.82rem; line-height: 1.55; font-weight: 300; }
-.airdy-fix { margin-top: 8px !important; }
-.airdy-fix b { color: #916A70; }
+.airdy-check.partial .airdy-mark {
+  background: #a07c82;
+}
+.airdy-check.fail .airdy-mark {
+  background: #a03c32;
+}
+.airdy-check p {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  font-weight: 300;
+}
+.airdy-fix {
+  margin-top: 8px !important;
+}
+.airdy-fix b {
+  color: #916a70;
+}
 
 .airdy-drafting {
-  margin: 34px 0 0; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
-  letter-spacing: 0.14em; text-transform: uppercase; color: #916A70;
+  margin: 34px 0 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #916a70;
   animation: airdy-pulse 1.4s ease-in-out infinite;
 }
-@keyframes airdy-pulse { 50% { opacity: 0.45; } }
+@keyframes airdy-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
 
 /* the journey */
-.airdy-journey { margin-top: 44px; border-top: 1.5px solid rgba(145,106,112,0.5); padding-top: 34px; }
-.airdy-journey h3 { margin: 0 0 8px; font-family: 'Jost', system-ui, sans-serif; font-size: 1.3rem; font-weight: 700; }
-.airdy-journey-sub { margin: 0 0 20px; font-weight: 300; line-height: 1.6; max-width: 70ch; }
-.airdy-palette { display: flex; align-items: center; gap: 7px; margin-bottom: 24px; }
-.airdy-palette span { width: 26px; height: 26px; border-radius: 8px; border: 1px solid rgba(27,26,23,0.12); }
+.airdy-journey {
+  margin-top: 44px;
+  border-top: 1.5px solid rgba(145, 106, 112, 0.5);
+  padding-top: 34px;
+}
+.airdy-journey h3 {
+  margin: 0 0 8px;
+  font-family: "Instrument Sans", system-ui, sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+.airdy-journey-sub {
+  margin: 0 0 20px;
+  font-weight: 300;
+  line-height: 1.6;
+  max-width: 70ch;
+}
+.airdy-palette {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 24px;
+}
+.airdy-palette span {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  border: 1px solid rgba(27, 26, 23, 0.12);
+}
 .airdy-palette i {
-  font-family: 'IBM Plex Mono', monospace; font-style: normal; font-size: 0.75rem;
-  letter-spacing: 0.1em; text-transform: uppercase; color: rgba(27,26,23,0.5); margin-left: 6px;
+  font-family: "IBM Plex Mono", monospace;
+  font-style: normal;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(27, 26, 23, 0.5);
+  margin-left: 6px;
 }
-.airdy-moments { list-style: none; margin: 0; padding: 0; }
-.airdy-moments li { padding: 16px 0; border-bottom: 1px solid rgba(27,26,23,0.08); }
-.airdy-m-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px; flex-wrap: wrap; }
-.airdy-m-n { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: #916A70; }
-.airdy-m-head b { font-size: 1rem; }
+.airdy-moments {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.airdy-moments li {
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(27, 26, 23, 0.08);
+}
+.airdy-m-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.airdy-m-n {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  color: #916a70;
+}
+.airdy-m-head b {
+  font-size: 1rem;
+}
 .airdy-m-agent {
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
-  letter-spacing: 0.12em; text-transform: uppercase; color: rgba(27,26,23,0.55);
-  border: 1px solid rgba(184,150,79,0.5); border-radius: 999px; padding: 3px 9px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(27, 26, 23, 0.55);
+  border: 1px solid rgba(184, 150, 79, 0.5);
+  border-radius: 999px;
+  padding: 3px 9px;
 }
-.airdy-moments p { margin: 0; font-weight: 300; font-size: 0.88rem; line-height: 1.65; max-width: 74ch; }
+.airdy-moments p {
+  margin: 0;
+  font-weight: 300;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  max-width: 74ch;
+}
 .airdy-blind {
-  margin-top: 26px; border: 1px solid rgba(184,150,79,0.45); border-radius: 16px;
-  padding: 18px 20px; background: rgba(145,106,112,0.06);
+  margin-top: 26px;
+  border: 1px solid rgba(184, 150, 79, 0.45);
+  border-radius: 16px;
+  padding: 18px 20px;
+  background: rgba(145, 106, 112, 0.06);
 }
-.airdy-blind ul { margin: 10px 0; padding-left: 18px; }
-.airdy-blind li { font-weight: 300; font-size: 0.88rem; line-height: 1.6; }
-.airdy-blind p { margin: 8px 0 0; font-size: 0.82rem; font-weight: 300; color: rgba(27,26,23,0.75); }
+.airdy-blind ul {
+  margin: 10px 0;
+  padding-left: 18px;
+}
+.airdy-blind li {
+  font-weight: 300;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+.airdy-blind p {
+  margin: 8px 0 0;
+  font-size: 0.82rem;
+  font-weight: 300;
+  color: rgba(27, 26, 23, 0.75);
+}
 
 .airdy-doc-foot {
-  margin-top: 40px; padding-top: 18px; border-top: 1px solid rgba(27,26,23,0.1);
-  display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
-  letter-spacing: 0.1em; text-transform: uppercase; color: rgba(27,26,23,0.55);
+  margin-top: 40px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(27, 26, 23, 0.1);
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(27, 26, 23, 0.55);
 }
 
-.airdy-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
-.airdy-actions button, .airdy-actions a {
-  cursor: pointer; border-radius: 999px; padding: 14px 26px; text-decoration: none;
-  font: 700 0.88rem 'Jost', sans-serif; border: 0;
-  background: #F5F1F2; color: #240B21;
+.airdy-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 26px;
+}
+.airdy-actions button,
+.airdy-actions a {
+  cursor: pointer;
+  border-radius: 999px;
+  padding: 14px 26px;
+  text-decoration: none;
+  font:
+    700 0.88rem "Instrument Sans",
+    sans-serif;
+  border: 0;
+  background: #f5f1f2;
+  color: #240b21;
 }
 .airdy-actions .ghost {
-  background: transparent; color: #F5F1F2;
-  border: 1px solid rgba(240,238,233,0.3);
+  background: transparent;
+  color: #f5f1f2;
+  border: 1px solid rgba(240, 238, 233, 0.3);
 }
 
 /* ── print: the document IS the page ── */
 @media print {
-  body * { visibility: hidden; }
-  .airdy-doc, .airdy-doc * { visibility: visible; }
-  .airdy { background: #FFFFFF; }
-  .airdy-doc {
-    position: absolute; inset: 0; margin: 0; border-radius: 0; border: 0;
-    box-shadow: none; padding: 28px 34px;
+  body * {
+    visibility: hidden;
   }
-  .airdy-checks { grid-template-columns: repeat(2, 1fr); }
-  .airdy-journey { break-inside: avoid; }
+  .airdy-doc,
+  .airdy-doc * {
+    visibility: visible;
+  }
+  .airdy {
+    background: #ffffff;
+  }
+  .airdy-doc {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    border-radius: 0;
+    border: 0;
+    box-shadow: none;
+    padding: 28px 34px;
+  }
+  .airdy-checks {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .airdy-journey {
+    break-inside: avoid;
+  }
 }
 
 @media (max-width: 640px) {
-  .airdy-main { padding: 100px 16px 70px; }
-  .airdy-doc { padding: 28px 22px 20px; }
+  .airdy-main {
+    padding: 100px 16px 70px;
+  }
+  .airdy-doc {
+    padding: 28px 22px 20px;
+  }
 }
 
 /* ── the gate: the email moment between the score and the journey ── */
 .airdy-gate {
-  margin-top: 40px; border: 1.5px solid rgba(184,150,79,0.55); border-radius: 18px;
-  padding: 24px 26px; background: linear-gradient(150deg, rgba(145,106,112,0.1), rgba(145,106,112,0.02));
+  margin-top: 40px;
+  border: 1.5px solid rgba(184, 150, 79, 0.55);
+  border-radius: 18px;
+  padding: 24px 26px;
+  background: linear-gradient(
+    150deg,
+    rgba(145, 106, 112, 0.1),
+    rgba(145, 106, 112, 0.02)
+  );
 }
-.airdy-gate b { font-size: 1.08rem; }
-.airdy-gate p { margin: 8px 0 16px; font-weight: 300; font-size: 0.9rem; line-height: 1.6; max-width: 60ch; }
-.airdy-gate-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.airdy-gate b {
+  font-size: 1.08rem;
+}
+.airdy-gate p {
+  margin: 8px 0 16px;
+  font-weight: 300;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  max-width: 60ch;
+}
+.airdy-gate-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
 .airdy-gate-row input {
-  flex: 1 1 220px; min-width: 0; border: 1px solid rgba(27,26,23,0.2); border-radius: 999px;
-  padding: 13px 20px; font: 0.95rem 'Jost', sans-serif; color: #240B21; background: #FFFDFB;
+  flex: 1 1 220px;
+  min-width: 0;
+  border: 1px solid rgba(27, 26, 23, 0.2);
+  border-radius: 999px;
+  padding: 13px 20px;
+  font:
+    0.95rem "Instrument Sans",
+    sans-serif;
+  color: #240b21;
+  background: #fffdfb;
   outline: none;
 }
-.airdy-gate-row input:focus { border-color: #A07C82; }
-.airdy-gate-row button {
-  cursor: pointer; border: 0; border-radius: 999px; padding: 13px 26px;
-  font: 700 0.9rem 'Jost', sans-serif; background: #240B21; color: #FFFDFB;
+.airdy-gate-row input:focus {
+  border-color: #a07c82;
 }
-.airdy-gate-row button:disabled { opacity: 0.6; cursor: wait; }
-.airdy-gate small { display: block; margin-top: 12px; font-size: 0.75rem; color: rgba(27,26,23,0.6); line-height: 1.5; }
-@media print { .airdy-gate { display: none; } }
+.airdy-gate-row button {
+  cursor: pointer;
+  border: 0;
+  border-radius: 999px;
+  padding: 13px 26px;
+  font:
+    700 0.9rem "Instrument Sans",
+    sans-serif;
+  background: #240b21;
+  color: #fffdfb;
+}
+.airdy-gate-row button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.airdy-gate small {
+  display: block;
+  margin-top: 12px;
+  font-size: 0.75rem;
+  color: rgba(27, 26, 23, 0.6);
+  line-height: 1.5;
+}
+@media print {
+  .airdy-gate {
+    display: none;
+  }
+}
 
 /* On a phone the pill wraps: the input takes the first row and the button
    drops onto the second, still inside the rounded border — which reads as a
@@ -217,7 +536,7 @@
     border-radius: 14px;
     background: rgba(240, 238, 233, 0.05);
     padding: 15px 18px;
-    font-size: 16px;   /* iOS zooms the page on focus below 16px */
+    font-size: 16px; /* iOS zooms the page on focus below 16px */
   }
   .airdy-form button {
     width: 100%;
@@ -225,74 +544,431 @@
     border-radius: 14px;
   }
   /* the report is a document — give it back its margins on a narrow screen */
-  .airdy-doc { padding: 28px 20px 22px; border-radius: 20px; margin-top: 40px; }
+  .airdy-doc {
+    padding: 28px 20px 22px;
+    border-radius: 20px;
+    margin-top: 40px;
+  }
 }
 
 /* eating our own cooking, said out loud */
 .airdy-dogfood {
-  margin: 16px 0 0; max-width: 62ch; padding: 14px 18px;
+  margin: 16px 0 0;
+  max-width: 62ch;
+  padding: 14px 18px;
   border-left: 2px solid rgba(145, 106, 112, 0.6);
   background: rgba(145, 106, 112, 0.06);
-  font-weight: 300; font-size: 0.86rem; line-height: 1.6; color: var(--airdy-ink, #F5F1F2);
+  font-weight: 300;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--airdy-ink, #f5f1f2);
 }
 
 /* the receipt — the record we promise, given to the visitor */
 .airdy-receipt {
-  margin-top: 30px; border: 1px solid rgba(145, 106, 112, 0.45); border-radius: 18px;
-  padding: 22px 26px; background: rgba(145, 106, 112, 0.05);
+  margin-top: 30px;
+  border: 1px solid rgba(145, 106, 112, 0.45);
+  border-radius: 18px;
+  padding: 22px 26px;
+  background: rgba(145, 106, 112, 0.05);
 }
-.airdy-receipt b { display: block; font-size: 1rem; margin-bottom: 12px; }
-.airdy-receipt ul { margin: 0; padding-left: 18px; }
-.airdy-receipt li { font-weight: 300; font-size: 0.88rem; line-height: 1.65; margin-bottom: 6px; }
+.airdy-receipt b {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+.airdy-receipt ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.airdy-receipt li {
+  font-weight: 300;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  margin-bottom: 6px;
+}
 
 /* ══ the context brief — the artefact people keep ══ */
 .airdy-ctx {
-  margin-top: 34px; border: 1px solid rgba(145, 106, 112, 0.5); border-radius: 22px;
-  padding: 28px 30px; background: rgba(145, 106, 112, 0.05);
+  margin-top: 34px;
+  border: 1px solid rgba(145, 106, 112, 0.5);
+  border-radius: 22px;
+  padding: 28px 30px;
+  background: rgba(145, 106, 112, 0.05);
 }
-.airdy-ctx-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+.airdy-ctx-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
 .airdy-ctx-kick {
-  margin: 0 0 4px; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
-  letter-spacing: 0.2em; text-transform: uppercase; color: #C08E96;
+  margin: 0 0 4px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #c08e96;
 }
-.airdy-ctx h3 { margin: 0; font-size: 1.35rem; font-weight: 700; }
+.airdy-ctx h3 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
 .airdy-ctx-badge {
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; letter-spacing: 0.12em;
-  padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(145, 106, 112, 0.55); color: #C08E96;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(145, 106, 112, 0.55);
+  color: #c08e96;
 }
 .airdy-ctx-lede {
-  margin: 14px 0 0; max-width: 66ch; font-weight: 300; font-size: 0.9rem; line-height: 1.65;
+  margin: 14px 0 0;
+  max-width: 66ch;
+  font-weight: 300;
+  font-size: 0.9rem;
+  line-height: 1.65;
 }
 .airdy-ctx-preview {
-  margin: 18px 0 0; padding: 16px 18px; max-height: 220px; overflow: hidden;
-  border-radius: 14px; border: 1px solid rgba(240, 238, 233, 0.12);
+  margin: 18px 0 0;
+  padding: 16px 18px;
+  max-height: 220px;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba(240, 238, 233, 0.12);
   background: rgba(5, 15, 28, 0.5);
-  font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; line-height: 1.7;
-  white-space: pre-wrap; color: rgba(240, 238, 233, 0.82);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.75rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  color: rgba(240, 238, 233, 0.82);
 }
 /* The preview clipped at 220px with overflow hidden, so the brief looked
    half-written with no way to reach the rest. Give it a scroll. */
-.airdy-ctx-preview.full { max-height: 480px; overflow-y: auto; overscroll-behavior: contain; }
-.airdy-ctx-preview.full::-webkit-scrollbar { width: 9px; }
+.airdy-ctx-preview.full {
+  max-height: 480px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.airdy-ctx-preview.full::-webkit-scrollbar {
+  width: 9px;
+}
 .airdy-ctx-preview.full::-webkit-scrollbar-thumb {
-  background: rgba(145, 106, 112, 0.4); border-radius: 999px;
+  background: rgba(145, 106, 112, 0.4);
+  border-radius: 999px;
 }
-.airdy-ctx-preview.full::-webkit-scrollbar-track { background: transparent; }
+.airdy-ctx-preview.full::-webkit-scrollbar-track {
+  background: transparent;
+}
 .airdy-ctx-count {
-  margin-top: 8px; font-size: 0.75rem; color: rgba(240, 238, 233, 0.5);
-  font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.02em;
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: rgba(240, 238, 233, 0.5);
+  font-family: "IBM Plex Mono", monospace;
+  letter-spacing: 0.02em;
 }
-.airdy-ctx-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+.airdy-ctx-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
 .airdy-ctx-row button {
-  cursor: pointer; border: 0; border-radius: 999px; padding: 13px 24px;
-  font: 700 0.84rem 'Jost', sans-serif; background: #F5F1F2; color: #240B21;
+  cursor: pointer;
+  border: 0;
+  border-radius: 999px;
+  padding: 13px 24px;
+  font:
+    700 0.84rem "Instrument Sans",
+    sans-serif;
+  background: #f5f1f2;
+  color: #240b21;
   transition: transform 0.24s ease;
 }
-.airdy-ctx-row button:hover { transform: translateY(-2px); }
-.airdy-ctx-row button.ghost { background: transparent; color: #F5F1F2; border: 1px solid rgba(240, 238, 233, 0.28); }
-.airdy-ctx-row button:disabled { opacity: 0.6; cursor: wait; transform: none; }
-.airdy-ctx-err { margin-top: 10px; font-size: 0.78rem; color: #E2A0A0; }
+.airdy-ctx-row button:hover {
+  transform: translateY(-2px);
+}
+.airdy-ctx-row button.ghost {
+  background: transparent;
+  color: #f5f1f2;
+  border: 1px solid rgba(240, 238, 233, 0.28);
+}
+.airdy-ctx-row button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+  transform: none;
+}
+.airdy-ctx-err {
+  margin-top: 10px;
+  font-size: 0.78rem;
+  color: #e2a0a0;
+}
 
 /* A brief that never landed says so, rather than leaving the page looking done. */
-.airdy-ctx-failed { border-color: rgba(226, 160, 160, 0.45); background: rgba(226, 160, 160, 0.06); }
-.airdy-ctx-failed .airdy-ctx-badge { opacity: 0.55; }
+.airdy-ctx-failed {
+  border-color: rgba(226, 160, 160, 0.45);
+  background: rgba(226, 160, 160, 0.06);
+}
+.airdy-ctx-failed .airdy-ctx-badge {
+  opacity: 0.55;
+}
+
+/* Current assembl identity; the report keeps readable paper surfaces. */
+.airdy {
+  background: #fffdfb;
+  color: #492b3e;
+}
+.airdy-main {
+  max-width: 1220px;
+  padding-top: 130px;
+}
+.airdy h1 {
+  font-size: clamp(48px, 7vw, 92px);
+  line-height: 1.02;
+  letter-spacing: -0.065em;
+  text-transform: none;
+  font-weight: 500;
+  color: #492b3e;
+}
+.airdy-accent {
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  color: #916a70;
+  animation: none;
+  font-weight: 500;
+}
+.airdy-sub {
+  font-size: 19px;
+  max-width: 57ch;
+}
+.airdy-kicker {
+  color: #654a4e;
+  letter-spacing: 0.1em;
+}
+.airdy-form {
+  max-width: 760px;
+  background: #f5f1f2;
+  border-color: #dfd8da;
+  border-radius: 14px;
+  backdrop-filter: none;
+}
+.airdy-form input {
+  color: #492b3e;
+}
+.airdy-form input::placeholder {
+  color: #756972;
+}
+.airdy-form button {
+  background: #240b21;
+  color: #fffdfb;
+  border-radius: 10px;
+  min-height: 50px;
+}
+.airdy-note {
+  color: #654a4e;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 12px;
+}
+.audit-deliverables {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 34px;
+  padding-block: 20px;
+  border-block: 1px solid #dfd8da;
+  font-size: 13px;
+}
+.airdy-doc {
+  box-shadow: none;
+  border-color: #dfd8da;
+  margin-top: 45px;
+}
+.audit-method {
+  font-size: 13px;
+  color: #654a4e;
+  line-height: 1.7;
+  max-width: 75ch;
+}
+.audit-method a {
+  display: block;
+  text-decoration: underline;
+}
+.implementation-plan {
+  margin: 34px 0 48px;
+  border-block: 1px solid #dfd8da;
+  padding-block: 30px;
+}
+.implementation-plan h3 {
+  color: #492b3e;
+  font-size: clamp(28px, 4vw, 42px);
+  letter-spacing: -0.045em;
+  line-height: 1.15;
+}
+.implementation-plan p {
+  font-size: 14px;
+  line-height: 1.7;
+}
+.plan-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 25px 0;
+}
+.plan-inputs label {
+  display: grid;
+  gap: 8px;
+  font-size: 13px;
+}
+.plan-inputs select {
+  padding: 12px;
+  border: 1px solid #bdaeb8;
+  border-radius: 8px;
+  min-width: 0;
+  color: #492b3e;
+  background: #fffdfb;
+}
+.plan-fixes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.plan-fixes article {
+  background: #f5f1f2;
+  padding: 20px;
+  border-radius: 12px;
+}
+.plan-fixes span,
+.plan-concept span {
+  font:
+    11px var(--font-mono),
+    monospace;
+}
+.plan-fixes h4 {
+  color: #492b3e;
+  font-size: 20px;
+  line-height: 1.2;
+  margin: 14px 0;
+}
+.plan-fixes small {
+  font-size: 11px;
+  color: #654a4e;
+}
+.plan-concept {
+  margin-top: 18px;
+  padding: 30px;
+  background: #240b21;
+  color: #fffdfb;
+  border-radius: 16px;
+}
+.plan-concept h4 {
+  color: #fffdfb;
+  font-size: 36px;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  margin: 16px 0;
+}
+.plan-concept ol {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 0;
+  margin: 24px 0;
+}
+.plan-concept li {
+  padding: 20px 14px;
+  border: 1px solid #916a70;
+  border-radius: 9px;
+  font-size: 14px;
+}
+.plan-concept li b {
+  display: block;
+  font-size: 10px;
+  margin-bottom: 15px;
+  color: #eac8df;
+}
+.plan-concept small {
+  font-size: 12px;
+  color: #eac8df;
+}
+.airdy .airdy-ctx-row button {
+  min-height: 44px;
+}
+.airdy .airdy-ctx-row a {
+  color: #492b3e;
+  padding: 10px 0;
+  text-decoration: underline;
+}
+.airdy-actions button,
+.airdy-actions a {
+  background: #240b21 !important;
+  color: #fffdfb !important;
+  border: 1px solid #654a4e !important;
+}
+.airdy button:focus-visible,
+.airdy a:focus-visible,
+.airdy input:focus-visible,
+.airdy select:focus-visible {
+  outline: 3px solid #916a70;
+  outline-offset: 3px;
+}
+.marketing-choice {
+  display: flex;
+  gap: 10px;
+  align-items: start;
+  margin-top: 14px;
+}
+.marketing-choice input {
+  min-width: 18px;
+  width: 18px;
+  height: 18px;
+}
+.airdy-error {
+  color: #91334c;
+}
+.airdy-note {
+  line-height: 1.65;
+}
+@media (max-width: 650px) {
+  .airdy-main {
+    padding: 100px 18px 100px;
+  }
+  .airdy-doc {
+    padding: 24px 18px;
+  }
+  .plan-inputs,
+  .plan-fixes,
+  .plan-concept ol {
+    grid-template-columns: 1fr;
+  }
+  .plan-concept {
+    padding: 22px;
+  }
+  .plan-concept h4 {
+  color: #fffdfb;
+    font-size: 30px;
+  }
+  .audit-deliverables {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .airdy-form {
+    border-radius: 12px;
+    padding: 8px 12px;
+  }
+  .airdy-form button {
+    width: 100%;
+  }
+  .airdy h1 {
+    font-size: 52px;
+  }
+  .airdy-sub {
+    font-size: 17px;
+  }
+}
+
+.airdy .airdy-ctx-row button.ghost { color: #492b3e; background: #fffdfb; border: 1px solid #bdaeb8; }
