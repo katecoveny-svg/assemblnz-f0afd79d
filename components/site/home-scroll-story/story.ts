@@ -70,7 +70,7 @@ export const CHAPTERS: Chapter[] = [
     id: 'pursuit',
     kicker: '01 · Pursuit · find the friction',
     title: ['An opportunity starts with a ', 'signal.'],
-    body: 'Tenders, projects and market changes, brought back with the source attached.',
+    body: 'Signals and opportunities that could become a useful next step, brought back with the source attached.',
     frames: [{ dir: '/home-story/home', count: 24 }],
     poster: '/home-story/home/f012.webp',
     label: 'Simulated · lab home energy twin',
@@ -81,13 +81,14 @@ export const CHAPTERS: Chapter[] = [
       { tag: 'friction', text: 'Cold bedrooms, costly hours' },
       { tag: 'opportunity', text: 'A warmer home, worded for review' },
     ],
-    cta: { href: '/contact', text: 'Discuss an opportunity' },
+    cta: { href: '/pursuit', text: 'Find the work' },
+    secondary: { href: '/contact', text: 'Discuss an opportunity' },
   },
   {
     id: 'do',
     kicker: '02 · DO · assemble the journey',
     title: ['What do you need to ', 'assembl?'],
-    body: 'A guide to assembl. Clear answers about our work, capabilities and ways to get in touch.',
+    body: 'Start with a task. Review the prepared work and choose what happens next. Nothing goes out without a person.',
     frames: [{ dir: '/home-story/cafe', count: 24 }, { dir: '/home-story/store', count: 24 }],
     poster: '/home-story/cafe/f012.webp',
     label: 'Illustrative · café and supermarket twins',
@@ -98,13 +99,14 @@ export const CHAPTERS: Chapter[] = [
       { tag: 'review', text: 'A named person approves the change' },
       { tag: 'receipt', text: 'What changed, and why, kept on file' },
     ],
-    cta: { href: '#try', text: 'Ask about assembl' },
+    cta: { href: '/do', text: 'Prepare the work' },
+    secondary: { href: '/assembling', text: 'Explore active customer journeys' },
   },
   {
     id: 'studio',
     kicker: '03 · Studio · show it',
     title: ['Give the idea a ', 'world', ' of its own.'],
-    body: 'Websites, campaigns, image and film. Work people can see, change and try.',
+    body: 'Turn a brief into an interactive journey, visual story or working demonstrator. Work people can see, change and try.',
     frames: [{ dir: '/home-story/showroom', count: 72 }],
     phoneFrames: [{ dir: '/home-story/showroom-sq', count: 72 }],
     poster: '/home-story/showroom/f000.webp',
@@ -116,7 +118,7 @@ export const CHAPTERS: Chapter[] = [
       { tag: 'journey', text: 'Browse, compare, book a drive' },
       { tag: 'review', text: 'Dealer checks every claim' },
     ],
-    cta: { href: '/contact', text: 'Discuss a project' },
+    cta: { href: '/studio', text: 'Show the possibility' },
     secondary: { href: '/lab', text: 'Try the 3D worlds in Lab' },
   },
 ];
@@ -134,4 +136,10 @@ export const EVIDENCE = [
   { rule: 'Indirect collection must be notified.', source: 'legislation.govt.nz · Privacy Act 2020, IPP 3A' },
   { rule: 'Nothing sends without a named person.', source: 'assembl product rules' },
   { rule: 'Every job leaves a receipt.', source: 'assembl evidence pack specification' },
+] as const;
+
+/** Independent demonstrators listed on the homepage before this story; kept with their own truth wording. */
+export const DEMONSTRATORS = [
+  { href: 'https://assembl-lab.vercel.app/whaiao-story/', img: '/images/site/whaiao-pavilion.jpg', w: 1800, h: 1100, alt: 'Blender-rendered illustrative courtyard pavilion', tag: 'Architecture · independent demonstrator', title: 'A project, opened up.', text: 'Explore spaces, discuss options and keep the conversation together after a hui. Illustrative architecture, not an approved Whaiao project.' },
+  { href: 'https://assembl-lab.vercel.app/study/patterns/', img: '/images/site/living-studio.jpg', w: 1200, h: 900, alt: 'A sculpture poster exported from Living Studio', tag: 'Creative tool · made in your browser', title: 'Your colours. Your creation.', text: 'Sculpt a form, tune its finish and make a shareable piece of your own. No account needed.' },
 ] as const;

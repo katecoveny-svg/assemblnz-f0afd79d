@@ -1,11 +1,12 @@
 'use client';
 
+import NextImage from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import { Instrument_Serif } from 'next/font/google';
 import { GlassIdentity } from '@/components/brand/GlassIdentity';
 import { footerMarkup } from '@/components/site/direction-4c/markup';
-import { CHAPTERS, EVIDENCE, MACHINES, frameAt, framePaths, loadOrder, sectionProgress, stepsDone, type Chapter } from './story';
+import { CHAPTERS, DEMONSTRATORS, EVIDENCE, MACHINES, frameAt, framePaths, loadOrder, sectionProgress, stepsDone, type Chapter } from './story';
 import '@/components/site/direction-4c/direction-4c.css';
 import './home-scroll-story.css';
 
@@ -214,7 +215,9 @@ export function HomeScrollStory() {
     <div ref={rootRef} className={`hss ${serif.variable}`}>
       <header className="hss-header">
         <a href="#top" className="hss-brand" aria-label="assembl, back to top"><GlassIdentity kind="assembl" size={40} /><span>assembl</span></a>
-        <nav aria-label="Primary" className="hss-nav"><Link href="/lab">Lab</Link></nav>
+        <nav aria-label="Primary" className="hss-nav">
+          <Link href="/assembling">Customer journeys</Link><Link href="/studio">Studio</Link><Link href="/lab">Lab</Link><Link href="/ai-ready">Website check</Link>
+        </nav>
         <Link href="/contact" className="hss-btn hss-btn-sm">Bring us the work <Arrow /></Link>
       </header>
 
@@ -223,7 +226,7 @@ export function HomeScrollStory() {
           <div className="hss-hero-copy">
             <p className="hss-kicker">agentic AI · built in Aotearoa New Zealand</p>
             <h1 id="hero-title" className="hss-title hss-hero-title">Small worlds.<br />Useful <em>work.</em></h1>
-            <p className="hss-lede">We find where AI can help, build practical experiences, and show how they work.</p>
+            <p className="hss-lede">Turn necessary customer waiting into useful, permissioned preparation. A better brief. A clearer choice. A person in control.</p>
             <p className="hss-arc" aria-label="How we work"><span>Find the friction.</span> <span>Assemble the journey.</span> <span>Prove the result.</span></p>
             <div className="hss-actions">
               <Link className="hss-btn" href="/contact">Bring us the work <Arrow /></Link>
@@ -262,6 +265,29 @@ export function HomeScrollStory() {
             ))}
           </ul>
           <p className="hss-label hss-label-static"><span className="hss-dot" aria-hidden="true" />Lab experiment · renders of the live machines</p>
+        </div>
+      </section>
+
+      <section id="check" className="hss-check" aria-labelledby="check-title">
+        <div className="hss-check-head">
+          <div>
+            <p className="hss-kicker">start with your own business</p>
+            <h2 id="check-title" className="hss-title">See what to fix. Imagine what comes <em>next.</em></h2>
+          </div>
+          <div>
+            <p className="hss-body">A public website check, useful implementation steps and a visual concept for your customer journey. Yours to download and discuss with your team.</p>
+            <div className="hss-actions"><Link className="hss-btn" href="/ai-ready">Get your website action plan <Arrow /></Link></div>
+          </div>
+        </div>
+        <div className="hss-demos">
+          {DEMONSTRATORS.map(d => (
+            <a key={d.href} className="hss-demo" href={d.href}>
+              <NextImage src={d.img} alt={d.alt} width={d.w} height={d.h} loading="lazy" sizes="(max-width: 760px) 100vw, 50vw" />
+              <span className="hss-demo-tag">{d.tag}</span>
+              <span className="hss-demo-title">{d.title} <Arrow /></span>
+              <span className="hss-demo-text">{d.text}</span>
+            </a>
+          ))}
         </div>
       </section>
 

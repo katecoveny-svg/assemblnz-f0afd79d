@@ -34,7 +34,7 @@ describe('home scroll story', () => {
   it('labels every world as simulated, illustrative or rendered in real text', () => {
     for (const chapter of CHAPTERS) expect(chapter.label).toMatch(/^(Simulated|Illustrative|Rendered)/);
   });
-  it('keeps the real links: Lab, contact, Ask DO and the legal footer', () => {
+  it('keeps the real links: nav, website check, contact, Ask DO and the legal footer', () => {
     const source = readFileSync('components/site/home-scroll-story/HomeScrollStory.tsx', 'utf8');
     expect(source).toContain('href="/lab"');
     expect(source).toContain('href="/contact"');
@@ -43,6 +43,6 @@ describe('home scroll story', () => {
     expect(source).toContain("new Event('assembl:open-public-guide')");
     expect(source).toContain('footerMarkup');
     expect(source).toMatch(/<GlassIdentity kind="assembl"/);
-    expect(source).not.toMatch(/href="\/(?:do|pursuit|studio|creative-studio)(?:[/?#"])/);
+    expect(source).toContain('href="/ai-ready"');
   });
 });

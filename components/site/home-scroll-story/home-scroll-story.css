@@ -181,6 +181,19 @@
 .hss-machine span { position: relative; font: 400 10.5px/1.3 var(--font-mono), monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 .hss-label-static { left: auto; right: 5vw; bottom: 22px; }
 
+/* ---------- website check and demonstrators ---------- */
+.hss-check { padding: 130px 5vw 120px; background: var(--paper); }
+.hss-check-head { max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 5vw; align-items: end; }
+.hss-check-head .hss-body { margin-top: 0; }
+.hss-demos { max-width: 1240px; margin: 60px auto 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+.hss-demo { display: flex; flex-direction: column; gap: 8px; padding: 12px 12px 22px; border-radius: 28px; background: var(--chalk); transition: transform .3s ease, box-shadow .3s ease; }
+.hss-demo:hover { transform: translateY(-4px); box-shadow: 0 30px 60px -40px rgba(36, 11, 33, .5); }
+.hss-demo img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 20px; margin-bottom: 10px; }
+.hss-demo-tag, .hss-demo-title, .hss-demo-text { padding: 0 10px; }
+.hss-demo-tag { font: 400 10.5px/1.4 var(--font-mono), monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.hss-demo-title { display: inline-flex; align-items: center; gap: 8px; font-size: clamp(22px, 2.2vw, 30px); font-weight: 500; letter-spacing: -.04em; color: var(--ink); }
+.hss-demo-text { font-size: 15px; line-height: 1.5; color: var(--muted); }
+
 /* ---------- proof ---------- */
 .hss-proof { padding: 140px 5vw; background: var(--chalk); }
 .hss-proof-inner { max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 5vw; align-items: start; }
@@ -219,6 +232,7 @@
 
 /* ---------- tablet and phone ---------- */
 @media (max-width: 1060px) {
+  .hss-nav a { padding: 0 10px; font-size: 13px; }
   .hss-copy { width: calc(42% - 5vw); }
   .hss-world, .hss-progress { left: 44%; }
   .hss-step { grid-template-columns: 18px 78px minmax(0, 1fr); font-size: 14px; }
@@ -256,6 +270,10 @@
   .hss-machine { border-radius: 18px; }
   .hss-label-static { position: relative; left: auto; right: auto; bottom: auto; justify-self: start; }
 
+  .hss-check { padding: 80px 16px; }
+  .hss-check-head, .hss-demos { grid-template-columns: 1fr; gap: 22px; }
+  .hss-demos { margin-top: 36px; }
+  .hss-nav a:not([href="/lab"]) { display: none; }
   .hss-proof { padding: 90px 16px; }
   .hss-proof-inner { grid-template-columns: 1fr; gap: 30px; }
   .hss-receipt { padding: 4px 18px; }
