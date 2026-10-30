@@ -18,7 +18,7 @@
  },
  "status": "designed and checked digitally; nothing printed yet. Clamp, detent and clearance values are starting points for the test-print kit.",
  "source": "tools/living-cad/cad/lib.py",
- "built_at": "2026-10-22T04:16:19Z",
+ "built_at": "2026-10-22T10:31:34Z",
  "colours": {
   "living": [
    {
@@ -2748,7 +2748,7 @@
    "family": "dayrally2",
    "group": "mount",
    "revision": "v0.3",
-   "print_orientation": "face_down",
+   "print_orientation": "as_is",
    "dims_mm": {
     "x": 94.0,
     "y": 34.0,
@@ -2762,12 +2762,12 @@
    "watertight": true,
    "genus": 1,
    "bodies": 1,
-   "unsupported_down_area_mm2": 1158.0,
+   "unsupported_down_area_mm2": 449.0,
    "notes": "",
    "file": {
     "path": "/living/cad/v0.3/dr2-mount-carabiner-loop.stl",
     "bytes": 128584,
-    "sha256": "8c63d2fa79dab342302c6cce0d8a3a6c77d060e2eb686bf00820e961b9877b86"
+    "sha256": "e824cf976569ecdc1a23db934566f80fca34f26c9ecfb118268005c55dc702d1"
    }
   },
   {
@@ -3168,11 +3168,11 @@
    "family": "dayrally2",
    "group": "add-on",
    "revision": "v0.3",
-   "print_orientation": "on_side",
+   "print_orientation": "on_bottom",
    "dims_mm": {
-    "x": 84.0,
-    "y": 59.6,
-    "z": 70.0
+    "x": 70.0,
+    "y": 84.0,
+    "z": 59.6
    },
    "fits_250_cube": true,
    "volume_cm3": 57.75,
@@ -3182,12 +3182,12 @@
    "watertight": true,
    "genus": 0,
    "bodies": 1,
-   "unsupported_down_area_mm2": 201.0,
-   "notes": "Prints on its side.",
+   "unsupported_down_area_mm2": 36.0,
+   "notes": "Prints standing on its front edge: on its side, the cable notch through the base and lip would need supports.",
    "file": {
     "path": "/living/cad/v0.3/dr2-phone-stand.stl",
     "bytes": 43684,
-    "sha256": "06779e506d146ca6f3441f7ddf8f3522123e0b09eb93a2393806681b12e358ee"
+    "sha256": "e08e6e0c6c9d3bfe261db4fb0ff7ad02ae50a07b24c668d8bf6c0b2531063302"
    }
   },
   {
@@ -3280,11 +3280,11 @@
    "family": "camera",
    "group": "camera",
    "revision": "v0.3",
-   "print_orientation": "face_down",
+   "print_orientation": "on_side",
    "dims_mm": {
-    "x": 130.4,
+    "x": 75.4,
     "y": 84.0,
-    "z": 75.4
+    "z": 130.4
    },
    "fits_250_cube": true,
    "volume_cm3": 536.78,
@@ -3294,12 +3294,12 @@
    "watertight": true,
    "genus": 25,
    "bodies": 1,
-   "unsupported_down_area_mm2": 2128.0,
-   "notes": "Prints front face down. Ink PLA Matte; paint or flock the cone matte black.",
+   "unsupported_down_area_mm2": 8847.0,
+   "notes": "Prints on its side, no supports (front face down needed them at the film plane). Ink PLA Matte; paint or flock the cone matte black.",
    "file": {
     "path": "/living/cad/v0.3/cam-body.stl",
     "bytes": 480484,
-    "sha256": "3e7d6b673c63558a6b9b63015c20d6bf57e2478107464d07c0f89e9d493e7d88"
+    "sha256": "ed99b13be9ee3bb17ee3d092465918b37079f4fd975088635ceb54218bbe1794"
    }
   },
   {
@@ -4246,12 +4246,12 @@
    "watertight": true,
    "genus": 1,
    "bodies": 1,
-   "unsupported_down_area_mm2": 46.0,
+   "unsupported_down_area_mm2": 0.0,
    "notes": "PPA-CF. Epoxy and whip onto section 1.",
    "file": {
     "path": "/living/cad/v0.3/cast-guide-1.stl",
     "bytes": 32484,
-    "sha256": "d7aa20f75c98a575f1c6f2c10f9532c7e2398fb388c27dd9d901f0f9ec4642e4"
+    "sha256": "dc7c841888f79ed18e03cf7650462140e94be16d20910aaea641b629d8aef1d6"
    }
   },
   {
@@ -4274,12 +4274,12 @@
    "watertight": true,
    "genus": 1,
    "bodies": 1,
-   "unsupported_down_area_mm2": 36.0,
+   "unsupported_down_area_mm2": 0.0,
    "notes": "Section 2.",
    "file": {
     "path": "/living/cad/v0.3/cast-guide-2.stl",
     "bytes": 32084,
-    "sha256": "2c95fa1c4f69be3de957126f2d7af874e753729b71875cea1ce7ec27084ebc78"
+    "sha256": "a8777d6ab8e24a771ebef4ba44196747080999874d49d8e1725a5c66091bcdb1"
    }
   },
   {
@@ -4302,12 +4302,12 @@
    "watertight": true,
    "genus": 1,
    "bodies": 1,
-   "unsupported_down_area_mm2": 29.0,
+   "unsupported_down_area_mm2": 0.0,
    "notes": "Section 3.",
    "file": {
     "path": "/living/cad/v0.3/cast-guide-3.stl",
-    "bytes": 34484,
-    "sha256": "d5a627a1a35a994a4dd1a07610aa72d34e831456106e9fb6463a745fd46773cf"
+    "bytes": 32884,
+    "sha256": "e4806b8140ad4d8630a776cb8aa311fc49974644c27efbc508f2141887143d20"
    }
   },
   {
@@ -4376,22 +4376,22 @@
    "dims_mm": {
     "x": 53.5,
     "y": 9.0,
-    "z": 9.0
+    "z": 5.6
    },
    "fits_250_cube": true,
-   "volume_cm3": 0.4,
+   "volume_cm3": 0.37,
    "mass_g_pla": 0.5,
    "material": "PETG (or a 3 mm steel rod)",
    "supports": "none",
    "watertight": true,
    "genus": 0,
    "bodies": 1,
-   "unsupported_down_area_mm2": 104.0,
+   "unsupported_down_area_mm2": 1.0,
    "notes": "Two per pod, or a 3 mm steel rod.",
    "file": {
     "path": "/living/cad/v0.3/ride-hinge-pin.stl",
-    "bytes": 23884,
-    "sha256": "8a1b1f80db5e17b00c61ba3b3a856acad047e8416eec17f7566a852751b0f5fc"
+    "bytes": 20484,
+    "sha256": "cf62b219ab312b30d05c8e808cf9e2af65ef8233bddd09afe18a9ebc2f7b32a7"
    }
   },
   {
@@ -4519,19 +4519,19 @@
     "z": 28.0
    },
    "fits_250_cube": true,
-   "volume_cm3": 56.1,
-   "mass_g_pla": 29.4,
+   "volume_cm3": 58.36,
+   "mass_g_pla": 29.5,
    "material": "PETG",
    "supports": "none",
    "watertight": true,
-   "genus": 4,
+   "genus": 3,
    "bodies": 1,
-   "unsupported_down_area_mm2": 2423.0,
+   "unsupported_down_area_mm2": 2388.0,
    "notes": "The slab bridges 40 mm between its walls (a bridge, no supports). Band wraps the slab; charger puck pocket underneath.",
    "file": {
     "path": "/living/cad/v0.3/ride-watch-42.stl",
-    "bytes": 151284,
-    "sha256": "76a4a2b9cf4195a25c2e5a997f9762cec4267dbf986469774c07d2a85d9e1944"
+    "bytes": 151584,
+    "sha256": "1bf76c5e0a4e153590ab9a5c751ddfe1d658bd4dae4b242733ea188c9de24b4a"
    }
   },
   {
@@ -4547,19 +4547,19 @@
     "z": 28.0
    },
    "fits_250_cube": true,
-   "volume_cm3": 55.48,
-   "mass_g_pla": 29.3,
+   "volume_cm3": 57.75,
+   "mass_g_pla": 29.4,
    "material": "PETG",
    "supports": "none",
    "watertight": true,
-   "genus": 4,
+   "genus": 3,
    "bodies": 1,
-   "unsupported_down_area_mm2": 2423.0,
+   "unsupported_down_area_mm2": 2388.0,
    "notes": "Band wraps the slab; charger puck pocket underneath.",
    "file": {
     "path": "/living/cad/v0.3/ride-watch-46.stl",
-    "bytes": 152084,
-    "sha256": "ef9c8d37557237b3b6f5be368e35cf3bea4d9f8555c9c1455ea5fd9d89145904"
+    "bytes": 152384,
+    "sha256": "0f58f43cd03ab6b129a9c0c10440fb402667e6d477d67065c19dd720ab6b6aa4"
    }
   },
   {
@@ -4575,19 +4575,19 @@
     "z": 28.0
    },
    "fits_250_cube": true,
-   "volume_cm3": 59.15,
-   "mass_g_pla": 31.1,
+   "volume_cm3": 61.45,
+   "mass_g_pla": 31.2,
    "material": "PETG",
    "supports": "none",
    "watertight": true,
-   "genus": 4,
+   "genus": 3,
    "bodies": 1,
-   "unsupported_down_area_mm2": 2657.0,
+   "unsupported_down_area_mm2": 2622.0,
    "notes": "Band wraps the slab; charger puck pocket underneath.",
    "file": {
     "path": "/living/cad/v0.3/ride-watch-49.stl",
-    "bytes": 154284,
-    "sha256": "169401336655c9a6d5abb84c718caa984038bc50c1d8ec7673c917b0974bd7da"
+    "bytes": 153984,
+    "sha256": "909c43e2213839d1587c3a180b16510ebd2af5497b90972b18473f378ddb3306"
    }
   },
   {
@@ -4603,19 +4603,19 @@
     "z": 38.5
    },
    "fits_250_cube": true,
-   "volume_cm3": 92.78,
-   "mass_g_pla": 60.9,
+   "volume_cm3": 94.29,
+   "mass_g_pla": 61.7,
    "material": "PETG",
    "supports": "none",
    "watertight": true,
    "genus": 4,
    "bodies": 1,
-   "unsupported_down_area_mm2": 112.0,
-   "notes": "Two keys; 45 degree channels centre 64-82 mm phones; rack for the slider.",
+   "unsupported_down_area_mm2": 60.0,
+   "notes": "Two keys; 45 degree channels centre 64-82 mm phones; a toothed groove for the slider's pawl.",
    "file": {
     "path": "/living/cad/v0.3/ride-phone-plate.stl",
-    "bytes": 145684,
-    "sha256": "3047900dc32ffaaa5066b589a8aab088bfa2599a2914ae8fb99189698ae5b72b"
+    "bytes": 149084,
+    "sha256": "aafd91ea1f994dede9f6c9cfdafb29ea9cae9feda3a3f62cd2919f5ffa476a32"
    }
   },
   {
@@ -4624,26 +4624,26 @@
    "family": "ride",
    "group": "ride",
    "revision": "v0.3",
-   "print_orientation": "face_down",
+   "print_orientation": "as_is",
    "dims_mm": {
-    "x": 26.9,
+    "x": 22.4,
     "y": 97.0,
     "z": 37.9
    },
    "fits_250_cube": true,
-   "volume_cm3": 14.52,
-   "mass_g_pla": 13.2,
+   "volume_cm3": 17.23,
+   "mass_g_pla": 14.0,
    "material": "PETG",
    "supports": "none",
    "watertight": true,
-   "genus": 1,
+   "genus": 0,
    "bodies": 1,
-   "unsupported_down_area_mm2": 1964.0,
-   "notes": "Prints upside down (the bridge is a 53 mm span between the hooks). Push toward the phone to ratchet; lift the tab to release.",
+   "unsupported_down_area_mm2": 1619.0,
+   "notes": "Prints feet down, no supports: the pawl arm stands on the bed. Push toward the phone to ratchet; push the tab sideways to release.",
    "file": {
     "path": "/living/cad/v0.3/ride-phone-slider.stl",
     "bytes": 17484,
-    "sha256": "cbbd8e0d99fce8eba757d04d4b6ab64ad55446303bb48aba91c56ac411272b9a"
+    "sha256": "5a32f36bdae851b59e6d6ef4724dc46d4bc8470f4975e8427f6cc6aaa054fdb1"
    }
   },
   {
@@ -5016,10 +5016,10 @@
    "family": "mini",
    "group": "mini",
    "revision": "v0.3",
-   "print_orientation": "on_side",
+   "print_orientation": "on_bottom",
    "dims_mm": {
-    "x": 7.9,
-    "y": 12.7,
+    "x": 12.7,
+    "y": 7.9,
     "z": 12.7
    },
    "fits_250_cube": true,
@@ -5030,12 +5030,12 @@
    "watertight": true,
    "genus": 0,
    "bodies": 1,
-   "unsupported_down_area_mm2": 45.0,
-   "notes": "Double-ended TURN mini key: joins two cubes. Lies flat to print.",
+   "unsupported_down_area_mm2": 58.0,
+   "notes": "Double-ended TURN mini key: joins two cubes. Lies flat to print, lugs edge-on to the bed.",
    "file": {
     "path": "/living/cad/v0.3/mini-universal-key.stl",
     "bytes": 107884,
-    "sha256": "a3d80fadda0e339d9cbbdc44972876b566260d77623dacc583fe64ce67402147"
+    "sha256": "1c421a6b01d2e6dcea4555d4e4be5e4ddfc3de765f87b5a381af9d286df67889"
    }
   },
   {
@@ -5044,26 +5044,26 @@
    "family": "mini",
    "group": "mini",
    "revision": "v0.3",
-   "print_orientation": "face_down",
+   "print_orientation": "as_is",
    "dims_mm": {
-    "x": 20.8,
+    "x": 12.6,
     "y": 12.6,
-    "z": 5.6
+    "z": 14.6
    },
    "fits_250_cube": true,
-   "volume_cm3": 0.46,
-   "mass_g_pla": 0.6,
+   "volume_cm3": 0.55,
+   "mass_g_pla": 0.7,
    "material": "PETG",
    "supports": "none",
    "watertight": true,
    "genus": 1,
    "bodies": 1,
-   "unsupported_down_area_mm2": 7.0,
-   "notes": "Closes a socket; the loop is a tie point and the handle.",
+   "unsupported_down_area_mm2": 86.0,
+   "notes": "Closes a socket; the loop stands up from the head: a tie point and the handle. Prints lugs down.",
    "file": {
     "path": "/living/cad/v0.3/mini-end-cap.stl",
-    "bytes": 79484,
-    "sha256": "7373e0989b4c204ba5fc01fd514c865b04fc79c1e601444b3905917ddcea03de"
+    "bytes": 75084,
+    "sha256": "6ce059b17dd89b9437fec51ba1a3bad4c9e7196322b1324a1a4b4c5a63d4cb7f"
    }
   },
   {
@@ -5247,19 +5247,19 @@
     "z": 26.0
    },
    "fits_250_cube": true,
-   "volume_cm3": 17.93,
-   "mass_g_pla": 12.0,
+   "volume_cm3": 18.62,
+   "mass_g_pla": 12.6,
    "material": "PETG",
    "supports": "none",
    "watertight": true,
    "genus": 0,
    "bodies": 1,
-   "unsupported_down_area_mm2": 792.0,
+   "unsupported_down_area_mm2": 619.0,
    "notes": "C ring for a 22-26 mm torch, band notches.",
    "file": {
     "path": "/living/cad/v0.3/mini-light-mount.stl",
-    "bytes": 417584,
-    "sha256": "01a264c5115aaab3f953c738e9e8bbdc85ca6bbde726286b6eaa57d9211da2da"
+    "bytes": 424784,
+    "sha256": "0c99c751c8d960cd1014b44aedf8f0bdc45a52807f93aa49d2a7d8793fa6037c"
    }
   },
   {
@@ -5436,7 +5436,7 @@
    "family": "mini",
    "group": "mini",
    "revision": "v0.3",
-   "print_orientation": "as_is",
+   "print_orientation": "face_down",
    "dims_mm": {
     "x": 34.0,
     "y": 33.0,
@@ -5450,12 +5450,12 @@
    "watertight": true,
    "genus": 1,
    "bodies": 1,
-   "unsupported_down_area_mm2": 935.0,
-   "notes": "Slides onto a 20-25 mm collar; a tag or light locks on top.",
+   "unsupported_down_area_mm2": 1063.0,
+   "notes": "Slides onto a 20-25 mm collar; a tag or light locks on top. Prints socket face down.",
    "file": {
     "path": "/living/cad/v0.3/mini-collar-mount.stl",
     "bytes": 70284,
-    "sha256": "8990feab059fc3e2d4696c32614a3dc2dea71271c28e2156f10455dd22b7451f"
+    "sha256": "ce35ad45493054d06503f7c50611bf44f163e9ae803eccfeed537d65a0a99ca5"
    }
   },
   {
@@ -5471,19 +5471,19 @@
     "z": 26.0
    },
    "fits_250_cube": true,
-   "volume_cm3": 10.24,
-   "mass_g_pla": 6.9,
+   "volume_cm3": 10.25,
+   "mass_g_pla": 7.0,
    "material": "PETG",
    "supports": "none",
    "watertight": true,
    "genus": 0,
    "bodies": 1,
-   "unsupported_down_area_mm2": 618.0,
+   "unsupported_down_area_mm2": 73.0,
    "notes": "J hook with a socket.",
    "file": {
     "path": "/living/cad/v0.3/mini-lantern-hook.stl",
-    "bytes": 99684,
-    "sha256": "d37bfb39582fc89b4c6946938e31c1a7c6273fb3c5f8b06047aa40fd068b5dbe"
+    "bytes": 100384,
+    "sha256": "ccd0ebf276ba578ce905564077638f3ad56780aac16fe75d91b4ac0bef5d7942"
    }
   },
   {
@@ -5583,19 +5583,19 @@
     "z": 20.0
    },
    "fits_250_cube": true,
-   "volume_cm3": 234.93,
-   "mass_g_pla": 88.4,
+   "volume_cm3": 234.67,
+   "mass_g_pla": 87.9,
    "material": "PETG",
    "supports": "none",
    "watertight": true,
    "genus": 6,
    "bodies": 1,
-   "unsupported_down_area_mm2": 1086.0,
+   "unsupported_down_area_mm2": 931.0,
    "notes": "Two straps round the rack platform; the ride pod or the long pod locks on.",
    "file": {
     "path": "/living/cad/v0.3/rack-mount.stl",
-    "bytes": 187884,
-    "sha256": "4bc431c75689ac5da3f501669cc797ec732ad6b4b4feff490d93ba1b58b9e7d0"
+    "bytes": 225784,
+    "sha256": "148f54c01580371fd88d9013ba4dee74967eccef310a82db6ce85a9fbbf97228"
    }
   },
   {
@@ -5611,19 +5611,19 @@
     "z": 130.0
    },
    "fits_250_cube": true,
-   "volume_cm3": 171.24,
-   "mass_g_pla": 101.7,
+   "volume_cm3": 174.79,
+   "mass_g_pla": 102.7,
    "material": "PETG",
    "supports": "none",
    "watertight": true,
    "genus": 2,
    "bodies": 1,
-   "unsupported_down_area_mm2": 469.0,
+   "unsupported_down_area_mm2": 37.0,
    "notes": "Two 40 mm tubes for packed rods; straps to a rack stay or the seat tube; hangs on a Grid hook at home.",
    "file": {
     "path": "/living/cad/v0.3/rack-quiver.stl",
-    "bytes": 75084,
-    "sha256": "00b711b1eaabf2b4f465673e8d45c9e8733fb4c49b324b2b52c32d1dee3e43e7"
+    "bytes": 79484,
+    "sha256": "ea0f67e57c0f1676893871b18f1e192dea0e304030c36e7232f98ef839a518ab"
    }
   },
   {
@@ -5695,19 +5695,19 @@
     "z": 150.0
    },
    "fits_250_cube": true,
-   "volume_cm3": 88.95,
-   "mass_g_pla": 71.2,
+   "volume_cm3": 105.61,
+   "mass_g_pla": 79.7,
    "material": "PETG",
    "supports": "none",
    "watertight": true,
    "genus": 5,
    "bodies": 1,
-   "unsupported_down_area_mm2": 1445.0,
+   "unsupported_down_area_mm2": 1251.0,
    "notes": "One 40 mm tube, 150 tall, for a packed rod; TURN flange keys it onto the stem saddle. Floor end down.",
    "file": {
     "path": "/living/cad/v0.3/scoot-quiver.stl",
-    "bytes": 157584,
-    "sha256": "74217751529384e9a81b087809ed9e1235965df61b21be5279fd62eea6d67af5"
+    "bytes": 156384,
+    "sha256": "b95c4455e39202b06f61cee6167dceb8937b673bb5e5514c83839aa19d57008c"
    }
   },
   {
@@ -6220,7 +6220,7 @@
    "family": "pocket",
    "group": "pocket",
    "revision": "v0.3",
-   "print_orientation": "as_is",
+   "print_orientation": "face_down",
    "dims_mm": {
     "x": 92.7,
     "y": 28.2,
@@ -6234,12 +6234,12 @@
    "watertight": true,
    "genus": 1,
    "bodies": 1,
-   "unsupported_down_area_mm2": 2022.0,
-   "notes": "Open-topped sleeve for a lip treatment tube; name inlaid on the front; ring loop. Prints inlay-face down.",
+   "unsupported_down_area_mm2": 2119.0,
+   "notes": "Open-topped sleeve for a lip treatment tube; name inlaid on the front; ring loop. Prints inlay-face up (the thumb scoop on the bed), no supports.",
    "file": {
     "path": "/living/cad/v0.3/pk-lip-sleeve.stl",
     "bytes": 168284,
-    "sha256": "3cfa36e8b7cc3ea7cbccbccc4509a3b3894865ea8a5680d3939e6d09a1783443"
+    "sha256": "d0fc05b5a099ff79ab26657989f4366b73f9e163b3ae01d35593c06fe61e3075"
    }
   },
   {
@@ -6248,7 +6248,7 @@
    "family": "pocket",
    "group": "pocket",
    "revision": "v0.3",
-   "print_orientation": "as_is",
+   "print_orientation": "face_down",
    "dims_mm": {
     "x": 23.6,
     "y": 7.1,
@@ -6267,7 +6267,7 @@
    "file": {
     "path": "/living/cad/v0.3/pk-lip-sleeve-inlay.stl",
     "bytes": 119084,
-    "sha256": "aba3644caf7b12ecfc3f778c21d0ede533169770625df0d46d82da3fd05e7102"
+    "sha256": "3ac2a037ae01a9c2c60225f1e3c5a54d1746a072388daf60ae73f51f285c1ecd"
    }
   },
   {
@@ -6388,7 +6388,7 @@
    "family": "pocket",
    "group": "stationery",
    "revision": "v0.3",
-   "print_orientation": "as_is",
+   "print_orientation": "face_down",
    "dims_mm": {
     "x": 43.6,
     "y": 27.0,
@@ -6402,12 +6402,12 @@
    "watertight": true,
    "genus": 1,
    "bodies": 1,
-   "unsupported_down_area_mm2": 809.0,
-   "notes": "Takes a 65 × 23 × 13 block eraser; thumb slot pushes it out. Prints inlay-face down.",
+   "unsupported_down_area_mm2": 998.0,
+   "notes": "Takes a 65 × 23 × 13 block eraser; thumb slot pushes it out. Prints inlay-face up (the thumb slot on the bed), no supports.",
    "file": {
     "path": "/living/cad/v0.3/pk-eraser-sleeve.stl",
     "bytes": 147684,
-    "sha256": "1d31e5ce784fb55f873b4b230c7d931a13c257a02b778a18aab6056c8d84542e"
+    "sha256": "c80a8925eb2ca13ad25496d374f56484821cfdef185904a819ba6d340154204a"
    }
   },
   {
@@ -6416,7 +6416,7 @@
    "family": "pocket",
    "group": "stationery",
    "revision": "v0.3",
-   "print_orientation": "as_is",
+   "print_orientation": "face_down",
    "dims_mm": {
     "x": 20.2,
     "y": 6.1,
@@ -6435,7 +6435,7 @@
    "file": {
     "path": "/living/cad/v0.3/pk-eraser-sleeve-inlay.stl",
     "bytes": 119084,
-    "sha256": "d74b8cacdc5ac8784be6759f1cc8ac7820665f229f75a0cc6e6d26f8fe5ef247"
+    "sha256": "89a26834bd69dd7d6cdaba163c0d4ecd221c46374f99f7c003d0097fe86a2c70"
    }
   },
   {
@@ -6500,11 +6500,11 @@
    "family": "pocket",
    "group": "stationery",
    "revision": "v0.3",
-   "print_orientation": "as_is",
+   "print_orientation": "on_side",
    "dims_mm": {
-    "x": 21.5,
+    "x": 9.5,
     "y": 10.5,
-    "z": 9.5
+    "z": 21.5
    },
    "fits_250_cube": true,
    "volume_cm3": 0.86,
@@ -6514,12 +6514,12 @@
    "watertight": true,
    "genus": 1,
    "bodies": 1,
-   "unsupported_down_area_mm2": 83.0,
-   "notes": "Press-fit into the pen's bore; charm loop.",
+   "unsupported_down_area_mm2": 96.0,
+   "notes": "Press-fit into the pen's bore; charm loop. Prints standing on its collar, the spigot up.",
    "file": {
     "path": "/living/cad/v0.3/pk-pen-plug.stl",
     "bytes": 89884,
-    "sha256": "910c09f675c71a99781771bc682df99047aabfe8e8a40ee13c0ccb57b02ce25b"
+    "sha256": "7c0ad66cad9380c9152409450b0b2765d03bcc7c823ca6349778b61cc4a3c6ee"
    }
   },
   {
@@ -7120,22 +7120,22 @@
    "dims_mm": {
     "x": 23.9,
     "y": 12.4,
-    "z": 43.5
+    "z": 40.6
    },
    "fits_250_cube": true,
-   "volume_cm3": 2.4,
-   "mass_g_pla": 2.5,
+   "volume_cm3": 2.32,
+   "mass_g_pla": 2.4,
    "material": "PLA Matte",
    "supports": "none",
    "watertight": true,
    "genus": 1,
    "bodies": 1,
-   "unsupported_down_area_mm2": 128.0,
+   "unsupported_down_area_mm2": 115.0,
    "notes": "Press-fits a standard hex pencil.",
    "file": {
     "path": "/living/cad/v0.3/pk-topper-star.stl",
-    "bytes": 44084,
-    "sha256": "fcb33c2435d430edc8f20ae554640e14c865cdee99a8bc6b9df7b1052f3c2861"
+    "bytes": 51084,
+    "sha256": "5d5072e17f4f25393bea09b643dd130339b47f0e47c8dbcbe959da91e9a38402"
    }
   },
   {
@@ -7174,24 +7174,24 @@
    "revision": "v0.3",
    "print_orientation": "as_is",
    "dims_mm": {
-    "x": 26.6,
+    "x": 24.3,
     "y": 12.4,
-    "z": 37.9
+    "z": 39.2
    },
    "fits_250_cube": true,
-   "volume_cm3": 2.33,
-   "mass_g_pla": 2.5,
+   "volume_cm3": 2.23,
+   "mass_g_pla": 2.4,
    "material": "PLA Matte",
    "supports": "none",
    "watertight": true,
-   "genus": 0,
+   "genus": 1,
    "bodies": 1,
-   "unsupported_down_area_mm2": 123.0,
+   "unsupported_down_area_mm2": 115.0,
    "notes": "Press-fits a standard hex pencil.",
    "file": {
     "path": "/living/cad/v0.3/pk-topper-bow.stl",
-    "bytes": 78284,
-    "sha256": "096ab487c90dcb53fb7ca24ed8c1636b7133ff4a9348dd8bfd654c4d3bd31cc3"
+    "bytes": 85084,
+    "sha256": "e229ec743fce44bb8eeae42cdb593028465993af386c46919103a2f2e5fb84dd"
    }
   },
   {
@@ -7228,11 +7228,11 @@
    "family": "tackle",
    "group": "tackle",
    "revision": "v0.3",
-   "print_orientation": "face_down",
+   "print_orientation": "on_bottom",
    "dims_mm": {
     "x": 97.2,
-    "y": 136.5,
-    "z": 23.7
+    "y": 23.7,
+    "z": 136.5
    },
    "fits_250_cube": true,
    "volume_cm3": 113.97,
@@ -7242,12 +7242,12 @@
    "watertight": true,
    "genus": 3,
    "bodies": 1,
-   "unsupported_down_area_mm2": 11795.0,
-   "notes": "Keyed frame with an open front window for a 92 × 175 mm soft-plastics packet. Prints flange-down.",
+   "unsupported_down_area_mm2": 694.0,
+   "notes": "Keyed frame with an open front window for a 92 × 175 mm soft-plastics packet. Prints standing on its bottom lip, open top up: no supports.",
    "file": {
     "path": "/living/cad/v0.3/tk-pack-case-5.stl",
     "bytes": 176184,
-    "sha256": "475ecf248e150210377a27a92c8280237a0dbd4b1335ab4e714c7209d63e4d6c"
+    "sha256": "2878f63d4e47fc4af3908b430660ae3d4a2b84de54b9ca1b40e5a536a2a45582"
    }
   },
   {
@@ -7256,11 +7256,11 @@
    "family": "tackle",
    "group": "tackle",
    "revision": "v0.3",
-   "print_orientation": "face_down",
+   "print_orientation": "on_bottom",
    "dims_mm": {
     "x": 110.2,
-    "y": 183.3,
-    "z": 25.7
+    "y": 25.7,
+    "z": 183.3
    },
    "fits_250_cube": true,
    "volume_cm3": 172.3,
@@ -7270,12 +7270,12 @@
    "watertight": true,
    "genus": 3,
    "bodies": 1,
-   "unsupported_down_area_mm2": 18531.0,
-   "notes": "For a 105 × 235 mm packet.",
+   "unsupported_down_area_mm2": 793.0,
+   "notes": "For a 105 × 235 mm packet. Prints standing on its bottom lip.",
    "file": {
     "path": "/living/cad/v0.3/tk-pack-case-7.stl",
     "bytes": 176884,
-    "sha256": "9f42579bc4b05f7421a80ed695a07b0b22d99bddd6db592fc8dee8837df3f40c"
+    "sha256": "14755a00a77ff9589c138100a59cbe4d5a44825a25d2c7bbde6de51697be2034"
    }
   },
   {
@@ -7284,7 +7284,7 @@
    "family": "tackle",
    "group": "tackle",
    "revision": "v0.3",
-   "print_orientation": "face_down",
+   "print_orientation": "as_is",
    "dims_mm": {
     "x": 138.0,
     "y": 26.0,
@@ -7298,12 +7298,12 @@
    "watertight": true,
    "genus": 2,
    "bodies": 1,
-   "unsupported_down_area_mm2": 2744.0,
-   "notes": "Packets hang by their holes; lips keep them on.",
+   "unsupported_down_area_mm2": 1.0,
+   "notes": "Packets hang by their holes; lips keep them on. Prints flange down, pegs up.",
    "file": {
     "path": "/living/cad/v0.3/tk-pack-rail.stl",
     "bytes": 222684,
-    "sha256": "4dd5511ccece5e1ab9474fb9bd130e897899a6cd3dad101273696bdb3deb3a54"
+    "sha256": "9ae2c4c248120f1f4d7d7fe50c629f6d631c33a482f941934f4ecc62a82778b3"
    }
   },
   {
@@ -7648,7 +7648,7 @@
    "family": "home2",
    "group": "home",
    "revision": "v0.3",
-   "print_orientation": "as_is",
+   "print_orientation": "face_down",
    "dims_mm": {
     "x": 222.0,
     "y": 222.0,
@@ -7662,12 +7662,12 @@
    "watertight": true,
    "genus": 4,
    "bodies": 1,
-   "unsupported_down_area_mm2": 1069.0,
-   "notes": "Drops over the lower drum's spigot.",
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Drops over the lower drum's spigot. Prints top end down, so the ribs and hub start on the bed.",
    "file": {
     "path": "/living/cad/v0.3/hm-drum-upper.stl",
     "bytes": 158484,
-    "sha256": "c3edfea2ce0558a93271b76ac63a9f91f55d1301db4d1551965b78020d71ef0f"
+    "sha256": "8966085fad86e8ef6813ed9e6f03976c967a88c33433946e4f753363e5f2b2e6"
    }
   },
   {
@@ -7818,13 +7818,13 @@
    "revision": "v0.3",
    "print_orientation": "on_bottom",
    "dims_mm": {
-    "x": 150.0,
+    "x": 137.0,
     "y": 240.0,
     "z": 44.0
    },
    "fits_250_cube": true,
-   "volume_cm3": 393.06,
-   "mass_g_pla": 121.4,
+   "volume_cm3": 386.19,
+   "mass_g_pla": 118.8,
    "material": "PETG",
    "supports": "none",
    "watertight": true,
@@ -7835,7 +7835,7 @@
    "file": {
     "path": "/living/cad/v0.3/hm-y-arm.stl",
     "bytes": 25884,
-    "sha256": "5b1014e94c6d486e6cf888f608415340f50be976b1c0f242bea1020bc82515b4"
+    "sha256": "14ca582cc1e87a35f9c99be53f90137a0a46da30d9a82eb06a6ca4fb716615e5"
    }
   },
   {
@@ -7844,26 +7844,26 @@
    "family": "home2",
    "group": "home",
    "revision": "v0.3",
-   "print_orientation": "face_down",
+   "print_orientation": "on_side",
    "dims_mm": {
-    "x": 99.0,
-    "y": 105.0,
-    "z": 24.0
+    "x": 24.0,
+    "y": 93.5,
+    "z": 81.0
    },
    "fits_250_cube": true,
-   "volume_cm3": 117.25,
-   "mass_g_pla": 59.0,
+   "volume_cm3": 88.07,
+   "mass_g_pla": 42.4,
    "material": "PETG",
    "supports": "none",
    "watertight": true,
-   "genus": 12,
+   "genus": 9,
    "bodies": 1,
-   "unsupported_down_area_mm2": 5391.0,
-   "notes": "Tri-lobe hub; three M6 × 30 bolts and nuts, not printed.",
+   "unsupported_down_area_mm2": 1405.0,
+   "notes": "Tri-lobe hub with a flat face and an open pocket for each arm; three M6 × 30 bolts and nuts, not printed. Prints standing on a flat face, no supports.",
    "file": {
     "path": "/living/cad/v0.3/hm-y-hub.stl",
-    "bytes": 126884,
-    "sha256": "1617b75fbe30bef2a7e1c9b7d4542d8c2491a9adb34fc0da56e9ff8ebd4c2956"
+    "bytes": 123184,
+    "sha256": "fa6f1632586f0edb39bd610f7906f9e089d6c86b022ccdd0b023753776b871fb"
    }
   },
   {
@@ -7879,19 +7879,19 @@
     "z": 220.0
    },
    "fits_250_cube": true,
-   "volume_cm3": 341.98,
-   "mass_g_pla": 270.4,
+   "volume_cm3": 379.69,
+   "mass_g_pla": 288.3,
    "material": "PLA Matte",
    "supports": "none",
    "watertight": true,
    "genus": 0,
    "bodies": 1,
-   "unsupported_down_area_mm2": 1746.0,
+   "unsupported_down_area_mm2": 827.0,
    "notes": "Prints standing on its end.",
    "file": {
     "path": "/living/cad/v0.3/hm-rack-sling.stl",
-    "bytes": 226684,
-    "sha256": "78b3f2ba29907242b15f78bccacfdcffc539f27fb319b6da26452026a7f05a1f"
+    "bytes": 251884,
+    "sha256": "60e8a31220d9c5f69c7312a5226edcdd6601aa3cb043bc5469b4a85de7f2d87d"
    }
   },
   {
@@ -7935,19 +7935,19 @@
     "z": 10.0
    },
    "fits_250_cube": true,
-   "volume_cm3": 45.1,
-   "mass_g_pla": 24.5,
+   "volume_cm3": 45.71,
+   "mass_g_pla": 24.9,
    "material": "PLA Matte",
    "supports": "none",
    "watertight": true,
    "genus": 0,
    "bodies": 1,
-   "unsupported_down_area_mm2": 78.0,
-   "notes": "Prints flat; two pins up into the upper half.",
+   "unsupported_down_area_mm2": 0.0,
+   "notes": "Prints flat; two tenons up into the upper half.",
    "file": {
     "path": "/living/cad/v0.3/hm-rack-hoop-lower.stl",
-    "bytes": 41884,
-    "sha256": "ee5d18667aa7ce912a1d8f912ff6d59a12377816293e9b3e6c3f474b564976cb"
+    "bytes": 31084,
+    "sha256": "fa5e875d81baa2d2d586075b635c7666fbd65bb8feb88ebe29b8fe74584e50e9"
    }
   },
   {
@@ -7963,19 +7963,19 @@
     "z": 10.0
    },
    "fits_250_cube": true,
-   "volume_cm3": 32.32,
-   "mass_g_pla": 18.0,
+   "volume_cm3": 31.63,
+   "mass_g_pla": 17.7,
    "material": "PLA Matte",
    "supports": "none",
    "watertight": true,
    "genus": 0,
    "bodies": 1,
-   "unsupported_down_area_mm2": 97.0,
+   "unsupported_down_area_mm2": 0.0,
    "notes": "Prints flat; the handle.",
    "file": {
     "path": "/living/cad/v0.3/hm-rack-hoop-upper.stl",
-    "bytes": 40284,
-    "sha256": "5747eda263ea6a8bd471db08dbdc674a7a1b2f297f01b8fee3a0d796b1637e1c"
+    "bytes": 29084,
+    "sha256": "40d7861995937f5dddee4bd85f9e2435599ab21811d812890c6f8006912bf182"
    }
   }
  ],
@@ -11836,41 +11836,45 @@
    "watch_42_band_round_slab_clash_mm3": 0.0,
    "watch_42_band_over_keys_clash_mm3": 0.0,
    "watch_42_keys_in_cradle_clash_mm3_designed_clamp": 37.562,
-   "watch_42_puck_press_mm3": 22.575,
+   "watch_42_puck_in_top_pocket_clash_mm3": 0.0,
+   "watch_42_puck_sits_on_floor_mm3": 121.311,
    "watch_42_on_bar_saddle_clash_mm3": 0.0,
    "watch_46_case_in_pocket_clash_mm3": -0.0,
    "watch_46_band_round_slab_clash_mm3": 0.0,
    "watch_46_band_over_keys_clash_mm3": 0.0,
    "watch_46_keys_in_cradle_clash_mm3_designed_clamp": 37.562,
-   "watch_46_puck_press_mm3": 22.575,
+   "watch_46_puck_in_top_pocket_clash_mm3": 0.0,
+   "watch_46_puck_sits_on_floor_mm3": 121.311,
    "watch_46_on_bar_saddle_clash_mm3": 0.0,
    "watch_49_case_in_pocket_clash_mm3": 0.0,
    "watch_49_band_round_slab_clash_mm3": 0.0,
    "watch_49_band_over_keys_clash_mm3": 0.0,
    "watch_49_keys_in_cradle_clash_mm3_designed_clamp": 37.562,
-   "watch_49_puck_press_mm3": 22.575,
+   "watch_49_puck_in_top_pocket_clash_mm3": 0.0,
+   "watch_49_puck_sits_on_floor_mm3": 121.311,
    "watch_49_on_bar_saddle_clash_mm3": 0.0,
    "phone_64x140x7.0_slider_x_end": 59.0,
    "phone_64x140x7.0_in_plate_channel_clash_mm3": 0.0,
    "phone_64x140x7.0_in_slider_channel_clash_mm3": 0.0,
    "phone_64x140x7.0_slider_on_plate_clash_mm3": 0.0,
-   "phone_64x140x7.0_pawl_holds_shift_0.7_mm3": 2.241,
+   "phone_64x140x7.0_pawl_holds_shift_0.7_mm3": 0.54,
    "phone_64x140x7.0_top_gap_mm": 0.3,
    "phone_72x150x8.3_slider_x_end": 69.5,
    "phone_72x150x8.3_in_plate_channel_clash_mm3": 0.0,
    "phone_72x150x8.3_in_slider_channel_clash_mm3": 0.0,
    "phone_72x150x8.3_slider_on_plate_clash_mm3": 0.0,
-   "phone_72x150x8.3_pawl_holds_shift_0.7_mm3": 2.241,
+   "phone_72x150x8.3_pawl_holds_shift_0.7_mm3": 0.54,
    "phone_72x150x8.3_top_gap_mm": 0.8,
    "phone_82x170x11.0_slider_x_end": 89.0,
    "phone_82x170x11.0_in_plate_channel_clash_mm3": 0.0,
    "phone_82x170x11.0_in_slider_channel_clash_mm3": 0.0,
-   "phone_82x170x11.0_slider_on_plate_clash_mm3": 0.0,
-   "phone_82x170x11.0_pawl_holds_shift_0.7_mm3": 2.241,
+   "phone_82x170x11.0_slider_on_plate_clash_mm3": -0.0,
+   "phone_82x170x11.0_pawl_holds_shift_0.7_mm3": 0.54,
    "phone_82x170x11.0_top_gap_mm": 0.3,
    "phone_keys_in_plate_clash_mm3_designed_clamp": 37.562,
    "phone_slider_enters_slots_from_end_clash_mm3": 0.0,
-   "phone_slider_lifted_pawl_release_clash_mm3": 0.0,
+   "phone_slider_pawl_pushed_aside_release_clash_mm3": 0.0,
+   "phone_slider_pawl_pushed_aside_clears_groove_wall_mm": 1.5,
    "phone_plate_on_bar_saddle_clash_mm3": -0.0,
    "bottle_74_in_cup_clash_mm3_ridges_only": 0.0,
    "bottle_76_in_cup_clash_mm3": 79.067,
@@ -11895,7 +11899,7 @@
    "cam_fingers_gauge_clash_mm3": 0.0,
    "cam_fingers_gauge_shifted_0.2_clash_mm3": 7.592,
    "torch_25_in_light_mount_clash_mm3": 0.0,
-   "torch_26_in_light_mount_clash_mm3_designed_grip": 642.704,
+   "torch_26_in_light_mount_clash_mm3_designed_grip": 759.559,
    "tube_clamp_bar_22.0_clash_mm3": 0.006,
    "tube_clamp_bar_22.0_seats_above_bed": true,
    "tube_clamp_bar_31.8_clash_mm3": 0.012,
@@ -11935,8 +11939,8 @@
    "strap_slot_1_1_clash_mm3": 0.0,
    "cast_grip_36_in_quiver_clash_mm3": 0.0,
    "rod_grip_32_in_quiver_clash_mm3": 0.0,
-   "quiver_strap_slot_22_clash_mm3": 0.0,
-   "quiver_strap_slot_108_clash_mm3": 0.0,
+   "quiver_strap_slot_22_clash_mm3": 657.402,
+   "quiver_strap_slot_108_clash_mm3": 657.402,
    "toptube_25.0_in_saddle_clash_mm3": 0.02,
    "toptube_31.8_in_saddle_clash_mm3": 0.027,
    "toptube_45.0_in_saddle_clash_mm3": 0.053,
@@ -11953,7 +11957,7 @@
    "keys_in_saddle_sockets_clash_mm3_designed_clamp": 0.0,
    "pod_mini_on_saddle_clash_mm3": -0.0,
    "ride_pod_on_saddle_clash_mm3": -0.0,
-   "quiver_on_saddle_clash_mm3": 0.0,
+   "quiver_on_saddle_clash_mm3": -0.0,
    "keys_through_quiver_flange_clash_mm3_designed_clamp": 37.562,
    "cast_grip_36_in_quiver_clash_mm3": 0.0,
    "rod_grip_32_in_quiver_clash_mm3": 0.0

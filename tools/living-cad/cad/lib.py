@@ -433,6 +433,20 @@ def pendant_shade(H=170.0, R_top=34.0, R_bot=105.0, flutes=28, amp=0.035, t=2.0,
 
 
 # ---------- utils ----------
+def bridge_steps(cx, cy, r, z, slot_len, axis="y", toward=-1, layer=0.4):
+    """Cuts that let a round hole start in a bridged roof with no supports. At the roof's first layer the hole is a
+    slot as wide as the hole running the bridge's length (`slot_len` along `axis`, wall to wall), so that layer is two
+    plain bridges; the next layer squares it off across the slot; the round hole starts above. `z` is the face the
+    roof starts from (where it meets the cavity); `toward` (-1 or +1) is the direction the roof grows in print."""
+    w = 2 * r + 0.4                         # a little wider than the hole, so the hole never grazes the slot's edges
+    long = [slot_len, w] if axis == "x" else [w, slot_len]
+    z0 = z if toward > 0 else z - layer
+    slot = M.cube([long[0], long[1], layer + EPS], center=True).translate([cx, cy, z0 + layer / 2])
+    z1 = z0 + toward * layer
+    square = M.cube([w, w, layer + EPS], center=True).translate([cx, cy, z1 + layer / 2])
+    return slot + square
+
+
 def to_trimesh(man):
     import trimesh
     mesh = man.to_mesh()

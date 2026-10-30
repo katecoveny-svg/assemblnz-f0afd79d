@@ -70,17 +70,16 @@ for size in r.WATCH:
     out[f"watch_{size}_band_round_slab_clash_mm3"] = ov(c, r.watch_band())
     out[f"watch_{size}_band_over_keys_clash_mm3"] = ov(keys, r.watch_band())
     out[f"watch_{size}_keys_in_cradle_clash_mm3_designed_clamp"] = ov(c, keys)
-    puck = lib.cyl_z(r.PUCK_D / 2, r.ZF + r.TUNNEL_H - 0.0, r.ZF + r.TUNNEL_H + r.PUCK_T, seg=96)
-    out[f"watch_{size}_puck_press_mm3"] = ov(c, puck)
+    floor = r.ZF + r.TUNNEL_H + r.SLAB_T - r.POCKET_D
+    puck = lib.cyl_z(r.PUCK_D / 2, floor - r.PUCK_T, floor, seg=96)                  # drops in from the top, face flush with the pocket floor
+    out[f"watch_{size}_puck_in_top_pocket_clash_mm3"] = ov(c, puck)
+    out[f"watch_{size}_puck_sits_on_floor_mm3"] = ov(c, puck.translate([0, 0, -0.2]))
     out[f"watch_{size}_on_bar_saddle_clash_mm3"] = ov(d1.bar_saddle(), c)
 
 # ---- phone
 plate = r.phone_plate()
 for (w, L, t) in ((64.0, 140.0, 7.0), (72.0, 150.0, 8.3), (82.0, 170.0, 11.0)):
-    x_end = r.PH_X0 + r.END_T + 0.3 + L + 0.3
-    tooth_x = x_end - 10.0
-    k = math.ceil((tooth_x - r.RACK_X[0]) / r.RACK_PITCH)
-    x_end = r.RACK_X[0] + k * r.RACK_PITCH + 10.0                # next rack position: in phase
+    x_end = r.slider_in_phase(r.PH_X0 + r.END_T + 0.3 + L + 0.3)     # the next position where the pawl sits square on a tooth
     sl_ = r.phone_slider(x_end)
     ph = r.phone_block(w, L, t, x_end)
     tag = f"phone_{int(w)}x{int(L)}x{t}"
@@ -93,7 +92,12 @@ for (w, L, t) in ((64.0, 140.0, 7.0), (72.0, 150.0, 8.3), (82.0, 170.0, 11.0)):
 out["phone_keys_in_plate_clash_mm3_designed_clamp"] = ov(plate, keys)
 sl_ = r.phone_slider(75.0)
 out["phone_slider_enters_slots_from_end_clash_mm3"] = ov(plate, sl_.translate([40.0, 0, 0]))
-out["phone_slider_lifted_pawl_release_clash_mm3"] = ov(plate, (sl_ ^ M.cube([400, 30, 10], center=True).translate([0, r.RACK_Y, r.ZF + 2])).translate([0, 0, 1.2]))
+# release: the tab pushes the pawl arm 1.2 mm aside (+y); the arm's free part (past its anchor) then clears the teeth
+x_end = r.slider_in_phase(75.0)
+sl_ = r.phone_slider(x_end)
+arm = sl_ ^ M.cube([40.0, r.PAWL_T + 2.0, r.ZF - r.PAWL_Z], center=False).translate([x_end - 6.0, r.PAWL_Y - 1.0, r.PAWL_Z - 0.01])
+out["phone_slider_pawl_pushed_aside_release_clash_mm3"] = ov(plate, arm.translate([0, 1.2, 0]).translate([0.7, 0, 0]))
+out["phone_slider_pawl_pushed_aside_clears_groove_wall_mm"] = round(r.GROOVE_Y[1] - (r.PAWL_Y + r.PAWL_T + 1.2), 2)
 out["phone_plate_on_bar_saddle_clash_mm3"] = ov(d1.bar_saddle(), plate)
 
 # ---- bottle

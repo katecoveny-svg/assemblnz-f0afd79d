@@ -8,7 +8,7 @@ HERE = os.path.dirname(__file__)
 OUT = os.path.join(HERE, "..", "parts")
 WEB = os.path.join(HERE, "..", "store", "model")
 FONT = os.path.join(HERE, "..", "fonts", "InstrumentSans-SemiBold.ttf")
-PRINT = {"face_down": [180, 0, 0], "as_is": [0, 0, 0], "on_side": [0, 90, 0], "on_bottom": [90, 0, 0], "stand_up": [-90, 0, 0]}
+PRINT = {"face_down": [180, 0, 0], "as_is": [0, 0, 0], "on_side": [0, 90, 0], "on_bottom": [90, 0, 0], "stand_up": [-90, 0, 0], "on_other_side": [0, -90, 0]}
 report = []
 
 
@@ -74,7 +74,8 @@ if __name__ == "__main__":
         print(size, f"{time.time() - t0:.0f}s", flush=True)
     for slug, fn in d.MOUNTS.items():
         m = fn()
-        emit(f"dr2-mount-{slug}", f"Mount: {slug.replace('-', ' ')}", m, "face_down", "mount", "")
+        # the carabiner loop's tab is on the back face, so face down it would start in mid-air: it prints socket up
+        emit(f"dr2-mount-{slug}", f"Mount: {slug.replace('-', ' ')}", m, "as_is" if slug == "carabiner-loop" else "face_down", "mount", "")
         web(f"dr2-mount-{slug}", m)
     for shape in d.CHARMS:
         body, inlay = d.bag_charm(shape, "MK", FONT)
@@ -84,7 +85,7 @@ if __name__ == "__main__":
     zp, zi = d.zip_pull("M", FONT)
     emit("dr2-zip-pull", "Zip pull (sample: M)", zp, "as_is", "add-on", "Not for children under 3: small part.")
     emit("dr2-zip-pull-inlay", "Zip pull inlay", zi, "as_is", "add-on", "")
-    emit("dr2-phone-stand", "Phone stand", d.phone_stand(), "on_side", "add-on", "Prints on its side.")
+    emit("dr2-phone-stand", "Phone stand", d.phone_stand(), "on_bottom", "add-on", "Prints standing on its front edge: on its side, the cable notch through the base and lip would need supports.")
     emit("dr2-spoke-bead", "Spoke bead (set of 12)", d.spoke_bead(), "as_is", "add-on", "Snaps onto 2 mm spokes. Small part.")
     emit("dr2-chair-hook", "Chair hook", d.chair_hook(), "as_is", "add-on", "Snaps onto 22–25 mm tubes.")
     emit("dr2-cable-winder", "Cable winder", d.cable_winder(), "as_is", "add-on", "")

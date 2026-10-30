@@ -41,7 +41,7 @@ type Props = {
 };
 
 /** How each print file was oriented for the bed (tools/living-cad/cad/build.py PRINT). */
-const PRINT_ROTATION: Record<string, [number, number, number]> = { face_down: [180, 0, 0], as_is: [0, 0, 0], on_side: [0, 90, 0], on_bottom: [90, 0, 0] };
+const PRINT_ROTATION: Record<string, [number, number, number]> = { face_down: [180, 0, 0], as_is: [0, 0, 0], on_side: [0, 90, 0], on_bottom: [90, 0, 0], stand_up: [-90, 0, 0], on_other_side: [0, -90, 0] };
 
 /**
  * Installed-frame bounding-box minimum and first-key position of every grid

@@ -1048,7 +1048,7 @@
     "slug": "dr2-mount-carabiner-loop",
     "name": "Mount: carabiner loop",
     "group": "mount",
-    "print_orientation": "face_down",
+    "print_orientation": "as_is",
     "print_bbox_mm": [
       94.0,
       34.0,
@@ -1060,7 +1060,7 @@
     "watertight": true,
     "genus": 1,
     "bodies": 1,
-    "unsupported_down_area_mm2": 1158.0,
+    "unsupported_down_area_mm2": 449.0,
     "notes": ""
   },
   {
@@ -1333,11 +1333,11 @@
     "slug": "dr2-phone-stand",
     "name": "Phone stand",
     "group": "add-on",
-    "print_orientation": "on_side",
+    "print_orientation": "on_bottom",
     "print_bbox_mm": [
+      70.0,
       84.0,
-      59.6,
-      70.0
+      59.6
     ],
     "fits_250_cube": true,
     "volume_cm3": 57.75,
@@ -1345,8 +1345,8 @@
     "watertight": true,
     "genus": 0,
     "bodies": 1,
-    "unsupported_down_area_mm2": 201.0,
-    "notes": "Prints on its side."
+    "unsupported_down_area_mm2": 36.0,
+    "notes": "Prints standing on its front edge: on its side, the cable notch through the base and lip would need supports."
   },
   {
     "slug": "dr2-spoke-bead",

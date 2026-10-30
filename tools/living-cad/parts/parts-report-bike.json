@@ -25,12 +25,12 @@
         20.0
       ],
       "fits_250_cube": true,
-      "volume_cm3": 234.93,
-      "est_grams_pla": 88.4,
+      "volume_cm3": 234.67,
+      "est_grams_pla": 87.9,
       "watertight": true,
       "genus": 6,
       "bodies": 1,
-      "unsupported_down_area_mm2": 1086.0,
+      "unsupported_down_area_mm2": 931.0,
       "notes": "Two straps round the rack platform; the ride pod or the long pod locks on."
     },
     {
@@ -44,12 +44,12 @@
         130.0
       ],
       "fits_250_cube": true,
-      "volume_cm3": 171.24,
-      "est_grams_pla": 101.7,
+      "volume_cm3": 174.79,
+      "est_grams_pla": 102.7,
       "watertight": true,
       "genus": 2,
       "bodies": 1,
-      "unsupported_down_area_mm2": 469.0,
+      "unsupported_down_area_mm2": 37.0,
       "notes": "Two 40 mm tubes for packed rods; straps to a rack stay or the seat tube; hangs on a Grid hook at home."
     },
     {

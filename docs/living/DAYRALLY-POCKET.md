@@ -136,7 +136,9 @@ What the page should be, before any of this lists (proposal, not built):
   loop for a charm. Refill 0 mm³ clash. Not a click pen. Printed stationery that sells is mostly G2-refill pen
   bodies (Etsy, £11–31), which is why this one comes first.
 - **Pencil topper**: a Ø12 collar, 7.8 mm bore, 14 mm deep, with a charm on a neck: star, heart, bow, smile. The
-  pencil's corners bite the bore by 0.4 mm³ (press fit); the flats clear.
+  pencil's corners bite the bore by 0.4 mm³ (press fit); the flats clear. It prints standing, collar down, so
+  nothing may start in mid-air: the star sits on a short 45° flare under its two bottom points, and the topper's
+  bow turns its loops up (36°) instead of drooping, so they grow from the knot.
 - **Highlighters and rubbers themselves** are not printable: the ink body and the rubber are consumables. What
   prints is the thing that holds them and is yours: the eraser sleeve above, and next a snap-on grip sleeve for a
   Stabilo Boss (105 × 27 × 16) and a pencil-pod insert for six highlighters, both measured from a real marker

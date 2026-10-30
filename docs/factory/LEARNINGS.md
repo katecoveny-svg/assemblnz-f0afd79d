@@ -115,3 +115,31 @@ A visible HTML poster does not prove the backdrop when an opaque WebGL canvas si
 A correct final frame can hide several competing loading scenes. Record fresh and warm first-ten-second loads with delayed/blocked media, and correlate actual canvas samplers with page readiness flags. Keep raw media texture-only when an opaque compositor owns the final scene; decode the fallback before marking the compositor ready. See `docs/reviews/HOMEPAGE-STARTUP-20261014.md` and `scripts/homepage-startup-proof.cjs`.
 
 - Homepage startup handoff: do not crossfade differently sized HTML and canvas wordmarks at the same time. Sequence their visibility and inspect actual intermediate painted frames; endpoint screenshots and media readiness assertions miss overlapping lettering.
+
+## 2026-10-22 — "prints without supports" means the slicer says so, by its own rule
+
+**Context**  
+The living catalogue's parts were drawn to print without supports (45° rules, teardrops, bridges). Bambu Studio,
+slicing every served file, flagged 30 of 280 as needing supports.
+
+**Observed**  
+Most failures were not steep slopes. Bambu calls an overhang a cantilever when any of its contours (a hole counts)
+touches nothing below, or when any *vertex* of its outline is more than 3 mm from where it meets the layer below.
+So a plain rectangular bridge passes, but a hole through a bridged roof fails, a roof with a curved free edge fails,
+a hook cavity that runs out through a face leaves a sliver that fails, and a stub that sticks out sideways while
+printing fails even when teardropped. Parts were also drawn in one orientation and printed in another without
+anyone re-checking. One redesign (the Y stool) also turned up arms that could not physically enter the hub.
+
+**Cause**  
+Designing to a rule of thumb instead of checking against the slicer's actual rule
+(BambuStudio `TreeSupport.cpp`, `detect_overhangs`). Free edges are judged at polygon vertices, so curves and
+mesh-induced vertices matter; straight-edged bridges with supported corners are what passes.
+
+**Factory change**  
+`tools/living-cad/slice/`: `orient_check.py` (the slicer's verdict in six orientations), `try_part.py` (build one
+part from the CAD and ask the slicer), `islands.py` (the same rule in shapely, to say where). `lib.bridge_steps`
+(slot, square, round) starts a hole in a bridged roof. A part is "support-free" only when `slice_parts.py`
+records it sliced clean.
+
+**Applies to**  
+Every printed part in `tools/living-cad`; any print farm hand-off.
