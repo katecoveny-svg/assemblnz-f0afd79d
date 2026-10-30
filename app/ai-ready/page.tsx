@@ -1,18 +1,24 @@
-import type { Metadata } from 'next';
-import { AiReadyClient } from './AiReadyClient';
+import type { Metadata } from "next";
+import { AiReadyClient } from "./AiReadyClient";
 
 export const metadata: Metadata = {
-  title: 'Free context brief for your AI + your agentic customer journey — assembl',
+  title: "Your website action plan — assembl",
   description:
-    'Free: an agent reads your site and writes your context brief for ChatGPT, Claude or Copilot — plus your agentic customer journey and eight AI-search readiness checks. By assembl.',
+    "Check your public website, prioritise improvements and download a visual implementation plan. Explore proposed customer experiences for your business.",
   keywords: [
-    'AI search readiness', 'AI SEO check', 'llms.txt', 'agentic customer journeys',
-    'agentic CX', 'AI optimised website', 'New Zealand',
+    "AI search readiness",
+    "AI SEO check",
+    "llms.txt",
+    "agentic customer journeys",
+    "agentic CX",
+    "AI optimised website",
+    "New Zealand",
   ],
-  alternates: { canonical: '/ai-ready' },
+  alternates: { canonical: "/ai-ready" },
   openGraph: {
-    title: 'Assemble your agentic customer journey — and check you are AI-ready',
-    description: 'A personalised journey drafted from your own website by a live agent, plus a free AI-search readiness score — by assembl.',
+    title: "Your website. A useful next step.",
+    description:
+      "Public-page findings, a practical action plan and proposed interactive experiences. Free from assembl.",
   },
 };
 
