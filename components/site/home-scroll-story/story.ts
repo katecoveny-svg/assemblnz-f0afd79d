@@ -58,46 +58,52 @@ export function loadOrder(count: number, stride = 4): number[] {
   return [...first, ...rest];
 }
 
-/** Steps reveal evenly across the middle of a chapter's travel. */
+/** One timeline per chapter: a short hold at each end, the world and the steps share the middle. */
+export function storyProgress(sectionP: number): number {
+  return Math.max(0, Math.min(1, (sectionP - 0.05) / 0.88));
+}
+
+/** Steps tick in time with the world: step i lands a quarter of the way into its slice of the timeline. */
 export function stepsDone(progress: number, total: number): number {
   if (total <= 0) return 0;
-  const start = 0.12, end = 0.86;
-  return Math.max(0, Math.min(total, Math.floor(((progress - start) / (end - start)) * total) + 1));
+  let done = 0;
+  for (let i = 0; i < total; i++) if (progress >= (i + 0.25) / total) done = i + 1;
+  return done;
 }
 
 export const CHAPTERS: Chapter[] = [
   {
     id: 'pursuit',
-    kicker: '01 · Pursuit · find the friction',
-    title: ['An opportunity starts with a ', 'signal.'],
-    body: 'Signals and opportunities that could become a useful next step, brought back with the source attached.',
+    kicker: '01 · Pursuit · find it',
+    title: ['Find where the ', 'hours', ' go.'],
+    body: 'We look at your business from the outside in: the jobs that pile up and the questions customers keep asking. You get a short list of what to fix first, with where each finding came from.',
     frames: [{ dir: '/home-story/home', count: 24 }],
     poster: '/home-story/home/f012.webp',
     label: 'Simulated · lab home energy twin',
     world: 'A Kiwi home, cut open',
     steps: [
-      { tag: 'signal', text: 'Evening peak spotted at 6pm' },
-      { tag: 'source', text: 'Attached to the household model' },
-      { tag: 'friction', text: 'Cold bedrooms, costly hours' },
-      { tag: 'opportunity', text: 'A warmer home, worded for review' },
+      { tag: 'spotted', text: 'The house peaks at 6pm every winter night' },
+      { tag: 'traced', text: 'Linked back to the household model' },
+      { tag: 'cost', text: 'Cold bedrooms, the dearest hours on the bill' },
+      { tag: 'next step', text: 'A warmer-home plan, written up for review' },
     ],
     cta: { href: '/pursuit', text: 'Find the work' },
-    secondary: { href: '/contact', text: 'Discuss an opportunity' },
+    secondary: { href: '/contact', text: 'Talk about your business' },
   },
   {
     id: 'do',
-    kicker: '02 · DO · assemble the journey',
-    title: ['What do you need to ', 'assembl?'],
-    body: 'Start with a task. Review the prepared work and choose what happens next. Nothing goes out without a person.',
+    kicker: '02 · DO · do it',
+    title: ['The prep is done. ', 'You', ' decide.'],
+    body: 'DO gets the job ready while you look after customers. Nothing goes out until a named person says yes, and every job keeps a record of what changed.',
     frames: [{ dir: '/home-story/cafe', count: 24 }, { dir: '/home-story/store', count: 24 }],
     poster: '/home-story/cafe/f012.webp',
     label: 'Illustrative · café and supermarket twins',
     world: 'The café, then the supermarket',
     steps: [
-      { tag: 'trigger', text: 'The Friday rush builds at the counter' },
-      { tag: 'prepare', text: 'Roster and queue plan drafted' },
-      { tag: 'review', text: 'A named person approves the change' },
-      { tag: 'receipt', text: 'What changed, and why, kept on file' },
+      { tag: 'rush', text: 'The Friday lunch queue starts to build' },
+      { tag: 'drafted', text: 'Roster and queue plan ready to check' },
+      { tag: 'approved', text: 'The manager reads it and says yes' },
+      { tag: 'recorded', text: 'What changed, and why, kept on file' },
     ],
     cta: { href: '/do', text: 'Prepare the work' },
     secondary: { href: '/assembling', text: 'Explore active customer journeys' },
@@ -105,8 +111,8 @@ export const CHAPTERS: Chapter[] = [
   {
     id: 'studio',
     kicker: '03 · Studio · show it',
-    title: ['Give the idea a ', 'world', ' of its own.'],
-    body: 'Turn a brief into an interactive journey, visual story or working demonstrator. Work people can see, change and try.',
+    title: ['See it working ', 'before', ' you build it.'],
+    body: 'A website, a customer journey or a 3D demonstrator your team can click through, so you can judge the idea before you spend on it.',
     frames: [{ dir: '/home-story/showroom', count: 72 }],
     phoneFrames: [{ dir: '/home-story/showroom-sq', count: 72 }],
     poster: '/home-story/showroom/f000.webp',
@@ -114,9 +120,9 @@ export const CHAPTERS: Chapter[] = [
     label: 'Rendered · fictional dealer showroom',
     world: 'A dealer showroom, every angle',
     steps: [
-      { tag: 'stock', text: 'One car, turned all the way round' },
-      { tag: 'journey', text: 'Browse, compare, book a drive' },
-      { tag: 'review', text: 'Dealer checks every claim' },
+      { tag: 'built', text: 'One car, turned all the way round' },
+      { tag: 'journey', text: 'Browse, compare, book a test drive' },
+      { tag: 'checked', text: 'The dealer signs off every claim' },
     ],
     cta: { href: '/studio', text: 'Show the possibility' },
     secondary: { href: '/lab', text: 'Try the 3D worlds in Lab' },

@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { CHAPTERS, MACHINES, frameAt, framePaths, loadOrder, sectionProgress, stepsDone } from './story';
+import { CHAPTERS, MACHINES, frameAt, framePaths, loadOrder, sectionProgress, stepsDone, storyProgress } from './story';
 
 describe('home scroll story', () => {
   it('maps scroll position to progress within the sticky travel', () => {
@@ -21,7 +21,14 @@ describe('home scroll story', () => {
   });
   it('ticks steps across the chapter and finishes them all', () => {
     expect(stepsDone(0, 4)).toBe(0);
+    expect(stepsDone(0.07, 4)).toBe(1);
+    expect(stepsDone(0.5, 4)).toBe(2);
     expect(stepsDone(1, 4)).toBe(4);
+  });
+  it('holds briefly at each end of a chapter and runs the world through the middle', () => {
+    expect(storyProgress(0.03)).toBe(0);
+    expect(storyProgress(0.95)).toBe(1);
+    expect(storyProgress(0.49)).toBeCloseTo(0.5);
   });
   it('ships every frame, poster and machine it references', () => {
     for (const chapter of CHAPTERS) {

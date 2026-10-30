@@ -6,7 +6,7 @@ import { useEffect, useRef } from 'react';
 import { Instrument_Serif } from 'next/font/google';
 import { GlassIdentity } from '@/components/brand/GlassIdentity';
 import { footerMarkup } from '@/components/site/direction-4c/markup';
-import { CHAPTERS, DEMONSTRATORS, EVIDENCE, MACHINES, frameAt, framePaths, loadOrder, sectionProgress, stepsDone, type Chapter } from './story';
+import { CHAPTERS, DEMONSTRATORS, EVIDENCE, MACHINES, frameAt, framePaths, loadOrder, sectionProgress, stepsDone, storyProgress, type Chapter } from './story';
 import '@/components/site/direction-4c/direction-4c.css';
 import './home-scroll-story.css';
 
@@ -42,6 +42,8 @@ function ChapterSection({ chapter, index }: { chapter: Chapter; index: number })
             <img className="hss-poster" src={chapter.poster} alt="" loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
           </picture>
           <canvas className="hss-canvas" aria-hidden="true" />
+          {/* Mirrors the latest ticked step onto the world; the list beside it is the readable source. */}
+          <p className="hss-now" aria-hidden="true"><span className="hss-now-tag">{chapter.steps[0].tag}</span><span className="hss-now-text">{chapter.steps[0].text}</span></p>
           <figcaption className="hss-label"><span className="hss-dot" aria-hidden="true" />{chapter.label}<span className="hss-world-name">{chapter.world}</span></figcaption>
         </figure>
         <div className="hss-copy">
@@ -155,14 +157,23 @@ export function HomeScrollStory() {
         section.style.setProperty('--p', p.toFixed(4));
         const steps = section.querySelectorAll<HTMLElement>('.hss-step');
         if (steps.length) {
-          const done = stepsDone(p, steps.length);
+          const done = stepsDone(storyProgress(p), steps.length);
           steps.forEach((step, i) => step.toggleAttribute('data-done', i < done));
+          const now = section.querySelector<HTMLElement>('.hss-now');
+          const current = steps[Math.max(0, done - 1)];
+          if (now && current && now.dataset.step !== String(done)) {
+            now.dataset.step = String(done);
+            now.querySelector('.hss-now-tag')!.textContent = current.querySelector('.hss-tag')?.textContent ?? '';
+            now.querySelector('.hss-now-text')!.textContent = current.children[2]?.textContent ?? '';
+            now.toggleAttribute('data-done', done > 0);
+            now.classList.remove('hss-pop'); void now.offsetWidth; now.classList.add('hss-pop');
+          }
         }
       }
       for (const { section, player } of players) {
         const r = section.getBoundingClientRect();
         if (r.bottom < 0 || r.top > vh) continue;
-        player.draw(sectionProgress(r.top, r.height, vh));
+        player.draw(storyProgress(sectionProgress(r.top, r.height, vh)));
       }
     };
     const schedule = () => { if (!raf) raf = requestAnimationFrame(update); };
@@ -225,8 +236,8 @@ export function HomeScrollStory() {
         <div className="hss-hero-sticky">
           <div className="hss-hero-copy">
             <p className="hss-kicker">agentic AI · built in Aotearoa New Zealand</p>
-            <h1 id="hero-title" className="hss-title hss-hero-title">Small worlds.<br />Useful <em>work.</em></h1>
-            <p className="hss-lede">Turn necessary customer waiting into useful, permissioned preparation. A better brief. A clearer choice. A person in control.</p>
+            <h1 id="hero-title" className="hss-title hss-hero-title">Less admin.<br />More time with <em>customers.</em></h1>
+            <p className="hss-lede">We find the jobs that eat your day, build AI that gets them ready, and show you it working before anything goes live. A person you trust signs off every step.</p>
             <p className="hss-arc" aria-label="How we work"><span>Find the friction.</span> <span>Assemble the journey.</span> <span>Prove the result.</span></p>
             <div className="hss-actions">
               <Link className="hss-btn" href="/contact">Bring us the work <Arrow /></Link>
@@ -235,9 +246,9 @@ export function HomeScrollStory() {
           </div>
           <div className="hss-hero-world">
             <div className="hss-hero-window">
-              {/* eslint-disable-next-line @next/next/no-img-element -- LCP poster, served as a static webp */}
-              <img src="/home-story/home/f000.webp" alt="Simulated cutaway model of a Kiwi home from the assembl lab" fetchPriority="high" decoding="async" />
-              <p className="hss-label"><span className="hss-dot" aria-hidden="true" />Simulated · from the assembl lab</p>
+              {/* eslint-disable-next-line @next/next/no-img-element -- LCP render, sized by srcset */}
+              <img src="/home-story/hero-home.webp" srcSet="/home-story/hero-home-1000.webp 1000w, /home-story/hero-home.webp 2000w" sizes="(max-width: 760px) 100vw, 60vw" width={2000} height={1250} alt="Simulated cutaway model of a Kiwi home, its roof lifting off, from the assembl lab" fetchPriority="high" decoding="async" />
+              <p className="hss-label"><span className="hss-dot" aria-hidden="true" />Simulated · a home from the assembl lab</p>
             </div>
             <div className="hss-cubes" aria-hidden="true">{CUBES.map((c, i) => <Cube key={i} c={c} i={i} />)}</div>
           </div>
@@ -252,7 +263,7 @@ export function HomeScrollStory() {
           <div className="hss-machines-copy">
             <p className="hss-kicker">04 · Lab · study machines</p>
             <h2 id="study-title" className="hss-title">Learning, piece by <em>piece.</em></h2>
-            <p className="hss-body">Interactive 3D machines for NCEA and Years 7–10, built in the Lab. Turn them, run them, then practise for the exam.</p>
+            <p className="hss-body">The same craft, made for students. Interactive 3D machines for NCEA and Years 7–10: turn them, run them, then practise with NZQA’s past papers.</p>
             <div className="hss-actions"><Link className="hss-link" href="/lab">See the study machines in Lab <Arrow /></Link></div>
           </div>
           <ul className="hss-machine-grid" aria-label="A few of the study machines">
@@ -272,10 +283,10 @@ export function HomeScrollStory() {
         <div className="hss-check-head">
           <div>
             <p className="hss-kicker">start with your own business</p>
-            <h2 id="check-title" className="hss-title">See what to fix. Imagine what comes <em>next.</em></h2>
+            <h2 id="check-title" className="hss-title">See what to fix on your <em>website.</em></h2>
           </div>
           <div>
-            <p className="hss-body">A public website check, useful implementation steps and a visual concept for your customer journey. Yours to download and discuss with your team.</p>
+            <p className="hss-body">A check of your public website, the fixes in plain English, and a sketch of one customer journey worth improving. Download it and talk it through with your team.</p>
             <div className="hss-actions"><Link className="hss-btn" href="/ai-ready">Get your website action plan <Arrow /></Link></div>
           </div>
         </div>
@@ -296,7 +307,7 @@ export function HomeScrollStory() {
           <div>
             <p className="hss-kicker">05 · proof · why it is built this way</p>
             <h2 id="proof-title" className="hss-title">Prove the <em>result.</em></h2>
-            <p className="hss-body">The rules we build by, and where they come from.</p>
+            <p className="hss-body">Three rules every job follows, and where each one comes from.</p>
           </div>
           <ol className="hss-receipt" aria-label="Rules and sources">
             {EVIDENCE.map((e, i) => (
