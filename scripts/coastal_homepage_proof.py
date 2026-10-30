@@ -2,29 +2,17 @@
 from playwright.async_api import expect
 
 async def verify_coastal_home(page, motion):
-    await expect(page.get_by_role('heading', name='assembl. Useful work.', exact=True)).to_have_count(1)
+    await expect(page.locator('h1')).to_have_text('Make the next step worth waiting for.')
     await expect(page.get_by_role('navigation', name='Primary', exact=True)).to_have_count(1)
-    await expect(page.locator('.clear-coastal-poster')).to_be_attached()
-    await page.wait_for_function("document.querySelector('.clear-coastal-poster').naturalWidth > 0")
-    pause = page.locator('[data-pause]')
+    await expect(page.locator('.assembly-plane')).to_have_count(7)
     if motion == 'reduce':
-        await expect(pause).to_have_text('Motion reduced')
-        await expect(pause).to_be_disabled()
-        assert await page.locator('[data-coastal-video]').evaluate('v => v.paused')
+        await expect(page.get_by_role('button', name='Motion reduced', exact=True)).to_be_disabled()
     else:
-        await page.wait_for_function("document.querySelector('.direction-4c').hasAttribute('data-ready')", timeout=30000)
-        await pause.focus()
-        await pause.press('Enter')
-        await expect(pause).to_have_attribute('aria-pressed', 'true')
-        assert await page.locator('[data-coastal-video]').evaluate('v => v.paused')
-        await pause.press('Enter')
-        await expect(pause).to_have_attribute('aria-pressed', 'false')
-        await pause.press('Enter')
-    await expect(page.locator('nav[aria-label="Primary"] a')).to_have_attribute('href', '/lab')
-    await expect(page.locator('a[href^="/do"],a[href^="/pursuit"],a[href^="/studio"],a[href^="/creative-studio"]')).to_have_count(0)
-    guide = page.locator('#try')
-    await expect(guide.locator('.td-kicker')).to_contain_text('ABOUT ASSEMBL')
-    await guide.get_by_role('button', name='Ask DO about assembl', exact=True).click(trial=True)
+        pause = page.get_by_role('button', name='Pause motion', exact=True)
+        await pause.click()
+        await expect(page.get_by_role('button', name='Play motion', exact=True)).to_have_attribute('aria-pressed', 'true')
+    for href in ('/ai-ready', '/contact', '/pursuit', '/do', '/studio', '/lab'):
+        assert await page.locator(f'.clear-home a[href="{href}"]').count() > 0
     launcher = page.get_by_role('button', name='Ask DO', exact=True)
     await launcher.focus()
     await launcher.press('Enter')

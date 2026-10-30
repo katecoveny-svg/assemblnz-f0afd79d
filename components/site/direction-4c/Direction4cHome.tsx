@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import "./clear-home.css";
+import { AssemblyHero } from "./AssemblyHero";
 const links = [
   ["Customer journeys", "/assembling"],
   ["Studio", "/studio"],
@@ -61,19 +62,7 @@ export function Direction4cHome() {
               </Link>
             </div>
           </div>
-          <figure className="home-hero-art">
-            <Image
-              src="/studio/assembly/creative-work-taking-shape.webp"
-              alt="A sculptural sequence of paper sheets becoming a continuous form in an architectural studio"
-              fetchPriority="high"
-              width="1672"
-              height="941"
-            />
-            <figcaption>
-              <span>FROM FRAGMENTS TO A USEFUL WHOLE</span>
-              <span>assembl · visual concept</span>
-            </figcaption>
-          </figure>
+          <AssemblyHero />
         </section>
         <section className="home-proof">
           <p>

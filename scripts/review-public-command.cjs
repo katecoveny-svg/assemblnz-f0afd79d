@@ -7,7 +7,7 @@ const doors = [
   ['Studio', '/creative-studio'], ['Contact assembl', '/contact'],
 ];
 const signatures = {
-  '/': { title: 'assembl | Agentic AI solutions for your business', h1: 'assembl. Useful work.' },
+  '/': { title: 'assembl | Agentic AI solutions for your business', h1: 'Make the next step worth waiting for.' },
   '/pursuit': { title: 'Pursuit by assembl | Research the opportunity', h1: 'See what’s changing. Find your next move.' },
   '/do': { title: 'DO by assembl | Your personal agent for useful work', selector: 'main[data-do-identity="assembled-glass"]' },
   '/creative-studio': { title: 'Studio by assembl | Give the idea a working version', h1: 'Give the idea a working version.' },

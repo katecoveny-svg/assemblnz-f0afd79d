@@ -1,10 +1,10 @@
 /* Run against a local candidate. No provider submissions or dependency installs. */
-const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
+const { chromium, webkit } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 (async () => {
-  const browser = await chromium.launch({ ...(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}), args: ['--enable-unsafe-swiftshader'] });
+  const browser = await (process.env.PROOF_BROWSER === 'webkit' ? webkit : chromium).launch({ ...(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}), args: ['--enable-unsafe-swiftshader'] });
   const results = [];
   const output = process.env.HOMEPAGE_RESULTS || 'visual-evidence/homepage-copy/boundary-results.json';
   fs.mkdirSync(path.dirname(output), { recursive: true });
@@ -27,45 +27,45 @@ const path = require('node:path');
           await page.route('**/*', route => route.request().method() === 'GET' ? route.continue() : route.abort());
           await page.goto(process.env.HOMEPAGE_URL || 'http://127.0.0.1:3013', { waitUntil: 'networkidle' });
           await page.waitForTimeout(1000);
-          await page.locator('.direction-4c').waitFor();
+          await page.locator('.clear-home').waitFor();
           await page.evaluate(() => document.fonts.ready);
           const geometry = await page.evaluate(() => {
-            const header = document.querySelector('.direction-4c header');
-            if (!header) throw new Error('Missing coastal homepage header');
+            const header = document.querySelector('.clear-home header');
+            if (!header) throw new Error('Missing homepage header');
             const visible = el => el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden' && getComputedStyle(el).display !== 'none';
             return {
-              h1: document.querySelector('h1')?.textContent.trim(),
+              h1: document.querySelector('h1')?.innerText.replace(/\s+/g, ' ').trim(),
               overflow: document.documentElement.scrollWidth > innerWidth,
               targets: [...header.querySelectorAll('a,button')].filter(visible).map(el => ({ text: el.textContent, ...el.getBoundingClientRect().toJSON() })),
-              posterLoaded: document.querySelector('.clear-coastal-poster')?.naturalWidth > 0,
+              planes: document.querySelectorAll('.assembly-plane').length,
               video: Boolean(document.querySelector('[data-coastal-video]')),
             };
           });
           Object.assign(record, geometry, { stage: 'geometry' }); persist();
-          assert.equal(geometry.h1, 'assembl. Useful work.');
+          assert.equal(geometry.h1, 'Make the next step worth waiting for.');
           assert.equal(geometry.overflow, false);
-          assert.equal(geometry.posterLoaded, true);
-          assert.equal(geometry.video, true, 'approved coastal footage remains mounted');
+          assert.equal(geometry.planes, 7);
+          assert.equal(geometry.video, false, 'No legacy video runtime');
           for (const target of geometry.targets) {
             assert(target.left >= -1 && target.right <= width + 1, `clipped header target: ${target.text}`);
             assert(target.top >= 0 && target.bottom <= height + 1, `header target outside viewport: ${target.text}`);
             assert(target.height >= 44, `undersized touch target: ${target.text}`);
           }
-          const pause = page.locator('[data-pause]');
+          const pause = page.getByRole('button', {name: /Pause motion|Play motion|Motion reduced/});
           if (reducedMotion === 'reduce') {
-            await page.getByRole('button', { name: 'Motion reduced', exact: true }).waitFor();
             assert(await pause.isDisabled());
-            assert(await page.locator('[data-coastal-video]').evaluate(v => v.paused));
           } else {
-            await page.waitForFunction(() => document.querySelector('.direction-4c').hasAttribute('data-ready'));
-            await pause.focus(); await pause.press('Enter');
+            await pause.click();
             assert.equal(await pause.getAttribute('aria-pressed'), 'true');
-            assert(await page.locator('[data-coastal-video]').evaluate(v => v.paused));
+            const before = await page.locator('.assembly-stage').evaluate(el => el.style.getPropertyValue('--assembly'));
+            await page.waitForTimeout(150);
+            assert.equal(await page.locator('.assembly-stage').evaluate(el => el.style.getPropertyValue('--assembly')), before);
+            await page.getByRole('slider', {name:'Assembly progress'}).fill('100');
+            assert.equal(await page.locator('.assembly-stage').evaluate(el => el.style.getPropertyValue('--assembly')), '1');
           }
-          assert.equal(await page.locator('a[href^="/do"],a[href^="/pursuit"],a[href^="/studio"],a[href^="/creative-studio"]').count(), 0);
-          assert.equal(await page.locator('nav[aria-label="Primary"] a').getAttribute('href'), '/lab');
-          const guideEntry = page.getByRole('button', { name: 'Ask DO about assembl', exact: true });
-          await guideEntry.scrollIntoViewIfNeeded(); await guideEntry.click({ trial: true });
+          for (const href of ['/ai-ready','/contact','/pursuit','/do','/studio','/lab']) {
+            assert(await page.locator(`.clear-home a[href="${href}"]`).count() > 0);
+          }
           record.geometryPassed = true;
           await page.screenshot({ path: path.join(path.dirname(output), `${label}.png`) });
           record.stage = 'open-widget';
