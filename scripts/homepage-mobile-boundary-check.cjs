@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 (async () => {
-  const browser = await (process.env.PROOF_BROWSER === 'webkit' ? webkit : chromium).launch({ ...(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}), args: ['--enable-unsafe-swiftshader'] });
+  const browser = await (process.env.PROOF_BROWSER === 'webkit' ? webkit : chromium).launch({ ...(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}), ...(process.env.PROOF_BROWSER === 'webkit' ? {} : { args: ['--enable-unsafe-swiftshader'], ...(process.env.PROOF_CHANNEL ? { channel: process.env.PROOF_CHANNEL } : {}) }) });
   const results = [];
   const output = process.env.HOMEPAGE_RESULTS || 'visual-evidence/homepage-copy/boundary-results.json';
   fs.mkdirSync(path.dirname(output), { recursive: true });

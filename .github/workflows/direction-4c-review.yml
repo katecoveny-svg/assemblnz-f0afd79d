@@ -49,7 +49,7 @@ jobs:
         run: |
           pnpm start > /tmp/homepage-server.log 2>&1 &
           for i in $(seq 1 60); do curl -fsS http://127.0.0.1:3000/ > /dev/null && break; sleep 2; done
-          PROOF_BROWSER=chromium node scripts/homepage-mobile-boundary-check.cjs
+          PROOF_BROWSER=chromium PROOF_CHANNEL=chrome node scripts/homepage-mobile-boundary-check.cjs
           PROOF_BROWSER=webkit node scripts/homepage-mobile-boundary-check.cjs
       - uses: actions/upload-artifact@v4
         if: always()
