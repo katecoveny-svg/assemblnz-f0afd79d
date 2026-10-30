@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 export function AssemblyHero() {
   const stage = useRef<HTMLDivElement>(null);
   const progress = useRef(0);
+  const motionBlocked = useRef(false);
   const [paused, setPaused] = useState(false);
   const [reduced, setReduced] = useState(false);
   const [manual, setManual] = useState(false);
@@ -20,6 +21,7 @@ export function AssemblyHero() {
     if (paused || manual) return;
     let frame = 0, previous = 0, phase = progress.current;
     const tick = (now: number) => {
+      if (motionBlocked.current) return;
       if (previous) phase += Math.min(now - previous, 50) / 12000;
       previous = now;
       progress.current = phase;
@@ -51,8 +53,8 @@ export function AssemblyHero() {
     </div>
     <figcaption className="assembly-controls">
       <div><span>THE WORK TAKES SHAPE</span><small>assembl · interactive visual concept</small></div>
-      <button type="button" disabled={reduced} onClick={() => { if (manual) {setManual(false); setPaused(false);} else setPaused(!paused); }} aria-pressed={paused || manual}>{reduced ? "Motion reduced" : manual || paused ? "Play motion" : "Pause motion"}</button>
-      <label>Assemble it<input type="range" min="0" max="100" defaultValue="0" aria-label="Assembly progress" onChange={e => {setManual(true); stage.current?.style.setProperty("--assembly", String(Number(e.target.value) / 100));}} /></label>
+      <button type="button" disabled={reduced} onClick={() => { if (manual) {motionBlocked.current = false; setManual(false); setPaused(false);} else {motionBlocked.current = !paused; setPaused(!paused);} }} aria-pressed={paused || manual}>{reduced ? "Motion reduced" : manual || paused ? "Play motion" : "Pause motion"}</button>
+      <label>Assemble it<input type="range" min="0" max="100" defaultValue="0" aria-label="Assembly progress" onChange={e => {motionBlocked.current = true; setManual(true); stage.current?.style.setProperty("--assembly", String(Number(e.target.value) / 100));}} /></label>
     </figcaption>
   </figure>;
 }

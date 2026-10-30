@@ -2,7 +2,7 @@
 from playwright.async_api import expect
 
 async def verify_coastal_home(page, motion):
-    await expect(page.locator('h1')).to_have_text('Make the next step worth waiting for.')
+    assert ' '.join((await page.locator('h1').inner_text()).split()) == 'Make the next step worth waiting for.'
     await expect(page.get_by_role('navigation', name='Primary', exact=True)).to_have_count(1)
     await expect(page.locator('.assembly-plane')).to_have_count(7)
     if motion == 'reduce':
