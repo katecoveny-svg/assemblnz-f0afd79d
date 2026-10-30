@@ -18,7 +18,7 @@ import { createHash } from 'node:crypto';
 const errors = [];
 const read = path => readFileSync(path, 'utf8');
 const checks = [
-  ['app/page.tsx', /import \{ (?:AssemblTheWorkHome|Direction4cHome) \}/],
+  ['app/page.tsx', /import \{ (?:AssemblTheWorkHome|Direction4cHome|HomeScrollStory) \}/],
   ['app/do/page.tsx', /<DoHome\s*\/>/],
   ['components/site/assembl-the-work/AssemblTheWorkHome.tsx', /<DoFilm\s*\/>/],
   ['app/do/DoHome.tsx', /<PersonalDo\s*\/>/],

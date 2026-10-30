@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
-import { Direction4cHome } from '@/components/site/direction-4c/Direction4cHome';
+import { HomeScrollStory } from '@/components/site/home-scroll-story/HomeScrollStory';
 import { HOME_META } from '@/components/site/assembl-the-work/copy';
 
-// Direction 4c review implementation. AssemblTheWorkHome remains in-tree for rollback.
+// Home scroll story (30 Oct 2026): the lab's worlds assemble as the page scrolls.
+// Direction4cHome and AssemblTheWorkHome remain in-tree for rollback.
 
 export const metadata: Metadata = {
   title: { absolute: HOME_META.title },
@@ -24,5 +25,5 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return <Direction4cHome />;
+  return <HomeScrollStory />;
 }
