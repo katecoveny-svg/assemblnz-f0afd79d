@@ -206,6 +206,11 @@ export function HomeScrollStory() {
     };
 
     setup();
+    // On phones the hero has its own Ask DO button, so the floating guide pill steps aside while the hero is on screen.
+    const html = document.documentElement;
+    const heroWatch = new IntersectionObserver(([entry]) => html.toggleAttribute('data-hss-hero', entry.isIntersecting), { threshold: 0.15 });
+    const hero = root.querySelector('#top');
+    if (hero) heroWatch.observe(hero);
     const onScroll = () => schedule();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
@@ -213,6 +218,8 @@ export function HomeScrollStory() {
     phone.addEventListener('change', setup);
     update();
     return () => {
+      heroWatch.disconnect();
+      html.removeAttribute('data-hss-hero');
       io?.disconnect();
       cancelAnimationFrame(raf);
       window.removeEventListener('scroll', onScroll);

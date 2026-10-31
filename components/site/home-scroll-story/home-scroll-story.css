@@ -309,3 +309,13 @@
   .hss-try-card { flex-direction: column; gap: 16px; padding: 26px 22px; }
   .hss-contact { padding: 90px 16px 110px; }
 }
+
+/* Phones: the hero carries its own Ask DO button, so the floating guide pill hides while the hero is in view.
+   It stays when its panel is open. */
+@media (max-width: 760px) {
+  html[data-hss-hero] aside[aria-label="DO assistant"]:not(:has(#site-do-workspace)) { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .25s ease, visibility 0s linear .25s; }
+  aside[aria-label="DO assistant"] { transition: opacity .25s ease; }
+  /* Chapter cards end clear of the pill, so the last step and the buttons can rest above it. */
+  .hss .hss-copy { padding-bottom: 96px; }
+  .hss-check, .hss-proof, .hss-contact { padding-bottom: 120px; }
+}
